@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "edfb05cc_843ca6df",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-10T11:41:10Z",
+      "side": 1,
+      "message": "The schema migration is executed during the init phase where we have only classes bound which are needed for the init. I guess it would be possible to add all Guice bindings that are needed for the MergeabilityChecker there as well, but I believe it would be much more work than doing it in the reindexer where a lot of the needed bindings are already in place.\n\nThinking a bit more about this, I now believe that doing it in the reindexer is actually better since it also allows to update the mergeability flag on demand. I can imagine situations where an admin updates branches during a Gerrit downtime and after this it would be required to update the mergeability flag for the changes of those branches.\n\nI\u0027ve have updated the text in the commit message accordingly.",
+      "parentUuid": "8d9e096b_31e15044",
+      "range": {
+        "startLine": 18,
+        "startChar": 25,
+        "endLine": 18,
+        "endChar": 66
+      },
+      "revId": "8a0b9e12c606139eeba9c5da32ba638ed2a5283f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d9e096b_51e6d45c",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/registration/DynamicMap.java",
         "patchSetId": 10
@@ -36,6 +60,30 @@
       "writtenOn": "2014-01-08T16:08:25Z",
       "side": 1,
       "message": "Optional: omit T",
+      "range": {
+        "startLine": 211,
+        "startChar": 26,
+        "endLine": 211,
+        "endChar": 27
+      },
+      "revId": "8a0b9e12c606139eeba9c5da32ba638ed2a5283f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cdf801d5_e32d92b0",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/registration/DynamicMap.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-10T11:41:10Z",
+      "side": 1,
+      "message": "If \u0027\u003cT\u003e\u0027 is removed, Eclipse shows a warning about the usage of raw types here and says that it should be parameterized.\n\nAnyway with the new patch set this method is not needed anymore.",
+      "parentUuid": "8d9e096b_51e6d45c",
       "range": {
         "startLine": 211,
         "startChar": 26,
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "edfb05cc_0429d69c",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-10T11:41:10Z",
+      "side": 1,
+      "message": "Luckily all these bindings are not needed anymore after removing the usage of ChangesCollection from MergeabilityChecker.",
+      "parentUuid": "8d9e096b_71ebd821",
+      "revId": "8a0b9e12c606139eeba9c5da32ba638ed2a5283f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cdb1e10e_dbe05342",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
         "patchSetId": 10
@@ -76,6 +142,24 @@
       "writtenOn": "2014-01-08T16:08:25Z",
       "side": 1,
       "message": "Can you get some of this by installing an AccessControlModule()?",
+      "revId": "8a0b9e12c606139eeba9c5da32ba638ed2a5283f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cdf801d5_a3379afc",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-10T11:41:10Z",
+      "side": 1,
+      "message": "In principle yes. The problem is that AccessControlModule is binding ProjectOwnerGroupsProvider. ProjectOwnerGroupsProvider is only needed when new projects are created, which we don\u0027t do in the reindexer. So this binding is unnecessary. Having it anyway results in a NullPointerException since in its constructor it is trying to check the visibility of the configured owner groups for the current user, which is null during reindex.\n\nI\u0027m solving this by moving the binding of ProjectOwnerGroupsProvider out of AccessControlModule into GerritGlobalModule. Then we can use AccessControlModule in the reindexer and we do not to repeat the same bindings here. This has also the advantage that the AssistedFactory\u0027s in ChangeControl and ProjectControl don\u0027t need to be public.\n\nDone",
+      "parentUuid": "cdb1e10e_dbe05342",
       "revId": "8a0b9e12c606139eeba9c5da32ba638ed2a5283f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -99,6 +183,24 @@
     },
     {
       "key": {
+        "uuid": "edfb05cc_6422cabf",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-10T11:41:10Z",
+      "side": 1,
+      "message": "No, installing AuthModule doesn\u0027t make any difference here. It only makes me to bind EmailExpander in addition.",
+      "parentUuid": "cdb1e10e_fbdb0f8d",
+      "revId": "8a0b9e12c606139eeba9c5da32ba638ed2a5283f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d9e096b_91ef5c2c",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
         "patchSetId": 10
@@ -110,6 +212,30 @@
       "writtenOn": "2014-01-08T16:08:25Z",
       "side": 1,
       "message": "Nit: Reindexing",
+      "range": {
+        "startLine": 252,
+        "startChar": 11,
+        "endLine": 252,
+        "endChar": 21
+      },
+      "revId": "8a0b9e12c606139eeba9c5da32ba638ed2a5283f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cdf801d5_c332960e",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-10T11:41:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d9e096b_91ef5c2c",
       "range": {
         "startLine": 252,
         "startChar": 11,
@@ -145,6 +271,30 @@
     },
     {
       "key": {
+        "uuid": "cdf801d5_2345ea5e",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-10T11:41:10Z",
+      "side": 1,
+      "message": "This comment meant, if we would return null from within the provider there could be an NPE when calling provider.get().something(), but since provider.get() is actually not invoked, it\u0027s probably cleaner to just do:\n\n  bind(ReplacePatchSetSender.Factory.class)\n      .toProvider(Providers.\u003cReplacePatchSetSender.Factory\u003eof(null));",
+      "parentUuid": "cdb1e10e_9beacb1c",
+      "range": {
+        "startLine": 254,
+        "startChar": 38,
+        "endLine": 254,
+        "endChar": 60
+      },
+      "revId": "8a0b9e12c606139eeba9c5da32ba638ed2a5283f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cdb1e10e_bbe58750",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
         "patchSetId": 10
@@ -162,6 +312,24 @@
     },
     {
       "key": {
+        "uuid": "edfb05cc_44890e5a",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-10T11:41:10Z",
+      "side": 1,
+      "message": "Going to use \n\n  bind(ReplacePatchSetSender.Factory.class)\n      .toProvider(Providers.\u003cReplacePatchSetSender.Factory\u003eof(null));\n\ninstead.",
+      "parentUuid": "cdb1e10e_bbe58750",
+      "revId": "8a0b9e12c606139eeba9c5da32ba638ed2a5283f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cdb1e10e_3bfa97e9",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
         "patchSetId": 10
@@ -173,6 +341,24 @@
       "writtenOn": "2014-01-08T16:08:25Z",
       "side": 1,
       "message": "I am really not a fan of bending over backwards to inject things we don\u0027t need. I barely tolerate it when I do it myself in tests; I\u0027d really rather not do it in a real program.\n\nCould we maybe extract a ChangeParser out of ChangesCollection? (Let\u0027s take a moment to maybe think of a better class name.)",
+      "revId": "8a0b9e12c606139eeba9c5da32ba638ed2a5283f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edfb05cc_c45bbe44",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-10T11:41:10Z",
+      "side": 1,
+      "message": "Extracting ChangeParser would be possible, but it doesn\u0027t look nice to me. I believe a better solution is to remove the usage of ChangesCollection from MergeabilityChecker. ChangesCollection was only used to create a ChangeResource from a change ID. Instead of using the parse method from ChangesCollection, MergeabilityChanges is now instantiating a ChangeControl for the change owner and with the ChangeControl we can easily intsantiate ChangeResource. Not using ChangesCollection in MergeabilityChecker makes quite some bindings unnecessary here.",
+      "parentUuid": "cdb1e10e_3bfa97e9",
       "revId": "8a0b9e12c606139eeba9c5da32ba638ed2a5283f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -202,6 +388,30 @@
     },
     {
       "key": {
+        "uuid": "cdf801d5_833c9edf",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-10T11:41:10Z",
+      "side": 1,
+      "message": "not applicable anymore",
+      "parentUuid": "cdb1e10e_5bed6331",
+      "range": {
+        "startLine": 283,
+        "startChar": 35,
+        "endLine": 283,
+        "endChar": 38
+      },
+      "revId": "8a0b9e12c606139eeba9c5da32ba638ed2a5283f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cdb1e10e_7bf01f0b",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
         "patchSetId": 10
@@ -213,6 +423,24 @@
       "writtenOn": "2014-01-08T16:08:25Z",
       "side": 1,
       "message": "Providers.\u003cChangeQueryBuilder.Factory\u003e of(null)",
+      "revId": "8a0b9e12c606139eeba9c5da32ba638ed2a5283f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edfb05cc_a450c221",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-10T11:41:10Z",
+      "side": 1,
+      "message": "not applicable anymore",
+      "parentUuid": "cdb1e10e_7bf01f0b",
       "revId": "8a0b9e12c606139eeba9c5da32ba638ed2a5283f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -236,6 +464,24 @@
     },
     {
       "key": {
+        "uuid": "cdf801d5_232ccaac",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-10T11:41:10Z",
+      "side": 1,
+      "message": "not applicable anymore",
+      "parentUuid": "8d9e096b_b1ec6038",
+      "revId": "8a0b9e12c606139eeba9c5da32ba638ed2a5283f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cdb1e10e_fb042f32",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
         "patchSetId": 10
@@ -247,6 +493,24 @@
       "writtenOn": "2014-01-08T16:08:25Z",
       "side": 1,
       "message": "I haven\u0027t looked too closely but I suspect if you extract a ChangeParser you could omit this check and hence save this additional confusion.",
+      "revId": "8a0b9e12c606139eeba9c5da32ba638ed2a5283f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edfb05cc_8455c611",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-10T11:41:10Z",
+      "side": 1,
+      "message": "Done by removing the usage of ChangesCollection in MergeabilityChecker.",
+      "parentUuid": "cdb1e10e_fb042f32",
       "revId": "8a0b9e12c606139eeba9c5da32ba638ed2a5283f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -270,6 +534,24 @@
     },
     {
       "key": {
+        "uuid": "cdf801d5_c35bb644",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-10T11:41:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d9e096b_d1f9e4f4",
+      "revId": "8a0b9e12c606139eeba9c5da32ba638ed2a5283f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cdb1e10e_1bf7db01",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
         "patchSetId": 10
@@ -287,6 +569,24 @@
     },
     {
       "key": {
+        "uuid": "edfb05cc_e477dab5",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-10T11:41:10Z",
+      "side": 1,
+      "message": "not applicable anymore",
+      "parentUuid": "cdb1e10e_1bf7db01",
+      "revId": "8a0b9e12c606139eeba9c5da32ba638ed2a5283f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d9e096b_f1f6e803",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
         "patchSetId": 10
@@ -298,6 +598,24 @@
       "writtenOn": "2014-01-08T16:08:25Z",
       "side": 1,
       "message": "Just put this binding in the above FactoryModule. Up to you whether to use a @Provides method or just bind(WorkQueue.Executor.class).annotatedWith(MergeabilityChecksExecutor.class).toInstance(queues.createQueue(1, \"MergeabilityChecks\");",
+      "revId": "8a0b9e12c606139eeba9c5da32ba638ed2a5283f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cdf801d5_a381da38",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-10T11:41:10Z",
+      "side": 1,
+      "message": "This looks nice, but how would I get an instance of WorkQueue then?",
+      "parentUuid": "8d9e096b_f1f6e803",
       "revId": "8a0b9e12c606139eeba9c5da32ba638ed2a5283f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -338,6 +656,24 @@
     },
     {
       "key": {
+        "uuid": "edfb05cc_e460faea",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityChecker.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-10T11:41:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d9e096b_11052c2d",
+      "revId": "8a0b9e12c606139eeba9c5da32ba638ed2a5283f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d9e096b_310a303c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MetaDataUpdate.java",
         "patchSetId": 10
@@ -349,6 +685,24 @@
       "writtenOn": "2014-01-08T16:08:25Z",
       "side": 1,
       "message": "If you must make this public, then s/Internal/Assisted/",
+      "revId": "8a0b9e12c606139eeba9c5da32ba638ed2a5283f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cdf801d5_638c026c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MetaDataUpdate.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-10T11:41:10Z",
+      "side": 1,
+      "message": "Instead of binding this in the reindexer, I will install the GitModule. Then this doesn\u0027t need to be public.",
+      "parentUuid": "8d9e096b_310a303c",
       "revId": "8a0b9e12c606139eeba9c5da32ba638ed2a5283f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

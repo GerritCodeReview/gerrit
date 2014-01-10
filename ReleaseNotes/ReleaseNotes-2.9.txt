@@ -19,6 +19,7 @@ Schema Change
 *WARNING:* This release contains schema changes.  To upgrade:
 ----
   java -jar gerrit.war init -d site_path
+  java -jar gerrit.war reindex --update-mergeability -d site_path
 ----
 
 *WARNING:* Upgrading to 2.9.x requires the server be first upgraded to 2.1.7 (or

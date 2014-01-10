@@ -27,6 +27,7 @@ import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -118,7 +119,7 @@ public class ChangeBatchIndexer {
       GitRepositoryManager repoManager,
       @IndexExecutor ListeningExecutorService executor,
       ChangeIndexer.Factory indexerFactory,
-      MergeabilityChecker mergeabilityChecker) {
+      @Nullable MergeabilityChecker mergeabilityChecker) {
     this.schemaFactory = schemaFactory;
     this.changeDataFactory = changeDataFactory;
     this.repoManager = repoManager;
@@ -149,10 +150,7 @@ public class ChangeBatchIndexer {
     final AtomicBoolean ok = new AtomicBoolean(true);
 
     for (final Project.NameKey project : projects) {
-      try {
-        mergeabilityChecker.update(project);
-      } catch (IOException e) {
-        log.error("Error in mergeability checker", e);
+      if (!updateMergeable(project)) {
         ok.set(false);
       }
       final ListenableFuture<?> future = executor.submit(reindexProject(
@@ -208,6 +206,18 @@ public class ChangeBatchIndexer {
       ok.set(false);
     }
     return new Result(sw, ok.get(), doneTask.getCount(), failedTask.getCount());
+  }
+
+  private boolean updateMergeable(Project.NameKey project) {
+    if (mergeabilityChecker != null) {
+      try {
+        mergeabilityChecker.update(project);
+      } catch (IOException e) {
+        log.error("Error in mergeability checker", e);
+        return false;
+      }
+    }
+    return true;
   }
 
   private Callable<Void> reindexProject(final ChangeIndexer indexer,

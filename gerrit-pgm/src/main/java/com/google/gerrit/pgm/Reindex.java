@@ -47,6 +47,7 @@ import com.google.gerrit.server.account.UniversalGroupBackend;
 import com.google.gerrit.server.cache.CacheRemovalListener;
 import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
 import com.google.gerrit.server.change.ChangeKindCache;
+import com.google.gerrit.server.change.MergeabilityChecker;
 import com.google.gerrit.server.change.MergeabilityChecksExecutor;
 import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.config.CanonicalWebUrl;
@@ -115,6 +116,9 @@ public class Reindex extends SiteProgram {
 
   @Option(name = "--output", usage = "Prefix for output; path for local disk index, or prefix for remote index")
   private String outputBase;
+
+  @Option(name = "--recompute-mergeable", usage = "Recompute mergeable flag on all changes")
+  private boolean recomputeMergeable;
 
   @Option(name = "--verbose", usage = "Output debug information for each change")
   private boolean verbose;
@@ -195,58 +199,12 @@ public class Reindex extends SiteProgram {
         install(new DefaultCacheFactory.Module());
         factory(ChangeData.Factory.class);
 
-        factory(ProjectState.Factory.class);
-        bind(new TypeLiteral<List<CommentLinkInfo>>() {})
-            .toProvider(CommentLinkProvider.class).in(SINGLETON);
-        bind(IdentifiedUser.class).toProvider(Providers.<IdentifiedUser>of(null));
-        bind(CurrentUser.class).to(IdentifiedUser.class);
-        bind(String.class).annotatedWith(CanonicalWebUrl.class)
-            .toProvider(CanonicalWebUrlProvider.class);
-
-        factory(IncludingGroupMembership.Factory.class);
-        bind(GroupBackend.class).to(UniversalGroupBackend.class).in(SINGLETON);
-        DynamicSet.setOf(binder(), GroupBackend.class);
-        bind(InternalGroupBackend.class).in(SINGLETON);
-        DynamicSet.bind(binder(), GroupBackend.class).to(SystemGroupBackend.class);
-        DynamicSet.bind(binder(), GroupBackend.class).to(InternalGroupBackend.class);
-        factory(InternalUser.Factory.class);
-
-        factory(PatchSetInserter.Factory.class);
-        bind(ChangeHooks.class).to(DisabledChangeHooks.class);
-        bind(ReplacePatchSetSender.Factory.class).toProvider(
-            Providers.<ReplacePatchSetSender.Factory>of(null));
-
-        factory(CapabilityControl.Factory.class);
-        factory(MergeUtil.Factory.class);
-        DynamicSet.setOf(binder(), GitReferenceUpdatedListener.class);
-        DynamicSet.setOf(binder(), CommitValidationListener.class);
-        factory(CommitValidators.Factory.class);
-      }
-    });
-
-    modules.add(AccountCacheImpl.module());
-    modules.add(AccountByEmailCacheImpl.module());
-    modules.add(ChangeKindCache.module());
-    modules.add(GroupCacheImpl.module());
-    modules.add(GroupIncludeCacheImpl.module());
-    modules.add(ProjectCacheImpl.module());
-    modules.add(SectionSortCache.module());
-
-    modules.add(new AccessControlModule());
-    modules.add(new GitModule());
-    modules.add(new NoteDbModule());
-    modules.add(new PrologModule());
-    modules.add(new AbstractModule() {
-      @Override
-      protected void configure() {
-      }
-
-      @Provides
-      @Singleton
-      @MergeabilityChecksExecutor
-      public WorkQueue.Executor createMergeabilityChecksExecutor(
-          WorkQueue queues) {
-        return queues.createQueue(1, "MergeabilityChecks");
+        if (recomputeMergeable) {
+          install(new MergeabilityModule());
+        } else {
+          bind(MergeabilityChecker.class)
+              .toProvider(Providers.<MergeabilityChecker> of(null));
+        }
       }
     });
 
@@ -291,6 +249,59 @@ public class Reindex extends SiteProgram {
           }
         }
       });
+    }
+  }
+
+  private static class MergeabilityModule extends FactoryModule {
+    @Override
+    public void configure() {
+      factory(ProjectState.Factory.class);
+      bind(new TypeLiteral<List<CommentLinkInfo>>() {})
+          .toProvider(CommentLinkProvider.class).in(SINGLETON);
+      bind(IdentifiedUser.class).toProvider(Providers.<IdentifiedUser>of(null));
+      bind(CurrentUser.class).to(IdentifiedUser.class);
+      bind(String.class).annotatedWith(CanonicalWebUrl.class)
+          .toProvider(CanonicalWebUrlProvider.class);
+
+      factory(IncludingGroupMembership.Factory.class);
+      bind(GroupBackend.class).to(UniversalGroupBackend.class).in(SINGLETON);
+      DynamicSet.setOf(binder(), GroupBackend.class);
+      bind(InternalGroupBackend.class).in(SINGLETON);
+      DynamicSet.bind(binder(), GroupBackend.class).to(SystemGroupBackend.class);
+      DynamicSet.bind(binder(), GroupBackend.class).to(InternalGroupBackend.class);
+      factory(InternalUser.Factory.class);
+
+      factory(PatchSetInserter.Factory.class);
+      bind(ChangeHooks.class).to(DisabledChangeHooks.class);
+      bind(ReplacePatchSetSender.Factory.class).toProvider(
+          Providers.<ReplacePatchSetSender.Factory>of(null));
+
+      factory(CapabilityControl.Factory.class);
+      factory(MergeUtil.Factory.class);
+      DynamicSet.setOf(binder(), GitReferenceUpdatedListener.class);
+      DynamicSet.setOf(binder(), CommitValidationListener.class);
+      factory(CommitValidators.Factory.class);
+
+      install(AccountCacheImpl.module());
+      install(AccountByEmailCacheImpl.module());
+      install(ChangeKindCache.module());
+      install(GroupCacheImpl.module());
+      install(GroupIncludeCacheImpl.module());
+      install(ProjectCacheImpl.module());
+      install(SectionSortCache.module());
+
+      install(new AccessControlModule());
+      install(new GitModule());
+      install(new NoteDbModule());
+      install(new PrologModule());
+    }
+
+    @Provides
+    @Singleton
+    @MergeabilityChecksExecutor
+    public WorkQueue.Executor createMergeabilityChecksExecutor(
+        WorkQueue queues) {
+      return queues.createQueue(1, "MergeabilityChecks");
     }
   }
 

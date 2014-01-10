@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d027d8d_66a76ed6",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-10T23:59:05Z",
+      "side": 1,
+      "message": "Hm, I think bind(CurrentUser.class).to(IdentifiedUser.class) would work here.",
+      "revId": "8e252806108584d6c2370e1a315f296897bc7f95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

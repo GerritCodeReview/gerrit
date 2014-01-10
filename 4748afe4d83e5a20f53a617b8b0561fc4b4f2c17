@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "cdf801d5_03930e8a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-10T12:08:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "edfb05cc_4448ee76",
+      "range": {
+        "startLine": 12,
+        "startChar": 15,
+        "endLine": 14,
+        "endChar": 18
+      },
+      "revId": "4748afe4d83e5a20f53a617b8b0561fc4b4f2c17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cdf801d5_e377d2b5",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/AdminMessages.properties",
         "patchSetId": 12
@@ -36,6 +60,30 @@
       "writtenOn": "2014-01-10T10:20:20Z",
       "side": 1,
       "message": "Helloworld Plugin Options?\n\nor\n\nHelloworld Plugin config parameters?\n\nJust in case we would like to configure other thing then options / config for plugins.",
+      "range": {
+        "startLine": 10,
+        "startChar": 28,
+        "endLine": 10,
+        "endChar": 38
+      },
+      "revId": "4748afe4d83e5a20f53a617b8b0561fc4b4f2c17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edfb05cc_a45a022f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/AdminMessages.properties",
+        "patchSetId": 12
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-10T12:08:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cdf801d5_e377d2b5",
       "range": {
         "startLine": 10,
         "startChar": 28,
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "cdf801d5_e360f2ea",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-10T12:08:20Z",
+      "side": 1,
+      "message": "\u003e Why to disable widgets for non owners?\n\nBecause only project owners are allowed to change the project configuration. We do the same for all normal (non-plugin) project options.\n\n\n \u003e Can\u0027t we prevent rendering completely in this case?\n\nWe could, but we don\u0027t want this. Normal users should be able to see the configured plugin config options, this is a valuable information. Also normal (non-plugin) project options can be seen by normal users who are not allowed to edit.\n\nHow it is done now is consistent with how normal project options are handled.",
+      "parentUuid": "edfb05cc_2496127a",
+      "revId": "4748afe4d83e5a20f53a617b8b0561fc4b4f2c17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cdf801d5_0342ee56",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ProjectApi.java",
         "patchSetId": 12
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "cdf801d5_c365f6f8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ProjectApi.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-10T12:08:20Z",
+      "side": 1,
+      "message": "I was thinking about this, but then thought that we can still easily do this as soon as somebody wants to reuse it.",
+      "parentUuid": "cdf801d5_0342ee56",
+      "range": {
+        "startLine": 240,
+        "startChar": 23,
+        "endLine": 240,
+        "endChar": 32
+      },
+      "revId": "4748afe4d83e5a20f53a617b8b0561fc4b4f2c17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cdf801d5_0329ce9c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutConfig.java",
         "patchSetId": 12
@@ -99,6 +189,24 @@
       "writtenOn": "2014-01-10T10:20:20Z",
       "side": 1,
       "message": "I would prefer to write !\u003d null condition ind swap if branches, like on line 186.",
+      "revId": "4748afe4d83e5a20f53a617b8b0561fc4b4f2c17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edfb05cc_845f061f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutConfig.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-10T12:08:20Z",
+      "side": 1,
+      "message": "Ah, you make me suffer to resolve conflicts in all the follow-up changes :)\n\nDone",
+      "parentUuid": "cdf801d5_0329ce9c",
       "revId": "4748afe4d83e5a20f53a617b8b0561fc4b4f2c17",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

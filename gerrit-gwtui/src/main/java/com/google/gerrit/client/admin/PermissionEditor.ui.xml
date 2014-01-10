@@ -25,35 +25,38 @@ limitations under the License.
   >
 <ui:with field='res' type='com.google.gerrit.client.admin.AdminResources'/>
 <ui:style>
+  @external .panelPerm, .normalPerm, .headerPerm, .namePerm, .deleteIconPerm;
+  @external .exclusiveGroupPerm, .addContainerPerm, .addLinkPerm;
+
   @eval selectionColor com.google.gerrit.client.Gerrit.getTheme().selectionColor;
   @eval backgroundColor com.google.gerrit.client.Gerrit.getTheme().backgroundColor;
 
-  .panel {
+  .panelPerm {
     position: relative;
   }
 
-  .normal {
+  .normalPerm {
     border: 1px solid backgroundColor;
     margin-top: -1px;
     margin-bottom: -1px;
   }
 
-  .header {
+  .panelPerm .headerPerm {
     padding-left: 5px;
     padding-right: 5px;
     padding-bottom: 1px;
     white-space: nowrap;
   }
 
-  .header:hover {
+  .panelPerm header:hover {
     background-color: selectionColor;
   }
 
-  .name {
+  .namePerm {
     font-style: italic;
   }
 
-  .exclusiveGroup {
+  .exclusiveGroupPerm {
     position: absolute;
     top: 0;
     right: 36px;
@@ -61,48 +64,48 @@ limitations under the License.
     font-size: 80%;
   }
 
-  .addContainer {
+  .addContainerPerm {
     padding-left: 10px;
     position: relative;
   }
-  .addContainer:hover {
+  .addContainerPerm:hover {
     background-color: selectionColor;
   }
-  .addLink {
+  .addLinkPerm {
     font-size: 80%;
   }
 
-  .deleteIcon {
+  .deleteIconPerm {
     position: absolute;
     top: 1px;
     right: 12px;
   }
 </ui:style>
 
-<g:HTMLPanel stylePrimaryName='{style.panel}'>
-<div ui:field='normal' class='{style.normal}'>
-  <div class='{style.header}'>
-    <g:ValueLabel styleName='{style.name}' ui:field='normalName'/>
+<g:HTMLPanel stylePrimaryName='{style.panelPerm}'>
+<div ui:field='normal' class='{style.normalPerm}'>
+  <div class='{style.headerPerm}'>
+    <g:ValueLabel styleName='{style.namePerm}' ui:field='normalName'/>
     <g:CheckBox
         ui:field='exclusiveGroup'
-        addStyleNames='{style.exclusiveGroup}'
+        addStyleNames='{style.exclusiveGroupPerm}'
         text='Exclusive'>
       <ui:attribute name='text'/>
     </g:CheckBox>
   <g:Anchor
       ui:field='deletePermission'
       href='javascript:void'
-      styleName='{style.deleteIcon} {res.css.deleteIcon}'
+      styleName='{style.deleteIconPerm} {res.css.deleteIcon}'
       title='Delete this permission (and nested rules)'>
     <ui:attribute name='title'/>
   </g:Anchor>
   </div>
   <g:FlowPanel ui:field='ruleContainer'/>
-  <div ui:field='addContainer' class='{style.addContainer}'>
+  <div ui:field='addContainer' class='{style.addContainerPerm}'>
     <div ui:field='addStage1'>
       <g:Anchor
           ui:field='beginAddRule'
-          styleName='{style.addLink}'
+          styleName='{style.addLinkPerm}'
           href='javascript:void'
           text='Add Group'>
         <ui:attribute name='text'/>
@@ -120,7 +123,7 @@ limitations under the License.
       <g:Anchor
           ui:field='hideAddGroup'
           href='javascript:void'
-          styleName='{style.deleteIcon} {res.css.deleteIcon}'
+          styleName='{style.deleteIconPerm} {res.css.deleteIcon}'
           title='Cancel additional group'>
         <ui:attribute name='title'/>
       </g:Anchor>
@@ -132,11 +135,11 @@ limitations under the License.
     ui:field='deleted'
     class='{res.css.deleted} {res.css.deletedBorder}'
     style='display: none'>
-  <ui:msg>Permission <g:ValueLabel styleName='{style.name}' ui:field='deletedName'/> was deleted</ui:msg>
+  <ui:msg>Permission <g:ValueLabel styleName='{style.namePerm}' ui:field='deletedName'/> was deleted</ui:msg>
   <g:Anchor
       ui:field='undoDelete'
       href='javascript:void'
-      styleName='{style.deleteIcon} {res.css.undoIcon}'
+      styleName='{style.deleteIconPerm} {res.css.undoIcon}'
       title='Undo deletion'>
     <ui:attribute name='title'/>
   </g:Anchor>

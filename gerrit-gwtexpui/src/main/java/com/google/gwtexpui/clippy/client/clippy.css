@@ -13,10 +13,12 @@
  * limitations under the License.
  */
 
-.label {
+@external .*;
+
+.clippy .label {
   vertical-align: top;
 }
-.control {
+.clippy .control {
   margin-left: 5px;
   display: inline-block !important;
   height: 14px;

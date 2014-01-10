@@ -19,6 +19,8 @@ limitations under the License.
     xmlns:g='urn:import:com.google.gwt.user.client.ui'>
   <ui:with field='res' type='com.google.gerrit.client.change.Resources'/>
   <ui:style type='com.google.gerrit.client.change.PatchSetsBox.Style'>
+    @external .revisionBox, .scroll, .tablePatch, .legacy_id, .commit, .draft_comment, .current;
+
     @eval selectionColor com.google.gerrit.client.Gerrit.getTheme().selectionColor;
 
     .revisionBox {
@@ -31,22 +33,22 @@ limitations under the License.
       height: 200px;
     }
 
-    .table {
+    .tablePatch {
       border-spacing: 0;
       width: 100%;
     }
 
-    .table td, .table th {
+    .tablePatch td, .tablePatch th {
       padding-left: 5px;
       padding-right: 5px;
       border-right: 2px solid #ddd;
       white-space: nowrap;
     }
 
-    .table tr.current {
+    .tablePatch tr.current {
       background-color: selectionColor;
     }
-    .table tr.current a {
+    .tablePatch tr.current a {
       pointer-events: none;
       color: #000;
     }
@@ -70,7 +72,7 @@ limitations under the License.
   </ui:style>
   <g:HTMLPanel styleName='{style.revisionBox}'>
     <g:ScrollPanel styleName='{style.scroll}'>
-      <g:FlexTable ui:field='table' styleName='{style.table}'/>
+      <g:FlexTable ui:field='table' styleName='{style.tablePatch}'/>
     </g:ScrollPanel>
   </g:HTMLPanel>
 </ui:UiBinder>

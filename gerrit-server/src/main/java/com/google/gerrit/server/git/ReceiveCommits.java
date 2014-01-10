@@ -54,6 +54,7 @@ import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicMap.Entry;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
@@ -1616,7 +1617,13 @@ public class ReceiveCommits {
       throws OrmException, IOException {
     Submit submit = submitProvider.get();
     RevisionResource rsrc = new RevisionResource(changes.parse(changeCtl), ps);
-    Change c = submit.submit(rsrc, currentUser);
+    Change c;
+    try {
+      // Force submit even if submit rule evaluation fails.
+      c = submit.submit(rsrc, currentUser, true);
+    } catch (ResourceConflictException e) {
+      throw new IOException(e);
+    }
     if (c == null) {
       addError("Submitting change " + changeCtl.getChange().getChangeId()
           + " failed.");

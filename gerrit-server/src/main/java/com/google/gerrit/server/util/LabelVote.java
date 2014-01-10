@@ -19,6 +19,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 import com.google.gerrit.common.data.LabelType;
+import com.google.gerrit.reviewdb.client.PatchSetApproval;
 
 /** A single vote on a label, consisting of a label name and a value. */
 public class LabelVote {
@@ -62,6 +63,10 @@ public class LabelVote {
   public LabelVote(String name, short value) {
     this.name = LabelType.checkNameInternal(name);
     this.value = value;
+  }
+
+  public LabelVote(PatchSetApproval psa) {
+    this(psa.getLabel(), psa.getValue());
   }
 
   public String getLabel() {

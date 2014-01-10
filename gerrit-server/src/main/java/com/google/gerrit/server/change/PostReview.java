@@ -135,7 +135,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       ChangeUtil.updated(change);
       timestamp = change.getLastUpdatedOn();
 
-      update = updateFactory.create(change, timestamp, revision.getUser());
+      update = updateFactory.create(revision.getControl(), timestamp);
       dirty |= insertComments(revision, input.comments, input.drafts);
       dirty |= updateLabels(revision, update, input.labels);
       dirty |= insertMessage(revision, input.message);

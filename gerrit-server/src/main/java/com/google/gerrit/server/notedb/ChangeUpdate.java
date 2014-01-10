@@ -27,12 +27,15 @@ import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
+
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.VersionedMetaData;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.inject.assistedinject.Assisted;
@@ -63,9 +66,8 @@ import java.util.TimeZone;
  */
 public class ChangeUpdate extends VersionedMetaData {
   public interface Factory {
-    ChangeUpdate create(Change change);
-    ChangeUpdate create(Change change, Date when);
-    ChangeUpdate create(Change change, Date when, IdentifiedUser user);
+    ChangeUpdate create(ChangeControl ctl);
+    ChangeUpdate create(ChangeControl ctl, Date when);
   }
 
   private final NotesMigration migration;
@@ -73,8 +75,7 @@ public class ChangeUpdate extends VersionedMetaData {
   private final AccountCache accountCache;
   private final MetaDataUpdate.User updateFactory;
   private final LabelTypes labelTypes;
-  private final Change change;
-  private final IdentifiedUser user;
+  private final ChangeControl ctl;
   private final Date when;
   private final TimeZone tz;
   private final Map<String, Short> approvals;
@@ -90,10 +91,9 @@ public class ChangeUpdate extends VersionedMetaData {
       AccountCache accountCache,
       MetaDataUpdate.User updateFactory,
       ProjectCache projectCache,
-      IdentifiedUser user,
-      @Assisted Change change) {
+      @Assisted ChangeControl ctl) {
     this(serverIdent, repoManager, migration, accountCache, updateFactory,
-        projectCache, user, change, serverIdent.getWhen());
+        projectCache, ctl, serverIdent.getWhen());
   }
 
   @AssistedInject
@@ -104,27 +104,15 @@ public class ChangeUpdate extends VersionedMetaData {
       AccountCache accountCache,
       MetaDataUpdate.User updateFactory,
       ProjectCache projectCache,
-      IdentifiedUser user,
-      @Assisted Change change,
+      @Assisted ChangeControl ctl,
       @Assisted Date when) {
     this(serverIdent, repoManager, migration, accountCache, updateFactory,
-        projectCache, change, when, user);
+        projectCache.get(getProjectName(ctl)).getLabelTypes(),
+        ctl, when);
   }
 
-  @AssistedInject
-  ChangeUpdate(
-      @GerritPersonIdent PersonIdent serverIdent,
-      GitRepositoryManager repoManager,
-      NotesMigration migration,
-      AccountCache accountCache,
-      MetaDataUpdate.User updateFactory,
-      ProjectCache projectCache,
-      @Assisted Change change,
-      @Assisted Date when,
-      @Assisted IdentifiedUser user) {
-    this(serverIdent, repoManager, migration, accountCache, updateFactory,
-        projectCache.get(change.getDest().getParentKey()).getLabelTypes(),
-        change, when, user);
+  private static Project.NameKey getProjectName(ChangeControl ctl) {
+    return ctl.getChange().getDest().getParentKey();
   }
 
   @VisibleForTesting
@@ -135,16 +123,14 @@ public class ChangeUpdate extends VersionedMetaData {
       AccountCache accountCache,
       MetaDataUpdate.User updateFactory,
       LabelTypes labelTypes,
-      Change change,
-      Date when,
-      IdentifiedUser user) {
+      ChangeControl ctl,
+      Date when) {
     this.repoManager = repoManager;
     this.migration = migration;
     this.accountCache = accountCache;
     this.updateFactory = updateFactory;
     this.labelTypes = labelTypes;
-    this.change = change;
-    this.user = user;
+    this.ctl = ctl;
     this.when = when;
     this.tz = serverIdent.getTimeZone();
     this.approvals = Maps.newTreeMap(labelTypes.nameComparator());
@@ -152,11 +138,11 @@ public class ChangeUpdate extends VersionedMetaData {
   }
 
   public Change getChange() {
-    return change;
+    return ctl.getChange();
   }
 
   public IdentifiedUser getUser() {
-    return user;
+    return (IdentifiedUser) ctl.getCurrentUser();
   }
 
   public Date getWhen() {
@@ -172,7 +158,8 @@ public class ChangeUpdate extends VersionedMetaData {
   }
 
   public void setPatchSetId(PatchSet.Id psId) {
-    checkArgument(psId == null || psId.getParentKey().equals(change.getKey()));
+    checkArgument(psId == null
+        || psId.getParentKey().equals(getChange().getKey()));
     this.psId = psId;
   }
 
@@ -187,7 +174,7 @@ public class ChangeUpdate extends VersionedMetaData {
 
   public RevCommit commit() throws IOException {
     return commit(checkNotNull(updateFactory, "MetaDataUpdate.Factory")
-        .create(change.getProject(), user));
+        .create(getChange().getProject(), getUser()));
   }
 
   @Override
@@ -195,7 +182,7 @@ public class ChangeUpdate extends VersionedMetaData {
     if (!migration.write()) {
       return null;
     }
-    Repository repo = repoManager.openRepository(change.getProject());
+    Repository repo = repoManager.openRepository(getChange().getProject());
     try {
       load(repo);
     } catch (ConfigInvalidException e) {
@@ -218,7 +205,7 @@ public class ChangeUpdate extends VersionedMetaData {
   }
 
   public PersonIdent newCommitter() {
-    return newIdent(user.getAccount());
+    return newIdent(getUser().getAccount());
   }
 
   @Override
@@ -261,7 +248,7 @@ public class ChangeUpdate extends VersionedMetaData {
 
   @Override
   protected String getRefName() {
-    return ChangeNoteUtil.changeRefName(change.getId());
+    return ChangeNoteUtil.changeRefName(getChange().getId());
   }
 
   @Override
@@ -269,7 +256,7 @@ public class ChangeUpdate extends VersionedMetaData {
     if (approvals.isEmpty() && reviewers.isEmpty()) {
       return;
     }
-    int ps = psId != null ? psId.get() : change.currentPatchSetId().get();
+    int ps = psId != null ? psId.get() : getChange().currentPatchSetId().get();
     StringBuilder msg = new StringBuilder();
     if (subject != null) {
       msg.append(subject);

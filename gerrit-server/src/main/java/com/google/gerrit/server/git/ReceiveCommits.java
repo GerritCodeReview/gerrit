@@ -1842,7 +1842,7 @@ public class ReceiveCommits {
       recipients.add(getRecipientsFromFooters(accountResolver, newPatchSet, footerLines));
       recipients.remove(me);
 
-      ChangeUpdate update = updateFactory.create(change, newPatchSet.getCreatedOn());
+      ChangeUpdate update = updateFactory.create(changeCtl, newPatchSet.getCreatedOn());
       db.changes().beginTransaction(change.getId());
       try {
         change = db.changes().get(change.getId());

@@ -16,6 +16,24 @@
       "revId": "fdd0fe528a165d465b6c1d7d1fa6411c12690629",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d027d8d_8686ea4c",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-01-10T09:48:18Z",
+      "side": 1,
+      "message": "Is the deadlock fixed by [1]?\n\n[1] https://gerrit-review.googlesource.com/#/c/53611/",
+      "parentUuid": "43d5c277_27bc1aef",
+      "revId": "fdd0fe528a165d465b6c1d7d1fa6411c12690629",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

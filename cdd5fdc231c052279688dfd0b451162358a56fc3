@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0dff79b9_c565faf8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Labels.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-10T23:13:16Z",
+      "side": 1,
+      "message": "If setInnerText wasn\u0027t working, it was a bug. My intent was to have this \"Needs Code-Review\" or \"Needs Verified\" to show in the status line instead of \"Review in Progress\", because \"Review in Progress\" is so generic its useless.",
+      "revId": "cdd5fdc231c052279688dfd0b451162358a56fc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

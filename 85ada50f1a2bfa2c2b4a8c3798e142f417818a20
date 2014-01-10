@@ -198,6 +198,30 @@
       "revId": "85ada50f1a2bfa2c2b4a8c3798e142f417818a20",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cdf801d5_833b7eaf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalCopier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-10T15:28:48Z",
+      "side": 1,
+      "message": "\u003e and PS1 is deleted.\n\nDo you mean PS2?\n\nIt\u0027s difficult to say what is best in this situation. For this concrete example I would say that option (a) is more correct. \n\nThe user initially gave a veto on this change (-2 on PS1) but then he changed his mind and he removed the veto on PS2. A deletion of PS2 does not mean that the user changed his mind again and resurrecting the veto from PS1 would be a surprise.\n\nThe expected result would be different if the veto was not removed on PS2. In this case the veto should still be there on PS3.\n\nHence, I\u0027m also undecided if (a) or (b) is better here. I think it depends on the approval of the deleted patch set. Maybe we could just keep the approvals when deleting patch sets?",
+      "parentUuid": "2d027d8d_c66502f9",
+      "range": {
+        "startLine": 155,
+        "startChar": 15,
+        "endLine": 155,
+        "endChar": 34
+      },
+      "revId": "85ada50f1a2bfa2c2b4a8c3798e142f417818a20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

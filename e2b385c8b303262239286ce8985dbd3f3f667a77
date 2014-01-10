@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "edfb05cc_c47cde9a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ChangeEmail.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-01-10T10:10:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48587f1a_6f00d15d",
+      "range": {
+        "startLine": 164,
+        "startChar": 8,
+        "endLine": 171,
+        "endChar": 9
+      },
+      "revId": "e2b385c8b303262239286ce8985dbd3f3f667a77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "685383fd_d0eebc72",
         "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/ChangeSubject.vm",
         "patchSetId": 3
@@ -59,6 +83,54 @@
       "writtenOn": "2014-01-01T19:56:17Z",
       "side": 1,
       "message": "score is useless in the subject unless we know what category.",
+      "range": {
+        "startLine": 40,
+        "startChar": 17,
+        "endLine": 40,
+        "endChar": 22
+      },
+      "revId": "e2b385c8b303262239286ce8985dbd3f3f667a77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cdf801d5_634be275",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/ChangeSubject.vm",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-01-10T10:10:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "685383fd_d0eebc72",
+      "range": {
+        "startLine": 40,
+        "startChar": 17,
+        "endLine": 40,
+        "endChar": 22
+      },
+      "revId": "e2b385c8b303262239286ce8985dbd3f3f667a77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edfb05cc_a481e238",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/ChangeSubject.vm",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-01-10T10:10:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "685383fd_b0e9386e",
       "range": {
         "startLine": 40,
         "startChar": 17,

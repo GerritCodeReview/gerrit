@@ -94,9 +94,6 @@ public class RebaseIfNecessary extends SubmitStrategy {
                     newMergeTip, args.mergeUtil, committerIdent,
                     false, false, ValidatePolicy.NONE);
 
-            // TODO(dborowitz): This doesn't copy labels in the notedb. We
-            // should stamp those in atomically with the same commit that
-            // describes the change being submitted.
             List<PatchSetApproval> approvals = Lists.newArrayList();
             for (PatchSetApproval a : args.approvalsUtil.byPatchSet(
                 args.db, n.notes(), n.getPatchsetId())) {

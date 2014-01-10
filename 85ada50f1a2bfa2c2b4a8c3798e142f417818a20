@@ -246,6 +246,30 @@
       "revId": "85ada50f1a2bfa2c2b4a8c3798e142f417818a20",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edfb05cc_c4ea9ecf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalCopier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-10T15:39:39Z",
+      "side": 1,
+      "message": "OK, you convince me that (b) is better.",
+      "parentUuid": "0dff79b9_0542f256",
+      "range": {
+        "startLine": 155,
+        "startChar": 15,
+        "endLine": 155,
+        "endChar": 34
+      },
+      "revId": "85ada50f1a2bfa2c2b4a8c3798e142f417818a20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -40,6 +40,7 @@ public class DefaultFileExtensionRegistry extends MimeDetector {
       .put("go", newMimeType("text/x-go", 1))
       .put("cxx", newMimeType("text/x-c++src", 1))
       .put("hxx", newMimeType("text/x-c++hdr", 1))
+      .put("scala", newMimeType("text/x-scala", 1))
       .build();
 
   private static MimeType newMimeType(String type, final int specificity) {

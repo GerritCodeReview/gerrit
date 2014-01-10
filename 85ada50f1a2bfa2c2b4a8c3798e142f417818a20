@@ -25,6 +25,23 @@
     },
     {
       "key": {
+        "uuid": "cdf801d5_23a16abf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalCopier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-10T13:49:22Z",
+      "side": 1,
+      "message": "2014",
+      "revId": "85ada50f1a2bfa2c2b4a8c3798e142f417818a20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "edfb05cc_04c55675",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalCopier.java",
         "patchSetId": 2
@@ -41,6 +58,52 @@
         "startChar": 10,
         "endLine": 111,
         "endChar": 11
+      },
+      "revId": "85ada50f1a2bfa2c2b4a8c3798e142f417818a20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cdf801d5_039e6e77",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalCopier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-10T13:49:22Z",
+      "side": 1,
+      "message": "new HashMap\u003c\u003e(patchSets.size()) is shorter.",
+      "range": {
+        "startLine": 141,
+        "startChar": 8,
+        "endLine": 141,
+        "endChar": 57
+      },
+      "revId": "85ada50f1a2bfa2c2b4a8c3798e142f417818a20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cdf801d5_e313523e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalCopier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-10T13:49:22Z",
+      "side": 1,
+      "message": "This condition looks wrong to me for the same reason Edwin pointed out above.",
+      "range": {
+        "startLine": 155,
+        "startChar": 15,
+        "endLine": 155,
+        "endChar": 34
       },
       "revId": "85ada50f1a2bfa2c2b4a8c3798e142f417818a20",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

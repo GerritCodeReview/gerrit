@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "edfb05cc_441fce6d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_70.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-10T09:40:01Z",
+      "side": 1,
+      "message": "Well now it swallows the exception from the failed update stmt and the database is broken.\n\nThe question is, why tracking_key is missing? Shouldn\u0027t the alter table add tracking_key column run before the call to migrateData() method? This was changed in this change[1].\n\n[1] https://gerrit-review.googlesource.com/#/c/36615/",
+      "revId": "4a6c41f42e30cc8c57e512f942ad65123afa242d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

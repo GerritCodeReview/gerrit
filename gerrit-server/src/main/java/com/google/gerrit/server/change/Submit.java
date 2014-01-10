@@ -18,15 +18,18 @@ import static com.google.gerrit.common.data.SubmitRecord.Status.OK;
 
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
+import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Table;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -35,12 +38,14 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval.LabelId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ProjectUtil;
 import com.google.gerrit.server.change.ChangeJson.ChangeInfo;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LabelNormalizer;
 import com.google.gerrit.server.git.MergeQueue;
+import com.google.gerrit.server.git.VersionedMetaData.BatchMetaDataUpdate;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.project.ChangeControl;
@@ -51,6 +56,8 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.CommitBuilder;
+import org.eclipse.jgit.lib.PersonIdent;
 
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -78,8 +85,10 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     }
   }
 
+  private final PersonIdent serverIdent;
   private final Provider<ReviewDb> dbProvider;
   private final GitRepositoryManager repoManager;
+  private final IdentifiedUser.GenericFactory userFactory;
   private final ChangeUpdate.Factory updateFactory;
   private final ApprovalsUtil approvalsUtil;
   private final MergeQueue mergeQueue;
@@ -87,15 +96,19 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
   private final LabelNormalizer labelNormalizer;
 
   @Inject
-  Submit(Provider<ReviewDb> dbProvider,
+  Submit(@GerritPersonIdent PersonIdent serverIdent,
+      Provider<ReviewDb> dbProvider,
       GitRepositoryManager repoManager,
+      IdentifiedUser.GenericFactory userFactory,
       ChangeUpdate.Factory updateFactory,
       ApprovalsUtil approvalsUtil,
       MergeQueue mergeQueue,
       ChangeIndexer indexer,
       LabelNormalizer labelNormalizer) {
+    this.serverIdent = serverIdent;
     this.dbProvider = dbProvider;
     this.repoManager = repoManager;
+    this.userFactory = userFactory;
     this.updateFactory = updateFactory;
     this.approvalsUtil = approvalsUtil;
     this.mergeQueue = mergeQueue;
@@ -125,8 +138,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
           rsrc.getPatchSet().getRevision().get()));
     }
 
-    checkSubmitRule(rsrc);
-    change = submit(rsrc, caller);
+    change = submit(rsrc, caller, false);
     if (change == null) {
       throw new ResourceConflictException("change is "
           + status(dbProvider.get().changes().get(rsrc.getChange().getId())));
@@ -189,15 +201,22 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
       }), null);
   }
 
-  public Change submit(RevisionResource rsrc, IdentifiedUser caller)
-      throws OrmException, IOException {
+  public Change submit(RevisionResource rsrc, IdentifiedUser caller,
+      boolean force) throws ResourceConflictException, OrmException,
+      IOException {
+    List<SubmitRecord> submitRecords = checkSubmitRule(rsrc, force);
     final Timestamp timestamp = TimeUtil.nowTs();
     Change change = rsrc.getChange();
     ChangeUpdate update = updateFactory.create(rsrc.getControl(), timestamp);
+    update.submit(submitRecords);
+
     ReviewDb db = dbProvider.get();
     db.changes().beginTransaction(change.getId());
     try {
-      approve(rsrc, update, caller, timestamp);
+      BatchMetaDataUpdate batch = approve(rsrc, update, caller, timestamp);
+      // Write update commit after all normalized label commits.
+      batch.write(update, new CommitBuilder());
+
       change = db.changes().atomicUpdate(
         change.getId(),
         new AtomicUpdate<Change>() {
@@ -223,8 +242,9 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     return change;
   }
 
-  private void approve(RevisionResource rsrc, ChangeUpdate update,
-      IdentifiedUser caller, Timestamp timestamp) throws OrmException {
+  private BatchMetaDataUpdate approve(RevisionResource rsrc,
+      ChangeUpdate update, IdentifiedUser caller, Timestamp timestamp)
+      throws OrmException {
     PatchSet.Id psId = rsrc.getPatchSet().getId();
     List<PatchSetApproval> approvals =
         approvalsUtil.byPatchSet(dbProvider.get(), rsrc.getNotes(), psId);
@@ -261,19 +281,68 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     // TODO(dborowitz): Don't use a label in notedb; just check when status
     // change happened.
     update.putApproval(submit.getLabel(), submit.getValue());
+
     dbProvider.get().patchSetApprovals().upsert(normalized.getNormalized());
     dbProvider.get().patchSetApprovals().delete(normalized.getDeleted());
+
+    try {
+      return saveToBatch(rsrc, update, normalized, timestamp);
+    } catch (IOException e) {
+      throw new OrmException(e);
+    }
   }
 
-  private void checkSubmitRule(RevisionResource rsrc)
-      throws ResourceConflictException {
-  List<SubmitRecord> results = rsrc.getControl().canSubmit(
+  private BatchMetaDataUpdate saveToBatch(RevisionResource rsrc,
+      ChangeUpdate callerUpdate, LabelNormalizer.Result normalized,
+      Timestamp timestamp) throws IOException {
+    Table<Account.Id, String, Optional<Short>> byUser = HashBasedTable.create();
+    for (PatchSetApproval psa : normalized.getUpdated()) {
+      byUser.put(psa.getAccountId(), psa.getLabel(),
+          Optional.of(psa.getValue()));
+    }
+    for (PatchSetApproval psa : normalized.getDeleted()) {
+      byUser.put(psa.getAccountId(), psa.getLabel(), Optional.<Short> absent());
+    }
+
+    ChangeControl ctl = rsrc.getControl();
+    BatchMetaDataUpdate batch = callerUpdate.openUpdate();
+    for (Account.Id accountId : byUser.rowKeySet()) {
+      if (!accountId.equals(callerUpdate.getUser().getAccountId())) {
+        ChangeUpdate update = updateFactory.create(
+            ctl.forUser(userFactory.create(dbProvider, accountId)), timestamp);
+        update.setSubject("Finalize approvals at submit");
+        putApprovals(update, byUser.row(accountId));
+
+        CommitBuilder commit = new CommitBuilder();
+        commit.setCommitter(new PersonIdent(serverIdent, timestamp));
+        batch.write(update, commit);
+      }
+    }
+
+    putApprovals(callerUpdate,
+        byUser.row(callerUpdate.getUser().getAccountId()));
+    return batch;
+  }
+
+  private static void putApprovals(ChangeUpdate update,
+      Map<String, Optional<Short>> approvals) {
+    for (Map.Entry<String, Optional<Short>> e : approvals.entrySet()) {
+      if (e.getValue().isPresent()) {
+        update.putApproval(e.getKey(), e.getValue().get());
+      } else {
+        update.removeApproval(e.getKey());
+      }
+    }
+  }
+
+  private List<SubmitRecord> checkSubmitRule(RevisionResource rsrc,
+      boolean force) throws ResourceConflictException {
+    List<SubmitRecord> results = rsrc.getControl().canSubmit(
         dbProvider.get(),
         rsrc.getPatchSet());
-    Optional<SubmitRecord> ok = findOkRecord(results);
-    if (ok.isPresent()) {
+    if (force || findOkRecord(results).isPresent()) {
       // Rules supplied a valid solution.
-      return;
+      return results;
     } else if (results.isEmpty()) {
       throw new IllegalStateException(String.format(
           "ChangeControl.canSubmit returned empty list for %s in %s",
@@ -333,6 +402,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
               rsrc.getChange().getProject().get()));
       }
     }
+    throw new IllegalStateException();
   }
 
   private static Optional<SubmitRecord> findOkRecord(Collection<SubmitRecord> in) {

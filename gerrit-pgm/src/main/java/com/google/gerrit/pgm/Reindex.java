@@ -33,6 +33,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.rules.PrologModule;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.InternalUser;
 import com.google.gerrit.server.account.AccountByEmailCacheImpl;
 import com.google.gerrit.server.account.AccountCacheImpl;
@@ -64,6 +65,7 @@ import com.google.gerrit.server.index.ChangeSchemas;
 import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
+import com.google.gerrit.server.notedb.NoteDbModule;
 import com.google.gerrit.server.patch.PatchListCacheImpl;
 import com.google.gerrit.server.project.AccessControlModule;
 import com.google.gerrit.server.project.CommentLinkInfo;
@@ -196,7 +198,8 @@ public class Reindex extends SiteProgram {
         factory(ProjectState.Factory.class);
         bind(new TypeLiteral<List<CommentLinkInfo>>() {})
             .toProvider(CommentLinkProvider.class).in(SINGLETON);
-        bind(CurrentUser.class).toProvider(Providers.<CurrentUser>of(null));
+        bind(IdentifiedUser.class).toProvider(Providers.<IdentifiedUser>of(null));
+        bind(CurrentUser.class).to(IdentifiedUser.class);
         bind(String.class).annotatedWith(CanonicalWebUrl.class)
             .toProvider(CanonicalWebUrlProvider.class);
 
@@ -231,6 +234,7 @@ public class Reindex extends SiteProgram {
 
     modules.add(new AccessControlModule());
     modules.add(new GitModule());
+    modules.add(new NoteDbModule());
     modules.add(new PrologModule());
     modules.add(new AbstractModule() {
       @Override

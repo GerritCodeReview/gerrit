@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "2d027d8d_06931a8a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalCopier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-10T14:54:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cdf801d5_23a16abf",
+      "revId": "85ada50f1a2bfa2c2b4a8c3798e142f417818a20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "edfb05cc_04c55675",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalCopier.java",
         "patchSetId": 2
@@ -53,6 +71,30 @@
       "writtenOn": "2014-01-10T13:31:53Z",
       "side": 1,
       "message": "Since we allow deletion of draft patch sets, having a gap in the patch sets is not necessarily bad, but could be a valid state. This means we must not fail here, but rather continue with the next patch set.",
+      "range": {
+        "startLine": 109,
+        "startChar": 10,
+        "endLine": 111,
+        "endChar": 11
+      },
+      "revId": "85ada50f1a2bfa2c2b4a8c3798e142f417818a20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d027d8d_e660feea",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalCopier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-10T14:54:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "edfb05cc_04c55675",
       "range": {
         "startLine": 109,
         "startChar": 10,
@@ -88,6 +130,30 @@
     },
     {
       "key": {
+        "uuid": "0dff79b9_8555c211",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalCopier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-10T14:54:13Z",
+      "side": 1,
+      "message": "See Effective Java item 1.",
+      "parentUuid": "cdf801d5_039e6e77",
+      "range": {
+        "startLine": 141,
+        "startChar": 8,
+        "endLine": 141,
+        "endChar": 57
+      },
+      "revId": "85ada50f1a2bfa2c2b4a8c3798e142f417818a20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cdf801d5_e313523e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalCopier.java",
         "patchSetId": 2
@@ -99,6 +165,30 @@
       "writtenOn": "2014-01-10T13:49:22Z",
       "side": 1,
       "message": "This condition looks wrong to me for the same reason Edwin pointed out above.",
+      "range": {
+        "startLine": 155,
+        "startChar": 15,
+        "endLine": 155,
+        "endChar": 34
+      },
+      "revId": "85ada50f1a2bfa2c2b4a8c3798e142f417818a20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d027d8d_c66502f9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalCopier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-10T14:54:13Z",
+      "side": 1,
+      "message": "Good point.\n\nBut I\u0027m not totally sure what the right behavior is. Consider:\n\n PS1: -2\n PS2: -1\n PS3: n/a\n\nand PS1 is deleted.\n\nWith the old approach, PS3 would be -1 because it was copied from PS2 at creation time. With this approach, as long as PS2 exists, PS3 should be n/a.\n\nWith the current implementation (a), PS3 would be n/a after PS2 is deleted.\n\nIf we changed this to look at the previous patch set skipping gaps (b), PS3 would be -2 after PS2 is deleted.\n\nI\u0027m on the fence between these two options.",
+      "parentUuid": "cdf801d5_e313523e",
       "range": {
         "startLine": 155,
         "startChar": 15,

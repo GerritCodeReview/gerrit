@@ -76,7 +76,7 @@ public class Publish implements RestModifyView<RevisionResource, Input>,
 
     PatchSet updatedPatchSet = updateDraftPatchSet(rsrc);
     Change updatedChange = updateDraftChange(rsrc);
-    ChangeUpdate update = updateFactory.create(rsrc.getChange(),
+    ChangeUpdate update = updateFactory.create(rsrc.getControl(),
         updatedChange.getLastUpdatedOn());
 
     try {

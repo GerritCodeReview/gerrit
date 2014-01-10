@@ -110,7 +110,7 @@ java_library2(
     '//lib:guava',
     '//lib:gwtorm',
     '//lib:h2',
-    '//lib:servlet-api-3_0',
+    '//lib:servlet-api-3_1',
     '//lib/guice:guice',
     '//lib/guice:guice-servlet',
     '//lib/jetty:server',

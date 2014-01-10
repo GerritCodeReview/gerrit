@@ -28,7 +28,7 @@ java_library(
     '//lib:guava',
     '//lib:gwtorm',
     '//lib:jsch',
-    '//lib:servlet-api-3_0',
+    '//lib:servlet-api-3_1',
     '//lib/guice:guice',
     '//lib/guice:guice-assistedinject',
     '//lib/guice:guice-servlet',

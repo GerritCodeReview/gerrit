@@ -803,11 +803,12 @@ public class ChangeScreen2 extends Screen {
       }
     }
     history.set(commentLinkProcessor, replyAction, changeId, info);
-    quickApprove.set(info, revision, replyAction);
 
     if (current) {
+      quickApprove.set(info, revision, replyAction);
       loadSubmitType(info.status(), canSubmit);
     } else {
+      quickApprove.setVisible(false);
       setVisible(strategy, false);
     }
 

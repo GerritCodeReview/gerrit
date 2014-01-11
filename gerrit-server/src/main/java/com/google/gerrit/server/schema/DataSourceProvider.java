@@ -19,6 +19,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.events.LifecycleListener;
+import com.google.gerrit.extensions.persistence.DataSourceInterceptor;
 import com.google.gerrit.server.config.ConfigSection;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -32,6 +33,8 @@ import com.google.inject.Singleton;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.eclipse.jgit.lib.Config;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
 import java.util.Properties;
 
@@ -102,6 +105,7 @@ public class DataSourceProvider implements Provider<DataSource>,
 
     String username = dbs.optional("username");
     String password = dbs.optional("password");
+    String interceptor = dbs.optional("dataSourceInterceptorClass");
 
     boolean usePool;
     if (context == Context.SINGLE_USER) {
@@ -126,7 +130,7 @@ public class DataSourceProvider implements Provider<DataSource>,
       ds.setMaxWait(ConfigUtil.getTimeUnit(cfg, "database", null,
           "poolmaxwait", MILLISECONDS.convert(30, SECONDS), MILLISECONDS));
       ds.setInitialSize(ds.getMinIdle());
-      return ds;
+      return intercept(interceptor, ds);
 
     } else {
       // Don't use the connection pool.
@@ -141,10 +145,26 @@ public class DataSourceProvider implements Provider<DataSource>,
         if (password != null) {
           p.setProperty("password", password);
         }
-        return new SimpleDataSource(p);
+        return intercept(interceptor, new SimpleDataSource(p));
       } catch (SQLException se) {
         throw new ProvisionException("Database unavailable", se);
       }
+    }
+  }
+
+  private DataSource intercept(String interceptor, DataSource ds) {
+    if (interceptor == null) {
+      return ds;
+    }
+    try {
+      Constructor<?> c = Class.forName(interceptor).getConstructor();
+      DataSourceInterceptor datasourceInterceptor =
+          (DataSourceInterceptor) c.newInstance();
+      return datasourceInterceptor.intercept("reviewDb", ds);
+    } catch (ClassNotFoundException | SecurityException | NoSuchMethodException
+        | IllegalArgumentException | InstantiationException
+        | IllegalAccessException | InvocationTargetException e) {
+      throw new ProvisionException("Cannot intercept datasource", e);
     }
   }
 }

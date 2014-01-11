@@ -30,7 +30,8 @@ import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.GroupCache;
-import com.google.gson.Gson;
+import com.google.gerrit.server.group.CreateGroup;
+import com.google.gerrit.server.group.GroupJson.GroupInfo;
 import com.google.gson.reflect.TypeToken;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -75,7 +76,8 @@ public class ListGroupsIT extends AbstractDaemonTest {
         });
     RestResponse r = session.get("/groups/");
     Map<String, GroupInfo> result =
-        (new Gson()).fromJson(r.getReader(), new TypeToken<Map<String, GroupInfo>>() {}.getType());
+        newGson().fromJson(r.getReader(),
+            new TypeToken<Map<String, GroupInfo>>() {}.getType());
     assertGroups(expectedGroups, result.keySet());
   }
 
@@ -86,17 +88,18 @@ public class ListGroupsIT extends AbstractDaemonTest {
     RestSession userSession = new RestSession(server, user);
 
     String newGroupName = "newGroup";
-    GroupInput in = new GroupInput();
+    CreateGroup.Input in = new CreateGroup.Input();
     in.description = "a hidden group";
-    in.visible_to_all = false;
-    in.owner_id = groupCache.get(new AccountGroup.NameKey("Administrators"))
+    in.visibleToAll = false;
+    in.ownerId = groupCache.get(new AccountGroup.NameKey("Administrators"))
         .getGroupUUID().get();
     session.put("/groups/" + newGroupName, in).consume();
 
     Set<String> expectedGroups = Sets.newHashSet(newGroupName);
     RestResponse r = userSession.get("/groups/");
     Map<String, GroupInfo> result =
-        (new Gson()).fromJson(r.getReader(), new TypeToken<Map<String, GroupInfo>>() {}.getType());
+        newGson().fromJson(r.getReader(),
+            new TypeToken<Map<String, GroupInfo>>() {}.getType());
     assertTrue("no groups visible", result.isEmpty());
 
     assertEquals(HttpStatus.SC_CREATED, session.put(
@@ -104,7 +107,8 @@ public class ListGroupsIT extends AbstractDaemonTest {
       ).getStatusCode());
 
     r = userSession.get("/groups/");
-    result = (new Gson()).fromJson(r.getReader(), new TypeToken<Map<String, GroupInfo>>() {}.getType());
+    result = newGson().fromJson(r.getReader(),
+        new TypeToken<Map<String, GroupInfo>>() {}.getType());
     assertGroups(expectedGroups, result.keySet());
   }
 
@@ -114,7 +118,8 @@ public class ListGroupsIT extends AbstractDaemonTest {
     AccountGroup adminGroup = groupCache.get(new AccountGroup.NameKey("Administrators"));
     RestResponse r = session.get("/groups/?q=" + adminGroup.getName());
     Map<String, GroupInfo> result =
-        (new Gson()).fromJson(r.getReader(), new TypeToken<Map<String, GroupInfo>>() {}.getType());
+        newGson().fromJson(r.getReader(),
+            new TypeToken<Map<String, GroupInfo>>() {}.getType());
     GroupInfo adminGroupInfo = result.get(adminGroup.getName());
     assertGroupInfo(adminGroup, adminGroupInfo);
   }

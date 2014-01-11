@@ -10,17 +10,11 @@ acceptance_tests(
 
 java_library(
   name = 'util',
-  srcs = [
-    'GroupAssert.java',
-    'GroupInfo.java',
-    'GroupInput.java',
-    'GroupOptionsInfo.java',
-    'GroupsInput.java',
-    'MembersInput.java',
-  ],
+  srcs = ['GroupAssert.java'],
   deps = [
     '//gerrit-extension-api:api',
     '//gerrit-reviewdb:server',
+    '//gerrit-server:server',
     '//lib:gwtorm',
     '//lib:junit',
   ],

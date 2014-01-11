@@ -19,6 +19,7 @@ import static org.junit.Assert.assertTrue;
 
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.server.group.GroupJson.GroupInfo;
 
 import java.util.Set;
 
@@ -37,11 +38,11 @@ public class GroupAssert {
       assertEquals(group.getName(), info.name);
     }
     assertEquals(group.getGroupUUID().get(), Url.decode(info.id));
-    assertEquals(Integer.valueOf(group.getId().get()), info.group_id);
+    assertEquals(Integer.valueOf(group.getId().get()), info.groupId);
     assertEquals("#/admin/groups/uuid-" + Url.encode(group.getGroupUUID().get()), info.url);
-    assertEquals(group.isVisibleToAll(), toBoolean(info.options.visible_to_all));
+    assertEquals(group.isVisibleToAll(), toBoolean(info.options.visibleToAll));
     assertEquals(group.getDescription(), info.description);
-    assertEquals(group.getOwnerGroupUUID().get(), Url.decode(info.owner_id));
+    assertEquals(group.getOwnerGroupUUID().get(), Url.decode(info.ownerId));
   }
 
   public static boolean toBoolean(Boolean b) {

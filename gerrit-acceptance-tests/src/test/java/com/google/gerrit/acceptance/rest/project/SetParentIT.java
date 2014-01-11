@@ -26,8 +26,7 @@ import com.google.gerrit.acceptance.SshSession;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import com.google.gerrit.server.project.SetParent;
 import com.google.inject.Inject;
 
 import com.jcraft.jsch.JSchException;
@@ -79,7 +78,7 @@ public class SetParentIT extends AbstractDaemonTest {
     createProject(sshSession, parent, null, true);
     RestResponse r =
         userSession.put("/projects/" + project + "/parent",
-            new ParentInput(parent));
+            newParentInput(parent));
     assertEquals(HttpStatus.SC_FORBIDDEN, r.getStatusCode());
     r.consume();
   }
@@ -90,15 +89,14 @@ public class SetParentIT extends AbstractDaemonTest {
     createProject(sshSession, parent, null, true);
     RestResponse r =
         adminSession.put("/projects/" + project + "/parent",
-            new ParentInput(parent));
+            newParentInput(parent));
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
     r.consume();
 
     r = adminSession.get("/projects/" + project + "/parent");
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
     String newParent =
-        (new Gson()).fromJson(r.getReader(),
-            new TypeToken<String>() {}.getType());
+        newGson().fromJson(r.getReader(), String.class);
     assertEquals(parent, newParent);
     r.consume();
   }
@@ -107,7 +105,7 @@ public class SetParentIT extends AbstractDaemonTest {
   public void setParentForAllProjects_Conflict() throws IOException {
     RestResponse r =
         adminSession.put("/projects/" + allProjects.get() + "/parent",
-            new ParentInput(project));
+            newParentInput(project));
     assertEquals(HttpStatus.SC_CONFLICT, r.getStatusCode());
     r.consume();
   }
@@ -116,21 +114,21 @@ public class SetParentIT extends AbstractDaemonTest {
   public void setInvalidParent_Conflict() throws IOException, JSchException {
     RestResponse r =
         adminSession.put("/projects/" + project + "/parent",
-            new ParentInput(project));
+            newParentInput(project));
     assertEquals(HttpStatus.SC_CONFLICT, r.getStatusCode());
     r.consume();
 
     String child = "child";
     createProject(sshSession, child, new Project.NameKey(project), true);
     r = adminSession.put("/projects/" + project + "/parent",
-           new ParentInput(child));
+           newParentInput(child));
     assertEquals(HttpStatus.SC_CONFLICT, r.getStatusCode());
     r.consume();
 
     String grandchild = "grandchild";
     createProject(sshSession, grandchild, new Project.NameKey(child), true);
     r = adminSession.put("/projects/" + project + "/parent",
-           new ParentInput(grandchild));
+           newParentInput(grandchild));
     assertEquals(HttpStatus.SC_CONFLICT, r.getStatusCode());
     r.consume();
   }
@@ -139,17 +137,14 @@ public class SetParentIT extends AbstractDaemonTest {
   public void setNonExistingParent_UnprocessibleEntity() throws IOException {
     RestResponse r =
         adminSession.put("/projects/" + project + "/parent",
-            new ParentInput("non-existing"));
+            newParentInput("non-existing"));
     assertEquals(HttpStatus.SC_UNPROCESSABLE_ENTITY, r.getStatusCode());
     r.consume();
   }
 
-  @SuppressWarnings("unused")
-  private static class ParentInput {
-    String parent;
-
-    ParentInput(String parent) {
-      this.parent = parent;
-    }
+  SetParent.Input newParentInput(String project) {
+    SetParent.Input in = new SetParent.Input();
+    in.parent = project;
+    return in;
   }
 }

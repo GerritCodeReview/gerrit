@@ -46,12 +46,12 @@ import org.eclipse.jgit.lib.Config;
 import java.util.Collections;
 
 @RequiresCapability(GlobalCapability.CREATE_GROUP)
-class CreateGroup implements RestModifyView<TopLevelResource, Input> {
-  static class Input {
-    String name;
-    String description;
-    Boolean visibleToAll;
-    String ownerId;
+public class CreateGroup implements RestModifyView<TopLevelResource, Input> {
+  public static class Input {
+    public String name;
+    public String description;
+    public Boolean visibleToAll;
+    public String ownerId;
   }
 
   static interface Factory {

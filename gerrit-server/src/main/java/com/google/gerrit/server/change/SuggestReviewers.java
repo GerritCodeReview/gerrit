@@ -54,7 +54,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-class SuggestReviewers implements RestReadView<ChangeResource> {
+public class SuggestReviewers implements RestReadView<ChangeResource> {
 
   private static final String MAX_SUFFIX = "\u9fa5";
   private static final int MAX = 10;
@@ -268,7 +268,7 @@ class SuggestReviewers implements RestReadView<ChangeResource> {
     return false;
   }
 
-  static class SuggestedReviewerInfo implements Comparable<SuggestedReviewerInfo> {
+  public static class SuggestedReviewerInfo implements Comparable<SuggestedReviewerInfo> {
     String kind = "gerritcodereview#suggestedreviewer";
     AccountInfo account;
     GroupBaseInfo group;

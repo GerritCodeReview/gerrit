@@ -47,7 +47,7 @@ public class AddIncludedGroups implements RestModifyView<GroupResource, Input> {
     @DefaultInput
     String _oneGroup;
 
-    List<String> groups;
+    public List<String> groups;
 
     public static Input fromGroups(List<String> groups) {
       Input in = new Input();

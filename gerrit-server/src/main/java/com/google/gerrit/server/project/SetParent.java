@@ -38,10 +38,10 @@ import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import java.io.IOException;
 
 public class SetParent implements RestModifyView<ProjectResource, Input> {
-  static class Input {
+  public static class Input {
     @DefaultInput
-    String parent;
-    String commitMessage;
+    public String parent;
+    public String commitMessage;
   }
 
   private final ProjectCache cache;

@@ -16,7 +16,7 @@ package com.google.gerrit.acceptance;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Charsets;
-import com.google.gson.Gson;
+import com.google.gerrit.server.OutputFormat;
 
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
@@ -56,7 +56,7 @@ public class RestSession {
     if (content != null) {
       put.addHeader(new BasicHeader("Content-Type", "application/json"));
       put.setEntity(new StringEntity(
-          new Gson().toJson(content),
+          OutputFormat.JSON_COMPACT.newGson().toJson(content),
           Charsets.UTF_8.name()));
     }
     return new RestResponse(getClient().execute(put));
@@ -71,7 +71,7 @@ public class RestSession {
     if (content != null) {
       post.addHeader(new BasicHeader("Content-Type", "application/json"));
       post.setEntity(new StringEntity(
-          new Gson().toJson(content),
+          OutputFormat.JSON_COMPACT.newGson().toJson(content),
           Charsets.UTF_8.name()));
     }
     return new RestResponse(getClient().execute(post));

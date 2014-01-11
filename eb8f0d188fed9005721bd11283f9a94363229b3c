@@ -22,6 +22,30 @@
       "revId": "eb8f0d188fed9005721bd11283f9a94363229b3c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d027d8d_069e7a77",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalCopier.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-11T00:25:07Z",
+      "side": 1,
+      "message": "Good catch, done.",
+      "parentUuid": "edfb05cc_e4afda86",
+      "range": {
+        "startLine": 109,
+        "startChar": 32,
+        "endLine": 109,
+        "endChar": 66
+      },
+      "revId": "eb8f0d188fed9005721bd11283f9a94363229b3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

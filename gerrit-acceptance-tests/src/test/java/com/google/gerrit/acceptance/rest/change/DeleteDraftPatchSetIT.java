@@ -32,8 +32,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import com.google.gerrit.server.change.ChangeJson.ChangeInfo;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
@@ -45,7 +44,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.util.List;
 
 public class DeleteDraftPatchSetIT extends AbstractDaemonTest {
 
@@ -144,10 +142,8 @@ public class DeleteDraftPatchSetIT extends AbstractDaemonTest {
   }
 
   private ChangeInfo getChange(String changeId) throws IOException {
-    RestResponse r = session.get("/changes/?q=" + changeId);
-    List<ChangeInfo> c = (new Gson()).fromJson(r.getReader(),
-        new TypeToken<List<ChangeInfo>>() {}.getType());
-    return c.get(0);
+    RestResponse r = session.get("/changes/" + changeId + "/detail");
+    return newGson().fromJson(r.getReader(), ChangeInfo.class);
   }
 
   private PatchSet getCurrentPatchSet(String changeId) throws OrmException {

@@ -28,9 +28,11 @@ import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.RestSession;
 import com.google.gerrit.acceptance.SshSession;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gson.Gson;
+import com.google.gerrit.server.change.ChangeJson;
+import com.google.gerrit.server.change.ChangeJson.ChangeInfo;
 import com.google.gson.reflect.TypeToken;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
@@ -42,6 +44,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
 
 public class ChangeMessagesIT extends AbstractDaemonTest {
@@ -84,7 +87,7 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
       IOException {
     String changeId = createChange();
     postMessage(changeId, "Some nits need to be fixed.");
-    ChangeInfo c = getChange(changeId);
+    com.google.gerrit.server.change.ChangeJson.ChangeInfo c = getChange(changeId);
     assertNull(c.messages);
   }
 
@@ -92,10 +95,10 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
   public void defaultMessage() throws GitAPIException,
   IOException {
     String changeId = createChange();
-    ChangeInfo c = getChangeWithMessages(changeId);
+    com.google.gerrit.server.change.ChangeJson.ChangeInfo c = getChangeWithMessages(changeId);
     assertNotNull(c.messages);
     assertEquals(1, c.messages.size());
-    assertEquals("Uploaded patch set 1.", c.messages.get(0).message);
+    assertEquals("Uploaded patch set 1.", c.messages.iterator().next().message);
   }
 
   @Test
@@ -106,12 +109,13 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
     postMessage(changeId, firstMessage);
     String secondMessage = "I like this feature.";
     postMessage(changeId, secondMessage);
-    ChangeInfo c = getChangeWithMessages(changeId);
+    com.google.gerrit.server.change.ChangeJson.ChangeInfo c = getChangeWithMessages(changeId);
     assertNotNull(c.messages);
     assertEquals(3, c.messages.size());
-    assertEquals("Uploaded patch set 1.", c.messages.get(0).message);
-    assertMessage(firstMessage, c.messages.get(1).message);
-    assertMessage(secondMessage, c.messages.get(2).message);
+    Iterator<ChangeJson.ChangeMessageInfo> it = c.messages.iterator();
+    assertEquals("Uploaded patch set 1.", it.next().message);
+    assertMessage(firstMessage, it.next().message);
+    assertMessage(secondMessage, it.next().message);
   }
 
   private String createChange() throws GitAPIException,
@@ -133,7 +137,7 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
     RestResponse r =
         session.get("/changes/?q=" + changeId
             + (includeMessages ? "&o=MESSAGES" : ""));
-    List<ChangeInfo> c = (new Gson()).fromJson(r.getReader(),
+    List<ChangeInfo> c = newGson().fromJson(r.getReader(),
         new TypeToken<List<ChangeInfo>>() {}.getType());
     return c.get(0);
   }
@@ -146,10 +150,5 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
     ReviewInput in = new ReviewInput();
     in.message = msg;
     session.post("/changes/" + changeId + "/revisions/1/review", in).consume();
-  }
-
-  @SuppressWarnings("unused")
-  private class ReviewInput {
-    String message;
   }
 }

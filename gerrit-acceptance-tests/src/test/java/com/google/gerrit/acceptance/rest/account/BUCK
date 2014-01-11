@@ -5,7 +5,6 @@ acceptance_tests(
   deps = [
     ':util',
     '//gerrit-acceptance-tests:lib',
-    '//gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change:util',
   ],
 )
 
@@ -13,7 +12,6 @@ java_library(
   name = 'util',
   srcs = [
     'AccountAssert.java',
-    'AccountInfo.java',
     'CapabilityInfo.java',
   ],
   deps = [

@@ -31,9 +31,9 @@ import com.google.inject.Inject;
 import java.util.Collections;
 
 public class PutDescription implements RestModifyView<GroupResource, Input> {
-  static class Input {
+  public static class Input {
     @DefaultInput
-    String description;
+    public String description;
   }
 
   private final GroupCache groupCache;

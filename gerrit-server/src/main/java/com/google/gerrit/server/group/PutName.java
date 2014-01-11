@@ -31,9 +31,9 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
 public class PutName implements RestModifyView<GroupResource, Input> {
-  static class Input {
+  public static class Input {
     @DefaultInput
-    String name;
+    public String name;
   }
 
   private final PerformRenameGroup.Factory performRenameGroupFactory;

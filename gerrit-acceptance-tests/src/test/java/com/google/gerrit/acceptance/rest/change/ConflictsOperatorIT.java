@@ -33,7 +33,7 @@ import com.google.gerrit.acceptance.SshSession;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gson.Gson;
+import com.google.gerrit.server.change.ChangeJson.ChangeInfo;
 import com.google.gson.reflect.TypeToken;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
@@ -129,7 +129,7 @@ public class ConflictsOperatorIT extends AbstractDaemonTest {
         session.get("/changes/?q=conflicts:" + change.getChangeId());
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
     Set<ChangeInfo> changes =
-        (new Gson()).fromJson(r.getReader(),
+        newGson().fromJson(r.getReader(),
             new TypeToken<Set<ChangeInfo>>() {}.getType());
     r.consume();
     return ImmutableSet.copyOf(Iterables.transform(changes,

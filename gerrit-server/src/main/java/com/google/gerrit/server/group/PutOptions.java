@@ -29,8 +29,8 @@ import com.google.inject.Inject;
 import java.util.Collections;
 
 public class PutOptions implements RestModifyView<GroupResource, Input> {
-  static class Input {
-    Boolean visibleToAll;
+  public static class Input {
+    public Boolean visibleToAll;
   }
 
   private final GroupCache groupCache;

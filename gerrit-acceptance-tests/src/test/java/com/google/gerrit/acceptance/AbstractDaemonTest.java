@@ -14,6 +14,9 @@
 
 package com.google.gerrit.acceptance;
 
+import com.google.gerrit.server.OutputFormat;
+import com.google.gson.Gson;
+
 import org.eclipse.jgit.lib.Config;
 import org.junit.Rule;
 import org.junit.rules.TestRule;
@@ -65,5 +68,9 @@ public abstract class AbstractDaemonTest {
 
   private void afterTest() throws Exception {
     server.stop();
+  }
+
+  protected static Gson newGson() {
+    return OutputFormat.JSON_COMPACT.newGson();
   }
 }

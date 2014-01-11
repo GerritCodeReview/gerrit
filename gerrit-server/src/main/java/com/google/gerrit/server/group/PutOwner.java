@@ -35,9 +35,9 @@ import com.google.inject.Provider;
 import java.util.Collections;
 
 public class PutOwner implements RestModifyView<GroupResource, Input> {
-  static class Input {
+  public static class Input {
     @DefaultInput
-    String owner;
+    public String owner;
   }
 
   private final Provider<GroupsCollection> groupsCollection;

@@ -15,11 +15,10 @@
 package com.google.gerrit.acceptance.rest.project;
 
 import static com.google.gerrit.acceptance.GitUtil.createProject;
+import static com.google.gerrit.acceptance.rest.project.ProjectAssert.assertProjects;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static com.google.gerrit.acceptance.rest.project.ProjectAssert.assertProjects;
 
-import com.google.gson.reflect.TypeToken;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AccountCreator;
 import com.google.gerrit.acceptance.RestResponse;
@@ -28,7 +27,8 @@ import com.google.gerrit.acceptance.SshSession;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AllProjectsName;
-import com.google.gson.Gson;
+import com.google.gerrit.server.project.ProjectJson.ProjectInfo;
+import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
 
 import com.jcraft.jsch.JSchException;
@@ -70,10 +70,7 @@ public class ListChildProjectsIT extends AbstractDaemonTest {
   public void listNoChildren() throws IOException {
     RestResponse r = GET("/projects/" + allProjects.get() + "/children/");
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
-    List<ProjectInfo> children =
-        (new Gson()).fromJson(r.getReader(),
-            new TypeToken<List<ProjectInfo>>() {}.getType());
-    assertTrue(children.isEmpty());
+    assertTrue(toProjectInfoList(r).isEmpty());
   }
 
   @Test
@@ -88,10 +85,7 @@ public class ListChildProjectsIT extends AbstractDaemonTest {
 
     RestResponse r = GET("/projects/" + allProjects.get() + "/children/");
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
-    List<ProjectInfo> children =
-        (new Gson()).fromJson(r.getReader(),
-            new TypeToken<List<ProjectInfo>>() {}.getType());
-    assertProjects(Arrays.asList(child1, child2), children);
+    assertProjects(Arrays.asList(child1, child2), toProjectInfoList(r));
   }
 
   @Test
@@ -112,10 +106,14 @@ public class ListChildProjectsIT extends AbstractDaemonTest {
 
     RestResponse r = GET("/projects/" + child1.get() + "/children/?recursive");
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
-    List<ProjectInfo> children =
-        (new Gson()).fromJson(r.getReader(),
-            new TypeToken<List<ProjectInfo>>() {}.getType());
-    assertProjects(Arrays.asList(child1_1, child1_2, child1_1_1, child1_1_1_1), children);
+    assertProjects(Arrays.asList(child1_1, child1_2, child1_1_1, child1_1_1_1),
+        toProjectInfoList(r));
+  }
+
+  private static List<ProjectInfo> toProjectInfoList(RestResponse r)
+      throws IOException {
+    return newGson().fromJson(r.getReader(),
+        new TypeToken<List<ProjectInfo>>() {}.getType());
   }
 
   private RestResponse GET(String endpoint) throws IOException {

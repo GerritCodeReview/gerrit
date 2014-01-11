@@ -29,16 +29,16 @@ import com.google.gerrit.acceptance.RestSession;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.Project.InheritableBoolean;
 import com.google.gerrit.reviewdb.client.Project.SubmitType;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.group.SystemGroupBackend;
+import com.google.gerrit.server.project.CreateProject;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectJson.ProjectInfo;
 import com.google.gerrit.server.project.ProjectState;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
@@ -56,7 +56,6 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.util.Collections;
-import java.util.List;
 import java.util.Set;
 
 public class CreateProjectIT extends AbstractDaemonTest {
@@ -88,7 +87,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
     final String newProjectName = "newProject";
     RestResponse r = session.put("/projects/" + newProjectName);
     assertEquals(HttpStatus.SC_CREATED, r.getStatusCode());
-    ProjectInfo p = (new Gson()).fromJson(r.getReader(), new TypeToken<ProjectInfo>() {}.getType());
+    ProjectInfo p = newGson().fromJson(r.getReader(), ProjectInfo.class);
     assertEquals(newProjectName, p.name);
     ProjectState projectState = projectCache.get(new Project.NameKey(newProjectName));
     assertNotNull(projectState);
@@ -98,7 +97,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
 
   @Test
   public void testCreateProjectWithNameMismatch_BadRequest() throws IOException {
-    ProjectInput in = new ProjectInput();
+    CreateProject.Input in = new CreateProject.Input();
     in.name = "otherName";
     RestResponse r = session.put("/projects/someName", in);
     assertEquals(HttpStatus.SC_BAD_REQUEST, r.getStatusCode());
@@ -107,24 +106,24 @@ public class CreateProjectIT extends AbstractDaemonTest {
   @Test
   public void testCreateProjectWithProperties() throws IOException {
     final String newProjectName = "newProject";
-    ProjectInput in = new ProjectInput();
+    CreateProject.Input in = new CreateProject.Input();
     in.description = "Test description";
-    in.submit_type = SubmitType.CHERRY_PICK;
-    in.use_contributor_agreements = InheritableBoolean.TRUE;
-    in.use_signed_off_by = InheritableBoolean.TRUE;
-    in.use_content_merge = InheritableBoolean.TRUE;
-    in.require_change_id = InheritableBoolean.TRUE;
+    in.submitType = SubmitType.CHERRY_PICK;
+    in.useContributorAgreements = InheritableBoolean.TRUE;
+    in.useSignedOffBy = InheritableBoolean.TRUE;
+    in.useContentMerge = InheritableBoolean.TRUE;
+    in.requireChangeId = InheritableBoolean.TRUE;
     RestResponse r = session.put("/projects/" + newProjectName, in);
-    ProjectInfo p = (new Gson()).fromJson(r.getReader(), new TypeToken<ProjectInfo>() {}.getType());
+    ProjectInfo p = newGson().fromJson(r.getReader(), ProjectInfo.class);
     assertEquals(newProjectName, p.name);
     Project project = projectCache.get(new Project.NameKey(newProjectName)).getProject();
     assertProjectInfo(project, p);
     assertEquals(in.description, project.getDescription());
-    assertEquals(in.submit_type, project.getSubmitType());
-    assertEquals(in.use_contributor_agreements, project.getUseContributorAgreements());
-    assertEquals(in.use_signed_off_by, project.getUseSignedOffBy());
-    assertEquals(in.use_content_merge, project.getUseContentMerge());
-    assertEquals(in.require_change_id, project.getRequireChangeID());
+    assertEquals(in.submitType, project.getSubmitType());
+    assertEquals(in.useContributorAgreements, project.getUseContributorAgreements());
+    assertEquals(in.useSignedOffBy, project.getUseSignedOffBy());
+    assertEquals(in.useContentMerge, project.getUseContentMerge());
+    assertEquals(in.requireChangeId, project.getRequireChangeID());
   }
 
   @Test
@@ -133,7 +132,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
     RestResponse r = session.put("/projects/" + parentName);
     r.consume();
     final String childName = "child";
-    ProjectInput in = new ProjectInput();
+    CreateProject.Input in = new CreateProject.Input();
     in.parent = parentName;
     r = session.put("/projects/" + childName, in);
     Project project = projectCache.get(new Project.NameKey(childName)).getProject();
@@ -142,7 +141,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
 
   public void testCreateChildProjectUnderNonExistingParent_UnprocessableEntity()
       throws IOException {
-    ProjectInput in = new ProjectInput();
+    CreateProject.Input in = new CreateProject.Input();
     in.parent = "non-existing-project";
     RestResponse r = session.put("/projects/child", in);
     assertEquals(HttpStatus.SC_UNPROCESSABLE_ENTITY, r.getStatusCode());
@@ -151,7 +150,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
   @Test
   public void testCreateProjectWithOwner() throws IOException {
     final String newProjectName = "newProject";
-    ProjectInput in = new ProjectInput();
+    CreateProject.Input in = new CreateProject.Input();
     in.owners = Lists.newArrayListWithCapacity(3);
     in.owners.add("Anonymous Users"); // by name
     in.owners.add(SystemGroupBackend.REGISTERED_USERS.get()); // by UUID
@@ -168,7 +167,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
 
   public void testCreateProjectWithNonExistingOwner_UnprocessableEntity()
       throws IOException {
-    ProjectInput in = new ProjectInput();
+    CreateProject.Input in = new CreateProject.Input();
     in.owners = Collections.singletonList("non-existing-group");
     RestResponse r = session.put("/projects/newProject", in);
     assertEquals(HttpStatus.SC_UNPROCESSABLE_ENTITY, r.getStatusCode());
@@ -177,8 +176,8 @@ public class CreateProjectIT extends AbstractDaemonTest {
   @Test
   public void testCreatePermissionOnlyProject() throws IOException {
     final String newProjectName = "newProject";
-    ProjectInput in = new ProjectInput();
-    in.permissions_only = true;
+    CreateProject.Input in = new CreateProject.Input();
+    in.permissionsOnly = true;
     session.put("/projects/" + newProjectName, in);
     assertHead(newProjectName, RefNames.REFS_CONFIG);
   }
@@ -186,8 +185,8 @@ public class CreateProjectIT extends AbstractDaemonTest {
   @Test
   public void testCreateProjectWithEmptyCommit() throws IOException {
     final String newProjectName = "newProject";
-    ProjectInput in = new ProjectInput();
-    in.create_empty_commit = true;
+    CreateProject.Input in = new CreateProject.Input();
+    in.createEmptyCommit = true;
     session.put("/projects/" + newProjectName, in);
     assertEmptyCommit(newProjectName, "refs/heads/master");
   }
@@ -195,8 +194,8 @@ public class CreateProjectIT extends AbstractDaemonTest {
   @Test
   public void testCreateProjectWithBranches() throws IOException {
     final String newProjectName = "newProject";
-    ProjectInput in = new ProjectInput();
-    in.create_empty_commit = true;
+    CreateProject.Input in = new CreateProject.Input();
+    in.createEmptyCommit = true;
     in.branches = Lists.newArrayListWithCapacity(3);
     in.branches.add("refs/heads/test");
     in.branches.add("refs/heads/master");
@@ -255,21 +254,5 @@ public class CreateProjectIT extends AbstractDaemonTest {
       rw.release();
       repo.close();
     }
-  }
-
-  @SuppressWarnings("unused")
-  private static class ProjectInput {
-    String name;
-    String parent;
-    String description;
-    boolean permissions_only;
-    boolean create_empty_commit;
-    SubmitType submit_type;
-    List<String> branches;
-    List<String> owners;
-    InheritableBoolean use_contributor_agreements;
-    InheritableBoolean use_signed_off_by;
-    InheritableBoolean use_content_merge;
-    InheritableBoolean require_change_id;
   }
 }

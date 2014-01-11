@@ -29,14 +29,17 @@ import com.google.gerrit.acceptance.AccountCreator;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.RestSession;
 import com.google.gerrit.acceptance.TestAccount;
-import com.google.gerrit.acceptance.rest.account.AccountInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupById;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.account.AccountInfo;
 import com.google.gerrit.server.account.GroupCache;
-import com.google.gson.Gson;
+import com.google.gerrit.server.group.AddIncludedGroups;
+import com.google.gerrit.server.group.AddMembers;
+import com.google.gerrit.server.group.CreateGroup;
+import com.google.gerrit.server.group.GroupJson.GroupInfo;
 import com.google.gson.reflect.TypeToken;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
@@ -98,8 +101,7 @@ public class AddRemoveGroupMembersIT extends AbstractDaemonTest {
     TestAccount u = accounts.create("user", "user@example.com", "Full Name");
     RestResponse r = PUT("/groups/Administrators/members/user");
     assertEquals(HttpStatus.SC_CREATED, r.getStatusCode());
-    AccountInfo ai = (new Gson()).fromJson(r.getReader(),
-        new TypeToken<AccountInfo>() {}.getType());
+    AccountInfo ai = newGson().fromJson(r.getReader(), AccountInfo.class);
     assertAccountInfo(u, ai);
     assertMembers("Administrators", admin, u);
     r.consume();
@@ -120,12 +122,12 @@ public class AddRemoveGroupMembersIT extends AbstractDaemonTest {
     group("users");
     TestAccount u1 = accounts.create("u1", "u1@example.com", "Full Name 1");
     TestAccount u2 = accounts.create("u2", "u2@example.com", "Full Name 2");
-    MembersInput input = new MembersInput();
-    input.members = Lists.newLinkedList();
-    input.members.add(u1.username);
-    input.members.add(u2.username);
+    List<String> members = Lists.newLinkedList();
+    members.add(u1.username);
+    members.add(u2.username);
+    AddMembers.Input input = AddMembers.Input.fromMembers(members);
     RestResponse r = POST("/groups/users/members", input);
-    List<AccountInfo> ai = (new Gson()).fromJson(r.getReader(),
+    List<AccountInfo> ai = newGson().fromJson(r.getReader(),
         new TypeToken<List<AccountInfo>>() {}.getType());
     assertMembers(ai, u1, u2);
   }
@@ -135,7 +137,7 @@ public class AddRemoveGroupMembersIT extends AbstractDaemonTest {
     group("newGroup");
     RestResponse r = PUT("/groups/Administrators/groups/newGroup");
     assertEquals(HttpStatus.SC_CREATED, r.getStatusCode());
-    GroupInfo i = (new Gson()).fromJson(r.getReader(), new TypeToken<GroupInfo>() {}.getType());
+    GroupInfo i = newGson().fromJson(r.getReader(), GroupInfo.class);
     r.consume();
     assertGroupInfo(groupCache.get(new AccountGroup.NameKey("newGroup")), i);
     assertIncludes("Administrators", "newGroup");
@@ -157,12 +159,12 @@ public class AddRemoveGroupMembersIT extends AbstractDaemonTest {
   public void addMultipleIncludes() throws Exception {
     group("newGroup1");
     group("newGroup2");
-    GroupsInput input = new GroupsInput();
-    input.groups = Lists.newLinkedList();
-    input.groups.add("newGroup1");
-    input.groups.add("newGroup2");
+    List<String> groups = Lists.newLinkedList();
+    groups.add("newGroup1");
+    groups.add("newGroup2");
+    AddIncludedGroups.Input input = AddIncludedGroups.Input.fromGroups(groups);
     RestResponse r = POST("/groups/Administrators/groups", input);
-    List<GroupInfo> gi = (new Gson()).fromJson(r.getReader(),
+    List<GroupInfo> gi = newGson().fromJson(r.getReader(),
         new TypeToken<List<GroupInfo>>() {}.getType());
     assertIncludes(gi, "newGroup1", "newGroup2");
   }
@@ -177,16 +179,16 @@ public class AddRemoveGroupMembersIT extends AbstractDaemonTest {
     return r.getStatusCode();
   }
 
-  private RestResponse POST(String endPoint, MembersInput mi) throws IOException {
+  private RestResponse POST(String endPoint, AddMembers.Input mi) throws IOException {
     return session.post(endPoint, mi);
   }
 
-  private RestResponse POST(String endPoint, GroupsInput gi) throws IOException {
+  private RestResponse POST(String endPoint, AddIncludedGroups.Input gi) throws IOException {
     return session.post(endPoint, gi);
   }
 
   private void group(String name) throws IOException {
-    GroupInput in = new GroupInput();
+    CreateGroup.Input in = new CreateGroup.Input();
     session.put("/groups/" + name, in).consume();
   }
 

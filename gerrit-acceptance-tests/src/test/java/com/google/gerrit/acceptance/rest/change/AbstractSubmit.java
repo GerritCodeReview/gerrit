@@ -33,6 +33,7 @@ import com.google.gerrit.acceptance.SshSession;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.common.changes.ListChangesOption;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.InheritableBoolean;
@@ -41,10 +42,8 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.change.ChangeJson.ChangeInfo;
 import com.google.gerrit.server.change.ChangeJson.LabelInfo;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.google.gerrit.server.project.PutConfig;
 import com.google.gson.reflect.TypeToken;
-import com.google.gwtjsonrpc.server.SqlTimestampDeserializer;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 
@@ -64,7 +63,6 @@ import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.sql.Timestamp;
 
 public abstract class AbstractSubmit extends AbstractDaemonTest {
 
@@ -131,17 +129,17 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   private void setSubmitType(SubmitType submitType) throws IOException {
-    ProjectConfigInput in = new ProjectConfigInput();
-    in.submit_type = submitType;
-    in.use_content_merge = InheritableBoolean.FALSE;
+    PutConfig.Input in = new PutConfig.Input();
+    in.submitType = submitType;
+    in.useContentMerge = InheritableBoolean.FALSE;
     RestResponse r = session.put("/projects/" + project.get() + "/config", in);
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
     r.consume();
   }
 
   protected void setUseContentMerge() throws IOException {
-    ProjectConfigInput in = new ProjectConfigInput();
-    in.use_content_merge = InheritableBoolean.TRUE;
+    PutConfig.Input in = new PutConfig.Input();
+    in.useContentMerge = InheritableBoolean.TRUE;
     RestResponse r = session.put("/projects/" + project.get() + "/config", in);
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
     r.consume();
@@ -170,9 +168,11 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
 
   private void submit(String changeId, int expectedStatus) throws IOException {
     approve(changeId);
+    SubmitInput subm = new SubmitInput();
+    subm.waitForMerge = true;
     RestResponse r =
         session.post("/changes/" + changeId + "/submit",
-            SubmitInput.waitForMerge());
+            subm);
     assertEquals(expectedStatus, r.getStatusCode());
     if (expectedStatus == HttpStatus.SC_OK) {
       ChangeInfo change =
@@ -289,11 +289,5 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     fmt.format(oldTreeId, newTreeId);
     fmt.flush();
     return out.toString();
-  }
-
-  private static Gson newGson() {
-    return new GsonBuilder()
-        .registerTypeAdapter(Timestamp.class, new SqlTimestampDeserializer())
-        .create();
   }
 }

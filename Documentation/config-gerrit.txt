@@ -1221,6 +1221,13 @@ Default is `30 seconds`.
 This setting only applies if
 <<database.connectionPool,database.connectionPool>> is true.
 
+[[database.dataSourceInterceptorClass]]database.dataSourceInterceptorClass::
+
+Class that implements DataSourceInterceptor interface to monitor SQL activity.
+This class must have default constructor and be available on Gerrit's bootstrap
+classpath, e. g. in `$gerrit_site/lib` directory. Example implementation of
+SQL monitoring can be found in javamelody-plugin.
+
 [[download]]
 === Section download
 

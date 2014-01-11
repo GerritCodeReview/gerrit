@@ -22,9 +22,7 @@ import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.RestSession;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
-import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import com.google.gerrit.server.account.GetDiffPreferences.DiffPreferencesInfo;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
@@ -60,8 +58,7 @@ public class GetDiffPreferencesIT extends AbstractDaemonTest {
     RestResponse r = session.get("/accounts/" + admin.email + "/preferences.diff");
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
     DiffPreferencesInfo diffPreferences =
-        (new Gson()).fromJson(r.getReader(),
-            new TypeToken<DiffPreferencesInfo>() {}.getType());
+        newGson().fromJson(r.getReader(), DiffPreferencesInfo.class);
     assertDiffPreferences(new AccountDiffPreference(admin.id), diffPreferences);
   }
 
@@ -87,22 +84,5 @@ public class GetDiffPreferencesIT extends AbstractDaemonTest {
       return false;
     }
     return b.booleanValue();
-  }
-
-  static class DiffPreferencesInfo {
-    short context;
-    Boolean expand_all_comments;
-    Whitespace ignore_whitespace;
-    Boolean intraline_difference;
-    int line_length;
-    Boolean manual_review;
-    Boolean retain_header;
-    Boolean show_line_endings;
-    Boolean show_tabs;
-    Boolean show_whitespace_errors;
-    Boolean skip_deleted;
-    Boolean skip_uncommented;
-    Boolean syntax_highlighting;
-    int tab_size;
   }
 }

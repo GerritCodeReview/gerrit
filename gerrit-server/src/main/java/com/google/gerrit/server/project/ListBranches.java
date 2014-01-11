@@ -98,12 +98,9 @@ public class ListBranches implements RestReadView<ProjectResource> {
             target = target.substring(Constants.R_HEADS.length());
           }
 
-          BranchInfo b = new BranchInfo();
-          b.ref = ref.getName();
-          b.revision = target;
+          BranchInfo b = new BranchInfo(ref.getName(), target, false);
 
           if (Constants.HEAD.equals(ref.getName())) {
-            b.setCanDelete(false);
             headBranch = b;
           } else {
             b.setCanDelete(targetRefControl.canDelete());
@@ -141,19 +138,21 @@ public class ListBranches implements RestReadView<ProjectResource> {
 
   private static BranchInfo createBranchInfo(Ref ref, RefControl refControl,
       Set<String> targets) {
-    BranchInfo b = new BranchInfo();
-    b.ref = ref.getName();
-    if (ref.getObjectId() != null) {
-      b.revision = ref.getObjectId().name();
-    }
-    b.setCanDelete(!targets.contains(ref.getName()) && refControl.canDelete());
-    return b;
+    return new BranchInfo(ref.getName(),
+        ref.getObjectId() != null ? ref.getObjectId().name() : null,
+        !targets.contains(ref.getName()) && refControl.canDelete());
   }
 
   public static class BranchInfo {
     public String ref;
     public String revision;
     public Boolean can_delete;
+
+    public BranchInfo(String ref, String revision, boolean canDelete) {
+      this.ref = ref;
+      this.revision = revision;
+      this.can_delete = canDelete;
+    }
 
     void setCanDelete(boolean canDelete) {
       this.can_delete = canDelete ? true : null;

@@ -1,13 +1,8 @@
 include_defs('//gerrit-acceptance-tests/tests.defs')
 
 UTIL_SRCS = [
-  'AccountInfo.java',
-  'ChangeInfo.java',
-  'ChangeMessageInfo.java',
-  'GroupInfo.java',
   'ProjectConfigInput.java',
   'SubmitInput.java',
-  'SuggestReviewerInfo.java',
 ]
 
 SUBMIT_UTIL_SRCS = [
@@ -41,7 +36,6 @@ java_library(
   deps = [
     ':util',
     '//gerrit-acceptance-tests:lib',
-    '//lib:gwtjsonrpc',
   ],
 )
 

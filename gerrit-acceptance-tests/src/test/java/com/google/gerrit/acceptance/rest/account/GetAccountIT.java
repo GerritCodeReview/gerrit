@@ -23,8 +23,7 @@ import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.RestSession;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.extensions.restapi.Url;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import com.google.gerrit.server.account.AccountInfo;
 import com.google.inject.Inject;
 
 import org.apache.http.HttpStatus;
@@ -80,9 +79,7 @@ public class GetAccountIT extends AbstractDaemonTest {
       throws IOException {
     RestResponse r = session.get(url);
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
-    AccountInfo account =
-        (new Gson()).fromJson(r.getReader(),
-            new TypeToken<AccountInfo>() {}.getType());
-    assertAccountInfo(expectedAccount, account);
+    assertAccountInfo(expectedAccount, newGson()
+        .fromJson(r.getReader(), AccountInfo.class));
   }
 }

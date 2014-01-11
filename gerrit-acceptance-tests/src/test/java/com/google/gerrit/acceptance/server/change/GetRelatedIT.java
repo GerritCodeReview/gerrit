@@ -26,17 +26,17 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AccountCreator;
+import com.google.gerrit.acceptance.GitUtil.Commit;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestSession;
 import com.google.gerrit.acceptance.SshSession;
 import com.google.gerrit.acceptance.TestAccount;
-import com.google.gerrit.acceptance.GitUtil.Commit;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.OutputFormat;
-import com.google.gson.reflect.TypeToken;
+import com.google.gerrit.server.change.GetRelated.ChangeAndCommit;
+import com.google.gerrit.server.change.GetRelated.RelatedInfo;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
@@ -189,10 +189,8 @@ public class GetRelatedIT extends AbstractDaemonTest {
   private List<ChangeAndCommit> getRelated(PatchSet.Id ps) throws IOException {
     String url = String.format("/changes/%d/revisions/%d/related",
         ps.getParentKey().get(), ps.get());
-    RelatedInfo related = OutputFormat.JSON_COMPACT.newGson().fromJson(
-        session.get(url).getReader(),
-        new TypeToken<RelatedInfo>() {}.getType());
-    return related.changes;
+    return newGson().fromJson(session.get(url).getReader(),
+        RelatedInfo.class).changes;
   }
 
   private PatchSet.Id getPatchSetId(Commit c) throws OrmException {

@@ -279,8 +279,8 @@ public class GetRelated implements RestReadView<RevisionResource> {
     return p;
   }
 
-  static class RelatedInfo {
-    List<ChangeAndCommit> changes;
+  public static class RelatedInfo {
+    public List<ChangeAndCommit> changes;
   }
 
   public static class ChangeAndCommit {

@@ -51,7 +51,7 @@ public class GetDiffPreferences implements RestReadView<AccountResource> {
     return DiffPreferencesInfo.parse(a);
   }
 
-  static class DiffPreferencesInfo {
+  public static class DiffPreferencesInfo {
     static DiffPreferencesInfo parse(AccountDiffPreference p) {
       DiffPreferencesInfo info = new DiffPreferencesInfo();
       info.context = p.getContext();

@@ -21,6 +21,7 @@ import static org.junit.Assert.assertTrue;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.google.gerrit.server.project.ListBranches.BranchInfo;
 
 import java.util.List;
 

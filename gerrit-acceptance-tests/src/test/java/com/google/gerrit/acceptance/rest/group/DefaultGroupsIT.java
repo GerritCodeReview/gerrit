@@ -25,7 +25,7 @@ import com.google.gerrit.acceptance.SshSession;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gson.Gson;
+import com.google.gerrit.server.group.GroupJson.GroupInfo;
 import com.google.gson.reflect.TypeToken;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
@@ -76,9 +76,9 @@ public class DefaultGroupsIT extends AbstractDaemonTest {
   public void defaultGroupsCreated_rest() throws IOException {
     RestSession session = new RestSession(server, admin);
     RestResponse r = session.get("/groups/");
-    Gson gson = new Gson();
     Map<String, GroupInfo> result =
-        gson.fromJson(r.getReader(), new TypeToken<Map<String, GroupInfo>>() {}.getType());
+        newGson().fromJson(r.getReader(),
+            new TypeToken<Map<String, GroupInfo>>() {}.getType());
     Set<String> names = result.keySet();
     assertTrue(names.contains("Administrators"));
     assertTrue(names.contains("Non-Interactive Users"));

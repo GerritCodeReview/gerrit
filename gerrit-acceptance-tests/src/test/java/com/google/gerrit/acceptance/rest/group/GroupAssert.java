@@ -19,6 +19,7 @@ import static org.junit.Assert.assertTrue;
 
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.server.group.GroupJson.GroupInfo;
 
 import java.util.Set;
 

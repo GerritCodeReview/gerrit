@@ -13,11 +13,11 @@ java_library(
   name = 'branch',
   srcs = [
     'BranchAssert.java',
-    'BranchInfo.java',
   ],
   deps = [
     '//lib:guava',
     '//lib:junit',
+    '//gerrit-server:server',
   ],
 )
 
@@ -25,7 +25,6 @@ java_library(
   name = 'project',
   srcs = [
     'ProjectAssert.java',
-    'ProjectInfo.java',
   ],
   deps = [
     '//gerrit-extension-api:api',

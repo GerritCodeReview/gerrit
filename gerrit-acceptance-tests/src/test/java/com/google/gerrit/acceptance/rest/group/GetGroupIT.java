@@ -23,7 +23,7 @@ import com.google.gerrit.acceptance.RestSession;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.GroupCache;
-import com.google.gson.Gson;
+import com.google.gerrit.server.group.GroupJson.GroupInfo;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
 
@@ -64,9 +64,11 @@ public class GetGroupIT extends AbstractDaemonTest {
     testGetGroup("/groups/" + adminGroup.getId().get(), adminGroup);
   }
 
-  private void testGetGroup(String url, AccountGroup expectedGroup) throws IOException {
+  private void testGetGroup(String url, AccountGroup expectedGroup)
+      throws IOException {
     RestResponse r = session.get(url);
-    GroupInfo group = (new Gson()).fromJson(r.getReader(), new TypeToken<GroupInfo>() {}.getType());
+    GroupInfo group = newGson().fromJson(r.getReader(),
+        new TypeToken<GroupInfo>() {}.getType());
     assertGroupInfo(expectedGroup, group);
   }
 }

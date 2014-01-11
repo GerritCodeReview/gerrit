@@ -4,6 +4,5 @@ acceptance_tests(
   srcs = glob(['*IT.java']),
   deps = [
     '//gerrit-acceptance-tests:lib',
-    '//lib:gwtjsonrpc',
   ],
 )

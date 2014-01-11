@@ -628,7 +628,10 @@ public class RestApiServlet extends HttpServlet {
 
   private static Gson newGson(Multimap<String, String> config,
       @Nullable HttpServletRequest req) {
-    GsonBuilder gb = OutputFormat.JSON_COMPACT.newGsonBuilder();
+    String policy = req.getHeader("Field-Naming-Policy");
+    GsonBuilder gb = policy != null
+        ? OutputFormat.JSON_COMPACT.newGsonBuilderWithIdentity()
+        : OutputFormat.JSON_COMPACT.newGsonBuilder();
 
     enablePrettyPrint(gb, config, req);
     enablePartialGetFields(gb, config);

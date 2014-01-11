@@ -279,16 +279,16 @@ public class GetRelated implements RestReadView<RevisionResource> {
     return p;
   }
 
-  static class RelatedInfo {
-    List<ChangeAndCommit> changes;
+  public static class RelatedInfo {
+    public List<ChangeAndCommit> changes;
   }
 
-  static class ChangeAndCommit {
-    String changeId;
-    CommitInfo commit;
-    Integer _changeNumber;
-    Integer _revisionNumber;
-    Integer _currentRevisionNumber;
+  public static class ChangeAndCommit {
+    public String changeId;
+    public CommitInfo commit;
+    public Integer _changeNumber;
+    public Integer _revisionNumber;
+    public Integer _currentRevisionNumber;
 
     ChangeAndCommit(@Nullable Change change, @Nullable PatchSet ps, RevCommit c) {
       if (change != null) {

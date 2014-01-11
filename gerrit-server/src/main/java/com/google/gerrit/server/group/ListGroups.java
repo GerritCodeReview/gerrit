@@ -37,6 +37,7 @@ import com.google.gerrit.server.account.GroupComparator;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.group.GroupJson.GroupInfo;
 import com.google.gerrit.server.project.ProjectControl;
+import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -90,6 +91,9 @@ public class ListGroups implements RestReadView<TopLevelResource> {
   @Option(name = "-m", metaVar = "MATCH", usage = "match group substring")
   private String matchSubstring;
 
+  @Option(name = "-f", metaVar = "FORMAT", usage = "output format")
+  private String format;
+
   @Option(name = "-o", usage = "Output options per group")
   public void addOption(ListGroupsOption o) {
     options.add(o);
@@ -134,7 +138,11 @@ public class ListGroups implements RestReadView<TopLevelResource> {
           "Group " + Url.decode(info.id)), info);
       info.name = null;
     }
-    return OutputFormat.JSON.newGson().toJsonTree(output,
+    Gson gson = OutputFormat.JSON.newGson();
+    if ("identity".equals(format)) {
+      gson = OutputFormat.JSON.newGsonBuilderWithIdentity().create();
+    }
+    return gson.toJsonTree(output,
         new TypeToken<Map<String, GroupInfo>>() {}.getType());
   }
 

@@ -29,7 +29,7 @@ import com.google.gerrit.acceptance.SshSession;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gson.Gson;
+import com.google.gerrit.server.change.SuggestReviewers.SuggestedReviewerInfo;
 import com.google.gson.reflect.TypeToken;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
@@ -92,7 +92,7 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
   public void suggestReviewersNoResult1() throws GitAPIException, IOException,
       Exception {
     String changeId = createChange(admin);
-    List<SuggestReviewerInfo> reviewers = suggestReviewers(changeId, "u", 6);
+    List<SuggestedReviewerInfo> reviewers = suggestReviewers(changeId, "u", 6);
     assertEquals(reviewers.size(), 0);
   }
 
@@ -105,7 +105,7 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
   public void suggestReviewersNoResult2() throws GitAPIException, IOException,
       Exception {
     String changeId = createChange(admin);
-    List<SuggestReviewerInfo> reviewers = suggestReviewers(changeId, "u", 6);
+    List<SuggestedReviewerInfo> reviewers = suggestReviewers(changeId, "u", 6);
     assertEquals(reviewers.size(), 0);
   }
 
@@ -114,7 +114,7 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
   public void suggestReviewersNoResult3() throws GitAPIException, IOException,
       Exception {
     String changeId = createChange(admin);
-    List<SuggestReviewerInfo> reviewers = suggestReviewers(changeId, "u", 6);
+    List<SuggestedReviewerInfo> reviewers = suggestReviewers(changeId, "u", 6);
     assertEquals(reviewers.size(), 0);
   }
 
@@ -122,7 +122,7 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
   public void suggestReviewersChange() throws GitAPIException,
       IOException, Exception {
     String changeId = createChange(admin);
-    List<SuggestReviewerInfo> reviewers = suggestReviewers(changeId, "u", 6);
+    List<SuggestedReviewerInfo> reviewers = suggestReviewers(changeId, "u", 6);
     assertEquals(reviewers.size(), 6);
     reviewers = suggestReviewers(changeId, "u", 5);
     assertEquals(reviewers.size(), 5);
@@ -130,10 +130,10 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
     assertEquals(reviewers.size(), 1);
   }
 
-  private List<SuggestReviewerInfo> suggestReviewers(String changeId,
+  private List<SuggestedReviewerInfo> suggestReviewers(String changeId,
       String query, int n)
       throws IOException {
-    return new Gson().fromJson(
+    return newGson().fromJson(
         session.get("/changes/"
             + changeId
             + "/suggest_reviewers?q="
@@ -141,7 +141,7 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
             + "&n="
             + n)
         .getReader(),
-        new TypeToken<List<SuggestReviewerInfo>>() {}
+        new TypeToken<List<SuggestedReviewerInfo>>() {}
         .getType());
   }
 

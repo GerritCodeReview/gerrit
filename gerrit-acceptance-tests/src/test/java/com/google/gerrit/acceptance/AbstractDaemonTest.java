@@ -14,11 +14,17 @@
 
 package com.google.gerrit.acceptance;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gwtjsonrpc.server.SqlTimestampDeserializer;
+
 import org.eclipse.jgit.lib.Config;
 import org.junit.Rule;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
+
+import java.sql.Timestamp;
 
 public abstract class AbstractDaemonTest {
   protected GerritServer server;
@@ -65,5 +71,11 @@ public abstract class AbstractDaemonTest {
 
   private void afterTest() throws Exception {
     server.stop();
+  }
+
+  protected static Gson newGson() {
+    return new GsonBuilder()
+        .registerTypeAdapter(Timestamp.class, new SqlTimestampDeserializer())
+        .create();
   }
 }

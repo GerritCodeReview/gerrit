@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cdf801d5_03faee8f",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-11T00:22:02Z",
+      "side": 1,
+      "message": "What happens during the reindex is that for each change it is checked if the mergeable flag is outdated, and only if it is outdated it is recomputed. The check whether the mergeable flag is outdated is done by comparing the persisted commit ID of when the mergeable flag was last computed with the HEAD of the destination branch. The description of this parameter could be wrongly understood like the recomputation of the mergeable flag is enforced for all changes (which the MergeabilityChecker could also do if we want this).",
+      "range": {
+        "startLine": 120,
+        "startChar": 51,
+        "endLine": 120,
+        "endChar": 90
+      },
+      "revId": "51f966be308a18e31371aab9e87a885e037181f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

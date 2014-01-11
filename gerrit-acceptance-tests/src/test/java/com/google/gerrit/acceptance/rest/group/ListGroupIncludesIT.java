@@ -25,6 +25,7 @@ import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.RestSession;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.server.group.GroupJson.GroupInfo;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
@@ -91,8 +92,7 @@ public class ListGroupIncludesIT extends AbstractDaemonTest {
   private GroupInfo GET_ONE(String endpoint) throws IOException {
     RestResponse r = session.get(endpoint);
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
-    return (new Gson()).fromJson(r.getReader(),
-        new TypeToken<GroupInfo>() {}.getType());
+    return newGson().fromJson(r.getReader(), GroupInfo.class);
   }
 
   private void PUT(String endpoint) throws IOException {

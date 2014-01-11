@@ -65,6 +65,20 @@ public enum OutputFormat {
   }
 
   /** @return a new Gson instance configured according to the format. */
+  public GsonBuilder newGsonBuilderWithIdentity() {
+    if (!isJson()) {
+      throw new IllegalStateException(String.format("%s is not JSON", this));
+    }
+    GsonBuilder gb = new GsonBuilder()
+      .setFieldNamingPolicy(FieldNamingPolicy.IDENTITY)
+      .registerTypeAdapter(Timestamp.class, new SqlTimestampDeserializer());
+    if (this == OutputFormat.JSON) {
+      gb.setPrettyPrinting();
+    }
+    return gb;
+  }
+
+  /** @return a new Gson instance configured according to the format. */
   public Gson newGson() {
     return newGsonBuilder().create();
   }

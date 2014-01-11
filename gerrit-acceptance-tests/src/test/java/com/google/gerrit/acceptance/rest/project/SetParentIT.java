@@ -26,8 +26,6 @@ import com.google.gerrit.acceptance.SshSession;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
 
 import com.jcraft.jsch.JSchException;
@@ -97,8 +95,7 @@ public class SetParentIT extends AbstractDaemonTest {
     r = adminSession.get("/projects/" + project + "/parent");
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
     String newParent =
-        (new Gson()).fromJson(r.getReader(),
-            new TypeToken<String>() {}.getType());
+        newGson().fromJson(r.getReader(), String.class);
     assertEquals(parent, newParent);
     r.consume();
   }

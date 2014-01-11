@@ -12,15 +12,14 @@ java_library(
   name = 'util',
   srcs = [
     'GroupAssert.java',
-    'GroupInfo.java',
     'GroupInput.java',
-    'GroupOptionsInfo.java',
     'GroupsInput.java',
     'MembersInput.java',
   ],
   deps = [
     '//gerrit-extension-api:api',
     '//gerrit-reviewdb:server',
+    '//gerrit-server:server',
     '//lib:gwtorm',
     '//lib:junit',
   ],

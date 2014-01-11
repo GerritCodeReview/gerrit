@@ -47,9 +47,6 @@ import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.ProjectCache;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gwtjsonrpc.server.SqlTimestampDeserializer;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.util.Providers;
@@ -62,7 +59,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.sql.Timestamp;
 
 public class LabelTypeIT extends AbstractDaemonTest {
   @Inject
@@ -396,11 +392,5 @@ public class LabelTypeIT extends AbstractDaemonTest {
     RestResponse r = session.get("/changes/" + pr.getChangeId() + "/detail");
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
     return newGson().fromJson(r.getReader(), ChangeInfo.class);
-  }
-
-  private static Gson newGson() {
-    return new GsonBuilder()
-        .registerTypeAdapter(Timestamp.class, new SqlTimestampDeserializer())
-        .create();
   }
 }

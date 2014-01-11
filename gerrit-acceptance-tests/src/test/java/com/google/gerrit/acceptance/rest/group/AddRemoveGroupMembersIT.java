@@ -29,13 +29,14 @@ import com.google.gerrit.acceptance.AccountCreator;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.RestSession;
 import com.google.gerrit.acceptance.TestAccount;
-import com.google.gerrit.acceptance.rest.account.AccountInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupById;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.account.AccountInfo;
 import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.group.GroupJson.GroupInfo;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.gwtorm.server.OrmException;
@@ -98,8 +99,7 @@ public class AddRemoveGroupMembersIT extends AbstractDaemonTest {
     TestAccount u = accounts.create("user", "user@example.com", "Full Name");
     RestResponse r = PUT("/groups/Administrators/members/user");
     assertEquals(HttpStatus.SC_CREATED, r.getStatusCode());
-    AccountInfo ai = (new Gson()).fromJson(r.getReader(),
-        new TypeToken<AccountInfo>() {}.getType());
+    AccountInfo ai = newGson().fromJson(r.getReader(), AccountInfo.class);
     assertAccountInfo(u, ai);
     assertMembers("Administrators", admin, u);
     r.consume();
@@ -135,7 +135,7 @@ public class AddRemoveGroupMembersIT extends AbstractDaemonTest {
     group("newGroup");
     RestResponse r = PUT("/groups/Administrators/groups/newGroup");
     assertEquals(HttpStatus.SC_CREATED, r.getStatusCode());
-    GroupInfo i = (new Gson()).fromJson(r.getReader(), new TypeToken<GroupInfo>() {}.getType());
+    GroupInfo i = newGson().fromJson(r.getReader(), GroupInfo.class);
     r.consume();
     assertGroupInfo(groupCache.get(new AccountGroup.NameKey("newGroup")), i);
     assertIncludes("Administrators", "newGroup");

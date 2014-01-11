@@ -27,8 +27,7 @@ import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.project.ProjectCache;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import com.google.gerrit.server.project.ProjectJson.ProjectInfo;
 import com.google.inject.Inject;
 
 import com.jcraft.jsch.JSchException;
@@ -88,8 +87,7 @@ public class GetChildProjectIT extends AbstractDaemonTest {
     RestResponse r = GET("/projects/" + allProjects.get() + "/children/" + child.get());
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
     ProjectInfo childInfo =
-        (new Gson()).fromJson(r.getReader(),
-            new TypeToken<ProjectInfo>() {}.getType());
+        newGson().fromJson(r.getReader(), ProjectInfo.class);
     assertProjectInfo(projectCache.get(child).getProject(), childInfo);
   }
 
@@ -120,7 +118,7 @@ public class GetChildProjectIT extends AbstractDaemonTest {
             + "?recursive");
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
     ProjectInfo grandChildInfo =
-        (new Gson()).fromJson(r.getReader(), new TypeToken<ProjectInfo>() {}.getType());
+        newGson().fromJson(r.getReader(), ProjectInfo.class);
     assertProjectInfo(projectCache.get(grandChild).getProject(), grandChildInfo);
   }
 

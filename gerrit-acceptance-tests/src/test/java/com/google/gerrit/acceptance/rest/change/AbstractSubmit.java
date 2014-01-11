@@ -41,10 +41,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.change.ChangeJson.ChangeInfo;
 import com.google.gerrit.server.change.ChangeJson.LabelInfo;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import com.google.gwtjsonrpc.server.SqlTimestampDeserializer;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 
@@ -64,7 +61,6 @@ import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.sql.Timestamp;
 
 public abstract class AbstractSubmit extends AbstractDaemonTest {
 
@@ -289,11 +285,5 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     fmt.format(oldTreeId, newTreeId);
     fmt.flush();
     return out.toString();
-  }
-
-  private static Gson newGson() {
-    return new GsonBuilder()
-        .registerTypeAdapter(Timestamp.class, new SqlTimestampDeserializer())
-        .create();
   }
 }

@@ -36,8 +36,8 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.SystemGroupBackend;
+import com.google.gerrit.server.project.ListBranches.BranchInfo;
 import com.google.gerrit.server.project.ProjectCache;
-import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
@@ -124,7 +124,7 @@ public class ListBranchesIT extends AbstractDaemonTest {
     createProject(sshSession, emptyProject.get(), null, false);
     RestResponse r = session.get("/projects/" + emptyProject.get() + "/branches");
     List<BranchInfo> result =
-        (new Gson()).fromJson(r.getReader(),
+        newGson().fromJson(r.getReader(),
             new TypeToken<List<BranchInfo>>() {}.getType());
     List<BranchInfo> expected = Lists.asList(
         new BranchInfo("refs/meta/config",  null, false),
@@ -142,7 +142,7 @@ public class ListBranchesIT extends AbstractDaemonTest {
     String devCommit = git.getRepository().getRef("master").getTarget().getObjectId().getName();
     RestResponse r = session.get("/projects/" + project.get() + "/branches");
     List<BranchInfo> result =
-        (new Gson()).fromJson(r.getReader(),
+        newGson().fromJson(r.getReader(),
             new TypeToken<List<BranchInfo>>() {}.getType());
     List<BranchInfo> expected = Lists.asList(
         new BranchInfo("refs/meta/config",  null, false),
@@ -171,7 +171,7 @@ public class ListBranchesIT extends AbstractDaemonTest {
     pushTo("refs/heads/dev");
     RestResponse r = session.get("/projects/" + project.get() + "/branches");
     List<BranchInfo> result =
-        (new Gson()).fromJson(r.getReader(),
+        newGson().fromJson(r.getReader(),
             new TypeToken<List<BranchInfo>>() {}.getType());
     // refs/meta/config is hidden since user is no project owner
     List<BranchInfo> expected = Lists.asList(
@@ -193,7 +193,7 @@ public class ListBranchesIT extends AbstractDaemonTest {
     String devCommit = git.getRepository().getRef("master").getTarget().getObjectId().getName();
     RestResponse r = session.get("/projects/" + project.get() + "/branches");
     List<BranchInfo> result =
-        (new Gson()).fromJson(r.getReader(),
+        newGson().fromJson(r.getReader(),
             new TypeToken<List<BranchInfo>>() {}.getType());
     // refs/meta/config is hidden since user is no project owner
     assertBranches(Collections.singletonList(new BranchInfo("refs/heads/dev",

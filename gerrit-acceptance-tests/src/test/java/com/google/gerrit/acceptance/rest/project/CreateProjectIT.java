@@ -29,16 +29,15 @@ import com.google.gerrit.acceptance.RestSession;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.Project.InheritableBoolean;
 import com.google.gerrit.reviewdb.client.Project.SubmitType;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectJson.ProjectInfo;
 import com.google.gerrit.server.project.ProjectState;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
@@ -88,7 +87,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
     final String newProjectName = "newProject";
     RestResponse r = session.put("/projects/" + newProjectName);
     assertEquals(HttpStatus.SC_CREATED, r.getStatusCode());
-    ProjectInfo p = (new Gson()).fromJson(r.getReader(), new TypeToken<ProjectInfo>() {}.getType());
+    ProjectInfo p = newGson().fromJson(r.getReader(), ProjectInfo.class);
     assertEquals(newProjectName, p.name);
     ProjectState projectState = projectCache.get(new Project.NameKey(newProjectName));
     assertNotNull(projectState);
@@ -115,7 +114,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
     in.use_content_merge = InheritableBoolean.TRUE;
     in.require_change_id = InheritableBoolean.TRUE;
     RestResponse r = session.put("/projects/" + newProjectName, in);
-    ProjectInfo p = (new Gson()).fromJson(r.getReader(), new TypeToken<ProjectInfo>() {}.getType());
+    ProjectInfo p = newGson().fromJson(r.getReader(), ProjectInfo.class);
     assertEquals(newProjectName, p.name);
     Project project = projectCache.get(new Project.NameKey(newProjectName)).getProject();
     assertProjectInfo(project, p);

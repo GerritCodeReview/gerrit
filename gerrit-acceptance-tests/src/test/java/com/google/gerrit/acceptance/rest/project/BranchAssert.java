@@ -21,6 +21,7 @@ import static org.junit.Assert.assertTrue;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.google.gerrit.server.project.ListBranches.BranchInfo;
 
 import java.util.List;
 
@@ -50,7 +51,7 @@ public class BranchAssert {
     if (expected.revision != null) {
       assertEquals(expected.revision, actual.revision);
     }
-    assertEquals(expected.can_delete, toBoolean(actual.can_delete));
+    assertEquals(expected.canDelete, toBoolean(actual.canDelete));
   }
 
   private static boolean toBoolean(Boolean b) {

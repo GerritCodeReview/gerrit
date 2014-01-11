@@ -44,6 +44,7 @@ public class RestSession {
 
   public RestResponse get(String endPoint) throws IOException {
     HttpGet get = new HttpGet(url + "/a" + endPoint);
+    get.addHeader(new BasicHeader("Field-Naming-Policy", "identity"));
     return new RestResponse(getClient().execute(get));
   }
 
@@ -53,6 +54,7 @@ public class RestSession {
 
   public RestResponse put(String endPoint, Object content) throws IOException {
     HttpPut put = new HttpPut(url + "/a" + endPoint);
+    put.addHeader(new BasicHeader("Field-Naming-Policy", "identity"));
     if (content != null) {
       put.addHeader(new BasicHeader("Content-Type", "application/json"));
       put.setEntity(new StringEntity(
@@ -68,6 +70,7 @@ public class RestSession {
 
   public RestResponse post(String endPoint, Object content) throws IOException {
     HttpPost post = new HttpPost(url + "/a" + endPoint);
+    post.addHeader(new BasicHeader("Field-Naming-Policy", "identity"));
     if (content != null) {
       post.addHeader(new BasicHeader("Content-Type", "application/json"));
       post.setEntity(new StringEntity(

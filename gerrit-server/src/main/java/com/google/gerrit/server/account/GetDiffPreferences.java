@@ -51,7 +51,7 @@ public class GetDiffPreferences implements RestReadView<AccountResource> {
     return DiffPreferencesInfo.parse(a);
   }
 
-  static class DiffPreferencesInfo {
+  public static class DiffPreferencesInfo {
     static DiffPreferencesInfo parse(AccountDiffPreference p) {
       DiffPreferencesInfo info = new DiffPreferencesInfo();
       info.context = p.getContext();
@@ -74,22 +74,22 @@ public class GetDiffPreferences implements RestReadView<AccountResource> {
       return info;
     }
 
-    short context;
-    Boolean expandAllComments;
-    Whitespace ignoreWhitespace;
-    Boolean intralineDifference;
-    int lineLength;
-    Boolean manualReview;
-    Boolean retainHeader;
-    Boolean showLineEndings;
-    Boolean showTabs;
-    Boolean showWhitespaceErrors;
-    Boolean skipDeleted;
-    Boolean skipUncommented;
-    Boolean syntaxHighlighting;
-    Boolean hideTopMenu;
-    Boolean hideLineNumbers;
-    Boolean renderEntireFile;
-    int tabSize;
+    public short context;
+    public Boolean expandAllComments;
+    public Whitespace ignoreWhitespace;
+    public Boolean intralineDifference;
+    public int lineLength;
+    public Boolean manualReview;
+    public Boolean retainHeader;
+    public Boolean showLineEndings;
+    public Boolean showTabs;
+    public Boolean showWhitespaceErrors;
+    public Boolean skipDeleted;
+    public Boolean skipUncommented;
+    public Boolean syntaxHighlighting;
+    public Boolean hideTopMenu;
+    public Boolean hideLineNumbers;
+    public Boolean renderEntireFile;
+    public int tabSize;
   }
 }

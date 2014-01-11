@@ -34,6 +34,24 @@
       "revId": "8e252806108584d6c2370e1a315f296897bc7f95",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d027d8d_46a472cf",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-11T00:03:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d027d8d_66a76ed6",
+      "revId": "8e252806108584d6c2370e1a315f296897bc7f95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

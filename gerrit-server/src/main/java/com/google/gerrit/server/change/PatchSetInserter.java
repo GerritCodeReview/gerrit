@@ -272,7 +272,7 @@ public class PatchSetInserter {
       }
 
       if (copyLabels) {
-        approvalCopier.copy(db, ctl, patchSet.getId());
+        approvalCopier.copy(db, ctl, patchSet);
       }
       db.commit();
       update.commit();

@@ -16,6 +16,24 @@
       "revId": "5ee17184669e7c23a34424a37d3cef0f3344e0ba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cdf801d5_8397fe2f",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-13T09:58:59Z",
+      "side": 1,
+      "message": "\u003e Either this example is wrong or code was changed. The query\n \u003e  owner:david.ostrovsky is:open label:Code-Review\u003d+1\n \u003e returns this change, where Code-Review\u003d-2 and not +1:\n \u003e  https://gerrit-review.googlesource.com/#/c/50250\n\nBut this is correct, the change 50250 has a +1 vote from 3 reviewers. \u0027label:Code-Review\u003d+1\u0027 means there is at least one +1 vote from any reviewer on the Code-Review label.\n\n \u003e There is no difference between:\n \u003e owner:self is:open limit:50\n \u003e and\n \u003e owner:self is:open -label:Code-Review\u003d-2 limit:50\n\nThese queries are user specific since it includes \u0027self\u0027. For me both queries also return the same result, but this is correct since there isn\u0027t any change with -2 in Code-Review which could be filtered out by \u0027-label:Code-Review\u003d-2\u0027.",
+      "parentUuid": "cdf801d5_c39df651",
+      "revId": "5ee17184669e7c23a34424a37d3cef0f3344e0ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

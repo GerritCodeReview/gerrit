@@ -155,6 +155,7 @@ class RelatedChangesTab implements IsWidget {
     private double start;
     private int row;
     private int connectedPos;
+    private int selected;
 
     private DisplayCommand(String revision, JsArray<ChangeAndCommit> changes,
         NavigationList navList) {
@@ -211,22 +212,21 @@ class RelatedChangesTab implements IsWidget {
         return true;
       }
 
-      int select = 0;
       while (row < changes.length()) {
         ChangeAndCommit info = changes.get(row);
         String commit = info.commit().commit();
         rows.add(new RowSafeHtml(
             info, connected != null && !connected.contains(commit)));
         if (revision.equals(commit)) {
-          select = row;
+          selected = row;
         }
         if (longRunning(++row)) {
           return true;
         }
       }
 
-      navList.rows = rows;
-      navList.movePointerTo(select, true);
+      navList.setRows(rows);
+      navList.movePointerTo(selected, true);
       return false;
     }
 
@@ -322,19 +322,17 @@ class RelatedChangesTab implements IsWidget {
 
   private class NavigationList extends ScrollPanel
       implements ClickHandler, DoubleClickHandler, ScrollHandler {
-    List<SafeHtml> rows;
     private final KeyCommandSet keysNavigation;
     private final Element body;
     private final Element surrogate;
     private final Node fragment = createDocumentFragment();
 
+    private List<SafeHtml> rows;
     private HandlerRegistration regNavigation;
     private int selectedRow;
     private int startRow;
     private int rowHeight;
     private int rowWidth;
-    private int top;
-    private int bottom;
 
     NavigationList() {
       addDomHandler(this, ClickEvent.getType());
@@ -375,17 +373,17 @@ class RelatedChangesTab implements IsWidget {
       surrogate.getStyle().setVisibility(Visibility.HIDDEN);
     }
 
-    private void ensureRowMeasurements() {
-      if (rowHeight == 0) {
-        surrogate.setInnerSafeHtml(rows.get(0));
+    private void setRows(List<SafeHtml> rows) {
+      this.rows = rows;
 
-        getContainerElement().appendChild(surrogate);
-        rowHeight = surrogate.getOffsetHeight();
-        rowWidth = surrogate.getOffsetWidth();
-        getContainerElement().removeChild(surrogate);
-        getContainerElement().getStyle()
-            .setHeight(rowHeight * rows.size(), Style.Unit.PX);
-      }
+      // Determine the dimensions of a single row
+      surrogate.setInnerSafeHtml(rows.get(0));
+      getContainerElement().appendChild(surrogate);
+      rowHeight = surrogate.getOffsetHeight();
+      rowWidth = surrogate.getOffsetWidth();
+      getContainerElement().removeChild(surrogate);
+      getContainerElement().getStyle()
+          .setHeight(rowHeight * rows.size(), Style.Unit.PX);
     }
 
     public void movePointerTo(int row, boolean scroll) {
@@ -395,10 +393,8 @@ class RelatedChangesTab implements IsWidget {
 
         if (scroll) {
           // Position the selected row in the middle.
-          ensureRowMeasurements();
-          int pos = Math.max(rowHeight * selectedRow - maxHeight / 2, 0);
-          setVerticalScrollPosition(pos);
-
+          setVerticalScrollPosition(
+              Math.max(rowHeight * selectedRow - maxHeight / 2, 0));
           render();
         }
         renderSelected(selectedRow, true);
@@ -421,19 +417,15 @@ class RelatedChangesTab implements IsWidget {
         return;
       }
 
-      int currChildren = body.getChildCount();
-      int vpos = getVerticalScrollPosition();
-      if (currChildren > 0 && top <= vpos && vpos <= bottom) {
-        return;
-      }
-
       int currStart = startRow;
-      int currEnd = startRow + currChildren;
+      int currEnd = startRow + body.getChildCount();
 
-      ensureRowMeasurements();
-      int page = maxHeight / rowHeight;
+      int vpos = getVerticalScrollPosition();
       int start = Math.max(vpos / rowHeight - 5, 0);
-      int end = Math.min(vpos / rowHeight + page + 5, rows.size());
+      int end = Math.min((vpos + maxHeight) / rowHeight + 5, rows.size());
+      if (currStart <= start && end <= currEnd) {
+        return; // All of the required nodes are already in the DOM.
+      }
 
       if (end <= currStart) {
         renderRange(start, end, true, true);
@@ -459,14 +451,6 @@ class RelatedChangesTab implements IsWidget {
     }
 
     private void renderRange(int start, int end, boolean removeAll, boolean insertFirst) {
-      if (insertFirst || removeAll) {
-        startRow = start;
-        top = start * rowHeight;
-      }
-      if (!insertFirst || removeAll) {
-        bottom = (end - 2) * rowHeight - maxHeight;
-      }
-
       SafeHtmlBuilder sb = new SafeHtmlBuilder();
       for (int i = start; i < end; i++) {
         sb.append(rows.get(i));
@@ -474,7 +458,6 @@ class RelatedChangesTab implements IsWidget {
 
       if (removeAll) {
         body.setInnerSafeHtml(sb);
-        body.getStyle().setTop(top, Style.Unit.PX);
       } else {
         surrogate.setInnerSafeHtml(sb);
         for (int cnt = surrogate.getChildCount(); cnt > 0; cnt--) {
@@ -482,10 +465,14 @@ class RelatedChangesTab implements IsWidget {
         }
         if (insertFirst) {
           body.insertFirst(fragment);
-          body.getStyle().setTop(top, Style.Unit.PX);
         } else {
           body.appendChild(fragment);
         }
+      }
+
+      if (insertFirst || removeAll) {
+        startRow = start;
+        body.getStyle().setTop(start * rowHeight, Style.Unit.PX);
       }
     }
 

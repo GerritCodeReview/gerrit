@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cdf801d5_c39df651",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-13T09:37:20Z",
+      "side": 1,
+      "message": "Either this example is wrong or code was changed. The query\n\n  owner:david.ostrovsky is:open label:Code-Review\u003d+1\n\nreturns this change, where Code-Review\u003d-2 and not +1:\n\n  https://gerrit-review.googlesource.com/#/c/50250\n\nMoreover, this standard query:\n\n  owner:self is:open limit:50\n\nfilters all voted changes, where CRVW \u0026 VRFY !\u003d 0.\n\nThere is no difference between:\n\n owner:self is:open limit:50\n\nand\n\n owner:self is:open -label:Code-Review\u003d-2 limit:50",
+      "revId": "5ee17184669e7c23a34424a37d3cef0f3344e0ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

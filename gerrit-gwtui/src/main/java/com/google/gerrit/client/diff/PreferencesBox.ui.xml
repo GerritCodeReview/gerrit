@@ -172,6 +172,12 @@ limitations under the License.
             alignment='RIGHT'/></td>
       </tr>
       <tr>
+        <th><ui:msg>Columns</ui:msg></th>
+        <td><x:NpIntTextBox ui:field='lineLength'
+            visibleLength='4'
+            alignment='RIGHT'/></td>
+      </tr>
+      <tr>
         <th><ui:msg>Lines of Context</ui:msg></th>
         <td><ui:msg><x:NpIntTextBox ui:field='context'
             addStyleNames='{style.context}'

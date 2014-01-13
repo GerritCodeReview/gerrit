@@ -378,20 +378,20 @@ Scores of +2 are not matched, even though they are higher.
 +
 Matches changes with either a +1, +2, or any higher score.
 
-`label:CodeReview=+2,aname`::
+`label:Code-Review=+2,aname`::
 +
 Matches changes with a +2 code review where the reviewer or group is aname.
 
-`label:CodeReview=2,user=jsmith`::
+`label:Code-Review=2,user=jsmith`::
 +
 Matches changes with a +2 code review where the reviewer is jsmith.
 
-`label:CodeReview=+1,group=ldap/linux.workflow`::
+`label:Code-Review=+1,group=ldap/linux.workflow`::
 +
 Matches changes with a +1 code review where the reviewer is in the
 ldap/linux.workflow group.
 
-`label:CodeReview<=-1`::
+`label:Code-Review<=-1`::
 +
 Matches changes with either a -1, -2, or any lower score.
 

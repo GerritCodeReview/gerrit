@@ -76,13 +76,13 @@ public class ApprovalCopier {
     this.changeDataFactory = changeDataFactory;
   }
 
-  public void copy(ReviewDb db, ChangeControl ctl, PatchSet.Id psId)
+  public void copy(ReviewDb db, ChangeControl ctl, PatchSet ps)
       throws OrmException {
-    db.patchSetApprovals().insert(getForPatchSet(db, ctl, psId));
+    db.patchSetApprovals().insert(getForPatchSet(db, ctl, ps));
   }
 
   private List<PatchSetApproval> getForPatchSet(ReviewDb db, ChangeControl ctl,
-      PatchSet.Id psId) throws OrmException {
+      PatchSet ps) throws OrmException {
     ChangeData cd = changeDataFactory.create(db, ctl);
     try {
       ProjectState project =
@@ -91,23 +91,21 @@ public class ApprovalCopier {
 
       Table<String, Account.Id, PatchSetApproval> byUser =
           HashBasedTable.create();
-      for (PatchSetApproval psa : all.get(psId)) {
+      for (PatchSetApproval psa : all.get(ps.getId())) {
         byUser.put(psa.getLabel(), psa.getAccountId(), psa);
       }
 
       TreeMap<Integer, PatchSet> patchSets = getPatchSets(cd);
       NavigableSet<Integer> allPsIds = patchSets.navigableKeySet();
-      PatchSet currPs = patchSets.get(psId.get());
-      if (currPs == null) {
-        throw new OrmException("missing patch set " + psId);
-      }
 
       Repository repo =
           repoManager.openRepository(project.getProject().getNameKey());
       try {
-        // Walk patch sets strictly less than psId in descending order.
-        for (PatchSet priorPs
-            : patchSets.descendingMap().tailMap(psId.get(), false).values()) {
+        // Walk patch sets strictly less than current in descending order.
+        Collection<PatchSet> allPrior = patchSets.descendingMap()
+            .tailMap(ps.getId().get(), false)
+            .values();
+        for (PatchSet priorPs : allPrior) {
           List<PatchSetApproval> priorApprovals = all.get(priorPs.getId());
           if (priorApprovals.isEmpty()) {
             continue;
@@ -115,12 +113,13 @@ public class ApprovalCopier {
 
           ChangeKind kind = changeKindCache.getChangeKind(project, repo,
               ObjectId.fromString(priorPs.getRevision().get()),
-              ObjectId.fromString(currPs.getRevision().get()));
+              ObjectId.fromString(ps.getRevision().get()));
 
           for (PatchSetApproval psa : priorApprovals) {
             if (!byUser.contains(psa.getLabel(), psa.getAccountId())
-                && canCopy(project, psa, psId, allPsIds, kind)) {
-              byUser.put(psa.getLabel(), psa.getAccountId(), copy(psa, psId));
+                && canCopy(project, psa, ps.getId(), allPsIds, kind)) {
+              byUser.put(psa.getLabel(), psa.getAccountId(),
+                  copy(psa, ps.getId()));
             }
           }
         }

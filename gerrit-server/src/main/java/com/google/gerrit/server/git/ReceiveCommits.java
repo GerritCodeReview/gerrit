@@ -1862,7 +1862,7 @@ public class ReceiveCommits {
         ChangeData cd = changeDataFactory.create(db, changeCtl);
         MailRecipients oldRecipients =
             getRecipientsFromReviewers(cd.reviewers());
-        approvalCopier.copy(db, changeCtl, newPatchSet.getId());
+        approvalCopier.copy(db, changeCtl, newPatchSet);
         approvalsUtil.addReviewers(db, update, labelTypes, change, newPatchSet,
             info, recipients.getReviewers(), oldRecipients.getAll());
         recipients.add(oldRecipients);

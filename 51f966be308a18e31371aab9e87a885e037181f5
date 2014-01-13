@@ -22,6 +22,30 @@
       "revId": "51f966be308a18e31371aab9e87a885e037181f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d027d8d_e6e59e01",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-13T18:22:46Z",
+      "side": 1,
+      "message": "Renamed to \"recheck\", is that better?",
+      "parentUuid": "cdf801d5_03faee8f",
+      "range": {
+        "startLine": 120,
+        "startChar": 51,
+        "endLine": 120,
+        "endChar": 90
+      },
+      "revId": "51f966be308a18e31371aab9e87a885e037181f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

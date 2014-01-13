@@ -44,10 +44,6 @@ limitations under the License.
       width: auto;
     }
 
-    .difftable .CodeMirror {
-      height: auto;
-    }
-
     /* Preserve space for underscores. If this changes
      * see ChunkManager.addPadding() and adjust there.
      */
@@ -154,9 +150,7 @@ limitations under the License.
             </tr>
           </table>
         </td>
-        <td ui:field='sidePanelCell' class='{style.sidePanelCell}'>
-          <d:SidePanel ui:field='sidePanel'/>
-        </td>
+        <td class='{style.sidePanelCell}'><d:SidePanel ui:field='sidePanel'/></td>
       </tr>
     </table>
     <g:FlowPanel ui:field='widgets' visible='false'/>

@@ -33,7 +33,6 @@ limitations under the License.
       font-family: arial,sans-serif;
       font-weight: bold;
       overflow: hidden;
-      position: fixed !important;
       text-align: left;
       text-shadow: 1px 1px 7px #000000;
       min-width: 300px;

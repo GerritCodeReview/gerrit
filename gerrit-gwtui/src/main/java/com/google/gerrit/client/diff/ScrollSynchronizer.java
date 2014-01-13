@@ -14,21 +14,28 @@
 
 package com.google.gerrit.client.diff;
 
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.Timer;
 
 import net.codemirror.lib.CodeMirror;
 import net.codemirror.lib.ScrollInfo;
 
 class ScrollSynchronizer {
-  private DiffTable diffTable;
-  private LineMapper mapper;
+  private final DiffTable diffTable;
+  private final LineMapper mapper;
+  private final Element marginA;
+  private final Element marginB;
   private ScrollCallback active;
 
   ScrollSynchronizer(DiffTable diffTable,
-      CodeMirror cmA, CodeMirror cmB,
-      LineMapper mapper) {
+      LineMapper mapper,
+      CodeMirror cmA, Element marginA,
+      CodeMirror cmB, Element marginB) {
     this.diffTable = diffTable;
     this.mapper = mapper;
+    this.marginA = marginA;
+    this.marginB = marginB;
 
     cmA.on("scroll", new ScrollCallback(cmA, cmB, DisplaySide.A));
     cmB.on("scroll", new ScrollCallback(cmB, cmA, DisplaySide.B));
@@ -41,6 +48,11 @@ class ScrollSynchronizer {
         && diffTable.isHeaderVisible()) {
       diffTable.setHeaderVisible(false);
     }
+  }
+
+  private void updateMargins(double left) {
+    marginA.getStyle().setLeft(-left, Unit.PX);
+    marginB.getStyle().setLeft(-left, Unit.PX);
   }
 
   class ScrollCallback implements Runnable {
@@ -74,6 +86,7 @@ class ScrollSynchronizer {
         ScrollInfo si = src.getScrollInfo();
         updateScreenHeader(si);
         dst.scrollTo(si.getLeft(), align(si.getTop()));
+        updateMargins(si.getLeft());
         state = 0;
       }
     }

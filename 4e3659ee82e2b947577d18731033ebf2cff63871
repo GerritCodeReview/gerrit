@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2d5efdcf_86fe0ad7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-14T15:15:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0ddcd92e_1d2e13ad",
+      "range": {
+        "startLine": 19,
+        "startChar": 2,
+        "endLine": 19,
+        "endChar": 53
+      },
+      "revId": "4e3659ee82e2b947577d18731033ebf2cff63871",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ede865cd_9cef852c",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 6
@@ -36,6 +60,24 @@
       "writtenOn": "2014-01-07T10:23:55Z",
       "side": 1,
       "message": "We may want to make it configurable per project too.",
+      "revId": "4e3659ee82e2b947577d18731033ebf2cff63871",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d5efdcf_a6030626",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2541,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-14T15:15:27Z",
+      "side": 1,
+      "message": "Yes, I think we want this, but this can be added in a follow-up change.",
+      "parentUuid": "ede865cd_9cef852c",
       "revId": "4e3659ee82e2b947577d18731033ebf2cff63871",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "ad6aed63_aa03cf25",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/HttpResponse.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-14T15:15:27Z",
+      "side": 1,
+      "message": "I\u0027ve extracted this into a predecessor commit, but I don\u0027t want to add tests for accessing the Gerrit documentation in this series. This is something unrelated.\n\nDone.",
+      "parentUuid": "ede865cd_bcec4138",
+      "revId": "4e3659ee82e2b947577d18731033ebf2cff63871",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0ddcd92e_5dffbbd4",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/HttpSession.java",
         "patchSetId": 6
@@ -70,6 +130,24 @@
       "writtenOn": "2014-01-07T10:23:55Z",
       "side": 1,
       "message": "Unrelated to this change.",
+      "revId": "4e3659ee82e2b947577d18731033ebf2cff63871",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad6aed63_4a19f390",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/HttpSession.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-14T15:15:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0ddcd92e_5dffbbd4",
       "revId": "4e3659ee82e2b947577d18731033ebf2cff63871",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -93,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "ad6aed63_6a163764",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/RestResponse.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-14T15:15:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0ddcd92e_7d04772e",
+      "revId": "4e3659ee82e2b947577d18731033ebf2cff63871",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0ddcd92e_9d18638f",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/RestSession.java",
         "patchSetId": 6
@@ -104,6 +200,24 @@
       "writtenOn": "2014-01-07T10:23:55Z",
       "side": 1,
       "message": "Unrelated to this change.",
+      "revId": "4e3659ee82e2b947577d18731033ebf2cff63871",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d5efdcf_66166e64",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/RestSession.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-14T15:15:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0ddcd92e_9d18638f",
       "revId": "4e3659ee82e2b947577d18731033ebf2cff63871",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -127,6 +241,24 @@
     },
     {
       "key": {
+        "uuid": "ad6aed63_8afe0bd7",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/doc/ProjectDocumentationIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-14T15:15:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0ddcd92e_bd151f58",
+      "revId": "4e3659ee82e2b947577d18731033ebf2cff63871",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ede865cd_dcf90df5",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/doc/ProjectDocumentationIT.java",
         "patchSetId": 6
@@ -138,6 +270,30 @@
       "writtenOn": "2014-01-07T10:23:55Z",
       "side": 1,
       "message": "Why not:\n\n       assertEquals(\"\u003chtml\u003e\\n\"\n          + \"read me\\n\"\n          + \"\u003c/html\u003e\\n\",\n          r.getEntityContent());",
+      "range": {
+        "startLine": 124,
+        "startChar": 4,
+        "endLine": 127,
+        "endChar": 44
+      },
+      "revId": "4e3659ee82e2b947577d18731033ebf2cff63871",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d5efdcf_4619f290",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/doc/ProjectDocumentationIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-14T15:15:27Z",
+      "side": 1,
+      "message": "Because this assert would fail. In the actual generated HTML there are also \u0027head\u0027 and \u0027body\u0027 tags.\n\nThe idea here is that the test should not depend on Markdown-To-Html-Generator, but only verify that some transformation from Markdown text to HTML happened. It\u0027s not the intention to test the Markdown-To-Html-Generator. E.g. if we use a new version of the Markdown-To-Html-Generator that creates some additional tags in the HTML output this test should not start failing.",
+      "parentUuid": "ede865cd_dcf90df5",
       "range": {
         "startLine": 124,
         "startChar": 4,

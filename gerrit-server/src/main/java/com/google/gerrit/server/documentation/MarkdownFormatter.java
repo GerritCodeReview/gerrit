@@ -16,6 +16,7 @@ package com.google.gerrit.server.documentation;
 
 import static org.pegdown.Extensions.ALL;
 import static org.pegdown.Extensions.HARDWRAPS;
+import static org.pegdown.Extensions.SUPPRESS_ALL_HTML;
 
 import com.google.common.base.Strings;
 
@@ -71,7 +72,12 @@ public class MarkdownFormatter {
 
   public byte[] markdownToDocHtml(String md, String charEnc)
       throws UnsupportedEncodingException {
-    RootNode root = parseMarkdown(md);
+    return markdownToDocHtml(md, charEnc, false);
+  }
+
+  public byte[] markdownToDocHtml(String md, String charEnc,
+      boolean suppressHtml) throws UnsupportedEncodingException {
+    RootNode root = parseMarkdown(md, suppressHtml);
     String title = findTitle(root);
 
     StringBuilder html = new StringBuilder();
@@ -92,7 +98,7 @@ public class MarkdownFormatter {
 
   public String extractTitleFromMarkdown(byte[] data, String charEnc) {
     String md = RawParseUtils.decode(Charset.forName(charEnc), data);
-    return findTitle(parseMarkdown(md));
+    return findTitle(parseMarkdown(md, true));
   }
 
   private String findTitle(Node root) {
@@ -120,8 +126,12 @@ public class MarkdownFormatter {
     return null;
   }
 
-  private RootNode parseMarkdown(String md) {
-    return new PegDownProcessor(ALL & ~(HARDWRAPS))
+  private RootNode parseMarkdown(String md, boolean suppressHtml) {
+    int options = ALL & ~(HARDWRAPS);
+    if (suppressHtml) {
+      options |= SUPPRESS_ALL_HTML;
+    }
+    return new PegDownProcessor(options)
         .parseMarkdown(md.toCharArray());
   }
 

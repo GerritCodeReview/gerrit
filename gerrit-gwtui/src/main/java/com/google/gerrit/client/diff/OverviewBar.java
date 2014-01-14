@@ -20,16 +20,22 @@ import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.MouseDownEvent;
+import com.google.gwt.event.dom.client.MouseMoveEvent;
+import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Label;
 
 import net.codemirror.lib.CodeMirror;
 import net.codemirror.lib.LineCharacter;
+import net.codemirror.lib.ScrollInfo;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -53,15 +59,71 @@ class OverviewBar extends Composite {
     COMMENT, DRAFT, INSERT, DELETE, EDIT
   }
 
-  @UiField
-  Style style;
+  @UiField Style style;
+  @UiField Label viewport;
 
   private List<GutterWrapper> gutters;
   private CodeMirror cmB;
 
+  private boolean dragging;
+  private int startY;
+  private double ratio;
+
   OverviewBar() {
     initWidget(uiBinder.createAndBindUi(this));
     gutters = new ArrayList<GutterWrapper>();
+  }
+
+  void showViewport(CodeMirror src, ScrollInfo si) {
+    double r = ratio(si);
+
+    com.google.gwt.dom.client.Style style = viewport.getElement().getStyle();
+    style.setTop(si.getTop() * r, Unit.PX);
+    style.setHeight(si.getClientHeight() * r, Unit.PX);
+  }
+
+  static final native void log(String m)/*-{console.log(m)}-*/;
+
+  @Override
+  protected void onUnload() {
+    super.onUnload();
+    if (dragging) {
+      DOM.releaseCapture(viewport.getElement());
+    }
+  }
+
+  @UiHandler("viewport")
+  void onMouseDown(MouseDownEvent e) {
+    if (cmB != null) {
+      dragging = true;
+      ratio = ratio(cmB.getScrollInfo());
+      startY = e.getY();
+      DOM.setCapture(viewport.getElement());
+    }
+  }
+
+  @UiHandler("viewport")
+  void onMouseMove(MouseMoveEvent e) {
+    if (dragging) {
+      int y = e.getRelativeY(getElement()) - startY;
+      double top = Math.max(0, y / ratio);
+      log("drag s:"+startY+" y:"+y+" top:" + top);
+      cmB.scrollToY(top);
+    }
+  }
+
+  @UiHandler("viewport")
+  void onMouseUp(MouseUpEvent e) {
+    if (dragging) {
+      dragging = false;
+      DOM.releaseCapture(viewport.getElement());
+    }
+  }
+
+  private double ratio(ScrollInfo si) {
+    double barHeight = getElement().getParentElement().getOffsetHeight();
+    double cmHeight = si.getHeight();
+    return barHeight / cmHeight;
   }
 
   GutterWrapper addGutter(CodeMirror cm, int line, GutterType type) {

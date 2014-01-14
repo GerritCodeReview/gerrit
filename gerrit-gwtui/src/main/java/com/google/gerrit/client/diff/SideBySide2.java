@@ -228,6 +228,7 @@ public class SideBySide2 extends Screen {
       }
     });
     setLineLength(prefs.lineLength());
+    diffTable.overview.showViewport(cmB, cmB.getScrollInfo());
     diffTable.overview.adjustGutters(cmB);
 
     if (startLine == 0 && diff.meta_b() != null) {
@@ -789,6 +790,7 @@ public class SideBySide2 extends Screen {
     int height = getCodeMirrorHeight();
     cmA.setHeight(height);
     cmB.setHeight(height);
+    diffTable.overview.showViewport(cmB, cmB.getScrollInfo());
     diffTable.overview.adjustGutters(cmB);
   }
 

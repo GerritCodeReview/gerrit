@@ -14,34 +14,25 @@
 
 package com.google.gerrit.acceptance;
 
-import com.google.common.base.CharMatcher;
 import com.google.common.base.Charsets;
 import com.google.gson.Gson;
 
-import org.apache.http.auth.AuthScope;
-import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicHeader;
 
 import java.io.IOException;
-import java.net.URI;
 
-public class RestSession {
-
-  private final TestAccount account;
-  private final String url;
-  DefaultHttpClient client;
+public class RestSession extends HttpSession {
 
   public RestSession(GerritServer server, TestAccount account) {
-    this.url = CharMatcher.is('/').trimTrailingFrom(server.getUrl());
-    this.account = account;
+    super(server, account);
   }
 
+  @Override
   public RestResponse get(String endPoint) throws IOException {
     HttpGet get = new HttpGet(url + "/a" + endPoint);
     return new RestResponse(getClient().execute(get));
@@ -80,16 +71,5 @@ public class RestSession {
   public RestResponse delete(String endPoint) throws IOException {
     HttpDelete delete = new HttpDelete(url + "/a" + endPoint);
     return new RestResponse(getClient().execute(delete));
-  }
-
-  private DefaultHttpClient getClient() {
-    if (client == null) {
-      URI uri = URI.create(url);
-      client = new DefaultHttpClient();
-      client.getCredentialsProvider().setCredentials(
-          new AuthScope(uri.getHost(), uri.getPort()),
-          new UsernamePasswordCredentials(account.username, account.httpPassword));
-    }
-    return client;
   }
 }

@@ -30,7 +30,7 @@ public class CommentInfo {
   String path;
   Side side;
   Integer line;
-  String inReplyTo;
+  String in_reply_to;
   String message;
   Timestamp updated;
   AccountInfo author;
@@ -45,7 +45,7 @@ public class CommentInfo {
     if (c.getLine() > 0) {
       line = c.getLine();
     }
-    inReplyTo = Url.encode(c.getParentUuid());
+    in_reply_to = Url.encode(c.getParentUuid());
     message = Strings.emptyToNull(c.getMessage());
     updated = c.getWrittenOn();
     range = c.getRange();

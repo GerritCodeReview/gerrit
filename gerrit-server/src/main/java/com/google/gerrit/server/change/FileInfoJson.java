@@ -58,12 +58,12 @@ public class FileInfoJson {
       FileInfoJson.FileInfo d = new FileInfoJson.FileInfo();
       d.status = e.getChangeType() != Patch.ChangeType.MODIFIED
           ? e.getChangeType().getCode() : null;
-      d.oldPath = e.getOldName();
+      d.old_path = e.getOldName();
       if (e.getPatchType() == Patch.PatchType.BINARY) {
         d.binary = true;
       } else {
-        d.linesInserted = e.getInsertions() > 0 ? e.getInsertions() : null;
-        d.linesDeleted = e.getDeletions() > 0 ? e.getDeletions() : null;
+        d.lines_inserted = e.getInsertions() > 0 ? e.getInsertions() : null;
+        d.lines_deleted = e.getDeletions() > 0 ? e.getDeletions() : null;
       }
 
       FileInfoJson.FileInfo o = files.put(e.getNewName(), d);
@@ -75,11 +75,11 @@ public class FileInfoJson {
         if (o.binary != null && o.binary) {
           d.binary = true;
         }
-        if (o.linesInserted != null) {
-          d.linesInserted = o.linesInserted;
+        if (o.lines_inserted != null) {
+          d.lines_inserted = o.lines_inserted;
         }
-        if (o.linesDeleted != null) {
-          d.linesDeleted = o.linesDeleted;
+        if (o.lines_deleted != null) {
+          d.lines_deleted = o.lines_deleted;
         }
       }
     }
@@ -89,8 +89,8 @@ public class FileInfoJson {
   static class FileInfo {
     Character status;
     Boolean binary;
-    String oldPath;
-    Integer linesInserted;
-    Integer linesDeleted;
+    String old_path;
+    Integer lines_inserted;
+    Integer lines_deleted;
   }
 }

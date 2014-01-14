@@ -273,7 +273,7 @@ public class ChangeJson {
     out.project = in.getProject().get();
     out.branch = in.getDest().getShortName();
     out.topic = in.getTopic();
-    out.changeId = in.getKey().get();
+    out.change_id = in.getKey().get();
     out.mergeable = in.getStatus() != Change.Status.MERGED ? in.isMergeable() : null;
     ChangedLines changedLines = cd.changedLines();
     if (changedLines != null) {
@@ -313,7 +313,7 @@ public class ChangeJson {
       out.revisions = revisions(cd);
       if (out.revisions != null) {
         for (Map.Entry<String, RevisionInfo> entry : out.revisions.entrySet()) {
-          if (entry.getValue().isCurrent) {
+          if (entry.getValue().is_current) {
             out.current_revision = entry.getKey();
             break;
           }
@@ -689,7 +689,7 @@ public class ChangeJson {
       cmi.author = accountLoader.get(message.getAuthor());
       cmi.date = message.getWrittenOn();
       cmi.message = message.getMessage();
-      cmi._revisionNumber = patchNum != null ? patchNum.get() : null;
+      cmi._revision_number = patchNum != null ? patchNum.get() : null;
       result.add(cmi);
     }
     return result;
@@ -795,12 +795,12 @@ public class ChangeJson {
   private RevisionInfo toRevisionInfo(ChangeData cd, PatchSet in)
       throws OrmException {
     RevisionInfo out = new RevisionInfo();
-    out.isCurrent = in.getId().equals(cd.change().currentPatchSetId());
+    out.is_current = in.getId().equals(cd.change().currentPatchSetId());
     out._number = in.getId().get();
     out.draft = in.isDraft() ? true : null;
     out.fetch = makeFetchMap(cd, in);
 
-    if (has(ALL_COMMITS) || (out.isCurrent && has(CURRENT_COMMIT))) {
+    if (has(ALL_COMMITS) || (out.is_current && has(CURRENT_COMMIT))) {
       try {
         out.commit = toCommit(in);
       } catch (PatchSetInfoNotAvailableException e) {
@@ -808,7 +808,7 @@ public class ChangeJson {
       }
     }
 
-    if (has(ALL_FILES) || (out.isCurrent && has(CURRENT_FILES))) {
+    if (has(ALL_FILES) || (out.is_current && has(CURRENT_FILES))) {
       try {
         out.files = fileInfoJson.toFileInfoMap(cd.change(), in);
         out.files.remove(Patch.COMMIT_MSG);
@@ -817,7 +817,7 @@ public class ChangeJson {
       }
     }
 
-    if ((out.isCurrent || (out.draft != null && out.draft))
+    if ((out.is_current || (out.draft != null && out.draft))
         && has(CURRENT_ACTIONS)
         && userProvider.get().isIdentifiedUser()) {
       out.actions = Maps.newTreeMap();
@@ -832,7 +832,7 @@ public class ChangeJson {
     if (has(DRAFT_COMMENTS)
         && userProvider.get().isIdentifiedUser()) {
       IdentifiedUser user = (IdentifiedUser)userProvider.get();
-      out.hasDraftComments =
+      out.has_draft_comments =
           db.get().patchComments()
               .draftByPatchSetAuthor(in.getId(), user.getAccountId())
               .iterator().hasNext()
@@ -916,7 +916,7 @@ public class ChangeJson {
     public String project;
     public String branch;
     public String topic;
-    public String changeId;
+    public String change_id;
     public String subject;
     public Change.Status status;
     public Timestamp created;
@@ -940,20 +940,20 @@ public class ChangeJson {
 
     public String current_revision;
     public Map<String, RevisionInfo> revisions;
-    public Boolean _moreChanges;
+    public Boolean _more_changes;
 
     void finish() {
       id = Joiner.on('~').join(
           Url.encode(project),
           Url.encode(branch),
-          Url.encode(changeId));
+          Url.encode(change_id));
     }
   }
 
   public static class RevisionInfo {
-    private transient boolean isCurrent;
+    private transient boolean is_current;
     public Boolean draft;
-    public Boolean hasDraftComments;
+    public Boolean has_draft_comments;
     public int _number;
     public Map<String, FetchInfo> fetch;
     public CommitInfo commit;
@@ -1032,6 +1032,6 @@ public class ChangeJson {
     public AccountInfo author;
     public Timestamp date;
     public String message;
-    public Integer _revisionNumber;
+    public Integer _revision_number;
   }
 }

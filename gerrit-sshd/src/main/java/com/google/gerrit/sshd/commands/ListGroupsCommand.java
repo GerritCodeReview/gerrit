@@ -85,8 +85,8 @@ public class ListGroupsCommand extends BaseCommand {
       for (final GroupInfo info : get()) {
         formatter.addColumn(Objects.firstNonNull(info.name, "n/a"));
         if (verboseOutput) {
-          AccountGroup o = info.ownerId != null
-              ? groupCache.get(new AccountGroup.UUID(Url.decode(info.ownerId)))
+          AccountGroup o = info.owner_id != null
+              ? groupCache.get(new AccountGroup.UUID(Url.decode(info.owner_id)))
               : null;
 
           formatter.addColumn(Url.decode(info.id));
@@ -94,7 +94,7 @@ public class ListGroupsCommand extends BaseCommand {
           formatter.addColumn(o != null ? o.getName() : "n/a");
           formatter.addColumn(o != null ? o.getGroupUUID().get() : "");
           formatter.addColumn(Boolean.toString(Objects.firstNonNull(
-              info.options.visibleToAll, Boolean.FALSE)));
+              info.options.visible_to_all, Boolean.FALSE)));
         }
         formatter.nextLine();
       }

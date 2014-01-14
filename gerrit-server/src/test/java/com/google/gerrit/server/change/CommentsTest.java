@@ -204,7 +204,7 @@ public class CommentsTest {
 
   private static void assertComment(PatchLineComment plc, CommentInfo ci) {
     assertEquals(plc.getKey().get(), ci.id);
-    assertEquals(plc.getParentUuid(), ci.inReplyTo);
+    assertEquals(plc.getParentUuid(), ci.in_reply_to);
     assertEquals("gerritcodereview#comment", ci.kind);
     assertEquals(plc.getMessage(), ci.message);
     assertNotNull(ci.author);

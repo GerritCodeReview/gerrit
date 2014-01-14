@@ -127,9 +127,9 @@ public class GetRelated implements RestReadView<RevisionResource> {
 
     if (list.size() == 1) {
       ChangeAndCommit r = list.get(0);
-      if (r._changeNumber != null && r._revisionNumber != null
-          && r._changeNumber == rsrc.getChange().getChangeId()
-          && r._revisionNumber == rsrc.getPatchSet().getPatchSetId()) {
+      if (r._change_number != null && r._revision_number != null
+          && r._change_number == rsrc.getChange().getChangeId()
+          && r._revision_number == rsrc.getPatchSet().getPatchSetId()) {
         return Collections.emptyList();
       }
     }
@@ -283,20 +283,20 @@ public class GetRelated implements RestReadView<RevisionResource> {
     List<ChangeAndCommit> changes;
   }
 
-  static class ChangeAndCommit {
-    String changeId;
-    CommitInfo commit;
-    Integer _changeNumber;
-    Integer _revisionNumber;
-    Integer _currentRevisionNumber;
+  public static class ChangeAndCommit {
+    public String change_id;
+    public CommitInfo commit;
+    public Integer _change_number;
+    public Integer _revision_number;
+    public Integer _current_revision_number;
 
     ChangeAndCommit(@Nullable Change change, @Nullable PatchSet ps, RevCommit c) {
       if (change != null) {
-        changeId = change.getKey().get();
-        _changeNumber = change.getChangeId();
-        _revisionNumber = ps != null ? ps.getPatchSetId() : null;
+        change_id = change.getKey().get();
+        _change_number = change.getChangeId();
+        _revision_number = ps != null ? ps.getPatchSetId() : null;
         PatchSet.Id curr = change.currentPatchSetId();
-        _currentRevisionNumber = curr != null ? curr.get() : null;
+        _current_revision_number = curr != null ? curr.get() : null;
       }
 
       commit = new CommitInfo();

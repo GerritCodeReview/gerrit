@@ -107,8 +107,8 @@ public class GetRelatedIT extends AbstractDaemonTest {
     for (Commit c : ImmutableList.of(c2, c1)) {
       List<ChangeAndCommit> related = getRelated(getPatchSetId(c));
       assertEquals(2, related.size());
-      assertEquals("related to " + c.getChangeId(), c2.getChangeId(), related.get(0).changeId);
-      assertEquals("related to " + c.getChangeId(), c1.getChangeId(), related.get(1).changeId);
+      assertEquals("related to " + c.getChangeId(), c2.getChangeId(), related.get(0).change_id);
+      assertEquals("related to " + c.getChangeId(), c1.getChangeId(), related.get(1).change_id);
     }
   }
 
@@ -134,15 +134,15 @@ public class GetRelatedIT extends AbstractDaemonTest {
     for (PatchSet.Id ps : ImmutableList.of(c2ps2, c1ps2)) {
       List<ChangeAndCommit> related = getRelated(ps);
       assertEquals(2, related.size());
-      assertEquals("related to " + ps, c1.getChangeId(), related.get(0).changeId);
-      assertEquals("related to " + ps, c2.getChangeId(), related.get(1).changeId);
+      assertEquals("related to " + ps, c1.getChangeId(), related.get(0).change_id);
+      assertEquals("related to " + ps, c2.getChangeId(), related.get(1).change_id);
     }
 
     for (PatchSet.Id ps : ImmutableList.of(c2ps1, c1ps1)) {
       List<ChangeAndCommit> related = getRelated(ps);
       assertEquals(2, related.size());
-      assertEquals("related to " + ps, c2.getChangeId(), related.get(0).changeId);
-      assertEquals("related to " + ps, c1.getChangeId(), related.get(1).changeId);
+      assertEquals("related to " + ps, c2.getChangeId(), related.get(0).change_id);
+      assertEquals("related to " + ps, c1.getChangeId(), related.get(1).change_id);
     }
   }
 
@@ -172,17 +172,17 @@ public class GetRelatedIT extends AbstractDaemonTest {
     for (PatchSet.Id ps : ImmutableList.of(c3ps1, c2ps2, c1ps2)) {
       List<ChangeAndCommit> related = getRelated(ps);
       assertEquals(3, related.size());
-      assertEquals("related to " + ps, c3.getChangeId(), related.get(0).changeId);
-      assertEquals("related to " + ps, c1.getChangeId(), related.get(1).changeId);
-      assertEquals("related to " + ps, c2.getChangeId(), related.get(2).changeId);
+      assertEquals("related to " + ps, c3.getChangeId(), related.get(0).change_id);
+      assertEquals("related to " + ps, c1.getChangeId(), related.get(1).change_id);
+      assertEquals("related to " + ps, c2.getChangeId(), related.get(2).change_id);
     }
 
     for (PatchSet.Id ps : ImmutableList.of(c2ps1, c1ps1)) {
       List<ChangeAndCommit> related = getRelated(ps);
       assertEquals(3, related.size());
-      assertEquals("related to " + ps, c3.getChangeId(), related.get(0).changeId);
-      assertEquals("related to " + ps, c2.getChangeId(), related.get(1).changeId);
-      assertEquals("related to " + ps, c1.getChangeId(), related.get(2).changeId);
+      assertEquals("related to " + ps, c3.getChangeId(), related.get(0).change_id);
+      assertEquals("related to " + ps, c2.getChangeId(), related.get(1).change_id);
+      assertEquals("related to " + ps, c1.getChangeId(), related.get(2).change_id);
     }
   }
 

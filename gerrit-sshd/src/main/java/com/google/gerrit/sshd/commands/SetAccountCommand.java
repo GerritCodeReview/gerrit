@@ -241,7 +241,7 @@ final class SetAccountCommand extends BaseCommand {
     } else {
       for (String sshKey : sshKeys) {
         for (SshKeyInfo i : infos) {
-          if (sshKey.trim().equals(i.sshPublicKey)
+          if (sshKey.trim().equals(i.ssh_public_key)
               || sshKey.trim().equals(i.comment)) {
             deleteSshKey(i);
           }
@@ -252,7 +252,7 @@ final class SetAccountCommand extends BaseCommand {
 
   private void deleteSshKey(SshKeyInfo i) throws OrmException {
     AccountSshKey sshKey = new AccountSshKey(
-        new AccountSshKey.Id(user.getAccountId(), i.seq), i.sshPublicKey);
+        new AccountSshKey.Id(user.getAccountId(), i.seq), i.ssh_public_key);
     deleteSshKeyProvider.get().apply(
         new AccountResource.SshKey(user, sshKey), null);
   }

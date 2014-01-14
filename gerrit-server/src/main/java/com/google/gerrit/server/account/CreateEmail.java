@@ -123,7 +123,7 @@ public class CreateEmail implements RestModifyView<AccountResource, Input> {
     } else {
       try {
         registerNewEmailFactory.create(email).send();
-        info.pendingConfirmation = true;
+        info.pending_confirmation = true;
       } catch (EmailException | RuntimeException e) {
         log.error("Cannot send email verification message to " + email, e);
         throw e;

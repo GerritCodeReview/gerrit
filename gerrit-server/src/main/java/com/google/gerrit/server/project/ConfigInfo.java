@@ -34,12 +34,12 @@ public class ConfigInfo {
   public final String kind = "gerritcodereview#project_config";
 
   public String description;
-  public InheritedBooleanInfo useContributorAgreements;
-  public InheritedBooleanInfo useContentMerge;
-  public InheritedBooleanInfo useSignedOffBy;
-  public InheritedBooleanInfo requireChangeId;
-  public MaxObjectSizeLimitInfo maxObjectSizeLimit;
-  public SubmitType submitType;
+  public InheritedBooleanInfo useContributor_agreements;
+  public InheritedBooleanInfo use_content_merge;
+  public InheritedBooleanInfo use_signed_off_by;
+  public InheritedBooleanInfo require_change_id;
+  public MaxObjectSizeLimitInfo max_object_size_limit;
+  public SubmitType submit_type;
   public Project.State state;
   public Map<String, ActionInfo> actions;
 
@@ -64,38 +64,38 @@ public class ConfigInfo {
     useContentMerge.value = projectState.isUseContentMerge();
     requireChangeId.value = projectState.isRequireChangeID();
 
-    useContributorAgreements.configuredValue =
+    useContributorAgreements.configured_value =
         p.getUseContributorAgreements();
-    useSignedOffBy.configuredValue = p.getUseSignedOffBy();
-    useContentMerge.configuredValue = p.getUseContentMerge();
-    requireChangeId.configuredValue = p.getRequireChangeID();
+    useSignedOffBy.configured_value = p.getUseSignedOffBy();
+    useContentMerge.configured_value = p.getUseContentMerge();
+    requireChangeId.configured_value = p.getRequireChangeID();
 
     ProjectState parentState = Iterables.getFirst(projectState
         .parents(), null);
     if (parentState != null) {
-      useContributorAgreements.inheritedValue =
+      useContributorAgreements.inherited_value =
           parentState.isUseContributorAgreements();
-      useSignedOffBy.inheritedValue = parentState.isUseSignedOffBy();
-      useContentMerge.inheritedValue = parentState.isUseContentMerge();
-      requireChangeId.inheritedValue = parentState.isRequireChangeID();
+      useSignedOffBy.inherited_value = parentState.isUseSignedOffBy();
+      useContentMerge.inherited_value = parentState.isUseContentMerge();
+      requireChangeId.inherited_value = parentState.isRequireChangeID();
     }
 
-    this.useContributorAgreements = useContributorAgreements;
-    this.useSignedOffBy = useSignedOffBy;
-    this.useContentMerge = useContentMerge;
-    this.requireChangeId = requireChangeId;
+    this.useContributor_agreements = useContributorAgreements;
+    this.use_signed_off_by = useSignedOffBy;
+    this.use_content_merge = useContentMerge;
+    this.require_change_id = requireChangeId;
 
     MaxObjectSizeLimitInfo maxObjectSizeLimit = new MaxObjectSizeLimitInfo();
     maxObjectSizeLimit.value =
         config.getEffectiveMaxObjectSizeLimit(projectState) == config
             .getMaxObjectSizeLimit() ? config
             .getFormattedMaxObjectSizeLimit() : p.getMaxObjectSizeLimit();
-    maxObjectSizeLimit.configuredValue = p.getMaxObjectSizeLimit();
-    maxObjectSizeLimit.inheritedValue =
+    maxObjectSizeLimit.configured_value = p.getMaxObjectSizeLimit();
+    maxObjectSizeLimit.inherited_value =
         config.getFormattedMaxObjectSizeLimit();
-    this.maxObjectSizeLimit = maxObjectSizeLimit;
+    this.max_object_size_limit = maxObjectSizeLimit;
 
-    this.submitType = p.getSubmitType();
+    this.submit_type = p.getSubmitType();
     this.state = p.getState() != Project.State.ACTIVE ? p.getState() : null;
 
     this.commentlinks = Maps.newLinkedHashMap();
@@ -114,13 +114,13 @@ public class ConfigInfo {
 
   public static class InheritedBooleanInfo {
     public Boolean value;
-    public InheritableBoolean configuredValue;
-    public Boolean inheritedValue;
+    public InheritableBoolean configured_value;
+    public Boolean inherited_value;
   }
 
   public static class MaxObjectSizeLimitInfo {
     public String value;
-    public String configuredValue;
-    public String inheritedValue;
+    public String configured_value;
+    public String inherited_value;
   }
 }

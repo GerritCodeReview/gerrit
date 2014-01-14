@@ -91,9 +91,9 @@ public class GroupJson {
     AccountGroup g = GroupDescriptions.toAccountGroup(group);
     if (g != null) {
       info.description = Strings.emptyToNull(g.getDescription());
-      info.groupId = g.getId().get();
+      info.group_id = g.getId().get();
       if (g.getOwnerGroupUUID() != null) {
-        info.ownerId = Url.encode(g.getOwnerGroupUUID().get());
+        info.owner_id = Url.encode(g.getOwnerGroupUUID().get());
         GroupDescription.Basic o = groupBackend.get(g.getOwnerGroupUUID());
         if (o != null) {
           info.owner = o.getName();
@@ -133,9 +133,9 @@ public class GroupJson {
 
     // These fields are only supplied for internal groups.
     public String description;
-    public Integer groupId;
+    public Integer group_id;
     public String owner;
-    public String ownerId;
+    public String owner_id;
 
     // These fields are only supplied for internal groups, but only if requested
     public List<AccountInfo> members;

@@ -159,7 +159,7 @@ class DashboardsCollection implements
       throws UnsupportedEncodingException {
     DashboardInfo info = new DashboardInfo(refName, path);
     info.project = project;
-    info.definingProject = definingProject.getName();
+    info.defining_project = definingProject.getName();
     String query = config.getString("dashboard", null, "title");
     info.title = replace(project, query == null ? info.path : query);
     info.description = replace(project, config.getString("dashboard", null, "description"));
@@ -206,7 +206,7 @@ class DashboardsCollection implements
     final String kind = "gerritcodereview#dashboard";
     String id;
     String project;
-    String definingProject;
+    String defining_project;
     String ref;
     String path;
     String description;

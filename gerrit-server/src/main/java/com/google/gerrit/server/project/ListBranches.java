@@ -153,10 +153,10 @@ public class ListBranches implements RestReadView<ProjectResource> {
   public static class BranchInfo {
     public String ref;
     public String revision;
-    public Boolean canDelete;
+    public Boolean can_delete;
 
     void setCanDelete(boolean canDelete) {
-      this.canDelete = canDelete ? true : null;
+      this.can_delete = canDelete ? true : null;
     }
   }
 }

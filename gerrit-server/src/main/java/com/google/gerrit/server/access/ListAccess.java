@@ -144,19 +144,19 @@ public class ListAccess implements RestReadView<TopLevelResource> {
 
   public class ProjectAccessInfo {
     public String revision;
-    public ProjectInfo inheritsFrom;
+    public ProjectInfo inherits_from;
     public Map<String, AccessSectionInfo> local;
-    public Boolean isOwner;
-    public Set<String> ownerOf;
-    public Boolean canUpload;
-    public Boolean canAdd;
-    public Boolean configVisible;
+    public Boolean is_owner;
+    public Set<String> owner_of;
+    public Boolean can_upload;
+    public Boolean can_add;
+    public Boolean config_visible;
 
     public ProjectAccessInfo(ProjectControl pc, ProjectConfig config) {
       final RefControl metaConfigControl =
           pc.controlForRef(RefNames.REFS_CONFIG);
       local = Maps.newHashMap();
-      ownerOf = Sets.newHashSet();
+      owner_of = Sets.newHashSet();
       Map<AccountGroup.UUID, Boolean> visibleGroups =
           new HashMap<AccountGroup.UUID, Boolean>();
 
@@ -165,7 +165,7 @@ public class ListAccess implements RestReadView<TopLevelResource> {
         if (AccessSection.GLOBAL_CAPABILITIES.equals(name)) {
           if (pc.isOwner()) {
             local.put(name, new AccessSectionInfo(section));
-            ownerOf.add(name);
+            owner_of.add(name);
 
           } else if (metaConfigControl.isVisible()) {
             local.put(section.getName(), new AccessSectionInfo(section));
@@ -175,7 +175,7 @@ public class ListAccess implements RestReadView<TopLevelResource> {
           RefControl rc = pc.controlForRef(name);
           if (rc.isOwner()) {
             local.put(name, new AccessSectionInfo(section));
-            ownerOf.add(name);
+            owner_of.add(name);
 
           } else if (metaConfigControl.isVisible()) {
             local.put(name, new AccessSectionInfo(section));
@@ -222,11 +222,11 @@ public class ListAccess implements RestReadView<TopLevelResource> {
         }
       }
 
-      if (ownerOf.isEmpty() && pc.isOwnerAnyRef()) {
+      if (owner_of.isEmpty() && pc.isOwnerAnyRef()) {
         // Special case: If the section list is empty, this project has no current
         // access control information. Rely on what ProjectControl determines
         // is ownership, which probably means falling back to site administrators.
-        ownerOf.add(AccessSection.ALL);
+        owner_of.add(AccessSection.ALL);
       }
 
 
@@ -237,20 +237,20 @@ public class ListAccess implements RestReadView<TopLevelResource> {
       ProjectState parent =
           Iterables.getFirst(pc.getProjectState().parents(), null);
       if (parent != null) {
-        inheritsFrom = projectJson.format(parent.getProject());
+        inherits_from = projectJson.format(parent.getProject());
       }
 
       if (pc.getProject().getNameKey().equals(allProjectsName)) {
         if (pc.isOwner()) {
-          ownerOf.add(AccessSection.GLOBAL_CAPABILITIES);
+          owner_of.add(AccessSection.GLOBAL_CAPABILITIES);
         }
       }
 
-      isOwner = toBoolean(pc.isOwner());
-      canUpload = toBoolean(pc.isOwner()
+      is_owner = toBoolean(pc.isOwner());
+      can_upload = toBoolean(pc.isOwner()
           || (metaConfigControl.isVisible() && metaConfigControl.canUpload()));
-      canAdd = toBoolean(pc.canAddRefs());
-      configVisible = pc.isOwner() || metaConfigControl.isVisible();
+      can_add = toBoolean(pc.canAddRefs());
+      config_visible = pc.isOwner() || metaConfigControl.isVisible();
     }
   }
 

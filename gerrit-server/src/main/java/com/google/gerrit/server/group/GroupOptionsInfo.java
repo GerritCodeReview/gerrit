@@ -19,14 +19,14 @@ import com.google.gerrit.common.data.GroupDescriptions;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 
 public class GroupOptionsInfo {
-  public Boolean visibleToAll;
+  public Boolean visible_to_all;
 
   public GroupOptionsInfo(GroupDescription.Basic group) {
     AccountGroup ag = GroupDescriptions.toAccountGroup(group);
-    visibleToAll = ag != null && ag.isVisibleToAll() ? true : null;
+    visible_to_all = ag != null && ag.isVisibleToAll() ? true : null;
   }
 
   public GroupOptionsInfo(AccountGroup group) {
-    visibleToAll = group.isVisibleToAll() ? true : null;
+    visible_to_all = group.isVisibleToAll() ? true : null;
   }
 }

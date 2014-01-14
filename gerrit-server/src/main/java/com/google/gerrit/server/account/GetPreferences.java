@@ -59,38 +59,38 @@ public class GetPreferences implements RestReadView<AccountResource> {
   static class PreferenceInfo {
     final String kind = "gerritcodereview#preferences";
 
-    short changesPerPage;
-    Boolean showSiteHeader;
-    Boolean useFlashClipboard;
-    DownloadScheme downloadScheme;
-    DownloadCommand downloadCommand;
-    Boolean copySelfOnEmail;
-    DateFormat dateFormat;
-    TimeFormat timeFormat;
-    Boolean reversePatchSetOrder;
-    Boolean showUsernameInReviewCategory;
-    Boolean relativeDateInChangeTable;
-    Boolean sizeBarInChangeTable;
-    CommentVisibilityStrategy commentVisibilityStrategy;
-    DiffView diffView;
-    ChangeScreen changeScreen;
+    short changes_per_page;
+    Boolean show_site_header;
+    Boolean use_flash_clipboard;
+    DownloadScheme download_scheme;
+    DownloadCommand download_command;
+    Boolean copy_self_on_email;
+    DateFormat date_format;
+    TimeFormat time_format;
+    Boolean reverse_patch_set_order;
+    Boolean showUsername_in_review_category;
+    Boolean relative_date_in_change_table;
+    Boolean size_bar_in_change_table;
+    CommentVisibilityStrategy comment_visibility_strategy;
+    DiffView diff_view;
+    ChangeScreen change_screen;
 
     PreferenceInfo(AccountGeneralPreferences p) {
-      changesPerPage = p.getMaximumPageSize();
-      showSiteHeader = p.isShowSiteHeader() ? true : null;
-      useFlashClipboard = p.isUseFlashClipboard() ? true : null;
-      downloadScheme = p.getDownloadUrl();
-      downloadCommand = p.getDownloadCommand();
-      copySelfOnEmail = p.isCopySelfOnEmails() ? true : null;
-      dateFormat = p.getDateFormat();
-      timeFormat = p.getTimeFormat();
-      reversePatchSetOrder = p.isReversePatchSetOrder() ? true : null;
-      showUsernameInReviewCategory = p.isShowUsernameInReviewCategory() ? true : null;
-      relativeDateInChangeTable = p.isRelativeDateInChangeTable() ? true : null;
-      sizeBarInChangeTable = p.isSizeBarInChangeTable() ? true : null;
-      commentVisibilityStrategy = p.getCommentVisibilityStrategy();
-      diffView = p.getDiffView();
-      changeScreen = p.getChangeScreen();
+      changes_per_page = p.getMaximumPageSize();
+      show_site_header = p.isShowSiteHeader() ? true : null;
+      use_flash_clipboard = p.isUseFlashClipboard() ? true : null;
+      download_scheme = p.getDownloadUrl();
+      download_command = p.getDownloadCommand();
+      copy_self_on_email = p.isCopySelfOnEmails() ? true : null;
+      date_format = p.getDateFormat();
+      time_format = p.getTimeFormat();
+      reverse_patch_set_order = p.isReversePatchSetOrder() ? true : null;
+      showUsername_in_review_category = p.isShowUsernameInReviewCategory() ? true : null;
+      relative_date_in_change_table = p.isRelativeDateInChangeTable() ? true : null;
+      size_bar_in_change_table = p.isSizeBarInChangeTable() ? true : null;
+      comment_visibility_strategy = p.getCommentVisibilityStrategy();
+      diff_view = p.getDiffView();
+      change_screen = p.getChangeScreen();
     }
   }
 }

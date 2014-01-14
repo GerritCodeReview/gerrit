@@ -59,7 +59,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
   private static final Logger log = LoggerFactory.getLogger(Mergeable.class);
 
   public static class MergeableInfo {
-    public Project.SubmitType submitType;
+    public Project.SubmitType submit_type;
     public boolean mergeable;
   }
 
@@ -102,7 +102,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
       return result;
     }
 
-    result.submitType = submitType.apply(resource);
+    result.submit_type = submitType.apply(resource);
     result.mergeable = change.isMergeable();
 
     Repository git = gitManager.openRepository(change.getProject());
@@ -111,7 +111,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
       Ref ref = refs.get(change.getDest().get());
       if (force || isStale(change, ref)) {
         result.mergeable =
-            refresh(change, ps, result.submitType, git, refs, ref);
+            refresh(change, ps, result.submit_type, git, refs, ref);
       }
     } finally {
       git.close();

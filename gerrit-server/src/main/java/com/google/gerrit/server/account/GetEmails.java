@@ -63,7 +63,7 @@ public class GetEmails implements RestReadView<AccountResource> {
   public static class EmailInfo {
     public String email;
     public Boolean preferred;
-    public Boolean pendingConfirmation;
+    public Boolean pending_confirmation;
 
     void preferred(String e) {
       this.preferred = e != null && e.equals(email) ? true : null;

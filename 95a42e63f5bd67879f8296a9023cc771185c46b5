@@ -1,0 +1,214 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cd5481b3_4319e690",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-14T19:48:59Z",
+      "side": 1,
+      "message": "This commit message misled me into thinking you were standardizing on lower_with_underscore in the server-side classes themselves, which is not the case.\n\nI would emphasize sooner that the point is to reuse the server-side classes. Setting the field naming policy to LOWER_CASE_WITH_UNDERSCORES is a technical detail about how to make this work.",
+      "revId": "95a42e63f5bd67879f8296a9023cc771185c46b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd5481b3_c3db968d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-14T19:48:59Z",
+      "side": 1,
+      "message": "Do you not set the field naming policy here because it\u0027s the default?\n\nAlso, I would definitely put the required type mapping for Timestamp here as well.",
+      "revId": "95a42e63f5bd67879f8296a9023cc771185c46b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd5481b3_e3e01242",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/RestSession.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-14T19:48:59Z",
+      "side": 1,
+      "message": "Do we have any input types that contain Timestamps? I don\u0027t think so, but if we did, this wouldn\u0027t work. Maybe worth putting AbstractDaemonTest.newGson somewhere more common anyway?",
+      "revId": "95a42e63f5bd67879f8296a9023cc771185c46b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd5481b3_a3ea1a1c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/StarredChangesIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-14T19:48:59Z",
+      "side": 1,
+      "message": "This works with Timestamps?",
+      "revId": "95a42e63f5bd67879f8296a9023cc771185c46b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd5481b3_63ed0232",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-14T19:48:59Z",
+      "side": 1,
+      "message": "Alternatively, you could use the API, which as you pointed out to me earlier has a submit() method which waits for merge by default.\n\nBut I can see where it would be weird to have some explicit POSTs and some API usage in the same test class. So this is fine if you prefer.",
+      "revId": "95a42e63f5bd67879f8296a9023cc771185c46b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd5481b3_43f0060b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-14T19:48:59Z",
+      "side": 1,
+      "message": "Should all fit on one line now.",
+      "range": {
+        "startLine": 173,
+        "startChar": 4,
+        "endLine": 175,
+        "endChar": 18
+      },
+      "revId": "95a42e63f5bd67879f8296a9023cc771185c46b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd5481b3_23f70a02",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeMessagesIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-14T19:48:59Z",
+      "side": 1,
+      "message": "This was imported.",
+      "revId": "95a42e63f5bd67879f8296a9023cc771185c46b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd5481b3_c304f632",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeMessagesIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-14T19:48:59Z",
+      "side": 1,
+      "message": "imported",
+      "revId": "95a42e63f5bd67879f8296a9023cc771185c46b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd5481b3_e309f247",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeMessagesIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-14T19:48:59Z",
+      "side": 1,
+      "message": "imported",
+      "revId": "95a42e63f5bd67879f8296a9023cc771185c46b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd5481b3_83fefed6",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeMessagesIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-14T19:48:59Z",
+      "side": 1,
+      "message": "You imported ChangeInfo so import ChangeMessageInfo too?",
+      "revId": "95a42e63f5bd67879f8296a9023cc771185c46b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd5481b3_a303fa25",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/group/AddRemoveGroupMembersIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-14T19:48:59Z",
+      "side": 1,
+      "message": "Long line",
+      "revId": "95a42e63f5bd67879f8296a9023cc771185c46b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8de44952_a1e0fe40",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/group/GetGroupIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-14T19:48:59Z",
+      "side": 1,
+      "message": "GroupInfo.class",
+      "revId": "95a42e63f5bd67879f8296a9023cc771185c46b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0d721958_6d165564",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-14T18:54:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d721958_cd042933",
+      "revId": "b95b06e7493585ef4bad0dc41d460018ba564eed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ed5065a6_7c16f963",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/ChunkManager.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2014-01-14T18:30:46Z",
       "side": 1,
       "message": "usually we don\u0027t use *",
+      "revId": "b95b06e7493585ef4bad0dc41d460018ba564eed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d721958_8dfe21d7",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/ChunkManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-14T18:54:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed5065a6_7c16f963",
       "revId": "b95b06e7493585ef4bad0dc41d460018ba564eed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "0d721958_ad03dd25",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/OverviewBar.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-14T18:54:27Z",
+      "side": 1,
+      "message": "A FocusPanel is kind of hideous to use here. It contains an inner \"hidden\" input field to accept keyboard focus. This thing renders 1px offset from the rest of the box nearly hidden but not quite. On platforms that outline the focused widget (e.g. Mac OS XS) it looks horrible when focus is transferred there and the browser renders the blue outline around it.",
+      "parentUuid": "ed5065a6_1c133573",
+      "revId": "b95b06e7493585ef4bad0dc41d460018ba564eed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d721958_4df0390b",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/OverviewBar.ui.xml",
         "patchSetId": 2
@@ -64,6 +118,30 @@
       "writtenOn": "2014-01-14T18:30:46Z",
       "side": 1,
       "message": "Can you make the alpha 0.5? I couldn\u0027t see 0.25 on my monitor.",
+      "range": {
+        "startLine": 56,
+        "startChar": 44,
+        "endLine": 56,
+        "endChar": 48
+      },
+      "revId": "b95b06e7493585ef4bad0dc41d460018ba564eed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d721958_4d191991",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/OverviewBar.ui.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-14T18:54:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d721958_4df0390b",
       "range": {
         "startLine": 56,
         "startChar": 44,

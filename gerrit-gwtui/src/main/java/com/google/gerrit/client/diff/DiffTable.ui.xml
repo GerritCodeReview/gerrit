@@ -58,11 +58,15 @@ limitations under the License.
     }
     .table td { padding: 0 }
     .a, .b { width: 50% }
-    .overview { width: 10px }
 
-    /* Hide left side scrollbar, right side controls both views. */
-    .a .CodeMirror-scroll { padding-right: 0; }
-    .a .CodeMirror-vscrollbar { display: none !important; }
+    .overview {
+      width: 10px;
+      vertical-align: top;
+    }
+
+    /* Hide scrollbars, OverviewBar controls both views. */
+    .difftable .CodeMirror-scroll { padding-right: 0; }
+    .difftable .CodeMirror-vscrollbar { display: none !important; }
 
     .showLineNumbers .b { border-left: none; }
     .b { border-left: 1px solid #ddd; }

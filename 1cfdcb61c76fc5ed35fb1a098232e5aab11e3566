@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d5efdcf_86504a22",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/doc/BUCK",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-14T23:24:43Z",
+      "side": 1,
+      "message": "acceptance/doc directory can be understood as tests for query of Gerrit documentation. Be more specific?",
+      "revId": "1cfdcb61c76fc5ed35fb1a098232e5aab11e3566",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d5efdcf_a6554611",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/doc/ProjectDocumentationIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-14T23:24:43Z",
+      "side": 1,
+      "message": "That is really cool!\n\ndocFromDraftChange works too. And after removing that draft patch set, it correctly returns 404. I was hoping it would return stale data from the cache. But unfortunately you are checking first if this rev exists, before asking the cache ;-)",
+      "range": {
+        "startLine": 255,
+        "startChar": 14,
+        "endLine": 255,
+        "endChar": 32
+      },
+      "revId": "1cfdcb61c76fc5ed35fb1a098232e5aab11e3566",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d5efdcf_464b3275",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/doc/ProjectDocumentationIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-14T23:24:43Z",
+      "side": 1,
+      "message": "If my pending change is merged before this one, this need to be removed and server-side class used instead.",
+      "range": {
+        "startLine": 308,
+        "startChar": 2,
+        "endLine": 315,
+        "endChar": 3
+      },
+      "revId": "1cfdcb61c76fc5ed35fb1a098232e5aab11e3566",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad6aed63_aa550f11",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/UrlModule.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-14T23:24:43Z",
+      "side": 1,
+      "message": "\"doc\" for project documentation and \"Documentation\" for gerit documentation on line 120 might be confusing.\n\nMay be name project documentatin more specific projectdoc or something?",
+      "revId": "1cfdcb61c76fc5ed35fb1a098232e5aab11e3566",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad6aed63_4a4b3375",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ProjectDocServlet.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-14T23:24:43Z",
+      "side": 1,
+      "message": "This method called in many places for different reasons. Can we be more specific what went wrong by passing a message that gve a hint about the reason?",
+      "range": {
+        "startLine": 253,
+        "startChar": 22,
+        "endLine": 253,
+        "endChar": 55
+      },
+      "revId": "1cfdcb61c76fc5ed35fb1a098232e5aab11e3566",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

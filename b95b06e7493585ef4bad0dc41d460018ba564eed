@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0d721958_cd042933",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2014-01-14T18:30:46Z",
+      "side": 1,
+      "message": "I had no idea what you were trying to do after reading the comment. Though, I ran it locally and found you are replacing the normal scrollbar with one that overlays on top of the diff gutter.",
+      "revId": "b95b06e7493585ef4bad0dc41d460018ba564eed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed5065a6_7c16f963",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/ChunkManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2014-01-14T18:30:46Z",
+      "side": 1,
+      "message": "usually we don\u0027t use *",
+      "revId": "b95b06e7493585ef4bad0dc41d460018ba564eed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed5065a6_1c133573",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/OverviewBar.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2014-01-14T18:30:46Z",
+      "side": 1,
+      "message": "A Label? For what purpose? If it is just to capture events a FocusPanel may make more sense here.",
+      "revId": "b95b06e7493585ef4bad0dc41d460018ba564eed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d721958_4df0390b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/OverviewBar.ui.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2014-01-14T18:30:46Z",
+      "side": 1,
+      "message": "Can you make the alpha 0.5? I couldn\u0027t see 0.25 on my monitor.",
+      "range": {
+        "startLine": 56,
+        "startChar": 44,
+        "endLine": 56,
+        "endChar": 48
+      },
+      "revId": "b95b06e7493585ef4bad0dc41d460018ba564eed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

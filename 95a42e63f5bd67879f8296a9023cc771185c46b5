@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2d5efdcf_0613fa72",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-14T20:11:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd5481b3_4319e690",
+      "revId": "95a42e63f5bd67879f8296a9023cc771185c46b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cd5481b3_c3db968d",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2014-01-14T19:48:59Z",
       "side": 1,
       "message": "Do you not set the field naming policy here because it\u0027s the default?\n\nAlso, I would definitely put the required type mapping for Timestamp here as well.",
+      "revId": "95a42e63f5bd67879f8296a9023cc771185c46b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad6aed63_aa3c2fdf",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-14T20:11:03Z",
+      "side": 1,
+      "message": "I though it is a good idea to reuse the same method for cunstructin Gson instance as used by RestApiServlet. Both are there: NamingPolicy the Timestamp:\n\n  GsonBuilder gb \u003d new GsonBuilder()\n      .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)\n      .registerTypeAdapter(Timestamp.class, new SqlTimestampDeserializer());",
+      "parentUuid": "cd5481b3_c3db968d",
       "revId": "95a42e63f5bd67879f8296a9023cc771185c46b5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "ad6aed63_4a2253bf",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/RestSession.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-14T20:11:03Z",
+      "side": 1,
+      "message": "We don\u0027t. I would let it this way and only chane it once it is broken (We probably would never use Timestamps in input type).",
+      "parentUuid": "cd5481b3_e3e01242",
+      "revId": "95a42e63f5bd67879f8296a9023cc771185c46b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cd5481b3_a3ea1a1c",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/StarredChangesIT.java",
         "patchSetId": 4
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "ad6aed63_6a1f176e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/StarredChangesIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-14T20:11:03Z",
+      "side": 1,
+      "message": "Yeah, the test is green.",
+      "parentUuid": "cd5481b3_a3ea1a1c",
+      "revId": "95a42e63f5bd67879f8296a9023cc771185c46b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cd5481b3_63ed0232",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
         "patchSetId": 4
@@ -81,6 +153,24 @@
       "writtenOn": "2014-01-14T19:48:59Z",
       "side": 1,
       "message": "Alternatively, you could use the API, which as you pointed out to me earlier has a submit() method which waits for merge by default.\n\nBut I can see where it would be weird to have some explicit POSTs and some API usage in the same test class. So this is fine if you prefer.",
+      "revId": "95a42e63f5bd67879f8296a9023cc771185c46b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad6aed63_ea32270e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-14T20:11:03Z",
+      "side": 1,
+      "message": "Yes, it worth doing in the follow up change.",
+      "parentUuid": "cd5481b3_63ed0232",
       "revId": "95a42e63f5bd67879f8296a9023cc771185c46b5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -110,6 +200,30 @@
     },
     {
       "key": {
+        "uuid": "ad6aed63_8a37ebfc",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-14T20:11:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd5481b3_43f0060b",
+      "range": {
+        "startLine": 173,
+        "startChar": 4,
+        "endLine": 175,
+        "endChar": 18
+      },
+      "revId": "95a42e63f5bd67879f8296a9023cc771185c46b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cd5481b3_23f70a02",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeMessagesIT.java",
         "patchSetId": 4
@@ -121,6 +235,24 @@
       "writtenOn": "2014-01-14T19:48:59Z",
       "side": 1,
       "message": "This was imported.",
+      "revId": "95a42e63f5bd67879f8296a9023cc771185c46b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad6aed63_0a2c5bac",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeMessagesIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-14T20:11:03Z",
+      "side": 1,
+      "message": "Bad rebase. Done",
+      "parentUuid": "cd5481b3_23f70a02",
       "revId": "95a42e63f5bd67879f8296a9023cc771185c46b5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -144,6 +276,24 @@
     },
     {
       "key": {
+        "uuid": "ad6aed63_2a291f9d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeMessagesIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-14T20:11:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd5481b3_c304f632",
+      "revId": "95a42e63f5bd67879f8296a9023cc771185c46b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cd5481b3_e309f247",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeMessagesIT.java",
         "patchSetId": 4
@@ -155,6 +305,24 @@
       "writtenOn": "2014-01-14T19:48:59Z",
       "side": 1,
       "message": "imported",
+      "revId": "95a42e63f5bd67879f8296a9023cc771185c46b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d5efdcf_26107663",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeMessagesIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-14T20:11:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd5481b3_e309f247",
       "revId": "95a42e63f5bd67879f8296a9023cc771185c46b5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -178,6 +346,24 @@
     },
     {
       "key": {
+        "uuid": "2d5efdcf_c62de2b0",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeMessagesIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-14T20:11:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd5481b3_83fefed6",
+      "revId": "95a42e63f5bd67879f8296a9023cc771185c46b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cd5481b3_a303fa25",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/group/AddRemoveGroupMembersIT.java",
         "patchSetId": 4
@@ -195,6 +381,24 @@
     },
     {
       "key": {
+        "uuid": "ad6aed63_ca56431f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/group/AddRemoveGroupMembersIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-14T20:11:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd5481b3_a303fa25",
+      "revId": "95a42e63f5bd67879f8296a9023cc771185c46b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8de44952_a1e0fe40",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/group/GetGroupIT.java",
         "patchSetId": 4
@@ -206,6 +410,24 @@
       "writtenOn": "2014-01-14T19:48:59Z",
       "side": 1,
       "message": "GroupInfo.class",
+      "revId": "95a42e63f5bd67879f8296a9023cc771185c46b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad6aed63_ea5b0744",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/group/GetGroupIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-14T20:11:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8de44952_a1e0fe40",
       "revId": "95a42e63f5bd67879f8296a9023cc771185c46b5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

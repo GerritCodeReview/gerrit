@@ -120,14 +120,14 @@ class Labels extends Grid {
         switch (label.status()) {
           case NEED:
             if (current) {
-              statusText.setTitle("Needs " + name);
+              statusText.setInnerText("Needs " + name);
             }
             canSubmit = false;
             break;
           case REJECT:
           case IMPOSSIBLE:
             if (current) {
-              statusText.setTitle("Not " + name);
+              statusText.setInnerText("Not " + name);
             }
             canSubmit = false;
             break;

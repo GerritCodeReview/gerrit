@@ -64,7 +64,6 @@ import net.codemirror.lib.CodeMirror.BeforeSelectionChangeHandler;
 import net.codemirror.lib.CodeMirror.GutterClickHandler;
 import net.codemirror.lib.CodeMirror.LineClassWhere;
 import net.codemirror.lib.CodeMirror.LineHandle;
-import net.codemirror.lib.CodeMirror.Viewport;
 import net.codemirror.lib.Configuration;
 import net.codemirror.lib.KeyMap;
 import net.codemirror.lib.LineCharacter;
@@ -228,7 +227,7 @@ public class SideBySide2 extends Screen {
       }
     });
     setLineLength(prefs.lineLength());
-    diffTable.overview.adjustGutters(cmB);
+    diffTable.overview.refresh();
 
     if (startLine == 0 && diff.meta_b() != null) {
       DiffChunkInfo d = chunkManager.getFirst();
@@ -294,7 +293,6 @@ public class SideBySide2 extends Screen {
     cm.on("beforeSelectionChange", onSelectionChange(cm));
     cm.on("cursorActivity", updateActiveLine(cm));
     cm.on("gutterClick", onGutterClick(cm));
-    cm.on("viewportChange", adjustGutters(cm));
     cm.on("focus", updateActiveLine(cm));
     cm.addKeyMap(KeyMap.create()
         .on("'a'", upToChange(true))
@@ -466,6 +464,7 @@ public class SideBySide2 extends Screen {
 
     cmA = newCM(diff.meta_a(), diff.text_a(), DisplaySide.A, diffTable.cmA);
     cmB = newCM(diff.meta_b(), diff.text_b(), DisplaySide.B, diffTable.cmB);
+    diffTable.overview.init(cmB);
     chunkManager = new ChunkManager(this, cmA, cmB, diffTable.overview);
     skipManager = new SkipManager(this, commentManager);
 
@@ -606,6 +605,7 @@ public class SideBySide2 extends Screen {
       public void run() {
         skipManager.removeAll();
         skipManager.render(context, diff);
+        diffTable.overview.refresh();
       }
     });
   }
@@ -634,21 +634,6 @@ public class SideBySide2 extends Screen {
           LineClassWhere.WRAP, DiffTable.style.activeLine());
       cm.setActiveLine(null);
     }
-  }
-
-  private Runnable adjustGutters(final CodeMirror cm) {
-    return new Runnable() {
-      @Override
-      public void run() {
-        Viewport fromTo = cm.getViewport();
-        int size = fromTo.getTo() - fromTo.getFrom() + 1;
-        if (cm.getOldViewportSize() == size) {
-          return;
-        }
-        cm.setOldViewportSize(size);
-        diffTable.overview.adjustGutters(cmB);
-      }
-    };
   }
 
   private Runnable updateActiveLine(final CodeMirror cm) {
@@ -789,7 +774,7 @@ public class SideBySide2 extends Screen {
     int height = getCodeMirrorHeight();
     cmA.setHeight(height);
     cmB.setHeight(height);
-    diffTable.overview.adjustGutters(cmB);
+    diffTable.overview.refresh();
   }
 
   private int getCodeMirrorHeight() {
@@ -886,7 +871,7 @@ public class SideBySide2 extends Screen {
               public void run() {
                 skipManager.removeAll();
                 chunkManager.reset();
-                diffTable.overview.clearDiffGutters();
+                diffTable.overview.clearDiffMarkers();
                 setShowIntraline(prefs.intralineDifference());
                 render(diff);
                 skipManager.render(prefs.context(), diff);

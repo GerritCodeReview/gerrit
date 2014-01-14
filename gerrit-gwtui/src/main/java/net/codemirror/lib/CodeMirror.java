@@ -64,6 +64,7 @@ public class CodeMirror extends JavaScriptObject {
   public final native void setHeight(double h) /*-{ this.setSize(null, h); }-*/;
   public final native void setHeight(String h) /*-{ this.setSize(null, h); }-*/;
   public final native double defaultCharWidth() /*-{ return this.defaultCharWidth() }-*/;
+  public final native double defaultTextHeight() /*-{ return this.defaultTextHeight() }-*/;
   public final native String getLine(int n) /*-{ return this.getLine(n) }-*/;
 
   public final native void refresh() /*-{ this.refresh(); }-*/;
@@ -166,14 +167,6 @@ public class CodeMirror extends JavaScriptObject {
 
   public final native Viewport getViewport() /*-{
     return this.getViewport();
-  }-*/;
-
-  public final native int getOldViewportSize() /*-{
-    return this.state.oldViewportSize || 0;
-  }-*/;
-
-  public final native void setOldViewportSize(int lines) /*-{
-    this.state.oldViewportSize = lines;
   }-*/;
 
   public final native void operation(Runnable thunk) /*-{

@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d5efdcf_c656421f",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ProjectDocLoader.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-14T23:25:19Z",
+      "side": 1,
+      "message": "I wonder how can we unit test that the cache is actualy working? We can call the resoure twice, but how can we know that it was retrieved from the cache and wasn\u0027t rendered again by markdown?\n\n  @Test\n  @GerritConfig(name\u003d\"site.enableProjectDocs\", value\u003d\"true\")\n  public void getDoc() throws IOException, GitAPIException {\n    pushFactory.create(db, admin.getIdent(), \"Add readme\", \"README.md\", \"read me\")\n        .to(git, \"refs/heads/master\");\n\n    HttpResponse r \u003d httpSession.get(\"/doc/\" + project.get() + \"/README.html\");\n    String not_from_cache \u003d r.getEntityContent();\n    r \u003d httpSession.get(\"/doc/\" + project.get() + \"/README.html\");\n    String from_cache \u003d r.getEntityContent();\n    // how can we do this?\n    assertTrue(\"document was retrieved from cache\");\n  }",
+      "range": {
+        "startLine": 79,
+        "startChar": 18,
+        "endLine": 79,
+        "endChar": 49
+      },
+      "revId": "aedb7f11c9d65af77caaf170a9cf7f8f6c823b0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d5efdcf_2629569d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ProjectDocServlet.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-14T23:25:19Z",
+      "side": 1,
+      "message": "docCache?",
+      "range": {
+        "startLine": 62,
+        "startChar": 9,
+        "endLine": 62,
+        "endChar": 22
+      },
+      "revId": "aedb7f11c9d65af77caaf170a9cf7f8f6c823b0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad6aed63_ca7723b6",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ProjectDocServlet.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-14T23:25:19Z",
+      "side": 1,
+      "message": "I had to look into test and debug to understand what this condition is for.\n\nMay be it would be simpler, if this part of servlet lines 73 - 126 just extract all the needed parts:\n\n* rev\n* path\n* project\n\nand the whole checks and redirects and error reporting occurs later, in one place?",
+      "range": {
+        "startLine": 110,
+        "startChar": 6,
+        "endLine": 116,
+        "endChar": 7
+      },
+      "revId": "aedb7f11c9d65af77caaf170a9cf7f8f6c823b0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d5efdcf_a63c66df",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ProjectDocServlet.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-14T23:25:19Z",
+      "side": 1,
+      "message": "Objects.firstNonNull(rev, Constants.HEAD)",
+      "range": {
+        "startLine": 152,
+        "startChar": 38,
+        "endLine": 152,
+        "endChar": 72
+      },
+      "revId": "aedb7f11c9d65af77caaf170a9cf7f8f6c823b0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

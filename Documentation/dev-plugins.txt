@@ -754,18 +754,14 @@ public class MyListener implements GitReferenceUpdatedListener {
 
   @Override
   public void onGitReferenceUpdated(Event event) {
-    if (event.getRefName().equals(GitRepositoryManager.REF_CONFIG)) {
+    if (event.getRefName().equals(RefNames.REFS_CONFIG)) {
       Project.NameKey p = new Project.NameKey(event.getProjectName());
       try {
-        ProjectConfig oldCfg =
-            ProjectConfig.read(metaDataUpdateFactory.create(p),
-                ObjectId.fromString(event.getOldObjectId()));
-        ProjectConfig newCfg =
-            ProjectConfig.read(metaDataUpdateFactory.create(p),
-                ObjectId.fromString(event.getNewObjectId()));
+        ProjectConfig oldCfg = parseConfig(p, event.getOldObjectId());
+        ProjectConfig newCfg = parseConfig(p, event.getNewObjectId());
 
-        if (!oldCfg.getProject().getSubmitType().equals(
-            newCfg.getProject().getSubmitType())) {
+        if (oldCfg != null && newCfg != null
+            && !oldCfg.getProject().getSubmitType().equals(newCfg.getProject().getSubmitType())) {
           // submit type has changed
           ...
         }
@@ -773,6 +769,15 @@ public class MyListener implements GitReferenceUpdatedListener {
         ...
       }
     }
+  }
+
+  private ProjectConfig parseConfig(Project.NameKey p, String idStr)
+      throws IOException, ConfigInvalidException, RepositoryNotFoundException {
+    ObjectId id = ObjectId.fromString(idStr);
+    if (ObjectId.zeroId().equals(id)) {
+      return null;
+    }
+    return ProjectConfig.read(metaDataUpdateFactory.create(p), id);
   }
 }
 ----

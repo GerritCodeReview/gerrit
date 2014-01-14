@@ -168,14 +168,6 @@ public class CodeMirror extends JavaScriptObject {
     return this.getViewport();
   }-*/;
 
-  public final native int getOldViewportSize() /*-{
-    return this.state.oldViewportSize || 0;
-  }-*/;
-
-  public final native void setOldViewportSize(int lines) /*-{
-    this.state.oldViewportSize = lines;
-  }-*/;
-
   public final native void operation(Runnable thunk) /*-{
     this.operation(function() {
       thunk.@java.lang.Runnable::run()();

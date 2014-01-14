@@ -763,13 +763,14 @@ public class ChangeScreen2 extends Screen {
     lastDisplayedUpdate = info.updated();
     boolean current = info.status().isOpen()
         && revision.equals(info.current_revision());
-    boolean canSubmit = labels.set(info, current);
 
     if (!current && info.status() == Change.Status.NEW) {
       statusText.setInnerText(Util.C.notCurrent());
+      labels.setVisible(false);
     } else {
       statusText.setInnerText(Util.toLongString(info.status()));
     }
+    boolean canSubmit = labels.set(info, current);
 
     renderOwner(info);
     renderActionTextDate(info);

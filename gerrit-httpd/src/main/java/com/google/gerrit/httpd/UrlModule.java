@@ -21,6 +21,7 @@ import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.httpd.raw.CatServlet;
 import com.google.gerrit.httpd.raw.HostPageServlet;
 import com.google.gerrit.httpd.raw.LegacyGerritServlet;
+import com.google.gerrit.httpd.raw.ProjectDocServlet;
 import com.google.gerrit.httpd.raw.RobotsServlet;
 import com.google.gerrit.httpd.raw.SshInfoServlet;
 import com.google.gerrit.httpd.raw.StaticServlet;
@@ -55,10 +56,12 @@ import javax.servlet.http.HttpServletResponse;
 class UrlModule extends ServletModule {
   static class UrlConfig {
     private final boolean deprecatedQuery;
+    private final boolean enableSrcToMarkdown;
 
     @Inject
     UrlConfig(@GerritServerConfig Config cfg) {
       deprecatedQuery = cfg.getBoolean("site", "enableDeprecatedQuery", true);
+      enableSrcToMarkdown = cfg.getBoolean("site", "enableSrcToMarkdown", false);
     }
   }
 
@@ -110,6 +113,9 @@ class UrlModule extends ServletModule {
     serveRegex("^/(?:a/)?config/(.*)$").with(ConfigRestApiServlet.class);
     serveRegex("^/(?:a/)?groups/(.*)?$").with(GroupsRestApiServlet.class);
     serveRegex("^/(?:a/)?projects/(.*)?$").with(ProjectsRestApiServlet.class);
+    if (cfg.enableSrcToMarkdown) {
+      serveRegex("^/(?:a/)?src/(.*)?$").with(ProjectDocServlet.class);
+    }
 
     filter("/Documentation/").through(QueryDocumentationFilter.class);
 

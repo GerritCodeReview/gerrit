@@ -2627,6 +2627,13 @@ If true the deprecated `/query` URL is available to return JSON
 and text results for changes. If false, the URL is disabled and
 returns 404 to clients. Default is true, enabling `/query`.
 
+[[site.enableSrcToMarkdown]]site.enableSrcToMarkdown::
++
+If true Gerrit automatically serves project documentation under
+`/src/<project-name>/<file-name>`. This is an experimental feature.
++
+Default is false, no serving of project documentation.
+
 [[ssh-alias]]
 === Section ssh-alias
 

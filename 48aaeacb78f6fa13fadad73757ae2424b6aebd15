@@ -22,6 +22,24 @@
       "revId": "48aaeacb78f6fa13fadad73757ae2424b6aebd15",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d5efdcf_e609fe47",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/GetRelatedIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-14T11:35:59Z",
+      "side": 1,
+      "message": "Yes, it was bad rebase. This file shouldn\u0027t be changed in this commit at all, only in the follow-up commit. \nServer version of ChangeAndCommit was adjusted in this commit:\n\n  https://gerrit-review.googlesource.com/#/c/53710/1/gerrit-server/src/main/java/com/google/gerrit/server/change/GetRelated.java\n\nBut this file still references the acceptance test (unchanged) own copy of this file, that was removed in the follow-up change. Will fix it later today, unless you can fix it earlier? ;-)",
+      "parentUuid": "ad6aed63_2af7df01",
+      "revId": "48aaeacb78f6fa13fadad73757ae2424b6aebd15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

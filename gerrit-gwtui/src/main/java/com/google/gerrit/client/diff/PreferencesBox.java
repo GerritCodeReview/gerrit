@@ -69,6 +69,7 @@ class PreferencesBox extends Composite {
   @UiField Anchor close;
   @UiField ListBox ignoreWhitespace;
   @UiField NpIntTextBox tabWidth;
+  @UiField NpIntTextBox lineLength;
   @UiField NpIntTextBox context;
   @UiField CheckBox contextEntireFile;
   @UiField ToggleButton intralineDifference;
@@ -120,6 +121,7 @@ class PreferencesBox extends Composite {
 
     setIgnoreWhitespace(prefs.ignoreWhitespace());
     tabWidth.setIntValue(prefs.tabSize());
+    lineLength.setIntValue(prefs.lineLength());
     syntaxHighlighting.setValue(prefs.syntaxHighlighting());
     whitespaceErrors.setValue(prefs.showWhitespaceErrors());
     showTabs.setValue(prefs.showTabs());
@@ -225,6 +227,19 @@ class PreferencesBox extends Composite {
     }
   }
 
+  @UiHandler("lineLength")
+  void onLineLength(ValueChangeEvent<String> e) {
+    String v = e.getValue();
+    if (v != null && v.length() > 0) {
+      prefs.lineLength(Math.max(1, Integer.parseInt(v)));
+      view.operation(new Runnable() {
+        @Override
+        public void run() {
+          view.setLineLength(prefs.lineLength());
+        }
+      });
+    }
+  }
   @UiHandler("expandAllComments")
   void onExpandAllComments(ValueChangeEvent<Boolean> e) {
     prefs.expandAllComments(e.getValue());

@@ -24,7 +24,6 @@ limitations under the License.
     position: relative;
     height: 16px;
     line-height: 16px;
-    max-width: 1484px;
   }
   .reviewed input {
     margin: 0;

@@ -29,7 +29,6 @@ limitations under the License.
     }
 
     .difftable {
-      max-width: 1484px;
       -webkit-touch-callout: none;
       -webkit-user-select: none;
       -khtml-user-select: none;
@@ -52,23 +51,14 @@ limitations under the License.
       padding-bottom: 1px;
     }
 
-    .contentCell {
-      padding: 0;
-    }
-    .sidePanelCell {
-      padding: 0;
-      width: 10px;
-    }
     .table {
       width: 100%;
       table-layout: fixed;
       border-spacing: 0;
     }
-
-    .a, .b {
-      padding: 0;
-      width: 50%;
-    }
+    .table td { padding: 0 }
+    .a, .b { width: 50% }
+    .sidePanelCell { width: 10px }
 
     /* Hide left side scrollbar, right side controls both views. */
     .a .CodeMirror-scroll { padding-right: 0; }
@@ -84,7 +74,7 @@ limitations under the License.
     .noIntraline .a .intralineBg { background-color: #faa; }
     .noIntraline .b .intralineBg { background-color: #9f9; }
 
-    .fileCommentRow {
+    .patchSetNav {
       background-color: #f7f7f7;
       line-height: 1;
     }
@@ -130,26 +120,30 @@ limitations under the License.
       margin-left: 21px;
       border-left: 2px solid #d64040;
     }
+    .columnMargin {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 0;
+      border-right: 1px dashed #ffa500;
+      z-index: 2;
+      cursor: text;
+    }
   </ui:style>
   <g:HTMLPanel styleName='{style.difftable}'>
     <table class='{style.table}'>
-      <tr>
-        <td class='{style.contentCell}'>
-          <table class='{style.table}'>
-            <tr ui:field='patchSetNavRow' class='{style.fileCommentRow}'>
-              <td ui:field='patchSetNavCellA'>
-                <d:PatchSetSelectBox2 ui:field='patchSetSelectBoxA' />
-              </td>
-              <td ui:field='patchSetNavCellB'>
-                <d:PatchSetSelectBox2 ui:field='patchSetSelectBoxB' />
-              </td>
-            </tr>
-            <tr>
-              <td ui:field='cmA' class='{style.a}'></td>
-              <td ui:field='cmB' class='{style.b}'></td>
-            </tr>
-          </table>
+      <tr ui:field='patchSetNavRow' class='{style.patchSetNav}'>
+        <td ui:field='patchSetNavCellA'>
+          <d:PatchSetSelectBox2 ui:field='patchSetSelectBoxA' />
         </td>
+        <td ui:field='patchSetNavCellB'>
+          <d:PatchSetSelectBox2 ui:field='patchSetSelectBoxB' />
+        </td>
+        <td class='{style.sidePanelCell}' />
+      </tr>
+      <tr>
+        <td ui:field='cmA' class='{style.a}' />
+        <td ui:field='cmB' class='{style.b}' />
         <td class='{style.sidePanelCell}'><d:SidePanel ui:field='sidePanel'/></td>
       </tr>
     </table>

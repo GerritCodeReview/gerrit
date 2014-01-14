@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.diff;
 
+import static com.google.gerrit.client.diff.OverviewBar.MarkType.*;
 import com.google.gerrit.client.diff.DiffInfo.Region;
 import com.google.gerrit.client.diff.DiffInfo.Span;
 import com.google.gerrit.client.rpc.Natives;
@@ -143,11 +144,11 @@ class ChunkManager {
 
   private void addGutterTag(Region region, int startA, int startB) {
     if (region.a() == null) {
-      sidePanel.addGutter(cmB, startB, OverviewBar.GutterType.INSERT);
+      sidePanel.add(cmB, startB, region.b().length(), INSERT);
     } else if (region.b() == null) {
-      sidePanel.addGutter(cmA, startA, OverviewBar.GutterType.DELETE);
+      sidePanel.add(cmA, startA, region.a().length(), DELETE);
     } else {
-      sidePanel.addGutter(cmB, startB, OverviewBar.GutterType.EDIT);
+      sidePanel.add(cmB, startB, region.b().length(), EDIT);
     }
   }
 

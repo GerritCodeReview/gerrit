@@ -99,12 +99,28 @@ public class RevisionIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void reviewId() throws GitAPIException,
+  public void reviewCurrent() throws GitAPIException,
       IOException, RestApiException {
     PushOneCommit.Result r = createChange();
     gApi.changes()
         .id(r.getChangeId())
         .current()
+        .review(approve());
+  }
+
+  @Test
+  public void reviewNumber() throws GitAPIException,
+      IOException, RestApiException {
+    PushOneCommit.Result r = createChange();
+    gApi.changes()
+        .id(r.getChangeId())
+        .revision(1)
+        .review(approve());
+
+    r = updateChange(r, "new content");
+    gApi.changes()
+        .id(r.getChangeId())
+        .revision(2)
         .review(approve());
   }
 
@@ -155,7 +171,15 @@ public class RevisionIT extends AbstractDaemonTest {
 
   private PushOneCommit.Result createChange() throws GitAPIException,
       IOException {
-    PushOneCommit push = pushFactory.create(db, admin.getIdent());
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(),
+        "test commit", "a.txt", "some content");
+    return push.to(git, "refs/for/master");
+  }
+
+  private PushOneCommit.Result updateChange(PushOneCommit.Result r,
+      String content) throws GitAPIException, IOException {
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(),
+        "test commit", "a.txt", content, r.getChangeId());
     return push.to(git, "refs/for/master");
   }
 

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ad6aed63_2af7df01",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/GetRelatedIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-14T10:58:34Z",
+      "side": 1,
+      "message": "This doesn\u0027t compile since the ChangeAndCommit class has not been converted to LOWER_CASE_WITH_UNDERSCORES.",
+      "range": {
+        "startLine": 110,
+        "startChar": 85,
+        "endLine": 110,
+        "endChar": 94
+      },
+      "revId": "48aaeacb78f6fa13fadad73757ae2424b6aebd15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

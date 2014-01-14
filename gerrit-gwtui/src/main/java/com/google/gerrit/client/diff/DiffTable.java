@@ -46,12 +46,13 @@ class DiffTable extends Composite {
     String rangeHighlight();
     String showTabs();
     String showLineNumbers();
+    String columnMargin();
     String padding();
   }
 
   @UiField Element cmA;
   @UiField Element cmB;
-  @UiField SidePanel sidePanel;
+  @UiField OverviewBar overview;
   @UiField Element patchSetNavRow;
   @UiField Element patchSetNavCellA;
   @UiField Element patchSetNavCellB;

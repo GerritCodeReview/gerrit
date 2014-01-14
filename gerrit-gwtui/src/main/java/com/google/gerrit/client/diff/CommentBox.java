@@ -15,7 +15,7 @@
 package com.google.gerrit.client.diff;
 
 import com.google.gerrit.client.changes.CommentInfo;
-import com.google.gerrit.client.diff.SidePanel.GutterWrapper;
+import com.google.gerrit.client.diff.OverviewBar.GutterWrapper;
 import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;

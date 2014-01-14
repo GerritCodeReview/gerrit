@@ -40,7 +40,7 @@ class ChunkManager {
   private final SideBySide2 host;
   private final CodeMirror cmA;
   private final CodeMirror cmB;
-  private final SidePanel sidePanel;
+  private final OverviewBar sidePanel;
   private final LineMapper mapper;
 
   private List<DiffChunkInfo> chunks;
@@ -51,7 +51,7 @@ class ChunkManager {
   ChunkManager(SideBySide2 host,
       CodeMirror cmA,
       CodeMirror cmB,
-      SidePanel sidePanel) {
+      OverviewBar sidePanel) {
     this.host = host;
     this.cmA = cmA;
     this.cmB = cmB;
@@ -143,11 +143,11 @@ class ChunkManager {
 
   private void addGutterTag(Region region, int startA, int startB) {
     if (region.a() == null) {
-      sidePanel.addGutter(cmB, startB, SidePanel.GutterType.INSERT);
+      sidePanel.addGutter(cmB, startB, OverviewBar.GutterType.INSERT);
     } else if (region.b() == null) {
-      sidePanel.addGutter(cmA, startA, SidePanel.GutterType.DELETE);
+      sidePanel.addGutter(cmA, startA, OverviewBar.GutterType.DELETE);
     } else {
-      sidePanel.addGutter(cmB, startB, SidePanel.GutterType.EDIT);
+      sidePanel.addGutter(cmB, startB, OverviewBar.GutterType.EDIT);
     }
   }
 

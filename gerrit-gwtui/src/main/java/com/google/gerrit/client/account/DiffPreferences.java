@@ -26,6 +26,7 @@ public class DiffPreferences extends JavaScriptObject {
     }
     p.ignoreWhitespace(in.getIgnoreWhitespace());
     p.tabSize(in.getTabSize());
+    p.lineLength(in.getLineLength());
     p.context(in.getContext());
     p.intralineDifference(in.isIntralineDifference());
     p.showLineEndings(in.isShowLineEndings());
@@ -43,6 +44,7 @@ public class DiffPreferences extends JavaScriptObject {
   public final void copyTo(AccountDiffPreference p) {
     p.setIgnoreWhitespace(ignoreWhitespace());
     p.setTabSize(tabSize());
+    p.setLineLength(lineLength());
     p.setContext((short)context());
     p.setIntralineDifference(intralineDifference());
     p.setShowLineEndings(showLineEndings());
@@ -62,6 +64,7 @@ public class DiffPreferences extends JavaScriptObject {
   private final native void setIgnoreWhitespaceRaw(String i) /*-{ this.ignore_whitespace = i }-*/;
 
   public final native void tabSize(int t) /*-{ this.tab_size = t }-*/;
+  public final native void lineLength(int c) /*-{ this.line_length = c }-*/;
   public final native void context(int c) /*-{ this.context = c }-*/;
   public final native void intralineDifference(boolean i) /*-{ this.intraline_difference = i }-*/;
   public final native void showLineEndings(boolean s) /*-{ this.show_line_endings = s }-*/;
@@ -83,6 +86,7 @@ public class DiffPreferences extends JavaScriptObject {
 
   public final int tabSize() {return get("tab_size", 8); }
   public final int context() {return get("context", 10); }
+  public final int lineLength() {return get("line_length", 100); }
   public final native boolean intralineDifference() /*-{ return this.intraline_difference || false }-*/;
   public final native boolean showLineEndings() /*-{ return this.show_line_endings || false }-*/;
   public final native boolean showTabs() /*-{ return this.show_tabs || false }-*/;

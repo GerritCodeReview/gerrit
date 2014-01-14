@@ -42,6 +42,7 @@ import com.google.gwt.core.client.Scheduler.RepeatingCommand;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.logical.shared.ResizeEvent;
@@ -49,6 +50,7 @@ import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -95,6 +97,8 @@ public class SideBySide2 extends Screen {
 
   private CodeMirror cmA;
   private CodeMirror cmB;
+  private Element columnMarginA;
+  private Element columnMarginB;
   private HandlerRegistration resizeHandler;
   private DiffInfo diff;
   private boolean largeFile;
@@ -223,7 +227,8 @@ public class SideBySide2 extends Screen {
         cmB.refresh();
       }
     });
-    diffTable.sidePanel.adjustGutters(cmB);
+    setLineLength(prefs.lineLength());
+    diffTable.overview.adjustGutters(cmB);
 
     if (startLine == 0 && diff.meta_b() != null) {
       DiffChunkInfo d = chunkManager.getFirst();
@@ -461,8 +466,15 @@ public class SideBySide2 extends Screen {
 
     cmA = newCM(diff.meta_a(), diff.text_a(), DisplaySide.A, diffTable.cmA);
     cmB = newCM(diff.meta_b(), diff.text_b(), DisplaySide.B, diffTable.cmB);
-    chunkManager = new ChunkManager(this, cmA, cmB, diffTable.sidePanel);
+    chunkManager = new ChunkManager(this, cmA, cmB, diffTable.overview);
     skipManager = new SkipManager(this, commentManager);
+
+    columnMarginA = DOM.createDiv();
+    columnMarginB = DOM.createDiv();
+    columnMarginA.setClassName(DiffTable.style.columnMargin());
+    columnMarginB.setClassName(DiffTable.style.columnMargin());
+    cmA.getMoverElement().appendChild(columnMarginA);
+    cmB.getMoverElement().appendChild(columnMarginB);
 
     operation(new Runnable() {
       public void run() {
@@ -528,6 +540,16 @@ public class SideBySide2 extends Screen {
     } else {
       diffTable.removeStyleName(DiffTable.style.showTabs());
     }
+  }
+
+  void setLineLength(int columns) {
+    columnMarginA.getStyle().setMarginLeft(
+        columns * cmA.defaultCharWidth()
+        + cmA.getGutterElement().getOffsetWidth(), Unit.PX);
+
+    columnMarginB.getStyle().setMarginLeft(
+        columns * cmB.defaultCharWidth()
+        + cmB.getGutterElement().getOffsetWidth(), Unit.PX);
   }
 
   void setShowLineNumbers(boolean b) {
@@ -624,7 +646,7 @@ public class SideBySide2 extends Screen {
           return;
         }
         cm.setOldViewportSize(size);
-        diffTable.sidePanel.adjustGutters(cmB);
+        diffTable.overview.adjustGutters(cmB);
       }
     };
   }
@@ -767,7 +789,7 @@ public class SideBySide2 extends Screen {
     int height = getCodeMirrorHeight();
     cmA.setHeight(height);
     cmB.setHeight(height);
-    diffTable.sidePanel.adjustGutters(cmB);
+    diffTable.overview.adjustGutters(cmB);
   }
 
   private int getCodeMirrorHeight() {
@@ -864,7 +886,7 @@ public class SideBySide2 extends Screen {
               public void run() {
                 skipManager.removeAll();
                 chunkManager.reset();
-                diffTable.sidePanel.clearDiffGutters();
+                diffTable.overview.clearDiffGutters();
                 setShowIntraline(prefs.intralineDifference());
                 render(diff);
                 skipManager.render(prefs.context(), diff);

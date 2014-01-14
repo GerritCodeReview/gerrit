@@ -52,7 +52,7 @@ class DiffTable extends Composite {
 
   @UiField Element cmA;
   @UiField Element cmB;
-  @UiField SidePanel sidePanel;
+  @UiField OverviewBar overview;
   @UiField Element patchSetNavRow;
   @UiField Element patchSetNavCellA;
   @UiField Element patchSetNavCellB;

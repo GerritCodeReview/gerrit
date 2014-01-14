@@ -157,10 +157,10 @@ class CommentManager {
             getPatchSetIdFromSide(side),
             info);
         group.add(box);
-        box.setGutterWrapper(host.diffTable.sidePanel.addGutter(
+        box.setGutterWrapper(host.diffTable.overview.addGutter(
             host.getCmFromSide(side),
             Math.max(0, info.line() - 1),
-            SidePanel.GutterType.COMMENT));
+            OverviewBar.GutterType.COMMENT));
         published.put(info.id(), box);
       }
     }
@@ -220,10 +220,10 @@ class CommentManager {
     }
 
     group.add(box);
-    box.setGutterWrapper(host.diffTable.sidePanel.addGutter(
+    box.setGutterWrapper(host.diffTable.overview.addGutter(
         host.getCmFromSide(side),
         Math.max(0, info.line() - 1),
-        SidePanel.GutterType.DRAFT));
+        OverviewBar.GutterType.DRAFT));
     return box;
   }
 

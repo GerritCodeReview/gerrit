@@ -35,12 +35,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-/** The Widget that handles the scrollbar gutters */
-class SidePanel extends Composite {
-  interface Binder extends UiBinder<HTMLPanel, SidePanel> {}
+/** Displays overview of all edits and comments in this file. */
+class OverviewBar extends Composite {
+  interface Binder extends UiBinder<HTMLPanel, OverviewBar> {}
   private static final Binder uiBinder = GWT.create(Binder.class);
 
-  interface SidePanelStyle extends CssResource {
+  interface Style extends CssResource {
     String gutter();
     String halfGutter();
     String comment();
@@ -54,14 +54,14 @@ class SidePanel extends Composite {
   }
 
   @UiField
-  SidePanelStyle style;
+  Style style;
 
   private List<GutterWrapper> gutters;
   private CodeMirror cmB;
 
-  SidePanel() {
+  OverviewBar() {
     initWidget(uiBinder.createAndBindUi(this));
-    this.gutters = new ArrayList<GutterWrapper>();
+    gutters = new ArrayList<GutterWrapper>();
   }
 
   GutterWrapper addGutter(CodeMirror cm, int line, GutterType type) {
@@ -151,14 +151,14 @@ class SidePanel extends Composite {
   }
 
   static class GutterWrapper {
-    private SidePanel host;
+    private OverviewBar host;
     private Label gutter;
     private CodeMirror cm;
     private int line;
     private HandlerRegistration regClick;
     private GutterType type;
 
-    GutterWrapper(SidePanel host, Label anchor, CodeMirror cm, int line,
+    GutterWrapper(OverviewBar host, Label anchor, CodeMirror cm, int line,
         GutterType type) {
       this.host = host;
       this.gutter = anchor;

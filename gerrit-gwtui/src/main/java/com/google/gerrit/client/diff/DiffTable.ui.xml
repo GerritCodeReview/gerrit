@@ -58,7 +58,7 @@ limitations under the License.
     }
     .table td { padding: 0 }
     .a, .b { width: 50% }
-    .sidePanelCell { width: 10px }
+    .overview { width: 10px }
 
     /* Hide left side scrollbar, right side controls both views. */
     .a .CodeMirror-scroll { padding-right: 0; }
@@ -139,12 +139,12 @@ limitations under the License.
         <td ui:field='patchSetNavCellB'>
           <d:PatchSetSelectBox2 ui:field='patchSetSelectBoxB' />
         </td>
-        <td class='{style.sidePanelCell}' />
+        <td class='{style.overview}' />
       </tr>
       <tr>
         <td ui:field='cmA' class='{style.a}' />
         <td ui:field='cmB' class='{style.b}' />
-        <td class='{style.sidePanelCell}'><d:SidePanel ui:field='sidePanel'/></td>
+        <td class='{style.overview}'><d:OverviewBar ui:field='overview'/></td>
       </tr>
     </table>
     <g:FlowPanel ui:field='widgets' visible='false'/>

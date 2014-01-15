@@ -343,6 +343,12 @@ public class SideBySide2 extends Screen {
             CodeMirror.handleVimKey(cm, "<PageDown>");
           }
         })
+        .on("Shift-Space", new Runnable() {
+          @Override
+          public void run() {
+            CodeMirror.handleVimKey(cm, "<PageUp>");
+          }
+        })
         .on("Ctrl-A", new Runnable() {
           @Override
           public void run() {

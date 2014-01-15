@@ -114,6 +114,40 @@
       "revId": "aedb7f11c9d65af77caaf170a9cf7f8f6c823b0f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4dbc1132_6f139172",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ProjectDocServlet.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-15T11:28:02Z",
+      "side": 1,
+      "message": "In second thought, why not to use ETags here, check for \"If-None-Match\" and return status 304 Not Modified instead of always returning the same response for unchanged resources?\n\nThat way we can also write a unit test and teach HttpSession to honor ETags and check, that the document was unchanged \u003d\u003d HTTP status 304.",
+      "revId": "aedb7f11c9d65af77caaf170a9cf7f8f6c823b0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2da19d0c_6e138f72",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/resources/SmallResource.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-15T11:28:02Z",
+      "side": 1,
+      "message": "Derive BigResource or some such from this class or from Resource, and make it cacheable?",
+      "revId": "aedb7f11c9d65af77caaf170a9cf7f8f6c823b0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

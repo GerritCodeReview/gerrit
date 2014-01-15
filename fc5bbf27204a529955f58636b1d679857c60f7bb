@@ -740,6 +740,24 @@
     },
     {
       "key": {
+        "uuid": "2da19d0c_4e105364",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/secure/SecureStoreLoadUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-01-15T11:28:53Z",
+      "side": 1,
+      "message": "I did refactoring in AutoRegisterModules: https://gerrit-review.googlesource.com/53750",
+      "parentUuid": "682c637b_887897a8",
+      "revId": "fc5bbf27204a529955f58636b1d679857c60f7bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "685383fd_d0f07cbe",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/secure/SecureStoreLoadUtil.java",
         "patchSetId": 4

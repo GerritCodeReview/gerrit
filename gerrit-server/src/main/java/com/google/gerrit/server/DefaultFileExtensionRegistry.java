@@ -30,6 +30,7 @@ public class DefaultFileExtensionRegistry extends MimeDetector {
   private static final MimeType INI = newMimeType("text/x-ini", 2);
   private static final MimeType PYTHON = newMimeType("text/x-python", 2);
   private static final MimeType PERL = newMimeType("text/x-perl", 2);
+  private static final MimeType LISP = newMimeType("text/x-common-lisp", 2);
 
   private static final ImmutableMap<String, MimeType> TYPES =
     ImmutableMap.<String,MimeType>builder()
@@ -45,6 +46,10 @@ public class DefaultFileExtensionRegistry extends MimeDetector {
       .put("pl", PERL)
       .put("pm", PERL)
       .put("rb", newMimeType("text/x-ruby", 2))
+      .put("cl", LISP)
+      .put("el", LISP)
+      .put("lisp", LISP)
+      .put("lsp", LISP)
       .build();
 
   private static MimeType newMimeType(String type, final int specificity) {

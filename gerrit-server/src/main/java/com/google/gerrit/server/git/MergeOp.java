@@ -25,7 +25,6 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.CheckedFuture;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.Nullable;
@@ -38,8 +37,8 @@ import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.Project.SubmitType;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
@@ -52,7 +51,6 @@ import com.google.gerrit.server.git.validators.MergeValidators;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.mail.MergeFailSender;
 import com.google.gerrit.server.mail.MergedSender;
-
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
@@ -131,7 +129,6 @@ public class MergeOp {
   private final SchemaFactory<ReviewDb> schemaFactory;
   private final ChangeNotes.Factory notesFactory;
   private final ProjectCache projectCache;
-  private final LabelNormalizer labelNormalizer;
   private final GitReferenceUpdated gitRefUpdated;
   private final MergedSender.Factory mergedSenderFactory;
   private final MergeFailSender.Factory mergeFailSenderFactory;
@@ -169,7 +166,7 @@ public class MergeOp {
   @Inject
   MergeOp(final GitRepositoryManager grm, final SchemaFactory<ReviewDb> sf,
       final ChangeNotes.Factory nf,
-      final ProjectCache pc, final LabelNormalizer fs,
+      final ProjectCache pc,
       final GitReferenceUpdated gru, final MergedSender.Factory msf,
       final MergeFailSender.Factory mfsf,
       final PatchSetInfoFactory psif, final IdentifiedUser.GenericFactory iuf,
@@ -187,7 +184,6 @@ public class MergeOp {
     repoManager = grm;
     schemaFactory = sf;
     notesFactory = nf;
-    labelNormalizer = fs;
     projectCache = pc;
     gitRefUpdated = gru;
     mergedSenderFactory = msf;
@@ -829,7 +825,8 @@ public class MergeOp {
       CodeReviewCommit commit = commits.get(c.getId());
       PatchSet.Id merged = commit.getChange().currentPatchSetId();
       c = setMergedPatchSet(c.getId(), merged);
-      PatchSetApproval submitter = saveApprovals(c, commit.notes, merged);
+      PatchSetApproval submitter =
+          approvalsUtil.getSubmitter(db, commit.notes, merged);
       addMergedMessage(submitter, msg);
 
       db.commit();
@@ -874,44 +871,6 @@ public class MergeOp {
         return c;
       }
     });
-  }
-
-  private PatchSetApproval saveApprovals(Change c, ChangeNotes notes,
-      PatchSet.Id merged) throws OrmException {
-    // Flatten out existing approvals for this patch set based upon the current
-    // permissions. Once the change is closed the approvals are not updated at
-    // presentation view time, except for zero votes used to indicate a reviewer
-    // was added. So we need to make sure votes are accurate now. This way if
-    // permissions get modified in the future, historical records stay accurate.
-    PatchSetApproval submitter = null;
-    try {
-      List<PatchSetApproval> approvals =
-          approvalsUtil.byPatchSet(db, notes, merged);
-      Set<PatchSetApproval.Key> toDelete =
-          Sets.newHashSetWithExpectedSize(approvals.size());
-      for (PatchSetApproval a : approvals) {
-        if (a.getValue() != 0) {
-          toDelete.add(a.getKey());
-        }
-      }
-
-      approvals = labelNormalizer.normalize(c, approvals);
-      for (PatchSetApproval a : approvals) {
-        toDelete.remove(a.getKey());
-        if (a.getValue() > 0 && a.isSubmit()) {
-          if (submitter == null
-              || a.getGranted().compareTo(submitter.getGranted()) > 0) {
-            submitter = a;
-          }
-        }
-      }
-      // TODO(dborowitz): Store normalized labels in notedb.
-      db.patchSetApprovals().update(approvals);
-      db.patchSetApprovals().deleteKeys(toDelete);
-    } catch (NoSuchChangeException err) {
-      throw new OrmException(err);
-    }
-    return submitter;
   }
 
   private void addMergedMessage(PatchSetApproval submitter, ChangeMessage msg)

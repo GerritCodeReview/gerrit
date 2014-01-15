@@ -240,17 +240,26 @@ public class ApprovalsUtil {
     if (c == null) {
       return null;
     }
-    PatchSetApproval submitter = null;
     try {
-      for (PatchSetApproval a : byPatchSet(db, notes, c)) {
-        if (a.getValue() > 0 && a.isSubmit()) {
-          if (submitter == null
-              || a.getGranted().compareTo(submitter.getGranted()) > 0) {
-            submitter = a;
-          }
+      return getSubmitter(c, byPatchSet(db, notes, c));
+    } catch (OrmException e) {
+      return null;
+    }
+  }
+
+  public static PatchSetApproval getSubmitter(PatchSet.Id c,
+      Iterable<PatchSetApproval> approvals) {
+    if (c == null) {
+      return null;
+    }
+    PatchSetApproval submitter = null;
+    for (PatchSetApproval a : approvals) {
+      if (a.getValue() > 0 && a.isSubmit()) {
+        if (submitter == null
+            || a.getGranted().compareTo(submitter.getGranted()) > 0) {
+          submitter = a;
         }
       }
-    } catch (OrmException e) {
     }
     return submitter;
   }

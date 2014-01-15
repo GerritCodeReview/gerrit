@@ -20,6 +20,7 @@ CM3_MODES = [
   'htmlmixed/htmlmixed.js',
   'javascript/javascript.js',
   'properties/properties.js',
+  'perl/perl.js',
   'python/python.js',
   'shell/shell.js',
   'sql/sql.js',

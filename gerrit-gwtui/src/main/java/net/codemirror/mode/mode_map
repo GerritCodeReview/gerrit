@@ -32,6 +32,9 @@ properties:
 text/x-ini
 text/x-properties
 
+perl:
+text/x-perl
+
 python:
 text/x-python
 

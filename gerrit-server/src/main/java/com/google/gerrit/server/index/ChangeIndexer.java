@@ -244,7 +244,7 @@ public class ChangeIndexer {
           }
         }
       } catch (Exception e) {
-        log.error(String.format("Failed to index change %d", id), e);
+        log.error(String.format("Failed to index change %d", id.get()), e);
         throw e;
       }
     }

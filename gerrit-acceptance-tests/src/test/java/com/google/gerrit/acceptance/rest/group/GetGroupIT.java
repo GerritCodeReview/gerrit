@@ -24,7 +24,6 @@ import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.group.GroupJson.GroupInfo;
-import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
 
 import org.junit.Before;

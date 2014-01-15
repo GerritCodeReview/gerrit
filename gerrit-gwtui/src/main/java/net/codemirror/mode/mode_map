@@ -8,6 +8,9 @@ text/x-java
 text/x-csharp
 text/x-scala
 
+commonlisp:
+text/x-common-lisp
+
 css:
 text/css
 text/x-scss

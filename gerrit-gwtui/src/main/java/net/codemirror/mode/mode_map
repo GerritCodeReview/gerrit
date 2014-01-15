@@ -28,6 +28,9 @@ application/x-json
 text/typescript
 application/typescript
 
+perl:
+text/x-perl
+
 properties:
 text/x-ini
 text/x-properties

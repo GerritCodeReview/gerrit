@@ -45,6 +45,7 @@ public class ModeInjector {
       Modes.I.go(),
       Modes.I.htmlmixed(),
       Modes.I.javascript(),
+      Modes.I.perl(),
       Modes.I.properties(),
       Modes.I.python(),
       Modes.I.shell(),

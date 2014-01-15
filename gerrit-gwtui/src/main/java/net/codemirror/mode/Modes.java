@@ -29,6 +29,7 @@ public interface Modes extends ClientBundle {
   @Source("go/go.js") @DoNotEmbed DataResource go();
   @Source("htmlmixed/htmlmixed.js") @DoNotEmbed DataResource htmlmixed();
   @Source("javascript/javascript.js") @DoNotEmbed DataResource javascript();
+  @Source("perl/perl.js") @DoNotEmbed DataResource perl();
   @Source("properties/properties.js") @DoNotEmbed DataResource properties();
   @Source("python/python.js") @DoNotEmbed DataResource python();
   @Source("shell/shell.js") @DoNotEmbed DataResource shell();

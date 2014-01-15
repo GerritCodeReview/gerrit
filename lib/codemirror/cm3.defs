@@ -19,6 +19,7 @@ CM3_MODES = [
   'go/go.js',
   'htmlmixed/htmlmixed.js',
   'javascript/javascript.js',
+  'perl/perl.js',
   'properties/properties.js',
   'python/python.js',
   'shell/shell.js',

@@ -49,7 +49,7 @@ import java.util.concurrent.TimeUnit;
 public class GerritServer {
 
   /** Returns fully started Gerrit server */
-  static GerritServer start(Config base, boolean memory) throws Exception {
+  static GerritServer start(Config cfg, boolean memory) throws Exception {
     final CyclicBarrier serverStarted = new CyclicBarrier(2);
     final Daemon daemon = new Daemon(new Runnable() {
       public void run() {
@@ -67,7 +67,6 @@ public class GerritServer {
     ExecutorService daemonService = null;
     if (memory) {
       site = null;
-      Config cfg = base != null ? base : new Config();
       mergeTestConfig(cfg);
       cfg.setBoolean("httpd", null, "requestLog", false);
       cfg.setBoolean("sshd", null, "requestLog", false);
@@ -79,7 +78,6 @@ public class GerritServer {
           new InMemoryTestingDatabaseModule(cfg)));
       daemon.start();
     } else {
-      Config cfg = base != null ? base : new Config();
       site = initSite(cfg);
       daemonService = Executors.newSingleThreadExecutor();
       daemonService.submit(new Callable<Void>() {

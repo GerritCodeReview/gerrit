@@ -3,6 +3,7 @@ include_defs('//tools/build.defs')
 java_library(
   name = 'classpath',
   deps = LIBS + PGMLIBS + [
+    '//gerrit-acceptance-tests:configs',
     '//gerrit-acceptance-tests:lib',
     '//gerrit-gwtdebug:gwtdebug',
     '//gerrit-gwtui:ui_module',

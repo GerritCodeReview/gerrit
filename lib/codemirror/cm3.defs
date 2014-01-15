@@ -19,6 +19,7 @@ CM3_MODES = [
   'commonlisp/commonlisp.js',
   'css/css.js',
   'go/go.js',
+  'groovy/groovy.js',
   'htmlmixed/htmlmixed.js',
   'javascript/javascript.js',
   'perl/perl.js',

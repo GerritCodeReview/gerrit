@@ -80,12 +80,12 @@ class PutTopic implements RestModifyView<ChangeResource, Input>,
     if (!oldTopicName.equals(newTopicName)) {
       String summary;
       if (oldTopicName.isEmpty()) {
-        summary = "Topic set to \"" + newTopicName + "\".";
+        summary = "Topic set to " + newTopicName;
       } else if (newTopicName.isEmpty()) {
-        summary = "Topic \"" + oldTopicName + "\" removed.";
+        summary = "Topic " + oldTopicName + " removed";
       } else {
         summary = String.format(
-            "Topic updated from \"%s\" to \"%s\".",
+            "Topic changed from %s to %s",
             oldTopicName, newTopicName);
       }
 

@@ -269,6 +269,9 @@ public class PatchSetInserter {
 
       if (messageIsForChange()) {
         insertMessage(db);
+        if (changeKind != ChangeKind.REWORK) {
+          this.sendMail = false;
+        }
       }
 
       if (copyLabels) {

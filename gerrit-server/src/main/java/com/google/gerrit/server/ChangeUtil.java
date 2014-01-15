@@ -422,6 +422,7 @@ public class ChangeUtil {
             .setCopyLabels(true)
             .setValidatePolicy(RECEIVE_COMMITS)
             .setDraft(originalPS.isDraft())
+            .setSendMail(false)
             .insert();
 
         return change.getId();

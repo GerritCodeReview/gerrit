@@ -22,6 +22,7 @@ CM3_MODES = [
   'perl/perl.js',
   'properties/properties.js',
   'python/python.js',
+  'ruby/ruby.js',
   'shell/shell.js',
   'sql/sql.js',
   'velocity/velocity.js',

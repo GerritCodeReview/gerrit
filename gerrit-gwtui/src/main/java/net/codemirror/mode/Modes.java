@@ -32,6 +32,7 @@ public interface Modes extends ClientBundle {
   @Source("perl/perl.js") @DoNotEmbed DataResource perl();
   @Source("properties/properties.js") @DoNotEmbed DataResource properties();
   @Source("python/python.js") @DoNotEmbed DataResource python();
+  @Source("ruby/ruby.js") @DoNotEmbed DataResource ruby();
   @Source("shell/shell.js") @DoNotEmbed DataResource shell();
   @Source("sql/sql.js") @DoNotEmbed DataResource sql();
   @Source("velocity/velocity.js") @DoNotEmbed DataResource velocity();

@@ -45,6 +45,7 @@ public class ModeInjector {
       Modes.I.commonlisp(),
       Modes.I.css(),
       Modes.I.go(),
+      Modes.I.groovy(),
       Modes.I.htmlmixed(),
       Modes.I.javascript(),
       Modes.I.perl(),

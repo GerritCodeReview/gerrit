@@ -21,6 +21,9 @@ text/x-scss
 go:
 text/x-go
 
+groovy:
+text/x-groovy
+
 htmlmixed:
 text/html
 

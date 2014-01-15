@@ -50,6 +50,7 @@ public class DefaultFileExtensionRegistry extends MimeDetector {
       .put("el", LISP)
       .put("lisp", LISP)
       .put("lsp", LISP)
+      .put("clj", newMimeType("text/x-clojure", 2))
       .build();
 
   private static MimeType newMimeType(String type, final int specificity) {

@@ -22,6 +22,30 @@
       "revId": "3f8f8373a98ba03bbf470c13b02d8ab0e34c79c6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4dbc1132_6f45515e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PatchSetSelectBox2.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-15T21:09:26Z",
+      "side": 1,
+      "message": "If the project docs feature is disabled, Gerrit doesn\u0027t serve HTML for Markdown files and hence the preview link which uses this functionality to show the HTML for the Markdown file in the change ref would just return Not Found.",
+      "parentUuid": "cd5481b3_631f426e",
+      "range": {
+        "startLine": 108,
+        "startChar": 10,
+        "endLine": 108,
+        "endChar": 52
+      },
+      "revId": "3f8f8373a98ba03bbf470c13b02d8ab0e34c79c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

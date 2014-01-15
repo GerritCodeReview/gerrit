@@ -31,6 +31,7 @@ import com.google.gerrit.server.ApprovalCopier;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.change.ChangeKind;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.validators.CommitValidationException;
@@ -274,6 +275,11 @@ public class PatchSetInserter {
       if (copyLabels) {
         approvalCopier.copy(db, ctl, patchSet);
       }
+
+      if (approvalCopier.getChangeKind() != ChangeKind.REWORK) {
+        sendMail = false;
+      }
+
       db.commit();
       update.commit();
 

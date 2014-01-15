@@ -22,6 +22,30 @@
       "revId": "9cad868a80bdca1f095ab5faa8e5cb0b35fd5831",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8de44952_81969a77",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/LabelTypes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-15T19:38:35Z",
+      "side": 1,
+      "message": "Yes. But maybe the byLabel field should also be tagged volatile so the DCL pattern works.",
+      "parentUuid": "8de44952_a1091e49",
+      "range": {
+        "startLine": 54,
+        "startChar": 8,
+        "endLine": 54,
+        "endChar": 29
+      },
+      "revId": "9cad868a80bdca1f095ab5faa8e5cb0b35fd5831",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

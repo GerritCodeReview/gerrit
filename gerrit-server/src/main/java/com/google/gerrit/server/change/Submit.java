@@ -38,6 +38,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ProjectUtil;
 import com.google.gerrit.server.change.ChangeJson.ChangeInfo;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.LabelNormalizer;
 import com.google.gerrit.server.git.MergeQueue;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeUpdate;
@@ -53,7 +54,6 @@ import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
@@ -82,6 +82,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
   private final ApprovalsUtil approvalsUtil;
   private final MergeQueue mergeQueue;
   private final ChangeIndexer indexer;
+  private final LabelNormalizer labelNormalizer;
 
   @Inject
   Submit(Provider<ReviewDb> dbProvider,
@@ -89,13 +90,15 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
       ChangeUpdate.Factory updateFactory,
       ApprovalsUtil approvalsUtil,
       MergeQueue mergeQueue,
-      ChangeIndexer indexer) {
+      ChangeIndexer indexer,
+      LabelNormalizer labelNormalizer) {
     this.dbProvider = dbProvider;
     this.repoManager = repoManager;
     this.updateFactory = updateFactory;
     this.approvalsUtil = approvalsUtil;
     this.mergeQueue = mergeQueue;
     this.indexer = indexer;
+    this.labelNormalizer = labelNormalizer;
   }
 
   @Override
@@ -220,8 +223,10 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
 
   private void approve(RevisionResource rsrc, ChangeUpdate update,
       IdentifiedUser caller, Timestamp timestamp) throws OrmException {
-    PatchSetApproval submit = approvalsUtil.getSubmitter(
-        dbProvider.get(), rsrc.getNotes(), rsrc.getPatchSet().getId());
+    PatchSet.Id psId = rsrc.getPatchSet().getId();
+    List<PatchSetApproval> approvals = Lists.newArrayList(
+        approvalsUtil.byPatchSet(dbProvider.get(), rsrc.getNotes(), psId));
+    PatchSetApproval submit = ApprovalsUtil.getSubmitter(psId, approvals);
     if (submit == null || submit.getAccountId() != caller.getAccountId()) {
       submit = new PatchSetApproval(
           new PatchSetApproval.Key(
@@ -229,13 +234,22 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
               caller.getAccountId(),
               LabelId.SUBMIT),
           (short) 1, TimeUtil.nowTs());
+      approvals.add(submit);
     }
     submit.setValue((short) 1);
     submit.setGranted(timestamp);
+
+    // Flatten out existing approvals for this patch set based upon the current
+    // permissions. Once the change is closed the approvals are not updated at
+    // presentation view time, except for zero votes used to indicate a reviewer
+    // was added. So we need to make sure votes are accurate now. This way if
+    // permissions get modified in the future, historical records stay accurate.
+    approvals = labelNormalizer.normalize(rsrc.getControl(), approvals);
+
     // TODO(dborowitz): Don't use a label in notedb; just check when status
     // change happened.
     update.putApproval(submit.getLabel(), submit.getValue());
-    dbProvider.get().patchSetApprovals().upsert(Collections.singleton(submit));
+    dbProvider.get().patchSetApprovals().upsert(approvals);
   }
 
   private void checkSubmitRule(RevisionResource rsrc)

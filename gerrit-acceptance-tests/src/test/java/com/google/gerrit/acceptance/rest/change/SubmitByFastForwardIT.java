@@ -20,14 +20,9 @@ import static org.junit.Assert.assertEquals;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.reviewdb.client.Project.SubmitType;
 
-import com.jcraft.jsch.JSchException;
-
 import org.eclipse.jgit.api.Git;
-import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
-
-import java.io.IOException;
 
 public class SubmitByFastForwardIT extends AbstractSubmit {
 
@@ -37,8 +32,7 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
   }
 
   @Test
-  public void submitWithFastForward() throws JSchException, IOException,
-      GitAPIException {
+  public void submitWithFastForward() throws Exception {
     Git git = createProject();
     RevCommit oldHead = getRemoteHead();
     PushOneCommit.Result change = createChange(git);
@@ -46,11 +40,11 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
     RevCommit head = getRemoteHead();
     assertEquals(change.getCommitId(), head.getId());
     assertEquals(oldHead, head.getParent(0));
+    assertSubmitter(change.getChangeId(), 1);
   }
 
   @Test
-  public void submitFastForwardNotPossible_Conflict() throws JSchException, IOException,
-      GitAPIException {
+  public void submitFastForwardNotPossible_Conflict() throws Exception {
     Git git = createProject();
     RevCommit initialHead = getRemoteHead();
     PushOneCommit.Result change =
@@ -63,5 +57,6 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
         createChange(git, "Change 2", "b.txt", "other content");
     submitWithConflict(change2.getChangeId());
     assertEquals(oldHead, getRemoteHead());
+    assertSubmitter(change.getChangeId(), 1);
   }
 }

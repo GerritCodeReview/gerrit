@@ -25,8 +25,8 @@ import java.util.Map;
 
 public class LabelTypes {
   protected List<LabelType> labelTypes;
-  private transient Map<String, LabelType> byLabel;
-  private transient Map<String, Integer> positions;
+  private transient volatile Map<String, LabelType> byLabel;
+  private transient volatile Map<String, Integer> positions;
 
   protected LabelTypes() {
   }

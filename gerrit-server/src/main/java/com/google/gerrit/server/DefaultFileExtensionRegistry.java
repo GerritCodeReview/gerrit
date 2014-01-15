@@ -29,6 +29,7 @@ import java.util.Collections;
 public class DefaultFileExtensionRegistry extends MimeDetector {
   private static final MimeType INI = newMimeType("text/x-ini", 2);
   private static final MimeType PYTHON = newMimeType("text/x-python", 2);
+  private static final MimeType PERL = newMimeType("text/x-perl", 2);
 
   private static final ImmutableMap<String, MimeType> TYPES =
     ImmutableMap.<String,MimeType>builder()
@@ -41,6 +42,9 @@ public class DefaultFileExtensionRegistry extends MimeDetector {
       .put("cxx", newMimeType("text/x-c++src", 1))
       .put("hxx", newMimeType("text/x-c++hdr", 1))
       .put("scala", newMimeType("text/x-scala", 1))
+      .put("pl", PERL)
+      .put("pm", PERL)
+      .put("rb", newMimeType("text/x-ruby", 2))
       .build();
 
   private static MimeType newMimeType(String type, final int specificity) {

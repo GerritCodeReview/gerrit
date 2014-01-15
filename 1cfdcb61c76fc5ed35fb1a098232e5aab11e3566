@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4dbc1132_4f104d64",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/doc/BUCK",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-15T19:59:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d5efdcf_86504a22",
+      "revId": "1cfdcb61c76fc5ed35fb1a098232e5aab11e3566",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2d5efdcf_a6554611",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/doc/ProjectDocumentationIT.java",
         "patchSetId": 7
@@ -30,6 +48,30 @@
       "writtenOn": "2014-01-14T23:24:43Z",
       "side": 1,
       "message": "That is really cool!\n\ndocFromDraftChange works too. And after removing that draft patch set, it correctly returns 404. I was hoping it would return stale data from the cache. But unfortunately you are checking first if this rev exists, before asking the cache ;-)",
+      "range": {
+        "startLine": 255,
+        "startChar": 14,
+        "endLine": 255,
+        "endChar": 32
+      },
+      "revId": "1cfdcb61c76fc5ed35fb1a098232e5aab11e3566",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4dbc1132_af2d79b1",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/doc/ProjectDocumentationIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-15T19:59:44Z",
+      "side": 1,
+      "message": "Good that you tried to break it :)",
+      "parentUuid": "2d5efdcf_a6554611",
       "range": {
         "startLine": 255,
         "startChar": 14,
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "4dbc1132_8f32350d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/doc/ProjectDocumentationIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-15T19:59:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d5efdcf_464b3275",
+      "range": {
+        "startLine": 308,
+        "startChar": 2,
+        "endLine": 315,
+        "endChar": 3
+      },
+      "revId": "1cfdcb61c76fc5ed35fb1a098232e5aab11e3566",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad6aed63_aa550f11",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/UrlModule.java",
         "patchSetId": 7
@@ -82,6 +148,24 @@
     },
     {
       "key": {
+        "uuid": "4dbc1132_ef3781fb",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/UrlModule.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-15T19:59:44Z",
+      "side": 1,
+      "message": "Right, \u0027doc\u0027 vs. \u0027Documentation\u0027 might be confusing. I\u0027m changing it to \u0027src\u0027. Please find the reasoning for using \u0027src\u0027 in the commit message.",
+      "parentUuid": "ad6aed63_aa550f11",
+      "revId": "1cfdcb61c76fc5ed35fb1a098232e5aab11e3566",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad6aed63_4a4b3375",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ProjectDocServlet.java",
         "patchSetId": 7
@@ -93,6 +177,30 @@
       "writtenOn": "2014-01-14T23:24:43Z",
       "side": 1,
       "message": "This method called in many places for different reasons. Can we be more specific what went wrong by passing a message that gve a hint about the reason?",
+      "range": {
+        "startLine": 253,
+        "startChar": 22,
+        "endLine": 253,
+        "endChar": 55
+      },
+      "revId": "1cfdcb61c76fc5ed35fb1a098232e5aab11e3566",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2da19d0c_0e1f6b6e",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ProjectDocServlet.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-15T19:59:44Z",
+      "side": 1,
+      "message": "No, I wouldn\u0027t do this. This is a security principle in Gerrit that we do not return details in such cases so that attackers don\u0027t get useful information for further attacks. If this information is important we may write a warning into the error log so that admins can access this information. Not sure if we need this immediately?",
+      "parentUuid": "ad6aed63_4a4b3375",
       "range": {
         "startLine": 253,
         "startChar": 22,

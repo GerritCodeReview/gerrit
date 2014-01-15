@@ -12,8 +12,12 @@ Changes that depend on outdated patch sets were missing in the related changes l
 +
 After rebasing the first change the other changes disappeared from the related changes list.
 
-* Fix plugin API packaging. Parts from JGit signed library were included in the
-plugin API. As a consequence unit tests were failing to execute against it.
+* Don't list the same change twice in related changes.
+
+* Fix plugin API packaging.
++
+Parts from JGit's signed library were included in the plugin API. As a consequence unit
+tests were failing to execute against it.
 
 * Fix IllegalArgumentException in task queue comparator.
 +
@@ -28,4 +32,16 @@ This fixes a bug that prevented javamelody from working properly.
 +
 This happened if a new patch set was given for an initial commit in a repository.
 
-* Enable syntax highlighting for CXX, HXX, Python, Go, BUCK and .gitmodules.
+* link:https://code.google.com/p/gerrit/issues/detail?id=2320[Issue 2320],
+link:https://code.google.com/p/gerrit/issues/detail?id=2360[Issue 2360]:
+Enable syntax highlighting for CXX, HXX, Python, Go, Scala, BUCK and .gitmodules.
+
+* Preserve SNAPSHOT suffix in Maven artifact names.
++
+The SNAPSHOT suffix was being removed, which prevented Buck from
+downloading the Gitblit plugin's custom artifacts from the Gerritforge
+repository.
+
+* Always show repo download command if repo download scheme is enabled.
+
+* Minor fixes in the documentation.

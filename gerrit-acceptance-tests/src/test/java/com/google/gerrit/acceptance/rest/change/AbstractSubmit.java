@@ -18,11 +18,14 @@ import static com.google.gerrit.acceptance.GitUtil.cloneProject;
 import static com.google.gerrit.acceptance.GitUtil.initSsh;
 import static com.google.gerrit.common.changes.ListChangesOption.CURRENT_REVISION;
 import static com.google.gerrit.common.changes.ListChangesOption.DETAILED_LABELS;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 
 import com.google.common.base.Joiner;
+import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AccountCreator;
 import com.google.gerrit.acceptance.GitUtil;
@@ -34,17 +37,22 @@ import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.common.changes.ListChangesOption;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.InheritableBoolean;
 import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.change.ChangeJson.ChangeInfo;
 import com.google.gerrit.server.change.ChangeJson.LabelInfo;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.google.gwtjsonrpc.server.SqlTimestampDeserializer;
+import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 
@@ -76,6 +84,12 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
 
   @Inject
   private GitRepositoryManager repoManager;
+
+  @Inject
+  private ChangeNotes.Factory notesFactory;
+
+  @Inject
+  private ApprovalsUtil approvalsUtil;
 
   @Inject
   protected PushOneCommit.Factory pushFactory;
@@ -204,6 +218,16 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     assertEquals(1, cr.all.size());
     assertEquals(2, cr.all.get(0).value.intValue());
     assertEquals("Administrator", cr.all.get(0).name);
+  }
+
+  protected void assertSubmitter(String changeId, int psId)
+      throws OrmException, IOException {
+    ChangeNotes cn = notesFactory.create(
+        Iterables.getOnlyElement(db.changes().byKey(new Change.Key(changeId))));
+    PatchSetApproval submitter = approvalsUtil.getSubmitter(
+        db, cn, new PatchSet.Id(cn.getChangeId(), psId));
+    assertTrue(submitter.isSubmit());
+    assertEquals(admin.getId(), submitter.getAccountId());
   }
 
   protected void assertCherryPick(Git localGit, boolean contentMerge) throws IOException {

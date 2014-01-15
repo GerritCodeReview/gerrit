@@ -20,14 +20,9 @@ import static org.junit.Assert.assertEquals;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.reviewdb.client.Project.SubmitType;
 
-import com.jcraft.jsch.JSchException;
-
 import org.eclipse.jgit.api.Git;
-import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
-
-import java.io.IOException;
 
 public class SubmitByRebaseIfNecessaryIT extends AbstractSubmit {
 
@@ -37,8 +32,7 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmit {
   }
 
   @Test
-  public void submitWithFastForward() throws JSchException, IOException,
-      GitAPIException {
+  public void submitWithFastForward() throws Exception {
     Git git = createProject();
     RevCommit oldHead = getRemoteHead();
     PushOneCommit.Result change = createChange(git);
@@ -48,11 +42,11 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmit {
     assertEquals(oldHead, head.getParent(0));
     assertApproved(change.getChangeId());
     assertCurrentRevision(change.getChangeId(), 1, head);
+    assertSubmitter(change.getChangeId(), 1);
   }
 
   @Test
-  public void submitWithRebase() throws JSchException, IOException,
-      GitAPIException {
+  public void submitWithRebase() throws Exception {
     Git git = createProject();
     RevCommit initialHead = getRemoteHead();
     PushOneCommit.Result change =
@@ -69,11 +63,12 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmit {
     assertEquals(oldHead, head.getParent(0));
     assertApproved(change2.getChangeId());
     assertCurrentRevision(change2.getChangeId(), 2, head);
+    assertSubmitter(change2.getChangeId(), 1);
+    assertSubmitter(change2.getChangeId(), 2);
   }
 
   @Test
-  public void submitWithContentMerge() throws JSchException, IOException,
-      GitAPIException {
+  public void submitWithContentMerge() throws Exception {
     Git git = createProject();
     setUseContentMerge();
     PushOneCommit.Result change =
@@ -93,11 +88,12 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmit {
     assertEquals(oldHead, head.getParent(0));
     assertApproved(change3.getChangeId());
     assertCurrentRevision(change3.getChangeId(), 2, head);
+    assertSubmitter(change3.getChangeId(), 1);
+    assertSubmitter(change3.getChangeId(), 2);
   }
 
   @Test
-  public void submitWithContentMerge_Conflict() throws JSchException,
-      IOException, GitAPIException {
+  public void submitWithContentMerge_Conflict() throws Exception {
     Git git = createProject();
     setUseContentMerge();
     RevCommit initialHead = getRemoteHead();
@@ -113,5 +109,6 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmit {
     RevCommit head = getRemoteHead();
     assertEquals(oldHead, head);
     assertCurrentRevision(change2.getChangeId(), 1, change2.getCommitId());
+    assertSubmitter(change2.getChangeId(), 1);
   }
 }

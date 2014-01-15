@@ -16,19 +16,22 @@ package net.codemirror.lib;
 
 import com.google.gwt.core.client.JavaScriptObject;
 
-/** {left, top, width, height, clientWidth, clientHeight} objects returned by
- * getScrollInfo(). */
+/** Returned by {@link CodeMirror#getScrollInfo()}. */
 public class ScrollInfo extends JavaScriptObject {
-  public static ScrollInfo create() {
-    return createObject().cast();
-  }
-
   public final native double getLeft() /*-{ return this.left; }-*/;
   public final native double getTop() /*-{ return this.top; }-*/;
-  public final native double getWidth() /*-{ return this.width; }-*/;
+
+  /**
+   * Pixel height of the full content being scrolled. This may only be an
+   * estimate given by CodeMirror. Line widgets further down in the document may
+   * not be measured, so line heights can be incorrect until drawn.
+   */
   public final native double getHeight() /*-{ return this.height; }-*/;
-  public final native double getClientWidth() /*-{ return this.clientWidth; }-*/;
+  public final native double getWidth() /*-{ return this.width; }-*/;
+
+  /** Visible height of the viewport, excluding scrollbars. */
   public final native double getClientHeight() /*-{ return this.clientHeight; }-*/;
+  public final native double getClientWidth() /*-{ return this.clientWidth; }-*/;
 
   protected ScrollInfo() {
   }

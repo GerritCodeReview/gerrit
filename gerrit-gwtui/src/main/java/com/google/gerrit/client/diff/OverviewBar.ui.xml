@@ -17,22 +17,27 @@ limitations under the License.
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
     xmlns:g='urn:import:com.google.gwt.user.client.ui'>
   <ui:style type='com.google.gerrit.client.diff.OverviewBar.Style'>
+    .overview {
+      position: relative;
+    }
     .gutter {
       cursor: pointer;
-      position: fixed;
+      position: absolute;
       height: 3px;
-      width: 10px;
-      border: 1px solid black;
+      width: 6px;
+      border: 1px solid grey;
+      margin-left: 1px;
     }
     .halfGutter {
       cursor: pointer;
-      position: fixed;
+      position: absolute;
       height: 3px;
-      width: 5px;
+      width: 3px;
       background-color: #faa;
     }
     .comment, .draft {
-      background-color: #e5ecf9;
+      background-color: #fcfa96;
+      z-index: 2;
     }
     .draft {
       text-align: center;
@@ -47,6 +52,20 @@ limitations under the License.
     .insert {
       background-color: #9f9;
     }
+    .viewport {
+      position: absolute;
+      background-color: rgba(128, 128, 128, 0.50);
+      border: 1px solid #444;
+      width: 8px;
+      cursor: default;
+      z-index: 3;
+      border-radius: 4px;
+    }
+    .viewportDrag {
+      cursor: move;
+    }
   </ui:style>
-  <g:HTMLPanel/>
+  <g:HTMLPanel styleName='{style.overview}'>
+    <g:Label ui:field='viewport' styleName='{style.viewport}'/>
+  </g:HTMLPanel>
 </ui:UiBinder>

@@ -15,7 +15,6 @@
 package com.google.gerrit.client.diff;
 
 import com.google.gerrit.client.changes.CommentInfo;
-import com.google.gerrit.client.diff.OverviewBar.GutterWrapper;
 import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
@@ -34,7 +33,7 @@ abstract class CommentBox extends Composite {
   }
 
   private final CommentGroup group;
-  private GutterWrapper gutterWrapper;
+  private OverviewBar.MarkHandle mark;
   private FromTo fromTo;
   private TextMarker rangeMarker;
   private TextMarker rangeHighlightMarker;
@@ -80,8 +79,12 @@ abstract class CommentBox extends Composite {
     return group.getCommentManager();
   }
 
-  void setGutterWrapper(GutterWrapper wrapper) {
-    gutterWrapper = wrapper;
+  OverviewBar.MarkHandle getMark() {
+    return mark;
+  }
+
+  void setMark(OverviewBar.MarkHandle mh) {
+    mark = mh;
   }
 
   void setRangeHighlight(boolean highlight) {
@@ -104,10 +107,6 @@ abstract class CommentBox extends Composite {
       rangeMarker.clear();
       rangeMarker = null;
     }
-  }
-
-  GutterWrapper getGutterWrapper() {
-    return gutterWrapper;
   }
 
   CodeMirror getCm() {

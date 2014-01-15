@@ -104,6 +104,10 @@ class Loader {
     CodeMirror.mapVimKey("k", "gk");
     CodeMirror.mapVimKey("Down", "gj");
     CodeMirror.mapVimKey("Up", "gk");
+    CodeMirror.mapVimKey("<C-b>", "<C-u>");
+    CodeMirror.mapVimKey("<C-f>", "<C-d>");
+    CodeMirror.mapVimKey("<PageUp>", "<C-u>");
+    CodeMirror.mapVimKey("<PageDown>", "<C-d>");
   }
 
   private static void error(Exception e) {

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cd5481b3_83d35e45",
+        "filename": "gerrit-acceptance-tests/tests.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-15T22:46:56Z",
+      "side": 1,
+      "message": "It\u0027s obviously possible to change this default to include multiple permutations of notedb implementations, but I\u0027m not sure I want to run 3x (or more) the number of acceptance tests we\u0027re running now, no matter how we split it up across VMs.\n\nWe could add labels and tell people to run \"buck test --all --exclude other_configs\" instead of \"buck test --all\", I suppose.",
+      "revId": "df35cd888302b6e563a9e4f14d42ec4f503358be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

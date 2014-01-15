@@ -44,6 +44,7 @@ public class DefaultFileExtensionRegistry extends MimeDetector {
       .put("scala", newMimeType("text/x-scala", 1))
       .put("pl", PERL)
       .put("pm", PERL)
+      .put("rb", newMimeType("text/x-ruby", 2))
       .build();
 
   private static MimeType newMimeType(String type, final int specificity) {

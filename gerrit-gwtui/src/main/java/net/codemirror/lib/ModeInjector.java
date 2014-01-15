@@ -48,6 +48,7 @@ public class ModeInjector {
       Modes.I.perl(),
       Modes.I.properties(),
       Modes.I.python(),
+      Modes.I.ruby(),
       Modes.I.shell(),
       Modes.I.sql(),
       Modes.I.velocity(),

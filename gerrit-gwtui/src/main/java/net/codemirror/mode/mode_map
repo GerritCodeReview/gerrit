@@ -38,6 +38,9 @@ text/x-perl
 python:
 text/x-python
 
+ruby:
+text/x-ruby
+
 shell:
 text/x-sh
 

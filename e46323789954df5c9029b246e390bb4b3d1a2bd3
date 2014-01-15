@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8de44952_418c926b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutTopic.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-15T19:30:01Z",
+      "side": 1,
+      "message": "Ick. This is a pretty long message for a very simple edit.",
+      "range": {
+        "startLine": 80,
+        "startChar": 16,
+        "endLine": 84,
+        "endChar": 84
+      },
+      "revId": "e46323789954df5c9029b246e390bb4b3d1a2bd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

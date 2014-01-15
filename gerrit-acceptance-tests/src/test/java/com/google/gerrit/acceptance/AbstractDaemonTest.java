@@ -17,11 +17,14 @@ package com.google.gerrit.acceptance;
 import com.google.gerrit.server.OutputFormat;
 import com.google.gson.Gson;
 
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Rule;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
+
+import java.io.IOException;
 
 public abstract class AbstractDaemonTest {
   protected GerritServer server;
@@ -42,18 +45,20 @@ public abstract class AbstractDaemonTest {
     }
   };
 
-  private static Config config(Description description) {
+  private static Config config(Description description)
+      throws IOException, ConfigInvalidException {
+    Config base = ConfigAnnotationParser.parseFromSystemProperty();
     GerritConfigs cfgs = description.getAnnotation(GerritConfigs.class);
     GerritConfig cfg = description.getAnnotation(GerritConfig.class);
     if (cfgs != null && cfg != null) {
       throw new IllegalStateException("Use either @GerritConfigs or @GerritConfig not both");
     }
     if (cfgs != null) {
-      return ConfigAnnotationParser.parse(cfgs);
+      return ConfigAnnotationParser.parse(base, cfgs);
     } else if (cfg != null) {
-      return ConfigAnnotationParser.parse(cfg);
+      return ConfigAnnotationParser.parse(base, cfg);
     } else {
-      return null;
+      return base;
     }
   }
 

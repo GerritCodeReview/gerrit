@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "2da19d0c_2ef0670a",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ProjectDocResourceKey.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-15T07:08:05Z",
+      "side": 1,
+      "message": "Nit: missing blank",
+      "range": {
+        "startLine": 25,
+        "startChar": 71,
+        "endLine": 25,
+        "endChar": 72
+      },
+      "revId": "aedb7f11c9d65af77caaf170a9cf7f8f6c823b0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2d5efdcf_2629569d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ProjectDocServlet.java",
         "patchSetId": 8

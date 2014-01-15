@@ -76,15 +76,16 @@ class PutTopic implements RestModifyView<ChangeResource, Input>,
     final String newTopicName = Strings.nullToEmpty(input.topic);
     String oldTopicName = Strings.nullToEmpty(change.getTopic());
     if (!oldTopicName.equals(newTopicName)) {
-      String summary;
-      if (oldTopicName.isEmpty()) {
-        summary = "Topic set to \"" + newTopicName + "\".";
-      } else if (newTopicName.isEmpty()) {
-        summary = "Topic \"" + oldTopicName + "\" removed.";
-      } else {
-        summary = String.format(
-            "Topic updated from \"%s\" to \"%s\".",
-            oldTopicName, newTopicName);
+      StringBuilder msgBuf = new StringBuilder()
+        .append("Topic edited.")
+        .append("\n\n")
+        .append("Old topic: " + (oldTopicName.isEmpty() ? "[empty]" : oldTopicName))
+        .append("\n\n")
+        .append("New topic: " + (newTopicName.isEmpty() ? "[removed]" : newTopicName));
+
+      if (!Strings.isNullOrEmpty(input.message)) {
+        msgBuf.append("\n\n");
+        msgBuf.append(input.message);
       }
 
       IdentifiedUser currentUser = ((IdentifiedUser) control.getCurrentUser());
@@ -92,11 +93,6 @@ class PutTopic implements RestModifyView<ChangeResource, Input>,
           new ChangeMessage.Key(change.getId(), ChangeUtil.messageUUID(db)),
           currentUser.getAccountId(), TimeUtil.nowTs(),
           change.currentPatchSetId());
-      StringBuilder msgBuf = new StringBuilder(summary);
-      if (!Strings.isNullOrEmpty(input.message)) {
-        msgBuf.append("\n\n");
-        msgBuf.append(input.message);
-      }
       cmsg.setMessage(msgBuf.toString());
 
       db.changes().beginTransaction(change.getId());

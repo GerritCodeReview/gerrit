@@ -29,6 +29,7 @@ public interface Modes extends ClientBundle {
   @Source("commonlisp/commonlisp.js") @DoNotEmbed DataResource commonlisp();
   @Source("css/css.js") @DoNotEmbed DataResource css();
   @Source("go/go.js") @DoNotEmbed DataResource go();
+  @Source("groovy/groovy.js") @DoNotEmbed DataResource groovy();
   @Source("htmlmixed/htmlmixed.js") @DoNotEmbed DataResource htmlmixed();
   @Source("javascript/javascript.js") @DoNotEmbed DataResource javascript();
   @Source("properties/properties.js") @DoNotEmbed DataResource properties();

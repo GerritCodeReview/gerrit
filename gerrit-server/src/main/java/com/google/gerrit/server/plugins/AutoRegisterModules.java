@@ -23,34 +23,20 @@ import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.annotations.Export;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import com.google.gerrit.extensions.annotations.Listen;
+import com.google.gerrit.server.plugins.JarScanner.ExtensionMetaData;
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import com.google.inject.Scopes;
 import com.google.inject.TypeLiteral;
 
-import org.eclipse.jgit.util.IO;
-import org.objectweb.asm.AnnotationVisitor;
-import org.objectweb.asm.Attribute;
-import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.ClassVisitor;
-import org.objectweb.asm.FieldVisitor;
-import org.objectweb.asm.MethodVisitor;
-import org.objectweb.asm.Opcodes;
-import org.objectweb.asm.Type;
-
-import java.io.IOException;
-import java.io.InputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.ParameterizedType;
-import java.util.Enumeration;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
-import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 class AutoRegisterModules {
-  private static final int SKIP_ALL = ClassReader.SKIP_CODE
-      | ClassReader.SKIP_DEBUG | ClassReader.SKIP_FRAMES;
   private final String pluginName;
   private final PluginGuiceEnvironment env;
   private final JarFile jarFile;
@@ -124,60 +110,31 @@ class AutoRegisterModules {
   }
 
   private void scan() throws InvalidPluginException {
-    Enumeration<JarEntry> e = jarFile.entries();
-    while (e.hasMoreElements()) {
-      JarEntry entry = e.nextElement();
-      if (skip(entry)) {
-        continue;
-      }
-
-      ClassData def = new ClassData();
-      try {
-        new ClassReader(read(entry)).accept(def, SKIP_ALL);
-      } catch (IOException err) {
-        throw new InvalidPluginException("Cannot auto-register", err);
-      } catch (RuntimeException err) {
-        PluginLoader.log.warn(String.format(
-            "Plugin %s has invaild class file %s inside of %s",
-            pluginName, entry.getName(), jarFile.getName()), err);
-        continue;
-      }
-
-      if (def.exportedAsName != null) {
-        if (def.isConcrete()) {
-          export(def);
-        } else {
-          PluginLoader.log.warn(String.format(
-              "Plugin %s tries to @Export(\"%s\") abstract class %s",
-              pluginName, def.exportedAsName, def.className));
-        }
-      } else if (def.listen) {
-        if (def.isConcrete()) {
-          listen(def);
-        } else {
-          PluginLoader.log.warn(String.format(
-              "Plugin %s tries to @Listen abstract class %s",
-              pluginName, def.className));
-        }
-      }
+    Map<Class<? extends Annotation>, Iterable<ExtensionMetaData>> extensions =
+        JarScanner.scan(jarFile, pluginName, Arrays.asList(Export.class, Listen.class));
+    for (ExtensionMetaData export : extensions.get(Export.class)) {
+      export(export);
+    }
+    for (ExtensionMetaData listener : extensions.get(Listen.class)) {
+      listen(listener);
     }
   }
 
-  private void export(ClassData def) throws InvalidPluginException {
+  private void export(ExtensionMetaData def) throws InvalidPluginException {
     Class<?> clazz;
     try {
-      clazz = Class.forName(def.className, false, classLoader);
+      clazz = Class.forName(def.getClassName(), false, classLoader);
     } catch (ClassNotFoundException err) {
       throw new InvalidPluginException(String.format(
           "Cannot load %s with @Export(\"%s\")",
-          def.className, def.exportedAsName), err);
+          def.getClassName(), def.getAnntoationValue()), err);
     }
 
     Export export = clazz.getAnnotation(Export.class);
     if (export == null) {
       PluginLoader.log.warn(String.format(
           "In plugin %s asm incorrectly parsed %s with @Export(\"%s\")",
-          pluginName, clazz.getName(), def.exportedAsName));
+          pluginName, clazz.getName(), def.getAnntoationValue()));
       return;
     }
 
@@ -202,14 +159,14 @@ class AutoRegisterModules {
     }
   }
 
-  private void listen(ClassData def) throws InvalidPluginException {
+  private void listen(ExtensionMetaData def) throws InvalidPluginException {
     Class<?> clazz;
     try {
-      clazz = Class.forName(def.className, false, classLoader);
+      clazz = Class.forName(def.getClassName(), false, classLoader);
     } catch (ClassNotFoundException err) {
       throw new InvalidPluginException(String.format(
           "Cannot load %s with @Listen",
-          def.className), err);
+          def.getClassName()), err);
     }
 
     Listen listen = clazz.getAnnotation(Listen.class);
@@ -272,130 +229,6 @@ class AutoRegisterModules {
       }
 
       type = rawType.getGenericSuperclass();
-    }
-  }
-
-  private static boolean skip(JarEntry entry) {
-    if (!entry.getName().endsWith(".class")) {
-      return true; // Avoid non-class resources.
-    }
-    if (entry.getSize() <= 0) {
-      return true; // Directories have 0 size.
-    }
-    if (entry.getSize() >= 1024 * 1024) {
-      return true; // Do not scan huge class files.
-    }
-    return false;
-  }
-
-  private byte[] read(JarEntry entry) throws IOException {
-    byte[] data = new byte[(int) entry.getSize()];
-    InputStream in = jarFile.getInputStream(entry);
-    try {
-      IO.readFully(in, data, 0, data.length);
-    } finally {
-      in.close();
-    }
-    return data;
-  }
-
-  private static class ClassData extends ClassVisitor {
-    private static final String EXPORT = Type.getType(Export.class).getDescriptor();
-    private static final String LISTEN = Type.getType(Listen.class).getDescriptor();
-
-    String className;
-    int access;
-    String exportedAsName;
-    boolean listen;
-
-    ClassData() {
-      super(Opcodes.ASM4);
-    }
-
-    boolean isConcrete() {
-      return (access & Opcodes.ACC_ABSTRACT) == 0
-          && (access & Opcodes.ACC_INTERFACE) == 0;
-    }
-
-    @Override
-    public void visit(int version, int access, String name, String signature,
-        String superName, String[] interfaces) {
-      this.className = Type.getObjectType(name).getClassName();
-      this.access = access;
-    }
-
-    @Override
-    public AnnotationVisitor visitAnnotation(String desc, boolean visible) {
-      if (visible && EXPORT.equals(desc)) {
-        return new AbstractAnnotationVisitor() {
-          @Override
-          public void visit(String name, Object value) {
-            exportedAsName = (String) value;
-          }
-        };
-      }
-      if (visible && LISTEN.equals(desc)) {
-        listen = true;
-        return null;
-      }
-      return null;
-    }
-
-    @Override
-    public void visitSource(String arg0, String arg1) {
-    }
-
-    @Override
-    public void visitOuterClass(String arg0, String arg1, String arg2) {
-    }
-
-    @Override
-    public MethodVisitor visitMethod(int arg0, String arg1, String arg2,
-        String arg3, String[] arg4) {
-      return null;
-    }
-
-    @Override
-    public void visitInnerClass(String arg0, String arg1, String arg2, int arg3) {
-    }
-
-    @Override
-    public FieldVisitor visitField(int arg0, String arg1, String arg2,
-        String arg3, Object arg4) {
-      return null;
-    }
-
-    @Override
-    public void visitEnd() {
-    }
-
-    @Override
-    public void visitAttribute(Attribute arg0) {
-    }
-  }
-
-  private static abstract class AbstractAnnotationVisitor extends
-      AnnotationVisitor {
-    AbstractAnnotationVisitor() {
-      super(Opcodes.ASM4);
-    }
-
-    @Override
-    public AnnotationVisitor visitAnnotation(String arg0, String arg1) {
-      return null;
-    }
-
-    @Override
-    public AnnotationVisitor visitArray(String arg0) {
-      return null;
-    }
-
-    @Override
-    public void visitEnum(String arg0, String arg1, String arg2) {
-    }
-
-    @Override
-    public void visitEnd() {
     }
   }
 }

@@ -91,7 +91,6 @@ import com.google.gerrit.server.git.validators.MergeValidators;
 import com.google.gerrit.server.git.validators.MergeValidators.ProjectConfigValidator;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.mail.AddReviewerSender;
-import com.google.gerrit.server.mail.CommitMessageEditedSender;
 import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.mail.EmailModule;
 import com.google.gerrit.server.mail.FromAddressGenerator;
@@ -179,7 +178,6 @@ public class GerritGlobalModule extends FactoryModule {
     factory(CapabilityControl.Factory.class);
     factory(ChangeData.Factory.class);
     factory(ChangeQueryBuilder.Factory.class);
-    factory(CommitMessageEditedSender.Factory.class);
     factory(CreateChangeSender.Factory.class);
     factory(GroupDetailFactory.Factory.class);
     factory(GroupInfoCacheFactory.Factory.class);

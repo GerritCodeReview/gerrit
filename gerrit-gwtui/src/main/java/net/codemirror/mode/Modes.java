@@ -25,6 +25,7 @@ public interface Modes extends ClientBundle {
 
   @Source("mode_map") TextResource mode_map();
   @Source("clike/clike.js") @DoNotEmbed DataResource clike();
+  @Source("commonlisp/commonlisp.js") @DoNotEmbed DataResource commonlisp();
   @Source("css/css.js") @DoNotEmbed DataResource css();
   @Source("go/go.js") @DoNotEmbed DataResource go();
   @Source("htmlmixed/htmlmixed.js") @DoNotEmbed DataResource htmlmixed();

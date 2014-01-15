@@ -41,6 +41,7 @@ public class ModeInjector {
   static {
     DataResource[] all = {
       Modes.I.clike(),
+      Modes.I.commonlisp(),
       Modes.I.css(),
       Modes.I.go(),
       Modes.I.htmlmixed(),

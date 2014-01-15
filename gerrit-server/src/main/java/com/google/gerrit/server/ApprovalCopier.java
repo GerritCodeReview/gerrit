@@ -62,6 +62,7 @@ public class ApprovalCopier {
   private final ChangeKindCache changeKindCache;
   private final LabelNormalizer labelNormalizer;
   private final ChangeData.Factory changeDataFactory;
+  private ChangeKind changeKind;
 
   @Inject
   ApprovalCopier(GitRepositoryManager repoManager,
@@ -74,11 +75,16 @@ public class ApprovalCopier {
     this.changeKindCache = changeKindCache;
     this.labelNormalizer = labelNormalizer;
     this.changeDataFactory = changeDataFactory;
+    this.changeKind = ChangeKind.REWORK;
   }
 
   public void copy(ReviewDb db, ChangeControl ctl, PatchSet ps)
       throws OrmException {
     db.patchSetApprovals().insert(getForPatchSet(db, ctl, ps));
+  }
+
+  public ChangeKind getChangeKind() {
+    return changeKind;
   }
 
   private List<PatchSetApproval> getForPatchSet(ReviewDb db, ChangeControl ctl,
@@ -111,13 +117,13 @@ public class ApprovalCopier {
             continue;
           }
 
-          ChangeKind kind = changeKindCache.getChangeKind(project, repo,
+          changeKind = changeKindCache.getChangeKind(project, repo,
               ObjectId.fromString(priorPs.getRevision().get()),
               ObjectId.fromString(ps.getRevision().get()));
 
           for (PatchSetApproval psa : priorApprovals) {
             if (!byUser.contains(psa.getLabel(), psa.getAccountId())
-                && canCopy(project, psa, ps.getId(), allPsIds, kind)) {
+                && canCopy(project, psa, ps.getId(), allPsIds, changeKind)) {
               byUser.put(psa.getLabel(), psa.getAccountId(),
                   copy(psa, ps.getId()));
             }

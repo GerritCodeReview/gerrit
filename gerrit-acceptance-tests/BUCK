@@ -1,5 +1,3 @@
-include_defs('//gerrit-acceptance-tests/tests.defs')
-
 java_library(
   name = 'lib',
   srcs = glob(['src/test/java/com/google/gerrit/acceptance/*.java']),
@@ -37,6 +35,17 @@ java_library(
     '//lib/jgit:junit',
     '//lib/mina:sshd',
   ],
+  visibility = [
+    '//tools/eclipse:classpath',
+    '//gerrit-acceptance-tests/...',
+  ],
+)
+
+java_library(
+  name = 'configs',
+  resources = glob([
+    'src/test/resources/com/google/gerrit/acceptance/config/*.config',
+  ]),
   visibility = [
     '//tools/eclipse:classpath',
     '//gerrit-acceptance-tests/...',

@@ -19,14 +19,9 @@ import static org.junit.Assert.assertEquals;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.reviewdb.client.Project.SubmitType;
 
-import com.jcraft.jsch.JSchException;
-
 import org.eclipse.jgit.api.Git;
-import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
-
-import java.io.IOException;
 
 public class SubmitByMergeAlwaysIT extends AbstractSubmitByMerge {
 
@@ -36,8 +31,7 @@ public class SubmitByMergeAlwaysIT extends AbstractSubmitByMerge {
   }
 
   @Test
-  public void submitWithMergeIfFastForwardPossible() throws JSchException,
-      IOException, GitAPIException {
+  public void submitWithMergeIfFastForwardPossible() throws Exception {
     Git git = createProject();
     RevCommit oldHead = getRemoteHead();
     PushOneCommit.Result change = createChange(git);
@@ -46,5 +40,6 @@ public class SubmitByMergeAlwaysIT extends AbstractSubmitByMerge {
     assertEquals(2, head.getParentCount());
     assertEquals(oldHead, head.getParent(0));
     assertEquals(change.getCommitId(), head.getParent(1));
+    assertSubmitter(change.getChangeId(), 1);
   }
 }

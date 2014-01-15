@@ -48,8 +48,7 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
   }
 
   @Test
-  public void submitWithCherryPick() throws JSchException, IOException,
-      GitAPIException {
+  public void submitWithCherryPick() throws Exception {
     Git git = createProject();
     RevCommit initialHead = getRemoteHead();
     PushOneCommit.Result change =
@@ -65,13 +64,13 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
     RevCommit newHead = getRemoteHead();
     assertEquals(1, newHead.getParentCount());
     assertEquals(oldHead, newHead.getParent(0));
-    assertApproved(change2.getChangeId());
     assertCurrentRevision(change2.getChangeId(), 2, newHead);
+    assertSubmitter(change2.getChangeId(), 1);
+    assertSubmitter(change2.getChangeId(), 2);
   }
 
   @Test
-  public void submitWithContentMerge() throws JSchException, IOException,
-      GitAPIException {
+  public void submitWithContentMerge() throws Exception {
     Git git = createProject();
     setUseContentMerge();
     PushOneCommit.Result change =
@@ -91,11 +90,12 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
     assertEquals(oldHead, newHead.getParent(0));
     assertApproved(change3.getChangeId());
     assertCurrentRevision(change3.getChangeId(), 2, newHead);
+    assertSubmitter(change2.getChangeId(), 1);
+    assertSubmitter(change2.getChangeId(), 2);
   }
 
   @Test
-  public void submitWithContentMerge_Conflict() throws JSchException,
-      IOException, GitAPIException {
+  public void submitWithContentMerge_Conflict() throws Exception {
     Git git = createProject();
     setUseContentMerge();
     RevCommit initialHead = getRemoteHead();
@@ -110,11 +110,11 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
     submitWithConflict(change2.getChangeId());
     assertEquals(oldHead, getRemoteHead());
     assertCurrentRevision(change2.getChangeId(), 1, change2.getCommitId());
+    assertSubmitter(change2.getChangeId(), 1);
   }
 
   @Test
-  public void submitOutOfOrder() throws JSchException, IOException,
-      GitAPIException {
+  public void submitOutOfOrder() throws Exception {
     Git git = createProject();
     RevCommit initialHead = getRemoteHead();
     PushOneCommit.Result change =
@@ -132,11 +132,12 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
     assertEquals(oldHead, newHead.getParent(0));
     assertApproved(change3.getChangeId());
     assertCurrentRevision(change3.getChangeId(), 2, newHead);
+    assertSubmitter(change3.getChangeId(), 1);
+    assertSubmitter(change3.getChangeId(), 2);
   }
 
   @Test
-  public void submitOutOfOrder_Conflict() throws JSchException, IOException,
-      GitAPIException {
+  public void submitOutOfOrder_Conflict() throws Exception {
     Git git = createProject();
     RevCommit initialHead = getRemoteHead();
     PushOneCommit.Result change =
@@ -151,5 +152,6 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
     submitWithConflict(change3.getChangeId());
     assertEquals(oldHead, getRemoteHead());
     assertCurrentRevision(change3.getChangeId(), 1, change3.getCommitId());
+    assertSubmitter(change3.getChangeId(), 1);
   }
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8de44952_a1091e49",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/LabelTypes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-01-15T06:08:26Z",
+      "side": 1,
+      "message": "Was it intentional to add a second null check here?\n\nIt\u0027s being flagged up by FindBugs.",
+      "range": {
+        "startLine": 54,
+        "startChar": 8,
+        "endLine": 54,
+        "endChar": 29
+      },
+      "revId": "9cad868a80bdca1f095ab5faa8e5cb0b35fd5831",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

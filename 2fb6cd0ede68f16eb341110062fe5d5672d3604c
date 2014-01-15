@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4dbc1132_af7739b6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-15T21:14:48Z",
+      "side": 1,
+      "message": "If we do it like this, it means that for relative links inside the Markdown files we must also use the .md Markdown extension, and not as we currently do the .html extension. Otherwise the relative links cannot be resolved. I think this is OK. Anyone sees an issue with this?",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 11
+      },
+      "revId": "2fb6cd0ede68f16eb341110062fe5d5672d3604c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

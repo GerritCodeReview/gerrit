@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2da19d0c_2e4b4776",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-15T21:08:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4dbc1132_8f5b5545",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 4
+      },
+      "revId": "4b91ccd2a42b85a7eeb0e998cb50f7eb064a3120",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2da19d0c_ae56171d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 8
@@ -36,6 +60,30 @@
       "writtenOn": "2014-01-15T20:24:10Z",
       "side": 1,
       "message": "likely",
+      "range": {
+        "startLine": 58,
+        "startChar": 13,
+        "endLine": 58,
+        "endChar": 18
+      },
+      "revId": "4b91ccd2a42b85a7eeb0e998cb50f7eb064a3120",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2da19d0c_0e480b76",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-15T21:08:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2da19d0c_ae56171d",
       "range": {
         "startLine": 58,
         "startChar": 13,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "2da19d0c_6e454f5e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-15T21:08:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4dbc1132_ef502123",
+      "range": {
+        "startLine": 77,
+        "startChar": 62,
+        "endLine": 77,
+        "endChar": 70
+      },
+      "revId": "4b91ccd2a42b85a7eeb0e998cb50f7eb064a3120",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4dbc1132_cf555d11",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ProjectDocServlet.java",
         "patchSetId": 8
@@ -82,6 +154,30 @@
       "writtenOn": "2014-01-15T20:24:10Z",
       "side": 1,
       "message": "s/doc/src. Tests only worked, because for both strings length(str) \u003d\u003d 3.",
+      "range": {
+        "startLine": 107,
+        "startChar": 41,
+        "endLine": 107,
+        "endChar": 44
+      },
+      "revId": "4b91ccd2a42b85a7eeb0e998cb50f7eb064a3120",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4dbc1132_0f480576",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ProjectDocServlet.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-15T21:08:50Z",
+      "side": 1,
+      "message": "Ahh that\u0027s funny! :D\n\nGood that you payed attention!\n\nDone",
+      "parentUuid": "4dbc1132_cf555d11",
       "range": {
         "startLine": 107,
         "startChar": 41,

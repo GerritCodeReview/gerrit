@@ -46,6 +46,30 @@
       "revId": "a4a3f31d1c3ec20f31c81eaa0859e452f45c2c95",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d8cd9b8_3ded0f33",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-01-16T01:09:41Z",
+      "side": 1,
+      "message": "I would be OK with adding it.\n\nOn the other hand, this hint only shows a very small subset of the available search operators.  It might be better to just replace the whole thing with something generic like \"Search term\".",
+      "parentUuid": "ed9865f7_9cdb858e",
+      "range": {
+        "startLine": 9,
+        "startChar": 43,
+        "endLine": 10,
+        "endChar": 27
+      },
+      "revId": "a4a3f31d1c3ec20f31c81eaa0859e452f45c2c95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

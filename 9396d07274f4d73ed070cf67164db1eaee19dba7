@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "edc305c9_2419b292",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JarScanner.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-01-16T04:42:47Z",
+      "side": 1,
+      "message": "annotation",
+      "range": {
+        "startLine": 66,
+        "startChar": 25,
+        "endLine": 66,
+        "endChar": 35
+      },
+      "revId": "9396d07274f4d73ed070cf67164db1eaee19dba7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edc305c9_04163662",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JarScanner.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-01-16T04:42:47Z",
+      "side": 1,
+      "message": "Annotation",
+      "range": {
+        "startLine": 73,
+        "startChar": 21,
+        "endLine": 73,
+        "endChar": 31
+      },
+      "revId": "9396d07274f4d73ed070cf67164db1eaee19dba7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

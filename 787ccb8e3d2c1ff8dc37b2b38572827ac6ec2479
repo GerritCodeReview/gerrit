@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0d75b976_3589b05b",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/mode/Modes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-16T20:36:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "edc305c9_a42da2b1",
+      "revId": "787ccb8e3d2c1ff8dc37b2b38572827ac6ec2479",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "edc305c9_8432260d",
         "filename": "gerrit-gwtui/src/main/java/net/codemirror/mode/mode_map",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2014-01-16T07:51:05Z",
       "side": 1,
       "message": "Add before \"properties\"",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 11
+      },
+      "revId": "787ccb8e3d2c1ff8dc37b2b38572827ac6ec2479",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d75b976_55962c7a",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/mode/mode_map",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-16T20:36:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "edc305c9_8432260d",
       "range": {
         "startLine": 35,
         "startChar": 0,
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "0d75b976_75932889",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/DefaultFileExtensionRegistry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-16T20:36:08Z",
+      "side": 1,
+      "message": "Letting as is for now.",
+      "parentUuid": "0d8cd9b8_7d107764",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 22
+      },
+      "revId": "787ccb8e3d2c1ff8dc37b2b38572827ac6ec2479",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "edc305c9_e4379afb",
         "filename": "lib/codemirror/cm3.defs",
         "patchSetId": 1
@@ -76,6 +142,24 @@
       "writtenOn": "2014-01-16T07:51:05Z",
       "side": 1,
       "message": "Before \"properties\"",
+      "revId": "787ccb8e3d2c1ff8dc37b2b38572827ac6ec2479",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d78bd6e_164bdc75",
+        "filename": "lib/codemirror/cm3.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-16T20:36:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "edc305c9_e4379afb",
       "revId": "787ccb8e3d2c1ff8dc37b2b38572827ac6ec2479",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

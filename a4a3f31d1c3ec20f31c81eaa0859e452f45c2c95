@@ -118,6 +118,30 @@
       "revId": "a4a3f31d1c3ec20f31c81eaa0859e452f45c2c95",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd9561be_bbe04741",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1012333
+      },
+      "writtenOn": "2014-01-16T02:14:12Z",
+      "side": 1,
+      "message": "Well then, I think using a generic term will work. I don\u0027t think a lack of examples in the search hint will hurt any, right? What\u0027s there now is such a limited set that removing it altogether may even cause users to read that part of the documentation and learn more about Gerrit\u0027s search features and expand the usability of search for users.",
+      "parentUuid": "edc305c9_64fa8aea",
+      "range": {
+        "startLine": 9,
+        "startChar": 43,
+        "endLine": 10,
+        "endChar": 27
+      },
+      "revId": "a4a3f31d1c3ec20f31c81eaa0859e452f45c2c95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

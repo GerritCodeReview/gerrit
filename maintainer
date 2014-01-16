@@ -1,0 +1,10 @@
+[dashboard]
+  title = Maintainer Dashboard
+  description = This dashboard provides an overview about the recent \
+                activities in Gerrit and all Gerrit Plugins.
+[section "Gerrit Reviews"]
+  query = project:gerrit is:open is:mergeable limit:15
+[section "Plugin Reviews"]
+  query = parentproject:Public-Plugins is:open is:mergeable limit:10
+[section "Recently Merged"]
+  query = (project:gerrit OR parentproject:Public-Plugins) is:merged limit:10

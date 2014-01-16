@@ -1,0 +1,13 @@
+[dashboard]
+  title = Contributor Dashboard
+  description = This dashboard gives an overview about own \
+                contributions and review requests.
+  foreach = is:open
+[section "Mine To Rebase"]
+  query = owner:self -is:mergeable
+[section "Mine To Rework"]
+  query = owner:self is:mergeable (label:Verified<=-1 OR label:Code-Review<=-1)
+[section "Mine For Review"]
+  query = owner:self is:mergeable -(label:Verified<=-1 OR label:Code-Review<=-1)
+[section "To Review"]
+  query = reviewer:self -owner:self is:mergeable -label:Code-Review=-2,user=self

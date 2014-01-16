@@ -22,6 +22,30 @@
       "revId": "254ec812692514793faeb9dd677a7dc8eecac2a4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d75b976_351ff06e",
+        "filename": "contributor",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-16T13:23:51Z",
+      "side": 1,
+      "message": "Maybe. This depends what you want to see.\n\nWhat you propose would filter out all changes that have a negative Code-Review voting from another user. This makes sense if you argue that you don\u0027t want to look at the change until the author has addressed those issues.\n\nHow it is now, it filters out only changes that have a Code-Review veto voting from other users. This makes sense if you consider looking at changes even though there is a negative voting.\n\nI\u0027m fine with both options, but if we filter out all changes with negative Code-Review votes from other users, we should do the same for negative Verified votes.\n\nShould I change it?",
+      "parentUuid": "2d78bd6e_56139471",
+      "range": {
+        "startLine": 13,
+        "startChar": 49,
+        "endLine": 13,
+        "endChar": 80
+      },
+      "revId": "254ec812692514793faeb9dd677a7dc8eecac2a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -70,6 +70,30 @@
       "revId": "254ec812692514793faeb9dd677a7dc8eecac2a4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d75b976_d5507c23",
+        "filename": "contributor",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-16T15:27:51Z",
+      "side": 1,
+      "message": "I believe you are right with how you read it, but this was not my intention.\n\n \u003e And i don\u0027t want to see the changes that have already \n \u003e negative vote from me (-1 or -2), that why \u003c\u003d -1.\n\nWhat if the author disagrees with your negative vote and writes a reply to your comment explaining why he disagrees? If this change is filtered out there is a high chance to you miss this reply. But maybe this is what you have e-mail notifications for and you don\u0027t need to see this change in the dashboard?",
+      "parentUuid": "0d75b976_9556041e",
+      "range": {
+        "startLine": 13,
+        "startChar": 49,
+        "endLine": 13,
+        "endChar": 80
+      },
+      "revId": "254ec812692514793faeb9dd677a7dc8eecac2a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

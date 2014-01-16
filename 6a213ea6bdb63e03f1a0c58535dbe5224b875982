@@ -22,6 +22,30 @@
       "revId": "6a213ea6bdb63e03f1a0c58535dbe5224b875982",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d78bd6e_d6fec4d7",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PatchSetSelectBox2.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-16T10:16:34Z",
+      "side": 1,
+      "message": "Thanks for the hint. I was actually searching for an existing ChangeApi.detail(...) call which could provide me the project, but I somehow overlooked it in SideBySide2.onLoad().\n\nDone",
+      "parentUuid": "0d75b976_75f7a800",
+      "range": {
+        "startLine": 154,
+        "startChar": 10,
+        "endLine": 169,
+        "endChar": 13
+      },
+      "revId": "6a213ea6bdb63e03f1a0c58535dbe5224b875982",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

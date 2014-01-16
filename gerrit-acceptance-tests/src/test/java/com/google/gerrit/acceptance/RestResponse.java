@@ -16,57 +16,22 @@ package com.google.gerrit.acceptance;
 
 import static com.google.gerrit.httpd.restapi.RestApiServlet.JSON_MAGIC;
 
-import com.google.common.base.Preconditions;
-
-import org.apache.http.HttpResponse;
-import org.eclipse.jgit.util.IO;
-import org.eclipse.jgit.util.RawParseUtils;
-
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.nio.ByteBuffer;
 
-public class RestResponse {
+public class RestResponse extends HttpResponse {
 
-  private HttpResponse response;
-  private Reader reader;
-
-  RestResponse(HttpResponse response) {
-    this.response = response;
+  RestResponse(org.apache.http.HttpResponse response) {
+    super(response);
   }
 
+  @Override
   public Reader getReader() throws IllegalStateException, IOException {
     if (reader == null && response.getEntity() != null) {
       reader = new InputStreamReader(response.getEntity().getContent());
       reader.skip(JSON_MAGIC.length);
     }
     return reader;
-  }
-
-  public void consume() throws IllegalStateException, IOException {
-    Reader reader = getReader();
-    if (reader != null) {
-      while (reader.read() != -1);
-    }
-  }
-
-  public int getStatusCode() {
-    return response.getStatusLine().getStatusCode();
-  }
-
-  public String getEntityContent() throws IOException {
-    Preconditions.checkNotNull(response,
-        "Response is not initialized.");
-    Preconditions.checkNotNull(response.getEntity(),
-        "Response.Entity is not initialized.");
-      ByteBuffer buf = IO.readWholeStream(
-          response.getEntity().getContent(),
-          1024);
-      return RawParseUtils.decode(
-          buf.array(),
-          buf.arrayOffset(),
-          buf.limit())
-          .trim();
   }
 }

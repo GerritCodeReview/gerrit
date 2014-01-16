@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cd9561be_fb3c8fe0",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/project/doc/ProjectDocumentationIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-16T23:00:55Z",
+      "side": 1,
+      "message": "Please add a test that verifies HTML from an input .md file was suppressed.",
+      "revId": "75ad516171e3957353d18fe83e3266620b9b4714",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d58911a_8fdb358e",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ProjectDocServlet.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-16T23:00:55Z",
+      "side": 1,
+      "message": "/a/ occurs after getContextPath() but before \"src\". I don\u0027t think this is going to work correctly when Gerrit is run under a subpath like /gerrit/.",
+      "range": {
+        "startLine": 103,
+        "startChar": 4,
+        "endLine": 111,
+        "endChar": 5
+      },
+      "revId": "75ad516171e3957353d18fe83e3266620b9b4714",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d58911a_afe0f940",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ProjectDocServlet.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-16T23:00:55Z",
+      "side": 1,
+      "message": "nit: indexOf(\u0027/\u0027)",
+      "range": {
+        "startLine": 119,
+        "startChar": 17,
+        "endLine": 119,
+        "endChar": 29
+      },
+      "revId": "75ad516171e3957353d18fe83e3266620b9b4714",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed46a541_ace00341",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ProjectDocServlet.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-16T23:00:55Z",
+      "side": 1,
+      "message": "Constants.R_REFS?",
+      "range": {
+        "startLine": 168,
+        "startChar": 30,
+        "endLine": 168,
+        "endChar": 37
+      },
+      "revId": "75ad516171e3957353d18fe83e3266620b9b4714",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed46a541_8cdb478e",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ProjectDocServlet.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-16T23:00:55Z",
+      "side": 1,
+      "message": "Constants.R_HEADS?",
+      "range": {
+        "startLine": 169,
+        "startChar": 18,
+        "endLine": 169,
+        "endChar": 31
+      },
+      "revId": "75ad516171e3957353d18fe83e3266620b9b4714",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd9561be_db37d3fb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/documentation/MarkdownFormatter.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-16T23:00:55Z",
+      "side": 1,
+      "message": "|\u003d SUPPRESS_ALL_HTML",
+      "range": {
+        "startLine": 132,
+        "startChar": 14,
+        "endLine": 132,
+        "endChar": 34
+      },
+      "revId": "75ad516171e3957353d18fe83e3266620b9b4714",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

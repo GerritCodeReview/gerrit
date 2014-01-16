@@ -375,7 +375,7 @@ class RelatedChangesTab implements IsWidget {
       surrogate.getStyle().setVisibility(Visibility.HIDDEN);
     }
 
-    private void ensureRowMeasurements() {
+    private boolean ensureRowMeasurements() {
       if (rowHeight == 0 && rows != null) {
         surrogate.setInnerSafeHtml(rows.get(0));
         getContainerElement().appendChild(surrogate);
@@ -384,7 +384,9 @@ class RelatedChangesTab implements IsWidget {
         getContainerElement().removeChild(surrogate);
         getContainerElement().getStyle()
             .setHeight(rowHeight * rows.size(), Style.Unit.PX);
+        return true;
       }
+      return false;
     }
 
     public void movePointerTo(int row, boolean scroll) {
@@ -552,6 +554,9 @@ class RelatedChangesTab implements IsWidget {
       if (on && isAttached()) {
         if (regNavigation == null) {
           regNavigation = GlobalKey.add(this, keysNavigation);
+        }
+        if (view.ensureRowMeasurements()) {
+          view.movePointerTo(view.selectedRow, true);
         }
       } else if (regNavigation != null) {
         regNavigation.removeHandler();

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d78bd6e_56139471",
+        "filename": "contributor",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-16T12:18:14Z",
+      "side": 1,
+      "message": "Shouldn\u0027t it be:\n\n  -label:Code-Review\u003c\u003d-1,user\u003dself\n\n?",
+      "range": {
+        "startLine": 13,
+        "startChar": 49,
+        "endLine": 13,
+        "endChar": 80
+      },
+      "revId": "254ec812692514793faeb9dd677a7dc8eecac2a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

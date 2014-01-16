@@ -15,12 +15,15 @@ CM3_JS = [
 
 CM3_MODES = [
   'clike/clike.js',
+  'clojure/clojure.js',
+  'commonlisp/commonlisp.js',
   'css/css.js',
   'go/go.js',
+  'groovy/groovy.js',
   'htmlmixed/htmlmixed.js',
   'javascript/javascript.js',
-  'properties/properties.js',
   'perl/perl.js',
+  'properties/properties.js',
   'python/python.js',
   'ruby/ruby.js',
   'shell/shell.js',

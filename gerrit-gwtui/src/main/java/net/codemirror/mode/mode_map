@@ -8,12 +8,21 @@ text/x-java
 text/x-csharp
 text/x-scala
 
+clojure:
+text/x-clojure
+
+commonlisp:
+text/x-common-lisp
+
 css:
 text/css
 text/x-scss
 
 go:
 text/x-go
+
+groovy:
+text/x-groovy
 
 htmlmixed:
 text/html
@@ -27,6 +36,9 @@ application/json
 application/x-json
 text/typescript
 application/typescript
+
+perl:
+text/x-perl
 
 properties:
 text/x-ini

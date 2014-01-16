@@ -25,12 +25,15 @@ public interface Modes extends ClientBundle {
 
   @Source("mode_map") TextResource mode_map();
   @Source("clike/clike.js") @DoNotEmbed DataResource clike();
+  @Source("clojure/clojure.js") @DoNotEmbed DataResource clojure();
+  @Source("commonlisp/commonlisp.js") @DoNotEmbed DataResource commonlisp();
   @Source("css/css.js") @DoNotEmbed DataResource css();
   @Source("go/go.js") @DoNotEmbed DataResource go();
+  @Source("groovy/groovy.js") @DoNotEmbed DataResource groovy();
   @Source("htmlmixed/htmlmixed.js") @DoNotEmbed DataResource htmlmixed();
   @Source("javascript/javascript.js") @DoNotEmbed DataResource javascript();
-  @Source("properties/properties.js") @DoNotEmbed DataResource properties();
   @Source("perl/perl.js") @DoNotEmbed DataResource perl();
+  @Source("properties/properties.js") @DoNotEmbed DataResource properties();
   @Source("python/python.js") @DoNotEmbed DataResource python();
   @Source("ruby/ruby.js") @DoNotEmbed DataResource ruby();
   @Source("shell/shell.js") @DoNotEmbed DataResource shell();

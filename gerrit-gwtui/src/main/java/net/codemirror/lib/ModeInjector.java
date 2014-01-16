@@ -41,8 +41,11 @@ public class ModeInjector {
   static {
     DataResource[] all = {
       Modes.I.clike(),
+      Modes.I.clojure(),
+      Modes.I.commonlisp(),
       Modes.I.css(),
       Modes.I.go(),
+      Modes.I.groovy(),
       Modes.I.htmlmixed(),
       Modes.I.javascript(),
       Modes.I.perl(),

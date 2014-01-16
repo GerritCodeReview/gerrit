@@ -46,6 +46,30 @@
       "revId": "254ec812692514793faeb9dd677a7dc8eecac2a4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d75b976_9556041e",
+        "filename": "contributor",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-16T15:12:51Z",
+      "side": 1,
+      "message": "\u003e How it is now, it filters out only changes that have a Code-Review veto voting from other users.\n\nReally? I thought that\n\n  -label:Code-Review\u003d-2,user\u003dself\n\nfilters out changes that have a Code-Review veto from the same user and not other users. And i don\u0027t want to see the changes that have already negative vote from me (-1 or -2), that why \u003c\u003d -1.",
+      "parentUuid": "0d75b976_351ff06e",
+      "range": {
+        "startLine": 13,
+        "startChar": 49,
+        "endLine": 13,
+        "endChar": 80
+      },
+      "revId": "254ec812692514793faeb9dd677a7dc8eecac2a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

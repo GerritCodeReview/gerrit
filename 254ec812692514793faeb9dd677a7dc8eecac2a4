@@ -166,6 +166,30 @@
       "revId": "254ec812692514793faeb9dd677a7dc8eecac2a4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d75b976_75424858",
+        "filename": "contributor",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-16T17:07:04Z",
+      "side": 1,
+      "message": "You got the intention wrong. The idea was to filter out changes that have a veto from other maintainers but to show changes with veto of myself. If there is a veto from another maintainer then the questions have to be clarified between the author and the other maintainer and I don\u0027t need to see this change while this discussion is ongoing.\n\nObviously the implementation was wrong and I couldn\u0027t find a way to achieve my intension.",
+      "parentUuid": "2d78bd6e_361ff86e",
+      "range": {
+        "startLine": 13,
+        "startChar": 49,
+        "endLine": 13,
+        "endChar": 80
+      },
+      "revId": "254ec812692514793faeb9dd677a7dc8eecac2a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

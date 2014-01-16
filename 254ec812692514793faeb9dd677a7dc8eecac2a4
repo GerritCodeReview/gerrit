@@ -142,6 +142,30 @@
       "revId": "254ec812692514793faeb9dd677a7dc8eecac2a4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d78bd6e_361ff86e",
+        "filename": "contributor",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-16T16:57:52Z",
+      "side": 1,
+      "message": "Thanks for fixing it.\n\n\u003e What if the author disagrees with your negative vote and writes a reply to your comment explaining why he disagrees? If this change is filtered out there is a high chance to you miss this reply. \n\nBut with this argumentation it is even more dangerous for me how it was originally:\n\n  -label:Code-Review\u003d-2,user\u003dself\n\nWhy? I am maintainer and have power of -2. I review a change and decide to put my veto on it. But we all do mistakes, we all have feelings? In the end we are all people. What is if it was a wrong veto? The contributor try to explain me, in additional comments why he thinks the veto was wrong and that the impact of the change is *very* minimal and that thousands of people from hundreds of companies can\u0027t upgrade to the new version of the product and all that because of his veto. Nothing helps. Why?\n\nBecause I used your dashboard template, put this line and this change was filtered out:\n\n   -label:Code-Review\u003d-2,user\u003dself",
+      "parentUuid": "2d78bd6e_f63ca0e0",
+      "range": {
+        "startLine": 13,
+        "startChar": 49,
+        "endLine": 13,
+        "endChar": 80
+      },
+      "revId": "254ec812692514793faeb9dd677a7dc8eecac2a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

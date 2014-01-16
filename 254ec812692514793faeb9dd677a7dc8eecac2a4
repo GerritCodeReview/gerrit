@@ -94,6 +94,30 @@
       "revId": "254ec812692514793faeb9dd677a7dc8eecac2a4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d78bd6e_b632280d",
+        "filename": "contributor",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-16T15:32:37Z",
+      "side": 1,
+      "message": "Would you then also filter out changes where you gave a positive voting because you have already reviewed them and you don\u0027t need to see them again? I actually think this might make sense.",
+      "parentUuid": "0d75b976_d5507c23",
+      "range": {
+        "startLine": 13,
+        "startChar": 49,
+        "endLine": 13,
+        "endChar": 80
+      },
+      "revId": "254ec812692514793faeb9dd677a7dc8eecac2a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

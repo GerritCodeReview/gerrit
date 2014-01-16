@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "2d78bd6e_d6e5e44f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-16T06:54:42Z",
+      "side": 1,
+      "message": "Yes, I\u0027m aware of this complexity. I just want to be sure that this first tiny step fits into the big picture.",
+      "parentUuid": "edc305c9_84098649",
+      "range": {
+        "startLine": 83,
+        "startChar": 0,
+        "endLine": 84,
+        "endChar": 60
+      },
+      "revId": "2fb6cd0ede68f16eb341110062fe5d5672d3604c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "edc305c9_e4fe7ad7",
         "filename": "/COMMIT_MSG",
         "patchSetId": 9
@@ -95,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "2d78bd6e_b6e06841",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-16T06:54:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "edc305c9_e4fe7ad7",
+      "range": {
+        "startLine": 90,
+        "startChar": 43,
+        "endLine": 90,
+        "endChar": 60
+      },
+      "revId": "2fb6cd0ede68f16eb341110062fe5d5672d3604c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d8cd9b8_fd03a724",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 9
@@ -106,6 +154,30 @@
       "writtenOn": "2014-01-16T06:35:54Z",
       "side": 1,
       "message": "/src/",
+      "range": {
+        "startLine": 2544,
+        "startChar": 1,
+        "endLine": 2544,
+        "endChar": 6
+      },
+      "revId": "2fb6cd0ede68f16eb341110062fe5d5672d3604c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d75b976_b5e06041",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 2544,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-16T06:54:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d8cd9b8_fd03a724",
       "range": {
         "startLine": 2544,
         "startChar": 1,

@@ -22,6 +22,99 @@
       "revId": "2fb6cd0ede68f16eb341110062fe5d5672d3604c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edc305c9_a4048231",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-16T06:35:54Z",
+      "side": 1,
+      "message": "I think this makes sense. Lets use .md in the URL and thus leave the door open for other rendering plugins to handle other files.",
+      "parentUuid": "4dbc1132_af7739b6",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 11
+      },
+      "revId": "2fb6cd0ede68f16eb341110062fe5d5672d3604c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edc305c9_84098649",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-16T06:35:54Z",
+      "side": 1,
+      "message": "Editing is a lot more complex than you make it out to be here. We really need the server to save your workspace state in a branch, so multiple files can be worked on and eventually packaged as a single change for review. Editing only one file is a degenerate simple case of the multi-file edit we need to support.",
+      "range": {
+        "startLine": 83,
+        "startChar": 0,
+        "endLine": 84,
+        "endChar": 60
+      },
+      "revId": "2fb6cd0ede68f16eb341110062fe5d5672d3604c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edc305c9_e4fe7ad7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-16T06:35:54Z",
+      "side": 1,
+      "message": "This name doesn\u0027t make sense with the URL. site.enableSrcToMarkdown?",
+      "range": {
+        "startLine": 90,
+        "startChar": 43,
+        "endLine": 90,
+        "endChar": 60
+      },
+      "revId": "2fb6cd0ede68f16eb341110062fe5d5672d3604c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d8cd9b8_fd03a724",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 2544,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-16T06:35:54Z",
+      "side": 1,
+      "message": "/src/",
+      "range": {
+        "startLine": 2544,
+        "startChar": 1,
+        "endLine": 2544,
+        "endChar": 6
+      },
+      "revId": "2fb6cd0ede68f16eb341110062fe5d5672d3604c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ed9865f7_1c2215be",
+        "filename": "gerrit-gwtexpui/src/main/java/com/google/gwtexpui/clippy/client/clippy.css",
+        "patchSetId": 9
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-16T22:14:56Z",
+      "side": 1,
+      "message": "I don\u0027t see the part where you modify all CopyableLabel widgets to put .clippy on them.",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 8
+      },
+      "revId": "ac3ceb2fd76c22f5bb8a078e373dcd03b3d66a17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed9865f7_3c1fd16e",
+        "filename": "gerrit-gwtexpui/src/main/java/com/google/gwtexpui/progress/client/progress.css",
+        "patchSetId": 9
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-16T22:14:56Z",
+      "side": 1,
+      "message": ".container and .text are too generic to export as is.",
+      "revId": "ac3ceb2fd76c22f5bb8a078e373dcd03b3d66a17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd9561be_bb32070d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/MessageOfTheDayBar.ui.xml",
+        "patchSetId": 9
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-16T22:14:56Z",
+      "side": 1,
+      "message": "These class names are too generic to export as is.",
+      "revId": "ac3ceb2fd76c22f5bb8a078e373dcd03b3d66a17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

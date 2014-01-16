@@ -39,6 +39,30 @@
       "revId": "e4385c0ea040aa476de1c8442e76a83aa2f6ab03",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd1c8154_83db1e8e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-16T23:23:39Z",
+      "side": 1,
+      "message": "I would rather not have to write additional code just to get this working in Eclipse. For now, I have separate run configurations that pass different values of -D, and that\u0027s been sufficient for me. More important is that buck test --all works, since that\u0027s what developers should be using to check the Verified bit anyway.",
+      "parentUuid": "0d75b976_d5815c38",
+      "range": {
+        "startLine": 14,
+        "startChar": 65,
+        "endLine": 16,
+        "endChar": 12
+      },
+      "revId": "e4385c0ea040aa476de1c8442e76a83aa2f6ab03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

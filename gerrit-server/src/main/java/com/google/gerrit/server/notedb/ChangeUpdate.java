@@ -265,9 +265,9 @@ public class ChangeUpdate extends VersionedMetaData {
   }
 
   @Override
-  protected void onSave(CommitBuilder commit) {
+  protected boolean onSave(CommitBuilder commit) {
     if (approvals.isEmpty() && reviewers.isEmpty()) {
-      return;
+      return false;
     }
     int ps = psId != null ? psId.get() : change.currentPatchSetId().get();
     StringBuilder msg = new StringBuilder();
@@ -293,6 +293,7 @@ public class ChangeUpdate extends VersionedMetaData {
       }
     }
     commit.setMessage(msg.toString());
+    return true;
   }
 
   private static StringBuilder addFooter(StringBuilder sb, FooterKey footer) {

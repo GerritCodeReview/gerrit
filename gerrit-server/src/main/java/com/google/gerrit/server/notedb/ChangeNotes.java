@@ -307,7 +307,7 @@ public class ChangeNotes extends VersionedMetaData {
   }
 
   @Override
-  protected void onSave(CommitBuilder commit) {
+  protected boolean onSave(CommitBuilder commit) {
     throw new UnsupportedOperationException(
         getClass().getSimpleName() + " is read-only");
   }

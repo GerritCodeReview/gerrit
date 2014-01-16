@@ -88,11 +88,12 @@ public class ProjectLevelConfig extends VersionedMetaData {
   }
 
   @Override
-  protected void onSave(CommitBuilder commit) throws IOException,
+  protected boolean onSave(CommitBuilder commit) throws IOException,
       ConfigInvalidException {
     if (commit.getMessage() == null || "".equals(commit.getMessage())) {
       commit.setMessage("Updated configuration\n");
     }
     saveConfig(fileName, cfg);
+    return true;
   }
 }

@@ -94,6 +94,30 @@
       "revId": "a4a3f31d1c3ec20f31c81eaa0859e452f45c2c95",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edc305c9_64fa8aea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-01-16T02:04:31Z",
+      "side": 1,
+      "message": "Yes it does [1].\n\n[1] https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/user-search.html",
+      "parentUuid": "ed9865f7_dce50d50",
+      "range": {
+        "startLine": 9,
+        "startChar": 43,
+        "endLine": 10,
+        "endChar": 27
+      },
+      "revId": "a4a3f31d1c3ec20f31c81eaa0859e452f45c2c95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

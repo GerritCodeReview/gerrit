@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "edc305c9_c4ea5e1d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-01-16T01:03:48Z",
+      "side": 1,
+      "message": "I think here it is actually referring to the change number.  I.e. you can search for \"53780\" to find this change.",
+      "range": {
+        "startLine": 9,
+        "startChar": 43,
+        "endLine": 10,
+        "endChar": 27
+      },
+      "revId": "a4a3f31d1c3ec20f31c81eaa0859e452f45c2c95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

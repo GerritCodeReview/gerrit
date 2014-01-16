@@ -20,10 +20,14 @@ import com.google.gerrit.server.auth.AuthException;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
 
+import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 
 import java.io.IOException;
 
@@ -52,10 +56,21 @@ public class GetHead implements RestReadView<ProjectResource> {
         }
         throw new AuthException();
       } else if (head.getObjectId() != null) {
-        if (rsrc.getControl().isOwner()) {
-          return head.getObjectId().name();
+        RevWalk rw = new RevWalk(repo);
+        try {
+          RevCommit commit = rw.parseCommit(head.getObjectId());
+          if (rsrc.getControl().canReadCommit(rw, commit)) {
+            return head.getObjectId().name();
+          }
+          throw new AuthException();
+        } catch (MissingObjectException | IncorrectObjectTypeException e) {
+          if (rsrc.getControl().isOwner()) {
+            return head.getObjectId().name();
+          }
+          throw new AuthException();
+        } finally {
+          rw.release();
         }
-        throw new AuthException();
       }
       throw new ResourceNotFoundException(Constants.HEAD);
     } catch (RepositoryNotFoundException e) {

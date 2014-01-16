@@ -12,4 +12,4 @@
 [section "To Review"]
   query = reviewer:self -owner:self is:mergeable \
           -label:Code-Review<=-1,user=self -label:Verified=-1,user=self \
-          -label:Code-Review>=-1,user=self -label:Verified=1,user=self
+          -label:Code-Review>=1,user=self -label:Verified=1,user=self

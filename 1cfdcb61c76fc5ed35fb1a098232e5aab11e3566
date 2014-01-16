@@ -210,6 +210,30 @@
       "revId": "1cfdcb61c76fc5ed35fb1a098232e5aab11e3566",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4dbc1132_4f296d9c",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ProjectDocServlet.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-16T10:41:27Z",
+      "side": 1,
+      "message": "No, we don\u0027t.",
+      "parentUuid": "2da19d0c_0e1f6b6e",
+      "range": {
+        "startLine": 253,
+        "startChar": 22,
+        "endLine": 253,
+        "endChar": 55
+      },
+      "revId": "1cfdcb61c76fc5ed35fb1a098232e5aab11e3566",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

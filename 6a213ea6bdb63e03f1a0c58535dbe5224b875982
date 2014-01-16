@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0d75b976_75f7a800",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PatchSetSelectBox2.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-16T08:22:51Z",
+      "side": 1,
+      "message": "Is this client server roundtrip really justified? (Yeah, i know, this requst is cached already, but still).\n\n  SideBySide2.onLoad()\n\ndoes this call already:\n\n  ChangeApi.detail(changeId.get());\n\nand in the\n\n  onSuccess(ChangeInfo info) {\n    [...]\n    diffTable.setUpPatchSetNav(list, diff, info.project());\n    [...]\n\nmethod setUpPatchSetNav is called. Just extend the parameter list with project and pass it down to PatchSetSelectBox2.setUpPatchSetNav() and from there to this method\n\n  private Anchor createPreviewLink(final String project)",
+      "range": {
+        "startLine": 154,
+        "startChar": 10,
+        "endLine": 169,
+        "endChar": 13
+      },
+      "revId": "6a213ea6bdb63e03f1a0c58535dbe5224b875982",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0d75b976_b57ce099",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-16T20:06:18Z",
+      "side": 1,
+      "message": "I like this approach.",
+      "revId": "e4385c0ea040aa476de1c8442e76a83aa2f6ab03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d75b976_d5815c38",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-16T20:06:18Z",
+      "side": 1,
+      "message": "Test calls from Eclipse has 3 requirements:\n\n* Multiple unit test files running in different modes\n* Run all tests from one file in different modes\n* Run one method in different modes\n\nWe can solve multiple configuration tests from Eclipse with Suite per configuration by abusing tests as configuration activation:\n\nWe can define a suite per configuration: one for NotesDB backend:\n\n  @RunWith(Suite.class)\n  @Suite.SuiteClasses({\n    NotesDBSystemPropertySetter.class,\n    SubmitByCherryPickIT.class,\n    SubmitByFastForwardIT.class,\n    [...]\n  })\n  public class ChangeSuiteNotesDBSuite {\n    // no op\n  }\n\nand one for ReviewDB backend the same as above, but without first line: NotesDBSystemPropertySetter.class is missing, as ReviewDB is a default configuration:\n\n  @RunWith(Suite.class)\n  @Suite.SuiteClasses({\n    SubmitByCherryPickIT.class,\n    SubmitByFastForwardIT.class,\n    [...]\n  })\n  public class ChangeSuiteReviewDBSuite {\n    // no op\n  }\n\nNow in NotesDBSystemPropertySetter we can do:\n\n  public class NotesDBSystemPropertySetter {\n    @Test\n    public void activateNotesDB() {\n      System.setProperty(\"foo\", \"bar\");\n    }\n  }\n\nIn all tests that are parts of the first suite above the property foo has value bar now. This works, because the suite runner honors the order of test included in the annotation.\n\nWe can solve multiple configuration tests run from Eclipse for the same file similarly: abusing a test method as configuration activation and relying upon new feature in JUnit: fix order of methods execution, e. g.:\n\n  @FixMethodOrder(MethodSorters.NAME_ASCENDING)\n  public class TestFoo {\n\n    @Test\n    //@Ignore\n    public void aaa_activateNotesDB() {\n      System.setProperty(\"foo\", \"bar\");\n    }\n\n    // This test prints bar or baz depends upon execution\n    // of method aaa_activateNotesDB above\n    @Test\n    public void b() {\n      String str \u003d System.getProperty(\"foo\", \"baz\");\n      System.out.println(str);\n    }\n  }\n\nWell, this works too by commenting one line in @Before method too.\n\n\nWe can solve multiple configuration tests from Eclipse for the same method with existing GerritConfig Annotation.",
+      "range": {
+        "startLine": 14,
+        "startChar": 65,
+        "endLine": 16,
+        "endChar": 12
+      },
+      "revId": "e4385c0ea040aa476de1c8442e76a83aa2f6ab03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

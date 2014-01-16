@@ -67,10 +67,22 @@ public class DashboardTable extends ChangeTable2 {
     int i = 0;
     for (String title : titles) {
       Section s = new Section();
-      s.setTitleWidget(new InlineHyperlink(title, PageLinks.toChangeQuery(queries.get(i++))));
+      String query = removeLimit(queries.get(i++));
+      s.setTitleWidget(new InlineHyperlink(title, PageLinks.toChangeQuery(query)));
       addSection(s);
       sections.add(s);
     }
+  }
+
+  private String removeLimit(String query) {
+    StringBuilder unlimitedQuery = new StringBuilder();
+    String[] operators = query.split(" ");
+    for (String o : operators) {
+      if (!o.startsWith("limit:")) {
+        unlimitedQuery.append(o).append(" ");
+      }
+    }
+    return unlimitedQuery.toString().trim();
   }
 
   public String getTitle() {

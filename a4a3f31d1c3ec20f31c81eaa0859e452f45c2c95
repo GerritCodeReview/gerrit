@@ -22,6 +22,30 @@
       "revId": "a4a3f31d1c3ec20f31c81eaa0859e452f45c2c95",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed9865f7_9cdb858e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1012333
+      },
+      "writtenOn": "2014-01-16T01:05:49Z",
+      "side": 1,
+      "message": "Oh. I hadn\u0027t considered that. Do you think adding Change-Id to the list of things to search for would be useful, or just dropping the idea altogether?",
+      "parentUuid": "edc305c9_c4ea5e1d",
+      "range": {
+        "startLine": 9,
+        "startChar": 43,
+        "endLine": 10,
+        "endChar": 27
+      },
+      "revId": "a4a3f31d1c3ec20f31c81eaa0859e452f45c2c95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -94,7 +94,6 @@ class OverviewBar extends Composite implements ClickHandler {
     style.setTop(si.getTop() * r, Unit.PX);
     style.setHeight(Math.max(10, viewHeight * r), Unit.PX);
     getElement().getStyle().setHeight(viewHeight, Unit.PX);
-
     for (MarkHandle info : diff) {
       info.position(r);
     }
@@ -235,12 +234,28 @@ class OverviewBar extends Composite implements ClickHandler {
     }
 
     @Override
-    public void onClick(ClickEvent event) {
-      double y = cm.heightAtLine(line, "local");
-      double viewport = cm.getScrollInfo().getClientHeight();
-      cm.setCursor(LineCharacter.create(line));
-      cm.scrollToY(y - 0.5 * viewport);
-      cm.focus();
+    public void onClick(ClickEvent e) {
+      if (height == 1 || !visible()) {
+        e.stopPropagation();
+
+        double y = cm.heightAtLine(line, "local");
+        double viewport = cm.getScrollInfo().getClientHeight();
+        cm.setCursor(LineCharacter.create(line));
+        cm.scrollToY(y - 0.5 * viewport);
+        cm.focus();
+      }
+    }
+
+    private boolean visible() {
+      int markT = getElement().getOffsetTop();
+      int markE = markT + getElement().getOffsetHeight();
+
+      int viewT = viewport.getElement().getOffsetTop();
+      int viewE = viewT + viewport.getElement().getOffsetHeight();
+
+      return (viewT <= markT && markT < viewE) // mark top within viewport
+          || (viewT <= markE && markE < viewE) // mark end within viewport
+          || (markT <= viewT && viewE <= markE); // mark contains viewport
     }
 
     void remove() {

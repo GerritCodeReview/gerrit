@@ -61,9 +61,17 @@ public abstract class VersionedMetaData {
   /** @return name of the reference storing this configuration. */
   protected abstract String getRefName();
 
+  /** Set up the metadata, parsing any state from the loaded revision. */
   protected abstract void onLoad() throws IOException, ConfigInvalidException;
 
-  protected abstract void onSave(CommitBuilder commit) throws IOException,
+  /**
+   * Save any changes to the metadata in a commit.
+   *
+   * @return true if the commit should proceed, false to abort.
+   * @throws IOException
+   * @throws ConfigInvalidException
+   */
+  protected abstract boolean onSave(CommitBuilder commit) throws IOException,
       ConfigInvalidException;
 
   /** @return revision of the metadata that was loaded. */
@@ -189,7 +197,7 @@ public abstract class VersionedMetaData {
         write(VersionedMetaData.this, commit);
       }
 
-      private void doSave(VersionedMetaData config, CommitBuilder commit) throws IOException {
+      private boolean doSave(VersionedMetaData config, CommitBuilder commit) throws IOException {
         DirCache nt = config.newTree;
         ObjectReader r = config.reader;
         ObjectInserter i = config.inserter;
@@ -197,7 +205,7 @@ public abstract class VersionedMetaData {
           config.newTree = newTree;
           config.reader = reader;
           config.inserter = inserter;
-          config.onSave(commit);
+          return config.onSave(commit);
         } catch (ConfigInvalidException e) {
           throw new IOException("Cannot update " + getRefName() + " in "
               + db.getDirectory() + ": " + e.getMessage(), e);
@@ -210,7 +218,9 @@ public abstract class VersionedMetaData {
 
       @Override
       public void write(VersionedMetaData config, CommitBuilder commit) throws IOException {
-        doSave(config, commit);
+        if (!doSave(config, commit)) {
+          return;
+        }
 
         final ObjectId res = newTree.writeTree(inserter);
         if (res.equals(srcTree) && !update.allowEmpty()) {

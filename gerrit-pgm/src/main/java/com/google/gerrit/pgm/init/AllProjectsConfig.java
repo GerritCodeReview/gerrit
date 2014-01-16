@@ -88,7 +88,7 @@ public class AllProjectsConfig extends VersionedMetaData {
   }
 
   @Override
-  protected void onSave(CommitBuilder commit) throws IOException,
+  protected boolean onSave(CommitBuilder commit) throws IOException,
       ConfigInvalidException {
     throw new UnsupportedOperationException();
   }

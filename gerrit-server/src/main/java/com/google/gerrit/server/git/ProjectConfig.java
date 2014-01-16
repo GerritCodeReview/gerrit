@@ -746,7 +746,7 @@ public class ProjectConfig extends VersionedMetaData {
   }
 
   @Override
-  protected void onSave(CommitBuilder commit) throws IOException,
+  protected boolean onSave(CommitBuilder commit) throws IOException,
       ConfigInvalidException {
     if (commit.getMessage() == null || "".equals(commit.getMessage())) {
       commit.setMessage("Updated project configuration\n");
@@ -786,6 +786,7 @@ public class ProjectConfig extends VersionedMetaData {
 
     saveConfig(PROJECT_CONFIG, rc);
     saveGroupList();
+    return true;
   }
 
   public static final String validMaxObjectSizeLimit(String value)

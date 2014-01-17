@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4d58911a_2f1fa96e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-17T01:11:08Z",
+      "side": 1,
+      "message": "You want g.add(null, checkBox) and put the display name onto the CheckBox widget. This way it shows [x] Foo instead of Foo [x] and users get a bigger click target (the label text) to mash with the mouse.",
+      "range": {
+        "startLine": 394,
+        "startChar": 4,
+        "endLine": 394,
+        "endChar": 42
+      },
+      "revId": "0b93f64d06e31754778d1f7087de22bcda64fed3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "720a9615_f815d15c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/project/doc/ProjectDocumentationIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-17T08:24:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd9561be_fb3c8fe0",
+      "revId": "75ad516171e3957353d18fe83e3266620b9b4714",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4d58911a_8fdb358e",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ProjectDocServlet.java",
         "patchSetId": 11
@@ -30,6 +48,30 @@
       "writtenOn": "2014-01-16T23:00:55Z",
       "side": 1,
       "message": "/a/ occurs after getContextPath() but before \"src\". I don\u0027t think this is going to work correctly when Gerrit is run under a subpath like /gerrit/.",
+      "range": {
+        "startLine": 103,
+        "startChar": 4,
+        "endLine": 111,
+        "endChar": 5
+      },
+      "revId": "75ad516171e3957353d18fe83e3266620b9b4714",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "720a9615_7802e127",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ProjectDocServlet.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-17T08:24:27Z",
+      "side": 1,
+      "message": "Good catch!\n\nDone.",
+      "parentUuid": "4d58911a_8fdb358e",
       "range": {
         "startLine": 103,
         "startChar": 4,
@@ -65,6 +107,53 @@
     },
     {
       "key": {
+        "uuid": "720a9615_58071d36",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ProjectDocServlet.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-17T08:24:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4d58911a_afe0f940",
+      "range": {
+        "startLine": 119,
+        "startChar": 17,
+        "endLine": 119,
+        "endChar": 29
+      },
+      "revId": "75ad516171e3957353d18fe83e3266620b9b4714",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "720a9615_d8120d73",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ProjectDocServlet.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-17T08:24:27Z",
+      "side": 1,
+      "message": "In this case I should rather use\n\n  projectControl.canReadCommit(...)\n\nto check if the commit is readable by the user.\n\nDone",
+      "range": {
+        "startLine": 162,
+        "startChar": 8,
+        "endLine": 164,
+        "endChar": 26
+      },
+      "revId": "75ad516171e3957353d18fe83e3266620b9b4714",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ed46a541_ace00341",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ProjectDocServlet.java",
         "patchSetId": 11
@@ -76,6 +165,30 @@
       "writtenOn": "2014-01-16T23:00:55Z",
       "side": 1,
       "message": "Constants.R_REFS?",
+      "range": {
+        "startLine": 168,
+        "startChar": 30,
+        "endLine": 168,
+        "endChar": 37
+      },
+      "revId": "75ad516171e3957353d18fe83e3266620b9b4714",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "720a9615_38fc69de",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ProjectDocServlet.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-17T08:24:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed46a541_ace00341",
       "range": {
         "startLine": 168,
         "startChar": 30,
@@ -111,6 +224,30 @@
     },
     {
       "key": {
+        "uuid": "92154a31_59072336",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ProjectDocServlet.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-17T08:24:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed46a541_8cdb478e",
+      "range": {
+        "startLine": 169,
+        "startChar": 18,
+        "endLine": 169,
+        "endChar": 31
+      },
+      "revId": "75ad516171e3957353d18fe83e3266620b9b4714",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cd9561be_db37d3fb",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/documentation/MarkdownFormatter.java",
         "patchSetId": 11
@@ -122,6 +259,30 @@
       "writtenOn": "2014-01-16T23:00:55Z",
       "side": 1,
       "message": "|\u003d SUPPRESS_ALL_HTML",
+      "range": {
+        "startLine": 132,
+        "startChar": 14,
+        "endLine": 132,
+        "endChar": 34
+      },
+      "revId": "75ad516171e3957353d18fe83e3266620b9b4714",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "720a9615_1801a51e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/documentation/MarkdownFormatter.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-17T08:24:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd9561be_db37d3fb",
       "range": {
         "startLine": 132,
         "startChar": 14,

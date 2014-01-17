@@ -88,6 +88,24 @@
       "revId": "90602b8d32599a0e870c68fc537f48861231404e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd1c8154_c3fef6d7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-17T00:58:45Z",
+      "side": 1,
+      "message": "Agreed at this point we should have them separate. This will actually make the ChangeJson.labelsFor{Open,Closed}Change implementations just call different methods on the ChangeNotes, which is nice, because those methods are disgusting right now.\n\nNow to bikeshed the names. So I had previously considered:\n\n Label: Code-Review\u003d+1 A User ...\n\nbut that would mean there are two ways of parsing the \"Label\" footer. Not technically impossible, but possibly confusing.\n\nAlso, it would be possible to have both:\n\n Label: Code-Review\u003d+1\n Label: Code-Review\u003d+1 A User...\n\nwhere \"A User\" is also the committer on this commit. (Technically, there is even still a race where the permissions can change before setting each of these footers.) This is well-defined in that the former implies a label was assigned by this user, and the latter implies this label was immediately normalized and stamped at submit time. (Imagine a hypothetical /review_and_submit endpoint.) But perhaps confusing.\n\nAlthough clunky, I kind of liked \"Submitted-With\" because it says \"this is the result of the submit rule evaluator.\" I might prefer that in place of \"Approved\"...but I could go either way I think.",
+      "parentUuid": "4d58911a_4f130d72",
+      "revId": "90602b8d32599a0e870c68fc537f48861231404e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

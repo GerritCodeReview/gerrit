@@ -16,6 +16,24 @@
       "revId": "90602b8d32599a0e870c68fc537f48861231404e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd1c8154_23ed0a33",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-17T00:39:30Z",
+      "side": 1,
+      "message": "Doesn\u0027t that lose the normalized label information for other users who voted on the change but for whatever reason weren\u0027t emitted by the prolog?",
+      "parentUuid": "4d58911a_8f041532",
+      "revId": "90602b8d32599a0e870c68fc537f48861231404e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -70,6 +70,24 @@
       "revId": "90602b8d32599a0e870c68fc537f48861231404e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d58911a_4f130d72",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-17T00:49:03Z",
+      "side": 1,
+      "message": "Right, we want a snapshot of the labels used at submit time in case the rules change over time and a different set is required in the future. It makes it more clear why this change could be submitted.\n\nOne case that is interesting is e.g. \"verifier !\u003d reviewer\". If the rules require these to be different users the Prolog results will show that even if both users set both labels.\n\nMaybe:\n\n  Approved: Code-Review\u003d+2 ...\n  Approved: Verified\u003d+1 ...\n  Label: Code-Review\u003d+1 ...\n\nand in a record where \"Status: submitted\" the Label entries are the normalized ones?",
+      "parentUuid": "cd1c8154_63f70201",
+      "revId": "90602b8d32599a0e870c68fc537f48861231404e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

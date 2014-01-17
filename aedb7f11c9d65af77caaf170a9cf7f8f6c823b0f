@@ -190,6 +190,30 @@
     },
     {
       "key": {
+        "uuid": "720a9615_d840cd52",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ProjectDocServlet.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-17T15:20:23Z",
+      "side": 1,
+      "message": "I\u0027ve now done this in an own change [1]. If wanted I can bring this refactoring down into [2] I just didn\u0027t want to confuse reviewers too much, which is why I made it an own change.\n\n [1] https://gerrit-review.googlesource.com/53883\n [2] https://gerrit-review.googlesource.com/53010",
+      "parentUuid": "4dbc1132_af56191d",
+      "range": {
+        "startLine": 110,
+        "startChar": 6,
+        "endLine": 116,
+        "endChar": 7
+      },
+      "revId": "aedb7f11c9d65af77caaf170a9cf7f8f6c823b0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2d5efdcf_a63c66df",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ProjectDocServlet.java",
         "patchSetId": 8

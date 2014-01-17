@@ -191,15 +191,6 @@ public class ProjectDocumentationIT extends AbstractDaemonTest {
 
   @Test
   @GerritConfig(name="site.enableSrcToMarkdown", value="true")
-  public void noRev_NotFound() throws IOException, GitAPIException {
-    pushFactory.create(db, admin.getIdent(), "Add readme", "README.md", "read me")
-        .to(git, "refs/heads/master");
-    assertEquals(HttpStatus.SC_NOT_FOUND,
-        httpSession.get("/src/" + project.get() + "/rev/").getStatusCode());
-  }
-
-  @Test
-  @GerritConfig(name="site.enableSrcToMarkdown", value="true")
   public void getDocFromBranch() throws IOException, GitAPIException {
     pushFactory.create(db, admin.getIdent(), "Add doc", "test.md", "master content")
         .to(git, "refs/heads/master");

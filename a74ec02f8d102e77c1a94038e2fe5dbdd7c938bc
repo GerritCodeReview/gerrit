@@ -22,6 +22,30 @@
       "revId": "a74ec02f8d102e77c1a94038e2fe5dbdd7c938bc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b2e7ae93_02936a91",
+        "filename": "lib/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-17T19:08:18Z",
+      "side": 1,
+      "message": "The googlesource.com build is apprently going to update to 1.1.4, so I was trying to match that.",
+      "parentUuid": "b2e7ae93_228e6e69",
+      "range": {
+        "startLine": 162,
+        "startChar": 0,
+        "endLine": 162,
+        "endChar": 44
+      },
+      "revId": "a74ec02f8d102e77c1a94038e2fe5dbdd7c938bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

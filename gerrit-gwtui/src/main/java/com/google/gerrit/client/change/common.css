@@ -13,6 +13,8 @@
  * limitations under the License.
  */
 
+@external .*;
+
 @eval trimColor com.google.gerrit.client.Gerrit.getTheme().trimColor;
 
 .popup {
@@ -22,7 +24,6 @@
 }
 
 .popupContent {
-  padding: 5px;
 }
 
 .button,

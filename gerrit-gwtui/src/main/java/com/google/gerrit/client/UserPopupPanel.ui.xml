@@ -20,7 +20,10 @@ limitations under the License.
   xmlns:gerrit='urn:import:com.google.gerrit.client'
   xmlns:u='urn:import:com.google.gerrit.client.ui'>
   <ui:style>
-    .panel {
+    @external .panelUser, .avatar, .infoCell, .userName, .email;
+    @external .userLinks, .userLinksRight, .switchAccount;
+
+    .panelUser {
       padding: 8px;
     }
     .avatar {
@@ -50,7 +53,7 @@ limitations under the License.
     }
   </ui:style>
 
-  <g:HTMLPanel styleName='{style.panel}'>
+  <g:HTMLPanel styleName='{style.panelUser}'>
     <table><tr><td>
       <gerrit:AvatarImage ui:field='avatar' styleName='{style.avatar}' />
     </td><td class='{style.infoCell}'>

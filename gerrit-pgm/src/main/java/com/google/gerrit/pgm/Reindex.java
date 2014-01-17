@@ -34,16 +34,11 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.rules.PrologModule;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.InternalUser;
 import com.google.gerrit.server.account.AccountByEmailCacheImpl;
 import com.google.gerrit.server.account.AccountCacheImpl;
 import com.google.gerrit.server.account.CapabilityControl;
-import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupCacheImpl;
 import com.google.gerrit.server.account.GroupIncludeCacheImpl;
-import com.google.gerrit.server.account.IncludingGroupMembership;
-import com.google.gerrit.server.account.InternalGroupBackend;
-import com.google.gerrit.server.account.UniversalGroupBackend;
 import com.google.gerrit.server.cache.CacheRemovalListener;
 import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
 import com.google.gerrit.server.change.ChangeKindCache;
@@ -59,7 +54,7 @@ import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.git.validators.CommitValidationListener;
 import com.google.gerrit.server.git.validators.CommitValidators;
-import com.google.gerrit.server.group.SystemGroupBackend;
+import com.google.gerrit.server.group.GroupModule;
 import com.google.gerrit.server.index.ChangeBatchIndexer;
 import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.ChangeSchemas;
@@ -263,14 +258,6 @@ public class Reindex extends SiteProgram {
       bind(String.class).annotatedWith(CanonicalWebUrl.class)
           .toProvider(CanonicalWebUrlProvider.class);
 
-      factory(IncludingGroupMembership.Factory.class);
-      bind(GroupBackend.class).to(UniversalGroupBackend.class).in(SINGLETON);
-      DynamicSet.setOf(binder(), GroupBackend.class);
-      bind(InternalGroupBackend.class).in(SINGLETON);
-      DynamicSet.bind(binder(), GroupBackend.class).to(SystemGroupBackend.class);
-      DynamicSet.bind(binder(), GroupBackend.class).to(InternalGroupBackend.class);
-      factory(InternalUser.Factory.class);
-
       factory(PatchSetInserter.Factory.class);
       bind(ChangeHooks.class).to(DisabledChangeHooks.class);
       bind(ReplacePatchSetSender.Factory.class).toProvider(
@@ -292,6 +279,7 @@ public class Reindex extends SiteProgram {
 
       install(new AccessControlModule());
       install(new GitModule());
+      install(new GroupModule());
       install(new NoteDbModule());
       install(new PrologModule());
     }

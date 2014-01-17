@@ -121,8 +121,11 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
       deleteDraftChange(patchSetId);
     } else {
       if (change.currentPatchSetId().equals(patchSetId)) {
-        updateCurrentPatchSet(dbProvider.get(), change,
+        updateChange(dbProvider.get(), change,
             previousPatchSetInfo(patchSetId));
+      } else {
+        // TODO(davido): find a better way to enforce cache invalidation.
+        updateChange(dbProvider.get(), change, null);
       }
     }
   }
@@ -148,13 +151,15 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
     }
   }
 
-  private static void updateCurrentPatchSet(final ReviewDb db,
+  private static void updateChange(final ReviewDb db,
       final Change change, final PatchSetInfo psInfo)
       throws OrmException {
     db.changes().atomicUpdate(change.getId(), new AtomicUpdate<Change>() {
       @Override
       public Change update(Change c) {
-        c.setCurrentPatchSet(psInfo);
+        if (psInfo != null) {
+          c.setCurrentPatchSet(psInfo);
+        }
         ChangeUtil.updated(c);
         return c;
       }

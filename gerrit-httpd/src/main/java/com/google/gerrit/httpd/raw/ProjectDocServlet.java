@@ -28,6 +28,7 @@ import com.google.gerrit.server.auth.AuthException;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.GetHead;
 import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gwtexpui.server.CacheHeaders;
@@ -58,16 +59,19 @@ public class ProjectDocServlet extends HttpServlet {
   private final Provider<GetHead> getHead;
   private final GitRepositoryManager repoManager;
   private final LoadingCache<ProjectDocResourceKey, Resource> docCache;
+  private final ProjectCache projectCache;
 
   @Inject
   ProjectDocServlet(ProjectControl.Factory projectControlFactory,
       Provider<GetHead> getHead, GitRepositoryManager repoManager,
       @Named(ProjectDocLoader.Module.PROJECT_DOC_RESOURCES)
-          LoadingCache<ProjectDocResourceKey, Resource> cache) {
+          LoadingCache<ProjectDocResourceKey, Resource> cache,
+          ProjectCache projectCache) {
     this.projectControlFactory = projectControlFactory;
     this.getHead = getHead;
     this.repoManager = repoManager;
     this.docCache = cache;
+    this.projectCache = projectCache;
   }
 
   @Override
@@ -79,52 +83,23 @@ public class ProjectDocServlet extends HttpServlet {
       return;
     }
 
-    String path = req.getPathInfo();
-    if ("".equals(path)) {
+    ResourceKey key = ResourceKey.fromPath(req.getPathInfo());
+    if (projectCache.get(key.project) == null) {
+      Resource.NOT_FOUND.send(req, res);
+      return;
+    }
+    if (key.file == null) {
+      res.sendRedirect(getRedirectUrl(req, key));
+      return;
+    }
+    if (!key.file.endsWith(".md")) {
       Resource.NOT_FOUND.send(req, res);
       return;
     }
 
-    int i = path.indexOf('/');
-    if (i == -1) {
-      res.sendRedirect(req.getRequestURI() + "/README.md");
-      return;
-    } else if (i == path.length() - 1) {
-      res.sendRedirect(req.getRequestURI() + "README.md");
-      return;
-    }
-
-    String project = IdString.fromUrl(path.substring(0, i)).get();
-    String rest = path.substring(i + 1);
-
-    String rev = null;
-    if (rest.startsWith("rev/")) {
-      if (rest.length() == 4) {
-        Resource.NOT_FOUND.send(req, res);
-        return;
-      }
-      rest = rest.substring(4);
-      i = rest.indexOf('/');
-      if (i == -1) {
-        res.sendRedirect(req.getRequestURI() + "/README.md");
-        return;
-      } else if (i == rest.length() - 1) {
-        res.sendRedirect(req.getRequestURI() + "README.md");
-        return;
-      }
-      rev = IdString.fromUrl(rest.substring(0, i)).get();
-      rest = rest.substring(i + 1);
-    }
-
-    String file = IdString.fromUrl(rest).get();
-    if (!file.endsWith(".md")) {
-      Resource.NOT_FOUND.send(req, res);
-      return;
-    }
-
-    Project.NameKey projectName = new Project.NameKey(project);
     try {
-      ProjectControl projectControl = projectControlFactory.validateFor(projectName);
+      ProjectControl projectControl = projectControlFactory.validateFor(key.project);
+      String rev = key.revision;
       if (rev == null || Constants.HEAD.equals(rev)) {
         rev = getHead.get().apply(new ProjectResource(projectControl));
       } else  {
@@ -139,7 +114,7 @@ public class ProjectDocServlet extends HttpServlet {
         }
       }
 
-      Repository repo = repoManager.openRepository(projectName);
+      Repository repo = repoManager.openRepository(key.project);
       try {
         ObjectId revId = repo.resolve(Objects.firstNonNull(rev, Constants.HEAD));
         if (revId == null) {
@@ -161,9 +136,9 @@ public class ProjectDocServlet extends HttpServlet {
         }
 
         String eTag = Hashing.md5().newHasher()
-            .putUnencodedChars(project)
+            .putUnencodedChars(key.project.get())
             .putUnencodedChars(revId.getName())
-            .putUnencodedChars(file)
+            .putUnencodedChars(key.file)
             .hash().toString();
 
         String receivedETag = req.getHeader(HttpHeaders.IF_NONE_MATCH);
@@ -173,7 +148,7 @@ public class ProjectDocServlet extends HttpServlet {
         }
 
         Resource rsc = docCache.getUnchecked(
-            new ProjectDocResourceKey(projectName, file, revId));
+            new ProjectDocResourceKey(key.project, key.file, revId));
         res.setHeader(HttpHeaders.ETAG, eTag);
         CacheHeaders.setCacheablePrivate(res, 7, TimeUnit.DAYS, false);
         rsc.send(req, res);
@@ -185,6 +160,69 @@ public class ProjectDocServlet extends HttpServlet {
         | ResourceNotFoundException | AuthException e) {
       Resource.NOT_FOUND.send(req, res);
       return;
+    }
+  }
+
+  private String getRedirectUrl(HttpServletRequest req, ResourceKey key) {
+    StringBuilder redirctUrl = new StringBuilder();
+    redirctUrl.append(req.getRequestURL().substring(0,
+        req.getRequestURL().length() - req.getRequestURI().length()));
+    redirctUrl.append("/src/");
+    redirctUrl.append(key.project);
+    redirctUrl.append("/");
+    if (key.revision != null) {
+      redirctUrl.append("rev/");
+      redirctUrl.append(key.revision);
+      redirctUrl.append("/");
+    }
+    redirctUrl.append("README.md");
+    return redirctUrl.toString();
+  }
+
+  private static class ResourceKey {
+    final Project.NameKey project;
+    final String file;
+    final String revision;
+
+    static ResourceKey fromPath(String path) {
+      String project;
+      String file = null;
+      String revision = null;
+
+      int i = path.indexOf('/');
+      if (i != -1 && i != path.length() - 1) {
+        project = IdString.fromUrl(path.substring(0, i)).get();
+        String rest = path.substring(i + 1);
+
+        if (rest.startsWith("rev/")) {
+          if (rest.length() > 4) {
+            rest = rest.substring(4);
+            i = rest.indexOf('/');
+            if (i != -1 && i != path.length() - 1) {
+              revision = IdString.fromUrl(rest.substring(0, i)).get();
+              file = IdString.fromUrl(rest.substring(i + 1)).get();
+            } else {
+              revision = IdString.fromUrl(rest).get();
+            }
+          }
+        } else {
+          file = IdString.fromUrl(rest).get();
+        }
+
+      } else {
+        if (path.endsWith("/")) {
+          path = path.substring(0, path.length() - 1);
+        }
+        project = path;
+      }
+
+      return new ResourceKey(project, file, revision);
+    }
+
+    private ResourceKey(String p, String f, String r) {
+      project = p != null ? new Project.NameKey(p) : null;
+      file = f;
+      revision = r;
     }
   }
 }

@@ -114,7 +114,7 @@ class UrlModule extends ServletModule {
     serveRegex("^/(?:a/)?groups/(.*)?$").with(GroupsRestApiServlet.class);
     serveRegex("^/(?:a/)?projects/(.*)?$").with(ProjectsRestApiServlet.class);
     if (cfg.enableSrcToMarkdown) {
-      serveRegex("^/(?:a/)?src/(.*)?$").with(ProjectDocServlet.class);
+      serveRegex("^/(?:a/)?src/(.+)$").with(ProjectDocServlet.class);
     }
 
     filter("/Documentation/").through(QueryDocumentationFilter.class);

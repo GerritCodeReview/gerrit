@@ -19,7 +19,9 @@ limitations under the License.
     xmlns:c='urn:import:com.google.gwtexpui.globalkey.client'
     xmlns:g='urn:import:com.google.gwt.user.client.ui'>
   <ui:style>
-    .popup {
+    @external .popupMOTD, .essmageMOTD, .actionMOTD;
+
+    .popupMOTD {
       position: fixed;
       top: 5px;
       left: 50%;
@@ -34,34 +36,34 @@ limitations under the License.
     }
 
     @if user.agent safari {
-      .popup {
+      .popupMOTD {
         \-webkit-border-radius: 10px;
       }
     }
     @if user.agent gecko1_8 {
-      .popup {
+      .popupMOTD {
         \-moz-border-radius: 10px;
       }
     }
 
-    .message {
+    .essmageMOTD {
       display: inline;
     }
-    .message a {
+    .essmageMOTD a {
       color: #222;
       text-decoration: underline;
     }
-    a.action {
+    a.actionMOTD {
       color: #222;
       text-decoration: underline;
       display: inline-block;
       margin-left: 0.5em;
     }
   </ui:style>
-  <g:HTMLPanel styleName='{style.popup}'>
-    <g:HTML ui:field='message' styleName='{style.message}'/>
+  <g:HTMLPanel styleName='{style.popupMOTD}'>
+    <g:HTML ui:field='message' styleName='{style.essmageMOTD}'/>
     <g:Anchor ui:field='dismiss'
-        styleName='{style.action}'
+        styleName='{style.actionMOTD}'
         href='javascript:;'
         title='Hide this message'>
       <ui:attribute name='title'/>

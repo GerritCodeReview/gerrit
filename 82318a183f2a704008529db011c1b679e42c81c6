@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "92154a31_5955e315",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ProjectDocServlet.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-17T13:22:14Z",
+      "side": 1,
+      "message": "[Optional] make eTag computation conditional: we only need it, if header contains HttpHeaders.IF_NONE_MATCH. Otherwise we don\u0027t.",
+      "range": {
+        "startLine": 163,
+        "startChar": 8,
+        "endLine": 167,
+        "endChar": 31
+      },
+      "revId": "82318a183f2a704008529db011c1b679e42c81c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "720a9615_b82639c7",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ProjectDocServlet.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-17T13:22:14Z",
+      "side": 1,
+      "message": "It is never contained on the first request, so no need to compute eTag above.",
+      "range": {
+        "startLine": 170,
+        "startChar": 24,
+        "endLine": 170,
+        "endChar": 36
+      },
+      "revId": "82318a183f2a704008529db011c1b679e42c81c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ed46a541_cc370ffc",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 510,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-17T01:17:19Z",
+      "side": 1,
+      "message": "Above you set the inherited entry at index 0. Use that rule here instead of matching on text.",
+      "revId": "6422abe2edd077f2e5938f4f7b588a20bae044c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

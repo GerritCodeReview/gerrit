@@ -23,6 +23,9 @@ limitations under the License.
     @external .CodeMirror-dialog-bottom;
     @external .cm-keymap-fat-cursor, CodeMirror-cursor;
     @external .cm-searching, .cm-trailingspace, .cm-tab;
+    @external .fullscreen, .difftable, .tableDiff;
+    @external .a, .b, .diff, .intralineBg, .noIntraline, .fileCommentCell;
+    @external .activeLine, .range, .rangeHighlight, .showTabs, .showLineNumbers;
 
     .fullscreen {
       background-color: #f7f7f7;
@@ -52,12 +55,12 @@ limitations under the License.
       padding-bottom: 1px;
     }
 
-    .table {
+    .tableDiff {
       width: 100%;
       table-layout: fixed;
       border-spacing: 0;
     }
-    .table td { padding: 0 }
+    .tableDiff td { padding: 0 }
     .a, .b { width: 50% }
 
     .overview {
@@ -146,7 +149,7 @@ limitations under the License.
     }
   </ui:style>
   <g:HTMLPanel styleName='{style.difftable}'>
-    <table class='{style.table}'>
+    <table class='{style.tableDiff}'>
       <tr ui:field='patchSetNavRow' class='{style.patchSetNav}'>
         <td ui:field='patchSetNavCellA'>
           <d:PatchSetSelectBox2 ui:field='patchSetSelectBoxA' />

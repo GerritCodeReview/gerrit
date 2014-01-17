@@ -20,6 +20,8 @@ limitations under the License.
     xmlns:g='urn:import:com.google.gwt.user.client.ui'>
   <ui:with field='res' type='com.google.gerrit.client.diff.Resources'/>
   <ui:style type='com.google.gerrit.client.diff.PublishedBox.Style'>
+    @external .avatar, .closed, .name;
+
     .avatar {
       position: absolute;
       width: 26px;
@@ -47,7 +49,7 @@ limitations under the License.
       styleName='{res.style.commentBox}'
       addStyleNames='{style.closed}'>
     <c:AvatarImage ui:field='avatar' styleName='{style.avatar}'/>
-    <div class='{res.style.contents}'>
+    <div class='{res.style.contentsDiff}'>
       <g:HTMLPanel ui:field='header' styleName='{res.style.header}'>
         <div ui:field='name' class='{style.name}'/>
         <div ui:field='summary' class='{res.style.summary}'/>

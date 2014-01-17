@@ -20,7 +20,9 @@ limitations under the License.
     xmlns:x='urn:import:com.google.gerrit.client.ui'>
   <ui:with field='res' type='com.google.gerrit.client.diff.Resources'/>
   <ui:style>
-  .header {
+    @external .headerDiff, .reviewed, .path, .navigation, .nodiff, .preferences;
+
+  .headerDiff {
     position: relative;
     height: 16px;
     line-height: 16px;
@@ -51,7 +53,7 @@ limitations under the License.
     cursor: pointer;
   }
   </ui:style>
-  <g:HTMLPanel styleName='{style.header}'>
+  <g:HTMLPanel styleName='{style.headerDiff}'>
     <g:CheckBox ui:field='reviewed'
         styleName='{style.reviewed}'
         title='Mark file as reviewed (Shortcut: r)'>

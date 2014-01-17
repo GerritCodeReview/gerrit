@@ -21,6 +21,8 @@ limitations under the License.
   <ui:with field='ico' type='com.google.gerrit.client.GerritResources'/>
   <ui:with field='res' type='com.google.gerrit.client.change.Resources'/>
   <ui:style>
+    @external .show, .edit, .cancel;
+
     .show { cursor: pointer; }
     .edit, .cancel { float: right; }
   </ui:style>

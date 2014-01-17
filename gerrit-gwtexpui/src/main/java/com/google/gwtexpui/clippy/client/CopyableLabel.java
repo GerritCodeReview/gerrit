@@ -100,7 +100,7 @@ public class CopyableLabel extends Composite implements HasText {
 
     if (showLabel) {
       textLabel = new InlineLabel(getText());
-      textLabel.setStyleName(ClippyResources.I.css().label());
+      textLabel.setStyleName(ClippyResources.I.css().labelClippy());
       textLabel.addClickHandler(new ClickHandler() {
         @Override
         public void onClick(final ClickEvent event) {
@@ -130,7 +130,7 @@ public class CopyableLabel extends Composite implements HasText {
       final SafeHtmlBuilder h = new SafeHtmlBuilder();
 
       h.openElement("div");
-      h.setStyleName(ClippyResources.I.css().control());
+      h.setStyleName(ClippyResources.I.css().controlClippy());
 
       h.openElement("object");
       h.setWidth(SWF_WIDTH);

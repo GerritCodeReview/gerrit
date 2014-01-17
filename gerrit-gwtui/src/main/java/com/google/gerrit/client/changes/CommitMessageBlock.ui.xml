@@ -21,6 +21,9 @@ limitations under the License.
 
   <ui:with field='res' type='com.google.gerrit.client.GerritResources'/>
   <ui:style>
+    @external .commitMessageTable, .headerMessage, .contents, .commitSummary, .commitBody;
+    @external .starPanel, .boxTitle, .permalinkPanel;
+
     @eval selectionColor com.google.gerrit.client.Gerrit.getTheme().selectionColor;
     @eval trimColor com.google.gerrit.client.Gerrit.getTheme().trimColor;
     @eval backgroundColor com.google.gerrit.client.Gerrit.getTheme().backgroundColor;
@@ -31,7 +34,7 @@ limitations under the License.
       margin-bottom: 10px;
     }
 
-    .header {
+    .headerMessage {
       background-color: trimColor;
       white-space: nowrap;
       color: textColor;
@@ -87,7 +90,7 @@ limitations under the License.
 
   <g:HTMLPanel>
     <table class='{style.commitMessageTable}'>
-      <tr><td class='{style.header}'>
+      <tr><td class='{style.headerMessage}'>
         <g:SimplePanel styleName='{style.starPanel}' ui:field='starPanel'></g:SimplePanel>
         <div class='{style.boxTitle}'>Commit Message</div>
         <g:FlowPanel styleName='{style.permalinkPanel}' ui:field='permalinkPanel'></g:FlowPanel>

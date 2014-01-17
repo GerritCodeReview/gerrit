@@ -66,6 +66,30 @@
     },
     {
       "key": {
+        "uuid": "92154a31_79db0796",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-17T06:26:37Z",
+      "side": 1,
+      "message": "\u003e I would rather not have to write additional code just to get this working in Eclipse [...] More important is that buck test --all works, since that\u0027s what developers should be using to check the Verified bit anyway.\n\nTrue for checking with Buck, but developers use Eclipse to debug. We always said, that Buck driven build must be at least as good as Maven was. And of course you was able to click right mouse button on test or method and select \"Debug as Unit Test\" from Eclipse with Maven driven build and all configurations (Parametrizations) was honored.\n\nNotesDB vs. ReviewDB configuration on Buck driven build is not an exception here and both configuration must work from Eclipse to make development process as easy as possible.",
+      "parentUuid": "cd1c8154_83db1e8e",
+      "range": {
+        "startLine": 14,
+        "startChar": 65,
+        "endLine": 16,
+        "endChar": 12
+      },
+      "revId": "e4385c0ea040aa476de1c8442e76a83aa2f6ab03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4d58911a_efea011d",
         "filename": "gerrit-acceptance-tests/tests.defs",
         "patchSetId": 4

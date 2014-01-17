@@ -20,6 +20,7 @@ limitations under the License.
   <ui:style type='com.google.gerrit.client.diff.DiffTable.DiffTableStyle'>
     @external .CodeMirror, .CodeMirror-lines, .CodeMirror-selectedtext;
     @external .CodeMirror-linenumber, .CodeMirror-vscrollbar .CodeMirror-scroll;
+    @external .CodeMirror-dialog-bottom;
     @external .cm-keymap-fat-cursor, CodeMirror-cursor;
     @external .cm-searching, .cm-trailingspace, .cm-tab;
 
@@ -114,6 +115,16 @@ limitations under the License.
       background: transparent;
       text-decoration: underline;
       z-index: 2;
+    }
+    .difftable .CodeMirror-dialog-bottom {
+      border-top: 0;
+      border-left: 1px solid #000;
+      border-bottom: 1px solid #000;
+      background-color: #f7f7f7;
+      top: 0;
+      right: 0;
+      bottom: auto;
+      left: auto;
     }
     .showTabs .cm-tab:before {
       position: absolute;

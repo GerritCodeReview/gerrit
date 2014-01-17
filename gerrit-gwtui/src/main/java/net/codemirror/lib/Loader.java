@@ -92,7 +92,8 @@ class Loader {
     KeyMap km = CodeMirror.cloneKeyMap("vim");
     for (String s : new String[] {
         "A", "C", "I", "O", "R", "U",
-        "Ctrl-C", "Ctrl-O", "Ctrl-P", "Ctrl-S"}) {
+        "Ctrl-C", "Ctrl-O", "Ctrl-P", "Ctrl-S",
+        "Ctrl-F", "Ctrl-B", "Ctrl-R"}) {
       km.remove(s);
     }
     for (int i = 0; i <= 9; i++) {
@@ -104,8 +105,6 @@ class Loader {
     CodeMirror.mapVimKey("k", "gk");
     CodeMirror.mapVimKey("Down", "gj");
     CodeMirror.mapVimKey("Up", "gk");
-    CodeMirror.mapVimKey("<C-b>", "<C-u>");
-    CodeMirror.mapVimKey("<C-f>", "<C-d>");
     CodeMirror.mapVimKey("<PageUp>", "<C-u>");
     CodeMirror.mapVimKey("<PageDown>", "<C-d>");
   }

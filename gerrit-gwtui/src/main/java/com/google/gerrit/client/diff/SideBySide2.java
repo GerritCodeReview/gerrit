@@ -17,6 +17,7 @@ package com.google.gerrit.client.diff;
 import static java.lang.Double.POSITIVE_INFINITY;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.JumpKeys;
 import com.google.gerrit.client.account.DiffPreferences;
 import com.google.gerrit.client.change.ChangeScreen2;
 import com.google.gerrit.client.changes.ChangeApi;
@@ -206,6 +207,7 @@ public class SideBySide2 extends Screen {
   public void onShowView() {
     super.onShowView();
     Window.enableScrolling(false);
+    JumpKeys.enable(false);
     if (prefs.hideTopMenu()) {
       Gerrit.setHeaderVisible(false);
     }
@@ -280,6 +282,7 @@ public class SideBySide2 extends Screen {
 
     Window.enableScrolling(true);
     Gerrit.setHeaderVisible(true);
+    JumpKeys.enable(true);
   }
 
   private void removeKeyHandlerRegistrations() {

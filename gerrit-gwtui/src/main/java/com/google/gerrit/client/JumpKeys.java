@@ -16,13 +16,27 @@ package com.google.gerrit.client;
 
 import com.google.gerrit.common.PageLinks;
 import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.globalkey.client.CompoundKeyCommand;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
 import com.google.gwtexpui.globalkey.client.KeyCommandSet;
 
-class JumpKeys {
+public class JumpKeys {
+  private static HandlerRegistration activeHandler;
+  private static KeyCommandSet keys;
+  private static Widget bodyWidget;
+
+  public static void enable(boolean enable) {
+    if (enable && activeHandler == null) {
+      activeHandler = GlobalKey.add(bodyWidget, keys);
+    } else if (!enable && activeHandler != null) {
+      activeHandler.removeHandler();
+      activeHandler = null;
+    }
+  }
+
   static void register(final Widget body) {
     final KeyCommandSet jumps = new KeyCommandSet();
 
@@ -78,9 +92,10 @@ class JumpKeys {
       });
     }
 
-    final KeyCommandSet jumping = new KeyCommandSet(Gerrit.C.sectionJumping());
-    jumping.add(new CompoundKeyCommand(0, 'g', "", jumps));
-    GlobalKey.add(body, jumping);
+    keys = new KeyCommandSet(Gerrit.C.sectionJumping());
+    keys.add(new CompoundKeyCommand(0, 'g', "", jumps));
+    bodyWidget = body;
+    activeHandler = GlobalKey.add(body, keys);
   }
 
   private JumpKeys() {

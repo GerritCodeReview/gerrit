@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "92154a31_d940d352",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ProjectDocServlet.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-17T15:12:30Z",
+      "side": 1,
+      "message": "We also need the eTag for the first request since we include it into the response so that the client can send it with the next request. So the eTag computation needs to be done in any case.",
+      "parentUuid": "92154a31_5955e315",
+      "range": {
+        "startLine": 163,
+        "startChar": 8,
+        "endLine": 167,
+        "endChar": 31
+      },
+      "revId": "82318a183f2a704008529db011c1b679e42c81c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "720a9615_b82639c7",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ProjectDocServlet.java",
         "patchSetId": 11

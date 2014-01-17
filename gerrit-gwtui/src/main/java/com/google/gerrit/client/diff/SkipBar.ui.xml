@@ -17,12 +17,14 @@ limitations under the License.
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
     xmlns:g='urn:import:com.google.gwt.user.client.ui'>
   <ui:style type='com.google.gerrit.client.diff.SkipBar.SkipBarStyle'>
+    @external .skipBar, .textSkip, .anchor, .noExpand, .arrow;
+
     .skipBar {
       background-color: #def;
       height: 1.3em;
       overflow: hidden;
     }
-    .text {
+    .textSkip {
       display: table;
       margin: 0 auto;
       color: #777;
@@ -41,7 +43,7 @@ limitations under the License.
     }
   </ui:style>
   <g:HTMLPanel addStyleNames='{style.skipBar}'>
-  <div class='{style.text}'>
+  <div class='{style.textSkip}'>
     <ui:msg>
       <g:Anchor ui:field='upArrow' addStyleNames='{style.arrow} {style.anchor}' />
       <span><ui:msg>... skipped </ui:msg></span>

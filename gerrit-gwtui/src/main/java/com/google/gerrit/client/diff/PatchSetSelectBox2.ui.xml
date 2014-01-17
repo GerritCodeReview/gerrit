@@ -21,8 +21,10 @@ limitations under the License.
   <ui:with field='patchConstants'
       type='com.google.gerrit.client.patches.PatchConstants'/>
   <ui:style type='com.google.gerrit.client.diff.PatchSetSelectBox2.BoxStyle'>
+    @external .tablePatch, .linkCell, .selected, .hidden, .iconCell;
+
     @eval selectionColor com.google.gerrit.client.Gerrit.getTheme().selectionColor;
-    .table {
+    .tablePatch {
       width: 100%;
     }
     .linkCell {
@@ -57,7 +59,7 @@ limitations under the License.
     }
   </ui:style>
   <g:HTMLPanel>
-    <table class='{style.table}'>
+    <table class='{style.tablePatch}'>
       <td class='{style.iconCell}'>
         <g:Image ui:field='icon' resource='{res.addFileComment}'/>
       </td>

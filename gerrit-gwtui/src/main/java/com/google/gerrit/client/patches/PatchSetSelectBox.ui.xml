@@ -19,6 +19,9 @@ limitations under the License.
     xmlns:g='urn:import:com.google.gwt.user.client.ui'>
   <ui:with field='res' type='com.google.gerrit.client.GerritResources'/>
   <ui:style type='com.google.gerrit.client.patches.PatchSetSelectBox.BoxStyle'>
+    @external .linkPanel, .patchSetLabel, .sideMarker;
+    @external .selected, .hidden;
+
     @eval selectionColor com.google.gerrit.client.Gerrit.getTheme().selectionColor;
     @eval backgroundColor com.google.gerrit.client.Gerrit.getTheme().backgroundColor;
 

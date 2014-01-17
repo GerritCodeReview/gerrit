@@ -21,7 +21,9 @@ limitations under the License.
     xmlns:g='urn:import:com.google.gwt.user.client.ui'>
   <ui:with field='res' type='com.google.gerrit.client.diff.Resources'/>
   <ui:style>
-    .draft {
+    @external .draftBox, .editArea, .discard;
+
+    .draftBox {
       width: 45px;
       text-align: center;
       color: #fff;
@@ -42,9 +44,9 @@ limitations under the License.
   </ui:style>
 
   <g:HTMLPanel styleName='{res.style.commentBox}'>
-    <div class='{res.style.contents}'>
+    <div class='{res.style.contentsDiff}'>
       <g:HTMLPanel ui:field='header' styleName='{res.style.header}'>
-        <div class='{style.draft}'>Draft</div>
+        <div class='{style.draftBox}'>Draft</div>
         <div ui:field='summary' class='{res.style.summary}'/>
         <div ui:field='date' class='{res.style.date}'/>
       </g:HTMLPanel>

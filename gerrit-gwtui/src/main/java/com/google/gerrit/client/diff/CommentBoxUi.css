@@ -13,6 +13,8 @@
  * limitations under the License.
  */
 
+@external .*;
+
 .commentWidgets {
   max-width: 650px;
 
@@ -62,7 +64,7 @@
   right: 5px;
 }
 
-.contents {
+.contentsDiff {
   margin-left: 28px;
   padding-top: 2px;
   position: relative;

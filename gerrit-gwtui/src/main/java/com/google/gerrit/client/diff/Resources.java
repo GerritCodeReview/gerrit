@@ -32,7 +32,7 @@ interface Resources extends ClientBundle {
   interface Style extends CssResource {
     String commentWidgets();
     String commentBox();
-    String contents();
+    String contentsDiff();
     String message();
     String header();
     String summary();

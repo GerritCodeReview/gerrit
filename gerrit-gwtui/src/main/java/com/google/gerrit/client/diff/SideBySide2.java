@@ -401,6 +401,9 @@ public class SideBySide2 extends Screen {
     keysNavigation.add(
         new NoOpKeyCommand(KeyCommand.M_SHIFT, 'n', PatchUtil.C.commentNext()),
         new NoOpKeyCommand(KeyCommand.M_SHIFT, 'p', PatchUtil.C.commentPrev()));
+    keysNavigation.add(
+        new NoOpKeyCommand(KeyCommand.M_CTRL, 'f', PatchUtil.C.pageNext()),
+        new NoOpKeyCommand(KeyCommand.M_CTRL, 'b', PatchUtil.C.pagePrev()));
 
     keysAction = new KeyCommandSet(Gerrit.C.sectionActions());
     keysAction.add(new NoOpKeyCommand(0, KeyCodes.KEY_ENTER,

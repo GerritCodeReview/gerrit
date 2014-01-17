@@ -178,7 +178,9 @@ region on one line to emphasize what the comment is related to.
 
 Key bindings:
 
+* j / k: next line / previous line
 * n / p: next diff chunk / previous diff chunk
+* <Ctrl> + f / <Ctrl> + b: next page / previous page
 * ] / [: next file / previous file
 * u: up to change
 * c: create a new inline comment (focus has to be in codemirror view)

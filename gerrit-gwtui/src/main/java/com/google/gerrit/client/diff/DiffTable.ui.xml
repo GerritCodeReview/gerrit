@@ -23,6 +23,9 @@ limitations under the License.
     @external .CodeMirror-dialog-bottom;
     @external .cm-keymap-fat-cursor, CodeMirror-cursor;
     @external .cm-searching, .cm-trailingspace, .cm-tab;
+    @external .fullscreen, .difftable, .table;
+    @external .a, .b, .diff, .intralineBg, .noIntraline, .fileCommentCell;
+    @external .activeLine, .range, .rangeHighlight, .showTabs, .showLineNumbers;
 
     .fullscreen {
       background-color: #f7f7f7;

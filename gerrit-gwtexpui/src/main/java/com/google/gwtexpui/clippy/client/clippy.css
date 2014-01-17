@@ -13,10 +13,12 @@
  * limitations under the License.
  */
 
-.label {
+@external .*;
+
+.labelClippy {
   vertical-align: top;
 }
-.control {
+.controlClippy {
   margin-left: 5px;
   display: inline-block !important;
   height: 14px;

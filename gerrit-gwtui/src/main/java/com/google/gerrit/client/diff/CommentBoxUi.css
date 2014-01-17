@@ -30,7 +30,7 @@
   -webkit-touch-callout: initial;
   -webkit-user-select: initial;
   -khtml-user-select: initial;
-  -moz-user-select: initial;
+  -moz-user-select: text;
   -ms-user-select: initial;
 }
 

@@ -214,6 +214,30 @@
     },
     {
       "key": {
+        "uuid": "720a9615_b83d19d1",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ProjectDocServlet.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-17T15:52:53Z",
+      "side": 1,
+      "message": "That\u0027s fine this way. Thanks for the refactoring.",
+      "parentUuid": "720a9615_d840cd52",
+      "range": {
+        "startLine": 110,
+        "startChar": 6,
+        "endLine": 116,
+        "endChar": 7
+      },
+      "revId": "aedb7f11c9d65af77caaf170a9cf7f8f6c823b0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2d5efdcf_a63c66df",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ProjectDocServlet.java",
         "patchSetId": 8

@@ -22,6 +22,30 @@
       "revId": "20bc8f8e5c30765ee6a326fdc0c8cb07e40a1dd2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "720a9615_980c9555",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-17T11:49:30Z",
+      "side": 1,
+      "message": "I changed it so that now a NpIntTextBox is rendered if the type is \"INT\" or \"LONG\". I\u0027m not checking that the value returned from the server is actually an int or a long but I just take the value as is. Then the NpIntTextBox class can stay unmodified. I think the important part here is that the user can only type numbers. This part is done.",
+      "parentUuid": "4d58911a_0f22e5bd",
+      "range": {
+        "startLine": 366,
+        "startChar": 42,
+        "endLine": 367,
+        "endChar": 42
+      },
+      "revId": "20bc8f8e5c30765ee6a326fdc0c8cb07e40a1dd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

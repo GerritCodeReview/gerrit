@@ -40,7 +40,6 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.CmdLineParserModule;
 import com.google.gerrit.server.FileTypeRegistry;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.InternalUser;
 import com.google.gerrit.server.MimeUtilFileTypeRegistry;
 import com.google.gerrit.server.PluginUser;
 import com.google.gerrit.server.account.AccountByEmailCacheImpl;
@@ -54,18 +53,14 @@ import com.google.gerrit.server.account.AccountVisibilityProvider;
 import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.ChangeUserName;
 import com.google.gerrit.server.account.EmailExpander;
-import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupCacheImpl;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.account.GroupDetailFactory;
 import com.google.gerrit.server.account.GroupIncludeCacheImpl;
 import com.google.gerrit.server.account.GroupInfoCacheFactory;
 import com.google.gerrit.server.account.GroupMembers;
-import com.google.gerrit.server.account.IncludingGroupMembership;
-import com.google.gerrit.server.account.InternalGroupBackend;
 import com.google.gerrit.server.account.PerformCreateGroup;
 import com.google.gerrit.server.account.PerformRenameGroup;
-import com.google.gerrit.server.account.UniversalGroupBackend;
 import com.google.gerrit.server.auth.AuthBackend;
 import com.google.gerrit.server.auth.UniversalAuthBackend;
 import com.google.gerrit.server.avatar.AvatarProvider;
@@ -89,7 +84,7 @@ import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.git.validators.MergeValidationListener;
 import com.google.gerrit.server.git.validators.MergeValidators;
 import com.google.gerrit.server.git.validators.MergeValidators.ProjectConfigValidator;
-import com.google.gerrit.server.group.SystemGroupBackend;
+import com.google.gerrit.server.group.GroupModule;
 import com.google.gerrit.server.mail.AddReviewerSender;
 import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.mail.EmailModule;
@@ -166,6 +161,7 @@ public class GerritGlobalModule extends FactoryModule {
     install(new CmdLineParserModule());
     install(new EmailModule());
     install(new GitModule());
+    install(new GroupModule());
     install(new NoteDbModule());
     install(new PrologModule());
     install(new SshAddressesModule());
@@ -182,7 +178,6 @@ public class GerritGlobalModule extends FactoryModule {
     factory(GroupDetailFactory.Factory.class);
     factory(GroupInfoCacheFactory.Factory.class);
     factory(GroupMembers.Factory.class);
-    factory(InternalUser.Factory.class);
     factory(MergedSender.Factory.class);
     factory(MergeFailSender.Factory.class);
     factory(MergeUtil.Factory.class);
@@ -209,13 +204,6 @@ public class GerritGlobalModule extends FactoryModule {
 
     bind(GroupControl.Factory.class).in(SINGLETON);
     bind(GroupControl.GenericFactory.class).in(SINGLETON);
-    factory(IncludingGroupMembership.Factory.class);
-    bind(GroupBackend.class).to(UniversalGroupBackend.class).in(SINGLETON);
-    DynamicSet.setOf(binder(), GroupBackend.class);
-
-    bind(InternalGroupBackend.class).in(SINGLETON);
-    DynamicSet.bind(binder(), GroupBackend.class).to(SystemGroupBackend.class);
-    DynamicSet.bind(binder(), GroupBackend.class).to(InternalGroupBackend.class);
 
     bind(FileTypeRegistry.class).to(MimeUtilFileTypeRegistry.class);
     bind(ToolsCatalog.class);

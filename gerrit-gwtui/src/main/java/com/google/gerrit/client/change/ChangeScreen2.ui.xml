@@ -22,6 +22,14 @@ limitations under the License.
   <ui:with field='ico' type='com.google.gerrit.client.GerritResources'/>
   <ui:with field='res' type='com.google.gerrit.client.change.Resources'/>
   <ui:style type='com.google.gerrit.client.change.ChangeScreen2.Style'>
+    @external .cs2, .headerLine, .subjectLine, .subjectText;
+    @external .statusRight, .idAndStatus, .star, .changeId, .statusText;
+    @external .subjectText, .subjectButtons, .infoLine, .infoLineHeaderButtons, .popdown;
+    @external .commitColumn, .relatedColumn, .relatedColumn;
+    @external .sectionHeader, .headerButtons, .diffBase, .replyBox;
+    @external .label_user, .label_ok, .label_reject, .label_need .label_may, .labels, .labelName;
+    @external .infoTable, .queryProject, .infoColumn, .notMergeable, .selected;
+
     @eval textColor com.google.gerrit.client.Gerrit.getTheme().textColor;
     @eval trimColor com.google.gerrit.client.Gerrit.getTheme().trimColor;
 

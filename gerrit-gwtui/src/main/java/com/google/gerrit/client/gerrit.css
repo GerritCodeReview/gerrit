@@ -944,12 +944,6 @@ a:hover {
   border-spacing: 0;
 }
 
-.infoTable td {
-  border-left: 1px solid trimColor;
-  border-bottom: 1px solid trimColor;
-  padding: 2px 6px 1px;
-}
-
 .infoTable td.header {
   background-color: trimColor;
   font-weight: normal;

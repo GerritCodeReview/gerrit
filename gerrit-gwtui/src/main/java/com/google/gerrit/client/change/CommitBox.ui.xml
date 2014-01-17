@@ -21,6 +21,9 @@ limitations under the License.
     xmlns:clippy='urn:import:com.google.gwtexpui.clippy.client'>
   <ui:image field="toggle" src="more_less.png"/>
   <ui:style type='com.google.gerrit.client.change.CommitBox.Style'>
+    @external .collapsed, .scroll, .text, .more, .moreButton, .toggle;
+    @external .expanded, .header, .dateCommit, .clippy;
+
     @eval trimColor com.google.gerrit.client.Gerrit.getTheme().trimColor;
 
     .collapsed .scroll { height: 250px }
@@ -62,14 +65,14 @@ limitations under the License.
     .collapsed button:hover .toggle { background-position: -13px 0px }
     .expanded button:hover .toggle { background-position: 0px 0px }
 
-    .header {
+    table.header {
       border-spacing: 0;
       padding: 0;
       width: 560px;
     }
     .header th { width: 70px; }
     .header td { white-space: nowrap; }
-    .date { width: 132px; }
+    .dateCommit { width: 132px; }
 
     .clippy {
       position: relative;
@@ -100,7 +103,7 @@ limitations under the License.
               <ui:attribute name='title'/>
             </x:InlineHyperlink>
         </td>
-        <td ui:field='authorDate' class='{style.date}' colspan="2"/>
+        <td ui:field='authorDate' class='{style.dateCommit}' colspan="2"/>
       </tr>
       <tr>
         <th><ui:msg>Committer</ui:msg></th>
@@ -109,7 +112,7 @@ limitations under the License.
               <ui:attribute name='title'/>
             </x:InlineHyperlink>
         </td>
-        <td ui:field='committerDate' class='{style.date}' colspan="2"/>
+        <td ui:field='committerDate' class='{style.dateCommit}' colspan="2"/>
       </tr>
       <tr>
         <th><ui:msg>Commit</ui:msg></th>

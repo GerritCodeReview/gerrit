@@ -52,6 +52,24 @@
       "revId": "90602b8d32599a0e870c68fc537f48861231404e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd1c8154_63f70201",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-17T00:43:09Z",
+      "side": 1,
+      "message": "What is the advantage of having the prolog results? That it mentions only the labels specifically required according to the prolog rules?\n\nRather than storing redundant information it might be nice to figure out just what is the additional information that the submit rule evaluator provides over and above the label information...but I can see where that might be nontrivial to code.\n\nAlso, suggestions for two descriptive footer keys that distinguish these two cases welcome :)",
+      "parentUuid": "4d58911a_2f16c962",
+      "revId": "90602b8d32599a0e870c68fc537f48861231404e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

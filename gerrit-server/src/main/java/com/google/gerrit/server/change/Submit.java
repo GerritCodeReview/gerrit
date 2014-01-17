@@ -20,6 +20,7 @@ import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -55,6 +56,7 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     UiAction<RevisionResource> {
@@ -224,9 +226,18 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
   private void approve(RevisionResource rsrc, ChangeUpdate update,
       IdentifiedUser caller, Timestamp timestamp) throws OrmException {
     PatchSet.Id psId = rsrc.getPatchSet().getId();
-    List<PatchSetApproval> approvals = Lists.newArrayList(
-        approvalsUtil.byPatchSet(dbProvider.get(), rsrc.getNotes(), psId));
-    PatchSetApproval submit = ApprovalsUtil.getSubmitter(psId, approvals);
+    List<PatchSetApproval> approvals =
+        approvalsUtil.byPatchSet(dbProvider.get(), rsrc.getNotes(), psId);
+
+    Map<PatchSetApproval.Key, PatchSetApproval> byKey =
+        Maps.newHashMapWithExpectedSize(approvals.size());
+    for (PatchSetApproval psa : approvals) {
+      if (!byKey.containsKey(psa.getKey())) {
+        byKey.put(psa.getKey(), psa);
+      }
+    }
+
+    PatchSetApproval submit = ApprovalsUtil.getSubmitter(psId, byKey.values());
     if (submit == null || submit.getAccountId() != caller.getAccountId()) {
       submit = new PatchSetApproval(
           new PatchSetApproval.Key(
@@ -234,7 +245,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
               caller.getAccountId(),
               LabelId.SUBMIT),
           (short) 1, TimeUtil.nowTs());
-      approvals.add(submit);
+      byKey.put(submit.getKey(), submit);
     }
     submit.setValue((short) 1);
     submit.setGranted(timestamp);
@@ -244,7 +255,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     // presentation view time, except for zero votes used to indicate a reviewer
     // was added. So we need to make sure votes are accurate now. This way if
     // permissions get modified in the future, historical records stay accurate.
-    approvals = labelNormalizer.normalize(rsrc.getControl(), approvals);
+    approvals = labelNormalizer.normalize(rsrc.getControl(), byKey.values());
 
     // TODO(dborowitz): Don't use a label in notedb; just check when status
     // change happened.

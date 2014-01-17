@@ -138,6 +138,13 @@ class ChangeApiImpl implements ChangeApi {
   }
 
   @Override
+  public void addReviewer(String reviewer) throws RestApiException {
+    AddReviewerInput in = new AddReviewerInput();
+    in.reviewer = reviewer;
+    addReviewer(in);
+  }
+
+  @Override
   public void addReviewer(AddReviewerInput in) throws RestApiException {
     try {
       postReviewers.get().apply(change, in);

@@ -19,6 +19,9 @@ limitations under the License.
     xmlns:c='urn:import:com.google.gerrit.client'
     xmlns:g='urn:import:com.google.gwt.user.client.ui'>
   <ui:style type='com.google.gerrit.client.change.Message.Style'>
+    @external .messageBox, .header, .avatar, .closed, .contents, .name;
+    @external .closed, .summary, .date, .reply;
+
     .messageBox {
       position: relative;
       width: 1168px;
@@ -30,7 +33,7 @@ limitations under the License.
       -webkit-border-bottom-right-radius: 8px;
     }
 
-    .header {
+    div.header {
       cursor: pointer;
     }
 
@@ -80,7 +83,7 @@ limitations under the License.
       white-space: nowrap;
     }
 
-    .date {
+    div.date {
       white-space: nowrap;
       position: absolute;
       top: 0;

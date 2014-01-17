@@ -26,6 +26,7 @@ limitations under the License.
     @external .gwt-ToggleButton-down;
     @external .gwt-ToggleButton-down-hovering;
     @external .gwt-ToggleButton-down-disabled;
+    @external .dialog, .box, .tablePref, .html-face, .apply, .save;
 
     .dialog {
       background: rgba(0, 0, 0, 0.85) none repeat scroll 0 50%;
@@ -56,13 +57,13 @@ limitations under the License.
     .box .gwt-TextBox { padding: 0; }
     .context { vertical-align: bottom; }
 
-    .table tr { min-height: 23px; }
-    .table th,
-    .table td {
+    .tablePref tr { min-height: 23px; }
+    .tablePref th,
+    .tablePref td {
       white-space: nowrap;
       color: #ffffff;
     }
-    .table th {
+    .tablePref th {
       padding-right: 8px;
       text-align: right;
     }
@@ -160,7 +161,7 @@ limitations under the License.
       </tr>
     </table>
     <hr/>
-    <table class='{style.table}'>
+    <table class='{style.tablePref}'>
       <tr>
         <th><ui:msg>Theme</ui:msg></th>
         <td><g:ListBox ui:field='theme'/></td>

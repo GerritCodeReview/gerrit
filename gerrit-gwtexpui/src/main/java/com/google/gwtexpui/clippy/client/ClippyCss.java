@@ -17,6 +17,6 @@ package com.google.gwtexpui.clippy.client;
 import com.google.gwt.resources.client.CssResource;
 
 public interface ClippyCss extends CssResource {
-  String label();
-  String control();
+  String labelClippy();
+  String controlClippy();
 }

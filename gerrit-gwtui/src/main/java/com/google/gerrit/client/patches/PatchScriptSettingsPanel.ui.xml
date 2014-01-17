@@ -25,6 +25,7 @@ limitations under the License.
 <ui:style>
   @external .gwt-TextBox;
   @external .gwt-ListBox;
+  @external .controls, .updateButton;
 
   @def fontSize 8pt;
 

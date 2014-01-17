@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ed46a541_ec3ccbe0",
+        "filename": "gerrit-gwtexpui/src/main/java/com/google/gwtexpui/clippy/client/clippy.css",
+        "patchSetId": 9
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1014058
+      },
+      "writtenOn": "2014-01-17T18:22:06Z",
+      "side": 1,
+      "message": "everything for clippy label and control I found were either in a div or table with the class of clippy. So drilling down like this via CSS should be specific enough to only apply the CSS to the needed fields.\n\nIf this isn\u0027t working as I believe it is, could you point me to where clippy is found outside the Commit/Change-Id fields on the change screen?",
+      "parentUuid": "ed9865f7_1c2215be",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 8
+      },
+      "revId": "ac3ceb2fd76c22f5bb8a078e373dcd03b3d66a17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ed9865f7_3c1fd16e",
         "filename": "gerrit-gwtexpui/src/main/java/com/google/gwtexpui/progress/client/progress.css",
         "patchSetId": 9
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "ed46a541_0c22f7bd",
+        "filename": "gerrit-gwtexpui/src/main/java/com/google/gwtexpui/progress/client/progress.css",
+        "patchSetId": 9
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1014058
+      },
+      "writtenOn": "2014-01-17T18:22:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed9865f7_3c1fd16e",
+      "revId": "ac3ceb2fd76c22f5bb8a078e373dcd03b3d66a17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cd9561be_bb32070d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/MessageOfTheDayBar.ui.xml",
         "patchSetId": 9
@@ -53,6 +95,24 @@
       "writtenOn": "2014-01-16T22:14:56Z",
       "side": 1,
       "message": "These class names are too generic to export as is.",
+      "revId": "ac3ceb2fd76c22f5bb8a078e373dcd03b3d66a17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed46a541_2c1fb36e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/MessageOfTheDayBar.ui.xml",
+        "patchSetId": 9
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1014058
+      },
+      "writtenOn": "2014-01-17T18:22:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd9561be_bb32070d",
       "revId": "ac3ceb2fd76c22f5bb8a078e373dcd03b3d66a17",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

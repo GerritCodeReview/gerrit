@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "720a9615_184f6586",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ProjectDocServlet.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-17T15:18:14Z",
+      "side": 1,
+      "message": "I have refactored this part in [1] to make the code better readable. I didn\u0027t do it directly in this change because I know that reviewers already spend time understanding this piece of code and changing it now completely would mean more effort for them. If wanted I can bring the refactoring down to this change.\n\n[1] https://gerrit-review.googlesource.com/53883",
+      "range": {
+        "startLine": 103,
+        "startChar": 4,
+        "endLine": 138,
+        "endChar": 5
+      },
+      "revId": "9b33713ce2b4a2c49ebe3aa69f4435c1eb393494",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

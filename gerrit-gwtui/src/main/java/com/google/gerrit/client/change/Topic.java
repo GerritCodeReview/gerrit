@@ -111,6 +111,7 @@ class Topic extends Composite {
     if (e.getNativeKeyCode() == KeyCodes.KEY_ESCAPE) {
       onCancel(null);
     } else if (e.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
+      e.stopPropagation();
       onSave(null);
     }
   }

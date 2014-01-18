@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "d22fc28a_4b076536",
+        "filename": "gerrit-gwtexpui/src/main/java/com/google/gwtexpui/clippy/client/clippy.css",
+        "patchSetId": 9
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-18T01:11:30Z",
+      "side": 1,
+      "message": "Project screens show a list of URLs to clone the project. These do not use clippy as a class name.",
+      "parentUuid": "ed46a541_ec3ccbe0",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 8
+      },
+      "revId": "ac3ceb2fd76c22f5bb8a078e373dcd03b3d66a17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ed9865f7_3c1fd16e",
         "filename": "gerrit-gwtexpui/src/main/java/com/google/gwtexpui/progress/client/progress.css",
         "patchSetId": 9

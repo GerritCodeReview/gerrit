@@ -14,8 +14,8 @@ This is not only a facelift. The main highlights are under the hood:
 * The prettify syntax highlighting library was replaced by Codemirror
 * Automatic refresh of open changes
 * Support to download a patch direct in browser: no local repo is needed
-* JS API integration: it was never so easy to add change/revision actions to
-the UI from a plugin.
+* JS API integration: it was never so easy to add change/revision actions or
+HTML fragments to the UI from a plugin
 
 This document is intended to help users to switch to the new change screen.
 
@@ -194,14 +194,14 @@ Key bindings:
 [[reviewers]]
 == Reviewers
 
-Reviewer are split into two groups: Reviewers who actually voted on the change
-in the 'Reviewers' field, and reviewers, who were added to the change but didn't
-vote yet in the 'CC' field.
+Reviewers who actually voted on the change or were added to the change but didn't
+vote yet are shown as "chip" in the 'Reviewers' field.
 
 The votes per category are listed above the File list.
 
-To add a reviewer, use the '[+]' button to the right of the 'CC' field. Typing
-into the pop-up text field activates auto completion of user or group names.
+To add a reviewer, use the 'Add...' button to the right of the 'Reviewers'
+field. Typing  into the pop-up text field activates auto completion of user or
+group names.
 
 To remove reviewers click on the 'x' icon in the reviewer's "chip".
 
@@ -232,6 +232,11 @@ it shows also the closed changes that are going to be merged into the
 destination branch by accepting the merge commit. It is kind of a dependency
 too, but not in the sense of "these changes have to be submitted in order to
 submit this change".
+
+Unlike the old change screen it doesn't explicitly say "needed by" and "depends
+on" any more, but the relationship can still be inferred from the position of
+the change in the list.  Changes listed above the current change are dependents;
+changes below the current change are dependencies.
 
 Indicators are appended on the commit message headlines of related changes to
 signify dependencies on outdated changes, or commits that are not associated to

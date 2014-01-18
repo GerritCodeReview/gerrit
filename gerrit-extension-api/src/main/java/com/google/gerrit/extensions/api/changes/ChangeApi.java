@@ -33,4 +33,5 @@ public interface ChangeApi {
   ChangeApi revert(RevertInput in) throws RestApiException;
 
   void addReviewer(AddReviewerInput in) throws RestApiException;
+  void addReviewer(String in) throws RestApiException;
 }

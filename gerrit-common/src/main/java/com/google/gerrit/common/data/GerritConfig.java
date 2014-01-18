@@ -49,6 +49,7 @@ public class GerritConfig implements Cloneable {
   protected Project.NameKey wildProject;
   protected Set<Account.FieldName> editableAccountFields;
   protected boolean documentationAvailable;
+  protected String contextPath;
   protected String anonymousCowardName;
   protected int suggestFrom;
   protected int changeUpdateDelay;
@@ -240,6 +241,14 @@ public class GerritConfig implements Cloneable {
 
   public void setDocumentationAvailable(final boolean available) {
     documentationAvailable = available;
+  }
+
+  public String getContextPath() {
+    return contextPath;
+  }
+
+  public void setContextPath(String contextPath) {
+    this.contextPath = contextPath;
   }
 
   public String getAnonymousCowardName() {

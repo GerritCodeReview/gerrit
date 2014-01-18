@@ -94,8 +94,10 @@ class ReplyAction {
       replyBox.replyTo(msg);
     }
 
-    final PluginSafePopupPanel p = new PluginSafePopupPanel(true);
+    final PluginSafePopupPanel p = new PluginSafePopupPanel(true, false);
     p.setStyleName(style.replyBox());
+    p.setGlassEnabled(true);
+    p.setGlassStyleName("");
     p.addAutoHidePartner(replyButton.getElement());
     p.addCloseHandler(new CloseHandler<PopupPanel>() {
       @Override

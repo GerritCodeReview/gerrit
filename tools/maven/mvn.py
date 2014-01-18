@@ -19,6 +19,9 @@ from os import path
 from sys import stderr
 from util import check_output
 
+def mvn(action):
+  return ['mvn', '--file', path.join(self, 'fake_pom_%s.xml' % action)]
+
 opts = OptionParser()
 opts.add_option('--repository', help='maven repository id')
 opts.add_option('--url', help='maven repository url')
@@ -38,12 +41,11 @@ common = [
 ]
 
 self = path.dirname(path.abspath(__file__))
-mvn = ['mvn', '--file', path.join(self, 'fake_pom.xml')]
 
 if 'install' == args.a:
-  cmd = mvn + ['install:install-file'] + common
+  cmd = mvn(args.a) + ['install:install-file'] + common
 elif 'deploy' == args.a:
-  cmd = mvn + [
+  cmd = mvn(args.a) + [
     'deploy:deploy-file',
     '-DrepositoryId=%s' % args.repository,
     '-Durl=%s' % args.url,

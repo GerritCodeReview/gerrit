@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1294fafd_3dea2f19",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ProjectDocServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-18T23:00:15Z",
+      "side": 1,
+      "message": "redirectUrl",
+      "range": {
+        "startLine": 167,
+        "startChar": 18,
+        "endLine": 167,
+        "endChar": 28
+      },
+      "revId": "f324ccdd08ad143fdaa9b0cf29d07b1767c557bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2a0465c_1ce5f547",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ProjectDocServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-18T23:00:15Z",
+      "side": 1,
+      "message": "You swallow context path here, if it isn\u0027t \"/\". So using Apache as frontend with /gerrit as context path you get:\n\n  req.getRequestURL() \u003d http://localhost/gerrit/src/test_project\n  req.getRequestURI() \u003d /gerrit/src/test_project\n\nAnd you are redirecting in the end of this method to:\n\n  http://localhost/src/test_project/README.md\n\nwith 404 as outcome. One possibility to fix it, is to overwrite init() method from HttpServlet and retain contextPath:\n\n @Override\n  public void init(ServletConfig config) throws ServletException {\n    this.contextPath \u003d config.getServletContext().getContextPath();\n    super.init(config);\n  }\n\nNow in this method you can reconstruct the right URL with context path:\n\n    StringBuilder redirectUrl \u003d new StringBuilder();\n    redirectUrl.append(req.getRequestURL().substring(0,\n        req.getRequestURL().length() - req.getRequestURI().length()));\n    redirectUrl.append(contextPath);\n    redirectUrl.append(\"/src/\");\n    [...]\n\nAnother option to fix it, is to reconsider that change that you\u0027ve mentioned in the commit message:\n\n\"There is a minor change in behaviour, a request on\n\u0027/src/\u003cproject\u003e/rev/\u0027 is not anymore resulting in \u0027Not Found\u0027 but is\nredirected to \u0027/src/\u003cproject\u003e/README.md\u0027.\"\n\nand go back to the code from the earlier change in this series (slightly modified from me):\n\n  private String getRedirectUrl(HttpServletRequest req) {\n    return CharMatcher.is(\u0027/\u0027).trimTrailingFrom(req.getRequestURL()) + \"/README.md\";\n  }",
+      "range": {
+        "startLine": 168,
+        "startChar": 4,
+        "endLine": 169,
+        "endChar": 70
+      },
+      "revId": "f324ccdd08ad143fdaa9b0cf29d07b1767c557bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2a0465c_3cea3119",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ProjectDocServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-18T23:00:15Z",
+      "side": 1,
+      "message": "[Optional]\n\nReplace this construct with one liner:\n\n  project \u003d CharMatcher.is(\u0027/\u0027).trimTrailingFrom(path);",
+      "range": {
+        "startLine": 212,
+        "startChar": 8,
+        "endLine": 216,
+        "endChar": 23
+      },
+      "revId": "f324ccdd08ad143fdaa9b0cf29d07b1767c557bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -896,8 +896,18 @@ public class Gerrit implements EntryPoint {
     m.add(atag);
   }
 
-  private static void addExtensionLink(final LinkMenuBar m, final TopMenuItem item) {
-    final Anchor atag = anchor(item.getName(), item.getUrl());
+  private static void addExtensionLink(LinkMenuBar m, TopMenuItem item) {
+    String url = item.getUrl();
+    if (myConfig.getContextPath() != null &&
+        !myConfig.getContextPath().isEmpty()) {
+      url = myConfig.getContextPath();
+      // when URL doesn't start with "/", add one
+      if (item.getUrl().indexOf('/') != 0) {
+        url += '/';
+      }
+      url += item.getUrl();
+    }
+    Anchor atag = anchor(item.getName(), url);
     atag.setTarget(item.getTarget());
     if (item.getId() != null) {
       atag.getElement().setAttribute("id", item.getId());

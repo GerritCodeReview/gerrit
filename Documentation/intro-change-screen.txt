@@ -180,11 +180,10 @@ Key bindings:
 
 * j / k: next line / previous line
 * n / p: next diff chunk / previous diff chunk
-* <Ctrl> + f / <Ctrl> + b: next page / previous page
 * ] / [: next file / previous file
 * u: up to change
 * c: create a new inline comment (focus has to be in codemirror view)
-* /: search in the current file
+* / or <Ctrl> + f: search in the current file
 * <Shift> + o: expand or collapse all comments on current line
 * <Enter> or o: expand or collapse comment
 * <Esc> or Cancel: comment edit

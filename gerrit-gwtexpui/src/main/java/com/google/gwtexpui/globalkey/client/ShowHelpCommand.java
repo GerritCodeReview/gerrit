@@ -14,17 +14,26 @@
 
 package com.google.gwtexpui.globalkey.client;
 
+import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
+import com.google.gwt.event.shared.EventBus;
+import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.event.shared.SimpleEventBus;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.PopupPanel.PositionCallback;
 
-
 public class ShowHelpCommand extends KeyCommand {
   public static final ShowHelpCommand INSTANCE = new ShowHelpCommand();
+  private static final EventBus BUS = new SimpleEventBus();
   private static KeyHelpPopup current;
+
+  public static HandlerRegistration addFocusHandler(FocusHandler fh) {
+    return BUS.addHandler(FocusEvent.getType(), fh);
+  }
 
   public ShowHelpCommand() {
     super(0, '?', KeyConstants.I.showHelp());
@@ -36,7 +45,6 @@ public class ShowHelpCommand extends KeyCommand {
       // Already open? Close the dialog.
       //
       current.hide();
-      current = null;
       return;
     }
 
@@ -45,6 +53,7 @@ public class ShowHelpCommand extends KeyCommand {
       @Override
       public void onClose(final CloseEvent<PopupPanel> event) {
         current = null;
+        BUS.fireEvent(new FocusEvent() {});
       }
     });
     current = help;

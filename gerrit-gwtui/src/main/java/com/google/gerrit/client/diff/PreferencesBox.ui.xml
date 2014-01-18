@@ -162,6 +162,10 @@ limitations under the License.
     <hr/>
     <table class='{style.table}'>
       <tr>
+        <th><ui:msg>Theme</ui:msg></th>
+        <td><g:ListBox ui:field='theme'/></td>
+      </tr>
+      <tr>
         <th><ui:msg>Ignore Whitespace</ui:msg></th>
         <td><g:ListBox ui:field='ignoreWhitespace'/></td>
       </tr>

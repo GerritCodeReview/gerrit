@@ -545,6 +545,7 @@ public class SideBySide2 extends Screen {
       .set("styleSelectedText", true)
       .set("showTrailingSpace", prefs.showWhitespaceErrors())
       .set("keyMap", "vim_ro")
+      .set("theme", prefs.theme().name().toLowerCase())
       .set("value", meta != null ? contents : "")
       .set("viewportMargin", prefs.renderEntireFile() ? POSITIVE_INFINITY : 10));
   }

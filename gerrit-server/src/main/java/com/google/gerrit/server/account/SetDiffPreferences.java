@@ -18,6 +18,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
+import com.google.gerrit.reviewdb.client.AccountDiffPreference.Theme;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
@@ -48,6 +49,7 @@ public class SetDiffPreferences implements RestModifyView<AccountResource, Input
     Boolean hideLineNumbers;
     Boolean renderEntireFile;
     Integer tabSize;
+    Theme theme;
   }
 
   private final Provider<CurrentUser> self;
@@ -130,6 +132,9 @@ public class SetDiffPreferences implements RestModifyView<AccountResource, Input
       }
       if (input.tabSize != null) {
         p.setTabSize(input.tabSize);
+      }
+      if (input.theme != null) {
+        p.setTheme(input.theme);
       }
 
       db.accountDiffPreferences().upsert(Collections.singleton(p));

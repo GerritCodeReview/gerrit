@@ -18,6 +18,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
+import com.google.gerrit.reviewdb.client.AccountDiffPreference.Theme;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
@@ -71,6 +72,7 @@ public class GetDiffPreferences implements RestReadView<AccountResource> {
       info.syntaxHighlighting = p.isSyntaxHighlighting() ? true : null;
       info.tabSize = p.getTabSize();
       info.renderEntireFile = p.isRenderEntireFile() ? true : null;
+      info.theme = p.getTheme();
       return info;
     }
 
@@ -91,5 +93,6 @@ public class GetDiffPreferences implements RestReadView<AccountResource> {
     public Boolean hideLineNumbers;
     public Boolean renderEntireFile;
     public int tabSize;
+    public Theme theme;
   }
 }

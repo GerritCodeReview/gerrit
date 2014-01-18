@@ -29,6 +29,7 @@ import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.NpIntTextBox;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
+import com.google.gerrit.reviewdb.client.AccountDiffPreference.Theme;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -81,6 +82,7 @@ class PreferencesBox extends Composite {
   @UiField ToggleButton manualReview;
   @UiField ToggleButton expandAllComments;
   @UiField ToggleButton renderEntireFile;
+  @UiField ListBox theme;
   @UiField Button apply;
   @UiField Button save;
 
@@ -89,6 +91,7 @@ class PreferencesBox extends Composite {
 
     initWidget(uiBinder.createAndBindUi(this));
     initIgnoreWhitespace();
+    initTheme();
   }
 
   @Override
@@ -130,6 +133,7 @@ class PreferencesBox extends Composite {
     manualReview.setValue(prefs.manualReview());
     expandAllComments.setValue(prefs.expandAllComments());
     renderEntireFile.setValue(prefs.renderEntireFile());
+    setTheme(prefs.theme());
 
     switch (view.getIntraLineStatus()) {
       case OFF:
@@ -295,6 +299,19 @@ class PreferencesBox extends Composite {
     view.updateRenderEntireFile();
   }
 
+  @UiHandler("theme")
+  void onTheme(ChangeEvent e) {
+    prefs.theme(Theme.valueOf(theme.getValue(theme.getSelectedIndex())));
+    view.operation(new Runnable() {
+      @Override
+      public void run() {
+        String t = prefs.theme().name().toLowerCase();
+        view.getCmFromSide(DisplaySide.A).setOption("theme", t);
+        view.getCmFromSide(DisplaySide.B).setOption("theme", t);
+      }
+    });
+  }
+
   @UiHandler("apply")
   void onApply(ClickEvent e) {
     close();
@@ -354,5 +371,31 @@ class PreferencesBox extends Composite {
     ignoreWhitespace.addItem(
         PatchUtil.C.whitespaceIGNORE_ALL_SPACE(),
         IGNORE_ALL_SPACE.name());
+  }
+
+  private void setTheme(Theme v) {
+    String name = v != null ? v.name() : Theme.DEFAULT.name();
+    for (int i = 0; i < theme.getItemCount(); i++) {
+      if (theme.getValue(i).equals(name)) {
+        theme.setSelectedIndex(i);
+        return;
+      }
+    }
+    theme.setSelectedIndex(0);
+  }
+
+  private void initTheme() {
+    theme.addItem(
+        Theme.DEFAULT.name().toLowerCase(),
+        Theme.DEFAULT.name());
+    theme.addItem(
+        Theme.ECLIPSE.name().toLowerCase(),
+        Theme.ECLIPSE.name());
+    theme.addItem(
+        Theme.ELEGANT.name().toLowerCase(),
+        Theme.ELEGANT.name());
+    theme.addItem(
+        Theme.NEAT.name().toLowerCase(),
+        Theme.NEAT.name());
   }
 }

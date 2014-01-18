@@ -15,6 +15,7 @@
 package com.google.gerrit.client.account;
 
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
+import com.google.gerrit.reviewdb.client.AccountDiffPreference.Theme;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
 import com.google.gwt.core.client.JavaScriptObject;
 
@@ -38,6 +39,7 @@ public class DiffPreferences extends JavaScriptObject {
     p.expandAllComments(in.isExpandAllComments());
     p.manualReview(in.isManualReview());
     p.renderEntireFile(in.isRenderEntireFile());
+    p.theme(in.getTheme());
     return p;
   }
 
@@ -56,12 +58,18 @@ public class DiffPreferences extends JavaScriptObject {
     p.setExpandAllComments(expandAllComments());
     p.setManualReview(manualReview());
     p.setRenderEntireFile(renderEntireFile());
+    p.setTheme(theme());
   }
 
   public final void ignoreWhitespace(Whitespace i) {
     setIgnoreWhitespaceRaw(i.toString());
   }
   private final native void setIgnoreWhitespaceRaw(String i) /*-{ this.ignore_whitespace = i }-*/;
+
+  public final void theme(Theme i) {
+    setThemeRaw(i != null ? i.toString() : Theme.DEFAULT.toString());
+  }
+  private final native void setThemeRaw(String i) /*-{ this.theme = i }-*/;
 
   public final native void tabSize(int t) /*-{ this.tab_size = t }-*/;
   public final native void lineLength(int c) /*-{ this.line_length = c }-*/;
@@ -83,6 +91,12 @@ public class DiffPreferences extends JavaScriptObject {
     return s != null ? Whitespace.valueOf(s) : Whitespace.IGNORE_NONE;
   }
   private final native String ignoreWhitespaceRaw() /*-{ return this.ignore_whitespace }-*/;
+
+  public final Theme theme() {
+    String s = themeRaw();
+    return s != null ? Theme.valueOf(s) : Theme.DEFAULT;
+  }
+  private final native String themeRaw() /*-{ return this.theme }-*/;
 
   public final int tabSize() {return get("tab_size", 8); }
   public final int context() {return get("context", 10); }

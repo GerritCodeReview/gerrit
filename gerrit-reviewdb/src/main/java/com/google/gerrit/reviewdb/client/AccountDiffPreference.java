@@ -55,9 +55,17 @@ public class AccountDiffPreference {
     }
   }
 
+  public static enum Theme {
+    DEFAULT,
+    ECLIPSE,
+    ELEGANT,
+    NEAT,
+  }
+
   public static AccountDiffPreference createDefault(Account.Id accountId) {
     AccountDiffPreference p = new AccountDiffPreference(accountId);
     p.setIgnoreWhitespace(Whitespace.IGNORE_NONE);
+    p.setTheme(Theme.DEFAULT);
     p.setTabSize(8);
     p.setLineLength(100);
     p.setSyntaxHighlighting(true);
@@ -124,6 +132,9 @@ public class AccountDiffPreference {
 
   @Column(id = 18)
   protected boolean renderEntireFile;
+
+  @Column(id = 19, length = 20, notNull = false)
+  protected String theme;
 
   protected AccountDiffPreference() {
   }
@@ -294,5 +305,13 @@ public class AccountDiffPreference {
 
   public void setRenderEntireFile(boolean render) {
     renderEntireFile = render;
+  }
+
+  public Theme getTheme() {
+    return theme != null ? Theme.valueOf(theme) : null;
+  }
+
+  public void setTheme(Theme theme) {
+    this.theme = theme != null ? theme.name() : null;
   }
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7258d641_48e07f38",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2014-01-18T00:00:31Z",
+      "side": 1,
+      "message": "relearn",
+      "range": {
+        "startLine": 9,
+        "startChar": 20,
+        "endLine": 9,
+        "endChar": 26
+      },
+      "revId": "b18f4d75e41b96b9f208a5bacbcc2c57a99c0b01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

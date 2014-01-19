@@ -1,6 +1,11 @@
 java_library(
   name = 'gwtdebug',
   srcs = ['src/main/java/com/google/gerrit/gwtdebug/GerritDebugLauncher.java'],
-  deps = ['//lib/gwt:dev'],
+  deps = [
+    '//lib/gwt:dev',
+    '//lib/jetty:server',
+    '//lib/jetty:servlet',
+    '//lib/jetty:webapp',
+  ],
   visibility = ['//tools/eclipse:classpath'],
 )

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1294fafd_ddeeab2b",
+        "filename": "Documentation/intro-change-screen.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-19T13:18:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9288eae3_41eab219",
+      "range": {
+        "startLine": 236,
+        "startChar": 6,
+        "endLine": 236,
+        "endChar": 10
+      },
+      "revId": "4d01012c6d61c7570e274b73ba01757aa0419b68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d22fc28a_cb123573",
         "filename": "Documentation/intro-change-screen.txt",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2014-01-19T12:04:51Z",
       "side": 1,
       "message": "I would not add this yet until it is clear whether that behaviour will be changed.",
+      "range": {
+        "startLine": 255,
+        "startChar": 14,
+        "endLine": 255,
+        "endChar": 55
+      },
+      "revId": "4d01012c6d61c7570e274b73ba01757aa0419b68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2a0465c_fceb6918",
+        "filename": "Documentation/intro-change-screen.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-19T13:18:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d22fc28a_cb123573",
       "range": {
         "startLine": 255,
         "startChar": 14,

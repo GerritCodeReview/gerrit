@@ -145,7 +145,7 @@ public class ProjectAccessScreen extends ProjectScreen {
 
   private void displayReadOnly(ProjectAccess access) {
     this.access = access;
-    Map<String, String> allCapabilities = new HashMap<String, String>();
+    Map<String, String> allCapabilities = new HashMap<>();
     for (CapabilityInfo c : Natives.asList(capabilityMap.values())) {
       allCapabilities.put(c.id(), c.name());
     }
@@ -233,17 +233,16 @@ public class ProjectAccessScreen extends ProjectScreen {
               ProjectAccess newAccess) {
             final List<AccessSection> wantedSections =
                 mergeSections(removeEmptyPermissionsAndSections(wantedAccess.getLocal()));
-            final HashSet<AccessSection> same =
-                new HashSet<AccessSection>(wantedSections);
+            final HashSet<AccessSection> same = new HashSet<>(wantedSections);
             final HashSet<AccessSection> different =
-                new HashSet<AccessSection>(wantedSections.size()
+                new HashSet<>(wantedSections.size()
                     + newAccess.getLocal().size());
             different.addAll(wantedSections);
             different.addAll(newAccess.getLocal());
             same.retainAll(newAccess.getLocal());
             different.removeAll(same);
 
-            final Set<String> differentNames = new HashSet<String>();
+            final Set<String> differentNames = new HashSet<>();
             for (final AccessSection s : different) {
               differentNames.add(s.getName());
             }

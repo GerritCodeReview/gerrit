@@ -56,7 +56,7 @@ public class GitwebLink {
 
   public String toRevision(String  project, String commit) {
     ParameterizedString pattern = new ParameterizedString(type.getRevision());
-    Map<String, String> p = new HashMap<String, String>();
+    Map<String, String> p = new HashMap<>();
     p.put("project", encode(project));
     p.put("commit", encode(commit));
     return baseUrl + pattern.replace(p);
@@ -69,7 +69,7 @@ public class GitwebLink {
   public String toProject(final Project.NameKey project) {
     ParameterizedString pattern = new ParameterizedString(type.getProject());
 
-    final Map<String, String> p = new HashMap<String, String>();
+    final Map<String, String> p = new HashMap<>();
     p.put("project", encode(project.get()));
     return baseUrl + pattern.replace(p);
   }
@@ -77,14 +77,14 @@ public class GitwebLink {
   public String toBranch(final Branch.NameKey branch) {
     ParameterizedString pattern = new ParameterizedString(type.getBranch());
 
-    final Map<String, String> p = new HashMap<String, String>();
+    final Map<String, String> p = new HashMap<>();
     p.put("project", encode(branch.getParentKey().get()));
     p.put("branch", encode(branch.get()));
     return baseUrl + pattern.replace(p);
   }
 
   public String toFile(String  project, String commit, String file) {
-    Map<String, String> p = new HashMap<String, String>();
+    Map<String, String> p = new HashMap<>();
     p.put("project", encode(project));
     p.put("commit", encode(commit));
     p.put("file", encode(file));
@@ -98,7 +98,7 @@ public class GitwebLink {
   public String toFileHistory(final Branch.NameKey branch, final String file) {
     ParameterizedString pattern = new ParameterizedString(type.getFileHistory());
 
-    final Map<String, String> p = new HashMap<String, String>();
+    final Map<String, String> p = new HashMap<>();
     p.put("project", encode(branch.getParentKey().get()));
     p.put("branch", encode(branch.get()));
     p.put("file", encode(file));

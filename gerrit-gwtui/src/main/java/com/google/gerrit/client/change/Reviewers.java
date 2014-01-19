@@ -209,8 +209,8 @@ class Reviewers extends Composite {
   }
 
   private void display(ChangeInfo info) {
-    Map<Integer, AccountInfo> r = new HashMap<Integer, AccountInfo>();
-    Map<Integer, AccountInfo> cc = new HashMap<Integer, AccountInfo>();
+    Map<Integer, AccountInfo> r = new HashMap<>();
+    Map<Integer, AccountInfo> cc = new HashMap<>();
     for (LabelInfo label : Natives.asList(info.all_labels().values())) {
       if (label.all() != null) {
         for (ApprovalInfo ai : Natives.asList(label.all())) {
@@ -224,7 +224,7 @@ class Reviewers extends Composite {
     r.remove(info.owner()._account_id());
     cc.remove(info.owner()._account_id());
 
-    Set<Integer> removable = new HashSet<Integer>();
+    Set<Integer> removable = new HashSet<>();
     if (info.removable_reviewers() != null) {
       for (AccountInfo a : Natives.asList(info.removable_reviewers())) {
         removable.add(a._account_id());

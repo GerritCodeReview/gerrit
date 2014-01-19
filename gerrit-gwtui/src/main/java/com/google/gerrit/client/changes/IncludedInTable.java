@@ -89,7 +89,7 @@ public class IncludedInTable extends Composite implements
         }
 
         private List<String> toList(JsArrayString in) {
-          List<String> r = new ArrayList<String>();
+          List<String> r = new ArrayList<>();
           if (in != null) {
             for (int i = 0; i < in.length(); i++) {
               r.add(in.get(i));

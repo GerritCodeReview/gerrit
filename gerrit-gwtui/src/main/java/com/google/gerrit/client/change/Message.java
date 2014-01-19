@@ -179,12 +179,11 @@ class Message extends Composite {
 
   private static TreeMap<String, List<CommentInfo>>
   byPath(List<CommentInfo> list) {
-    TreeMap<String, List<CommentInfo>> m =
-        new TreeMap<String, List<CommentInfo>>();
+    TreeMap<String, List<CommentInfo>> m = new TreeMap<>();
     for (CommentInfo c : list) {
       List<CommentInfo> l = m.get(c.path());
       if (l == null) {
-        l = new ArrayList<CommentInfo>();
+        l = new ArrayList<>();
         m.put(c.path(), l);
       }
       l.add(c);

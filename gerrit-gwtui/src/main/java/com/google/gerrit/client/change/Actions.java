@@ -130,7 +130,7 @@ class Actions extends Composite {
   }
 
   private static TreeSet<String> filterNonCore(NativeMap<ActionInfo> m) {
-    TreeSet<String> ids = new TreeSet<String>(m.keySet());
+    TreeSet<String> ids = new TreeSet<>(m.keySet());
     for (String id : CORE) {
       ids.remove(id);
     }

@@ -218,7 +218,7 @@ public class AccessSectionEditor extends Composite implements
   }
 
   private void rebuildPermissionSelector() {
-    List<String> perms = new ArrayList<String>();
+    List<String> perms = new ArrayList<>();
 
     if (AccessSection.GLOBAL_CAPABILITIES.equals(value.getName())) {
       for (String varName : projectAccess.getCapabilities().keySet()) {
@@ -261,7 +261,7 @@ public class AccessSectionEditor extends Composite implements
   @Override
   public void flush() {
     List<Permission> src = permissions.getList();
-    List<Permission> keep = new ArrayList<Permission>(src.size());
+    List<Permission> keep = new ArrayList<>(src.size());
 
     for (int i = 0; i < src.size(); i++) {
       PermissionEditor e = (PermissionEditor) permissionContainer.getWidget(i);

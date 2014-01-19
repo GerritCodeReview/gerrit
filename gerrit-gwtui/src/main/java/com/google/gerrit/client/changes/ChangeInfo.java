@@ -173,7 +173,7 @@ public class ChangeInfo extends JavaScriptObject {
     }
 
     public final SortedSet<Short> value_set() {
-      SortedSet<Short> values = new TreeSet<Short>();
+      SortedSet<Short> values = new TreeSet<>();
       for (String v : values()) {
         values.add(parseValue(v));
       }

@@ -39,7 +39,7 @@ public class GroupInfoCache {
   }
 
   public GroupInfoCache(final Iterable<GroupInfo> list) {
-    groups = new HashMap<AccountGroup.UUID, GroupInfo>();
+    groups = new HashMap<>();
     for (final GroupInfo gi : list) {
       groups.put(gi.getId(), gi);
     }

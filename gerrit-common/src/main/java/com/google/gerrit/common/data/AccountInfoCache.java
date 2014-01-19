@@ -39,7 +39,7 @@ public class AccountInfoCache {
   }
 
   public AccountInfoCache(final Iterable<AccountInfo> list) {
-    accounts = new HashMap<Account.Id, AccountInfo>();
+    accounts = new HashMap<>();
     for (final AccountInfo ai : list) {
       accounts.put(ai.getId(), ai);
     }

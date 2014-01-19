@@ -93,7 +93,7 @@ public class SideBySideTable extends AbstractPatchContentTable {
 
   @Override
   protected void render(final PatchScript script, final PatchSetDetail detail) {
-    final ArrayList<Object> lines = new ArrayList<Object>();
+    final ArrayList<Object> lines = new ArrayList<>();
     final SafeHtmlBuilder nc = new SafeHtmlBuilder();
     isHugeFile = script.isHugeFile();
     allocateTableHeader(script, nc);

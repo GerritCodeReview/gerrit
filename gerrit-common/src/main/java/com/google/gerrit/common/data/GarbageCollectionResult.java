@@ -23,7 +23,7 @@ public class GarbageCollectionResult {
   protected List<Error> errors;
 
   public GarbageCollectionResult() {
-    errors = new ArrayList<Error>();
+    errors = new ArrayList<>();
   }
 
   public void addError(Error e) {

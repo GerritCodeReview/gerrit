@@ -249,7 +249,7 @@ public class ProjectBranchesScreen extends ProjectScreen {
     }
 
     Set<String> getCheckedRefs() {
-      Set<String> refs = new HashSet<String>();
+      Set<String> refs = new HashSet<>();
       for (int row = 1; row < table.getRowCount(); row++) {
         final BranchInfo k = getRowItem(row);
         if (k != null && table.getWidget(row, 1) instanceof CheckBox

@@ -27,7 +27,7 @@ import java.util.Map;
 public class LabelType {
   public static LabelType withDefaultValues(String name) {
     checkName(name);
-    List<LabelValue> values = new ArrayList<LabelValue>(2);
+    List<LabelValue> values = new ArrayList<>(2);
     values.add(new LabelValue((short) 0, "Rejected"));
     values.add(new LabelValue((short) 1, "Approved"));
     return new LabelType(name, values);
@@ -75,7 +75,7 @@ public class LabelType {
   }
 
   private static List<LabelValue> sortValues(List<LabelValue> values) {
-    values = new ArrayList<LabelValue>(values);
+    values = new ArrayList<>(values);
     if (values.size() <= 1) {
       return Collections.unmodifiableList(values);
     }
@@ -88,7 +88,7 @@ public class LabelType {
     short max = values.get(values.size() - 1).getValue();
     short v = min;
     short i = 0;
-    List<LabelValue> result = new ArrayList<LabelValue>(max - min + 1);
+    List<LabelValue> result = new ArrayList<>(max - min + 1);
     // Fill in any missing values with empty text.
     while (i < values.size()) {
       while (v < values.get(i).getValue()) {
@@ -252,7 +252,7 @@ public class LabelType {
 
   private void initByValue() {
     if (byValue == null) {
-      byValue = new HashMap<Short, LabelValue>();
+      byValue = new HashMap<>();
       for (final LabelValue v : values) {
         byValue.put(v.getValue(), v);
       }
@@ -261,7 +261,7 @@ public class LabelType {
 
   public List<Integer> getValuesAsList() {
     if (intList == null) {
-      intList = new ArrayList<Integer>(values.size());
+      intList = new ArrayList<>(values.size());
       for (LabelValue v : values) {
         intList.add(Integer.valueOf(v.getValue()));
       }

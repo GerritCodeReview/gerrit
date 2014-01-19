@@ -295,7 +295,7 @@ public class PermissionEditor extends Composite implements Editor<Permission>,
   @Override
   public void flush() {
     List<PermissionRule> src = rules.getList();
-    List<PermissionRule> keep = new ArrayList<PermissionRule>(src.size());
+    List<PermissionRule> keep = new ArrayList<>(src.size());
 
     for (int i = 0; i < src.size(); i++) {
       PermissionRuleEditor e =

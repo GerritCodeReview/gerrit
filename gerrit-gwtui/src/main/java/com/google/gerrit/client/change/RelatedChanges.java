@@ -133,7 +133,7 @@ public class RelatedChanges extends TabPanel {
   private int outstandingCallbacks;
 
   RelatedChanges() {
-    tabs = new ArrayList<RelatedChangesTab>(Tab.values().length);
+    tabs = new ArrayList<>(Tab.values().length);
     selectedTab = -1;
 
     setVisible(false);

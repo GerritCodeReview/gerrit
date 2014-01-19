@@ -30,7 +30,7 @@ import java.util.Set;
 public class ApprovalDetail {
   public static List<ApprovalDetail> sort(Collection<ApprovalDetail> ads,
       final int owner) {
-    List<ApprovalDetail> sorted = new ArrayList<ApprovalDetail>(ads);
+    List<ApprovalDetail> sorted = new ArrayList<>(ads);
     Collections.sort(sorted, new Comparator<ApprovalDetail>() {
       public int compare(ApprovalDetail o1, ApprovalDetail o2) {
         int byOwner = (o2.account.get() == owner ? 1 : 0)
@@ -56,7 +56,7 @@ public class ApprovalDetail {
 
   public ApprovalDetail(final Account.Id id) {
     account = id;
-    approvals = new ArrayList<PatchSetApproval>();
+    approvals = new ArrayList<>();
   }
 
   public Account.Id getAccount() {
@@ -73,7 +73,7 @@ public class ApprovalDetail {
 
   public void approved(String label) {
     if (approved == null) {
-      approved = new HashSet<String>();
+      approved = new HashSet<>();
     }
     approved.add(label);
     hasNonZero = 1;
@@ -81,7 +81,7 @@ public class ApprovalDetail {
 
   public void rejected(String label) {
     if (rejected == null) {
-      rejected = new HashSet<String>();
+      rejected = new HashSet<>();
     }
     rejected.add(label);
     hasNonZero = 1;
@@ -89,14 +89,14 @@ public class ApprovalDetail {
 
   public void votable(String label) {
     if (votable == null) {
-      votable = new HashSet<String>();
+      votable = new HashSet<>();
     }
     votable.add(label);
   }
 
   public void value(String label, int value) {
     if (values == null) {
-      values = new HashMap<String, Integer>();
+      values = new HashMap<>();
     }
     values.put(label, value);
     if (value != 0) {

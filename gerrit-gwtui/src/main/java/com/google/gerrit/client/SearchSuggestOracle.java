@@ -39,8 +39,7 @@ public class SearchSuggestOracle extends HighlightSuggestOracle {
                     final Response response) {
                   if ("self".startsWith(request.getQuery())) {
                     final ArrayList<SuggestOracle.Suggestion> r =
-                        new ArrayList<SuggestOracle.Suggestion>(response
-                            .getSuggestions().size() + 1);
+                        new ArrayList<>(response.getSuggestions().size() + 1);
                     r.addAll(response.getSuggestions());
                     r.add(new SuggestOracle.Suggestion() {
                       @Override
@@ -62,7 +61,7 @@ public class SearchSuggestOracle extends HighlightSuggestOracle {
       new ParamSuggester(Arrays.asList("ownerin:", "reviewerin:"),
           new AccountGroupSuggestOracle()));
 
-  private static final TreeSet<String> suggestions = new TreeSet<String>();
+  private static final TreeSet<String> suggestions = new TreeSet<>();
 
   static {
     suggestions.add("age:");
@@ -124,7 +123,7 @@ public class SearchSuggestOracle extends HighlightSuggestOracle {
 
   @Override
   public void requestDefaultSuggestions(Request request, Callback done) {
-    final ArrayList<SearchSuggestion> r = new ArrayList<SearchSuggestOracle.SearchSuggestion>();
+    final ArrayList<SearchSuggestion> r = new ArrayList<>();
     // No text - show some default suggestions.
     r.add(new SearchSuggestion("status:open", "status:open"));
     r.add(new SearchSuggestion("age:1week", "age:1week"));
@@ -152,7 +151,7 @@ public class SearchSuggestOracle extends HighlightSuggestOracle {
       }
     }
 
-    final ArrayList<SearchSuggestion> r = new ArrayList<SearchSuggestOracle.SearchSuggestion>();
+    final ArrayList<SearchSuggestion> r = new ArrayList<>();
     for (String suggestion : suggestions.tailSet(lastWord)) {
       if ((lastWord.length() < suggestion.length()) && suggestion.startsWith(lastWord)) {
         if (suggestion.contains("self") && !Gerrit.isSignedIn()) {
@@ -240,8 +239,7 @@ public class SearchSuggestOracle extends HighlightSuggestOracle {
                 final Response response) {
               final String query = request.getQuery();
               final List<SearchSuggestOracle.Suggestion> r =
-                  new ArrayList<SuggestOracle.Suggestion>(response
-                      .getSuggestions().size());
+                  new ArrayList<>(response.getSuggestions().size());
               for (final SearchSuggestOracle.Suggestion s : response
                   .getSuggestions()) {
                 r.add(new SearchSuggestion(s.getDisplayString(),

@@ -171,7 +171,7 @@ public class ChangeDetailCache extends ListenableValue<ChangeDetail> {
   }
 
   public static AccountInfoCache users(ChangeInfo info) {
-    Map<Integer, AccountInfo> r = new HashMap<Integer, AccountInfo>();
+    Map<Integer, AccountInfo> r = new HashMap<>();
     add(r, info.owner());
     if (info.messages() != null) {
       for (MessageInfo m : Natives.asList(info.messages())) {
@@ -196,7 +196,7 @@ public class ChangeDetailCache extends ListenableValue<ChangeDetail> {
   }
 
   private static List<ChangeMessage> toMessages(ChangeInfo info) {
-    List<ChangeMessage> msgs = new ArrayList<ChangeMessage>();
+    List<ChangeMessage> msgs = new ArrayList<>();
     for (MessageInfo m : Natives.asList(info.messages())) {
       ChangeMessage o = new ChangeMessage(
           new ChangeMessage.Key(
@@ -219,7 +219,7 @@ public class ChangeDetailCache extends ListenableValue<ChangeDetail> {
     JsArray<RevisionInfo> all = info.revisions().values();
     RevisionInfo.sortRevisionInfoByNumber(all);
 
-    List<PatchSet> r = new ArrayList<PatchSet>(all.length());
+    List<PatchSet> r = new ArrayList<>(all.length());
     for (RevisionInfo rev : Natives.asList(all)) {
       r.add(toPatchSet(info, rev));
     }

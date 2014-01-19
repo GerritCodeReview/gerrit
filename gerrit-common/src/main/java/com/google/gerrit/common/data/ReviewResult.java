@@ -27,7 +27,7 @@ public class ReviewResult {
   protected Change.Id changeId;
 
   public ReviewResult() {
-    errors = new ArrayList<Error>();
+    errors = new ArrayList<>();
   }
 
   public void addError(final Error e) {

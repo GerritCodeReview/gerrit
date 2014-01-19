@@ -34,7 +34,7 @@ public class AccountSuggestOracle extends SuggestAfterTypingNCharsOracle {
             new GerritCallback<List<AccountInfo>>() {
               public void onSuccess(final List<AccountInfo> result) {
                 final ArrayList<AccountSuggestion> r =
-                    new ArrayList<AccountSuggestion>(result.size());
+                    new ArrayList<>(result.size());
                 for (final AccountInfo p : result) {
                   r.add(new AccountSuggestion(p));
                 }

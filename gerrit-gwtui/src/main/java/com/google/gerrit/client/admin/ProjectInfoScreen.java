@@ -352,10 +352,10 @@ public class ProjectInfoScreen extends ProjectScreen {
 
   private void initPluginOptions(ConfigInfo info) {
     pluginOptionsPanel.clear();
-    pluginConfigWidgets = new HashMap<String, Map<String, FocusWidget>>();
+    pluginConfigWidgets = new HashMap<>();
 
     for (String pluginName : info.pluginConfig().keySet()) {
-      Map<String, FocusWidget> widgetMap = new HashMap<String, FocusWidget>();
+      Map<String, FocusWidget> widgetMap = new HashMap<>();
       pluginConfigWidgets.put(pluginName, widgetMap);
       LabeledWidgetsGrid g = new LabeledWidgetsGrid();
       g.addHeader(new SmallHeading(Util.M.pluginProjectOptionsTitle(pluginName)));
@@ -522,7 +522,7 @@ public class ProjectInfoScreen extends ProjectScreen {
 
   private Map<String, Map<String, String>> getPluginConfigValues() {
     Map<String, Map<String, String>> pluginConfigValues =
-        new HashMap<String, Map<String, String>>(pluginConfigWidgets.size());
+        new HashMap<>(pluginConfigWidgets.size());
     for (Entry<String, Map<String, FocusWidget>> e : pluginConfigWidgets.entrySet()) {
       Map<String, String> values =
           new HashMap<String, String>(e.getValue().size());

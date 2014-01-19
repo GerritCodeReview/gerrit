@@ -45,7 +45,7 @@ public class PermissionRange implements Comparable<PermissionRange> {
 
     /** @return all values between {@link #getMin()} and {@link #getMax()} */
     public List<Integer> getValuesAsList() {
-      ArrayList<Integer> r = new ArrayList<Integer>(getRangeSize());
+      ArrayList<Integer> r = new ArrayList<>(getRangeSize());
       for (int i = min; i <= max; i++) {
         r.add(i);
       }

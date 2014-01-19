@@ -54,7 +54,7 @@ public class ContributorAgreement implements Comparable<ContributorAgreement> {
 
   public List<PermissionRule> getAccepted() {
     if (accepted == null) {
-      accepted = new ArrayList<PermissionRule>();
+      accepted = new ArrayList<>();
     }
     return accepted;
   }

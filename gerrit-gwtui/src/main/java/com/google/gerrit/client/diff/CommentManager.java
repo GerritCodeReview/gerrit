@@ -62,10 +62,10 @@ class CommentManager {
     this.path = path;
     this.commentLinkProcessor = clp;
 
-    published = new HashMap<String, PublishedBox>();
-    sideA = new TreeMap<Integer, CommentGroup>();
-    sideB = new TreeMap<Integer, CommentGroup>();
-    unsavedDrafts = new HashSet<DraftBox>();
+    published = new HashMap<>();
+    sideA = new TreeMap<>();
+    sideB = new TreeMap<>();
+    unsavedDrafts = new HashSet<>();
   }
 
   SideBySide2 getSideBySide2() {
@@ -247,7 +247,7 @@ class CommentManager {
     // TODO: This is not optimal, but shouldn't be too costly in most cases.
     // Maybe rewrite after done keeping track of diff chunk positions.
     for (int boxLine : sideB.tailMap(1).keySet()) {
-      List<SkippedLine> temp = new ArrayList<SkippedLine>(skips.size() + 2);
+      List<SkippedLine> temp = new ArrayList<>(skips.size() + 2);
       for (SkippedLine skip : skips) {
         int startLine = skip.getStartB();
         int deltaBefore = boxLine - startLine;

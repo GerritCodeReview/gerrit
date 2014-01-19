@@ -26,6 +26,25 @@ maven_jar(
 )
 
 maven_jar(
+  name = 'webapp',
+  id = 'org.eclipse.jetty:jetty-webapp:' + VERSION,
+  sha1 = '3d98b3197fbe453a8df27c106f12363587439ee3',
+  license = 'Apache2.0',
+  deps = [':xml'],
+  exclude = EXCLUDE,
+  visibility = ['PUBLIC'],
+)
+
+maven_jar(
+  name = 'xml',
+  id = 'org.eclipse.jetty:jetty-xml:' + VERSION,
+  sha1 = '67e8618447a7740b7a95d74d1b6b4b5c8c1024f5',
+  license = 'Apache2.0',
+  exclude = EXCLUDE,
+  visibility = [],
+)
+
+maven_jar(
   name = 'server',
   id = 'org.eclipse.jetty:jetty-server:' + VERSION,
   sha1 = 'c64cb3ab62ff32fcd8b838369a426c688d901103',
@@ -33,6 +52,8 @@ maven_jar(
   exported_deps = [
     ':continuation',
     ':http',
+    ':webapp',
+    ':xml',
   ],
   exclude = EXCLUDE,
 )

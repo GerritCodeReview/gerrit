@@ -173,7 +173,7 @@ public class ChangeInfo extends JavaScriptObject {
     }
 
     public final SortedSet<Short> value_set() {
-      SortedSet<Short> values = new TreeSet<Short>();
+      SortedSet<Short> values = new TreeSet<>();
       for (String v : values()) {
         values.add(parseValue(v));
       }
@@ -222,7 +222,7 @@ public class ChangeInfo extends JavaScriptObject {
       Collections.sort(Natives.asList(list), new Comparator<RevisionInfo>() {
         @Override
         public int compare(RevisionInfo a, RevisionInfo b) {
-          return a._number() - b._number();
+          return Integer.compare(a._number(), b._number());
         }
       });
     }

@@ -62,8 +62,8 @@ public class CallbackGroup {
   }
 
   public CallbackGroup() {
-    callbacks = new ArrayList<CallbackImpl<?>>();
-    remaining = new HashSet<CallbackImpl<?>>();
+    callbacks = new ArrayList<>();
+    remaining = new HashSet<>();
   }
 
   public <T> Callback<T> add(final AsyncCallback<T> cb) {
@@ -109,7 +109,7 @@ public class CallbackGroup {
       return emptyCallback();
     }
 
-    CallbackImpl<T> wrapper = new CallbackImpl<T>(cb);
+    CallbackImpl<T> wrapper = new CallbackImpl<>(cb);
     callbacks.add(wrapper);
     remaining.add(wrapper);
     return wrapper;

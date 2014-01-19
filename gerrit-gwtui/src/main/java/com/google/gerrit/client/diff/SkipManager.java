@@ -48,7 +48,7 @@ class SkipManager {
     }
 
     JsArray<Region> regions = diff.content();
-    List<SkippedLine> skips = new ArrayList<SkippedLine>();
+    List<SkippedLine> skips = new ArrayList<>();
     int lineA = 0, lineB = 0;
     for (int i = 0; i < regions.length(); i++) {
       Region current = regions.get(i);
@@ -76,7 +76,7 @@ class SkipManager {
       CodeMirror cmA = host.getCmFromSide(DisplaySide.A);
       CodeMirror cmB = host.getCmFromSide(DisplaySide.B);
 
-      skipBars = new HashSet<SkipBar>();
+      skipBars = new HashSet<>();
       for (SkippedLine skip : skips) {
         SkipBar barA = newSkipBar(cmA, DisplaySide.A, skip);
         SkipBar barB = newSkipBar(cmB, DisplaySide.B, skip);

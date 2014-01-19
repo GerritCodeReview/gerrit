@@ -579,7 +579,7 @@ public class Gerrit implements EntryPoint {
     menuLeft.clear();
     menuRight.clear();
 
-    menuBars = new HashMap<String, LinkMenuBar>();
+    menuBars = new HashMap<>();
 
     final boolean signedIn = isSignedIn();
     final GerritConfig cfg = getConfig();

@@ -60,7 +60,7 @@ public class ParentProjectBox extends Composite {
   }
 
   private static class ParentProjectNameSuggestOracle extends ProjectNameSuggestOracle {
-    private Set<String> exclude = new HashSet<String>();
+    private Set<String> exclude = new HashSet<>();
 
     public void setProject(Project.NameKey project) {
       exclude.clear();
@@ -85,7 +85,7 @@ public class ParentProjectBox extends Composite {
         public void onSuggestionsReady(Request request, Response response) {
           if (exclude.size() > 0) {
             Set<Suggestion> filteredSuggestions =
-                new HashSet<Suggestion>(response.getSuggestions());
+                new HashSet<>(response.getSuggestions());
             for (Suggestion s : response.getSuggestions()) {
               if (exclude.contains(s.getReplacementString())) {
                 filteredSuggestions.remove(s);

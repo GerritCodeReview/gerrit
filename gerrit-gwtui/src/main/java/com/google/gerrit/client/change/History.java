@@ -43,11 +43,11 @@ class History extends FlowPanel {
   private ReplyAction replyAction;
   private Change.Id changeId;
 
-  private final Set<Integer> loaded = new HashSet<Integer>();
+  private final Set<Integer> loaded = new HashSet<>();
   private final Map<AuthorRevision, List<CommentInfo>> byAuthor =
-      new HashMap<AuthorRevision, List<CommentInfo>>();
+      new HashMap<>();
 
-  private final List<Integer> toLoad = new ArrayList<Integer>(4);
+  private final List<Integer> toLoad = new ArrayList<>(4);
   private int active;
 
   void set(CommentLinkProcessor clp, ReplyAction ra,
@@ -109,7 +109,7 @@ class History extends FlowPanel {
           AuthorRevision k = new AuthorRevision(c.author(), id);
           List<CommentInfo> l = byAuthor.get(k);
           if (l == null) {
-            l = new ArrayList<CommentInfo>();
+            l = new ArrayList<>();
             byAuthor.put(k, l);
           }
           l.add(c);
@@ -175,8 +175,8 @@ class History extends FlowPanel {
     }
 
     Timestamp when = msg.date();
-    List<CommentInfo> match = new ArrayList<CommentInfo>();
-    List<CommentInfo> other = new ArrayList<CommentInfo>();
+    List<CommentInfo> match = new ArrayList<>();
+    List<CommentInfo> other = new ArrayList<>();
     for (CommentInfo c : list) {
       if (c.updated().compareTo(when) <= 0) {
         match.add(c);

@@ -71,7 +71,7 @@ public class ApprovalTable extends Composite {
   private Map<Integer, Integer> rows;
 
   public ApprovalTable() {
-    rows = new HashMap<Integer, Integer>();
+    rows = new HashMap<>();
     table = new Grid(1, 3);
     table.addStyleName(Gerrit.RESOURCES.css().infoTable());
 
@@ -138,10 +138,8 @@ public class ApprovalTable extends Composite {
   void display(ChangeInfo change) {
     lastChange = change;
     reviewerSuggestOracle.setChange(change.legacy_id());
-    Map<Integer, ApprovalDetail> byUser =
-        new LinkedHashMap<Integer, ApprovalDetail>();
-    Map<Integer, AccountInfo> accounts =
-        new LinkedHashMap<Integer, AccountInfo>();
+    Map<Integer, ApprovalDetail> byUser = new LinkedHashMap<>();
+    Map<Integer, AccountInfo> accounts = new LinkedHashMap<>();
     List<String> missingLabels = initLabels(change, accounts, byUser);
 
     removeAllChildren(missing.getElement());
@@ -152,7 +150,7 @@ public class ApprovalTable extends Composite {
     if (byUser.isEmpty()) {
       table.setVisible(false);
     } else {
-      List<String> labels = new ArrayList<String>(change.labels());
+      List<String> labels = new ArrayList<>(change.labels());
       Collections.sort(labels);
       displayHeader(labels);
       table.resizeRows(1 + byUser.size());
@@ -187,7 +185,7 @@ public class ApprovalTable extends Composite {
 
   private Set<Integer> removableReviewers(ChangeInfo change) {
     Set<Integer> result =
-        new HashSet<Integer>(change.removable_reviewers().length());
+        new HashSet<>(change.removable_reviewers().length());
     for (int i = 0; i < change.removable_reviewers().length(); i++) {
       result.add(change.removable_reviewers().get(i)._account_id());
     }
@@ -198,7 +196,7 @@ public class ApprovalTable extends Composite {
       Map<Integer, AccountInfo> accounts,
       Map<Integer, ApprovalDetail> byUser) {
     Set<Integer> removableReviewers = removableReviewers(change);
-    List<String> missing = new ArrayList<String>();
+    List<String> missing = new ArrayList<>();
     for (String name : change.labels()) {
       LabelInfo label = change.label(name);
 

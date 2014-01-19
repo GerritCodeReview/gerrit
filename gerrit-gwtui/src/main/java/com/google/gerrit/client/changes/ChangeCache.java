@@ -23,8 +23,7 @@ import java.util.Map;
 
 /** A Cache to store common client side data by change */
 public class ChangeCache {
-  private static Map<Change.Id, ChangeCache> caches =
-    new HashMap<Change.Id, ChangeCache>();
+  private static Map<Change.Id, ChangeCache> caches = new HashMap<>();
 
   public static ChangeCache get(Change.Id chg) {
     ChangeCache cache = caches.get(chg);
@@ -56,7 +55,7 @@ public class ChangeCache {
 
   public ListenableValue<ChangeInfo> getChangeInfoCache() {
     if (info == null) {
-      info = new ListenableValue<ChangeInfo>();
+      info = new ListenableValue<>();
     }
     return info;
   }

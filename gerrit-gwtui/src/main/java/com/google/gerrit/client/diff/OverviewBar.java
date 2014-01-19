@@ -73,8 +73,8 @@ class OverviewBar extends Composite implements ClickHandler {
 
   OverviewBar() {
     initWidget(uiBinder.createAndBindUi(this));
-    diff = new ArrayList<MarkHandle>();
-    comments = new HashSet<MarkHandle>();
+    diff = new ArrayList<>();
+    comments = new HashSet<>();
     addDomHandler(this, ClickEvent.getType());
   }
 

@@ -58,9 +58,9 @@ public class ModeInjector {
       Modes.I.xml(),
     };
 
-    mimeAlias = new HashMap<String, String>();
-    mimeModes = new HashMap<String, String>();
-    modeUris = new HashMap<String, SafeUri>();
+    mimeAlias = new HashMap<>();
+    mimeModes = new HashMap<>();
+    modeUris = new HashMap<>();
 
     for (DataResource m : all) {
       modeUris.put(m.getName(), m.getSafeUri());
@@ -103,7 +103,7 @@ public class ModeInjector {
   private static native JsArrayString getDependencies(String n)
   /*-{ return $wnd.CodeMirror.modes[n].dependencies || []; }-*/;
 
-  private final Set<String> loading = new HashSet<String>(4);
+  private final Set<String> loading = new HashSet<>(4);
   private int pending;
   private AsyncCallback<Void> appCallback;
 

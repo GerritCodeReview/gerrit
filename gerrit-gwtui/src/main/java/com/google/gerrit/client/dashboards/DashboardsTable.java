@@ -60,7 +60,7 @@ public class DashboardsTable extends NavigationTable<DashboardInfo> {
   }
 
   public void display(JsArray<DashboardList> in) {
-    Map<String, DashboardInfo> map = new HashMap<String, DashboardInfo>();
+    Map<String, DashboardInfo> map = new HashMap<>();
     for (DashboardList list : Natives.asList(in)) {
       for (DashboardInfo d : Natives.asList(list)) {
         if (!map.containsKey(d.id())) {
@@ -68,7 +68,7 @@ public class DashboardsTable extends NavigationTable<DashboardInfo> {
         }
       }
     }
-    display(new ArrayList<DashboardInfo>(map.values()));
+    display(new ArrayList<>(map.values()));
   }
 
   public void display(List<DashboardInfo> list) {

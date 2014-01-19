@@ -106,8 +106,7 @@ public class MyIdentitiesScreen extends SettingsScreen {
     }
 
     void deleteChecked() {
-      final HashSet<AccountExternalId.Key> keys =
-          new HashSet<AccountExternalId.Key>();
+      final HashSet<AccountExternalId.Key> keys = new HashSet<>();
       for (int row = 1; row < table.getRowCount(); row++) {
         final AccountExternalId k = getRowItem(row);
         if (k == null) {

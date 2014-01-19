@@ -100,7 +100,7 @@ class Labels extends Grid {
   }
 
   boolean set(ChangeInfo info, boolean current) {
-    List<String> names = new ArrayList<String>(info.labels());
+    List<String> names = new ArrayList<>(info.labels());
     Collections.sort(names);
 
     boolean canSubmit = info.status().isOpen();
@@ -140,14 +140,14 @@ class Labels extends Grid {
   }
 
   private Widget renderUsers(LabelInfo label) {
-    Map<Integer, List<ApprovalInfo>> m = new HashMap<Integer, List<ApprovalInfo>>(4);
+    Map<Integer, List<ApprovalInfo>> m = new HashMap<>(4);
     int approved = 0, rejected = 0;
 
     for (ApprovalInfo ai : Natives.asList(label.all())) {
       if (ai.value() != 0) {
         List<ApprovalInfo> l = m.get(Integer.valueOf(ai.value()));
         if (l == null) {
-          l = new ArrayList<ApprovalInfo>(label.all().length());
+          l = new ArrayList<>(label.all().length());
           m.put(Integer.valueOf(ai.value()), l);
         }
         l.add(ai);
@@ -183,7 +183,7 @@ class Labels extends Grid {
   }
 
   private static List<Integer> sort(Set<Integer> keySet, int a, int b) {
-    List<Integer> r = new ArrayList<Integer>(keySet);
+    List<Integer> r = new ArrayList<>(keySet);
     Collections.sort(r);
     if (keySet.contains(a)) {
       r.remove(Integer.valueOf(a));
@@ -223,7 +223,7 @@ class Labels extends Grid {
   static SafeHtml formatUserList(ChangeScreen2.Style style,
       Collection<? extends AccountInfo> in,
       Set<Integer> removable) {
-    List<AccountInfo> users = new ArrayList<AccountInfo>(in);
+    List<AccountInfo> users = new ArrayList<>(in);
     Collections.sort(users, new Comparator<AccountInfo>() {
       @Override
       public int compare(AccountInfo a, AccountInfo b) {

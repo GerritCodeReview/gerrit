@@ -259,7 +259,7 @@ class SshPanel extends Composite {
     }
 
     void deleteChecked() {
-      final HashSet<Integer> sequenceNumbers = new HashSet<Integer>();
+      final HashSet<Integer> sequenceNumbers = new HashSet<>();
       for (int row = 1; row < table.getRowCount(); row++) {
         final SshKeyInfo k = getRowItem(row);
         if (k != null && ((CheckBox) table.getWidget(row, 1)).getValue()) {

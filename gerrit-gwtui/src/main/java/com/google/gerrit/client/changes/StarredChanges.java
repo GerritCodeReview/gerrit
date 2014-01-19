@@ -34,8 +34,7 @@ import java.util.Map;
 
 /** Supports the star icon displayed on changes and tracking the status. */
 public class StarredChanges {
-  private static final Event.Type<ChangeStarHandler> TYPE =
-      new Event.Type<ChangeStarHandler>();
+  private static final Event.Type<ChangeStarHandler> TYPE = new Event.Type<>();
 
   /** Handler that can receive notifications of a change's starred status. */
   public static interface ChangeStarHandler {
@@ -118,7 +117,7 @@ public class StarredChanges {
 
   private static boolean busy;
   private static final Map<Change.Id, Boolean> pending =
-      new LinkedHashMap<Change.Id, Boolean>(4);
+      new LinkedHashMap<>(4);
 
   private static void startRequest() {
     busy = true;

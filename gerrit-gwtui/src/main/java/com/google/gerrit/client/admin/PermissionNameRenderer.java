@@ -25,7 +25,7 @@ class PermissionNameRenderer implements Renderer<String> {
   private static final Map<String, String> permissions;
 
   static {
-    permissions = new HashMap<String, String>();
+    permissions = new HashMap<>();
     for (Map.Entry<String, String> e : Util.C.permissionNames().entrySet()) {
       permissions.put(e.getKey(), e.getValue());
       permissions.put(e.getKey().toLowerCase(), e.getValue());

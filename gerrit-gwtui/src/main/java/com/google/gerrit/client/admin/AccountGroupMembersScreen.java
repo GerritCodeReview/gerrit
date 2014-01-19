@@ -238,7 +238,7 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
     }
 
     void deleteChecked() {
-      final HashSet<Integer> ids = new HashSet<Integer>();
+      final HashSet<Integer> ids = new HashSet<>();
       for (int row = 1; row < table.getRowCount(); row++) {
         final AccountInfo i = getRowItem(row);
         if (i != null && ((CheckBox) table.getWidget(row, 1)).getValue()) {
@@ -343,7 +343,7 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
     }
 
     void deleteChecked() {
-      final HashSet<AccountGroup.UUID> ids = new HashSet<AccountGroup.UUID>();
+      final HashSet<AccountGroup.UUID> ids = new HashSet<>();
       for (int row = 1; row < table.getRowCount(); row++) {
         final GroupInfo i = getRowItem(row);
         if (i != null && ((CheckBox) table.getWidget(row, 1)).getValue()) {

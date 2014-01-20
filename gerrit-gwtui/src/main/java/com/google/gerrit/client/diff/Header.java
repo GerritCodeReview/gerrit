@@ -75,6 +75,7 @@ class Header extends Composite {
   @UiField InlineHyperlink prev;
   @UiField InlineHyperlink up;
   @UiField InlineHyperlink next;
+  @UiField Image preview;
   @UiField Image preferences;
 
   private final KeyCommandSet keys;
@@ -100,6 +101,7 @@ class Header extends Composite {
         patchSetId.getParentKey(),
         base != null ? String.valueOf(base.get()) : null,
         String.valueOf(patchSetId.get())));
+    preview.setVisible(path.endsWith(".md"));
   }
 
   private static SafeHtml formatPath(String path, String project, String commit) {
@@ -237,6 +239,12 @@ class Header extends Composite {
         .view("files")
         .id(path)
         .view("reviewed");
+  }
+
+  @UiHandler("preview")
+  void onPreview(ClickEvent e) {
+    Gerrit.display(Dispatcher.toPatchSideBySide(base,
+        new Patch.Key(patchSetId, path), true));
   }
 
   @UiHandler("preferences")

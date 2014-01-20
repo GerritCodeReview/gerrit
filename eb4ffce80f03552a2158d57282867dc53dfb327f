@@ -22,6 +22,30 @@
       "revId": "eb4ffce80f03552a2158d57282867dc53dfb327f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1294fafd_5d505b27",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ProjectDocServlet.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-20T16:01:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f2a0465c_3c38f1e8",
+      "range": {
+        "startLine": 177,
+        "startChar": 10,
+        "endLine": 178,
+        "endChar": 48
+      },
+      "revId": "eb4ffce80f03552a2158d57282867dc53dfb327f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9288eae3_01134a78",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-01-20T08:18:25Z",
+      "side": 1,
+      "message": "Why is this necessary?\n\n(if it is necessary it should be mentioned in the commit message)",
+      "range": {
+        "startLine": 225,
+        "startChar": 17,
+        "endLine": 225,
+        "endChar": 58
+      },
+      "revId": "a1aeba9b1f13a7f1df049cfffca70421a3e6a366",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

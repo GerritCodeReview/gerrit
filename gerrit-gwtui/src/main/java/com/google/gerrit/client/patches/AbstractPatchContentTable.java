@@ -22,6 +22,7 @@ import com.google.gerrit.client.changes.CommentApi;
 import com.google.gerrit.client.changes.CommentInfo;
 import com.google.gerrit.client.changes.PatchTable;
 import com.google.gerrit.client.changes.Util;
+import com.google.gerrit.client.patches.PatchSetSelectBox.Side;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.client.ui.CommentPanel;
@@ -39,6 +40,7 @@ import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.BlurEvent;
@@ -52,6 +54,7 @@ import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Button;
@@ -77,6 +80,7 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
   public static final int R_HEAD = 0;
   static final short FILE_SIDE_A = (short) 0;
   static final short FILE_SIDE_B = (short) 1;
+  protected final boolean preview;
   protected PatchTable fileList;
   protected AccountInfoCache accountCache = AccountInfoCache.empty();
   protected Patch.Key patchKey;
@@ -95,7 +99,9 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
   private CommentLinkProcessor commentLinkProcessor;
   boolean isDisplayBinary;
 
-  protected AbstractPatchContentTable() {
+  protected AbstractPatchContentTable(boolean preview) {
+    this.preview = preview;
+
     keysNavigation.add(new PrevKeyCommand(0, 'k', PatchUtil.C.linePrev()));
     keysNavigation.add(new NextKeyCommand(0, 'j', PatchUtil.C.lineNext()));
     keysNavigation.add(new PrevChunkKeyCmd(0, 'p', PatchUtil.C.chunkPrev()));
@@ -135,7 +141,7 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
 
   protected void initHeaders(PatchScript script, PatchSetDetail detail) {
     PatchScreen.Type type = getPatchScreenType();
-    headerSideA = new PatchSetSelectBox(PatchSetSelectBox.Side.A, type);
+    headerSideA = new PatchSetSelectBox(PatchSetSelectBox.Side.A, type, preview);
     headerSideA.display(detail, script, patchKey, idSideA, idSideB);
     headerSideA.addDoubleClickHandler(new DoubleClickHandler() {
       @Override
@@ -145,7 +151,7 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
         }
       }
     });
-    headerSideB = new PatchSetSelectBox(PatchSetSelectBox.Side.B, type);
+    headerSideB = new PatchSetSelectBox(PatchSetSelectBox.Side.B, type, preview);
     headerSideB.display(detail, script, patchKey, idSideA, idSideB);
     headerSideB.addDoubleClickHandler(new DoubleClickHandler() {
       @Override
@@ -338,6 +344,66 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
   protected String getUrlB() {
     final String rawBase = GWT.getHostPageBaseURL() + "cat/";
     return rawBase + KeyUtil.encode(patchKey.toString()) + "^0";
+  }
+
+  protected boolean renderPreview() {
+    return preview && Gerrit.getConfig().getSrcToMarkdownEnabled()
+        && patchKey.toString().endsWith(".md");
+  }
+
+  protected String getPreviewUrlA(Project.NameKey project) {
+    Patch.Key k = idSideA == null
+        ? patchKey
+        : new Patch.Key(idSideA, patchKey.get());
+    StringBuilder url = new StringBuilder();
+    url.append(GWT.getHostPageBaseURL());
+    url.append("src/");
+    url.append(URL.encodePathSegment(project.get()));
+    url.append("/rev/");
+    url.append(URL.encodePathSegment(k.getParentKey().toRefName()));
+    if (idSideA == null) {
+      url.append("^1");
+    }
+    url.append("/");
+    url.append(URL.encodePathSegment(k.get()));
+    return url.toString();
+  }
+
+  protected String getPreviewUrlB(Project.NameKey project) {
+    StringBuilder url = new StringBuilder();
+    url.append(GWT.getHostPageBaseURL());
+    url.append("src/");
+    url.append(URL.encodePathSegment(project.get()));
+    url.append("/rev/");
+    url.append(URL.encodePathSegment(patchKey.getParentKey().toRefName()));
+    url.append("/");
+    url.append(URL.encodePathSegment(patchKey.get()));
+    return url.toString();
+  }
+
+  protected void appendPreview(SafeHtmlBuilder nc, String url, Side side) {
+    nc.openElement("iframe");
+
+    nc.setAttribute("src", url);
+    nc.setAttribute("marginheight", "0");
+    nc.setAttribute("frameborder", "0");
+    nc.setAttribute("width", "100%");
+    nc.setAttribute("height", "200px");
+
+    String id = "iframe_" + side.name();
+    nc.setAttribute("id", id);
+
+    StringBuilder autoResizeScript = new StringBuilder();
+    autoResizeScript.append("if (document.getElementById) {");
+    autoResizeScript.append("var e = document.getElementById(\"");
+    autoResizeScript.append(id);
+    autoResizeScript.append("\"); ");
+    autoResizeScript.append("e.width = (e.contentWindow.document .body.scrollWidth) + \"px\"; ");
+    autoResizeScript.append("e.height = (e.contentWindow.document .body.scrollHeight) + \"px\"; ");
+    autoResizeScript.append("}");
+    nc.setAttribute("onLoad", autoResizeScript.toString());
+
+    nc.closeElement("iframe");
   }
 
   protected abstract void render(PatchScript script, final PatchSetDetail detail);

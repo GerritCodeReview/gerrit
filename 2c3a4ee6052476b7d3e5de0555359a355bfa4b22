@@ -22,6 +22,30 @@
       "revId": "2c3a4ee6052476b7d3e5de0555359a355bfa4b22",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2a0465c_9c26e5c7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-20T10:20:51Z",
+      "side": 1,
+      "message": "Actually it works pretty well and we are using google-guice-beta 4.0 too. In any event we can already now address the problems this transition potentially raises. See below.",
+      "parentUuid": "9288eae3_6129f69d",
+      "range": {
+        "startLine": 7,
+        "startChar": 28,
+        "endLine": 7,
+        "endChar": 31
+      },
+      "revId": "2c3a4ee6052476b7d3e5de0555359a355bfa4b22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

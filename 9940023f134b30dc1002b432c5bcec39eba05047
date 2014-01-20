@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d22fc28a_2b33f90f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-01-20T00:34:21Z",
+      "side": 1,
+      "message": "Please add a bit more detail of what the refactoring is and why it is needed.",
+      "revId": "9940023f134b30dc1002b432c5bcec39eba05047",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

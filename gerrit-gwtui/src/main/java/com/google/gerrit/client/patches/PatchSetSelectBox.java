@@ -67,6 +67,7 @@ public class PatchSetSelectBox extends Composite {
   PatchSet.Id idActive;
   Side side;
   PatchScreen.Type screenType;
+  boolean preview;
   Map<Integer, Anchor> links;
   private Label patchSet;
 
@@ -76,9 +77,10 @@ public class PatchSetSelectBox extends Composite {
   @UiField
   BoxStyle style;
 
-  public PatchSetSelectBox(Side side, final PatchScreen.Type type) {
+  public PatchSetSelectBox(Side side, PatchScreen.Type type, boolean preview) {
     this.side = side;
     this.screenType = type;
+    this.preview = preview;
 
     initWidget(uiBinder.createAndBindUi(this));
   }
@@ -167,7 +169,7 @@ public class PatchSetSelectBox extends Composite {
             Gerrit.display(Dispatcher.toPatchSideBySide(idSideA, keySideB));
             break;
           case UNIFIED:
-            Gerrit.display(Dispatcher.toPatchUnified(idSideA, keySideB));
+            Gerrit.display(Dispatcher.toPatchUnified(idSideA, keySideB, preview));
             break;
         }
       }

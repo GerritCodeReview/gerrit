@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f2a0465c_1cfc15de",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ProjectDocServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-20T07:47:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1294fafd_3dea2f19",
+      "range": {
+        "startLine": 167,
+        "startChar": 18,
+        "endLine": 167,
+        "endChar": 28
+      },
+      "revId": "f324ccdd08ad143fdaa9b0cf29d07b1767c557bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f2a0465c_1ce5f547",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ProjectDocServlet.java",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "f2a0465c_3c01d11e",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ProjectDocServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-20T07:47:10Z",
+      "side": 1,
+      "message": "Good catch.\n\nFortunately I can easily access the context path from the request by req.getContextPath(). So it\u0027s easy to fix.\n\nDone",
+      "parentUuid": "f2a0465c_1ce5f547",
+      "range": {
+        "startLine": 168,
+        "startChar": 4,
+        "endLine": 169,
+        "endChar": 70
+      },
+      "revId": "f324ccdd08ad143fdaa9b0cf29d07b1767c557bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f2a0465c_3cea3119",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ProjectDocServlet.java",
         "patchSetId": 1
@@ -59,6 +107,30 @@
       "writtenOn": "2014-01-18T23:00:15Z",
       "side": 1,
       "message": "[Optional]\n\nReplace this construct with one liner:\n\n  project \u003d CharMatcher.is(\u0027/\u0027).trimTrailingFrom(path);",
+      "range": {
+        "startLine": 212,
+        "startChar": 8,
+        "endLine": 216,
+        "endChar": 23
+      },
+      "revId": "f324ccdd08ad143fdaa9b0cf29d07b1767c557bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1294fafd_3d01cf1e",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ProjectDocServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-20T07:47:10Z",
+      "side": 1,
+      "message": "Cool, this looks nicer.\n\nDone",
+      "parentUuid": "f2a0465c_3cea3119",
       "range": {
         "startLine": 212,
         "startChar": 8,

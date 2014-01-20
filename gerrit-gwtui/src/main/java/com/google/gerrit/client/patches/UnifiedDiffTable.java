@@ -19,6 +19,7 @@ import static com.google.gerrit.client.patches.PatchLine.Type.DELETE;
 import static com.google.gerrit.client.patches.PatchLine.Type.INSERT;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.patches.PatchSetSelectBox.Side;
 import com.google.gerrit.common.data.CommentDetail;
 import com.google.gerrit.common.data.PatchScript;
 import com.google.gerrit.common.data.PatchScript.DisplayMethod;
@@ -28,6 +29,7 @@ import com.google.gerrit.prettify.common.EditList;
 import com.google.gerrit.prettify.common.EditList.Hunk;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
@@ -50,6 +52,10 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
           return o1.getWrittenOn().compareTo(o2.getWrittenOn());
         }
       };
+
+  UnifiedDiffTable (boolean preview) {
+    super(preview);
+  }
 
   protected boolean isFileCommentBorderRowExist;
   // Cursors.
@@ -164,6 +170,70 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
     nc.closeElement("img");
   }
 
+  private void appendPreviewLine(SafeHtmlBuilder nc, String url,
+      boolean syntaxHighlighting, boolean isInsert, Side side) {
+    nc.openTr();
+    nc.setAttribute("valign", "center");
+    nc.setAttribute("align", "center");
+
+    nc.openTd();
+    nc.setStyleName(Gerrit.RESOURCES.css().iconCell());
+    nc.closeTd();
+
+    padLineNumberForSideA(nc);
+    padLineNumberForSideB(nc);
+
+    nc.openTd();
+    nc.setStyleName(Gerrit.RESOURCES.css().fileLine());
+    if (isInsert) {
+      setStyleInsert(nc, syntaxHighlighting);
+    } else {
+      setStyleDelete(nc, syntaxHighlighting);
+    }
+    appendIframeTag(nc, url, side);
+    nc.closeTd();
+
+    nc.closeTr();
+  }
+
+  private void appendPreviewDifferences(PatchScript script, SafeHtmlBuilder nc,
+      Project.NameKey project) {
+    boolean syntaxHighlighting = script.getDiffPrefs().isSyntaxHighlighting();
+    if (script.getDisplayMethodA() == DisplayMethod.DIFF) {
+      appendPreviewLine(nc, getPreviewUrlA(project),
+          syntaxHighlighting, false, Side.A);
+    }
+    if (script.getDisplayMethodB() == DisplayMethod.DIFF) {
+      appendPreviewLine(nc, getPreviewUrlB(project),
+          syntaxHighlighting, true, Side.B);
+    }
+  }
+
+  private void appendIframeTag(SafeHtmlBuilder nc, String url, Side side) {
+    nc.openElement("iframe");
+
+    nc.setAttribute("src", url);
+    nc.setAttribute("marginheight", "0");
+    nc.setAttribute("frameborder", "0");
+    nc.setAttribute("width", "100%");
+    nc.setAttribute("height", "200px");
+
+    String id = "iframe_" + side.name();
+    nc.setAttribute("id", id);
+
+    StringBuilder autoResizeScript = new StringBuilder();
+    autoResizeScript.append("if (document.getElementById) {");
+    autoResizeScript.append("var e = document.getElementById(\"");
+    autoResizeScript.append(id);
+    autoResizeScript.append("\"); ");
+    autoResizeScript.append("e.width = (e.contentWindow.document .body.scrollWidth) + \"px\"; ");
+    autoResizeScript.append("e.height = (e.contentWindow.document .body.scrollHeight) + \"px\"; ");
+    autoResizeScript.append("}");
+    nc.setAttribute("onLoad", autoResizeScript.toString());
+
+    nc.closeElement("iframe");
+  }
+
   protected void createFileCommentEditorOnSideA() {
     createCommentEditor(R_HEAD + 1, PC, R_HEAD, FILE_SIDE_A);
   }
@@ -222,6 +292,8 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
       if (script.getDisplayMethodA() == DisplayMethod.IMG
           || script.getDisplayMethodB() == DisplayMethod.IMG) {
         appendImageDifferences(script, nc);
+      } else if (renderPreview()) {
+        appendPreviewDifferences(script, nc, detail.getProject());
       } else if (!isDisplayBinary) {
         appendTextDifferences(script, nc, lines);
       }

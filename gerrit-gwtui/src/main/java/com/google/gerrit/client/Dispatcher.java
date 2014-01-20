@@ -109,6 +109,11 @@ public class Dispatcher {
     return toPatch("", diffBase, id);
   }
 
+  public static String toPatchSideBySide(PatchSet.Id diffBase, Patch.Key id,
+      boolean preview) {
+    return toPatch((preview ? "preview" : ""), diffBase, id);
+  }
+
   public static String toSideBySide(PatchSet.Id diffBase,
       PatchSet.Id revision, String fileName) {
     return toPatch("", diffBase, revision, fileName, null, 0);
@@ -130,6 +135,11 @@ public class Dispatcher {
 
   public static String toPatchUnified(PatchSet.Id diffBase, Patch.Key id) {
     return toPatch("unified", diffBase, id);
+  }
+
+  public static String toPatchUnified(PatchSet.Id diffBase, Patch.Key id,
+      boolean preview) {
+    return toPatch("unified" + (preview ? "-preview" : ""), diffBase, id);
   }
 
   private static String toPatch(String type, PatchSet.Id diffBase, Patch.Key id) {
@@ -642,14 +652,16 @@ public class Dispatcher {
             panel = 0 <= c ? token.substring(c + 1) : "";
           }
 
-          if ("unified".equals(panel)) {
+          if ("unified".equals(panel) ||
+              "unified-preview".equals(panel)) {
             return new PatchScreen.Unified( //
                 id, //
                 patchIndex, //
                 patchSetDetail, //
                 patchTable, //
                 top, //
-                baseId //
+                baseId, //
+                panel.endsWith("preview") //
             );
           } else if (("cm".equals(panel) && Gerrit.getConfig().getNewFeatures())
               || ("".equals(panel) && isChangeScreen2())) {
@@ -662,19 +674,23 @@ public class Dispatcher {
                   patchSetDetail, //
                   patchTable, //
                   top, //
-                  baseId //
+                  baseId, //
+                  false //
               );
             }
             return new SideBySide2(baseId, id.getParentKey(), id.get(),
                 side, line);
-          } else if ("".equals(panel) || "sidebyside".equals(panel)) {
+          } else if ("".equals(panel) || "preview".equals(panel)
+              || "sidebyside".equals(panel)
+              || "sidebyside-preview".equals(panel)) {
             return new PatchScreen.SideBySide(//
                 id, //
                 patchIndex,//
                 patchSetDetail,//
                 patchTable,//
                 top,//
-                baseId);//
+                baseId,//
+                panel.endsWith("preview"));//
           }
         }
 

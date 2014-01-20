@@ -24,6 +24,7 @@ import static org.junit.Assert.assertTrue;
 import com.google.common.net.HttpHeaders;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
+import com.google.gerrit.acceptance.GerritConfigs;
 import com.google.gerrit.acceptance.HttpResponse;
 import com.google.gerrit.acceptance.HttpSession;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -346,5 +347,26 @@ public class ProjectDocumentationIT extends AbstractDaemonTest {
     r = httpSession.get("/src/" + project.get() + "/README.md",
         new BasicHeader(HttpHeaders.IF_NONE_MATCH, eTag));
     assertEquals(HttpStatus.SC_NOT_MODIFIED, r.getStatusCode());
+  }
+
+  @Test
+  @GerritConfig(name="site.enableSrcToMarkdown", value="true")
+  public void getImage_NotFound() throws IOException, GitAPIException {
+    pushFactory.create(db, admin.getIdent(), "Add readme", "test.jpg", "content")
+        .to(git, "refs/heads/master");
+    HttpResponse r = httpSession.get("/src/" + project.get() + "/test.jpg");
+    assertEquals(HttpStatus.SC_NOT_FOUND, r.getStatusCode());
+  }
+
+  @Test
+  @GerritConfigs({
+    @GerritConfig(name="site.enableSrcToMarkdown", value="true"),
+    @GerritConfig(name="mimetype.image/*.safe", value="true")
+  })
+  public void getImageSafeMimeType() throws IOException, GitAPIException {
+    pushFactory.create(db, admin.getIdent(), "Add readme", "test.jpg", "content")
+        .to(git, "refs/heads/master");
+    HttpResponse r = httpSession.get("/src/" + project.get() + "/test.jpg");
+    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
   }
 }

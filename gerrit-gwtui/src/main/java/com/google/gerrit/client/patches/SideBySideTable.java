@@ -20,6 +20,7 @@ import static com.google.gerrit.client.patches.PatchLine.Type.INSERT;
 import static com.google.gerrit.client.patches.PatchLine.Type.REPLACE;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.patches.PatchSetSelectBox.Side;
 import com.google.gerrit.common.data.CommentDetail;
 import com.google.gerrit.common.data.PatchScript;
 import com.google.gerrit.common.data.PatchScript.DisplayMethod;
@@ -28,6 +29,7 @@ import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.prettify.client.SparseHtmlFile;
 import com.google.gerrit.prettify.common.EditList;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -56,6 +58,10 @@ public class SideBySideTable extends AbstractPatchContentTable {
   private SparseHtmlFile b;
   private boolean isHugeFile;
   protected boolean isFileCommentBorderRowExist;
+
+  SideBySideTable(boolean preview) {
+    super(preview);
+  }
 
   protected void createFileCommentEditorOnSideA() {
     createCommentEditor(R_HEAD + 1, A, R_HEAD, FILE_SIDE_A);
@@ -109,84 +115,88 @@ public class SideBySideTable extends AbstractPatchContentTable {
       }
 
       if (hasDifferences(script)) {
-        int lastA = 0;
-        int lastB = 0;
-        final boolean ignoreWS = script.isIgnoreWhitespace();
-        a = getSparseHtmlFileA(script);
-        b = getSparseHtmlFileB(script);
-        final boolean intraline =
-            script.getDiffPrefs().isIntralineDifference()
-                && script.hasIntralineDifference();
-        for (final EditList.Hunk hunk : script.getHunks()) {
-          if (!hunk.isStartOfFile()) {
-            appendSkipLine(nc, hunk.getCurB() - lastB);
-            lines.add(new SkippedLine(lastA, lastB, hunk.getCurB() - lastB));
-          }
+        if (renderPreview()) {
+          appendPreviewLine(script, nc, detail.getProject());
+        } else {
+          int lastA = 0;
+          int lastB = 0;
+          final boolean ignoreWS = script.isIgnoreWhitespace();
+          a = getSparseHtmlFileA(script);
+          b = getSparseHtmlFileB(script);
+          final boolean intraline =
+              script.getDiffPrefs().isIntralineDifference()
+                  && script.hasIntralineDifference();
+          for (final EditList.Hunk hunk : script.getHunks()) {
+            if (!hunk.isStartOfFile()) {
+              appendSkipLine(nc, hunk.getCurB() - lastB);
+              lines.add(new SkippedLine(lastA, lastB, hunk.getCurB() - lastB));
+            }
 
-          while (hunk.next()) {
-            if (hunk.isContextLine()) {
-              openLine(nc);
-              final SafeHtml ctx = a.getSafeHtmlLine(hunk.getCurA());
-              appendLineNumber(nc, hunk.getCurA(), false);
-              appendLineText(nc, CONTEXT, ctx, false, false);
-              if (ignoreWS && b.contains(hunk.getCurB())) {
-                appendLineText(nc, CONTEXT, b, hunk.getCurB(), false);
-              } else {
-                appendLineText(nc, CONTEXT, ctx, false, false);
-              }
-              appendLineNumber(nc, hunk.getCurB(), true);
-              closeLine(nc);
-              hunk.incBoth();
-              lines.add(new PatchLine(CONTEXT, hunk.getCurA(), hunk.getCurB()));
-
-            } else if (hunk.isModifiedLine()) {
-              final boolean del = hunk.isDeletedA();
-              final boolean ins = hunk.isInsertedB();
-              final boolean full =
-                  intraline && hunk.getCurEdit().getType() != Edit.Type.REPLACE;
-              openLine(nc);
-
-              if (del) {
+            while (hunk.next()) {
+              if (hunk.isContextLine()) {
+                openLine(nc);
+                final SafeHtml ctx = a.getSafeHtmlLine(hunk.getCurA());
                 appendLineNumber(nc, hunk.getCurA(), false);
-                appendLineText(nc, DELETE, a, hunk.getCurA(), full);
-                hunk.incA();
-              } else if (hunk.getCurEdit().getType() == Edit.Type.REPLACE) {
-                appendLineNumber(nc, false);
-                appendLineNone(nc, DELETE);
-              } else {
-                appendLineNumber(nc, false);
-                appendLineNone(nc, CONTEXT);
-              }
-
-              if (ins) {
-                appendLineText(nc, INSERT, b, hunk.getCurB(), full);
+                appendLineText(nc, CONTEXT, ctx, false, false);
+                if (ignoreWS && b.contains(hunk.getCurB())) {
+                  appendLineText(nc, CONTEXT, b, hunk.getCurB(), false);
+                } else {
+                  appendLineText(nc, CONTEXT, ctx, false, false);
+                }
                 appendLineNumber(nc, hunk.getCurB(), true);
-                hunk.incB();
-              } else if (hunk.getCurEdit().getType() == Edit.Type.REPLACE) {
-                appendLineNone(nc, INSERT);
-                appendLineNumber(nc, true);
-              } else {
-                appendLineNone(nc, CONTEXT);
-                appendLineNumber(nc, true);
-              }
+                closeLine(nc);
+                hunk.incBoth();
+                lines.add(new PatchLine(CONTEXT, hunk.getCurA(), hunk.getCurB()));
 
-              closeLine(nc);
+              } else if (hunk.isModifiedLine()) {
+                final boolean del = hunk.isDeletedA();
+                final boolean ins = hunk.isInsertedB();
+                final boolean full =
+                    intraline && hunk.getCurEdit().getType() != Edit.Type.REPLACE;
+                openLine(nc);
 
-              if (del && ins) {
-                lines.add(new PatchLine(REPLACE, hunk.getCurA(), hunk.getCurB()));
-              } else if (del) {
-                lines.add(new PatchLine(DELETE, hunk.getCurA(), -1));
-              } else if (ins) {
-                lines.add(new PatchLine(INSERT, -1, hunk.getCurB()));
+                if (del) {
+                  appendLineNumber(nc, hunk.getCurA(), false);
+                  appendLineText(nc, DELETE, a, hunk.getCurA(), full);
+                  hunk.incA();
+                } else if (hunk.getCurEdit().getType() == Edit.Type.REPLACE) {
+                  appendLineNumber(nc, false);
+                  appendLineNone(nc, DELETE);
+                } else {
+                  appendLineNumber(nc, false);
+                  appendLineNone(nc, CONTEXT);
+                }
+
+                if (ins) {
+                  appendLineText(nc, INSERT, b, hunk.getCurB(), full);
+                  appendLineNumber(nc, hunk.getCurB(), true);
+                  hunk.incB();
+                } else if (hunk.getCurEdit().getType() == Edit.Type.REPLACE) {
+                  appendLineNone(nc, INSERT);
+                  appendLineNumber(nc, true);
+                } else {
+                  appendLineNone(nc, CONTEXT);
+                  appendLineNumber(nc, true);
+                }
+
+                closeLine(nc);
+
+                if (del && ins) {
+                  lines.add(new PatchLine(REPLACE, hunk.getCurA(), hunk.getCurB()));
+                } else if (del) {
+                  lines.add(new PatchLine(DELETE, hunk.getCurA(), -1));
+                } else if (ins) {
+                  lines.add(new PatchLine(INSERT, -1, hunk.getCurB()));
+                }
               }
             }
+            lastA = hunk.getCurA();
+            lastB = hunk.getCurB();
           }
-          lastA = hunk.getCurA();
-          lastB = hunk.getCurB();
-        }
-        if (lastB != b.size()) {
-          appendSkipLine(nc, b.size() - lastB);
-          lines.add(new SkippedLine(lastA, lastB, b.size() - lastB));
+          if (lastB != b.size()) {
+            appendSkipLine(nc, b.size() - lastB);
+            lines.add(new SkippedLine(lastA, lastB, b.size() - lastB));
+          }
         }
       }
     } else {
@@ -252,6 +262,40 @@ public class SideBySideTable extends AbstractPatchContentTable {
 
     appendLineNumber(m, true);
     m.closeTr();
+  }
+
+  private void appendPreviewLine(PatchScript script,
+      SafeHtmlBuilder m, Project.NameKey project) {
+    m.openTr();
+    m.setAttribute("valign", "center");
+    m.setAttribute("align", "center");
+
+    m.openTd();
+    m.setStyleName(Gerrit.RESOURCES.css().iconCell());
+    m.closeTd();
+
+    appendLineNumber(m, false);
+    if (script.getDisplayMethodA() == DisplayMethod.DIFF) {
+      final String url = getPreviewUrlA(project);
+      appendLineText(m, DELETE, createPreview(url, Side.A), false, true);
+    } else {
+      appendLineNone(m, DELETE);
+    }
+    if (script.getDisplayMethodB() == DisplayMethod.DIFF) {
+      final String url = getPreviewUrlB(project);
+      appendLineText(m, INSERT, createPreview(url, Side.B), false, true);
+    } else {
+      appendLineNone(m, INSERT);
+    }
+
+    appendLineNumber(m, true);
+    m.closeTr();
+  }
+
+  private SafeHtml createPreview(String url, Side side) {
+    SafeHtmlBuilder m = new SafeHtmlBuilder();
+    appendPreview(m, url, side);
+    return m.toSafeHtml();
   }
 
   private void populateTableHeader(final PatchScript script,

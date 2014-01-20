@@ -47,7 +47,7 @@ limitations under the License.
     font-weight: bold;
     margin-right: 1em;
   }
-  .preferences {
+  .preferences, .preview {
     cursor: pointer;
   }
   </ui:style>
@@ -67,6 +67,12 @@ limitations under the License.
         <ui:attribute name='title'/>
       </x:InlineHyperlink>
       <x:InlineHyperlink ui:field='next' styleName='{res.style.go_next}'/>
+      <g:Image ui:field='preview'
+           styleName='{style.preview}'
+           resource='{res.preview}'
+           title='Preview Diff'>
+         <ui:attribute name='title'/>
+      </g:Image>
       <g:Image ui:field='preferences'
            styleName='{style.preferences}'
            resource='{res.gear}'

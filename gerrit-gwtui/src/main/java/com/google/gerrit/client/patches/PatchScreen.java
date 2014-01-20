@@ -55,13 +55,13 @@ public abstract class PatchScreen extends Screen implements
   public static class SideBySide extends PatchScreen {
     public SideBySide(final Patch.Key id, final int patchIndex,
         final PatchSetDetail patchSetDetail, final PatchTable patchTable,
-        final TopView topView, final PatchSet.Id baseId) {
-       super(id, patchIndex, patchSetDetail, patchTable, topView, baseId);
+        final TopView topView, final PatchSet.Id baseId, final boolean preview) {
+       super(id, patchIndex, patchSetDetail, patchTable, topView, baseId, preview);
     }
 
     @Override
     protected SideBySideTable createContentTable() {
-      return new SideBySideTable();
+      return new SideBySideTable(preview);
     }
 
     @Override
@@ -73,13 +73,13 @@ public abstract class PatchScreen extends Screen implements
   public static class Unified extends PatchScreen {
     public Unified(final Patch.Key id, final int patchIndex,
         final PatchSetDetail patchSetDetail, final PatchTable patchTable,
-        final TopView topView, final PatchSet.Id baseId) {
-      super(id, patchIndex, patchSetDetail, patchTable, topView, baseId);
+        final TopView topView, final PatchSet.Id baseId, final boolean preview) {
+      super(id, patchIndex, patchSetDetail, patchTable, topView, baseId, preview);
     }
 
     @Override
     protected UnifiedDiffTable createContentTable() {
-      return new UnifiedDiffTable();
+      return new UnifiedDiffTable(preview);
     }
 
     @Override
@@ -96,6 +96,7 @@ public abstract class PatchScreen extends Screen implements
   }
 
   protected final Patch.Key patchKey;
+  protected final boolean preview;
   protected PatchSetDetail patchSetDetail;
   protected PatchTable fileList;
   protected PatchSet.Id idSideA;
@@ -138,8 +139,9 @@ public abstract class PatchScreen extends Screen implements
 
   protected PatchScreen(final Patch.Key id, final int patchIndex,
       final PatchSetDetail detail, final PatchTable patchTable,
-      final TopView top, final PatchSet.Id baseId) {
+      final TopView top, final PatchSet.Id baseId, final boolean preview) {
     patchKey = id;
+    this.preview = preview;
     patchSetDetail = detail;
     fileList = patchTable;
     topView = top;
@@ -454,7 +456,7 @@ public abstract class PatchScreen extends Screen implements
       // in SideBySide view.
       //
       contentTable.removeFromParent();
-      contentTable = new UnifiedDiffTable();
+      contentTable = new UnifiedDiffTable(preview);
       contentTable.fileList = fileList;
       contentTable.setCommentLinkProcessor(commentLinkProcessor);
       contentPanel.add(contentTable);

@@ -70,6 +70,6 @@ public interface GerritResources extends ClientBundle {
   @Source("warning.png")
   public ImageResource warning();
 
-  @Source("textHtml.png")
+  @Source("diff/textHtml.png")
   public ImageResource htmlIcon();
 }

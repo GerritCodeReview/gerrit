@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "f2a0465c_3c8eb169",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-20T20:15:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d22fc28a_cb8fd561",
+      "range": {
+        "startLine": 12,
+        "startChar": 35,
+        "endLine": 12,
+        "endChar": 41
+      },
+      "revId": "2c3a4ee6052476b7d3e5de0555359a355bfa4b22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9288eae3_e11c2683",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -107,6 +131,30 @@
       "writtenOn": "2014-01-20T12:46:33Z",
       "side": 1,
       "message": "depending",
+      "range": {
+        "startLine": 28,
+        "startChar": 16,
+        "endLine": 28,
+        "endChar": 23
+      },
+      "revId": "2c3a4ee6052476b7d3e5de0555359a355bfa4b22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1294fafd_3d4f8f86",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-20T20:15:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9288eae3_e11c2683",
       "range": {
         "startLine": 28,
         "startChar": 16,
@@ -165,6 +213,54 @@
     },
     {
       "key": {
+        "uuid": "f2a0465c_bc3ac1d4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-20T20:15:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d22fc28a_ab9c899f",
+      "range": {
+        "startLine": 33,
+        "startChar": 24,
+        "endLine": 33,
+        "endChar": 33
+      },
+      "revId": "2c3a4ee6052476b7d3e5de0555359a355bfa4b22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1294fafd_1d4ad375",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-20T20:15:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9288eae3_011a6a84",
+      "range": {
+        "startLine": 33,
+        "startChar": 52,
+        "endLine": 33,
+        "endChar": 54
+      },
+      "revId": "2c3a4ee6052476b7d3e5de0555359a355bfa4b22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d22fc28a_8b99cdaf",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -176,6 +272,30 @@
       "writtenOn": "2014-01-20T12:46:33Z",
       "side": 1,
       "message": "This commit does not update gwtorm.",
+      "range": {
+        "startLine": 34,
+        "startChar": 26,
+        "endLine": 34,
+        "endChar": 45
+      },
+      "revId": "2c3a4ee6052476b7d3e5de0555359a355bfa4b22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2a0465c_9c3d85d1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-20T20:15:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d22fc28a_8b99cdaf",
       "range": {
         "startLine": 34,
         "startChar": 26,
@@ -205,6 +325,24 @@
     },
     {
       "key": {
+        "uuid": "f2a0465c_5c7ffd8d",
+        "filename": "gerrit-gwtdebug/src/main/java/com/google/gerrit/gwtdebug/GerritDebugLauncher.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-20T20:15:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d22fc28a_2b89b960",
+      "revId": "2c3a4ee6052476b7d3e5de0555359a355bfa4b22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d22fc28a_eb92918b",
         "filename": "gerrit-gwtdebug/src/main/java/com/google/gerrit/gwtdebug/GerritDebugLauncher.java",
         "patchSetId": 2
@@ -216,6 +354,24 @@
       "writtenOn": "2014-01-20T12:46:33Z",
       "side": 1,
       "message": "What is deprecated?  Should we replace it?",
+      "revId": "2c3a4ee6052476b7d3e5de0555359a355bfa4b22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2a0465c_7c843949",
+        "filename": "gerrit-gwtdebug/src/main/java/com/google/gerrit/gwtdebug/GerritDebugLauncher.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-20T20:15:53Z",
+      "side": 1,
+      "message": "I am not always seeing Eclipse warning. Done.",
+      "parentUuid": "d22fc28a_eb92918b",
       "revId": "2c3a4ee6052476b7d3e5de0555359a355bfa4b22",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -239,6 +395,24 @@
     },
     {
       "key": {
+        "uuid": "1294fafd_dd430b5d",
+        "filename": "gerrit-gwtdebug/src/main/java/com/google/gerrit/gwtdebug/GerritDebugLauncher.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-20T20:15:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9288eae3_812e7aa5",
+      "revId": "2c3a4ee6052476b7d3e5de0555359a355bfa4b22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d22fc28a_0b8efd68",
         "filename": "gerrit-gwtdebug/src/main/java/com/google/gerrit/gwtdebug/GerritDebugLauncher.java",
         "patchSetId": 2
@@ -256,6 +430,24 @@
     },
     {
       "key": {
+        "uuid": "f2a0465c_1c897560",
+        "filename": "gerrit-gwtdebug/src/main/java/com/google/gerrit/gwtdebug/GerritDebugLauncher.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-20T20:15:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d22fc28a_0b8efd68",
+      "revId": "2c3a4ee6052476b7d3e5de0555359a355bfa4b22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9288eae3_2133ee0f",
         "filename": "gerrit-gwtdebug/src/main/java/com/google/gerrit/gwtdebug/GerritDebugLauncher.java",
         "patchSetId": 2
@@ -267,6 +459,30 @@
       "writtenOn": "2014-01-20T12:46:33Z",
       "side": 1,
       "message": "Space after the comma.",
+      "range": {
+        "startLine": 256,
+        "startChar": 20,
+        "endLine": 256,
+        "endChar": 21
+      },
+      "revId": "2c3a4ee6052476b7d3e5de0555359a355bfa4b22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1294fafd_fd404752",
+        "filename": "gerrit-gwtdebug/src/main/java/com/google/gerrit/gwtdebug/GerritDebugLauncher.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-20T20:15:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9288eae3_2133ee0f",
       "range": {
         "startLine": 256,
         "startChar": 20,

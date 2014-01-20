@@ -57,6 +57,10 @@ public class SideBySideTable extends AbstractPatchContentTable {
   private boolean isHugeFile;
   protected boolean isFileCommentBorderRowExist;
 
+  SideBySideTable() {
+    super(false);
+  }
+
   protected void createFileCommentEditorOnSideA() {
     createCommentEditor(R_HEAD + 1, A, R_HEAD, FILE_SIDE_A);
   }

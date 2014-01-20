@@ -25,7 +25,6 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.http.client.URL;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -101,10 +100,6 @@ class PatchSetSelectBox2 extends Composite {
     }
     if (meta != null && !Patch.COMMIT_MSG.equals(path)) {
       linkPanel.add(createDownloadLink());
-      if (Gerrit.getConfig().getSrcToMarkdownEnabled() && idActive != null
-          && path.endsWith(".md")) {
-        linkPanel.add(createPreviewLink(project));
-      }
     }
   }
 
@@ -132,23 +127,6 @@ class PatchSetSelectBox2 extends Composite {
         new ImageResourceRenderer().render(Gerrit.RESOURCES.downloadIcon()),
         base + KeyUtil.encode(id + "," + path) + "^" + sideURL);
     anchor.setTitle(PatchUtil.C.download());
-    return anchor;
-  }
-
-  private Anchor createPreviewLink(String project) {
-    StringBuilder href = new StringBuilder();
-    href.append(GWT.getHostPageBaseURL());
-    href.append("src/");
-    href.append(URL.encodePathSegment(project));
-    href.append("/rev/");
-    href.append(URL.encodePathSegment(idActive.toRefName()));
-    href.append("/");
-    href.append(URL.encodePathSegment(path));
-
-    Anchor anchor = new Anchor(
-        new ImageResourceRenderer().render(Gerrit.RESOURCES.htmlIcon()),
-        href.toString(), "_blank");
-    anchor.setTitle(PatchUtil.C.previewHtml());
     return anchor;
   }
 

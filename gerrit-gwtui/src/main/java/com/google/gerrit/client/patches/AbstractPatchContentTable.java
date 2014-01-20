@@ -77,6 +77,7 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
   public static final int R_HEAD = 0;
   static final short FILE_SIDE_A = (short) 0;
   static final short FILE_SIDE_B = (short) 1;
+  protected final boolean preview;
   protected PatchTable fileList;
   protected AccountInfoCache accountCache = AccountInfoCache.empty();
   protected Patch.Key patchKey;
@@ -95,7 +96,9 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
   private CommentLinkProcessor commentLinkProcessor;
   boolean isDisplayBinary;
 
-  protected AbstractPatchContentTable() {
+  protected AbstractPatchContentTable(boolean preview) {
+    this.preview = preview;
+
     keysNavigation.add(new PrevKeyCommand(0, 'k', PatchUtil.C.linePrev()));
     keysNavigation.add(new NextKeyCommand(0, 'j', PatchUtil.C.lineNext()));
     keysNavigation.add(new PrevChunkKeyCmd(0, 'p', PatchUtil.C.chunkPrev()));
@@ -135,7 +138,7 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
 
   protected void initHeaders(PatchScript script, PatchSetDetail detail) {
     PatchScreen.Type type = getPatchScreenType();
-    headerSideA = new PatchSetSelectBox(PatchSetSelectBox.Side.A, type);
+    headerSideA = new PatchSetSelectBox(PatchSetSelectBox.Side.A, type, preview);
     headerSideA.display(detail, script, patchKey, idSideA, idSideB);
     headerSideA.addDoubleClickHandler(new DoubleClickHandler() {
       @Override
@@ -145,7 +148,7 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
         }
       }
     });
-    headerSideB = new PatchSetSelectBox(PatchSetSelectBox.Side.B, type);
+    headerSideB = new PatchSetSelectBox(PatchSetSelectBox.Side.B, type, preview);
     headerSideB.display(detail, script, patchKey, idSideA, idSideB);
     headerSideB.addDoubleClickHandler(new DoubleClickHandler() {
       @Override

@@ -25,7 +25,9 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.httpd.resources.Resource;
+import com.google.gerrit.httpd.resources.SmallResource;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.FileTypeRegistry;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.GetHead;
 import com.google.gerrit.server.project.NoSuchProjectException;
@@ -38,13 +40,19 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 
+import eu.medsea.mimeutil.MimeType;
+
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.errors.RevisionSyntaxException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.treewalk.TreeWalk;
+import org.eclipse.jgit.treewalk.filter.PathFilter;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -62,18 +70,20 @@ public class ProjectDocServlet extends HttpServlet {
   private final GitRepositoryManager repoManager;
   private final LoadingCache<ProjectDocResourceKey, Resource> docCache;
   private final ProjectCache projectCache;
+  private final FileTypeRegistry fileTypeRegistry;
 
   @Inject
   ProjectDocServlet(ProjectControl.Factory projectControlFactory,
       Provider<GetHead> getHead, GitRepositoryManager repoManager,
       @Named(ProjectDocLoader.Module.PROJECT_DOC_RESOURCES)
           LoadingCache<ProjectDocResourceKey, Resource> cache,
-          ProjectCache projectCache) {
+          ProjectCache projectCache, FileTypeRegistry fileTypeRegistry) {
     this.projectControlFactory = projectControlFactory;
     this.getHead = getHead;
     this.repoManager = repoManager;
     this.docCache = cache;
     this.projectCache = projectCache;
+    this.fileTypeRegistry = fileTypeRegistry;
   }
 
   @Override
@@ -94,7 +104,10 @@ public class ProjectDocServlet extends HttpServlet {
       res.sendRedirect(getRedirectUrl(req, key));
       return;
     }
-    if (!key.file.endsWith(".md")) {
+    MimeType mimeType = fileTypeRegistry.getMimeType(key.file, null);
+    if (!key.file.endsWith(".md")
+        && !("image".equals(mimeType.getMediaType())
+            && fileTypeRegistry.isSafeInline(mimeType))) {
       Resource.NOT_FOUND.send(req, res);
       return;
     }
@@ -147,8 +160,16 @@ public class ProjectDocServlet extends HttpServlet {
           }
         }
 
-        Resource rsc = docCache.getUnchecked(
+        Resource rsc;
+        if (key.file.endsWith(".md")) {
+          rsc = docCache.getUnchecked(
             new ProjectDocResourceKey(key.project, key.file, revId));
+        } else if ("image".equals(mimeType.getMediaType())) {
+          rsc = getImageResource(repo, revId, key.file);
+        } else {
+          rsc = Resource.NOT_FOUND;
+        }
+
         if (rsc != Resource.NOT_FOUND) {
           res.setHeader(HttpHeaders.ETAG,
               Objects.firstNonNull(eTag, computeETag(key.project, revId, key.file)));
@@ -163,6 +184,42 @@ public class ProjectDocServlet extends HttpServlet {
         | ResourceNotFoundException | AuthException | RevisionSyntaxException e) {
       Resource.NOT_FOUND.send(req, res);
       return;
+    }
+  }
+
+  private Resource getImageResource(Repository repo, ObjectId revId, String file) {
+    RevWalk rw = new RevWalk(repo);
+    try {
+      RevCommit commit = rw.parseCommit(revId);
+      RevTree tree = commit.getTree();
+      TreeWalk tw = new TreeWalk(repo);
+      try {
+        tw.addTree(tree);
+        tw.setRecursive(true);
+        tw.setFilter(PathFilter.create(file));
+        if (!tw.next()) {
+          return Resource.NOT_FOUND;
+        }
+        ObjectId objectId = tw.getObjectId(0);
+        ObjectLoader loader = repo.open(objectId);
+        byte[] content = loader.getBytes(Integer.MAX_VALUE);
+
+        MimeType mimeType = fileTypeRegistry.getMimeType(file, content);
+        if (!"image".equals(mimeType.getMediaType())
+            || !fileTypeRegistry.isSafeInline(mimeType)) {
+          return Resource.NOT_FOUND;
+        }
+        return new SmallResource(content)
+            .setContentType(mimeType.toString())
+            .setCharacterEncoding("UTF-8")
+            .setLastModified(commit.getCommitTime());
+      } finally {
+        tw.release();
+      }
+    } catch (IOException e) {
+      return Resource.NOT_FOUND;
+    } finally {
+      rw.release();
     }
   }
 

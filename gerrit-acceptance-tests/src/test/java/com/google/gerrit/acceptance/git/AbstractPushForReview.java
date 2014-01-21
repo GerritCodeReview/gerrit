@@ -16,10 +16,8 @@ package com.google.gerrit.acceptance.git;
 
 import static com.google.gerrit.acceptance.GitUtil.cloneProject;
 import static com.google.gerrit.acceptance.GitUtil.createProject;
-import static com.google.gerrit.acceptance.GitUtil.initSsh;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.AccountCreator;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.SshSession;
 import com.google.gerrit.acceptance.TestAccount;
@@ -46,15 +44,11 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Inject
-  private AccountCreator accounts;
-
-  @Inject
   private SchemaFactory<ReviewDb> reviewDbProvider;
 
   @Inject
   protected PushOneCommit.Factory pushFactory;
 
-  private TestAccount admin;
   private Project.NameKey project;
   private Git git;
   private ReviewDb db;
@@ -62,12 +56,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
   @Before
   public void setUp() throws Exception {
-    admin =
-        accounts.create("admin", "admin@example.com", "Administrator",
-            "Administrators");
-
     project = new Project.NameKey("p");
-    initSsh(admin);
     SshSession sshSession = new SshSession(server, admin);
     createProject(sshSession, project.get());
     sshUrl = sshSession.getUrl();

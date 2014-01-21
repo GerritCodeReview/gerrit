@@ -20,10 +20,8 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.AccountCreator;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.RestSession;
-import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.Permission;
@@ -46,9 +44,6 @@ import java.io.IOException;
 public class CapabilitiesIT extends AbstractDaemonTest {
 
   @Inject
-  private AccountCreator accounts;
-
-  @Inject
   private AllProjectsName allProjects;
 
   @Inject
@@ -58,14 +53,10 @@ public class CapabilitiesIT extends AbstractDaemonTest {
   private ProjectCache projectCache;
 
   private RestSession userSession;
-  private RestSession adminSession;
 
   @Before
   public void setUp() throws Exception {
-    TestAccount user = accounts.create("user", "user@example.com", "User");
-    TestAccount admin = accounts.admin();
-    userSession = new RestSession(server, user);
-    adminSession = new RestSession(server, admin);
+    userSession = new RestSession(server, accounts.user());
   }
 
   @Test

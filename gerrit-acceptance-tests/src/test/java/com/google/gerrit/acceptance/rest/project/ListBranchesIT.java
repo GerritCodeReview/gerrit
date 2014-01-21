@@ -16,18 +16,15 @@ package com.google.gerrit.acceptance.rest.project;
 
 import static com.google.gerrit.acceptance.GitUtil.cloneProject;
 import static com.google.gerrit.acceptance.GitUtil.createProject;
-import static com.google.gerrit.acceptance.GitUtil.initSsh;
 import static com.google.gerrit.acceptance.rest.project.BranchAssert.assertBranches;
 import static org.junit.Assert.assertEquals;
 
 import com.google.common.collect.Lists;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.AccountCreator;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.RestSession;
 import com.google.gerrit.acceptance.SshSession;
-import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
@@ -61,9 +58,6 @@ import java.util.List;
 public class ListBranchesIT extends AbstractDaemonTest {
 
   @Inject
-  private AccountCreator accounts;
-
-  @Inject
   private MetaDataUpdate.Server metaDataUpdateFactory;
 
   @Inject
@@ -75,8 +69,6 @@ public class ListBranchesIT extends AbstractDaemonTest {
   @Inject
   private PushOneCommit.Factory pushFactory;
 
-  private TestAccount admin;
-  private RestSession session;
   private SshSession sshSession;
   private Project.NameKey project;
   private Git git;
@@ -84,12 +76,7 @@ public class ListBranchesIT extends AbstractDaemonTest {
 
   @Before
   public void setUp() throws Exception {
-    admin = accounts.create("admin", "admin@example.com", "Administrator",
-            "Administrators");
-    session = new RestSession(server, admin);
-
     project = new Project.NameKey("p");
-    initSsh(admin);
     sshSession = new SshSession(server, admin);
     createProject(sshSession, project.get());
     git = cloneProject(sshSession.getUrl() + "/" + project.get());
@@ -112,8 +99,7 @@ public class ListBranchesIT extends AbstractDaemonTest {
   public void listBranchesOfNonVisibleProject_NotFound() throws IOException,
       OrmException, JSchException, ConfigInvalidException {
     blockRead(project, "refs/*");
-    RestSession session =
-        new RestSession(server, accounts.create("user", "user@example.com", "User"));
+    RestSession session = new RestSession(server, accounts.user());
     assertEquals(HttpStatus.SC_NOT_FOUND,
         session.get("/projects/" + project.get() + "/branches").getStatusCode());
   }
@@ -122,7 +108,7 @@ public class ListBranchesIT extends AbstractDaemonTest {
   public void listBranchesOfEmptyProject() throws IOException, JSchException {
     Project.NameKey emptyProject = new Project.NameKey("empty");
     createProject(sshSession, emptyProject.get(), null, false);
-    RestResponse r = session.get("/projects/" + emptyProject.get() + "/branches");
+    RestResponse r = adminSession.get("/projects/" + emptyProject.get() + "/branches");
     List<BranchInfo> expected = Lists.asList(
         new BranchInfo("refs/meta/config",  null, false),
         new BranchInfo[] {
@@ -137,7 +123,7 @@ public class ListBranchesIT extends AbstractDaemonTest {
     String masterCommit = git.getRepository().getRef("master").getTarget().getObjectId().getName();
     pushTo("refs/heads/dev");
     String devCommit = git.getRepository().getRef("master").getTarget().getObjectId().getName();
-    RestResponse r = session.get("/projects/" + project.get() + "/branches");
+    RestResponse r = adminSession.get("/projects/" + project.get() + "/branches");
     List<BranchInfo> expected = Lists.asList(
         new BranchInfo("refs/meta/config",  null, false),
         new BranchInfo[] {
@@ -190,7 +176,7 @@ public class ListBranchesIT extends AbstractDaemonTest {
   }
 
   private RestResponse GET(String endpoint) throws IOException {
-    return session.get(endpoint);
+    return adminSession.get(endpoint);
   }
 
   private void blockRead(Project.NameKey project, String ref)

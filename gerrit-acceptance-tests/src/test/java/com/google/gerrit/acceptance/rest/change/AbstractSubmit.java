@@ -15,7 +15,6 @@
 package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.gerrit.acceptance.GitUtil.cloneProject;
-import static com.google.gerrit.acceptance.GitUtil.initSsh;
 import static com.google.gerrit.common.changes.ListChangesOption.CURRENT_REVISION;
 import static com.google.gerrit.common.changes.ListChangesOption.DETAILED_LABELS;
 import static org.junit.Assert.assertEquals;
@@ -23,17 +22,12 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
-import com.google.common.base.Joiner;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.AccountCreator;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
-import com.google.gerrit.acceptance.RestSession;
 import com.google.gerrit.acceptance.SshSession;
-import com.google.gerrit.acceptance.TestAccount;
-import com.google.gerrit.common.changes.ListChangesOption;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.reviewdb.client.Change;
@@ -74,9 +68,6 @@ import java.io.IOException;
 public abstract class AbstractSubmit extends AbstractDaemonTest {
 
   @Inject
-  private AccountCreator accounts;
-
-  @Inject
   private SchemaFactory<ReviewDb> reviewDbProvider;
 
   @Inject
@@ -91,20 +82,12 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   @Inject
   protected PushOneCommit.Factory pushFactory;
 
-  protected RestSession session;
-
-  private TestAccount admin;
   private Project.NameKey project;
   private ReviewDb db;
 
   @Before
   public void setUp() throws Exception {
-    admin = accounts.admin();
-    session = new RestSession(server, admin);
-    initSsh(admin);
-
     project = new Project.NameKey("p");
-
     db = reviewDbProvider.open();
   }
 
@@ -145,7 +128,8 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     PutConfig.Input in = new PutConfig.Input();
     in.submitType = submitType;
     in.useContentMerge = InheritableBoolean.FALSE;
-    RestResponse r = session.put("/projects/" + project.get() + "/config", in);
+    RestResponse r =
+        adminSession.put("/projects/" + project.get() + "/config", in);
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
     r.consume();
   }
@@ -153,7 +137,8 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   protected void setUseContentMerge() throws IOException {
     PutConfig.Input in = new PutConfig.Input();
     in.useContentMerge = InheritableBoolean.TRUE;
-    RestResponse r = session.put("/projects/" + project.get() + "/config", in);
+    RestResponse r =
+        adminSession.put("/projects/" + project.get() + "/config", in);
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
     r.consume();
   }
@@ -183,7 +168,8 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     approve(changeId);
     SubmitInput subm = new SubmitInput();
     subm.waitForMerge = true;
-    RestResponse r = session.post("/changes/" + changeId + "/submit", subm);
+    RestResponse r =
+        adminSession.post("/changes/" + changeId + "/submit", subm);
     assertEquals(expectedStatus, r.getStatusCode());
     if (expectedStatus == HttpStatus.SC_OK) {
       ChangeInfo change =
@@ -195,7 +181,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   private void approve(String changeId) throws IOException {
-    RestResponse r = session.post(
+    RestResponse r = adminSession.post(
         "/changes/" + changeId + "/revisions/current/review",
         new ReviewInput().label("Code-Review", 2));
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
@@ -227,14 +213,16 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     assertEquals(admin.getId(), submitter.getAccountId());
   }
 
-  protected void assertCherryPick(Git localGit, boolean contentMerge) throws IOException {
+  protected void assertCherryPick(Git localGit, boolean contentMerge)
+      throws IOException {
     assertRebase(localGit, contentMerge);
     RevCommit remoteHead = getRemoteHead();
     assertFalse(remoteHead.getFooterLines("Reviewed-On").isEmpty());
     assertFalse(remoteHead.getFooterLines("Reviewed-By").isEmpty());
   }
 
-  protected void assertRebase(Git localGit, boolean contentMerge) throws IOException {
+  protected void assertRebase(Git localGit, boolean contentMerge)
+      throws IOException {
     Repository repo = localGit.getRepository();
     RevCommit localHead = getHead(repo);
     RevCommit remoteHead = getRemoteHead();
@@ -244,14 +232,6 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
       assertEquals(getLatestDiff(repo), getLatestRemoteDiff());
     }
     assertEquals(localHead.getShortMessage(), remoteHead.getShortMessage());
-  }
-
-  protected ChangeInfo getChange(String changeId, ListChangesOption... options)
-      throws IOException {
-    String q = options.length > 0 ? "?o=" + Joiner.on("&o=").join(options) : "";
-    RestResponse r = session.get("/changes/" + changeId + q);
-    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
-    return newGson().fromJson(r.getReader(), ChangeInfo.class);
   }
 
   private RevCommit getHead(Repository repo) throws IOException {

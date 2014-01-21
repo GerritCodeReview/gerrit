@@ -23,7 +23,6 @@ import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.AccountCreator;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.RestSession;
 import com.google.gerrit.acceptance.TestAccount;
@@ -39,7 +38,6 @@ import com.google.inject.Inject;
 import com.jcraft.jsch.JSchException;
 
 import org.apache.http.HttpStatus;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -49,20 +47,7 @@ import java.util.Set;
 public class ListGroupsIT extends AbstractDaemonTest {
 
   @Inject
-  private AccountCreator accounts;
-
-  @Inject
   private GroupCache groupCache;
-
-  private TestAccount admin;
-  private RestSession session;
-
-  @Before
-  public void setUp() throws Exception {
-    admin = accounts.create("admin", "admin@example.com", "Administrator",
-            "Administrators");
-    session = new RestSession(server, admin);
-  }
 
   @Test
   public void testListAllGroups() throws IOException, OrmException {
@@ -74,7 +59,7 @@ public class ListGroupsIT extends AbstractDaemonTest {
             return group.getName();
           }
         });
-    RestResponse r = session.get("/groups/");
+    RestResponse r = adminSession.get("/groups/");
     Map<String, GroupInfo> result =
         newGson().fromJson(r.getReader(),
             new TypeToken<Map<String, GroupInfo>>() {}.getType());
@@ -93,7 +78,7 @@ public class ListGroupsIT extends AbstractDaemonTest {
     in.visibleToAll = false;
     in.ownerId = groupCache.get(new AccountGroup.NameKey("Administrators"))
         .getGroupUUID().get();
-    session.put("/groups/" + newGroupName, in).consume();
+    adminSession.put("/groups/" + newGroupName, in).consume();
 
     Set<String> expectedGroups = Sets.newHashSet(newGroupName);
     RestResponse r = userSession.get("/groups/");
@@ -102,7 +87,7 @@ public class ListGroupsIT extends AbstractDaemonTest {
             new TypeToken<Map<String, GroupInfo>>() {}.getType());
     assertTrue("no groups visible", result.isEmpty());
 
-    assertEquals(HttpStatus.SC_CREATED, session.put(
+    assertEquals(HttpStatus.SC_CREATED, adminSession.put(
         String.format("/groups/%s/members/%s", newGroupName, user.username)
       ).getStatusCode());
 
@@ -116,7 +101,7 @@ public class ListGroupsIT extends AbstractDaemonTest {
   public void testAllGroupInfoFieldsSetCorrectly() throws IOException,
       OrmException {
     AccountGroup adminGroup = groupCache.get(new AccountGroup.NameKey("Administrators"));
-    RestResponse r = session.get("/groups/?q=" + adminGroup.getName());
+    RestResponse r = adminSession.get("/groups/?q=" + adminGroup.getName());
     Map<String, GroupInfo> result =
         newGson().fromJson(r.getReader(),
             new TypeToken<Map<String, GroupInfo>>() {}.getType());

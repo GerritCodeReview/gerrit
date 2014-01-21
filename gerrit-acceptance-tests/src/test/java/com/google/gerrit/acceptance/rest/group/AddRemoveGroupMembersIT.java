@@ -25,9 +25,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.AccountCreator;
 import com.google.gerrit.acceptance.RestResponse;
-import com.google.gerrit.acceptance.RestSession;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -60,22 +58,15 @@ import java.util.Set;
 public class AddRemoveGroupMembersIT extends AbstractDaemonTest {
 
   @Inject
-  private AccountCreator accounts;
-
-  @Inject
   private SchemaFactory<ReviewDb> reviewDbProvider;
 
   @Inject
   private GroupCache groupCache;
 
-  private RestSession session;
-  private TestAccount admin;
   private ReviewDb db;
 
   @Before
   public void setUp() throws Exception {
-    admin = accounts.create("admin", "Administrators");
-    session = new RestSession(server, admin);
     db = reviewDbProvider.open();
   }
 
@@ -170,28 +161,28 @@ public class AddRemoveGroupMembersIT extends AbstractDaemonTest {
   }
 
   private RestResponse PUT(String endpoint) throws IOException {
-    return session.put(endpoint);
+    return adminSession.put(endpoint);
   }
 
   private int DELETE(String endpoint) throws IOException {
-    RestResponse r = session.delete(endpoint);
+    RestResponse r = adminSession.delete(endpoint);
     r.consume();
     return r.getStatusCode();
   }
 
   private RestResponse POST(String endPoint, AddMembers.Input mi)
       throws IOException {
-    return session.post(endPoint, mi);
+    return adminSession.post(endPoint, mi);
   }
 
   private RestResponse POST(String endPoint, AddIncludedGroups.Input gi)
       throws IOException {
-    return session.post(endPoint, gi);
+    return adminSession.post(endPoint, gi);
   }
 
   private void group(String name) throws IOException {
     CreateGroup.Input in = new CreateGroup.Input();
-    session.put("/groups/" + name, in).consume();
+    adminSession.put("/groups/" + name, in).consume();
   }
 
   private void assertMembers(String group, TestAccount... members)

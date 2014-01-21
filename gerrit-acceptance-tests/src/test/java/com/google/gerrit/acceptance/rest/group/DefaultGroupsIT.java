@@ -18,11 +18,9 @@ import static org.junit.Assert.assertTrue;
 
 import com.google.common.collect.Sets;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.AccountCreator;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.RestSession;
 import com.google.gerrit.acceptance.SshSession;
-import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.group.GroupJson.GroupInfo;
@@ -33,7 +31,6 @@ import com.google.inject.Inject;
 
 import com.jcraft.jsch.JSchException;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -51,17 +48,6 @@ public class DefaultGroupsIT extends AbstractDaemonTest {
 
   @Inject
   private SchemaFactory<ReviewDb> reviewDbProvider;
-
-  @Inject
-  private AccountCreator accounts;
-
-  protected TestAccount admin;
-
-  @Before
-  public void setUp() throws Exception {
-    admin = accounts.create("admin", "admin@sap.com", "Administrator",
-            "Administrators");
-  }
 
   @Test
   public void defaultGroupsCreated_ssh() throws JSchException, IOException {

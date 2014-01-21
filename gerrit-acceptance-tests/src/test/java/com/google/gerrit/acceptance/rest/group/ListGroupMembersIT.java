@@ -20,18 +20,13 @@ import static org.junit.Assert.assertTrue;
 import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.AccountCreator;
 import com.google.gerrit.acceptance.RestResponse;
-import com.google.gerrit.acceptance.RestSession;
-import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.server.account.AccountInfo;
 import com.google.gerrit.server.group.CreateGroup;
 import com.google.gson.reflect.TypeToken;
-import com.google.inject.Inject;
 
 import org.apache.http.HttpStatus;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -40,21 +35,10 @@ import java.util.List;
 
 public class ListGroupMembersIT extends AbstractDaemonTest {
 
-  @Inject
-  private AccountCreator accounts;
-
-  private RestSession session;
-
-  @Before
-  public void setUp() throws Exception {
-    TestAccount admin = accounts.create("admin", "Administrators");
-    session = new RestSession(server, admin);
-  }
-
   @Test
   public void listNonExistingGroupMembers_NotFound() throws Exception {
     assertEquals(HttpStatus.SC_NOT_FOUND,
-        session.get("/groups/non-existing/members/").getStatusCode());
+        adminSession.get("/groups/non-existing/members/").getStatusCode());
   }
 
   @Test
@@ -65,16 +49,17 @@ public class ListGroupMembersIT extends AbstractDaemonTest {
 
   @Test
   public void listNonEmptyGroupMembers() throws Exception {
-    assertMembers(GET("/groups/Administrators/members/"), "admin");
+    assertMembers(GET("/groups/Administrators/members/"), admin.fullName);
 
     accounts.create("admin2", "Administrators");
-    assertMembers(GET("/groups/Administrators/members/"), "admin", "admin2");
+    assertMembers(GET("/groups/Administrators/members/"),
+        admin.fullName, "admin2");
   }
 
   @Test
   public void listOneGroupMember() throws IOException {
     assertEquals(GET_ONE("/groups/Administrators/members/admin").name,
-        "admin");
+        admin.fullName);
   }
 
   @Test
@@ -88,31 +73,31 @@ public class ListGroupMembersIT extends AbstractDaemonTest {
     PUT("/groups/Administrators/groups/gx");
     PUT("/groups/gx/groups/gy");
     assertMembers(GET("/groups/Administrators/members/?recursive"),
-        "admin", "ux", "uy");
+        admin.fullName, "ux", "uy");
   }
 
   private List<AccountInfo> GET(String endpoint) throws IOException {
-    RestResponse r = session.get(endpoint);
+    RestResponse r = adminSession.get(endpoint);
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
     return newGson().fromJson(r.getReader(),
         new TypeToken<List<AccountInfo>>() {}.getType());
   }
 
   private AccountInfo GET_ONE(String endpoint) throws IOException {
-    RestResponse r = session.get(endpoint);
+    RestResponse r = adminSession.get(endpoint);
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
     return newGson().fromJson(r.getReader(), AccountInfo.class);
   }
 
   private void PUT(String endpoint) throws IOException {
-    session.put(endpoint).consume();
+    adminSession.put(endpoint).consume();
   }
 
   private void group(String name, String ownerGroup)
       throws IOException {
     CreateGroup.Input in = new CreateGroup.Input();
     in.ownerId = ownerGroup;
-    session.put("/groups/" + name, in).consume();
+    adminSession.put("/groups/" + name, in).consume();
   }
 
   private void assertMembers(List<AccountInfo> members, String name,

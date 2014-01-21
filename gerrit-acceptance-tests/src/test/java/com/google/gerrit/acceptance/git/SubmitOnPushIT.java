@@ -16,16 +16,13 @@ package com.google.gerrit.acceptance.git;
 
 import static com.google.gerrit.acceptance.GitUtil.cloneProject;
 import static com.google.gerrit.acceptance.GitUtil.createProject;
-import static com.google.gerrit.acceptance.GitUtil.initSsh;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.AccountCreator;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.SshSession;
-import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
@@ -67,9 +64,6 @@ import java.io.IOException;
 public class SubmitOnPushIT extends AbstractDaemonTest {
 
   @Inject
-  private AccountCreator accounts;
-
-  @Inject
   private SchemaFactory<ReviewDb> reviewDbProvider;
 
   @Inject
@@ -96,19 +90,13 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
   @Inject
   private PushOneCommit.Factory pushFactory;
 
-  private TestAccount admin;
   private Project.NameKey project;
   private Git git;
   private ReviewDb db;
 
   @Before
   public void setUp() throws Exception {
-    admin =
-        accounts.create("admin", "admin@example.com", "Administrator",
-            "Administrators");
-
     project = new Project.NameKey("p");
-    initSsh(admin);
     SshSession sshSession = new SshSession(server, admin);
     createProject(sshSession, project.get());
     git = cloneProject(sshSession.getUrl() + "/" + project.get());

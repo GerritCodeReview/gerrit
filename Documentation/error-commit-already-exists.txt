@@ -1,9 +1,18 @@
 = commit already exists
 
-With this error message Gerrit rejects to push a commit to an
-existing change via `refs/changes/n` if the commit was already
-successfully pushed to the change.  In this case there is no
-new commit and consequently there is nothing for Gerrit to do.
+With "commit already exists (as current patchset)" or
+"commit already exists (in the change)" error message
+Gerrit rejects to push a commit to an existing change via
+`refs/changes/n` if the commit was already successfully
+pushed to the change.
+
+With "commit already exists (in the project)" error message
+Gerrit rejects to push a commit to an existing change via
+`refs/changes/n` if the commit was already successfully
+pushed to a change in project scope.
+
+In any above case there is no new commit and consequently
+there is nothing for Gerrit to do.
 
 For further information about how to resolve this error, please
 refer to link:error-no-new-changes.html[no new changes].

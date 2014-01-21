@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "92638af1_c9191191",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/GerritConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-21T22:25:21Z",
+      "side": 1,
+      "message": "Unnecessary in this object.",
+      "revId": "8321d342fb31d7426226ddd6fb2dcee5127c32d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7258d641_a826dbc6",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 909,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-21T22:25:21Z",
+      "side": 1,
+      "message": "String url \u003d selfRedirect(item.getUrl());",
+      "range": {
+        "startLine": 900,
+        "startChar": 4,
+        "endLine": 909,
+        "endChar": 5
+      },
+      "revId": "8321d342fb31d7426226ddd6fb2dcee5127c32d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7258d641_882317b7",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GerritConfigProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-21T22:25:21Z",
+      "side": 1,
+      "message": "Unnecessary edit.",
+      "revId": "8321d342fb31d7426226ddd6fb2dcee5127c32d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

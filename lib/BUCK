@@ -159,16 +159,16 @@ maven_jar(
 
 maven_jar(
   name = 'parboiled-core',
-  id = 'org.parboiled:parboiled-core:1.1.4',
-  sha1 = 'dffdc483d52209c5bd7c7f665f985f6368bc3da7',
+  id = 'org.parboiled:parboiled-core:1.1.6',
+  sha1 = '11bd0c34fc6ac3c3cbf440ab8180cc6422c044e9',
   license = 'Apache2.0',
   attach_source = False,
 )
 
 maven_jar(
   name = 'parboiled-java',
-  id = 'org.parboiled:parboiled-java:1.1.4',
-  sha1 = 'e59a880c51b753d7d25505560cbe256dd8b2c831',
+  id = 'org.parboiled:parboiled-java:1.1.6',
+  sha1 = 'cb2ffa720f75b2fce8cfd1875599319e75ea9557',
   license = 'Apache2.0',
   deps = [
     ':parboiled-core',

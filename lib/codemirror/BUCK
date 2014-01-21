@@ -17,7 +17,7 @@ genrule(
       "echo '*/' >>$OUT",
     ] +
     ['unzip -p $SRCDIR/%s %s/%s >>$OUT' % (ZIP, TOP, n)
-     for n in CM3_CSS]
+     for n in CM3_CSS + CM3_THEMES]
   ),
   srcs = [genfile(ZIP)],
   deps = [':download'],

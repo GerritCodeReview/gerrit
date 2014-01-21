@@ -209,6 +209,25 @@ public abstract class ChangeEmail extends NotificationEmail {
     return "";
   }
 
+  /** Get the score and category, from {@link ChangeMessage}. */
+  public String getLabelScore() {
+    if (changeMessage != null) {
+      String lbl = changeMessage.getMessage();
+      if (lbl != null) {
+        if (lbl.startsWith("Patch Set ")) {
+          int i = lbl.indexOf('\n');
+          if (i > 0) {
+            lbl = lbl.substring(0, i + 1).trim();
+          } else {
+            lbl = lbl.substring(0).trim();
+          }
+        }
+        return lbl.trim();
+      }
+    }
+    return "";
+  }
+
   /** Format the change message and the affected file list. */
   protected void formatChangeDetail() {
     appendText(getChangeDetail());
@@ -364,6 +383,7 @@ public abstract class ChangeEmail extends NotificationEmail {
     velocityContext.put("fromName", getNameFor(fromId));
     velocityContext.put("patchSet", patchSet);
     velocityContext.put("patchSetInfo", patchSetInfo);
+    velocityContext.put("labelscore", getLabelScore());
   }
 
   public boolean getIncludeDiff() {

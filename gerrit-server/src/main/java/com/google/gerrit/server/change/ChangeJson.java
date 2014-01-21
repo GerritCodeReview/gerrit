@@ -31,6 +31,7 @@ import static com.google.gerrit.common.changes.ListChangesOption.REVIEWED;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Objects;
+import com.google.common.base.Optional;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
@@ -215,14 +216,20 @@ public class ChangeJson {
   }
 
   public ChangeInfo format(ChangeData cd) throws OrmException {
-    List<ChangeData> tmp = ImmutableList.of(cd);
-    return formatList2(ImmutableList.of(tmp)).get(0).get(0);
+    return format(cd, Optional.<PatchSet.Id> absent());
+  }
+
+  private ChangeInfo format(ChangeData cd, Optional<PatchSet.Id> limitToPsId)
+      throws OrmException {
+    accountLoader = accountLoaderFactory.create(has(DETAILED_ACCOUNTS));
+    ChangeInfo res = toChangeInfo(cd, limitToPsId);
+    accountLoader.fill();
+    return res;
   }
 
   public ChangeInfo format(RevisionResource rsrc) throws OrmException {
     ChangeData cd = changeDataFactory.create(db.get(), rsrc.getControl());
-    cd.limitToPatchSets(ImmutableList.of(rsrc.getPatchSet().getId()));
-    return format(cd);
+    return format(cd, Optional.of(rsrc.getPatchSet().getId()));
   }
 
   public List<List<ChangeInfo>> formatList2(List<List<ChangeData>> in)
@@ -259,7 +266,7 @@ public class ChangeJson {
     for (ChangeData cd : changes) {
       ChangeInfo i = out.get(cd.getId());
       if (i == null) {
-        i = toChangeInfo(cd);
+        i = toChangeInfo(cd, Optional.<PatchSet.Id> absent());
         out.put(cd.getId(), i);
       }
       info.add(i);
@@ -267,7 +274,8 @@ public class ChangeJson {
     return info;
   }
 
-  private ChangeInfo toChangeInfo(ChangeData cd) throws OrmException {
+  private ChangeInfo toChangeInfo(ChangeData cd,
+      Optional<PatchSet.Id> limitToPsId) throws OrmException {
     ChangeInfo out = new ChangeInfo();
     Change in = cd.change();
     out.project = in.getProject().get();
@@ -295,11 +303,11 @@ public class ChangeJson {
         && reviewed.contains(cd.getId()) ? true : null;
     out.labels = labelsFor(cd, has(LABELS), has(DETAILED_LABELS));
 
-    Collection<PatchSet.Id> limited = cd.getLimitedPatchSets();
     if (out.labels != null && has(DETAILED_LABELS)) {
       // If limited to specific patch sets but not the current patch set, don't
       // list permitted labels, since users can't vote on those patch sets.
-      if (limited == null || limited.contains(in.currentPatchSetId())) {
+      if (!limitToPsId.isPresent()
+          || limitToPsId.get().equals(in.currentPatchSetId())) {
         out.permitted_labels = permittedLabels(cd);
       }
       out.removable_reviewers = removableReviewers(cd, out.labels.values());
@@ -309,8 +317,10 @@ public class ChangeJson {
     }
     out.finish();
 
-    if (has(ALL_REVISIONS) || has(CURRENT_REVISION) || limited != null) {
-      out.revisions = revisions(cd);
+    if (has(ALL_REVISIONS)
+        || has(CURRENT_REVISION)
+        || limitToPsId.isPresent()) {
+      out.revisions = revisions(cd, limitToPsId);
       if (out.revisions != null) {
         for (Map.Entry<String, RevisionInfo> entry : out.revisions.entrySet()) {
           if (entry.getValue().isCurrent) {
@@ -491,7 +501,7 @@ public class ChangeJson {
     // All users ever added, even if they can't vote on one or all labels.
     Set<Account.Id> allUsers = Sets.newHashSet();
     ListMultimap<PatchSet.Id, PatchSetApproval> allApprovals =
-        cd.allApprovalsMap();
+        cd.approvalsMap();
     for (PatchSetApproval psa : allApprovals.values()) {
       allUsers.add(psa.getAccountId());
     }
@@ -537,7 +547,7 @@ public class ChangeJson {
       LabelTypes labelTypes, boolean standard, boolean detailed)
       throws OrmException {
     Set<Account.Id> allUsers = Sets.newHashSet();
-    for (PatchSetApproval psa : cd.allApprovals()) {
+    for (PatchSetApproval psa : cd.approvals()) {
       allUsers.add(psa.getAccountId());
     }
 
@@ -771,18 +781,33 @@ public class ChangeJson {
     return false;
   }
 
-  private Map<String, RevisionInfo> revisions(ChangeData cd) throws OrmException {
+  private Map<String, RevisionInfo> revisions(ChangeData cd,
+      Optional<PatchSet.Id> limitToPsId) throws OrmException {
     ChangeControl ctl = control(cd);
     if (ctl == null) {
       return null;
     }
 
     Collection<PatchSet> src;
-    if (cd.getLimitedPatchSets() != null || has(ALL_REVISIONS)) {
+    if (has(ALL_REVISIONS)) {
       src = cd.patches();
     } else {
-      src = Collections.singletonList(cd.currentPatchSet());
+      PatchSet ps;
+      if (limitToPsId.isPresent()) {
+        ps = cd.patch(limitToPsId.get());
+        if (ps == null) {
+          throw new OrmException("missing patch set " + limitToPsId.get());
+        }
+      } else {
+        ps = cd.currentPatchSet();
+        if (ps == null) {
+          throw new OrmException(
+              "missing current patch set for change " + cd.getId());
+        }
+      }
+      src = Collections.singletonList(ps);
     }
+
     Map<String, RevisionInfo> res = Maps.newLinkedHashMap();
     for (PatchSet in : src) {
       if (ctl.isPatchVisible(in, db.get())) {

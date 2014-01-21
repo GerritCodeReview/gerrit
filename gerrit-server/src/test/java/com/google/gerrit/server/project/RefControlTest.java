@@ -142,6 +142,19 @@ public class RefControlTest {
   }
 
   @Test
+  public void testBlockPushDrafts() {
+    grant(util.getParentConfig(), PUSH, REGISTERED_USERS, "refs/for/refs/*");
+    grant(util.getParentConfig(), PUSH, ANONYMOUS_USERS, "refs/drafts/refs/heads/*")
+        .setBlock();
+
+    ProjectControl u = util.user(local);
+    assertTrue("can upload refs/drafts/master",
+        u.controlForRef("refs/heads/master").canUpload());
+    assertTrue("push is blocked to refs/drafts/master",
+        u.controlForRef("refs/drafts/refs/heads/master").isBlocked(PUSH));
+  }
+
+  @Test
   public void testInheritRead_SingleBranchDoesNotOverrideInherited() {
     grant(util.getParentConfig(), READ, REGISTERED_USERS, "refs/*");
     grant(util.getParentConfig(), PUSH, REGISTERED_USERS, "refs/for/refs/*");

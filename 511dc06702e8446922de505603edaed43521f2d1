@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9288eae3_617fb68e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-01-21T10:27:39Z",
+      "side": 1,
+      "message": "The description of issue 1337 only mentions exposing the label scores to the templates.\n\nI don\u0027t think we should update the default templates to include the scores, specially if it\u0027s limited only to the code review and verified scores.\n\nIt would be more useful to provide a general way of adding label scores.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 20
+      },
+      "revId": "511dc06702e8446922de505603edaed43521f2d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d22fc28a_6bcd81a6",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/ChangeSubject.vm",
+        "patchSetId": 9
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-01-21T10:27:39Z",
+      "side": 1,
+      "message": "In the code, the variable is added as `labelscore`",
+      "range": {
+        "startLine": 38,
+        "startChar": 5,
+        "endLine": 38,
+        "endChar": 10
+      },
+      "revId": "511dc06702e8446922de505603edaed43521f2d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

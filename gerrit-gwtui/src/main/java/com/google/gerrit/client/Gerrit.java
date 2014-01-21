@@ -439,12 +439,7 @@ public class Gerrit implements EntryPoint {
     }
   }
 
-  private static Anchor signInAnchor;
-
   private static void dispatchHistoryHooks(String token) {
-    if (signInAnchor != null) {
-      signInAnchor.setHref(loginRedirect(token));
-    }
     ApiGlue.fireEvent("history", token);
   }
 
@@ -557,9 +552,6 @@ public class Gerrit implements EntryPoint {
       token = isSignedIn()
           ? PageLinks.MINE
           : PageLinks.toChangeQuery("status:open");
-    }
-    if (signInAnchor != null) {
-      signInAnchor.setHref(loginRedirect(token));
     }
 
     saveDefaultTheme();

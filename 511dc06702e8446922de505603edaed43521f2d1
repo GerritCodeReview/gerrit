@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "d22fc28a_4bd2c548",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-01-21T10:37:24Z",
+      "side": 1,
+      "message": "Custom labels can be added.\n\nhttp://gerrit-documentation.storage.googleapis.com/Documentation/2.8/config-labels.html",
+      "parentUuid": "f2a0465c_fcbda9e8",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 20
+      },
+      "revId": "511dc06702e8446922de505603edaed43521f2d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d22fc28a_6bcd81a6",
         "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/ChangeSubject.vm",
         "patchSetId": 9

@@ -105,6 +105,8 @@ class ChunkManager {
     for (Region current : Natives.asList(diff.content())) {
       if (current.ab() != null) {
         mapper.appendCommon(current.ab().length());
+      } else if (current.skip() > 0) {
+        mapper.appendCommon(current.skip());
       } else if (current.common()) {
         mapper.appendCommon(current.b().length());
       } else {

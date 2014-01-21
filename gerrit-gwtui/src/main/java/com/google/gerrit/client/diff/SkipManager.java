@@ -52,8 +52,10 @@ class SkipManager {
     int lineA = 0, lineB = 0;
     for (int i = 0; i < regions.length(); i++) {
       Region current = regions.get(i);
-      if (current.ab() != null || current.common()) {
-        int len = (current.ab() != null ? current.ab() : current.b()).length();
+      if (current.ab() != null || current.common() || current.skip() > 0) {
+        int len = current.skip() > 0
+            ? current.skip()
+            : (current.ab() != null ? current.ab() : current.b()).length();
         if (i == 0 && len > context + 1) {
           skips.add(new SkippedLine(0, 0, len - context));
         } else if (i == regions.length() - 1 && len > context + 1) {

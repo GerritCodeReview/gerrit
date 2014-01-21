@@ -1143,6 +1143,15 @@ public class ReceiveCommits {
       reject(cmd, "project is read only");
       return;
     }
+
+    if (magicBranch.isDraft()) {
+      if (!projectControl.controlForRef("refs/drafts/*").canUpload()) {
+        errors.put(Error.CODE_REVIEW, ref);
+        reject(cmd, "cannot upload drafts");
+        return;
+      }
+    }
+
     if (!magicBranch.ctl.canUpload()) {
       errors.put(Error.CODE_REVIEW, ref);
       reject(cmd, "cannot upload review");

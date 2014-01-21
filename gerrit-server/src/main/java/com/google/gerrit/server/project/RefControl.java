@@ -486,6 +486,22 @@ public class RefControl {
     return blocks.isEmpty() && !allows.isEmpty();
   }
 
+  /** True if the user is blocked from using this permission. */
+  public boolean isBlocked(String permissionName) {
+    List<PermissionRule> access = access(permissionName);
+    Set<ProjectRef> allows = Sets.newHashSet();
+    Set<ProjectRef> blocks = Sets.newHashSet();
+    for (PermissionRule rule : access) {
+      if (rule.isBlock() && !rule.getForce()) {
+        blocks.add(relevant.getRuleProps(rule));
+      } else {
+        allows.add(relevant.getRuleProps(rule));
+      }
+    }
+    blocks.removeAll(allows);
+    return !blocks.isEmpty();
+  }
+
   /** True if the user has force this permission. Works only for non labels. */
   private boolean canForcePerform(String permissionName) {
     List<PermissionRule> access = access(permissionName);

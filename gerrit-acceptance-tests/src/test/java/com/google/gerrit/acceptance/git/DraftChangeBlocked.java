@@ -1,0 +1,104 @@
+package com.google.gerrit.acceptance.git;
+
+import static com.google.gerrit.acceptance.GitUtil.cloneProject;
+import static com.google.gerrit.acceptance.GitUtil.createProject;
+import static com.google.gerrit.acceptance.GitUtil.initSsh;
+import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
+import static com.google.gerrit.server.project.Util.grant;
+
+import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.AccountCreator;
+import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.SshSession;
+import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.config.AllProjectsName;
+import com.google.gerrit.server.git.MetaDataUpdate;
+import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.project.ProjectCache;
+import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.SchemaFactory;
+import com.google.inject.Inject;
+
+import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.errors.GitAPIException;
+import org.junit.Before;
+import org.junit.Test;
+
+import java.io.IOException;
+
+public class DraftChangeBlocked extends AbstractDaemonTest {
+  @Inject
+  private AccountCreator accounts;
+
+  @Inject
+  private SchemaFactory<ReviewDb> reviewDbProvider;
+
+  @Inject
+  protected PushOneCommit.Factory pushFactory;
+
+  @Inject
+  private ProjectCache projectCache;
+
+  @Inject
+  private AllProjectsName allProjects;
+
+  @Inject
+  private MetaDataUpdate.Server metaDataUpdateFactory;
+
+  private TestAccount admin;
+  private Project.NameKey project;
+  private Git git;
+  private ReviewDb db;
+
+  @Before
+  public void setUp() throws Exception {
+    admin = accounts.admin();
+    ProjectConfig cfg = projectCache.checkedGet(allProjects).getConfig();
+    grant(cfg, Permission.PUSH, ANONYMOUS_USERS,
+        "refs/for/refs/drafts/*").setBlock();
+    saveProjectConfig(cfg);
+
+    project = new Project.NameKey("p");
+    initSsh(admin);
+    SshSession sshSession = new SshSession(server, admin);
+    createProject(sshSession, project.get());
+
+    db = reviewDbProvider.open();
+    git = cloneProject(sshSession.getUrl() + "/" + project.get());
+    sshSession.close();
+  }
+
+  @Test
+  public void testPushDraftChange_Blocked() throws GitAPIException,
+      OrmException, IOException {
+    // create draft by pushing to 'refs/drafts/'
+    PushOneCommit.Result r = pushTo("refs/drafts/master");
+    r.assertErrorStatus("cannot upload drafts");
+  }
+
+  @Test
+  public void testPushDraftChangeMagic_Blocked() throws GitAPIException,
+      OrmException, IOException {
+    // create draft by using 'draft' option
+    PushOneCommit.Result r = pushTo("refs/for/master%draft");
+    r.assertErrorStatus("cannot upload drafts");
+  }
+
+  private PushOneCommit.Result pushTo(String ref) throws GitAPIException,
+      IOException {
+    PushOneCommit push = pushFactory.create(db, admin.getIdent());
+    return push.to(git, ref);
+  }
+
+  private void saveProjectConfig(ProjectConfig cfg) throws IOException {
+    MetaDataUpdate md = metaDataUpdateFactory.create(allProjects);
+    try {
+      cfg.commit(md);
+    } finally {
+      md.close();
+    }
+  }
+}

@@ -6,7 +6,11 @@ acceptance_tests(
 )
 
 acceptance_tests(
-  srcs = ['HttpPushForReviewIT.java', 'SshPushForReviewIT.java'],
+  srcs = [
+    'DraftChangeBlocked.java',
+    'HttpPushForReviewIT.java',
+    'SshPushForReviewIT.java',
+  ],
   deps = [':push_for_review'],
 )
 

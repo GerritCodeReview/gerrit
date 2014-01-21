@@ -1,8 +1,9 @@
 = no new changes
 
 With this error message Gerrit rejects to push a commit if the pushed
-commit was already successfully pushed to Gerrit. In this case there
-is no new change and consequently there is nothing for Gerrit to do.
+commit was already successfully pushed to Gerrit in project scope.
+In this case there is no new change and consequently there is nothing
+for Gerrit to do.
 
 If your push is failing with this error message, you normally
 don't have to do anything since the commit was already successfully
@@ -30,7 +31,7 @@ means:
 . you cannot reset a change to an old patch set by pushing the old
   commit for this change again
 . if a commit was pushed to one branch you cannot push this commit
-  to another branch
+  to another branch in project scope.
 . if a commit was pushed directly to a branch (without going through
   code review) you cannot push this commit once again for code
   review (please note that in this case searching by the commit ID
@@ -38,11 +39,11 @@ means:
 
 If you need to re-push a commit you may rewrite this commit by
 link:http://www.kernel.org/pub/software/scm/git/docs/git-commit.html[amending] it or doing an interactive link:http://www.kernel.org/pub/software/scm/git/docs/git-rebase.html[git rebase]. By rewriting the
-commit you actually create a new commit (with a new commit ID) which
-can then be pushed to Gerrit. If the old commit contains a Change-Id
-in the commit message you also need to replace it with a new
-Change-Id (case 1. and 3. above), otherwise the push will fail with
-another error message.
+commit you actually create a new commit (with a new commit ID in
+project scope) which can then be pushed to Gerrit. If the old commit
+contains a Change-Id in the commit message you also need to replace
+it with a new Change-Id (case 1. and 3. above), otherwise the push
+will fail with another error message.
 
 
 GERRIT

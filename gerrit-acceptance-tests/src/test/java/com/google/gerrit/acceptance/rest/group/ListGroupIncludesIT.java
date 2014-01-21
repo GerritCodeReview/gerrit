@@ -20,18 +20,13 @@ import static org.junit.Assert.assertTrue;
 import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.AccountCreator;
 import com.google.gerrit.acceptance.RestResponse;
-import com.google.gerrit.acceptance.RestSession;
-import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.server.group.CreateGroup;
 import com.google.gerrit.server.group.GroupJson.GroupInfo;
 import com.google.gson.reflect.TypeToken;
-import com.google.inject.Inject;
 
 import org.apache.http.HttpStatus;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -40,21 +35,10 @@ import java.util.List;
 
 public class ListGroupIncludesIT extends AbstractDaemonTest {
 
-  @Inject
-  private AccountCreator accounts;
-
-  private RestSession session;
-
-  @Before
-  public void setUp() throws Exception {
-    TestAccount admin = accounts.create("admin", "Administrators");
-    session = new RestSession(server, admin);
-  }
-
   @Test
   public void listNonExistingGroupIncludes_NotFound() throws Exception {
     assertEquals(HttpStatus.SC_NOT_FOUND,
-      session.get("/groups/non-existing/groups/").getStatusCode());
+      adminSession.get("/groups/non-existing/groups/").getStatusCode());
   }
 
   @Test
@@ -83,26 +67,26 @@ public class ListGroupIncludesIT extends AbstractDaemonTest {
   }
 
   private List<GroupInfo> GET(String endpoint) throws IOException {
-    RestResponse r = session.get(endpoint);
+    RestResponse r = adminSession.get(endpoint);
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
     return newGson().fromJson(r.getReader(),
         new TypeToken<List<GroupInfo>>() {}.getType());
   }
 
   private GroupInfo GET_ONE(String endpoint) throws IOException {
-    RestResponse r = session.get(endpoint);
+    RestResponse r = adminSession.get(endpoint);
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
     return newGson().fromJson(r.getReader(), GroupInfo.class);
   }
 
   private void PUT(String endpoint) throws IOException {
-    session.put(endpoint).consume();
+    adminSession.put(endpoint).consume();
   }
 
   private void group(String name, String ownerGroup) throws IOException {
     CreateGroup.Input in = new CreateGroup.Input();
     in.ownerId = ownerGroup;
-    session.put("/groups/" + name, in).consume();
+    adminSession.put("/groups/" + name, in).consume();
   }
 
   private void assertIncludes(List<GroupInfo> includes, String name,

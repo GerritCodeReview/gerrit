@@ -17,16 +17,12 @@ package com.google.gerrit.acceptance.rest.group;
 import static com.google.gerrit.acceptance.rest.group.GroupAssert.assertGroupInfo;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.AccountCreator;
 import com.google.gerrit.acceptance.RestResponse;
-import com.google.gerrit.acceptance.RestSession;
-import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.group.GroupJson.GroupInfo;
 import com.google.inject.Inject;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -34,20 +30,7 @@ import java.io.IOException;
 public class GetGroupIT extends AbstractDaemonTest {
 
   @Inject
-  private AccountCreator accounts;
-
-  @Inject
   private GroupCache groupCache;
-
-  private TestAccount admin;
-  private RestSession session;
-
-  @Before
-  public void setUp() throws Exception {
-    admin = accounts.create("admin", "admin@example.com", "Administrator",
-            "Administrators");
-    session = new RestSession(server, admin);
-  }
 
   @Test
   public void testGetGroup() throws IOException {
@@ -65,7 +48,7 @@ public class GetGroupIT extends AbstractDaemonTest {
 
   private void testGetGroup(String url, AccountGroup expectedGroup)
       throws IOException {
-    RestResponse r = session.get(url);
+    RestResponse r = adminSession.get(url);
     GroupInfo group = newGson().fromJson(r.getReader(), GroupInfo.class);
     assertGroupInfo(expectedGroup, group);
   }

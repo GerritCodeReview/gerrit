@@ -16,23 +16,18 @@ package com.google.gerrit.acceptance.rest.account;
 
 import static com.google.gerrit.acceptance.GitUtil.cloneProject;
 import static com.google.gerrit.acceptance.GitUtil.createProject;
-import static com.google.gerrit.acceptance.GitUtil.initSsh;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.AccountCreator;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.acceptance.RestResponse;
-import com.google.gerrit.acceptance.RestSession;
 import com.google.gerrit.acceptance.SshSession;
-import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.change.ChangeJson.ChangeInfo;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
@@ -48,25 +43,16 @@ import java.io.IOException;
 public class StarredChangesIT extends AbstractDaemonTest {
 
   @Inject
-  private AccountCreator accounts;
-
-  @Inject
   private SchemaFactory<ReviewDb> reviewDbProvider;
 
   @Inject
   private PushOneCommit.Factory pushFactory;
 
-  private TestAccount admin;
-
-  private RestSession session;
   private Git git;
   private ReviewDb db;
 
   @Before
   public void setUp() throws Exception {
-    admin = accounts.admin();
-    session = new RestSession(server, admin);
-    initSsh(admin);
     Project.NameKey project = new Project.NameKey("p");
     SshSession sshSession = new SshSession(server, admin);
     createProject(sshSession, project.get());
@@ -97,18 +83,13 @@ public class StarredChangesIT extends AbstractDaemonTest {
     assertNull(getChange(c2.getChangeId()).starred);
   }
 
-  private ChangeInfo getChange(String changeId) throws IOException {
-    RestResponse r = session.get("/changes/" + changeId + "/detail");
-    return newGson().fromJson(r.getReader(), ChangeInfo.class);
-  }
-
   private void starChange(boolean on, Change.Id id) throws IOException {
     String url = "/accounts/self/starred.changes/" + id.get();
     if (on) {
-      RestResponse r = session.put(url);
+      RestResponse r = adminSession.put(url);
       assertEquals(204, r.getStatusCode());
     } else {
-      RestResponse r = session.delete(url);
+      RestResponse r = adminSession.delete(url);
       assertEquals(204, r.getStatusCode());
     }
   }

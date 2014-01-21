@@ -18,39 +18,21 @@ import static com.google.gerrit.acceptance.rest.account.AccountAssert.assertAcco
 import static org.junit.Assert.assertEquals;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.AccountCreator;
 import com.google.gerrit.acceptance.RestResponse;
-import com.google.gerrit.acceptance.RestSession;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.server.account.AccountInfo;
-import com.google.inject.Inject;
 
 import org.apache.http.HttpStatus;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
 
 public class GetAccountIT extends AbstractDaemonTest {
-
-  @Inject
-  private AccountCreator accounts;
-
-  private TestAccount admin;
-  private RestSession session;
-
-  @Before
-  public void setUp() throws Exception {
-    admin = accounts.create("admin", "admin@example.com", "Administrator",
-            "Administrators");
-    session = new RestSession(server, admin);
-  }
-
   @Test
   public void getNonExistingAccount_NotFound() throws IOException {
-    assertEquals(HttpStatus.SC_NOT_FOUND, session.get("/accounts/non-existing")
-        .getStatusCode());
+    assertEquals(HttpStatus.SC_NOT_FOUND,
+        adminSession.get("/accounts/non-existing").getStatusCode());
   }
 
   @Test
@@ -77,7 +59,7 @@ public class GetAccountIT extends AbstractDaemonTest {
 
   private void testGetAccount(String url, TestAccount expectedAccount)
       throws IOException {
-    RestResponse r = session.get(url);
+    RestResponse r = adminSession.get(url);
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
     assertAccountInfo(expectedAccount, newGson()
         .fromJson(r.getReader(), AccountInfo.class));

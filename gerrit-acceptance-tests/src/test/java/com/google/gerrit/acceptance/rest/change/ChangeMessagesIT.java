@@ -16,24 +16,19 @@ package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.gerrit.acceptance.GitUtil.cloneProject;
 import static com.google.gerrit.acceptance.GitUtil.createProject;
-import static com.google.gerrit.acceptance.GitUtil.initSsh;
+import static com.google.gerrit.common.changes.ListChangesOption.MESSAGES;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.AccountCreator;
 import com.google.gerrit.acceptance.PushOneCommit;
-import com.google.gerrit.acceptance.RestResponse;
-import com.google.gerrit.acceptance.RestSession;
 import com.google.gerrit.acceptance.SshSession;
-import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.change.ChangeJson.ChangeInfo;
 import com.google.gerrit.server.change.ChangeJson.ChangeMessageInfo;
-import com.google.gson.reflect.TypeToken;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 
@@ -45,12 +40,8 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.util.Iterator;
-import java.util.List;
 
 public class ChangeMessagesIT extends AbstractDaemonTest {
-
-  @Inject
-  private AccountCreator accounts;
 
   @Inject
   private SchemaFactory<ReviewDb> reviewDbProvider;
@@ -58,17 +49,11 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
   @Inject
   private PushOneCommit.Factory pushFactory;
 
-  private TestAccount admin;
-  private RestSession session;
   private Git git;
   private ReviewDb db;
 
   @Before
   public void setUp() throws Exception {
-    admin = accounts.create("admin", "admin@example.com", "Administrator",
-            "Administrators");
-    session = new RestSession(server, admin);
-    initSsh(admin);
     Project.NameKey project = new Project.NameKey("p");
     SshSession sshSession = new SshSession(server, admin);
     createProject(sshSession, project.get());
@@ -95,7 +80,7 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
   public void defaultMessage() throws GitAPIException,
   IOException {
     String changeId = createChange();
-    ChangeInfo c = getChangeWithMessages(changeId);
+    ChangeInfo c = getChange(changeId, MESSAGES);
     assertNotNull(c.messages);
     assertEquals(1, c.messages.size());
     assertEquals("Uploaded patch set 1.", c.messages.iterator().next().message);
@@ -109,7 +94,7 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
     postMessage(changeId, firstMessage);
     String secondMessage = "I like this feature.";
     postMessage(changeId, secondMessage);
-    ChangeInfo c = getChangeWithMessages(changeId);
+    ChangeInfo c = getChange(changeId, MESSAGES);
     assertNotNull(c.messages);
     assertEquals(3, c.messages.size());
     Iterator<ChangeMessageInfo> it = c.messages.iterator();
@@ -124,24 +109,6 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
     return push.to(git, "refs/for/master").getChangeId();
   }
 
-  private ChangeInfo getChange(String changeId) throws IOException {
-    return getChange(changeId, false);
-  }
-
-  private ChangeInfo getChangeWithMessages(String changeId) throws IOException {
-    return getChange(changeId, true);
-  }
-
-  private ChangeInfo getChange(String changeId, boolean includeMessages)
-      throws IOException {
-    RestResponse r =
-        session.get("/changes/?q=" + changeId
-            + (includeMessages ? "&o=MESSAGES" : ""));
-    List<ChangeInfo> c = newGson().fromJson(r.getReader(),
-        new TypeToken<List<ChangeInfo>>() {}.getType());
-    return c.get(0);
-  }
-
   private void assertMessage(String expected, String actual) {
     assertEquals("Patch Set 1:\n\n" + expected, actual);
   }
@@ -149,6 +116,7 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
   private void postMessage(String changeId, String msg) throws IOException {
     ReviewInput in = new ReviewInput();
     in.message = msg;
-    session.post("/changes/" + changeId + "/revisions/1/review", in).consume();
+    adminSession.post("/changes/" + changeId + "/revisions/1/review", in)
+        .consume();
   }
 }

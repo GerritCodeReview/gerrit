@@ -18,19 +18,15 @@ import static com.google.gerrit.acceptance.GitUtil.add;
 import static com.google.gerrit.acceptance.GitUtil.cloneProject;
 import static com.google.gerrit.acceptance.GitUtil.createCommit;
 import static com.google.gerrit.acceptance.GitUtil.createProject;
-import static com.google.gerrit.acceptance.GitUtil.initSsh;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import static org.junit.Assert.assertEquals;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.AccountCreator;
 import com.google.gerrit.acceptance.GitUtil.Commit;
 import com.google.gerrit.acceptance.PushOneCommit;
-import com.google.gerrit.acceptance.RestSession;
 import com.google.gerrit.acceptance.SshSession;
-import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
@@ -54,25 +50,16 @@ import java.util.List;
 public class GetRelatedIT extends AbstractDaemonTest {
 
   @Inject
-  private AccountCreator accounts;
-
-  @Inject
   private SchemaFactory<ReviewDb> reviewDbProvider;
 
   @Inject
   private PushOneCommit.Factory pushFactory;
 
-  private TestAccount admin;
-  private RestSession session;
   private Git git;
   private ReviewDb db;
 
   @Before
   public void setUp() throws Exception {
-    admin = accounts.admin();
-    session = new RestSession(server, admin);
-
-    initSsh(admin);
     Project.NameKey project = new Project.NameKey("p");
     SshSession sshSession = new SshSession(server, admin);
     createProject(sshSession, project.get());
@@ -189,7 +176,7 @@ public class GetRelatedIT extends AbstractDaemonTest {
   private List<ChangeAndCommit> getRelated(PatchSet.Id ps) throws IOException {
     String url = String.format("/changes/%d/revisions/%d/related",
         ps.getParentKey().get(), ps.get());
-    return newGson().fromJson(session.get(url).getReader(),
+    return newGson().fromJson(adminSession.get(url).getReader(),
         RelatedInfo.class).changes;
   }
 

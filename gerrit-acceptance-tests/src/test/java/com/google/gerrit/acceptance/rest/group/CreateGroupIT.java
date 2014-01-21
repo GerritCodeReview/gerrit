@@ -19,7 +19,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.AccountCreator;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.RestSession;
 import com.google.gerrit.acceptance.TestAccount;
@@ -33,7 +32,6 @@ import com.google.inject.Inject;
 import com.jcraft.jsch.JSchException;
 
 import org.apache.http.HttpStatus;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -41,25 +39,12 @@ import java.io.IOException;
 public class CreateGroupIT extends AbstractDaemonTest {
 
   @Inject
-  private AccountCreator accounts;
-
-  @Inject
   private GroupCache groupCache;
-
-  private TestAccount admin;
-  private RestSession session;
-
-  @Before
-  public void setUp() throws Exception {
-    admin = accounts.create("admin", "admin@example.com", "Administrator",
-            "Administrators");
-    session = new RestSession(server, admin);
-  }
 
   @Test
   public void testCreateGroup() throws IOException {
     final String newGroupName = "newGroup";
-    RestResponse r = session.put("/groups/" + newGroupName);
+    RestResponse r = adminSession.put("/groups/" + newGroupName);
     GroupInfo g = newGson().fromJson(r.getReader(), GroupInfo.class);
     assertEquals(newGroupName, g.name);
     AccountGroup group = groupCache.get(new AccountGroup.NameKey(newGroupName));
@@ -74,7 +59,7 @@ public class CreateGroupIT extends AbstractDaemonTest {
     in.description = "Test description";
     in.visibleToAll = true;
     in.ownerId = groupCache.get(new AccountGroup.NameKey("Administrators")).getGroupUUID().get();
-    RestResponse r = session.put("/groups/" + newGroupName, in);
+    RestResponse r = adminSession.put("/groups/" + newGroupName, in);
     GroupInfo g = newGson().fromJson(r.getReader(), GroupInfo.class);
     assertEquals(newGroupName, g.name);
     AccountGroup group = groupCache.get(new AccountGroup.NameKey(newGroupName));
@@ -94,7 +79,7 @@ public class CreateGroupIT extends AbstractDaemonTest {
   @Test
   public void testCreateGroupWhenGroupAlreadyExists_Conflict()
       throws OrmException, JSchException, IOException {
-    RestResponse r = session.put("/groups/Administrators");
+    RestResponse r = adminSession.put("/groups/Administrators");
     assertEquals(HttpStatus.SC_CONFLICT, r.getStatusCode());
   }
 }

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d22fc28a_eb79719d",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 22
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-01-21T02:02:24Z",
+      "side": 1,
+      "message": "This is already documented in Documentation/error_no_new_changes.txt",
+      "range": {
+        "startLine": 141,
+        "startChar": 55,
+        "endLine": 143,
+        "endChar": 46
+      },
+      "revId": "4944a7b37971c02cd0ac2fb6d433c2527b8682db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9288eae3_61501628",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 22
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-01-21T02:02:24Z",
+      "side": 1,
+      "message": "Should be documented in Documentation/error_*.txt",
+      "range": {
+        "startLine": 280,
+        "startChar": 0,
+        "endLine": 287,
+        "endChar": 29
+      },
+      "revId": "4944a7b37971c02cd0ac2fb6d433c2527b8682db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

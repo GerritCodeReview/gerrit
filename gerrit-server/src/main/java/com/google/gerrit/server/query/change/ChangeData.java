@@ -17,13 +17,11 @@ package com.google.gerrit.server.query.change;
 import static com.google.gerrit.server.ApprovalsUtil.sortApprovals;
 
 import com.google.common.base.Objects;
-import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.SetMultimap;
-import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -65,7 +63,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class ChangeData {
   public static void ensureChangeLoaded(Iterable<ChangeData> changes)
@@ -111,9 +108,6 @@ public class ChangeData {
       for (PatchSet ps : db.patchSets().get(missing.keySet())) {
         ChangeData cd = missing.get(ps.getId());
         cd.currentPatchSet = ps;
-        if (cd.limitedIds == null) {
-          cd.patches = Lists.newArrayList(ps);
-        }
       }
     }
   }
@@ -123,7 +117,7 @@ public class ChangeData {
     List<ResultSet<PatchSetApproval>> pending = Lists.newArrayList();
     for (ChangeData cd : changes) {
       if (!cd.notesMigration.readPatchSetApprovals()) {
-        if (cd.currentApprovals == null && cd.limitedApprovals == null) {
+        if (cd.currentApprovals == null) {
           pending.add(cd.db.patchSetApprovals()
               .byPatchSet(cd.change().currentPatchSetId()));
         }
@@ -134,7 +128,7 @@ public class ChangeData {
     if (!pending.isEmpty()) {
       int idx = 0;
       for (ChangeData cd : changes) {
-        if (cd.currentApprovals == null && cd.limitedApprovals == null) {
+        if (cd.currentApprovals == null) {
           cd.currentApprovals = sortApprovals(pending.get(idx++));
         }
       }
@@ -172,9 +166,7 @@ public class ChangeData {
   private String commitMessage;
   private List<FooterLine> commitFooters;
   private PatchSet currentPatchSet;
-  private Set<PatchSet.Id> limitedIds;
   private Collection<PatchSet> patches;
-  private ListMultimap<PatchSet.Id, PatchSetApproval> limitedApprovals;
   private ListMultimap<PatchSet.Id, PatchSetApproval> allApprovals;
   private List<PatchSetApproval> currentApprovals;
   private List<String> currentFiles;
@@ -184,7 +176,6 @@ public class ChangeData {
   private List<ChangeMessage> messages;
   private List<SubmitRecord> submitRecords;
   private ChangedLines changedLines;
-  private boolean patchesLoaded;
 
   @AssistedInject
   private ChangeData(
@@ -250,21 +241,6 @@ public class ChangeData {
 
   public void cacheFromSource(ChangeDataSource s) {
     returnedBySource = s;
-  }
-
-  public void limitToPatchSets(Collection<PatchSet.Id> ids) {
-    limitedIds = Sets.newLinkedHashSetWithExpectedSize(ids.size());
-    for (PatchSet.Id id : ids) {
-      if (!id.getParentKey().equals(legacyId)) {
-        throw new IllegalArgumentException(String.format(
-            "invalid patch set %s for change %s", id, legacyId));
-      }
-      limitedIds.add(id);
-    }
-  }
-
-  public Collection<PatchSet.Id> getLimitedPatchSets() {
-    return limitedIds;
   }
 
   public void setCurrentFilePaths(List<String> filePaths) {
@@ -395,9 +371,6 @@ public class ChangeData {
         currentApprovals = Collections.emptyList();
       } else if (allApprovals != null) {
         return allApprovals.get(c.currentPatchSetId());
-      } else if (limitedApprovals != null &&
-          (limitedIds == null || limitedIds.contains(c.currentPatchSetId()))) {
-        return limitedApprovals.get(c.currentPatchSetId());
       } else {
         currentApprovals = approvalsUtil.byPatchSet(
             db, notes(), c.currentPatchSetId());
@@ -451,32 +424,35 @@ public class ChangeData {
   }
 
   /**
-   * @return patches for the change. If {@link #limitToPatchSets(Collection)}
-   *     was previously called, only contains patches with the specified IDs.
+   * @return patches for the change.
    * @throws OrmException an error occurred reading the database.
    */
   public Collection<PatchSet> patches()
       throws OrmException {
-    if (patches == null || !patchesLoaded) {
-      if (limitedIds != null) {
-        patches = Lists.newArrayList();
-        for (PatchSet ps : db.patchSets().byChange(legacyId)) {
-          if (limitedIds.contains(ps.getId())) {
-            patches.add(ps);
-          }
-        }
-      } else {
-        patches = db.patchSets().byChange(legacyId).toList();
-      }
-      patchesLoaded = true;
+    if (patches == null) {
+      patches = db.patchSets().byChange(legacyId).toList();
     }
     return patches;
   }
 
   /**
-   * @return patch set approvals for the change in timestamp order. If
-   *     {@link #limitToPatchSets(Collection)} was previously called, only contains
-   *     approvals for the patches with the specified IDs.
+   * @return patch with the given ID, or null if it does not exist.
+   * @throws OrmException an error occurred reading the database.
+   */
+  public PatchSet patch(PatchSet.Id psId) throws OrmException {
+    if (currentPatchSet != null && currentPatchSet.getId().equals(psId)) {
+      return currentPatchSet;
+    }
+    for (PatchSet ps : patches()) {
+      if (ps.getId().equals(psId)) {
+        return ps;
+      }
+    }
+    return null;
+  }
+
+  /**
+   * @return patch set approvals for the change in timestamp order.
    * @throws OrmException an error occurred reading the database.
    */
   public List<PatchSetApproval> approvals()
@@ -485,50 +461,11 @@ public class ChangeData {
   }
 
   /**
-   * @return patch set approvals for the change, keyed by ID, ordered by
-   *     timestamp within each patch set. If
-   *     {@link #limitToPatchSets(Collection)} was previously called, only
-   *     contains approvals for the patches with the specified IDs.
+   * @return all patch set approvals for the change, keyed by ID, ordered by
+   *     timestamp within each patch set.
    * @throws OrmException an error occurred reading the database.
    */
   public ListMultimap<PatchSet.Id, PatchSetApproval> approvalsMap()
-      throws OrmException {
-    if (limitedApprovals == null) {
-      limitedApprovals = ArrayListMultimap.create();
-      if (allApprovals != null) {
-        for (PatchSet.Id id : limitedIds) {
-          limitedApprovals.putAll(id, allApprovals.get(id));
-        }
-      } else {
-        for (PatchSetApproval psa
-            : approvalsUtil.byChange(db, notes()).values()) {
-          if (limitedIds == null || limitedIds.contains(legacyId)) {
-            limitedApprovals.put(psa.getPatchSetId(), psa);
-          }
-        }
-      }
-    }
-    return limitedApprovals;
-  }
-
-  /**
-   * @return all patch set approvals for the change in timestamp order
-   *     (regardless of whether {@link #limitToPatchSets(Collection)} was
-   *     previously called).
-   * @throws OrmException an error occurred reading the database.
-   */
-  public List<PatchSetApproval> allApprovals()
-      throws OrmException {
-    return ImmutableList.copyOf(allApprovalsMap().values());
-  }
-
-  /**
-   * @return all patch set approvals for the change (regardless of whether
-   *     {@link #limitToPatchSets(Collection)} was previously called), keyed by
-   *     ID, ordered by timestamp within each patch set.
-   * @throws OrmException an error occurred reading the database.
-   */
-  public ListMultimap<PatchSet.Id, PatchSetApproval> allApprovalsMap()
       throws OrmException {
     if (allApprovals == null) {
       allApprovals = approvalsUtil.byChange(db, notes());
@@ -538,7 +475,7 @@ public class ChangeData {
 
   public SetMultimap<ReviewerState, Account.Id> reviewers()
       throws OrmException {
-    return ApprovalsUtil.getReviewers(allApprovals());
+    return ApprovalsUtil.getReviewers(approvals());
   }
 
   public Collection<PatchLineComment> comments()

@@ -27,6 +27,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.acceptance.GitUtil.Commit;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -115,7 +116,7 @@ public class PushOneCommit {
       @Assisted("subject") String subject,
       @Assisted("fileName") String fileName,
       @Assisted("content") String content,
-      @Assisted("changeId") String changeId) {
+      @Nullable @Assisted("changeId") String changeId) {
     this.db = db;
     this.notesFactory = notesFactory;
     this.approvalsUtil = approvalsUtil;

@@ -16,7 +16,6 @@ package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.gerrit.acceptance.GitUtil.checkout;
 import static com.google.gerrit.acceptance.GitUtil.cloneProject;
-import static com.google.gerrit.acceptance.GitUtil.initSsh;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -24,13 +23,10 @@ import com.google.common.base.Function;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.AccountCreator;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
-import com.google.gerrit.acceptance.RestSession;
 import com.google.gerrit.acceptance.SshSession;
-import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.change.ChangeJson.ChangeInfo;
@@ -52,26 +48,17 @@ import java.util.Set;
 public class ConflictsOperatorIT extends AbstractDaemonTest {
 
   @Inject
-  private AccountCreator accounts;
-
-  @Inject
   private SchemaFactory<ReviewDb> reviewDbProvider;
 
   @Inject
   private PushOneCommit.Factory pushFactory;
 
-  private TestAccount admin;
-  private RestSession session;
   private Project.NameKey project;
   private ReviewDb db;
   private int count;
 
   @Before
   public void setUp() throws Exception {
-    admin = accounts.admin();
-    session = new RestSession(server, admin);
-    initSsh(admin);
-
     project = new Project.NameKey("p");
 
     db = reviewDbProvider.open();
@@ -126,7 +113,7 @@ public class ConflictsOperatorIT extends AbstractDaemonTest {
   private Set<String> queryConflictingChanges(PushOneCommit.Result change)
       throws IOException {
     RestResponse r =
-        session.get("/changes/?q=conflicts:" + change.getChangeId());
+        adminSession.get("/changes/?q=conflicts:" + change.getChangeId());
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
     Set<ChangeInfo> changes =
         newGson().fromJson(r.getReader(),

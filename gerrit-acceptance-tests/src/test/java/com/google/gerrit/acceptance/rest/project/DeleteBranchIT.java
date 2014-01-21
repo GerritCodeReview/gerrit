@@ -15,11 +15,9 @@
 package com.google.gerrit.acceptance.rest.project;
 
 import static com.google.gerrit.acceptance.GitUtil.createProject;
-import static com.google.gerrit.acceptance.GitUtil.initSsh;
 import static org.junit.Assert.assertEquals;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.AccountCreator;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.RestSession;
 import com.google.gerrit.acceptance.SshSession;
@@ -46,9 +44,6 @@ import java.io.IOException;
 public class DeleteBranchIT extends AbstractDaemonTest {
 
   @Inject
-  private AccountCreator accounts;
-
-  @Inject
   private MetaDataUpdate.Server metaDataUpdateFactory;
 
   @Inject
@@ -57,7 +52,6 @@ public class DeleteBranchIT extends AbstractDaemonTest {
   @Inject
   private AllProjectsNameProvider allProjects;
 
-  private RestSession adminSession;
   private RestSession userSession;
 
   private Project.NameKey project;
@@ -65,16 +59,12 @@ public class DeleteBranchIT extends AbstractDaemonTest {
 
   @Before
   public void setUp() throws Exception {
-    TestAccount admin = accounts.admin();
-    adminSession = new RestSession(server, admin);
-
     TestAccount user = accounts.create("user", "user@example.com", "User");
     userSession = new RestSession(server, user);
 
     project = new Project.NameKey("p");
     branch = new Branch.NameKey(project, "test");
 
-    initSsh(admin);
     SshSession sshSession = new SshSession(server, admin);
     try {
       createProject(sshSession, project.get(), null, true);

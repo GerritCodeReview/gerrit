@@ -18,12 +18,10 @@ import static com.google.gerrit.acceptance.GitUtil.createProject;
 import static org.junit.Assert.assertEquals;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.AccountCreator;
 import com.google.gerrit.acceptance.GcAssert;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.RestSession;
 import com.google.gerrit.acceptance.SshSession;
-import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.UseLocalDisk;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -41,25 +39,16 @@ import java.io.IOException;
 public class GarbageCollectionIT extends AbstractDaemonTest {
 
   @Inject
-  private AccountCreator accounts;
-
-  @Inject
   private AllProjectsName allProjects;
 
   @Inject
   private GcAssert gcAssert;
 
-  private TestAccount admin;
-  private RestSession session;
   private Project.NameKey project1;
   private Project.NameKey project2;
 
   @Before
   public void setUp() throws Exception {
-    admin =
-        accounts.create("admin", "admin@example.com", "Administrator",
-            "Administrators");
-
     SshSession sshSession = new SshSession(server, admin);
 
     project1 = new Project.NameKey("p1");
@@ -68,8 +57,6 @@ public class GarbageCollectionIT extends AbstractDaemonTest {
     project2 = new Project.NameKey("p2");
     createProject(sshSession, project2.get());
     sshSession.close();
-
-    session = new RestSession(server, admin);
   }
 
   @Test
@@ -93,7 +80,7 @@ public class GarbageCollectionIT extends AbstractDaemonTest {
   }
 
   private int POST(String endPoint) throws IOException {
-    RestResponse r = session.post(endPoint);
+    RestResponse r = adminSession.post(endPoint);
     r.consume();
     return r.getStatusCode();
   }

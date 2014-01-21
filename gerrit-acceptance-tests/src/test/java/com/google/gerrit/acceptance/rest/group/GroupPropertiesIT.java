@@ -21,10 +21,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.AccountCreator;
 import com.google.gerrit.acceptance.RestResponse;
-import com.google.gerrit.acceptance.RestSession;
-import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.GroupCache;
@@ -38,7 +35,6 @@ import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.inject.Inject;
 
 import org.apache.http.HttpStatus;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -46,20 +42,7 @@ import java.io.IOException;
 public class GroupPropertiesIT extends AbstractDaemonTest {
 
   @Inject
-  private AccountCreator accounts;
-
-  @Inject
   private GroupCache groupCache;
-
-  private TestAccount admin;
-  private RestSession session;
-
-  @Before
-  public void setUp() throws Exception {
-    admin = accounts.create("admin", "admin@example.com", "Administrator",
-            "Administrators");
-    session = new RestSession(server, admin);
-  }
 
   @Test
   public void testGroupName() throws IOException {
@@ -67,7 +50,7 @@ public class GroupPropertiesIT extends AbstractDaemonTest {
     String url = "/groups/" + groupCache.get(adminGroupName).getGroupUUID().get() + "/name";
 
     // get name
-    RestResponse r = session.get(url);
+    RestResponse r = adminSession.get(url);
     String name = newGson().fromJson(r.getReader(), String.class);
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
     assertEquals("Administrators", name);
@@ -75,26 +58,26 @@ public class GroupPropertiesIT extends AbstractDaemonTest {
 
     // set name with name conflict
     String newGroupName = "newGroup";
-    r = session.put("/groups/" + newGroupName);
+    r = adminSession.put("/groups/" + newGroupName);
     r.consume();
     assertEquals(HttpStatus.SC_CREATED, r.getStatusCode());
     PutName.Input in = new PutName.Input();
     in.name = newGroupName;
-    r = session.put(url, in);
+    r = adminSession.put(url, in);
     assertEquals(HttpStatus.SC_CONFLICT, r.getStatusCode());
     r.consume();
 
     // set name to same name
     in = new PutName.Input();
     in.name = "Administrators";
-    r = session.put(url, in);
+    r = adminSession.put(url, in);
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
     r.consume();
 
     // rename
     in = new PutName.Input();
     in.name = "Admins";
-    r = session.put(url, in);
+    r = adminSession.put(url, in);
     String newName = newGson().fromJson(r.getReader(), String.class);
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
     assertNotNull(groupCache.get(new AccountGroup.NameKey(in.name)));
@@ -110,7 +93,7 @@ public class GroupPropertiesIT extends AbstractDaemonTest {
     String url = "/groups/" + adminGroup.getGroupUUID().get() + "/description";
 
     // get description
-    RestResponse r = session.get(url);
+    RestResponse r = adminSession.get(url);
     String description = newGson().fromJson(r.getReader(), String.class);
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
     assertEquals(adminGroup.getDescription(), description);
@@ -119,7 +102,7 @@ public class GroupPropertiesIT extends AbstractDaemonTest {
     // set description
     PutDescription.Input in = new PutDescription.Input();
     in.description = "All users that can administrate the Gerrit Server.";
-    r = session.put(url, in);
+    r = adminSession.put(url, in);
     String newDescription = newGson().fromJson(r.getReader(), String.class);
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
     assertEquals(in.description, newDescription);
@@ -128,7 +111,7 @@ public class GroupPropertiesIT extends AbstractDaemonTest {
     r.consume();
 
     // delete description
-    r = session.delete(url);
+    r = adminSession.delete(url);
     assertEquals(HttpStatus.SC_NO_CONTENT, r.getStatusCode());
     adminGroup = groupCache.get(adminGroupName);
     assertNull(adminGroup.getDescription());
@@ -136,7 +119,7 @@ public class GroupPropertiesIT extends AbstractDaemonTest {
     // set description to empty string
     in = new PutDescription.Input();
     in.description = "";
-    r = session.put(url, in);
+    r = adminSession.put(url, in);
     assertEquals(HttpStatus.SC_NO_CONTENT, r.getStatusCode());
     adminGroup = groupCache.get(adminGroupName);
     assertNull(adminGroup.getDescription());
@@ -149,7 +132,7 @@ public class GroupPropertiesIT extends AbstractDaemonTest {
     String url = "/groups/" + adminGroup.getGroupUUID().get() + "/options";
 
     // get options
-    RestResponse r = session.get(url);
+    RestResponse r = adminSession.get(url);
     GroupOptionsInfo options = newGson().fromJson(r.getReader(), GroupOptionsInfo.class);
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
     assertEquals(adminGroup.isVisibleToAll(), toBoolean(options.visibleToAll));
@@ -158,7 +141,7 @@ public class GroupPropertiesIT extends AbstractDaemonTest {
     // set options
     PutOptions.Input in = new PutOptions.Input();
     in.visibleToAll = !adminGroup.isVisibleToAll();
-    r = session.put(url, in);
+    r = adminSession.put(url, in);
     GroupOptionsInfo newOptions = newGson().fromJson(r.getReader(), GroupOptionsInfo.class);
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
     assertEquals(in.visibleToAll, toBoolean(newOptions.visibleToAll));
@@ -174,7 +157,7 @@ public class GroupPropertiesIT extends AbstractDaemonTest {
     String url = "/groups/" + adminGroup.getGroupUUID().get() + "/owner";
 
     // get owner
-    RestResponse r = session.get(url);
+    RestResponse r = adminSession.get(url);
     GroupInfo options = newGson().fromJson(r.getReader(), GroupInfo.class);
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
     assertGroupInfo(groupCache.get(adminGroup.getOwnerGroupUUID()), options);
@@ -183,7 +166,7 @@ public class GroupPropertiesIT extends AbstractDaemonTest {
     // set owner by name
     PutOwner.Input in = new PutOwner.Input();
     in.owner = "Registered Users";
-    r = session.put(url, in);
+    r = adminSession.put(url, in);
     GroupInfo newOwner = newGson().fromJson(r.getReader(), GroupInfo.class);
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
     assertEquals(in.owner, newOwner.name);
@@ -198,7 +181,7 @@ public class GroupPropertiesIT extends AbstractDaemonTest {
     // set owner by UUID
     in = new PutOwner.Input();
     in.owner = adminGroup.getGroupUUID().get();
-    r = session.put(url, in);
+    r = adminSession.put(url, in);
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
     adminGroup = groupCache.get(adminGroupName);
     assertEquals(in.owner, groupCache.get(adminGroup.getOwnerGroupUUID()).getGroupUUID().get());
@@ -207,7 +190,7 @@ public class GroupPropertiesIT extends AbstractDaemonTest {
     // set non existing owner
     in = new PutOwner.Input();
     in.owner = "Non-Existing Group";
-    r = session.put(url, in);
+    r = adminSession.put(url, in);
     assertEquals(HttpStatus.SC_UNPROCESSABLE_ENTITY, r.getStatusCode());
     r.consume();
   }

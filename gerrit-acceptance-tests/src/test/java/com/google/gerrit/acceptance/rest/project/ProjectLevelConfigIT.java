@@ -18,14 +18,11 @@ import static com.google.gerrit.acceptance.GitUtil.checkout;
 import static com.google.gerrit.acceptance.GitUtil.cloneProject;
 import static com.google.gerrit.acceptance.GitUtil.createProject;
 import static com.google.gerrit.acceptance.GitUtil.fetch;
-import static com.google.gerrit.acceptance.GitUtil.initSsh;
 import static org.junit.Assert.assertEquals;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.AccountCreator;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.SshSession;
-import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -47,9 +44,6 @@ import java.io.IOException;
 public class ProjectLevelConfigIT extends AbstractDaemonTest {
 
   @Inject
-  private AccountCreator accounts;
-
-  @Inject
   private SchemaFactory<ReviewDb> reviewDbProvider;
 
   @Inject
@@ -62,15 +56,12 @@ public class ProjectLevelConfigIT extends AbstractDaemonTest {
   private PushOneCommit.Factory pushFactory;
 
   private ReviewDb db;
-  private TestAccount admin;
   private SshSession sshSession;
   private String project;
   private Git git;
 
   @Before
   public void setUp() throws Exception {
-    admin = accounts.admin();
-    initSsh(admin);
     sshSession = new SshSession(server, admin);
 
     project = "p";

@@ -16,11 +16,9 @@ package com.google.gerrit.acceptance.api.change;
 
 import static com.google.gerrit.acceptance.GitUtil.cloneProject;
 import static com.google.gerrit.acceptance.GitUtil.createProject;
-import static com.google.gerrit.acceptance.GitUtil.initSsh;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope;
-import com.google.gerrit.acceptance.AccountCreator;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.SshSession;
 import com.google.gerrit.acceptance.TestAccount;
@@ -47,9 +45,6 @@ import java.io.IOException;
 public class ChangeIT extends AbstractDaemonTest {
 
   @Inject
-  private AccountCreator accounts;
-
-  @Inject
   private SchemaFactory<ReviewDb> reviewDbProvider;
 
   @Inject
@@ -64,7 +59,6 @@ public class ChangeIT extends AbstractDaemonTest {
   @Inject
   private PushOneCommit.Factory pushFactory;
 
-  private TestAccount admin;
   private TestAccount user;
 
   private Git git;
@@ -72,9 +66,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Before
   public void setUp() throws Exception {
-    admin = accounts.admin();
     user = accounts.user();
-    initSsh(admin);
     Project.NameKey project = new Project.NameKey("p");
     SshSession sshSession = new SshSession(server, admin);
     createProject(sshSession, project.get());

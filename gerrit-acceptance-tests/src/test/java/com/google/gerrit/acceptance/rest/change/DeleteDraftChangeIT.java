@@ -16,17 +16,14 @@ package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.gerrit.acceptance.GitUtil.cloneProject;
 import static com.google.gerrit.acceptance.GitUtil.createProject;
-import static com.google.gerrit.acceptance.GitUtil.initSsh;
 import static org.junit.Assert.assertEquals;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.AccountCreator;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.RestSession;
 import com.google.gerrit.acceptance.SshSession;
-import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
@@ -47,26 +44,16 @@ import java.io.IOException;
 public class DeleteDraftChangeIT extends AbstractDaemonTest {
 
   @Inject
-  private AccountCreator accounts;
-
-  @Inject
   private SchemaFactory<ReviewDb> reviewDbProvider;
 
   @Inject
   private PushOneCommit.Factory pushFactory;
 
-  private TestAccount admin;
-
-  private RestSession session;
   private Git git;
   private ReviewDb db;
 
   @Before
   public void setUp() throws Exception {
-    admin = accounts.create("admin", "admin@example.com", "Administrator",
-            "Administrators");
-    session = new RestSession(server, admin);
-    initSsh(admin);
     Project.NameKey project = new Project.NameKey("p");
     SshSession sshSession = new SshSession(server, admin);
     createProject(sshSession, project.get());
@@ -87,7 +74,7 @@ public class DeleteDraftChangeIT extends AbstractDaemonTest {
     ChangeInfo c = getChange(changeId);
     assertEquals("p~master~" + changeId, c.id);
     assertEquals(Change.Status.NEW, c.status);
-    RestResponse r = deleteChange(changeId, session);
+    RestResponse r = deleteChange(changeId, adminSession);
     assertEquals("Change is not a draft", r.getEntityContent());
     assertEquals(409, r.getStatusCode());
   }
@@ -99,7 +86,7 @@ public class DeleteDraftChangeIT extends AbstractDaemonTest {
     ChangeInfo c = getChange(changeId);
     assertEquals("p~master~" + changeId, c.id);
     assertEquals(Change.Status.DRAFT, c.status);
-    RestResponse r = deleteChange(changeId, session);
+    RestResponse r = deleteChange(changeId, adminSession);
     assertEquals(204, r.getStatusCode());
   }
 
@@ -129,11 +116,6 @@ public class DeleteDraftChangeIT extends AbstractDaemonTest {
     assertEquals(Change.Status.NEW, c.status);
   }
 
-  private ChangeInfo getChange(String changeId) throws IOException {
-    RestResponse r = session.get("/changes/" + changeId + "/detail");
-    return newGson().fromJson(r.getReader(), ChangeInfo.class);
-  }
-
   private String createChange() throws GitAPIException,
       IOException {
     PushOneCommit push = pushFactory.create(db, admin.getIdent());
@@ -151,7 +133,7 @@ public class DeleteDraftChangeIT extends AbstractDaemonTest {
   }
 
   private RestResponse publishChange(String changeId) throws IOException {
-    return session.post("/changes/" + changeId + "/publish");
+    return adminSession.post("/changes/" + changeId + "/publish");
   }
 
   private RestResponse publishPatchSet(String changeId) throws IOException,
@@ -160,7 +142,7 @@ public class DeleteDraftChangeIT extends AbstractDaemonTest {
         .get(Iterables.getOnlyElement(db.changes()
             .byKey(new Change.Key(changeId)))
             .currentPatchSetId());
-    return session.post("/changes/"
+    return adminSession.post("/changes/"
         + changeId
         + "/revisions/"
         + patchSet.getRevision().get()

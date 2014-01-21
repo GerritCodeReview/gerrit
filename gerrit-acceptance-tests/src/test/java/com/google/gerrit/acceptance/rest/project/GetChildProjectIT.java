@@ -19,11 +19,8 @@ import static com.google.gerrit.acceptance.rest.project.ProjectAssert.assertProj
 import static org.junit.Assert.assertEquals;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.AccountCreator;
 import com.google.gerrit.acceptance.RestResponse;
-import com.google.gerrit.acceptance.RestSession;
 import com.google.gerrit.acceptance.SshSession;
-import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.project.ProjectCache;
@@ -33,7 +30,6 @@ import com.google.inject.Inject;
 import com.jcraft.jsch.JSchException;
 
 import org.apache.http.HttpStatus;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -41,24 +37,10 @@ import java.io.IOException;
 public class GetChildProjectIT extends AbstractDaemonTest {
 
   @Inject
-  private AccountCreator accounts;
-
-  @Inject
   private AllProjectsName allProjects;
 
   @Inject
   private ProjectCache projectCache;
-
-  private TestAccount admin;
-  private RestSession session;
-
-  @Before
-  public void setUp() throws Exception {
-    admin =
-        accounts.create("admin", "admin@example.com", "Administrator",
-            "Administrators");
-    session = new RestSession(server, admin);
-  }
 
   @Test
   public void getNonExistingChildProject_NotFound() throws IOException {
@@ -123,6 +105,6 @@ public class GetChildProjectIT extends AbstractDaemonTest {
   }
 
   private RestResponse GET(String endpoint) throws IOException {
-    return session.get(endpoint);
+    return adminSession.get(endpoint);
   }
 }

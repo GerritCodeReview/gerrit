@@ -14,9 +14,17 @@
 
 package com.google.gerrit.acceptance;
 
-import com.google.gerrit.server.OutputFormat;
-import com.google.gson.Gson;
+import static com.google.gerrit.acceptance.GitUtil.initSsh;
+import static org.junit.Assert.assertEquals;
 
+import com.google.common.base.Joiner;
+import com.google.gerrit.common.changes.ListChangesOption;
+import com.google.gerrit.server.OutputFormat;
+import com.google.gerrit.server.change.ChangeJson.ChangeInfo;
+import com.google.gson.Gson;
+import com.google.inject.Inject;
+
+import org.apache.http.HttpStatus;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Rule;
@@ -27,7 +35,12 @@ import org.junit.runners.model.Statement;
 import java.io.IOException;
 
 public abstract class AbstractDaemonTest {
+  @Inject
+  protected AccountCreator accounts;
+
   protected GerritServer server;
+  protected TestAccount admin;
+  protected RestSession adminSession;
 
   @Rule
   public TestRule testRunner = new TestRule() {
@@ -65,6 +78,9 @@ public abstract class AbstractDaemonTest {
   private void beforeTest(Config cfg, boolean memory) throws Exception {
     server = startServer(cfg, memory);
     server.getTestInjector().injectMembers(this);
+    admin = accounts.admin();
+    adminSession = new RestSession(server, admin);
+    initSsh(admin);
   }
 
   protected GerritServer startServer(Config cfg, boolean memory) throws Exception {
@@ -73,6 +89,19 @@ public abstract class AbstractDaemonTest {
 
   private void afterTest() throws Exception {
     server.stop();
+  }
+
+  protected ChangeInfo getChange(String changeId, ListChangesOption... options)
+      throws IOException {
+    return getChange(adminSession, changeId, options);
+  }
+
+  protected ChangeInfo getChange(RestSession session, String changeId,
+      ListChangesOption... options) throws IOException {
+    String q = options.length > 0 ? "?o=" + Joiner.on("&o=").join(options) : "";
+    RestResponse r = session.get("/changes/" + changeId + q);
+    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    return newGson().fromJson(r.getReader(), ChangeInfo.class);
   }
 
   protected static Gson newGson() {

@@ -17,45 +17,27 @@ package com.google.gerrit.acceptance.rest.account;
 import static org.junit.Assert.assertEquals;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.AccountCreator;
 import com.google.gerrit.acceptance.RestResponse;
-import com.google.gerrit.acceptance.RestSession;
-import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.server.account.GetDiffPreferences.DiffPreferencesInfo;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 
 import org.apache.http.HttpStatus;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
 
 public class GetDiffPreferencesIT extends AbstractDaemonTest {
-
-  @Inject
-  private AccountCreator accounts;
-
-  private TestAccount admin;
-  private RestSession session;
-
-  @Before
-  public void setUp() throws Exception {
-    admin = accounts.admin();
-    session = new RestSession(server, admin);
-  }
-
   @Test
   public void getDiffPreferencesOfNonExistingAccount_NotFound()
       throws IOException {
     assertEquals(HttpStatus.SC_NOT_FOUND,
-        session.get("/accounts/non-existing/preferences.diff").getStatusCode());
+        adminSession.get("/accounts/non-existing/preferences.diff").getStatusCode());
   }
 
   @Test
   public void getDiffPreferences() throws IOException, OrmException {
-    RestResponse r = session.get("/accounts/" + admin.email + "/preferences.diff");
+    RestResponse r = adminSession.get("/accounts/" + admin.email + "/preferences.diff");
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
     DiffPreferencesInfo diffPreferences =
         newGson().fromJson(r.getReader(), DiffPreferencesInfo.class);

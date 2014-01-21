@@ -16,15 +16,12 @@ package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.gerrit.acceptance.GitUtil.cloneProject;
 import static com.google.gerrit.acceptance.GitUtil.createProject;
-import static com.google.gerrit.acceptance.GitUtil.initSsh;
 import static org.junit.Assert.assertEquals;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.AccountCreator;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.GerritConfigs;
 import com.google.gerrit.acceptance.PushOneCommit;
-import com.google.gerrit.acceptance.RestSession;
 import com.google.gerrit.acceptance.SshSession;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.reviewdb.client.Project;
@@ -46,25 +43,17 @@ import java.util.List;
 public class SuggestReviewersIT extends AbstractDaemonTest {
 
   @Inject
-  private AccountCreator accounts;
-
-  @Inject
   private SchemaFactory<ReviewDb> reviewDbProvider;
 
   @Inject
   private PushOneCommit.Factory pushFactory;
 
-  private TestAccount admin;
-  private RestSession session;
   private Git git;
   private ReviewDb db;
   private Project.NameKey project;
 
   @Before
   public void setUp() throws Exception {
-    admin = accounts.admin();
-    session = new RestSession(server, admin);
-
     group("users1");
     group("users2");
     group("users3");
@@ -73,7 +62,6 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
     accounts.create("user2", "user2@example.com", "User2", "users2");
     accounts.create("user3", "user3@example.com", "User3", "users1", "users2");
 
-    initSsh(admin);
     project = new Project.NameKey("p");
     SshSession sshSession = new SshSession(server, admin);
     createProject(sshSession, project.get());
@@ -134,7 +122,7 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
       String query, int n)
       throws IOException {
     return newGson().fromJson(
-        session.get("/changes/"
+        adminSession.get("/changes/"
             + changeId
             + "/suggest_reviewers?q="
             + query
@@ -146,7 +134,7 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
   }
 
   private void group(String name) throws IOException {
-    session.put("/groups/" + name, new Object()).consume();
+    adminSession.put("/groups/" + name, new Object()).consume();
   }
 
   private String createChange(TestAccount account) throws GitAPIException,

@@ -20,10 +20,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.AccountCreator;
 import com.google.gerrit.acceptance.GcAssert;
 import com.google.gerrit.acceptance.SshSession;
-import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.UseLocalDisk;
 import com.google.gerrit.common.data.GarbageCollectionResult;
 import com.google.gerrit.reviewdb.client.Project;
@@ -46,9 +44,6 @@ import java.util.Locale;
 public class GarbageCollectionIT extends AbstractDaemonTest {
 
   @Inject
-  private AccountCreator accounts;
-
-  @Inject
   private AllProjectsName allProjects;
 
   @Inject
@@ -60,7 +55,6 @@ public class GarbageCollectionIT extends AbstractDaemonTest {
   @Inject
   private GcAssert gcAssert;
 
-  private TestAccount admin;
   private SshSession sshSession;
   private Project.NameKey project1;
   private Project.NameKey project2;
@@ -68,10 +62,6 @@ public class GarbageCollectionIT extends AbstractDaemonTest {
 
   @Before
   public void setUp() throws Exception {
-    admin =
-        accounts.create("admin", "admin@example.com", "Administrator",
-            "Administrators");
-
     sshSession = new SshSession(server, admin);
 
     project1 = new Project.NameKey("p1");

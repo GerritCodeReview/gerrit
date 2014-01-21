@@ -17,19 +17,16 @@ package com.google.gerrit.acceptance.server.project;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.acceptance.GitUtil.cloneProject;
 import static com.google.gerrit.acceptance.GitUtil.createProject;
-import static com.google.gerrit.acceptance.GitUtil.initSsh;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.project.Util.grant;
 import static org.junit.Assert.assertEquals;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope;
-import com.google.gerrit.acceptance.AccountCreator;
 import com.google.gerrit.acceptance.PushOneCommit;
-import com.google.gerrit.acceptance.RestResponse;
-import com.google.gerrit.acceptance.RestSession;
 import com.google.gerrit.acceptance.SshSession;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.common.changes.ListChangesOption;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.GerritApi;
@@ -51,7 +48,6 @@ import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.util.Providers;
 
-import org.apache.http.HttpStatus;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.Repository;
 import org.junit.After;
@@ -61,8 +57,6 @@ import org.junit.Test;
 import java.io.IOException;
 
 public class LabelTypeIT extends AbstractDaemonTest {
-  @Inject
-  private AccountCreator accounts;
 
   @Inject
   private SchemaFactory<ReviewDb> reviewDbProvider;
@@ -94,18 +88,13 @@ public class LabelTypeIT extends AbstractDaemonTest {
   private Project.NameKey project;
   private LabelType codeReview;
   private TestAccount user;
-  private TestAccount admin;
-  private RestSession session;
   private Git git;
   private ReviewDb db;
 
   @Before
   public void setUp() throws Exception {
     user = accounts.user();
-    admin = accounts.admin();
-    initSsh(admin);
     project = new Project.NameKey("p");
-    session = new RestSession(server, user);
     SshSession sshSession = new SshSession(server, admin);
     try {
       createProject(sshSession, project.get());
@@ -389,8 +378,6 @@ public class LabelTypeIT extends AbstractDaemonTest {
   }
 
   private ChangeInfo getChange(PushOneCommit.Result pr) throws IOException {
-    RestResponse r = session.get("/changes/" + pr.getChangeId() + "/detail");
-    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
-    return newGson().fromJson(r.getReader(), ChangeInfo.class);
+    return getChange(pr.getChangeId(), ListChangesOption.DETAILED_LABELS);
   }
 }

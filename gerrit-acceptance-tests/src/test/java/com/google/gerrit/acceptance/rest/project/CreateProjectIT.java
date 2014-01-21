@@ -23,7 +23,6 @@ import static org.junit.Assert.assertNotNull;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.AccountCreator;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.RestSession;
 import com.google.gerrit.acceptance.TestAccount;
@@ -51,7 +50,6 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -59,9 +57,6 @@ import java.util.Collections;
 import java.util.Set;
 
 public class CreateProjectIT extends AbstractDaemonTest {
-
-  @Inject
-  private AccountCreator accounts;
 
   @Inject
   private ProjectCache projectCache;
@@ -72,20 +67,10 @@ public class CreateProjectIT extends AbstractDaemonTest {
   @Inject
   private GitRepositoryManager git;
 
-  private TestAccount admin;
-  private RestSession session;
-
-  @Before
-  public void setUp() throws Exception {
-    admin = accounts.create("admin", "admin@example.com", "Administrator",
-            "Administrators");
-    session = new RestSession(server, admin);
-  }
-
   @Test
   public void testCreateProject() throws IOException {
     final String newProjectName = "newProject";
-    RestResponse r = session.put("/projects/" + newProjectName);
+    RestResponse r = adminSession.put("/projects/" + newProjectName);
     assertEquals(HttpStatus.SC_CREATED, r.getStatusCode());
     ProjectInfo p = newGson().fromJson(r.getReader(), ProjectInfo.class);
     assertEquals(newProjectName, p.name);
@@ -99,7 +84,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
   public void testCreateProjectWithNameMismatch_BadRequest() throws IOException {
     CreateProject.Input in = new CreateProject.Input();
     in.name = "otherName";
-    RestResponse r = session.put("/projects/someName", in);
+    RestResponse r = adminSession.put("/projects/someName", in);
     assertEquals(HttpStatus.SC_BAD_REQUEST, r.getStatusCode());
   }
 
@@ -113,7 +98,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
     in.useSignedOffBy = InheritableBoolean.TRUE;
     in.useContentMerge = InheritableBoolean.TRUE;
     in.requireChangeId = InheritableBoolean.TRUE;
-    RestResponse r = session.put("/projects/" + newProjectName, in);
+    RestResponse r = adminSession.put("/projects/" + newProjectName, in);
     ProjectInfo p = newGson().fromJson(r.getReader(), ProjectInfo.class);
     assertEquals(newProjectName, p.name);
     Project project = projectCache.get(new Project.NameKey(newProjectName)).getProject();
@@ -129,12 +114,12 @@ public class CreateProjectIT extends AbstractDaemonTest {
   @Test
   public void testCreateChildProject() throws IOException {
     final String parentName = "parent";
-    RestResponse r = session.put("/projects/" + parentName);
+    RestResponse r = adminSession.put("/projects/" + parentName);
     r.consume();
     final String childName = "child";
     CreateProject.Input in = new CreateProject.Input();
     in.parent = parentName;
-    r = session.put("/projects/" + childName, in);
+    r = adminSession.put("/projects/" + childName, in);
     Project project = projectCache.get(new Project.NameKey(childName)).getProject();
     assertEquals(in.parent, project.getParentName());
   }
@@ -143,7 +128,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
       throws IOException {
     CreateProject.Input in = new CreateProject.Input();
     in.parent = "non-existing-project";
-    RestResponse r = session.put("/projects/child", in);
+    RestResponse r = adminSession.put("/projects/child", in);
     assertEquals(HttpStatus.SC_UNPROCESSABLE_ENTITY, r.getStatusCode());
   }
 
@@ -156,7 +141,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
     in.owners.add(SystemGroupBackend.REGISTERED_USERS.get()); // by UUID
     in.owners.add(Integer.toString(groupCache.get(
         new AccountGroup.NameKey("Administrators")).getId().get())); // by ID
-    session.put("/projects/" + newProjectName, in);
+    adminSession.put("/projects/" + newProjectName, in);
     ProjectState projectState = projectCache.get(new Project.NameKey(newProjectName));
     Set<AccountGroup.UUID> expectedOwnerIds = Sets.newHashSetWithExpectedSize(3);
     expectedOwnerIds.add(SystemGroupBackend.ANONYMOUS_USERS);
@@ -169,7 +154,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
       throws IOException {
     CreateProject.Input in = new CreateProject.Input();
     in.owners = Collections.singletonList("non-existing-group");
-    RestResponse r = session.put("/projects/newProject", in);
+    RestResponse r = adminSession.put("/projects/newProject", in);
     assertEquals(HttpStatus.SC_UNPROCESSABLE_ENTITY, r.getStatusCode());
   }
 
@@ -178,7 +163,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
     final String newProjectName = "newProject";
     CreateProject.Input in = new CreateProject.Input();
     in.permissionsOnly = true;
-    session.put("/projects/" + newProjectName, in);
+    adminSession.put("/projects/" + newProjectName, in);
     assertHead(newProjectName, RefNames.REFS_CONFIG);
   }
 
@@ -187,7 +172,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
     final String newProjectName = "newProject";
     CreateProject.Input in = new CreateProject.Input();
     in.createEmptyCommit = true;
-    session.put("/projects/" + newProjectName, in);
+    adminSession.put("/projects/" + newProjectName, in);
     assertEmptyCommit(newProjectName, "refs/heads/master");
   }
 
@@ -200,7 +185,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
     in.branches.add("refs/heads/test");
     in.branches.add("refs/heads/master");
     in.branches.add("release"); // without 'refs/heads' prefix
-    session.put("/projects/" + newProjectName, in);
+    adminSession.put("/projects/" + newProjectName, in);
     assertHead(newProjectName, "refs/heads/test");
     assertEmptyCommit(newProjectName, "refs/heads/test", "refs/heads/master",
         "refs/heads/release");
@@ -217,7 +202,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
   @Test
   public void testCreateProjectWhenProjectAlreadyExists_Conflict()
       throws OrmException, JSchException, IOException {
-    RestResponse r = session.put("/projects/All-Projects");
+    RestResponse r = adminSession.put("/projects/All-Projects");
     assertEquals(HttpStatus.SC_CONFLICT, r.getStatusCode());
   }
 

@@ -21,7 +21,6 @@ import static com.google.gerrit.common.data.Permission.LABEL;
 import static org.junit.Assert.assertEquals;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.AccountCreator;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.RestSession;
@@ -55,9 +54,6 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 public class ChangeOwnerIT extends AbstractDaemonTest {
-
-  @Inject
-  private AccountCreator accounts;
 
   @Inject
   private SchemaFactory<ReviewDb> reviewDbProvider;
@@ -154,8 +150,6 @@ public class ChangeOwnerIT extends AbstractDaemonTest {
 
   private void newProject() throws UnsupportedEncodingException,
       OrmException, JSchException, IOException {
-    TestAccount admin = accounts.admin();
-    initSsh(admin);
     project = new Project.NameKey("p");
     SshSession sshSession = new SshSession(server, admin);
     createProject(sshSession, project.get());

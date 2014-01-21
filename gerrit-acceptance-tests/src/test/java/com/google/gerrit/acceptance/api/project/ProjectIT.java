@@ -15,13 +15,10 @@
 package com.google.gerrit.acceptance.api.project;
 
 import static com.google.gerrit.acceptance.GitUtil.createProject;
-import static com.google.gerrit.acceptance.GitUtil.initSsh;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope;
-import com.google.gerrit.acceptance.AccountCreator;
 import com.google.gerrit.acceptance.SshSession;
-import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -42,9 +39,6 @@ import java.io.IOException;
 public class ProjectIT extends AbstractDaemonTest  {
 
   @Inject
-  private AccountCreator accounts;
-
-  @Inject
   private SchemaFactory<ReviewDb> reviewDbProvider;
 
   @Inject
@@ -56,14 +50,11 @@ public class ProjectIT extends AbstractDaemonTest  {
   @Inject
   private IdentifiedUser.GenericFactory identifiedUserFactory;
 
-  private TestAccount admin;
   private ReviewDb db;
   Project.NameKey project;
 
   @Before
   public void setUp() throws Exception {
-    admin = accounts.admin();
-    initSsh(admin);
     project = new Project.NameKey("p");
     SshSession sshSession = new SshSession(server, admin);
     createProject(sshSession, project.get());

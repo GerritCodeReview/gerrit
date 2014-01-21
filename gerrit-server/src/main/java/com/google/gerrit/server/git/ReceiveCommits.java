@@ -17,7 +17,6 @@ package com.google.gerrit.server.git;
 import static com.google.gerrit.server.git.MultiProgressMonitor.UNKNOWN;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromApprovals;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromFooters;
-
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
 import static org.eclipse.jgit.lib.RefDatabase.ALL;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.NOT_ATTEMPTED;
@@ -128,9 +127,9 @@ import org.eclipse.jgit.transport.AdvertiseRefsHook;
 import org.eclipse.jgit.transport.AdvertiseRefsHookChain;
 import org.eclipse.jgit.transport.BaseReceivePack;
 import org.eclipse.jgit.transport.ReceiveCommand;
-import org.eclipse.jgit.transport.RefFilter;
 import org.eclipse.jgit.transport.ReceiveCommand.Result;
 import org.eclipse.jgit.transport.ReceivePack;
+import org.eclipse.jgit.transport.RefFilter;
 import org.eclipse.jgit.transport.ServiceMayNotContinueException;
 import org.eclipse.jgit.transport.UploadPack;
 import org.kohsuke.args4j.CmdLineException;
@@ -1694,6 +1693,7 @@ public class ReceiveCommits {
       if (newCommit == priorCommit) {
         // Ignore requests to make the change its current state.
         skip = true;
+        reject(inputCommand, "commit already exists (as current patchset)");
         return false;
       }
 
@@ -1705,8 +1705,16 @@ public class ReceiveCommits {
         reject(inputCommand, "change " + ontoChange + " closed");
         return false;
       } else if (revisions.containsKey(newCommit)) {
-        reject(inputCommand, "commit already exists");
+        reject(inputCommand, "commit already exists (in the change)");
         return false;
+      }
+
+      for (final Ref r : rp.getRepository().getRefDatabase()
+          .getRefs("refs/changes").values()) {
+        if (r.getObjectId().equals(inputCommand.getNewId())) {
+          reject(inputCommand, "commit already exists (in the project)");
+          return false;
+        }
       }
 
       for (RevCommit prior : revisions.keySet()) {

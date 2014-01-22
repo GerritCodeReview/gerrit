@@ -34,7 +34,7 @@ class ReviewerPredicate extends IndexPredicate<ChangeData> {
 
   @Override
   public boolean match(final ChangeData object) throws OrmException {
-    for (PatchSetApproval p : object.approvals()) {
+    for (PatchSetApproval p : object.approvals().values()) {
       if (id.equals(p.getAccountId())) {
         return true;
       }

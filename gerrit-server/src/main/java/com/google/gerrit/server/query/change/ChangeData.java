@@ -452,20 +452,11 @@ public class ChangeData {
   }
 
   /**
-   * @return patch set approvals for the change in timestamp order.
-   * @throws OrmException an error occurred reading the database.
-   */
-  public List<PatchSetApproval> approvals()
-      throws OrmException {
-    return ImmutableList.copyOf(approvalsMap().values());
-  }
-
-  /**
    * @return all patch set approvals for the change, keyed by ID, ordered by
    *     timestamp within each patch set.
    * @throws OrmException an error occurred reading the database.
    */
-  public ListMultimap<PatchSet.Id, PatchSetApproval> approvalsMap()
+  public ListMultimap<PatchSet.Id, PatchSetApproval> approvals()
       throws OrmException {
     if (allApprovals == null) {
       allApprovals = approvalsUtil.byChange(db, notes());
@@ -475,7 +466,7 @@ public class ChangeData {
 
   public SetMultimap<ReviewerState, Account.Id> reviewers()
       throws OrmException {
-    return approvalsUtil.getReviewers(notes(), approvals());
+    return approvalsUtil.getReviewers(notes(), approvals().values());
   }
 
   public Collection<PatchLineComment> comments()

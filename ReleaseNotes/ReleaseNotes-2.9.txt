@@ -19,7 +19,7 @@ Schema Change
 *WARNING:* This release contains schema changes.  To upgrade:
 ----
   java -jar gerrit.war init -d site_path
-  java -jar gerrit.war reindex --recheck-mergeability -d site_path
+  java -jar gerrit.war reindex --recheck-mergeable -d site_path
 ----
 
 *WARNING:* Upgrading to 2.9.x requires the server be first upgraded to 2.1.7 (or
@@ -38,6 +38,14 @@ Gerrit instance.
 New Features
 ------------
 
+
+Secondary Index
+~~~~~~~~~~~~~~~
+
+
+* New `--recheck-mergeable` option on the
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/pgm-reindex.html[
+`reindex` program].
 
 ssh
 ~~~

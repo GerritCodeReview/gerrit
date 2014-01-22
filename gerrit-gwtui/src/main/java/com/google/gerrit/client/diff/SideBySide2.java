@@ -77,6 +77,9 @@ import java.util.EnumSet;
 import java.util.List;
 
 public class SideBySide2 extends Screen {
+  private static final KeyMap RENDER_ENTIRE_FILE_KEYMAP = KeyMap.create()
+      .on("Ctrl-F", false);
+
   interface Binder extends UiBinder<FlowPanel, SideBySide2> {}
   private static final Binder uiBinder = GWT.create(Binder.class);
 
@@ -361,6 +364,9 @@ public class SideBySide2 extends Screen {
             cm.execCommand("selectAll");
           }
         }));
+    if (prefs.renderEntireFile()) {
+      cm.addKeyMap(RENDER_ENTIRE_FILE_KEYMAP);
+    }
   }
 
   private BeforeSelectionChangeHandler onSelectionChange(final CodeMirror cm) {
@@ -780,6 +786,13 @@ public class SideBySide2 extends Screen {
   }
 
   void updateRenderEntireFile() {
+    cmA.removeKeyMap(RENDER_ENTIRE_FILE_KEYMAP);
+    cmB.removeKeyMap(RENDER_ENTIRE_FILE_KEYMAP);
+    if (prefs.renderEntireFile()) {
+      cmA.addKeyMap(RENDER_ENTIRE_FILE_KEYMAP);
+      cmB.addKeyMap(RENDER_ENTIRE_FILE_KEYMAP);
+    }
+
     cmA.setOption("viewportMargin", prefs.renderEntireFile() ? POSITIVE_INFINITY : 10);
     cmB.setOption("viewportMargin", prefs.renderEntireFile() ? POSITIVE_INFINITY : 10);
   }

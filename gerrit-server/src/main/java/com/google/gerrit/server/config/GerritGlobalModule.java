@@ -118,6 +118,7 @@ import com.google.gerrit.server.ssh.SshAddressesModule;
 import com.google.gerrit.server.tools.ToolsCatalog;
 import com.google.gerrit.server.util.IdGenerator;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
+import com.google.gerrit.server.validators.ProjectCreationValidationListener;
 import com.google.inject.Inject;
 import com.google.inject.TypeLiteral;
 import com.google.inject.internal.UniqueAnnotations;
@@ -249,6 +250,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.setOf(binder(), ChangeListener.class);
     DynamicSet.setOf(binder(), CommitValidationListener.class);
     DynamicSet.setOf(binder(), MergeValidationListener.class);
+    DynamicSet.setOf(binder(), ProjectCreationValidationListener.class);
     DynamicItem.itemOf(binder(), AvatarProvider.class);
     DynamicSet.setOf(binder(), LifecycleListener.class);
     DynamicSet.setOf(binder(), TopMenu.class);

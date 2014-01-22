@@ -22,6 +22,7 @@ import com.google.gerrit.common.data.GroupDescriptions;
 import com.google.gerrit.common.errors.NameAlreadyUsedException;
 import com.google.gerrit.common.errors.PermissionDeniedException;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -32,10 +33,13 @@ import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.CreateGroupArgs;
 import com.google.gerrit.server.account.PerformCreateGroup;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.group.CreateGroup.Input;
 import com.google.gerrit.server.group.GroupJson.GroupInfo;
+import com.google.gerrit.server.validators.GroupCreationValidationListener;
+import com.google.gerrit.server.validators.ValidationException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -54,7 +58,7 @@ public class CreateGroup implements RestModifyView<TopLevelResource, Input> {
     public String ownerId;
   }
 
-  static interface Factory {
+  public static interface Factory {
     CreateGroup create(@Assisted String name);
   }
 
@@ -62,17 +66,20 @@ public class CreateGroup implements RestModifyView<TopLevelResource, Input> {
   private final GroupsCollection groups;
   private final PerformCreateGroup.Factory op;
   private final GroupJson json;
+  private final DynamicSet<GroupCreationValidationListener> groupCreationValidationListeners;
   private final boolean defaultVisibleToAll;
   private final String name;
 
   @Inject
   CreateGroup(Provider<IdentifiedUser> self, GroupsCollection groups,
       PerformCreateGroup.Factory performCreateGroupFactory, GroupJson json,
+      DynamicSet<GroupCreationValidationListener> groupCreationValidationListeners,
       @GerritServerConfig Config cfg, @Assisted String name) {
     this.self = self;
     this.groups = groups;
     this.op = performCreateGroupFactory;
     this.json = json;
+    this.groupCreationValidationListeners = groupCreationValidationListeners;
     this.defaultVisibleToAll = cfg.getBoolean("groups", "newGroupsVisibleToAll", false);
     this.name = name;
   }
@@ -91,15 +98,24 @@ public class CreateGroup implements RestModifyView<TopLevelResource, Input> {
     AccountGroup.Id ownerId = owner(input);
     AccountGroup group;
     try {
-      group = op.create().createGroup(
-          name,
-          Strings.emptyToNull(input.description),
-          Objects.firstNonNull(input.visibleToAll, defaultVisibleToAll),
-          ownerId,
-          ownerId == null
-            ? Collections.singleton(self.get().getAccountId())
-            : Collections.<Account.Id> emptySet(),
-          null);
+      CreateGroupArgs args = new CreateGroupArgs();
+      args.setGroupName(name);
+      args.groupDescription = Strings.emptyToNull(input.description);
+      args.visibleToAll = Objects.firstNonNull(input.visibleToAll, defaultVisibleToAll);
+      args.ownerGroupId = ownerId;
+      args.initialMembers = ownerId == null
+          ? Collections.singleton(self.get().getAccountId())
+          : Collections.<Account.Id> emptySet();
+
+      for (GroupCreationValidationListener l : groupCreationValidationListeners) {
+        try {
+          l.validate(args);
+        } catch (ValidationException e) {
+          throw new ResourceConflictException(e.getMessage(), e);
+        }
+      }
+
+      group = op.create(args).createGroup();
     } catch (PermissionDeniedException e) {
       throw new AuthException(e.getMessage());
     } catch (NameAlreadyUsedException e) {

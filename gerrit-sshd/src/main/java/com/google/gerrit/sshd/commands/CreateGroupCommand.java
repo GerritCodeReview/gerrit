@@ -18,9 +18,13 @@ import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.errors.NameAlreadyUsedException;
 import com.google.gerrit.common.errors.PermissionDeniedException;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.server.account.CreateGroupArgs;
 import com.google.gerrit.server.account.PerformCreateGroup;
+import com.google.gerrit.server.validators.GroupCreationValidationListener;
+import com.google.gerrit.server.validators.ValidationException;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.gwtorm.server.OrmException;
@@ -69,15 +73,29 @@ final class CreateGroupCommand extends SshCommand {
   @Inject
   private PerformCreateGroup.Factory performCreateGroupFactory;
 
+  @Inject
+  private DynamicSet<GroupCreationValidationListener> groupCreationValidationListeners;
+
   @Override
   protected void run() throws Failure, OrmException {
     try {
-      performCreateGroupFactory.create().createGroup(groupName,
-          groupDescription,
-          visibleToAll,
-          ownerGroupId,
-          initialMembers,
-          initialGroups);
+      CreateGroupArgs args = new CreateGroupArgs();
+      args.setGroupName(groupName);
+      args.groupDescription = groupDescription;
+      args.visibleToAll = visibleToAll;
+      args.ownerGroupId = ownerGroupId;
+      args.initialMembers = initialMembers;
+      args.initialGroups = initialGroups;
+
+      for (GroupCreationValidationListener l : groupCreationValidationListeners) {
+        try {
+          l.validate(args);
+        } catch (ValidationException e) {
+          die(e);
+        }
+      }
+
+      performCreateGroupFactory.create(args).createGroup();
     } catch (PermissionDeniedException e) {
       throw die(e);
 

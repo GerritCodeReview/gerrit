@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "92d62ada_31ea7019",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-22T19:26:48Z",
+      "side": 1,
+      "message": "Rename this var to onlyPsId or limitToPsId or filterPsId, or whatever, or add a comment explaining what is this parameter for and what meant if it is null?",
+      "range": {
+        "startLine": 276,
+        "startChar": 61,
+        "endLine": 276,
+        "endChar": 65
+      },
+      "revId": "2bc3c36d9e6fc1d43a8e6196ca6aeb2f0798cd66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "52e032af_4fdbcd95",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 780,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-22T19:26:48Z",
+      "side": 1,
+      "message": "The same comment as above.",
+      "range": {
+        "startLine": 780,
+        "startChar": 73,
+        "endLine": 780,
+        "endChar": 77
+      },
+      "revId": "2bc3c36d9e6fc1d43a8e6196ca6aeb2f0798cd66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

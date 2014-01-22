@@ -124,7 +124,16 @@ public class ApprovalsUtil {
    *     exactly once in {@link SetMultimap#values()}, and
    *     {@link ReviewerState#REMOVED} is not present.
    */
-  public static ImmutableSetMultimap<ReviewerState, Account.Id> getReviewers(
+  public ImmutableSetMultimap<ReviewerState, Account.Id> getReviewers(
+      ChangeNotes notes, Iterable<PatchSetApproval> allApprovals)
+      throws OrmException {
+    if (!migration.readPatchSetApprovals()) {
+      return getReviewers(allApprovals);
+    }
+    return notes.load().getReviewers();
+  }
+
+  private static ImmutableSetMultimap<ReviewerState, Account.Id> getReviewers(
       Iterable<PatchSetApproval> allApprovals) {
     PatchSetApproval first = null;
     SetMultimap<ReviewerState, Account.Id> reviewers =

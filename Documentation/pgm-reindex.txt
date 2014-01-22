@@ -15,6 +15,9 @@ Rebuilds the secondary index.
 --threads::
 	Number of threads to use for indexing.
 
+--recheck-mergeable::
+	Recheck mergeable flag on all changes.
+
 --schema-version::
 	Schema version to reindex; default is most recent version.
 

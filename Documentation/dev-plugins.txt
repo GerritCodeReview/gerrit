@@ -420,6 +420,10 @@ implementing the corresponding listeners.
 +
 Project creation
 
+* `com.google.gerrit.server.validators.GroupCreationValidationListener`:
++
+Group creation
+
 [[ssh]]
 == SSH Commands
 

@@ -497,7 +497,7 @@ public class ChangeJson {
     // All users ever added, even if they can't vote on one or all labels.
     Set<Account.Id> allUsers = Sets.newHashSet();
     ListMultimap<PatchSet.Id, PatchSetApproval> allApprovals =
-        cd.approvalsMap();
+        cd.approvals();
     for (PatchSetApproval psa : allApprovals.values()) {
       allUsers.add(psa.getAccountId());
     }
@@ -543,7 +543,7 @@ public class ChangeJson {
       LabelTypes labelTypes, boolean standard, boolean detailed)
       throws OrmException {
     Set<Account.Id> allUsers = Sets.newHashSet();
-    for (PatchSetApproval psa : cd.approvals()) {
+    for (PatchSetApproval psa : cd.approvals().values()) {
       allUsers.add(psa.getAccountId());
     }
 

@@ -335,11 +335,11 @@ public class QueryProcessor {
           if (includePatchSets) {
             if (includeFiles) {
               eventFactory.addPatchSets(c, d.patches(),
-                includeApprovals ? d.approvalsMap().asMap() : null,
+                includeApprovals ? d.approvals().asMap() : null,
                 includeFiles, d.change(), labelTypes);
             } else {
               eventFactory.addPatchSets(c, d.patches(),
-                  includeApprovals ? d.approvalsMap().asMap() : null,
+                  includeApprovals ? d.approvals().asMap() : null,
                   labelTypes);
             }
           }

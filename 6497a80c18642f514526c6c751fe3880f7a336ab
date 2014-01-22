@@ -22,6 +22,30 @@
       "revId": "6497a80c18642f514526c6c751fe3880f7a336ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "72db7606_50db6c95",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ListChangesOptionsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-22T19:14:09Z",
+      "side": 1,
+      "message": "My personal view is that thinking about specific exception types in test code is a waste of time. In test utility libraries it _might_ not be but usually is.",
+      "parentUuid": "92d62ada_71e0f838",
+      "range": {
+        "startLine": 88,
+        "startChar": 41,
+        "endLine": 88,
+        "endChar": 50
+      },
+      "revId": "6497a80c18642f514526c6c751fe3880f7a336ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

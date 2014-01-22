@@ -20,7 +20,9 @@ import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.errors.ProjectCreationFailedException;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
@@ -33,6 +35,8 @@ import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.GroupsCollection;
 import com.google.gerrit.server.project.CreateProject.Input;
 import com.google.gerrit.server.project.ProjectJson.ProjectInfo;
+import com.google.gerrit.server.validators.ProjectCreationValidationListener;
+import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
@@ -67,6 +71,7 @@ public class CreateProject implements RestModifyView<TopLevelResource, Input> {
   private final PerformCreateProject.Factory createProjectFactory;
   private final Provider<ProjectsCollection> projectsCollection;
   private final Provider<GroupsCollection> groupsCollection;
+  private final DynamicSet<ProjectCreationValidationListener> projectCreationValidationListeners;
   private final ProjectJson json;
   private final String name;
 
@@ -74,10 +79,12 @@ public class CreateProject implements RestModifyView<TopLevelResource, Input> {
   CreateProject(PerformCreateProject.Factory performCreateProjectFactory,
       Provider<ProjectsCollection> projectsCollection,
       Provider<GroupsCollection> groupsCollection, ProjectJson json,
+      DynamicSet<ProjectCreationValidationListener> projectCreationValidationListeners,
       @Assisted String name) {
     this.createProjectFactory = performCreateProjectFactory;
     this.projectsCollection = projectsCollection;
     this.groupsCollection = groupsCollection;
+    this.projectCreationValidationListeners = projectCreationValidationListeners;
     this.json = json;
     this.name = name;
   }
@@ -85,7 +92,7 @@ public class CreateProject implements RestModifyView<TopLevelResource, Input> {
   @Override
   public Response<ProjectInfo> apply(TopLevelResource resource, Input input)
       throws BadRequestException, UnprocessableEntityException,
-      ProjectCreationFailedException, IOException {
+      ResourceConflictException, ProjectCreationFailedException, IOException {
     if (input == null) {
       input = new Input();
     }
@@ -127,6 +134,14 @@ public class CreateProject implements RestModifyView<TopLevelResource, Input> {
           ProjectConfig.validMaxObjectSizeLimit(input.maxObjectSizeLimit);
     } catch (ConfigInvalidException e) {
       throw new BadRequestException(e.getMessage());
+    }
+
+    for (ProjectCreationValidationListener l : projectCreationValidationListeners) {
+      try {
+        l.onProjectCreated(args);
+      } catch (ValidationException e) {
+        throw new ResourceConflictException(e.getMessage(), e);
+      }
     }
 
     Project p = createProjectFactory.create(args).createProject();

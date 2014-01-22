@@ -87,7 +87,7 @@ public class ApprovalCopier {
     try {
       ProjectState project =
           projectCache.checkedGet(cd.change().getDest().getParentKey());
-      ListMultimap<PatchSet.Id, PatchSetApproval> all = cd.approvalsMap();
+      ListMultimap<PatchSet.Id, PatchSetApproval> all = cd.approvals();
 
       Table<String, Account.Id, PatchSetApproval> byUser =
           HashBasedTable.create();

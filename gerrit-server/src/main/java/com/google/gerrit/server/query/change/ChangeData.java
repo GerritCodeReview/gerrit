@@ -475,7 +475,7 @@ public class ChangeData {
 
   public SetMultimap<ReviewerState, Account.Id> reviewers()
       throws OrmException {
-    return ApprovalsUtil.getReviewers(approvals());
+    return approvalsUtil.getReviewers(notes(), approvals());
   }
 
   public Collection<PatchLineComment> comments()

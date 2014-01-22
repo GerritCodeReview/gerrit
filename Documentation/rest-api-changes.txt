@@ -2768,7 +2768,9 @@ or if link:#all-revisions[all revisions] are requested.
 |`revisions`          |optional|
 All patch sets of this change as a map that maps the commit ID of the
 patch set to a link:#revision-info[RevisionInfo] entity. +
-Only set if link:#all-revisions[all revisions] are requested.
+Only set if link:#current-revision[the current revision] is requested
+(in which case it will only contain a key for the current revision) or
+if link:#all-revisions[all revisions] are requested.
 |`_more_changes`      |optional, not set if `false`|
 Whether the query would deliver more results if not limited. +
 Only set on either the last or the first change that is returned.

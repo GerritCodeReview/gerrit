@@ -41,7 +41,7 @@ class ReviewerinPredicate extends OperatorPredicate<ChangeData> {
 
   @Override
   public boolean match(final ChangeData object) throws OrmException {
-    for (PatchSetApproval p : object.approvals()) {
+    for (PatchSetApproval p : object.approvals().values()) {
       final IdentifiedUser reviewer = userFactory.create(dbProvider,
         p.getAccountId());
       if (reviewer.getEffectiveGroups().contains(uuid)) {

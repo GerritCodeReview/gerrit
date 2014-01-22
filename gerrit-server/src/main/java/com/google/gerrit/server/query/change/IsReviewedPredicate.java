@@ -34,7 +34,7 @@ class IsReviewedPredicate extends IndexPredicate<ChangeData> {
     }
 
     PatchSet.Id current = c.currentPatchSetId();
-    for (PatchSetApproval p : object.approvals()) {
+    for (PatchSetApproval p : object.approvals().values()) {
       if (p.getPatchSetId().equals(current) && p.getValue() != 0) {
         return true;
       }

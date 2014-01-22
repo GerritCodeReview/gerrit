@@ -14,10 +14,12 @@
 
 package com.google.gerrit.server.git.validators;
 
+import com.google.gerrit.server.validators.ValidationException;
+
 import java.util.Collections;
 import java.util.List;
 
-public class CommitValidationException extends Exception {
+public class CommitValidationException extends ValidationException {
   private static final long serialVersionUID = 1L;
   private final List<CommitValidationMessage> messages;
 

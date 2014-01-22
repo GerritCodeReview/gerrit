@@ -63,11 +63,15 @@ public class GetHead implements RestReadView<ProjectResource> {
             return head.getObjectId().name();
           }
           throw new AuthException();
-        } catch (MissingObjectException | IncorrectObjectTypeException e) {
+        } catch (MissingObjectException e) {
           if (rsrc.getControl().isOwner()) {
             return head.getObjectId().name();
           }
           throw new AuthException();
+        } catch (IncorrectObjectTypeException e) {
+          if (rsrc.getControl().isOwner()) {
+            return head.getObjectId().name();
+          }
         } finally {
           rw.release();
         }

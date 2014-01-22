@@ -114,6 +114,30 @@
     },
     {
       "key": {
+        "uuid": "52e032af_8ff8d5ef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-22T22:56:01Z",
+      "side": 1,
+      "message": "Thanks for pointing this out. My suggestion would be to start with multy config NotesDb/ReviewDb Buck driven tests: for now we don\u0027t have them at all. As second step find a way for the same tests for both configs to be invocable/debuggable from the Eclipse IDE.",
+      "parentUuid": "b2d16ee4_12fc0cde",
+      "range": {
+        "startLine": 14,
+        "startChar": 65,
+        "endLine": 16,
+        "endChar": 12
+      },
+      "revId": "e4385c0ea040aa476de1c8442e76a83aa2f6ab03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4d58911a_efea011d",
         "filename": "gerrit-acceptance-tests/tests.defs",
         "patchSetId": 4

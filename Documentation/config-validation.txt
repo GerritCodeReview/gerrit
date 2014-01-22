@@ -43,6 +43,17 @@ input arguments.
 E.g. a plugin could use this to enforce a certain name scheme for
 project names.
 
+[[group-creation-validation]]
+== Group Creation Validation
+
+
+Plugins implementing the `GroupCreationValidationListener` interface
+can perform additional validation on group creation based on the
+input arguments.
+
+E.g. a plugin could use this to enforce a certain name scheme for
+group names.
+
 
 GERRIT
 ------

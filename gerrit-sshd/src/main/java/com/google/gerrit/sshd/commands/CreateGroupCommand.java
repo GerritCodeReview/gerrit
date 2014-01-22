@@ -20,6 +20,7 @@ import com.google.gerrit.common.errors.PermissionDeniedException;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.server.account.CreateGroupArgs;
 import com.google.gerrit.server.account.PerformCreateGroup;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
@@ -72,12 +73,14 @@ final class CreateGroupCommand extends SshCommand {
   @Override
   protected void run() throws Failure, OrmException {
     try {
-      performCreateGroupFactory.create().createGroup(groupName,
-          groupDescription,
-          visibleToAll,
-          ownerGroupId,
-          initialMembers,
-          initialGroups);
+      CreateGroupArgs args = new CreateGroupArgs();
+      args.setGroupName(groupName);
+      args.groupDescription = groupDescription;
+      args.visibleToAll = visibleToAll;
+      args.ownerGroupId = ownerGroupId;
+      args.initialMembers = initialMembers;
+      args.initialGroups = initialGroups;
+      performCreateGroupFactory.create(args).createGroup();
     } catch (PermissionDeniedException e) {
       throw die(e);
 

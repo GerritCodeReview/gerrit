@@ -90,6 +90,30 @@
     },
     {
       "key": {
+        "uuid": "b2d16ee4_12fc0cde",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-22T18:55:53Z",
+      "side": 1,
+      "message": "You\u0027re right that we should support buck and eclipse equally. I think we should still try to do it without too much additional code, and in particular without having to duplicate lists of *IT.class as your solution proposes.\n\nI think we can probably do something good enough putting a custom TestRunner (maybe just Parameterized) on each test (or preferably just AbstractDaemonTest, not sure if that\u0027s possible though).\n\nAlso it\u0027s probably not necessary to run each parameterized permutation in its own JVM as I\u0027ve done here. There are enough acceptance test targets that we should have sufficient parallelism even if we double or triple the number of test methods getting run.\n\nI did want to get this in for now so I could work on fixing bugs in the notedb implementation.",
+      "parentUuid": "92154a31_79db0796",
+      "range": {
+        "startLine": 14,
+        "startChar": 65,
+        "endLine": 16,
+        "endChar": 12
+      },
+      "revId": "e4385c0ea040aa476de1c8442e76a83aa2f6ab03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4d58911a_efea011d",
         "filename": "gerrit-acceptance-tests/tests.defs",
         "patchSetId": 4

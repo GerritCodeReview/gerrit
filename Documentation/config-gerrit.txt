@@ -1853,6 +1853,47 @@ After enabling the secondary index, the index must be built using
 the link:pgm-reindex.html[reindex program] before restarting the
 Gerrit server.
 
+Open and closed changes are indexed in separate indexes named
+'changes_open' and 'changes_closed' respectively.
+
+[[index.name.ramBufferSize]]index.name.ramBufferSize::
++
+Only used when the type is `LUCENE`.
++
+Determines the amount of RAM that may be used for buffering added documents
+and deletions before they are flushed to the index.  See the
+link:http://lucene.apache.org/core/4_6_0/core/org/apache/lucene/index/LiveIndexWriterConfig.html#setRAMBufferSizeMB(double)[
+Lucene documentation] for further details.
++
+Defaults to 16M.
+
+[[index.name.maxBufferedDocs]]index.name.maxBufferedDocs::
++
+Only used when the type is `LUCENE`.
++
+Determines the minimal number of documents required before the buffered
+in-memory documents are flushed to the index. Large values generally
+give faster indexing.  See the
+link:http://lucene.apache.org/core/4_6_0/core/org/apache/lucene/index/LiveIndexWriterConfig.html#setMaxBufferedDocs(int)[
+Lucene documentation] for further details.
++
+Defaults to -1, meaning no maximum is set and the writer will flush
+according to RAM usage.
+
+Sample index configuration:
+----
+[index]
+  type = LUCENE
+
+[index "changes_open"]
+  ramBufferSize = 60 m
+  maxBufferedDocs = 3000
+
+[index "changes_closed"]
+  ramBufferSize = 20 m
+  maxBufferedDocs = 500
+----
+
 [[ldap]]Section ldap
 ~~~~~~~~~~~~~~~~~~~~
 

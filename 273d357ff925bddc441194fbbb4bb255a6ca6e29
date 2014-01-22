@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1294fafd_9d3023cf",
+        "filename": "Documentation/pgm-reindex.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-22T07:28:49Z",
+      "side": 1,
+      "message": "[optional] Maybe we should add some more details here what rechecking means? Rechecking means that for each open change it will be looked up for which commit the mergeability check was last done and if this commit is different from the HEAD commit of the change\u0027s destination branch, then the mergeability flag of the change is recomputed by checking if the commit of the current patch set can be merged into the destination branch (using the submit type configured for the project or defined by a Prolog rule).",
+      "range": {
+        "startLine": 19,
+        "startChar": 1,
+        "endLine": 19,
+        "endChar": 39
+      },
+      "revId": "273d357ff925bddc441194fbbb4bb255a6ca6e29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

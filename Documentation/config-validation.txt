@@ -32,6 +32,17 @@ are merged to the git repository.
 If the commit fails the validation, the plugin can throw an exception
 which will cause the merge to fail.
 
+[[new-project-validation]]
+== New project validation
+
+
+Plugins implementing the `ProjectCreationValidationListener` interface
+can perform additional validation on project creation based on the
+input arguments.
+
+E.g. a plugin could use this to enforce a certain name scheme for
+project names.
+
 
 GERRIT
 ------

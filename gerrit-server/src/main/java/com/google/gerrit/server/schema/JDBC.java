@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.schema;
 
+import com.google.common.base.Strings;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
@@ -33,5 +34,15 @@ class JDBC extends BaseDataSourceType {
   @Override
   public String getUrl() {
     return ConfigUtil.getRequired(cfg, "database", "url");
+  }
+
+  @Override
+  public boolean usePool() {
+    // MySQL has given us trouble with the connection pool,
+    // sometimes the backend disconnects and the pool winds
+    // up with a stale connection. Fortunately opening up
+    // a new MySQL connection is usually very fast.
+    String url = Strings.nullToEmpty(cfg.getString("database", null, "url"));
+    return !url.startsWith("jdbc:mysql:");
   }
 }

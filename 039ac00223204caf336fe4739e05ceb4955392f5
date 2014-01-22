@@ -22,6 +22,29 @@
       "revId": "039ac00223204caf336fe4739e05ceb4955392f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1294fafd_fdd1271f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/JDBC.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-22T09:55:05Z",
+      "side": 1,
+      "message": "I don\u0027t like that hack. As pointed out on the related ML thread, we can\u0027t reliable discover MYSQL over JDBC usage. For example, the MariaDB jdbc client accepts this URL [1]:\n\n  \"jdbc:mariadb:…\"\n\nThe better way is to adjust the documentation and only claim that MYSQL database type doesn\u0027t use connection pool. For JDBC database type and other supported database types admins are on their own to disable connection pooling usage by providing:\n\n  database.connectionPool \u003d false\n\nin gerrit.config.\n\n [1] https://mariadb.com/kb/en/mariadb-java-client-110-changelog",
+      "range": {
+        "startLine": 46,
+        "startChar": 11,
+        "endLine": 46,
+        "endChar": 42
+      },
+      "revId": "039ac00223204caf336fe4739e05ceb4955392f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

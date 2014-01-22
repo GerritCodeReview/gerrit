@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d276e2c4_93f81cf0",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-22T18:56:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "526bd2dc_d71c3c83",
+      "revId": "c5107760132996602cd237665d5f50841f12b7ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1294fafd_fd4a8741",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/LabelTypeIT.java",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2014-01-22T07:59:33Z",
       "side": 1,
       "message": "Nit: in another file you\u0027ve imported ListChangesOption statically (for MESSAGES). Umport it statically here too?",
+      "range": {
+        "startLine": 381,
+        "startChar": 39,
+        "endLine": 381,
+        "endChar": 72
+      },
+      "revId": "c5107760132996602cd237665d5f50841f12b7ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b2d16ee4_b2f500f7",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/LabelTypeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-22T18:56:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1294fafd_fd4a8741",
       "range": {
         "startLine": 381,
         "startChar": 39,

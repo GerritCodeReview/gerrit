@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b2d16ee4_d2ee842b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetHead.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-01-22T07:14:42Z",
+      "side": 1,
+      "message": "multi-catch statements are not supported in java 6.",
+      "range": {
+        "startLine": 66,
+        "startChar": 17,
+        "endLine": 66,
+        "endChar": 72
+      },
+      "revId": "be4fb14f4846374cf56bfb524881ceb183b57790",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

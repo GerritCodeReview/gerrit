@@ -2257,37 +2257,13 @@ public class ReceiveCommits {
     return r;
   }
 
-  private void markChangeMergedByPush(final ReviewDb db,
-      final ReplaceRequest result) throws OrmException,
-      IOException {
-    Change change = result.change;
-    final String mergedIntoRef = result.mergedIntoRef;
-
-    change.setCurrentPatchSet(result.info);
-    change.setStatus(Change.Status.MERGED);
-    ChangeUtil.updated(change);
-
-    final StringBuilder msgBuf = new StringBuilder();
-    msgBuf.append("Change has been successfully pushed");
-    if (!mergedIntoRef.equals(change.getDest().get())) {
-      msgBuf.append(" into ");
-      if (mergedIntoRef.startsWith(Constants.R_HEADS)) {
-        msgBuf.append("branch ");
-        msgBuf.append(Repository.shortenRefName(mergedIntoRef));
-      } else {
-        msgBuf.append(mergedIntoRef);
-      }
-    }
-    msgBuf.append(".");
-    final ChangeMessage msg = new ChangeMessage(
-        new ChangeMessage.Key(change.getId(), ChangeUtil.messageUUID(db)),
-        currentUser.getAccountId(), TimeUtil.nowTs(), result.info.getKey());
-    msg.setMessage(msgBuf.toString());
-
-    db.changeMessages().insert(Collections.singleton(msg));
-
-    change = db.changes().atomicUpdate(
-        change.getId(), new AtomicUpdate<Change>() {
+  private void markChangeMergedByPush(ReviewDb db, final ReplaceRequest result)
+      throws OrmException, IOException {
+    Change.Id id = result.change.getId();
+    db.changes().beginTransaction(id);
+    Change change;
+    try {
+      change = db.changes().atomicUpdate(id, new AtomicUpdate<Change>() {
           @Override
           public Change update(Change change) {
             if (change.getStatus().isOpen()) {
@@ -2298,6 +2274,30 @@ public class ReceiveCommits {
             return change;
           }
         });
+      String mergedIntoRef = result.mergedIntoRef;
+
+      StringBuilder msgBuf = new StringBuilder();
+      msgBuf.append("Change has been successfully pushed");
+      if (!mergedIntoRef.equals(change.getDest().get())) {
+        msgBuf.append(" into ");
+        if (mergedIntoRef.startsWith(Constants.R_HEADS)) {
+          msgBuf.append("branch ");
+          msgBuf.append(Repository.shortenRefName(mergedIntoRef));
+        } else {
+          msgBuf.append(mergedIntoRef);
+        }
+      }
+      msgBuf.append(".");
+      ChangeMessage msg = new ChangeMessage(
+          new ChangeMessage.Key(id, ChangeUtil.messageUUID(db)),
+          currentUser.getAccountId(), change.getLastUpdatedOn(),
+          result.info.getKey());
+      msg.setMessage(msgBuf.toString());
+
+      db.changeMessages().insert(Collections.singleton(msg));
+    } finally {
+      db.rollback();
+    }
     indexer.index(db, change);
   }
 

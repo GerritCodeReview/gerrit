@@ -410,6 +410,13 @@ To send an event, the plugin must invoke one of the `postEvent`
 methods in the `ChangeHookRunner` class, passing an instance of
 its own custom event class derived from `ChangeEvent`.
 
+[[validation]]
+Validation Listeners
+--------------------
+
+Certain operations in Gerrit can be validated by plugins by
+implementing the corresponding link:config-validation.html[listeners].
+
 [[ssh]]
 == SSH Commands
 

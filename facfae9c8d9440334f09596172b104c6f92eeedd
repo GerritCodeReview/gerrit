@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f24cc6b4_bceee129",
+        "filename": "lib/gwt/BUCK",
+        "patchSetId": 5
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-23T04:17:38Z",
+      "side": 1,
+      "message": "Hah. Cute fix.",
+      "revId": "facfae9c8d9440334f09596172b104c6f92eeedd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f24cc6b4_9ceb251a",
+        "filename": "lib/jetty/BUCK",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-23T04:17:38Z",
+      "side": 1,
+      "message": "This is the default for maven_jar().",
+      "revId": "facfae9c8d9440334f09596172b104c6f92eeedd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2a76688_c4eebe2b",
+        "filename": "lib/jetty/BUCK",
+        "patchSetId": 5
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-23T04:17:38Z",
+      "side": 1,
+      "message": "I think this means we now package these parts of Jetty? We can probably live with that.",
+      "range": {
+        "startLine": 55,
+        "startChar": 0,
+        "endLine": 56,
+        "endChar": 11
+      },
+      "revId": "facfae9c8d9440334f09596172b104c6f92eeedd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

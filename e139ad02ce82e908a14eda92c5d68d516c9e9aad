@@ -16,6 +16,24 @@
       "revId": "e139ad02ce82e908a14eda92c5d68d516c9e9aad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d24982a5_dbf5b3f6",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-23T08:02:43Z",
+      "side": 1,
+      "message": "Ah, I though that they should be documented somewhere. Just was not looking outside of dev-plugins.txt.\n\nDone",
+      "parentUuid": "f2a76688_24ea3219",
+      "revId": "e139ad02ce82e908a14eda92c5d68d516c9e9aad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

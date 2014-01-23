@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f24cc6b4_1c071537",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-01-23T08:15:34Z",
+      "side": 1,
+      "message": "Shouldn\u0027t the section title be underlined with \u0027-\u0027 characters like in the previous and following sections?",
+      "range": {
+        "startLine": 356,
+        "startChar": 0,
+        "endLine": 356,
+        "endChar": 2
+      },
+      "revId": "d781047317fbef3ea053196bbaf24839f4cf6297",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "326c9e14_1607fc36",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-23T10:10:30Z",
+      "side": 1,
+      "message": "Do you want to change the formatting of the section title in dev-plugins.txt so that it fits to the formatting used in master?",
+      "range": {
+        "startLine": 11,
+        "startChar": 2,
+        "endLine": 11,
+        "endChar": 62
+      },
+      "revId": "4cdbc87a51adf0d5ca37301942f7c2f664e56f76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

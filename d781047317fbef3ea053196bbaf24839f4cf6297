@@ -22,6 +22,30 @@
       "revId": "d781047317fbef3ea053196bbaf24839f4cf6297",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d24982a5_3b02d726",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-23T08:29:35Z",
+      "side": 1,
+      "message": "Right, this formatting was changed in master only...\n\nDone",
+      "parentUuid": "f24cc6b4_1c071537",
+      "range": {
+        "startLine": 356,
+        "startChar": 0,
+        "endLine": 356,
+        "endChar": 2
+      },
+      "revId": "d781047317fbef3ea053196bbaf24839f4cf6297",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

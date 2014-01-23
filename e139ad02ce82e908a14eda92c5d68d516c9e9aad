@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f2a76688_24ea3219",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-01-23T03:05:08Z",
+      "side": 1,
+      "message": "Documentation of existing validation listeners (CommitValidationListener and MergeValidationListener) is in config-validation.txt",
+      "revId": "e139ad02ce82e908a14eda92c5d68d516c9e9aad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.git;
 import static com.google.gerrit.acceptance.GitUtil.cloneProject;
 import static com.google.gerrit.acceptance.GitUtil.createProject;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import com.google.common.collect.Iterables;
@@ -236,6 +237,22 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     r.assertErrorStatus("branch " + branchName + " not found");
   }
 
+  @Test
+  public void mergeOnPushToBranch() throws Exception {
+    grant(Permission.PUSH, project, "refs/heads/master");
+    PushOneCommit.Result r =
+        push("refs/for/master", PushOneCommit.SUBJECT, "a.txt", "some content");
+    r.assertOkStatus();
+
+    git.push()
+        .setRefSpecs(new RefSpec(r.getCommitId().name() + ":refs/heads/master"))
+        .call();
+    assertCommit(project, "refs/heads/master");
+    assertNull(getSubmitter(r.getPatchSetId()));
+    Change c = db.changes().get(r.getPatchSetId().getParentKey());
+    assertEquals(Change.Status.MERGED, c.getStatus());
+  }
+
   private void grant(String permission, Project.NameKey project, String ref)
       throws RepositoryNotFoundException, IOException, ConfigInvalidException {
     MetaDataUpdate md = metaDataUpdateFactory.create(project);
@@ -249,10 +266,15 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     projectCache.evict(config.getProject());
   }
 
-  private void assertSubmitApproval(PatchSet.Id patchSetId) throws OrmException {
+  private PatchSetApproval getSubmitter(PatchSet.Id patchSetId)
+      throws OrmException {
     Change c = db.changes().get(patchSetId.getParentKey());
     ChangeNotes notes = changeNotesFactory.create(c).load();
-    PatchSetApproval a = approvalsUtil.getSubmitter(db, notes, patchSetId);
+    return approvalsUtil.getSubmitter(db, notes, patchSetId);
+  }
+
+  private void assertSubmitApproval(PatchSet.Id patchSetId) throws OrmException {
+    PatchSetApproval a = getSubmitter(patchSetId);
     assertTrue(a.isSubmit());
     assertEquals(1, a.getValue());
     assertEquals(admin.id, a.getAccountId());

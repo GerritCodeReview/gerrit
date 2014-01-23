@@ -46,6 +46,30 @@
       "revId": "00c821472b2f113edb83a3e130709fcfd553cb10",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2a76688_64e02a39",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1894,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-01-23T00:24:12Z",
+      "side": 1,
+      "message": "OK.  We\u0027re experimenting with different values.  I\u0027ll update this documentation again if we find that certain values perform better than others.",
+      "parentUuid": "d276e2c4_73078036",
+      "range": {
+        "startLine": 1888,
+        "startChar": 0,
+        "endLine": 1894,
+        "endChar": 23
+      },
+      "revId": "00c821472b2f113edb83a3e130709fcfd553cb10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

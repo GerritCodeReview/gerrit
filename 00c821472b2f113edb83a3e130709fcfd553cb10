@@ -70,6 +70,30 @@
       "revId": "00c821472b2f113edb83a3e130709fcfd553cb10",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2a76688_e4ebba18",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1894,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-23T04:19:27Z",
+      "side": 1,
+      "message": "500 is a lot. I think you want no more than a few minutes of buffer, which means the average number of changes that are updated in a minute say * 2. What that number is varies per-server. :-)",
+      "parentUuid": "f2a76688_64e02a39",
+      "range": {
+        "startLine": 1888,
+        "startChar": 0,
+        "endLine": 1894,
+        "endChar": 23
+      },
+      "revId": "00c821472b2f113edb83a3e130709fcfd553cb10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

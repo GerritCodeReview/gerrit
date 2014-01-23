@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d24982a5_fbf86ff0",
+        "filename": "lib/gwt/BUCK",
+        "patchSetId": 5
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-23T05:38:15Z",
+      "side": 1,
+      "message": "It took some time to find it out ,-)\nAnd the best is: now we are using dev mode exactly with the same Jetty version like in production. Well not all are using Jetty, but some do.",
+      "parentUuid": "f24cc6b4_bceee129",
+      "revId": "facfae9c8d9440334f09596172b104c6f92eeedd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f24cc6b4_9ceb251a",
         "filename": "lib/jetty/BUCK",
         "patchSetId": 5
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "d24982a5_bbeee729",
+        "filename": "lib/jetty/BUCK",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-23T05:38:15Z",
+      "side": 1,
+      "message": "restricted. Done",
+      "parentUuid": "f24cc6b4_9ceb251a",
+      "revId": "facfae9c8d9440334f09596172b104c6f92eeedd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f2a76688_c4eebe2b",
         "filename": "lib/jetty/BUCK",
         "patchSetId": 5
@@ -47,6 +83,30 @@
       "writtenOn": "2014-01-23T04:17:38Z",
       "side": 1,
       "message": "I think this means we now package these parts of Jetty? We can probably live with that.",
+      "range": {
+        "startLine": 55,
+        "startChar": 0,
+        "endLine": 56,
+        "endChar": 11
+      },
+      "revId": "facfae9c8d9440334f09596172b104c6f92eeedd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d24982a5_9beb2b1a",
+        "filename": "lib/jetty/BUCK",
+        "patchSetId": 5
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-23T05:38:15Z",
+      "side": 1,
+      "message": "Good catch, it was a left over of my experimentations. The rule number one: never ships parts that you use in developmenr and don\u0027t need in production.\n\nDone",
+      "parentUuid": "f2a76688_c4eebe2b",
       "range": {
         "startLine": 55,
         "startChar": 0,

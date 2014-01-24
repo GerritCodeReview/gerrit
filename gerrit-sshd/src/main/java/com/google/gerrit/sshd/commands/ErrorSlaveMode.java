@@ -25,7 +25,7 @@ import java.io.IOException;
  * server. This is used when a user tries to run a command on a server in Slave
  * Mode, but the command only applies to the Master server.
  */
-final class ErrorSlaveMode extends BaseCommand {
+public final class ErrorSlaveMode extends BaseCommand {
   @Override
   public void start(final Environment env) {
     String msg =

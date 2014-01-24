@@ -22,6 +22,30 @@
       "revId": "dfd26a5b953cb7bd017cc1b4d3afd555cbcdb11f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d24982a5_5b4fe384",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/validators/ValidationException.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-24T10:03:36Z",
+      "side": 1,
+      "message": "\u003e Or shall we use the same exception class for all validations?\n\nIf possible yes. At least I wanted to use this exception also for the GroupCreationValidationListener added in [1]. Having an own exception class for each validation listener seems to be overkill if they do not differ in implementation. For the existing validators we want to store specific data in the exception which justifies own exception classes in this case.\n\n[1] https://gerrit-review.googlesource.com/53972",
+      "parentUuid": "f2a76688_246552ef",
+      "range": {
+        "startLine": 17,
+        "startChar": 13,
+        "endLine": 17,
+        "endChar": 32
+      },
+      "revId": "dfd26a5b953cb7bd017cc1b4d3afd555cbcdb11f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

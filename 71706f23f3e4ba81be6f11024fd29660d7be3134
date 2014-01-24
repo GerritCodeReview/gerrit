@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "326c9e14_b692888a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/CreateGroupArgs.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-24T10:09:10Z",
+      "side": 1,
+      "message": "This was changed unintentionally.\n\nDone",
+      "parentUuid": "d24982a5_1b555b17",
+      "revId": "71706f23f3e4ba81be6f11024fd29660d7be3134",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "326c9e14_16841c48",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/CreateGroupArgs.java",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2014-01-24T09:59:29Z",
       "side": 1,
       "message": "same as above",
+      "revId": "71706f23f3e4ba81be6f11024fd29660d7be3134",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "326c9e14_968f8c62",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/CreateGroupArgs.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-24T10:09:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "326c9e14_16841c48",
       "revId": "71706f23f3e4ba81be6f11024fd29660d7be3134",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

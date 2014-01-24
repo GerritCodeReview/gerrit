@@ -2544,6 +2544,33 @@ If true Gerrit automatically serves project documentation under
 `/src/<project-name>/<file-name>`. This is an experimental feature.
 Default is false, no serving of project documentation.
 
+[[site.antiSamyDefaultPolicy]]site.antiSamyDefaultPolicy::
++
+AntiSamy is an HTML, CSS and JavaScript filter that sanitizes user
+input based on a policy file. Within Gerrit AntiSamy is used to clean
+project documentation HTML files from malicious HTML, CSS and
+JavaScript. This parameter defines the default policy that is used by
+AntiSamy in the parsing and filtering of HTML input. This policy is
+used if no custom `'$site_path'/etc/antisamy.xml` policy file is found.
++
+* `STRICT`
++
+The allowed HTML markup is very limited. Only text-formatting tags that
+operate directly on the font, color or emphasis are allowed.
++
+* `MODEST`
++
+The allowed HTML markup is limited, but rich HTML content is possible.
++
+* `LAX`
++
+Pretty much all HTML and CSS is allowed as long as it doesn't contain
+JavaScript.
+
++
+If `site.antiSamyDefaultPolicy` is not specified, `MODEST` is used as
+default policy.
+
 [[ssh-alias]]
 === Section ssh-alias
 

@@ -23,6 +23,8 @@ import com.google.gerrit.httpd.resources.ResourceKey;
 import com.google.gerrit.httpd.resources.SmallResource;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.documentation.MarkdownFormatter;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.ssh.SshAddressesModule;
@@ -31,6 +33,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.Repository;
@@ -39,24 +42,48 @@ import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
+import org.owasp.validator.html.AntiSamy;
+import org.owasp.validator.html.Policy;
+import org.owasp.validator.html.PolicyException;
+import org.owasp.validator.html.ScanException;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Singleton
 public class ProjectDocLoader extends CacheLoader<ProjectDocResourceKey, Resource> {
+  public static enum DefaultPolicy {
+    STRICT, MODEST, LAX;
+
+    String getFileName() {
+      return "antisamy-" + name().toLowerCase() + ".xml";
+    }
+
+    InputStream get() {
+      return getClass().getResourceAsStream(getFileName());
+    }
+  }
+
   private final GitRepositoryManager repoManager;
   private final Provider<String> webUrl;
+  private final SitePaths sitePaths;
+  private final Config cfg;
   private final String sshHost;
   private final int sshPort;
 
   @Inject
   ProjectDocLoader(GitRepositoryManager repoManager,
-      @CanonicalWebUrl Provider<String> webUrl, SshInfo sshInfo) {
+      @CanonicalWebUrl Provider<String> webUrl, SitePaths sitePaths,
+      @GerritServerConfig Config cfg, SshInfo sshInfo) {
     this.repoManager = repoManager;
     this.webUrl = webUrl;
+    this.sitePaths = sitePaths;
+    this.cfg = cfg;
 
     String sshHost = "review.example.com";
     int sshPort = SshAddressesModule.DEFAULT_PORT;
@@ -108,9 +135,9 @@ public class ProjectDocLoader extends CacheLoader<ProjectDocResourceKey, Resourc
   }
 
   private Resource getMarkdownAsHtmlResource(String md, int lastModified,
-      ResourceKey cacheKey) throws IOException {
-    byte[] html = new MarkdownFormatter()
-        .markdownToDocHtml(replaceMacros(md), "UTF-8", true);
+      ResourceKey cacheKey) throws IOException, PolicyException, ScanException {
+    byte[] html = cleanHtml(new MarkdownFormatter()
+        .markdownToDocHtml(replaceMacros(md), "UTF-8", true));
     return new SmallResource(html)
         .setContentType("text/html")
         .setCharacterEncoding("UTF-8")
@@ -140,6 +167,17 @@ public class ProjectDocLoader extends CacheLoader<ProjectDocResourceKey, Resourc
     }
     m.appendTail(sb);
     return sb.toString();
+  }
+
+  private byte[] cleanHtml(byte[] html) throws UnsupportedEncodingException,
+      PolicyException, ScanException {
+    File policyFile = new File(sitePaths.etc_dir, "antisamy.xml");
+    Policy policy = policyFile.exists()
+        ? Policy.getInstance(policyFile)
+        : Policy.getInstance(cfg.getEnum("site", null,
+            "antiSamyDefaultPolicy", DefaultPolicy.MODEST).get());
+    return new AntiSamy().scan(new String(html, "UTF-8"), policy)
+        .getCleanHTML().getBytes("UTF-8");
   }
 
   public static class Module extends CacheModule {

@@ -65,7 +65,6 @@ import org.apache.sshd.common.io.IoServiceFactory;
 import org.apache.sshd.common.io.IoSession;
 import org.apache.sshd.common.io.mina.MinaServiceFactory;
 import org.apache.sshd.common.io.mina.MinaSession;
-import org.apache.sshd.common.io.nio2.Nio2ServiceFactory;
 import org.apache.sshd.common.mac.HMACMD5;
 import org.apache.sshd.common.mac.HMACMD596;
 import org.apache.sshd.common.mac.HMACSHA1;

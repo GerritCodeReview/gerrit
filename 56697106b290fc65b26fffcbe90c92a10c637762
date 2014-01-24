@@ -93,6 +93,30 @@
       "revId": "56697106b290fc65b26fffcbe90c92a10c637762",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2a76688_248eb269",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ApprovalTable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-01-24T08:19:11Z",
+      "side": 1,
+      "message": "The old change screen still seems to work properly with this cast, so I\u0027m inclined to leave it as it is.  As you mentioned, this code is dead, so I don\u0027t think it\u0027s worth spending effort on.\n\nAnd yes, having a warning-free Eclipse project is quite nice :)",
+      "parentUuid": "326c9e14_162edca6",
+      "range": {
+        "startLine": 80,
+        "startChar": 19,
+        "endLine": 80,
+        "endChar": 28
+      },
+      "revId": "56697106b290fc65b26fffcbe90c92a10c637762",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

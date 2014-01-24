@@ -117,6 +117,30 @@
       "revId": "47bc10f0ad2bd63100d941778443c45eb48cf61f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "326c9e14_761d904e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1148,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-24T20:55:55Z",
+      "side": 1,
+      "message": "canUpload() is implemented as:\n\n return projectControl.controlForRef(\"refs/for/\" + getRefName())\n        .canPerform(Permission.PUSH)\n\nthus it is trying to check for \"refs/for/refs/drafts/refs/heads/master\".\n\nYet access rule was blocked as:\n\n \"refs/for/refs/drafts/*\"\n\nor as in your comment:\n\n  \"refs/drafts/*\"",
+      "parentUuid": "f24cc6b4_bcfb8194",
+      "range": {
+        "startLine": 1148,
+        "startChar": 40,
+        "endLine": 1148,
+        "endChar": 55
+      },
+      "revId": "47bc10f0ad2bd63100d941778443c45eb48cf61f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

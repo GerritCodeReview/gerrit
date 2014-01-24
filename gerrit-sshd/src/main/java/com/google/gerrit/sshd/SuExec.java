@@ -42,6 +42,8 @@ import java.util.concurrent.atomic.AtomicReference;
  * usually requires public key authentication using this daemon's private host
  * key, or a key on this daemon's peer host key ring.
  */
+@CommandMetaData(name = "suexec", description = "Executes any other command as a different user identity",
+runsAt = CommandMetaData.Mode.MASTER_OR_SLAVE)
 public final class SuExec extends BaseCommand {
   private final SshScope sshScope;
   private final DispatchCommandProvider dispatcher;

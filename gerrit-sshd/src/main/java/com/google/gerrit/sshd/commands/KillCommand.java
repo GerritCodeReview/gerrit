@@ -20,6 +20,7 @@ import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.git.WorkQueue.Task;
 import com.google.gerrit.server.util.IdGenerator;
 import com.google.gerrit.sshd.AdminHighPriorityCommand;
+import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
 
@@ -31,6 +32,8 @@ import java.util.Set;
 /** Kill a task in the work queue. */
 @AdminHighPriorityCommand
 @RequiresCapability(GlobalCapability.KILL_TASK)
+@CommandMetaData(name = "kill-command", description = "Kill a task in the work queue",
+runsAt = CommandMetaData.Mode.MASTER_OR_SLAVE)
 final class KillCommand extends SshCommand {
   @Inject
   private WorkQueue workQueue;

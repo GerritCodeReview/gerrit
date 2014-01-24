@@ -318,6 +318,24 @@
       "revId": "8dfc212dac6eb7a3bbeb0bb826a7669b455ee6b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2a76688_046056de",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/validators/ProjectCreationValidationListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-01-24T09:45:16Z",
+      "side": 1,
+      "message": "Not all extension points; just the validators.  And as I said in the previous comment, in plugins implementing more than one validator the methods will be distinguished by their signature.",
+      "parentUuid": "326c9e14_96402c52",
+      "revId": "8dfc212dac6eb7a3bbeb0bb826a7669b455ee6b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

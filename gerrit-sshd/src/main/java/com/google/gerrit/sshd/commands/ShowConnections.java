@@ -14,6 +14,8 @@
 
 package com.google.gerrit.sshd.commands;
 
+import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
+
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.server.CurrentUser;
@@ -46,7 +48,8 @@ import java.util.List;
 
 /** Show the current SSH connections. */
 @RequiresCapability(GlobalCapability.VIEW_CONNECTIONS)
-@CommandMetaData(name = "show-connections", description = "Display active client SSH connections")
+@CommandMetaData(name = "show-connections", description = "Display active client SSH connections",
+runsAt = MASTER_OR_SLAVE)
 final class ShowConnections extends SshCommand {
   @Option(name = "--numeric", aliases = {"-n"}, usage = "don't resolve names")
   private boolean numeric;

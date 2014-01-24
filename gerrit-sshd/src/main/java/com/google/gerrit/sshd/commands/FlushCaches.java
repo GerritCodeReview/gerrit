@@ -14,6 +14,8 @@
 
 package com.google.gerrit.sshd.commands;
 
+import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
+
 import com.google.common.cache.Cache;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
@@ -31,7 +33,8 @@ import java.util.SortedSet;
 
 /** Causes the caches to purge all entries and reload. */
 @RequiresCapability(GlobalCapability.FLUSH_CACHES)
-@CommandMetaData(name = "flush-caches", description = "Flush some/all server caches from memory")
+@CommandMetaData(name = "flush-caches", description = "Flush some/all server caches from memory",
+runsAt = MASTER_OR_SLAVE)
 final class FlushCaches extends CacheCommand {
   private static final String WEB_SESSIONS = "web_sessions";
 

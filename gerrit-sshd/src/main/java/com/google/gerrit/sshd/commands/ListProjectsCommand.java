@@ -14,6 +14,8 @@
 
 package com.google.gerrit.sshd.commands;
 
+import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
+
 import com.google.gerrit.server.project.ListProjects;
 import com.google.gerrit.sshd.BaseCommand;
 import com.google.gerrit.sshd.CommandMetaData;
@@ -23,7 +25,8 @@ import org.apache.sshd.server.Environment;
 
 import java.util.List;
 
-@CommandMetaData(name = "ls-projects", description = "List projects visible to the caller")
+@CommandMetaData(name = "ls-projects", description = "List projects visible to the caller",
+runsAt = MASTER_OR_SLAVE)
 final class ListProjectsCommand extends BaseCommand {
   @Inject
   private ListProjects impl;

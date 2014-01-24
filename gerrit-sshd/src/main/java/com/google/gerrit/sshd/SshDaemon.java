@@ -185,13 +185,8 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
     final String kerberosPrincipal = cfg.getString(
         "sshd", null, "kerberosPrincipal");
 
-    SshSessionBackend backend = cfg.getEnum(
-        "sshd", null, "backend", SshSessionBackend.MINA);
-
     System.setProperty(IoServiceFactory.class.getName(),
-        backend == SshSessionBackend.MINA
-            ? MinaServiceFactory.class.getName()
-            : Nio2ServiceFactory.class.getName());
+        MinaServiceFactory.class.getName());
 
     if (SecurityUtils.isBouncyCastleRegistered()) {
       initProviderBouncyCastle();

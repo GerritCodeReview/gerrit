@@ -71,6 +71,29 @@
     },
     {
       "key": {
+        "uuid": "f24cc6b4_fcca2988",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-01-24T14:19:17Z",
+      "side": 1,
+      "message": "Does this work?  I made a similar change earlier today and it was causing Guice injection exceptions.",
+      "range": {
+        "startLine": 380,
+        "startChar": 4,
+        "endLine": 380,
+        "endChar": 49
+      },
+      "revId": "8a74b3313a365e1b04509fe4d6a28897b7db2051",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d24982a5_5b8ec369",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/CommandMetaData.java",
         "patchSetId": 1

@@ -21,6 +21,8 @@ import org.apache.sshd.server.Command;
 
 /** Module to register commands in the SSH daemon. */
 public abstract class CommandModule extends LifecycleModule {
+  protected boolean slaveMode;
+
   /**
    * Configure a command to be invoked by name.
    *
@@ -74,7 +76,9 @@ public abstract class CommandModule extends LifecycleModule {
     if (meta == null) {
       throw new IllegalStateException("no CommandMetaData annotation found");
     }
-    bind(Commands.key(parent, meta.name(), meta.description())).to(clazz);
+    if (meta.runsAt().isSupported(slaveMode)) {
+      bind(Commands.key(parent, meta.name(), meta.description())).to(clazz);
+    }
   }
 
   /**

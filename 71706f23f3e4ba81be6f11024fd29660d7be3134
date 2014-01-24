@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d24982a5_1b555b17",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/CreateGroupArgs.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-01-24T09:59:29Z",
+      "side": 1,
+      "message": "This was:\n\n  Collection\u003c? extends Account.Id\u003e initialMembers\n\nin the PerformCreateGroup.createGroup method.\nRemoving the bounded wildcard means that this variable cannot contain a collection of subtype of Account.Id.",
+      "revId": "71706f23f3e4ba81be6f11024fd29660d7be3134",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "326c9e14_16841c48",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/CreateGroupArgs.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-01-24T09:59:29Z",
+      "side": 1,
+      "message": "same as above",
+      "revId": "71706f23f3e4ba81be6f11024fd29660d7be3134",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

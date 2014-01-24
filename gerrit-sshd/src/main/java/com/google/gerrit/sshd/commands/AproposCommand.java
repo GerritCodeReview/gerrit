@@ -25,7 +25,8 @@ import org.kohsuke.args4j.Argument;
 
 import java.util.List;
 
-@CommandMetaData(name = "apropos", description = "Search in Gerrit documentation")
+@CommandMetaData(name = "apropos", description = "Search in Gerrit documentation",
+runsAt = CommandMetaData.Mode.MASTER_OR_SLAVE)
 final class AproposCommand extends SshCommand {
   @Inject
   private QueryDocumentationExecutor searcher;

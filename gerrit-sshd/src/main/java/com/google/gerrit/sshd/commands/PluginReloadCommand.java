@@ -28,7 +28,8 @@ import org.kohsuke.args4j.Argument;
 import java.util.List;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
-@CommandMetaData(name = "reload", description = "Reload/Restart plugins")
+@CommandMetaData(name = "reload", description = "Reload/Restart plugins",
+runsAt = CommandMetaData.Mode.MASTER_OR_SLAVE)
 final class PluginReloadCommand extends SshCommand {
   @Argument(index = 0, metaVar = "NAME", usage = "plugins to reload/restart")
   private List<String> names;

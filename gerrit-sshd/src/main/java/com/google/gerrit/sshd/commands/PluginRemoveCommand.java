@@ -27,7 +27,8 @@ import org.kohsuke.args4j.Argument;
 import java.util.List;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
-@CommandMetaData(name = "remove", description = "Disable plugins")
+@CommandMetaData(name = "remove", description = "Disable plugins",
+runsAt = CommandMetaData.Mode.MASTER_OR_SLAVE)
 final class PluginRemoveCommand extends SshCommand {
   @Argument(index = 0, metaVar = "NAME", required = true, usage = "plugin to remove")
   List<String> names;

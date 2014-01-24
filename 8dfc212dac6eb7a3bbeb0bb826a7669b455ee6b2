@@ -46,6 +46,30 @@
       "revId": "8dfc212dac6eb7a3bbeb0bb826a7669b455ee6b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2a76688_c4923e8c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-01-24T08:49:09Z",
+      "side": 1,
+      "message": "Thanks for the explanation.  It does seem to be the only reasonable response from the ones available.",
+      "parentUuid": "326c9e14_563854e9",
+      "range": {
+        "startLine": 143,
+        "startChar": 18,
+        "endLine": 143,
+        "endChar": 43
+      },
+      "revId": "8dfc212dac6eb7a3bbeb0bb826a7669b455ee6b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

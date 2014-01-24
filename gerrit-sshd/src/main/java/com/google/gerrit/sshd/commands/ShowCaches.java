@@ -14,6 +14,8 @@
 
 package com.google.gerrit.sshd.commands;
 
+import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
+
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheStats;
 import com.google.common.collect.Maps;
@@ -54,7 +56,8 @@ import java.util.SortedMap;
 
 /** Show the current cache states. */
 @RequiresCapability(GlobalCapability.VIEW_CACHES)
-@CommandMetaData(name = "show-caches", description = "Display current cache statistics")
+@CommandMetaData(name = "show-caches", description = "Display current cache statistics",
+  runsAt = MASTER_OR_SLAVE)
 final class ShowCaches extends CacheCommand {
   private static volatile long serverStarted;
 

@@ -21,18 +21,18 @@ import com.google.gerrit.sshd.DispatchCommandProvider;
 import com.google.gerrit.sshd.SuExec;
 
 
-/** Register the basic commands any Gerrit server should support. */
+/** Register the commands a Gerrit server supports. */
 public class DefaultCommandModule extends CommandModule {
+  public DefaultCommandModule(boolean slave) {
+    slaveMode = slave;
+  }
+
   @Override
   protected void configure() {
     final CommandName git = Commands.named("git");
     final CommandName gerrit = Commands.named("gerrit");
     final CommandName plugin = Commands.named(gerrit, "plugin");
-
-    // The following commands can be ran on a server in either Master or Slave
-    // mode. If a command should only be used on a server in one mode, but not
-    // both, it should be bound in both MasterCommandModule and
-    // SlaveCommandModule.
+    final CommandName testSubmit = Commands.named(gerrit, "test-submit");
 
     command(gerrit).toProvider(new DispatchCommandProvider(gerrit));
     command(gerrit, AproposCommand.class);
@@ -49,7 +49,6 @@ public class DefaultCommandModule extends CommandModule {
     command(gerrit, StreamEvents.class);
     command(gerrit, VersionCommand.class);
     command(gerrit, GarbageCollectionCommand.class);
-
     command(gerrit, "plugin").toProvider(new DispatchCommandProvider(plugin));
 
     command(plugin, PluginLsCommand.class);
@@ -61,21 +60,43 @@ public class DefaultCommandModule extends CommandModule {
     alias(plugin, "rm", PluginRemoveCommand.class);
 
     command(git).toProvider(new DispatchCommandProvider(git));
-    command(git, "receive-pack").to(Commands.key(gerrit, "receive-pack"));
-    command(git, "upload-pack").to(Upload.class);
 
     command("ps").to(ShowQueue.class);
     command("kill").to(KillCommand.class);
     command("scp").to(ScpCommand.class);
 
     // Honor the legacy hyphenated forms as aliases for the non-hyphenated forms
-    //
     command("git-upload-pack").to(Commands.key(git, "upload-pack"));
-    command("git-receive-pack").to(Commands.key(git, "receive-pack"));
-    command("gerrit-receive-pack").to(Commands.key(git, "receive-pack"));
-
+    command(git, "upload-pack").to(Upload.class);
     command("suexec").to(SuExec.class);
-
     listener().to(ShowCaches.StartupListener.class);
+
+    // The following commands can only be ran on a server in Master mode
+    command(gerrit, CreateAccountCommand.class);
+    command(gerrit, CreateGroupCommand.class);
+    command(gerrit, CreateProjectCommand.class);
+    command(gerrit, AdminQueryShell.class);
+    if (!slaveMode) {
+      command("git-receive-pack").to(Commands.key(git, "receive-pack"));
+      command("gerrit-receive-pack").to(Commands.key(git, "receive-pack"));
+      command(git, "receive-pack").to(Commands.key(gerrit, "receive-pack"));
+      command(gerrit, "test-submit").toProvider(
+          new DispatchCommandProvider(testSubmit));
+    }
+    command(gerrit, Receive.class);
+
+    command(gerrit, RenameGroupCommand.class);
+    command(gerrit, ReviewCommand.class);
+    command(gerrit, SetProjectCommand.class);
+    command(gerrit, SetReviewersCommand.class);
+
+    command(gerrit, SetMembersCommand.class);
+    command(gerrit, CreateBranchCommand.class);
+    command(gerrit, SetAccountCommand.class);
+    command(gerrit, AdminSetParent.class);
+
+    command(gerrit, CreateAccountCommand.class);
+    command(testSubmit, TestSubmitRuleCommand.class);
+    command(testSubmit, TestSubmitTypeCommand.class);
   }
 }

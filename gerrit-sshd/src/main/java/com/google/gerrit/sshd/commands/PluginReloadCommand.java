@@ -14,10 +14,12 @@
 
 package com.google.gerrit.sshd.commands;
 
+import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
+
 import com.google.gerrit.common.data.GlobalCapability;
+import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.server.plugins.InvalidPluginException;
 import com.google.gerrit.server.plugins.PluginInstallException;
-import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.server.plugins.PluginLoader;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
@@ -28,7 +30,8 @@ import org.kohsuke.args4j.Argument;
 import java.util.List;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
-@CommandMetaData(name = "reload", description = "Reload/Restart plugins")
+@CommandMetaData(name = "reload", description = "Reload/Restart plugins",
+  runsAt = MASTER_OR_SLAVE)
 final class PluginReloadCommand extends SshCommand {
   @Argument(index = 0, metaVar = "NAME", usage = "plugins to reload/restart")
   private List<String> names;

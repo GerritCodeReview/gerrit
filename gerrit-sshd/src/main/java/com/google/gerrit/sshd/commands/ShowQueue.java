@@ -14,6 +14,8 @@
 
 package com.google.gerrit.sshd.commands;
 
+import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
+
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.TaskInfoFactory;
@@ -42,7 +44,8 @@ import java.util.concurrent.TimeUnit;
 
 /** Display the current work queue. */
 @AdminHighPriorityCommand
-@CommandMetaData(name = "show-queue", description = "Display the background work queues")
+@CommandMetaData(name = "show-queue", description = "Display the background work queues",
+  runsAt = MASTER_OR_SLAVE)
 final class ShowQueue extends SshCommand {
   @Option(name = "--wide", aliases = {"-w"}, usage = "display without line width truncation")
   private boolean wide;

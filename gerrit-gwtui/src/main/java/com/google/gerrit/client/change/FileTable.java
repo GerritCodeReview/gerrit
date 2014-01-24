@@ -123,7 +123,7 @@ class FileTable extends FlowPanel {
   }
 
   private static MyTable getMyTable(NativeEvent event) {
-    com.google.gwt.user.client.Element e = event.getEventTarget().cast();
+    com.google.gwt.dom.client.Element e = event.getEventTarget().cast();
     for (e = DOM.getParent(e); e != null; e = DOM.getParent(e)) {
       EventListener l = DOM.getEventListener(e);
       if (l instanceof MyTable) {

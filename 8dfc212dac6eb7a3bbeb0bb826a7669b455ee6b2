@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f2a76688_04893660",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-01-24T08:01:50Z",
+      "side": 1,
+      "message": "Why resource conflict?\n\nWould it not be better to raise \"bad request\" or \"project creation failed\"?",
+      "range": {
+        "startLine": 143,
+        "startChar": 18,
+        "endLine": 143,
+        "endChar": 43
+      },
+      "revId": "8dfc212dac6eb7a3bbeb0bb826a7669b455ee6b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

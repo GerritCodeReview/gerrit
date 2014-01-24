@@ -145,6 +145,24 @@
     },
     {
       "key": {
+        "uuid": "f2a76688_84476638",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-24T19:49:07Z",
+      "side": 1,
+      "message": "Permissions normalizing to a different value is rare. Maybe we just write a few commits before the submitted one to \"correct\" the label votes for any that were normalized to a value other than what was already stored?",
+      "parentUuid": "12695a06_95eb041a",
+      "revId": "90602b8d32599a0e870c68fc537f48861231404e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f24cc6b4_dc448d35",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
         "patchSetId": 5

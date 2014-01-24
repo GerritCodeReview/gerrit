@@ -105,7 +105,7 @@ public class ChangeScreen2 extends Screen {
   }
 
   static ChangeScreen2 get(NativeEvent in) {
-    com.google.gwt.user.client.Element e = in.getEventTarget().cast();
+    com.google.gwt.dom.client.Element e = in.getEventTarget().cast();
     for (e = DOM.getParent(e); e != null; e = DOM.getParent(e)) {
       EventListener l = DOM.getEventListener(e);
       if (l instanceof ChangeScreen2) {

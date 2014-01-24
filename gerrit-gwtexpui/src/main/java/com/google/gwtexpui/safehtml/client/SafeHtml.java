@@ -113,8 +113,8 @@ public abstract class SafeHtml
   }
 
   /** Parse an HTML block and return the first (typically root) element. */
-  public static com.google.gwt.user.client.Element parse(SafeHtml html) {
-    com.google.gwt.user.client.Element e = DOM.createDiv();
+  public static com.google.gwt.dom.client.Element parse(SafeHtml html) {
+    com.google.gwt.dom.client.Element e = DOM.createDiv();
     setInnerHTML(e, html);
     return DOM.getFirstChild(e);
   }

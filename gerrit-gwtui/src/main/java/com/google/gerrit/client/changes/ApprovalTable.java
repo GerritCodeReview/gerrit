@@ -36,10 +36,10 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
@@ -77,7 +77,7 @@ public class ApprovalTable extends Composite {
 
     missing = new Widget() {
       {
-        setElement(DOM.createElement("ul"));
+        setElement((Element)(DOM.createElement("ul")));
       }
     };
     missing.setStyleName(Gerrit.RESOURCES.css().missingApprovalList());

@@ -120,9 +120,7 @@ public class ProjectDocumentationIT extends AbstractDaemonTest {
     HttpResponse r = httpSession.get("/src/" + project.get() + "/README.md");
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
     String content = r.getEntityContent();
-    assertTrue(content.startsWith("<html>"));
-    assertTrue(content.contains("read me"));
-    assertTrue(content.endsWith("</html>"));
+    assertTrue(content.contains("<p>read me</p>"));
   }
 
   @Test
@@ -296,8 +294,11 @@ public class ProjectDocumentationIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(name="site.enableSrcToMarkdown", value="true")
-  public void noEmbeddedHtml() throws IOException, GitAPIException {
+  @GerritConfigs({
+    @GerritConfig(name="site.enableSrcToMarkdown", value="true"),
+    @GerritConfig(name="site.suppressHtml", value="true")
+  })
+  public void suppressHtml() throws IOException, GitAPIException {
     StringBuilder mdContent = new StringBuilder();
     mdContent.append("read me\n\n");
     mdContent.append("<div>");
@@ -315,6 +316,135 @@ public class ProjectDocumentationIT extends AbstractDaemonTest {
     assertTrue(htmlContent.contains("read me"));
     assertFalse(htmlContent.contains("test"));
     assertFalse(htmlContent.contains("<br/>"));
+  }
+
+  @Test
+  @GerritConfigs({
+    @GerritConfig(name="site.enableSrcToMarkdown", value="true"),
+    @GerritConfig(name="site.suppressHtml", value="false"),
+    @GerritConfig(name="site.antiSamyPolicy", value="STRICT")
+  })
+  public void htmlStrictPolicy() throws IOException, GitAPIException {
+    StringBuilder mdContent = new StringBuilder();
+
+    // allowed
+    mdContent.append("<div>divTest</div>");
+    mdContent.append("<br />");
+    mdContent.append("<a href=\"link.html\">link</a>");
+
+    // not allowed
+    mdContent.append("<h2 style=\"color:red;background:black;\">heading</h2>");
+    mdContent.append("<table><tr><th>Column1</th><th>Column2</th></tr>");
+    mdContent.append("<tr><td>Cell1</td><td>Cell2</td></tr></table>");
+    mdContent.append("<textarea cols=\"20\" rows=\"4\" name=\"textfield\"></textarea>");
+    mdContent.append("<input type=\"button\" name=\"button\" value=\"show text\"/>");
+    mdContent.append("<a href=\"javascript:alert('xss')\">link</a>");
+
+    pushFactory.create(db, admin.getIdent(), "Add readme", "README.md", mdContent.toString())
+        .to(git, "refs/heads/master");
+
+    HttpResponse r = httpSession.get("/src/" + project.get() + "/README.md");
+    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    String htmlContent = r.getEntityContent();
+
+    assertTrue(htmlContent.contains("<div>divTest</div>"));
+    assertTrue(htmlContent.contains("<br />"));
+    assertTrue(htmlContent.contains("<a href=\"link.html\">link</a>"));
+
+    assertFalse(htmlContent.contains("<h2"));
+    assertFalse(htmlContent.contains("<table"));
+    assertFalse(htmlContent.contains("<th"));
+    assertFalse(htmlContent.contains("<td"));
+    assertFalse(htmlContent.contains("<textarea"));
+    assertFalse(htmlContent.contains("<input"));
+    assertFalse(htmlContent.contains("script"));
+    assertFalse(htmlContent.contains("xss"));
+  }
+
+  @Test
+  @GerritConfigs({
+    @GerritConfig(name="site.enableSrcToMarkdown", value="true"),
+    @GerritConfig(name="site.suppressHtml", value="false"),
+    @GerritConfig(name="site.antiSamyPolicy", value="MODEST")
+  })
+  public void htmlModestPolicy() throws IOException, GitAPIException {
+    StringBuilder mdContent = new StringBuilder();
+
+    // allowed
+    mdContent.append("<div>divTest</div>");
+    mdContent.append("<br />");
+    mdContent.append("<a href=\"link.html\">link</a>");
+    mdContent.append("<h2 style=\"color:red;background:black;\">heading</h2>");
+    mdContent.append("<table><tr><th>Column1</th><th>Column2</th></tr>");
+    mdContent.append("<tr><td>Cell1</td><td>Cell2</td></tr></table>");
+
+    // not allowed
+    mdContent.append("<textarea cols=\"20\" rows=\"4\" name=\"textfield\"></textarea>");
+    mdContent.append("<input type=\"button\" name=\"button\" value=\"show text\"/>");
+    mdContent.append("<a href=\"javascript:alert('xss')\">link</a>");
+
+    pushFactory.create(db, admin.getIdent(), "Add readme", "README.md", mdContent.toString())
+        .to(git, "refs/heads/master");
+
+    HttpResponse r = httpSession.get("/src/" + project.get() + "/README.md");
+    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    String htmlContent = r.getEntityContent();
+
+    assertTrue(htmlContent.contains("<div>divTest</div>"));
+    assertTrue(htmlContent.contains("<br />"));
+    assertTrue(htmlContent.contains("<a href=\"link.html\">link</a>"));
+    assertTrue(htmlContent.contains("<h2 style=\"color: red;background: black;\">"));
+    assertTrue(htmlContent.contains("<table"));
+    assertTrue(htmlContent.contains("<th"));
+    assertTrue(htmlContent.contains("<td"));
+
+    assertFalse(htmlContent.contains("<textarea"));
+    assertFalse(htmlContent.contains("<input"));
+    assertFalse(htmlContent.contains("script"));
+    assertFalse(htmlContent.contains("xss"));
+  }
+
+  @Test
+  @GerritConfigs({
+    @GerritConfig(name="site.enableSrcToMarkdown", value="true"),
+    @GerritConfig(name="site.suppressHtml", value="false"),
+    @GerritConfig(name="site.antiSamyPolicy", value="LAX")
+  })
+  public void htmlLaxPolicy() throws IOException, GitAPIException {
+    StringBuilder mdContent = new StringBuilder();
+
+    // allowed
+    mdContent.append("<div>divTest</div>");
+    mdContent.append("<br />");
+    mdContent.append("<a href=\"link.html\">link</a>");
+    mdContent.append("<h2 style=\"color:red;background:black;\">heading</h2>");
+    mdContent.append("<table><tr><th>Column1</th><th>Column2</th></tr>");
+    mdContent.append("<tr><td>Cell1</td><td>Cell2</td></tr></table>");
+    mdContent.append("<textarea cols=\"20\" rows=\"4\" name=\"textfield\"></textarea>");
+    mdContent.append("<input type=\"button\" name=\"button\" value=\"show text\"/>");
+
+    // not allowed
+    mdContent.append("<a href=\"javascript:alert('xss')\">link</a>");
+
+    pushFactory.create(db, admin.getIdent(), "Add readme", "README.md", mdContent.toString())
+        .to(git, "refs/heads/master");
+
+    HttpResponse r = httpSession.get("/src/" + project.get() + "/README.md");
+    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    String htmlContent = r.getEntityContent();
+
+    assertTrue(htmlContent.contains("<div>divTest</div>"));
+    assertTrue(htmlContent.contains("<br />"));
+    assertTrue(htmlContent.contains("<a href=\"link.html\">link</a>"));
+    assertTrue(htmlContent.contains("<h2 style=\"color: red;background: black;\">"));
+    assertTrue(htmlContent.contains("<table"));
+    assertTrue(htmlContent.contains("<th"));
+    assertTrue(htmlContent.contains("<td"));
+    assertTrue(htmlContent.contains("<textarea"));
+    assertTrue(htmlContent.contains("<input"));
+
+    assertFalse(htmlContent.contains("script"));
+    assertFalse(htmlContent.contains("xss"));
   }
 
   @Test

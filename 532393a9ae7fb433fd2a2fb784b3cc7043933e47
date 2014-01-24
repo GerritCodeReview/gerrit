@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f2a76688_44e16eec",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/CommandMetaData.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-24T20:02:06Z",
+      "side": 1,
+      "message": "I don\u0027t think you need this id field. Just test for the enum constant you want.",
+      "revId": "532393a9ae7fb433fd2a2fb784b3cc7043933e47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f24cc6b4_9cd16521",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/CommandMetaData.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-24T20:02:06Z",
+      "side": 1,
+      "message": "This method name is confusing.",
+      "revId": "532393a9ae7fb433fd2a2fb784b3cc7043933e47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2a76688_64e6ea07",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/CommandMetaData.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-24T20:02:06Z",
+      "side": 1,
+      "message": "Most commands are master only. Maybe the default should be master?\n\nMode is a little too generic. Maybe runsAt with MASTER, MASTER_OR_SLAVE, SLAVE being the enum values?",
+      "revId": "532393a9ae7fb433fd2a2fb784b3cc7043933e47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

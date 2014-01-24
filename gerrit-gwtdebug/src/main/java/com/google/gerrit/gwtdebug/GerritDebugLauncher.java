@@ -19,29 +19,31 @@ import com.google.gwt.core.ext.ServletContainer;
 import com.google.gwt.core.ext.ServletContainerLauncher;
 import com.google.gwt.core.ext.TreeLogger;
 import com.google.gwt.core.ext.UnableToCompleteException;
-import com.google.gwt.dev.shell.jetty.JettyNullLogger;
 
-import org.mortbay.component.AbstractLifeCycle;
-import org.mortbay.jetty.AbstractConnector;
-import org.mortbay.jetty.HttpFields.Field;
-import org.mortbay.jetty.Request;
-import org.mortbay.jetty.RequestLog;
-import org.mortbay.jetty.Response;
-import org.mortbay.jetty.Server;
-import org.mortbay.jetty.handler.RequestLogHandler;
-import org.mortbay.jetty.nio.SelectChannelConnector;
-import org.mortbay.jetty.webapp.WebAppClassLoader;
-import org.mortbay.jetty.webapp.WebAppContext;
-import org.mortbay.log.Log;
-import org.mortbay.log.Logger;
+import org.eclipse.jetty.http.HttpField;
+import org.eclipse.jetty.server.HttpConfiguration;
+import org.eclipse.jetty.server.HttpConnectionFactory;
+import org.eclipse.jetty.server.Request;
+import org.eclipse.jetty.server.RequestLog;
+import org.eclipse.jetty.server.Response;
+import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.ServerConnector;
+import org.eclipse.jetty.server.handler.RequestLogHandler;
+import org.eclipse.jetty.util.component.AbstractLifeCycle;
+import org.eclipse.jetty.util.log.Log;
+import org.eclipse.jetty.util.log.Logger;
+import org.eclipse.jetty.webapp.WebAppClassLoader;
+import org.eclipse.jetty.webapp.WebAppContext;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.Iterator;
 
 public class GerritDebugLauncher extends ServletContainerLauncher {
+
+  private final static boolean __escape = true;
+
   /**
    * Log jetty requests/responses to TreeLogger.
    */
@@ -57,7 +59,6 @@ public class GerritDebugLauncher extends ServletContainerLauncher {
     /**
      * Log an HTTP request/response to TreeLogger.
      */
-    @SuppressWarnings("unchecked")
     public void log(Request request, Response response) {
       int status = response.getStatus();
       if (status < 0) {
@@ -93,20 +94,13 @@ public class GerritDebugLauncher extends ServletContainerLauncher {
         if (branch.isLoggable(logHeaders)) {
           // Request headers
           TreeLogger headers = branch.branch(logHeaders, "Request headers");
-          Iterator<Field> headerFields =
-              request.getConnection().getRequestFields().getFields();
-          while (headerFields.hasNext()) {
-            Field headerField = headerFields.next();
-            headers.log(logHeaders, headerField.getName() + ": "
-                + headerField.getValue());
+          for (HttpField f : request.getHttpFields()) {
+            headers.log(logHeaders, f.getName() + ": " + f.getValue());
           }
           // Response headers
           headers = branch.branch(logHeaders, "Response headers");
-          headerFields = response.getHttpFields().getFields();
-          while (headerFields.hasNext()) {
-            Field headerField = headerFields.next();
-            headers.log(logHeaders, headerField.getName() + ": "
-                + headerField.getValue());
+          for (HttpField f : response.getHttpFields()) {
+            headers.log(logHeaders, f.getName() + ": " + f.getValue());
           }
         }
       }
@@ -163,6 +157,54 @@ public class GerritDebugLauncher extends ServletContainerLauncher {
       logger.log(TreeLogger.WARN, msg, th);
     }
 
+    public void debug(String msg, long value) {
+      // ignored
+    }
+
+    @Override
+    public void debug(String msg, Object... args) {
+      // ignored
+    }
+
+    @Override
+    public void debug(Throwable thrown) {
+      // ignored
+    }
+
+    @Override
+    public void warn(String msg, Object... args) {
+      logger.log(TreeLogger.WARN, format(msg, args));
+    }
+
+    @Override
+    public void warn(Throwable thrown) {
+      logger.log(TreeLogger.WARN, thrown.getMessage(), thrown);
+    }
+
+    @Override
+    public void info(String msg, Object... args) {
+      logger.log(TreeLogger.INFO, format(msg, args));
+    }
+
+    @Override
+    public void info(Throwable thrown) {
+      logger.log(TreeLogger.INFO, thrown.getMessage(), thrown);
+    }
+
+    @Override
+    public void info(String msg, Throwable thrown) {
+      logger.log(TreeLogger.INFO, msg, thrown);
+    }
+
+    @Override
+    public void ignore(Throwable ignored) {
+    }
+
+    @Override
+    public String getName() {
+      return this.getName();
+    }
+
     /**
      * Copied from org.mortbay.log.StdErrLog.
      */
@@ -177,6 +219,54 @@ public class GerritDebugLauncher extends ServletContainerLauncher {
         msg = msg.substring(0, i0) + arg0 + msg.substring(i0 + 2);
       }
       return msg;
+    }
+
+    private String format(String msg, Object... args) {
+      StringBuilder builder = new StringBuilder();
+      if (msg == null) {
+          msg = "";
+          for (int i = 0; i < args.length; i++) {
+              msg += "{} ";
+          }
+      }
+      String braces = "{}";
+      int start = 0;
+      for (Object arg : args) {
+          int bracesIndex = msg.indexOf(braces,start);
+          if (bracesIndex < 0) {
+              escape(builder, msg.substring(start));
+              builder.append(" ");
+              builder.append(arg);
+              start = msg.length();
+          } else {
+              escape(builder, msg.substring(start, bracesIndex));
+              builder.append(String.valueOf(arg));
+              start = bracesIndex + braces.length();
+          }
+      }
+      escape(builder, msg.substring(start));
+      return builder.toString();
+    }
+
+    private void escape(StringBuilder builder, String string) {
+      if (__escape) {
+        for (int i = 0; i < string.length(); ++i) {
+          char c = string.charAt(i);
+          if (Character.isISOControl(c)) {
+            if (c == '\n') {
+              builder.append('|');
+            } else if (c == '\r') {
+              builder.append('<');
+            } else {
+              builder.append('?');
+            }
+          } else {
+            builder.append(c);
+          }
+        }
+      } else {
+        builder.append(string);
+      }
     }
   }
 
@@ -268,7 +358,6 @@ public class GerritDebugLauncher extends ServletContainerLauncher {
     private final ClassLoader systemClassLoader =
         Thread.currentThread().getContextClassLoader();
 
-    @SuppressWarnings("unchecked")
     private MyWebAppContext(String webApp, String contextPath) {
       super(webApp, contextPath);
 
@@ -282,7 +371,7 @@ public class GerritDebugLauncher extends ServletContainerLauncher {
 
     @Override
     protected void doStart() throws Exception {
-      setClassLoader(new MyLoader());
+      setClassLoader(new MyLoader(this));
       super.doStart();
     }
 
@@ -293,9 +382,10 @@ public class GerritDebugLauncher extends ServletContainerLauncher {
     }
 
     private class MyLoader extends WebAppClassLoader {
-      MyLoader() throws IOException {
+      MyWebAppContext ctx;
+      MyLoader(MyWebAppContext ctx) throws IOException {
         super(bootStrapOnlyClassLoader, MyWebAppContext.this);
-
+        this.ctx = ctx;
         final URLClassLoader scl = (URLClassLoader) systemClassLoader;
         final URL[] urls = scl.getURLs();
         for (URL u : urls) {
@@ -306,16 +396,9 @@ public class GerritDebugLauncher extends ServletContainerLauncher {
       }
 
       @Override
-      public boolean isSystemPath(String name) {
-        name = name.replace('/', '.');
-        return super.isSystemPath(name) //
-            || name.startsWith("org.bouncycastle.");
-      }
-
-      @Override
       protected Class<?> findClass(String name) throws ClassNotFoundException {
         // For system path, always prefer the outside world.
-        if (isSystemPath(name)) {
+        if (ctx.isSystemClass(name.replace('/', '.'))) {
           try {
             return systemClassLoader.loadClass(name);
           } catch (ClassNotFoundException e) {
@@ -327,9 +410,6 @@ public class GerritDebugLauncher extends ServletContainerLauncher {
   }
 
   static {
-    // Suppress spammy Jetty log initialization.
-    System
-        .setProperty("org.mortbay.log.class", JettyNullLogger.class.getName());
     Log.getLog();
 
     /*
@@ -357,7 +437,6 @@ public class GerritDebugLauncher extends ServletContainerLauncher {
       throws Exception {
     TreeLogger branch =
         logger.branch(TreeLogger.INFO, "Starting Jetty on port " + port, null);
-
     checkStartParams(branch, port, warDir);
 
     // Setup our branch logger during startup.
@@ -366,7 +445,10 @@ public class GerritDebugLauncher extends ServletContainerLauncher {
     // Turn off XML validation.
     System.setProperty("org.mortbay.xml.XmlParser.Validating", "false");
 
-    AbstractConnector connector = getConnector();
+    Server server = new Server();
+    HttpConfiguration config = defaultConfig();
+    ServerConnector connector = new ServerConnector(server,
+        new HttpConnectionFactory(config));
     if (bindAddress != null) {
       connector.setHost(bindAddress);
     }
@@ -378,7 +460,7 @@ public class GerritDebugLauncher extends ServletContainerLauncher {
     // Linux keeps the port blocked after shutdown if we don't disable this.
     connector.setSoLingerTime(0);
 
-    Server server = new Server();
+
     server.addConnector(connector);
 
     File top;
@@ -413,12 +495,16 @@ public class GerritDebugLauncher extends ServletContainerLauncher {
     // Now that we're started, log to the top level logger.
     Log.setLog(new JettyTreeLogger(logger));
 
-    return new JettyServletContainer(logger, server, wac, connector
-        .getLocalPort(), warDir);
+    return new JettyServletContainer(logger, server, wac,
+        connector.getLocalPort(), warDir);
   }
 
-  protected AbstractConnector getConnector() {
-    return new SelectChannelConnector();
+  protected HttpConfiguration defaultConfig() {
+    HttpConfiguration config = new HttpConfiguration();
+    config.setRequestHeaderSize(16386);
+    config.setSendServerVersion(false);
+    config.setSendDateHeader(true);
+    return config;
   }
 
   private void checkStartParams(TreeLogger logger, int port, File appRootDir) {

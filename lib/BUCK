@@ -65,29 +65,29 @@ maven_jar(
 
 maven_jar(
   name = 'ow2-asm',
-  id = 'org.ow2.asm:asm:4.0',
-  sha1 = '659add6efc75a4715d738e73f07505246edf4d66',
+  id = 'org.ow2.asm:asm:4.1',
+  sha1 = 'ad568238ee36a820bd6c6806807e8a14ea34684d',
   license = 'ow2',
 )
 
 maven_jar(
   name = 'ow2-asm-analysis',
-  id = 'org.ow2.asm:asm-analysis:4.0',
-  sha1 = '1c45d52b6f6c638db13cf3ac12adeb56b254cdd7',
+  id = 'org.ow2.asm:asm-analysis:4.1',
+  sha1 = '73401033069e4714f57b60aeae02f97210aaa64e',
   license = 'ow2',
 )
 
 maven_jar(
   name = 'ow2-asm-tree',
-  id = 'org.ow2.asm:asm-tree:4.0',
-  sha1 = '67bd266cd17adcee486b76952ece4cc85fe248b8',
+  id = 'org.ow2.asm:asm-tree:4.1',
+  sha1 = '51085abcc4cb6c6e1cb5551e6f999eb8e31c5b2d',
   license = 'ow2',
 )
 
 maven_jar(
   name = 'ow2-asm-util',
-  id = 'org.ow2.asm:asm-util:4.0',
-  sha1 = 'd7a65f54cda284f9706a750c23d64830bb740c39',
+  id = 'org.ow2.asm:asm-util:4.1',
+  sha1 = '6344065cb0f94e2b930a95e6656e040ebc11df08',
   license = 'ow2',
 )
 
@@ -198,9 +198,9 @@ maven_jar(
 maven_jar(
   name = 'protobuf',
   # Must match version in gwtorm/pom.xml.
-  id = 'com.google.protobuf:protobuf-java:2.4.1',
-  bin_sha1 = '0c589509ec6fd86d5d2fda37e07c08538235d3b9',
-  src_sha1 = 'e406f69360f2a89cb4aa724ed996a1c5599af383',
+  id = 'com.google.protobuf:protobuf-java:2.5.0',
+  bin_sha1 = 'a10732c76bfacdbd633a7eb0f7968b1059a65dfa',
+  src_sha1 = '7a27a7fc815e481b367ead5df19b4a71ace4a419',
   license = 'protobuf',
 )
 

@@ -15,6 +15,7 @@ java_library(
     '//gerrit-server:server__compile',
     '//lib/asciidoctor:asciidoc_lib',
     '//lib/asciidoctor:doc_indexer_lib',
+    '//lib/jetty:webapp',
     '//lib/prolog:compiler_lib',
     '//Documentation:index_lib',
   ] + scan_plugins(),

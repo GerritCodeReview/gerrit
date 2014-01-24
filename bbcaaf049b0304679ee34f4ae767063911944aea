@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f2a76688_a42382b6",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/DispatchCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-24T05:15:14Z",
+      "side": 1,
+      "message": "nit: we prefer to put ? and : at the start of the line",
+      "range": {
+        "startLine": 159,
+        "startChar": 55,
+        "endLine": 161,
+        "endChar": 11
+      },
+      "revId": "bbcaaf049b0304679ee34f4ae767063911944aea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

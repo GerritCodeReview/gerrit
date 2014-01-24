@@ -215,7 +215,7 @@ class OverviewBar extends Composite implements ClickHandler {
       this.line = line;
       this.height = height;
 
-      setElement(DOM.createDiv());
+      setElement((Element)(DOM.createDiv()));
       setStyleName(style.gutter());
       addDomHandler(this, ClickEvent.getType());
     }

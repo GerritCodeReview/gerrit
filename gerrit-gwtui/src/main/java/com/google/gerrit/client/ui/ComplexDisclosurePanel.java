@@ -15,13 +15,13 @@
 package com.google.gerrit.client.ui;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.event.logical.shared.HasCloseHandlers;
 import com.google.gwt.event.logical.shared.HasOpenHandlers;
 import com.google.gwt.event.logical.shared.OpenHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DisclosurePanel;
@@ -54,21 +54,21 @@ public class ComplexDisclosurePanel extends Composite implements
 
     header = new ComplexPanel() {
       {
-        setElement(DOM.createTD());
+        setElement((Element)(DOM.createTD()));
         getElement().setInnerHTML("&nbsp;");
         addStyleName(Gerrit.RESOURCES.css().complexHeader());
       }
 
       @Override
       public void add(Widget w) {
-        add(w, getElement());
+        add(w, (Element)getElement());
       }
     };
 
     initWidget(new ComplexPanel() {
       {
         final DisclosurePanel main = ComplexDisclosurePanel.this.main;
-        setElement(main.getElement());
+        setElement((Element)(main.getElement()));
         getChildren().add(main);
         adopt(main);
 

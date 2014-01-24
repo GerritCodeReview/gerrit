@@ -30,6 +30,7 @@ import com.google.gerrit.common.changes.ListChangesOption;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -81,7 +82,7 @@ class PatchSetsBox extends Composite {
   }
 
   private static PatchSetsBox getRevisionBox(NativeEvent event) {
-    com.google.gwt.user.client.Element e = event.getEventTarget().cast();
+    Element e = event.getEventTarget().cast();
     for (e = DOM.getParent(e); e != null; e = DOM.getParent(e)) {
       EventListener l = DOM.getEventListener(e);
       if (l instanceof PatchSetsBox) {

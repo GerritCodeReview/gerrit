@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.query.OperatorPredicate;
@@ -41,9 +41,8 @@ class ReviewerinPredicate extends OperatorPredicate<ChangeData> {
 
   @Override
   public boolean match(final ChangeData object) throws OrmException {
-    for (PatchSetApproval p : object.approvals()) {
-      final IdentifiedUser reviewer = userFactory.create(dbProvider,
-        p.getAccountId());
+    for (Account.Id accountId : object.reviewers().values()) {
+      IdentifiedUser reviewer = userFactory.create(dbProvider, accountId);
       if (reviewer.getEffectiveGroups().contains(uuid)) {
         return true;
       }

@@ -23,9 +23,14 @@ import java.lang.annotation.Target;
 /**
  * Annotation tagged on a concrete Command to describe what it is doing
  */
-@Target( {ElementType.TYPE})
+@Target({ElementType.TYPE})
 @Retention(RUNTIME)
 public @interface CommandMetaData {
+  public static final int SLAVE = 0;
+  public static final int MASTER = 1;
+  public static final int ALL = 2;
+
   String name();
   String description() default "";
+  int mode() default ALL;
 }

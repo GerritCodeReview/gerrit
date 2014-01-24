@@ -38,7 +38,7 @@ import java.util.Set;
  * Optionally, puts an initial set of user in the newly created group.
  */
 @RequiresCapability(GlobalCapability.CREATE_GROUP)
-@CommandMetaData(name = "create-group", description = "Create a new account group")
+@CommandMetaData(name = "create-group", description = "Create a new account group", mode = CommandMetaData.MASTER)
 final class CreateGroupCommand extends SshCommand {
   @Option(name = "--owner", aliases = {"-o"}, metaVar = "GROUP", usage = "owning group, if not specified the group will be self-owning")
   private AccountGroup.Id ownerGroupId;

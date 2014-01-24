@@ -25,7 +25,7 @@ import com.google.inject.Inject;
 import org.kohsuke.args4j.Argument;
 
 /** Create a new branch. **/
-@CommandMetaData(name = "create-branch", description = "Create a new branch")
+@CommandMetaData(name = "create-branch", description = "Create a new branch", mode = CommandMetaData.MASTER)
 final public class CreateBranchCommand extends SshCommand {
 
   @Argument(index = 0, required = true, metaVar = "PROJECT", usage = "name of the project")

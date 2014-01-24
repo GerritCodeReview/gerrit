@@ -23,6 +23,7 @@ import com.google.gerrit.httpd.resources.ResourceKey;
 import com.google.gerrit.httpd.resources.SmallResource;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.documentation.MarkdownFormatter;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.ssh.SshAddressesModule;
@@ -39,7 +40,12 @@ import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
+import org.owasp.validator.html.AntiSamy;
+import org.owasp.validator.html.Policy;
+import org.owasp.validator.html.PolicyException;
+import org.owasp.validator.html.ScanException;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -49,14 +55,17 @@ import java.util.regex.Pattern;
 public class ProjectDocLoader extends CacheLoader<ProjectDocResourceKey, Resource> {
   private final GitRepositoryManager repoManager;
   private final Provider<String> webUrl;
+  private final SitePaths sitePaths;
   private final String sshHost;
   private final int sshPort;
 
   @Inject
   ProjectDocLoader(GitRepositoryManager repoManager,
-      @CanonicalWebUrl Provider<String> webUrl, SshInfo sshInfo) {
+      @CanonicalWebUrl Provider<String> webUrl, SitePaths sitePaths,
+      SshInfo sshInfo) {
     this.repoManager = repoManager;
     this.webUrl = webUrl;
+    this.sitePaths = sitePaths;
 
     String sshHost = "review.example.com";
     int sshPort = SshAddressesModule.DEFAULT_PORT;
@@ -108,7 +117,7 @@ public class ProjectDocLoader extends CacheLoader<ProjectDocResourceKey, Resourc
   }
 
   private Resource getMarkdownAsHtmlResource(String md, int lastModified,
-      ResourceKey cacheKey) throws IOException {
+      ResourceKey cacheKey) throws IOException, PolicyException, ScanException {
     Map<String, String> macros = Maps.newHashMap();
     macros.put("SSH_HOST", sshHost);
     macros.put("SSH_PORT", "" + sshPort);
@@ -133,6 +142,15 @@ public class ProjectDocLoader extends CacheLoader<ProjectDocResourceKey, Resourc
 
     byte[] html = new MarkdownFormatter()
       .markdownToDocHtml(sb.toString(), "UTF-8", true);
+
+    File policyFile = new File(sitePaths.etc_dir, "antisamy.xml");
+    Policy policy = policyFile.exists()
+        ? Policy.getInstance(policyFile)
+        : Policy.getInstance(getClass().getResourceAsStream("antisamy.xml"));
+    AntiSamy as = new AntiSamy();
+    html = as.scan(new String(html, "UTF-8"), policy)
+        .getCleanHTML().getBytes("UTF-8");
+
     return new SmallResource(html)
         .setContentType("text/html")
         .setCharacterEncoding("UTF-8")

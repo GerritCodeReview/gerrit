@@ -5,6 +5,7 @@ define_license(name = 'Apache2.0')
 define_license(name = 'CC-BY3.0')
 define_license(name = 'MPL1.1')
 define_license(name = 'PublicDomain')
+define_license(name = 'antisamy')
 define_license(name = 'antlr')
 define_license(name = 'args4j')
 define_license(name = 'automaton')
@@ -247,4 +248,63 @@ maven_jar(
   license = 'DO_NOT_DISTRIBUTE',
   visibility = ['//lib:easymock'],
   attach_source = False,
+)
+
+maven_jar(
+  name = 'antisamy',
+  id = 'org.owasp.antisamy:antisamy:1.5.3',
+  sha1 = '7538ad2b1afb74e74cc419e8c7b87abfd5526251',
+  license = 'antisamy',
+  deps = [
+    ':batik-css',
+    ':xerces',
+    ':nekohtml',
+  ],
+)
+
+maven_jar(
+  name = 'batik-css',
+  id = 'batik:batik-css:1.6-1',
+  sha1 = '9433ba160f0b7ca6640f750decebd99fe98dacd3',
+  license = 'Apache2.0',
+  deps = [
+    ':batik-util',
+    ':batik-gui-util',
+    ':batik-ext',
+  ],
+)
+
+maven_jar(
+  name = 'batik-util',
+  id = 'batik:batik-util:1.6-1',
+  sha1 = '7bea0185bb630bca235ffa904b1a03e8a4786a45',
+  license = 'Apache2.0',
+)
+
+maven_jar(
+  name = 'batik-gui-util',
+  id = 'batik:batik-gui-util:1.6-1',
+  sha1 = '4891720f542bac354d72f259ec930cab7329d1f8',
+  license = 'Apache2.0',
+)
+
+maven_jar(
+  name = 'batik-ext',
+  id = 'batik:batik-ext:1.6-1',
+  sha1 = '7f6ad5c298de4f24b9a104b721e86798f5e2216c',
+  license = 'Apache2.0',
+)
+
+maven_jar(
+  name = 'xerces',
+  id = 'xerces:xercesImpl:2.11.0',
+  sha1 = '9bb329db1cfc4e22462c9d6b43a8432f5850e92c',
+  license = 'Apache2.0',
+)
+
+maven_jar(
+  name = 'nekohtml',
+  id = 'milyn:nekohtml:X',
+  sha1 = 'dae8ff28a8db8394ca79247fbd4327f35c1fda0c',
+  license = 'Apache2.0',
 )

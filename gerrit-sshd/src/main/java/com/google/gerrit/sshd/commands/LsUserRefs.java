@@ -14,6 +14,7 @@
 
 package com.google.gerrit.sshd.commands;
 
+import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 import static org.eclipse.jgit.lib.RefDatabase.ALL;
 
 import com.google.gerrit.common.data.GlobalCapability;
@@ -42,7 +43,8 @@ import java.io.IOException;
 import java.util.Map;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
-@CommandMetaData(name = "ls-user-refs", description = "List refs visible to a specific user")
+@CommandMetaData(name = "ls-user-refs", description = "List refs visible to a specific user",
+  runsAt = MASTER_OR_SLAVE)
 public class LsUserRefs extends SshCommand {
   @Inject
   private AccountResolver accountResolver;

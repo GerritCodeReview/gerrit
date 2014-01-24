@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d24982a5_7b33bf0e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-24T09:13:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "326c9e14_d60c6456",
+      "revId": "8dfc212dac6eb7a3bbeb0bb826a7669b455ee6b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d24982a5_1b2efba6",
         "filename": "Documentation/config-validation.txt",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2014-01-24T09:02:14Z",
       "side": 1,
       "message": "optional: looking above we have the \"new-commit-validation\u0027. Based on that, this one could be named \"new-project-validation\"",
+      "revId": "8dfc212dac6eb7a3bbeb0bb826a7669b455ee6b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d24982a5_5b3883e9",
+        "filename": "Documentation/config-validation.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-24T09:13:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d24982a5_1b2efba6",
       "revId": "8dfc212dac6eb7a3bbeb0bb826a7669b455ee6b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -124,6 +160,24 @@
     },
     {
       "key": {
+        "uuid": "326c9e14_16553c17",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/validators/ProjectCreationValidationListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-24T09:13:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "326c9e14_96194c92",
+      "revId": "8dfc212dac6eb7a3bbeb0bb826a7669b455ee6b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d24982a5_3b29379f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/validators/ProjectCreationValidationListener.java",
         "patchSetId": 2
@@ -170,6 +224,24 @@
       "writtenOn": "2014-01-24T09:12:40Z",
       "side": 1,
       "message": "The \"validate\" may not the the best name but the point is that it should be clear that this extension point is called before project creation.\n\nThe \"onCommitReceived\" is called after a commit is received... therefore, \"onProjectCreated\" would be bad because it is called before a project is created.\n\nI couldn\u0027t find any good name that starts with \"on\".",
+      "parentUuid": "f2a76688_849c46a0",
+      "revId": "8dfc212dac6eb7a3bbeb0bb826a7669b455ee6b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d24982a5_9b196b92",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/validators/ProjectCreationValidationListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-24T09:13:56Z",
+      "side": 1,
+      "message": "I\u0027ve renamed the method now to \u0027onProjectCreation\u0027. This looks consistent with other method names and doesn\u0027t sound too much like it\u0027s invoked after the project creation.",
       "parentUuid": "f2a76688_849c46a0",
       "revId": "8dfc212dac6eb7a3bbeb0bb826a7669b455ee6b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

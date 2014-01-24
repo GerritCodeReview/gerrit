@@ -57,7 +57,7 @@ import com.google.gerrit.solr.SolrIndexModule;
 import com.google.gerrit.sshd.SshHostKeyModule;
 import com.google.gerrit.sshd.SshKeyCacheImpl;
 import com.google.gerrit.sshd.SshModule;
-import com.google.gerrit.sshd.commands.MasterCommandModule;
+import com.google.gerrit.sshd.commands.DefaultCommandModule;
 import com.google.inject.AbstractModule;
 import com.google.inject.CreationException;
 import com.google.inject.Guice;
@@ -304,7 +304,7 @@ public class WebAppInitializer extends GuiceServletContextListener
     final List<Module> modules = new ArrayList<Module>();
     modules.add(sysInjector.getInstance(SshModule.class));
     modules.add(new SshHostKeyModule());
-    modules.add(new MasterCommandModule());
+    modules.add(new DefaultCommandModule(false));
     return sysInjector.createChildInjector(modules);
   }
 

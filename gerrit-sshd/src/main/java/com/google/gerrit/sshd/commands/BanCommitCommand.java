@@ -14,6 +14,8 @@
 
 package com.google.gerrit.sshd.commands;
 
+import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
+
 import com.google.gerrit.common.errors.PermissionDeniedException;
 import com.google.gerrit.server.git.BanCommit;
 import com.google.gerrit.server.git.BanCommitResult;
@@ -33,7 +35,8 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-@CommandMetaData(name = "ban-commit", description = "Ban a commit from a project's repository")
+@CommandMetaData(name = "ban-commit", description = "Ban a commit from a project's repository",
+  runsAt = MASTER_OR_SLAVE)
 public class BanCommitCommand extends SshCommand {
   @Option(name = "--reason", aliases = {"-r"}, metaVar = "REASON", usage = "reason for banning the commit")
   private String reason;

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "326c9e14_d6c7447e",
+        "filename": "lib/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-24T18:11:45Z",
+      "side": 1,
+      "message": "I don\u0027t think that this paranoid. Actually it\u0027s very cool that you have a security team which can check this.",
+      "parentUuid": "f24cc6b4_7c1d794e",
+      "range": {
+        "startLine": 255,
+        "startChar": 8,
+        "endLine": 255,
+        "endChar": 41
+      },
+      "revId": "86d7199b0fa6bfdef3e5703f5886c4612518d900",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f2a76688_24b31217",
         "filename": "lib/BUCK",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2014-01-24T17:52:18Z",
       "side": 1,
       "message": "We have to build against Batik 1.7 for gerrit-review. This may cause problems, I haven\u0027t tried it yet.",
+      "range": {
+        "startLine": 267,
+        "startChar": 8,
+        "endLine": 267,
+        "endChar": 29
+      },
+      "revId": "86d7199b0fa6bfdef3e5703f5886c4612518d900",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "326c9e14_36b4b8ff",
+        "filename": "lib/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-24T18:11:45Z",
+      "side": 1,
+      "message": "The reason I did not use Batik 1.7 here is that it wasn\u0027t available on Maven Central. Probably it would just work with 1.7 but I haven\u0027t tested it.",
+      "parentUuid": "f2a76688_24b31217",
       "range": {
         "startLine": 267,
         "startChar": 8,

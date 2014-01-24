@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "d24982a5_fb0fcf47",
+        "filename": "gerrit-gwtexpui/src/main/java/com/google/gwtexpui/safehtml/client/SafeHtml.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-24T07:46:10Z",
+      "side": 1,
+      "message": "Replace this import with:\n\n  import com.google.gwt.dom.client.Element;\n\nin not specifiy qualified class name where it is used?\n\n  public static Element parse(SafeHtml html) {\n    Element e \u003d DOM.createDiv();\n    setInnerHTML(e, html);\n    return DOM.getFirstChild(e);\n  }\n\nHere and in all other files where deprecated Element class is used?",
+      "range": {
+        "startLine": 18,
+        "startChar": 7,
+        "endLine": 18,
+        "endChar": 40
+      },
+      "revId": "56697106b290fc65b26fffcbe90c92a10c637762",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f2a76688_a43aa2d4",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ApprovalTable.java",
         "patchSetId": 2

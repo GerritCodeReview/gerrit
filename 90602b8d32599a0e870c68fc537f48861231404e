@@ -217,6 +217,24 @@
     },
     {
       "key": {
+        "uuid": "f24cc6b4_3cb771de",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-24T21:00:07Z",
+      "side": 1,
+      "message": "Maybe we did. But I don\u0027t see what is wrong with saying author is the affected user and server is the committer. Its a more accurate reflection of what has happened here. At submit time the stored approvals on the change were \"downgraded\" by the server because of the ACLs in effect at that time. Recording that as an event in the change history might make things less confusing when someone wonders why their Code-Review+2 is now a Code-Review+1.",
+      "parentUuid": "d2626223_f3f890f0",
+      "revId": "90602b8d32599a0e870c68fc537f48861231404e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f24cc6b4_dc448d35",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
         "patchSetId": 5

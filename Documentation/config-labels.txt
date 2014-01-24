@@ -19,7 +19,7 @@ correct'.
 
 The range of values is:
 
-* -2 Do not submit
+* -2 This shall not be merged
 +
 The code is so horribly incorrect/buggy/broken that it must not be
 submitted to this project, or to this branch.  This value is valid
@@ -29,7 +29,7 @@ is submittable.
 +
 *Any -2 blocks submit.*
 
-* -1 I would prefer that you didn't submit this
+* -1 I would prefer this is not merged as is
 +
 The code doesn't look right, or could be done differently, but
 the reviewer is willing to live with it as-is if another reviewer

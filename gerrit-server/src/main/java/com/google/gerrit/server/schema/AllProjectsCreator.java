@@ -213,8 +213,8 @@ public class AllProjectsCreator {
         new LabelValue((short) 2, "Looks good to me, approved"),
         new LabelValue((short) 1, "Looks good to me, but someone else must approve"),
         new LabelValue((short) 0, "No score"),
-        new LabelValue((short) -1, "I would prefer that you didn't submit this"),
-        new LabelValue((short) -2, "Do not submit")));
+        new LabelValue((short) -1, "I would prefer this is not merged as is"),
+        new LabelValue((short) -2, "This shall not be merged")));
     type.setAbbreviation("CR");
     type.setCopyMinScore(true);
     c.getLabelSections().put(type.getName(), type);

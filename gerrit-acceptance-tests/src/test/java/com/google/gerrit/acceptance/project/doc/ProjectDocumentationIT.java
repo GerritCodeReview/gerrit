@@ -128,9 +128,7 @@ public class ProjectDocumentationIT extends AbstractDaemonTest {
     HttpResponse r = httpSession.get("/src/" + project.get() + "/README.md");
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
     String content = r.getEntityContent();
-    assertTrue(content.startsWith("<html>"));
-    assertTrue(content.contains("read me"));
-    assertTrue(content.endsWith("</html>"));
+    assertTrue(content.contains("<p>read me</p>"));
   }
 
   @Test

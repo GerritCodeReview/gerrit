@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "326c9e14_f63080cf",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/FileUtil.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-24T23:40:31Z",
+      "side": 1,
+      "message": "This change is older as Gerrit transition to Java 7. Consider to use here Java 7, though:\n\n http://docs.oracle.com/javase/7/docs/api/java/nio/file/Files.html#setPosixFilePermissions(java.nio.file.Path, java.util.Set)",
+      "range": {
+        "startLine": 46,
+        "startChar": 4,
+        "endLine": 61,
+        "endChar": 5
+      },
+      "revId": "2d86a7b377a7a98d478f65d8d0a46b323bef0d1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "326c9e14_363af8ad",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Init.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-24T23:40:31Z",
+      "side": 1,
+      "message": "It\u0027s already late here and i am probably missing something, but is this correct to bind List\u003cPluginData\u003e in afterInit() method?\n\nAs the name says, this method is only called after init was executed, for the initializations after the site was created, plugins were installed and database was created. Shouldn\u0027t List\u003cPluginData\u003e this be bound in beforeInit() method?\n\nIn any event it doesn\u0027t work:\n\n1. compile Gerrit with this series\n2. create plugin API with SecureStore\n3. create secure store provider plugin foo.jar with name \"Foo\"\n4. create secure store provider plugin bar.jar with name \"Bar\"\n5. copy foo.jar to $gerrit_site/plugin/\n6. copy bar.jar to $gerrit_site/plugin/\n7. start (re-)init of the site:\n8.\n  java -jar gerrit.war init --install-plugin foo --install-plugin bar -d  site\n\nExpected result: the plugins are discovered as securestore providers and prompted for installation/activation.\n\nWhat happens, is that List\u003cPluginData\u003e plugins in the class InitSecureStore are always empty. I believe this is because the List\u003cPluginData\u003e is bound in the wrong place.",
+      "range": {
+        "startLine": 118,
+        "startChar": 0,
+        "endLine": 122,
+        "endChar": 7
+      },
+      "revId": "2d86a7b377a7a98d478f65d8d0a46b323bef0d1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d24982a5_7bae1faf",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitSecureStore.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-24T23:40:31Z",
+      "side": 1,
+      "message": "That doesn\u0027t really make sence. May be name it just createInjectorWithSecureStore()",
+      "range": {
+        "startLine": 70,
+        "startChar": 13,
+        "endLine": 70,
+        "endChar": 74
+      },
+      "revId": "2d86a7b377a7a98d478f65d8d0a46b323bef0d1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "326c9e14_d62d8475",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitSecureStore.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-24T23:40:31Z",
+      "side": 1,
+      "message": "Usually when a constant is repeated multiple times we define a var for it.",
+      "range": {
+        "startLine": 78,
+        "startChar": 40,
+        "endLine": 78,
+        "endChar": 53
+      },
+      "revId": "2d86a7b377a7a98d478f65d8d0a46b323bef0d1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

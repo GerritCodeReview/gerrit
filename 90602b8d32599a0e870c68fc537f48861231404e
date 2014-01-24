@@ -235,6 +235,24 @@
     },
     {
       "key": {
+        "uuid": "d2626223_33020827",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-24T21:02:57Z",
+      "side": 1,
+      "message": "Ok. How would you feel about standardizing on this for all changes:\n\n Author: A User \u003c1234@gerrit\u003e\n Committer: A User \u003c1234@gerrit\u003e\n\nor\n\n Author: Another User \u003c2345@gerrit\u003e\n Commiter: Gerrit Server Ident \u003cgerrit@whatever\u003e\n\nand always parse the account ID out of the Author field.\n\nIf/when we kill UIDs for accounts we can just rewrite these so it\u0027s more readable. (I kinda hope this would happen before we get around to handling client-side reviews.)",
+      "parentUuid": "f24cc6b4_3cb771de",
+      "revId": "90602b8d32599a0e870c68fc537f48861231404e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f24cc6b4_dc448d35",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
         "patchSetId": 5

@@ -42,7 +42,7 @@ import java.util.concurrent.TimeUnit;
 
 /** Display the current work queue. */
 @AdminHighPriorityCommand
-@CommandMetaData(name = "show-queue", description = "Display the background work queues, including replication")
+@CommandMetaData(name = "show-queue", description = "Display the background work queues")
 final class ShowQueue extends SshCommand {
   @Option(name = "--wide", aliases = {"-w"}, usage = "display without line width truncation")
   private boolean wide;

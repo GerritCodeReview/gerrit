@@ -163,6 +163,24 @@
     },
     {
       "key": {
+        "uuid": "d2626223_b3ee182a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-24T20:51:07Z",
+      "side": 1,
+      "message": "So far we\u0027ve been sticking to making one commit per user action, with the author/committer being the end user who generated the action. So extra commits here would go against that.\n\nActually I remembered the other use case for recording normalized values after submit time: returning DETAILED_APPROVALS for closed changes. If we don\u0027t record the values normalized at submit time, then we would have to normalize them at display time, which doesn\u0027t seem right. Again we have the corner case, rare though it may be, where if we display the normalized values then it\u0027s not clear how the change had ever been submitted.\n\nAt this point I\u0027m actually leaning towards using \"Label\" for both this-user and other-user approvals. Writing the parsing code won\u0027t be that bad.",
+      "parentUuid": "f2a76688_84476638",
+      "revId": "90602b8d32599a0e870c68fc537f48861231404e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f24cc6b4_dc448d35",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
         "patchSetId": 5

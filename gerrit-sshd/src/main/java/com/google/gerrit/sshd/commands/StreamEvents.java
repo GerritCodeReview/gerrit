@@ -14,6 +14,8 @@
 
 package com.google.gerrit.sshd.commands;
 
+import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
+
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.ChangeListener;
 import com.google.gerrit.common.data.GlobalCapability;
@@ -36,7 +38,8 @@ import java.util.concurrent.Future;
 import java.util.concurrent.LinkedBlockingQueue;
 
 @RequiresCapability(GlobalCapability.STREAM_EVENTS)
-@CommandMetaData(name = "stream-events", description = "Monitor events occurring in real time")
+@CommandMetaData(name = "stream-events", description = "Monitor events occurring in real time",
+  runsAt = MASTER_OR_SLAVE)
 final class StreamEvents extends BaseCommand {
   /** Maximum number of events that may be queued up for each connection. */
   private static final int MAX_EVENTS = 128;

@@ -93,6 +93,30 @@
       "revId": "47bc10f0ad2bd63100d941778443c45eb48cf61f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f24cc6b4_bcfb8194",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1148,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-24T20:38:10Z",
+      "side": 1,
+      "message": "refs/for/* permissions are actually against strings like refs/for/refs/heads/master. Thus here it woul dbe refs/drafts/refs/heads/master.",
+      "parentUuid": "326c9e14_36131846",
+      "range": {
+        "startLine": 1148,
+        "startChar": 40,
+        "endLine": 1148,
+        "endChar": 55
+      },
+      "revId": "47bc10f0ad2bd63100d941778443c45eb48cf61f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

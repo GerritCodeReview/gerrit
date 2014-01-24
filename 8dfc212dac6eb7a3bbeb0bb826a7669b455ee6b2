@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "326c9e14_d60c6456",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-01-24T08:59:45Z",
+      "side": 1,
+      "message": "s/creations/creation ?",
+      "revId": "8dfc212dac6eb7a3bbeb0bb826a7669b455ee6b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f2a76688_04893660",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
         "patchSetId": 2
@@ -67,6 +84,40 @@
         "endLine": 143,
         "endChar": 43
       },
+      "revId": "8dfc212dac6eb7a3bbeb0bb826a7669b455ee6b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "326c9e14_96194c92",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/validators/ProjectCreationValidationListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-01-24T08:59:45Z",
+      "side": 1,
+      "message": "It is actually invoked (just) before a new project is going to be created.",
+      "revId": "8dfc212dac6eb7a3bbeb0bb826a7669b455ee6b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d24982a5_3b29379f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/validators/ProjectCreationValidationListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-01-24T08:59:45Z",
+      "side": 1,
+      "message": "This name gives impression as if this method is called when the project creation is already done.\n\nHow about:\n\n  validate(...)",
       "revId": "8dfc212dac6eb7a3bbeb0bb826a7669b455ee6b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

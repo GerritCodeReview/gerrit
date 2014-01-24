@@ -213,6 +213,30 @@
       "revId": "47bc10f0ad2bd63100d941778443c45eb48cf61f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d24982a5_9bbdebea",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1148,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-24T21:35:33Z",
+      "side": 1,
+      "message": "So again, what was wrong in my original (working) version?",
+      "parentUuid": "f2a76688_44b72edd",
+      "range": {
+        "startLine": 1148,
+        "startChar": 40,
+        "endLine": 1148,
+        "endChar": 55
+      },
+      "revId": "47bc10f0ad2bd63100d941778443c45eb48cf61f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

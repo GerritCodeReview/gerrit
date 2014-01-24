@@ -164,6 +164,30 @@
     },
     {
       "key": {
+        "uuid": "f24cc6b4_3cb491ff",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/CommandMetaData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-01-24T14:43:35Z",
+      "side": 1,
+      "message": "We\u0027d only want to support the modes as in this change if it\u0027s likely that we\u0027ll have commands that may only be run on slaves, and I don\u0027t think that is the case.",
+      "parentUuid": "f24cc6b4_9cbde5ea",
+      "range": {
+        "startLine": 35,
+        "startChar": 2,
+        "endLine": 35,
+        "endChar": 24
+      },
+      "revId": "8a74b3313a365e1b04509fe4d6a28897b7db2051",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d24982a5_bb92678a",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CreateAccountCommand.java",
         "patchSetId": 1

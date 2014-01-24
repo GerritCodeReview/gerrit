@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f24cc6b4_bcd42111",
+        "filename": "Documentation/dev-build-plugins.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-24T19:46:37Z",
+      "side": 1,
+      "message": "only one :?",
+      "range": {
+        "startLine": 10,
+        "startChar": 70,
+        "endLine": 10,
+        "endChar": 77
+      },
+      "revId": "2c33450cb6f7720fae7c74937f705169084a1d8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2a76688_2439d2b5",
+        "filename": "Documentation/dev-build-plugins.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-24T19:46:37Z",
+      "side": 1,
+      "message": "Putting : at the end of a header is weird, the table of contents will show the :",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 22
+      },
+      "revId": "2c33450cb6f7720fae7c74937f705169084a1d8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2a76688_c44d5e5c",
+        "filename": "Documentation/dev-build-plugins.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-24T19:46:37Z",
+      "side": 1,
+      "message": "The Maven era was bad, but do we have to call it poop?",
+      "range": {
+        "startLine": 20,
+        "startChar": 59,
+        "endLine": 20,
+        "endChar": 73
+      },
+      "revId": "2c33450cb6f7720fae7c74937f705169084a1d8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

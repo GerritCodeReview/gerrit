@@ -23,9 +23,23 @@ import java.lang.annotation.Target;
 /**
  * Annotation tagged on a concrete Command to describe what it is doing
  */
-@Target( {ElementType.TYPE})
+@Target({ElementType.TYPE})
 @Retention(RUNTIME)
 public @interface CommandMetaData {
+  public enum Mode {
+    SLAVE(0), MASTER(1), BOTH(2);
+    private int id;
+
+    private Mode(int id) {
+      this.id = id;
+    }
+
+    public boolean get() {
+      return this.id == 0 ? false : true;
+    }
+  }
+
   String name();
   String description() default "";
+  Mode mode() default Mode.BOTH;
 }

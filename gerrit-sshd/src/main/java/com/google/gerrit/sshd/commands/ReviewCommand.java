@@ -59,7 +59,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-@CommandMetaData(name = "review", description = "Verify, approve and/or submit one or more patch sets")
+@CommandMetaData(name = "review", description = "Verify, approve and/or submit one or more patch sets", mode = CommandMetaData.Mode.MASTER)
 public class ReviewCommand extends SshCommand {
   private static final Logger log =
       LoggerFactory.getLogger(ReviewCommand.class);

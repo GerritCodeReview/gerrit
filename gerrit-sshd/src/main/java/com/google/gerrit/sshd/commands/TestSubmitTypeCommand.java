@@ -23,7 +23,7 @@ import com.google.gerrit.sshd.CommandMetaData;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-@CommandMetaData(name = "type", description = "Test prolog submit type")
+@CommandMetaData(name = "type", description = "Test prolog submit type", mode = CommandMetaData.Mode.MASTER)
 final class TestSubmitTypeCommand extends BaseTestPrologCommand {
   @Inject
   private Provider<TestSubmitType> view;

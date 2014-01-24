@@ -1,0 +1,91 @@
+= Gerrit Code Review - Building plugins
+
+
+From build process perspective there are three types of plugins:
+
+* Maven driven
+* Buck in tree driven
+* Buck standalone driven
+
+These types can be combined: if both files in plugin's root directory exist:
+
+* `BUCK`
+* `pom.xml`
+
+the plugin can be built with both Buck and Maven.
+
+
+== Maven driven build
+
+If plugin contains `pom.xml` file, it can be built with Maven as usually:
+
+----
+mvn clean package
+----
+
+Exceptions from the rule above:
+
+=== Exception 1:
+
+
+Plugin's `pom.xml` references snapshot version of plugin API:
+`2.8-SNAPSHOT`. In this case there are two possibilities:
+
+* switch to release API. Change plugin API version in `pom.xml` from
+  `2.8-SNAPSHOT` to `2.8.1` and repeat step 1 above.
+* build and install `SNAPSHOT` version of plugin API in local Maven repository:
+
+----
+buck build api_install
+----
+
+=== Exception 2:
+
+Plugin's `pom.xml` references other own or foreign (unpublished) libraries or
+even other Gerrit plugins. These libraries and/or plugins must be built and
+installed in local Maven repository. Clone the related projects and issue
+
+----
+mvn install
+----
+
+Repeat step 1. above.
+
+
+== Buck in tree driven
+
+
+The fact that plugin contains `BUCK` file doesn't mean that building this
+plugin from the plugin directory works. For now it doesn't. Buck in tree driven
+means it can only be built from within Gerrit tree. Clone or link the plugin
+into gerrit/plugins directory:
+
+----
+cd gerrit
+buck build plugins/<plugin-name>:<plugin-name>
+----
+
+The output can be normally found in the following directory:
+
+----
+buck-out/gen/plugins/<plugin-name>/<plugin-name>.jar
+----
+
+Some plugins describe their build process in `src/main/resources/Documentation/build.md`
+file. It may worth checking.
+
+== Buck standalone driven
+
+Only few plugins support that mode for now:
+
+----
+cd reviewers
+buck build plugin
+----
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

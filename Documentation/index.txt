@@ -66,6 +66,7 @@
 == Developer
 . link:dev-readme.html[Developer Setup]
 . link:dev-buck.html[Building with Buck]
+. link:dev-build-plugins.html[Building Gerrit plugins]
 . link:dev-eclipse.html[Eclipse Setup]
 . link:dev-contributing.html[Contributing to Gerrit]
 . Documentation formatting guide for contributions

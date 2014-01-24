@@ -25,6 +25,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.InheritableBoolean;
 import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.git.TransferConfig;
@@ -51,7 +52,7 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
 
   private final MetaDataUpdate.User metaDataUpdateFactory;
   private final ProjectCache projectCache;
-  private final Provider<CurrentUser> self;
+  private final GitRepositoryManager gitMgr;
   private final ProjectState.Factory projectStateFactory;
   private final TransferConfig config;
   private final DynamicMap<RestView<ProjectResource>> views;
@@ -60,14 +61,14 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
   @Inject
   PutConfig(MetaDataUpdate.User metaDataUpdateFactory,
       ProjectCache projectCache,
-      Provider<CurrentUser> self,
+      GitRepositoryManager gitMgr,
       ProjectState.Factory projectStateFactory,
       TransferConfig config,
       DynamicMap<RestView<ProjectResource>> views,
       Provider<CurrentUser> currentUser) {
     this.metaDataUpdateFactory = metaDataUpdateFactory;
     this.projectCache = projectCache;
-    this.self = self;
+    this.gitMgr = gitMgr;
     this.projectStateFactory = projectStateFactory;
     this.config = config;
     this.views = views;
@@ -129,8 +130,8 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
       md.setMessage("Modified project settings\n");
       try {
         projectConfig.commit(md);
-        (new PerRequestProjectControlCache(projectCache, self.get()))
-            .evict(projectConfig.getProject());
+        projectCache.evict(projectConfig.getProject());
+        gitMgr.setProjectDescription(projectName, p.getDescription());
       } catch (IOException e) {
         if (e.getCause() instanceof ConfigInvalidException) {
           throw new ResourceConflictException("Cannot update " + projectName

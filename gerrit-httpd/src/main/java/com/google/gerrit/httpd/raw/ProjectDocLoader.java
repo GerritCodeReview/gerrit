@@ -23,6 +23,8 @@ import com.google.gerrit.httpd.resources.ResourceKey;
 import com.google.gerrit.httpd.resources.SmallResource;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.documentation.MarkdownFormatter;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.ssh.SshAddressesModule;
@@ -31,6 +33,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.Repository;
@@ -39,24 +42,39 @@ import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
+import org.owasp.validator.html.AntiSamy;
+import org.owasp.validator.html.Policy;
+import org.owasp.validator.html.PolicyException;
+import org.owasp.validator.html.ScanException;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Singleton
 public class ProjectDocLoader extends CacheLoader<ProjectDocResourceKey, Resource> {
+  public static enum AntiSamyPolicy {
+    STRICT, MODEST, LAX, CUSTOM, DISABLED
+  }
+
   private final GitRepositoryManager repoManager;
   private final Provider<String> webUrl;
+  private final boolean suppressHtml;
+  private final Policy policy;
   private final String sshHost;
   private final int sshPort;
 
   @Inject
   ProjectDocLoader(GitRepositoryManager repoManager,
-      @CanonicalWebUrl Provider<String> webUrl, SshInfo sshInfo) {
+      @CanonicalWebUrl Provider<String> webUrl, SitePaths sitePaths,
+      @GerritServerConfig Config cfg, SshInfo sshInfo) throws PolicyException {
     this.repoManager = repoManager;
     this.webUrl = webUrl;
+    this.suppressHtml = cfg.getBoolean("site", "suppressHtml", true);
+    this.policy = loadPolicy(sitePaths, cfg);
 
     String sshHost = "review.example.com";
     int sshPort = SshAddressesModule.DEFAULT_PORT;
@@ -73,6 +91,19 @@ public class ProjectDocLoader extends CacheLoader<ProjectDocResourceKey, Resourc
     }
     this.sshHost = sshHost;
     this.sshPort = sshPort;
+  }
+
+  private static Policy loadPolicy(SitePaths sitePaths, Config cfg)
+      throws PolicyException {
+    AntiSamyPolicy policy =
+        cfg.getEnum("site", null, "antiSamyPolicy", AntiSamyPolicy.MODEST);
+    if (AntiSamyPolicy.DISABLED.equals(policy)) {
+      return null;
+    }
+    return AntiSamyPolicy.CUSTOM.equals(policy)
+        ? Policy.getInstance(new File(sitePaths.etc_dir, "antisamy.xml"))
+        : Policy.getInstance(ProjectDocLoader.class.getResourceAsStream(
+            "antisamy-" + policy.name().toLowerCase() + ".xml"));
   }
 
   @Override
@@ -108,9 +139,9 @@ public class ProjectDocLoader extends CacheLoader<ProjectDocResourceKey, Resourc
   }
 
   private Resource getMarkdownAsHtmlResource(String md, int lastModified,
-      ResourceKey cacheKey) throws IOException {
-    byte[] html = new MarkdownFormatter()
-        .markdownToDocHtml(replaceMacros(md), "UTF-8", true);
+      ResourceKey cacheKey) throws IOException, PolicyException, ScanException {
+    byte[] html = cleanHtml(new MarkdownFormatter()
+        .markdownToDocHtml(replaceMacros(md), "UTF-8", suppressHtml));
     return new SmallResource(html)
         .setContentType("text/html")
         .setCharacterEncoding("UTF-8")
@@ -140,6 +171,15 @@ public class ProjectDocLoader extends CacheLoader<ProjectDocResourceKey, Resourc
     }
     m.appendTail(sb);
     return sb.toString();
+  }
+
+  private byte[] cleanHtml(byte[] html) throws UnsupportedEncodingException,
+      PolicyException, ScanException {
+    if (policy == null) {
+      return html;
+    }
+    return new AntiSamy().scan(new String(html, "UTF-8"), policy)
+        .getCleanHTML().getBytes("UTF-8");
   }
 
   public static class Module extends CacheModule {

@@ -1,0 +1,73 @@
+include_defs('//lib/maven.defs')
+
+maven_jar(
+  name = 'antisamy',
+  id = 'org.owasp.antisamy:antisamy:1.5.3',
+  bin_sha1 = '7538ad2b1afb74e74cc419e8c7b87abfd5526251',
+  src_sha1 = 'ced82b261fd59a41aa970dfa9439c35b41d06e43',
+  license = 'antisamy',
+  deps = [
+    '//lib/gwt:user',
+    ':batik-css',
+    ':xerces',
+    ':nekohtml',
+  ],
+)
+
+maven_jar(
+  name = 'batik-css',
+  id = 'org.apache.xmlgraphics:batik-css:1.7',
+  sha1 = 'e6bb5c85753331534593f33fb9236acb41a0ab79',
+  license = 'Apache2.0',
+  deps = [
+    ':batik-util',
+    ':batik-gui-util',
+    ':batik-ext',
+  ],
+  visibility = [],
+  attach_source = False,
+)
+
+maven_jar(
+  name = 'batik-util',
+  id = 'org.apache.xmlgraphics:batik-util:1.7',
+  sha1 = '5c4dd0dd9a86a2fba2c6ea26fb62b32b21b2a61e',
+  license = 'Apache2.0',
+  visibility = [],
+  attach_source = False,
+)
+
+maven_jar(
+  name = 'batik-gui-util',
+  id = 'org.apache.xmlgraphics:batik-gui-util:1.7',
+  sha1 = 'b089f5b710e29d0d4280401d04fd4f086fbef2a7',
+  license = 'Apache2.0',
+  visibility = [],
+  attach_source = False,
+)
+
+maven_jar(
+  name = 'batik-ext',
+  id = 'org.apache.xmlgraphics:batik-ext:1.7',
+  sha1 = '4784302b44a0336166fef6153a5e3d73e861aecc',
+  license = 'Apache2.0',
+  visibility = [],
+  attach_source = False,
+)
+
+maven_jar(
+  name = 'xerces',
+  id = 'xerces:xercesImpl:2.11.0',
+  sha1 = '9bb329db1cfc4e22462c9d6b43a8432f5850e92c',
+  license = 'Apache2.0',
+  visibility = [],
+)
+
+maven_jar(
+  name = 'nekohtml',
+  id = 'milyn:nekohtml:X',
+  sha1 = 'dae8ff28a8db8394ca79247fbd4327f35c1fda0c',
+  license = 'Apache2.0',
+  visibility = [],
+  attach_source = False,
+)

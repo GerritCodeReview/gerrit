@@ -2634,6 +2634,57 @@ If true Gerrit automatically serves project documentation under
 +
 Default is false, no serving of project documentation.
 
+[[site.suppressHtml]]site.suppressHtml::
++
+If true all HTML that is contained in a Markdown file is suppressed
+when generating project documentation HTML out of the Markdown file.
++
+After changing this parameter the `project_doc_resources` cache must be
+flushed.
++
+Default is true, HTML in Markdown files is suppressed.
+
+[[site.antiSamyPolicy]]site.antiSamyPolicy::
++
+AntiSamy is an HTML, CSS and JavaScript filter that sanitizes user
+input based on a policy file. Within Gerrit AntiSamy is used to clean
+project documentation HTML files from malicious HTML, CSS and
+JavaScript. This parameter defines the policy that is used by AntiSamy
+in the parsing and filtering of HTML input.
++
+* `STRICT`
++
+The allowed HTML markup is very limited. Only text-formatting tags that
+operate directly on the font, color or emphasis are allowed.
++
+* `MODEST`
++
+The allowed HTML markup is limited, but rich HTML content is possible.
++
+* `LAX`
++
+Pretty much all HTML and CSS is allowed as long as it doesn't contain
+JavaScript.
++
+* `CUSTOM`
++
+Custom policy that is defined by the policy file
+`'$site_path'/etc/antisamy.xml`.
++
+* `DISABLED`
++
+AntiSamy is disabled and no cleanup of HTML is done.
++
+*WARNING:* If this option is chosen the displayed HTML may not be safe
+and XSS attacks may be possible, especially if HTML in Markdown files
+is not suppressed.
+
++
+After changing this parameter the `project_doc_resources` cache must be
+flushed.
++
+If `site.antiSamyPolicy` is not specified, `MODEST` is used as policy.
+
 [[ssh-alias]]
 === Section ssh-alias
 

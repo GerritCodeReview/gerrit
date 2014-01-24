@@ -106,6 +106,24 @@
       "revId": "90602b8d32599a0e870c68fc537f48861231404e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2a76688_041db64e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-24T19:04:39Z",
+      "side": 1,
+      "message": "So we agree we should use two footers, one of the submit rule results and another for the other normalized labels?\n\nI think we can agree on \"Submitted-with\" is the rule results.\n\nLabel is already used without the user name when a user records their own labels. And you want to avoid the ambiguity of parsing two formats for this value. So you want a different name for the normalized labels that the submit rule did not use.\n\nDo we even need to normalize the others at submit time? Normalizing was mostly about trying to save the submit rule results permenantly. If we have that in the Submitted-with field maybe we can just grab the other labels as-is from the history and present them without normalization. We know they were normalized at the time they were stored in the history, so at some point in time it was valid.",
+      "parentUuid": "cd1c8154_c3fef6d7",
+      "revId": "90602b8d32599a0e870c68fc537f48861231404e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

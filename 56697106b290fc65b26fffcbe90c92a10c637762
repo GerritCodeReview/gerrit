@@ -69,6 +69,30 @@
       "revId": "56697106b290fc65b26fffcbe90c92a10c637762",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "326c9e14_162edca6",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ApprovalTable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-24T08:07:00Z",
+      "side": 1,
+      "message": "Try this:\n\n  Document.get().createElement(\"ul\");\n\nMay be create our own utility class DOM2 and provide and sugaring for this helper classes?, like\n\n  createDiv();\n  createElement();\n  createAnchor();\n  [...]\n\nThe implementation would be the same as in current DOM class, but without cast() call:\n\n\n  public class DOM2 {\n    public static AnchorElement createAnchor() {\n      return Document.get().createAnchorElement();\n    }\n    public static Element createElement (String tagName) {\n      return Document.get().createElement(tagName);\n    }\n    [...]\n  }\n\nBut as mentioned in comment to another change, this class is old change screen related and is dead. OTOH i can see, that having warning free Eclipse projects has its own charm.",
+      "parentUuid": "f2a76688_a43aa2d4",
+      "range": {
+        "startLine": 80,
+        "startChar": 19,
+        "endLine": 80,
+        "endChar": 28
+      },
+      "revId": "56697106b290fc65b26fffcbe90c92a10c637762",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

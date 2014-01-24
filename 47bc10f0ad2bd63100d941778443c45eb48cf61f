@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f2a76688_443aceae",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-24T19:42:23Z",
+      "side": 1,
+      "message": "Why not refs/drafts/*?",
+      "range": {
+        "startLine": 406,
+        "startChar": 11,
+        "endLine": 406,
+        "endChar": 33
+      },
+      "revId": "47bc10f0ad2bd63100d941778443c45eb48cf61f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2a76688_643fca9d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1148,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-24T19:42:23Z",
+      "side": 1,
+      "message": "\"refs/drafts/\" + ref",
+      "range": {
+        "startLine": 1148,
+        "startChar": 40,
+        "endLine": 1148,
+        "endChar": 55
+      },
+      "revId": "47bc10f0ad2bd63100d941778443c45eb48cf61f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

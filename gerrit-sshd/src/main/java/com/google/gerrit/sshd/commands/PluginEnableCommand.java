@@ -14,6 +14,8 @@
 
 package com.google.gerrit.sshd.commands;
 
+import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
+
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
@@ -28,7 +30,8 @@ import org.kohsuke.args4j.Argument;
 import java.util.List;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
-@CommandMetaData(name = "enable", description = "Enable plugins")
+@CommandMetaData(name = "enable", description = "Enable plugins",
+  runsAt = MASTER_OR_SLAVE)
 final class PluginEnableCommand extends SshCommand {
   @Argument(index = 0, metaVar = "NAME", required = true, usage = "plugin(s) to enable")
   List<String> names;

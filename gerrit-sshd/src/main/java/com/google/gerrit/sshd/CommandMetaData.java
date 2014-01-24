@@ -21,11 +21,19 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Annotation tagged on a concrete Command to describe what it is doing
+ * Annotation tagged on a concrete Command to describe what it is doing and
+ * whether it can be run on slaves.
  */
-@Target( {ElementType.TYPE})
+@Target({ElementType.TYPE})
 @Retention(RUNTIME)
 public @interface CommandMetaData {
+  public enum Mode {
+    MASTER, MASTER_OR_SLAVE;
+    public boolean isSupported(boolean slaveMode) {
+      return this == MASTER_OR_SLAVE || !slaveMode;
+    }
+  }
   String name();
   String description() default "";
+  Mode runsAt() default Mode.MASTER;
 }

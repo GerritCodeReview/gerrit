@@ -14,6 +14,8 @@
 
 package com.google.gerrit.sshd.commands;
 
+import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
+
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.restapi.Url;
@@ -37,7 +39,8 @@ import org.kohsuke.args4j.Option;
 
 import java.io.PrintWriter;
 
-@CommandMetaData(name = "ls-groups", description = "List groups visible to the caller")
+@CommandMetaData(name = "ls-groups", description = "List groups visible to the caller",
+  runsAt = MASTER_OR_SLAVE)
 public class ListGroupsCommand extends BaseCommand {
   @Inject
   private MyListGroups impl;

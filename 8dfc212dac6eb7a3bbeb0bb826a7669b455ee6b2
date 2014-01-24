@@ -22,6 +22,30 @@
       "revId": "8dfc212dac6eb7a3bbeb0bb826a7669b455ee6b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "326c9e14_563854e9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-24T08:40:34Z",
+      "side": 1,
+      "message": "\u0027Conflict\u0027 may not be perfect but looking at the possible response codes [1] I think it\u0027s the best suitable response code here. Of course it depends also on the reason why the plugin is rejecting the project creation.\n\nI wouldn\u0027t use \u0027Bad Request\u0027 since this response code indicates a syntactically malformed request that the server doesn\u0027t understand, which is not the case here.\n\n\"project creation failed\" is bad because this results in a \u0027500 Internal Server Error\u0027 which should only be used if there is a real error in the server. Actually because of this \"project creation failed\" shouldn\u0027t be thrown at all but rather be mapped to correct response codes. It is only thrown because at this place we cannot diffierentiate between different reasons for throwing \"project creation failed\" from PerformCreateProject and we would need to refactor PerformCreateProject first to include the relevant information into the exception or to throw different exceptions.\n\n[1] https://gerrit-review.googlesource.com/Documentation/rest-api.html#response-codes",
+      "parentUuid": "f2a76688_04893660",
+      "range": {
+        "startLine": 143,
+        "startChar": 18,
+        "endLine": 143,
+        "endChar": 43
+      },
+      "revId": "8dfc212dac6eb7a3bbeb0bb826a7669b455ee6b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -21,6 +21,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.CapabilityUtils;
 import com.google.gerrit.server.args4j.SubcommandHandler;
+import com.google.gerrit.sshd.commands.ErrorSlaveMode;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
@@ -154,9 +155,13 @@ final class DispatchCommand extends BaseCommand {
     String format = "%-" + maxLength + "s   %s";
     for (String name : Sets.newTreeSet(commands.keySet())) {
       final CommandProvider p = commands.get(name);
+      Command c = p.getProvider().get();
+      String description = c instanceof ErrorSlaveMode ?
+          "Command disabled: server is running in slave mode"
+          : Strings.nullToEmpty(p.getDescription());
+
       usage.append("   ");
-      usage.append(String.format(format, name,
-          Strings.nullToEmpty(p.getDescription())));
+      usage.append(String.format(format, name, description));
       usage.append("\n");
     }
     usage.append("\n");

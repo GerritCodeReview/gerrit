@@ -300,6 +300,24 @@
       "revId": "8dfc212dac6eb7a3bbeb0bb826a7669b455ee6b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "326c9e14_96402c52",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/validators/ProjectCreationValidationListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-01-24T09:28:22Z",
+      "side": 1,
+      "message": "Our only \"problem\" here is that we think that all extension point method names have to follow the same pattern.\n\nI would also be find with naming this one \"validate\" and keeping other as they are, because \"onCommitReceived\" and \"onPreMerge\" are good names for what they do.",
+      "parentUuid": "f2a76688_44664e00",
+      "revId": "8dfc212dac6eb7a3bbeb0bb826a7669b455ee6b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

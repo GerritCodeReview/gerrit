@@ -2,5 +2,8 @@ include_defs('//gerrit-acceptance-tests/tests.defs')
 
 acceptance_tests(
   srcs = glob(['*IT.java']),
-  deps = ['//gerrit-acceptance-tests:lib'],
+  deps = [
+    '//gerrit-acceptance-tests:lib',
+    '//lib/gwt:user',
+  ],
 )

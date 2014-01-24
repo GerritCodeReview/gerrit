@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f24cc6b4_7c1d794e",
+        "filename": "lib/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-24T17:52:18Z",
+      "side": 1,
+      "message": "If we are going to be relying on this, I want to pass this through my security team and ask them to review before its part of Gerrit. Yes, I am paranoid.",
+      "range": {
+        "startLine": 255,
+        "startChar": 8,
+        "endLine": 255,
+        "endChar": 41
+      },
+      "revId": "86d7199b0fa6bfdef3e5703f5886c4612518d900",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2a76688_24b31217",
+        "filename": "lib/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-24T17:52:18Z",
+      "side": 1,
+      "message": "We have to build against Batik 1.7 for gerrit-review. This may cause problems, I haven\u0027t tried it yet.",
+      "range": {
+        "startLine": 267,
+        "startChar": 8,
+        "endLine": 267,
+        "endChar": 29
+      },
+      "revId": "86d7199b0fa6bfdef3e5703f5886c4612518d900",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

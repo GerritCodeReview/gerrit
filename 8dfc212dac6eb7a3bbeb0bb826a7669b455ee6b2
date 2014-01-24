@@ -354,6 +354,24 @@
       "revId": "8dfc212dac6eb7a3bbeb0bb826a7669b455ee6b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "326c9e14_96766caa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/validators/ProjectCreationValidationListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-24T10:55:50Z",
+      "side": 1,
+      "message": "Why that suffix \"NewProject\"? We are inside ProjectCreationValidationListener class. Obviously we are not validating group, account or branch creation. For those we have dedicated listeners. Just name it validates() as proposed on the previous comment?",
+      "parentUuid": "d24982a5_9b404b52",
+      "revId": "8dfc212dac6eb7a3bbeb0bb826a7669b455ee6b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

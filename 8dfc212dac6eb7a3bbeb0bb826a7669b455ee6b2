@@ -246,6 +246,24 @@
       "revId": "8dfc212dac6eb7a3bbeb0bb826a7669b455ee6b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2a76688_44664e00",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/validators/ProjectCreationValidationListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-01-24T09:16:23Z",
+      "side": 1,
+      "message": "I see your point, and actually I think `validate` is fine; it should be obvious what the validation is, from the method signature.\n\nMy only concern is with creating inconsistency with the other validation extension points.\n\nI wonder if we can get away with changing the others to `validate` too and breaking the API?",
+      "parentUuid": "326c9e14_764ab076",
+      "revId": "8dfc212dac6eb7a3bbeb0bb826a7669b455ee6b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

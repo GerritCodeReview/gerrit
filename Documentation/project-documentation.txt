@@ -19,8 +19,11 @@ a revision is specified in the URL as
 If the file name is omitted Gerrit serves the `README.md` from the
 project if available.
 
-*WARNING:* All HTML blocks as well as inline HTML tags are suppressed.
-Both will be accepted in the input but not be contained in the output.
+*WARNING:* HTML blocks as well as inline HTML tags may be suppressed by
+the site administrator by setting
+link:config-gerrit.html#site.suppressHtml[site.suppressHtml]. If HTML
+is suppressed it is accepted in the input but will not be contained in
+the output.
 
 *WARNING:* This is an experimental feature in Gerrit which must be
 switched on by the site administrator by setting

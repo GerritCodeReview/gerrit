@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d24982a5_9b8fab62",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-24T11:52:33Z",
+      "side": 1,
+      "message": "given",
+      "range": {
+        "startLine": 14,
+        "startChar": 41,
+        "endLine": 14,
+        "endChar": 45
+      },
+      "revId": "8a74b3313a365e1b04509fe4d6a28897b7db2051",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d24982a5_fb9cefa0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-24T11:52:33Z",
+      "side": 1,
+      "message": "Remove or consolidate or merge.",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 6
+      },
+      "revId": "8a74b3313a365e1b04509fe4d6a28897b7db2051",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d24982a5_5b8ec369",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/CommandMetaData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-24T11:52:33Z",
+      "side": 1,
+      "message": "This should be an enum",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 34
+      },
+      "revId": "8a74b3313a365e1b04509fe4d6a28897b7db2051",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d24982a5_bb92678a",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CreateAccountCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-24T11:52:33Z",
+      "side": 1,
+      "message": "Wrap this line.",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 121
+      },
+      "revId": "8a74b3313a365e1b04509fe4d6a28897b7db2051",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

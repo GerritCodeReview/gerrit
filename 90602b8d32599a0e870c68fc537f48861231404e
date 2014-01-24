@@ -199,6 +199,24 @@
     },
     {
       "key": {
+        "uuid": "d2626223_f3f890f0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-24T20:57:54Z",
+      "side": 1,
+      "message": "Yes, but we already decided on author \u003d end user, committer \u003d end user with gerrit account ID. So this would have to be author \u003d affected user with account ID, committer \u003d server. Not impossible, but inconsistent.\n\nI feel like we already had this conversation in person previously...",
+      "parentUuid": "f2a76688_44088ef6",
+      "revId": "90602b8d32599a0e870c68fc537f48861231404e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f24cc6b4_dc448d35",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
         "patchSetId": 5

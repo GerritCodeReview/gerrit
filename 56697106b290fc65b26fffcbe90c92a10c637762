@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f2a76688_6484aa49",
+        "filename": "gerrit-gwtexpui/src/main/java/com/google/gwtexpui/safehtml/client/SafeHtml.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-01-24T07:57:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d24982a5_fb0fcf47",
+      "range": {
+        "startLine": 18,
+        "startChar": 7,
+        "endLine": 18,
+        "endChar": 40
+      },
+      "revId": "56697106b290fc65b26fffcbe90c92a10c637762",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f2a76688_a43aa2d4",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ApprovalTable.java",
         "patchSetId": 2

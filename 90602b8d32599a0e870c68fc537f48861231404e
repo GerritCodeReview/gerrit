@@ -127,6 +127,24 @@
     },
     {
       "key": {
+        "uuid": "12695a06_95eb041a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-24T19:44:58Z",
+      "side": 1,
+      "message": "+1 Submitted-with (lowercase w)\n\nThe idea of normalizing the others at submit time is essentially to record the input to the submit rule evaluator along with the output. If a user voted +2 on PS1 but then lost permissions and is normalized to +1 when PS2 is submitted, then the submit rule evaluator treated them as +1 when doing its magic, so I feel like that should be recorded somewhere.\n\nThat said it\u0027s still not like we have sufficient information to reproduce the submit rule evaluator results, so maybe this is of limited utility.",
+      "parentUuid": "f2a76688_041db64e",
+      "revId": "90602b8d32599a0e870c68fc537f48861231404e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f24cc6b4_dc448d35",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
         "patchSetId": 5

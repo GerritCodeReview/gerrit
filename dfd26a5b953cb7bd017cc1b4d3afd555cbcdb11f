@@ -94,6 +94,30 @@
       "revId": "dfd26a5b953cb7bd017cc1b4d3afd555cbcdb11f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "326c9e14_d69904af",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/validators/ValidationException.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-24T10:15:47Z",
+      "side": 1,
+      "message": "I think this makes sense and it can be included in this change since this change is introducing this ValidationException.\n\nDone",
+      "parentUuid": "f2a76688_8473e6b9",
+      "range": {
+        "startLine": 17,
+        "startChar": 13,
+        "endLine": 17,
+        "endChar": 32
+      },
+      "revId": "dfd26a5b953cb7bd017cc1b4d3afd555cbcdb11f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

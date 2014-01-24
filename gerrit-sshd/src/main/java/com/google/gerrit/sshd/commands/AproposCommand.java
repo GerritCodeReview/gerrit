@@ -18,6 +18,7 @@ import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.documentation.QueryDocumentationExecutor;
 import com.google.gerrit.server.documentation.QueryDocumentationExecutor.DocResult;
 import com.google.gerrit.sshd.CommandMetaData;
+import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
 
@@ -25,7 +26,8 @@ import org.kohsuke.args4j.Argument;
 
 import java.util.List;
 
-@CommandMetaData(name = "apropos", description = "Search in Gerrit documentation")
+@CommandMetaData(name = "apropos", description = "Search in Gerrit documentation",
+runsAt = MASTER_OR_SLAVE)
 final class AproposCommand extends SshCommand {
   @Inject
   private QueryDocumentationExecutor searcher;

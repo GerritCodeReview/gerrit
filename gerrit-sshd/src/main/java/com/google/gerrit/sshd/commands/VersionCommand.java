@@ -17,8 +17,10 @@ package com.google.gerrit.sshd.commands;
 import com.google.gerrit.common.Version;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
+import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 
-@CommandMetaData(name = "version", description = "Display gerrit version")
+@CommandMetaData(name = "version", description = "Display gerrit version",
+runsAt = MASTER_OR_SLAVE)
 final class VersionCommand extends SshCommand {
 
   @Override

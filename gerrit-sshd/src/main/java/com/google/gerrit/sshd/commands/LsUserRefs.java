@@ -30,6 +30,7 @@ import com.google.gerrit.server.git.VisibleRefFilter;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
+import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
@@ -42,7 +43,8 @@ import java.io.IOException;
 import java.util.Map;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
-@CommandMetaData(name = "ls-user-refs", description = "List refs visible to a specific user")
+@CommandMetaData(name = "ls-user-refs", description = "List refs visible to a specific user",
+runsAt = MASTER_OR_SLAVE)
 public class LsUserRefs extends SshCommand {
   @Inject
   private AccountResolver accountResolver;

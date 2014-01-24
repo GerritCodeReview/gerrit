@@ -26,6 +26,7 @@ import com.google.gerrit.server.group.ListMembers;
 import com.google.gerrit.server.ioutil.ColumnFormatter;
 import com.google.gerrit.sshd.BaseCommand;
 import com.google.gerrit.sshd.CommandMetaData;
+import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 import com.google.gwtorm.server.OrmException;
 
 import org.apache.sshd.server.Environment;
@@ -39,7 +40,8 @@ import javax.inject.Inject;
 /**
  * Implements a command that allows the user to see the members of a group.
  */
-@CommandMetaData(name = "ls-members", description = "Lists the members of a given group")
+@CommandMetaData(name = "ls-members", description = "Lists the members of a given group",
+runsAt = MASTER_OR_SLAVE)
 public class ListMembersCommand extends BaseCommand {
   @Inject
   ListMembersCommandImpl impl;

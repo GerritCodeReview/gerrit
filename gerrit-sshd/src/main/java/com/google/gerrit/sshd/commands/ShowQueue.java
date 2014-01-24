@@ -27,6 +27,7 @@ import com.google.gerrit.server.util.TimeUtil;
 import com.google.gerrit.sshd.AdminHighPriorityCommand;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
+import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 import com.google.inject.Inject;
 
 import org.apache.sshd.server.Environment;
@@ -42,7 +43,8 @@ import java.util.concurrent.TimeUnit;
 
 /** Display the current work queue. */
 @AdminHighPriorityCommand
-@CommandMetaData(name = "show-queue", description = "Display the background work queues")
+@CommandMetaData(name = "show-queue", description = "Display the background work queues",
+runsAt = MASTER_OR_SLAVE)
 final class ShowQueue extends SshCommand {
   @Option(name = "--wide", aliases = {"-w"}, usage = "display without line width truncation")
   private boolean wide;

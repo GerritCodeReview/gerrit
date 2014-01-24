@@ -24,6 +24,7 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.sshd.BaseCommand;
 import com.google.gerrit.sshd.CommandMetaData;
+import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 import com.google.inject.Inject;
 
 import org.apache.sshd.server.Environment;
@@ -37,7 +38,8 @@ import java.util.List;
 
 /** Runs the Git garbage collection. */
 @RequiresCapability(GlobalCapability.RUN_GC)
-@CommandMetaData(name = "gc", description = "Run Git garbage collection")
+@CommandMetaData(name = "gc", description = "Run Git garbage collection",
+runsAt = MASTER_OR_SLAVE)
 public class GarbageCollectionCommand extends BaseCommand {
 
   @Option(name = "--all", usage = "runs the Git garbage collection for all projects")

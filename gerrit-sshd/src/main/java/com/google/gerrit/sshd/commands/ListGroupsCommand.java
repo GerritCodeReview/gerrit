@@ -28,6 +28,7 @@ import com.google.gerrit.server.group.ListGroups;
 import com.google.gerrit.server.ioutil.ColumnFormatter;
 import com.google.gerrit.sshd.BaseCommand;
 import com.google.gerrit.sshd.CommandMetaData;
+import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -37,7 +38,8 @@ import org.kohsuke.args4j.Option;
 
 import java.io.PrintWriter;
 
-@CommandMetaData(name = "ls-groups", description = "List groups visible to the caller")
+@CommandMetaData(name = "ls-groups", description = "List groups visible to the caller",
+runsAt = MASTER_OR_SLAVE)
 public class ListGroupsCommand extends BaseCommand {
   @Inject
   private MyListGroups impl;

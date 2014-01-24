@@ -20,6 +20,7 @@ import com.google.gerrit.server.git.BanCommitResult;
 import com.google.gerrit.server.git.MergeException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.sshd.CommandMetaData;
+import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
 
@@ -33,7 +34,8 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-@CommandMetaData(name = "ban-commit", description = "Ban a commit from a project's repository")
+@CommandMetaData(name = "ban-commit", description = "Ban a commit from a project's repository",
+runsAt = MASTER_OR_SLAVE)
 public class BanCommitCommand extends SshCommand {
   @Option(name = "--reason", aliases = {"-r"}, metaVar = "REASON", usage = "reason for banning the commit")
   private String reason;

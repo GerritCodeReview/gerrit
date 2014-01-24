@@ -29,6 +29,7 @@ import com.google.gerrit.server.git.WorkQueue.Task;
 import com.google.gerrit.server.util.TimeUtil;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshDaemon;
+import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -54,7 +55,8 @@ import java.util.SortedMap;
 
 /** Show the current cache states. */
 @RequiresCapability(GlobalCapability.VIEW_CACHES)
-@CommandMetaData(name = "show-caches", description = "Display current cache statistics")
+@CommandMetaData(name = "show-caches", description = "Display current cache statistics",
+runsAt = MASTER_OR_SLAVE)
 final class ShowCaches extends CacheCommand {
   private static volatile long serverStarted;
 

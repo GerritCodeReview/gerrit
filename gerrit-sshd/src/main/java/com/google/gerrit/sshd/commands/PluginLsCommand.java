@@ -19,6 +19,7 @@ import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.server.plugins.ListPlugins;
 import com.google.gerrit.sshd.BaseCommand;
 import com.google.gerrit.sshd.CommandMetaData;
+import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 import com.google.inject.Inject;
 
 import org.apache.sshd.server.Environment;
@@ -26,7 +27,8 @@ import org.apache.sshd.server.Environment;
 import java.io.IOException;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
-@CommandMetaData(name = "ls", description = "List the installed plugins")
+@CommandMetaData(name = "ls", description = "List the installed plugins",
+runsAt = MASTER_OR_SLAVE)
 final class PluginLsCommand extends BaseCommand {
   @Inject
   private ListPlugins impl;

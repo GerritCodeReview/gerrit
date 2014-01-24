@@ -181,6 +181,24 @@
     },
     {
       "key": {
+        "uuid": "f2a76688_44088ef6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-24T20:54:18Z",
+      "side": 1,
+      "message": "I don\u0027t think there are many cases where the normalized value at submit time differs from the value already stored in the branch. When it does differ, it might be useful to show this in the history by saying \"author\" is the user affected and \"committer\" is the server.\n\nIts still only one ref update, but its multiple commits at once.",
+      "parentUuid": "d2626223_b3ee182a",
+      "revId": "90602b8d32599a0e870c68fc537f48861231404e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f24cc6b4_dc448d35",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
         "patchSetId": 5

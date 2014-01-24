@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "d24982a5_1b2efba6",
+        "filename": "Documentation/config-validation.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-01-24T09:02:14Z",
+      "side": 1,
+      "message": "optional: looking above we have the \"new-commit-validation\u0027. Based on that, this one could be named \"new-project-validation\"",
+      "revId": "8dfc212dac6eb7a3bbeb0bb826a7669b455ee6b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f2a76688_04893660",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
         "patchSetId": 2

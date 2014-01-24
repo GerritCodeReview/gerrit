@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f24cc6b4_3c7f718f",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-01-24T05:07:35Z",
+      "side": 1,
+      "message": "This is no longer used.  Removed in [1]\n\n[1] https://gerrit-review.googlesource.com/#/c/53997/",
+      "revId": "46f8488a78742799a4f5f781279c8955460e7964",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

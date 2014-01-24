@@ -372,6 +372,24 @@
       "revId": "8dfc212dac6eb7a3bbeb0bb826a7669b455ee6b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "326c9e14_f67360b8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/validators/ProjectCreationValidationListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-24T11:40:27Z",
+      "side": 1,
+      "message": "I really don\u0027t mind how this method is named. For me one name is as good as the other.\n\nThere may be plugins that have one class that implements several listener interfaces. E.g. one class could implement ProjectCreationValidationListener and GroupCreationValidationListener. If in both interfaces the method is named validate this would result in a class with two validate methods:\n\n* validate(CreateProjectArgs)\n* validate(CreateGroupArgs)\n\nIt\u0027s nothing really bad with this and also no problem with Java, but in this case the methods are btter distinguishable if they are named:\n\n* validateNewProject(CreateProjectArgs)\n* validateNewGroup(CreateGroupArgs)\n\nThat was the reason for adding the \u0027NewProject\u0027 suffix, but as stated I really don\u0027t care much which method name we use here, be it \u0027validate\u0027 or \u0027validateNewProject\u0027 or something else.\n\nSo if everybody agrees to favor \u0027validate\u0027, I\u0027ll just change it.",
+      "parentUuid": "326c9e14_96766caa",
+      "revId": "8dfc212dac6eb7a3bbeb0bb826a7669b455ee6b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

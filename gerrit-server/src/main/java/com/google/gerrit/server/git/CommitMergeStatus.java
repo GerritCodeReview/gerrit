@@ -68,6 +68,16 @@ public enum CommitMergeStatus {
   INVALID_PROJECT_CONFIGURATION("Change contains an invalid project configuration."),
 
   /** */
+  INVALID_PROJECT_CONFIGURATION_PLUGIN_VALUE_NOT_PERMITTED(
+      "Change contains an invalid project configuration:\n"
+          + "One of the plugin configuration parameters has a value that is not permitted."),
+
+  /** */
+  INVALID_PROJECT_CONFIGURATION_PLUGIN_VALUE_NOT_EDITABLE(
+      "Change contains an invalid project configuration:\n"
+          + "One of the plugin configuration parameters is not editable."),
+
+  /** */
   INVALID_PROJECT_CONFIGURATION_PARENT_PROJECT_NOT_FOUND(
       "Change contains an invalid project configuration:\n"
           + "Parent project does not exist."),

@@ -685,6 +685,41 @@ Project owners can edit the project configuration by fetching the
 `refs/meta/config` branch, editing the `project.config` file and
 pushing the commit back.
 
+Plugin configuration values that are stored in the `project.config`
+file can be exposed in the ProjectInfoScreen to allow project owners
+to see and edit them from the UI.
+
+For this an instance of `ProjectConfigEntry` needs to be bound for each
+parameter. The export name must be a valid Git variable name. The
+variable name is case-insensitive, allows only alphanumeric characters
+and '-', and must start with an alphabetic character.
+
+The example below shows how the parameters `plugin.helloworld.enabled`
+and `plugin.helloworld.language` are bound to be editable from the
+WebUI. For the parameter `plugin.helloworld.enabled` "Enable Greeting"
+is provided as display name and the default value is set to `true`.
+For the parameter `plugin.helloworld.language` "Preferred Language"
+is provided as display name and "en" is set as default value.
+
+[source,java]
+----
+class Module extends AbstractModule {
+  @Override
+  protected void configure() {
+    bind(ProjectConfigEntry.class)
+        .annotatedWith(Exports.named("enabled"))
+        .toInstance(new ProjectConfigEntry("Enable Greeting", true));
+    bind(ProjectConfigEntry.class)
+        .annotatedWith(Exports.named("language"))
+        .toInstance(new ProjectConfigEntry("Preferred Language", "en"));
+  }
+}
+----
+
+By overwriting the `onUpdate` method of `ProjectConfigEntry` plugins
+can be notified when this configuration parameter is updated on a
+project.
+
 [[project-specific-configuration]]
 == Project Specific Configuration in own config file
 

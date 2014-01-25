@@ -51,6 +51,8 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.PermissionRule;
+import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.registration.DynamicMap.Entry;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
@@ -75,6 +77,8 @@ import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.Submit;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.server.config.PluginConfig;
+import com.google.gerrit.server.config.ProjectConfigEntry;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.MultiProgressMonitor.Task;
@@ -305,6 +309,7 @@ public class ReceiveCommits {
   private final SubmoduleOp.Factory subOpFactory;
   private final Provider<Submit> submitProvider;
   private final MergeQueue mergeQueue;
+  private final DynamicMap<ProjectConfigEntry> pluginConfigEntries;
 
   private final List<CommitValidationMessage> messages = new ArrayList<CommitValidationMessage>();
   private ListMultimap<Error, String> errors = LinkedListMultimap.create();
@@ -352,7 +357,8 @@ public class ReceiveCommits {
       @Assisted final Repository repo,
       final SubmoduleOp.Factory subOpFactory,
       final Provider<Submit> submitProvider,
-      final MergeQueue mergeQueue) throws IOException {
+      final MergeQueue mergeQueue,
+      final DynamicMap<ProjectConfigEntry> pluginConfigEntries) throws IOException {
     this.currentUser = (IdentifiedUser) projectControl.getCurrentUser();
     this.db = db;
     this.changeDataFactory = changeDataFactory;
@@ -395,6 +401,7 @@ public class ReceiveCommits {
     this.subOpFactory = subOpFactory;
     this.submitProvider = submitProvider;
     this.mergeQueue = mergeQueue;
+    this.pluginConfigEntries = pluginConfigEntries;
 
     this.messageSender = new ReceivePackMessageSender();
 
@@ -869,6 +876,33 @@ public class ReceiveCommits {
                 if (projectCache.get(newParent) == null) {
                   reject(cmd, "invalid project configuration: parent does not exist");
                   continue;
+                }
+              }
+
+              for (Entry<ProjectConfigEntry> e : pluginConfigEntries) {
+                PluginConfig pluginCfg = cfg.getPluginConfig(e.getPluginName());
+                ProjectConfigEntry configEntry = e.getProvider().get();
+                String value = pluginCfg.getString(e.getExportName());
+                String oldValue =
+                    projectControl.getProjectState().getConfig()
+                        .getPluginConfig(e.getPluginName())
+                        .getString(e.getExportName());
+
+                if ((value == null ? oldValue != null : !value.equals(oldValue)) &&
+                    !configEntry.isEditable(projectControl.getProjectState())) {
+                  reject(cmd, String.format(
+                      "invalid project configuration: Not allowed to set parameter"
+                          + " '%s' of plugin '%s' on project '%s'.",
+                      e.getExportName(), e.getPluginName(), project.getName()));
+                  continue;
+                }
+
+                if (ProjectConfigEntry.Type.LIST.equals(configEntry.getType())
+                    && value != null && !configEntry.getPermittedValues().contains(value)) {
+                  reject(cmd, String.format(
+                      "invalid project configuration: The value '%s' is "
+                          + "not permitted for parameter '%s' of plugin '%s'.",
+                      value, e.getExportName(), e.getPluginName()));
                 }
               }
             } catch (Exception e) {

@@ -460,6 +460,15 @@ read access to `refs/meta/config`.
     "submit_type": "MERGE_IF_NECESSARY",
     "state": "ACTIVE",
     "commentlinks": {},
+    "plugin_config": {
+      "helloworld": {
+        "language": {
+          "display_name": "Preferred Language",
+          "type": "STRING",
+          "value": "en"
+        }
+      }
+    },
     "actions": {
       "cookbook~hello-project": {
         "method": "POST",
@@ -1211,6 +1220,10 @@ commentlink section] of `gerrit.config`.
 |`theme`                     |optional|
 The theme that is configured for the project as a link:#theme-info[
 ThemeInfo] entity.
+|`plugin_config`             |optional|
+Plugin configuration as map which maps the plugin name to a map of
+parameter names to link:#config-parameter-info[ConfigParameterInfo]
+entities.
 |`actions`                   |optional|
 Actions the caller might be able to perform on this project. The
 information is a map of view names to
@@ -1265,7 +1278,44 @@ If not set, the submit type is not updated.
 The state of the project, can be `ACTIVE`, `READ_ONLY` or `HIDDEN`. +
 Not set if the project state is `ACTIVE`. +
 If not set, the project state is not updated.
+|`plugin_config_values`      |optional|
+Plugin configuration values as map which maps the plugin name to a map
+of parameter names to values.
 |=========================================
+
+[[config-parameter-info]]
+ConfigParameterInfo
+~~~~~~~~~~~~~~~~~~~
+The `ConfigParameterInfo` entity describes a project configuration
+parameter.
+
+[options="header",width="50%",cols="1,^2,4"]
+|===============================
+|Field Name        ||Description
+|`display_name`    |optional|
+The display name of the configuration parameter.
+|`type`            ||
+The type of the configuration parameter, can be `STRING`, `INT`,
+`LONG`, `BOOLEAN` or `LIST`.
+|`value`           |optional|
+The value of the configuration parameter as string. If the parameter
+is inheritable this is the effective value which is deduced from
+`configured_value` and `inherited_value`.
+`editable`         |`false` if not set|
+Whether the value is editable.
+|`permitted_values`|optional|
+The list of permitted values, only set if the `type` is `LIST`.
+|`inheritable`     |`false` if not set|
+Whether the configuration parameter can be inherited.
+|`configured_value`|optional|
+The value of the configuration parameter that is configured on this
+project, only set if `inheritable` is true.
+|`inherited_value` |optional|
+The inherited value of the configuration parameter, only set if
+`inheritable` is true.
+|`permitted_values` |optional|
+The list of permitted values, only set if the `type` is `LIST`.
+|===============================
 
 [[dashboard-info]]
 === DashboardInfo
@@ -1483,6 +1533,9 @@ Whether the usage of Change-Ids is required for the project (`TRUE`,
 |`max_object_size_limit`     |optional|
 Max allowed Git object size for this project.
 Common unit suffixes of 'k', 'm', or 'g' are supported.
+|`plugin_config_values`      |optional|
+Plugin configuration values as map which maps the plugin name to a map
+of parameter names to values.
 |=========================================
 
 [[project-parent-input]]

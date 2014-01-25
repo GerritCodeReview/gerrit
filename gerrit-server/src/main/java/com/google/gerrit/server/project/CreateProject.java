@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
@@ -31,6 +32,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.InheritableBoolean;
 import com.google.gerrit.reviewdb.client.Project.SubmitType;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.GroupsCollection;
 import com.google.gerrit.server.project.CreateProject.Input;
@@ -45,6 +47,7 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @RequiresCapability(GlobalCapability.CREATE_PROJECT)
 public class CreateProject implements RestModifyView<TopLevelResource, Input> {
@@ -62,6 +65,7 @@ public class CreateProject implements RestModifyView<TopLevelResource, Input> {
     public InheritableBoolean useContentMerge;
     public InheritableBoolean requireChangeId;
     public String maxObjectSizeLimit;
+    public Map<String, Map<String, String>> pluginConfigValues;
   }
 
   public static interface Factory {
@@ -73,6 +77,9 @@ public class CreateProject implements RestModifyView<TopLevelResource, Input> {
   private final Provider<GroupsCollection> groupsCollection;
   private final DynamicSet<ProjectCreationValidationListener> projectCreationValidationListeners;
   private final ProjectJson json;
+  private final ProjectControl.GenericFactory projectControlFactory;
+  private final Provider<CurrentUser> currentUser;
+  private final Provider<PutConfig> putConfig;
   private final String name;
 
   @Inject
@@ -80,19 +87,25 @@ public class CreateProject implements RestModifyView<TopLevelResource, Input> {
       Provider<ProjectsCollection> projectsCollection,
       Provider<GroupsCollection> groupsCollection, ProjectJson json,
       DynamicSet<ProjectCreationValidationListener> projectCreationValidationListeners,
+      ProjectControl.GenericFactory projectControlFactory,
+      Provider<CurrentUser> currentUser, Provider<PutConfig> putConfig,
       @Assisted String name) {
     this.createProjectFactory = performCreateProjectFactory;
     this.projectsCollection = projectsCollection;
     this.groupsCollection = groupsCollection;
     this.projectCreationValidationListeners = projectCreationValidationListeners;
     this.json = json;
+    this.projectControlFactory = projectControlFactory;
+    this.currentUser = currentUser;
+    this.putConfig = putConfig;
     this.name = name;
   }
 
   @Override
   public Response<ProjectInfo> apply(TopLevelResource resource, Input input)
       throws BadRequestException, UnprocessableEntityException,
-      ResourceConflictException, ProjectCreationFailedException, IOException {
+      ResourceConflictException, ProjectCreationFailedException,
+      ResourceNotFoundException, IOException {
     if (input == null) {
       input = new Input();
     }
@@ -145,6 +158,19 @@ public class CreateProject implements RestModifyView<TopLevelResource, Input> {
     }
 
     Project p = createProjectFactory.create(args).createProject();
+
+    if (input.pluginConfigValues != null) {
+      try {
+        ProjectControl projectControl =
+            projectControlFactory.controlFor(p.getNameKey(), currentUser.get());
+        PutConfig.Input in = new PutConfig.Input();
+        in.pluginConfigValues = input.pluginConfigValues;
+        putConfig.get().apply(new ProjectResource(projectControl), in);
+      } catch (NoSuchProjectException e) {
+        throw new ResourceNotFoundException(p.getName());
+      }
+    }
+
     return Response.created(json.format(p));
   }
 }

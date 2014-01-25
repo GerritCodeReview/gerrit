@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.common.base.CharMatcher;
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -25,6 +26,10 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.InheritableBoolean;
 import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.config.AllProjectsNameProvider;
+import com.google.gerrit.server.config.PluginConfig;
+import com.google.gerrit.server.config.PluginConfigFactory;
+import com.google.gerrit.server.config.ProjectConfigEntry;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
@@ -35,10 +40,16 @@ import com.google.inject.Provider;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class PutConfig implements RestModifyView<ProjectResource, Input> {
+  private static final Logger log = LoggerFactory.getLogger(PutConfig.class);
+
   public static class Input {
     public String description;
     public InheritableBoolean useContributorAgreements;
@@ -48,6 +59,7 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
     public String maxObjectSizeLimit;
     public SubmitType submitType;
     public Project.State state;
+    public Map<String, Map<String, String>> pluginConfigValues;
   }
 
   private final MetaDataUpdate.User metaDataUpdateFactory;
@@ -55,6 +67,9 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
   private final GitRepositoryManager gitMgr;
   private final ProjectState.Factory projectStateFactory;
   private final TransferConfig config;
+  private final DynamicMap<ProjectConfigEntry> pluginConfigEntries;
+  private final PluginConfigFactory cfgFactory;
+  private final AllProjectsNameProvider allProjects;
   private final DynamicMap<RestView<ProjectResource>> views;
   private final Provider<CurrentUser> currentUser;
 
@@ -64,6 +79,9 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
       GitRepositoryManager gitMgr,
       ProjectState.Factory projectStateFactory,
       TransferConfig config,
+      DynamicMap<ProjectConfigEntry> pluginConfigEntries,
+      PluginConfigFactory cfgFactory,
+      AllProjectsNameProvider allProjects,
       DynamicMap<RestView<ProjectResource>> views,
       Provider<CurrentUser> currentUser) {
     this.metaDataUpdateFactory = metaDataUpdateFactory;
@@ -71,6 +89,9 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
     this.gitMgr = gitMgr;
     this.projectStateFactory = projectStateFactory;
     this.config = config;
+    this.pluginConfigEntries = pluginConfigEntries;
+    this.cfgFactory = cfgFactory;
+    this.allProjects = allProjects;
     this.views = views;
     this.currentUser = currentUser;
   }
@@ -127,6 +148,11 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
         p.setState(input.state);
       }
 
+      if (input.pluginConfigValues != null) {
+        setPluginConfigValues(rsrc.getControl().getProjectState(),
+            projectConfig, input.pluginConfigValues);
+      }
+
       md.setMessage("Modified project settings\n");
       try {
         projectConfig.commit(md);
@@ -142,9 +168,8 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
       }
 
       ProjectState state = projectStateFactory.create(projectConfig);
-      return new ConfigInfo(
-          state.controlFor(currentUser.get()),
-          config, views);
+      return new ConfigInfo(state.controlFor(currentUser.get()), config,
+          pluginConfigEntries, cfgFactory, allProjects, views);
     } catch (ConfigInvalidException err) {
       throw new ResourceConflictException("Cannot read project " + projectName, err);
     } catch (IOException err) {
@@ -152,5 +177,91 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
     } finally {
       md.close();
     }
+  }
+
+  private void setPluginConfigValues(ProjectState projectState,
+      ProjectConfig projectConfig, Map<String, Map<String, String>> pluginConfigValues)
+      throws BadRequestException {
+    for (Entry<String, Map<String, String>> e : pluginConfigValues.entrySet()) {
+      String pluginName = e.getKey();
+      PluginConfig cfg = projectConfig.getPluginConfig(pluginName);
+      for (Entry<String, String> v : e.getValue().entrySet()) {
+        ProjectConfigEntry projectConfigEntry =
+            pluginConfigEntries.get(pluginName, v.getKey());
+        if (projectConfigEntry != null) {
+          if (!isValidParameterName(v.getKey())) {
+            log.warn(String.format(
+                "Parameter name '%s' must match '^[a-zA-Z0-9]+[a-zA-Z0-9-]*$'", v.getKey()));
+            continue;
+          }
+          String oldValue = cfg.getString(v.getKey());
+          if (v.getValue() != null) {
+            if (!v.getValue().equals(oldValue)) {
+              validateProjectConfigEntryIsEditable(projectConfigEntry,
+                  projectState, e.getKey(), pluginName);
+              try {
+                switch (projectConfigEntry.getType()) {
+                  case BOOLEAN:
+                    boolean newBooleanValue = Boolean.parseBoolean(v.getValue());
+                    cfg.setBoolean(v.getKey(), newBooleanValue);
+                    break;
+                  case INT:
+                    int newIntValue = Integer.parseInt(v.getValue());
+                    cfg.setInt(v.getKey(), newIntValue);
+                    break;
+                  case LONG:
+                    long newLongValue = Long.parseLong(v.getValue());
+                    cfg.setLong(v.getKey(), newLongValue);
+                    break;
+                  case LIST:
+                    if (!projectConfigEntry.getPermittedValues().contains(v.getValue())) {
+                      throw new BadRequestException(String.format(
+                          "The value '%s' is not permitted for parameter '%s' of plugin '"
+                              + pluginName + "'", v.getValue(), v.getKey()));
+                    }
+                  case STRING:
+                    cfg.setString(v.getKey(), v.getValue());
+                    break;
+                  default:
+                    log.warn(String.format(
+                        "The type '%s' of parameter '%s' is not supported.",
+                        projectConfigEntry.getType().name(), v.getKey()));
+                }
+              } catch (NumberFormatException ex) {
+                throw new BadRequestException(String.format(
+                    "The value '%s' of config parameter '%s' of plugin '%s' is invalid: %s",
+                    v.getValue(), v.getKey(), pluginName, ex.getMessage()));
+              }
+            }
+          } else {
+            if (oldValue != null) {
+              validateProjectConfigEntryIsEditable(projectConfigEntry,
+                  projectState, e.getKey(), pluginName);
+              cfg.unset(v.getKey());
+            }
+          }
+        } else {
+          throw new BadRequestException(String.format(
+              "The config parameter '%s' of plugin '%s' does not exist.",
+              v.getKey(), pluginName));
+        }
+      }
+    }
+  }
+
+  private static void validateProjectConfigEntryIsEditable(
+      ProjectConfigEntry projectConfigEntry, ProjectState projectState,
+      String parameterName, String pluginName) throws BadRequestException {
+    if (!projectConfigEntry.isEditable(projectState)) {
+      throw new BadRequestException(String.format(
+          "Not allowed to set parameter '%s' of plugin '%s' on project '%s'.",
+          parameterName, pluginName, projectState.getProject().getName()));
+    }
+  }
+
+  private static boolean isValidParameterName(String name) {
+    return CharMatcher.JAVA_LETTER_OR_DIGIT
+        .or(CharMatcher.is('-'))
+        .matchesAllOf(name) && !name.startsWith("-");
   }
 }

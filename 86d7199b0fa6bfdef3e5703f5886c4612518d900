@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "522592ed_2702da26",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-25T10:42:43Z",
+      "side": 1,
+      "message": "Cool, thanks for helping out!!! :-)",
+      "parentUuid": "522592ed_c7f5bef6",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 29
+      },
+      "revId": "86d7199b0fa6bfdef3e5703f5886c4612518d900",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f24cc6b4_7c1d794e",
         "filename": "lib/BUCK",
         "patchSetId": 1

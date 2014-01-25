@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "12179a8c_4501ca1d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/CommandMetaData.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-25T12:15:34Z",
+      "side": 1,
+      "message": "Not used. Following the YAGNI principle it shouldn\u0027t be here.",
+      "range": {
+        "startLine": 30,
+        "startChar": 29,
+        "endLine": 30,
+        "endChar": 35
+      },
+      "revId": "53f78d3a9b59545175a3b89e84165c6a6d20e6d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "522592ed_67fcd2df",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/CommandModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-25T12:15:34Z",
+      "side": 1,
+      "message": "With the comment bellow, this would be:\n\n  if (meta.getRunsAt().isSupported(slaveMode) {\n     [...]\n  }",
+      "range": {
+        "startLine": 79,
+        "startChar": 4,
+        "endLine": 79,
+        "endChar": 23
+      },
+      "revId": "53f78d3a9b59545175a3b89e84165c6a6d20e6d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "12179a8c_e50f1648",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/CommandModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-25T12:15:34Z",
+      "side": 1,
+      "message": "Move this logic to CommandMetaData.Mode enum, e. g.\n\n public isSupported(boolean slaveMode) {\n   [...]\n }",
+      "range": {
+        "startLine": 84,
+        "startChar": 2,
+        "endLine": 94,
+        "endChar": 3
+      },
+      "revId": "53f78d3a9b59545175a3b89e84165c6a6d20e6d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "12179a8c_8512a271",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/DefaultCommandModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-25T12:15:34Z",
+      "side": 1,
+      "message": "Why this change?",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "53f78d3a9b59545175a3b89e84165c6a6d20e6d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

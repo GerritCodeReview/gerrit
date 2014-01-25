@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "32f1fea2_ae43375d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1006818
+      },
+      "writtenOn": "2014-01-25T13:13:36Z",
+      "side": 1,
+      "message": "now  run with Master: \n$ ssh  -p 29418 bruce.zu@localhost gerritAvailable commands of gerrit are:\n\n   apropos              Search in Gerrit documentation\n   ban-commit           Ban a commit from a project\u0027s repository\n   create-account       Create a new batch/role account\n   create-branch        Create a new branch\n   create-group         Create a new account group\n   create-project       Create a new project and associated Git repository\n   flush-caches         Flush some/all server caches from memory\n   gc                   Run Git garbage collection\n   gsql                 Administrative interface to active database\n   ls-groups            List groups visible to the caller\n   ls-members           Lists the members of a given group\n   ls-projects          List projects visible to the caller\n   ls-user-refs         List refs visible to a specific user\n   plugin               \n   query                Query the change database\n   receive-pack         Standard Git server side command for client side git push\n   rename-group         Rename an account group\n   review               Verify, approve and/or submit one or more patch sets\n   set-account          Change an account\u0027s settings\n   set-members          Modifies members of specific group or number of groups\n   set-project          Change a project\u0027s settings\n   set-project-parent   Change the project permissions are inherited from\n   set-reviewers        Add or remove reviewers on a change\n   show-caches          Display current cache statistics\n   show-connections     Display active client SSH connections\n   show-queue           Display the background work queues\n   stream-events        Monitor events occurring in real time\n   test-submit          \n   version              Display gerrit version\n\nSee \u0027gerrit COMMAND --help\u0027 for more information.\n\nrun with Slave: \n$ ssh  -p 29418 bruce.zu@localhost gerrit\nAvailable commands of gerrit are:\n\n   apropos            Search in Gerrit documentation\n   ban-commit         Ban a commit from a project\u0027s repository\n   flush-caches       Flush some/all server caches from memory\n   gc                 Run Git garbage collection\n   ls-groups          List groups visible to the caller\n   ls-members         Lists the members of a given group\n   ls-projects        List projects visible to the caller\n   ls-user-refs       List refs visible to a specific user\n   plugin             \n   query              Query the change database\n   show-caches        Display current cache statistics\n   show-connections   Display active client SSH connections\n   show-queue         Display the background work queues\n   stream-events      Monitor events occurring in real time\n   version            Display gerrit version\n\nSee \u0027gerrit COMMAND --help\u0027 for more information.\n\n\nI am not sure if there is some command need adjust between Master and Slave mode",
+      "revId": "ef53aa0b2707da4c8f1e5ab7c4fd9fb28c1b8130",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -22,6 +22,9 @@ of them we must use a qualified name like `gerrit:change_branch(X)`.
 |`change_project/1`   |`change_project('full/project/name').`
     |Name of the project as string atom
 
+|`change_status/1`    |`change_status(draft).`
+    |Current status of the change as a string atom
+
 |`change_topic/1`     |`change_topic('plugins').`
     |Topic name as string atom
 

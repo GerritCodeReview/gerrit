@@ -16,6 +16,24 @@
       "revId": "38dddbf202050e5ba455f52855ccdb3bcdb49398",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "32f1fea2_4eea9319",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-25T00:38:19Z",
+      "side": 1,
+      "message": "You aren\u0027t. Which is why we never exported this before. So yea, this is a pretty stupid change.",
+      "parentUuid": "7207f652_b0eef829",
+      "revId": "38dddbf202050e5ba455f52855ccdb3bcdb49398",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

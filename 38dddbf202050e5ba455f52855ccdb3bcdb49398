@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7207f652_b0eef829",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-25T00:36:45Z",
+      "side": 1,
+      "message": "Are you allowed to submit draft changes? If not, i.e. the only possible prior state before submitting is new, what\u0027s the point of checking the status?",
+      "revId": "38dddbf202050e5ba455f52855ccdb3bcdb49398",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

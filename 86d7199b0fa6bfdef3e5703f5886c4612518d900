@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "522592ed_c7f5bef6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-25T10:13:16Z",
+      "side": 1,
+      "message": "All build issues were fixed.",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 29
+      },
+      "revId": "86d7199b0fa6bfdef3e5703f5886c4612518d900",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f24cc6b4_7c1d794e",
         "filename": "lib/BUCK",
         "patchSetId": 1
@@ -84,6 +107,30 @@
       "side": 1,
       "message": "The reason I did not use Batik 1.7 here is that it wasn\u0027t available on Maven Central. Probably it would just work with 1.7 but I haven\u0027t tested it.",
       "parentUuid": "f2a76688_24b31217",
+      "range": {
+        "startLine": 267,
+        "startChar": 8,
+        "endLine": 267,
+        "endChar": 29
+      },
+      "revId": "86d7199b0fa6bfdef3e5703f5886c4612518d900",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "12179a8c_0507d236",
+        "filename": "lib/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-25T10:13:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "326c9e14_36b4b8ff",
       "range": {
         "startLine": 267,
         "startChar": 8,

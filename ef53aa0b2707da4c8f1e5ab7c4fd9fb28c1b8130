@@ -16,6 +16,29 @@
       "revId": "ef53aa0b2707da4c8f1e5ab7c4fd9fb28c1b8130",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7207f652_70893060",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/CommandMetaData.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-01-25T14:50:05Z",
+      "side": 1,
+      "message": "is this part necessary?",
+      "range": {
+        "startLine": 36,
+        "startChar": 45,
+        "endLine": 36,
+        "endChar": 60
+      },
+      "revId": "ef53aa0b2707da4c8f1e5ab7c4fd9fb28c1b8130",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

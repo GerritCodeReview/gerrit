@@ -2,6 +2,75 @@
   "comments": [
     {
       "key": {
+        "uuid": "522592ed_87ebc619",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-25T09:36:52Z",
+      "side": 1,
+      "message": "The database is going to be dropped in 2014. I wonder if the complexity, that this change introduces, is justified to protect ldap and smtp server?",
+      "range": {
+        "startLine": 10,
+        "startChar": 32,
+        "endLine": 10,
+        "endChar": 49
+      },
+      "revId": "2d86a7b377a7a98d478f65d8d0a46b323bef0d1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "12179a8c_c5f5baf6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-25T09:36:52Z",
+      "side": 1,
+      "message": "This should be clarified, that release.war must be repackaged for this scenario to work.",
+      "range": {
+        "startLine": 25,
+        "startChar": 30,
+        "endLine": 25,
+        "endChar": 46
+      },
+      "revId": "2d86a7b377a7a98d478f65d8d0a46b323bef0d1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "12179a8c_2502ce26",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-25T09:36:52Z",
+      "side": 1,
+      "message": "What exactly do you mean here? Can you please extend the example in cookbok-plugin, so that i can verify this behaviour?",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 9
+      },
+      "revId": "2d86a7b377a7a98d478f65d8d0a46b323bef0d1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "326c9e14_f63080cf",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/FileUtil.java",
         "patchSetId": 12
@@ -84,6 +153,30 @@
       "side": 1,
       "message": "AFAIK install-plugin command will only pick plugins from WAR, so it will not discover plugins that are in $gerrit_site/plugins. Therefore to be able to encrypt data (and select secure store provider) during init, gerrit war needs to be modified to include secure store in question.",
       "parentUuid": "326c9e14_363af8ad",
+      "range": {
+        "startLine": 118,
+        "startChar": 0,
+        "endLine": 122,
+        "endChar": 7
+      },
+      "revId": "2d86a7b377a7a98d478f65d8d0a46b323bef0d1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "522592ed_a7eeca29",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Init.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-25T09:36:52Z",
+      "side": 1,
+      "message": "Well, that\u0027s a severe limitation and it wasn\u0027t that clear from reading the commit message. From its inception Gerrit\u0027s plugin concept has three deployment scenarios:\n\n* Install plugin durig site creation (1a) or later with re-initialization (1b). That what \"--install-plugin\" is for. And this is only supported for core (built in) plugins.\n* Install plugin after site initialization (2). That what is SSH command \"ssh gerrit gerrit plugin install\" or corresponding REST endpoint is for.\n* manually installation (3). Copy plugin to $gerrit_site/plugins directory and manually configuration.\n\nSecure store provider plugins are special in that they have to controll from the beginning the site creation/initialization, but they are never core/built in plugins and thus they are never contained in release.war.\n\nScenario 1a. repackaging release.war before site creation: these installation steps are not even funny:\n\n 1. download release.war\n 2. unzip it to release directory\n 3. cp example-secure-store.jar to release/WEB-INF/plugins\n 4. zip -r ../release2.war . \n 5. use java -jar release2.war init -d \n\nScenario 1b. site re-initialization (site already exists)\n\nAgain, even if example-secure-store.jar was copied into $site/plugins without repackaging of release.war, it just ignored. Doesn\u0027t work either.\n\n\nScenario 2. Doesn\u0027t apply for secure store povider, as it must be configired.\n\nScenario 3. Only one that works for now.\n\nOne option to solve 1a and 1b without repackaging of release.war:\n\nIntroduce new init option: --with-secure-store-provider and provide the plugin jar file from the outside of release.war.\n\nAnother option to solve 1b is to extend the deployment scenario to support/detect secure store providers plugins during site reinitialization from $gerrit_site/plugins directory and not only from release.war. In this case the site would be created with encryption, secure-store-provider plugin is copied to $gerrit_site/plugins and site reinitilized again, and this time the plugin picked up. \n\nThe last option would be to use plugin\u0027s own InitStep to perform site encryption. Like gitiles and gitblit initialize gitweb section in project.config.",
+      "parentUuid": "d24982a5_bba707ce",
       "range": {
         "startLine": 118,
         "startChar": 0,

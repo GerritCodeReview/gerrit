@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "32f1fea2_4e38d3e9",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/CommandMetaData.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1006818
+      },
+      "writtenOn": "2014-01-25T11:17:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f2a76688_44e16eec",
+      "revId": "532393a9ae7fb433fd2a2fb784b3cc7043933e47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f24cc6b4_9cd16521",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/CommandMetaData.java",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "32f1fea2_ae1cd781",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/CommandMetaData.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1006818
+      },
+      "writtenOn": "2014-01-25T11:17:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f24cc6b4_9cd16521",
+      "revId": "532393a9ae7fb433fd2a2fb784b3cc7043933e47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f2a76688_64e6ea07",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/CommandMetaData.java",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2014-01-24T20:02:06Z",
       "side": 1,
       "message": "Most commands are master only. Maybe the default should be master?\n\nMode is a little too generic. Maybe runsAt with MASTER, MASTER_OR_SLAVE, SLAVE being the enum values?",
+      "revId": "532393a9ae7fb433fd2a2fb784b3cc7043933e47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "32f1fea2_8e191b92",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/CommandMetaData.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1006818
+      },
+      "writtenOn": "2014-01-25T11:17:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f2a76688_64e6ea07",
       "revId": "532393a9ae7fb433fd2a2fb784b3cc7043933e47",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

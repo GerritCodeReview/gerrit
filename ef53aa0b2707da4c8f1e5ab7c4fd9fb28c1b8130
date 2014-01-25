@@ -39,6 +39,53 @@
       "revId": "ef53aa0b2707da4c8f1e5ab7c4fd9fb28c1b8130",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "522592ed_c70c9e56",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/CommandMetaData.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-25T15:19:07Z",
+      "side": 1,
+      "message": "It\u0027s not, one liner does the job:\n\n  public boolean isSupported(boolean slaveMode) {\n      return this \u003d\u003d MASTER_OR_SLAVE || this \u003d\u003d MASTER ^ slaveMode;\n   }\n\nand the unit test:\n\n public class TestMode {\n\n  public enum Mode {\n    MASTER, MASTER_OR_SLAVE;\n    public boolean isSupported(boolean slaveMode) {\n      if (MASTER_OR_SLAVE \u003d\u003d this) {\n        return true;\n      }\n      return (slaveMode ^ this \u003d\u003d MASTER);\n    }\n  }\n\n  @Test\n  public void slaveOnMaster() {\n    Mode m \u003d Mode.MASTER;\n    assertFalse(m.isSupported(true));\n  }\n\n  @Test\n  public void masterOnMaster() {\n    Mode m \u003d Mode.MASTER;\n    assertTrue(m.isSupported(false));\n  }\n\n  @Test\n  public void slaverOnMasterOrSlave() {\n    Mode m \u003d Mode.MASTER_OR_SLAVE;\n    assertTrue(m.isSupported(true));\n  }\n\n  @Test\n  public void masterOnMasterOrSlave() {\n    Mode m \u003d Mode.MASTER_OR_SLAVE;\n    assertTrue(m.isSupported(false));\n  }\n }",
+      "parentUuid": "7207f652_70893060",
+      "range": {
+        "startLine": 36,
+        "startChar": 45,
+        "endLine": 36,
+        "endChar": 60
+      },
+      "revId": "ef53aa0b2707da4c8f1e5ab7c4fd9fb28c1b8130",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "12179a8c_4538aae9",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/CommandMetaData.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-25T15:19:07Z",
+      "side": 1,
+      "message": "This part is also not needed.",
+      "range": {
+        "startLine": 40,
+        "startChar": 6,
+        "endLine": 40,
+        "endChar": 19
+      },
+      "revId": "ef53aa0b2707da4c8f1e5ab7c4fd9fb28c1b8130",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

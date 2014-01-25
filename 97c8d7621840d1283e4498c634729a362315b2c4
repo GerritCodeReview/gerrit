@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "12179a8c_85ebc219",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 1400,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-25T07:29:21Z",
+      "side": 1,
+      "message": "In the form: \u003cpluginname\u003e-\u003csecurestore\u003e. E. g. if plugin cookbook-plugin exposes example secure store, it should be specified as:\n\n  secureStore \u003d cookbook-plugin-example",
+      "range": {
+        "startLine": 1400,
+        "startChar": 0,
+        "endLine": 1400,
+        "endChar": 62
+      },
+      "revId": "97c8d7621840d1283e4498c634729a362315b2c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "12179a8c_a5eebe29",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreData.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-25T07:29:21Z",
+      "side": 1,
+      "message": "plugin name is not used here. Because we can have a number of secure-store-providers, we really have to protect the namespace with plugin name. We always do that, with URI and with capability names. The same holds true for secure stores:\n\n* plugin with name \"foo\" exposes secure store \"baz\"\n* plugin with name \"bar\" exposes secure store \"baz\"\n\nthen in the config this should be specified as:\n\n\u003cfoo.baz\u003e\nor\n\u003cbar.baz\u003e\n\nCurrently no namepsaces are used and the names from different plugins collides and only one plugin is suggested.",
+      "range": {
+        "startLine": 28,
+        "startChar": 25,
+        "endLine": 28,
+        "endChar": 42
+      },
+      "revId": "97c8d7621840d1283e4498c634729a362315b2c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "522592ed_07e07637",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreProvider.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-25T07:29:21Z",
+      "side": 1,
+      "message": "Is not used.",
+      "range": {
+        "startLine": 66,
+        "startChar": 32,
+        "endLine": 66,
+        "endChar": 42
+      },
+      "revId": "97c8d7621840d1283e4498c634729a362315b2c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

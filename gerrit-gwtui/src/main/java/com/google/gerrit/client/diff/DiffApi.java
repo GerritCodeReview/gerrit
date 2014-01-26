@@ -35,6 +35,15 @@ public class DiffApi {
     api.get(NativeMap.copyKeysIntoChildren("path", cb));
   }
 
+  public static void list(PatchSet.Id id, PatchSet.Id base,
+      AsyncCallback<NativeMap<FileInfo>> cb) {
+    RestApi api = ChangeApi.revision(id).view("files");
+    if (base != null) {
+      api.addParameter("base", base.get());
+    }
+    api.get(NativeMap.copyKeysIntoChildren("path", cb));
+  }
+
   public static DiffApi diff(PatchSet.Id id, String path) {
     return new DiffApi(ChangeApi.revision(id)
         .view("files").id(path)

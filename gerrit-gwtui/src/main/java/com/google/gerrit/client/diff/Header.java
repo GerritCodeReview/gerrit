@@ -129,11 +129,9 @@ class Header extends Composite {
 
   @Override
   protected void onLoad() {
-    ChangeApi.revision(patchSetId).view("files").get(
-        new GerritCallback<NativeMap<FileInfo>>() {
+    DiffApi.list(patchSetId, base, new GerritCallback<NativeMap<FileInfo>>() {
       @Override
       public void onSuccess(NativeMap<FileInfo> result) {
-        result.copyKeysIntoChildren("path");
         JsArray<FileInfo> files = result.values();
         FileInfo.sortFileInfoByPath(files);
         int index = 0; // TODO: Maybe use patchIndex.

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "12179a8c_05d23247",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-26T13:47:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "522592ed_676052e0",
+      "range": {
+        "startLine": 22,
+        "startChar": 69,
+        "endLine": 22,
+        "endChar": 70
+      },
+      "revId": "ddec148f43ac77c5c6b8853a3b978c30f7883ea4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "12179a8c_a5799e9e",
         "filename": "/COMMIT_MSG",
         "patchSetId": 11
@@ -36,6 +60,24 @@
       "writtenOn": "2014-01-26T13:14:03Z",
       "side": 1,
       "message": "In second thought, may be have one option more:\n\n5. NO_CHECK or NOT_SANITIZE\n\nor something to disable the whole sanitization thing?",
+      "revId": "ddec148f43ac77c5c6b8853a3b978c30f7883ea4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "522592ed_a779aa9e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-26T13:47:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "12179a8c_a5799e9e",
       "revId": "ddec148f43ac77c5c6b8853a3b978c30f7883ea4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "12179a8c_c5701aaf",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ProjectDocLoader.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-26T13:47:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "12179a8c_656046e0",
+      "range": {
+        "startLine": 76,
+        "startChar": 63,
+        "endLine": 76,
+        "endChar": 68
+      },
+      "revId": "ddec148f43ac77c5c6b8853a3b978c30f7883ea4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "522592ed_878f4662",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ProjectDocLoader.java",
         "patchSetId": 11
@@ -76,6 +142,30 @@
       "writtenOn": "2014-01-26T13:14:03Z",
       "side": 1,
       "message": "static",
+      "range": {
+        "startLine": 96,
+        "startChar": 2,
+        "endLine": 96,
+        "endChar": 9
+      },
+      "revId": "ddec148f43ac77c5c6b8853a3b978c30f7883ea4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "12179a8c_25cdaea7",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ProjectDocLoader.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-26T13:47:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "522592ed_878f4662",
       "range": {
         "startLine": 96,
         "startChar": 2,

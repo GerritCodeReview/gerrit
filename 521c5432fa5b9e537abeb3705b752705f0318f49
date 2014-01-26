@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "522592ed_c723feb5",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AproposCommand.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-26T06:34:51Z",
+      "side": 1,
+      "message": "This is verbose. import MASTER_OR_SLAVE statically. Here and in all other command files.",
+      "range": {
+        "startLine": 29,
+        "startChar": 9,
+        "endLine": 29,
+        "endChar": 45
+      },
+      "revId": "521c5432fa5b9e537abeb3705b752705f0318f49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

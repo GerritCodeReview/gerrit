@@ -94,6 +94,9 @@ public class ProjectConfig extends VersionedMetaData {
   private static final String ACCOUNTS = "accounts";
   private static final String KEY_SAME_GROUP_VISIBILITY = "sameGroupVisibility";
 
+  private static final String GITCHECKS = "git-checks";
+  private static final String KEY_CHECKRECEIVEDOBJECTS = "checkReceivedObjects";
+
   private static final String CONTRIBUTOR_AGREEMENT = "contributor-agreement";
   private static final String KEY_ACCEPTED = "accepted";
   private static final String KEY_REQUIRE_CONTACT_INFORMATION = "requireContactInformation";
@@ -157,6 +160,7 @@ public class ProjectConfig extends VersionedMetaData {
   private ObjectId rulesId;
   private long maxObjectSizeLimit;
   private Map<String, Config> pluginConfigs;
+  private boolean checkReceivedObjects;
 
   public static ProjectConfig read(MetaDataUpdate update) throws IOException,
       ConfigInvalidException {
@@ -339,6 +343,13 @@ public class ProjectConfig extends VersionedMetaData {
   }
 
   /**
+   * @return the checkReceivedObjects for this project, default is true
+   */
+  public boolean getCheckReceivedObjects() {
+    return checkReceivedObjects;
+  }
+
+  /**
    * Check all GroupReferences use current group name, repairing stale ones.
    *
    * @param groupBackend cache to use when looking up group information by UUID.
@@ -408,6 +419,7 @@ public class ProjectConfig extends VersionedMetaData {
     loadLabelSections(rc);
     loadCommentLinkSections(rc);
     loadPluginSections(rc);
+    loadGitChecks(rc);
 
     maxObjectSizeLimit = rc.getLong(RECEIVE, null, KEY_MAX_OBJECT_SIZE_LIMIT, 0);
   }
@@ -694,6 +706,11 @@ public class ProjectConfig extends VersionedMetaData {
       }
     }
     commentLinkSections = ImmutableList.copyOf(commentLinkSections);
+  }
+
+
+  private void loadGitChecks(Config rc) {
+    checkReceivedObjects = rc.getBoolean(GITCHECKS, KEY_CHECKRECEIVEDOBJECTS, true);
   }
 
   private void loadPluginSections(Config rc) {

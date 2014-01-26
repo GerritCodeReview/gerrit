@@ -90,6 +90,30 @@
     },
     {
       "key": {
+        "uuid": "12179a8c_05551217",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/CommandMetaData.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-01-26T02:02:41Z",
+      "side": 1,
+      "message": "I like this way. YANGNI principle :) Done",
+      "parentUuid": "12179a8c_c523fab5",
+      "range": {
+        "startLine": 36,
+        "startChar": 45,
+        "endLine": 36,
+        "endChar": 60
+      },
+      "revId": "ef53aa0b2707da4c8f1e5ab7c4fd9fb28c1b8130",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "12179a8c_4538aae9",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/CommandMetaData.java",
         "patchSetId": 5

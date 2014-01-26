@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "522592ed_0718765e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-26T20:31:48Z",
+      "side": 1,
+      "message": "\u003e This is confusing and not very user friendly:\n\nWhy is this not user friendly? Since we want to support both, text diff and preview diff, this difference must be reflected in the URL so that we know which diff to show.\n\nOn the new side-by-side view there is a new icon next to the navigation link that allows to switch to the preview side-by-side view.\n\nThe only thing that is missing is an icon on the side-by-side preview view to go back to the new side-by-side text diff view. It is missing because the old side-by-side view doesn\u0027t support to show icons in this place and it\u0027s not worth to spend much efforts on the old side-by-side view to support this. Once the new side-by-side view can render images and previews we can add this icon. Then the user can toggle between text diff and preview diff by clicking on this icon.\n\n \u003e There is only diff preview icon on SBS2. No plain HTML icon any more?\n\nYes, I was thinking that it\u0027s enough to see the rendered HTML in unified/sidebyside diff view. If the rendered HTML is directly shown opening the preview in a new tab is not needed anymore. But looking at how this series is evolving with the latest change [1] I\u0027m now thinking it might make sense to keep this preview option. With [1] I\u0027m starting the highlight added/deleted/changed HTML elements directly in the HTML that is rendered in the diff view. Having a plain HTML preview in addition without any highlighting might actually be good. So I now changed it so that the plain preview icon is kept.\n\nDone\n\n[1] https://gerrit-review.googlesource.com/54038",
+      "parentUuid": "12179a8c_e5a1d6b8",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 25
+      },
+      "revId": "f25ebf1eac0f8a69db34f3bb4c79a0b3341e57b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "12179a8c_a5a7decd",
         "filename": "/COMMIT_MSG",
         "patchSetId": 10
@@ -36,6 +60,30 @@
       "writtenOn": "2014-01-26T18:35:32Z",
       "side": 1,
       "message": "Markdown",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 7
+      },
+      "revId": "f25ebf1eac0f8a69db34f3bb4c79a0b3341e57b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "522592ed_c79e5e7e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-26T20:31:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "12179a8c_a5a7decd",
       "range": {
         "startLine": 16,
         "startChar": 0,

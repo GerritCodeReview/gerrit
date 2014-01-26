@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "12179a8c_e5a1d6b8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-26T18:35:32Z",
+      "side": 1,
+      "message": "This is confusing and not very user friendly:\n\n* http://localhost:8080/#/c/739/6/README.md \u003d\u003e SBS2\n* http://localhost:8080/#/c/739/6/README.md,preview \u003d\u003e SBS diff preview\n* http://localhost:8080/#/c/739/6/README.md,unified \u003d\u003e unified\n* http://localhost:8080/#/c/739/6/README.md,unified-preview \u003d\u003e unified diff preview\n\nThere is only diff preview icon on SBS2. No plain HTML icon any more?",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 25
+      },
+      "revId": "f25ebf1eac0f8a69db34f3bb4c79a0b3341e57b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "12179a8c_a5a7decd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-26T18:35:32Z",
+      "side": 1,
+      "message": "Markdown",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 7
+      },
+      "revId": "f25ebf1eac0f8a69db34f3bb4c79a0b3341e57b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

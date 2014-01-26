@@ -108,6 +108,30 @@
       "revId": "28164e52d91e713521ff45ea51e6fe2d93364286",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "12179a8c_257f6e8f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Reviewers.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-26T07:57:24Z",
+      "side": 1,
+      "message": "Actually we don\u0027t have to infer what the situation about Verified is, because the server tells us the whole truth. That\u0027s how old change screen works, nothing new in this change about it.\n\nAlbert Einstein voted Code-Review+1, Charles Darwin voted Code-Review+1. While both havn\u0027t voted on Verified, Albert cannot vote on Verified but Charles can.\n\nIn this case we are getting this response:\n\n     \"labels\":{\n      \"Code-Review\":{\n         \"recommended\":{\n            \"_account_id\":1000096,\n            \"name\":\"Charles Darwin\",\n            \"email\":\"charles@darwin.org\",\n            \"username\":\"charles\",\n            \"avatars\":[\n\n            ]\n         },\n         \"all\":[\n            {\n               \"value\":1,\n               \"date\":\"2014-01-26 07:37:32.701000000\",\n               \"_account_id\":1000096,\n               \"name\":\"Charles Darwin\",\n               \"email\":\"charles@darwin.org\",\n               \"username\":\"charles\",\n            },\n            {\n               \"value\":1,\n               \"date\":\"2014-01-25 08:20:40.432000000\",\n               \"_account_id\":1000032,\n               \"name\":\"Albert Einstein\",\n               \"email\":\"albert@einstein.org\",\n               \"username\":\"albert\",\n            }\n         ],\n         \"values\":{\n            \"-2\":\"Do not submit\",\n            \"-1\":\"I would prefer that you didn\u0027t submit this\",\n            \" 0\":\"No score\",\n            \"+1\":\"Looks good to me, but someone else must approve\",\n            \"+2\":\"Looks good to me, approved\"\n         },\n         \"value\":1\n      },\n      \"Verified\":{\n         \"all\":[\n            {\n               \"value\":0,\n               \"_account_id\":1000096,\n               \"name\":\"Charles Darwin\",\n               \"email\":\"charles@darwin.org\",\n               \"username\":\"charles\",\n            },\n            {\n               \"_account_id\":1000032,\n               \"name\":\"Albert Einstein\",\n               \"email\":\"albert@einstein.org\",\n               \"username\":\"albert\",\n            }\n         ],\n         \"values\":{\n            \"-1\":\"Fails\",\n            \" 0\":\"No score\",\n            \"+1\":\"Verified\"\n         }\n      }\n   },\n\nThe \"value\":0, presents then and only then if the reviewer can actually vote on that label, but haven\u0027t done yet:\n\n all\":[\n            {\n               \"value\":0,\n               \"_account_id\":1000096,\n               \"name\":\"Charles Darwin\",\n               \"email\":\"charles@darwin.org\",\n               \"username\":\"charles\",\n            },\n            {\n               \"_account_id\":1000032,\n               \"name\":\"Albert Einstein\",\n               \"email\":\"albert@einstein.org\",\n               \"username\":\"albert\",\n            }\n\nSo Charles can vote on Verified, but Albert cannot:\n\n \"value\":0\n\npart is missing. That\u0027s exactly what this change shows as tooltip.",
+      "parentUuid": "92638af1_890c3955",
+      "range": {
+        "startLine": 259,
+        "startChar": 10,
+        "endLine": 261,
+        "endChar": 11
+      },
+      "revId": "28164e52d91e713521ff45ea51e6fe2d93364286",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

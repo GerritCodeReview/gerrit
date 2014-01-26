@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "522592ed_c7993eaf",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/project/doc/ProjectDocumentationIT.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-26T13:05:02Z",
+      "side": 1,
+      "message": "Not needed, base class has it now.",
+      "range": {
+        "startLine": 65,
+        "startChar": 0,
+        "endLine": 66,
+        "endChar": 34
+      },
+      "revId": "0b1b79e40cf7910d1b89548785840d9fce227f6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "522592ed_27665aff",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/project/doc/ProjectDocumentationIT.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-26T13:05:02Z",
+      "side": 1,
+      "message": "Already done in the base class and can be removed.",
+      "range": {
+        "startLine": 94,
+        "startChar": 4,
+        "endLine": 94,
+        "endChar": 19
+      },
+      "revId": "0b1b79e40cf7910d1b89548785840d9fce227f6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

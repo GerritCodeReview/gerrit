@@ -46,6 +46,6 @@ limitations under the License.
         resource='{res.draftComments}'
         title='Create a new inline comment'>
       <ui:attribute name='title'/>
-    </g:Image><span class='{style.message}'><ui:msg>press <b>c</b> to comment</ui:msg></span>
+    </g:Image><span class='{style.message}'><ui:msg>press <b>Shift-C</b> to comment</ui:msg></span>
   </g:HTMLPanel>
 </ui:UiBinder>

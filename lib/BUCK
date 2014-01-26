@@ -259,3 +259,12 @@ maven_jar(
   attach_source = False,
   visibility = ['//lib/jgit:jgit-archive'],
 )
+
+maven_jar(
+  name = 'daisydiff',
+  id = 'org.outerj.daisy:daisydiff:1.1',
+  sha1 = 'a67ed5147dd164e0614f1efc0145d06851c90d4f',
+  repository = MAVEN_ATLASSIAN,
+  license = 'Apache2.0',
+  attach_source = False,
+)

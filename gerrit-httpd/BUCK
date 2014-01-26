@@ -19,6 +19,7 @@ java_library2(
     '//gerrit-server:server',
     '//gerrit-util-cli:cli',
     '//lib:args4j',
+    '//lib:daisydiff',
     '//lib:gson',
     '//lib:guava',
     '//lib:gwtjsonrpc',

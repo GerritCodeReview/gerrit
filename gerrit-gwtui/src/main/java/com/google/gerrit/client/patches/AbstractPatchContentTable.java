@@ -40,7 +40,6 @@ import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.BlurEvent;
@@ -54,7 +53,6 @@ import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Button;
@@ -349,36 +347,6 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
   protected boolean renderPreview() {
     return preview && Gerrit.getConfig().getSrcToMarkdownEnabled()
         && patchKey.toString().endsWith(".md");
-  }
-
-  protected String getPreviewUrlA(Project.NameKey project) {
-    Patch.Key k = idSideA == null
-        ? patchKey
-        : new Patch.Key(idSideA, patchKey.get());
-    StringBuilder url = new StringBuilder();
-    url.append(GWT.getHostPageBaseURL());
-    url.append("src/");
-    url.append(URL.encodePathSegment(project.get()));
-    url.append("/rev/");
-    url.append(URL.encodePathSegment(k.getParentKey().toRefName()));
-    if (idSideA == null) {
-      url.append("^1");
-    }
-    url.append("/");
-    url.append(URL.encodePathSegment(k.get()));
-    return url.toString();
-  }
-
-  protected String getPreviewUrlB(Project.NameKey project) {
-    StringBuilder url = new StringBuilder();
-    url.append(GWT.getHostPageBaseURL());
-    url.append("src/");
-    url.append(URL.encodePathSegment(project.get()));
-    url.append("/rev/");
-    url.append(URL.encodePathSegment(patchKey.getParentKey().toRefName()));
-    url.append("/");
-    url.append(URL.encodePathSegment(patchKey.get()));
-    return url.toString();
   }
 
   protected void appendPreview(SafeHtmlBuilder nc, String url, Side side) {

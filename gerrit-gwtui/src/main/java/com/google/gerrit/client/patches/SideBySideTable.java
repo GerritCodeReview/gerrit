@@ -28,11 +28,14 @@ import com.google.gerrit.common.data.PatchScript.FileMode;
 import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.prettify.client.SparseHtmlFile;
 import com.google.gerrit.prettify.common.EditList;
+import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Anchor;
@@ -277,19 +280,59 @@ public class SideBySideTable extends AbstractPatchContentTable {
     appendLineNumber(m, false);
     if (script.getDisplayMethodA() == DisplayMethod.DIFF) {
       final String url = getPreviewUrlA(project);
-      appendLineText(m, DELETE, createPreview(url, Side.A), false, true);
+      appendLineText(m, CONTEXT, createPreview(url, Side.A), false, true);
     } else {
       appendLineNone(m, DELETE);
     }
     if (script.getDisplayMethodB() == DisplayMethod.DIFF) {
       final String url = getPreviewUrlB(project);
-      appendLineText(m, INSERT, createPreview(url, Side.B), false, true);
+      appendLineText(m, CONTEXT, createPreview(url, Side.B), false, true);
     } else {
       appendLineNone(m, INSERT);
     }
 
     appendLineNumber(m, true);
     m.closeTr();
+  }
+
+  private String getPreviewUrlA(Project.NameKey project) {
+    Patch.Key k = idSideA == null
+        ? patchKey
+        : new Patch.Key(idSideA, patchKey.get());
+    StringBuilder url = new StringBuilder();
+    url.append(GWT.getHostPageBaseURL());
+    url.append("src/");
+    url.append(URL.encodePathSegment(project.get()));
+    url.append("/rev/");
+    url.append(URL.encodePathSegment(k.getParentKey().toRefName()));
+    if (idSideA == null) {
+      url.append("^1");
+    }
+    url.append("<-");
+    url.append(URL.encodePathSegment(patchKey.getParentKey().toRefName()));
+    url.append("/");
+    url.append(URL.encodePathSegment(k.get()));
+    return url.toString();
+  }
+
+  private String getPreviewUrlB(Project.NameKey project) {
+    Patch.Key k = idSideA == null
+        ? patchKey
+        : new Patch.Key(idSideA, patchKey.get());
+    StringBuilder url = new StringBuilder();
+    url.append(GWT.getHostPageBaseURL());
+    url.append("src/");
+    url.append(URL.encodePathSegment(project.get()));
+    url.append("/rev/");
+    url.append(URL.encodePathSegment(k.getParentKey().toRefName()));
+    if (idSideA == null) {
+      url.append("^1");
+    }
+    url.append("->");
+    url.append(URL.encodePathSegment(patchKey.getParentKey().toRefName()));
+    url.append("/");
+    url.append(URL.encodePathSegment(k.get()));
+    return url.toString();
   }
 
   private SafeHtml createPreview(String url, Side side) {

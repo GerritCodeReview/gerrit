@@ -18,8 +18,8 @@ import com.google.common.base.Strings;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.Weigher;
 import com.google.common.collect.Maps;
+import com.google.gerrit.httpd.raw.ProjectDocResourceKey.DiffMode;
 import com.google.gerrit.httpd.resources.Resource;
-import com.google.gerrit.httpd.resources.ResourceKey;
 import com.google.gerrit.httpd.resources.SmallResource;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.config.CanonicalWebUrl;
@@ -42,17 +42,36 @@ import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
+import org.outerj.daisy.diff.HtmlCleaner;
+import org.outerj.daisy.diff.XslFilter;
+import org.outerj.daisy.diff.html.HTMLDiffer;
+import org.outerj.daisy.diff.html.HtmlSaxDiffOutput;
+import org.outerj.daisy.diff.html.TextNodeComparator;
+import org.outerj.daisy.diff.html.dom.DomTreeBuilder;
 import org.owasp.validator.html.AntiSamy;
 import org.owasp.validator.html.Policy;
 import org.owasp.validator.html.PolicyException;
 import org.owasp.validator.html.ScanException;
+import org.xml.sax.ContentHandler;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.AttributesImpl;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.sax.SAXTransformerFactory;
+import javax.xml.transform.sax.TransformerHandler;
+import javax.xml.transform.stream.StreamResult;
 
 @Singleton
 public class ProjectDocLoader extends CacheLoader<ProjectDocResourceKey, Resource> {
@@ -113,23 +132,28 @@ public class ProjectDocLoader extends CacheLoader<ProjectDocResourceKey, Resourc
       RevWalk rw = new RevWalk(repo);
       try {
         RevCommit commit = rw.parseCommit(key.getRevId());
-        RevTree tree = commit.getTree();
-        TreeWalk tw = new TreeWalk(repo);
-        try {
-          tw.addTree(tree);
-          tw.setRecursive(true);
-          tw.setFilter(PathFilter.create(key.getResource()));
-          if (!tw.next()) {
+        byte[] html = loadHtml(repo, rw, commit, key.getResource());
+        if (html == null) {
+          if (key.getRevIdB() == null) {
             return Resource.NOT_FOUND;
+          } else {
+            html = new byte[] {};
           }
-          ObjectId objectId = tw.getObjectId(0);
-          ObjectLoader loader = repo.open(objectId);
-          byte[] md = loader.getBytes(Integer.MAX_VALUE);
-          return getMarkdownAsHtmlResource(new String(md, "UTF-8"),
-              commit.getCommitTime(), key);
-        } finally {
-          tw.release();
         }
+
+        if (key.getRevIdB() != null && !key.getRevId().equals(key.getRevIdB())) {
+          RevCommit commitB = rw.parseCommit(key.getRevIdB());
+          byte[] htmlB = loadHtml(repo, rw, commitB, key.getResource());
+          if (htmlB == null) {
+            htmlB = new byte[] {};
+          }
+          html = diffHtml(html, htmlB, key.getDiffMode());
+        }
+
+        return new SmallResource(html)
+            .setContentType("text/html")
+            .setCharacterEncoding("UTF-8")
+            .setLastModified(commit.getCommitTime());
       } finally {
         rw.release();
       }
@@ -138,14 +162,31 @@ public class ProjectDocLoader extends CacheLoader<ProjectDocResourceKey, Resourc
     }
   }
 
-  private Resource getMarkdownAsHtmlResource(String md, int lastModified,
-      ResourceKey cacheKey) throws IOException, PolicyException, ScanException {
-    byte[] html = cleanHtml(new MarkdownFormatter()
-        .markdownToDocHtml(replaceMacros(md), "UTF-8", suppressHtml));
-    return new SmallResource(html)
-        .setContentType("text/html")
-        .setCharacterEncoding("UTF-8")
-        .setLastModified(lastModified);
+  private byte[] loadHtml(Repository repo, RevWalk rw, RevCommit commit,
+      String resource) throws IOException, PolicyException, ScanException {
+    RevTree tree = commit.getTree();
+    TreeWalk tw = new TreeWalk(repo);
+    try {
+      tw.addTree(tree);
+      tw.setRecursive(true);
+      tw.setFilter(PathFilter.create(resource));
+      if (!tw.next()) {
+        return null;
+      }
+      ObjectId objectId = tw.getObjectId(0);
+      ObjectLoader loader = repo.open(objectId);
+      byte[] md = loader.getBytes(Integer.MAX_VALUE);
+      return getMarkdownAsHtml(md);
+    } finally {
+      tw.release();
+    }
+  }
+
+  private byte[] getMarkdownAsHtml(byte[] md) throws IOException,
+      PolicyException, ScanException {
+    return cleanHtml(new MarkdownFormatter()
+        .markdownToDocHtml(replaceMacros(new String(md, "UTF-8")),
+            "UTF-8", suppressHtml));
   }
 
   private String replaceMacros(String md) {
@@ -180,6 +221,59 @@ public class ProjectDocLoader extends CacheLoader<ProjectDocResourceKey, Resourc
     }
     return new AntiSamy().scan(new String(html, "UTF-8"), policy)
         .getCleanHTML().getBytes("UTF-8");
+  }
+
+  private byte[] diffHtml(byte[] htmlA, byte[] htmlB, DiffMode diffMode)
+      throws TransformerConfigurationException, IOException, SAXException {
+    ByteArrayOutputStream htmlDiff = new ByteArrayOutputStream();
+
+    SAXTransformerFactory tf =
+        (SAXTransformerFactory) TransformerFactory.newInstance();
+    TransformerHandler result = tf.newTransformerHandler();
+    result.setResult(new StreamResult(htmlDiff));
+    XslFilter filter = new XslFilter();
+    String htmlHeader;
+    switch (diffMode) {
+      case SIDEBYSIDE_A:
+        htmlHeader = "com/google/gerrit/httpd/raw/diff/htmlheader-sidebyside-a.xsl";
+        break;
+      case SIDEBYSIDE_B:
+        htmlHeader = "com/google/gerrit/httpd/raw/diff/htmlheader-sidebyside-b.xsl";
+        break;
+      default:
+        htmlHeader = "com/google/gerrit/httpd/raw/diff/htmlheader.xsl";
+    }
+    ContentHandler postProcess = filter.xsl(result, htmlHeader);
+
+    HtmlCleaner cleaner = new HtmlCleaner();
+
+    InputSource oldSource = new InputSource(new ByteArrayInputStream(htmlA));
+    DomTreeBuilder oldHandler = new DomTreeBuilder();
+    cleaner.cleanAndParse(oldSource, oldHandler);
+    TextNodeComparator leftComparator = new TextNodeComparator(
+            oldHandler, Locale.getDefault());
+
+    InputSource newSource = new InputSource(new ByteArrayInputStream(htmlB));
+    DomTreeBuilder newHandler = new DomTreeBuilder();
+    cleaner.cleanAndParse(newSource, newHandler);
+    System.out.print(".");
+    TextNodeComparator rightComparator = new TextNodeComparator(
+            newHandler, Locale.getDefault());
+
+    postProcess.startDocument();
+    postProcess.startElement("", "diffreport", "diffreport",
+            new AttributesImpl());
+    postProcess.startElement("", "diff", "diff",
+            new AttributesImpl());
+    HtmlSaxDiffOutput output = new HtmlSaxDiffOutput(postProcess, "diff");
+
+    HTMLDiffer differ = new HTMLDiffer(output);
+    differ.diff(leftComparator, rightComparator);
+    postProcess.endElement("", "diff", "diff");
+    postProcess.endElement("", "diffreport", "diffreport");
+    postProcess.endDocument();
+
+    return htmlDiff.toString("UTF-8").getBytes("UTF-8");
   }
 
   public static class Module extends CacheModule {

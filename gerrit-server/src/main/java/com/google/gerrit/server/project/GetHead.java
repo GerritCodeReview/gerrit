@@ -14,9 +14,9 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.server.auth.AuthException;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
 
@@ -54,7 +54,7 @@ public class GetHead implements RestReadView<ProjectResource> {
         if (rsrc.getControl().controlForRef(n).isVisible()) {
           return n;
         }
-        throw new AuthException();
+        throw new AuthException("not allowed to see HEAD");
       } else if (head.getObjectId() != null) {
         RevWalk rw = new RevWalk(repo);
         try {
@@ -62,12 +62,12 @@ public class GetHead implements RestReadView<ProjectResource> {
           if (rsrc.getControl().canReadCommit(rw, commit)) {
             return head.getObjectId().name();
           }
-          throw new AuthException();
+          throw new AuthException("not allowed to see HEAD");
         } catch (MissingObjectException | IncorrectObjectTypeException e) {
           if (rsrc.getControl().isOwner()) {
             return head.getObjectId().name();
           }
-          throw new AuthException();
+          throw new AuthException("not allowed to see HEAD");
         } finally {
           rw.release();
         }

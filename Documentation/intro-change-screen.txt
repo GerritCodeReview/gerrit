@@ -182,7 +182,7 @@ Key bindings:
 * n / p: next diff chunk / previous diff chunk
 * ] / [: next file / previous file
 * u: up to change
-* c: create a new inline comment (focus has to be in codemirror view)
+* <Shift> + c: create a new inline comment (focus has to be in codemirror view)
 * / or <Ctrl> + f: search in the current file
 * <Shift> + o: expand or collapse all comments on current line
 * <Enter> or o: expand or collapse comment

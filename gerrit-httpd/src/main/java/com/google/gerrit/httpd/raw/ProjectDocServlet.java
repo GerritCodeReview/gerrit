@@ -24,6 +24,7 @@ import com.google.common.net.HttpHeaders;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.httpd.raw.ProjectDocResourceKey.DiffMode;
 import com.google.gerrit.httpd.resources.Resource;
 import com.google.gerrit.httpd.resources.SmallResource;
 import com.google.gerrit.reviewdb.client.Project;
@@ -114,46 +115,45 @@ public class ProjectDocServlet extends HttpServlet {
 
     try {
       ProjectControl projectControl = projectControlFactory.validateFor(key.project);
-      String rev = key.revision;
-      if (rev == null || Constants.HEAD.equals(rev)) {
-        rev = getHead.get().apply(new ProjectResource(projectControl));
-      } else  {
-        if (!ObjectId.isId(rev)) {
-          if (!rev.startsWith(Constants.R_REFS)) {
-            rev = Constants.R_HEADS + rev;
-          }
-          if (!projectControl.controlForRef(rev).isVisible()) {
-            Resource.NOT_FOUND.send(req, res);
-            return;
-          }
+      String rev =
+          resolveRevision(Objects.firstNonNull(key.revision, Constants.HEAD),
+              projectControl);
+      if (rev == null) {
+        Resource.NOT_FOUND.send(req, res);
+        return;
+      }
+      String revB = key.revisionB;
+      if (revB != null) {
+        revB = resolveRevision(revB, projectControl);
+        if (revB == null) {
+          Resource.NOT_FOUND.send(req, res);
+          return;
         }
       }
 
       Repository repo = repoManager.openRepository(key.project);
       try {
-        ObjectId revId = repo.resolve(Objects.firstNonNull(rev, Constants.HEAD));
+        ObjectId revId =
+            getRevisionId(repo, Objects.firstNonNull(rev, Constants.HEAD),
+                projectControl);
         if (revId == null) {
           Resource.NOT_FOUND.send(req, res);
           return;
         }
 
-        if (ObjectId.isId(rev)) {
-          RevWalk rw = new RevWalk(repo);
-          try {
-            RevCommit commit = rw.parseCommit(repo.resolve(rev));
-            if (!projectControl.canReadCommit(rw, commit)) {
-              Resource.NOT_FOUND.send(req, res);
-              return;
-            }
-          } finally {
-            rw.release();
+        ObjectId revIdB = null;
+        if (revB != null) {
+          revIdB = getRevisionId(repo, revB, projectControl);
+          if (revIdB == null) {
+            Resource.NOT_FOUND.send(req, res);
+            return;
           }
         }
 
         String eTag = null;
         String receivedETag = req.getHeader(HttpHeaders.IF_NONE_MATCH);
         if (receivedETag != null) {
-          eTag = computeETag(key.project, revId, key.file);
+          eTag = computeETag(key.project, key.file, revId, revIdB, key.diffMode);
           if (eTag.equals(receivedETag)) {
             res.sendError(SC_NOT_MODIFIED);
             return;
@@ -163,7 +163,7 @@ public class ProjectDocServlet extends HttpServlet {
         Resource rsc;
         if (key.file.endsWith(".md")) {
           rsc = docCache.getUnchecked(
-            new ProjectDocResourceKey(key.project, key.file, revId));
+            new ProjectDocResourceKey(key.project, key.file, revId, revIdB, key.diffMode));
         } else if ("image".equals(mimeType.getMediaType())) {
           rsc = getImageResource(repo, revId, key.file);
         } else {
@@ -172,7 +172,8 @@ public class ProjectDocServlet extends HttpServlet {
 
         if (rsc != Resource.NOT_FOUND) {
           res.setHeader(HttpHeaders.ETAG,
-              Objects.firstNonNull(eTag, computeETag(key.project, revId, key.file)));
+              Objects.firstNonNull(eTag,
+                  computeETag(key.project, key.file, revId, revIdB, key.diffMode)));
         }
         CacheHeaders.setCacheablePrivate(res, 7, TimeUnit.DAYS, false);
         rsc.send(req, res);
@@ -184,6 +185,48 @@ public class ProjectDocServlet extends HttpServlet {
         | ResourceNotFoundException | AuthException | RevisionSyntaxException e) {
       Resource.NOT_FOUND.send(req, res);
       return;
+    }
+  }
+
+  private String resolveRevision(String rev, ProjectControl projectControl)
+      throws IOException, ResourceNotFoundException, AuthException {
+    if (Constants.HEAD.equals(rev)) {
+      rev = getHead.get().apply(new ProjectResource(projectControl));
+    } else  {
+      if (!ObjectId.isId(rev)) {
+        if (!rev.startsWith(Constants.R_REFS)) {
+          rev = Constants.R_HEADS + rev;
+        }
+        if (!projectControl.controlForRef(rev).isVisible()) {
+          return null;
+        }
+      }
+    }
+    return rev;
+  }
+
+  private ObjectId getRevisionId(Repository repo, String rev,
+      ProjectControl projectControl) throws IOException {
+    try {
+      ObjectId revId = repo.resolve(rev);
+      if (revId == null) {
+        return null;
+      }
+
+      if (ObjectId.isId(rev)) {
+        RevWalk rw = new RevWalk(repo);
+        try {
+          RevCommit commit = rw.parseCommit(repo.resolve(rev));
+          if (!projectControl.canReadCommit(rw, commit)) {
+            return null;
+          }
+        } finally {
+          rw.release();
+        }
+      }
+      return revId;
+    } catch (RevisionSyntaxException e) {
+      return null;
     }
   }
 
@@ -223,11 +266,13 @@ public class ProjectDocServlet extends HttpServlet {
     }
   }
 
-  private static String computeETag(Project.NameKey project, ObjectId revId,
-      String file) {
+  private static String computeETag(Project.NameKey project, String file,
+      ObjectId revId, ObjectId revIdB, DiffMode diffMode) {
     return Hashing.md5().newHasher()
         .putUnencodedChars(project.get())
         .putUnencodedChars(revId.getName())
+        .putUnencodedChars(revIdB != null ? revIdB.getName() : "")
+        .putUnencodedChars(diffMode != null ? diffMode.name() : "")
         .putUnencodedChars(file)
         .hash().toString();
   }
@@ -253,11 +298,15 @@ public class ProjectDocServlet extends HttpServlet {
     final Project.NameKey project;
     final String file;
     final String revision;
+    final String revisionB;
+    final DiffMode diffMode;
 
     static ResourceKey fromPath(String path) {
       String project;
       String file = null;
       String revision = null;
+      String revisionB = null;
+      DiffMode diffMode = null;
 
       int i = path.indexOf('/');
       if (i != -1 && i != path.length() - 1) {
@@ -283,13 +332,34 @@ public class ProjectDocServlet extends HttpServlet {
         project = CharMatcher.is('/').trimTrailingFrom(path);
       }
 
-      return new ResourceKey(project, file, revision);
+      if (revision != null) {
+        if (revision.contains("..")) {
+          diffMode = DiffMode.UNIFIED;
+          int p = revision.indexOf("..");
+          revisionB = revision.substring(p + 2);
+          revision = revision.substring(0, p);
+        } else if (revision.contains("<-")) {
+          diffMode = DiffMode.SIDEBYSIDE_A;
+          int p = revision.indexOf("<-");
+          revisionB = revision.substring(p + 2);
+          revision = revision.substring(0, p);
+        } else if (revision.contains("->")) {
+          diffMode = DiffMode.SIDEBYSIDE_B;
+          int p = revision.indexOf("->");
+          revisionB = revision.substring(p + 2);
+          revision = revision.substring(0, p);
+        }
+      }
+
+      return new ResourceKey(project, file, revision, revisionB, diffMode);
     }
 
-    private ResourceKey(String p, String f, String r) {
+    private ResourceKey(String p, String f, String r, String rB, DiffMode dm) {
       project = p != null ? new Project.NameKey(p) : null;
       file = f;
       revision = r;
+      revisionB = rB;
+      diffMode = dm;
     }
   }
 }

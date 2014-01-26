@@ -25,14 +25,23 @@ import java.io.Serializable;
 public class ProjectDocResourceKey implements ResourceKey, Serializable {
   private static final long serialVersionUID = 1L;
 
+  public static enum DiffMode {
+    UNIFIED, SIDEBYSIDE_A, SIDEBYSIDE_B
+  }
+
   private final Project.NameKey project;
   private final String resource;
   private final ObjectId revId;
+  private final ObjectId revIdB;
+  private final DiffMode diffMode;
 
-  ProjectDocResourceKey(Project.NameKey project, String r, ObjectId revId) {
+  ProjectDocResourceKey(Project.NameKey project, String r, ObjectId revId,
+      ObjectId revIdB, DiffMode diffMode) {
     this.project = project;
     this.resource = r;
     this.revId = revId;
+    this.revIdB = revIdB;
+    this.diffMode = diffMode;
   }
 
   @Override
@@ -42,7 +51,7 @@ public class ProjectDocResourceKey implements ResourceKey, Serializable {
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(project, resource, revId);
+    return Objects.hashCode(project, resource, revId, revIdB, diffMode);
   }
 
   @Override
@@ -50,7 +59,9 @@ public class ProjectDocResourceKey implements ResourceKey, Serializable {
     if (other instanceof ProjectDocResourceKey) {
       ProjectDocResourceKey rk = (ProjectDocResourceKey) other;
       return project.equals(rk.project) && resource.equals(rk.resource)
-          && revId.equals(rk.revId);
+          && revId.equals(rk.revId)
+          && revIdB != null ? revIdB.equals(rk.revIdB) : rk.revIdB == null
+          && diffMode != null ? diffMode.equals(rk.diffMode) : rk.diffMode == null;
     }
     return false;
   }
@@ -65,5 +76,13 @@ public class ProjectDocResourceKey implements ResourceKey, Serializable {
 
   public ObjectId getRevId() {
     return revId;
+  }
+
+  public ObjectId getRevIdB() {
+    return revIdB;
+  }
+
+  public DiffMode getDiffMode() {
+    return diffMode;
   }
 }

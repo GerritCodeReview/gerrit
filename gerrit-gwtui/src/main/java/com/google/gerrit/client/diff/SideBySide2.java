@@ -307,7 +307,7 @@ public class SideBySide2 extends Screen {
         .on("'r'", header.toggleReviewed())
         .on("'o'", commentManager.toggleOpenBox(cm))
         .on("Enter", commentManager.toggleOpenBox(cm))
-        .on("'c'", commentManager.insertNewDraft(cm))
+        .on("Shift-C", commentManager.insertNewDraft(cm))
         .on("N", maybeNextVimSearch(cm))
         .on("P", chunkManager.diffChunkNav(cm, Direction.PREV))
         .on("Shift-M", header.reviewedAndNext())
@@ -457,7 +457,8 @@ public class SideBySide2 extends Screen {
     }
 
     if (Gerrit.isSignedIn()) {
-      keysAction.add(new NoOpKeyCommand(0, 'c', PatchUtil.C.commentInsert()));
+      keysAction.add(new NoOpKeyCommand(
+          KeyCommand.M_SHIFT, 'c', PatchUtil.C.commentInsert()));
       keysComment = new KeyCommandSet(PatchUtil.C.commentEditorSet());
       keysComment.add(new NoOpKeyCommand(KeyCommand.M_CTRL, 's',
           PatchUtil.C.commentSaveDraft()));

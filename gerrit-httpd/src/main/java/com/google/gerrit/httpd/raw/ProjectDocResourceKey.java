@@ -28,11 +28,14 @@ public class ProjectDocResourceKey implements ResourceKey, Serializable {
   private final Project.NameKey project;
   private final String resource;
   private final ObjectId revId;
+  private final ObjectId revIdB;
 
-  ProjectDocResourceKey(Project.NameKey project, String r, ObjectId revId) {
+  ProjectDocResourceKey(Project.NameKey project, String r, ObjectId revId,
+      ObjectId revIdB) {
     this.project = project;
     this.resource = r;
     this.revId = revId;
+    this.revIdB = revIdB;
   }
 
   @Override
@@ -42,7 +45,7 @@ public class ProjectDocResourceKey implements ResourceKey, Serializable {
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(project, resource, revId);
+    return Objects.hashCode(project, resource, revId, revIdB);
   }
 
   @Override
@@ -50,7 +53,8 @@ public class ProjectDocResourceKey implements ResourceKey, Serializable {
     if (other instanceof ProjectDocResourceKey) {
       ProjectDocResourceKey rk = (ProjectDocResourceKey) other;
       return project.equals(rk.project) && resource.equals(rk.resource)
-          && revId.equals(rk.revId);
+          && revId.equals(rk.revId)
+          && revIdB != null ? revIdB.equals(rk.revIdB) : rk.revIdB == null;
     }
     return false;
   }
@@ -65,5 +69,9 @@ public class ProjectDocResourceKey implements ResourceKey, Serializable {
 
   public ObjectId getRevId() {
     return revId;
+  }
+
+  public ObjectId getRevIdB() {
+    return revIdB;
   }
 }

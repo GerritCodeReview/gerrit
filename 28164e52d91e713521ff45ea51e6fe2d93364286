@@ -142,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "522592ed_e7ca8288",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Labels.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-26T16:01:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7258d641_482e3fa8",
+      "range": {
+        "startLine": 317,
+        "startChar": 10,
+        "endLine": 317,
+        "endChar": 28
+      },
+      "revId": "28164e52d91e713521ff45ea51e6fe2d93364286",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7258d641_a80ffb48",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Reviewers.java",
         "patchSetId": 9
@@ -153,6 +177,24 @@
       "writtenOn": "2014-01-21T17:51:34Z",
       "side": 1,
       "message": "I would prefer not to use ApprovalDetail in the newer code. We have gotten by without it thus far.",
+      "revId": "28164e52d91e713521ff45ea51e6fe2d93364286",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "522592ed_87bd86ea",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Reviewers.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-26T16:01:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7258d641_a80ffb48",
       "revId": "28164e52d91e713521ff45ea51e6fe2d93364286",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

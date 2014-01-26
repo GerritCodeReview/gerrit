@@ -27,10 +27,13 @@ import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.prettify.client.SparseHtmlFile;
 import com.google.gerrit.prettify.common.EditList;
 import com.google.gerrit.prettify.common.EditList.Hunk;
+import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
@@ -170,8 +173,7 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
     nc.closeElement("img");
   }
 
-  private void appendPreviewLine(SafeHtmlBuilder nc, String url,
-      boolean syntaxHighlighting, boolean isInsert, Side side) {
+  private void appendPreviewLine(SafeHtmlBuilder nc, String url) {
     nc.openTr();
     nc.setAttribute("valign", "center");
     nc.setAttribute("align", "center");
@@ -185,12 +187,7 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
 
     nc.openTd();
     nc.setStyleName(Gerrit.RESOURCES.css().fileLine());
-    if (isInsert) {
-      setStyleInsert(nc, syntaxHighlighting);
-    } else {
-      setStyleDelete(nc, syntaxHighlighting);
-    }
-    appendPreview(nc, url, side);
+    appendPreview(nc, url, Side.A);
     nc.closeTd();
 
     nc.closeTr();
@@ -198,15 +195,30 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
 
   private void appendPreviewDifferences(PatchScript script, SafeHtmlBuilder nc,
       Project.NameKey project) {
-    boolean syntaxHighlighting = script.getDiffPrefs().isSyntaxHighlighting();
-    if (script.getDisplayMethodA() == DisplayMethod.DIFF) {
-      appendPreviewLine(nc, getPreviewUrlA(project),
-          syntaxHighlighting, false, Side.A);
+    if (script.getDisplayMethodA() == DisplayMethod.DIFF
+        || script.getDisplayMethodB() == DisplayMethod.DIFF) {
+      appendPreviewLine(nc, getPreviewUrl(project));
     }
-    if (script.getDisplayMethodB() == DisplayMethod.DIFF) {
-      appendPreviewLine(nc, getPreviewUrlB(project),
-          syntaxHighlighting, true, Side.B);
+  }
+
+  private String getPreviewUrl(Project.NameKey project) {
+    Patch.Key k = idSideA == null
+        ? patchKey
+        : new Patch.Key(idSideA, patchKey.get());
+    StringBuilder url = new StringBuilder();
+    url.append(GWT.getHostPageBaseURL());
+    url.append("src/");
+    url.append(URL.encodePathSegment(project.get()));
+    url.append("/rev/");
+    url.append(URL.encodePathSegment(k.getParentKey().toRefName()));
+    if (idSideA == null) {
+      url.append("^1");
     }
+    url.append("..");
+    url.append(URL.encodePathSegment(patchKey.getParentKey().toRefName()));
+    url.append("/");
+    url.append(URL.encodePathSegment(k.get()));
+    return url.toString();
   }
 
   protected void createFileCommentEditorOnSideA() {

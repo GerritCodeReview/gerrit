@@ -405,10 +405,13 @@ public class ReceiveCommits {
 
     this.messageSender = new ReceivePackMessageSender();
 
+    ProjectState ps = projectCache.get(this.project.getNameKey());
+    final boolean checkReceivedObjects = ps == null || ps.getConfig().getCheckReceivedObjects();
+
     rp.setAllowCreates(true);
     rp.setAllowDeletes(true);
     rp.setAllowNonFastForwards(true);
-    rp.setCheckReceivedObjects(true);
+    rp.setCheckReceivedObjects(checkReceivedObjects);
     rp.setRefFilter(new RefFilter() {
       @Override
       public Map<String, Ref> filter(Map<String, Ref> refs) {

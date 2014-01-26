@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "12179a8c_85a462ca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-26T18:34:41Z",
+      "side": 1,
+      "message": "If i understand it right, this change is more or less reverted with this follow up change [1]?\n\n [1] https://gerrit-review.googlesource.com/53919\n\nNo icon to preview HTML any more, only diff preview?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 51
+      },
+      "revId": "d3a24c2c21dda8bdb08bfabeeb3a93e261ddd65c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

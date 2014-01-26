@@ -406,10 +406,12 @@ public class ReceiveCommits {
 
     this.messageSender = new ReceivePackMessageSender();
 
+    ProjectState ps = projectControl.getProjectState();
+
     rp.setAllowCreates(true);
     rp.setAllowDeletes(true);
     rp.setAllowNonFastForwards(true);
-    rp.setCheckReceivedObjects(true);
+    rp.setCheckReceivedObjects(ps.getConfig().getCheckReceivedObjects());
     rp.setRefFilter(new RefFilter() {
       @Override
       public Map<String, Ref> filter(Map<String, Ref> refs) {

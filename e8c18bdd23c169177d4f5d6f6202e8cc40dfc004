@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "12179a8c_65896660",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-26T10:47:57Z",
+      "side": 1,
+      "message": "Yes, you can put HTML into a Markdown file and push it, but this HTML is ignored when we generate HTML out of the Markdown file. The Markdown-to-HTML formatter has an option to suppress all HTML from the Markdown file and we are setting this option [1]. Setting this option was required before this change to make the project documentation HTML safe for display. Otherwise it could contain XSS etc.\n\nWith the XSS filter added in this change there is no need anymore to suppress the HTML and there should be a config parameter to allow HTML in Markdown files. Probably it\u0027s best to directly do this in this change.\n\nDone\n\n[1] https://gerrit-review.googlesource.com/#/c/53010/16/gerrit-server/src/main/java/com/google/gerrit/server/documentation/MarkdownFormatter.java",
+      "parentUuid": "522592ed_8740e651",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 41
+      },
+      "revId": "e8c18bdd23c169177d4f5d6f6202e8cc40dfc004",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "522592ed_674a1277",
         "filename": "/COMMIT_MSG",
         "patchSetId": 9
@@ -36,6 +60,30 @@
       "writtenOn": "2014-01-26T07:02:08Z",
       "side": 1,
       "message": "unit test this?",
+      "range": {
+        "startLine": 24,
+        "startChar": 41,
+        "endLine": 25,
+        "endChar": 65
+      },
+      "revId": "e8c18bdd23c169177d4f5d6f6202e8cc40dfc004",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "12179a8c_458eea69",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-26T10:47:57Z",
+      "side": 1,
+      "message": "Yes, it makes sense to add a test for this, but it can only be done when the HTML in the Markdown files is not suppressed anymore.\n\nDone",
+      "parentUuid": "522592ed_674a1277",
       "range": {
         "startLine": 24,
         "startChar": 41,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "522592ed_478eee69",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-26T10:47:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "522592ed_474f0e85",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 69
+      },
+      "revId": "e8c18bdd23c169177d4f5d6f6202e8cc40dfc004",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "522592ed_a7436a5d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 9
@@ -82,6 +154,30 @@
       "writtenOn": "2014-01-26T07:02:08Z",
       "side": 1,
       "message": "and this?",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 11
+      },
+      "revId": "e8c18bdd23c169177d4f5d6f6202e8cc40dfc004",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "522592ed_a7924a8a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-26T10:47:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "522592ed_a7436a5d",
       "range": {
         "startLine": 35,
         "startChar": 0,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "522592ed_c73aded5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-26T10:47:57Z",
+      "side": 1,
+      "message": "Good idea, I will change it.\n\nDone",
+      "parentUuid": "12179a8c_8540e251",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 30
+      },
+      "revId": "e8c18bdd23c169177d4f5d6f6202e8cc40dfc004",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "12179a8c_e53d56d0",
         "filename": "/COMMIT_MSG",
         "patchSetId": 9
@@ -128,6 +248,30 @@
       "writtenOn": "2014-01-26T07:02:08Z",
       "side": 1,
       "message": "left over reference from earlier ps?",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 43,
+        "endChar": 3
+      },
+      "revId": "e8c18bdd23c169177d4f5d6f6202e8cc40dfc004",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "522592ed_0784f647",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-26T10:47:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "12179a8c_e53d56d0",
       "range": {
         "startLine": 43,
         "startChar": 0,
@@ -163,6 +307,30 @@
     },
     {
       "key": {
+        "uuid": "522592ed_67897260",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-26T10:47:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "12179a8c_c53adad5",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 3
+      },
+      "revId": "e8c18bdd23c169177d4f5d6f6202e8cc40dfc004",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "522592ed_07551617",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ProjectDocLoader.java",
         "patchSetId": 9
@@ -174,6 +342,30 @@
       "writtenOn": "2014-01-26T07:02:08Z",
       "side": 1,
       "message": "not needed.",
+      "range": {
+        "startLine": 74,
+        "startChar": 2,
+        "endLine": 74,
+        "endChar": 35
+      },
+      "revId": "e8c18bdd23c169177d4f5d6f6202e8cc40dfc004",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "522592ed_277f7a8f",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ProjectDocLoader.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-26T10:47:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "522592ed_07551617",
       "range": {
         "startLine": 74,
         "startChar": 2,
@@ -209,6 +401,30 @@
     },
     {
       "key": {
+        "uuid": "12179a8c_a5923e8a",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ProjectDocLoader.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-26T10:47:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "12179a8c_a5435e5d",
+      "range": {
+        "startLine": 75,
+        "startChar": 2,
+        "endLine": 75,
+        "endChar": 26
+      },
+      "revId": "e8c18bdd23c169177d4f5d6f6202e8cc40dfc004",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "522592ed_27501a27",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ProjectDocLoader.java",
         "patchSetId": 9
@@ -220,6 +436,30 @@
       "writtenOn": "2014-01-26T07:02:08Z",
       "side": 1,
       "message": "Move this part from request specific method in servlet constructor and retain policy file handle.",
+      "range": {
+        "startLine": 174,
+        "startChar": 4,
+        "endLine": 178,
+        "endChar": 66
+      },
+      "revId": "e8c18bdd23c169177d4f5d6f6202e8cc40dfc004",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "12179a8c_858f4262",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ProjectDocLoader.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-26T10:47:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "522592ed_27501a27",
       "range": {
         "startLine": 174,
         "startChar": 4,

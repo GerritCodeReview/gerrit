@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "12179a8c_056b52c7",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AproposCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-26T11:52:58Z",
+      "side": 1,
+      "message": "The oder of imports is wrong. First should static imports come, after them one one empty line and only then non static imports.\n\nUse Eclipse\u0027s Ctrl-Shift-o \"organize-imports\" command to put them in the right order:\n\n  package com.google.gerrit.sshd.commands;\n\n  import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;\n\n  import com.google.gerrit.server.config.CanonicalWebUrl;\n  import com.google.gerrit.server.documentation.QueryDocumentationExecutor;\n  [..]\n\nHere and in all other command files.",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 74
+      },
+      "revId": "c1cd9d91871eddf0e130abfad953d941189bacda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

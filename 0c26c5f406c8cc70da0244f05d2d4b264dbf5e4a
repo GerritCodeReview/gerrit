@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "522592ed_c7c77e7e",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ProjectDocServlet.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-26T17:24:49Z",
+      "side": 1,
+      "message": "Can this branch ever be reached? Isn\u0027t condition on line 108 handles it already?",
+      "range": {
+        "startLine": 169,
+        "startChar": 9,
+        "endLine": 171,
+        "endChar": 9
+      },
+      "revId": "0c26c5f406c8cc70da0244f05d2d4b264dbf5e4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "12179a8c_65ae86af",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ProjectDocServlet.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-26T17:24:49Z",
+      "side": 1,
+      "message": "This was already checked on the line: 110.\n\n  MimeType mimeType \u003d fileTypeRegistry.getMimeType(file, content);\n\nwas checked on line 109 (and 167), but with null as second argument. on line 207, content of the file is passed. Does it make difference?",
+      "range": {
+        "startLine": 209,
+        "startChar": 16,
+        "endLine": 209,
+        "endChar": 55
+      },
+      "revId": "0c26c5f406c8cc70da0244f05d2d4b264dbf5e4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

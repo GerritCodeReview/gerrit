@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "32f1fea2_eea1bfb8",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ChangeDescription.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-27T23:11:59Z",
+      "side": 1,
+      "message": "Yes. :-(\n\nThis should be called ChangeInfo and the interface should be more consistent between the two.",
+      "revId": "6168e974675f138e75689532ee5d764a327618ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7207f652_10b9c4f7",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ChangeDescription.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-27T23:11:59Z",
+      "side": 1,
+      "message": "This won\u0027t be easy. I have been punting on it because I want to figure out the account database refactoring thing to support account system plugins. Doing that should blow up Account.Id the same way AccountGroup.Id was (mostly) replaced in the core code with AccountGroup.UUID. Its that UUID concept that should be exposed/exported through the JSON and the public APIs.",
+      "revId": "6168e974675f138e75689532ee5d764a327618ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

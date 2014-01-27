@@ -24,7 +24,6 @@ import com.google.gerrit.acceptance.SshSession;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
-import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Project;
@@ -109,7 +108,7 @@ public class ChangeIT extends AbstractDaemonTest {
     gApi.changes()
         .id("p~master~" + r.getChangeId())
         .revision(r.getCommit().name())
-        .review(approve());
+        .approve();
     gApi.changes()
         .id("p~master~" + r.getChangeId())
         .revision(r.getCommit().name())
@@ -145,11 +144,5 @@ public class ChangeIT extends AbstractDaemonTest {
       IOException {
     PushOneCommit push = pushFactory.create(db, admin.getIdent());
     return push.to(git, "refs/for/master");
-  }
-
-  private static ReviewInput approve() {
-    return new ReviewInput()
-      .message("Looks good!")
-      .label("Code-Review", 2);
   }
 }

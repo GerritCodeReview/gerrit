@@ -24,7 +24,6 @@ import com.google.gerrit.acceptance.SshSession;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
-import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Project;
@@ -86,7 +85,7 @@ public class RevisionIT extends AbstractDaemonTest {
     gApi.changes()
         .id("p~master~" + r.getChangeId())
         .revision(r.getCommit().name())
-        .review(approve());
+        .approve();
   }
 
   @Test
@@ -96,7 +95,7 @@ public class RevisionIT extends AbstractDaemonTest {
     gApi.changes()
         .id(r.getChangeId())
         .current()
-        .review(approve());
+        .approve();
   }
 
   @Test
@@ -106,13 +105,13 @@ public class RevisionIT extends AbstractDaemonTest {
     gApi.changes()
         .id(r.getChangeId())
         .revision(1)
-        .review(approve());
+        .approve();
 
     r = updateChange(r, "new content");
     gApi.changes()
         .id(r.getChangeId())
         .revision(2)
-        .review(approve());
+        .approve();
   }
 
   @Test
@@ -122,7 +121,7 @@ public class RevisionIT extends AbstractDaemonTest {
     gApi.changes()
         .id("p~master~" + r.getChangeId())
         .current()
-        .review(approve());
+        .approve();
     gApi.changes()
         .id("p~master~" + r.getChangeId())
         .current()
@@ -155,7 +154,7 @@ public class RevisionIT extends AbstractDaemonTest {
         .revision(r.getCommit().name())
         .cherryPick(in);
     cApi.current()
-        .review(approve());
+        .approve();
     cApi.current()
         .submit();
   }
@@ -178,11 +177,5 @@ public class RevisionIT extends AbstractDaemonTest {
       IOException {
     PushOneCommit push = pushFactory.create(db, admin.getIdent());
     return push.to(git, "refs/drafts/master");
-  }
-
-  private static ReviewInput approve() {
-    return new ReviewInput()
-      .message("Looks good!")
-      .label("Code-Review", 2);
   }
 }

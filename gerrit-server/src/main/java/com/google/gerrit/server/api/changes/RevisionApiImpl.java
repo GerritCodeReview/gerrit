@@ -79,6 +79,26 @@ class RevisionApiImpl implements RevisionApi {
   }
 
   @Override
+  public void like() throws RestApiException {
+    review(new ReviewInput().label("Code-Review", 1));
+  }
+
+  @Override
+  public void dislike() throws RestApiException {
+    review(new ReviewInput().label("Code-Review", -1));
+  }
+
+  @Override
+  public void approve() throws RestApiException {
+    review(new ReviewInput().label("Code-Review", 2));
+  }
+
+  @Override
+  public void reject() throws RestApiException {
+    review(new ReviewInput().label("Code-Review", -2));
+  }
+
+  @Override
   public void submit() throws RestApiException {
     SubmitInput in = new SubmitInput();
     in.waitForMerge = true;

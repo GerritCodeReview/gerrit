@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "32f1fea2_aec0576a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Actions.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-01-27T09:37:56Z",
+      "side": 1,
+      "message": "This should be revert.  Fixed in [1].\n\n[1] https://gerrit-review.googlesource.com/54052",
+      "range": {
+        "startLine": 169,
+        "startChar": 22,
+        "endLine": 169,
+        "endChar": 32
+      },
+      "revId": "097b95791517008607f2332e6f4c2be621d6bf3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

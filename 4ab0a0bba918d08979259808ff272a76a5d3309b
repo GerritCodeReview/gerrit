@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "32f1fea2_4e8e136a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-01-27T02:16:41Z",
+      "side": 1,
+      "message": "the implementation does not support running on only slave mode.",
+      "range": {
+        "startLine": 15,
+        "startChar": 3,
+        "endLine": 15,
+        "endChar": 17
+      },
+      "revId": "4ab0a0bba918d08979259808ff272a76a5d3309b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7207f652_f09c00a1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-01-27T02:16:41Z",
+      "side": 1,
+      "message": "Please mention that this reverts 84bcead690240e07e0314b165fb8d6dc95d2c5e7",
+      "revId": "4ab0a0bba918d08979259808ff272a76a5d3309b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "32f1fea2_0e840b48",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/CommandMetaData.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-01-27T02:16:41Z",
+      "side": 1,
+      "message": "and whether it can be run on slaves.",
+      "range": {
+        "startLine": 24,
+        "startChar": 43,
+        "endLine": 24,
+        "endChar": 71
+      },
+      "revId": "4ab0a0bba918d08979259808ff272a76a5d3309b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "32f1fea2_6e894f60",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AproposCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-01-27T02:16:41Z",
+      "side": 1,
+      "message": "Should this line be indented?",
+      "revId": "4ab0a0bba918d08979259808ff272a76a5d3309b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

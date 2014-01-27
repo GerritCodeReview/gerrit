@@ -113,4 +113,20 @@ public class ReviewInput {
   public ReviewInput label(String name) {
     return label(name, (short) 1);
   }
+
+  public static ReviewInput recommend() {
+    return new ReviewInput().label("Code-Review", 1);
+  }
+
+  public static ReviewInput dislike() {
+    return new ReviewInput().label("Code-Review", -1);
+  }
+
+  public static ReviewInput approve() {
+    return new ReviewInput().label("Code-Review", 2);
+  }
+
+  public static ReviewInput reject() {
+    return new ReviewInput().label("Code-Review", -2);
+  }
 }

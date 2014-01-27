@@ -109,7 +109,7 @@ public class ChangeIT extends AbstractDaemonTest {
     gApi.changes()
         .id("p~master~" + r.getChangeId())
         .revision(r.getCommit().name())
-        .review(approve());
+        .review(ReviewInput.approve());
     gApi.changes()
         .id("p~master~" + r.getChangeId())
         .revision(r.getCommit().name())
@@ -145,11 +145,5 @@ public class ChangeIT extends AbstractDaemonTest {
       IOException {
     PushOneCommit push = pushFactory.create(db, admin.getIdent());
     return push.to(git, "refs/for/master");
-  }
-
-  private static ReviewInput approve() {
-    return new ReviewInput()
-      .message("Looks good!")
-      .label("Code-Review", 2);
   }
 }

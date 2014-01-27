@@ -30,7 +30,6 @@ import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.GerritApi;
-import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
@@ -133,7 +132,7 @@ public class LabelTypeIT extends AbstractDaemonTest {
     PushOneCommit push = pushFactory.create(db, user.getIdent(),
         subject, file, "first contents");
     PushOneCommit.Result r = push.to(git, "refs/for/master");
-    review(r, -2);
+    revision(r).reject();
     assertApproval(r, -2);
 
     push = pushFactory.create(db, user.getIdent(),
@@ -152,7 +151,7 @@ public class LabelTypeIT extends AbstractDaemonTest {
     PushOneCommit push = pushFactory.create(db, user.getIdent(),
         subject, file, "first contents");
     PushOneCommit.Result r = push.to(git, "refs/for/master");
-    review(r, -2);
+    revision(r).reject();
     assertApproval(r, -2);
 
     push = pushFactory.create(db, user.getIdent(),
@@ -169,7 +168,7 @@ public class LabelTypeIT extends AbstractDaemonTest {
     PushOneCommit push = pushFactory.create(db, user.getIdent(),
         subject, file, "first contents");
     PushOneCommit.Result r = push.to(git, "refs/for/master");
-    review(r, 2);
+    revision(r).approve();
     assertApproval(r, 2);
 
     push = pushFactory.create(db, user.getIdent(),
@@ -188,7 +187,7 @@ public class LabelTypeIT extends AbstractDaemonTest {
     PushOneCommit push = pushFactory.create(db, user.getIdent(),
         subject, file, "first contents");
     PushOneCommit.Result r = push.to(git, "refs/for/master");
-    review(r, 2);
+    revision(r).approve();
     assertApproval(r, 2);
 
     push = pushFactory.create(db, user.getIdent(),
@@ -208,7 +207,7 @@ public class LabelTypeIT extends AbstractDaemonTest {
     PushOneCommit push = pushFactory.create(db, user.getIdent(),
         subject, file, "first contents");
     PushOneCommit.Result r = push.to(git, "refs/for/master");
-    review(r, 1);
+    revision(r).recommend();
     assertApproval(r, 1);
 
     push = pushFactory.create(db, user.getIdent(),
@@ -228,7 +227,7 @@ public class LabelTypeIT extends AbstractDaemonTest {
     PushOneCommit push = pushFactory.create(db, user.getIdent(),
         subject, file, "first contents");
     PushOneCommit.Result r = push.to(git, "refs/for/master");
-    review(r, -1);
+    revision(r).dislike();
     assertApproval(r, -1);
 
     push = pushFactory.create(db, user.getIdent(),
@@ -245,7 +244,7 @@ public class LabelTypeIT extends AbstractDaemonTest {
     PushOneCommit push = pushFactory.create(db, user.getIdent(),
         "first subject", file, contents);
     PushOneCommit.Result r = push.to(git, "refs/for/master");
-    review(r, 1);
+    revision(r).recommend();
     assertApproval(r, 1);
 
     push = pushFactory.create(db, user.getIdent(),
@@ -264,7 +263,7 @@ public class LabelTypeIT extends AbstractDaemonTest {
     PushOneCommit push = pushFactory.create(db, user.getIdent(),
         "first subject", file, contents);
     PushOneCommit.Result r = push.to(git, "refs/for/master");
-    review(r, 1);
+    revision(r).recommend();
     assertApproval(r, 1);
 
     push = pushFactory.create(db, user.getIdent(),
@@ -291,7 +290,7 @@ public class LabelTypeIT extends AbstractDaemonTest {
     git.checkout().setName(r1.getCommit().name()).call();
     push = pushFactory.create(db, user.getIdent(), subject, file, contents);
     PushOneCommit.Result r3 = push.to(git, "refs/for/master");
-    review(r3, 1);
+    revision(r3).recommend();
     assertApproval(r3, 1);
 
     rebase(r3);
@@ -318,7 +317,7 @@ public class LabelTypeIT extends AbstractDaemonTest {
     git.checkout().setName(r1.getCommit().name()).call();
     push = pushFactory.create(db, user.getIdent(), subject, file, contents);
     PushOneCommit.Result r3 = push.to(git, "refs/for/master");
-    review(r3, 1);
+    revision(r3).recommend();
     assertApproval(r3, 1);
 
     rebase(r3);
@@ -347,12 +346,8 @@ public class LabelTypeIT extends AbstractDaemonTest {
         .revision(r.getCommit().name());
   }
 
-  private void review(PushOneCommit.Result r, int score) throws Exception {
-    revision(r).review(new ReviewInput().label("Code-Review", score));
-  }
-
   private void merge(PushOneCommit.Result r) throws Exception {
-    review(r, 2);
+    revision(r).approve();
     revision(r).submit();
     Repository repo = repoManager.openRepository(project);
     try {

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "32f1fea2_8e8f5b62",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-01-27T02:25:46Z",
+      "side": 1,
+      "message": "Would it be better to put this setting under the existing \"receive\" section?",
+      "revId": "6d8b34f5af4ea3fb6a3eebd072c087a646c86176",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

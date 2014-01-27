@@ -16,10 +16,11 @@ package com.google.gerrit.server.change;
 
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.extensions.common.FileInfo;
+import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListEntry;
@@ -55,7 +56,7 @@ public class FileInfoJson {
 
     Map<String, FileInfo> files = Maps.newTreeMap();
     for (PatchListEntry e : list.getPatches()) {
-      FileInfoJson.FileInfo d = new FileInfoJson.FileInfo();
+      FileInfo d = new FileInfo();
       d.status = e.getChangeType() != Patch.ChangeType.MODIFIED
           ? e.getChangeType().getCode() : null;
       d.oldPath = e.getOldName();
@@ -66,7 +67,7 @@ public class FileInfoJson {
         d.linesDeleted = e.getDeletions() > 0 ? e.getDeletions() : null;
       }
 
-      FileInfoJson.FileInfo o = files.put(e.getNewName(), d);
+      FileInfo o = files.put(e.getNewName(), d);
       if (o != null) {
         // This should only happen on a delete-add break created by JGit
         // when the file was rewritten and too little content survived. Write
@@ -84,13 +85,5 @@ public class FileInfoJson {
       }
     }
     return files;
-  }
-
-  static class FileInfo {
-    Character status;
-    Boolean binary;
-    String oldPath;
-    Integer linesInserted;
-    Integer linesDeleted;
   }
 }

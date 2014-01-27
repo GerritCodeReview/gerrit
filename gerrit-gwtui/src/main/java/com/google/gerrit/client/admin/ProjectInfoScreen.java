@@ -47,6 +47,7 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Panel;
@@ -401,10 +402,10 @@ public class ProjectInfoScreen extends ProjectScreen {
       HorizontalPanel p = new HorizontalPanel();
       p.add(textBox);
       p.add(inheritedLabel);
-      g.add(getDisplayName(param), p);
+      addWidget(g, p, param);
     } else {
       textBox.setValue(param.value());
-      g.add(getDisplayName(param), textBox);
+      addWidget(g, textBox, param);
     }
     saveEnabler.listenTo(textBox);
     return textBox;
@@ -414,7 +415,14 @@ public class ProjectInfoScreen extends ProjectScreen {
       ConfigParameterInfo param) {
     CheckBox checkBox = new CheckBox(getDisplayName(param));
     checkBox.setValue(Boolean.parseBoolean(param.value()));
-    g.add(null, checkBox);
+    HorizontalPanel p = new HorizontalPanel();
+    p.add(checkBox);
+    if (param.description() != null) {
+      Image infoImg = new Image(Gerrit.RESOURCES.info());
+      infoImg.setTitle(param.description());
+      p.add(infoImg);
+    }
+    g.add((String)null, p);
     saveEnabler.listenTo(checkBox);
     return checkBox;
   }
@@ -447,7 +455,7 @@ public class ProjectInfoScreen extends ProjectScreen {
 
     if (param.editable()) {
       saveEnabler.listenTo(listBox);
-      g.add(getDisplayName(param), listBox);
+      addWidget(g, listBox, param);
     } else {
       listBox.setEnabled(false);
 
@@ -463,13 +471,26 @@ public class ProjectInfoScreen extends ProjectScreen {
         HorizontalPanel p = new HorizontalPanel();
         p.add(listBox);
         p.add(inheritedLabel);
-        g.add(getDisplayName(param), p);
+        addWidget(g, p, param);
       } else {
-        g.add(getDisplayName(param), listBox);
+        addWidget(g, listBox, param);
       }
     }
 
     return listBox;
+  }
+
+  private void addWidget(LabeledWidgetsGrid g, Widget w, ConfigParameterInfo param) {
+    if (param.description() != null) {
+      HorizontalPanel p = new HorizontalPanel();
+      Image infoImg = new Image(Gerrit.RESOURCES.info());
+      infoImg.setTitle(param.description());
+      p.add(new Label(getDisplayName(param)));
+      p.add(infoImg);
+      g.add(p, w);
+    } else {
+      g.add(getDisplayName(param), w);
+    }
   }
 
   private String getDisplayName(ConfigParameterInfo param) {
@@ -598,5 +619,11 @@ public class ProjectInfoScreen extends ProjectScreen {
       add(label, true, widget);
     }
 
+    public void add(Widget label, Widget widget) {
+      int row = getRowCount();
+      insertRow(row);
+      setWidget(row, 0, label);
+      setWidget(row, 1, widget);
+    }
   }
 }

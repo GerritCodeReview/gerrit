@@ -60,4 +60,7 @@ public interface GerritResources extends ClientBundle {
 
   @Source("readOnly.png")
   public ImageResource readOnly();
+
+  @Source("info.png")
+  public ImageResource info();
 }

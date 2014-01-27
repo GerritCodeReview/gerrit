@@ -1294,6 +1294,8 @@ parameter.
 |Field Name        ||Description
 |`display_name`    |optional|
 The display name of the configuration parameter.
+|`description`     |optional|
+The description of the configuration parameter.
 |`type`            ||
 The type of the configuration parameter, can be `STRING`, `INT`,
 `LONG`, `BOOLEAN` or `LIST`.

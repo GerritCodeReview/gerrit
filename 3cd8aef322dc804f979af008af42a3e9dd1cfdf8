@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7207f652_50dcec59",
+        "filename": "contributor",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-01-27T14:14:16Z",
+      "side": 1,
+      "message": "In a separate change it might be good to remove this prefix in description (also in the other recently added) because they don\u0027t look consistent with the others in the same list [1]\n\n[1] https://gerrit-review.googlesource.com/#/admin/projects/gerrit,dashboards",
+      "range": {
+        "startLine": 3,
+        "startChar": 16,
+        "endLine": 3,
+        "endChar": 40
+      },
+      "revId": "3cd8aef322dc804f979af008af42a3e9dd1cfdf8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

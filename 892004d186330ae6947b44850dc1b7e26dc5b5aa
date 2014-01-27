@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "32f1fea2_aea7b7cd",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/ChangeStatusConstants.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-27T23:08:16Z",
+      "side": 1,
+      "message": "IMHO these are internal implementation details of the gwtorm implementation and should not be part of the extension API. I\u0027d like to avoid this class, as well as the char field in ChangeStatus, leaking to callers.\n\nOne way to do this is to leave the Change.Status enum and have an EnumBiMap between the public and private enum types.",
+      "revId": "892004d186330ae6947b44850dc1b7e26dc5b5aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

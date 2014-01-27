@@ -16,6 +16,24 @@
       "revId": "892004d186330ae6947b44850dc1b7e26dc5b5aa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7207f652_70ae50af",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/ChangeStatusConstants.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-27T23:13:57Z",
+      "side": 1,
+      "message": "I think Dave Borowitz is right. These char constants shouldn\u0027t be visible, especially since we plan to kill them this year.",
+      "parentUuid": "32f1fea2_aea7b7cd",
+      "revId": "892004d186330ae6947b44850dc1b7e26dc5b5aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

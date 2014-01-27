@@ -27,6 +27,7 @@ import com.google.gerrit.acceptance.SshSession;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
+import com.google.gerrit.extensions.common.ChangeStatus;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -117,7 +118,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     grant(Permission.SUBMIT, project, "refs/for/refs/heads/master");
     PushOneCommit.Result r = pushTo("refs/for/master%submit");
     r.assertOkStatus();
-    r.assertChange(Change.Status.MERGED, null, admin);
+    r.assertChange(ChangeStatus.MERGED, null, admin);
     assertSubmitApproval(r.getPatchSetId());
     assertCommit(project, "refs/heads/master");
   }
@@ -132,7 +133,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     push.setTag(tag);
     PushOneCommit.Result r = push.to(git, "refs/for/master%submit");
     r.assertOkStatus();
-    r.assertChange(Change.Status.MERGED, null, admin);
+    r.assertChange(ChangeStatus.MERGED, null, admin);
     assertSubmitApproval(r.getPatchSetId());
     assertCommit(project, "refs/heads/master");
     assertTag(project, "refs/heads/master", tag);
@@ -149,7 +150,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
 
     PushOneCommit.Result r = pushTo("refs/for/refs/meta/config%submit");
     r.assertOkStatus();
-    r.assertChange(Change.Status.MERGED, null, admin);
+    r.assertChange(ChangeStatus.MERGED, null, admin);
     assertSubmitApproval(r.getPatchSetId());
     assertCommit(project, "refs/meta/config");
   }
@@ -166,7 +167,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     PushOneCommit.Result r =
         push("refs/for/master%submit", "other change", "a.txt", "other content");
     r.assertOkStatus();
-    r.assertChange(Change.Status.NEW, null, admin);
+    r.assertChange(ChangeStatus.NEW, null, admin);
     r.assertMessage(CommitMergeStatus.PATH_CONFLICT.getMessage());
   }
 
@@ -182,7 +183,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     PushOneCommit.Result r =
         push("refs/for/master%submit", "other change", "b.txt", "other content");
     r.assertOkStatus();
-    r.assertChange(Change.Status.MERGED, null, admin);
+    r.assertChange(ChangeStatus.MERGED, null, admin);
     assertMergeCommit(master, "other change");
   }
 
@@ -196,7 +197,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     r = push("refs/for/master%submit", PushOneCommit.SUBJECT, "a.txt",
         "other content", r.getChangeId());
     r.assertOkStatus();
-    r.assertChange(Change.Status.MERGED, null, admin);
+    r.assertChange(ChangeStatus.MERGED, null, admin);
     Change c = Iterables.getOnlyElement(db.changes().byKey(
         new Change.Key(r.getChangeId())).toList());
     assertEquals(2, db.patchSets().byChange(c.getId()).toList().size());
@@ -250,7 +251,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     assertCommit(project, "refs/heads/master");
     assertNull(getSubmitter(r.getPatchSetId()));
     Change c = db.changes().get(r.getPatchSetId().getParentKey());
-    assertEquals(Change.Status.MERGED, c.getStatus());
+    assertEquals(ChangeStatus.MERGED, c.getStatus());
   }
 
   private void grant(String permission, Project.NameKey project, String ref)

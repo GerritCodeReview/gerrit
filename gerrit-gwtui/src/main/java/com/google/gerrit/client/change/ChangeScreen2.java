@@ -47,9 +47,9 @@ import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.client.ui.UserActivityMonitor;
 import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.extensions.common.ChangeStatus;
 import com.google.gerrit.extensions.common.ListChangesOption;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.SubmitType;
@@ -323,7 +323,7 @@ public class ChangeScreen2 extends Screen {
   }
 
   private void initIncludedInAction(ChangeInfo info) {
-    if (info.status() == Status.MERGED) {
+    if (info.status() == ChangeStatus.MERGED) {
       includedInAction = new IncludedInAction(
           info.legacy_id(),
           style, headerLine, includedIn);
@@ -674,10 +674,10 @@ public class ChangeScreen2 extends Screen {
       }));
   }
 
-  private void loadSubmitType(final Change.Status status, final boolean canSubmit) {
+  private void loadSubmitType(final ChangeStatus status, final boolean canSubmit) {
     if (canSubmit) {
       actions.setSubmitEnabled();
-      if (status == Change.Status.NEW) {
+      if (status == ChangeStatus.NEW) {
         statusText.setInnerText(Util.C.readyToSubmit());
       }
     }
@@ -687,7 +687,7 @@ public class ChangeScreen2 extends Screen {
         @Override
         public void onSuccess(NativeString result) {
           if (canSubmit) {
-            if (status == Change.Status.NEW) {
+            if (status == ChangeStatus.NEW) {
               statusText.setInnerText(changeInfo.mergeable()
                   ? Util.C.readyToSubmit()
                   : Util.C.mergeConflict());
@@ -764,7 +764,7 @@ public class ChangeScreen2 extends Screen {
     boolean current = info.status().isOpen()
         && revision.equals(info.current_revision());
 
-    if (!current && info.status() == Change.Status.NEW) {
+    if (!current && info.status() == ChangeStatus.NEW) {
       statusText.setInnerText(Util.C.notCurrent());
       labels.setVisible(false);
     } else {

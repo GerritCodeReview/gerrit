@@ -26,6 +26,7 @@ import com.google.gerrit.client.ui.ProjectLink;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.AccountInfoCache;
 import com.google.gerrit.common.data.ChangeInfo;
+import com.google.gerrit.extensions.common.ChangeStatus;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -146,7 +147,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
     }
 
     String s = Util.cropSubject(c.getSubject());
-    if (c.getStatus() != null && c.getStatus() != Change.Status.NEW) {
+    if (c.getStatus() != null && c.getStatus() != ChangeStatus.NEW) {
       s += " (" + c.getStatus().name() + ")";
     }
     if (changeRowFormatter != null) {

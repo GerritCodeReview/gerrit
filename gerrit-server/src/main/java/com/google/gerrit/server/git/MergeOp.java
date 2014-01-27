@@ -30,6 +30,7 @@ import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.common.data.SubmitTypeRecord;
+import com.google.gerrit.extensions.common.ChangeStatus;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
@@ -854,7 +855,7 @@ public class MergeOp {
     return db.changes().atomicUpdate(changeId, new AtomicUpdate<Change>() {
       @Override
       public Change update(Change c) {
-        c.setStatus(Change.Status.MERGED);
+        c.setStatus(ChangeStatus.MERGED);
         // It could be possible that the change being merged
         // has never had its mergeability tested. So we insure
         // merged changes has mergeable field true.
@@ -997,7 +998,7 @@ public class MergeOp {
           public Change update(Change c) {
             if (c.getStatus().isOpen()) {
               if (setStatusNew) {
-                c.setStatus(Change.Status.NEW);
+                c.setStatus(ChangeStatus.NEW);
               }
               ChangeUtil.updated(c);
             }
@@ -1105,7 +1106,7 @@ public class MergeOp {
           @Override
           public Change update(Change change) {
             if (change.getStatus().isOpen()) {
-              change.setStatus(Change.Status.ABANDONED);
+              change.setStatus(ChangeStatus.ABANDONED);
               return change;
             }
             return null;

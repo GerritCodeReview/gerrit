@@ -21,7 +21,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.SshSession;
 import com.google.gerrit.acceptance.TestAccount;
-import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.extensions.common.ChangeStatus;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gwtorm.server.OrmException;
@@ -90,7 +90,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
       IOException {
     PushOneCommit.Result r = pushTo("refs/for/master");
     r.assertOkStatus();
-    r.assertChange(Change.Status.NEW, null);
+    r.assertChange(ChangeStatus.NEW, null);
   }
 
   @Test
@@ -100,12 +100,12 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     String topic = "my/topic";
     PushOneCommit.Result r = pushTo("refs/for/master/" + topic);
     r.assertOkStatus();
-    r.assertChange(Change.Status.NEW, topic);
+    r.assertChange(ChangeStatus.NEW, topic);
 
     // specify topic as option
     r = pushTo("refs/for/master%topic=" + topic);
     r.assertOkStatus();
-    r.assertChange(Change.Status.NEW, topic);
+    r.assertChange(ChangeStatus.NEW, topic);
   }
 
   @Test
@@ -116,7 +116,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     String topic = "my/topic";
     PushOneCommit.Result r = pushTo("refs/for/master/" + topic + "%cc=" + user.email);
     r.assertOkStatus();
-    r.assertChange(Change.Status.NEW, topic);
+    r.assertChange(ChangeStatus.NEW, topic);
 
     // cc several users
     TestAccount user2 =
@@ -124,7 +124,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     r = pushTo("refs/for/master/" + topic + "%cc=" + admin.email + ",cc="
         + user.email + ",cc=" + user2.email);
     r.assertOkStatus();
-    r.assertChange(Change.Status.NEW, topic);
+    r.assertChange(ChangeStatus.NEW, topic);
 
     // cc non-existing user
     String nonExistingEmail = "non.existing@example.com";
@@ -141,7 +141,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     String topic = "my/topic";
     PushOneCommit.Result r = pushTo("refs/for/master/" + topic + "%r=" + user.email);
     r.assertOkStatus();
-    r.assertChange(Change.Status.NEW, topic, user);
+    r.assertChange(ChangeStatus.NEW, topic, user);
 
     // add several reviewers
     TestAccount user2 =
@@ -150,7 +150,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
         + ",r=" + user2.email);
     r.assertOkStatus();
     // admin is the owner of the change and should not appear as reviewer
-    r.assertChange(Change.Status.NEW, topic, user, user2);
+    r.assertChange(ChangeStatus.NEW, topic, user, user2);
 
     // add non-existing user as reviewer
     String nonExistingEmail = "non.existing@example.com";
@@ -165,12 +165,12 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     // create draft by pushing to 'refs/drafts/'
     PushOneCommit.Result r = pushTo("refs/drafts/master");
     r.assertOkStatus();
-    r.assertChange(Change.Status.DRAFT, null);
+    r.assertChange(ChangeStatus.DRAFT, null);
 
     // create draft by using 'draft' option
     r = pushTo("refs/for/master%draft");
     r.assertOkStatus();
-    r.assertChange(Change.Status.DRAFT, null);
+    r.assertChange(ChangeStatus.DRAFT, null);
   }
 
   @Test

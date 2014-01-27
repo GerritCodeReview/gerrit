@@ -32,6 +32,7 @@ import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.common.data.UiCommandDetail;
+import com.google.gerrit.extensions.common.ChangeStatus;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadCommand;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadScheme;
@@ -471,7 +472,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
       actionsPanel.add(b);
     }
 
-    if (changeDetail.getChange().getStatus() == Change.Status.DRAFT
+    if (changeDetail.getChange().getStatus() == ChangeStatus.DRAFT
         && changeDetail.canDeleteDraft()) {
       final Button b = new Button(Util.C.buttonDeleteDraftChange());
       b.addClickHandler(new ClickHandler() {

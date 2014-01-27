@@ -41,10 +41,10 @@ import com.google.gerrit.common.data.AccountInfoCache;
 import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.data.ChangeInfo;
 import com.google.gerrit.common.data.SubmitTypeRecord;
+import com.google.gerrit.extensions.common.ChangeStatus;
 import com.google.gerrit.extensions.common.ListChangesOption;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.CommentVisibilityStrategy;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.Patch.ChangeType;
@@ -217,7 +217,7 @@ public class ChangeScreen extends Screen
     dependsOn.setChangeRowFormatter(new ChangeTable.ChangeRowFormatter() {
       @Override
       public String getRowStyle(ChangeInfo c) {
-        if (! c.isLatest() || Change.Status.ABANDONED.equals(c.getStatus())) {
+        if (! c.isLatest() || ChangeStatus.ABANDONED.equals(c.getStatus())) {
           return Gerrit.RESOURCES.css().outdated();
         }
         return null;
@@ -544,7 +544,7 @@ public class ChangeScreen extends Screen
     displayTitle(detail.getChange().getKey(), detail.getChange().getSubject());
     discardDiffBaseIfNotApplicable(detail.getChange().getId());
 
-    if (Status.MERGED == detail.getChange().getStatus()) {
+    if (ChangeStatus.MERGED == detail.getChange().getStatus()) {
       includedInPanel.setVisible(true);
       includedInPanel.addOpenHandler(includedInTable);
     } else {
@@ -594,7 +594,7 @@ public class ChangeScreen extends Screen
           if (!ci.isLatest()) {
             depsOpen = true;
             outdated++;
-          } else if (ci.getStatus() != Change.Status.MERGED) {
+          } else if (ci.getStatus() != ChangeStatus.MERGED) {
             depsOpen = true;
           }
         }
@@ -603,9 +603,9 @@ public class ChangeScreen extends Screen
     final List<ChangeInfo> neededBy = detail.getNeededBy();
     if (neededBy != null) {
       for (final ChangeInfo ci : neededBy) {
-        if ((ci.getStatus() == Change.Status.NEW) ||
-            (ci.getStatus() == Change.Status.SUBMITTED) ||
-            (ci.getStatus() == Change.Status.DRAFT)) {
+        if ((ci.getStatus() == ChangeStatus.NEW) ||
+            (ci.getStatus() == ChangeStatus.SUBMITTED) ||
+            (ci.getStatus() == ChangeStatus.DRAFT)) {
           depsOpen = true;
         }
       }

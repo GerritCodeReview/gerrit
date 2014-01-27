@@ -15,7 +15,7 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.extensions.common.ChangeStatus;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.index.ChangeIndex;
@@ -73,7 +73,7 @@ public class BasicChangeRewrites extends QueryRewriter<ChangeData> {
   @Rewrite("-status:merged")
   public Predicate<ChangeData> r00_notMerged() {
     return or(ChangeStatusPredicate.open(dbProvider),
-        new ChangeStatusPredicate(Change.Status.ABANDONED));
+        new ChangeStatusPredicate(ChangeStatus.ABANDONED));
   }
 
   @SuppressWarnings("unchecked")
@@ -81,7 +81,7 @@ public class BasicChangeRewrites extends QueryRewriter<ChangeData> {
   @Rewrite("-status:abandoned")
   public Predicate<ChangeData> r00_notAbandoned() {
     return or(ChangeStatusPredicate.open(dbProvider),
-        new ChangeStatusPredicate(Change.Status.MERGED));
+        new ChangeStatusPredicate(ChangeStatus.MERGED));
   }
 
   @SuppressWarnings("unchecked")

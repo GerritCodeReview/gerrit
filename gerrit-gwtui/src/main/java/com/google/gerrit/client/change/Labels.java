@@ -26,7 +26,7 @@ import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.LabelValue;
-import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.extensions.common.ChangeStatus;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
@@ -116,7 +116,7 @@ class Labels extends Grid {
       getCellFormatter().setStyleName(row, 0, style.labelName());
       getCellFormatter().addStyleName(row, 0, getStyleForLabel(label));
 
-      if (canSubmit && info.status() == Change.Status.NEW) {
+      if (canSubmit && info.status() == ChangeStatus.NEW) {
         switch (label.status()) {
           case NEED:
             if (current) {

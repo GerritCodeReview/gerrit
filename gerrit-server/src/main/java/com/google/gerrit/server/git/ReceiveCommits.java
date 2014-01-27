@@ -51,6 +51,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.PermissionRule;
+import com.google.gerrit.extensions.common.ChangeStatus;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicMap.Entry;
 import com.google.gerrit.reviewdb.client.Account;
@@ -657,7 +658,7 @@ public class ReceiveCommits {
         .append("  ")
         .append(url)
         .append(change.getChangeId());
-    if (change.getStatus() == Change.Status.DRAFT) {
+    if (change.getStatus() == ChangeStatus.DRAFT) {
       m.append(" [DRAFT]");
     }
     return m.toString();
@@ -1925,10 +1926,10 @@ public class ReceiveCommits {
                   if (magicBranch != null && magicBranch.topic != null) {
                     change.setTopic(magicBranch.topic);
                   }
-                  if (change.getStatus() == Change.Status.DRAFT && newPatchSet.isDraft()) {
+                  if (change.getStatus() == ChangeStatus.DRAFT && newPatchSet.isDraft()) {
                     // Leave in draft status.
                   } else {
-                    change.setStatus(Change.Status.NEW);
+                    change.setStatus(ChangeStatus.NEW);
                   }
                   change.setLastSha1MergeTested(null);
                   change.setCurrentPatchSet(info);
@@ -2248,8 +2249,8 @@ public class ReceiveCommits {
       return null;
     }
 
-    if (change.getStatus() == Change.Status.MERGED ||
-        change.getStatus() == Change.Status.ABANDONED ||
+    if (change.getStatus() == ChangeStatus.MERGED ||
+        change.getStatus() == ChangeStatus.ABANDONED ||
         !change.getDest().get().equals(refName)) {
       // If it's already merged or the commit is not aimed for
       // this change's destination, don't make further updates.
@@ -2302,7 +2303,7 @@ public class ReceiveCommits {
           public Change update(Change change) {
             if (change.getStatus().isOpen()) {
               change.setCurrentPatchSet(result.info);
-              change.setStatus(Change.Status.MERGED);
+              change.setStatus(ChangeStatus.MERGED);
               ChangeUtil.updated(change);
             }
             return change;

@@ -6,7 +6,8 @@ gwt_module(
   gwtxml = SRC + 'ReviewDB.gwt.xml',
   compile_deps = [
     '//lib:gwtorm',
-    '//lib:gwtorm_src'
+    '//lib:gwtorm_src',
+    '//gerrit-extension-api:client',
   ],
   visibility = ['PUBLIC'],
 )
@@ -15,6 +16,9 @@ java_library(
   name = 'server',
   srcs = glob([SRC + '**/*.java']),
   resources = glob(['src/main/resources/**/*']),
-  deps = ['//lib:gwtorm'],
+  deps = [
+    '//lib:gwtorm',
+    '//gerrit-extension-api:client',
+  ],
   visibility = ['PUBLIC'],
 )

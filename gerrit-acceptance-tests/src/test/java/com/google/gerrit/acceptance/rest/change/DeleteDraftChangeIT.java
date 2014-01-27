@@ -24,6 +24,7 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.RestSession;
 import com.google.gerrit.acceptance.SshSession;
+import com.google.gerrit.extensions.common.ChangeStatus;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
@@ -73,7 +74,7 @@ public class DeleteDraftChangeIT extends AbstractDaemonTest {
     String changeId = createChange();
     ChangeInfo c = getChange(changeId);
     assertEquals("p~master~" + changeId, c.id);
-    assertEquals(Change.Status.NEW, c.status);
+    assertEquals(ChangeStatus.NEW, c.status);
     RestResponse r = deleteChange(changeId, adminSession);
     assertEquals("Change is not a draft", r.getEntityContent());
     assertEquals(409, r.getStatusCode());
@@ -85,7 +86,7 @@ public class DeleteDraftChangeIT extends AbstractDaemonTest {
     String changeId = createDraftChange();
     ChangeInfo c = getChange(changeId);
     assertEquals("p~master~" + changeId, c.id);
-    assertEquals(Change.Status.DRAFT, c.status);
+    assertEquals(ChangeStatus.DRAFT, c.status);
     RestResponse r = deleteChange(changeId, adminSession);
     assertEquals(204, r.getStatusCode());
   }
@@ -96,11 +97,11 @@ public class DeleteDraftChangeIT extends AbstractDaemonTest {
     String changeId = createDraftChange();
     ChangeInfo c = getChange(changeId);
     assertEquals("p~master~" + changeId, c.id);
-    assertEquals(Change.Status.DRAFT, c.status);
+    assertEquals(ChangeStatus.DRAFT, c.status);
     RestResponse r = publishChange(changeId);
     assertEquals(204, r.getStatusCode());
     c = getChange(changeId);
-    assertEquals(Change.Status.NEW, c.status);
+    assertEquals(ChangeStatus.NEW, c.status);
   }
 
   @Test
@@ -109,11 +110,11 @@ public class DeleteDraftChangeIT extends AbstractDaemonTest {
     String changeId = createDraftChange();
     ChangeInfo c = getChange(changeId);
     assertEquals("p~master~" + changeId, c.id);
-    assertEquals(Change.Status.DRAFT, c.status);
+    assertEquals(ChangeStatus.DRAFT, c.status);
     RestResponse r = publishPatchSet(changeId);
     assertEquals(204, r.getStatusCode());
     c = getChange(changeId);
-    assertEquals(Change.Status.NEW, c.status);
+    assertEquals(ChangeStatus.NEW, c.status);
   }
 
   private String createChange() throws GitAPIException,

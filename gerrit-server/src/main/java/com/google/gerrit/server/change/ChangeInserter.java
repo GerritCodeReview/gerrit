@@ -19,6 +19,7 @@ import static com.google.gerrit.reviewdb.client.Change.INITIAL_PATCH_SET_ID;
 import com.google.common.util.concurrent.CheckedFuture;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.data.LabelTypes;
+import com.google.gerrit.extensions.common.ChangeStatus;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -133,7 +134,7 @@ public class ChangeInserter {
   }
 
   public ChangeInserter setDraft(boolean draft) {
-    change.setStatus(draft ? Change.Status.DRAFT : Change.Status.NEW);
+    change.setStatus(draft ? ChangeStatus.DRAFT : ChangeStatus.NEW);
     patchSet.setDraft(draft);
     return this;
   }

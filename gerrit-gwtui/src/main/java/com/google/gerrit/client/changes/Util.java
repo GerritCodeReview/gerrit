@@ -15,7 +15,7 @@
 package com.google.gerrit.client.changes;
 
 import com.google.gerrit.common.data.ChangeDetailService;
-import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.extensions.common.ChangeStatus;
 import com.google.gwt.core.client.GWT;
 import com.google.gwtjsonrpc.client.JsonUtil;
 
@@ -35,7 +35,7 @@ public class Util {
     JsonUtil.bind(DETAIL_SVC, "rpc/ChangeDetailService");
   }
 
-  public static String toLongString(final Change.Status status) {
+  public static String toLongString(final ChangeStatus status) {
     if (status == null) {
       return "";
     }

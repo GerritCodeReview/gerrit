@@ -14,6 +14,7 @@
 
 package com.google.gerrit.reviewdb.server;
 
+import com.google.gerrit.extensions.common.ChangeStatusConstants;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
@@ -41,11 +42,11 @@ public interface ChangeAccess extends Access<Change, Change.Id> {
   @Query("WHERE dest.projectName = ?")
   ResultSet<Change> byProject(Project.NameKey p) throws OrmException;
 
-  @Query("WHERE dest = ? AND status = '" + Change.STATUS_SUBMITTED
+  @Query("WHERE dest = ? AND status = '" + ChangeStatusConstants.STATUS_SUBMITTED
       + "' ORDER BY lastUpdatedOn")
   ResultSet<Change> submitted(Branch.NameKey dest) throws OrmException;
 
-  @Query("WHERE status = '" + Change.STATUS_SUBMITTED + "'")
+  @Query("WHERE status = '" + ChangeStatusConstants.STATUS_SUBMITTED + "'")
   ResultSet<Change> allSubmitted() throws OrmException;
 
   @Query("WHERE open = true AND dest.projectName = ?")

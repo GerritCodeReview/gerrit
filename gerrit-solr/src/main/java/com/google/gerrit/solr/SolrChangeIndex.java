@@ -22,6 +22,7 @@ import static com.google.gerrit.solr.IndexVersionCheck.solrIndexConfig;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.google.gerrit.extensions.common.ChangeStatus;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lucene.QueryBuilder;
 import com.google.gerrit.reviewdb.client.Change;
@@ -212,7 +213,7 @@ class SolrChangeIndex implements ChangeIndex, LifecycleListener {
   @Override
   public ChangeDataSource getSource(Predicate<ChangeData> p, int limit)
       throws QueryParseException {
-    Set<Change.Status> statuses = IndexRewriteImpl.getPossibleStatus(p);
+    Set<ChangeStatus> statuses = IndexRewriteImpl.getPossibleStatus(p);
     List<SolrServer> indexes = Lists.newArrayListWithCapacity(2);
     if (!Sets.intersection(statuses, OPEN_STATUSES).isEmpty()) {
       indexes.add(openIndex);

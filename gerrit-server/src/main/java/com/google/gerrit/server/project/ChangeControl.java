@@ -22,6 +22,7 @@ import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.RefConfigSection;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitTypeRecord;
+import com.google.gerrit.extensions.common.ChangeStatus;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -247,7 +248,7 @@ public class ChangeControl {
 
   /** Can this user see this change? */
   public boolean isVisible(ReviewDb db) throws OrmException {
-    if (getChange().getStatus() == Change.Status.DRAFT
+    if (getChange().getStatus() == ChangeStatus.DRAFT
         && !isDraftVisible(db, null)) {
       return false;
     }
@@ -440,7 +441,7 @@ public class ChangeControl {
     }
 
     cd = changeData(db, cd);
-    if ((getChange().getStatus() == Change.Status.DRAFT || patchSet.isDraft())
+    if ((getChange().getStatus() == ChangeStatus.DRAFT || patchSet.isDraft())
         && !allowDraft) {
       return cannotSubmitDraft(db, patchSet, cd);
     }
@@ -587,7 +588,7 @@ public class ChangeControl {
       @Nullable ChangeData cd) {
     cd = changeData(db, cd);
     try {
-      if (getChange().getStatus() == Change.Status.DRAFT
+      if (getChange().getStatus() == ChangeStatus.DRAFT
           && !isDraftVisible(db, cd)) {
         return typeRuleError("Patch set " + patchSet.getPatchSetId()
             + " not found");

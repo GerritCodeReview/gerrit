@@ -17,6 +17,7 @@ package com.google.gerrit.server.change;
 import com.google.common.base.Strings;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.changes.RevertInput;
+import com.google.gerrit.extensions.common.ChangeStatus;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -24,7 +25,6 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.change.ChangeJson.ChangeInfo;
@@ -62,7 +62,7 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
     Change change = req.getChange();
     if (!control.canAddPatchSet()) {
       throw new AuthException("revert not permitted");
-    } else if (change.getStatus() != Status.MERGED) {
+    } else if (change.getStatus() != ChangeStatus.MERGED) {
       throw new ResourceConflictException("change is " + status(change));
     }
 
@@ -85,7 +85,7 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
     return new UiAction.Description()
       .setLabel("Revert")
       .setTitle("Revert the change")
-      .setVisible(resource.getChange().getStatus() == Status.MERGED
+      .setVisible(resource.getChange().getStatus() == ChangeStatus.MERGED
           && resource.getControl().getRefControl().canUpload());
   }
 

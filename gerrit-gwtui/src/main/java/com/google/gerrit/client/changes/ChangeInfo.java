@@ -22,6 +22,7 @@ import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.common.data.SubmitRecord;
+import com.google.gerrit.extensions.common.ChangeStatus;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -71,8 +72,8 @@ public class ChangeInfo extends JavaScriptObject {
     return new Change.Key(change_id()).abbreviate();
   }
 
-  public final Change.Status status() {
-    return Change.Status.valueOf(statusRaw());
+  public final ChangeStatus status() {
+    return ChangeStatus.valueOf(statusRaw());
   }
 
   public final Set<String> labels() {

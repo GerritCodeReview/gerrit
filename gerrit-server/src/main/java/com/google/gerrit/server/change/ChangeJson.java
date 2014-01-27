@@ -53,6 +53,7 @@ import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.SubmitRecord;
+import com.google.gerrit.extensions.common.ChangeStatus;
 import com.google.gerrit.extensions.common.ListChangesOption;
 import com.google.gerrit.extensions.config.DownloadCommand;
 import com.google.gerrit.extensions.config.DownloadScheme;
@@ -282,7 +283,7 @@ public class ChangeJson {
     out.branch = in.getDest().getShortName();
     out.topic = in.getTopic();
     out.changeId = in.getKey().get();
-    out.mergeable = in.getStatus() != Change.Status.MERGED ? in.isMergeable() : null;
+    out.mergeable = in.getStatus() != ChangeStatus.MERGED ? in.isMergeable() : null;
     ChangedLines changedLines = cd.changedLines();
     if (changedLines != null) {
       out.insertions = changedLines.insertions;
@@ -943,7 +944,7 @@ public class ChangeJson {
     public String topic;
     public String changeId;
     public String subject;
-    public Change.Status status;
+    public ChangeStatus status;
     public Timestamp created;
     public Timestamp updated;
     public Boolean starred;

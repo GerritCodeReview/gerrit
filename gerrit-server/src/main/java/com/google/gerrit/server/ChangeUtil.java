@@ -22,6 +22,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.errors.EmailException;
+import com.google.gerrit.extensions.common.ChangeStatus;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -442,7 +443,7 @@ public class ChangeUtil {
       throws NoSuchChangeException, OrmException, IOException {
     ReviewDb db = this.db.get();
     Change change = db.changes().get(changeId);
-    if (change == null || change.getStatus() != Change.Status.DRAFT) {
+    if (change == null || change.getStatus() != ChangeStatus.DRAFT) {
       throw new NoSuchChangeException(changeId);
     }
 

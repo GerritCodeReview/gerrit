@@ -28,6 +28,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.acceptance.GitUtil.Commit;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.extensions.common.ChangeStatus;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -45,7 +46,6 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RemoteRefUpdate;
-import org.eclipse.jgit.transport.RemoteRefUpdate.Status;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -178,7 +178,7 @@ public class PushOneCommit {
       return commit.getCommit();
     }
 
-    public void assertChange(Change.Status expectedStatus,
+    public void assertChange(ChangeStatus expectedStatus,
         String expectedTopic, TestAccount... expectedReviewers)
         throws OrmException {
       Change c =
@@ -210,14 +210,14 @@ public class PushOneCommit {
     }
 
     public void assertOkStatus() {
-      assertStatus(Status.OK, null);
+      assertStatus(RemoteRefUpdate.Status.OK, null);
     }
 
     public void assertErrorStatus(String expectedMessage) {
-      assertStatus(Status.REJECTED_OTHER_REASON, expectedMessage);
+      assertStatus(RemoteRefUpdate.Status.REJECTED_OTHER_REASON, expectedMessage);
     }
 
-    private void assertStatus(Status expectedStatus, String expectedMessage) {
+    private void assertStatus(RemoteRefUpdate.Status expectedStatus, String expectedMessage) {
       RemoteRefUpdate refUpdate = result.getRemoteUpdate(ref);
       assertEquals(message(refUpdate),
           expectedStatus, refUpdate.getStatus());

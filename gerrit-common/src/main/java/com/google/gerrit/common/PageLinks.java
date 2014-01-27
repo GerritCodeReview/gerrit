@@ -15,9 +15,9 @@
 package com.google.gerrit.common;
 
 import com.google.gerrit.common.data.ChangeInfo;
+import com.google.gerrit.extensions.common.ChangeStatus;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwtorm.client.KeyUtil;
@@ -83,7 +83,7 @@ public class PageLinks {
     return "/admin/projects/" + p.get() + ",branches";
   }
 
-  public static String toAccountQuery(String fullname, Status status) {
+  public static String toAccountQuery(String fullname, ChangeStatus status) {
     return toChangeQuery(op("owner", fullname) + " " + status(status), TOP);
   }
 
@@ -115,7 +115,7 @@ public class PageLinks {
     return op("project", proj.get());
   }
 
-  public static String projectQuery(Project.NameKey proj, Status status) {
+  public static String projectQuery(Project.NameKey proj, ChangeStatus status) {
       return status(status) + " " + op("project", proj.get());
   }
 
@@ -123,7 +123,7 @@ public class PageLinks {
     return ADMIN_GROUPS + "uuid-" + uuid;
   }
 
-  private static String status(Status status) {
+  private static String status(ChangeStatus status) {
     switch (status) {
       case ABANDONED:
         return "status:abandoned";

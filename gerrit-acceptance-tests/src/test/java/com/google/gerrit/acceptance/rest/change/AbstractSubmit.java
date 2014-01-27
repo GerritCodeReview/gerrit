@@ -30,6 +30,7 @@ import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.SshSession;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
+import com.google.gerrit.extensions.common.ChangeStatus;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
@@ -175,7 +176,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
       ChangeInfo change =
           newGson().fromJson(r.getReader(),
               new TypeToken<ChangeInfo>() {}.getType());
-      assertEquals(Change.Status.MERGED, change.status);
+      assertEquals(ChangeStatus.MERGED, change.status);
     }
     r.consume();
   }

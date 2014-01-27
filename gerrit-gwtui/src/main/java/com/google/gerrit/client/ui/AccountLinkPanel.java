@@ -20,8 +20,8 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.account.AccountInfo;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.AccountInfoCache;
+import com.google.gerrit.extensions.common.ChangeStatus;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.UserIdentity;
 import com.google.gwt.user.client.ui.FlowPanel;
 
@@ -45,10 +45,10 @@ public class AccountLinkPanel extends FlowPanel {
   }
 
   public AccountLinkPanel(AccountInfo info) {
-    this(info, Change.Status.NEW);
+    this(info, ChangeStatus.NEW);
   }
 
-  public AccountLinkPanel(AccountInfo info, Change.Status status) {
+  public AccountLinkPanel(AccountInfo info, ChangeStatus status) {
     addStyleName(Gerrit.RESOURCES.css().accountLinkPanel());
 
     InlineHyperlink l =

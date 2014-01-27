@@ -18,6 +18,7 @@ import com.google.common.base.Strings;
 import com.google.common.util.concurrent.CheckedFuture;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.extensions.api.changes.AbandonInput;
+import com.google.gerrit.extensions.common.ChangeStatus;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
@@ -89,7 +90,7 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
           @Override
           public Change update(Change change) {
             if (change.getStatus().isOpen()) {
-              change.setStatus(Change.Status.ABANDONED);
+              change.setStatus(ChangeStatus.ABANDONED);
               ChangeUtil.updated(change);
               return change;
             }

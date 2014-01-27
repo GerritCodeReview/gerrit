@@ -14,17 +14,17 @@
 
 package com.google.gerrit.server.index;
 
-import static com.google.gerrit.reviewdb.client.Change.Status.ABANDONED;
-import static com.google.gerrit.reviewdb.client.Change.Status.DRAFT;
-import static com.google.gerrit.reviewdb.client.Change.Status.MERGED;
-import static com.google.gerrit.reviewdb.client.Change.Status.NEW;
-import static com.google.gerrit.reviewdb.client.Change.Status.SUBMITTED;
+import static com.google.gerrit.extensions.common.ChangeStatus.ABANDONED;
+import static com.google.gerrit.extensions.common.ChangeStatus.DRAFT;
+import static com.google.gerrit.extensions.common.ChangeStatus.MERGED;
+import static com.google.gerrit.extensions.common.ChangeStatus.NEW;
+import static com.google.gerrit.extensions.common.ChangeStatus.SUBMITTED;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
 import com.google.common.collect.ImmutableList;
-import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.extensions.common.ChangeStatus;
 import com.google.gerrit.server.query.AndPredicate;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
@@ -170,13 +170,13 @@ public class IndexRewriteTest {
 
   @Test
   public void testGetPossibleStatus() throws Exception {
-    assertEquals(EnumSet.allOf(Change.Status.class), status("file:a"));
+    assertEquals(EnumSet.allOf(ChangeStatus.class), status("file:a"));
     assertEquals(EnumSet.of(NEW), status("is:new"));
     assertEquals(EnumSet.of(SUBMITTED, DRAFT, MERGED, ABANDONED),
         status("-is:new"));
     assertEquals(EnumSet.of(NEW, MERGED), status("is:new OR is:merged"));
 
-    EnumSet<Change.Status> none = EnumSet.noneOf(Change.Status.class);
+    EnumSet<ChangeStatus> none = EnumSet.noneOf(ChangeStatus.class);
     assertEquals(none, status("is:new is:merged"));
     assertEquals(none, status("(is:new is:draft) (is:merged is:submitted)"));
     assertEquals(none, status("(is:new is:draft) (is:merged is:submitted)"));
@@ -218,7 +218,7 @@ public class IndexRewriteTest {
     return new IndexedChangeQuery(index, p, limit);
   }
 
-  private Set<Change.Status> status(String query) throws QueryParseException {
+  private Set<ChangeStatus> status(String query) throws QueryParseException {
     return IndexRewriteImpl.getPossibleStatus(parse(query));
   }
 }

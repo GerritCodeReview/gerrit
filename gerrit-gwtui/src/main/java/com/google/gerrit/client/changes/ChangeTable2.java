@@ -26,6 +26,7 @@ import com.google.gerrit.client.ui.NavigationTable;
 import com.google.gerrit.client.ui.NeedsSignInKeyCommand;
 import com.google.gerrit.client.ui.ProjectLink;
 import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.extensions.common.ChangeStatus;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -211,8 +212,8 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
     String subject = Util.cropSubject(c.subject());
     table.setWidget(row, C_SUBJECT, new TableChangeLink(subject, c));
 
-    Change.Status status = c.status();
-    if (status != Change.Status.NEW) {
+    ChangeStatus status = c.status();
+    if (status != ChangeStatus.NEW) {
       table.setText(row, C_STATUS, Util.toLongString(status));
     } else if (!c.mergeable() && useNewFeatures) {
       table.setText(row, C_STATUS, Util.C.changeTableNotMergeable());

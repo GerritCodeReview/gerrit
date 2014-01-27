@@ -16,6 +16,7 @@ package com.google.gerrit.server.change;
 
 import com.google.common.util.concurrent.CheckedFuture;
 import com.google.gerrit.common.ChangeHooks;
+import com.google.gerrit.extensions.common.ChangeStatus;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -81,12 +82,12 @@ public class Publish implements RestModifyView<RevisionResource, Input>,
 
     try {
       if (!updatedPatchSet.isDraft()
-          || updatedChange.getStatus() == Change.Status.NEW) {
+          || updatedChange.getStatus() == ChangeStatus.NEW) {
         CheckedFuture<?, IOException> indexFuture =
             indexer.indexAsync(updatedChange.getId());
         hooks.doDraftPublishedHook(updatedChange, updatedPatchSet, dbProvider.get());
         sender.send(rsrc.getNotes(), update,
-            rsrc.getChange().getStatus() == Change.Status.DRAFT,
+            rsrc.getChange().getStatus() == ChangeStatus.DRAFT,
             rsrc.getUser(), updatedChange, updatedPatchSet,
             rsrc.getControl().getLabelTypes());
         indexFuture.checkedGet();
@@ -104,8 +105,8 @@ public class Publish implements RestModifyView<RevisionResource, Input>,
         new AtomicUpdate<Change>() {
       @Override
       public Change update(Change change) {
-        if (change.getStatus() == Change.Status.DRAFT) {
-          change.setStatus(Change.Status.NEW);
+        if (change.getStatus() == ChangeStatus.DRAFT) {
+          change.setStatus(ChangeStatus.NEW);
           ChangeUtil.updated(change);
         }
         return change;

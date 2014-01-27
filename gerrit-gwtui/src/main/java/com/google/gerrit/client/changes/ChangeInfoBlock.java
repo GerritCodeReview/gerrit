@@ -27,6 +27,7 @@ import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.AccountInfoCache;
 import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.data.SubmitTypeRecord;
+import com.google.gerrit.extensions.common.ChangeStatus;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -121,9 +122,9 @@ public class ChangeInfoBlock extends Composite {
       submitType = submitTypeRecord.status.name();
     }
     table.setText(R_SUBMIT_TYPE, 1, submitType);
-    final Change.Status status = chg.getStatus();
+    final ChangeStatus status = chg.getStatus();
     if (Gerrit.getConfig().getNewFeatures()
-        && (status.equals(Change.Status.NEW) || status.equals(Change.Status.DRAFT))) {
+        && (status.equals(ChangeStatus.NEW) || status.equals(ChangeStatus.DRAFT))) {
       table.getRowFormatter().setVisible(R_MERGE_TEST, true);
       table.setText(R_MERGE_TEST, 1, chg.isMergeable() ? Util.C
           .changeInfoBlockCanMergeYes() : Util.C.changeInfoBlockCanMergeNo());

@@ -17,9 +17,9 @@ package com.google.gerrit.server.changedetail;
 import static com.google.gerrit.server.change.PatchSetInserter.ValidatePolicy;
 
 import com.google.gerrit.common.errors.EmailException;
+import com.google.gerrit.extensions.common.ChangeStatus;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetAncestor;
@@ -210,7 +210,7 @@ public class RebaseChange {
           continue;
         }
 
-        if (depChange.getStatus() == Status.ABANDONED) {
+        if (depChange.getStatus() == ChangeStatus.ABANDONED) {
           throw new IOException("Cannot rebase a change with an abandoned parent: "
               + depChange.getKey().toString());
         }

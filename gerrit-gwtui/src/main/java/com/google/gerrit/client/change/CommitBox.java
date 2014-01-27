@@ -24,7 +24,7 @@ import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.common.PageLinks;
-import com.google.gerrit.reviewdb.client.Change.Status;
+import com.google.gerrit.extensions.common.ChangeStatus;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.AnchorElement;
 import com.google.gwt.dom.client.Element;
@@ -111,7 +111,7 @@ class CommitBox extends Composite {
   }
 
   private static void formatLink(GitPerson person, InlineHyperlink name,
-      Element date, Status status) {
+      Element date, ChangeStatus status) {
     name.setText(renderName(person));
     name.setTargetHistoryToken(PageLinks
         .toAccountQuery(owner(person), status));

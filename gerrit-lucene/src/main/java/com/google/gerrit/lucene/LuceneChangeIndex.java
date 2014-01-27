@@ -26,6 +26,7 @@ import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.extensions.common.ChangeStatus;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -290,7 +291,7 @@ public class LuceneChangeIndex implements ChangeIndex {
   @Override
   public ChangeDataSource getSource(Predicate<ChangeData> p, int limit)
       throws QueryParseException {
-    Set<Change.Status> statuses = IndexRewriteImpl.getPossibleStatus(p);
+    Set<ChangeStatus> statuses = IndexRewriteImpl.getPossibleStatus(p);
     List<SubIndex> indexes = Lists.newArrayListWithCapacity(2);
     if (!Sets.intersection(statuses, OPEN_STATUSES).isEmpty()) {
       indexes.add(openIndex);

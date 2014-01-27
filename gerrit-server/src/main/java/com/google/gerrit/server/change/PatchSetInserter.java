@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.collect.SetMultimap;
 import com.google.common.util.concurrent.CheckedFuture;
 import com.google.gerrit.common.ChangeHooks;
+import com.google.gerrit.extensions.common.ChangeStatus;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -251,8 +252,8 @@ public class PatchSetInserter {
               if (!change.currentPatchSetId().equals(currentPatchSetId)) {
                 return null;
               }
-              if (change.getStatus() != Change.Status.DRAFT) {
-                change.setStatus(Change.Status.NEW);
+              if (change.getStatus() != ChangeStatus.DRAFT) {
+                change.setStatus(ChangeStatus.NEW);
               }
               change.setLastSha1MergeTested(null);
               change.setCurrentPatchSet(patchSetInfoFactory.get(commit,

@@ -17,8 +17,7 @@ package com.google.gerrit.server.index;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Change.Status;
+import com.google.gerrit.extensions.common.ChangeStatus;
 import com.google.gerrit.server.query.AndPredicate;
 import com.google.gerrit.server.query.NotPredicate;
 import com.google.gerrit.server.query.OrPredicate;
@@ -41,15 +40,15 @@ import java.util.Set;
 /** Rewriter that pushes boolean logic into the secondary index. */
 public class IndexRewriteImpl implements ChangeQueryRewriter {
   /** Set of all open change statuses. */
-  public static final Set<Change.Status> OPEN_STATUSES;
+  public static final Set<ChangeStatus> OPEN_STATUSES;
 
   /** Set of all closed change statuses. */
-  public static final Set<Change.Status> CLOSED_STATUSES;
+  public static final Set<ChangeStatus> CLOSED_STATUSES;
 
   static {
-    EnumSet<Change.Status> open = EnumSet.noneOf(Change.Status.class);
-    EnumSet<Change.Status> closed = EnumSet.noneOf(Change.Status.class);
-    for (Change.Status s : Change.Status.values()) {
+    EnumSet<ChangeStatus> open = EnumSet.noneOf(ChangeStatus.class);
+    EnumSet<ChangeStatus> closed = EnumSet.noneOf(ChangeStatus.class);
+    for (ChangeStatus s : ChangeStatus.values()) {
       if (s.isOpen()) {
         open.add(s);
       } else {
@@ -71,25 +70,25 @@ public class IndexRewriteImpl implements ChangeQueryRewriter {
    *     predicates may have, based on examining boolean and
    *     {@link ChangeStatusPredicate}s.
    */
-  public static EnumSet<Change.Status> getPossibleStatus(Predicate<ChangeData> in) {
-    EnumSet<Change.Status> s = extractStatus(in);
-    return s != null ? s : EnumSet.allOf(Change.Status.class);
+  public static EnumSet<ChangeStatus> getPossibleStatus(Predicate<ChangeData> in) {
+    EnumSet<ChangeStatus> s = extractStatus(in);
+    return s != null ? s : EnumSet.allOf(ChangeStatus.class);
   }
 
-  private static EnumSet<Change.Status> extractStatus(Predicate<ChangeData> in) {
+  private static EnumSet<ChangeStatus> extractStatus(Predicate<ChangeData> in) {
     if (in instanceof ChangeStatusPredicate) {
       return EnumSet.of(((ChangeStatusPredicate) in).getStatus());
     } else if (in instanceof NotPredicate) {
-      EnumSet<Status> s = extractStatus(in.getChild(0));
+      EnumSet<ChangeStatus> s = extractStatus(in.getChild(0));
       return s != null ? EnumSet.complementOf(s) : null;
     } else if (in instanceof OrPredicate) {
-      EnumSet<Change.Status> r = null;
+      EnumSet<ChangeStatus> r = null;
       int childrenWithStatus = 0;
       for (int i = 0; i < in.getChildCount(); i++) {
-        EnumSet<Status> c = extractStatus(in.getChild(i));
+        EnumSet<ChangeStatus> c = extractStatus(in.getChild(i));
         if (c != null) {
           if (r == null) {
-            r = EnumSet.noneOf(Change.Status.class);
+            r = EnumSet.noneOf(ChangeStatus.class);
           }
           r.addAll(c);
           childrenWithStatus++;
@@ -100,16 +99,16 @@ public class IndexRewriteImpl implements ChangeQueryRewriter {
         // Assume all statuses for the children that did not feed a
         // status at this part of the tree. This matches behavior if
         // the child was used at the root of a query.
-        return EnumSet.allOf(Change.Status.class);
+        return EnumSet.allOf(ChangeStatus.class);
       }
       return r;
     } else if (in instanceof AndPredicate) {
-      EnumSet<Change.Status> r = null;
+      EnumSet<ChangeStatus> r = null;
       for (int i = 0; i < in.getChildCount(); i++) {
-        EnumSet<Change.Status> c = extractStatus(in.getChild(i));
+        EnumSet<ChangeStatus> c = extractStatus(in.getChild(i));
         if (c != null) {
           if (r == null) {
-            r = EnumSet.allOf(Change.Status.class);
+            r = EnumSet.allOf(ChangeStatus.class);
           }
           r.retainAll(c);
         }

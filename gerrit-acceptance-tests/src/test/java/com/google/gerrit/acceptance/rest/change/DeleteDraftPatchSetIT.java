@@ -26,6 +26,7 @@ import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.RestSession;
 import com.google.gerrit.acceptance.SshSession;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.extensions.common.ChangeStatus;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
@@ -81,7 +82,7 @@ public class DeleteDraftPatchSetIT extends AbstractDaemonTest {
     PatchSet ps = getCurrentPatchSet(changeId);
     ChangeInfo c = getChange(changeId);
     assertEquals("p~master~" + changeId, c.id);
-    assertEquals(Change.Status.NEW, c.status);
+    assertEquals(ChangeStatus.NEW, c.status);
     RestResponse r = deletePatchSet(changeId, ps, adminSession);
     assertEquals("Patch set is not a draft.", r.getEntityContent());
     assertEquals(409, r.getStatusCode());
@@ -94,7 +95,7 @@ public class DeleteDraftPatchSetIT extends AbstractDaemonTest {
     PatchSet ps = getCurrentPatchSet(changeId);
     ChangeInfo c = getChange(changeId);
     assertEquals("p~master~" + changeId, c.id);
-    assertEquals(Change.Status.DRAFT, c.status);
+    assertEquals(ChangeStatus.DRAFT, c.status);
     RestResponse r = deletePatchSet(changeId, ps, userSession);
     assertEquals("Not found", r.getEntityContent());
     assertEquals(404, r.getStatusCode());
@@ -107,7 +108,7 @@ public class DeleteDraftPatchSetIT extends AbstractDaemonTest {
     PatchSet ps = getCurrentPatchSet(changeId);
     ChangeInfo c = getChange(changeId);
     assertEquals("p~master~" + changeId, c.id);
-    assertEquals(Change.Status.DRAFT, c.status);
+    assertEquals(ChangeStatus.DRAFT, c.status);
     RestResponse r = deletePatchSet(changeId, ps, adminSession);
     assertEquals(204, r.getStatusCode());
     Change change = Iterables.getOnlyElement(db.changes().byKey(

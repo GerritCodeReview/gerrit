@@ -14,12 +14,12 @@
 
 package com.google.gerrit.client.changes;
 
-import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.extensions.common.ChangeStatus;
 import com.google.gwt.core.client.JavaScriptObject;
 
 public class SubmitInfo extends JavaScriptObject {
-  final Change.Status status() {
-    return Change.Status.valueOf(statusRaw());
+  final ChangeStatus status() {
+    return ChangeStatus.valueOf(statusRaw());
   }
 
   private final native String statusRaw() /*-{ return this.status; }-*/;

@@ -18,6 +18,7 @@ import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.extensions.common.ChangeStatus;
 import com.google.gerrit.httpd.raw.CatServlet;
 import com.google.gerrit.httpd.raw.HostPageServlet;
 import com.google.gerrit.httpd.raw.LegacyGerritServlet;
@@ -203,7 +204,7 @@ class UrlModule extends ServletModule {
         }
         Project.NameKey project = new Project.NameKey(name);
         toGerrit(PageLinks.toChangeQuery(PageLinks.projectQuery(project,
-            Change.Status.NEW)), req, rsp);
+            ChangeStatus.NEW)), req, rsp);
       }
     });
   }

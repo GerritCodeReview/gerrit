@@ -17,8 +17,8 @@ package com.google.gerrit.server.query.change;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.collect.ImmutableBiMap;
+import com.google.gerrit.extensions.common.ChangeStatus;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.index.ChangeField;
 import com.google.gerrit.server.index.IndexPredicate;
@@ -30,19 +30,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Predicate for a {@link Status}.
+ * Predicate for a {@link ChangeStatus}.
  * <p>
  * The actual name of this operator can differ, it usually comes as {@code
  * status:} but may also be {@code is:} to help do-what-i-meanery for end-users
  * searching for changes. Either operator name has the same meaning.
  */
 public final class ChangeStatusPredicate extends IndexPredicate<ChangeData> {
-  public static final ImmutableBiMap<Change.Status, String> VALUES;
+  public static final ImmutableBiMap<ChangeStatus, String> VALUES;
 
   static {
-    ImmutableBiMap.Builder<Change.Status, String> values =
+    ImmutableBiMap.Builder<ChangeStatus, String> values =
         ImmutableBiMap.builder();
-    for (Change.Status s : Change.Status.values()) {
+    for (ChangeStatus s : ChangeStatus.values()) {
       values.put(s, s.name().toLowerCase());
     }
     VALUES = values.build();
@@ -50,7 +50,7 @@ public final class ChangeStatusPredicate extends IndexPredicate<ChangeData> {
 
   public static Predicate<ChangeData> open(Provider<ReviewDb> dbProvider) {
     List<Predicate<ChangeData>> r = new ArrayList<Predicate<ChangeData>>(4);
-    for (final Change.Status e : Change.Status.values()) {
+    for (final ChangeStatus e : ChangeStatus.values()) {
       if (e.isOpen()) {
         r.add(new ChangeStatusPredicate(e));
       }
@@ -60,7 +60,7 @@ public final class ChangeStatusPredicate extends IndexPredicate<ChangeData> {
 
   public static Predicate<ChangeData> closed(Provider<ReviewDb> dbProvider) {
     List<Predicate<ChangeData>> r = new ArrayList<Predicate<ChangeData>>(4);
-    for (final Change.Status e : Change.Status.values()) {
+    for (final ChangeStatus e : ChangeStatus.values()) {
       if (e.isClosed()) {
         r.add(new ChangeStatusPredicate(e));
       }
@@ -68,7 +68,7 @@ public final class ChangeStatusPredicate extends IndexPredicate<ChangeData> {
     return r.size() == 1 ? r.get(0) : or(r);
   }
 
-  private final Change.Status status;
+  private final ChangeStatus status;
 
   ChangeStatusPredicate(String value) {
     super(ChangeField.STATUS, value);
@@ -76,12 +76,12 @@ public final class ChangeStatusPredicate extends IndexPredicate<ChangeData> {
     checkArgument(status != null, "invalid change status: %s", value);
   }
 
-  ChangeStatusPredicate(Change.Status status) {
+  ChangeStatusPredicate(ChangeStatus status) {
     super(ChangeField.STATUS, VALUES.get(status));
     this.status = status;
   }
 
-  public Change.Status getStatus() {
+  public ChangeStatus getStatus() {
     return status;
   }
 

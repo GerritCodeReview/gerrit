@@ -14,6 +14,7 @@
 
 package com.google.gerrit.common.data;
 
+import com.google.gerrit.extensions.common.ChangeStatus;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -25,7 +26,7 @@ public class ChangeInfo {
   protected Change.Key key;
   protected Account.Id owner;
   protected String subject;
-  protected Change.Status status;
+  protected ChangeStatus status;
   protected ProjectInfo project;
   protected String branch;
   protected String topic;
@@ -77,7 +78,7 @@ public class ChangeInfo {
     return subject;
   }
 
-  public Change.Status getStatus() {
+  public ChangeStatus getStatus() {
     return status;
   }
 

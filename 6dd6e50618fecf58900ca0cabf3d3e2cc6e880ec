@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "32f1fea2_ee737fb8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-01-27T03:03:44Z",
+      "side": 1,
+      "message": "Change-Ids are highlighted according to the configuration, not sha1s.\n\nThis line is in the same format as if you had done `git revert` on my commit.\n\nI think it\u0027s OK like this.",
+      "revId": "6dd6e50618fecf58900ca0cabf3d3e2cc6e880ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

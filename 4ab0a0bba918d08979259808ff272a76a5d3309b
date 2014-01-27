@@ -43,6 +43,24 @@
     },
     {
       "key": {
+        "uuid": "32f1fea2_6e602fe0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-01-27T02:45:54Z",
+      "side": 1,
+      "message": "AFAIK there are no commands that can run only on slaves, and I don\u0027t know if there ever will be.  So might not be worth implementing here.\n\nDoes the existing implementation actually work if we put a command only in the list of slave commands?",
+      "parentUuid": "12179a8c_4539cab4",
+      "revId": "4ab0a0bba918d08979259808ff272a76a5d3309b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7207f652_f09c00a1",
         "filename": "/COMMIT_MSG",
         "patchSetId": 8

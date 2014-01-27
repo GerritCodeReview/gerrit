@@ -1,6 +1,6 @@
 [dashboard]
   title = Reviewer Dashboard
-  description = This dashboard gives an overview of own review requests.
+  description = Own review requests.
   foreach = reviewer:self
 [section "To Review"]
   query = is:open -owner:self is:mergeable \

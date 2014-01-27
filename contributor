@@ -1,6 +1,6 @@
 [dashboard]
   title = Contributor Dashboard
-  description = This dashboard gives an overview of own contributions.
+  description = Own contributions.
   foreach = owner:self
 [section "Mine To Rebase"]
   query = is:open -is:mergeable

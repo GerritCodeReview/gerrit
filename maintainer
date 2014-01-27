@@ -1,7 +1,6 @@
 [dashboard]
   title = Maintainer Dashboard
-  description = This dashboard provides an overview of recent \
-                activities in Gerrit and all Gerrit Plugins.
+  description = Recent activities in Gerrit and all Gerrit Plugins.
 [section "Gerrit Reviews"]
   query = project:gerrit is:open is:mergeable limit:15
 [section "Plugin Reviews"]

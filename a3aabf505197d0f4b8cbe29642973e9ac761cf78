@@ -40,6 +40,24 @@
       "revId": "a3aabf505197d0f4b8cbe29642973e9ac761cf78",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "12179a8c_854aa240",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1006818
+      },
+      "writtenOn": "2014-01-27T02:58:39Z",
+      "side": 1,
+      "message": "should we say This commit revertsIffc43a921e70a9ed9008a62dcec12b80683b71b3 here?",
+      "parentUuid": "12179a8c_a54d1e5d",
+      "revId": "a3aabf505197d0f4b8cbe29642973e9ac761cf78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

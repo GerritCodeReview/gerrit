@@ -14,7 +14,11 @@
 
 package com.google.gerrit.extensions.api.changes;
 
+import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.ListChangesOption;
 import com.google.gerrit.extensions.restapi.RestApiException;
+
+import java.util.EnumSet;
 
 public interface ChangeApi {
   String id();
@@ -34,4 +38,6 @@ public interface ChangeApi {
 
   void addReviewer(AddReviewerInput in) throws RestApiException;
   void addReviewer(String in) throws RestApiException;
+
+  ChangeInfo get(EnumSet<ListChangesOption> options) throws RestApiException;
 }

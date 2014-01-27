@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "32f1fea2_4e6573ee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-01-27T02:45:44Z",
+      "side": 1,
+      "message": "please use the same format as the git revert command.\n\n\"This reverts commit 84bcead690240e07e0314b165fb8d6dc95d2c5e7.\"\n\non a separate line.",
+      "range": {
+        "startLine": 17,
+        "startChar": 22,
+        "endLine": 17,
+        "endChar": 50
+      },
+      "revId": "a3aabf505197d0f4b8cbe29642973e9ac761cf78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

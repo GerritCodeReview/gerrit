@@ -12,15 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.actions;
+package com.google.gerrit.extensions.common;
 
 import com.google.gerrit.extensions.webui.UiAction;
 
 public class ActionInfo {
-  String method;
-  String label;
-  String title;
-  Boolean enabled;
+  public String method;
+  public String label;
+  public String title;
+  public Boolean enabled;
 
   public ActionInfo(UiAction.Description d) {
     method = d.getMethod();

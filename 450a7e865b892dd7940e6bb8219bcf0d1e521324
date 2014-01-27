@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "32f1fea2_eeca5f88",
+        "filename": "contributor",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-01-27T12:15:00Z",
+      "side": 1,
+      "message": "Change \"mine\" to \"my\"?",
+      "revId": "450a7e865b892dd7940e6bb8219bcf0d1e521324",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

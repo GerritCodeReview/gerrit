@@ -33,7 +33,7 @@ import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.PageLinks;
-import com.google.gerrit.common.changes.ListChangesOption;
+import com.google.gerrit.extensions.common.ListChangesOption;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;

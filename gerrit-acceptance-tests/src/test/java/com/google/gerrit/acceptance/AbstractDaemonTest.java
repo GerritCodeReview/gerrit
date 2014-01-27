@@ -18,7 +18,7 @@ import static com.google.gerrit.acceptance.GitUtil.initSsh;
 import static org.junit.Assert.assertEquals;
 
 import com.google.common.base.Joiner;
-import com.google.gerrit.common.changes.ListChangesOption;
+import com.google.gerrit.extensions.common.ListChangesOption;
 import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.change.ChangeJson.ChangeInfo;
 import com.google.gson.Gson;

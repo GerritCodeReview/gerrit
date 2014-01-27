@@ -15,7 +15,7 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.common.collect.Lists;
-import com.google.gerrit.common.changes.ListChangesOption;
+import com.google.gerrit.extensions.common.ListChangesOption;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestReadView;

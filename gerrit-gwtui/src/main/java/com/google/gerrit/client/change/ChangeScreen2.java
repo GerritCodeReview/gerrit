@@ -47,7 +47,7 @@ import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.client.ui.UserActivityMonitor;
 import com.google.gerrit.common.PageLinks;
-import com.google.gerrit.common.changes.ListChangesOption;
+import com.google.gerrit.extensions.common.ListChangesOption;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;

@@ -15,8 +15,8 @@
 package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.gerrit.acceptance.GitUtil.cloneProject;
-import static com.google.gerrit.common.changes.ListChangesOption.CURRENT_REVISION;
-import static com.google.gerrit.common.changes.ListChangesOption.DETAILED_LABELS;
+import static com.google.gerrit.extensions.common.ListChangesOption.CURRENT_REVISION;
+import static com.google.gerrit.extensions.common.ListChangesOption.DETAILED_LABELS;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;

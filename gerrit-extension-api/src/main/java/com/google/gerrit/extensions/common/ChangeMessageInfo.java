@@ -1,4 +1,4 @@
-// Copyright (C) 2013 The Android Open Source Project
+// Copyright (C) 2014 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,20 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.actions;
+package com.google.gerrit.extensions.common;
 
-import com.google.gerrit.extensions.webui.UiAction;
+import java.sql.Timestamp;
 
-public class ActionInfo {
-  String method;
-  String label;
-  String title;
-  Boolean enabled;
-
-  public ActionInfo(UiAction.Description d) {
-    method = d.getMethod();
-    label = d.getLabel();
-    title = d.getTitle();
-    enabled = d.isEnabled() ? true : null;
-  }
+public class ChangeMessageInfo {
+  public String id;
+  public AccountInfo author;
+  public Timestamp date;
+  public String message;
+  public Integer revisionNumber;
 }

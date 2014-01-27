@@ -22,6 +22,24 @@
       "revId": "c1cd9d91871eddf0e130abfad953d941189bacda",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "522592ed_073fd69d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AproposCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1006818
+      },
+      "writtenOn": "2014-01-27T01:58:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "12179a8c_056b52c7",
+      "revId": "c1cd9d91871eddf0e130abfad953d941189bacda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

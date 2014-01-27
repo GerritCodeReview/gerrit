@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "32f1fea2_0ed24b47",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-01-27T05:43:03Z",
+      "side": 1,
+      "message": "Commit message is still inconsistent with functionality.  We now support master and slave, or master only.  Not slave only.\n\nI think the new implementation is OK, but waiting for feedback from others.",
+      "range": {
+        "startLine": 15,
+        "startChar": 38,
+        "endLine": 15,
+        "endChar": 72
+      },
+      "revId": "6dd6e50618fecf58900ca0cabf3d3e2cc6e880ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "32f1fea2_ee737fb8",
         "filename": "/COMMIT_MSG",
         "patchSetId": 10

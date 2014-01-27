@@ -81,7 +81,7 @@ public class NewAgreementScreen extends AccountScreen {
     Util.ACCOUNT_SVC.myAgreements(new GerritCallback<AgreementInfo>() {
       public void onSuccess(AgreementInfo result) {
         if (isAttached()) {
-          mySigned = new HashSet<String>(result.accepted);
+          mySigned = new HashSet<>(result.accepted);
           postRPC();
         }
       }

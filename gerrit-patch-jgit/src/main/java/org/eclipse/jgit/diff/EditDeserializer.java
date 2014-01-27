@@ -49,7 +49,7 @@ public class EditDeserializer implements JsonDeserializer<Edit>,
       return new Edit(get(o, 0), get(o, 1), get(o, 2), get(o, 3));
     }
 
-    List<Edit> l = new ArrayList<Edit>((cnt / 4) - 1);
+    List<Edit> l = new ArrayList<>((cnt / 4) - 1);
     for (int i = 4; i < cnt;) {
       int as = get(o, i++);
       int ae = get(o, i++);

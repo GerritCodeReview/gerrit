@@ -33,9 +33,9 @@ public class CommentDetail {
   private transient Map<Integer, List<PatchLineComment>> forA;
   private transient Map<Integer, List<PatchLineComment>> forB;
 
-  public CommentDetail(final PatchSet.Id idA, final PatchSet.Id idB) {
-    this.a = new ArrayList<PatchLineComment>();
-    this.b = new ArrayList<PatchLineComment>();
+  public CommentDetail(PatchSet.Id idA, PatchSet.Id idB) {
+    this.a = new ArrayList<>();
+    this.b = new ArrayList<>();
     this.idA = idA;
     this.idB = idB;
   }
@@ -121,18 +121,18 @@ public class CommentDetail {
     // possible for several comments to have the same parent (this can happen if two reviewers
     // click Reply on the same comment at the same time). Such comments will be displayed under
     // their correct parent in chronological order.
-    Map<String, List<PatchLineComment>> parentMap = new HashMap<String, List<PatchLineComment>>();
+    Map<String, List<PatchLineComment>> parentMap = new HashMap<>();
 
     // It's possible to have more than one root comment if two reviewers create a comment on the
     // same line at the same time
-    List<PatchLineComment> rootComments = new ArrayList<PatchLineComment>();
+    List<PatchLineComment> rootComments = new ArrayList<>();
 
     // Store all the comments in parentMap, keyed by their parent
     for (PatchLineComment c : comments) {
       String parentUuid = c.getParentUuid();
       List<PatchLineComment> l = parentMap.get(parentUuid);
       if (l == null) {
-        l = new ArrayList<PatchLineComment>();
+        l = new ArrayList<>();
         parentMap.put(parentUuid, l);
       }
       l.add(c);
@@ -141,7 +141,7 @@ public class CommentDetail {
 
     // Add the comments in the list, starting with the head and then going through all the
     // comments that have it as a parent, and so on
-    List<PatchLineComment> result = new ArrayList<PatchLineComment>();
+    List<PatchLineComment> result = new ArrayList<>();
     addChildren(parentMap, rootComments, result);
 
     return result;
@@ -161,14 +161,12 @@ public class CommentDetail {
   }
 
   private Map<Integer, List<PatchLineComment>> index(
-      final List<PatchLineComment> in) {
-    final HashMap<Integer, List<PatchLineComment>> r;
-
-    r = new HashMap<Integer, List<PatchLineComment>>();
+      List<PatchLineComment> in) {
+    HashMap<Integer, List<PatchLineComment>> r = new HashMap<>();
     for (final PatchLineComment p : in) {
       List<PatchLineComment> l = r.get(p.getLine());
       if (l == null) {
-        l = new ArrayList<PatchLineComment>();
+        l = new ArrayList<>();
         r.put(p.getLine(), l);
       }
       l.add(p);

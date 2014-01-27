@@ -35,8 +35,8 @@ public class DashboardTable extends ChangeTable2 {
   private List<String> queries;
 
   public DashboardTable(String params) {
-    titles = new ArrayList<String>();
-    queries = new ArrayList<String>();
+    titles = new ArrayList<>();
+    queries = new ArrayList<>();
     String foreach = null;
     for (String kvPair : params.split("[,;&]")) {
       String[] kv = kvPair.split("=", 2);
@@ -63,7 +63,7 @@ public class DashboardTable extends ChangeTable2 {
 
     addStyleName(Gerrit.RESOURCES.css().accountDashboard());
 
-    sections = new ArrayList<ChangeTable2.Section>();
+    sections = new ArrayList<>();
     int i = 0;
     for (String title : titles) {
       Section s = new Section();

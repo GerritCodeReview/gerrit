@@ -46,7 +46,7 @@ public class OnEditEnabler implements KeyPressHandler, KeyDownHandler,
    MouseUpHandler, ChangeHandler, ValueChangeHandler<Object> {
 
   private final FocusWidget widget;
-  private Map<TextBoxBase, String> strings = new HashMap<TextBoxBase, String>();
+  private Map<TextBoxBase, String> strings = new HashMap<>();
   private String originalValue;
 
 

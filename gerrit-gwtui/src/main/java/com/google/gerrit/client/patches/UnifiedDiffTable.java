@@ -216,7 +216,7 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
     for (final String line : script.getPatchHeader()) {
       appendFileHeader(nc, line);
     }
-    final ArrayList<PatchLine> lines = new ArrayList<PatchLine>();
+    final ArrayList<PatchLine> lines = new ArrayList<>();
 
     if (hasDifferences(script)) {
       if (script.getDisplayMethodA() == DisplayMethod.IMG
@@ -357,7 +357,7 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
     }
     setAccountInfoCache(cd.getAccounts());
 
-    final ArrayList<PatchLineComment> all = new ArrayList<PatchLineComment>();
+    final ArrayList<PatchLineComment> all = new ArrayList<>();
     for (int row = 0; row < table.getRowCount();) {
       final List<PatchLineComment> fora;
       final List<PatchLineComment> forb;

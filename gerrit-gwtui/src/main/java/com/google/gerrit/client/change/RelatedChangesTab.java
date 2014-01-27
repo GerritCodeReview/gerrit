@@ -163,7 +163,7 @@ class RelatedChangesTab implements IsWidget {
       this.revision = revision;
       this.changes = changes;
       this.navList = navList;
-      rows = new ArrayList<SafeHtml>(changes.length());
+      rows = new ArrayList<>(changes.length());
       connectedPos = changes.length() - 1;
       connected = showIndirectAncestors
           ? new HashSet<String>(Math.max(changes.length() * 4 / 3, 16))

@@ -42,7 +42,7 @@ public class RestReviewerSuggestOracle extends SuggestAfterTypingNCharsOracle {
           @Override
           public void onSuccess(JsArray<SuggestReviewerInfo> result) {
             final List<RestReviewerSuggestion> r =
-                new ArrayList<RestReviewerSuggestion>(result.length());
+                new ArrayList<>(result.length());
             for (final SuggestReviewerInfo reviewer : Natives.asList(result)) {
               r.add(new RestReviewerSuggestion(reviewer));
             }

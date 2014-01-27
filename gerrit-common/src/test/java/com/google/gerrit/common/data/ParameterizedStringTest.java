@@ -31,7 +31,7 @@ public class ParameterizedStringTest {
     assertEquals("", p.getRawPattern());
     assertTrue(p.getParameterNames().isEmpty());
 
-    final Map<String, String> a = new HashMap<String, String>();
+    final Map<String, String> a = new HashMap<>();
     assertNotNull(p.bind(a));
     assertEquals(0, p.bind(a).length);
     assertEquals("", p.replace(a));
@@ -44,7 +44,7 @@ public class ParameterizedStringTest {
     assertEquals("${bar}c", p.getRawPattern());
     assertTrue(p.getParameterNames().isEmpty());
 
-    final Map<String, String> a = new HashMap<String, String>();
+    final Map<String, String> a = new HashMap<>();
     a.put("bar", "frobinator");
     assertNotNull(p.bind(a));
     assertEquals(0, p.bind(a).length);
@@ -59,7 +59,7 @@ public class ParameterizedStringTest {
     assertEquals(1, p.getParameterNames().size());
     assertTrue(p.getParameterNames().contains("bar"));
 
-    final Map<String, String> a = new HashMap<String, String>();
+    final Map<String, String> a = new HashMap<>();
     a.put("bar", "frobinator");
     assertNotNull(p.bind(a));
     assertEquals(1, p.bind(a).length);
@@ -75,7 +75,7 @@ public class ParameterizedStringTest {
     assertEquals(1, p.getParameterNames().size());
     assertTrue(p.getParameterNames().contains("bar"));
 
-    final Map<String, String> a = new HashMap<String, String>();
+    final Map<String, String> a = new HashMap<>();
     a.put("bar", "frobinator");
     assertNotNull(p.bind(a));
     assertEquals(1, p.bind(a).length);
@@ -91,7 +91,7 @@ public class ParameterizedStringTest {
     assertEquals(1, p.getParameterNames().size());
     assertTrue(p.getParameterNames().contains("bar"));
 
-    final Map<String, String> a = new HashMap<String, String>();
+    final Map<String, String> a = new HashMap<>();
     a.put("bar", "frobinator");
     assertNotNull(p.bind(a));
     assertEquals(1, p.bind(a).length);
@@ -107,7 +107,7 @@ public class ParameterizedStringTest {
     assertEquals(1, p.getParameterNames().size());
     assertTrue(p.getParameterNames().contains("bar"));
 
-    final Map<String, String> a = new HashMap<String, String>();
+    final Map<String, String> a = new HashMap<>();
     assertNotNull(p.bind(a));
     assertEquals(1, p.bind(a).length);
     assertEquals("", p.bind(a)[0]);
@@ -120,7 +120,7 @@ public class ParameterizedStringTest {
     assertEquals(1, p.getParameterNames().size());
     assertTrue(p.getParameterNames().contains("a"));
 
-    final Map<String, String> a = new HashMap<String, String>();
+    final Map<String, String> a = new HashMap<>();
 
     a.put("a", "foo");
     assertNotNull(p.bind(a));
@@ -141,7 +141,7 @@ public class ParameterizedStringTest {
     assertEquals(1, p.getParameterNames().size());
     assertTrue(p.getParameterNames().contains("a"));
 
-    final Map<String, String> a = new HashMap<String, String>();
+    final Map<String, String> a = new HashMap<>();
 
     a.put("a", "foo");
     assertNotNull(p.bind(a));
@@ -162,7 +162,7 @@ public class ParameterizedStringTest {
     assertEquals(1, p.getParameterNames().size());
     assertTrue(p.getParameterNames().contains("a"));
 
-    final Map<String, String> a = new HashMap<String, String>();
+    final Map<String, String> a = new HashMap<>();
 
     a.put("a", "foo@example.com");
     assertNotNull(p.bind(a));
@@ -186,7 +186,7 @@ public class ParameterizedStringTest {
     assertTrue(p.getParameterNames().contains("userName"));
     assertTrue(p.getParameterNames().contains("email"));
 
-    final Map<String, String> a = new HashMap<String, String>();
+    final Map<String, String> a = new HashMap<>();
     a.put("userName", "firstName lastName");
     a.put("email", "FIRSTNAME.LASTNAME@EXAMPLE.COM");
     assertNotNull(p.bind(a));
@@ -204,7 +204,7 @@ public class ParameterizedStringTest {
     assertEquals(1, p.getParameterNames().size());
     assertTrue(p.getParameterNames().contains("a"));
 
-    final Map<String, String> a = new HashMap<String, String>();
+    final Map<String, String> a = new HashMap<>();
 
     a.put("a", "FOO@EXAMPLE.COM");
     assertNotNull(p.bind(a));
@@ -226,7 +226,7 @@ public class ParameterizedStringTest {
     assertEquals(1, p.getParameterNames().size());
     assertTrue(p.getParameterNames().contains("a"));
 
-    final Map<String, String> a = new HashMap<String, String>();
+    final Map<String, String> a = new HashMap<>();
 
     a.put("a", "foo@example.com");
     assertNotNull(p.bind(a));
@@ -248,7 +248,7 @@ public class ParameterizedStringTest {
     assertEquals(1, p.getParameterNames().size());
     assertTrue(p.getParameterNames().contains("a"));
 
-    final Map<String, String> a = new HashMap<String, String>();
+    final Map<String, String> a = new HashMap<>();
 
     a.put("a", "foo@example.com");
     assertNotNull(p.bind(a));
@@ -270,7 +270,7 @@ public class ParameterizedStringTest {
     assertEquals(1, p.getParameterNames().size());
     assertTrue(p.getParameterNames().contains("a"));
 
-    final Map<String, String> a = new HashMap<String, String>();
+    final Map<String, String> a = new HashMap<>();
 
     a.put("a", "foo@example.com");
     assertNotNull(p.bind(a));
@@ -292,7 +292,7 @@ public class ParameterizedStringTest {
     assertEquals(1, p.getParameterNames().size());
     assertTrue(p.getParameterNames().contains("a"));
 
-    final Map<String, String> a = new HashMap<String, String>();
+    final Map<String, String> a = new HashMap<>();
 
     a.put("a", "FOO@EXAMPLE.COM");
     assertNotNull(p.bind(a));
@@ -314,7 +314,7 @@ public class ParameterizedStringTest {
     assertEquals(1, p.getParameterNames().size());
     assertTrue(p.getParameterNames().contains("a"));
 
-    final Map<String, String> a = new HashMap<String, String>();
+    final Map<String, String> a = new HashMap<>();
 
     a.put("a", "FOO@EXAMPLE.COM");
     assertNotNull(p.bind(a));
@@ -336,7 +336,7 @@ public class ParameterizedStringTest {
     assertEquals(1, p.getParameterNames().size());
     assertTrue(p.getParameterNames().contains("a"));
 
-    final Map<String, String> a = new HashMap<String, String>();
+    final Map<String, String> a = new HashMap<>();
 
     a.put("a", "FOO@EXAMPLE.COM");
     assertNotNull(p.bind(a));
@@ -358,7 +358,7 @@ public class ParameterizedStringTest {
     assertEquals(1, p.getParameterNames().size());
     assertTrue(p.getParameterNames().contains("a"));
 
-    final Map<String, String> a = new HashMap<String, String>();
+    final Map<String, String> a = new HashMap<>();
 
     a.put("a", "FOO@EXAMPLE.COM");
     assertNotNull(p.bind(a));
@@ -380,7 +380,7 @@ public class ParameterizedStringTest {
     assertEquals(1, p.getParameterNames().size());
     assertTrue(p.getParameterNames().contains("a"));
 
-    final Map<String, String> a = new HashMap<String, String>();
+    final Map<String, String> a = new HashMap<>();
 
     a.put("a", "foo@example.com");
     assertNotNull(p.bind(a));

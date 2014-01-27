@@ -38,9 +38,9 @@ public class CommentLinkProcessor {
       // One or more of the patterns isn't valid on this browser.
       // Try to filter the list down and remove the invalid ones.
 
-      List<FindReplace> safe = new ArrayList<FindReplace>(commentLinks.size());
+      List<FindReplace> safe = new ArrayList<>(commentLinks.size());
 
-      List<PatternError> bad = new ArrayList<PatternError>();
+      List<PatternError> bad = new ArrayList<>();
       for (FindReplace r : commentLinks) {
         try {
           buf.replaceAll(Collections.singletonList(r));

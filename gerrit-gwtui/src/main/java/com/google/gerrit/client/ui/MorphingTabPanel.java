@@ -29,11 +29,11 @@ import java.util.List;
  */
 public class MorphingTabPanel extends TabPanel {
   // Keep track of the order the widgets/texts should be in when not hidden.
-  private List<Widget> widgets = new ArrayList<Widget>();
-  private List<String> texts = new ArrayList<String>();
+  private List<Widget> widgets = new ArrayList<>();
+  private List<String> texts = new ArrayList<>();
 
   // currently visible widgets
-  private List<Widget> visibles = new ArrayList<Widget>();
+  private List<Widget> visibles = new ArrayList<>();
 
   private int selection;
 

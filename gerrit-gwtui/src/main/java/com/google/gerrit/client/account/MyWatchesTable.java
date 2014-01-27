@@ -87,8 +87,7 @@ public class MyWatchesTable extends FancyFlexTable<AccountProjectWatchInfo> {
   }
 
   protected Set<AccountProjectWatch.Key> getCheckedIds() {
-    final Set<AccountProjectWatch.Key> ids =
-        new HashSet<AccountProjectWatch.Key>();
+    final Set<AccountProjectWatch.Key> ids = new HashSet<>();
     for (int row = 1; row < table.getRowCount(); row++) {
       final AccountProjectWatchInfo k = getRowItem(row);
       if (k != null && ((CheckBox) table.getWidget(row, 1)).getValue()) {

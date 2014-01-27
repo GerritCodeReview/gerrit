@@ -71,7 +71,7 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
       keysAction.add(new StarKeyCommand(0, 's', Util.C.changeTableStar()));
     }
 
-    sections = new ArrayList<Section>();
+    sections = new ArrayList<>();
     table.setText(0, C_STAR, "");
     table.setText(0, C_SUBJECT, Util.C.changeTableColumnSubject());
     table.setText(0, C_STATUS, Util.C.changeTableColumnStatus());
@@ -157,7 +157,7 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
   }
 
   public void updateColumnsForLabels(ChangeList... lists) {
-    labelNames = new ArrayList<String>();
+    labelNames = new ArrayList<>();
     for (ChangeList list : lists) {
       for (int i = 0; i < list.length(); i++) {
         for (String name : list.get(i).labels()) {

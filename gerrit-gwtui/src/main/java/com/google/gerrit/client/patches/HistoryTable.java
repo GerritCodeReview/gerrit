@@ -34,7 +34,7 @@ import java.util.List;
  */
 class HistoryTable extends FancyFlexTable<Patch> {
   private final PatchScreen screen;
-  final List<HistoryRadio> all = new ArrayList<HistoryRadio>();
+  final List<HistoryRadio> all = new ArrayList<>();
 
   HistoryTable(final PatchScreen parent) {
     setStyleName(Gerrit.RESOURCES.css().patchHistoryTable());

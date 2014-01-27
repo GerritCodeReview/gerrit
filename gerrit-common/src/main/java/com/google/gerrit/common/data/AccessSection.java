@@ -39,13 +39,13 @@ public class AccessSection extends RefConfigSection implements
 
   public List<Permission> getPermissions() {
     if (permissions == null) {
-      permissions = new ArrayList<Permission>();
+      permissions = new ArrayList<>();
     }
     return permissions;
   }
 
   public void setPermissions(List<Permission> list) {
-    Set<String> names = new HashSet<String>();
+    Set<String> names = new HashSet<>();
     for (Permission p : list) {
       if (!names.add(p.getName().toLowerCase())) {
         throw new IllegalArgumentException();
@@ -124,7 +124,7 @@ public class AccessSection extends RefConfigSection implements
     if (!super.equals(obj) || !(obj instanceof AccessSection)) {
       return false;
     }
-    return new HashSet<Permission>(getPermissions()).equals(new HashSet<Permission>(
+    return new HashSet<Permission>(getPermissions()).equals(new HashSet<>(
         ((AccessSection) obj).getPermissions()));
   }
 }

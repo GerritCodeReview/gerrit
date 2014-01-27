@@ -39,8 +39,7 @@ public class ReviewerSuggestOracle extends SuggestAfterTypingNCharsOracle {
             req.getLimit(), new GerritCallback<List<ReviewerInfo>>() {
               public void onSuccess(final List<ReviewerInfo> result) {
                 final List<ReviewerSuggestion> r =
-                    new ArrayList<ReviewerSuggestion>(result
-                        .size());
+                    new ArrayList<>(result.size());
                 for (final ReviewerInfo reviewer : result) {
                   r.add(new ReviewerSuggestion(reviewer));
                 }

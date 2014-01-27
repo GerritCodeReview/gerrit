@@ -32,8 +32,8 @@ class LineMapper {
   void reset() {
     lineA = 0;
     lineB = 0;
-    lineMapAtoB = new ArrayList<LineGap>();
-    lineMapBtoA = new ArrayList<LineGap>();
+    lineMapAtoB = new ArrayList<>();
+    lineMapBtoA = new ArrayList<>();
   }
 
   int getLineA() {

@@ -46,8 +46,8 @@ public class ParameterizedString {
 
   public ParameterizedString(final String pattern) {
     final StringBuilder raw = new StringBuilder();
-    final List<Parameter> prs = new ArrayList<Parameter>(4);
-    final List<Format> ops = new ArrayList<Format>(4);
+    final List<Parameter> prs = new ArrayList<>(4);
+    final List<Format> ops = new ArrayList<>(4);
 
     int i = 0;
     while (i < pattern.length()) {
@@ -95,7 +95,7 @@ public class ParameterizedString {
 
   /** Get the list of parameter names, ordered by appearance in the pattern. */
   public List<String> getParameterNames() {
-    final ArrayList<String> r = new ArrayList<String>(parameters.size());
+    final ArrayList<String> r = new ArrayList<>(parameters.size());
     for (Parameter p : parameters) {
       r.add(p.name);
     }
@@ -132,7 +132,7 @@ public class ParameterizedString {
   }
 
   public final class Builder {
-    private final Map<String, String> params = new HashMap<String, String>();
+    private final Map<String, String> params = new HashMap<>();
 
     public Builder replace(final String name, final String value) {
       params.put(name, value);
@@ -169,7 +169,7 @@ public class ParameterizedString {
     Parameter(final String parameter) {
       // "parameter[.functions...]" -> (parameter, functions...)
       final List<String> names = Arrays.asList(parameter.split("\\."));
-      final List<Function> functs = new ArrayList<Function>(names.size());
+      final List<Function> functs = new ArrayList<>(names.size());
 
       if (names.isEmpty()) {
         name = "";
@@ -207,7 +207,7 @@ public class ParameterizedString {
   private static final Map<String, Function> FUNCTIONS = initFunctions();
 
   private static Map<String, Function> initFunctions() {
-    final HashMap<String, Function> m = new HashMap<String, Function>();
+    HashMap<String, Function> m = new HashMap<>();
     m.put("toLowerCase", new Function() {
       @Override
       String apply(String a) {

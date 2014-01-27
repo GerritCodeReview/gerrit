@@ -28,8 +28,7 @@ import java.util.Map;
 
 /** Suggestion Oracle for AccountGroup entities. */
 public class AccountGroupSuggestOracle extends SuggestAfterTypingNCharsOracle {
-  private Map<String, AccountGroup.UUID> priorResults =
-      new HashMap<String, AccountGroup.UUID>();
+  private Map<String, AccountGroup.UUID> priorResults = new HashMap<>();
 
   private Project.NameKey projectName;
 
@@ -43,7 +42,7 @@ public class AccountGroupSuggestOracle extends SuggestAfterTypingNCharsOracle {
               public void onSuccess(final List<GroupReference> result) {
                 priorResults.clear();
                 final ArrayList<AccountGroupSuggestion> r =
-                    new ArrayList<AccountGroupSuggestion>(result.size());
+                    new ArrayList<>(result.size());
                 for (final GroupReference p : result) {
                   r.add(new AccountGroupSuggestion(p));
                   priorResults.put(p.getName(), p.getUUID());

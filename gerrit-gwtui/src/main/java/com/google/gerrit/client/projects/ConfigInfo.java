@@ -78,7 +78,7 @@ public class ConfigInfo extends JavaScriptObject {
   /*-{ return this.commentlinks; }-*/;
   final List<FindReplace> commentlinks() {
     JsArray<CommentLinkInfo> cls = commentlinks0().values();
-    List<FindReplace> commentLinks = new ArrayList<FindReplace>(cls.length());
+    List<FindReplace> commentLinks = new ArrayList<>(cls.length());
     for (int i = 0; i < cls.length(); i++) {
       CommentLinkInfo cl = cls.get(i);
       if (!cl.enabled()) {

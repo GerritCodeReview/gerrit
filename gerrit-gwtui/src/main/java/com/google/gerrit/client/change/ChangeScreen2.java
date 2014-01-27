@@ -123,7 +123,7 @@ public class ChangeScreen2 extends Screen {
 
   private KeyCommandSet keysNavigation;
   private KeyCommandSet keysAction;
-  private List<HandlerRegistration> handlers = new ArrayList<HandlerRegistration>(4);
+  private List<HandlerRegistration> handlers = new ArrayList<>(4);
   private UpdateCheckTimer updateCheck;
   private Timestamp lastDisplayedUpdate;
   private UpdateAvailableBar updateAvailable;
@@ -618,8 +618,7 @@ public class ChangeScreen2 extends Screen {
   private List<NativeMap<JsArray<CommentInfo>>> loadComments(
       RevisionInfo rev, CallbackGroup group) {
     final int id = rev._number();
-    final List<NativeMap<JsArray<CommentInfo>>> r =
-        new ArrayList<NativeMap<JsArray<CommentInfo>>>(1);
+    final List<NativeMap<JsArray<CommentInfo>>> r = new ArrayList<>(1);
     ChangeApi.revision(changeId.get(), rev.name())
       .view("comments")
       .get(group.add(new AsyncCallback<NativeMap<JsArray<CommentInfo>>>() {
@@ -638,8 +637,7 @@ public class ChangeScreen2 extends Screen {
 
   private List<NativeMap<JsArray<CommentInfo>>> loadDrafts(
       RevisionInfo rev, CallbackGroup group) {
-    final List<NativeMap<JsArray<CommentInfo>>> r =
-        new ArrayList<NativeMap<JsArray<CommentInfo>>>(1);
+    final List<NativeMap<JsArray<CommentInfo>>> r = new ArrayList<>(1);
     if (Gerrit.isSignedIn()) {
       ChangeApi.revision(changeId.get(), rev.name())
         .view("drafts")

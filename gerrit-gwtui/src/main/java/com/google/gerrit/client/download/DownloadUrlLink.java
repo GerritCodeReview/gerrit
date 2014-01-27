@@ -158,7 +158,7 @@ public class DownloadUrlLink extends Anchor implements ClickHandler {
 
   public static List<DownloadUrlLink> createDownloadUrlLinks(String project,
       String ref, boolean allowAnonymous) {
-    List<DownloadUrlLink> urls = new ArrayList<DownloadUrlLink>();
+    List<DownloadUrlLink> urls = new ArrayList<>();
     Set<DownloadScheme> allowedSchemes = Gerrit.getConfig().getDownloadSchemes();
 
     if (allowAnonymous

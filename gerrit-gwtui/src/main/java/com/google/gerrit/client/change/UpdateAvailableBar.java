@@ -45,7 +45,7 @@ abstract class UpdateAvailableBar extends Composite {
   }
 
   void set(List<MessageInfo> newMessages, Timestamp newTime) {
-    HashSet<Integer> seen = new HashSet<Integer>();
+    HashSet<Integer> seen = new HashSet<>();
     StringBuilder r = new StringBuilder();
     for (MessageInfo m : newMessages) {
       int a = m.author() != null ? m.author()._account_id() : 0;

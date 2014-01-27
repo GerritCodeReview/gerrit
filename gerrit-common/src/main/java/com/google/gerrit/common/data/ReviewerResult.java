@@ -28,7 +28,7 @@ public class ReviewerResult {
   protected boolean askForConfirmation;
 
   public ReviewerResult() {
-    errors = new ArrayList<Error>();
+    errors = new ArrayList<>();
   }
 
   public void addError(final Error e) {

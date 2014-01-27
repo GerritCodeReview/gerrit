@@ -115,7 +115,7 @@ class ReplyBox extends Composite {
     this.revision = revision;
     initWidget(uiBinder.createAndBindUi(this));
 
-    List<String> names = new ArrayList<String>(permitted.keySet());
+    List<String> names = new ArrayList<>(permitted.keySet());
     if (names.isEmpty()) {
       UIObject.setVisible(labelsParent, false);
     } else {
@@ -281,13 +281,12 @@ class ReplyBox extends Composite {
       List<String> names,
       NativeMap<LabelInfo> all,
       NativeMap<JsArrayString> permitted) {
-    TreeSet<Short> values = new TreeSet<Short>();
-    List<LabelAndValues> labels =
-        new ArrayList<LabelAndValues>(permitted.size());
+    TreeSet<Short> values = new TreeSet<>();
+    List<LabelAndValues> labels = new ArrayList<>(permitted.size());
     for (String id : names) {
       JsArrayString p = permitted.get(id);
       if (p != null) {
-        Set<Short> a = new TreeSet<Short>();
+        Set<Short> a = new TreeSet<>();
         for (int i = 0; i < p.length(); i++) {
           a.add(LabelInfo.parseValue(p.get(i)));
         }
@@ -295,7 +294,7 @@ class ReplyBox extends Composite {
         values.addAll(a);
       }
     }
-    List<Short> columns = new ArrayList<Short>(values);
+    List<Short> columns = new ArrayList<>(values);
 
     labelsTable.resize(1 + labels.size(), 2 + values.size());
     for (int c = 0; c < columns.size(); c++) {
@@ -303,8 +302,7 @@ class ReplyBox extends Composite {
       labelsTable.getCellFormatter().setStyleName(0, 1 + c, style.label_value());
     }
 
-    List<LabelAndValues> checkboxes =
-        new ArrayList<LabelAndValues>(labels.size());
+    List<LabelAndValues> checkboxes = new ArrayList<>(labels.size());
     int row = 1;
     for (LabelAndValues lv : labels) {
       if (isCheckBox(lv.info.value_set())) {
@@ -413,7 +411,7 @@ class ReplyBox extends Composite {
           Util.C.commitMessage(), copyPath(Patch.COMMIT_MSG, l)));
     }
 
-    List<String> paths = new ArrayList<String>(m.keySet());
+    List<String> paths = new ArrayList<>(m.keySet());
     Collections.sort(paths);
 
     for (String path : paths) {
@@ -452,7 +450,7 @@ class ReplyBox extends Composite {
     LabelRadioGroup(int row, String label, int cnt) {
       this.row = row;
       this.label = label;
-      this.buttons = new ArrayList<LabelRadioButton>(cnt);
+      this.buttons = new ArrayList<>(cnt);
     }
 
     void select(LabelRadioButton b) {

@@ -129,7 +129,7 @@ public class SideBySide2 extends Screen {
     this.startLine = startLine;
 
     prefs = DiffPreferences.create(Gerrit.getAccountDiffPreference());
-    handlers = new ArrayList<HandlerRegistration>(6);
+    handlers = new ArrayList<>(6);
     keysNavigation = new KeyCommandSet(Gerrit.C.sectionNavigation());
     header = new Header(keysNavigation, base, revision, path);
     diffTable = new DiffTable(this, base, revision, path);

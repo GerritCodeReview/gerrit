@@ -137,7 +137,7 @@ public class ProjectAccessEditor extends Composite implements
   @Override
   public void flush() {
     List<AccessSection> src = local.getList();
-    List<AccessSection> keep = new ArrayList<AccessSection>(src.size());
+    List<AccessSection> keep = new ArrayList<>(src.size());
 
     for (int i = 0; i < src.size(); i++) {
       AccessSectionEditor e = (AccessSectionEditor) localContainer.getWidget(i);

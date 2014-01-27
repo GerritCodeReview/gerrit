@@ -92,7 +92,7 @@ public class GlobalCapability {
   private static final List<String> NAMES_LC;
 
   static {
-    NAMES_ALL = new ArrayList<String>();
+    NAMES_ALL = new ArrayList<>();
     NAMES_ALL.add(ACCESS_DATABASE);
     NAMES_ALL.add(ADMINISTRATE_SERVER);
     NAMES_ALL.add(CREATE_ACCOUNT);
@@ -110,7 +110,7 @@ public class GlobalCapability {
     NAMES_ALL.add(VIEW_CONNECTIONS);
     NAMES_ALL.add(VIEW_QUEUE);
 
-    NAMES_LC = new ArrayList<String>(NAMES_ALL.size());
+    NAMES_LC = new ArrayList<>(NAMES_ALL.size());
     for (String name : NAMES_ALL) {
       NAMES_LC.add(name.toLowerCase());
     }

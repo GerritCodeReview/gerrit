@@ -797,9 +797,8 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
   }
 
   protected static class CommentList {
-    final List<PatchLineComment> comments = new ArrayList<PatchLineComment>();
-    final List<PublishedCommentPanel> panels =
-        new ArrayList<PublishedCommentPanel>();
+    final List<PatchLineComment> comments = new ArrayList<>();
+    final List<PublishedCommentPanel> panels = new ArrayList<>();
   }
 
   public static class NoOpKeyCommand extends NeedsSignInKeyCommand {

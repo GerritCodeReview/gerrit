@@ -93,10 +93,10 @@ class ChunkManager {
   }
 
   void render(DiffInfo diff) {
-    chunks = new ArrayList<DiffChunkInfo>();
-    markers = new ArrayList<TextMarker>();
-    undo = new ArrayList<Runnable>();
-    padding = new ArrayList<LineWidget>();
+    chunks = new ArrayList<>();
+    markers = new ArrayList<>();
+    undo = new ArrayList<>();
+    padding = new ArrayList<>();
 
     String diffColor = diff.meta_a() == null || diff.meta_b() == null
         ? DiffTable.style.intralineBg()

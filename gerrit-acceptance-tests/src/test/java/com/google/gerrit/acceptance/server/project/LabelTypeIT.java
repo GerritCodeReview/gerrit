@@ -17,7 +17,7 @@ package com.google.gerrit.acceptance.server.project;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.acceptance.GitUtil.cloneProject;
 import static com.google.gerrit.acceptance.GitUtil.createProject;
-import static com.google.gerrit.common.changes.ListChangesOption.DETAILED_LABELS;
+import static com.google.gerrit.extensions.common.ListChangesOption.DETAILED_LABELS;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.project.Util.grant;
 import static org.junit.Assert.assertEquals;

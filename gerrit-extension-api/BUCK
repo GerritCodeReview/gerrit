@@ -3,7 +3,10 @@ SRCS = glob([SRC + '**/*.java'])
 
 gwt_module(
   name = 'client',
-  srcs = glob([SRC + 'webui/GerritTopMenu.java']),
+  srcs = glob([
+    SRC + 'webui/GerritTopMenu.java',
+    SRC + 'common/ListChangesOption.java'
+  ]),
   gwtxml = SRC + 'Extensions.gwt.xml',
   visibility = ['PUBLIC'],
 )

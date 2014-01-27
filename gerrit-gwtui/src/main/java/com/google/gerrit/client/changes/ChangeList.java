@@ -15,7 +15,7 @@
 package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.rpc.RestApi;
-import com.google.gerrit.common.changes.ListChangesOption;
+import com.google.gerrit.extensions.common.ListChangesOption;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtorm.client.KeyUtil;

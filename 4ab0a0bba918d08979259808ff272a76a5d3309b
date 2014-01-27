@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "12179a8c_4539cab4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1006818
+      },
+      "writtenOn": "2014-01-27T02:40:16Z",
+      "side": 1,
+      "message": "Done. change the head line to be  \u0027Refactor ... \u0027,  \nshould we support \u0027running on only slave mode.\u0027  old PS support it, now does not.",
+      "parentUuid": "32f1fea2_4e8e136a",
+      "revId": "4ab0a0bba918d08979259808ff272a76a5d3309b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7207f652_f09c00a1",
         "filename": "/COMMIT_MSG",
         "patchSetId": 8
@@ -36,6 +54,24 @@
       "writtenOn": "2014-01-27T02:16:41Z",
       "side": 1,
       "message": "Please mention that this reverts 84bcead690240e07e0314b165fb8d6dc95d2c5e7",
+      "revId": "4ab0a0bba918d08979259808ff272a76a5d3309b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "522592ed_4739ceb4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1006818
+      },
+      "writtenOn": "2014-01-27T02:40:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7207f652_f09c00a1",
       "revId": "4ab0a0bba918d08979259808ff272a76a5d3309b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -65,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "522592ed_a74d2a5d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/CommandMetaData.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1006818
+      },
+      "writtenOn": "2014-01-27T02:40:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "32f1fea2_0e840b48",
+      "revId": "4ab0a0bba918d08979259808ff272a76a5d3309b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "32f1fea2_6e894f60",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AproposCommand.java",
         "patchSetId": 8
@@ -76,6 +130,24 @@
       "writtenOn": "2014-01-27T02:16:41Z",
       "side": 1,
       "message": "Should this line be indented?",
+      "revId": "4ab0a0bba918d08979259808ff272a76a5d3309b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "522592ed_874aa640",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AproposCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1006818
+      },
+      "writtenOn": "2014-01-27T02:40:16Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "32f1fea2_6e894f60",
       "revId": "4ab0a0bba918d08979259808ff272a76a5d3309b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

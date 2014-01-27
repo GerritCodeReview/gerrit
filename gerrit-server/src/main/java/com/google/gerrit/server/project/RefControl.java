@@ -246,7 +246,8 @@ public class RefControl {
     }
 
     if (object instanceof RevCommit) {
-      return owner
+      return getCurrentUser().getCapabilities().canAdministrateServer()
+          || (owner && !isBlocked(Permission.CREATE))
           || (canPerform(Permission.CREATE) && projectControl.canReadCommit(rw,
               (RevCommit) object));
     } else if (object instanceof RevTag) {
@@ -484,6 +485,22 @@ public class RefControl {
     }
     blocks.removeAll(allows);
     return blocks.isEmpty() && !allows.isEmpty();
+  }
+
+  /** True if for this permission is blocked for the user. Works only for non labels. */
+  private boolean isBlocked(String permissionName) {
+    List<PermissionRule> access = access(permissionName);
+    Set<ProjectRef> allows = Sets.newHashSet();
+    Set<ProjectRef> blocks = Sets.newHashSet();
+    for (PermissionRule rule : access) {
+      if (rule.isBlock() && !rule.getForce()) {
+        blocks.add(relevant.getRuleProps(rule));
+      } else {
+        allows.add(relevant.getRuleProps(rule));
+      }
+    }
+    blocks.removeAll(allows);
+    return !blocks.isEmpty();
   }
 
   /** True if the user has force this permission. Works only for non labels. */

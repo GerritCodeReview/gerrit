@@ -42,16 +42,17 @@ public class PluginConfigFactory implements ReloadPluginListener {
       LoggerFactory.getLogger(PluginConfigFactory.class);
 
   private final SitePaths site;
-  private final Config cfg;
+  private final GerritServerConfigProvider cfgProvider;
   private final ProjectCache projectCache;
   private final ProjectState.Factory projectStateFactory;
   private final Map<String, Config> pluginConfigs;
+  private Config cfg;
 
   @Inject
-  PluginConfigFactory(SitePaths site, @GerritServerConfig Config cfg,
+  PluginConfigFactory(SitePaths site, GerritServerConfigProvider cfgProvider,
       ProjectCache projectCache, ProjectState.Factory projectStateFactory) {
     this.site = site;
-    this.cfg = cfg;
+    this.cfgProvider = cfgProvider;
     this.projectCache = projectCache;
     this.projectStateFactory = projectStateFactory;
     this.pluginConfigs = Maps.newHashMap();
@@ -74,7 +75,7 @@ public class PluginConfigFactory implements ReloadPluginListener {
    * @return the plugin configuration from the 'gerrit.config' file
    */
   public PluginConfig getFromGerritConfig(String pluginName) {
-    return new PluginConfig(pluginName, cfg);
+    return new PluginConfig(pluginName, getGerritConfig());
   }
 
   /**
@@ -337,6 +338,17 @@ public class PluginConfigFactory implements ReloadPluginListener {
       throw new NoSuchProjectException(projectName);
     }
     return projectState.getConfig(pluginName);
+  }
+
+  private Config getGerritConfig() {
+    if (cfg == null) {
+      cfg = cfgProvider.get();
+    }
+    return cfg;
+  }
+
+  public void flushGerritConfig() {
+    cfg = null;
   }
 
   @Override

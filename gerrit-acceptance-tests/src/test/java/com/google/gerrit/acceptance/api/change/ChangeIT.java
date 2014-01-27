@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.api.change;
 
 import static com.google.gerrit.acceptance.GitUtil.cloneProject;
 import static com.google.gerrit.acceptance.GitUtil.createProject;
+import static org.junit.Assert.assertEquals;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope;
@@ -24,7 +25,10 @@ import com.google.gerrit.acceptance.SshSession;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
+import com.google.gerrit.extensions.api.changes.ChangeDescription;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.common.ChangeStatus;
+import com.google.gerrit.extensions.common.ListChangesOption;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Project;
@@ -41,6 +45,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.EnumSet;
 
 public class ChangeIT extends AbstractDaemonTest {
 
@@ -79,6 +84,25 @@ public class ChangeIT extends AbstractDaemonTest {
   @After
   public void cleanup() {
     db.close();
+  }
+
+  @Test
+  public void get() throws GitAPIException,
+      IOException, RestApiException {
+    PushOneCommit.Result r = createChange();
+    String triplet = "p~master~" + r.getChangeId();
+    ChangeDescription c =
+        gApi.changes()
+            .id(triplet)
+            .get(EnumSet.noneOf(ListChangesOption.class));
+    assertEquals(triplet, c.id);
+    assertEquals("p", c.project);
+    assertEquals("master", c.branch);
+    assertEquals(ChangeStatus.NEW, c.status);
+    assertEquals("test commit", c.subject);
+    assertEquals(true, c.mergeable);
+    assertEquals(r.getChangeId(), c.changeId);
+    assertEquals(c.created, c.updated);
   }
 
   @Test

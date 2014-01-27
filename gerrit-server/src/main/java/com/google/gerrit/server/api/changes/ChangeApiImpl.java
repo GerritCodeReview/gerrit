@@ -18,13 +18,17 @@ import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.changes.AbandonInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
+import com.google.gerrit.extensions.api.changes.ChangeDescription;
 import com.google.gerrit.extensions.api.changes.Changes;
 import com.google.gerrit.extensions.api.changes.RestoreInput;
 import com.google.gerrit.extensions.api.changes.RevertInput;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
+import com.google.gerrit.extensions.common.ListChangesOption;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.change.Abandon;
+import com.google.gerrit.server.change.ChangeJson;
+import com.google.gerrit.server.change.ChangeJson.ChangeInfo;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.PostReviewers;
 import com.google.gerrit.server.change.Restore;
@@ -36,6 +40,7 @@ import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
 import java.io.IOException;
+import java.util.EnumSet;
 
 class ChangeApiImpl implements ChangeApi {
   interface Factory {
@@ -50,6 +55,7 @@ class ChangeApiImpl implements ChangeApi {
   private final Provider<Revert> revert;
   private final Provider<Restore> restore;
   private final Provider<PostReviewers> postReviewers;
+  private final ChangeJson changeJson;
 
   @Inject
   ChangeApiImpl(Changes changeApi,
@@ -59,6 +65,7 @@ class ChangeApiImpl implements ChangeApi {
       Provider<Revert> revert,
       Provider<Restore> restore,
       Provider<PostReviewers> postReviewers,
+      ChangeJson changeJson,
       @Assisted ChangeResource change) {
     this.changeApi = changeApi;
     this.revert = revert;
@@ -67,6 +74,7 @@ class ChangeApiImpl implements ChangeApi {
     this.abandon = abandon;
     this.restore = restore;
     this.postReviewers = postReviewers;
+    this.changeJson = changeJson;
     this.change = change;
   }
 
@@ -151,5 +159,36 @@ class ChangeApiImpl implements ChangeApi {
     } catch (OrmException | EmailException | IOException e) {
       throw new RestApiException("Cannot add change reviewer", e);
     }
+  }
+
+  @Override
+  public ChangeDescription get(EnumSet<ListChangesOption> options)
+      throws RestApiException {
+    try {
+      // TODO(davido): respect options in mapping
+      return info2Description(changeJson.addOptions(options).format(change));
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot retrieve change", e);
+    }
+  }
+
+  private ChangeDescription info2Description(ChangeInfo i) {
+    ChangeDescription d = new ChangeDescription();
+    d.id = i.id;
+    d.project = i.project;
+    d.branch = i.branch;
+    d.topic = i.topic;
+    d.changeId = i.changeId;
+    d.subject = i.subject;
+    d.status = i.status;
+    d.created = i.created;
+    d.updated = i.updated;
+    d.starred = i.starred;
+    d.reviewed = i.reviewed;
+    d.mergeable = i.mergeable;
+    d.insertions = i.insertions;
+    d.deletions = i.deletions;
+
+    return d;
   }
 }

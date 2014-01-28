@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f2c12653_74eac819",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1011917
+      },
+      "writtenOn": "2014-01-28T07:40:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7207f652_b026f898",
+      "range": {
+        "startLine": 137,
+        "startChar": 11,
+        "endLine": 137,
+        "endChar": 17
+      },
+      "revId": "d49e9076245b1618e3ff93374748dac34f91e756",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7207f652_9023f488",
         "filename": "Documentation/config-project-config.txt",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2014-01-28T00:53:07Z",
       "side": 1,
       "message": "repository",
+      "range": {
+        "startLine": 139,
+        "startChar": 33,
+        "endLine": 139,
+        "endChar": 37
+      },
+      "revId": "d49e9076245b1618e3ff93374748dac34f91e756",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2c12653_94ee842a",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1011917
+      },
+      "writtenOn": "2014-01-28T07:40:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7207f652_9023f488",
       "range": {
         "startLine": 139,
         "startChar": 33,
@@ -95,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "f2c12653_b4eb8019",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1011917
+      },
+      "writtenOn": "2014-01-28T07:40:54Z",
+      "side": 1,
+      "message": "I have updated with underscores.\n\nI\u0027m happy to change to fsckObjects but I would prefer to keep the variable name consistent with the entry that should be specified in the project.config and I personally thing that checkReceivedObjects is a better name from a user perspective than fsckObjects as it is more descriptive of what the option does.\n\nLet me know if you want me to change it to fsckObjects and if you would prefer just the variable name to be updated or the option string as well.",
+      "parentUuid": "52b3d2f9_17db5496",
+      "range": {
+        "startLine": 117,
+        "startChar": 34,
+        "endLine": 117,
+        "endChar": 54
+      },
+      "revId": "d49e9076245b1618e3ff93374748dac34f91e756",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "32f1fea2_2e3aa7ad",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
         "patchSetId": 2
@@ -112,6 +184,24 @@
     },
     {
       "key": {
+        "uuid": "f2c12653_d4f8fcf0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1011917
+      },
+      "writtenOn": "2014-01-28T07:40:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "32f1fea2_2e3aa7ad",
+      "revId": "d49e9076245b1618e3ff93374748dac34f91e756",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "72ae1695_58e5fd46",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 2
@@ -123,6 +213,30 @@
       "writtenOn": "2014-01-28T02:54:34Z",
       "side": 1,
       "message": "We avoid \"this.\" on reads in constructors and methods.",
+      "range": {
+        "startLine": 408,
+        "startChar": 22,
+        "endLine": 408,
+        "endChar": 27
+      },
+      "revId": "d49e9076245b1618e3ff93374748dac34f91e756",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "12c5da5c_75eac819",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 408,
+      "author": {
+        "id": 1011917
+      },
+      "writtenOn": "2014-01-28T07:40:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "72ae1695_58e5fd46",
       "range": {
         "startLine": 408,
         "startChar": 22,
@@ -170,6 +284,30 @@
       "side": 1,
       "message": "or even:\n\n  ps \u003d\u003d null || ps.getConfig().getCheckReceivedObjects();\n\nbut really, we shouldn\u0027t get here with ps null.",
       "parentUuid": "32f1fea2_0e3feb9d",
+      "range": {
+        "startLine": 409,
+        "startChar": 4,
+        "endLine": 412,
+        "endChar": 70
+      },
+      "revId": "d49e9076245b1618e3ff93374748dac34f91e756",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2c12653_f4f5f8f5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 1011917
+      },
+      "writtenOn": "2014-01-28T07:40:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "72ae1695_38e04938",
       "range": {
         "startLine": 409,
         "startChar": 4,

@@ -329,7 +329,7 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
     int changedLines = c.insertions() + c.deletions();
     int p = 100;
     if (changedLines < largeChangeSize) {
-      p = Math.round(changedLines * 100 / largeChangeSize);
+      p = changedLines * 100 / largeChangeSize;
     }
 
     int width = Math.max(2, 70 * p / 100);

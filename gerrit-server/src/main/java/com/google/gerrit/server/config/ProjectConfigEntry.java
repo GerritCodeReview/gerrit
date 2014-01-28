@@ -184,6 +184,10 @@ public class ProjectConfigEntry {
     return true;
   }
 
+  public String getWarning(ProjectState project) {
+    return null;
+  }
+
   public void onUpdate(Project.NameKey project, String oldValue, String newValue) {
   }
 

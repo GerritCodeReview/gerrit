@@ -139,6 +139,7 @@ public class ConfigInfo {
       ConfigParameterInfo p = new ConfigParameterInfo();
       p.displayName = configEntry.getDisplayName();
       p.description = configEntry.getDescription();
+      p.warning = configEntry.getWarning(project);
       p.type = configEntry.getType();
       p.permittedValues = configEntry.getPermittedValues();
       p.editable = configEntry.isEditable(project) ? true : null;
@@ -195,6 +196,7 @@ public class ConfigInfo {
   public static class ConfigParameterInfo {
     public String displayName;
     public String description;
+    public String warning;
     public ProjectConfigEntry.Type type;
     public String value;
     public Boolean editable;

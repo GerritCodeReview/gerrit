@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "12c5da5c_d5739cb8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreData.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-28T23:07:42Z",
+      "side": 1,
+      "message": "This suggestion is not for follow up changes. This must be done in this change/series: to protect names exposed from plugins with plugin name. So secure store \"example\" exported from cookbook-plugin must be configured as:\n\n  secureStore \u003d cookbook-plugin-example\n\nand not\n\n  secureStore \u003d example",
+      "parentUuid": "12c5da5c_1566f4fe",
+      "range": {
+        "startLine": 28,
+        "startChar": 25,
+        "endLine": 28,
+        "endChar": 42
+      },
+      "revId": "97c8d7621840d1283e4498c634729a362315b2c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "522592ed_07e07637",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreProvider.java",
         "patchSetId": 13

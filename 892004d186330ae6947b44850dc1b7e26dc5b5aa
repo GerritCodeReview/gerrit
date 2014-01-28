@@ -70,6 +70,24 @@
       "revId": "892004d186330ae6947b44850dc1b7e26dc5b5aa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2c12653_3484d048",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/ChangeStatusConstants.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-28T12:04:26Z",
+      "side": 1,
+      "message": "Just discovered this class in extension API:\n\n  com.google.gerrit.extensions.webui.PrivateInternals_UiActionDescription\n\nAnd this comment inside it:\n\n  /**\n  * Internal implementation helper for Gerrit Code Review server.\n  * \u003cp\u003e\n  * Extensions and plugins should not invoke this class.\n  */",
+      "parentUuid": "f2c12653_b440e051",
+      "revId": "892004d186330ae6947b44850dc1b7e26dc5b5aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

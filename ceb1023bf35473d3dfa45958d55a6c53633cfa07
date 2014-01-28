@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "52b3d2f9_d73d5cd0",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1398,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-01-28T09:49:53Z",
+      "side": 1,
+      "message": "This is not in the change that was cherry-picked but is needed otherwise it cannot be built.\n\nIt comes from [1] which was merged before and is probably too big to put on stable-2.8.\n\n[1] https://gerrit-review.googlesource.com/#/c/50861/5",
+      "range": {
+        "startLine": 1386,
+        "startChar": 2,
+        "endLine": 1398,
+        "endChar": 3
+      },
+      "revId": "ceb1023bf35473d3dfa45958d55a6c53633cfa07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

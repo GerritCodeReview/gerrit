@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "12c5da5c_356bf0c7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-01-28T15:36:52Z",
+      "side": 1,
+      "message": "I would say that this depends on company policy and what policies and certifications they need to obey.\n\nSome of CollabNet customers are insisting on not having single password stored in plain text. That was the initial reason why we started SecureStore implementation.\n\nWithout this extension point we can\u0027t do much with how passwords are stored in Gerrit.",
+      "parentUuid": "522592ed_87ebc619",
+      "range": {
+        "startLine": 10,
+        "startChar": 32,
+        "endLine": 10,
+        "endChar": 49
+      },
+      "revId": "2d86a7b377a7a98d478f65d8d0a46b323bef0d1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "12179a8c_c5f5baf6",
         "filename": "/COMMIT_MSG",
         "patchSetId": 12
@@ -59,6 +83,30 @@
       "writtenOn": "2014-01-25T09:36:52Z",
       "side": 1,
       "message": "What exactly do you mean here? Can you please extend the example in cookbok-plugin, so that i can verify this behaviour?",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 9
+      },
+      "revId": "2d86a7b377a7a98d478f65d8d0a46b323bef0d1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2c12653_f49978ae",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-01-28T15:36:52Z",
+      "side": 1,
+      "message": "I mean, that during gerrit starup all plugins will be scanned in search of SecureStore with name given in gerrit.config\n\nThere is no additional behavior here.\n\nIn case of example from cookbook-plugin there are two thing s to verify:\n\n# does gerrit startups correctly, and db/smtp/ldp connections are successfully established\n# passwords that were used to established db/smtp/ldp connection are stored in $gerrit_site/etc/secure.config and are prefixed with \"test-\" string.\n\nSecure store plugin can be installed and configured in two ways.\n\nWhen relsease.war was modified so that it include SecureStore impl. Then during init step user will be asked what secure store impl he want to use. His choice will be saved in gerrit.config. Then all passwords provided during init will be stored using selected impl. In case of example plugin from cookbook, after init you will see secure.config file in $gerrit_site/etc/ directory and each password must be prefixed with \"test-\" string.\n\nSecond, when SecureStore is initialized after site init. Then user need to manually modify gerrit.config and add gerrit.secureStore with name of selected impl. Put plugin in $gerrit_site/plugins directory and restart gerrit. Then during startup plain text passwords would be read from secure.config and passed to SecureStore impl to be encrypted and stored. Result of such exercise for example plugin must be same as one achieved after gerrit init",
+      "parentUuid": "12179a8c_2502ce26",
       "range": {
         "startLine": 33,
         "startChar": 0,
@@ -177,6 +225,30 @@
       "side": 1,
       "message": "Well, that\u0027s a severe limitation and it wasn\u0027t that clear from reading the commit message. From its inception Gerrit\u0027s plugin concept has three deployment scenarios:\n\n* Install plugin durig site creation (1a) or later with re-initialization (1b). That what \"--install-plugin\" is for. And this is only supported for core (built in) plugins.\n* Install plugin after site initialization (2). That what is SSH command \"ssh gerrit gerrit plugin install\" or corresponding REST endpoint is for.\n* manually installation (3). Copy plugin to $gerrit_site/plugins directory and manually configuration.\n\nSecure store provider plugins are special in that they have to controll from the beginning the site creation/initialization, but they are never core/built in plugins and thus they are never contained in release.war.\n\nScenario 1a. repackaging release.war before site creation: these installation steps are not even funny:\n\n 1. download release.war\n 2. unzip it to release directory\n 3. cp example-secure-store.jar to release/WEB-INF/plugins\n 4. zip -r ../release2.war . \n 5. use java -jar release2.war init -d \n\nScenario 1b. site re-initialization (site already exists)\n\nAgain, even if example-secure-store.jar was copied into $site/plugins without repackaging of release.war, it just ignored. Doesn\u0027t work either.\n\n\nScenario 2. Doesn\u0027t apply for secure store povider, as it must be configired.\n\nScenario 3. Only one that works for now.\n\nOne option to solve 1a and 1b without repackaging of release.war:\n\nIntroduce new init option: --with-secure-store-provider and provide the plugin jar file from the outside of release.war.\n\nAnother option to solve 1b is to extend the deployment scenario to support/detect secure store providers plugins during site reinitialization from $gerrit_site/plugins directory and not only from release.war. In this case the site would be created with encryption, secure-store-provider plugin is copied to $gerrit_site/plugins and site reinitilized again, and this time the plugin picked up. \n\nThe last option would be to use plugin\u0027s own InitStep to perform site encryption. Like gitiles and gitblit initialize gitweb section in project.config.",
       "parentUuid": "d24982a5_bba707ce",
+      "range": {
+        "startLine": 118,
+        "startChar": 0,
+        "endLine": 122,
+        "endChar": 7
+      },
+      "revId": "2d86a7b377a7a98d478f65d8d0a46b323bef0d1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "12c5da5c_55606cdf",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Init.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-01-28T15:36:52Z",
+      "side": 1,
+      "message": "1a. So, in CollabNet we are already repacking release.war to include our plugins, so for us this scenario is normal.\n\n1b. OK, assume that $site already exists and you have your custom plugins there with additional InitStep. Then wen you run gerrit init, then this additional init step from custom plugin will be also executed?\n\nIs there anything wrong with manual gerrit.cofnig edit? Yes, this is not so userfriendly as InitStep, but gerrit init don\u0027t ask about every possible option that can be set in gerrit.config. Most of them need to be added via manual modification or specific `git config` command call.\n\nAFAIR when SecureStore impl are discovered during init step I\u0027m using same code that is used to detect plugins that available to install using \u0027--install-plugin\u0027. So I would say that plugins in $site/plugins are never taken into account. Therefore theirs InitSteps shouldn\u0027t be executed. Therefore you cannot initialize plugin during init step that is not in release.war\n\nI\u0027m really against making this patch even bigger... this additional init option can be added later on. First step is to get this into gerrit core. Then we can improve.",
+      "parentUuid": "522592ed_a7eeca29",
       "range": {
         "startLine": 118,
         "startChar": 0,

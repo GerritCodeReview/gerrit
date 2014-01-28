@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f2c12653_342e90a7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/PluginConfigFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-28T10:28:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "32f1fea2_6e1dcf4e",
+      "revId": "286faedcf31f3dcfb2a88dbe1cc26818cf194559",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7207f652_f0a1a0b8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/PluginConfigFactory.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2014-01-27T23:29:43Z",
       "side": 1,
       "message": "Instead of making plugins call this, should we just implement automatic refresh using FileSnapshot and adding a \"boolean refresh\" to the getFromGerritConfig method above?\n\nPlugins can pass true if they want us to really check the current version of the file during the method call, or false/omit the parameter if they want to use the cached version from server startup.\n\nA plugin that wants to use a REST API to force a refresh could have the refresh REST API pass ture, and then otherwise pass false to use cached reads during access. A plugin that always wants the current value could always pass true, and never worry about refresh but pay the up-to-date check cost of FileSnapshot on each access. Which is basically what loose refs do in Git anyway so its not the end of the world for most REST API calls.\n\nPlugins that want the best of both worlds (reasonably fast refresh, but even lower up-to-date check costs) should keep their data in All-Projects:project.config and not $site_path/etc/gerrit.config.",
+      "revId": "286faedcf31f3dcfb2a88dbe1cc26818cf194559",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2c12653_744f2885",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/PluginConfigFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-28T10:28:19Z",
+      "side": 1,
+      "message": "Sounds like a better way to solve this.\n\nDone",
+      "parentUuid": "7207f652_f0a1a0b8",
       "revId": "286faedcf31f3dcfb2a88dbe1cc26818cf194559",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

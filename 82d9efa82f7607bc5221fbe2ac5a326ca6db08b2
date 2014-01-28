@@ -39,6 +39,30 @@
       "revId": "82d9efa82f7607bc5221fbe2ac5a326ca6db08b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2c12653_54330c0e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 1011917
+      },
+      "writtenOn": "2014-01-28T09:21:30Z",
+      "side": 1,
+      "message": "No problem, if PS can\u0027t be null under any circumstances do we actually need the Preconditions check?",
+      "parentUuid": "f2c12653_b412a071",
+      "range": {
+        "startLine": 414,
+        "startChar": 31,
+        "endLine": 414,
+        "endChar": 51
+      },
+      "revId": "82d9efa82f7607bc5221fbe2ac5a326ca6db08b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -35,6 +35,7 @@
   <set-property-fallback name='locale' value='en'/>
   <set-property name='locale' value='en'/>
   <set-configuration-property name='UiBinder.useSafeHtmlTemplates' value='true'/>
+  <set-configuration-property name='CssResource.style' value='stable'/>
 
   <set-property name='gwt.logging.logLevel' value='SEVERE'/>
   <set-property name='gwt.logging.popupHandler' value='DISABLED'/>

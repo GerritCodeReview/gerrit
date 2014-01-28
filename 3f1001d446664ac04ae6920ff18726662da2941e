@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "52b3d2f9_9792048b",
+        "filename": "gerrit-plugin-archetype/src/main/resources/archetype-resources/tools/download_file.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-28T16:31:06Z",
+      "side": 1,
+      "message": "Just yesterday Dave Borowitz was talking about pulling this into a submodule so he could reuse the tools in gitiles.",
+      "revId": "3f1001d446664ac04ae6920ff18726662da2941e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f2c12653_b47620aa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 1011917
+      },
+      "writtenOn": "2014-01-28T19:54:39Z",
+      "side": 1,
+      "message": "Line removed",
+      "parentUuid": "52b3d2f9_774f3085",
+      "revId": "82d9efa82f7607bc5221fbe2ac5a326ca6db08b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f2c12653_b412a071",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 3
@@ -78,6 +96,30 @@
       "side": 1,
       "message": "No, we don\u0027t.",
       "parentUuid": "f2c12653_54330c0e",
+      "range": {
+        "startLine": 414,
+        "startChar": 31,
+        "endLine": 414,
+        "endChar": 51
+      },
+      "revId": "82d9efa82f7607bc5221fbe2ac5a326ca6db08b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "12c5da5c_9579249f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 1011917
+      },
+      "writtenOn": "2014-01-28T19:54:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "12c5da5c_1529949e",
       "range": {
         "startLine": 414,
         "startChar": 31,

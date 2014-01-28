@@ -288,12 +288,12 @@ public class SideBySide2 extends Screen {
       }
     });
     cm.addKeyMap(KeyMap.create()
-        .on("'a'", upToChange(true))
-        .on("'u'", upToChange(false))
-        .on("'r'", toggleReviewed())
-        .on("'o'", toggleOpenBox(cm))
+        .on("A", upToChange(true))
+        .on("U", upToChange(false))
+        .on("R", toggleReviewed())
+        .on("O", toggleOpenBox(cm))
         .on("Enter", toggleOpenBox(cm))
-        .on("'c'", insertNewDraft(cm))
+        .on("C", insertNewDraft(cm))
         .on("Alt-U", new Runnable() {
           public void run() {
             cm.getInputField().blur();

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "12c5da5c_f59978ae",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 1400,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-01-28T15:39:18Z",
+      "side": 1,
+      "message": "true, this would also impove startup time with secure store plugin. now we are looking through all available plugins for given secure store, with such approach we would know which one to choose to scan.",
+      "parentUuid": "12179a8c_85ebc219",
+      "range": {
+        "startLine": 1400,
+        "startChar": 0,
+        "endLine": 1400,
+        "endChar": 62
+      },
+      "revId": "97c8d7621840d1283e4498c634729a362315b2c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "12179a8c_a5eebe29",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreData.java",
         "patchSetId": 13
@@ -36,6 +60,30 @@
       "writtenOn": "2014-01-25T07:29:21Z",
       "side": 1,
       "message": "plugin name is not used here. Because we can have a number of secure-store-providers, we really have to protect the namespace with plugin name. We always do that, with URI and with capability names. The same holds true for secure stores:\n\n* plugin with name \"foo\" exposes secure store \"baz\"\n* plugin with name \"bar\" exposes secure store \"baz\"\n\nthen in the config this should be specified as:\n\n\u003cfoo.baz\u003e\nor\n\u003cbar.baz\u003e\n\nCurrently no namepsaces are used and the names from different plugins collides and only one plugin is suggested.",
+      "range": {
+        "startLine": 28,
+        "startChar": 25,
+        "endLine": 28,
+        "endChar": 42
+      },
+      "revId": "97c8d7621840d1283e4498c634729a362315b2c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "12c5da5c_1566f4fe",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreData.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-01-28T15:39:18Z",
+      "side": 1,
+      "message": "Good suggestion for improvement and for fallow up patches. I\u0027m not really in favor of making this patch bigger...",
+      "parentUuid": "12179a8c_a5eebe29",
       "range": {
         "startLine": 28,
         "startChar": 25,

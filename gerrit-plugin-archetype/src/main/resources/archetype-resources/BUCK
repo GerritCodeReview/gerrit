@@ -1,0 +1,23 @@
+include_defs('//lib/maven.defs')
+
+API_VERSION = '${gerritApiVersion}'
+REPO = MAVEN_LOCAL
+
+gerrit_plugin(
+  name = '${pluginName}',
+  srcs = glob(['src/main/java/**/*.java']),
+  resources = glob(['src/main/resources/**/*']),
+  manifest_entries = [
+    'Gerrit-PluginName: ${pluginName}',
+    'Gerrit-Module: ${package}.Module',
+    'Gerrit-SshModule: ${package}.SshModule',
+    'Gerrit-HttpModule: ${package}.HttpModule',
+  ]
+)
+
+maven_jar(
+  name = 'plugin-lib',
+  id = 'com.google.gerrit:gerrit-plugin-api:' + API_VERSION,
+  repository = REPO,
+  license = 'Apache2.0',
+)

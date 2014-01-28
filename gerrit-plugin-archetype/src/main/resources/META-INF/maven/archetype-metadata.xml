@@ -58,12 +58,23 @@ limitations under the License.
       </includes>
     </fileSet>
 
+    <fileSet filtered="true">
+      <directory></directory>
+      <includes>
+        <include>.buckconfig</include>
+        <include>BUCK</include>
+        <include>VERSION</include>
+      </includes>
+    </fileSet>
+
     <fileSet>
       <directory></directory>
       <includes>
         <include>.gitignore</include>
         <include>.settings/*</include>
         <include>LICENSE</include>
+        <include>lib/*</include>
+        <include>tools/*</include>
       </includes>
     </fileSet>
   </fileSets>

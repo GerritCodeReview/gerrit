@@ -16,6 +16,7 @@ package com.google.gerrit.httpd;
 
 import com.google.common.cache.Cache;
 import com.google.gerrit.common.data.Capable;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AccessPath;
@@ -23,6 +24,7 @@ import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.cache.CacheModule;
+import com.google.gerrit.server.config.ReceivePackInitializer;
 import com.google.gerrit.server.git.AsyncReceiveCommits;
 import com.google.gerrit.server.git.ChangeCache;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -244,11 +246,14 @@ public class GitOverHttpServlet extends GitServlet {
   static class ReceiveFactory implements ReceivePackFactory<HttpServletRequest> {
     private final AsyncReceiveCommits.Factory factory;
     private final TransferConfig config;
+    private DynamicSet<ReceivePackInitializer> receivePackInitializers;
 
     @Inject
-    ReceiveFactory(AsyncReceiveCommits.Factory factory, TransferConfig config) {
+    ReceiveFactory(AsyncReceiveCommits.Factory factory, TransferConfig config,
+        DynamicSet<ReceivePackInitializer> receivePackInitializers) {
       this.factory = factory;
       this.config = config;
+      this.receivePackInitializers = receivePackInitializers;
     }
 
     @Override
@@ -267,8 +272,15 @@ public class GitOverHttpServlet extends GitServlet {
       rp.setRefLogIdent(user.newRefLogIdent());
       rp.setTimeout(config.getTimeout());
       rp.setMaxObjectSizeLimit(config.getMaxObjectSizeLimit());
+      init(pc.getProject().getNameKey(), rp);
       req.setAttribute(ATT_RC, rc);
       return rp;
+    }
+
+    private void init(Project.NameKey project, ReceivePack rp) {
+      for (ReceivePackInitializer initializer : receivePackInitializers) {
+        initializer.init(project, rp);
+      }
     }
   }
 

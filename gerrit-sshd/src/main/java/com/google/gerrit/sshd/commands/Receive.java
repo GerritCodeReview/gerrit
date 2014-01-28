@@ -15,8 +15,10 @@
 package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.common.data.Capable;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.config.ReceivePackInitializer;
 import com.google.gerrit.server.git.AsyncReceiveCommits;
 import com.google.gerrit.server.git.ReceiveCommits;
 import com.google.gerrit.server.git.TransferConfig;
@@ -59,6 +61,9 @@ final class Receive extends AbstractGitCommand {
   @Inject
   private TransferConfig config;
 
+  @Inject
+  private DynamicSet<ReceivePackInitializer> receivePackInitializers;
+
   private final Set<Account.Id> reviewerId = new HashSet<Account.Id>();
   private final Set<Account.Id> ccId = new HashSet<Account.Id>();
 
@@ -97,6 +102,7 @@ final class Receive extends AbstractGitCommand {
     rp.setTimeout(config.getTimeout());
     rp.setMaxObjectSizeLimit(config.getEffectiveMaxObjectSizeLimit(
         projectControl.getProjectState()));
+    init(rp);
     try {
       rp.receive(in, out, err);
     } catch (UnpackException badStream) {
@@ -160,6 +166,12 @@ final class Receive extends AbstractGitCommand {
 
       IOException detail = new IOException(msg.toString(), badStream);
       throw new Failure(128, "fatal: Unpack error, check server log", detail);
+    }
+  }
+
+  private void init(ReceivePack rp) {
+    for (ReceivePackInitializer initializer : receivePackInitializers) {
+      initializer.init(projectControl.getProject().getNameKey(), rp);
     }
   }
 

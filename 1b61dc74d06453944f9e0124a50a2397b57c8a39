@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "12c5da5c_35d21048",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Publish.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-28T23:21:40Z",
+      "side": 1,
+      "message": "Arrgs. Missed to check against allowDrafts here.",
+      "range": {
+        "startLine": 145,
+        "startChar": 20,
+        "endLine": 145,
+        "endChar": 48
+      },
+      "revId": "1b61dc74d06453944f9e0124a50a2397b57c8a39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

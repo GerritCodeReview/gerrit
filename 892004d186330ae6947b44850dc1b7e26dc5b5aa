@@ -34,6 +34,42 @@
       "revId": "892004d186330ae6947b44850dc1b7e26dc5b5aa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "12c5da5c_951cc482",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/ChangeStatusConstants.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-28T11:12:27Z",
+      "side": 1,
+      "message": "\u003e IMHO these are internal implementation details of the gwtorm implementation  \n \u003e and should not be part of the extension API. I\u0027d like to avoid this class, as well \n \u003e as the char field in ChangeStatus, leaking to callers.\n\nSo sometimes you just can\u0027t prevent having intermediate state of the code base. Think about NotesDB situation: parts of it already merged, but it\u0027s not activated for now. \n\nChangeStatusConstants.java is only for some time here and should be removed the day we migrate Change entity to NotesDB and drop Enum \u003c\u003d\u003e char gwtorm specific mapping. The Change footer line in NotesDB would just contain the name of ChangeStatus enum instance.\n\nThat have said, we have a vision how client/server/extensions code should be organized:\n\nThe whole Input and output container layer is going to move to extension API. Unchanged. There should be no class duplications and mapping between Server and extension API world. So the server code would change to be (note the package name of ChangeInfo) :\n\n  com.google.gerrit.extensions.common.ChangeInfo info \u003d changeJson.format(change);\n\nAnd the same in the implementation of the extension API (ChangeApiImpl [1]), see also these comments [2]:\n\n  @Override\n  public com.google.gerrit.extensions.common.ChangeInfo get(EnumSet\u003cListChangesOption\u003e options)\n      throws RestApiException {\n    try {\n      return changeJson.addOptions(options).format(change);\n    } catch (OrmException e) {\n      throw new RestApiException(\"Cannot retrieve change\", e);\n    }\n  }  com.google.gerrit.extensions.common.ChangeInfo info \u003d changeJson.format(change);\n\nThat\u0027s the vision. This change tries to minimize the types we need to copy/paste and map to achieve that. With move Change.Status to extension API (and unfortunately ChangeStatusConstants.java for now), we are only missing one type:\nAccount.Id to move the entire ChangeInfo object graph from gerrit-server to extension API.\n\n\u003e One way to do this is to leave the Change.Status enum and have an EnumBiMap between the public and private\n\u003e enum types.\n\nThe problem with this mapping approach, is that plugin side code is often handle both worlds: Server side change data: Change and Plugin API extension new ChangeInfo class:\n\n  com.google.gerrit.reviewdb.client.Change change \u003d …\n  change.getStatus() // would return private Change.Status instance \n  com.google.gerrit.extensions.common.ChangeInfo info \u003d\n    RevisionAPI.get(change);\n  info.getStatus() // would return different public ChangeStatus instance\n\nwith suggested mapping above, the same plugin side code would need to handle both enums: private and public.\nI think that require plugin developers to deal with both enum types: private and public is more serious drawback of plugin API then temporarily leaking of gwtorm internal enum \u003d\u003e char mapping.\n\nSo let me summarize:\n\nOne approach would be to extract Change.Status (this change) and live for a couple of months with ChangeStatusConstants, (we could move it to a sub-package internal or some such and document it as to be removed in the future) and remove it later in 2014, but move forward with unmapped change status in plugin API code.\n\nAnother approach is to extract Change.Status later, after migration of change entity to NotesDB, when the enum \u003d\u003e char mapping is not necessary any more and move forward with mapped Change.Status \u003d\u003e ChangeStatuc enums.\n\n* [1] https://gerrit-review.googlesource.com/#/c/54067/2/gerrit-server/src/main/java/com/google/gerrit/server/api/changes/ChangeApiImpl.java\n* [2] https://gerrit-review.googlesource.com/#/c/54067/2/gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ChangeDescription.java",
+      "parentUuid": "32f1fea2_aea7b7cd",
+      "revId": "892004d186330ae6947b44850dc1b7e26dc5b5aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2c12653_b440e051",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/ChangeStatusConstants.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-28T11:12:27Z",
+      "side": 1,
+      "message": "So why not to move forward with unmapped Change.Status for now, making the constant visible for very limited period and kill it later this year?\n\nWe always have to have in mind the implications of these two different approaches for the plugin developers:\n\n* Leaking of char constants: nobody cares, this class is ignored. After it is removed, no changes for plugin code that was created against this new API\n* Mapping Change.Status (prirvate) \u003c\u003d\u003e ChangeStatus (public) for now and dropping the mapping the day we don\u0027t need char constants and can extract Change.Stattus enum out of client/server code to extension API: the whole plugin side code must be adapted to this API change.",
+      "parentUuid": "7207f652_70ae50af",
+      "revId": "892004d186330ae6947b44850dc1b7e26dc5b5aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

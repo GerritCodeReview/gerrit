@@ -16,6 +16,29 @@
       "revId": "82d9efa82f7607bc5221fbe2ac5a326ca6db08b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2c12653_b412a071",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-28T09:06:05Z",
+      "side": 1,
+      "message": "As mentioned in comment to the previous ps, ProjectState cannot be null here (you can check it with\n\n  Preconditions.checkNotNull(ps);\n\nI would remove the line 409 entirely and just say here:\n\n  rp.setCheckReceivedObjects(ps.getConfig().getCheckReceivedObjects());",
+      "range": {
+        "startLine": 414,
+        "startChar": 31,
+        "endLine": 414,
+        "endChar": 51
+      },
+      "revId": "82d9efa82f7607bc5221fbe2ac5a326ca6db08b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

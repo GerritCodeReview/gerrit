@@ -26,6 +26,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.internal.storage.file.FileSnapshot;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
@@ -42,19 +43,25 @@ public class PluginConfigFactory implements ReloadPluginListener {
       LoggerFactory.getLogger(PluginConfigFactory.class);
 
   private final SitePaths site;
-  private final Config cfg;
+  private final GerritServerConfigProvider cfgProvider;
   private final ProjectCache projectCache;
   private final ProjectState.Factory projectStateFactory;
   private final Map<String, Config> pluginConfigs;
 
+  private volatile FileSnapshot cfgSnapshot;
+  private volatile Config cfg;
+
   @Inject
-  PluginConfigFactory(SitePaths site, @GerritServerConfig Config cfg,
+  PluginConfigFactory(SitePaths site, GerritServerConfigProvider cfgProvider,
       ProjectCache projectCache, ProjectState.Factory projectStateFactory) {
     this.site = site;
-    this.cfg = cfg;
+    this.cfgProvider = cfgProvider;
     this.projectCache = projectCache;
     this.projectStateFactory = projectStateFactory;
     this.pluginConfigs = Maps.newHashMap();
+
+    this.cfgSnapshot = FileSnapshot.save(site.gerrit_config);
+    this.cfg = cfgProvider.get();
   }
 
   /**
@@ -74,6 +81,31 @@ public class PluginConfigFactory implements ReloadPluginListener {
    * @return the plugin configuration from the 'gerrit.config' file
    */
   public PluginConfig getFromGerritConfig(String pluginName) {
+    return getFromGerritConfig(pluginName, false);
+  }
+
+  /**
+   * Returns the configuration for the specified plugin that is stored in the
+   * 'gerrit.config' file.
+   *
+   * The returned plugin configuration provides access to all parameters of the
+   * 'gerrit.config' file that are set in the 'plugin' subsection of the
+   * specified plugin.
+   *
+   * E.g.: [plugin "my-plugin"] myKey = myValue
+   *
+   * @param pluginName the name of the plugin for which the configuration should
+   *        be returned
+   * @param refresh if <code>true</code> it is checked if the 'gerrit.config'
+   *        file was modified and if yes the Gerrit configuration is reloaded,
+   *        if <code>false</code> the cached Gerrit configuration is used
+   * @return the plugin configuration from the 'gerrit.config' file
+   */
+  public PluginConfig getFromGerritConfig(String pluginName, boolean refresh) {
+    if (refresh && cfgSnapshot.isModified(site.gerrit_config)) {
+      cfgSnapshot = FileSnapshot.save(site.gerrit_config);
+      cfg = cfgProvider.get();
+    }
     return new PluginConfig(pluginName, cfg);
   }
 

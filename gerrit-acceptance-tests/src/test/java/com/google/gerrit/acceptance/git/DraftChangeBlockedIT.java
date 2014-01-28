@@ -20,7 +20,6 @@ import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.project.Util.grant;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.AccountCreator;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.SshSession;
 import com.google.gerrit.common.data.Permission;
@@ -42,9 +41,6 @@ import org.junit.Test;
 import java.io.IOException;
 
 public class DraftChangeBlockedIT extends AbstractDaemonTest {
-
-  @Inject
-  private AccountCreator accounts;
 
   @Inject
   private SchemaFactory<ReviewDb> reviewDbProvider;

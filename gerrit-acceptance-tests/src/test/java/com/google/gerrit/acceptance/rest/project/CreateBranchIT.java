@@ -27,7 +27,6 @@ import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
@@ -48,9 +47,6 @@ public class CreateBranchIT extends AbstractDaemonTest {
 
   @Inject
   private ProjectCache projectCache;
-
-  @Inject
-  private GroupCache groupCache;
 
   @Inject
   private AllProjectsNameProvider allProjects;

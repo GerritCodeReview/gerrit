@@ -14,26 +14,14 @@
 
 package ${package};
 
-import com.google.gerrit.extensions.annotations.PluginName;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.webui.TopMenu;
-import com.google.inject.Inject;
+import com.google.inject.AbstractModule;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-public class HelloMenu implements TopMenu {
-  private final List<MenuEntry> menuEntries;
-
-  @Inject
-  public HelloMenu(@PluginName String pluginName) {
-    menuEntries = new ArrayList<TopMenu.MenuEntry>();
-    menuEntries.add(new MenuEntry("Hello", Collections
-        .singletonList(new MenuItem("Hello Screen", "#/x/" + pluginName, ""))));
-  }
+public class Module extends AbstractModule {
 
   @Override
-  public List<MenuEntry> getEntries() {
-    return menuEntries;
+  protected void configure() {
+    DynamicSet.bind(binder(), TopMenu.class).to(HelloMenu.class);
   }
 }

@@ -25,7 +25,7 @@ limitations under the License.
   <name>${pluginName}</name>
 
   <properties>
-    <Gerrit-ApiType>extension</Gerrit-ApiType>
+    <Gerrit-ApiType>plugin</Gerrit-ApiType>
     <Gerrit-ApiVersion>${gerritApiVersion}</Gerrit-ApiVersion>
   </properties>
 
@@ -42,6 +42,8 @@ limitations under the License.
           <archive>
             <manifestEntries>
               <Gerrit-PluginName>${pluginName}</Gerrit-PluginName>
+              <Gerrit-Module>${package}.Module</Gerrit-Module>
+              <Gerrit-HttpModule>${package}.HttpModule</Gerrit-HttpModule>
               <Implementation-Vendor>${Implementation-Vendor}</Implementation-Vendor>
               <Implementation-URL>${Implementation-Url}</Implementation-URL>
 

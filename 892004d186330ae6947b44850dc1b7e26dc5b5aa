@@ -88,6 +88,24 @@
       "revId": "892004d186330ae6947b44850dc1b7e26dc5b5aa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "72ae1695_584a5d76",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/ChangeStatusConstants.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-28T18:01:42Z",
+      "side": 1,
+      "message": "Yes, that PrivateInternals_UiActionDescription exists. :-)\n\nWhat Dave Borowitz and I are worried about is someone seeing this in the extension API and thinking its OK to use, and then getting angry when we delete it. Using documentation and horrible naming conventions like PrivateInternals_* makes this less likely, as any user was given fair warning.\n\nI see your point about this class being an interim feature while we convert to notesdb. What Dave Borowitz was trying to suggest was make ChangeStatus enum with no char code, and keep Change.Status in gerrit-reviewdb with the char code, and use EnumBiMap inside of gerrit-server to setup the bidirectional mapping between these two enum types. We may only have a couple of locations that need to use the EnumBiMap to translate ChangeStatus\u003c-\u003eChange.Status. Then none of the char code stuff has to leak into the extension API at all.\n\nThe other alternative I think we could accept is to better document this is a private internal detail nobody should touch. E.g. PrivateInternals_ChangeStatusConstants with similar Javadoc like you quoted.",
+      "parentUuid": "f2c12653_3484d048",
+      "revId": "892004d186330ae6947b44850dc1b7e26dc5b5aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

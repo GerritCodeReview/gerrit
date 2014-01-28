@@ -487,6 +487,7 @@ public class ProjectInfoScreen extends ProjectScreen {
       infoImg.setTitle(param.description());
       p.add(new Label(getDisplayName(param)));
       p.add(infoImg);
+      p.add(new Label(":"));
       g.add(p, w);
     } else {
       g.add(getDisplayName(param), w);

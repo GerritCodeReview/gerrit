@@ -106,6 +106,24 @@
       "revId": "892004d186330ae6947b44850dc1b7e26dc5b5aa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "72ae1695_f83a51d5",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/ChangeStatusConstants.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-28T19:37:19Z",
+      "side": 1,
+      "message": "Right. The difference between the notedb stuff and this is that the extension API is a) a small surface area and b) supported for a longer period of time. So we need to think more carefully about what goes into it.\n\nI support putting ChangeStatus in the extension API. This is a good change. Let\u0027s just be careful about what that drags in.",
+      "parentUuid": "72ae1695_584a5d76",
+      "revId": "892004d186330ae6947b44850dc1b7e26dc5b5aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

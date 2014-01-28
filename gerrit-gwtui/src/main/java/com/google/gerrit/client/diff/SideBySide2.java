@@ -300,14 +300,14 @@ public class SideBySide2 extends Screen {
     cm.on("gutterClick", onGutterClick(cm));
     cm.on("focus", updateActiveLine(cm));
     cm.addKeyMap(KeyMap.create()
-        .on("'a'", upToChange(true))
-        .on("'u'", upToChange(false))
+        .on("A", upToChange(true))
+        .on("U", upToChange(false))
         .on("[", header.navigate(Direction.PREV))
         .on("]", header.navigate(Direction.NEXT))
-        .on("'r'", header.toggleReviewed())
-        .on("'o'", commentManager.toggleOpenBox(cm))
+        .on("R", header.toggleReviewed())
+        .on("O", commentManager.toggleOpenBox(cm))
         .on("Enter", commentManager.toggleOpenBox(cm))
-        .on("'c'", commentManager.insertNewDraft(cm))
+        .on("C", commentManager.insertNewDraft(cm))
         .on("N", maybeNextVimSearch(cm))
         .on("P", chunkManager.diffChunkNav(cm, Direction.PREV))
         .on("Shift-M", header.reviewedAndNext())
@@ -316,7 +316,7 @@ public class SideBySide2 extends Screen {
         .on("Shift-O", commentManager.openCloseAll(cm))
         .on("Shift-Left", moveCursorToSide(cm, DisplaySide.A))
         .on("Shift-Right", moveCursorToSide(cm, DisplaySide.B))
-        .on("'i'", new Runnable() {
+        .on("I", new Runnable() {
           public void run() {
             switch (getIntraLineStatus()) {
               case OFF:

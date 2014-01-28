@@ -50,6 +50,7 @@ import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.common.data.LabelTypes;
+import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicMap.Entry;
@@ -1177,6 +1178,15 @@ public class ReceiveCommits {
       reject(cmd, "project is read only");
       return;
     }
+
+    if (magicBranch.isDraft()
+        && projectControl.controlForRef("refs/drafts/" + ref)
+            .isBlocked(Permission.PUSH)) {
+      errors.put(Error.CODE_REVIEW, ref);
+      reject(cmd, "cannot upload drafts");
+      return;
+    }
+
     if (!magicBranch.ctl.canUpload()) {
       errors.put(Error.CODE_REVIEW, ref);
       reject(cmd, "cannot upload review");

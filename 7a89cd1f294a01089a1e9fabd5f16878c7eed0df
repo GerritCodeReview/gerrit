@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "52b3d2f9_d7739cb8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/MessageOfTheDayBar.ui.xml",
+        "patchSetId": 17
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-28T20:52:47Z",
+      "side": 1,
+      "message": "Instead of suffixes, I think we would prefer prefixes that namespace to logical portions of the code. motd_*, clippy_*, cs2_*, sbs2_*, etc.",
+      "range": {
+        "startLine": 22,
+        "startChar": 15,
+        "endLine": 22,
+        "endChar": 24
+      },
+      "revId": "7a89cd1f294a01089a1e9fabd5f16878c7eed0df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "52b3d2f9_b77628aa",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/MessageOfTheDayBar.ui.xml",
+        "patchSetId": 17
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-28T20:52:47Z",
+      "side": 1,
+      "message": "why are we using latin pig to mena our ssalc?",
+      "range": {
+        "startLine": 49,
+        "startChar": 5,
+        "endLine": 49,
+        "endChar": 16
+      },
+      "revId": "7a89cd1f294a01089a1e9fabd5f16878c7eed0df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

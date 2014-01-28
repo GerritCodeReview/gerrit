@@ -261,6 +261,30 @@
     },
     {
       "key": {
+        "uuid": "f2c12653_f47098ae",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Init.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-28T23:00:02Z",
+      "side": 1,
+      "message": "I disagree on this. It\u0027s fine if you repackage gerrit.war at CollabNet. Nobody else does. So if we can\u0027t or don\u0027t know how to consider plugins that not in gerrit.war to be checked fo secure stores during Init step, then remove the whole code that handle that.\n\nReally, there is no point at all to provide a code that only applies on patched gerrit.war, because nobody would ever do that.\n\nSo restrict this change only for the case, where secure store is initialized manually, in gerrit.config.\n\nOnce we know how to consider plugins outside from gerrit.war add this magic again.",
+      "parentUuid": "12c5da5c_55606cdf",
+      "range": {
+        "startLine": 118,
+        "startChar": 0,
+        "endLine": 122,
+        "endChar": 7
+      },
+      "revId": "2d86a7b377a7a98d478f65d8d0a46b323bef0d1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d24982a5_7bae1faf",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitSecureStore.java",
         "patchSetId": 12

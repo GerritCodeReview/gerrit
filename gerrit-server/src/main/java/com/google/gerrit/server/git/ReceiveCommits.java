@@ -1180,8 +1180,9 @@ public class ReceiveCommits {
     }
 
     if (magicBranch.isDraft()
-        && projectControl.controlForRef("refs/drafts/" + ref)
-            .isBlocked(Permission.PUSH)) {
+        && (!receiveConfig.allowDrafts
+            || projectControl.controlForRef("refs/drafts/" + ref)
+            .isBlocked(Permission.PUSH))) {
       errors.put(Error.CODE_REVIEW, ref);
       reject(cmd, "cannot upload drafts");
       return;

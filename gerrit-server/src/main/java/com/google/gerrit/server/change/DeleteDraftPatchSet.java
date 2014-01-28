@@ -26,6 +26,7 @@ import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.change.DeleteDraftPatchSet.Input;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -33,6 +34,8 @@ import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+
+import org.eclipse.jgit.lib.Config;
 
 import java.io.IOException;
 
@@ -44,14 +47,17 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
   protected final Provider<ReviewDb> dbProvider;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final ChangeUtil changeUtil;
+  private final boolean allowDrafts;
 
   @Inject
   public DeleteDraftPatchSet(Provider<ReviewDb> dbProvider,
       PatchSetInfoFactory patchSetInfoFactory,
-      ChangeUtil changeUtil) {
+      ChangeUtil changeUtil,
+      @GerritServerConfig Config cfg) {
     this.dbProvider = dbProvider;
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.changeUtil = changeUtil;
+    this.allowDrafts = cfg.getBoolean("change", "allowDrafts", true);
   }
 
   @Override
@@ -64,6 +70,10 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
 
     if (!patchSet.isDraft()) {
       throw new ResourceConflictException("Patch set is not a draft.");
+    }
+
+    if (!allowDrafts) {
+      throw new ResourceConflictException("Draft workflow is disabled.");
     }
 
     if (!rsrc.getControl().canDeleteDraft(dbProvider.get())) {
@@ -84,7 +94,8 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
       return new UiAction.Description()
         .setTitle(String.format("Delete draft revision %d",
             rsrc.getPatchSet().getPatchSetId()))
-        .setVisible(rsrc.getPatchSet().isDraft()
+        .setVisible(allowDrafts
+            && rsrc.getPatchSet().isDraft()
             && rsrc.getControl().canDeleteDraft(dbProvider.get())
             && psCount > 1);
     } catch (OrmException e) {

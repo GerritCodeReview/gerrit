@@ -24,11 +24,14 @@ import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.change.DeleteDraftChange.Input;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+
+import org.eclipse.jgit.lib.Config;
 
 import java.io.IOException;
 
@@ -39,13 +42,16 @@ public class DeleteDraftChange implements
 
   protected final Provider<ReviewDb> dbProvider;
   private final ChangeUtil changeUtil;
+  private final boolean allowDrafts;
 
   @Inject
   public DeleteDraftChange(Provider<ReviewDb> dbProvider,
       PatchSetInfoFactory patchSetInfoFactory,
-      ChangeUtil changeUtil) {
+      ChangeUtil changeUtil,
+      @GerritServerConfig Config cfg) {
     this.dbProvider = dbProvider;
     this.changeUtil = changeUtil;
+    this.allowDrafts = cfg.getBoolean("change", "allowDrafts", true);
   }
 
   @Override
@@ -58,6 +64,10 @@ public class DeleteDraftChange implements
 
     if (!rsrc.getControl().canDeleteDraft(dbProvider.get())) {
       throw new AuthException("Not permitted to delete this draft change");
+    }
+
+    if (!allowDrafts) {
+      throw new ResourceConflictException("Draft workflow is disabled.");
     }
 
     try {
@@ -75,7 +85,8 @@ public class DeleteDraftChange implements
       return new UiAction.Description()
         .setTitle(String.format("Delete draft change %d",
             rsrc.getChange().getChangeId()))
-        .setVisible(rsrc.getChange().getStatus() == Status.DRAFT
+        .setVisible(allowDrafts
+            && rsrc.getChange().getStatus() == Status.DRAFT
             && rsrc.getControl().canDeleteDraft(dbProvider.get()));
     } catch (OrmException e) {
       throw new IllegalStateException(e);

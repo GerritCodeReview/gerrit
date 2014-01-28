@@ -796,6 +796,13 @@ If 0 the update polling is disabled.
 +
 Default is 30 seconds.
 
+[[change.allowDrafts]]change.allowDrafts::
++
+Allow drafts workflow. If set to false, drafts cannot be created,
+deleted or published.
++
+Default is true.
+
 [[changeMerge]]
 === Section changeMerge
 

@@ -24,6 +24,7 @@ import org.eclipse.jgit.lib.Config;
 class ReceiveConfig {
   final boolean checkMagicRefs;
   final boolean checkReferencedObjectsAreReachable;
+  final boolean allowDrafts;
 
   @Inject
   ReceiveConfig(@GerritServerConfig Config config) {
@@ -32,6 +33,9 @@ class ReceiveConfig {
         true);
     checkReferencedObjectsAreReachable = config.getBoolean(
         "receive", null, "checkReferencedObjectsAreReachable",
+        true);
+    allowDrafts = config.getBoolean(
+        "change", null, "allowDrafts",
         true);
   }
 }

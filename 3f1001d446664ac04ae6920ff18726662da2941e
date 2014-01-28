@@ -34,6 +34,24 @@
       "revId": "3f1001d446664ac04ae6920ff18726662da2941e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "72ae1695_b840d951",
+        "filename": "gerrit-plugin-archetype/src/main/resources/archetype-resources/tools/download_file.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-28T19:35:42Z",
+      "side": 1,
+      "message": "Unfortunately if I understand the Maven archetype model correctly, it should be able to be used without doing a git (recursive) clone, so this file would still need to be in this location.\n\nWould it be better if this were a symlink? Then it would be automatically updated, including if we were to transition tools/ to be a symlink.",
+      "parentUuid": "f2c12653_54606cdf",
+      "revId": "3f1001d446664ac04ae6920ff18726662da2941e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

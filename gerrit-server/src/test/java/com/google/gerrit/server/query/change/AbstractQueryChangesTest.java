@@ -14,14 +14,13 @@
 
 package com.google.gerrit.server.query.change;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.concurrent.TimeUnit.DAYS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import com.google.common.base.Charsets;
 import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -681,10 +680,10 @@ public abstract class AbstractQueryChangesTest {
     if (key == null) {
       key = "I" + Hashing.sha1().newHasher()
           .putInt(id.get())
-          .putString(project.get(), Charsets.UTF_8)
-          .putString(commit.name(), Charsets.UTF_8)
+          .putString(project.get(), UTF_8)
+          .putString(commit.name(), UTF_8)
           .putInt(ownerId.get())
-          .putString(branch, Charsets.UTF_8)
+          .putString(branch, UTF_8)
           .hash()
           .toString();
     }

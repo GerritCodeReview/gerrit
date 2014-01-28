@@ -14,7 +14,8 @@
 
 package com.google.gerrit.server.account;
 
-import com.google.common.base.Charsets;
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import com.google.common.io.ByteSource;
 import com.google.gerrit.common.errors.InvalidSshKeyException;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -79,7 +80,7 @@ public class AddSshKey implements RestModifyView<AccountResource, Input> {
       public InputStream openStream() throws IOException {
         return rawKey.getInputStream();
       }
-    }.asCharSource(Charsets.UTF_8).read();
+    }.asCharSource(UTF_8).read();
 
     try {
       AccountSshKey sshKey =

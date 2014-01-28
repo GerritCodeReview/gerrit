@@ -14,7 +14,8 @@
 
 package com.google.gerrit.server.project;
 
-import com.google.common.base.Charsets;
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import com.google.gerrit.common.data.GarbageCollectionResult;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
@@ -58,7 +59,7 @@ public class GarbageCollect implements RestModifyView<ProjectResource, Input>,
       @Override
       public void writeTo(OutputStream out) throws IOException {
         PrintWriter writer = new PrintWriter(
-            new OutputStreamWriter(out, Charsets.UTF_8)) {
+            new OutputStreamWriter(out, UTF_8)) {
           @Override
           public void println() {
             write('\n');
@@ -94,7 +95,7 @@ public class GarbageCollect implements RestModifyView<ProjectResource, Input>,
         }
       }
     }.setContentType("text/plain")
-     .setCharacterEncoding(Charsets.UTF_8.name())
+     .setCharacterEncoding(UTF_8.name())
      .disableGzip();
   }
 

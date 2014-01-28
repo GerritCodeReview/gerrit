@@ -14,7 +14,8 @@
 
 package com.google.gerrit.server.project;
 
-import com.google.common.base.Charsets;
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableList;
@@ -30,8 +31,8 @@ import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.Project.InheritableBoolean;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.rules.PrologEnvironment;
 import com.google.gerrit.rules.RulesCache;
 import com.google.gerrit.server.CurrentUser;
@@ -482,7 +483,7 @@ public class ProjectState {
   }
 
   private String readFile(File f) throws IOException {
-    return f.exists() ? Files.toString(f, Charsets.UTF_8) : null;
+    return f.exists() ? Files.toString(f, UTF_8) : null;
   }
 
   private boolean getInheritableBoolean(Function<Project, InheritableBoolean> func) {

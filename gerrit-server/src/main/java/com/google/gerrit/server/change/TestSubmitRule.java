@@ -14,7 +14,8 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.common.base.Charsets;
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.base.Objects;
@@ -98,7 +99,7 @@ public class TestSubmitRule implements RestModifyView<RevisionResource, Input> {
         "locate_submit_filter", "filter_submit_results",
         input.filters == Filters.SKIP,
         input.rule != null
-          ? new ByteArrayInputStream(input.rule.getBytes(Charsets.UTF_8))
+          ? new ByteArrayInputStream(input.rule.getBytes(UTF_8))
           : null);
 
     List<Term> results;

@@ -14,7 +14,8 @@
 
 package com.google.gerrit.server.mail;
 
-import com.google.common.base.Charsets;
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import com.google.gerrit.common.data.ParameterizedString;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -179,7 +180,7 @@ public class FromAddressGeneratorProvider implements
   private static String hashOf(String data) {
     try {
       MessageDigest hash = MessageDigest.getInstance("MD5");
-      byte[] bytes = hash.digest(data.getBytes(Charsets.UTF_8));
+      byte[] bytes = hash.digest(data.getBytes(UTF_8));
       return Base64.encodeBase64URLSafeString(bytes);
     } catch (NoSuchAlgorithmException e) {
       throw new RuntimeException("No MD5 available", e);

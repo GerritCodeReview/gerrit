@@ -14,9 +14,10 @@
 
 package com.google.gerrit.httpd.restapi;
 
-import static com.google.common.base.Charsets.UTF_8;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static java.math.RoundingMode.CEILING;
+import static java.nio.charset.StandardCharsets.ISO_8859_1;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 import static javax.servlet.http.HttpServletResponse.SC_CONFLICT;
 import static javax.servlet.http.HttpServletResponse.SC_CREATED;
@@ -28,7 +29,6 @@ import static javax.servlet.http.HttpServletResponse.SC_NOT_MODIFIED;
 import static javax.servlet.http.HttpServletResponse.SC_OK;
 import static javax.servlet.http.HttpServletResponse.SC_PRECONDITION_FAILED;
 
-import com.google.common.base.Charsets;
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.base.Objects;
@@ -737,7 +737,7 @@ public class RestApiServlet extends HttpServlet {
         @Override
         public void writeTo(OutputStream out) throws IOException {
           OutputStream e = BaseEncoding.base64().encodingStream(
-              new OutputStreamWriter(out, Charsets.ISO_8859_1));
+              new OutputStreamWriter(out, ISO_8859_1));
           src.writeTo(e);
           e.flush();
         }
@@ -957,7 +957,7 @@ public class RestApiServlet extends HttpServlet {
     int max = 4 * IntMath.divide((int) bin.getContentLength(), 3, CEILING);
     TemporaryBuffer.Heap buf = heap(max);
     OutputStream encoded = BaseEncoding.base64().encodingStream(
-        new OutputStreamWriter(buf, Charsets.ISO_8859_1));
+        new OutputStreamWriter(buf, ISO_8859_1));
     bin.writeTo(encoded);
     encoded.close();
     return asBinaryResult(buf);

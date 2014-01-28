@@ -14,7 +14,8 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.common.base.Charsets;
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import com.google.common.base.Objects;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -78,7 +79,7 @@ public class TestSubmitType implements RestModifyView<RevisionResource, Input> {
         "locate_submit_type_filter", "filter_submit_type_results",
         input.filters == Filters.SKIP,
         input.rule != null
-          ? new ByteArrayInputStream(input.rule.getBytes(Charsets.UTF_8))
+          ? new ByteArrayInputStream(input.rule.getBytes(UTF_8))
           : null);
 
     List<Term> results;

@@ -422,6 +422,11 @@ public class ProjectInfoScreen extends ProjectScreen {
       infoImg.setTitle(param.description());
       p.add(infoImg);
     }
+    if (param.warning() != null) {
+      Image warningImg = new Image(Gerrit.RESOURCES.warning());
+      warningImg.setTitle(param.warning());
+      p.add(warningImg);
+    }
     g.add((String)null, p);
     saveEnabler.listenTo(checkBox);
     return checkBox;
@@ -481,12 +486,19 @@ public class ProjectInfoScreen extends ProjectScreen {
   }
 
   private void addWidget(LabeledWidgetsGrid g, Widget w, ConfigParameterInfo param) {
-    if (param.description() != null) {
+    if (param.description() != null || param.warning() != null) {
       HorizontalPanel p = new HorizontalPanel();
-      Image infoImg = new Image(Gerrit.RESOURCES.info());
-      infoImg.setTitle(param.description());
       p.add(new Label(getDisplayName(param)));
-      p.add(infoImg);
+      if (param.description() != null) {
+        Image infoImg = new Image(Gerrit.RESOURCES.info());
+        infoImg.setTitle(param.description());
+        p.add(infoImg);
+      }
+      if (param.warning() != null) {
+        Image warningImg = new Image(Gerrit.RESOURCES.warning());
+        warningImg.setTitle(param.warning());
+        p.add(warningImg);
+      }
       p.add(new Label(":"));
       g.add(p, w);
     } else {

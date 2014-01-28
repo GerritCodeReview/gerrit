@@ -1296,6 +1296,8 @@ parameter.
 The display name of the configuration parameter.
 |`description`     |optional|
 The description of the configuration parameter.
+|`warning`         |optional|
+Warning message for the configuration parameter.
 |`type`            ||
 The type of the configuration parameter, can be `STRING`, `INT`,
 `LONG`, `BOOLEAN` or `LIST`.

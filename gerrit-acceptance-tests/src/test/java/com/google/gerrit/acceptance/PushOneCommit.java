@@ -39,7 +39,10 @@ import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.errors.ConcurrentRefUpdateException;
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.api.errors.InvalidTagNameException;
+import org.eclipse.jgit.api.errors.NoHeadException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -130,6 +133,18 @@ public class PushOneCommit {
   public Result to(Git git, String ref)
       throws GitAPIException, IOException {
     add(git, fileName, content);
+    return execute(git, ref);
+  }
+
+  public Result rm(Git git, String ref)
+      throws GitAPIException, IOException {
+    GitUtil.rm(git, fileName);
+    return execute(git, ref);
+  }
+
+  private Result execute(Git git, String ref) throws GitAPIException,
+      IOException, ConcurrentRefUpdateException, InvalidTagNameException,
+      NoHeadException {
     Commit c;
     if (changeId != null) {
       c = amendCommit(git, i, subject, changeId);

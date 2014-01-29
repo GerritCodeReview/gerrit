@@ -14,18 +14,22 @@
 
 package ${package}.client;
 
-import com.google.gerrit.plugin.client.Plugin;
-import com.google.gerrit.plugin.client.PluginEntryPoint;
+import com.google.gerrit.plugin.client.screen.Screen;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
-import ${package}.client.HelloScreen;
+public class HelloScreen extends VerticalPanel {
 
-/**
- * HelloWorld Plugin.
- */
-public class HelloPlugin extends PluginEntryPoint {
+  static class Factory implements Screen.EntryPoint {
+    @Override
+    public void onLoad(Screen screen) {
+      screen.setPageTitle("Hello");
+      screen.show(new HelloScreen());
+    }
+  }
 
-  @Override
-  public void onPluginLoad() {
-    Plugin.get().screen("", new HelloScreen.Factory());
+  HelloScreen() {
+    setStyleName("hello-panel");
+    add(new Label("Hello World Screen"));
   }
 }

@@ -14,12 +14,16 @@
 
 package ${package};
 
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.webui.GwtPlugin;
-import com.google.gerrit.extensions.annotations.Listen;
+import com.google.gerrit.extensions.webui.WebUiPlugin;
+import com.google.gerrit.httpd.plugins.HttpPluginModule;
 
-@Listen
-public class MyExtension extends GwtPlugin {
-  public MyExtension() {
-    super("hello_gwt_plugin");
+public class HttpModule extends HttpPluginModule {
+
+  @Override
+  protected void configureServlets() {
+    DynamicSet.bind(binder(), WebUiPlugin.class)
+        .toInstance(new GwtPlugin("hello_gwt_plugin"));
   }
 }

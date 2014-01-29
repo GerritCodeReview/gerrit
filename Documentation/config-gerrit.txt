@@ -796,12 +796,32 @@ If 0 the update polling is disabled.
 +
 Default is 30 seconds.
 
-[[change.allowDrafts]]change.allowDrafts::
+[[change.reworkStrategy]]change.reworkStrategy::
 +
-Allow drafts workflow. If set to false, drafts cannot be created,
-deleted or published.
+Rework strategy. Gerrit supports two different change rework workflows:
 +
-Default is true.
+* DRAFT
+* WIP
+
++
+DRAFT:
++
+drafts are push to a special refs: `refs/drafts` and are only visible to
+reviewer that was explicitly added to review the draft. Draft changes
+can be deleted or published. Once draft change is published, draft become
+a normal change. This operation cannot be undone.
+
++
+WIP:
++
+Also known as work in progress. Changes pushed as usually to `refs/for` and
+not to `refs/drafts` and are visible for all users. The state of a change
+can be toggled as ready (Change.Status.NEW) or wip (Change.Satus.DRAFT).
+This has only one consequence: when in status WIP, this change is filtered
+out from reviewers dashboard. The toggling of change state between ready
+and wip can be repeated multiple time.
++
+Default is DRAFT.
 
 [[changeMerge]]
 === Section changeMerge

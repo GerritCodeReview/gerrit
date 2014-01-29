@@ -65,7 +65,7 @@ public class Publish implements RestModifyView<RevisionResource, Input>,
     this.sender = sender;
     this.hooks = hooks;
     this.indexer = indexer;
-    this.allowDrafts = cfg.getBoolean("change", "allowDrafts", true);
+    this.allowDrafts = ReworkStrategy.isDraft(cfg);
   }
 
   @Override
@@ -142,7 +142,8 @@ public class Publish implements RestModifyView<RevisionResource, Input>,
       return new UiAction.Description()
         .setTitle(String.format("Publish revision %d",
             rsrc.getPatchSet().getPatchSetId()))
-        .setVisible(rsrc.getPatchSet().isDraft()
+        .setVisible(allowDrafts
+            && rsrc.getPatchSet().isDraft()
             && rsrc.getPatchSet().getId().equals(current)
             && rsrc.getControl().canPublish(dbProvider.get()));
     } catch (OrmException e) {

@@ -22,12 +22,12 @@ import com.google.gwtorm.server.OrmException;
 
 class ReviewerPredicate extends IndexPredicate<ChangeData> {
   private final Account.Id id;
-  private boolean allowDrafts;
+  private boolean filterDrafts;
 
-  ReviewerPredicate(Account.Id id, boolean allowDrafts) {
+  ReviewerPredicate(Account.Id id, boolean filterDrafts) {
     super(ChangeField.REVIEWER, id.toString());
     this.id = id;
-    this.allowDrafts = allowDrafts;
+    this.filterDrafts = filterDrafts;
   }
 
   Account.Id getAccountId() {
@@ -36,7 +36,7 @@ class ReviewerPredicate extends IndexPredicate<ChangeData> {
 
   @Override
   public boolean match(final ChangeData object) throws OrmException {
-    if (!allowDrafts &&
+    if (filterDrafts &&
         object.change().getStatus() == Change.Status.DRAFT) {
       return false;
     }

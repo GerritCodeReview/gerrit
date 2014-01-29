@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.git;
 
+import com.google.gerrit.server.change.ReworkStrategy;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -34,8 +35,6 @@ class ReceiveConfig {
     checkReferencedObjectsAreReachable = config.getBoolean(
         "receive", null, "checkReferencedObjectsAreReachable",
         true);
-    allowDrafts = config.getBoolean(
-        "change", null, "allowDrafts",
-        true);
+    allowDrafts = ReworkStrategy.isDraft(config);
   }
 }

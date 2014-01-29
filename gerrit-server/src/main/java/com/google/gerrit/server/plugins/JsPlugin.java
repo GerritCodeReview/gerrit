@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.plugins;
 
+import com.google.common.base.Optional;
+import com.google.common.collect.Maps;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -28,10 +30,48 @@ import com.google.inject.Injector;
 import org.eclipse.jgit.internal.storage.file.FileSnapshot;
 
 import java.io.File;
-import java.util.jar.JarFile;
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.annotation.Annotation;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.Map;
+import java.util.jar.Manifest;
 
 class JsPlugin extends Plugin {
+
+  private static class EmptyPluginScanner implements PluginContentScanner {
+    @Override
+    public Manifest getManifest() {
+      return null;
+    }
+
+    @Override
+    public Map<Class<? extends Annotation>, Iterable<ExtensionMetaData>> scan(
+        String pluginName, Iterable<Class<? extends Annotation>> annotations)
+        throws InvalidPluginException {
+      return Maps.newHashMap();
+    }
+
+    @Override
+    public <T> Optional<T> getResource(String resourcePath, Class<? extends T> resourceClass) {
+      return Optional.absent();
+    }
+
+    @Override
+    public <T> Enumeration<T> resources(Class<? extends T> resourceClass) {
+      return Collections.emptyEnumeration();
+    }
+
+    @Override
+    public Optional<InputStream> getResourceInputStream(String resourcePath)
+        throws IOException {
+      return Optional.absent();
+    }
+  }
+
   private Injector httpInjector;
+  private static final EmptyPluginScanner EMPTY_SCANNER = new EmptyPluginScanner();
 
   JsPlugin(String name, File srcFile, PluginUser pluginUser,
       FileSnapshot snapshot) {
@@ -39,7 +79,6 @@ class JsPlugin extends Plugin {
   }
 
   @Override
-  @Nullable
   public String getVersion() {
     String fileName = getSrcFile().getName();
     int firstDash = fileName.indexOf("-");
@@ -64,11 +103,6 @@ class JsPlugin extends Plugin {
       manager.stop();
       httpInjector = null;
     }
-  }
-
-  @Override
-  public JarFile getJarFile() {
-    return null;
   }
 
   @Override
@@ -108,5 +142,12 @@ class JsPlugin extends Plugin {
       DynamicSet.bind(binder(), WebUiPlugin.class).toInstance(
           new JavaScriptPlugin(fileName));
     }
+  }
+
+
+
+  @Override
+  public PluginContentScanner getScanner() {
+    return EMPTY_SCANNER;
   }
 }

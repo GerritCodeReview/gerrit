@@ -29,7 +29,6 @@ import java.io.File;
 import java.util.Collections;
 import java.util.List;
 import java.util.jar.Attributes;
-import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 
 public abstract class Plugin {
@@ -124,7 +123,7 @@ public abstract class Plugin {
 
   abstract void stop(PluginGuiceEnvironment env);
 
-  public abstract JarFile getJarFile();
+  public abstract PluginContentScanner getScanner();
 
   public abstract Injector getSysInjector();
 

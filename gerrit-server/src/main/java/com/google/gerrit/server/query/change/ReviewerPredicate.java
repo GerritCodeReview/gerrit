@@ -15,16 +15,19 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.index.ChangeField;
 import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gwtorm.server.OrmException;
 
 class ReviewerPredicate extends IndexPredicate<ChangeData> {
   private final Account.Id id;
+  private boolean allowDrafts;
 
-  ReviewerPredicate(Account.Id id) {
+  ReviewerPredicate(Account.Id id, boolean allowDrafts) {
     super(ChangeField.REVIEWER, id.toString());
     this.id = id;
+    this.allowDrafts = allowDrafts;
   }
 
   Account.Id getAccountId() {
@@ -33,6 +36,10 @@ class ReviewerPredicate extends IndexPredicate<ChangeData> {
 
   @Override
   public boolean match(final ChangeData object) throws OrmException {
+    if (!allowDrafts &&
+        object.change().getStatus() == Change.Status.DRAFT) {
+      return false;
+    }
     for (Account.Id accountId : object.reviewers().values()) {
       if (id.equals(accountId)) {
         return true;

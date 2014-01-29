@@ -54,6 +54,7 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -90,6 +91,7 @@ public class PluginLoader implements LifecycleListener {
   private final Provider<PluginCleanerTask> cleaner;
   private final PluginScannerThread scanner;
   private final Provider<String> urlProvider;
+  private final ScriptingPlugin.Factory scriptingPluginFactory;
 
   @Inject
   public PluginLoader(SitePaths sitePaths,
@@ -98,7 +100,8 @@ public class PluginLoader implements LifecycleListener {
       PluginUser.Factory puf,
       Provider<PluginCleanerTask> pct,
       @GerritServerConfig Config cfg,
-      @CanonicalWebUrl Provider<String> provider) {
+      @CanonicalWebUrl Provider<String> provider,
+      ScriptingPlugin.Factory spFactory) {
     pluginsDir = sitePaths.plugins_dir;
     dataDir = sitePaths.data_dir;
     tmpDir = sitePaths.tmp_dir;
@@ -112,6 +115,8 @@ public class PluginLoader implements LifecycleListener {
     cleanupHandles = Maps.newConcurrentMap();
     cleaner = pct;
     urlProvider = provider;
+    scriptingPluginFactory = spFactory;
+
 
     long checkFrequency = ConfigUtil.getTimeUnit(cfg,
         "plugins", null, "checkFrequency",
@@ -505,7 +510,7 @@ public class PluginLoader implements LifecycleListener {
       }
       return loadJarPlugin(name, srcPlugin, snapshot, tmp);
     } else if (isJsPlugin(pluginName)) {
-      return loadJsPlugin(name, srcPlugin, snapshot);
+      return loadScriptingPlugin(name, srcPlugin, snapshot);
     } else {
       throw new InvalidPluginException(String.format(
           "Unsupported plugin type: %s", srcPlugin.getName()));
@@ -571,8 +576,8 @@ public class PluginLoader implements LifecycleListener {
     }
   }
 
-  private Plugin loadJsPlugin(String name, File srcJar, FileSnapshot snapshot) {
-    return new JsPlugin(name, srcJar, pluginUserFactory.create(name), snapshot);
+  private Plugin loadScriptingPlugin(String name, File scriptFile, FileSnapshot snapshot) {
+    return scriptingPluginFactory.get(name, scriptFile, pluginUserFactory.create(name), snapshot);
   }
 
   private static ClassLoader parentFor(Plugin.ApiType type)
@@ -582,8 +587,8 @@ public class PluginLoader implements LifecycleListener {
         return PluginName.class.getClassLoader();
       case PLUGIN:
         return PluginLoader.class.getClassLoader();
-      case JS:
-        return JavaScriptPlugin.class.getClassLoader();
+      case SCRIPTING:
+        return ScriptingPlugin.class.getClassLoader();
       default:
         throw new InvalidPluginException("Unsupported ApiType " + type);
     }

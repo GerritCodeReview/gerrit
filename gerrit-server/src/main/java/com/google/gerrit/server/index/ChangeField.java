@@ -215,7 +215,7 @@ public class ChangeField {
         public Iterable<Integer> get(ChangeData input, FillArgs args)
             throws OrmException {
           Set<Integer> r = Sets.newHashSet();
-          if (!args.allowsDrafts &&
+          if (args.filterDrafts &&
               input.change().getStatus() == Change.Status.DRAFT) {
             return r;
           }

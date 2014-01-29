@@ -14,99 +14,49 @@
 
 package com.google.gerrit.server.plugins;
 
-import com.google.gerrit.common.Nullable;
-import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.webui.JavaScriptPlugin;
 import com.google.gerrit.extensions.webui.WebUiPlugin;
-import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.server.PluginUser;
 import com.google.inject.AbstractModule;
-import com.google.inject.Guice;
-import com.google.inject.Injector;
 
 import org.eclipse.jgit.internal.storage.file.FileSnapshot;
 
 import java.io.File;
-import java.util.jar.JarFile;
 
-class JsPlugin extends Plugin {
-  private Injector httpInjector;
+class JsPlugin extends ScriptingPlugin {
+  private static final String JS_EXTENSION = "js";
 
-  JsPlugin(String name, File srcFile, PluginUser pluginUser,
-      FileSnapshot snapshot) {
-    super(name, srcFile, pluginUser, snapshot, ApiType.JS);
-  }
+  public static class Factory implements ScriptingPlugin.Factory {
 
-  @Override
-  @Nullable
-  public String getVersion() {
-    String fileName = getSrcFile().getName();
-    int firstDash = fileName.indexOf("-");
-    if (firstDash > 0) {
-      return fileName.substring(firstDash + 1, fileName.lastIndexOf(".js"));
-    }
-    return "";
-  }
-
-  @Override
-  public void start(PluginGuiceEnvironment env) throws Exception {
-    manager = new LifecycleManager();
-    String fileName = getSrcFile().getName();
-    httpInjector =
-        Guice.createInjector(new StandaloneJsPluginModule(getName(), fileName));
-    manager.start();
-  }
-
-  @Override
-  void stop(PluginGuiceEnvironment env) {
-    if (manager != null) {
-      manager.stop();
-      httpInjector = null;
-    }
-  }
-
-  @Override
-  public JarFile getJarFile() {
-    return null;
-  }
-
-  @Override
-  public Injector getSysInjector() {
-    return null;
-  }
-
-  @Override
-  @Nullable
-  public Injector getSshInjector() {
-    return null;
-  }
-
-  @Override
-  @Nullable
-  public Injector getHttpInjector() {
-    return httpInjector;
-  }
-
-  @Override
-  boolean canReload() {
-    return true;
-  }
-
-  private static final class StandaloneJsPluginModule extends AbstractModule {
-    private final String fileName;
-    private final String pluginName;
-
-    StandaloneJsPluginModule(String pluginName, String fileName) {
-      this.pluginName = pluginName;
-      this.fileName = fileName;
+    @Override
+    public ScriptingPlugin get(String name, File srcFile,
+        PluginUser pluginUser, FileSnapshot snapshot) {
+      return new JsPlugin(name, srcFile, pluginUser, snapshot);
     }
 
     @Override
-    protected void configure() {
-      bind(String.class).annotatedWith(PluginName.class).toInstance(pluginName);
-      DynamicSet.bind(binder(), WebUiPlugin.class).toInstance(
-          new JavaScriptPlugin(fileName));
+    public boolean isMyScriptExtension(String scriptExtension) {
+      return scriptExtension.equalsIgnoreCase(JS_EXTENSION);
     }
+
+  }
+
+  JsPlugin(String name, File srcFile, PluginUser pluginUser,
+      FileSnapshot snapshot) {
+    super(name, srcFile, pluginUser, snapshot);
+  }
+
+  @Override
+  protected AbstractModule getModule() {
+    return new AbstractModule() {
+
+      @Override
+      protected void configure() {
+        install(JsPlugin.super.getModule());
+        DynamicSet.bind(binder(), WebUiPlugin.class).toInstance(
+            new JavaScriptPlugin(getSrcFile().getName()));
+      }
+    };
   }
 }

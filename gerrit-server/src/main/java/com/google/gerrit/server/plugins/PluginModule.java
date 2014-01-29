@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.plugins;
 
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.systemstatus.ServerInformation;
 import com.google.gerrit.lifecycle.LifecycleModule;
 
@@ -28,5 +29,8 @@ public class PluginModule extends LifecycleModule {
     bind(PluginLoader.class);
     bind(CopyConfigModule.class);
     listener().to(PluginLoader.class);
+
+    DynamicSet.setOf(binder(), ScriptingPlugin.Factory.class);
+    DynamicSet.bind(binder(), ScriptingPlugin.Factory.class).to(JsPlugin.Factory.class);
   }
 }

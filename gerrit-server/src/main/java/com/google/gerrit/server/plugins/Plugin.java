@@ -34,7 +34,7 @@ import java.util.jar.Manifest;
 
 public abstract class Plugin {
   public static enum ApiType {
-    EXTENSION, PLUGIN, JS
+    EXTENSION, PLUGIN, SCRIPTING
   }
 
   /** Unique key that changes whenever a plugin reloads. */
@@ -60,8 +60,8 @@ public abstract class Plugin {
       return ApiType.EXTENSION;
     } else if (ApiType.PLUGIN.name().equalsIgnoreCase(v)) {
       return ApiType.PLUGIN;
-    } else if (ApiType.JS.name().equalsIgnoreCase(v)) {
-      return ApiType.JS;
+    } else if (ApiType.SCRIPTING.name().equalsIgnoreCase(v)) {
+      return ApiType.SCRIPTING;
     } else {
       throw new InvalidPluginException("Invalid Gerrit-ApiType: " + v);
     }

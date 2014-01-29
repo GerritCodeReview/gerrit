@@ -30,6 +30,7 @@ import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupBackends;
+import com.google.gerrit.server.change.ReworkStrategy;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.TrackingFooters;
@@ -163,7 +164,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     final SubmitStrategyFactory submitStrategyFactory;
     final ConflictsCache conflictsCache;
     final TrackingFooters trackingFooters;
-    final boolean allowsDrafts;
+    final boolean filterDrafts;
 
     @Inject
     @VisibleForTesting
@@ -204,9 +205,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       this.submitStrategyFactory = submitStrategyFactory;
       this.conflictsCache = conflictsCache;
       this.trackingFooters = trackingFooters;
-      this.allowsDrafts = cfg == null
-          ? true
-          : cfg.getBoolean("change", "allowDrafts", true);
+      this.filterDrafts = ReworkStrategy.isWip(cfg);
     }
   }
 
@@ -312,7 +311,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     }
 
     if ("reviewer".equalsIgnoreCase(value)) {
-      return new ReviewerPredicate(self(), args.allowsDrafts);
+      return new ReviewerPredicate(self(), args.filterDrafts);
     }
 
     if ("mergeable".equalsIgnoreCase(value)) {
@@ -588,7 +587,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     Set<Account.Id> m = parseAccount(who);
     List<ReviewerPredicate> p = Lists.newArrayListWithCapacity(m.size());
     for (Account.Id id : m) {
-      p.add(new ReviewerPredicate(id, args.allowsDrafts));
+      p.add(new ReviewerPredicate(id, args.filterDrafts));
     }
     return Predicate.or(p);
   }

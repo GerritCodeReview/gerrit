@@ -67,11 +67,6 @@ class JsPlugin extends Plugin {
   }
 
   @Override
-  public JarFile getJarFile() {
-    return null;
-  }
-
-  @Override
   public Injector getSysInjector() {
     return null;
   }
@@ -108,5 +103,10 @@ class JsPlugin extends Plugin {
       DynamicSet.bind(binder(), WebUiPlugin.class).toInstance(
           new JavaScriptPlugin(fileName));
     }
+  }
+
+  @Override
+  public PluginContentScanner getContentScanner() {
+    return PluginContentScanner.EMPTY;
   }
 }

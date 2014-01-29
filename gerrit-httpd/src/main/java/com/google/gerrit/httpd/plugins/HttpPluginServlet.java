@@ -29,6 +29,7 @@ import com.google.gerrit.server.documentation.MarkdownFormatter;
 import com.google.gerrit.server.plugins.Plugin;
 import com.google.gerrit.server.plugins.PluginsCollection;
 import com.google.gerrit.server.plugins.ReloadPluginListener;
+import com.google.gerrit.server.plugins.ServerPlugin;
 import com.google.gerrit.server.plugins.StartPluginListener;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gwtexpui.server.CacheHeaders;
@@ -268,7 +269,7 @@ class HttpPluginServlet extends HttpServlet
     }
 
     if (file.startsWith(holder.staticPrefix)) {
-      JarFile jar = holder.plugin.getJarFile();
+      JarFile jar = jarFileOf(holder.plugin);
       if (jar != null) {
         JarEntry entry = jar.getJarEntry(file);
         if (exists(entry)) {
@@ -286,7 +287,7 @@ class HttpPluginServlet extends HttpServlet
     } else if (file.startsWith(holder.docPrefix) && file.endsWith("/")) {
       res.sendRedirect(uri + "index.html");
     } else if (file.startsWith(holder.docPrefix)) {
-      JarFile jar = holder.plugin.getJarFile();
+      JarFile jar = jarFileOf(holder.plugin);
       JarEntry entry = jar.getJarEntry(file);
       if (!exists(entry)) {
         entry = findSource(jar, file);
@@ -632,6 +633,14 @@ class HttpPluginServlet extends HttpServlet
     return data;
   }
 
+  private static JarFile jarFileOf(Plugin plugin) {
+    if(plugin instanceof ServerPlugin) {
+      return ((ServerPlugin) plugin).getJarFile();
+    } else {
+      return null;
+    }
+  }
+
   private static class PluginHolder {
     final Plugin plugin;
     final GuiceFilter filter;
@@ -648,7 +657,7 @@ class HttpPluginServlet extends HttpServlet
     }
 
     private static String getPrefix(Plugin plugin, String attr, String def) {
-      JarFile jarFile = plugin.getJarFile();
+      JarFile jarFile = jarFileOf(plugin);
       if (jarFile == null) {
         return def;
       }

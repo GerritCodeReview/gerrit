@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.plugins;
 
+import com.google.common.collect.Maps;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -28,9 +29,15 @@ import com.google.inject.Injector;
 import org.eclipse.jgit.internal.storage.file.FileSnapshot;
 
 import java.io.File;
-import java.util.jar.JarFile;
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.annotation.Annotation;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.Map;
+import java.util.jar.Manifest;
 
-class JsPlugin extends Plugin {
+class JsPlugin extends Plugin implements PluginScanner {
   private Injector httpInjector;
 
   JsPlugin(String name, File srcFile, PluginUser pluginUser,
@@ -64,11 +71,6 @@ class JsPlugin extends Plugin {
       manager.stop();
       httpInjector = null;
     }
-  }
-
-  @Override
-  public JarFile getJarFile() {
-    return null;
   }
 
   @Override
@@ -108,5 +110,38 @@ class JsPlugin extends Plugin {
       DynamicSet.bind(binder(), WebUiPlugin.class).toInstance(
           new JavaScriptPlugin(fileName));
     }
+  }
+
+  @Override
+  public Manifest getManifest() {
+    return null;
+  }
+
+  @Override
+  public Map<Class<? extends Annotation>, Iterable<ExtensionMetaData>> scan(
+      String pluginName, Iterable<Class<? extends Annotation>> annotations)
+      throws InvalidPluginException {
+    return Maps.newHashMap();
+  }
+
+  @Override
+  public <T> T getResource(String resourcePath, Class<? extends T> resourceClass) {
+    return null;
+  }
+
+  @Override
+  public <T> Enumeration<T> resources(Class<? extends T> resourceClass) {
+    return Collections.emptyEnumeration();
+  }
+
+  @Override
+  public InputStream getResourceInputStream(String resourcePath)
+      throws IOException {
+    return null;
+  }
+
+  @Override
+  public PluginScanner getScanner() {
+    return this;
   }
 }

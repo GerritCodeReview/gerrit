@@ -35,9 +35,9 @@ import com.google.inject.ProvisionException;
 import org.eclipse.jgit.internal.storage.file.FileSnapshot;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.jar.Attributes;
-import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 
 class ServerPlugin extends Plugin {
@@ -57,8 +57,8 @@ class ServerPlugin extends Plugin {
     }
   }
 
-  private final JarFile jarFile;
   private final Manifest manifest;
+  private final PluginScanner scanner;
   private final File dataDir;
   private final String pluginCanonicalWebUrl;
   private final ClassLoader classLoader;
@@ -77,27 +77,32 @@ class ServerPlugin extends Plugin {
       PluginUser pluginUser,
       File srcJar,
       FileSnapshot snapshot,
-      JarFile jarFile,
+      PluginScanner scanner,
       Manifest manifest,
       File dataDir,
       ApiType apiType,
       ClassLoader classLoader,
       @Nullable Class<? extends Module> sysModule,
       @Nullable Class<? extends Module> sshModule,
-      @Nullable Class<? extends Module> httpModule) {
+      @Nullable Class<? extends Module> httpModule) throws InvalidPluginException {
     super(name, srcJar, pluginUser, snapshot, apiType);
     this.pluginCanonicalWebUrl = pluginCanonicalWebUrl;
-    this.jarFile = jarFile;
-    this.manifest = manifest;
+    this.scanner = scanner;
     this.dataDir = dataDir;
     this.classLoader = classLoader;
     this.sysModule = sysModule;
     this.sshModule = sshModule;
     this.httpModule = httpModule;
+    this.manifest = getPluginManifest(scanner);
   }
 
-  File getSrcJar() {
-    return getSrcFile();
+  private Manifest getPluginManifest(PluginScanner scanner)
+      throws InvalidPluginException {
+    try {
+       return scanner.getManifest();
+    } catch (IOException e) {
+      throw new InvalidPluginException("Cannot get plugin manifest", e);
+    }
   }
 
   @Nullable
@@ -136,7 +141,7 @@ class ServerPlugin extends Plugin {
 
     AutoRegisterModules auto = null;
     if (sysModule == null && sshModule == null && httpModule == null) {
-      auto = new AutoRegisterModules(getName(), env, jarFile, classLoader);
+      auto = new AutoRegisterModules(getName(), env, scanner, classLoader);
       auto.discover();
     }
 
@@ -241,10 +246,6 @@ class ServerPlugin extends Plugin {
     }
   }
 
-  public JarFile getJarFile() {
-    return jarFile;
-  }
-
   public Injector getSysInjector() {
     return sysInjector;
   }
@@ -269,5 +270,10 @@ class ServerPlugin extends Plugin {
       }
       manager.add(handle);
     }
+  }
+
+  @Override
+  public PluginScanner getScanner() {
+    return scanner;
   }
 }

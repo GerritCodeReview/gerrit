@@ -97,7 +97,7 @@ public class InitPluginStepsLoader {
 
   private Injector getPluginInjector(File jarFile) throws IOException {
     final String pluginName =
-        Objects.firstNonNull(PluginLoader.getGerritPluginName(jarFile),
+        Objects.firstNonNull(PluginLoader.getGerritJarPluginName(jarFile),
             PluginLoader.nameOf(jarFile));
     return initInjector.createChildInjector(new AbstractModule() {
       @Override

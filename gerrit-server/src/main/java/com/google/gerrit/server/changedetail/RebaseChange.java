@@ -138,7 +138,7 @@ public class RebaseChange {
       rebase(git, rw, inserter, patchSetId, change,
           uploader, baseCommit, mergeUtilFactory.create(
               changeControl.getProjectControl().getProjectState(), true),
-          committerIdent, true, true, ValidatePolicy.GERRIT);
+          committerIdent, false, true, ValidatePolicy.GERRIT);
     } catch (MergeConflictException e) {
       throw new IOException(e.getMessage());
     } finally {
@@ -317,6 +317,7 @@ public class RebaseChange {
 
     Change newChange = patchSetInserter
         .setMessage(cmsg)
+        .setSendMail(false)
         .insert();
 
     return db.get().patchSets().get(newChange.currentPatchSetId());

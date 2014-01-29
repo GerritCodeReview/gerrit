@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.index;
 
+import com.google.gerrit.server.change.ReworkStrategy;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gwtorm.server.OrmException;
@@ -58,15 +59,13 @@ public abstract class FieldDef<I, T> {
   /** Arguments needed to fill in missing data in the input object. */
   public static class FillArgs {
     final TrackingFooters trackingFooters;
-    final boolean allowsDrafts;
+    final boolean filterDrafts;
 
     @Inject
     FillArgs(TrackingFooters trackingFooters,
         @GerritServerConfig Config cfg) {
       this.trackingFooters = trackingFooters;
-      this.allowsDrafts = cfg == null
-          ? true
-          : cfg.getBoolean("change", "allowDrafts", true);
+      this.filterDrafts = ReworkStrategy.isWip(cfg);
     }
   }
 

@@ -51,7 +51,7 @@ public class DeleteDraftChange implements
       @GerritServerConfig Config cfg) {
     this.dbProvider = dbProvider;
     this.changeUtil = changeUtil;
-    this.allowDrafts = cfg.getBoolean("change", "allowDrafts", true);
+    this.allowDrafts = ReworkStrategy.isDraft(cfg);
   }
 
   @Override

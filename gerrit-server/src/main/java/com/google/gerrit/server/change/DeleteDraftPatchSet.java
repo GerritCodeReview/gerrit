@@ -57,7 +57,7 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
     this.dbProvider = dbProvider;
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.changeUtil = changeUtil;
-    this.allowDrafts = cfg.getBoolean("change", "allowDrafts", true);
+    this.allowDrafts = ReworkStrategy.isDraft(cfg);
   }
 
   @Override

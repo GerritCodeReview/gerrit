@@ -124,6 +124,24 @@
       "revId": "892004d186330ae6947b44850dc1b7e26dc5b5aa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "92c54a7b_59132378",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/ChangeStatusConstants.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-29T23:10:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "72ae1695_f83a51d5",
+      "revId": "892004d186330ae6947b44850dc1b7e26dc5b5aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

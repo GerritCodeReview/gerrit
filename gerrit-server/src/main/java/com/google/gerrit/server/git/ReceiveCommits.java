@@ -1851,7 +1851,16 @@ public class ReceiveCommits {
         msg =
             new ChangeMessage(new ChangeMessage.Key(change.getId(), ChangeUtil
                 .messageUUID(db)), me, newPatchSet.getCreatedOn(), newPatchSet.getId());
-        msg.setMessage("Uploaded patch set " + newPatchSet.getPatchSetId() + ".");
+        String message = "Uploaded patch set " + newPatchSet.getPatchSetId();
+        switch (changeKind) {
+          case TRIVIAL_REBASE:
+            message += ": Patch Set " + priorPatchSet.get() + " was rebased";
+            break;
+          case NO_CODE_CHANGE:
+            message += ": Commit message was updated";
+            break;
+        }
+        msg.setMessage(message + ".");
         db.changeMessages().insert(Collections.singleton(msg));
         if (change.currentPatchSetId().equals(priorPatchSet)) {
           ChangeUtil.updateTrackingIds(db, change, trackingFooters, footerLines);

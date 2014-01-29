@@ -23,7 +23,7 @@ import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.annotations.Export;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import com.google.gerrit.extensions.annotations.Listen;
-import com.google.gerrit.server.plugins.JarScanner.ExtensionMetaData;
+import com.google.gerrit.server.plugins.PluginContentScanner.ExtensionMetaData;
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import com.google.inject.Scopes;
@@ -34,12 +34,11 @@ import java.lang.reflect.ParameterizedType;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
-import java.util.jar.JarFile;
 
 class AutoRegisterModules {
   private final String pluginName;
   private final PluginGuiceEnvironment env;
-  private final JarFile jarFile;
+  private final PluginContentScanner scanner;
   private final ClassLoader classLoader;
   private final ModuleGenerator sshGen;
   private final ModuleGenerator httpGen;
@@ -53,11 +52,11 @@ class AutoRegisterModules {
 
   AutoRegisterModules(String pluginName,
       PluginGuiceEnvironment env,
-      JarFile jarFile,
+      PluginContentScanner scanner,
       ClassLoader classLoader) {
     this.pluginName = pluginName;
     this.env = env;
-    this.jarFile = jarFile;
+    this.scanner = scanner;
     this.classLoader = classLoader;
     this.sshGen = env.hasSshModule() ? env.newSshModuleGenerator() : null;
     this.httpGen = env.hasHttpModule() ? env.newHttpModuleGenerator() : null;
@@ -111,7 +110,7 @@ class AutoRegisterModules {
 
   private void scan() throws InvalidPluginException {
     Map<Class<? extends Annotation>, Iterable<ExtensionMetaData>> extensions =
-        JarScanner.scan(jarFile, pluginName, Arrays.asList(Export.class, Listen.class));
+        scanner.scan(pluginName, Arrays.asList(Export.class, Listen.class));
     for (ExtensionMetaData export : extensions.get(Export.class)) {
       export(export);
     }
@@ -123,18 +122,18 @@ class AutoRegisterModules {
   private void export(ExtensionMetaData def) throws InvalidPluginException {
     Class<?> clazz;
     try {
-      clazz = Class.forName(def.getClassName(), false, classLoader);
+      clazz = Class.forName(def.className, false, classLoader);
     } catch (ClassNotFoundException err) {
       throw new InvalidPluginException(String.format(
           "Cannot load %s with @Export(\"%s\")",
-          def.getClassName(), def.getAnnotationValue()), err);
+          def.className, def.annotationValue), err);
     }
 
     Export export = clazz.getAnnotation(Export.class);
     if (export == null) {
       PluginLoader.log.warn(String.format(
           "In plugin %s asm incorrectly parsed %s with @Export(\"%s\")",
-          pluginName, clazz.getName(), def.getAnnotationValue()));
+          pluginName, clazz.getName(), def.annotationValue));
       return;
     }
 
@@ -162,11 +161,11 @@ class AutoRegisterModules {
   private void listen(ExtensionMetaData def) throws InvalidPluginException {
     Class<?> clazz;
     try {
-      clazz = Class.forName(def.getClassName(), false, classLoader);
+      clazz = Class.forName(def.className, false, classLoader);
     } catch (ClassNotFoundException err) {
       throw new InvalidPluginException(String.format(
           "Cannot load %s with @Listen",
-          def.getClassName()), err);
+          def.className), err);
     }
 
     Listen listen = clazz.getAnnotation(Listen.class);

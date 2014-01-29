@@ -73,6 +73,7 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangesCollection;
+import com.google.gerrit.server.change.ChangeKind;
 import com.google.gerrit.server.change.MergeabilityChecker;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.Submit;
@@ -1915,7 +1916,16 @@ public class ReceiveCommits {
         msg =
             new ChangeMessage(new ChangeMessage.Key(change.getId(), ChangeUtil
                 .messageUUID(db)), me, newPatchSet.getCreatedOn(), newPatchSet.getId());
-        msg.setMessage("Uploaded patch set " + newPatchSet.getPatchSetId() + ".");
+        String message = "Uploaded patch set " + newPatchSet.getPatchSetId();
+        switch (approvalCopier.getChangeKind()) {
+          case TRIVIAL_REBASE:
+            message += ": Patch Set " + priorPatchSet + " was rebased";
+            break;
+          case NO_CODE_CHANGE:
+            message += ": Commit message was updated";
+            break;
+        }
+        msg.setMessage(message + ".");
         db.changeMessages().insert(Collections.singleton(msg));
 
         if (mergedIntoRef == null) {

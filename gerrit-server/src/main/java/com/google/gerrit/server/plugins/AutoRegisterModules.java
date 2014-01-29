@@ -34,12 +34,11 @@ import java.lang.reflect.ParameterizedType;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
-import java.util.jar.JarFile;
 
 class AutoRegisterModules {
   private final String pluginName;
   private final PluginGuiceEnvironment env;
-  private final JarFile jarFile;
+  private final PluginScanner scanner;
   private final ClassLoader classLoader;
   private final ModuleGenerator sshGen;
   private final ModuleGenerator httpGen;
@@ -53,11 +52,11 @@ class AutoRegisterModules {
 
   AutoRegisterModules(String pluginName,
       PluginGuiceEnvironment env,
-      JarFile jarFile,
+      PluginScanner scanner,
       ClassLoader classLoader) {
     this.pluginName = pluginName;
     this.env = env;
-    this.jarFile = jarFile;
+    this.scanner = scanner;
     this.classLoader = classLoader;
     this.sshGen = env.hasSshModule() ? env.newSshModuleGenerator() : null;
     this.httpGen = env.hasHttpModule() ? env.newHttpModuleGenerator() : null;
@@ -111,7 +110,7 @@ class AutoRegisterModules {
 
   private void scan() throws InvalidPluginException {
     Map<Class<? extends Annotation>, Iterable<ExtensionMetaData>> extensions =
-        JarScanner.scan(jarFile, pluginName, Arrays.asList(Export.class, Listen.class));
+        scanner.scan(pluginName, Arrays.asList(Export.class, Listen.class));
     for (ExtensionMetaData export : extensions.get(Export.class)) {
       export(export);
     }

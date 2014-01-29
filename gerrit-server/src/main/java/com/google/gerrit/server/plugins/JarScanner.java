@@ -27,6 +27,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
+import com.google.gerrit.common.Nullable;
 
 import org.eclipse.jgit.util.IO;
 import org.objectweb.asm.AnnotationVisitor;
@@ -38,6 +39,7 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.annotation.Annotation;
@@ -48,8 +50,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
+import java.util.jar.Manifest;
 
-public class JarScanner {
+public class JarScanner implements PluginScanner {
   private static final int SKIP_ALL = ClassReader.SKIP_CODE
       | ClassReader.SKIP_DEBUG | ClassReader.SKIP_FRAMES;
   private static final Function<ClassData, ExtensionMetaData> CLASS_DATA_TO_EXTENSION_META_DATA =
@@ -60,6 +63,8 @@ public class JarScanner {
               classData.annotationValue);
         }
       };
+
+  private final JarFile jarFile;
 
   public static class ExtensionMetaData {
     private final String className;
@@ -79,9 +84,17 @@ public class JarScanner {
     }
   }
 
-  public static Map<Class<? extends Annotation>, Iterable<ExtensionMetaData>> scan(
-      JarFile jarFile, String pluginName,
-      Iterable<Class<? extends Annotation>> annotations)
+  public JarScanner(File srcFile) throws InvalidPluginException {
+    try {
+      this.jarFile = new JarFile(srcFile);
+    } catch (IOException e) {
+      throw new InvalidPluginException("Cannot scan plugin file " + srcFile, e);
+    }
+  }
+
+  @Override
+  public Map<Class<? extends Annotation>, Iterable<ExtensionMetaData>> scan(
+      String pluginName, Iterable<Class<? extends Annotation>> annotations)
       throws InvalidPluginException {
     Set<String> descriptors = Sets.newHashSet();
     Multimap<String, JarScanner.ClassData> rawMap = ArrayListMultimap.create();
@@ -261,5 +274,35 @@ public class JarScanner {
     @Override
     public void visitEnd() {
     }
+  }
+
+  @SuppressWarnings("unchecked")
+  @Override
+  @Nullable
+  public <T> T getResource(String resourcePath, Class<? extends T> resourceClass) {
+    return isJarResource(resourceClass) ? (T) jarFile.getJarEntry(resourcePath)
+        : null;
+  }
+
+  private <T> boolean isJarResource(Class<? extends T> resourceClass) {
+    return resourceClass.equals(JarEntry.class);
+  }
+
+  @SuppressWarnings("unchecked")
+  @Override
+  public <T> Enumeration<T> resources(Class<? extends T> resourceClass) {
+    return (Enumeration<T>) (isJarResource(resourceClass)
+        ? (Enumeration<T>) jarFile.entries() : Collections.emptyEnumeration());
+  }
+
+  @Override
+  public InputStream getResourceInputStream(String resourcePath)
+      throws IOException {
+    return jarFile.getInputStream(jarFile.getEntry(resourcePath));
+  }
+
+  @Override
+  public Manifest getManifest() throws IOException {
+    return jarFile.getManifest();
   }
 }

@@ -27,6 +27,7 @@ import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.documentation.MarkdownFormatter;
 import com.google.gerrit.server.plugins.Plugin;
+import com.google.gerrit.server.plugins.Plugin.ApiType;
 import com.google.gerrit.server.plugins.PluginsCollection;
 import com.google.gerrit.server.plugins.ReloadPluginListener;
 import com.google.gerrit.server.plugins.StartPluginListener;
@@ -279,17 +280,21 @@ class HttpPluginServlet extends HttpServlet
     }
 
     if (file.startsWith(holder.staticPrefix)) {
-      JarFile jar = holder.plugin.getJarFile();
-      if (jar != null) {
-        JarEntry entry = jar.getJarEntry(file);
-        if (exists(entry)) {
-          sendResource(jar, entry, key, res);
-        } else {
-          resourceCache.put(key, Resource.NOT_FOUND);
-          Resource.NOT_FOUND.send(req, res);
-        }
-      } else {
+      if (holder.plugin.getApiType() == ApiType.JS) {
         sendJsPlugin(holder.plugin, key, req, res);
+      } else {
+        JarFile jar = new JarFile(holder.plugin.getSrcFile());
+        try {
+          JarEntry entry = jar.getJarEntry(file);
+          if (exists(entry)) {
+            sendResource(jar, entry, key, res);
+          } else {
+            resourceCache.put(key, Resource.NOT_FOUND);
+            Resource.NOT_FOUND.send(req, res);
+          }
+        } finally {
+          jar.close();
+        }
       }
     } else if (file.equals(
         holder.docPrefix.substring(0, holder.docPrefix.length() - 1))) {
@@ -297,7 +302,7 @@ class HttpPluginServlet extends HttpServlet
     } else if (file.startsWith(holder.docPrefix) && file.endsWith("/")) {
       res.sendRedirect(uri + "index.html");
     } else if (file.startsWith(holder.docPrefix)) {
-      JarFile jar = holder.plugin.getJarFile();
+      JarFile jar = new JarFile(holder.plugin.getSrcFile());
       JarEntry entry = jar.getJarEntry(file);
       if (!exists(entry)) {
         entry = findSource(jar, file);
@@ -656,17 +661,22 @@ class HttpPluginServlet extends HttpServlet
     }
 
     private static String getPrefix(Plugin plugin, String attr, String def) {
-      JarFile jarFile = plugin.getJarFile();
-      if (jarFile == null) {
+      File srcFile = plugin.getSrcFile();
+      if (srcFile == null) {
         return def;
       }
       try {
-        String prefix = jarFile.getManifest().getMainAttributes()
-            .getValue(attr);
-        if (prefix != null) {
-          return CharMatcher.is('/').trimFrom(prefix) + "/";
-        } else {
-          return def;
+        JarFile jarFile = new JarFile(plugin.getSrcFile());
+        try {
+          String prefix =
+              jarFile.getManifest().getMainAttributes().getValue(attr);
+          if (prefix != null) {
+            return CharMatcher.is('/').trimFrom(prefix) + "/";
+          } else {
+            return def;
+          }
+        } finally {
+          jarFile.close();
         }
       } catch (IOException e) {
         log.warn(String.format("Error getting %s for plugin %s, using default",

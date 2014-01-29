@@ -242,6 +242,9 @@ public class ChangeEditUtil {
     ps.setUploader(edit.getUser().getAccountId());
     ps.setCreatedOn(TimeUtil.nowTs());
 
+    RevCommit parent = rw.parseCommit(ObjectId.fromString(
+        basePatchSet.getRevision().get()));
+    boolean sendMail = !parent.getTree().equals(squashed.getTree());
     PatchSetInserter insr =
         patchSetInserterFactory.create(repo, rw,
             changeControlFactory.controlFor(change, edit.getUser()),
@@ -253,6 +256,7 @@ public class ChangeEditUtil {
             String.format("Patch Set %d: Published edit on patch set %d",
                 ps.getPatchSetId(),
                 basePatchSet.getPatchSetId()))
+        .setSendMail(sendMail)
         .insert();
   }
 

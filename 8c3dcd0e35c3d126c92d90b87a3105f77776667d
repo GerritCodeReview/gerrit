@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "12d15a3f_f5daf890",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/VotableInfo.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-29T23:26:48Z",
+      "side": 1,
+      "message": "I find this misleading. The votable collection isn\u0027t really what you call votable. Its a collection of labels that might be votable, if a value was also stored for them.\n\nYou may be able to write this shorter:\n\n  if (values !\u003d null \u0026\u0026 votable !\u003d null) {\n    s.addAll(values.keySet());\n    s.retainAll(votable);\n  }\n\nIf I read the caller and the ChangeJson server code correctly, a label is votable if has_value() is true and votable(String) above gets called. I don\u0027t think you need the values map at all.",
+      "range": {
+        "startLine": 41,
+        "startChar": 4,
+        "endLine": 49,
+        "endChar": 5
+      },
+      "revId": "8c3dcd0e35c3d126c92d90b87a3105f77776667d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

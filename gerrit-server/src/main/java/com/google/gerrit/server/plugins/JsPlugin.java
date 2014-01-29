@@ -109,4 +109,9 @@ class JsPlugin extends Plugin {
           new JavaScriptPlugin(fileName));
     }
   }
+
+  @Override
+  public PluginContentScanner getContentScanner() {
+    return PluginContentScanner.EMPTY;
+  }
 }

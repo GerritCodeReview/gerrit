@@ -126,6 +126,8 @@ public abstract class Plugin {
 
   public abstract JarFile getJarFile();
 
+  public abstract PluginContentScanner getContentScanner();
+
   public abstract Injector getSysInjector();
 
   @Nullable

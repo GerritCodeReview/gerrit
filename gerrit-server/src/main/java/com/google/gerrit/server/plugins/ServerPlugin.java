@@ -41,7 +41,7 @@ import java.util.jar.Attributes;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 
-class ServerPlugin extends Plugin {
+public class ServerPlugin extends Plugin {
 
   /** Unique key that changes whenever a plugin reloads. */
   public static final class CacheKey {

@@ -24,6 +24,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
@@ -38,6 +39,7 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.annotation.Annotation;
@@ -46,10 +48,12 @@ import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Map;
 import java.util.Set;
+import java.util.jar.Attributes;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
+import java.util.jar.Manifest;
 
-public class JarScanner {
+public class JarScanner implements PluginContentScanner {
   private static final int SKIP_ALL = ClassReader.SKIP_CODE
       | ClassReader.SKIP_DEBUG | ClassReader.SKIP_FRAMES;
   private static final Function<ClassData, ExtensionMetaData> CLASS_DATA_TO_EXTENSION_META_DATA =
@@ -61,27 +65,19 @@ public class JarScanner {
         }
       };
 
-  public static class ExtensionMetaData {
-    private final String className;
-    private final String annotationValue;
+  private final JarFile jarFile;
 
-    private ExtensionMetaData(String className, String annotationValue) {
-      this.className = className;
-      this.annotationValue = annotationValue;
-    }
-
-    public String getAnnotationValue() {
-      return annotationValue;
-    }
-
-    public String getClassName() {
-      return className;
+  public JarScanner(File srcFile) throws InvalidPluginException {
+    try {
+      this.jarFile = new JarFile(srcFile);
+    } catch (IOException e) {
+      throw new InvalidPluginException("Cannot scan plugin file " + srcFile, e);
     }
   }
 
-  public static Map<Class<? extends Annotation>, Iterable<ExtensionMetaData>> scan(
-      JarFile jarFile, String pluginName,
-      Iterable<Class<? extends Annotation>> annotations)
+  @Override
+  public Map<Class<? extends Annotation>, Iterable<ExtensionMetaData>> scan(
+      String pluginName, Iterable<Class<? extends Annotation>> annotations)
       throws InvalidPluginException {
     Set<String> descriptors = Sets.newHashSet();
     Multimap<String, JarScanner.ClassData> rawMap = ArrayListMultimap.create();
@@ -261,5 +257,63 @@ public class JarScanner {
     @Override
     public void visitEnd() {
     }
+  }
+
+  @Override
+  public Optional<PluginEntry> getEntry(String resourcePath) throws IOException {
+    JarEntry jarEntry = jarFile.getJarEntry(resourcePath);
+    if (jarEntry == null || jarEntry.getSize() == 0) {
+      return Optional.absent();
+    }
+
+    return Optional.of(resourceOf(jarEntry));
+  }
+
+  @Override
+  public Enumeration<PluginEntry> entries() {
+    return Collections.enumeration(Lists.transform(
+        Collections.list(jarFile.entries()),
+        new Function<JarEntry, PluginEntry>() {
+          public PluginEntry apply(JarEntry jarEntry) {
+            try {
+              return resourceOf(jarEntry);
+            } catch (IOException e) {
+              throw new IllegalArgumentException("Cannot convert jar entry "
+                  + jarEntry + " to a resource", e);
+            }
+          }
+        }));
+  }
+
+  @Override
+  public InputStream getInputStream(PluginEntry entry)
+      throws IOException {
+    return jarFile.getInputStream(jarFile
+        .getEntry(entry.getName()));
+  }
+
+  @Override
+  public Manifest getManifest() throws IOException {
+    return jarFile.getManifest();
+  }
+
+  private PluginEntry resourceOf(JarEntry jarEntry) throws IOException {
+    return new PluginEntry(jarEntry.getName(), jarEntry.getTime(),
+        jarEntry.getSize(), attributesOf(jarEntry));
+  }
+
+  private Map<Object, String> attributesOf(JarEntry jarEntry)
+      throws IOException {
+    Attributes attributes = jarEntry.getAttributes();
+    if(attributes == null) {
+      return Collections.emptyMap();
+    }
+    return Maps.transformEntries(attributes,
+        new Maps.EntryTransformer<Object, Object, String>() {
+          @Override
+          public String transformEntry(Object key, Object value) {
+            return (String) value;
+          }
+        });
   }
 }

@@ -238,6 +238,7 @@ public class RefControl {
     switch (getCurrentUser().getAccessPath()) {
       case REST_API:
       case JSON_RPC:
+      case GIT:
         owner = isOwner();
         break;
 

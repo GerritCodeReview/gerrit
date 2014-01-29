@@ -22,15 +22,21 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.AcceptanceTestRequestScope;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.SshSession;
+import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.ChangeMessageInfo;
+import com.google.gerrit.extensions.common.ListChangesOption;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.change.ChangeJson.ChangeInfo;
-import com.google.gerrit.server.change.ChangeJson.ChangeMessageInfo;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
+import com.google.inject.util.Providers;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -39,12 +45,22 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.EnumSet;
 import java.util.Iterator;
 
 public class ChangeMessagesIT extends AbstractDaemonTest {
 
   @Inject
   private SchemaFactory<ReviewDb> reviewDbProvider;
+
+  @Inject
+  private GerritApi gApi;
+
+  @Inject
+  private AcceptanceTestRequestScope atrScope;
+
+  @Inject
+  private IdentifiedUser.GenericFactory identifiedUserFactory;
 
   @Inject
   private PushOneCommit.Factory pushFactory;
@@ -60,6 +76,8 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
     git = cloneProject(sshSession.getUrl() + "/" + project.get());
     sshSession.close();
     db = reviewDbProvider.open();
+    atrScope.set(atrScope.newContext(reviewDbProvider, sshSession,
+        identifiedUserFactory.create(Providers.of(db), admin.getId())));
   }
 
   @After
@@ -69,18 +87,19 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
 
   @Test
   public void messagesNotReturnedByDefault() throws GitAPIException,
-      IOException {
+      IOException, RestApiException {
     String changeId = createChange();
     postMessage(changeId, "Some nits need to be fixed.");
-    ChangeInfo c = getChange(changeId);
+    ChangeInfo c = getChange("p~master~" + changeId,
+        EnumSet.noneOf(ListChangesOption.class));
     assertNull(c.messages);
   }
 
   @Test
-  public void defaultMessage() throws GitAPIException,
-  IOException {
+  public void defaultMessage() throws GitAPIException, IOException,
+      RestApiException {
     String changeId = createChange();
-    ChangeInfo c = getChange(changeId, MESSAGES);
+    ChangeInfo c = getChange("p~master~" + changeId, EnumSet.of(MESSAGES));
     assertNotNull(c.messages);
     assertEquals(1, c.messages.size());
     assertEquals("Uploaded patch set 1.", c.messages.iterator().next().message);
@@ -88,13 +107,13 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
 
   @Test
   public void messagesReturnedInChronologicalOrder() throws GitAPIException,
-      IOException {
+      IOException, RestApiException {
     String changeId = createChange();
     String firstMessage = "Some nits need to be fixed.";
     postMessage(changeId, firstMessage);
     String secondMessage = "I like this feature.";
     postMessage(changeId, secondMessage);
-    ChangeInfo c = getChange(changeId, MESSAGES);
+    ChangeInfo c = getChange("p~master~" + changeId, EnumSet.of(MESSAGES));
     assertNotNull(c.messages);
     assertEquals(3, c.messages.size());
     Iterator<ChangeMessageInfo> it = c.messages.iterator();
@@ -118,5 +137,10 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
     in.message = msg;
     adminSession.post("/changes/" + changeId + "/revisions/1/review", in)
         .consume();
+  }
+
+  private ChangeInfo getChange(String triplet, EnumSet<ListChangesOption> s)
+      throws RestApiException {
+    return gApi.changes().id(triplet).get(s);
   }
 }

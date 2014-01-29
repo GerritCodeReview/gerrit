@@ -17,6 +17,7 @@ package com.google.gerrit.server.change;
 import com.google.common.util.concurrent.CheckedFuture;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -65,13 +66,13 @@ public class Publish implements RestModifyView<RevisionResource, Input>,
     this.sender = sender;
     this.hooks = hooks;
     this.indexer = indexer;
-    this.allowDrafts = cfg.getBoolean("change", "allowDrafts", true);
+    this.allowDrafts = ReworkStrategy.isDraft(cfg);
   }
 
   @Override
   public Response<?> apply(RevisionResource rsrc, Input input)
       throws AuthException, ResourceNotFoundException,
-      ResourceConflictException, OrmException, IOException {
+      ResourceConflictException, OrmException, IOException, BadRequestException {
     if (!rsrc.getPatchSet().isDraft()) {
       throw new ResourceConflictException("Patch set is not a draft");
     }
@@ -81,7 +82,7 @@ public class Publish implements RestModifyView<RevisionResource, Input>,
     }
 
     if (!allowDrafts) {
-      throw new ResourceConflictException("Draft workflow is disabled.");
+      throw new BadRequestException("Draft workflow is disabled.");
     }
 
     PatchSet updatedPatchSet = updateDraftPatchSet(rsrc);
@@ -142,7 +143,8 @@ public class Publish implements RestModifyView<RevisionResource, Input>,
       return new UiAction.Description()
         .setTitle(String.format("Publish revision %d",
             rsrc.getPatchSet().getPatchSetId()))
-        .setVisible(rsrc.getPatchSet().isDraft()
+        .setVisible(allowDrafts
+            && rsrc.getPatchSet().isDraft()
             && rsrc.getPatchSet().getId().equals(current)
             && rsrc.getControl().canPublish(dbProvider.get()));
     } catch (OrmException e) {
@@ -165,7 +167,8 @@ public class Publish implements RestModifyView<RevisionResource, Input>,
     @Override
     public Response<?> apply(ChangeResource rsrc, Input input)
         throws AuthException, ResourceConflictException,
-        ResourceNotFoundException, IOException, OrmException {
+        ResourceNotFoundException, IOException, OrmException,
+        BadRequestException {
       PatchSet ps = dbProvider.get().patchSets()
         .get(rsrc.getChange().currentPatchSetId());
       if (ps == null) {

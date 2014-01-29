@@ -62,6 +62,7 @@ import com.google.gerrit.extensions.restapi.RawInput;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestCollection;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.RestReadView;
@@ -235,7 +236,7 @@ public class RestApiServlet extends HttpServlet {
           }
         }
         if (viewData.view == null) {
-          viewData = view(rc, req.getMethod(), path);
+          viewData = view(rsrc, rc, req.getMethod(), path);
         }
       }
       checkRequiresCapability(viewData);
@@ -276,7 +277,7 @@ public class RestApiServlet extends HttpServlet {
             }
           }
           if (viewData.view == null) {
-            viewData = view(c, req.getMethod(), path);
+            viewData = view(rsrc, c, req.getMethod(), path);
           }
         }
         checkRequiresCapability(viewData);
@@ -773,9 +774,10 @@ public class RestApiServlet extends HttpServlet {
   }
 
   private ViewData view(
+      RestResource rsrc,
       RestCollection<RestResource, RestResource> rc,
-      String method, List<IdString> path) throws ResourceNotFoundException,
-      MethodNotAllowedException, AmbiguousViewException {
+      String method, List<IdString> path) throws AmbiguousViewException,
+      RestApiException {
     DynamicMap<RestView<RestResource>> views = rc.views();
     final IdString projection = path.isEmpty()
         ? IdString.fromUrl("/")
@@ -797,6 +799,14 @@ public class RestApiServlet extends HttpServlet {
           views.get(p.get(0), method + "." + viewname);
       if (view != null) {
         return new ViewData(p.get(0), view);
+      }
+      view = views.get(p.get(0), "GET." + viewname);
+      if (view != null) {
+        if (view instanceof AcceptsPost && "POST".equals(method)) {
+          @SuppressWarnings("unchecked")
+          AcceptsPost<RestResource> ap = (AcceptsPost<RestResource>) view;
+          return new ViewData(p.get(0), ap.post(rsrc));
+        }
       }
       throw new ResourceNotFoundException(projection);
     }

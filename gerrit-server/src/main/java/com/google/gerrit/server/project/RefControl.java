@@ -229,9 +229,10 @@ public class RefControl {
    *
    * @param rw revision pool {@code object} was parsed in.
    * @param object the object the user will start the reference with.
+   * @param existsOnServer the object exists on server or not.
    * @return {@code true} if the user specified can create a new Git ref
    */
-  public boolean canCreate(RevWalk rw, RevObject object) {
+  public boolean canCreate(RevWalk rw, RevObject object, boolean existsOnServer) {
     if (!canWrite()) {
       return false;
     }
@@ -249,8 +250,8 @@ public class RefControl {
     if (object instanceof RevCommit) {
       return getCurrentUser().getCapabilities().canAdministrateServer()
           || (owner && !isBlocked(Permission.CREATE))
-          || (canPerform(Permission.CREATE) && projectControl.canReadCommit(rw,
-              (RevCommit) object));
+          || (canPerform(Permission.CREATE) && (!existsOnServer || projectControl
+              .canReadCommit(rw, (RevCommit) object)));
     } else if (object instanceof RevTag) {
       final RevTag tag = (RevTag) object;
       try {

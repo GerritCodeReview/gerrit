@@ -877,7 +877,7 @@ public class ReceiveCommits {
     }
 
     RefControl ctl = projectControl.controlForRef(cmd.getRefName());
-    if (ctl.canCreate(rp.getRevWalk(), obj)) {
+    if (ctl.canCreate(rp.getRevWalk(), obj, allRefs.values().contains(obj))) {
       validateNewCommits(ctl, cmd);
       batch.addCommand(cmd);
     } else {

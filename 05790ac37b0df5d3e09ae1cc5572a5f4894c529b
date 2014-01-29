@@ -22,6 +22,30 @@
       "revId": "05790ac37b0df5d3e09ae1cc5572a5f4894c529b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b2c08e69_7aeff927",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalCopier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2014-01-29T07:37:49Z",
+      "side": 1,
+      "message": "Can you suggest an alternative? Is it better to access the ChangeKindCache directly?",
+      "parentUuid": "92c54a7b_79ef0728",
+      "range": {
+        "startLine": 65,
+        "startChar": 2,
+        "endLine": 65,
+        "endChar": 32
+      },
+      "revId": "05790ac37b0df5d3e09ae1cc5572a5f4894c529b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

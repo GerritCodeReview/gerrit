@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "b2c08e69_bafb51e7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-29T14:01:02Z",
+      "side": 1,
+      "message": "Are you going to upload it as a follow up change? Or should i look into it?",
+      "parentUuid": "28434b82_be2259ba",
+      "revId": "5a775e5fd31ae03835a1f2022223dc0bc88be43a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c849cfa5_5b036325",
         "filename": "Documentation/project-documentation.txt",
         "patchSetId": 1

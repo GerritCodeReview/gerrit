@@ -406,6 +406,7 @@ public class ChangeUtil {
             .setMessage(msg)
             .setValidatePolicy(RECEIVE_COMMITS)
             .setDraft(ps.isDraft())
+            .setSendMail(false)
             .insert();
 
         return change.getId();

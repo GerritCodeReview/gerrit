@@ -73,6 +73,8 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.change.ChangeInserter;
+import com.google.gerrit.server.change.ChangeKind;
+import com.google.gerrit.server.change.ChangeKindCache;
 import com.google.gerrit.server.change.ChangesCollection;
 import com.google.gerrit.server.change.MergeabilityChecker;
 import com.google.gerrit.server.change.RevisionResource;
@@ -288,6 +290,7 @@ public class ReceiveCommits {
   private final SshInfo sshInfo;
   private final AllProjectsName allProjectsName;
   private final ReceiveConfig receiveConfig;
+  private final ChangeKindCache changeKindCache;
 
   private final ProjectControl projectControl;
   private final Project project;
@@ -360,6 +363,7 @@ public class ReceiveCommits {
       final SubmoduleOp.Factory subOpFactory,
       final Provider<Submit> submitProvider,
       final MergeQueue mergeQueue,
+      final ChangeKindCache changeKindCache,
       final DynamicMap<ProjectConfigEntry> pluginConfigEntries) throws IOException {
     this.currentUser = (IdentifiedUser) projectControl.getCurrentUser();
     this.db = db;
@@ -392,6 +396,7 @@ public class ReceiveCommits {
     this.sshInfo = sshInfo;
     this.allProjectsName = allProjectsName;
     this.receiveConfig = config;
+    this.changeKindCache = changeKindCache;
 
     this.projectControl = projectControl;
     this.labelTypes = projectControl.getLabelTypes();
@@ -1924,7 +1929,19 @@ public class ReceiveCommits {
         msg =
             new ChangeMessage(new ChangeMessage.Key(change.getId(), ChangeUtil
                 .messageUUID(db)), me, newPatchSet.getCreatedOn(), newPatchSet.getId());
-        msg.setMessage("Uploaded patch set " + newPatchSet.getPatchSetId() + ".");
+        RevCommit priorCommit = revisions.inverse().get(priorPatchSet);
+        ChangeKind changeKind = changeKindCache.getChangeKind(
+            projectControl.getProjectState(), repo, priorCommit, newCommit);
+        String message = "Uploaded patch set " + newPatchSet.getPatchSetId();
+        switch (changeKind) {
+          case TRIVIAL_REBASE:
+            message += ": Patch Set " + priorPatchSet.get() + " was rebased";
+            break;
+          case NO_CODE_CHANGE:
+            message += ": Commit message was updated";
+            break;
+        }
+        msg.setMessage(message + ".");
         db.changeMessages().insert(Collections.singleton(msg));
 
         if (mergedIntoRef == null) {

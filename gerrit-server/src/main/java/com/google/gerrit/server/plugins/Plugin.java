@@ -124,7 +124,16 @@ public abstract class Plugin {
 
   abstract void stop(PluginGuiceEnvironment env);
 
+  /**
+   * This method is kept for not breaking compatibility with HttpPluginServlet.
+   *
+   * Plugins are not necessarily backed by a Jar file anymore but are loaded
+   * from a generic java.io.File (file or directory) accessible by getSrcFile() method.
+   */
+  @Deprecated
   public abstract JarFile getJarFile();
+
+  public abstract PluginContentScanner getContentScanner();
 
   public abstract Injector getSysInjector();
 

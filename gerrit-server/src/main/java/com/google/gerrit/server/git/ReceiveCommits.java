@@ -73,6 +73,7 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangesCollection;
+import com.google.gerrit.server.change.ChangeKind;
 import com.google.gerrit.server.change.MergeabilityChecker;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.Submit;
@@ -1987,32 +1988,34 @@ public class ReceiveCommits {
         hooks.doChangeMergedHook(
             change, currentUser.getAccount(), newPatchSet, db);
       }
-      workQueue.getDefaultQueue()
-          .submit(requestScopePropagator.wrap(new Runnable() {
-        @Override
-        public void run() {
-          try {
-            ReplacePatchSetSender cm =
-                replacePatchSetFactory.create(change);
-            cm.setFrom(me);
-            cm.setPatchSet(newPatchSet, info);
-            cm.setChangeMessage(msg);
-            cm.addReviewers(recipients.getReviewers());
-            cm.addExtraCC(recipients.getCcOnly());
-            cm.send();
-          } catch (Exception e) {
-            log.error("Cannot send email for new patch set " + newPatchSet.getId(), e);
+      if (approvalCopier.getChangeKind() == ChangeKind.REWORK) {
+        workQueue.getDefaultQueue()
+            .submit(requestScopePropagator.wrap(new Runnable() {
+          @Override
+          public void run() {
+            try {
+              ReplacePatchSetSender cm =
+                  replacePatchSetFactory.create(change);
+              cm.setFrom(me);
+              cm.setPatchSet(newPatchSet, info);
+              cm.setChangeMessage(msg);
+              cm.addReviewers(recipients.getReviewers());
+              cm.addExtraCC(recipients.getCcOnly());
+              cm.send();
+            } catch (Exception e) {
+              log.error("Cannot send email for new patch set " + newPatchSet.getId(), e);
+            }
+            if (mergedIntoRef != null) {
+              sendMergedEmail(ReplaceRequest.this);
+            }
           }
-          if (mergedIntoRef != null) {
-            sendMergedEmail(ReplaceRequest.this);
-          }
-        }
 
-        @Override
-        public String toString() {
-          return "send-email newpatchset";
-        }
-      }));
+          @Override
+          public String toString() {
+            return "send-email newpatchset";
+          }
+        }));
+      }
       f.checkedGet();
 
       if (magicBranch != null && magicBranch.isSubmit()) {

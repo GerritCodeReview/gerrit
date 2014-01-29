@@ -588,8 +588,8 @@ public class PluginLoader implements LifecycleListener {
 
       Plugin plugin = new ServerPlugin(name, url,
           pluginUserFactory.create(name),
-          srcJar, snapshot,
-          jarFile, manifest,
+          srcJar, snapshot, new JarFile(srcJar),
+          new JarScanner(srcJar), manifest,
           new File(dataDir, name), type, pluginLoader,
           sysModule, sshModule, httpModule);
       cleanupHandles.put(plugin, new CleanupHandle(tmp, jarFile));

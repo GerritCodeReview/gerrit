@@ -15,6 +15,7 @@
 package com.google.gerrit.server.change;
 
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -57,13 +58,17 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
     this.dbProvider = dbProvider;
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.changeUtil = changeUtil;
-    this.allowDrafts = cfg.getBoolean("change", "allowDrafts", true);
+    this.allowDrafts = ReworkStrategy.isDraft(cfg);
   }
 
   @Override
   public Response<?> apply(RevisionResource rsrc, Input input)
       throws AuthException, ResourceNotFoundException,
-      ResourceConflictException, OrmException, IOException {
+      ResourceConflictException, OrmException, IOException, BadRequestException {
+    if (!allowDrafts) {
+      throw new BadRequestException("Draft workflow is disabled.");
+    }
+
     PatchSet patchSet = rsrc.getPatchSet();
     PatchSet.Id patchSetId = patchSet.getId();
     Change change = rsrc.getChange();

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "92c54a7b_39f98ff3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-01-29T10:01:03Z",
+      "side": 1,
+      "message": "It\u0027s intended that even as a project owner you are only allowed to create branches by push if you have the create reference permission. This is because on command line it is easy to have a typo in the push specification.",
+      "range": {
+        "startLine": 241,
+        "startChar": 11,
+        "endLine": 241,
+        "endChar": 14
+      },
+      "revId": "df5ab64e1cb3cd05538c30c4a242d76373442cd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

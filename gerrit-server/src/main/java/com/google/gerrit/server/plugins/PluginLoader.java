@@ -40,6 +40,7 @@ import com.google.inject.Module;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import org.apache.commons.lang.StringUtils;
 import org.eclipse.jgit.internal.storage.file.FileSnapshot;
 import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
@@ -91,6 +92,7 @@ public class PluginLoader implements LifecycleListener {
   private final PluginScannerThread scanner;
   private final Provider<String> urlProvider;
   private final boolean remoteAdmin;
+  private final ScriptingPluginFactory scriptingPluginFactory;
 
   @Inject
   public PluginLoader(SitePaths sitePaths,
@@ -99,7 +101,8 @@ public class PluginLoader implements LifecycleListener {
       PluginUser.Factory puf,
       Provider<PluginCleanerTask> pct,
       @GerritServerConfig Config cfg,
-      @CanonicalWebUrl Provider<String> provider) {
+      @CanonicalWebUrl Provider<String> provider,
+      ScriptingPluginFactory spFactory) {
     pluginsDir = sitePaths.plugins_dir;
     dataDir = sitePaths.data_dir;
     tmpDir = sitePaths.tmp_dir;
@@ -113,6 +116,8 @@ public class PluginLoader implements LifecycleListener {
     cleanupHandles = Maps.newConcurrentMap();
     cleaner = pct;
     urlProvider = provider;
+    scriptingPluginFactory = spFactory;
+
 
     remoteAdmin =
         cfg.getBoolean("plugins", null, "allowRemoteAdmin", false);
@@ -526,8 +531,8 @@ public class PluginLoader implements LifecycleListener {
         in.close();
       }
       return loadJarPlugin(name, srcPlugin, snapshot, tmp);
-    } else if (isJsPlugin(pluginName)) {
-      return loadJsPlugin(name, srcPlugin, snapshot);
+    } else if (isScriptingPlugin(pluginName)) {
+      return loadScriptingPlugin(name, srcPlugin, snapshot);
     } else {
       throw new InvalidPluginException(String.format(
           "Unsupported plugin type: %s", srcPlugin.getName()));
@@ -593,8 +598,8 @@ public class PluginLoader implements LifecycleListener {
     }
   }
 
-  private Plugin loadJsPlugin(String name, File srcJar, FileSnapshot snapshot) {
-    return new JsPlugin(name, srcJar, pluginUserFactory.create(name), snapshot);
+  private ScriptingPlugin loadScriptingPlugin(String name, File scriptFile, FileSnapshot snapshot) {
+    return scriptingPluginFactory.get(name, scriptFile, pluginUserFactory.create(name), snapshot);
   }
 
   private static ClassLoader parentFor(Plugin.ApiType type)
@@ -604,8 +609,8 @@ public class PluginLoader implements LifecycleListener {
         return PluginName.class.getClassLoader();
       case PLUGIN:
         return PluginLoader.class.getClassLoader();
-      case JS:
-        return JavaScriptPlugin.class.getClassLoader();
+      case SCRIPTING:
+        return ScriptingPlugin.class.getClassLoader();
       default:
         throw new InvalidPluginException("Unsupported ApiType " + type);
     }
@@ -708,7 +713,7 @@ public class PluginLoader implements LifecycleListener {
       @Override
       public boolean accept(File pathname) {
         String n = pathname.getName();
-        return (isJarPlugin(n) || isJsPlugin(n))
+        return (isJarPlugin(n) || isScriptingPlugin(n))
             && !n.startsWith(".last_")
             && !n.startsWith(".next_")
             && pathname.isFile();
@@ -742,8 +747,8 @@ public class PluginLoader implements LifecycleListener {
         jarFile.close();
       }
     }
-    if (isJsPlugin(fileName)) {
-      return fileName.substring(0, fileName.length() - 3);
+    if (isScriptingPlugin(fileName)) {
+      return StringUtils.substringBeforeLast(fileName,".");
     }
     return null;
   }
@@ -762,8 +767,9 @@ public class PluginLoader implements LifecycleListener {
     return isPlugin(name, "jar");
   }
 
-  private static boolean isJsPlugin(String name) {
-    return isPlugin(name, "js");
+  private static boolean isScriptingPlugin(String name) {
+    String ext = StringUtils.substringAfterLast(name,".");
+    return isPlugin(name, ext);
   }
 
   private static boolean isPlugin(String fileName, String ext) {

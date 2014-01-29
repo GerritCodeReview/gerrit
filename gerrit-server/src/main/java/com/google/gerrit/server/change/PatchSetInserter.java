@@ -31,6 +31,8 @@ import com.google.gerrit.server.ApprovalCopier;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.change.ChangeKind;
+import com.google.gerrit.server.change.ChangeKindCache;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.validators.CommitValidationException;
@@ -40,6 +42,8 @@ import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.ReviewerState;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.ssh.NoSshInfo;
 import com.google.gerrit.server.ssh.SshInfo;
@@ -89,6 +93,8 @@ public class PatchSetInserter {
   private final ReplacePatchSetSender.Factory replacePatchSetFactory;
   private final ApprovalsUtil approvalsUtil;
   private final ApprovalCopier approvalCopier;
+  private final ChangeKindCache changeKindCache;
+  private final ProjectCache projectCache;
 
   private final Repository git;
   private final RevWalk revWalk;
@@ -111,6 +117,8 @@ public class PatchSetInserter {
       ChangeUpdate.Factory updateFactory,
       ApprovalsUtil approvalsUtil,
       ApprovalCopier approvalCopier,
+      ChangeKindCache changeKindCache,
+      ProjectCache projectCache,
       PatchSetInfoFactory patchSetInfoFactory,
       GitReferenceUpdated gitRefUpdated,
       CommitValidators.Factory commitValidatorsFactory,
@@ -128,6 +136,8 @@ public class PatchSetInserter {
     this.updateFactory = updateFactory;
     this.approvalsUtil = approvalsUtil;
     this.approvalCopier = approvalCopier;
+    this.changeKindCache = changeKindCache;
+    this.projectCache = projectCache;
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.gitRefUpdated = gitRefUpdated;
     this.commitValidatorsFactory = commitValidatorsFactory;
@@ -273,6 +283,18 @@ public class PatchSetInserter {
       if (copyLabels) {
         approvalCopier.copy(db, ctl, patchSet);
       }
+
+      ProjectState project =
+          projectCache.checkedGet(c.getDest().getParentKey());
+      final PatchSet currentPatchSet = db.patchSets().get(currentPatchSetId);
+      ChangeKind changeKind = changeKindCache.getChangeKind(
+          project, git,
+          ObjectId.fromString(currentPatchSet.getRevision().get()),
+          ObjectId.fromString(patchSet.getRevision().get()));
+      if (changeKind != ChangeKind.REWORK) {
+        sendMail = false;
+      }
+
       db.commit();
       update.commit();
 

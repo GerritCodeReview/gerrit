@@ -21,11 +21,14 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.SshSession;
+import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.api.projects.BranchInput;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -62,6 +65,7 @@ public class RevisionIT extends AbstractDaemonTest {
   private Git git;
   private ReviewDb db;
   private Project.NameKey project;
+  protected TestAccount admin2;
 
   @Before
   public void setUp() throws Exception {
@@ -72,6 +76,7 @@ public class RevisionIT extends AbstractDaemonTest {
     db = reviewDbProvider.open();
     atrScope.set(atrScope.newContext(reviewDbProvider, sshSession,
         identifiedUserFactory.create(Providers.of(db), admin.getId())));
+    admin2 = accounts.admin2();
   }
 
   @After
@@ -127,6 +132,23 @@ public class RevisionIT extends AbstractDaemonTest {
         .id("p~master~" + r.getChangeId())
         .current()
         .submit();
+  }
+
+  @Test(expected = AuthException.class)
+  public void submitOnBehalfOf() throws GitAPIException,
+      IOException, RestApiException {
+    PushOneCommit.Result r = createChange();
+    gApi.changes()
+        .id("p~master~" + r.getChangeId())
+        .current()
+        .review(ReviewInput.approve());
+    SubmitInput in = new SubmitInput();
+    in.onBehalfOf = admin2.email;
+    in.waitForMerge = true;
+    gApi.changes()
+        .id("p~master~" + r.getChangeId())
+        .current()
+        .submit(in);
   }
 
   @Test

@@ -45,6 +45,7 @@ import org.eclipse.jgit.lib.Config;
 
 import java.net.SocketAddress;
 import java.util.Map;
+import java.util.Set;
 
 /** Configures standard dependencies for {@link SshDaemon}. */
 public class SshModule extends FactoryModule {
@@ -53,7 +54,7 @@ public class SshModule extends FactoryModule {
   @Inject
   SshModule(@GerritServerConfig Config cfg) {
     aliases = Maps.newHashMap();
-    for (String name : cfg.getNames("ssh-alias")) {
+    for (String name : cfg.getNames("ssh-alias", true)) {
       aliases.put(name, cfg.getString("ssh-alias", null, name));
     }
   }

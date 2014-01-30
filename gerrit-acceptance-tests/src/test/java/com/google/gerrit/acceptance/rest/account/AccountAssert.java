@@ -23,7 +23,7 @@ import com.google.gerrit.server.account.AccountInfo;
 public class AccountAssert {
 
   public static void assertAccountInfo(TestAccount a, AccountInfo ai) {
-    assertTrue(a.id.get() == ai._account_id);
+    assertTrue(a.id.get() == ai._accountId);
     assertEquals(a.fullName, ai.name);
     assertEquals(a.email, ai.email);
   }

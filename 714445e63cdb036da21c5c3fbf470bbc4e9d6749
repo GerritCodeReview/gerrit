@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d2ca6290_b388185e",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/AccountInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-30T20:56:14Z",
+      "side": 1,
+      "message": "Changed it to be _accountId\n\nDone",
+      "parentUuid": "f2cda6a7_f401d822",
+      "revId": "714445e63cdb036da21c5c3fbf470bbc4e9d6749",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f2cda6a7_14f69401",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/ChangeInfo.java",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2014-01-30T00:14:56Z",
       "side": 1,
       "message": "The JSON protocol calls this current_revision. Do we want to use camelCaseNames in the Java code or match the JSON lower_case_style?",
+      "revId": "714445e63cdb036da21c5c3fbf470bbc4e9d6749",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b2e5ee1d_5290b482",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/ChangeInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-30T20:56:14Z",
+      "side": 1,
+      "message": "Changed in JSON. Yes, we want to consequently use camelCaseNames in the Java code and only use JSON like style on the client side.",
+      "parentUuid": "f2cda6a7_14f69401",
       "revId": "714445e63cdb036da21c5c3fbf470bbc4e9d6749",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "d2ca6290_938d1c6e",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/ChangeMessageInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-30T20:56:14Z",
+      "side": 1,
+      "message": "Not more: _revisionNumber. Done",
+      "parentUuid": "f2cda6a7_d406dc38",
+      "revId": "714445e63cdb036da21c5c3fbf470bbc4e9d6749",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "12d15a3f_35f990f3",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/FileInfo.java",
         "patchSetId": 4
@@ -64,6 +118,30 @@
       "writtenOn": "2014-01-30T00:14:56Z",
       "side": 1,
       "message": "The server code uses camelCase for these names but the JSON is clearly lower_case. I honestly don\u0027t know which style we should use here in the extension-api but we need to be very consistent about it.",
+      "range": {
+        "startLine": 21,
+        "startChar": 2,
+        "endLine": 22,
+        "endChar": 30
+      },
+      "revId": "714445e63cdb036da21c5c3fbf470bbc4e9d6749",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b2e5ee1d_329d309b",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/FileInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-30T20:56:14Z",
+      "side": 1,
+      "message": "Really? Was it changed before this change?\n\n  https://gerrit-review.googlesource.com/#/c/54067/4/gerrit-server/src/main/java/com/google/gerrit/server/change/FileInfoJson.java",
+      "parentUuid": "12d15a3f_35f990f3",
       "range": {
         "startLine": 21,
         "startChar": 2,
@@ -99,6 +177,30 @@
     },
     {
       "key": {
+        "uuid": "b2e5ee1d_f26568f2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/ChangeInfoMapper.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-30T20:56:14Z",
+      "side": 1,
+      "message": "I know, didn\u0027t use it for two reason:\n\n* don\u0027t need it for now, can add it later\n* it doesn\u0027t have static initialization, so it must be populated manually with static {} section.",
+      "parentUuid": "f2cda6a7_b4fb60e7",
+      "range": {
+        "startLine": 43,
+        "startChar": 23,
+        "endLine": 49,
+        "endChar": 52
+      },
+      "revId": "714445e63cdb036da21c5c3fbf470bbc4e9d6749",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f2cda6a7_9400641c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/ChangeInfoMapper.java",
         "patchSetId": 4
@@ -110,6 +212,24 @@
       "writtenOn": "2014-01-30T00:14:56Z",
       "side": 1,
       "message": "This hand mapping is painful, and interim until the server can use the extension types directly, right?\n\nI wonder if its better to serialize to JSON and then back to the extension API objects in a lenient way, configuring Gson to ignore object properties that are not supported in the destination POJO type.",
+      "revId": "714445e63cdb036da21c5c3fbf470bbc4e9d6749",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b2e5ee1d_129a2ca3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/ChangeInfoMapper.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-30T20:56:14Z",
+      "side": 1,
+      "message": "I thought because of performance reason it worth to do manually, an because we more and more don\u0027t need mapping at all.",
+      "parentUuid": "f2cda6a7_9400641c",
       "revId": "714445e63cdb036da21c5c3fbf470bbc4e9d6749",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

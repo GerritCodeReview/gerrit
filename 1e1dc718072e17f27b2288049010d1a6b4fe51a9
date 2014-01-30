@@ -16,6 +16,24 @@
       "revId": "1e1dc718072e17f27b2288049010d1a6b4fe51a9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d2ca6290_7393a091",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1015,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-30T20:56:14Z",
+      "side": 0,
+      "message": "May be remove it in all places?",
+      "parentUuid": "12d15a3f_75ef0828",
+      "revId": "1e1dc718072e17f27b2288049010d1a6b4fe51a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

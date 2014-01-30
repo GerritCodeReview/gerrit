@@ -19,12 +19,10 @@ import static com.google.gerrit.server.notedb.ReviewerState.REVIEWER;
 import static com.google.gerrit.server.project.Util.category;
 import static com.google.gerrit.server.project.Util.value;
 import static com.google.inject.Scopes.SINGLETON;
-
 import static java.util.concurrent.TimeUnit.DAYS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
-
 import static org.easymock.EasyMock.expect;
 import static org.junit.Assert.assertEquals;
 
@@ -41,6 +39,7 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.CapabilityControl;
@@ -49,17 +48,19 @@ import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.AnonymousCowardNameProvider;
 import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
-import com.google.gerrit.server.git.MetaDataUpdate;
+import com.google.gerrit.server.git.GitModule;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.util.TimeUtil;
 import com.google.gerrit.testutil.FakeAccountCache;
 import com.google.gerrit.testutil.FakeRealm;
 import com.google.gerrit.testutil.InMemoryRepositoryManager;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.util.Providers;
@@ -76,7 +77,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
@@ -104,6 +104,7 @@ public class ChangeNotesTest {
   private FakeAccountCache accountCache;
   private IdentifiedUser changeOwner;
   private IdentifiedUser otherUser;
+  private Injector injector;
   private volatile long clockStepMs;
 
   @Before
@@ -125,20 +126,28 @@ public class ChangeNotesTest {
     ou.setPreferredEmail("other@account.com");
     accountCache.put(ou);
 
-    Injector injector = Guice.createInjector(new AbstractModule() {
+    injector = Guice.createInjector(new FactoryModule() {
       @Override
       public void configure() {
+        install(new GitModule());
+        bind(NotesMigration.class).toInstance(NotesMigration.allEnabled());
+        bind(GitRepositoryManager.class).toInstance(repoManager);
+        bind(ProjectCache.class).toProvider(Providers.<ProjectCache> of(null));
         bind(CapabilityControl.Factory.class)
             .toProvider(Providers.<CapabilityControl.Factory> of(null));
         bind(Config.class).annotatedWith(GerritServerConfig.class)
-          .toInstance(new Config());
+            .toInstance(new Config());
         bind(String.class).annotatedWith(AnonymousCowardName.class)
-          .toProvider(AnonymousCowardNameProvider.class);
+            .toProvider(AnonymousCowardNameProvider.class);
         bind(String.class).annotatedWith(CanonicalWebUrl.class)
-          .toInstance("http://localhost:8080/");
+            .toInstance("http://localhost:8080/");
         bind(Realm.class).to(FakeRealm.class);
         bind(GroupBackend.class).to(SystemGroupBackend.class).in(SINGLETON);
         bind(AccountCache.class).toInstance(accountCache);
+        bind(PersonIdent.class).annotatedWith(GerritPersonIdent.class)
+            .toInstance(serverIdent);
+        bind(GitReferenceUpdated.class)
+            .toInstance(GitReferenceUpdated.DISABLED);
       }
     });
 
@@ -175,7 +184,7 @@ public class ChangeNotesTest {
     update.putApproval("Verified", (short) 1);
     update.putReviewer(changeOwner.getAccount().getId(), REVIEWER);
     update.putReviewer(otherUser.getAccount().getId(), CC);
-    commit(update);
+    update.commit();
     assertEquals("refs/changes/01/1/meta", update.getRefName());
 
     RevWalk walk = new RevWalk(repo);
@@ -214,7 +223,7 @@ public class ChangeNotesTest {
     ChangeUpdate update = newUpdate(c, changeOwner);
     update.putApproval("Code-Review", (short) -1);
     update.putApproval("Verified", (short) 1);
-    commit(update);
+    update.commit();
 
     ChangeNotes notes = newNotes(c);
     assertEquals(1, notes.getApprovals().keySet().size());
@@ -240,13 +249,13 @@ public class ChangeNotesTest {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);
     update.putApproval("Code-Review", (short) -1);
-    commit(update);
+    update.commit();
     PatchSet.Id ps1 = c.currentPatchSetId();
 
     incrementPatchSet(c);
     update = newUpdate(c, changeOwner);
     update.putApproval("Code-Review", (short) 1);
-    commit(update);
+    update.commit();
     PatchSet.Id ps2 = c.currentPatchSetId();
 
     ChangeNotes notes = newNotes(c);
@@ -273,7 +282,7 @@ public class ChangeNotesTest {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);
     update.putApproval("Code-Review", (short) -1);
-    commit(update);
+    update.commit();
 
     ChangeNotes notes = newNotes(c);
     PatchSetApproval psa = Iterables.getOnlyElement(
@@ -283,7 +292,7 @@ public class ChangeNotesTest {
 
     update = newUpdate(c, changeOwner);
     update.putApproval("Code-Review", (short) 1);
-    commit(update);
+    update.commit();
 
     notes = newNotes(c);
     psa = Iterables.getOnlyElement(
@@ -297,11 +306,11 @@ public class ChangeNotesTest {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);
     update.putApproval("Code-Review", (short) -1);
-    commit(update);
+    update.commit();
 
     update = newUpdate(c, otherUser);
     update.putApproval("Code-Review", (short) 1);
-    commit(update);
+    update.commit();
 
     ChangeNotes notes = newNotes(c);
     assertEquals(1, notes.getApprovals().keySet().size());
@@ -328,7 +337,7 @@ public class ChangeNotesTest {
     ChangeUpdate update = newUpdate(c, changeOwner);
     update.putReviewer(changeOwner.getAccount().getId(), REVIEWER);
     update.putReviewer(otherUser.getAccount().getId(), REVIEWER);
-    commit(update);
+    update.commit();
 
     ChangeNotes notes = newNotes(c);
     assertEquals(ImmutableSetMultimap.of(
@@ -343,7 +352,7 @@ public class ChangeNotesTest {
     ChangeUpdate update = newUpdate(c, changeOwner);
     update.putReviewer(changeOwner.getAccount().getId(), REVIEWER);
     update.putReviewer(otherUser.getAccount().getId(), CC);
-    commit(update);
+    update.commit();
 
     ChangeNotes notes = newNotes(c);
     assertEquals(ImmutableSetMultimap.of(
@@ -357,7 +366,7 @@ public class ChangeNotesTest {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);
     update.putReviewer(otherUser.getAccount().getId(), REVIEWER);
-    commit(update);
+    update.commit();
 
     ChangeNotes notes = newNotes(c);
     assertEquals(ImmutableSetMultimap.of(
@@ -366,7 +375,7 @@ public class ChangeNotesTest {
 
     update = newUpdate(c, otherUser);
     update.putReviewer(otherUser.getAccount().getId(), CC);
-    commit(update);
+    update.commit();
 
     notes = newNotes(c);
     assertEquals(ImmutableSetMultimap.of(
@@ -379,15 +388,15 @@ public class ChangeNotesTest {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);
     update.putReviewer(otherUser.getAccount().getId(), REVIEWER);
-    commit(update);
+    update.commit();
 
     update = newUpdate(c, changeOwner);
     update.putApproval("Code-Review", (short) 1);
-    commit(update);
+    update.commit();
 
     update = newUpdate(c, otherUser);
     update.putApproval("Code-Review", (short) 1);
-    commit(update);
+    update.commit();
 
     ChangeNotes notes = newNotes(c);
     List<PatchSetApproval> psas =
@@ -398,7 +407,7 @@ public class ChangeNotesTest {
 
     update = newUpdate(c, changeOwner);
     update.removeReviewer(otherUser.getAccount().getId());
-    commit(update);
+    update.commit();
 
     notes = newNotes(c);
     psas = notes.getApprovals().get(c.currentPatchSetId());
@@ -418,12 +427,16 @@ public class ChangeNotesTest {
     return c;
   }
 
-  private ChangeUpdate newUpdate(Change c, IdentifiedUser user)
+  private ChangeUpdate newUpdate(Change c, final IdentifiedUser user)
       throws Exception {
-    return new ChangeUpdate(serverIdent, repoManager,
-        NotesMigration.allEnabled(), accountCache, null, LABEL_TYPES,
-        stubChangeControl(c, user),
-        TimeUtil.nowTs());
+    return injector.createChildInjector(new FactoryModule() {
+      @Override
+      public void configure() {
+        factory(ChangeUpdate.Factory.class);
+        bind(IdentifiedUser.class).toInstance(user);
+      }
+    }).getInstance(ChangeUpdate.Factory.class).create(
+        stubChangeControl(c, user), TimeUtil.nowTs(), LABEL_TYPES);
   }
 
   private ChangeNotes newNotes(Change c) throws OrmException {
@@ -444,14 +457,6 @@ public class ChangeNotesTest {
 
   private static Timestamp after(Change c, long millis) {
     return new Timestamp(c.getCreatedOn().getTime() + millis);
-  }
-
-  private RevCommit commit(ChangeUpdate update) throws IOException {
-    MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED,
-        project, repo);
-    md.getCommitBuilder().setAuthor(
-        update.getUser().newCommitterIdent(update.getWhen(), TZ));
-    return update.commit(md);
   }
 
   private ChangeControl stubChangeControl(Change c, IdentifiedUser user) {

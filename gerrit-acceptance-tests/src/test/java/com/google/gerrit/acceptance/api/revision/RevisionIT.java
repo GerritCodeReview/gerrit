@@ -17,19 +17,30 @@ package com.google.gerrit.acceptance.api.revision;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.api.projects.BranchInput;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
 
 @NoHttpd
 public class RevisionIT extends AbstractDaemonTest {
+
+  private TestAccount admin2;
+
+  @Before
+  public void setUp() throws Exception {
+    admin2 = accounts.admin2();
+  }
 
   @Test
   public void reviewTriplet() throws GitAPIException,
@@ -79,6 +90,23 @@ public class RevisionIT extends AbstractDaemonTest {
         .id("p~master~" + r.getChangeId())
         .current()
         .submit();
+  }
+
+  @Test(expected = AuthException.class)
+  public void submitOnBehalfOf() throws GitAPIException,
+      IOException, RestApiException {
+    PushOneCommit.Result r = createChange();
+    gApi.changes()
+        .id("p~master~" + r.getChangeId())
+        .current()
+        .review(ReviewInput.approve());
+    SubmitInput in = new SubmitInput();
+    in.onBehalfOf = admin2.email;
+    in.waitForMerge = true;
+    gApi.changes()
+        .id("p~master~" + r.getChangeId())
+        .current()
+        .submit(in);
   }
 
   @Test

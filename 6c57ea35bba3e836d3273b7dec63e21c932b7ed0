@@ -1,0 +1,204 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b2e5ee1d_120d8c4f",
+        "filename": "Documentation/cmd-review.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-30T11:09:37Z",
+      "side": 1,
+      "message": "It should be mentioned, that only change owners can use this option.",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 74,
+        "endChar": 0
+      },
+      "revId": "6c57ea35bba3e836d3273b7dec63e21c932b7ed0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b2e5ee1d_f228c89c",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 1377,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-30T11:09:37Z",
+      "side": 1,
+      "message": "change owner",
+      "range": {
+        "startLine": 1377,
+        "startChar": 36,
+        "endLine": 1377,
+        "endChar": 46
+      },
+      "revId": "6c57ea35bba3e836d3273b7dec63e21c932b7ed0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d2ca6290_d32dd4aa",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 1389,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-30T11:09:37Z",
+      "side": 1,
+      "message": "\"Change Owners\" group is not needed, as the check isOwner() can be easily done in apply() method of REST endpoints.",
+      "range": {
+        "startLine": 1387,
+        "startChar": 0,
+        "endLine": 1389,
+        "endChar": 52
+      },
+      "revId": "6c57ea35bba3e836d3273b7dec63e21c932b7ed0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d2ca6290_7316006a",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/GlobalCapability.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-30T11:09:37Z",
+      "side": 1,
+      "message": "This is not needed, use isOwner() check to show or hide the WIP/READY buttons.",
+      "revId": "6c57ea35bba3e836d3273b7dec63e21c932b7ed0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d2ca6290_53130478",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/CapabilityControl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-30T11:09:37Z",
+      "side": 1,
+      "message": "not needed",
+      "revId": "6c57ea35bba3e836d3273b7dec63e21c932b7ed0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b2e5ee1d_52131478",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetCapabilities.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-30T11:09:37Z",
+      "side": 1,
+      "message": "not needed",
+      "revId": "6c57ea35bba3e836d3273b7dec63e21c932b7ed0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d2ca6290_f328d09c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ReadyForReviewAction.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-30T11:09:37Z",
+      "side": 1,
+      "message": "The check if the caller is the change owner must be done manually in apply method.",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 54
+      },
+      "revId": "6c57ea35bba3e836d3273b7dec63e21c932b7ed0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b2e5ee1d_32109069",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/WorkInProgressAction.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-30T11:09:37Z",
+      "side": 1,
+      "message": "The check if the caller is the change owner must be done manually in apply method.",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 54
+      },
+      "revId": "6c57ea35bba3e836d3273b7dec63e21c932b7ed0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d2ca6290_33108869",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/CapabilityConstants.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-30T11:09:37Z",
+      "side": 1,
+      "message": "not needed",
+      "revId": "6c57ea35bba3e836d3273b7dec63e21c932b7ed0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d2ca6290_130d8c4f",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/config/CapabilityConstants.properties",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-30T11:09:37Z",
+      "side": 1,
+      "message": "not needed",
+      "revId": "6c57ea35bba3e836d3273b7dec63e21c932b7ed0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

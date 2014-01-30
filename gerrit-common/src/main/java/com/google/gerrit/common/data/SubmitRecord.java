@@ -17,6 +17,7 @@ package com.google.gerrit.common.data;
 import com.google.gerrit.reviewdb.client.Account;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Describes the state required to submit a change.
@@ -94,6 +95,22 @@ public class SubmitRecord {
       }
       return sb.toString();
     }
+
+    @Override
+    public boolean equals(Object o) {
+      if (o instanceof Label) {
+        Label l = (Label) o;
+        return Objects.equals(label, l.label)
+            && Objects.equals(status, l.status)
+            && Objects.equals(appliedBy, l.appliedBy);
+      }
+      return false;
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash(label, status, appliedBy);
+    }
   }
 
   @Override
@@ -113,5 +130,21 @@ public class SubmitRecord {
     }
     sb.append(']');
     return sb.toString();
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (o instanceof SubmitRecord) {
+      SubmitRecord r = (SubmitRecord) o;
+      return Objects.equals(status, r.status)
+          && Objects.equals(labels, r.labels)
+          && Objects.equals(errorMessage, r.errorMessage);
+    }
+    return false;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(status, labels, errorMessage);
   }
 }

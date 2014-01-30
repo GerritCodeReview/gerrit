@@ -16,6 +16,24 @@
       "revId": "9ddc26cfa81bcf93ef6e321f7557a301b8004b95",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2cda6a7_944e2487",
+        "filename": "ReleaseNotes/ReleaseNotes-2.8.2.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-01-30T14:02:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d2ca6290_731de07b",
+      "revId": "9ddc26cfa81bcf93ef6e321f7557a301b8004b95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -285,6 +285,30 @@
     },
     {
       "key": {
+        "uuid": "b2e5ee1d_b2e4804c",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Init.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-01-30T08:18:09Z",
+      "side": 1,
+      "message": "How you could be sure that \"nobody else\" repack gerrit? AFAIR Qualcomm also does it, maybe SAP ... Google?\n\nYou don\u0027t know what will happen after this feature will be merged. This is something rather for \"the big companies\" that are concerned about security and have knowledge and resources to implement it properly. IMO when sb is able to figure out this API and implement it, the repacking of gerrit wouldn\u0027t be a problem.\n\nDiscovery and configuraiton of SecureStrore during init step is crucial for init step. Because during init gerrit cheecks DB version (and performs upgrade if necessary), when db password would be encrypted and there connection could not be made. And removing DB is not a solution for this problem. Believe me, if discovery during init would not be necessary I wouldn\u0027t implement it.",
+      "parentUuid": "f2c12653_f47098ae",
+      "range": {
+        "startLine": 118,
+        "startChar": 0,
+        "endLine": 122,
+        "endChar": 7
+      },
+      "revId": "2d86a7b377a7a98d478f65d8d0a46b323bef0d1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d24982a5_7bae1faf",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitSecureStore.java",
         "patchSetId": 12

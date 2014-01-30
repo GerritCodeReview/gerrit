@@ -23,7 +23,7 @@ public class ChangeNoteUtil {
   static final String GERRIT_PLACEHOLDER_HOST = "gerrit";
 
   static final FooterKey FOOTER_LABEL = new FooterKey("Label");
-  static final FooterKey FOOTER_PATCH_SET = new FooterKey("Patch-Set");
+  static final FooterKey FOOTER_PATCH_SET = new FooterKey("Patch-set");
 
   public static String changeRefName(Change.Id id) {
     StringBuilder r = new StringBuilder();

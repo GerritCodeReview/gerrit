@@ -195,7 +195,7 @@ public class ChangeNotesTest {
       walk.parseBody(commit);
       assertEquals("Update patch set 1\n"
           + "\n"
-          + "Patch-Set: 1\n"
+          + "Patch-set: 1\n"
           + "Reviewer: Change Owner <1@gerrit>\n"
           + "CC: Other Account <2@gerrit>\n"
           + "Label: Verified=+1\n"

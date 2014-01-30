@@ -70,6 +70,30 @@
       "revId": "05790ac37b0df5d3e09ae1cc5572a5f4894c529b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "72eff6ff_b0e4784c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalCopier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-30T23:38:37Z",
+      "side": 1,
+      "message": "Note that the ChangeKindCache currently has size 0, so you will get misses even if called multiple times within the same request. Depending on the code structure it might be better to continue passing it around.\n\nIn the future we\u0027ll be increasing the size however.",
+      "parentUuid": "b2c08e69_3af981f3",
+      "range": {
+        "startLine": 65,
+        "startChar": 2,
+        "endLine": 65,
+        "endChar": 32
+      },
+      "revId": "05790ac37b0df5d3e09ae1cc5572a5f4894c529b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

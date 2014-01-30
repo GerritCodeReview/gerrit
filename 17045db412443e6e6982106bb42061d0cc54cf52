@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b2e5ee1d_d2df047f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ScriptingPlugin.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-01-30T07:57:17Z",
+      "side": 1,
+      "message": "Is this binding still necessary? I can imagine script plugins that do not provide UI",
+      "range": {
+        "startLine": 68,
+        "startChar": 8,
+        "endLine": 69,
+        "endChar": 43
+      },
+      "revId": "17045db412443e6e6982106bb42061d0cc54cf52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -53,6 +53,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitModule;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.VersionedMetaData.BatchMetaDataUpdate;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectCache;
@@ -67,6 +68,7 @@ import com.google.inject.util.Providers;
 
 import org.easymock.EasyMock;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
+import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -413,6 +415,38 @@ public class ChangeNotesTest {
     psas = notes.getApprovals().get(c.currentPatchSetId());
     assertEquals(1, psas.size());
     assertEquals(changeOwner.getAccount().getId(), psas.get(0).getAccountId());
+  }
+
+  @Test
+  public void multipleUpdatesInBatch() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update1 = newUpdate(c, changeOwner);
+    update1.putApproval("Verified", (short) 1);
+
+    ChangeUpdate update2 = newUpdate(c, otherUser);
+    update2.putApproval("Code-Review", (short) 2);
+
+    BatchMetaDataUpdate batch = update1.openUpdate();
+    try {
+      batch.write(update1, new CommitBuilder());
+      batch.write(update2, new CommitBuilder());
+      batch.commit();
+    } finally {
+      batch.close();
+    }
+
+    ChangeNotes notes = newNotes(c);
+    List<PatchSetApproval> psas =
+        notes.getApprovals().get(c.currentPatchSetId());
+    assertEquals(2, psas.size());
+
+    assertEquals(changeOwner.getAccount().getId(), psas.get(0).getAccountId());
+    assertEquals("Verified", psas.get(0).getLabel());
+    assertEquals((short) 1, psas.get(0).getValue());
+
+    assertEquals(otherUser.getAccount().getId(), psas.get(1).getAccountId());
+    assertEquals("Code-Review", psas.get(1).getLabel());
+    assertEquals((short) 2, psas.get(1).getValue());
   }
 
   private Change newChange() {

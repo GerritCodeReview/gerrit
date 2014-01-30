@@ -308,11 +308,11 @@ public class ChangeJson {
       // list permitted labels, since users can't vote on those patch sets.
       if (!limitToPsId.isPresent()
           || limitToPsId.get().equals(in.currentPatchSetId())) {
-        out.permitted_labels = permittedLabels(cd);
+        out.permittedLabels = permittedLabels(cd);
       }
-      out.removable_reviewers = removableReviewers(cd, out.labels.values());
+      out.removableReviewers = removableReviewers(cd, out.labels.values());
     }
-    if (options.contains(MESSAGES)) {
+    if (has(MESSAGES)) {
       out.messages = messages(cd);
     }
     out.finish();
@@ -324,7 +324,7 @@ public class ChangeJson {
       if (out.revisions != null) {
         for (Map.Entry<String, RevisionInfo> entry : out.revisions.entrySet()) {
           if (entry.getValue().isCurrent) {
-            out.current_revision = entry.getKey();
+            out.currentRevision = entry.getKey();
             break;
           }
         }
@@ -959,11 +959,11 @@ public class ChangeJson {
 
     public Map<String, ActionInfo> actions;
     public Map<String, LabelInfo> labels;
-    public Map<String, Collection<String>> permitted_labels;
-    public Collection<AccountInfo> removable_reviewers;
+    public Map<String, Collection<String>> permittedLabels;
+    public Collection<AccountInfo> removableReviewers;
     public Collection<ChangeMessageInfo> messages;
 
-    public String current_revision;
+    public String currentRevision;
     public Map<String, RevisionInfo> revisions;
     public Boolean _moreChanges;
 

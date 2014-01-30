@@ -203,7 +203,7 @@ public class AddRemoveGroupMembersIT extends AbstractDaemonTest {
   private void assertMembers(List<AccountInfo> ai, TestAccount... members) {
     Map<Integer, AccountInfo> infoById = Maps.newHashMap();
     for (AccountInfo i : ai) {
-      infoById.put(i._account_id, i);
+      infoById.put(i._accountId, i);
     }
 
     for (TestAccount a : members) {

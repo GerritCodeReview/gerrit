@@ -87,14 +87,14 @@ public class ListChangesOptionsIT extends AbstractDaemonTest {
   @Test
   public void noRevisionOptions() throws Exception {
     ChangeInfo c = getChange(changeId);
-    assertNull(c.current_revision);
+    assertNull(c.currentRevision);
     assertNull(c.revisions);
   }
 
   @Test
   public void currentRevision() throws Exception {
     ChangeInfo c = getChange(changeId, CURRENT_REVISION);
-    assertEquals(commitId(2), c.current_revision);
+    assertEquals(commitId(2), c.currentRevision);
     assertEquals(ImmutableSet.of(commitId(2)), c.revisions.keySet());
     assertEquals(3, c.revisions.get(commitId(2))._number);
   }
@@ -102,7 +102,7 @@ public class ListChangesOptionsIT extends AbstractDaemonTest {
   @Test
   public void allRevisions() throws Exception {
     ChangeInfo c = getChange(changeId, ALL_REVISIONS);
-    assertEquals(commitId(2), c.current_revision);
+    assertEquals(commitId(2), c.currentRevision);
     assertEquals(ImmutableSet.of(commitId(0), commitId(1), commitId(2)),
         c.revisions.keySet());
     assertEquals(1, c.revisions.get(commitId(0))._number);

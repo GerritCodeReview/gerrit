@@ -191,7 +191,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   protected void assertCurrentRevision(String changeId, int expectedNum,
       ObjectId expectedId) throws IOException {
     ChangeInfo c = getChange(changeId, CURRENT_REVISION);
-    assertEquals(expectedId.name(), c.current_revision);
+    assertEquals(expectedId.name(), c.currentRevision);
     assertEquals(expectedNum, c.revisions.get(expectedId.name())._number);
   }
 

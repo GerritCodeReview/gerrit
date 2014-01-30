@@ -83,7 +83,7 @@ public class ListMembers implements RestReadView<GroupResource> {
         return ComparisonChain.start()
             .compare(a.name, b.name, Ordering.natural().nullsFirst())
             .compare(a.email, b.email, Ordering.natural().nullsFirst())
-            .compare(a._account_id, b._account_id, Ordering.natural().nullsFirst()).result();
+            .compare(a._accountId, b._accountId, Ordering.natural().nullsFirst()).result();
       }
     });
     return memberInfos;

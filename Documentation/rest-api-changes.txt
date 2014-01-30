@@ -3284,6 +3284,10 @@ The status of the change after submitting, can be `MERGED` or
 If `wait_for_merge` in the link:#submit-input[SubmitInput] was set to
 `false` the returned status is `SUBMITTED` and the caller can't know
 whether the change could be merged successfully.
+|`on_behalf_of`|optional|
+link:rest-api-accounts.html#account-id[\{account-id\}] the submit
+action should be done on behalf of. To use this option the caller must
+have been granted `Submit` permission.
 |==========================
 
 [[submit-input]]

@@ -122,6 +122,12 @@ public class AccountCreator {
       "Administrators");
   }
 
+  public TestAccount admin2()
+      throws UnsupportedEncodingException, OrmException, JSchException {
+    return create("admin2", "admin2@example.com", "Administrator2",
+      "Administrators");
+  }
+
   public TestAccount user()
       throws UnsupportedEncodingException, OrmException, JSchException {
     return create("user", "user@example.com", "User");

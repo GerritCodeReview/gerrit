@@ -170,31 +170,32 @@ public class ChangeUpdate extends VersionedMetaData {
     reviewers.put(reviewer, ReviewerState.REMOVED);
   }
 
+  private void load() throws IOException {
+    if (migration.write() && getRevision() == null) {
+      Repository repo = repoManager.openRepository(getChange().getProject());
+      try {
+        load(repo);
+      } catch (ConfigInvalidException e) {
+        throw new IOException(e);
+      } finally {
+        repo.close();
+      }
+    }
+  }
+
   @Override
   public RevCommit commit(MetaDataUpdate md) throws IOException {
     throw new UnsupportedOperationException("use commit()");
   }
 
   public RevCommit commit() throws IOException {
-    MetaDataUpdate md = updateFactory
-        .create(getChange().getProject(), getUser());
-    if (!migration.write()) {
-      return null;
-    }
-    Repository repo = repoManager.openRepository(getChange().getProject());
+    BatchMetaDataUpdate batch = openUpdate();
     try {
-      load(repo);
-    } catch (ConfigInvalidException e) {
-      throw new IOException(e);
+      batch.write(new CommitBuilder());
+      return batch.commit();
     } finally {
-      repo.close();
+      batch.close();
     }
-
-    md.setAllowEmpty(true);
-    CommitBuilder cb = md.getCommitBuilder();
-    cb.setAuthor(newIdent(getUser().getAccount()));
-    cb.setCommitter(new PersonIdent(serverIdent, when));
-    return super.commit(md);
   }
 
   public PersonIdent newIdent(Account author) {
@@ -206,8 +207,16 @@ public class ChangeUpdate extends VersionedMetaData {
 
   @Override
   public BatchMetaDataUpdate openUpdate(MetaDataUpdate update) throws IOException {
+    throw new UnsupportedOperationException("use openUpdate()");
+  }
+
+  public BatchMetaDataUpdate openUpdate() throws IOException {
     if (migration.write()) {
-      return super.openUpdate(update);
+      load();
+      MetaDataUpdate md =
+          updateFactory.create(getChange().getProject(), getUser());
+      md.setAllowEmpty(true);
+      return super.openUpdate(md);
     }
     return new BatchMetaDataUpdate() {
       @Override
@@ -252,6 +261,9 @@ public class ChangeUpdate extends VersionedMetaData {
     if (approvals.isEmpty() && reviewers.isEmpty()) {
       return false;
     }
+    commit.setAuthor(newIdent(getUser().getAccount()));
+    commit.setCommitter(new PersonIdent(serverIdent, when));
+
     int ps = psId != null ? psId.get() : getChange().currentPatchSetId().get();
     StringBuilder msg = new StringBuilder();
     if (subject != null) {

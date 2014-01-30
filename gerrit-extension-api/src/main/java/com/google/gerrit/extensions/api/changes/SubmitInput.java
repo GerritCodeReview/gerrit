@@ -16,4 +16,5 @@ package com.google.gerrit.extensions.api.changes;
 
 public class SubmitInput {
   public boolean waitForMerge;
+  public String onBehalfOf;
 }

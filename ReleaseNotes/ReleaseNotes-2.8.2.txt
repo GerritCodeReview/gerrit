@@ -1,0 +1,141 @@
+Release notes for Gerrit 2.8.2
+==============================
+
+There are no schema changes from link:ReleaseNotes-2.8.1.html[2.8.1].
+
+Download:
+link:https://gerrit-releases.storage.googleapis.com/gerrit-2.8.2.war[
+https://gerrit-releases.storage.googleapis.com/gerrit-2.8.2.war]
+
+
+General
+-------
+
+* Only add "cherry picked from" when cherry picking a merged change.
++
+The "(cherry picked from commit ...)" line was being added in the commit
+message when cherry picking from closed changes, which included abandoned.
+
+* Fix PUSH permission check for draft changes.
++
+It was not possible to block pushes to the `refs/drafts` namespace.
+
+* Don't allow project owners to create branches if create is blocked.
++
+Project owners were able to create branches through the WebUI, REST and SSH
+even when the 'create reference' permission was actually blocked for them.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=2397[Issue 2397]:
+Remove quotes and trailing period from "topic edited" messages.
++
+The quotes and trailing period were causing linkification to fail for topics
+that were set to a URL.
+
+* Check if user can read HEAD commit when resolving detached HEAD.
++
+If HEAD was detached the `GetHead` REST endpoint refused to resolve HEAD
+when the user was not a project owner.
+
+
+Change Screen / Diff Screen
+---------------------------
+
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=2398[Issue 2398]:
+Enable syntax highlighting for Groovy, Clojure, Lisp, Ruby and Perl.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=2416[Issue 2416]:
+Fix copy functionality in Firefox and Safari.
++
+Ctrl-C/Cmd-C was activating the 'insert comment' feature, and preventing the
+browser from copying the selected text to the clipboard.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=2428[Issue 2428]:
+Fix truncation of long lines in side-by-side diff.
++
+Lines whose length exceeded the width of the window were being truncated
+and only shown fully after zooming out/in on the browser.
+
+* Fix handling of the enter key when editing the topic.
++
+The enter key was causing the file diff view to open, instead of confirming
+the topic edit.
+
+* Fix wrong button being passed to the 'revert' action.
++
+The action was using the cherry-pick button instead of the revert button.
+
+
+ssh
+---
+
+
+* Support for nio2 backend is removed.
++
+The nio2 backend is link:https://issues.apache.org/jira/browse/SSHD-252[
+broken in MINA SSHD].  Support is removed until the next release of MINA
+SSHD in which it is fixed.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=2424[Issue 2424]:
+Add descriptions on commands that are disabled in slave mode.
++
+Commands that are disabled on a server running in slave mode were being listed
+with an empty description.
+
+* Remove obsolete commands from slave mode commands list.
++
+The `approve` and `replicate` commands, which no longer exist, were still being
+listed in the available commands shown when running the ssh `gerrit` command
+without any arguments on a server running in slave mode.
+
+* Remove 'including replication' from the `show-queue` command description.
++
+The `replication` command is provided by the replication plugin, so it is no
+longer relevant to mention this in the description of a core command.
+
+
+Replication Plugin
+------------------
+
+
+* Never replicate automerge-cache commits.
++
+Commits in the `automerge-cache` namespace are used on the master to
+improve performance of the diff UI.  They are not needed on remote
+mirrors and it is wasteful to replicate them.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=2420[Issue 2420]:
+Fix failure to create to missing remote repository via git:// protocol.
++
+When replicating to a mirror over the anonymous git:// protocol and the
+repository did not exist on the remote (i.e. if the remote was offline
+when the repository was originally created), the replication failed with
+a "remote repository error", rather than the expected "no repository".
+
+* Improve info logging related to repository creation and deletion, and
+differentiate between local and remote repository errors.
+
+* Update documentation to clarify replication of refs/meta/config when
+refspec is 'all refs'
+
+
+Documentation
+-------------
+
+
+* Add missing documentation of the secondary index configuration.
++
+Document that open and closed changes are indexed in separate indexes,
+and for Lucene indexes the RAM buffer size and maximum buffered documents
+can be configured.
+
+* Correct the Gerrit download link.
++
+The link on the documentation index was pointing to the Google Code page,
+which has not been used for some time.
+
+* Correct the description of the `revisions` field in the REST API's
+`ChangeInfo` entity.
+
+* Add a link from the plugin documentation to the validation listeners API
+documentation.

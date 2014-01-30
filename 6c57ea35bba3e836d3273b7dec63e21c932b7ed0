@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b2e5ee1d_928dfc6d",
+        "filename": "Documentation/cmd-review.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-30T17:52:07Z",
+      "side": 1,
+      "message": "not applicable.",
+      "parentUuid": "b2e5ee1d_120d8c4f",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 74,
+        "endChar": 0
+      },
+      "revId": "6c57ea35bba3e836d3273b7dec63e21c932b7ed0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b2e5ee1d_f228c89c",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 5
@@ -36,6 +60,30 @@
       "writtenOn": "2014-01-30T11:09:37Z",
       "side": 1,
       "message": "change owner",
+      "range": {
+        "startLine": 1377,
+        "startChar": 36,
+        "endLine": 1377,
+        "endChar": 46
+      },
+      "revId": "6c57ea35bba3e836d3273b7dec63e21c932b7ed0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b2e5ee1d_d2838440",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 1377,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-30T17:52:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2e5ee1d_f228c89c",
       "range": {
         "startLine": 1377,
         "startChar": 36,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "b2e5ee1d_b288005e",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 1389,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-30T17:52:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d2ca6290_d32dd4aa",
+      "range": {
+        "startLine": 1387,
+        "startChar": 0,
+        "endLine": 1389,
+        "endChar": 52
+      },
+      "revId": "6c57ea35bba3e836d3273b7dec63e21c932b7ed0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d2ca6290_7316006a",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/GlobalCapability.java",
         "patchSetId": 5
@@ -82,6 +154,24 @@
       "writtenOn": "2014-01-30T11:09:37Z",
       "side": 1,
       "message": "This is not needed, use isOwner() check to show or hide the WIP/READY buttons.",
+      "revId": "6c57ea35bba3e836d3273b7dec63e21c932b7ed0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d2ca6290_934e3c87",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/GlobalCapability.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-30T17:52:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d2ca6290_7316006a",
       "revId": "6c57ea35bba3e836d3273b7dec63e21c932b7ed0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -105,6 +195,24 @@
     },
     {
       "key": {
+        "uuid": "b2e5ee1d_5241d453",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/CapabilityControl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-30T17:52:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d2ca6290_53130478",
+      "revId": "6c57ea35bba3e836d3273b7dec63e21c932b7ed0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b2e5ee1d_52131478",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetCapabilities.java",
         "patchSetId": 5
@@ -122,6 +230,24 @@
     },
     {
       "key": {
+        "uuid": "d2ca6290_7344c065",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetCapabilities.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-30T17:52:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2e5ee1d_52131478",
+      "revId": "6c57ea35bba3e836d3273b7dec63e21c932b7ed0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d2ca6290_f328d09c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ReadyForReviewAction.java",
         "patchSetId": 5
@@ -133,6 +259,30 @@
       "writtenOn": "2014-01-30T11:09:37Z",
       "side": 1,
       "message": "The check if the caller is the change owner must be done manually in apply method.",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 54
+      },
+      "revId": "6c57ea35bba3e836d3273b7dec63e21c932b7ed0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b2e5ee1d_323e50cc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ReadyForReviewAction.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-30T17:52:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d2ca6290_f328d09c",
       "range": {
         "startLine": 35,
         "startChar": 0,
@@ -168,6 +318,30 @@
     },
     {
       "key": {
+        "uuid": "b2e5ee1d_123b4cdc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/WorkInProgressAction.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-30T17:52:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2e5ee1d_32109069",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 54
+      },
+      "revId": "6c57ea35bba3e836d3273b7dec63e21c932b7ed0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d2ca6290_33108869",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/CapabilityConstants.java",
         "patchSetId": 5
@@ -185,6 +359,24 @@
     },
     {
       "key": {
+        "uuid": "d2ca6290_5341c453",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/CapabilityConstants.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-30T17:52:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d2ca6290_33108869",
+      "revId": "6c57ea35bba3e836d3273b7dec63e21c932b7ed0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d2ca6290_130d8c4f",
         "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/config/CapabilityConstants.properties",
         "patchSetId": 5
@@ -196,6 +388,24 @@
       "writtenOn": "2014-01-30T11:09:37Z",
       "side": 1,
       "message": "not needed",
+      "revId": "6c57ea35bba3e836d3273b7dec63e21c932b7ed0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b2e5ee1d_f27e8890",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/config/CapabilityConstants.properties",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-30T17:52:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d2ca6290_130d8c4f",
       "revId": "6c57ea35bba3e836d3273b7dec63e21c932b7ed0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

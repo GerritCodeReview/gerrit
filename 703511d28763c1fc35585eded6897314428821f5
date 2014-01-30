@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d2ca6290_b3325809",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteDraftPatchSet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-30T12:04:23Z",
+      "side": 1,
+      "message": "That\u0027s not enough. SSH review command can be still called on DRAFT changes, even when WIP strategy is used. The similar check must be done in apply method above.",
+      "range": {
+        "startLine": 97,
+        "startChar": 20,
+        "endLine": 97,
+        "endChar": 31
+      },
+      "revId": "703511d28763c1fc35585eded6897314428821f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d2ca6290_93375cf9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Publish.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-30T12:04:23Z",
+      "side": 1,
+      "message": "That\u0027s not enough. SSH review command can be still called on DRAFT changes, even when WIP strategy is used. The similar check must be done in apply method above.",
+      "range": {
+        "startLine": 145,
+        "startChar": 20,
+        "endLine": 145,
+        "endChar": 31
+      },
+      "revId": "703511d28763c1fc35585eded6897314428821f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f2cda6a7_f401d822",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/AccountInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-30T00:14:56Z",
+      "side": 1,
+      "message": "This is actually called _account_id in the JSON.",
+      "revId": "714445e63cdb036da21c5c3fbf470bbc4e9d6749",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2cda6a7_14f69401",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/ChangeInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-30T00:14:56Z",
+      "side": 1,
+      "message": "The JSON protocol calls this current_revision. Do we want to use camelCaseNames in the Java code or match the JSON lower_case_style?",
+      "revId": "714445e63cdb036da21c5c3fbf470bbc4e9d6749",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2cda6a7_d406dc38",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/ChangeMessageInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-30T00:14:56Z",
+      "side": 1,
+      "message": "This is _revision_number in the JSON.",
+      "revId": "714445e63cdb036da21c5c3fbf470bbc4e9d6749",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "12d15a3f_35f990f3",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/FileInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-30T00:14:56Z",
+      "side": 1,
+      "message": "The server code uses camelCase for these names but the JSON is clearly lower_case. I honestly don\u0027t know which style we should use here in the extension-api but we need to be very consistent about it.",
+      "range": {
+        "startLine": 21,
+        "startChar": 2,
+        "endLine": 22,
+        "endChar": 30
+      },
+      "revId": "714445e63cdb036da21c5c3fbf470bbc4e9d6749",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2cda6a7_b4fb60e7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/ChangeInfoMapper.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-30T00:14:56Z",
+      "side": 1,
+      "message": "EnumBiMap\u003cChange.Status, ChangeStatus\u003e MAP \u003d EnumBiMap.create(Change.Status.class, ChangeStatus.class);\n\nhttp://code.google.com/p/guava-libraries/wiki/NewCollectionTypesExplained#BiMap",
+      "range": {
+        "startLine": 43,
+        "startChar": 23,
+        "endLine": 49,
+        "endChar": 52
+      },
+      "revId": "714445e63cdb036da21c5c3fbf470bbc4e9d6749",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2cda6a7_9400641c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/ChangeInfoMapper.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-30T00:14:56Z",
+      "side": 1,
+      "message": "This hand mapping is painful, and interim until the server can use the extension types directly, right?\n\nI wonder if its better to serialize to JSON and then back to the extension API objects in a lenient way, configuring Gson to ignore object properties that are not supported in the destination POJO type.",
+      "revId": "714445e63cdb036da21c5c3fbf470bbc4e9d6749",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

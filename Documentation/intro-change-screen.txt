@@ -53,10 +53,10 @@ Key bindings: "n" & "p" to navigate between the patch sets.
 [[download-commands]]
 == Download commands
 
-The download commands are moved to the 'Download' drop down box.  Patch files
-can be downloaded as base64 encoded or zipped versions. Download-plugin must
-be installed to see the download actions. If download plugin is not installed,
-only patch files hyperlinks are shown.
+The commands to checkout, pull, or cherry-pick a patchset moved to the
+'Download' drop down box.  Patch files can be downloaded as base64 encoded or
+zipped versions. Download-plugin must be installed to see the download actions.
+If download plugin is not installed, only patch files hyperlinks are shown.
 
 Change state is cached in browsers, and the change state includes the download
 URLs. If the change is modified (e.g. add a message or change  a label vote)

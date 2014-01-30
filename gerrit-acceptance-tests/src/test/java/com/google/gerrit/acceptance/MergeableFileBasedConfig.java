@@ -51,7 +51,7 @@ public class MergeableFileBasedConfig extends FileBasedConfig {
         }
       }
 
-      for (String name : s.getNames(section)) {
+      for (String name : s.getNames(section, true)) {
         setStringList(section, null, name,
             Lists.newArrayList(s.getStringList(section, null, name)));
       }

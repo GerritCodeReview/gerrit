@@ -535,6 +535,7 @@ public class Gerrit implements EntryPoint {
     RootPanel.detachNow(gStarting);
     ApiGlue.init();
 
+    CoreScriptsLoader.load();
     applyUserPreferences();
     populateBottomMenu(bottomMenu, hpd);
     refreshMenuBar();

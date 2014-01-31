@@ -16,11 +16,13 @@ package com.google.gerrit.client;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
+import com.google.gwt.resources.client.DataResource;
+import com.google.gwt.resources.client.DataResource.DoNotEmbed;
 
 public interface CoreScripts extends ClientBundle {
   public static final CoreScripts I = GWT.create(CoreScripts.class);
 
-//  @Source("put-here-core-js-api-script.js")
-//  @DoNotEmbed
-//  DataResource put_here_core_js_api_script();
+  @Source("projects/put-change.js")
+  @DoNotEmbed
+  DataResource put_change();
 }

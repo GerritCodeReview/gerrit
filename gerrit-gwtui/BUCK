@@ -50,11 +50,15 @@ gwt_user_agent_permutations(
 
 DIFFY = glob(['src/main/java/com/google/gerrit/client/diffy*.png'])
 
+CORE_SCRIPTS = [
+  'src/main/resources/com/google/gerrit/client/projects/put-change.js'
+]
+
 gwt_module(
   name = 'ui_module',
   srcs = glob(['src/main/java/**/*.java']),
   gwtxml = 'src/main/java/%s.gwt.xml' % MODULE.replace('.', '/'),
-  resources = glob(['src/main/java/**/*'], excludes = DIFFY),
+  resources = glob(['src/main/java/**/*'], excludes = DIFFY) + CORE_SCRIPTS,
   deps = [
     '//gerrit-gwtexpui:Clippy',
     '//gerrit-gwtexpui:GlobalKey',

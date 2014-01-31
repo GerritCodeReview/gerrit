@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f2cda6a7_d417fc2d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-31T05:00:39Z",
+      "side": 1,
+      "message": "This seems to be writing a commit for every reviewer. But we only want to write a commit if the normalizer had to the change PSA object. Right now I think the upsert on line 283 above is updating all approvals at submit time, which is more database traffic than is necessary.\n\nThe normalizer also doesn\u0027t actually flatten the PSA value to within the type floor if the user\u0027s granted value is outside of the type floor but within their permitted range.  Its unclear if RefControl is squashing the PermissionRange down to match the configured label range, or if the LabelNormalizer is where this is done.",
+      "range": {
+        "startLine": 309,
+        "startChar": 8,
+        "endLine": 312,
+        "endChar": 9
+      },
+      "revId": "b026156e9b5d7d85920d9c39b1052df0ea7dc7cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2cda6a7_f412f83f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-31T05:00:39Z",
+      "side": 1,
+      "message": "If there is an OK record, I think its OK to store only that one record and not all of the alternatives. Even if force is true.",
+      "range": {
+        "startLine": 331,
+        "startChar": 17,
+        "endLine": 331,
+        "endChar": 50
+      },
+      "revId": "b026156e9b5d7d85920d9c39b1052df0ea7dc7cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

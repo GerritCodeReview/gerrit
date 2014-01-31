@@ -1,4 +1,4 @@
-// Copyright (C) 2013 The Android Open Source Project
+// Copyright (C) 2014 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,19 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.acceptance.rest.account;
+package com.google.gerrit.extensions.common;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import java.util.Map;
 
-import com.google.gerrit.acceptance.TestAccount;
-import com.google.gerrit.server.account.AccountInfo;
+public class FetchInfo {
+  public String url;
+  public String ref;
+  public Map<String, String> commands;
 
-public class AccountAssert {
-
-  public static void assertAccountInfo(TestAccount a, AccountInfo ai) {
-    assertTrue(a.id.get() == ai._accountId);
-    assertEquals(a.fullName, ai.name);
-    assertEquals(a.email, ai.email);
+  public FetchInfo(String url, String ref) {
+    this.url = url;
+    this.ref = ref;
   }
 }

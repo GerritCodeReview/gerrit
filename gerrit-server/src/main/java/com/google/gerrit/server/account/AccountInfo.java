@@ -66,7 +66,7 @@ public class AccountInfo {
       if (info == null) {
         info = new AccountInfo(id);
         if (detailed) {
-          info._account_id = id.get();
+          info._accountId = id.get();
         }
         created.put(id, info);
       }
@@ -75,7 +75,7 @@ public class AccountInfo {
 
     public void put(AccountInfo info) {
       if (detailed) {
-        info._account_id = info._id.get();
+        info._accountId = info._id.get();
       }
       provided.add(info);
     }
@@ -106,7 +106,7 @@ public class AccountInfo {
     _id = id;
   }
 
-  public Integer _account_id;
+  public Integer _accountId;
   public String name;
   public String email;
   public String username;

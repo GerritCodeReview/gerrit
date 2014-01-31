@@ -53,7 +53,12 @@ import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.SubmitRecord;
+import com.google.gerrit.extensions.common.ActionInfo;
+import com.google.gerrit.extensions.common.CommitInfo;
+import com.google.gerrit.extensions.common.FetchInfo;
+import com.google.gerrit.extensions.common.GitPerson;
 import com.google.gerrit.extensions.common.ListChangesOption;
+import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.config.DownloadCommand;
 import com.google.gerrit.extensions.config.DownloadScheme;
 import com.google.gerrit.extensions.registration.DynamicMap;
@@ -75,7 +80,6 @@ import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountInfo;
-import com.google.gerrit.server.actions.ActionInfo;
 import com.google.gerrit.server.extensions.webui.UiActions;
 import com.google.gerrit.server.git.LabelNormalizer;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
@@ -308,11 +312,11 @@ public class ChangeJson {
       // list permitted labels, since users can't vote on those patch sets.
       if (!limitToPsId.isPresent()
           || limitToPsId.get().equals(in.currentPatchSetId())) {
-        out.permitted_labels = permittedLabels(cd);
+        out.permittedLabels = permittedLabels(cd);
       }
-      out.removable_reviewers = removableReviewers(cd, out.labels.values());
+      out.removableReviewers = removableReviewers(cd, out.labels.values());
     }
-    if (options.contains(MESSAGES)) {
+    if (has(MESSAGES)) {
       out.messages = messages(cd);
     }
     out.finish();
@@ -324,7 +328,7 @@ public class ChangeJson {
       if (out.revisions != null) {
         for (Map.Entry<String, RevisionInfo> entry : out.revisions.entrySet()) {
           if (entry.getValue().isCurrent) {
-            out.current_revision = entry.getKey();
+            out.currentRevision = entry.getKey();
             break;
           }
         }
@@ -917,13 +921,20 @@ public class ChangeJson {
           DownloadCommand command = e2.getProvider().get();
           String c = command.getCommand(scheme, projectName, refName);
           if (c != null) {
-            fetchInfo.addCommand(commandName, c);
+            addCommand(fetchInfo, commandName, c);
           }
         }
       }
     }
 
     return r;
+  }
+
+  private void addCommand(FetchInfo fetchInfo, String commandName, String c) {
+    if (fetchInfo.commands == null) {
+      fetchInfo.commands = Maps.newTreeMap();
+    }
+    fetchInfo.commands.put(commandName, c);
   }
 
   private static GitPerson toGitPerson(UserIdentity committer) {
@@ -959,11 +970,11 @@ public class ChangeJson {
 
     public Map<String, ActionInfo> actions;
     public Map<String, LabelInfo> labels;
-    public Map<String, Collection<String>> permitted_labels;
-    public Collection<AccountInfo> removable_reviewers;
+    public Map<String, Collection<String>> permittedLabels;
+    public Collection<AccountInfo> removableReviewers;
     public Collection<ChangeMessageInfo> messages;
 
-    public String current_revision;
+    public String currentRevision;
     public Map<String, RevisionInfo> revisions;
     public Boolean _moreChanges;
 
@@ -973,52 +984,6 @@ public class ChangeJson {
           Url.encode(branch),
           Url.encode(changeId));
     }
-  }
-
-  public static class RevisionInfo {
-    private transient boolean isCurrent;
-    public Boolean draft;
-    public Boolean hasDraftComments;
-    public int _number;
-    public Map<String, FetchInfo> fetch;
-    public CommitInfo commit;
-    public Map<String, FileInfoJson.FileInfo> files;
-    public Map<String, ActionInfo> actions;
-  }
-
-  public static class FetchInfo {
-    public String url;
-    public String ref;
-    public Map<String, String> commands;
-
-    FetchInfo(String url, String ref) {
-      this.url = url;
-      this.ref = ref;
-    }
-
-    void addCommand(String name, String command) {
-      if (commands == null) {
-        commands = Maps.newTreeMap();
-      }
-      commands.put(name, command);
-    }
-  }
-
-  public static class GitPerson {
-    public String name;
-    public String email;
-    public Timestamp date;
-    public int tz;
-  }
-
-  public static class CommitInfo {
-    public final String kind = "gerritcodereview#commit";
-    public String commit;
-    public List<CommitInfo> parents;
-    public GitPerson author;
-    public GitPerson committer;
-    public String subject;
-    public String message;
   }
 
   public static class LabelInfo {

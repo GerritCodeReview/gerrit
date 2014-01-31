@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f2cda6a7_74d5c80a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-31T15:51:01Z",
+      "side": 1,
+      "message": "Ack, we don\u0027t want to do this. To verify this behavior, I\u0027m going to move the deduplication logic into LabelNormalizer and write some tests.",
+      "parentUuid": "f2cda6a7_d417fc2d",
+      "range": {
+        "startLine": 309,
+        "startChar": 8,
+        "endLine": 312,
+        "endChar": 9
+      },
+      "revId": "b026156e9b5d7d85920d9c39b1052df0ea7dc7cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f2cda6a7_f412f83f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
         "patchSetId": 6

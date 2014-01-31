@@ -15,7 +15,6 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_LABEL;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.GERRIT_PLACEHOLDER_HOST;
@@ -27,7 +26,6 @@ import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
-
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
@@ -67,6 +65,8 @@ public class ChangeUpdate extends VersionedMetaData {
   public interface Factory {
     ChangeUpdate create(ChangeControl ctl);
     ChangeUpdate create(ChangeControl ctl, Date when);
+    @VisibleForTesting
+    ChangeUpdate create(ChangeControl ctl, Date when, LabelTypes labelTypes);
   }
 
   private final NotesMigration migration;
@@ -83,7 +83,7 @@ public class ChangeUpdate extends VersionedMetaData {
   private PatchSet.Id psId;
 
   @AssistedInject
-  ChangeUpdate(
+  private ChangeUpdate(
       @GerritPersonIdent PersonIdent serverIdent,
       GitRepositoryManager repoManager,
       NotesMigration migration,
@@ -96,7 +96,7 @@ public class ChangeUpdate extends VersionedMetaData {
   }
 
   @AssistedInject
-  ChangeUpdate(
+  private ChangeUpdate(
       @GerritPersonIdent PersonIdent serverIdent,
       GitRepositoryManager repoManager,
       NotesMigration migration,
@@ -106,24 +106,23 @@ public class ChangeUpdate extends VersionedMetaData {
       @Assisted ChangeControl ctl,
       @Assisted Date when) {
     this(serverIdent, repoManager, migration, accountCache, updateFactory,
-        projectCache.get(getProjectName(ctl)).getLabelTypes(),
-        ctl, when);
+        ctl, when, projectCache.get(getProjectName(ctl)).getLabelTypes());
   }
 
   private static Project.NameKey getProjectName(ChangeControl ctl) {
     return ctl.getChange().getDest().getParentKey();
   }
 
-  @VisibleForTesting
-  ChangeUpdate(
-      PersonIdent serverIdent,
+  @AssistedInject
+  private ChangeUpdate(
+      @GerritPersonIdent PersonIdent serverIdent,
       GitRepositoryManager repoManager,
       NotesMigration migration,
       AccountCache accountCache,
       MetaDataUpdate.User updateFactory,
-      LabelTypes labelTypes,
-      ChangeControl ctl,
-      Date when) {
+      @Assisted ChangeControl ctl,
+      @Assisted Date when,
+      @Assisted LabelTypes labelTypes) {
     this.repoManager = repoManager;
     this.migration = migration;
     this.accountCache = accountCache;
@@ -171,30 +170,32 @@ public class ChangeUpdate extends VersionedMetaData {
     reviewers.put(reviewer, ReviewerState.REMOVED);
   }
 
-  public RevCommit commit() throws IOException {
-    return commit(checkNotNull(updateFactory, "MetaDataUpdate.Factory")
-        .create(getChange().getProject(), getUser()));
+  private void load() throws IOException {
+    if (migration.write() && getRevision() == null) {
+      Repository repo = repoManager.openRepository(getChange().getProject());
+      try {
+        load(repo);
+      } catch (ConfigInvalidException e) {
+        throw new IOException(e);
+      } finally {
+        repo.close();
+      }
+    }
   }
 
   @Override
   public RevCommit commit(MetaDataUpdate md) throws IOException {
-    if (!migration.write()) {
-      return null;
-    }
-    Repository repo = repoManager.openRepository(getChange().getProject());
-    try {
-      load(repo);
-    } catch (ConfigInvalidException e) {
-      throw new IOException(e);
-    } finally {
-      repo.close();
-    }
+    throw new UnsupportedOperationException("use commit()");
+  }
 
-    md.setAllowEmpty(true);
-    CommitBuilder cb = md.getCommitBuilder();
-    cb.setAuthor(newIdent(getUser().getAccount()));
-    cb.setCommitter(new PersonIdent(serverIdent, when));
-    return super.commit(md);
+  public RevCommit commit() throws IOException {
+    BatchMetaDataUpdate batch = openUpdate();
+    try {
+      batch.write(new CommitBuilder());
+      return batch.commit();
+    } finally {
+      batch.close();
+    }
   }
 
   public PersonIdent newIdent(Account author) {
@@ -206,8 +207,16 @@ public class ChangeUpdate extends VersionedMetaData {
 
   @Override
   public BatchMetaDataUpdate openUpdate(MetaDataUpdate update) throws IOException {
+    throw new UnsupportedOperationException("use openUpdate()");
+  }
+
+  public BatchMetaDataUpdate openUpdate() throws IOException {
     if (migration.write()) {
-      return super.openUpdate(update);
+      load();
+      MetaDataUpdate md =
+          updateFactory.create(getChange().getProject(), getUser());
+      md.setAllowEmpty(true);
+      return super.openUpdate(md);
     }
     return new BatchMetaDataUpdate() {
       @Override
@@ -252,6 +261,9 @@ public class ChangeUpdate extends VersionedMetaData {
     if (approvals.isEmpty() && reviewers.isEmpty()) {
       return false;
     }
+    commit.setAuthor(newIdent(getUser().getAccount()));
+    commit.setCommitter(new PersonIdent(serverIdent, when));
+
     int ps = psId != null ? psId.get() : getChange().currentPatchSetId().get();
     StringBuilder msg = new StringBuilder();
     if (subject != null) {

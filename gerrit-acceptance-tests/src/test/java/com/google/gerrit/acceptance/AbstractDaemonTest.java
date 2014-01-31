@@ -14,6 +14,7 @@
 
 package com.google.gerrit.acceptance;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.acceptance.GitUtil.initSsh;
 import static org.junit.Assert.assertEquals;
 
@@ -25,16 +26,46 @@ import com.google.gson.Gson;
 import com.google.inject.Inject;
 
 import org.apache.http.HttpStatus;
-import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Rule;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameter;
+import org.junit.runners.Parameterized.Parameters;
 import org.junit.runners.model.Statement;
 
 import java.io.IOException;
+import java.util.Arrays;
 
+@RunWith(Parameterized.class)
 public abstract class AbstractDaemonTest {
+  private static class NamedConfig extends Config {
+    private final String name;
+
+    private NamedConfig(String name) {
+      this.name = checkNotNull(name);
+    }
+
+    @Override
+    public String toString() {
+      return name;
+    }
+  }
+
+  @Parameters(name = "{0}")
+  public static Iterable<Object[]> configs() {
+    Config defaultConfig = new NamedConfig("default");
+
+    return Arrays.asList(new Object[][]{
+        {defaultConfig},
+        });
+  }
+
+  @Parameter
+  public Config baseConfig;
+
   @Inject
   protected AccountCreator accounts;
 
@@ -58,20 +89,18 @@ public abstract class AbstractDaemonTest {
     }
   };
 
-  private static Config config(Description description)
-      throws IOException, ConfigInvalidException {
-    Config base = ConfigAnnotationParser.parseFromSystemProperty();
+  private Config config(Description description) {
     GerritConfigs cfgs = description.getAnnotation(GerritConfigs.class);
     GerritConfig cfg = description.getAnnotation(GerritConfig.class);
     if (cfgs != null && cfg != null) {
       throw new IllegalStateException("Use either @GerritConfigs or @GerritConfig not both");
     }
     if (cfgs != null) {
-      return ConfigAnnotationParser.parse(base, cfgs);
+      return ConfigAnnotationParser.parse(baseConfig, cfgs);
     } else if (cfg != null) {
-      return ConfigAnnotationParser.parse(base, cfg);
+      return ConfigAnnotationParser.parse(baseConfig, cfg);
     } else {
-      return base;
+      return baseConfig;
     }
   }
 

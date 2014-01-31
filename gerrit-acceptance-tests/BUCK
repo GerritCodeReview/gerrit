@@ -40,14 +40,3 @@ java_library(
     '//gerrit-acceptance-tests/...',
   ],
 )
-
-java_library(
-  name = 'configs',
-  resources = glob([
-    'src/test/resources/com/google/gerrit/acceptance/config/*.config',
-  ]),
-  visibility = [
-    '//tools/eclipse:classpath',
-    '//gerrit-acceptance-tests/...',
-  ],
-)

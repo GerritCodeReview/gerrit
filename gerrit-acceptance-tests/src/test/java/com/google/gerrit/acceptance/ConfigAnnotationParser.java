@@ -14,39 +14,15 @@
 
 package com.google.gerrit.acceptance;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
-import com.google.common.base.Charsets;
 import com.google.common.base.Splitter;
-import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
-import com.google.common.io.Resources;
 
-import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 
-import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 
 class ConfigAnnotationParser {
-  private static final String CONFIG_PKG =
-      "com.google.gerrit.acceptance.config.";
-  private static final String CONFIG_DIR = "/" + CONFIG_PKG.replace('.', '/');
   private static Splitter splitter = Splitter.on(".").trimResults();
-
-  static Config parseFromSystemProperty()
-      throws ConfigInvalidException, IOException {
-    Config cfg = new Config();
-    String name = System.getProperty(CONFIG_PKG + "BaseConfig");
-    if (!Strings.isNullOrEmpty(name)) {
-      String resource = CONFIG_DIR + name + ".config";
-      URL url = checkNotNull(ConfigAnnotationParser.class.getResource(resource),
-          "test config resource not found: %s", resource);
-      cfg.fromText(Resources.toString(url, Charsets.UTF_8));
-    }
-    return cfg;
-  }
 
   static Config parse(Config base, GerritConfigs annotation) {
     if (annotation == null) {

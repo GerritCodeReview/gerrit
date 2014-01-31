@@ -1,36 +1,20 @@
 def acceptance_tests(
     srcs,
     deps = [],
-    configs = [],
     vm_args = ['-Xmx256m']):
   for j in srcs:
-    for config in [None] + configs:
-      name = j[:-len('.java')]
+    java_test(
+      name = j[:-len('.java')],
+      srcs = [j],
+      deps = ['//gerrit-acceptance-tests:lib'] + deps,
+      source_under_test = [
+        '//gerrit-httpd:httpd',
+        '//gerrit-sshd:sshd',
+        '//gerrit-server:server',
+      ],
       labels = [
         'acceptance',
         'slow',
-      ]
-      curr_vm_args = list(vm_args)
-
-      if config:
-        curr_vm_args.append(
-          '-Dcom.google.gerrit.acceptance.config.BaseConfig=' + config)
-        name += '_' + config
-        labels.append('acceptance_config')
-        labels.append('config_' + config)
-
-      java_test(
-        name = name,
-        srcs = [j],
-        deps = deps + [
-          '//gerrit-acceptance-tests:configs',
-          '//gerrit-acceptance-tests:lib',
-        ],
-        source_under_test = [
-          '//gerrit-httpd:httpd',
-          '//gerrit-sshd:sshd',
-          '//gerrit-server:server',
-        ],
-        labels = labels,
-        vm_args = curr_vm_args,
-      )
+      ],
+      vm_args = vm_args,
+    )

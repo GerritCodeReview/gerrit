@@ -54,19 +54,27 @@ public class ApiGlue {
           ? this.plugins[u.substring(serverUrl.length)]
           : this.plugins[u]
       },
-
+      installCore: function (f) {
+        @com.google.gerrit.client.api.ApiGlue::installCore(Lcom/google/gwt/core/client/JavaScriptObject;)(f);
+      },
       go: @com.google.gerrit.client.api.ApiGlue::go(Ljava/lang/String;),
       refresh: @com.google.gerrit.client.api.ApiGlue::refresh(),
       showError: @com.google.gerrit.client.api.ApiGlue::showError(Ljava/lang/String;),
 
       on: function (e,f){(this.events[e] || (this.events[e]=[])).push(f)},
       onAction: function (t,n,c){this._onAction(this.getPluginName(),t,n,c)},
+      onActionCore: function (t,n,c) {this._onActionCore(t,n,c)},
       _onAction: function (p,t,n,c) {
         var i = p+'~'+n;
         if ('change' == t) this.change_actions[i]=c;
         else if ('revision' == t) this.revision_actions[i]=c;
         else if ('project' == t) this.project_actions[i]=c;
         else if ('screen' == t) _screen(p,t,c);
+      },
+      _onActionCore: function (t,n,c) {
+        if ('change' == t) this.change_actions[n]=c;
+        else if ('revision' == t) this.revision_actions[n]=c;
+        else if ('project' == t) this.project_actions[n]=c;
       },
       screen: function(r,c){this._screen(this.getPluginName(),r,c)},
       _screen: function(p,r,c){
@@ -125,6 +133,17 @@ public class ApiGlue {
     }
   }
 
+  private static void installCore(JavaScriptObject cb) throws Exception {
+    try {
+      pluginName = "gerrit";
+      invokeCore(cb);
+    } catch (Exception e) {
+      throw e;
+    } finally {
+      pluginName = null;
+    }
+  }
+
   private static final String getPluginName() {
     if (pluginName != null) {
       return pluginName;
@@ -154,6 +173,8 @@ public class ApiGlue {
   static final native void invoke(JavaScriptObject f, JavaScriptObject a) /*-{ f(a); }-*/;
   static final native void invoke(JavaScriptObject f, JavaScriptObject a, JavaScriptObject b) /*-{ f(a,b) }-*/;
   static final native void invoke(JavaScriptObject f, String a) /*-{ f(a); }-*/;
+
+  static final native void invokeCore(JavaScriptObject f) /*-{ f(); }-*/;
 
   public static final void fireEvent(String event, String a) {
     JsArray<JavaScriptObject> h = getEventHandlers(event);

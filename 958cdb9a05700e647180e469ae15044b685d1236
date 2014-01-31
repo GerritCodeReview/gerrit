@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d2ca6290_f339f0b9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/BaseWipAction.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-31T13:36:58Z",
+      "side": 1,
+      "message": "Remove this",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 51
+      },
+      "revId": "958cdb9a05700e647180e469ae15044b685d1236",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d2ca6290_d33ef49f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/BaseWipAction.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-31T13:36:58Z",
+      "side": 1,
+      "message": "Use it here.",
+      "range": {
+        "startLine": 66,
+        "startChar": 4,
+        "endLine": 66,
+        "endChar": 6
+      },
+      "revId": "958cdb9a05700e647180e469ae15044b685d1236",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d2ca6290_132eac70",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/BaseWipAction.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-31T13:36:58Z",
+      "side": 1,
+      "message": "Should be adjusted as in \"WIP over DRAFT\" change.",
+      "range": {
+        "startLine": 102,
+        "startChar": 4,
+        "endLine": 112,
+        "endChar": 5
+      },
+      "revId": "958cdb9a05700e647180e469ae15044b685d1236",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

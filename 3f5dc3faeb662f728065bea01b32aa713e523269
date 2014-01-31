@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d2ca6290_139fcc7b",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-31T10:26:15Z",
+      "side": 1,
+      "message": "Why not to provide a convenience method without argument that retrieve a change with ListChangesOption.ALL options?",
+      "range": {
+        "startLine": 42,
+        "startChar": 13,
+        "endLine": 42,
+        "endChar": 52
+      },
+      "revId": "3f5dc3faeb662f728065bea01b32aa713e523269",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

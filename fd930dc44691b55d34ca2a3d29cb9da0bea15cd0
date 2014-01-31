@@ -46,6 +46,23 @@
       "revId": "fd930dc44691b55d34ca2a3d29cb9da0bea15cd0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "12d15a3f_d5a25c91",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-31T22:55:37Z",
+      "side": 1,
+      "message": "I think this check is requiring the user named by in.onBehalfOf to have submit permission. If you don\u0027t mean for that to happen don\u0027t we need to rework this?",
+      "revId": "fd930dc44691b55d34ca2a3d29cb9da0bea15cd0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

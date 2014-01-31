@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "12d15a3f_f5b31817",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ReworkAction.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-31T01:56:59Z",
+      "side": 1,
+      "message": "Do not import Change.Id.",
+      "revId": "3c35db1d8dbabb9b7224ad36f32c49e789631fc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2cda6a7_d4b81cf6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ReworkAction.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-31T01:56:59Z",
+      "side": 1,
+      "message": "Use Change.Id here.",
+      "range": {
+        "startLine": 59,
+        "startChar": 4,
+        "endLine": 59,
+        "endChar": 6
+      },
+      "revId": "3c35db1d8dbabb9b7224ad36f32c49e789631fc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2cda6a7_94b2a410",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ReworkAction.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-31T01:56:59Z",
+      "side": 1,
+      "message": "Maybe call this tmp or buf since I suggest msg below.",
+      "range": {
+        "startLine": 96,
+        "startChar": 18,
+        "endLine": 96,
+        "endChar": 21
+      },
+      "revId": "3c35db1d8dbabb9b7224ad36f32c49e789631fc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "12d15a3f_d5b81cf6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ReworkAction.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-31T01:56:59Z",
+      "side": 1,
+      "message": "I think this is redundant. There is only one change the message can pertain to.",
+      "range": {
+        "startLine": 97,
+        "startChar": 8,
+        "endLine": 99,
+        "endChar": 14
+      },
+      "revId": "3c35db1d8dbabb9b7224ad36f32c49e789631fc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2cda6a7_b4ada0b2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ReworkAction.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-31T01:56:59Z",
+      "side": 1,
+      "message": "Put this into a local like msg:\n\n  String msg \u003d Strings.nullToEmpty(input.message).trim();",
+      "range": {
+        "startLine": 103,
+        "startChar": 9,
+        "endLine": 103,
+        "endChar": 50
+      },
+      "revId": "3c35db1d8dbabb9b7224ad36f32c49e789631fc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "12d15a3f_b5ada0b2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ReworkAction.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-31T01:56:59Z",
+      "side": 1,
+      "message": "use msg from above",
+      "range": {
+        "startLine": 105,
+        "startChar": 17,
+        "endLine": 105,
+        "endChar": 37
+      },
+      "revId": "3c35db1d8dbabb9b7224ad36f32c49e789631fc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

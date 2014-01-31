@@ -19,6 +19,7 @@ import com.google.gwtorm.client.CompoundKey;
 import com.google.gwtorm.client.StringKey;
 
 import java.sql.Timestamp;
+import java.util.Objects;
 
 /** An approval (or negative approval) on a patch set. */
 public final class PatchSetApproval {
@@ -189,5 +190,21 @@ public final class PatchSetApproval {
   public String toString() {
     return new StringBuilder().append('[').append(key).append(": ")
         .append(value).append(']').toString();
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (o instanceof PatchSetApproval) {
+      PatchSetApproval p = (PatchSetApproval) o;
+      return Objects.equals(key, p.key)
+          && Objects.equals(value, p.value)
+          && Objects.equals(granted, p.granted);
+    }
+    return false;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(key, value, granted);
   }
 }

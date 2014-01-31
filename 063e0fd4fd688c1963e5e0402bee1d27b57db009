@@ -16,6 +16,24 @@
       "revId": "063e0fd4fd688c1963e5e0402bee1d27b57db009",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2cda6a7_d4d13c44",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-01-31T01:27:21Z",
+      "side": 1,
+      "message": "Well it\u0027s supported in Buck now :)\n\nI read the linked blog post and their argument doesn\u0027t really apply to our case. They are referring to increasing (possibly combinatoric) complexity as interfaces grow features (i.e. parameters). Obviously the total space of potential Configs is enormous, but I would be surprised if we ever have more than 2-3 actual configs in this class.",
+      "parentUuid": "12d15a3f_757a6893",
+      "revId": "063e0fd4fd688c1963e5e0402bee1d27b57db009",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

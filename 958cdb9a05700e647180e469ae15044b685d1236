@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "b2e5ee1d_b23360d6",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 1081,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-31T13:54:27Z",
+      "side": 1,
+      "message": "an",
+      "revId": "958cdb9a05700e647180e469ae15044b685d1236",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d2ca6290_534b0447",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 1103,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-01-31T13:54:27Z",
+      "side": 1,
+      "message": "an",
+      "revId": "958cdb9a05700e647180e469ae15044b685d1236",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d2ca6290_f339f0b9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/BaseWipAction.java",
         "patchSetId": 7

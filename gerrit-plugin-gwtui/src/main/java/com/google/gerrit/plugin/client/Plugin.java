@@ -50,6 +50,10 @@ public final class Plugin extends JavaScriptObject {
   public final native void refresh()
   /*-{ return this.refresh() }-*/;
 
+  /** Show message in Gerrit's ErrorDialog. */
+  public final native void showError(String message)
+  /*-{ return this.showError(message) }-*/;
+
   /**
    * Register a screen displayed at {@code /#/x/plugin/token}.
    *

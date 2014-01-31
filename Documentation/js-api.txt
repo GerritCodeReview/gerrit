@@ -755,6 +755,10 @@ Gerrit.url('/123');  // "https://gerrit-review.googlesource.com/123"
 
 For a plugin specific version see link:#self_url()[`self.url()`].
 
+[[Gerrit_showError]]
+=== Gerrit.showError(message)
+Displays the given message in the Gerrit ErrorDialog.
+
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

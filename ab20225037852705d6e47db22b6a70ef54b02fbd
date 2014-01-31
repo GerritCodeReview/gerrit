@@ -1,0 +1,257 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "12d15a3f_754ee858",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 809,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-01-31T13:19:13Z",
+      "side": 1,
+      "message": "ref",
+      "range": {
+        "startLine": 809,
+        "startChar": 29,
+        "endLine": 809,
+        "endChar": 33
+      },
+      "revId": "ab20225037852705d6e47db22b6a70ef54b02fbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "12d15a3f_953864b3",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 809,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-01-31T13:19:13Z",
+      "side": 1,
+      "message": "Drafts",
+      "range": {
+        "startLine": 809,
+        "startChar": 0,
+        "endLine": 809,
+        "endChar": 6
+      },
+      "revId": "ab20225037852705d6e47db22b6a70ef54b02fbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "12d15a3f_554bec46",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 810,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-01-31T13:19:13Z",
+      "side": 1,
+      "message": "reviewers that have been",
+      "range": {
+        "startLine": 810,
+        "startChar": 0,
+        "endLine": 810,
+        "endChar": 17
+      },
+      "revId": "ab20225037852705d6e47db22b6a70ef54b02fbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2cda6a7_b43360d6",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 810,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-01-31T13:19:13Z",
+      "side": 1,
+      "message": "And users belonging to a group that has the \u0027View Drafts\u0027 capability.",
+      "range": {
+        "startLine": 809,
+        "startChar": 57,
+        "endLine": 810,
+        "endChar": 54
+      },
+      "revId": "ab20225037852705d6e47db22b6a70ef54b02fbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2cda6a7_d43edc9f",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 811,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-01-31T13:19:13Z",
+      "side": 1,
+      "message": "it becomes",
+      "range": {
+        "startLine": 811,
+        "startChar": 61,
+        "endLine": 811,
+        "endChar": 73
+      },
+      "revId": "ab20225037852705d6e47db22b6a70ef54b02fbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2cda6a7_f439d8b9",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 811,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-01-31T13:19:13Z",
+      "side": 1,
+      "message": "a draft",
+      "range": {
+        "startLine": 811,
+        "startChar": 33,
+        "endLine": 811,
+        "endChar": 39
+      },
+      "revId": "ab20225037852705d6e47db22b6a70ef54b02fbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "12d15a3f_35487048",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 819,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-01-31T13:19:13Z",
+      "side": 1,
+      "message": "WIP",
+      "range": {
+        "startLine": 819,
+        "startChar": 47,
+        "endLine": 819,
+        "endChar": 50
+      },
+      "revId": "ab20225037852705d6e47db22b6a70ef54b02fbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "12d15a3f_1545742e",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 821,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-01-31T13:19:13Z",
+      "side": 1,
+      "message": "reviewers\u0027 dashboards",
+      "range": {
+        "startLine": 821,
+        "startChar": 9,
+        "endLine": 821,
+        "endChar": 28
+      },
+      "revId": "ab20225037852705d6e47db22b6a70ef54b02fbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2cda6a7_943864b3",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 822,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-01-31T13:19:13Z",
+      "side": 1,
+      "message": "WIP",
+      "range": {
+        "startLine": 822,
+        "startChar": 4,
+        "endLine": 822,
+        "endChar": 7
+      },
+      "revId": "ab20225037852705d6e47db22b6a70ef54b02fbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "12d15a3f_f5e0b8eb",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 1081,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-01-31T13:19:13Z",
+      "side": 1,
+      "message": "an",
+      "range": {
+        "startLine": 1081,
+        "startChar": 29,
+        "endLine": 1081,
+        "endChar": 30
+      },
+      "revId": "ab20225037852705d6e47db22b6a70ef54b02fbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2cda6a7_744ee858",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 1103,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-01-31T13:19:13Z",
+      "side": 1,
+      "message": "an",
+      "range": {
+        "startLine": 1103,
+        "startChar": 29,
+        "endLine": 1103,
+        "endChar": 30
+      },
+      "revId": "ab20225037852705d6e47db22b6a70ef54b02fbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

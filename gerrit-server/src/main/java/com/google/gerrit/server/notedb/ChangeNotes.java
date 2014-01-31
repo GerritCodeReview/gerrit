@@ -171,7 +171,7 @@ public class ChangeNotes extends VersionedMetaData {
 
     private Account.Id parseIdent(RevCommit commit)
         throws ConfigInvalidException {
-      return parseIdent(commit.getCommitterIdent());
+      return parseIdent(commit.getAuthorIdent());
     }
 
     private Account.Id parseIdent(PersonIdent ident)

@@ -52,7 +52,6 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import java.io.IOException;
 import java.util.Date;
 import java.util.Map;
-import java.util.TimeZone;
 
 /**
  * A single delta to apply atomically to a change.
@@ -76,8 +75,8 @@ public class ChangeUpdate extends VersionedMetaData {
   private final MetaDataUpdate.User updateFactory;
   private final LabelTypes labelTypes;
   private final ChangeControl ctl;
+  private final PersonIdent serverIdent;
   private final Date when;
-  private final TimeZone tz;
   private final Map<String, Short> approvals;
   private final Map<Account.Id, ReviewerState> reviewers;
   private String subject;
@@ -132,7 +131,7 @@ public class ChangeUpdate extends VersionedMetaData {
     this.labelTypes = labelTypes;
     this.ctl = ctl;
     this.when = when;
-    this.tz = serverIdent.getTimeZone();
+    this.serverIdent = serverIdent;
     this.approvals = Maps.newTreeMap(labelTypes.nameComparator());
     this.reviewers = Maps.newLinkedHashMap();
   }
@@ -193,7 +192,8 @@ public class ChangeUpdate extends VersionedMetaData {
 
     md.setAllowEmpty(true);
     CommitBuilder cb = md.getCommitBuilder();
-    cb.setCommitter(newCommitter());
+    cb.setAuthor(newIdent(getUser().getAccount()));
+    cb.setCommitter(new PersonIdent(serverIdent, when));
     return super.commit(md);
   }
 
@@ -201,11 +201,7 @@ public class ChangeUpdate extends VersionedMetaData {
     return new PersonIdent(
         author.getFullName(),
         author.getId().get() + "@" + GERRIT_PLACEHOLDER_HOST,
-        when, tz);
-  }
-
-  public PersonIdent newCommitter() {
-    return newIdent(getUser().getAccount());
+        when, serverIdent.getTimeZone());
   }
 
   @Override

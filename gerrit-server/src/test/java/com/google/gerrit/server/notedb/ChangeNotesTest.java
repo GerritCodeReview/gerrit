@@ -87,9 +87,6 @@ public class ChangeNotesTest {
   private static final TimeZone TZ =
       TimeZone.getTimeZone("America/Los_Angeles");
 
-  private static final PersonIdent SERVER_IDENT =
-      new PersonIdent("Gerrit Server", "noreply@gerrit.com", new Date(), TZ);
-
   private static final LabelTypes LABEL_TYPES = new LabelTypes(ImmutableList.of(
       category("Verified",
         value(1, "Verified"),
@@ -100,6 +97,7 @@ public class ChangeNotesTest {
         value(0, "No score"),
         value(-1, "Do Not Submit"))));
 
+  private PersonIdent serverIdent;
   private Project.NameKey project;
   private InMemoryRepositoryManager repoManager;
   private InMemoryRepository repo;
@@ -110,6 +108,10 @@ public class ChangeNotesTest {
 
   @Before
   public void setUp() throws Exception {
+    setMillisProvider();
+
+    serverIdent = new PersonIdent(
+        "Gerrit Server", "noreply@gerrit.com", TimeUtil.nowTs(), TZ);
     project = new Project.NameKey("test-project");
     repoManager = new InMemoryRepositoryManager();
     repo = repoManager.createRepository(project);
@@ -146,8 +148,7 @@ public class ChangeNotesTest {
     otherUser = userFactory.create(ou.getId());
   }
 
-  @Before
-  public void setMillisProvider() {
+  private void setMillisProvider() {
     clockStepMs = MILLISECONDS.convert(1, SECONDS);
     final AtomicLong clockMs = new AtomicLong(
         MILLISECONDS.convert(ChangeUtil.SORT_KEY_EPOCH_MINS, MINUTES)
@@ -192,14 +193,14 @@ public class ChangeNotesTest {
 
       PersonIdent author = commit.getAuthorIdent();
       assertEquals("Change Owner", author.getName());
-      assertEquals("change@owner.com", author.getEmailAddress());
+      assertEquals("1@gerrit", author.getEmailAddress());
       assertEquals(new Date(c.getCreatedOn().getTime() + 1000),
           author.getWhen());
       assertEquals(TimeZone.getTimeZone("GMT-8:00"), author.getTimeZone());
 
       PersonIdent committer = commit.getCommitterIdent();
-      assertEquals("Change Owner", committer.getName());
-      assertEquals("1@gerrit", committer.getEmailAddress());
+      assertEquals("Gerrit Server", committer.getName());
+      assertEquals("noreply@gerrit.com", committer.getEmailAddress());
       assertEquals(author.getWhen(), committer.getWhen());
       assertEquals(author.getTimeZone(), committer.getTimeZone());
     } finally {
@@ -419,7 +420,7 @@ public class ChangeNotesTest {
 
   private ChangeUpdate newUpdate(Change c, IdentifiedUser user)
       throws Exception {
-    return new ChangeUpdate(SERVER_IDENT, repoManager,
+    return new ChangeUpdate(serverIdent, repoManager,
         NotesMigration.allEnabled(), accountCache, null, LABEL_TYPES,
         stubChangeControl(c, user),
         TimeUtil.nowTs());

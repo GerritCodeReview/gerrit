@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.api;
 
+import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.Gerrit;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
@@ -56,6 +57,7 @@ public class ApiGlue {
 
       go: @com.google.gerrit.client.api.ApiGlue::go(Ljava/lang/String;),
       refresh: @com.google.gerrit.client.api.ApiGlue::refresh(),
+      showError: @com.google.gerrit.client.api.ApiGlue::showError(Ljava/lang/String;),
 
       on: function (e,f){(this.events[e] || (this.events[e]=[])).push(f)},
       onAction: function (t,n,c){this._onAction(this.getPluginName(),t,n,c)},
@@ -141,6 +143,10 @@ public class ApiGlue {
 
   private static final void refresh() {
     Gerrit.display(History.getToken());
+  }
+
+  private static final void showError(String message) {
+    new ErrorDialog(message).center();
   }
 
   static final native void invoke(JavaScriptObject f) /*-{ f(); }-*/;

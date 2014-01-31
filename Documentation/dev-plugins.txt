@@ -416,6 +416,14 @@ its own custom event class derived from `ChangeEvent`.
 Certain operations in Gerrit can be validated by plugins by
 implementing the corresponding link:config-validation.html[listeners].
 
+[[receive-pack]]
+== Receive Pack Initializers
+
+Plugins may provide ReceivePack initializers which will be invoked
+by Gerrit just before a ReceivePack instance will be used. Usually,
+plugins will make use of the setXXX methods on the ReceivePack to
+set additional properties on it.
+
 [[ssh]]
 == SSH Commands
 

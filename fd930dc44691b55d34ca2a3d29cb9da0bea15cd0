@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "12d15a3f_35d510fa",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 3290,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-31T22:47:50Z",
+      "side": 1,
+      "message": "I think we should do this more like the PostReview handles labels and require a new SubmitAs permission for the caller as well as Submit for the user named by on_behalf_of.\n\nRight now this allows any user with Submit to impersonate another user with Submit and submit the change as them in the change history.",
+      "range": {
+        "startLine": 3289,
+        "startChar": 36,
+        "endLine": 3290,
+        "endChar": 38
+      },
+      "revId": "fd930dc44691b55d34ca2a3d29cb9da0bea15cd0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

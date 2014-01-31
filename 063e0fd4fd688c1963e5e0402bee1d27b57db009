@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "12d15a3f_757a6893",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-01-31T01:12:00Z",
+      "side": 1,
+      "message": "Heh. We used to use @Parameterized until we switched from Maven to Buck. The Buck guys told me to stop using it because it wasn\u0027t supported in Buck and it wasn\u0027t reliable.\n\nhttps://github.com/facebook/buck/issues/12",
+      "revId": "063e0fd4fd688c1963e5e0402bee1d27b57db009",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

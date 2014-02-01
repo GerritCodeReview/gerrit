@@ -124,3 +124,36 @@ def maven_jar(
       source_jar = genfile(srcjar) if srcjar else None,
       visibility = visibility,
     )
+
+def local_jar(
+    name,
+    jar,
+    src = None,
+    deps = [],
+    visibility = ['PUBLIC']):
+  binjar = name + '.jar'
+  srcjar = name + '-src.jar'
+  genrule(
+    name = name + '__local_bin',
+    cmd = 'ln -s %s $OUT' % jar,
+    out = binjar)
+  if src:
+    genrule(
+      name = name + '__local_src',
+      cmd = 'ln -s %s $OUT' % src,
+      out = srcjar)
+    prebuilt_jar(
+      name = name + '_src',
+      deps = [':' + name + '__local_src'],
+      binary_jar = genfile(srcjar),
+      visibility = visibility,
+    )
+  else:
+    srcjar = None
+  prebuilt_jar(
+    name = name,
+    deps = deps + [':' + name + '__local_bin'],
+    binary_jar = genfile(binjar),
+    source_jar = genfile(srcjar) if srcjar else None,
+    visibility = visibility,
+  )

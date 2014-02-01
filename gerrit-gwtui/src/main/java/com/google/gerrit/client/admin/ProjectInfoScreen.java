@@ -366,17 +366,23 @@ public class ProjectInfoScreen extends ProjectScreen {
       pluginConfig.copyKeysIntoChildren("name");
       for (ConfigParameterInfo param : Natives.asList(pluginConfig.values())) {
         FocusWidget w;
-        if ("STRING".equals(param.type())) {
-          w = renderTextBox(g, param, false);
-        } else if ("INT".equals(param.type()) || "LONG".equals(param.type())) {
-          w = renderTextBox(g, param, true);
-        } else if ("BOOLEAN".equals(param.type())) {
-          w = renderCheckBox(g, param);
-        } else if ("LIST".equals(param.type())
-            && param.permittedValues() != null) {
-          w = renderListBox(g, param);
-        } else {
-          continue;
+        switch (param.type()) {
+          case "STRING":
+          case "INT":
+          case "LONG":
+            w = renderTextBox(g, param);
+            break;
+          case "BOOLEAN":
+            w = renderCheckBox(g, param);
+            break;
+          case "LIST":
+            w = renderListBox(g, param);
+            break;
+          case "ARRAY":
+            w = renderTextArea(g, param);
+            break;
+          default:
+            throw new UnsupportedOperationException("unsupported widget type");
         }
         if (param.editable()) {
           widgetMap.put(param.name(), w);
@@ -390,8 +396,10 @@ public class ProjectInfoScreen extends ProjectScreen {
   }
 
   private TextBox renderTextBox(LabeledWidgetsGrid g,
-      ConfigParameterInfo param, boolean numbersOnly) {
-    NpTextBox textBox = numbersOnly ? new NpIntTextBox() : new NpTextBox();
+      ConfigParameterInfo param) {
+    NpTextBox textBox = param.type().equals("STRING")
+        ? new NpTextBox()
+        : new NpIntTextBox();
     if (param.inheritable()) {
       textBox.setValue(param.configuredValue());
       Label inheritedLabel =
@@ -434,6 +442,9 @@ public class ProjectInfoScreen extends ProjectScreen {
 
   private ListBox renderListBox(LabeledWidgetsGrid g,
       ConfigParameterInfo param) {
+    if (param.permittedValues() == null) {
+      return null;
+    }
     ListBox listBox = new ListBox();
     if (param.inheritable()) {
       listBox.addItem(
@@ -483,6 +494,27 @@ public class ProjectInfoScreen extends ProjectScreen {
     }
 
     return listBox;
+  }
+
+  private NpTextArea renderTextArea(LabeledWidgetsGrid g,
+      ConfigParameterInfo param) {
+    NpTextArea txtArea = new NpTextArea();
+    txtArea.setVisibleLines(4);
+    txtArea.setCharacterWidth(40);
+    StringBuilder sb = new StringBuilder();
+    for (int i = 0; i < param.values().length(); i++) {
+      String v = param.values().get(i);
+      sb.append(v).append("\n");
+    }
+    txtArea.setText(sb.toString());
+    if (param.editable()) {
+      saveEnabler.listenTo(txtArea);
+    } else {
+      txtArea.setEnabled(false);
+    }
+    addWidget(g, txtArea, param);
+    param.values();
+    return txtArea;
   }
 
   private void addWidget(LabeledWidgetsGrid g, Widget w, ConfigParameterInfo param) {
@@ -574,6 +606,11 @@ public class ProjectInfoScreen extends ProjectScreen {
           String value = listBox.getSelectedIndex() > 0
               ? listBox.getValue(listBox.getSelectedIndex()) : null;
           values.put(e2.getKey(), value);
+        } else if (widget instanceof NpTextArea) {
+          NpTextArea txtArea = (NpTextArea) widget;
+          values.put(e2.getKey(), txtArea.getText().trim());
+        } else {
+          throw new UnsupportedOperationException("unsupported widget type");
         }
       }
     }

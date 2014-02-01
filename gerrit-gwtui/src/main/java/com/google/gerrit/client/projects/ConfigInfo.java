@@ -158,8 +158,35 @@ public class ConfigInfo extends JavaScriptObject {
     public final native String configuredValue() /*-{ return this.configured_value; }-*/;
     public final native String inheritedValue() /*-{ return this.inherited_value; }-*/;
     public final native JsArrayString permittedValues()  /*-{ return this.permitted_values; }-*/;
+    public final native JsArrayString values()  /*-{ return this.values; }-*/;
 
     protected ConfigParameterInfo() {
+    }
+  }
+
+  public static class ConfigParameterValue extends JavaScriptObject {
+    final native void init() /*-{ this.values = []; }-*/;
+    final native void add_value(String v) /*-{ this.values.push(v); }-*/;
+    final native void set_value(String v) /*-{ if(v)this.value = v; }-*/;
+    public static ConfigParameterValue create() {
+      ConfigParameterValue v = createObject().cast();
+      return v;
+    }
+
+    public final ConfigParameterValue values(String[] values) {
+      init();
+      for (String v : values) {
+        add_value(v);
+      }
+      return this;
+    }
+
+    public final ConfigParameterValue value(String v) {
+      set_value(v);
+      return this;
+    }
+
+    protected ConfigParameterValue() {
     }
   }
 }

@@ -14,6 +14,7 @@
 package com.google.gerrit.client.projects;
 
 import com.google.gerrit.client.VoidResult;
+import com.google.gerrit.client.projects.ConfigInfo.ConfigParameterValue;
 import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.NativeString;
@@ -85,7 +86,7 @@ public class ProjectApi {
       InheritableBoolean useContentMerge, InheritableBoolean useSignedOffBy,
       InheritableBoolean requireChangeId, String maxObjectSizeLimit,
       SubmitType submitType, Project.State state,
-      Map<String, Map<String, String>> pluginConfigValues,
+      Map<String, Map<String, ConfigParameterValue>> pluginConfigValues,
       AsyncCallback<ConfigInfo> cb) {
     ConfigInput in = ConfigInput.create();
     in.setDescription(description);
@@ -222,32 +223,32 @@ public class ProjectApi {
     private final native void setStateRaw(String s)
     /*-{ if(s)this.state=s; }-*/;
 
-    final void setPluginConfigValues(Map<String, Map<String, String>> pluginConfigValues) {
+    final void setPluginConfigValues(Map<String, Map<String, ConfigParameterValue>> pluginConfigValues) {
       if (!pluginConfigValues.isEmpty()) {
-        NativeMap<StringMap> configValues = NativeMap.create().cast();
-        for (Entry<String, Map<String, String>> e : pluginConfigValues.entrySet()) {
-          StringMap values = StringMap.create();
+        NativeMap<ConfigParameterValueMap> configValues = NativeMap.create().cast();
+        for (Entry<String, Map<String, ConfigParameterValue>> e : pluginConfigValues.entrySet()) {
+          ConfigParameterValueMap values = ConfigParameterValueMap.create();
           configValues.put(e.getKey(), values);
-          for (Entry<String, String> e2 : e.getValue().entrySet()) {
+          for (Entry<String, ConfigParameterValue> e2 : e.getValue().entrySet()) {
             values.put(e2.getKey(), e2.getValue());
           }
         }
         setPluginConfigValuesRaw(configValues);
       }
     }
-    private final native void setPluginConfigValuesRaw(NativeMap<StringMap> v)
+    private final native void setPluginConfigValuesRaw(NativeMap<ConfigParameterValueMap> v)
     /*-{ this.plugin_config_values=v; }-*/;
   }
 
-  private static class StringMap extends JavaScriptObject {
-    static StringMap create() {
-      return (StringMap) createObject();
+  private static class ConfigParameterValueMap extends JavaScriptObject {
+    static ConfigParameterValueMap create() {
+      return createObject().cast();
     }
 
-    protected StringMap() {
+    protected ConfigParameterValueMap() {
     }
 
-    public final native void put(String n, String v) /*-{ this[n] = v; }-*/;
+    public final native void put(String n, ConfigParameterValue v) /*-{ this[n] = v; }-*/;
   }
 
   private static class BranchInput extends JavaScriptObject {

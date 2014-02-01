@@ -37,6 +37,7 @@ import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.GroupsCollection;
 import com.google.gerrit.server.project.CreateProject.Input;
 import com.google.gerrit.server.project.ProjectJson.ProjectInfo;
+import com.google.gerrit.server.project.PutConfig.ConfigValue;
 import com.google.gerrit.server.validators.ProjectCreationValidationListener;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
@@ -65,7 +66,7 @@ public class CreateProject implements RestModifyView<TopLevelResource, Input> {
     public InheritableBoolean useContentMerge;
     public InheritableBoolean requireChangeId;
     public String maxObjectSizeLimit;
-    public Map<String, Map<String, String>> pluginConfigValues;
+    public Map<String, Map<String, ConfigValue>> pluginConfigValues;
   }
 
   public static interface Factory {

@@ -15,6 +15,7 @@
 package com.google.gerrit.server.project;
 
 import com.google.common.base.CharMatcher;
+import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -44,12 +45,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
 public class PutConfig implements RestModifyView<ProjectResource, Input> {
   private static final Logger log = LoggerFactory.getLogger(PutConfig.class);
-
+  public static class ConfigValue {
+    public String value;
+    public List<String> values;
+  }
   public static class Input {
     public String description;
     public InheritableBoolean useContributorAgreements;
@@ -59,7 +65,7 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
     public String maxObjectSizeLimit;
     public SubmitType submitType;
     public Project.State state;
-    public Map<String, Map<String, String>> pluginConfigValues;
+    public Map<String, Map<String, ConfigValue>> pluginConfigValues;
   }
 
   private final MetaDataUpdate.User metaDataUpdateFactory;
@@ -180,12 +186,12 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
   }
 
   private void setPluginConfigValues(ProjectState projectState,
-      ProjectConfig projectConfig, Map<String, Map<String, String>> pluginConfigValues)
+      ProjectConfig projectConfig, Map<String, Map<String, ConfigValue>> pluginConfigValues)
       throws BadRequestException {
-    for (Entry<String, Map<String, String>> e : pluginConfigValues.entrySet()) {
+    for (Entry<String, Map<String, ConfigValue>> e : pluginConfigValues.entrySet()) {
       String pluginName = e.getKey();
       PluginConfig cfg = projectConfig.getPluginConfig(pluginName);
-      for (Entry<String, String> v : e.getValue().entrySet()) {
+      for (Entry<String, ConfigValue> v : e.getValue().entrySet()) {
         ProjectConfigEntry projectConfigEntry =
             pluginConfigEntries.get(pluginName, v.getKey());
         if (projectConfigEntry != null) {
@@ -195,32 +201,41 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
             continue;
           }
           String oldValue = cfg.getString(v.getKey());
-          if (Strings.emptyToNull(v.getValue()) != null) {
-            if (!v.getValue().equals(oldValue)) {
+          String value = v.getValue().value;
+          if (projectConfigEntry.getType() == ProjectConfigEntry.Type.ARRAY) {
+            List<String> l = Arrays.asList(cfg.getStringList(v.getKey()));
+            oldValue = Joiner.on("\n").join(l);
+            value = Joiner.on("\n").join(v.getValue().values);
+          }
+          if (Strings.emptyToNull(value) != null) {
+            if (!value.equals(oldValue)) {
               validateProjectConfigEntryIsEditable(projectConfigEntry,
                   projectState, e.getKey(), pluginName);
               try {
                 switch (projectConfigEntry.getType()) {
                   case BOOLEAN:
-                    boolean newBooleanValue = Boolean.parseBoolean(v.getValue());
+                    boolean newBooleanValue = Boolean.parseBoolean(value);
                     cfg.setBoolean(v.getKey(), newBooleanValue);
                     break;
                   case INT:
-                    int newIntValue = Integer.parseInt(v.getValue());
+                    int newIntValue = Integer.parseInt(value);
                     cfg.setInt(v.getKey(), newIntValue);
                     break;
                   case LONG:
-                    long newLongValue = Long.parseLong(v.getValue());
+                    long newLongValue = Long.parseLong(value);
                     cfg.setLong(v.getKey(), newLongValue);
                     break;
                   case LIST:
-                    if (!projectConfigEntry.getPermittedValues().contains(v.getValue())) {
+                    if (!projectConfigEntry.getPermittedValues().contains(value)) {
                       throw new BadRequestException(String.format(
                           "The value '%s' is not permitted for parameter '%s' of plugin '"
-                              + pluginName + "'", v.getValue(), v.getKey()));
+                              + pluginName + "'", value, v.getKey()));
                     }
                   case STRING:
-                    cfg.setString(v.getKey(), v.getValue());
+                    cfg.setString(v.getKey(), value);
+                    break;
+                  case ARRAY:
+                    cfg.setStringList(v.getKey(), v.getValue().values);
                     break;
                   default:
                     log.warn(String.format(

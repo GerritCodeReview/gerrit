@@ -1299,16 +1299,18 @@ The description of the configuration parameter.
 |`warning`         |optional|
 Warning message for the configuration parameter.
 |`type`            ||
-The type of the configuration parameter, can be `STRING`, `INT`,
-`LONG`, `BOOLEAN` or `LIST`.
+The type of the configuration parameter. Can be `STRING`, `INT`,
+`LONG`, `BOOLEAN`, `LIST` or `ARRAY`.
 |`value`           |optional|
 The value of the configuration parameter as string. If the parameter
 is inheritable this is the effective value which is deduced from
 `configured_value` and `inherited_value`.
+|`values`          |optional|
+The list of values. Only set if the `type` is `ARRAY`.
 `editable`         |`false` if not set|
 Whether the value is editable.
 |`permitted_values`|optional|
-The list of permitted values, only set if the `type` is `LIST`.
+The list of permitted values. Only set if the `type` is `LIST`.
 |`inheritable`     |`false` if not set|
 Whether the configuration parameter can be inherited.
 |`configured_value`|optional|

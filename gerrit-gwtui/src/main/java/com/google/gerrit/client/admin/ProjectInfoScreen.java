@@ -23,6 +23,7 @@ import com.google.gerrit.client.change.Resources;
 import com.google.gerrit.client.download.DownloadPanel;
 import com.google.gerrit.client.projects.ConfigInfo;
 import com.google.gerrit.client.projects.ConfigInfo.ConfigParameterInfo;
+import com.google.gerrit.client.projects.ConfigInfo.ConfigParameterValue;
 import com.google.gerrit.client.projects.ConfigInfo.InheritedBooleanInfo;
 import com.google.gerrit.client.projects.ProjectApi;
 import com.google.gerrit.client.rpc.CallbackGroup;
@@ -366,17 +367,23 @@ public class ProjectInfoScreen extends ProjectScreen {
       pluginConfig.copyKeysIntoChildren("name");
       for (ConfigParameterInfo param : Natives.asList(pluginConfig.values())) {
         FocusWidget w;
-        if ("STRING".equals(param.type())) {
-          w = renderTextBox(g, param, false);
-        } else if ("INT".equals(param.type()) || "LONG".equals(param.type())) {
-          w = renderTextBox(g, param, true);
-        } else if ("BOOLEAN".equals(param.type())) {
-          w = renderCheckBox(g, param);
-        } else if ("LIST".equals(param.type())
-            && param.permittedValues() != null) {
-          w = renderListBox(g, param);
-        } else {
-          continue;
+        switch (param.type()) {
+          case "STRING":
+          case "INT":
+          case "LONG":
+            w = renderTextBox(g, param);
+            break;
+          case "BOOLEAN":
+            w = renderCheckBox(g, param);
+            break;
+          case "LIST":
+            w = renderListBox(g, param);
+            break;
+          case "ARRAY":
+            w = renderTextArea(g, param);
+            break;
+          default:
+            throw new UnsupportedOperationException("unsupported widget type");
         }
         if (param.editable()) {
           widgetMap.put(param.name(), w);
@@ -390,8 +397,10 @@ public class ProjectInfoScreen extends ProjectScreen {
   }
 
   private TextBox renderTextBox(LabeledWidgetsGrid g,
-      ConfigParameterInfo param, boolean numbersOnly) {
-    NpTextBox textBox = numbersOnly ? new NpIntTextBox() : new NpTextBox();
+      ConfigParameterInfo param) {
+    NpTextBox textBox = param.type().equals("STRING")
+        ? new NpTextBox()
+        : new NpIntTextBox();
     if (param.inheritable()) {
       textBox.setValue(param.configuredValue());
       Label inheritedLabel =
@@ -434,6 +443,9 @@ public class ProjectInfoScreen extends ProjectScreen {
 
   private ListBox renderListBox(LabeledWidgetsGrid g,
       ConfigParameterInfo param) {
+    if (param.permittedValues() == null) {
+      return null;
+    }
     ListBox listBox = new ListBox();
     if (param.inheritable()) {
       listBox.addItem(
@@ -483,6 +495,26 @@ public class ProjectInfoScreen extends ProjectScreen {
     }
 
     return listBox;
+  }
+
+  private NpTextArea renderTextArea(LabeledWidgetsGrid g,
+      ConfigParameterInfo param) {
+    NpTextArea txtArea = new NpTextArea();
+    txtArea.setVisibleLines(4);
+    txtArea.setCharacterWidth(40);
+    StringBuilder sb = new StringBuilder();
+    for (int i = 0; i < param.values().length(); i++) {
+      String v = param.values().get(i);
+      sb.append(v).append("\n");
+    }
+    txtArea.setText(sb.toString());
+    if (param.editable()) {
+      saveEnabler.listenTo(txtArea);
+    } else {
+      txtArea.setEnabled(false);
+    }
+    addWidget(g, txtArea, param);
+    return txtArea;
   }
 
   private void addWidget(LabeledWidgetsGrid g, Widget w, ConfigParameterInfo param) {
@@ -554,26 +586,34 @@ public class ProjectInfoScreen extends ProjectScreen {
         });
   }
 
-  private Map<String, Map<String, String>> getPluginConfigValues() {
-    Map<String, Map<String, String>> pluginConfigValues =
+  private Map<String, Map<String, ConfigParameterValue>> getPluginConfigValues() {
+    Map<String, Map<String, ConfigParameterValue>> pluginConfigValues =
         new HashMap<>(pluginConfigWidgets.size());
     for (Entry<String, Map<String, FocusWidget>> e : pluginConfigWidgets.entrySet()) {
-      Map<String, String> values =
-          new HashMap<String, String>(e.getValue().size());
+      Map<String, ConfigParameterValue> values = new HashMap<>(e.getValue().size());
       pluginConfigValues.put(e.getKey(), values);
       for (Entry<String, FocusWidget> e2 : e.getValue().entrySet()) {
         FocusWidget widget = e2.getValue();
         if (widget instanceof TextBox) {
-          values.put(e2.getKey(), ((TextBox) widget).getValue().trim());
+          values.put(e2.getKey(), ConfigParameterValue.create()
+              .value(((TextBox) widget).getValue().trim()));
         } else if (widget instanceof CheckBox) {
-          values.put(e2.getKey(), Boolean.toString(((CheckBox) widget).getValue()));
+          values.put(e2.getKey(), ConfigParameterValue.create()
+              .value(Boolean.toString(((CheckBox) widget).getValue())));
         } else if (widget instanceof ListBox) {
           ListBox listBox = (ListBox) widget;
           // the inherited value is at index 0,
           // if it is selected no value should be set on this project
           String value = listBox.getSelectedIndex() > 0
               ? listBox.getValue(listBox.getSelectedIndex()) : null;
-          values.put(e2.getKey(), value);
+          values.put(e2.getKey(), ConfigParameterValue.create()
+              .value(value));
+        } else if (widget instanceof NpTextArea) {
+          String text = ((NpTextArea) widget).getText().trim();
+          values.put(e2.getKey(), ConfigParameterValue.create()
+              .values(text.split("\n")));
+        } else {
+          throw new UnsupportedOperationException("unsupported widget type");
         }
       }
     }

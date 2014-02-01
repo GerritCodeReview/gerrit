@@ -28,8 +28,7 @@ public class CoreScriptsLoader {
 
   static {
     DataResource[] all = {
-       // Add here your scripts:
-       // CoreScripts.I.put_here_core_js_api_script();
+        CoreScripts.I.delete_project(),
     };
 
     scriptUris = new HashMap<>();

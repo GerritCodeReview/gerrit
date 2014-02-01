@@ -14,7 +14,9 @@
 
 package com.google.gerrit.sshd.commands;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Function;
+import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.errors.ProjectCreationFailedException;
@@ -28,6 +30,7 @@ import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gerrit.server.project.CreateProject;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.project.PutConfig.ConfigValue;
 import com.google.gerrit.server.project.SuggestParentCandidates;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
@@ -189,21 +192,29 @@ final class CreateProjectCommand extends SshCommand {
     }
   }
 
-  private Map<String, Map<String, String>> parsePluginConfigValues(
+  @VisibleForTesting
+  Map<String, Map<String, ConfigValue>> parsePluginConfigValues(
       List<String> pluginConfigValues) throws UnloggedFailure {
-    Map<String, Map<String, String>> m = new HashMap<>();
+    Map<String, Map<String, ConfigValue>> m = new HashMap<>();
     for (String pluginConfigValue : pluginConfigValues) {
       String[] s = pluginConfigValue.split("=");
       String[] s2 = s[0].split("\\.");
       if (s.length != 2 || s2.length != 2) {
         throw new UnloggedFailure(1, "Invalid plugin config value '"
             + pluginConfigValue
-            + "', expected format '<plugin-name>.<parameter-name>=<value>'");
+            + "', expected format '<plugin-name>.<parameter-name>=<value>'"
+            + " or '<plugin-name>.<parameter-name>=<value1,value2,...>'");
       }
-      String value = s[1];
+      ConfigValue value = new ConfigValue();
+      String v = s[1];
+      if (v.contains(",")) {
+        value.values = Lists.newArrayList(Splitter.on(",").split(v));
+      } else {
+        value.value = v;
+      }
       String pluginName = s2[0];
       String paramName = s2[1];
-      Map<String, String> l = m.get(pluginName);
+      Map<String, ConfigValue> l = m.get(pluginName);
       if (l == null) {
         l = new HashMap<>();
         m.put(pluginName, l);

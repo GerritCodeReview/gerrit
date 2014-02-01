@@ -33,6 +33,7 @@ import com.google.gerrit.server.extensions.webui.UiActions;
 import com.google.gerrit.server.git.TransferConfig;
 import com.google.inject.util.Providers;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -153,7 +154,11 @@ public class ConfigInfo {
         p.configuredValue = configuredValue;
         p.inheritedValue = getInheritedValue(project, cfgFactory, e);
       } else {
-        p.value = configuredValue != null ? configuredValue : configEntry.getDefaultValue();
+        if (configEntry.getType() == ProjectConfigEntry.Type.ARRAY) {
+          p.values = Arrays.asList(cfg.getStringList(e.getExportName()));
+        } else {
+          p.value = configuredValue != null ? configuredValue : configEntry.getDefaultValue();
+        }
       }
       Map<String, ConfigParameterInfo> pc = pluginConfig.get(e.getPluginName());
       if (pc == null) {
@@ -204,5 +209,6 @@ public class ConfigInfo {
     public String configuredValue;
     public String inheritedValue;
     public List<String> permittedValues;
+    public List<String> values;
   }
 }

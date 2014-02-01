@@ -38,3 +38,17 @@ java_sources(
   srcs = SRCS,
   visibility = ['PUBLIC'],
 )
+
+java_test(
+  name = 'sshd_tests',
+  srcs = glob(
+    ['src/test/java/**/*.java'],
+  ),
+  deps = [
+    ':sshd',
+    '//gerrit-server:server',
+    '//lib:guava',
+    '//lib:junit',
+  ],
+  source_under_test = [':sshd'],
+)

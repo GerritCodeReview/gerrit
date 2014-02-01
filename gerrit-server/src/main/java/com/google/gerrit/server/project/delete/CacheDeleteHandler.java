@@ -1,4 +1,4 @@
-// Copyright (C) 2014 The Android Open Source Project
+// Copyright (C) 2013 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,17 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.client;
+package com.google.gerrit.server.project.delete;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.resources.client.ClientBundle;
-import com.google.gwt.resources.client.DataResource;
-import com.google.gwt.resources.client.DataResource.DoNotEmbed;
+import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.project.ProjectCache;
+import com.google.inject.Inject;
 
-public interface CoreScripts extends ClientBundle {
-  public static final CoreScripts I = GWT.create(CoreScripts.class);
+public class CacheDeleteHandler {
 
-  @Source("projects/delete-project.js")
-  @DoNotEmbed
-  DataResource delete_project();
+  private final ProjectCache projectCache;
+
+  @Inject
+  public CacheDeleteHandler(ProjectCache projectCache) {
+    this.projectCache = projectCache;
+  }
+
+  public void delete(Project project) {
+    projectCache.remove(project);
+  }
 }

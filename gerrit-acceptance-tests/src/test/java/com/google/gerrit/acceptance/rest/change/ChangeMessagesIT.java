@@ -16,7 +16,6 @@ package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.gerrit.acceptance.GitUtil.cloneProject;
 import static com.google.gerrit.acceptance.GitUtil.createProject;
-import static com.google.gerrit.extensions.common.ListChangesOption.MESSAGES;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -99,7 +98,7 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
   public void defaultMessage() throws GitAPIException, IOException,
       RestApiException {
     String changeId = createChange();
-    ChangeInfo c = getChange("p~master~" + changeId, EnumSet.of(MESSAGES));
+    ChangeInfo c = getChangeAll("p~master~" + changeId);
     assertNotNull(c.messages);
     assertEquals(1, c.messages.size());
     assertEquals("Uploaded patch set 1.", c.messages.iterator().next().message);
@@ -113,7 +112,7 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
     postMessage(changeId, firstMessage);
     String secondMessage = "I like this feature.";
     postMessage(changeId, secondMessage);
-    ChangeInfo c = getChange("p~master~" + changeId, EnumSet.of(MESSAGES));
+    ChangeInfo c = getChangeAll("p~master~" + changeId);
     assertNotNull(c.messages);
     assertEquals(3, c.messages.size());
     Iterator<ChangeMessageInfo> it = c.messages.iterator();
@@ -142,5 +141,10 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
   private ChangeInfo getChange(String triplet, EnumSet<ListChangesOption> s)
       throws RestApiException {
     return gApi.changes().id(triplet).get(s);
+  }
+
+  private ChangeInfo getChangeAll(String triplet)
+      throws RestApiException {
+    return gApi.changes().id(triplet).get();
   }
 }

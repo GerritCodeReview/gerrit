@@ -304,6 +304,7 @@ public class ChangeJson {
         : null;
     out.reviewed = in.getStatus().isOpen()
         && has(REVIEWED)
+        && reviewed != null
         && reviewed.contains(cd.getId()) ? true : null;
     out.labels = labelsFor(cd, has(LABELS), has(DETAILED_LABELS));
 

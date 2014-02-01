@@ -40,4 +40,7 @@ public interface ChangeApi {
   void addReviewer(String in) throws RestApiException;
 
   ChangeInfo get(EnumSet<ListChangesOption> options) throws RestApiException;
+
+  /** {@code get} with {@link ListChangesOption} set to ALL. */
+  ChangeInfo get() throws RestApiException;
 }

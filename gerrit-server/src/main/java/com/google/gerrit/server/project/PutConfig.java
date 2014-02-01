@@ -15,7 +15,10 @@
 package com.google.gerrit.server.project;
 
 import com.google.common.base.CharMatcher;
+import com.google.common.base.Joiner;
+import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -44,6 +47,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -195,6 +200,10 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
             continue;
           }
           String oldValue = cfg.getString(v.getKey());
+          if (projectConfigEntry.getType() == ProjectConfigEntry.Type.ARRAY) {
+            List<String> l = Arrays.asList(cfg.getStringList(v.getKey()));
+            oldValue = Joiner.on("\n").join(l);
+          }
           if (v.getValue() != null) {
             if (!v.getValue().equals(oldValue)) {
               validateProjectConfigEntryIsEditable(projectConfigEntry,
@@ -221,6 +230,10 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
                     }
                   case STRING:
                     cfg.setString(v.getKey(), v.getValue());
+                    break;
+                  case ARRAY:
+                    cfg.setStringList(v.getKey(), Lists.newArrayList(Splitter
+                        .on("\n").split(v.getValue())));
                     break;
                   default:
                     log.warn(String.format(

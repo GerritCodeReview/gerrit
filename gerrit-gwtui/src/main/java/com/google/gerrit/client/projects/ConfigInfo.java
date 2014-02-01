@@ -158,6 +158,7 @@ public class ConfigInfo extends JavaScriptObject {
     public final native String configuredValue() /*-{ return this.configured_value; }-*/;
     public final native String inheritedValue() /*-{ return this.inherited_value; }-*/;
     public final native JsArrayString permittedValues()  /*-{ return this.permitted_values; }-*/;
+    public final native JsArrayString values()  /*-{ return this.values; }-*/;
 
     protected ConfigParameterInfo() {
     }

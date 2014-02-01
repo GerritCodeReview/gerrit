@@ -1,4 +1,4 @@
-// Copyright (C) 2014 The Android Open Source Project
+// Copyright (C) 2013 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,17 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.client;
+package com.google.gerrit.server.project.delete;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.resources.client.ClientBundle;
-import com.google.gwt.resources.client.DataResource;
-import com.google.gwt.resources.client.DataResource.DoNotEmbed;
+public class CannotDeleteProjectException extends Exception {
+  private static final long serialVersionUID = 1L;
 
-public interface CoreScripts extends ClientBundle {
-  public static final CoreScripts I = GWT.create(CoreScripts.class);
+  /**
+   * Thrown when trying to delete a project which can not
+   * be currently deleted.
+   */
+  public CannotDeleteProjectException(String message) {
+    super(message);
+  }
 
-  @Source("projects/delete-project.js")
-  @DoNotEmbed
-  DataResource delete_project();
+  public CannotDeleteProjectException(Exception e) {
+    super(e);
+  }
 }

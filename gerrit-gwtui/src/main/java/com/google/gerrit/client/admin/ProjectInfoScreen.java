@@ -375,6 +375,8 @@ public class ProjectInfoScreen extends ProjectScreen {
         } else if ("LIST".equals(param.type())
             && param.permittedValues() != null) {
           w = renderListBox(g, param);
+        } else if ("MULTIPLE".equals(param.type())) {
+          w = renderTextArea(g, param);
         } else {
           continue;
         }
@@ -485,6 +487,27 @@ public class ProjectInfoScreen extends ProjectScreen {
     return listBox;
   }
 
+  private NpTextArea renderTextArea(LabeledWidgetsGrid g,
+      ConfigParameterInfo param) {
+    NpTextArea txtArea = new NpTextArea();
+    txtArea.setVisibleLines(4);
+    txtArea.setCharacterWidth(40);
+    StringBuilder sb = new StringBuilder();
+    for (int i = 0; i < param.values().length(); i++) {
+      String v = param.values().get(i);
+      sb.append(v).append("\n");
+    }
+    txtArea.setText(sb.toString());
+    if (param.editable()) {
+      saveEnabler.listenTo(txtArea);
+    } else {
+      txtArea.setEnabled(false);
+    }
+    addWidget(g, txtArea, param);
+    param.values();
+    return txtArea;
+  }
+
   private void addWidget(LabeledWidgetsGrid g, Widget w, ConfigParameterInfo param) {
     if (param.description() != null || param.warning() != null) {
       HorizontalPanel p = new HorizontalPanel();
@@ -574,6 +597,11 @@ public class ProjectInfoScreen extends ProjectScreen {
           String value = listBox.getSelectedIndex() > 0
               ? listBox.getValue(listBox.getSelectedIndex()) : null;
           values.put(e2.getKey(), value);
+        } else if (widget instanceof NpTextArea) {
+          NpTextArea txtArea = (NpTextArea) widget;
+          values.put(e2.getKey(), txtArea.getText().trim());
+        } else {
+          throw new UnsupportedOperationException("unupported widget type");
         }
       }
     }

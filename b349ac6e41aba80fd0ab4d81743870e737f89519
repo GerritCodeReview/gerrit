@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b2e5ee1d_d2894413",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 604,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-02-01T22:10:27Z",
+      "side": 1,
+      "message": "s/unupported/unsupported",
+      "range": {
+        "startLine": 604,
+        "startChar": 51,
+        "endLine": 604,
+        "endChar": 61
+      },
+      "revId": "b349ac6e41aba80fd0ab4d81743870e737f89519",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b2e5ee1d_b28ec017",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ProjectConfigEntry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-02-01T22:10:27Z",
+      "side": 1,
+      "message": "Should we better name this \u0027ARRAY\u0027?\n\nAdd this type in rest-api-projects.txt in the description of the \u0027type\u0027 field of \u0027ConfigParameterInfo\u0027.",
+      "range": {
+        "startLine": 44,
+        "startChar": 38,
+        "endLine": 44,
+        "endChar": 46
+      },
+      "revId": "b349ac6e41aba80fd0ab4d81743870e737f89519",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b2e5ee1d_9293bc41",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ConfigInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-02-01T22:10:27Z",
+      "side": 1,
+      "message": "Describe this field in rest-api-project.txt to the description of \u0027ConfigParameterInfo\u0027.",
+      "range": {
+        "startLine": 212,
+        "startChar": 24,
+        "endLine": 212,
+        "endChar": 30
+      },
+      "revId": "b349ac6e41aba80fd0ab4d81743870e737f89519",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

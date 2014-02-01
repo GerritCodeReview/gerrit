@@ -17,11 +17,14 @@ package com.google.gerrit.server.project;
 import static com.google.gerrit.server.project.BranchResource.BRANCH_KIND;
 import static com.google.gerrit.server.project.ChildProjectResource.CHILD_PROJECT_KIND;
 import static com.google.gerrit.server.project.DashboardResource.DASHBOARD_KIND;
-import static com.google.gerrit.server.project.ProjectResource.PROJECT_KIND;
 import static com.google.gerrit.server.project.FileResource.FILE_KIND;
+import static com.google.gerrit.server.project.ProjectResource.PROJECT_KIND;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
+import com.google.gerrit.server.project.delete.CacheDeleteHandler;
+import com.google.gerrit.server.project.delete.DatabaseDeleteHandler;
+import com.google.gerrit.server.project.delete.FilesystemDeleteHandler;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 
 public class Module extends RestApiModule {
@@ -70,5 +73,10 @@ public class Module extends RestApiModule {
 
     get(PROJECT_KIND, "config").to(GetConfig.class);
     put(PROJECT_KIND, "config").to(PutConfig.class);
+
+    post(PROJECT_KIND, "delete").to(DeleteProject.class);
+    bind(CacheDeleteHandler.class);
+    bind(DatabaseDeleteHandler.class);
+    bind(FilesystemDeleteHandler.class);
   }
 }

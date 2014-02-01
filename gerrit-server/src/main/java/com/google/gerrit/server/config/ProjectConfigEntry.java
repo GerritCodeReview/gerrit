@@ -26,6 +26,7 @@ import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
+import com.google.inject.ProvisionException;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
@@ -40,7 +41,7 @@ import java.util.List;
 @ExtensionPoint
 public class ProjectConfigEntry {
   public enum Type {
-    STRING, INT, LONG, BOOLEAN, LIST
+    STRING, INT, LONG, BOOLEAN, LIST, ARRAY
   }
 
   private final String displayName;
@@ -145,7 +146,7 @@ public class ProjectConfigEntry {
         }), inheritable, description);
   }
 
-  private ProjectConfigEntry(String displayName, String defaultValue,
+  public ProjectConfigEntry(String displayName, String defaultValue,
       Type type, List<String> permittedValues, boolean inheritable,
       String description) {
     this.displayName = displayName;
@@ -154,6 +155,10 @@ public class ProjectConfigEntry {
     this.permittedValues = permittedValues;
     this.inheritable = inheritable;
     this.description = description;
+    if (type == Type.ARRAY && inheritable) {
+      throw new ProvisionException(
+          "ARRAY doesn't support inheritable values");
+    }
   }
 
   public String getDisplayName() {

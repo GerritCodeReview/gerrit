@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d2ca6290_939cfc5a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-01T00:23:38Z",
+      "side": 1,
+      "message": "For some reasons is this field is not initialized when format() is called, even wth all options. It seems that this field is only initialized from method formatList2():\n\n    if (has(REVIEWED)) {\n      ensureReviewedLoaded(all);\n    }\n\nand that is not get called form simple format() method that ChangAPI is using.",
+      "range": {
+        "startLine": 307,
+        "startChar": 8,
+        "endLine": 307,
+        "endChar": 27
+      },
+      "revId": "a428482b32a0cd582965afe2ee9083baa7caa7fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

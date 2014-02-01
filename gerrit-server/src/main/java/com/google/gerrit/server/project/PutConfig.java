@@ -195,7 +195,7 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
             continue;
           }
           String oldValue = cfg.getString(v.getKey());
-          if (v.getValue() != null) {
+          if (Strings.emptyToNull(v.getValue()) != null) {
             if (!v.getValue().equals(oldValue)) {
               validateProjectConfigEntryIsEditable(projectConfigEntry,
                   projectState, e.getKey(), pluginName);

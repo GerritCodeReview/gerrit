@@ -108,6 +108,9 @@ link:cmd-create-group.html[gerrit create-group]::
 link:cmd-create-project.html[gerrit create-project]::
 	Create a new project and associated Git repository.
 
+link:cmd-delete-project.html[gerrit delete-project]::
+	Delete a project and associated Git repository.
+
 link:cmd-set-project.html[gerrit set-project]::
     Change a project's settings.
 

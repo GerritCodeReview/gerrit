@@ -168,6 +168,33 @@ describes the created project.
   }
 ----
 
+[[delete-project]]
+=== Delete Project
+--
+'POST /projects/link:#project-name[\{project-name\}]/delete'
+--
+
+Delete a project.
+
+In the request body additional data for the delete operation can be provided
+as link:#delete-project-input[DeleteProjectInput].
+
+.Request
+----
+  POST /projects/MyProject/delete HTTP/1.0
+  Content-Type: application/json;charset=UTF-8
+
+  {
+    "preserve": true,
+    "force": true
+  }
+----
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
 [[get-project-description]]
 === Get Project Description
 --
@@ -1540,6 +1567,21 @@ Common unit suffixes of 'k', 'm', or 'g' are supported.
 |`plugin_config_values`      |optional|
 Plugin configuration values as map which maps the plugin name to a map
 of parameter names to values.
+|=========================================
+
+[[delete-project-input]]
+=== DeleteProjectInput
+The `DeleteProjectInput` entity contains information for the deletion of
+projects.
+
+[options="header",width="50%",cols="1,^2,4"]
+|=========================================
+|Field Name                  ||Description
+|`force`                     |optional|
+Delete project even if it has open changes.
+|`preserve`                  |optional|
+Don't delete git repository directory. +
+Default is delete git repository.
 |=========================================
 
 [[project-parent-input]]

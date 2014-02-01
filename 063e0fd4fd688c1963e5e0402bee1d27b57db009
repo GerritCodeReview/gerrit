@@ -57,6 +57,30 @@
       "revId": "063e0fd4fd688c1963e5e0402bee1d27b57db009",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "12d15a3f_75b268e2",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-02-01T00:15:36Z",
+      "side": 1,
+      "message": "I\u0027ll look into this. As a workaround for now, you can start the whole test to populate the JUnit tab with a list of methods, then immediately cancel it, then choose one of the methods, right click -\u003e Run.",
+      "parentUuid": "d2ca6290_d3a27491",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 29
+      },
+      "revId": "063e0fd4fd688c1963e5e0402bee1d27b57db009",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

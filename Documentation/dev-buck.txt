@@ -322,6 +322,47 @@ that artifact:
  )
 ----
 
+== Building against unpublished JARs, that going to change frequently
+
+If a dependent Gerrit library is undergoing active development process it must
+be recompiled and the change must be reflected in Buck build process. For
+example testing Gerrit against changed JGit snapshot version. After building
+JGit library, the artifacts are created in local Maven build directory, e. g.:
+
+----
+  mvn package
+  /home/davido/projects/jgit/org.eclipse.jgit/target/org.eclipse.jgit-3.3.0-SNAPSHOT.jar
+  /home/davido/projects/jgit/org.eclipse.jgit/target/org.eclipse.jgit-3.3.0-SNAPSHOT-sources.jar
+----
+
+If as usually, deployment of the build artifacts takes place in local maven
+repository, then Buck build must fetch them from there with normal
+download_file.py process. Disadvantage of this apporach is that Buck cache
+invalidation must occur to refresh the artifacts after next
+change-compile-deploy round trip.
+
+To shorten that workflow and take the deployment of the artifacts to the local Maven
+reository and fetching it again from there out of the pciture, `local_jar()`
+method is used instead of `maven_jar()`:
+
+[source,python]
+----
+ local_jar(
+   name = 'jgit',
+   jar = '/home/davido/projects/jgit/org.eclipse.jgit/target/org.eclipse.jgit-3.3.0-SNAPSHOT.jar',
+   src = '/home/davido/projects/jgit/org.eclipse.jgit/target/org.eclipse.jgit-3.3.0-SNAPSHOT-sources.jar',
+   deps = [':ewah']
+ )
+----
+
+This would link the Buck targets direct against Maven artifacts in Maven's
+build directory:
+
+----
+buck-out/gen/lib/jgit/jgit.jar ->
+/home/davido/projects/jgit/org.eclipse.jgit/target/org.eclipse.jgit-3.3.0-SNAPSHOT.jar
+----
+
 == Building against artifacts from custom Maven repositories
 
 To build against custom Maven repositories, two modes of operations are

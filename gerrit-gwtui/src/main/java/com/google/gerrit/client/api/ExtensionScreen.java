@@ -26,6 +26,9 @@ public class ExtensionScreen extends Screen {
   private Context ctx;
 
   public ExtensionScreen(String token) {
+    if (token.contains("?")) {
+      token = token.substring(0, token.indexOf('?'));
+    }
     String name;
     String rest;
     int s = token.indexOf('/');

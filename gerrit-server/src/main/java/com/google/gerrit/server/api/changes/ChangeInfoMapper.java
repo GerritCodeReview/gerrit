@@ -118,9 +118,11 @@ class ChangeInfoMapper {
       lo.value = li.value;
       lo.optional = li.optional;
       lo.values = li.values;
-      lo.all = Lists.newArrayListWithExpectedSize(li.all.size());
-      for (ChangeJson.ApprovalInfo ai : li.all) {
-        lo.all.add(fromApprovalInfo(ai));
+      if (li.all != null) {
+        lo.all = Lists.newArrayListWithExpectedSize(li.all.size());
+        for (ChangeJson.ApprovalInfo ai : li.all) {
+          lo.all.add(fromApprovalInfo(ai));
+        }
       }
       r.put(e.getKey(), lo);
     }
@@ -141,6 +143,9 @@ class ChangeInfoMapper {
 
   private static AccountInfo fromAcountInfo(
       com.google.gerrit.server.account.AccountInfo i) {
+    if (i == null) {
+      return null;
+    }
     AccountInfo ai = new AccountInfo();
     fromAccount(i, ai);
     return ai;

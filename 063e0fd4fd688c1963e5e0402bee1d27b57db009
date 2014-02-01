@@ -34,6 +34,29 @@
       "revId": "063e0fd4fd688c1963e5e0402bee1d27b57db009",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d2ca6290_d3a27491",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-01T00:10:44Z",
+      "side": 1,
+      "message": "That breaks one important feature in Eclipse: single method cannot be run using right mous click\n\n  \"Run As Junit test\"\n\nOnly the whole class can be executed with dozen of tests and that\u0027s annoying. If i uncomment line 42 then NPE happens:\n\n  java.lang.NullPointerException\n\tat com.google.gerrit.acceptance.GerritServer.mergeTestConfig(GerritServer.java:128)\n\tat com.google.gerrit.acceptance.GerritServer.start(GerritServer.java:70)\n\tat com.google.gerrit.acceptance.AbstractDaemonTest.startServer(AbstractDaemonTest.java:116)\n\tat com.google.gerrit.acceptance.AbstractDaemonTest.beforeTest(AbstractDaemonTest.java:108)\n\tat com.google.gerrit.acceptance.AbstractDaemonTest.access$1(AbstractDaemonTest.java:107)\n\tat com.google.gerrit.acceptance.AbstractDaemonTest$1$1.evaluate(AbstractDaemonTest.java:84)\n\tat org.junit.rules.RunRules.evaluate(RunRules.java:20)\n\tat org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:271)\n\tat org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:70)\n\tat org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:50)\n\tat org.junit.runners.ParentRunner$3.run(ParentRunner.java:238)\n\tat org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:63)\n\tat org.junit.runners.ParentRunner.runChildren(ParentRunner.java:236)\n\tat org.junit.runners.ParentRunner.access$000(ParentRunner.java:53)\n\tat org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:229)\n\tat org.junit.runners.ParentRunner.run(ParentRunner.java:309)\n\tat org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:50)\n\tat org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)\n\tat org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:467)\n\tat org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:683)\n\tat org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:390)\n\tat org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:197)",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 29
+      },
+      "revId": "063e0fd4fd688c1963e5e0402bee1d27b57db009",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

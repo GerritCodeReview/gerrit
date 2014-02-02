@@ -24,8 +24,6 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
-import com.google.gerrit.acceptance.RestSession;
-import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.GroupCache;
@@ -69,9 +67,6 @@ public class ListGroupsIT extends AbstractDaemonTest {
   @Test
   public void testOnlyVisibleGroupsReturned() throws OrmException,
       JSchException, IOException {
-    TestAccount user = accounts.create("user", "user@example.com", "User");
-    RestSession userSession = new RestSession(server, user);
-
     String newGroupName = "newGroup";
     CreateGroup.Input in = new CreateGroup.Input();
     in.description = "a hidden group";

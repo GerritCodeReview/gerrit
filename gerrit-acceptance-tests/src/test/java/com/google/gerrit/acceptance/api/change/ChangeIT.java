@@ -14,87 +14,30 @@
 
 package com.google.gerrit.acceptance.api.change;
 
-import static com.google.gerrit.acceptance.GitUtil.cloneProject;
-import static com.google.gerrit.acceptance.GitUtil.createProject;
 import static org.junit.Assert.assertEquals;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.AcceptanceTestRequestScope;
 import com.google.gerrit.acceptance.PushOneCommit;
-import com.google.gerrit.acceptance.SshSession;
-import com.google.gerrit.acceptance.TestAccount;
-import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeStatus;
-import com.google.gerrit.extensions.common.ListChangesOption;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.IdentifiedUser;
-import com.google.gwtorm.server.SchemaFactory;
-import com.google.inject.Inject;
-import com.google.inject.util.Providers;
 
-import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.util.EnumSet;
 
 public class ChangeIT extends AbstractDaemonTest {
-
-  @Inject
-  private SchemaFactory<ReviewDb> reviewDbProvider;
-
-  @Inject
-  private GerritApi gApi;
-
-  @Inject
-  private AcceptanceTestRequestScope atrScope;
-
-  @Inject
-  private IdentifiedUser.GenericFactory identifiedUserFactory;
-
-  @Inject
-  private PushOneCommit.Factory pushFactory;
-
-  private TestAccount user;
-
-  private Git git;
-  private ReviewDb db;
-
-  @Before
-  public void setUp() throws Exception {
-    user = accounts.user();
-    Project.NameKey project = new Project.NameKey("p");
-    SshSession sshSession = new SshSession(server, admin);
-    createProject(sshSession, project.get());
-    git = cloneProject(sshSession.getUrl() + "/" + project.get());
-    db = reviewDbProvider.open();
-    atrScope.set(atrScope.newContext(reviewDbProvider, sshSession,
-        identifiedUserFactory.create(Providers.of(db), admin.getId())));
-  }
-
-  @After
-  public void cleanup() {
-    db.close();
-  }
 
   @Test
   public void get() throws GitAPIException,
       IOException, RestApiException {
     PushOneCommit.Result r = createChange();
     String triplet = "p~master~" + r.getChangeId();
-    ChangeInfo c =
-        gApi.changes()
-            .id(triplet)
-            .get(EnumSet.noneOf(ListChangesOption.class));
+    ChangeInfo c = info(triplet);
     assertEquals(triplet, c.id);
     assertEquals("p", c.project);
     assertEquals("master", c.branch);
@@ -163,11 +106,5 @@ public class ChangeIT extends AbstractDaemonTest {
     gApi.changes()
         .id("p~master~" + r.getChangeId())
         .addReviewer(in);
-  }
-
-  private PushOneCommit.Result createChange() throws GitAPIException,
-      IOException {
-    PushOneCommit push = pushFactory.create(db, admin.getIdent());
-    return push.to(git, "refs/for/master");
   }
 }

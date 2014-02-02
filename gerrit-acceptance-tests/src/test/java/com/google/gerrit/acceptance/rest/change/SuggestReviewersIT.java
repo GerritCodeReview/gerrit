@@ -14,26 +14,15 @@
 
 package com.google.gerrit.acceptance.rest.change;
 
-import static com.google.gerrit.acceptance.GitUtil.cloneProject;
-import static com.google.gerrit.acceptance.GitUtil.createProject;
 import static org.junit.Assert.assertEquals;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.GerritConfigs;
-import com.google.gerrit.acceptance.PushOneCommit;
-import com.google.gerrit.acceptance.SshSession;
-import com.google.gerrit.acceptance.TestAccount;
-import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.change.SuggestReviewers.SuggestedReviewerInfo;
 import com.google.gson.reflect.TypeToken;
-import com.google.gwtorm.server.SchemaFactory;
-import com.google.inject.Inject;
 
-import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -41,16 +30,6 @@ import java.io.IOException;
 import java.util.List;
 
 public class SuggestReviewersIT extends AbstractDaemonTest {
-
-  @Inject
-  private SchemaFactory<ReviewDb> reviewDbProvider;
-
-  @Inject
-  private PushOneCommit.Factory pushFactory;
-
-  private Git git;
-  private ReviewDb db;
-  private Project.NameKey project;
 
   @Before
   public void setUp() throws Exception {
@@ -61,25 +40,13 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
     accounts.create("user1", "user1@example.com", "User1", "users1");
     accounts.create("user2", "user2@example.com", "User2", "users2");
     accounts.create("user3", "user3@example.com", "User3", "users1", "users2");
-
-    project = new Project.NameKey("p");
-    SshSession sshSession = new SshSession(server, admin);
-    createProject(sshSession, project.get());
-    git = cloneProject(sshSession.getUrl() + "/" + project.get());
-    sshSession.close();
-    db = reviewDbProvider.open();
-  }
-
-  @After
-  public void cleanup() {
-    db.close();
   }
 
   @Test
   @GerritConfig(name = "suggest.accounts", value = "false")
   public void suggestReviewersNoResult1() throws GitAPIException, IOException,
       Exception {
-    String changeId = createChange(admin);
+    String changeId = createChange().getChangeId();
     List<SuggestedReviewerInfo> reviewers = suggestReviewers(changeId, "u", 6);
     assertEquals(reviewers.size(), 0);
   }
@@ -92,7 +59,7 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
       })
   public void suggestReviewersNoResult2() throws GitAPIException, IOException,
       Exception {
-    String changeId = createChange(admin);
+    String changeId = createChange().getChangeId();
     List<SuggestedReviewerInfo> reviewers = suggestReviewers(changeId, "u", 6);
     assertEquals(reviewers.size(), 0);
   }
@@ -101,7 +68,7 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
   @GerritConfig(name = "suggest.from", value = "2")
   public void suggestReviewersNoResult3() throws GitAPIException, IOException,
       Exception {
-    String changeId = createChange(admin);
+    String changeId = createChange().getChangeId();
     List<SuggestedReviewerInfo> reviewers = suggestReviewers(changeId, "u", 6);
     assertEquals(reviewers.size(), 0);
   }
@@ -109,7 +76,7 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
   @Test
   public void suggestReviewersChange() throws GitAPIException,
       IOException, Exception {
-    String changeId = createChange(admin);
+    String changeId = createChange().getChangeId();
     List<SuggestedReviewerInfo> reviewers = suggestReviewers(changeId, "u", 6);
     assertEquals(reviewers.size(), 6);
     reviewers = suggestReviewers(changeId, "u", 5);
@@ -135,11 +102,5 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
 
   private void group(String name) throws IOException {
     adminSession.put("/groups/" + name, new Object()).consume();
-  }
-
-  private String createChange(TestAccount account) throws GitAPIException,
-      IOException {
-    PushOneCommit push = pushFactory.create(db, account.getIdent());
-    return push.to(git, "refs/for/master").getChangeId();
   }
 }

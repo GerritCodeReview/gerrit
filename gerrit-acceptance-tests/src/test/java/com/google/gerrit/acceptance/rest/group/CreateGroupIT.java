@@ -21,7 +21,6 @@ import static org.junit.Assert.assertNotNull;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.RestSession;
-import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.group.CreateGroup;
@@ -71,7 +70,6 @@ public class CreateGroupIT extends AbstractDaemonTest {
   @Test
   public void testCreateGroupWithoutCapability_Forbidden() throws OrmException,
       JSchException, IOException {
-    TestAccount user = accounts.create("user", "user@example.com", "User");
     RestResponse r = (new RestSession(server, user)).put("/groups/newGroup");
     assertEquals(HttpStatus.SC_FORBIDDEN, r.getStatusCode());
   }

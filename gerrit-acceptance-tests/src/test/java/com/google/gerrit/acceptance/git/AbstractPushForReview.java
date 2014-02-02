@@ -15,24 +15,16 @@
 package com.google.gerrit.acceptance.git;
 
 import static com.google.gerrit.acceptance.GitUtil.cloneProject;
-import static com.google.gerrit.acceptance.GitUtil.createProject;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
-import com.google.gerrit.acceptance.SshSession;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.SchemaFactory;
-import com.google.inject.Inject;
 
 import com.jcraft.jsch.JSchException;
 
-import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -43,26 +35,11 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     SSH, HTTP
   }
 
-  @Inject
-  private SchemaFactory<ReviewDb> reviewDbProvider;
-
-  @Inject
-  protected PushOneCommit.Factory pushFactory;
-
-  private Project.NameKey project;
-  private Git git;
-  private ReviewDb db;
   private String sshUrl;
 
   @Before
   public void setUp() throws Exception {
-    project = new Project.NameKey("p");
-    SshSession sshSession = new SshSession(server, admin);
-    createProject(sshSession, project.get());
     sshUrl = sshSession.getUrl();
-    sshSession.close();
-
-    db = reviewDbProvider.open();
   }
 
   protected void selectProtocol(Protocol p) throws GitAPIException, IOException {
@@ -78,11 +55,6 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
         throw new IllegalArgumentException("unexpected protocol: " + p);
     }
     git = cloneProject(url + "/" + project.get());
-  }
-
-  @After
-  public void cleanup() {
-    db.close();
   }
 
   @Test
@@ -112,7 +84,6 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   public void testPushForMasterWithCc() throws GitAPIException, OrmException,
       IOException, JSchException {
     // cc one user
-    TestAccount user = accounts.create("user", "user@example.com", "User");
     String topic = "my/topic";
     PushOneCommit.Result r = pushTo("refs/for/master/" + topic + "%cc=" + user.email);
     r.assertOkStatus();
@@ -137,7 +108,6 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   public void testPushForMasterWithReviewer() throws GitAPIException,
       OrmException, IOException, JSchException {
     // add one reviewer
-    TestAccount user = accounts.create("user", "user@example.com", "User");
     String topic = "my/topic";
     PushOneCommit.Result r = pushTo("refs/for/master/" + topic + "%r=" + user.email);
     r.assertOkStatus();

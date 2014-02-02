@@ -24,8 +24,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
-import com.google.gerrit.acceptance.RestSession;
-import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.InheritableBoolean;
@@ -194,8 +192,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
   @Test
   public void testCreateProjectWithoutCapability_Forbidden() throws OrmException,
       JSchException, IOException {
-    TestAccount user = accounts.create("user", "user@example.com", "User");
-    RestResponse r = new RestSession(server, user).put("/projects/newProject");
+    RestResponse r = userSession.put("/projects/newProject");
     assertEquals(HttpStatus.SC_FORBIDDEN, r.getStatusCode());
   }
 

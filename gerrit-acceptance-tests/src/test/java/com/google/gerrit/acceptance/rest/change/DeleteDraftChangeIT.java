@@ -14,8 +14,6 @@
 
 package com.google.gerrit.acceptance.rest.change;
 
-import static com.google.gerrit.acceptance.GitUtil.cloneProject;
-import static com.google.gerrit.acceptance.GitUtil.createProject;
 import static org.junit.Assert.assertEquals;
 
 import com.google.common.collect.Iterables;
@@ -23,57 +21,28 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.RestSession;
-import com.google.gerrit.acceptance.SshSession;
+import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.ChangeStatus;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.change.ChangeJson.ChangeInfo;
 import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.SchemaFactory;
-import com.google.inject.Inject;
 
-import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
 
 public class DeleteDraftChangeIT extends AbstractDaemonTest {
 
-  @Inject
-  private SchemaFactory<ReviewDb> reviewDbProvider;
-
-  @Inject
-  private PushOneCommit.Factory pushFactory;
-
-  private Git git;
-  private ReviewDb db;
-
-  @Before
-  public void setUp() throws Exception {
-    Project.NameKey project = new Project.NameKey("p");
-    SshSession sshSession = new SshSession(server, admin);
-    createProject(sshSession, project.get());
-    git = cloneProject(sshSession.getUrl() + "/" + project.get());
-    sshSession.close();
-    db = reviewDbProvider.open();
-  }
-
-  @After
-  public void cleanup() {
-    db.close();
-  }
-
   @Test
   public void deleteChange() throws GitAPIException,
-      IOException {
-    String changeId = createChange();
-    ChangeInfo c = getChange(changeId);
-    assertEquals("p~master~" + changeId, c.id);
-    assertEquals(Change.Status.NEW, c.status);
+      IOException, RestApiException {
+    String changeId = createChange().getChangeId();
+    String triplet = "p~master~" + changeId;
+    ChangeInfo c = get(triplet);
+    assertEquals(triplet, c.id);
+    assertEquals(ChangeStatus.NEW, c.status);
     RestResponse r = deleteChange(changeId, adminSession);
     assertEquals("Change is not a draft", r.getEntityContent());
     assertEquals(409, r.getStatusCode());
@@ -81,45 +50,41 @@ public class DeleteDraftChangeIT extends AbstractDaemonTest {
 
   @Test
   public void deleteDraftChange() throws GitAPIException,
-      IOException, OrmException {
+      IOException, RestApiException, OrmException {
     String changeId = createDraftChange();
-    ChangeInfo c = getChange(changeId);
-    assertEquals("p~master~" + changeId, c.id);
-    assertEquals(Change.Status.DRAFT, c.status);
+    String triplet = "p~master~" + changeId;
+    ChangeInfo c = get(triplet);
+    assertEquals(triplet, c.id);
+    assertEquals(ChangeStatus.DRAFT, c.status);
     RestResponse r = deleteChange(changeId, adminSession);
     assertEquals(204, r.getStatusCode());
   }
 
   @Test
   public void publishDraftChange() throws GitAPIException,
-      IOException {
+      IOException, RestApiException {
     String changeId = createDraftChange();
-    ChangeInfo c = getChange(changeId);
-    assertEquals("p~master~" + changeId, c.id);
-    assertEquals(Change.Status.DRAFT, c.status);
+    String triplet = "p~master~" + changeId;
+    ChangeInfo c = get(triplet);
+    assertEquals(triplet, c.id);
+    assertEquals(ChangeStatus.DRAFT, c.status);
     RestResponse r = publishChange(changeId);
     assertEquals(204, r.getStatusCode());
-    c = getChange(changeId);
-    assertEquals(Change.Status.NEW, c.status);
+    c = get(triplet);
+    assertEquals(ChangeStatus.NEW, c.status);
   }
 
   @Test
   public void publishDraftPatchSet() throws GitAPIException,
-      IOException, OrmException {
+      IOException, OrmException, RestApiException {
     String changeId = createDraftChange();
-    ChangeInfo c = getChange(changeId);
-    assertEquals("p~master~" + changeId, c.id);
-    assertEquals(Change.Status.DRAFT, c.status);
+    String triplet = "p~master~" + changeId;
+    ChangeInfo c = get(triplet);
+    assertEquals(triplet, c.id);
+    assertEquals(ChangeStatus.DRAFT, c.status);
     RestResponse r = publishPatchSet(changeId);
     assertEquals(204, r.getStatusCode());
-    c = getChange(changeId);
-    assertEquals(Change.Status.NEW, c.status);
-  }
-
-  private String createChange() throws GitAPIException,
-      IOException {
-    PushOneCommit push = pushFactory.create(db, admin.getIdent());
-    return push.to(git, "refs/for/master").getChangeId();
+    assertEquals(ChangeStatus.NEW, get(triplet).status);
   }
 
   private String createDraftChange() throws GitAPIException, IOException {

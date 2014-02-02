@@ -15,7 +15,6 @@
 package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.gerrit.acceptance.GitUtil.checkout;
-import static com.google.gerrit.acceptance.GitUtil.cloneProject;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -23,23 +22,16 @@ import com.google.common.base.Function;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
-import com.google.gerrit.acceptance.SshSession;
-import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.change.ChangeJson.ChangeInfo;
 import com.google.gson.reflect.TypeToken;
-import com.google.gwtorm.server.SchemaFactory;
-import com.google.inject.Inject;
 
 import com.jcraft.jsch.JSchException;
 
 import org.apache.http.HttpStatus;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -47,27 +39,11 @@ import java.util.Set;
 
 public class ConflictsOperatorIT extends AbstractDaemonTest {
 
-  @Inject
-  private SchemaFactory<ReviewDb> reviewDbProvider;
-
-  @Inject
-  private PushOneCommit.Factory pushFactory;
-
-  private Project.NameKey project;
-  private ReviewDb db;
   private int count;
-
-  @Before
-  public void setUp() throws Exception {
-    project = new Project.NameKey("p");
-
-    db = reviewDbProvider.open();
-  }
 
   @Test
   public void noConflictingChanges() throws JSchException, IOException,
       GitAPIException {
-    Git git = createProject();
     PushOneCommit.Result change = createChange(git, true);
     createChange(git, false);
 
@@ -78,7 +54,6 @@ public class ConflictsOperatorIT extends AbstractDaemonTest {
   @Test
   public void conflictingChanges() throws JSchException, IOException,
       GitAPIException {
-    Git git = createProject();
     PushOneCommit.Result change = createChange(git, true);
     PushOneCommit.Result conflictingChange1 = createChange(git, true);
     PushOneCommit.Result conflictingChange2 = createChange(git, true);
@@ -86,17 +61,6 @@ public class ConflictsOperatorIT extends AbstractDaemonTest {
 
     Set<String> changes = queryConflictingChanges(change);
     assertChanges(changes, conflictingChange1, conflictingChange2);
-  }
-
-  private Git createProject() throws JSchException, IOException,
-      GitAPIException {
-    SshSession sshSession = new SshSession(server, admin);
-    try {
-      GitUtil.createProject(sshSession, project.get(), null, true);
-      return cloneProject(sshSession.getUrl() + "/" + project.get());
-    } finally {
-      sshSession.close();
-    }
   }
 
   private PushOneCommit.Result createChange(Git git, boolean conflicting)

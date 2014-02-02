@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.git;
 
+import com.google.gerrit.server.git.strategy.RebaseIfNecessary;
+
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -29,12 +31,14 @@ import java.util.Set;
 
 public class RebaseSorter {
 
+  private final RebaseIfNecessary rin;
   private final RevWalk rw;
   private final RevFlag canMergeFlag;
   private final Set<RevCommit> accepted;
 
-  public RebaseSorter(final RevWalk rw, final Set<RevCommit> alreadyAccepted,
+  public RebaseSorter(final RebaseIfNecessary rin, final RevWalk rw, final Set<RevCommit> alreadyAccepted,
       final RevFlag canMergeFlag) {
+    this.rin = rin;
     this.rw = rw;
     this.canMergeFlag = canMergeFlag;
     this.accepted = alreadyAccepted;
@@ -57,6 +61,10 @@ public class RebaseSorter {
       final List<CodeReviewCommit> contents = new ArrayList<CodeReviewCommit>();
       while ((c = (CodeReviewCommit) rw.next()) != null) {
         if (!c.has(canMergeFlag) || !incoming.contains(c)) {
+          // If a newer commit exists on the patchset, try merging that later
+          if (rin.getNewestCommit(c) != null) {
+            continue;
+          }
           // We cannot merge n as it would bring something we
           // aren't permitted to merge at this time. Drop n.
           //

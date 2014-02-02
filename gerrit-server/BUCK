@@ -68,6 +68,7 @@ java_library2(
     '//lib:scala-compiler',
     '//lib:scala-reflect',
     '//lib:scala-library',
+    '//lib:groovy',
   ],
   compile_deps = [
     '//lib/bouncycastle:bcprov',

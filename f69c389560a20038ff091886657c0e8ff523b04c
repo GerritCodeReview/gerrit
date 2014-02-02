@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "d2ca6290_b3b498b6",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1011917
+      },
+      "writtenOn": "2014-02-02T10:56:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "32abbe9f_fedae190",
+      "range": {
+        "startLine": 134,
+        "startChar": 28,
+        "endLine": 134,
+        "endChar": 32
+      },
+      "revId": "f69c389560a20038ff091886657c0e8ff523b04c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f2968657_8cee672a",
         "filename": "Documentation/config-project-config.txt",
         "patchSetId": 4
@@ -53,6 +77,30 @@
       "writtenOn": "2014-01-29T02:02:42Z",
       "side": 1,
       "message": "Drop this part.",
+      "range": {
+        "startLine": 137,
+        "startChar": 52,
+        "endLine": 138,
+        "endChar": 7
+      },
+      "revId": "f69c389560a20038ff091886657c0e8ff523b04c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d2ca6290_93b99cb0",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1011917
+      },
+      "writtenOn": "2014-02-02T10:56:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f2968657_8cee672a",
       "range": {
         "startLine": 137,
         "startChar": 52,
@@ -88,6 +136,30 @@
     },
     {
       "key": {
+        "uuid": "d2ca6290_73bf2092",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1011917
+      },
+      "writtenOn": "2014-02-02T10:56:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "32abbe9f_dedf257f",
+      "range": {
+        "startLine": 138,
+        "startChar": 8,
+        "endLine": 139,
+        "endChar": 44
+      },
+      "revId": "f69c389560a20038ff091886657c0e8ff523b04c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f2968657_aceb2319",
         "filename": "Documentation/config-project-config.txt",
         "patchSetId": 4
@@ -99,6 +171,30 @@
       "writtenOn": "2014-01-29T02:02:42Z",
       "side": 1,
       "message": "JGit",
+      "range": {
+        "startLine": 143,
+        "startChar": 22,
+        "endLine": 143,
+        "endChar": 26
+      },
+      "revId": "f69c389560a20038ff091886657c0e8ff523b04c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b2e5ee1d_f2d1e8ec",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1011917
+      },
+      "writtenOn": "2014-02-02T10:56:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f2968657_aceb2319",
       "range": {
         "startLine": 143,
         "startChar": 22,
@@ -128,6 +224,24 @@
     },
     {
       "key": {
+        "uuid": "b2e5ee1d_d2d6e4e2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 1011917
+      },
+      "writtenOn": "2014-02-02T10:56:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f2968657_4ce55f47",
+      "revId": "f69c389560a20038ff091886657c0e8ff523b04c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f2968657_2ce01338",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 4
@@ -139,6 +253,30 @@
       "writtenOn": "2014-01-29T02:02:42Z",
       "side": 1,
       "message": "projectControl.getProjectState()",
+      "range": {
+        "startLine": 408,
+        "startChar": 22,
+        "endLine": 408,
+        "endChar": 60
+      },
+      "revId": "f69c389560a20038ff091886657c0e8ff523b04c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d2ca6290_53bc249b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 408,
+      "author": {
+        "id": 1011917
+      },
+      "writtenOn": "2014-02-02T10:56:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f2968657_2ce01338",
       "range": {
         "startLine": 408,
         "startChar": 22,

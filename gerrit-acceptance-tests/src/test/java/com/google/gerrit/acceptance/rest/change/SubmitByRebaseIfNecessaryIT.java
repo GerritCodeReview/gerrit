@@ -111,4 +111,44 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmit {
     assertCurrentRevision(change2.getChangeId(), 1, change2.getCommitId());
     assertSubmitter(change2.getChangeId(), 1);
   }
+
+  @Test
+  public void submitChangeWithOutdatedDependency() throws Exception {
+    Git git = createProject();
+    PushOneCommit.Result change1 =
+        createChange(git, "Change 1", "a.txt", "content");
+
+    PushOneCommit.Result change2 =
+        createChange(git, "Change 2", "a.txt", "other content");
+
+    checkout(git, change1.getCommit().getName());
+    PushOneCommit.Result change1a =
+        createChange(git, "Change 1 (amended)", "a.txt", "content",
+            change1.getChangeId());
+    submit(change1a.getChangeId());
+
+    RevCommit oldHead = getRemoteHead();
+    submit(change2.getChangeId());
+    assertEquals(oldHead, getRemoteHead().getParent(0));
+  }
+
+  @Test
+  public void submitChangeWithOutdatedConflictingDependency() throws Exception {
+    Git git = createProject();
+    PushOneCommit.Result change1 =
+        createChange(git, "Change 1", "a.txt", "content");
+
+    PushOneCommit.Result change2 =
+        createChange(git, "Change 2", "b.txt", "other content");
+
+    checkout(git, change1.getCommit().getName());
+    PushOneCommit.Result change1a =
+        createChange(git, "Change 1 (amended)", "b.txt", "conflicting things here",
+            change1.getChangeId());
+    submit(change1a.getChangeId());
+
+    RevCommit oldHead = getRemoteHead();
+    submitWithConflict(change2.getChangeId());
+    assertEquals(getRemoteHead(), oldHead);
+  }
 }

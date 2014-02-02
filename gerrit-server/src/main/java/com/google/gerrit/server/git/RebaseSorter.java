@@ -29,12 +29,14 @@ import java.util.Set;
 
 class RebaseSorter {
 
+  private final RebaseIfNecessary rin;
   private final RevWalk rw;
   private final RevFlag canMergeFlag;
   private final Set<RevCommit> accepted;
 
-  RebaseSorter(final RevWalk rw, final Set<RevCommit> alreadyAccepted,
+  RebaseSorter(final RebaseIfNecessary rin, final RevWalk rw, final Set<RevCommit> alreadyAccepted,
       final RevFlag canMergeFlag) {
+    this.rin = rin;
     this.rw = rw;
     this.canMergeFlag = canMergeFlag;
     this.accepted = alreadyAccepted;
@@ -57,6 +59,10 @@ class RebaseSorter {
       final List<CodeReviewCommit> contents = new ArrayList<CodeReviewCommit>();
       while ((c = (CodeReviewCommit) rw.next()) != null) {
         if (!c.has(canMergeFlag) || !incoming.contains(c)) {
+          // If a newer commit exists on the patchset, try merging that later
+          if (rin.getNewestCommit(c) != null) {
+            continue;
+          }
           // We cannot merge n as it would bring something we
           // aren't permitted to merge at this time. Drop n.
           //

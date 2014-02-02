@@ -21,7 +21,6 @@ import static org.junit.Assert.assertTrue;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
-import com.google.gerrit.acceptance.RestSession;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.Permission;
@@ -36,7 +35,6 @@ import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -51,13 +49,6 @@ public class CapabilitiesIT extends AbstractDaemonTest {
 
   @Inject
   private ProjectCache projectCache;
-
-  private RestSession userSession;
-
-  @Before
-  public void setUp() throws Exception {
-    userSession = new RestSession(server, accounts.user());
-  }
 
   @Test
   public void testCapabilitiesUser() throws IOException,

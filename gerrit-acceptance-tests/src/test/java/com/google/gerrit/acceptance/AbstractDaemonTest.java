@@ -14,18 +14,33 @@
 
 package com.google.gerrit.acceptance;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.gerrit.acceptance.GitUtil.cloneProject;
+import static com.google.gerrit.acceptance.GitUtil.createProject;
 import static com.google.gerrit.acceptance.GitUtil.initSsh;
 import static org.junit.Assert.assertEquals;
 
 import com.google.common.base.Joiner;
+import com.google.common.primitives.Chars;
+import com.google.gerrit.extensions.api.GerritApi;
+import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ListChangesOption;
+import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.change.ChangeJson.ChangeInfo;
 import com.google.gerrit.testutil.ConfigSuite;
+import com.google.gerrit.server.change.ChangeJson;
 import com.google.gson.Gson;
+import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
+import com.google.inject.util.Providers;
 
 import org.apache.http.HttpStatus;
+import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Rule;
 import org.junit.rules.TestRule;
@@ -34,6 +49,10 @@ import org.junit.runner.RunWith;
 import org.junit.runners.model.Statement;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.EnumSet;
+import java.util.List;
 
 @RunWith(ConfigSuite.class)
 public abstract class AbstractDaemonTest {
@@ -43,9 +62,30 @@ public abstract class AbstractDaemonTest {
   @Inject
   protected AccountCreator accounts;
 
+  @Inject
+  private SchemaFactory<ReviewDb> reviewDbProvider;
+
+  @Inject
+  protected GerritApi gApi;
+
+  @Inject
+  private AcceptanceTestRequestScope atrScope;
+
+  @Inject
+  private IdentifiedUser.GenericFactory identifiedUserFactory;
+
+  @Inject
+  protected PushOneCommit.Factory pushFactory;
+
+  protected Git git;
   protected GerritServer server;
   protected TestAccount admin;
+  protected TestAccount user;
   protected RestSession adminSession;
+  protected RestSession userSession;
+  protected SshSession sshSession;
+  protected ReviewDb db;
+  protected Project.NameKey project;
 
   @Rule
   public TestRule testRunner = new TestRule() {
@@ -82,8 +122,17 @@ public abstract class AbstractDaemonTest {
     server = startServer(cfg, memory);
     server.getTestInjector().injectMembers(this);
     admin = accounts.admin();
+    user = accounts.user();
     adminSession = new RestSession(server, admin);
+    userSession = new RestSession(server, user);
     initSsh(admin);
+    db = reviewDbProvider.open();
+    atrScope.set(atrScope.newContext(reviewDbProvider, sshSession,
+        identifiedUserFactory.create(Providers.of(db), admin.getId())));
+    sshSession = new SshSession(server, admin);
+    project = new Project.NameKey("p");
+    createProject(sshSession, project.get());
+    git = cloneProject(sshSession.getUrl() + "/" + project.get());
   }
 
   protected GerritServer startServer(Config cfg, boolean memory) throws Exception {
@@ -91,20 +140,56 @@ public abstract class AbstractDaemonTest {
   }
 
   private void afterTest() throws Exception {
+    db.close();
+    sshSession.close();
     server.stop();
   }
 
-  protected ChangeInfo getChange(String changeId, ListChangesOption... options)
+  protected PushOneCommit.Result createChange() throws GitAPIException,
+      IOException {
+    PushOneCommit push = pushFactory.create(db, admin.getIdent());
+    return push.to(git, "refs/for/master");
+  }
+
+  private static final List<Character> RANDOM =
+      Chars.asList(new char[]{'a','b','c','d','e','f','g','h'});
+  protected PushOneCommit.Result ammendChange(String changeId)
+      throws GitAPIException, IOException {
+    Collections.shuffle(RANDOM);
+    PushOneCommit push =
+        pushFactory.create(db, admin.getIdent(), PushOneCommit.SUBJECT,
+            PushOneCommit.FILE_NAME, new String(Chars.toArray(RANDOM)), changeId);
+    return push.to(git, "refs/for/master");
+  }
+
+  protected ChangeJson.ChangeInfo getChange(String changeId, ListChangesOption... options)
       throws IOException {
     return getChange(adminSession, changeId, options);
   }
 
-  protected ChangeInfo getChange(RestSession session, String changeId,
+  protected ChangeJson.ChangeInfo getChange(RestSession session, String changeId,
       ListChangesOption... options) throws IOException {
     String q = options.length > 0 ? "?o=" + Joiner.on("&o=").join(options) : "";
     RestResponse r = session.get("/changes/" + changeId + q);
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
-    return newGson().fromJson(r.getReader(), ChangeInfo.class);
+    return newGson().fromJson(r.getReader(), ChangeJson.ChangeInfo.class);
+  }
+
+  protected ChangeInfo info(String id)
+      throws RestApiException {
+    return gApi.changes().id(id).info();
+  }
+
+  protected ChangeInfo get(String id)
+      throws RestApiException {
+    return gApi.changes().id(id).get();
+  }
+
+  protected ChangeInfo get(String id, ListChangesOption... options)
+      throws RestApiException {
+    EnumSet<ListChangesOption> s = EnumSet.noneOf(ListChangesOption.class);
+    s.addAll(Arrays.asList(options));
+    return gApi.changes().id(id).get(s);
   }
 
   protected static Gson newGson() {

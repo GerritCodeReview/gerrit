@@ -21,7 +21,6 @@ import static org.junit.Assert.assertTrue;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
-import com.google.gerrit.acceptance.SshSession;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.project.ProjectJson.ProjectInfo;
@@ -52,27 +51,27 @@ public class ListChildProjectsIT extends AbstractDaemonTest {
   public void listNoChildren() throws IOException {
     RestResponse r = GET("/projects/" + allProjects.get() + "/children/");
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
-    assertTrue(toProjectInfoList(r).isEmpty());
+    List<ProjectInfo> projectInfoList = toProjectInfoList(r);
+    // Project 'p' was already created in the base class
+    assertTrue(projectInfoList.size() == 1);
   }
 
   @Test
   public void listChildren() throws IOException, JSchException {
-    SshSession sshSession = new SshSession(server, admin);
+    Project.NameKey existingProject = new Project.NameKey("p");
     Project.NameKey child1 = new Project.NameKey("p1");
     createProject(sshSession, child1.get());
     Project.NameKey child2 = new Project.NameKey("p2");
     createProject(sshSession, child2.get());
     createProject(sshSession, "p1.1", child1);
-    sshSession.close();
 
     RestResponse r = GET("/projects/" + allProjects.get() + "/children/");
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
-    assertProjects(Arrays.asList(child1, child2), toProjectInfoList(r));
+    assertProjects(Arrays.asList(existingProject, child1, child2), toProjectInfoList(r));
   }
 
   @Test
   public void listChildrenRecursively() throws IOException, JSchException {
-    SshSession sshSession = new SshSession(server, admin);
     Project.NameKey child1 = new Project.NameKey("p1");
     createProject(sshSession, child1.get());
     createProject(sshSession, "p2");
@@ -84,12 +83,11 @@ public class ListChildProjectsIT extends AbstractDaemonTest {
     createProject(sshSession, child1_1_1.get(), child1_1);
     Project.NameKey child1_1_1_1 = new Project.NameKey("p1.1.1.1");
     createProject(sshSession, child1_1_1_1.get(), child1_1_1);
-    sshSession.close();
 
     RestResponse r = GET("/projects/" + child1.get() + "/children/?recursive");
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
-    assertProjects(Arrays.asList(child1_1, child1_2, child1_1_1, child1_1_1_1),
-        toProjectInfoList(r));
+    assertProjects(Arrays.asList(child1_1, child1_2,
+        child1_1_1, child1_1_1_1), toProjectInfoList(r));
   }
 
   private static List<ProjectInfo> toProjectInfoList(RestResponse r)

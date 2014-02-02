@@ -14,19 +14,14 @@
 
 package com.google.gerrit.acceptance.rest.project;
 
-import static com.google.gerrit.acceptance.GitUtil.createProject;
 import static org.junit.Assert.assertEquals;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
-import com.google.gerrit.acceptance.RestSession;
-import com.google.gerrit.acceptance.SshSession;
-import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.reviewdb.client.Branch;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
@@ -51,25 +46,11 @@ public class CreateBranchIT extends AbstractDaemonTest {
   @Inject
   private AllProjectsNameProvider allProjects;
 
-  private RestSession userSession;
-
-  private Project.NameKey project;
   private Branch.NameKey branch;
 
   @Before
   public void setUp() throws Exception {
-    TestAccount user = accounts.create("user", "user@example.com", "User");
-    userSession = new RestSession(server, user);
-
-    project = new Project.NameKey("p");
     branch = new Branch.NameKey(project, "test");
-
-    SshSession sshSession = new SshSession(server, admin);
-    try {
-      createProject(sshSession, project.get(), null, true);
-    } finally {
-      sshSession.close();
-    }
   }
 
   @Test

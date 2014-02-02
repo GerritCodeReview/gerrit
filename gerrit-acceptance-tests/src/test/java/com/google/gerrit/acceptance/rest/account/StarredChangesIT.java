@@ -14,57 +14,22 @@
 
 package com.google.gerrit.acceptance.rest.account;
 
-import static com.google.gerrit.acceptance.GitUtil.cloneProject;
-import static com.google.gerrit.acceptance.GitUtil.createProject;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.acceptance.RestResponse;
-import com.google.gerrit.acceptance.SshSession;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.SchemaFactory;
-import com.google.inject.Inject;
 
-import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
 
 public class StarredChangesIT extends AbstractDaemonTest {
-
-  @Inject
-  private SchemaFactory<ReviewDb> reviewDbProvider;
-
-  @Inject
-  private PushOneCommit.Factory pushFactory;
-
-  private Git git;
-  private ReviewDb db;
-
-  @Before
-  public void setUp() throws Exception {
-    Project.NameKey project = new Project.NameKey("p");
-    SshSession sshSession = new SshSession(server, admin);
-    createProject(sshSession, project.get());
-    git = cloneProject(sshSession.getUrl() + "/" + project.get());
-    sshSession.close();
-    db = reviewDbProvider.open();
-  }
-
-  @After
-  public void cleanup() {
-    db.close();
-  }
 
   @Test
   public void starredChangeState() throws GitAPIException, IOException,
@@ -92,10 +57,5 @@ public class StarredChangesIT extends AbstractDaemonTest {
       RestResponse r = adminSession.delete(url);
       assertEquals(204, r.getStatusCode());
     }
-  }
-
-  private Result createChange() throws GitAPIException, IOException {
-    PushOneCommit push = pushFactory.create(db, admin.getIdent());
-    return push.to(git, "refs/for/master");
   }
 }

@@ -20,8 +20,6 @@ import static org.junit.Assert.assertEquals;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GcAssert;
 import com.google.gerrit.acceptance.RestResponse;
-import com.google.gerrit.acceptance.RestSession;
-import com.google.gerrit.acceptance.SshSession;
 import com.google.gerrit.acceptance.UseLocalDisk;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -49,14 +47,11 @@ public class GarbageCollectionIT extends AbstractDaemonTest {
 
   @Before
   public void setUp() throws Exception {
-    SshSession sshSession = new SshSession(server, admin);
-
     project1 = new Project.NameKey("p1");
     createProject(sshSession, project1.get());
 
     project2 = new Project.NameKey("p2");
     createProject(sshSession, project2.get());
-    sshSession.close();
   }
 
   @Test
@@ -65,10 +60,11 @@ public class GarbageCollectionIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testGcNotAllowed_Forbidden() throws IOException, OrmException, JSchException {
+  public void testGcNotAllowed_Forbidden() throws IOException, OrmException,
+      JSchException {
     assertEquals(HttpStatus.SC_FORBIDDEN,
-        new RestSession(server, accounts.create("user", "user@example.com", "User"))
-            .post("/projects/" + allProjects.get() + "/gc").getStatusCode());
+        userSession.post("/projects/" + allProjects.get() + "/gc")
+            .getStatusCode());
   }
 
   @Test

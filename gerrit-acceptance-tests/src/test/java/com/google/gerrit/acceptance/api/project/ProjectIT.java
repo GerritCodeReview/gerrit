@@ -14,59 +14,16 @@
 
 package com.google.gerrit.acceptance.api.project;
 
-import static com.google.gerrit.acceptance.GitUtil.createProject;
-
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.AcceptanceTestRequestScope;
-import com.google.gerrit.acceptance.SshSession;
-import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.IdentifiedUser;
-import com.google.gwtorm.server.SchemaFactory;
-import com.google.inject.Inject;
-import com.google.inject.util.Providers;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
 
 public class ProjectIT extends AbstractDaemonTest  {
-
-  @Inject
-  private SchemaFactory<ReviewDb> reviewDbProvider;
-
-  @Inject
-  private GerritApi gApi;
-
-  @Inject
-  private AcceptanceTestRequestScope atrScope;
-
-  @Inject
-  private IdentifiedUser.GenericFactory identifiedUserFactory;
-
-  private ReviewDb db;
-  Project.NameKey project;
-
-  @Before
-  public void setUp() throws Exception {
-    project = new Project.NameKey("p");
-    SshSession sshSession = new SshSession(server, admin);
-    createProject(sshSession, project.get());
-    db = reviewDbProvider.open();
-    atrScope.set(atrScope.newContext(reviewDbProvider, sshSession,
-        identifiedUserFactory.create(Providers.of(db), admin.getId())));
-  }
-
-  @After
-  public void cleanup() {
-    db.close();
-  }
 
   @Test
   public void createBranch() throws GitAPIException,

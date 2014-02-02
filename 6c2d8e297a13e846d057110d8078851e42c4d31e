@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "52f4b2d0_0ff68501",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 799,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-02-02T19:20:33Z",
+      "side": 1,
+      "message": "It would be nice to allow users to disable this feature completely because they might want to implemented something similar using votes.  However I don\u0027t think it\u0027s a requirement for this change.",
+      "revId": "6c2d8e297a13e846d057110d8078851e42c4d31e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2cda6a7_34acf07f",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 801,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-02-02T19:20:33Z",
+      "side": 1,
+      "message": "Are there any consequences when changing the gerrit workflow from draft to WIP and vice-versa?  I mean when changes are currently in draft status what happens to those changes when the gerrit workflow is changed to WIP?  What about the opposite direction,  when change is currently in wip status and workflow is changed to draft?  I think it would be good to document these scenarios.",
+      "revId": "6c2d8e297a13e846d057110d8078851e42c4d31e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "12d15a3f_1557b4ba",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteDraftPatchSet.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-02-02T19:20:33Z",
+      "side": 1,
+      "message": "should this check be removed since you added the one one in line 68?",
+      "revId": "6c2d8e297a13e846d057110d8078851e42c4d31e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

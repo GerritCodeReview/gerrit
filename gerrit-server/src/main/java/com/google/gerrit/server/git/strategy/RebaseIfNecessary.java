@@ -18,6 +18,7 @@ import com.google.common.collect.Lists;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.PatchSetInserter.ValidatePolicy;
 import com.google.gerrit.server.changedetail.PathConflictException;
@@ -30,12 +31,14 @@ import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.ResultSet;
 
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -79,11 +82,11 @@ public class RebaseIfNecessary extends SubmitStrategy {
         n.setStatusCode(CommitMergeStatus.CANNOT_REBASE_ROOT);
 
       } else if (n.getParentCount() == 1) {
+
         if (args.mergeUtil.canFastForward(
             args.mergeSorter, newMergeTip, args.rw, n)) {
           newMergeTip = n;
           n.setStatusCode(CommitMergeStatus.CLEAN_MERGE);
-
         } else {
           try {
             final IdentifiedUser uploader = args.identifiedUserFactory.create(
@@ -153,7 +156,7 @@ public class RebaseIfNecessary extends SubmitStrategy {
   private void sort(final List<CodeReviewCommit> toSort) throws MergeException {
     try {
       final List<CodeReviewCommit> sorted =
-          new RebaseSorter(args.rw, args.alreadyAccepted, args.canMergeFlag)
+          new RebaseSorter(this, args.rw, args.alreadyAccepted, args.canMergeFlag)
               .sort(toSort);
       toSort.clear();
       toSort.addAll(sorted);
@@ -173,5 +176,34 @@ public class RebaseIfNecessary extends SubmitStrategy {
     return !args.mergeUtil.hasMissingDependencies(args.mergeSorter, toMerge)
         && args.mergeUtil.canCherryPick(args.mergeSorter, args.repo, mergeTip,
             args.rw, toMerge);
+  }
+
+  /**
+   * Checks if there is a newer {@link PatchSet} for the supplied commit.  If
+   * so it returns the {@link CodeReviewCommit} for the latest commit, otherwise
+   * it returns null.
+   * @param c
+   * @return
+   */
+  public CodeReviewCommit getNewestCommit(CodeReviewCommit c) {
+    try {
+      ResultSet<PatchSet> patchSets =
+          args.db.patchSets().byRevision(new RevId(c.getName()));
+      // advance to the latest PatchSet
+      Iterator<PatchSet> it = patchSets.iterator();
+      PatchSet ps = null;
+      while (it.hasNext()) {
+        ps = it.next();
+      }
+      CodeReviewCommit crc =
+          (CodeReviewCommit) args.rw.parseCommit(ObjectId.fromString(ps
+              .getRevision().get()));
+      // Check if this commit is newer than the supplied commit
+      if (!c.equals(crc.getName())) {
+        return crc;
+      }
+    } catch (Exception e) {
+    }
+    return null;
   }
 }

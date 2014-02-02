@@ -149,6 +149,14 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     return push.to(git, "refs/for/master");
   }
 
+  protected PushOneCommit.Result createChange(Git git, String subject,
+      String fileName, String content, String changeId) throws GitAPIException,
+      IOException {
+    PushOneCommit push =
+        pushFactory.create(db, admin.getIdent(), subject, fileName, content, changeId);
+    return push.to(git, "refs/for/master");
+  }
+
   protected void submit(String changeId) throws IOException {
     submit(changeId, HttpStatus.SC_OK);
   }

@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f2cda6a7_949ce45a",
+        "filename": "gerrit-gwtui/src/main/resources/com/google/gerrit/client/projects/put-change.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-02-02T05:29:50Z",
+      "side": 1,
+      "message": "replace \"it\" with \"new change\" or something like that?",
+      "range": {
+        "startLine": 19,
+        "startChar": 33,
+        "endLine": 19,
+        "endChar": 35
+      },
+      "revId": "b7c29c56461f0dd226662044492b7da9285c4c96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "12d15a3f_355ab0e4",
+        "filename": "gerrit-gwtui/src/main/resources/com/google/gerrit/client/projects/put-change.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-02-02T05:29:50Z",
+      "side": 1,
+      "message": "Ref",
+      "range": {
+        "startLine": 28,
+        "startChar": 17,
+        "endLine": 28,
+        "endChar": 21
+      },
+      "revId": "b7c29c56461f0dd226662044492b7da9285c4c96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "12d15a3f_555d2cda",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutChange.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-02-02T05:29:50Z",
+      "side": 1,
+      "message": "Do we need this prefix?",
+      "range": {
+        "startLine": 101,
+        "startChar": 11,
+        "endLine": 101,
+        "endChar": 23
+      },
+      "revId": "b7c29c56461f0dd226662044492b7da9285c4c96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2cda6a7_d4a25c91",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutChange.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-02-02T05:29:50Z",
+      "side": 1,
+      "message": "on",
+      "range": {
+        "startLine": 116,
+        "startChar": 42,
+        "endLine": 116,
+        "endChar": 44
+      },
+      "revId": "b7c29c56461f0dd226662044492b7da9285c4c96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "12d15a3f_7560288e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutChange.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-02-02T05:29:50Z",
+      "side": 1,
+      "message": "Why not?",
+      "range": {
+        "startLine": 166,
+        "startChar": 43,
+        "endLine": 166,
+        "endChar": 69
+      },
+      "revId": "b7c29c56461f0dd226662044492b7da9285c4c96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2cda6a7_b497e035",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutChange.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-02-02T05:29:50Z",
+      "side": 1,
+      "message": "Contradicts the error message at line 166.",
+      "range": {
+        "startLine": 195,
+        "startChar": 19,
+        "endLine": 195,
+        "endChar": 41
+      },
+      "revId": "b7c29c56461f0dd226662044492b7da9285c4c96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

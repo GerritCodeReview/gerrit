@@ -36,7 +36,6 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.InheritableBoolean;
 import com.google.gerrit.reviewdb.client.Project.SubmitType;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.change.ChangeJson.ChangeInfo;
 import com.google.gerrit.server.change.ChangeJson.LabelInfo;
@@ -45,7 +44,6 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.PutConfig;
 import com.google.gson.reflect.TypeToken;
 import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 
 import com.jcraft.jsch.JSchException;
@@ -68,9 +66,6 @@ import java.io.IOException;
 public abstract class AbstractSubmit extends AbstractDaemonTest {
 
   @Inject
-  private SchemaFactory<ReviewDb> reviewDbProvider;
-
-  @Inject
   private GitRepositoryManager repoManager;
 
   @Inject
@@ -79,16 +74,10 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   @Inject
   private ApprovalsUtil approvalsUtil;
 
-  @Inject
-  protected PushOneCommit.Factory pushFactory;
-
-  private Project.NameKey project;
-  private ReviewDb db;
 
   @Before
   public void setUp() throws Exception {
-    project = new Project.NameKey("p");
-    db = reviewDbProvider.open();
+    project = new Project.NameKey("p2");
   }
 
   @After

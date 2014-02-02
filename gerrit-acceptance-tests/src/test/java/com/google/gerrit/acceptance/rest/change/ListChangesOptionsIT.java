@@ -14,8 +14,6 @@
 
 package com.google.gerrit.acceptance.rest.change;
 
-import static com.google.gerrit.acceptance.GitUtil.cloneProject;
-import static com.google.gerrit.acceptance.GitUtil.createProject;
 import static com.google.gerrit.extensions.common.ListChangesOption.ALL_REVISIONS;
 import static com.google.gerrit.extensions.common.ListChangesOption.CURRENT_REVISION;
 import static org.junit.Assert.assertEquals;
@@ -25,15 +23,8 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
-import com.google.gerrit.acceptance.SshSession;
-import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.change.ChangeJson.ChangeInfo;
-import com.google.gwtorm.server.SchemaFactory;
-import com.google.inject.Inject;
+import com.google.gerrit.extensions.common.ChangeInfo;
 
-import org.eclipse.jgit.api.Git;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -41,26 +32,11 @@ import java.util.List;
 
 public class ListChangesOptionsIT extends AbstractDaemonTest {
 
-  @Inject
-  private SchemaFactory<ReviewDb> reviewDbProvider;
-
-  @Inject
-  protected PushOneCommit.Factory pushFactory;
-
-  private Project.NameKey project;
-  private Git git;
-  private ReviewDb db;
   private String changeId;
   private List<PushOneCommit.Result> results;
 
   @Before
   public void setUp() throws Exception {
-    project = new Project.NameKey("p");
-    db = reviewDbProvider.open();
-    SshSession sshSession = new SshSession(server, admin);
-    createProject(sshSession, project.get());
-    git = cloneProject(sshSession.getUrl() + "/" + project.get());
-
     results = Lists.newArrayList();
     results.add(push("file contents", null));
     changeId = results.get(0).getChangeId();
@@ -79,21 +55,16 @@ public class ListChangesOptionsIT extends AbstractDaemonTest {
     return r;
   }
 
-  @After
-  public void cleanup() {
-    db.close();
-  }
-
   @Test
   public void noRevisionOptions() throws Exception {
-    ChangeInfo c = getChange(changeId);
+    ChangeInfo c = info(changeId);
     assertNull(c.currentRevision);
     assertNull(c.revisions);
   }
 
   @Test
   public void currentRevision() throws Exception {
-    ChangeInfo c = getChange(changeId, CURRENT_REVISION);
+    ChangeInfo c = get(changeId, CURRENT_REVISION);
     assertEquals(commitId(2), c.currentRevision);
     assertEquals(ImmutableSet.of(commitId(2)), c.revisions.keySet());
     assertEquals(3, c.revisions.get(commitId(2))._number);
@@ -101,7 +72,7 @@ public class ListChangesOptionsIT extends AbstractDaemonTest {
 
   @Test
   public void allRevisions() throws Exception {
-    ChangeInfo c = getChange(changeId, ALL_REVISIONS);
+    ChangeInfo c = get(changeId, ALL_REVISIONS);
     assertEquals(commitId(2), c.currentRevision);
     assertEquals(ImmutableSet.of(commitId(0), commitId(1), commitId(2)),
         c.revisions.keySet());

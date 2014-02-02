@@ -22,12 +22,9 @@ import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.RestSession;
 import com.google.gerrit.acceptance.SshSession;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.group.GroupJson.GroupInfo;
 import com.google.gson.reflect.TypeToken;
 import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.SchemaFactory;
-import com.google.inject.Inject;
 
 import com.jcraft.jsch.JSchException;
 
@@ -45,9 +42,6 @@ import java.util.Set;
  * internals.
  */
 public class DefaultGroupsIT extends AbstractDaemonTest {
-
-  @Inject
-  private SchemaFactory<ReviewDb> reviewDbProvider;
 
   @Test
   public void defaultGroupsCreated_ssh() throws JSchException, IOException {
@@ -72,16 +66,11 @@ public class DefaultGroupsIT extends AbstractDaemonTest {
 
   @Test
   public void defaultGroupsCreated_internals() throws OrmException {
-    ReviewDb db = reviewDbProvider.open();
-    try {
-      Set<String> names = Sets.newHashSet();
-      for (AccountGroup g : db.accountGroups().all()) {
-        names.add(g.getName());
-      }
-      assertTrue(names.contains("Administrators"));
-      assertTrue(names.contains("Non-Interactive Users"));
-    } finally {
-      db.close();
+    Set<String> names = Sets.newHashSet();
+    for (AccountGroup g : db.accountGroups().all()) {
+      names.add(g.getName());
     }
+    assertTrue(names.contains("Administrators"));
+    assertTrue(names.contains("Non-Interactive Users"));
   }
 }

@@ -30,8 +30,6 @@ import org.eclipse.jgit.lib.Config;
 import org.junit.Rule;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameter;
 import org.junit.runners.Parameterized.Parameters;
 import org.junit.runners.model.Statement;
@@ -39,7 +37,7 @@ import org.junit.runners.model.Statement;
 import java.io.IOException;
 import java.util.Arrays;
 
-@RunWith(Parameterized.class)
+//@RunWith(Parameterized.class)
 public abstract class AbstractDaemonTest {
   private static class NamedConfig extends Config {
     private final String name;
@@ -113,6 +111,9 @@ public abstract class AbstractDaemonTest {
   }
 
   protected GerritServer startServer(Config cfg, boolean memory) throws Exception {
+    if (cfg == null) {
+      cfg = new NamedConfig("default");
+    }
     return GerritServer.start(cfg, memory);
   }
 

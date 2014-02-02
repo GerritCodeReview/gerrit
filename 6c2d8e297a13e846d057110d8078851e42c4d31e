@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b2e5ee1d_92d05ce6",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 799,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-02T23:11:59Z",
+      "side": 1,
+      "message": "Done in this change [1]\n\n [1] https://gerrit-review.googlesource.com/50254",
+      "parentUuid": "52f4b2d0_0ff68501",
+      "revId": "6c2d8e297a13e846d057110d8078851e42c4d31e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f2cda6a7_34acf07f",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 8
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "d2ca6290_d3d6f4e2",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 801,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-02T23:11:59Z",
+      "side": 1,
+      "message": "As explained in the commit message, in this apporach both rework strategies share the same change status: DRAFT. I put a warning in commit message that the behaviour is undefined, if changes in status DRAFT exist and the strategies are switched. For example: you can\u0027t publish/delete WIP changes, because they are normal changes.",
+      "parentUuid": "f2cda6a7_34acf07f",
+      "revId": "6c2d8e297a13e846d057110d8078851e42c4d31e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "12d15a3f_1557b4ba",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteDraftPatchSet.java",
         "patchSetId": 8
@@ -47,6 +83,24 @@
       "writtenOn": "2014-02-02T19:20:33Z",
       "side": 1,
       "message": "should this check be removed since you added the one one in line 68?",
+      "revId": "6c2d8e297a13e846d057110d8078851e42c4d31e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b2e5ee1d_72e618cc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteDraftPatchSet.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-02T23:11:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "12d15a3f_1557b4ba",
       "revId": "6c2d8e297a13e846d057110d8078851e42c4d31e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

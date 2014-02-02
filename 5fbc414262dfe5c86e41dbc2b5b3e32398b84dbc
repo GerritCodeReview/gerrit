@@ -1,0 +1,251 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f2cda6a7_b4c0003d",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-02-02T05:22:34Z",
+      "side": 1,
+      "message": "\"that are going to change\", or just \"that change\"",
+      "range": {
+        "startLine": 325,
+        "startChar": 38,
+        "endLine": 325,
+        "endChar": 58
+      },
+      "revId": "5fbc414262dfe5c86e41dbc2b5b3e32398b84dbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2cda6a7_94c5044d",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-02-02T05:22:34Z",
+      "side": 1,
+      "message": "I don\u0027t think this word is necessary here.",
+      "range": {
+        "startLine": 327,
+        "startChar": 63,
+        "endLine": 327,
+        "endChar": 70
+      },
+      "revId": "5fbc414262dfe5c86e41dbc2b5b3e32398b84dbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "12d15a3f_75794854",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-02-02T05:22:34Z",
+      "side": 1,
+      "message": "in the",
+      "range": {
+        "startLine": 328,
+        "startChar": 47,
+        "endLine": 328,
+        "endChar": 49
+      },
+      "revId": "5fbc414262dfe5c86e41dbc2b5b3e32398b84dbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "12d15a3f_9593c441",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-02-02T05:22:34Z",
+      "side": 1,
+      "message": "Make this generic?",
+      "range": {
+        "startLine": 334,
+        "startChar": 8,
+        "endLine": 334,
+        "endChar": 14
+      },
+      "revId": "5fbc414262dfe5c86e41dbc2b5b3e32398b84dbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "12d15a3f_55764c64",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-02-02T05:22:34Z",
+      "side": 1,
+      "message": "usual",
+      "range": {
+        "startLine": 338,
+        "startChar": 6,
+        "endLine": 338,
+        "endChar": 13
+      },
+      "revId": "5fbc414262dfe5c86e41dbc2b5b3e32398b84dbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2cda6a7_74cb8860",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-02-02T05:22:34Z",
+      "side": 1,
+      "message": "then the",
+      "range": {
+        "startLine": 339,
+        "startChar": 12,
+        "endLine": 339,
+        "endChar": 16
+      },
+      "revId": "5fbc414262dfe5c86e41dbc2b5b3e32398b84dbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2cda6a7_54c88c61",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-02-02T05:22:34Z",
+      "side": 1,
+      "message": "approach",
+      "range": {
+        "startLine": 340,
+        "startChar": 47,
+        "endLine": 340,
+        "endChar": 55
+      },
+      "revId": "5fbc414262dfe5c86e41dbc2b5b3e32398b84dbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "12d15a3f_3583d0ee",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-02-02T05:22:34Z",
+      "side": 1,
+      "message": "put backticks around this?",
+      "range": {
+        "startLine": 340,
+        "startChar": 0,
+        "endLine": 340,
+        "endChar": 16
+      },
+      "revId": "5fbc414262dfe5c86e41dbc2b5b3e32398b84dbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2cda6a7_34d510fa",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-02-02T05:22:34Z",
+      "side": 1,
+      "message": "picture",
+      "range": {
+        "startLine": 345,
+        "startChar": 54,
+        "endLine": 345,
+        "endChar": 61
+      },
+      "revId": "5fbc414262dfe5c86e41dbc2b5b3e32398b84dbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "12d15a3f_1580d4dd",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-02-02T05:22:34Z",
+      "side": 1,
+      "message": "repository",
+      "range": {
+        "startLine": 345,
+        "startChar": 0,
+        "endLine": 345,
+        "endChar": 9
+      },
+      "revId": "5fbc414262dfe5c86e41dbc2b5b3e32398b84dbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "12d15a3f_f56b1876",
+        "filename": "lib/maven.defs",
+        "patchSetId": 2
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-02-02T05:22:34Z",
+      "side": 1,
+      "message": "Add a new line before this block",
+      "revId": "5fbc414262dfe5c86e41dbc2b5b3e32398b84dbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

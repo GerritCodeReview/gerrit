@@ -170,11 +170,11 @@ public class Dispatcher {
   }
 
   public static String toGroup(final AccountGroup.Id id) {
-    return "/admin/groups/" + id.toString();
+    return ADMIN_GROUPS + id.toString();
   }
 
   public static String toGroup(AccountGroup.Id id, String panel) {
-    return "/admin/groups/" + id.toString() + "," + panel;
+    return ADMIN_GROUPS + id.toString() + "," + panel;
   }
 
   public static String toGroup(AccountGroup.UUID uuid) {
@@ -191,9 +191,9 @@ public class Dispatcher {
 
   public static String toProjectAdmin(Project.NameKey n, String panel) {
     if (panel == null || ProjectScreen.INFO.equals(panel)) {
-      return "/admin/projects/" + n.toString();
+      return ADMIN_PROJECTS + n.toString();
     }
-    return "/admin/projects/" + n.toString() + "," + panel;
+    return ADMIN_PROJECTS + n.toString() + "," + panel;
   }
 
   static final String RELOAD_UI = "/reload-ui/";
@@ -379,7 +379,7 @@ public class Dispatcher {
 
   private static String legacyAdmin(String token) {
     if (matchPrefix("admin,group,", token)) {
-      return "/admin/groups/" + skip(token);
+      return ADMIN_GROUPS + skip(token);
     }
 
     if (matchPrefix("admin,project,", token)) {
@@ -757,7 +757,7 @@ public class Dispatcher {
             || matchExact("/admin/groups", token)) {
           Gerrit.display(token, new GroupListScreen());
 
-        } else if (matchPrefix("/admin/groups/", token)) {
+        } else if (matchPrefix(ADMIN_GROUPS, token)) {
           String rest = skip(token);
           if (rest.startsWith("?")) {
             Gerrit.display(token, new GroupListScreen(rest.substring(1)));
@@ -775,7 +775,7 @@ public class Dispatcher {
             || matchExact("/admin/projects", token)) {
           Gerrit.display(token, new ProjectListScreen());
 
-        } else if (matchPrefix("/admin/projects/", token)) {
+        } else if (matchPrefix(ADMIN_PROJECTS, token)) {
             String rest = skip(token);
             if (rest.startsWith("?")) {
               Gerrit.display(token, new ProjectListScreen(rest.substring(1)));
@@ -820,7 +820,7 @@ public class Dispatcher {
             group = p.substring(0, c);
             panel = p.substring(c + 1);
           }
-        } else if (matchPrefix("/admin/groups/", token)) {
+        } else if (matchPrefix(ADMIN_GROUPS, token)) {
           String p = skip(token);
           int c = p.indexOf(',');
           if (c < 0) {
@@ -864,7 +864,7 @@ public class Dispatcher {
       }
 
       private Screen selectProject() {
-        if (matchPrefix("/admin/projects/", token)) {
+        if (matchPrefix(ADMIN_PROJECTS, token)) {
           String rest = skip(token);
           int c = rest.lastIndexOf(',');
           if (c < 0) {

@@ -33,7 +33,6 @@ import com.google.inject.Inject;
 
 import com.jcraft.jsch.JSchException;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -55,15 +54,12 @@ public class GarbageCollectionIT extends AbstractDaemonTest {
   @Inject
   private GcAssert gcAssert;
 
-  private SshSession sshSession;
   private Project.NameKey project1;
   private Project.NameKey project2;
   private Project.NameKey project3;
 
   @Before
   public void setUp() throws Exception {
-    sshSession = new SshSession(server, admin);
-
     project1 = new Project.NameKey("p1");
     createProject(sshSession, project1.get());
 
@@ -72,11 +68,6 @@ public class GarbageCollectionIT extends AbstractDaemonTest {
 
     project3 = new Project.NameKey("p3");
     createProject(sshSession, project3.get());
-  }
-
-  @After
-  public void cleanup() {
-    sshSession.close();
   }
 
   @Test
@@ -103,7 +94,7 @@ public class GarbageCollectionIT extends AbstractDaemonTest {
   @Test
   public void testGcWithoutCapability_Error() throws IOException, OrmException,
       JSchException {
-    SshSession s = new SshSession(server, accounts.create("user", "user@example.com", "User"));
+    SshSession s = new SshSession(server, user);
     s.exec("gerrit gc --all");
     assertError("Capability runGC is required to access this resource", s.getError());
     s.close();

@@ -89,12 +89,11 @@ public class AddRemoveGroupMembersIT extends AbstractDaemonTest {
 
   @Test
   public void addRemoveMember() throws Exception {
-    TestAccount u = accounts.create("user", "user@example.com", "Full Name");
     RestResponse r = PUT("/groups/Administrators/members/user");
     assertEquals(HttpStatus.SC_CREATED, r.getStatusCode());
     AccountInfo ai = newGson().fromJson(r.getReader(), AccountInfo.class);
-    assertAccountInfo(u, ai);
-    assertMembers("Administrators", admin, u);
+    assertAccountInfo(user, ai);
+    assertMembers("Administrators", admin, user);
     r.consume();
 
     assertEquals(HttpStatus.SC_NO_CONTENT,

@@ -14,26 +14,19 @@
 
 package com.google.gerrit.acceptance.git;
 
-import static com.google.gerrit.acceptance.GitUtil.cloneProject;
-import static com.google.gerrit.acceptance.GitUtil.createProject;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.project.Util.grant;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
-import com.google.gerrit.acceptance.SshSession;
 import com.google.gerrit.common.data.Permission;
-import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 
-import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.junit.Before;
 import org.junit.Test;
@@ -41,9 +34,6 @@ import org.junit.Test;
 import java.io.IOException;
 
 public class DraftChangeBlockedIT extends AbstractDaemonTest {
-
-  @Inject
-  private SchemaFactory<ReviewDb> reviewDbProvider;
 
   @Inject
   private ProjectCache projectCache;
@@ -54,27 +44,13 @@ public class DraftChangeBlockedIT extends AbstractDaemonTest {
   @Inject
   private MetaDataUpdate.Server metaDataUpdateFactory;
 
-  @Inject
-  private PushOneCommit.Factory pushFactory;
-
-  private Project.NameKey project;
-  private Git git;
-  private ReviewDb db;
-
   @Before
   public void setUp() throws Exception {
     ProjectConfig cfg = projectCache.checkedGet(allProjects).getConfig();
     grant(cfg, Permission.PUSH, ANONYMOUS_USERS,
         "refs/drafts/*").setBlock();
     saveProjectConfig(cfg);
-
-    project = new Project.NameKey("p");
-    SshSession sshSession = new SshSession(server, admin);
-    createProject(sshSession, project.get());
-
-    db = reviewDbProvider.open();
-    git = cloneProject(sshSession.getUrl() + "/" + project.get());
-    sshSession.close();
+    projectCache.evict(cfg.getProject());
   }
 
   @Test

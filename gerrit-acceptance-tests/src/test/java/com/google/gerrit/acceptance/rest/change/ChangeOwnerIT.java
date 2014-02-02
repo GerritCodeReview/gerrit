@@ -30,33 +30,22 @@ import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
-import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 
-import com.jcraft.jsch.JSchException;
-
 import org.apache.http.HttpStatus;
-import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 
 public class ChangeOwnerIT extends AbstractDaemonTest {
-
-  @Inject
-  private SchemaFactory<ReviewDb> reviewDbProvider;
 
   @Inject
   private MetaDataUpdate.Server metaDataUpdateFactory;
@@ -64,57 +53,42 @@ public class ChangeOwnerIT extends AbstractDaemonTest {
   @Inject
   private ProjectCache projectCache;
 
-  @Inject
-  private PushOneCommit.Factory pushFactory;
-
-  private TestAccount owner;
-  private TestAccount dev;
+  private TestAccount user2;
 
   private RestSession sessionOwner;
   private RestSession sessionDev;
-  private Git git;
-  private ReviewDb db;
-  private Project.NameKey project;
 
   @Before
   public void setUp() throws Exception {
-    newProject();
-    owner = accounts.user();
-    sessionOwner = new RestSession(server, owner);
-    SshSession sshSession = new SshSession(server, owner);
-    initSsh(owner);
+    sessionOwner = new RestSession(server, user);
+    SshSession sshSession = new SshSession(server, user);
+    initSsh(user);
     // need to initialize intern session
     createProject(sshSession, "foo");
     git = cloneProject(sshSession.getUrl() + "/" + project.get());
     sshSession.close();
-    dev = accounts.user2();
-    sessionDev = new RestSession(server, dev);
-    db = reviewDbProvider.open();
-  }
-
-  @After
-  public void cleanup() {
-    db.close();
+    user2 = accounts.user2();
+    sessionDev = new RestSession(server, user2);
   }
 
   @Test
   public void testChangeOwner_OwnerACLNotGranted() throws GitAPIException,
       IOException, OrmException, ConfigInvalidException {
-    approve(sessionOwner, createChange(), HttpStatus.SC_FORBIDDEN);
+    approve(sessionOwner, createMyChange(), HttpStatus.SC_FORBIDDEN);
   }
 
   @Test
   public void testChangeOwner_OwnerACLGranted() throws GitAPIException,
       IOException, OrmException, ConfigInvalidException {
     grantApproveToChangeOwner();
-    approve(sessionOwner, createChange(), HttpStatus.SC_OK);
+    approve(sessionOwner, createMyChange(), HttpStatus.SC_OK);
   }
 
   @Test
   public void testChangeOwner_NotOwnerACLGranted() throws GitAPIException,
       IOException, OrmException, ConfigInvalidException {
     grantApproveToChangeOwner();
-    approve(sessionDev, createChange(), HttpStatus.SC_FORBIDDEN);
+    approve(sessionDev, createMyChange(), HttpStatus.SC_FORBIDDEN);
   }
 
   private void approve(RestSession s, String changeId, int expected)
@@ -142,17 +116,9 @@ public class ChangeOwnerIT extends AbstractDaemonTest {
     projectCache.evict(config.getProject());
   }
 
-  private String createChange() throws GitAPIException,
+  private String createMyChange() throws GitAPIException,
       IOException {
-    PushOneCommit push = pushFactory.create(db, owner.getIdent());
+    PushOneCommit push = pushFactory.create(db, user.getIdent());
     return push.to(git, "refs/for/master").getChangeId();
-  }
-
-  private void newProject() throws UnsupportedEncodingException,
-      OrmException, JSchException, IOException {
-    project = new Project.NameKey("p");
-    SshSession sshSession = new SshSession(server, admin);
-    createProject(sshSession, project.get());
-    sshSession.close();
   }
 }

@@ -14,70 +14,20 @@
 
 package com.google.gerrit.acceptance.api.revision;
 
-import static com.google.gerrit.acceptance.GitUtil.cloneProject;
-import static com.google.gerrit.acceptance.GitUtil.createProject;
-
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.AcceptanceTestRequestScope;
 import com.google.gerrit.acceptance.PushOneCommit;
-import com.google.gerrit.acceptance.SshSession;
-import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.IdentifiedUser;
-import com.google.gwtorm.server.SchemaFactory;
-import com.google.inject.Inject;
-import com.google.inject.util.Providers;
 
-import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
 
 public class RevisionIT extends AbstractDaemonTest {
-
-  @Inject
-  private SchemaFactory<ReviewDb> reviewDbProvider;
-
-  @Inject
-  private GerritApi gApi;
-
-  @Inject
-  private AcceptanceTestRequestScope atrScope;
-
-  @Inject
-  private IdentifiedUser.GenericFactory identifiedUserFactory;
-
-  @Inject
-  private PushOneCommit.Factory pushFactory;
-
-  private Git git;
-  private ReviewDb db;
-  private Project.NameKey project;
-
-  @Before
-  public void setUp() throws Exception {
-    project = new Project.NameKey("p");
-    SshSession sshSession = new SshSession(server, admin);
-    createProject(sshSession, project.get());
-    git = cloneProject(sshSession.getUrl() + "/" + project.get());
-    db = reviewDbProvider.open();
-    atrScope.set(atrScope.newContext(reviewDbProvider, sshSession,
-        identifiedUserFactory.create(Providers.of(db), admin.getId())));
-  }
-
-  @After
-  public void cleanup() {
-    db.close();
-  }
 
   @Test
   public void reviewTriplet() throws GitAPIException,
@@ -158,13 +108,6 @@ public class RevisionIT extends AbstractDaemonTest {
         .review(ReviewInput.approve());
     cApi.current()
         .submit();
-  }
-
-  private PushOneCommit.Result createChange() throws GitAPIException,
-      IOException {
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(),
-        "test commit", "a.txt", "some content");
-    return push.to(git, "refs/for/master");
   }
 
   private PushOneCommit.Result updateChange(PushOneCommit.Result r,

@@ -32,5 +32,6 @@ public class PluginModule extends LifecycleModule {
 
     DynamicSet.setOf(binder(), ScriptingPlugin.Factory.class);
     DynamicSet.bind(binder(), ScriptingPlugin.Factory.class).to(JsPlugin.Factory.class);
+    DynamicSet.bind(binder(), ScriptingPlugin.Factory.class).to(GroovyPlugin.Factory.class);
   }
 }

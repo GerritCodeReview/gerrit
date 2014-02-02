@@ -248,3 +248,10 @@ maven_jar(
   visibility = ['//lib:easymock'],
   attach_source = False,
 )
+
+maven_jar(
+  name = 'groovy',
+  id = 'org.codehaus.groovy:groovy-all:2.2.1',
+  sha1 = '07ae565d50d24167c4e5d74b96f4126d4c56f16f',
+  license = 'Apache2.0',
+)

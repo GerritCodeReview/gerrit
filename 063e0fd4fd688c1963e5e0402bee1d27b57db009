@@ -105,6 +105,30 @@
       "revId": "063e0fd4fd688c1963e5e0402bee1d27b57db009",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2cda6a7_74794854",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-02-03T18:15:31Z",
+      "side": 1,
+      "message": "I understand that being able to run a single test method is important. No disagreement there.\n\nI think it\u0027s overstating it a bit to say that running a single test method is broken by this change. Running a single test method with Run As-\u003eJUnit Test on a single method is broken. But I respectfully disagree that right-clicking on a test method is \"[t]he most important feature for Gerrit developers.\" What we need to preserve is the ability to run a single test method, which is still possible here.\n\nNow, the issue Eclipse has is with the method name. It assumes that a method named foo results in a test named \"foo\", whereas now it results in a method named \"foo[default]\" (plus one for each additional config).\n\nIt would not be hard to fix this by writing a custom TestRunner like @Parameterized but produces \"foo\" instead of \"foo[default]\". Would that be sufficient? Note in particular Run As-\u003eJUnit Test would only work for the default config; there is no one-click way to just run all permutations of a single method.",
+      "parentUuid": "d2ca6290_d3af1461",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 29
+      },
+      "revId": "063e0fd4fd688c1963e5e0402bee1d27b57db009",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -177,6 +177,30 @@
       "revId": "063e0fd4fd688c1963e5e0402bee1d27b57db009",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d2ca6290_f38330a9",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-03T18:50:40Z",
+      "side": 1,
+      "message": "OK, now i understand what you meant, it works. Another way is to put @Ignore on all other methods or uncomment them.  You may have another opinion, i prefer right mouse click on method and am going to use the workaround i suggested.\n\nWhat i still not understand however why to introduce that multiple config thing that breaks things if we don\u0027t have multiple configs? Why not to break it when we really need that? And not even 5 min. earlier?",
+      "parentUuid": "f2cda6a7_54764c64",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 29
+      },
+      "revId": "063e0fd4fd688c1963e5e0402bee1d27b57db009",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

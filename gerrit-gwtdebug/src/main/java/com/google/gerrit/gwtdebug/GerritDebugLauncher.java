@@ -202,7 +202,7 @@ public class GerritDebugLauncher extends ServletContainerLauncher {
 
     @Override
     public String getName() {
-      return this.getName();
+      return this.getClass().getName();
     }
 
     /**

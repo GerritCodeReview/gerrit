@@ -1,0 +1,148 @@
+// Copyright (C) 2014 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+package com.google.gerrit.acceptance;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static java.lang.annotation.ElementType.FIELD;
+import static java.lang.annotation.ElementType.METHOD;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
+
+import com.google.common.base.Objects;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+
+import org.junit.runner.Runner;
+import org.junit.runners.BlockJUnit4ClassRunner;
+import org.junit.runners.Suite;
+import org.junit.runners.model.FrameworkMethod;
+import org.junit.runners.model.InitializationError;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.util.List;
+import java.util.Map;
+
+public class ConfigSuite extends Suite {
+  private static final String DEFAULT = "default";
+
+  @Target({METHOD})
+  @Retention(RUNTIME)
+  public static @interface Config {
+  }
+
+  @Target({FIELD})
+  @Retention(RUNTIME)
+  public static @interface Parameter {
+  }
+
+  private static class ConfigRunner extends BlockJUnit4ClassRunner {
+    private final String name;
+    private final org.eclipse.jgit.lib.Config config;
+
+    private ConfigRunner(Class<?> clazz, String name,
+        org.eclipse.jgit.lib.Config config) throws InitializationError {
+      super(clazz);
+      this.name = name;
+      this.config = config;
+    }
+
+    @Override
+    public Object createTest() throws Exception {
+      Class<?> clazz = getTestClass().getJavaClass();
+      Object test = clazz.newInstance();
+      getParameterField(clazz).set(test, config);
+      return test;
+    }
+
+    @Override
+    protected String getName() {
+      return Objects.firstNonNull(name, DEFAULT);
+    }
+
+    @Override
+    protected String testName(FrameworkMethod method) {
+      String n = method.getName();
+      return name == null ? n : n + "[" + name + "]";
+    }
+  }
+
+  public ConfigSuite(Class<?> clazz) throws InitializationError {
+    super(clazz, runnersFor(clazz));
+  }
+
+  private static List<Runner> runnersFor(Class<?> clazz) {
+    Map<String, org.eclipse.jgit.lib.Config> otherConfigs = getConfigs(clazz);
+    getParameterField(clazz);
+    List<Runner> result
+        = Lists.newArrayListWithCapacity(otherConfigs.size() + 1);
+    try {
+      result.add(
+          new ConfigRunner(clazz, null, new org.eclipse.jgit.lib.Config()));
+      for (Map.Entry<String, org.eclipse.jgit.lib.Config> e :
+          otherConfigs.entrySet()) {
+        result.add(new ConfigRunner(clazz, e.getKey(), e.getValue()));
+      }
+      return result;
+    } catch (InitializationError e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  private static Map<String, org.eclipse.jgit.lib.Config>
+      getConfigs(Class<?> clazz) {
+    Map<String, org.eclipse.jgit.lib.Config> result = Maps.newTreeMap();
+    for (Method m : clazz.getMethods()) {
+      Config ann = m.getAnnotation(Config.class);
+      if (ann != null) {
+        checkArgument(!m.getName().equals(DEFAULT),
+            "@ConfigSuite.Config cannot be named %s", DEFAULT);
+        result.put(m.getName(), callConfigMethod(m));
+      }
+    }
+    return result;
+  }
+
+  private static org.eclipse.jgit.lib.Config callConfigMethod(Method m) {
+    checkArgument(
+        org.eclipse.jgit.lib.Config.class.isAssignableFrom(m.getReturnType()),
+        "%s must return Config", m);
+    checkArgument((m.getModifiers() & Modifier.STATIC) != 0,
+        "%s must be static", m);
+    checkArgument(m.getParameterTypes().length == 0,
+        "%s must take no parameters", m);
+    try {
+      return (org.eclipse.jgit.lib.Config) m.invoke(null);
+    } catch (IllegalAccessException | IllegalArgumentException
+        | InvocationTargetException e) {
+      throw new IllegalArgumentException(e);
+    }
+  }
+
+  private static Field getParameterField(Class<?> clazz) {
+    List<Field> fields = Lists.newArrayListWithExpectedSize(1);
+    for (Field f : clazz.getFields()) {
+      if (f.getAnnotation(Parameter.class) != null) {
+        fields.add(f);
+      }
+    }
+    checkArgument(fields.size() == 1,
+        "expected 1 @ConfigSuite.Parameter field, found: %s", fields);
+    return fields.get(0);
+  }
+}

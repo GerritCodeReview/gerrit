@@ -1,0 +1,395 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b2e5ee1d_729178f7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-03T22:21:09Z",
+      "side": 1,
+      "message": "Proper",
+      "range": {
+        "startLine": 25,
+        "startChar": 26,
+        "endLine": 25,
+        "endChar": 31
+      },
+      "revId": "2e47503517ac1eb683e1170cbae1c7b2b9a965ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b2e5ee1d_92abbc24",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-03T22:21:09Z",
+      "side": 1,
+      "message": "Actually the reason is to prevent the collision.",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 25
+      },
+      "revId": "2e47503517ac1eb683e1170cbae1c7b2b9a965ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d2ca6290_b37db8fc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-03T22:21:09Z",
+      "side": 1,
+      "message": "May be also mention that doing this would install this plugin during init step?",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 46
+      },
+      "revId": "2e47503517ac1eb683e1170cbae1c7b2b9a965ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d2ca6290_136fcc3d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/http/jetty/JettyServer.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-03T22:21:09Z",
+      "side": 1,
+      "message": "That\u0027s wrong. You are injecting the wrong class and that why your singleton is broken: You call the method get() yourself, instead letting the job to DI library: Guice.\n\nOn the line 199 you are calling yourself (!) the get() method. What you want is to let it manage Guice for you.\n\nWhat you want is:\n\n  Provider\u003cSecureTore\u003e secureStoreProvder;",
+      "range": {
+        "startLine": 135,
+        "startChar": 2,
+        "endLine": 135,
+        "endChar": 55
+      },
+      "revId": "2e47503517ac1eb683e1170cbae1c7b2b9a965ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b2e5ee1d_329bf019",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/http/jetty/JettyServer.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-03T22:21:09Z",
+      "side": 1,
+      "message": "Provider\u003cSecureTore\u003e secureStoreProvder\n\nand please no final. You can remove the other final too.",
+      "range": {
+        "startLine": 144,
+        "startChar": 26,
+        "endLine": 144,
+        "endChar": 70
+      },
+      "revId": "2e47503517ac1eb683e1170cbae1c7b2b9a965ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b2e5ee1d_1298ec18",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/SiteProgram.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-03T22:21:09Z",
+      "side": 1,
+      "message": "Be consistent with yourself. In BaseInit.java you have bound it differently:\n\n  bind(SecureStore.class)\n    .toProvider(SecureStoreProvider.class)\n    .in(Scopes.SINGLETON);",
+      "range": {
+        "startLine": 109,
+        "startChar": 8,
+        "endLine": 109,
+        "endChar": 70
+      },
+      "revId": "2e47503517ac1eb683e1170cbae1c7b2b9a965ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d2ca6290_f3e21082",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/Helper.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-03T22:21:09Z",
+      "side": 1,
+      "message": "Not needed.",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 64
+      },
+      "revId": "2e47503517ac1eb683e1170cbae1c7b2b9a965ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b2e5ee1d_f28328a9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/Helper.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-03T22:21:09Z",
+      "side": 1,
+      "message": "Provider\u003cSecureStore\u003e secureStoreProvider",
+      "range": {
+        "startLine": 76,
+        "startChar": 6,
+        "endLine": 76,
+        "endChar": 45
+      },
+      "revId": "2e47503517ac1eb683e1170cbae1c7b2b9a965ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b2e5ee1d_d28824c8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/AuthConfig.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-03T22:21:09Z",
+      "side": 1,
+      "message": "Not needed.",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 64
+      },
+      "revId": "2e47503517ac1eb683e1170cbae1c7b2b9a965ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b2e5ee1d_b27da0fc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/AuthConfig.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-03T22:21:09Z",
+      "side": 1,
+      "message": "Provider\u003cSecureStore\u003e secureStoreProvider, no final, remove other final too.",
+      "range": {
+        "startLine": 63,
+        "startChar": 6,
+        "endLine": 63,
+        "endChar": 51
+      },
+      "revId": "2e47503517ac1eb683e1170cbae1c7b2b9a965ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b2e5ee1d_72785809",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/SmtpEmailSender.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-03T22:21:09Z",
+      "side": 1,
+      "message": "Not needed.",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 64
+      },
+      "revId": "2e47503517ac1eb683e1170cbae1c7b2b9a965ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b2e5ee1d_92829ca2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/SmtpEmailSender.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-03T22:21:09Z",
+      "side": 1,
+      "message": "Provider\u003cSecureStore\u003e secureStoreProvider, no final, remove other final too.",
+      "range": {
+        "startLine": 73,
+        "startChar": 6,
+        "endLine": 73,
+        "endChar": 51
+      },
+      "revId": "2e47503517ac1eb683e1170cbae1c7b2b9a965ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d2ca6290_9382bca2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreException.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-03T22:21:09Z",
+      "side": 1,
+      "message": "2013 or 2014?",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "2e47503517ac1eb683e1170cbae1c7b2b9a965ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d2ca6290_3372c827",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreProvider.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-03T22:21:09Z",
+      "side": 1,
+      "message": "If you inject in singleton scope, as you\u0027ve done in one place (ans missed in another) you don\u0027t need this annotation.",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 10
+      },
+      "revId": "2e47503517ac1eb683e1170cbae1c7b2b9a965ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b2e5ee1d_5275540d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreProvider.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-03T22:21:09Z",
+      "side": 1,
+      "message": "Why this var is needed?",
+      "range": {
+        "startLine": 66,
+        "startChar": 8,
+        "endLine": 66,
+        "endChar": 34
+      },
+      "revId": "2e47503517ac1eb683e1170cbae1c7b2b9a965ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d2ca6290_73784009",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreProvider.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-03T22:21:09Z",
+      "side": 1,
+      "message": "What is wrong with \n\n  return injector.getInstance(secureStoreImpl);\n\nAnd remove the whole wrapper construct below?",
+      "range": {
+        "startLine": 99,
+        "startChar": 15,
+        "endLine": 99,
+        "endChar": 76
+      },
+      "revId": "2e47503517ac1eb683e1170cbae1c7b2b9a965ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d2ca6290_5375440d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreProvider.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-03T22:21:09Z",
+      "side": 1,
+      "message": "Why is this needed?",
+      "range": {
+        "startLine": 147,
+        "startChar": 2,
+        "endLine": 172,
+        "endChar": 3
+      },
+      "revId": "2e47503517ac1eb683e1170cbae1c7b2b9a965ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

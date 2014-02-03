@@ -88,12 +88,12 @@ public class LabelNormalizer {
           "Approval %s does not match change %s",
           psa.getKey(), ctl.getChange().getKey());
       if (psa.isSubmit()) {
-        result.add(copy(psa, ctl));
+        result.add(copy(psa));
         continue;
       }
       LabelType label = labelTypes.byLabel(psa.getLabelId());
       if (label != null) {
-        psa = copy(psa, ctl);
+        psa = copy(psa);
         applyTypeFloor(label, psa);
         if (applyRightFloor(ctl, label, psa)) {
           result.add(psa);
@@ -114,7 +114,7 @@ public class LabelNormalizer {
     return !getRange(ctl, lt, id).isEmpty();
   }
 
-  private PatchSetApproval copy(PatchSetApproval src, ChangeControl ctl) {
+  private PatchSetApproval copy(PatchSetApproval src) {
     return new PatchSetApproval(src.getPatchSetId(), src);
   }
 

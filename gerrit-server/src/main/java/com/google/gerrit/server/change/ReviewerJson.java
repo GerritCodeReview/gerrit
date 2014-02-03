@@ -67,7 +67,10 @@ public class ReviewerJson {
     List<ReviewerInfo> infos = Lists.newArrayListWithCapacity(rsrcs.size());
     AccountInfo.Loader loader = accountLoaderFactory.create(true);
     for (ReviewerResource rsrc : rsrcs) {
-      ReviewerInfo info = format(rsrc, null);
+      ReviewerInfo info = format(new ReviewerInfo(
+          rsrc.getUser().getAccountId()),
+          rsrc.getUserControl(),
+          rsrc.getNotes());
       loader.put(info);
       infos.add(info);
     }
@@ -79,12 +82,15 @@ public class ReviewerJson {
     return format(ImmutableList.<ReviewerResource> of(rsrc));
   }
 
-  public ReviewerInfo format(ReviewerInfo out, ChangeNotes changeNotes,
-      ChangeControl ctl, List<PatchSetApproval> approvals) throws OrmException {
+  public ReviewerInfo format(ReviewerInfo out, ChangeControl ctl,
+      ChangeNotes changeNotes) throws OrmException {
     PatchSet.Id psId = ctl.getChange().currentPatchSetId();
+    return format(out, ctl,
+        approvalsUtil.byPatchSetUser(db.get(), changeNotes, psId, out._id));
+  }
 
-    approvals =
-        approvalsUtil.byPatchSetUser(db.get(), changeNotes, psId, out._id);
+  public ReviewerInfo format(ReviewerInfo out, ChangeControl ctl,
+      List<PatchSetApproval> approvals) throws OrmException {
     approvals = labelNormalizer.normalize(ctl, approvals);
     LabelTypes labelTypes = ctl.getLabelTypes();
 
@@ -126,12 +132,6 @@ public class ReviewerJson {
     }
 
     return out;
-  }
-
-  private ReviewerInfo format(ReviewerResource rsrc,
-      List<PatchSetApproval> approvals) throws OrmException {
-    return format(new ReviewerInfo(rsrc.getUser().getAccountId()),
-        rsrc.getNotes(), rsrc.getUserControl(), approvals);
   }
 
   public static class ReviewerInfo extends AccountInfo {

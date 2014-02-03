@@ -241,7 +241,6 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
     for (PatchSetApproval psa : added) {
       result.reviewers.add(json.format(
           new ReviewerInfo(psa.getAccountId()),
-          rsrc.getNotes(),
           reviewers.get(psa.getAccountId()),
           ImmutableList.of(psa)));
     }

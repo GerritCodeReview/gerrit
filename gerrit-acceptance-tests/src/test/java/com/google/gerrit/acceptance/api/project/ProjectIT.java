@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.api.project;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.restapi.RestApiException;
 
@@ -23,6 +24,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 
+@NoHttpd
 public class ProjectIT extends AbstractDaemonTest  {
 
   @Test

@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.api.change;
 import static org.junit.Assert.assertEquals;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
@@ -30,6 +31,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 
+@NoHttpd
 public class ChangeIT extends AbstractDaemonTest {
 
   @Test

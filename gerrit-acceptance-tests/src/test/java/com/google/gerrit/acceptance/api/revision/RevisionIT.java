@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.api.revision;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
@@ -27,6 +28,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 
+@NoHttpd
 public class RevisionIT extends AbstractDaemonTest {
 
   @Test

@@ -433,4 +433,8 @@ public class Daemon extends SiteProgram {
     modules.add(new JettyModule(new JettyEnv(webInjector)));
     return webInjector.createChildInjector(modules);
   }
+
+  public void httpdEnabled(boolean enable) {
+    httpd = enable;
+  }
 }

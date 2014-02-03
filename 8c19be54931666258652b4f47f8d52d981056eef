@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b2e5ee1d_126a2c45",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Init.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-02-03T12:59:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2e5ee1d_52f9d49a",
+      "range": {
+        "startLine": 153,
+        "startChar": 19,
+        "endLine": 153,
+        "endChar": 33
+      },
+      "revId": "8c19be54931666258652b4f47f8d52d981056eef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b2e5ee1d_32f650ab",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreProvider.java",
         "patchSetId": 14
@@ -36,6 +60,30 @@
       "writtenOn": "2014-01-31T18:44:54Z",
       "side": 1,
       "message": "That cannot work. You can\u0027t reconstruct file name from plugin name, because plugin can provide their own name, that may or may not be equal to the file name:\n\n  file: cookbook-plugin-0.1.jar\n  plugin name: cookbook-plugin\n  file: delete-project-2.9-SNAPSHOT.jar\n  plugin name: deleteproject\n  [...]\n\nI think you should iterate over the jar files and retrieve plugin name from it. So i added this in gerrit.config:\n\n  secureStore \u003d cookbook-plugin/example\n\nAnd getting this error:\n\nCaused by: com.google.gerrit.server.securestore.SecureStoreException: Cannot find plugin file: $s\n\tat com.google.gerrit.server.securestore.SecureStoreProvider.getSecureStores(SecureStoreProvider.java:122)\n\tat com.google.gerrit.server.securestore.SecureStoreProvider.get(SecureStoreProvider.java:93)\n\tat com.google.gerrit.server.securestore.SecureStoreProvider.get(SecureStoreProvider.java:1)\n\tat com.google.inject.internal.ProviderInternalFactory.provision(ProviderInternalFactory.java:86)\n\tat com.google.inject.internal.BoundProviderFactory.provision(BoundProviderFactory.java:73)\n\tat com.google.inject.internal.ProviderInternalFactory.circularGet(ProviderInternalFactory.java:66)\n\tat com.google.inject.internal.BoundProviderFactory.get(BoundProviderFactory.java:63)\n\tat com.google.inject.internal.SingleParameterInjector.inject(SingleParameterInjector.java:38)\n\tat com.google.inject.internal.SingleParameterInjector.getAll(SingleParameterInjector.java:62)\n\tat com.google.inject.internal.ConstructorInjector.provision(ConstructorInjector.java:107)\n\tat com.google.inject.internal.ConstructorInjector.construct(ConstructorInjector.java:88)\n\tat com.google.inject.internal.ConstructorBindingImpl$Factory.get(ConstructorBindingImpl.java:269)\n\tat com.google.inject.internal.ProviderToInternalFactoryAdapter$1.call(ProviderToInternalFactoryAdapter.java:46)\n\tat com.google.inject.internal.InjectorImpl.callInContext(InjectorImpl.java:1058)\n\tat com.google.inject.internal.ProviderToInternalFactoryAdapter.get(ProviderToInternalFactoryAdapter.java:40)\n\tat com.google.inject.Scopes$1$1.get(Scopes.java:65)\n\tat com.google.inject.internal.InternalFactoryToProviderAdapter.get(InternalFactoryToProviderAdapter.java:41)\n\tat com.google.inject.internal.InternalInjectorCreator$1.call(InternalInjectorCreator.java:205)\n\tat com.google.inject.internal.InternalInjectorCreator$1.call(InternalInjectorCreator.java:199)\n\tat com.google.inject.internal.InjectorImpl.callInContext(InjectorImpl.java:1051)\n\tat com.google.inject.internal.InternalInjectorCreator.loadEagerSingletons(InternalInjectorCreator.java:199)\n\tat com.google.inject.internal.InternalInjectorCreator.injectDynamically(InternalInjectorCreator.java:180)\n\tat com.google.inject.internal.InternalInjectorCreator.build(InternalInjectorCreator.java:110)\n\tat com.google.inject.Guice.createInjector(Guice.java:96)\n\tat com.google.gerrit.pgm.util.SiteProgram.createDbInjector(SiteProgram.java:150)\n\tat com.google.gerrit.pgm.Daemon.start(Daemon.java:268)\n\tat com.google.gerrit.pgm.Daemon.run(Daemon.java:197)\n\tat com.google.gerrit.pgm.util.AbstractProgram.main(AbstractProgram.java:64)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)\n\tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n\tat java.lang.reflect.Method.invoke(Method.java:606)\n\tat com.google.gerrit.launcher.GerritLauncher.invokeProgram(GerritLauncher.java:169)\n\tat com.google.gerrit.launcher.GerritLauncher.mainImpl(GerritLauncher.java:96)\n\tat com.google.gerrit.launcher.GerritLauncher.main(GerritLauncher.java:53)\n\tat Main.main(Main.java:25)",
+      "range": {
+        "startLine": 113,
+        "startChar": 4,
+        "endLine": 113,
+        "endChar": 54
+      },
+      "revId": "8c19be54931666258652b4f47f8d52d981056eef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d2ca6290_d3a15446",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreProvider.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-02-03T12:59:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2e5ee1d_32f650ab",
       "range": {
         "startLine": 113,
         "startChar": 4,

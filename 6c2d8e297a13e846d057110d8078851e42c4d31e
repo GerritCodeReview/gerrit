@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "72eff6ff_50130c78",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 801,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-02-03T21:26:51Z",
+      "side": 1,
+      "message": "I see.  so why not put this info in the docs as well?\n\nAlso it might be better to put drafts in a valid state when this scenario occurs.  I guess that would mean deleting all drafts which i think would be better than leaving stuff in an undefined state.",
+      "parentUuid": "d2ca6290_d3d6f4e2",
+      "revId": "6c2d8e297a13e846d057110d8078851e42c4d31e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "12d15a3f_1557b4ba",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteDraftPatchSet.java",
         "patchSetId": 8

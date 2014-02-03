@@ -201,6 +201,30 @@
       "revId": "063e0fd4fd688c1963e5e0402bee1d27b57db009",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "12d15a3f_75bf0892",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-02-03T18:57:44Z",
+      "side": 1,
+      "message": "There will be a period of time (~months) when we have multiple configs because both gwtorm and notedb will be supported at head. During this period it is important that the acceptance tests pass with all supported configurations, so I figured it\u0027s worth my time to get the parameterized acceptance tests wired up.\n\nOk, so maybe I could have delayed merging this till I fixed all the outstanding bugs in reading PatchSetApprovals from the notedb (was hoping this week), but I was still going to do it eventually either way :)",
+      "parentUuid": "d2ca6290_f38330a9",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 29
+      },
+      "revId": "063e0fd4fd688c1963e5e0402bee1d27b57db009",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -160,7 +160,7 @@ public class RestApi {
   }
 
   private native static void delete(String p, JavaScriptObject r)
-  /*-{ '$wnd.Gerrit.delete'(p, r) }-*/;
+  /*-{ $wnd.Gerrit.del(p, r) }-*/;
 
   private native static <T extends JavaScriptObject>
   JavaScriptObject wrap(AsyncCallback<T> b) /*-{

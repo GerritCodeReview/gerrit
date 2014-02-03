@@ -25,13 +25,14 @@ The plugin instance is passed to the plugin's initialization function
 and provides a number of utility services to plugin authors.
 
 [[self_delete]]
-=== self.delete()
+=== self.delete() / self.del()
 Issues a DELETE REST API request to the Gerrit server.
 
 .Signature
 [source,javascript]
 ----
 Gerrit.delete(url, callback)
+Gerrit.del(url, callback)
 ----
 
 * url: URL relative to the plugin's URL space. The JavaScript

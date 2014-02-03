@@ -14,7 +14,6 @@
 
 package com.google.gerrit.acceptance;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.acceptance.GitUtil.initSsh;
 import static org.junit.Assert.assertEquals;
 
@@ -31,39 +30,13 @@ import org.junit.Rule;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameter;
-import org.junit.runners.Parameterized.Parameters;
 import org.junit.runners.model.Statement;
 
 import java.io.IOException;
-import java.util.Arrays;
 
-@RunWith(Parameterized.class)
+@RunWith(ConfigSuite.class)
 public abstract class AbstractDaemonTest {
-  private static class NamedConfig extends Config {
-    private final String name;
-
-    private NamedConfig(String name) {
-      this.name = checkNotNull(name);
-    }
-
-    @Override
-    public String toString() {
-      return name;
-    }
-  }
-
-  @Parameters(name = "{0}")
-  public static Iterable<Object[]> configs() {
-    Config defaultConfig = new NamedConfig("default");
-
-    return Arrays.asList(new Object[][]{
-        {defaultConfig},
-        });
-  }
-
-  @Parameter
+  @ConfigSuite.Parameter
   public Config baseConfig;
 
   @Inject

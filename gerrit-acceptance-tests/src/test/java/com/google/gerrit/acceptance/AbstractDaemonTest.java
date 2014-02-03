@@ -93,7 +93,9 @@ public abstract class AbstractDaemonTest {
         @Override
         public void evaluate() throws Throwable {
           boolean mem = description.getAnnotation(UseLocalDisk.class) == null;
-          beforeTest(config(description), mem);
+          boolean enableHttpd = description.getAnnotation(NoHttpd.class) == null
+              && description.getTestClass().getAnnotation(NoHttpd.class) == null;
+          beforeTest(config(description), mem, enableHttpd);
           base.evaluate();
           afterTest();
         }
@@ -116,8 +118,8 @@ public abstract class AbstractDaemonTest {
     }
   }
 
-  private void beforeTest(Config cfg, boolean memory) throws Exception {
-    server = startServer(cfg, memory);
+  private void beforeTest(Config cfg, boolean memory, boolean enableHttpd) throws Exception {
+    server = startServer(cfg, memory, enableHttpd);
     server.getTestInjector().injectMembers(this);
     admin = accounts.admin();
     user = accounts.user();
@@ -133,8 +135,9 @@ public abstract class AbstractDaemonTest {
     git = cloneProject(sshSession.getUrl() + "/" + project.get());
   }
 
-  protected GerritServer startServer(Config cfg, boolean memory) throws Exception {
-    return GerritServer.start(cfg, memory);
+  protected GerritServer startServer(Config cfg, boolean memory,
+      boolean enableHttpd) throws Exception {
+    return GerritServer.start(cfg, memory, enableHttpd);
   }
 
   private void afterTest() throws Exception {

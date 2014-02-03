@@ -22,6 +22,7 @@ import static org.junit.Assert.assertNull;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.extensions.common.ChangeInfo;
 
@@ -30,6 +31,7 @@ import org.junit.Test;
 
 import java.util.List;
 
+@NoHttpd
 public class ListChangesOptionsIT extends AbstractDaemonTest {
 
   private String changeId;

@@ -19,6 +19,7 @@ import static com.google.gerrit.extensions.common.ListChangesOption.DETAILED_LAB
 import static org.junit.Assert.assertEquals;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
@@ -36,6 +37,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.junit.Before;
 import org.junit.Test;
 
+@NoHttpd
 public class LabelTypeIT extends AbstractDaemonTest {
 
   @Inject

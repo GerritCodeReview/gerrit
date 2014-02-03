@@ -22,6 +22,7 @@ import static org.junit.Assert.assertTrue;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.SshSession;
 import com.google.gerrit.common.data.AccessSection;
@@ -62,6 +63,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 
+@NoHttpd
 public class SubmitOnPushIT extends AbstractDaemonTest {
 
   @Inject

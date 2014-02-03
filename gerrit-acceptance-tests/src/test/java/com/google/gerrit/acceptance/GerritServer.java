@@ -49,7 +49,8 @@ import java.util.concurrent.TimeUnit;
 public class GerritServer {
 
   /** Returns fully started Gerrit server */
-  static GerritServer start(Config cfg, boolean memory) throws Exception {
+  static GerritServer start(Config cfg, boolean memory, boolean enableHttpd)
+      throws Exception {
     final CyclicBarrier serverStarted = new CyclicBarrier(2);
     final Daemon daemon = new Daemon(new Runnable() {
       public void run() {
@@ -71,6 +72,7 @@ public class GerritServer {
       cfg.setBoolean("httpd", null, "requestLog", false);
       cfg.setBoolean("sshd", null, "requestLog", false);
       cfg.setBoolean("index", "lucene", "testInmemory", true);
+      daemon.setEnableHttpd(enableHttpd);
       daemon.setLuceneModule(new LuceneIndexModule(
           ChangeSchemas.getLatest().getVersion(),
           Runtime.getRuntime().availableProcessors(), null));

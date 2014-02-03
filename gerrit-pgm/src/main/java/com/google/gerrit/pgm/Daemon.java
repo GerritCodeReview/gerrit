@@ -155,6 +155,10 @@ public class Daemon extends SiteProgram {
     this.serverStarted = serverStarted;
   }
 
+  public void setEnableHttpd(boolean enable) {
+    httpd = enable;
+  }
+
   @Override
   public int run() throws Exception {
     if (doInit) {

@@ -18,6 +18,7 @@ import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.project.Util.grant;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -33,6 +34,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 
+@NoHttpd
 public class DraftChangeBlockedIT extends AbstractDaemonTest {
 
   @Inject

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d2ca6290_538e64d7",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-03T17:17:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d2ca6290_534784d9",
+      "revId": "3b028c7edc0e8c32a111edfdbd16fe762addc481",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b2e5ee1d_925dfcb7",
         "filename": "Documentation/dev-buck.txt",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2014-02-03T13:24:01Z",
       "side": 1,
       "message": "s/deploy/install",
+      "revId": "3b028c7edc0e8c32a111edfdbd16fe762addc481",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b2e5ee1d_524794d9",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-03T17:17:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2e5ee1d_925dfcb7",
       "revId": "3b028c7edc0e8c32a111edfdbd16fe762addc481",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "b2e5ee1d_724a98e5",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-03T17:17:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2e5ee1d_7263b873",
+      "revId": "3b028c7edc0e8c32a111edfdbd16fe762addc481",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b2e5ee1d_5260b464",
         "filename": "Documentation/dev-buck.txt",
         "patchSetId": 3
@@ -64,6 +118,24 @@
       "writtenOn": "2014-02-03T13:24:01Z",
       "side": 1,
       "message": "s/This would link/This creates a symlink to/\n\ns/artifacts in Maven\u0027s bild directory/artifacts in another project\u0027s Maven target directory",
+      "revId": "3b028c7edc0e8c32a111edfdbd16fe762addc481",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d2ca6290_339be819",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-03T17:17:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2e5ee1d_5260b464",
       "revId": "3b028c7edc0e8c32a111edfdbd16fe762addc481",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1602,6 +1602,13 @@ public class MyPlugin extends PluginEntryPoint {
 }
 ----
 
+[[settings-screen]]
+== Plugin Settings Screen
+
+If a plugin implements a screen for administrating its settings that is
+available under "#/x/<plugin-name>/admin" it is automatically linked
+from the plugin list screen.
+
 [[http]]
 == HTTP Servlets
 

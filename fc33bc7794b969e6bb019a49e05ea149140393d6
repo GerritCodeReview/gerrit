@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "52691273_077456a0",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/projects/ProjectInput.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-04T20:09:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "92862a64_91fb9ce7",
+      "revId": "fc33bc7794b969e6bb019a49e05ea149140393d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "52691273_e706e238",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/projects/Projects.java",
         "patchSetId": 1
@@ -76,6 +94,30 @@
       "writtenOn": "2014-02-04T09:22:53Z",
       "side": 1,
       "message": "Oh, that\u0027s wrong and must be fixed.",
+      "parentUuid": "92862a64_b100201c",
+      "range": {
+        "startLine": 85,
+        "startChar": 6,
+        "endLine": 85,
+        "endChar": 42
+      },
+      "revId": "fc33bc7794b969e6bb019a49e05ea149140393d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "325e5ed0_4627b296",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ProjectApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-04T20:09:06Z",
+      "side": 1,
+      "message": "Done",
       "parentUuid": "92862a64_b100201c",
       "range": {
         "startLine": 85,

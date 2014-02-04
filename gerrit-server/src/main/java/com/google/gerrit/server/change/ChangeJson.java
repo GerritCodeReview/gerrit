@@ -509,13 +509,14 @@ public class ChangeJson {
       allUsers.add(psa.getAccountId());
     }
 
-    List<PatchSetApproval> currentList = labelNormalizer.normalize(
-        baseCtrl, allApprovals.get(baseCtrl.getChange().currentPatchSetId()));
+    List<PatchSetApproval> currentList =
+        allApprovals.get(baseCtrl.getChange().currentPatchSetId());
     // Most recent, normalized vote on each label for the current patch set by
     // each user (may be 0).
     Table<Account.Id, String, PatchSetApproval> current = HashBasedTable.create(
         allUsers.size(), baseCtrl.getLabelTypes().getLabelTypes().size());
-    for (PatchSetApproval psa : currentList) {
+    for (PatchSetApproval psa :
+        labelNormalizer.normalize(baseCtrl, currentList).getNormalized()) {
       current.put(psa.getAccountId(), psa.getLabel(), psa);
     }
 

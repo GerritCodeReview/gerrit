@@ -255,12 +255,14 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     // presentation view time, except for zero votes used to indicate a reviewer
     // was added. So we need to make sure votes are accurate now. This way if
     // permissions get modified in the future, historical records stay accurate.
-    approvals = labelNormalizer.normalize(rsrc.getControl(), byKey.values());
+    LabelNormalizer.Result normalized =
+        labelNormalizer.normalize(rsrc.getControl(), byKey.values());
 
     // TODO(dborowitz): Don't use a label in notedb; just check when status
     // change happened.
     update.putApproval(submit.getLabel(), submit.getValue());
-    dbProvider.get().patchSetApprovals().upsert(approvals);
+    dbProvider.get().patchSetApprovals().upsert(normalized.getNormalized());
+    dbProvider.get().patchSetApprovals().delete(normalized.getDeleted());
   }
 
   private void checkSubmitRule(RevisionResource rsrc)

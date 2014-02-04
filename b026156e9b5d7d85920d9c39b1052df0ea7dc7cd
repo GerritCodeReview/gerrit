@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "92862a64_11100c69",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-02-04T20:18:30Z",
+      "side": 1,
+      "message": "Another bikeshedding question!\n\nWhat to do about approvals that the normalizer says to remove entirely (i.e. nonexistent label or empty permission range)? Again, this is about freezing the state wrt the label and permission configurations.\n\nPerhaps:\n\n Label: -Code-Review\n\nContrast with:\n\n Label: Code-Review\u003d0\n\nfor a zero vote. But I don\u0027t like that this conflicts with the semantics of LabelVote.parse, which treats -Code-Review as Code-Review\u003d-1.",
+      "parentUuid": "f2cda6a7_74d5c80a",
+      "range": {
+        "startLine": 309,
+        "startChar": 8,
+        "endLine": 312,
+        "endChar": 9
+      },
+      "revId": "b026156e9b5d7d85920d9c39b1052df0ea7dc7cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f2cda6a7_f412f83f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
         "patchSetId": 6

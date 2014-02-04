@@ -45,6 +45,30 @@
       "revId": "3a5d8713b56855e0c27577f078bbb24ab30d2028",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "325e5ed0_46a8129f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/Helper.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-02-04T12:10:44Z",
+      "side": 1,
+      "message": "I\u0027m consistent here with code that was already in code base.\n\nIn JettyServer all constructor parameters had final therefore when I was adding another one I\u0027ve also mark it as final.\n\nHere, as you can see, only config is final, rest is not. Therefor, secure store provider is not final.\n\nOne of gerrit code principles is to match code that was already in code base. I\u0027m not in flavor of adding finals every where,. I\u0027m adding my stuff with final only when rest is marked as final.\n\nThis is not my fault that here this code is inconsistent. I did my best to not introduce more inconsistency (eg. adding secure store with final).\n\nThe main purpose of this patchet is to add new functionality not to add/remove final modifies when ever it is possible.",
+      "parentUuid": "52691273_e7834240",
+      "range": {
+        "startLine": 77,
+        "startChar": 6,
+        "endLine": 77,
+        "endChar": 47
+      },
+      "revId": "3a5d8713b56855e0c27577f078bbb24ab30d2028",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -15,6 +15,7 @@
 package com.google.gerrit.client.admin;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.api.ExtensionScreen;
 import com.google.gerrit.client.plugins.PluginInfo;
 import com.google.gerrit.client.plugins.PluginMap;
 import com.google.gerrit.client.rpc.Natives;
@@ -23,6 +24,7 @@ import com.google.gerrit.client.ui.FancyFlexTable;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.ImageResourceRenderer;
 import com.google.gwt.user.client.ui.Panel;
 
 public class PluginListScreen extends PluginScreen {
@@ -60,13 +62,15 @@ public class PluginListScreen extends PluginScreen {
   private class PluginTable extends FancyFlexTable<PluginInfo> {
     PluginTable() {
       table.setText(0, 1, Util.C.columnPluginName());
-      table.setText(0, 2, Util.C.columnPluginVersion());
-      table.setText(0, 3, Util.C.columnPluginStatus());
+      table.setText(0, 2, Util.C.columnPluginSettings());
+      table.setText(0, 3, Util.C.columnPluginVersion());
+      table.setText(0, 4, Util.C.columnPluginStatus());
 
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
       fmt.addStyleName(0, 1, Gerrit.RESOURCES.css().dataHeader());
       fmt.addStyleName(0, 2, Gerrit.RESOURCES.css().dataHeader());
       fmt.addStyleName(0, 3, Gerrit.RESOURCES.css().dataHeader());
+      fmt.addStyleName(0, 4, Gerrit.RESOURCES.css().dataHeader());
     }
 
     void display(final PluginMap plugins) {
@@ -86,16 +90,20 @@ public class PluginListScreen extends PluginScreen {
       if (plugin.disabled() || plugin.indexUrl() == null) {
         table.setText(row, 1, plugin.name());
       } else {
-        table.setWidget(
-            row,
-            1,
-            new Anchor(
-                plugin.name(),
-                Gerrit.selfRedirect(plugin.indexUrl()),
-                "_blank"));
+        table.setWidget(row, 1, new Anchor(plugin.name(),
+            Gerrit.selfRedirect(plugin.indexUrl()), "_blank"));
+
+        if (new ExtensionScreen(plugin.name() + "/settings").isFound()) {
+          Anchor adminScreenAcnhcor =
+              new Anchor(new ImageResourceRenderer().render(Gerrit.RESOURCES.gear()),
+              Gerrit.selfRedirect("#/x/" + plugin.name() + "/settings"));
+          adminScreenAcnhcor.setTitle(Util.C.pluginSettingsToolTip());
+          table.setWidget(row, 2, adminScreenAcnhcor);
+        }
       }
-      table.setText(row, 2, plugin.version());
-      table.setText(row, 3, plugin.disabled()
+
+      table.setText(row, 3, plugin.version());
+      table.setText(row, 4, plugin.disabled()
           ? Util.C.pluginDisabled()
           : Util.C.pluginEnabled());
 
@@ -103,6 +111,7 @@ public class PluginListScreen extends PluginScreen {
       fmt.addStyleName(row, 1, Gerrit.RESOURCES.css().dataCell());
       fmt.addStyleName(row, 2, Gerrit.RESOURCES.css().dataCell());
       fmt.addStyleName(row, 3, Gerrit.RESOURCES.css().dataCell());
+      fmt.addStyleName(row, 4, Gerrit.RESOURCES.css().dataCell());
 
       setRowItem(row, plugin);
     }

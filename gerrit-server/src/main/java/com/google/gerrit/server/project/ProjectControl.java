@@ -26,6 +26,7 @@ import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.PermissionRule.Action;
+import com.google.gerrit.extensions.common.ProjectStatus;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
@@ -232,7 +233,7 @@ public class ProjectControl {
   }
 
   private boolean isHidden() {
-    return getProject().getState().equals(Project.State.HIDDEN);
+    return getProject().getState().equals(ProjectStatus.HIDDEN);
   }
 
   /** Can this user see this project exists? */

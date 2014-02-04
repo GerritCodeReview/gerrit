@@ -16,6 +16,9 @@ package com.google.gerrit.server.project;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Strings;
+import com.google.gerrit.extensions.common.InheritableBoolean;
+import com.google.gerrit.extensions.common.ProjectStatus;
+import com.google.gerrit.extensions.common.ProjectSubmitType;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -23,8 +26,6 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.Project.InheritableBoolean;
-import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
 import com.google.gerrit.server.config.PluginConfig;
@@ -57,8 +58,8 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
     public InheritableBoolean useSignedOffBy;
     public InheritableBoolean requireChangeId;
     public String maxObjectSizeLimit;
-    public SubmitType submitType;
-    public Project.State state;
+    public ProjectSubmitType submitType;
+    public ProjectStatus state;
     public Map<String, Map<String, String>> pluginConfigValues;
   }
 

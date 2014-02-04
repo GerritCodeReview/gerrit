@@ -17,11 +17,11 @@ package com.google.gerrit.server.change;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.Objects;
+import com.google.gerrit.extensions.common.ProjectSubmitType;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.rules.RulesCache;
 import com.google.gerrit.server.change.TestSubmitRule.Filters;
@@ -57,7 +57,7 @@ public class TestSubmitType implements RestModifyView<RevisionResource, Input> {
   }
 
   @Override
-  public SubmitType apply(RevisionResource rsrc, Input input)
+  public ProjectSubmitType apply(RevisionResource rsrc, Input input)
       throws AuthException, BadRequestException {
     if (input == null) {
       input = new Input();
@@ -105,7 +105,7 @@ public class TestSubmitType implements RestModifyView<RevisionResource, Input> {
 
     String typeName = ((SymbolTerm) type).name();
     try {
-      return SubmitType.valueOf(typeName.toUpperCase());
+      return ProjectSubmitType.valueOf(typeName.toUpperCase());
     } catch (IllegalArgumentException e) {
       throw new BadRequestException(String.format(
           "rule %s produced invalid result: %s",
@@ -123,7 +123,7 @@ public class TestSubmitType implements RestModifyView<RevisionResource, Input> {
     }
 
     @Override
-    public SubmitType apply(RevisionResource resource)
+    public ProjectSubmitType apply(RevisionResource resource)
         throws AuthException, BadRequestException {
       return test.apply(resource, null);
     }

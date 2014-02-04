@@ -15,6 +15,7 @@
 package com.google.gerrit.server.project;
 
 import com.google.common.base.Strings;
+import com.google.gerrit.extensions.common.ProjectStatus;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -52,7 +53,7 @@ public class ProjectJson {
     public String name;
     public String parent;
     public String description;
-    public Project.State state;
+    public ProjectStatus state;
     public Map<String, String> branches;
 
     void finish() {

@@ -18,9 +18,10 @@ import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.RestApi;
+import com.google.gerrit.extensions.common.InheritableBoolean;
+import com.google.gerrit.extensions.common.ProjectStatus;
+import com.google.gerrit.extensions.common.ProjectSubmitType;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.Project.InheritableBoolean;
-import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -81,10 +82,10 @@ public class ProjectApi {
   }
 
   public static void setConfig(Project.NameKey name, String description,
-      InheritableBoolean useContributorAgreements,
-      InheritableBoolean useContentMerge, InheritableBoolean useSignedOffBy,
-      InheritableBoolean requireChangeId, String maxObjectSizeLimit,
-      SubmitType submitType, Project.State state,
+      com.google.gerrit.extensions.common.InheritableBoolean useContributorAgreements,
+      com.google.gerrit.extensions.common.InheritableBoolean useContentMerge, com.google.gerrit.extensions.common.InheritableBoolean useSignedOffBy,
+      com.google.gerrit.extensions.common.InheritableBoolean requireChangeId, String maxObjectSizeLimit,
+      com.google.gerrit.extensions.common.ProjectSubmitType submitType, com.google.gerrit.extensions.common.ProjectStatus state,
       Map<String, Map<String, String>> pluginConfigValues,
       AsyncCallback<ConfigInfo> cb) {
     ConfigInput in = ConfigInput.create();
@@ -183,25 +184,25 @@ public class ProjectApi {
     final native void setDescription(String d)
     /*-{ if(d)this.description=d; }-*/;
 
-    final void setUseContributorAgreements(InheritableBoolean v) {
+    final void setUseContributorAgreements(com.google.gerrit.extensions.common.InheritableBoolean v) {
       setUseContributorAgreementsRaw(v.name());
     }
     private final native void setUseContributorAgreementsRaw(String v)
     /*-{ if(v)this.use_contributor_agreements=v; }-*/;
 
-    final void setUseContentMerge(InheritableBoolean v) {
+    final void setUseContentMerge(com.google.gerrit.extensions.common.InheritableBoolean v) {
       setUseContentMergeRaw(v.name());
     }
     private final native void setUseContentMergeRaw(String v)
     /*-{ if(v)this.use_content_merge=v; }-*/;
 
-    final void setUseSignedOffBy(InheritableBoolean v) {
+    final void setUseSignedOffBy(com.google.gerrit.extensions.common.InheritableBoolean v) {
       setUseSignedOffByRaw(v.name());
     }
     private final native void setUseSignedOffByRaw(String v)
     /*-{ if(v)this.use_signed_off_by=v; }-*/;
 
-    final void setRequireChangeId(InheritableBoolean v) {
+    final void setRequireChangeId(com.google.gerrit.extensions.common.InheritableBoolean v) {
       setRequireChangeIdRaw(v.name());
     }
     private final native void setRequireChangeIdRaw(String v)
@@ -210,13 +211,13 @@ public class ProjectApi {
     final native void setMaxObjectSizeLimit(String l)
     /*-{ if(l)this.max_object_size_limit=l; }-*/;
 
-    final void setSubmitType(SubmitType t) {
+    final void setSubmitType(com.google.gerrit.extensions.common.ProjectSubmitType t) {
       setSubmitTypeRaw(t.name());
     }
     private final native void setSubmitTypeRaw(String t)
     /*-{ if(t)this.submit_type=t; }-*/;
 
-    final void setState(Project.State s) {
+    final void setState(com.google.gerrit.extensions.common.ProjectStatus s) {
       setStateRaw(s.name());
     }
     private final native void setStateRaw(String s)

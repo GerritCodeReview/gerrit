@@ -33,10 +33,11 @@ import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.NpIntTextBox;
 import com.google.gerrit.client.ui.OnEditEnabler;
 import com.google.gerrit.client.ui.SmallHeading;
+import com.google.gerrit.extensions.common.InheritableBoolean;
+import com.google.gerrit.extensions.common.ProjectStatus;
+import com.google.gerrit.extensions.common.ProjectSubmitType;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadCommand;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.Project.InheritableBoolean;
-import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -184,7 +185,7 @@ public class ProjectInfoScreen extends ProjectScreen {
     grid.addHeader(new SmallHeading(Util.C.headingProjectOptions()));
 
     submitType = new ListBox();
-    for (final Project.SubmitType type : Project.SubmitType.values()) {
+    for (final com.google.gerrit.extensions.common.ProjectSubmitType type : com.google.gerrit.extensions.common.ProjectSubmitType.values()) {
       submitType.addItem(Util.toLongString(type), type.name());
     }
     submitType.addChangeHandler(new ChangeHandler() {
@@ -197,7 +198,7 @@ public class ProjectInfoScreen extends ProjectScreen {
     grid.add(Util.C.headingProjectSubmitType(), submitType);
 
     state = new ListBox();
-    for (final Project.State stateValue : Project.State.values()) {
+    for (final com.google.gerrit.extensions.common.ProjectStatus stateValue : com.google.gerrit.extensions.common.ProjectStatus.values()) {
       state.addItem(Util.toLongString(stateValue), stateValue.name());
     }
     saveEnabler.listenTo(state);
@@ -224,7 +225,7 @@ public class ProjectInfoScreen extends ProjectScreen {
 
   private static ListBox newInheritedBooleanBox() {
     ListBox box = new ListBox();
-    for (InheritableBoolean b : InheritableBoolean.values()) {
+    for (com.google.gerrit.extensions.common.InheritableBoolean b : com.google.gerrit.extensions.common.InheritableBoolean.values()) {
       box.addItem(b.name(), b.name());
     }
     return box;
@@ -237,11 +238,11 @@ public class ProjectInfoScreen extends ProjectScreen {
    * content merge the useContentMerge checkbox gets disabled.
    */
   private void setEnabledForUseContentMerge() {
-    if (SubmitType.FAST_FORWARD_ONLY.equals(Project.SubmitType
+    if (com.google.gerrit.extensions.common.ProjectSubmitType.FAST_FORWARD_ONLY.equals(com.google.gerrit.extensions.common.ProjectSubmitType
         .valueOf(submitType.getValue(submitType.getSelectedIndex())))) {
       contentMerge.setEnabled(false);
       InheritedBooleanInfo b = InheritedBooleanInfo.create();
-      b.setConfiguredValue(InheritableBoolean.FALSE);
+      b.setConfiguredValue(com.google.gerrit.extensions.common.InheritableBoolean.FALSE);
       setBool(contentMerge, b);
     } else {
       contentMerge.setEnabled(submitType.isEnabled());
@@ -262,7 +263,7 @@ public class ProjectInfoScreen extends ProjectScreen {
     grid.addHtml(Util.C.useSignedOffBy(), signedOffBy);
   }
 
-  private void setSubmitType(final Project.SubmitType newSubmitType) {
+  private void setSubmitType(final com.google.gerrit.extensions.common.ProjectSubmitType newSubmitType) {
     int index = -1;
     if (submitType != null) {
       for (int i = 0; i < submitType.getItemCount(); i++) {
@@ -276,7 +277,7 @@ public class ProjectInfoScreen extends ProjectScreen {
     }
   }
 
-  private void setState(final Project.State newState) {
+  private void setState(final com.google.gerrit.extensions.common.ProjectStatus newState) {
     if (state != null) {
       for (int i = 0; i < state.getItemCount(); i++) {
         if (newState.name().equals(state.getValue(i))) {
@@ -290,7 +291,7 @@ public class ProjectInfoScreen extends ProjectScreen {
   private void setBool(ListBox box, InheritedBooleanInfo inheritedBoolean) {
     int inheritedIndex = -1;
     for (int i = 0; i < box.getItemCount(); i++) {
-      if (box.getValue(i).startsWith(InheritableBoolean.INHERIT.name())) {
+      if (box.getValue(i).startsWith(com.google.gerrit.extensions.common.InheritableBoolean.INHERIT.name())) {
         inheritedIndex = i;
       }
       if (box.getValue(i).startsWith(inheritedBoolean.configured_value().name())) {
@@ -301,7 +302,7 @@ public class ProjectInfoScreen extends ProjectScreen {
       if (getProjectKey().equals(Gerrit.getConfig().getWildProject())) {
         if (box.getSelectedIndex() == inheritedIndex) {
           for (int i = 0; i < box.getItemCount(); i++) {
-            if (box.getValue(i).equals(InheritableBoolean.FALSE.name())) {
+            if (box.getValue(i).equals(com.google.gerrit.extensions.common.InheritableBoolean.FALSE.name())) {
               box.setSelectedIndex(i);
               break;
             }
@@ -309,22 +310,22 @@ public class ProjectInfoScreen extends ProjectScreen {
         }
         box.removeItem(inheritedIndex);
       } else {
-        box.setItemText(inheritedIndex, InheritableBoolean.INHERIT.name() + " ("
+        box.setItemText(inheritedIndex, com.google.gerrit.extensions.common.InheritableBoolean.INHERIT.name() + " ("
             + inheritedBoolean.inherited_value() + ")");
       }
     }
   }
 
-  private static InheritableBoolean getBool(ListBox box) {
+  private static com.google.gerrit.extensions.common.InheritableBoolean getBool(ListBox box) {
     int i = box.getSelectedIndex();
     if (i >= 0) {
       final String selectedValue = box.getValue(i);
-      if (selectedValue.startsWith(InheritableBoolean.INHERIT.name())) {
-        return InheritableBoolean.INHERIT;
+      if (selectedValue.startsWith(com.google.gerrit.extensions.common.InheritableBoolean.INHERIT.name())) {
+        return com.google.gerrit.extensions.common.InheritableBoolean.INHERIT;
       }
-      return InheritableBoolean.valueOf(selectedValue);
+      return com.google.gerrit.extensions.common.InheritableBoolean.valueOf(selectedValue);
     }
-    return InheritableBoolean.INHERIT;
+    return com.google.gerrit.extensions.common.InheritableBoolean.INHERIT;
   }
 
   void display(ConfigInfo result) {
@@ -537,8 +538,8 @@ public class ProjectInfoScreen extends ProjectScreen {
         getBool(contributorAgreements), getBool(contentMerge),
         getBool(signedOffBy), getBool(requireChangeID),
         maxObjectSizeLimit.getText().trim(),
-        Project.SubmitType.valueOf(submitType.getValue(submitType.getSelectedIndex())),
-        Project.State.valueOf(state.getValue(state.getSelectedIndex())),
+        com.google.gerrit.extensions.common.ProjectSubmitType.valueOf(submitType.getValue(submitType.getSelectedIndex())),
+        com.google.gerrit.extensions.common.ProjectStatus.valueOf(state.getValue(state.getSelectedIndex())),
         getPluginConfigValues(), new GerritCallback<ConfigInfo>() {
           @Override
           public void onSuccess(ConfigInfo result) {

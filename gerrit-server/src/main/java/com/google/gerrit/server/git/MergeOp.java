@@ -30,6 +30,7 @@ import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.common.data.SubmitTypeRecord;
+import com.google.gerrit.extensions.common.ProjectSubmitType;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
@@ -37,7 +38,6 @@ import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -141,7 +141,7 @@ public class MergeOp {
 
   private final Branch.NameKey destBranch;
   private ProjectState destProject;
-  private final ListMultimap<SubmitType, CodeReviewCommit> toMerge;
+  private final ListMultimap<ProjectSubmitType, CodeReviewCommit> toMerge;
   private final List<CodeReviewCommit> potentiallyStillSubmittable;
   private final Map<Change.Id, CodeReviewCommit> commits;
   private final List<Change> toUpdate;
@@ -231,17 +231,17 @@ public class MergeOp {
       RefUpdate branchUpdate = openBranch();
       boolean reopen = false;
 
-      final ListMultimap<SubmitType, Change> toSubmit =
+      final ListMultimap<ProjectSubmitType, Change> toSubmit =
           validateChangeList(db.changes().submitted(destBranch).toList());
-      final ListMultimap<SubmitType, CodeReviewCommit> toMergeNextTurn =
+      final ListMultimap<ProjectSubmitType, CodeReviewCommit> toMergeNextTurn =
           ArrayListMultimap.create();
       final List<CodeReviewCommit> potentiallyStillSubmittableOnNextRun =
           new ArrayList<CodeReviewCommit>();
       while (!toMerge.isEmpty()) {
         toMergeNextTurn.clear();
-        final Set<SubmitType> submitTypes =
-            new HashSet<Project.SubmitType>(toMerge.keySet());
-        for (final SubmitType submitType : submitTypes) {
+        final Set<ProjectSubmitType> submitTypes =
+            new HashSet<ProjectSubmitType>(toMerge.keySet());
+        for (final ProjectSubmitType submitType : submitTypes) {
           if (reopen) {
             branchUpdate = openBranch();
           }
@@ -307,7 +307,7 @@ public class MergeOp {
   }
 
   private boolean containsMissingCommits(
-      final ListMultimap<SubmitType, CodeReviewCommit> map,
+      final ListMultimap<ProjectSubmitType, CodeReviewCommit> map,
       final CodeReviewCommit commit) {
     if (!isSubmitForMissingCommitsStillPossible(commit)) {
       return false;
@@ -355,7 +355,7 @@ public class MergeOp {
     commits.putAll(strategy.getNewCommits());
   }
 
-  private SubmitStrategy createStrategy(final SubmitType submitType)
+  private SubmitStrategy createStrategy(final ProjectSubmitType submitType)
       throws MergeException, NoSuchProjectException {
     return submitStrategyFactory.create(submitType, db, repo, rw, inserter,
         canMergeFlag, getAlreadyAccepted(branchTip), destBranch);
@@ -431,9 +431,9 @@ public class MergeOp {
     return alreadyAccepted;
   }
 
-  private ListMultimap<SubmitType, Change> validateChangeList(
+  private ListMultimap<ProjectSubmitType, Change> validateChangeList(
       final List<Change> submitted) throws MergeException {
-    final ListMultimap<SubmitType, Change> toSubmit =
+    final ListMultimap<ProjectSubmitType, Change> toSubmit =
         ArrayListMultimap.create();
 
     final Map<String, Ref> allRefs;
@@ -544,7 +544,7 @@ public class MergeOp {
         }
       }
 
-      final SubmitType submitType = getSubmitType(chg, ps);
+      final ProjectSubmitType submitType = getSubmitType(chg, ps);
       if (submitType == null) {
         commits.put(changeId,
             CodeReviewCommit.error(CommitMergeStatus.NO_SUBMIT_TYPE));
@@ -559,7 +559,7 @@ public class MergeOp {
     return toSubmit;
   }
 
-  private SubmitType getSubmitType(final Change change, final PatchSet ps) {
+  private ProjectSubmitType getSubmitType(final Change change, final PatchSet ps) {
     try {
       final SubmitTypeRecord r =
           changeControlFactory.controlFor(change,

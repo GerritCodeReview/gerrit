@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.gerrit.extensions.common.ProjectStatus;
 import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.Project;
@@ -41,7 +42,7 @@ public class ProjectResource implements RestResource {
     return control.getProject().getNameKey();
   }
 
-  public Project.State getState() {
+  public ProjectStatus getState() {
     return control.getProject().getState();
   }
 

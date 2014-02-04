@@ -16,6 +16,7 @@ package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.documentation.QueryDocumentationExecutor;
+import com.google.gerrit.server.documentation.QueryDocumentationExecutor.DocQueryException;
 import com.google.gerrit.server.documentation.QueryDocumentationExecutor.DocResult;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
@@ -37,10 +38,14 @@ final class AproposCommand extends SshCommand {
 
   @Override
   public void run() throws Exception {
-    List<QueryDocumentationExecutor.DocResult> res = searcher.doQuery(q);
-    for (DocResult docResult : res) {
-      stdout.println(String.format("%s:\n%s%s\n", docResult.title, url,
-          docResult.url));
+    try {
+      List<QueryDocumentationExecutor.DocResult> res = searcher.doQuery(q);
+      for (DocResult docResult : res) {
+        stdout.println(String.format("%s:\n%s%s\n", docResult.title, url,
+            docResult.url));
+      }
+    } catch (DocQueryException dqe) {
+      throw new UnloggedFailure(1, "fatal: " + dqe.getMessage());
     }
   }
 }

@@ -93,6 +93,30 @@
       "revId": "3a5d8713b56855e0c27577f078bbb24ab30d2028",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "325e5ed0_269f167c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/Helper.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-04T12:49:02Z",
+      "side": 1,
+      "message": "\u003e Here, as you can see, only config is final, rest is not. Therefor, secure store provider is not final.\n\nHow that? Rest is one field ;-)\n\n  is situation: foo(final int bar, int baz)\n\nyou are adding new parameter int qux, there are four options:\n\n  1. foo(final int bar, int baz, int qux)\n  2. foo(final int bar, final int baz, final int qux)\n  3. foo(final int bar, int baz, final int qux)\n  4. foo(int bar, int baz, int qux) \n\nI prefer to have all three consistent here: that implies that we should prefer version 2 or 4  here. But the final is wrong here in the first place, that why my preference for 4.",
+      "parentUuid": "325e5ed0_46a8129f",
+      "range": {
+        "startLine": 77,
+        "startChar": 6,
+        "endLine": 77,
+        "endChar": 47
+      },
+      "revId": "3a5d8713b56855e0c27577f078bbb24ab30d2028",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

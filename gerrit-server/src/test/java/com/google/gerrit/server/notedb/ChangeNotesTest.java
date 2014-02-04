@@ -23,6 +23,7 @@ import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.easymock.EasyMock.expect;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.Iterables;
@@ -58,7 +59,9 @@ import com.google.gerrit.server.util.TimeUtil;
 import com.google.gerrit.testutil.FakeAccountCache;
 import com.google.gerrit.testutil.FakeRealm;
 import com.google.gerrit.testutil.InMemoryRepositoryManager;
+import com.google.gwtorm.client.KeyUtil;
 import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.StandardKeyEncoder;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.util.Providers;
@@ -99,6 +102,7 @@ public class ChangeNotesTest {
   @Before
   public void setUp() throws Exception {
     setMillisProvider();
+    KeyUtil.setEncoderImpl(new StandardKeyEncoder());
 
     serverIdent = new PersonIdent(
         "Gerrit Server", "noreply@gerrit.com", TimeUtil.nowTs(), TZ);
@@ -201,6 +205,27 @@ public class ChangeNotesTest {
       assertEquals("noreply@gerrit.com", committer.getEmailAddress());
       assertEquals(author.getWhen(), committer.getWhen());
       assertEquals(author.getTimeZone(), committer.getTimeZone());
+    } finally {
+      walk.release();
+    }
+  }
+
+  @Test
+  public void approvalTombstoneCommitFormat() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.removeApproval("Code-Review");
+    update.commit();
+
+    RevWalk walk = new RevWalk(repo);
+    try {
+      RevCommit commit = walk.parseCommit(update.getRevision());
+      walk.parseBody(commit);
+      assertEquals("Update patch set 1\n"
+          + "\n"
+          + "Patch-set: 1\n"
+          + "Label: -Code-Review\n",
+          commit.getFullMessage());
     } finally {
       walk.release();
     }
@@ -318,6 +343,28 @@ public class ChangeNotesTest {
     assertEquals("Code-Review", psas.get(1).getLabel());
     assertEquals((short) 1, psas.get(1).getValue());
     assertEquals(truncate(after(c, 2000)), psas.get(1).getGranted());
+  }
+
+  @Test
+  public void approvalsTombstone() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.putApproval("Not-For-Long", (short) 1);
+    update.commit();
+
+    ChangeNotes notes = newNotes(c);
+    PatchSetApproval psa = Iterables.getOnlyElement(
+        notes.getApprovals().get(c.currentPatchSetId()));
+    assertEquals(1, psa.getAccountId().get());
+    assertEquals("Not-For-Long", psa.getLabel());
+    assertEquals((short) 1, psa.getValue());
+
+    update = newUpdate(c, changeOwner);
+    update.removeApproval("Not-For-Long");
+    update.commit();
+
+    notes = newNotes(c);
+    assertTrue(notes.getApprovals().isEmpty());
   }
 
   @Test

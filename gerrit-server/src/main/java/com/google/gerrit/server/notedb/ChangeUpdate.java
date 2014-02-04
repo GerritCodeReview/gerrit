@@ -20,6 +20,7 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.GERRIT_PLACEHOLDER_HOST;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Optional;
 import com.google.common.collect.Maps;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -76,7 +77,7 @@ public class ChangeUpdate extends VersionedMetaData {
   private final ChangeControl ctl;
   private final PersonIdent serverIdent;
   private final Date when;
-  private final Map<String, Short> approvals;
+  private final Map<String, Optional<Short>> approvals;
   private final Map<Account.Id, ReviewerState> reviewers;
   private String subject;
   private PatchSet.Id psId;
@@ -147,7 +148,11 @@ public class ChangeUpdate extends VersionedMetaData {
   }
 
   public void putApproval(String label, short value) {
-    approvals.put(label, value);
+    approvals.put(label, Optional.of(value));
+  }
+
+  public void removeApproval(String label) {
+    approvals.put(label, Optional.<Short> absent());
   }
 
   public void setSubject(String subject) {
@@ -279,9 +284,14 @@ public class ChangeUpdate extends VersionedMetaData {
           .append(ident.getName())
           .append(" <").append(ident.getEmailAddress()).append(">\n");
     }
-    for (Map.Entry<String, Short> e : approvals.entrySet()) {
-      addFooter(msg, FOOTER_LABEL,
-          new LabelVote(e.getKey(), e.getValue()).formatWithEquals());
+
+    for (Map.Entry<String, Optional<Short>> e : approvals.entrySet()) {
+      if (!e.getValue().isPresent()) {
+        addFooter(msg, FOOTER_LABEL, '-', e.getKey());
+      } else {
+        addFooter(msg, FOOTER_LABEL,
+            new LabelVote(e.getKey(), e.getValue().get()).formatWithEquals());
+      }
     }
     commit.setMessage(msg.toString());
     return true;
@@ -292,8 +302,12 @@ public class ChangeUpdate extends VersionedMetaData {
   }
 
   private static void addFooter(StringBuilder sb, FooterKey footer,
-      Object value) {
-    addFooter(sb, footer).append(value).append('\n');
+      Object... values) {
+    addFooter(sb, footer);
+    for (Object value : values) {
+      sb.append(value);
+    }
+    sb.append('\n');
   }
 
   @Override

@@ -19,9 +19,10 @@ import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.RestApi;
+import com.google.gerrit.extensions.common.InheritableBoolean;
+import com.google.gerrit.extensions.common.ProjectStatus;
+import com.google.gerrit.extensions.common.ProjectSubmitType;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.Project.InheritableBoolean;
-import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -85,7 +86,7 @@ public class ProjectApi {
       InheritableBoolean useContributorAgreements,
       InheritableBoolean useContentMerge, InheritableBoolean useSignedOffBy,
       InheritableBoolean requireChangeId, String maxObjectSizeLimit,
-      SubmitType submitType, Project.State state,
+      ProjectSubmitType submitType, ProjectStatus state,
       Map<String, Map<String, ConfigParameterValue>> pluginConfigValues,
       AsyncCallback<ConfigInfo> cb) {
     ConfigInput in = ConfigInput.create();
@@ -211,13 +212,13 @@ public class ProjectApi {
     final native void setMaxObjectSizeLimit(String l)
     /*-{ if(l)this.max_object_size_limit=l; }-*/;
 
-    final void setSubmitType(SubmitType t) {
+    final void setSubmitType(ProjectSubmitType t) {
       setSubmitTypeRaw(t.name());
     }
     private final native void setSubmitTypeRaw(String t)
     /*-{ if(t)this.submit_type=t; }-*/;
 
-    final void setState(Project.State s) {
+    final void setState(ProjectStatus s) {
       setStateRaw(s.name());
     }
     private final native void setStateRaw(String s)

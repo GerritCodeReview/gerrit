@@ -15,13 +15,13 @@
 package com.google.gerrit.server.change;
 
 import com.google.common.collect.Sets;
+import com.google.gerrit.extensions.common.ProjectSubmitType;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.git.CodeReviewCommit;
@@ -59,7 +59,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
   private static final Logger log = LoggerFactory.getLogger(Mergeable.class);
 
   public static class MergeableInfo {
-    public Project.SubmitType submitType;
+    public ProjectSubmitType submitType;
     public boolean mergeable;
   }
 
@@ -132,7 +132,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
 
   private boolean refresh(Change change,
       final PatchSet ps,
-      Project.SubmitType type,
+      ProjectSubmitType type,
       Repository git,
       Map<String, Ref> refs,
       final Ref ref) throws IOException, OrmException {

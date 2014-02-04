@@ -18,13 +18,14 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
 import com.google.gerrit.extensions.common.ActionInfo;
+import com.google.gerrit.extensions.common.InheritableBoolean;
+import com.google.gerrit.extensions.common.ProjectStatus;
+import com.google.gerrit.extensions.common.ProjectSubmitType;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicMap.Entry;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.Project.InheritableBoolean;
-import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
 import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.config.PluginConfigFactory;
@@ -47,8 +48,8 @@ public class ConfigInfo {
   public InheritedBooleanInfo useSignedOffBy;
   public InheritedBooleanInfo requireChangeId;
   public MaxObjectSizeLimitInfo maxObjectSizeLimit;
-  public SubmitType submitType;
-  public Project.State state;
+  public ProjectSubmitType submitType;
+  public ProjectStatus state;
   public Map<String, Map<String, ConfigParameterInfo>> pluginConfig;
   public Map<String, ActionInfo> actions;
 
@@ -108,7 +109,7 @@ public class ConfigInfo {
     this.maxObjectSizeLimit = maxObjectSizeLimit;
 
     this.submitType = p.getSubmitType();
-    this.state = p.getState() != Project.State.ACTIVE ? p.getState() : null;
+    this.state = p.getState() != ProjectStatus.ACTIVE ? p.getState() : null;
 
     this.commentlinks = Maps.newLinkedHashMap();
     for (CommentLinkInfo cl : projectState.getCommentLinks()) {

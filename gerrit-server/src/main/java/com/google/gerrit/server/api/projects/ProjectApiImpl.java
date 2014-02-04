@@ -16,8 +16,10 @@ package com.google.gerrit.server.api.projects;
 
 import com.google.gerrit.extensions.api.projects.BranchApi;
 import com.google.gerrit.extensions.api.projects.ProjectApi;
+import com.google.gerrit.server.project.CreateProject;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
 public class ProjectApiImpl implements ProjectApi {
@@ -29,7 +31,7 @@ public class ProjectApiImpl implements ProjectApi {
   private final BranchApiImpl.Factory branchApi;
 
   @Inject
-  ProjectApiImpl(
+  ProjectApiImpl(Provider<CreateProject.Factory> createProjectFactory,
       BranchApiImpl.Factory branchApiFactory,
       @Assisted ProjectResource project) {
     this.project = project;

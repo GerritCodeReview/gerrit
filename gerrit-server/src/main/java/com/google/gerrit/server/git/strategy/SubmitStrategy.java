@@ -14,10 +14,10 @@
 
 package com.google.gerrit.server.git.strategy;
 
+import com.google.gerrit.extensions.common.ProjectSubmitType;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
-import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.IdentifiedUser;
@@ -43,7 +43,7 @@ import java.util.Set;
 
 /**
  * Base class that submit strategies must extend. A submit strategy for a
- * certain {@link SubmitType} defines how the submitted commits should be
+ * certain {@link ProjectSubmitType} defines how the submitted commits should be
  * merged.
  */
 public abstract class SubmitStrategy {

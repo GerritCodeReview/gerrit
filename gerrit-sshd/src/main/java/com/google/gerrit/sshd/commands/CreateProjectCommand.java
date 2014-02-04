@@ -19,29 +19,26 @@ import com.google.common.base.Function;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.GlobalCapability;
-import com.google.gerrit.common.errors.ProjectCreationFailedException;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
+import com.google.gerrit.extensions.api.GerritApi;
+import com.google.gerrit.extensions.api.projects.ProjectInput;
+import com.google.gerrit.extensions.api.projects.ProjectInput.ConfigValue;
+import com.google.gerrit.extensions.common.InheritableBoolean;
+import com.google.gerrit.extensions.common.ProjectSubmitType;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.Project.InheritableBoolean;
-import com.google.gerrit.reviewdb.client.Project.SubmitType;
-import com.google.gerrit.server.project.CreateProject;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
-import com.google.gerrit.server.project.PutConfig.ConfigValue;
 import com.google.gerrit.server.project.SuggestParentCandidates;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -76,7 +73,7 @@ final class CreateProjectCommand extends SshCommand {
   private String projectDescription = "";
 
   @Option(name = "--submit-type", aliases = {"-t"}, usage = "project submit type")
-  private SubmitType submitType;
+  private ProjectSubmitType submitType;
 
   @Option(name = "--contributor-agreements", usage = "if contributor agreement is required")
   private InheritableBoolean contributorAgreements = InheritableBoolean.INHERIT;
@@ -135,7 +132,7 @@ final class CreateProjectCommand extends SshCommand {
   }
 
   @Inject
-  private Provider<CreateProject.Factory> createProjectFactory;
+  private GerritApi gApi;
 
   @Inject
   private SuggestParentCandidates.Factory suggestParentCandidatesFactory;
@@ -148,7 +145,7 @@ final class CreateProjectCommand extends SshCommand {
           throw new UnloggedFailure(1, "fatal: Project name is required.");
         }
 
-        CreateProject.Input input = new CreateProject.Input();
+        ProjectInput input = new ProjectInput();
         input.name = projectName;
         if (ownerIds != null) {
           input.owners = Lists.transform(ownerIds,
@@ -176,8 +173,7 @@ final class CreateProjectCommand extends SshCommand {
           input.pluginConfigValues = parsePluginConfigValues(pluginConfigValues);
         }
 
-        createProjectFactory.get().create(projectName)
-            .apply(TopLevelResource.INSTANCE, input);
+        gApi.projects().create(input);
       } else {
         List<Project.NameKey> parentCandidates =
             suggestParentCandidatesFactory.create().getNameKeys();
@@ -186,8 +182,7 @@ final class CreateProjectCommand extends SshCommand {
           stdout.print(parent + "\n");
         }
       }
-    } catch (RestApiException | ProjectCreationFailedException | IOException
-        | NoSuchProjectException | OrmException err) {
+    } catch (RestApiException | OrmException | NoSuchProjectException err) {
       throw new UnloggedFailure(1, "fatal: " + err.getMessage(), err);
     }
   }

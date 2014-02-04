@@ -30,12 +30,12 @@ import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.SshSession;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
+import com.google.gerrit.extensions.common.InheritableBoolean;
+import com.google.gerrit.extensions.common.ProjectSubmitType;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.Project.InheritableBoolean;
-import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.change.ChangeJson.ChangeInfo;
 import com.google.gerrit.server.change.ChangeJson.LabelInfo;
@@ -85,7 +85,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     db.close();
   }
 
-  protected abstract SubmitType getSubmitType();
+  protected abstract ProjectSubmitType getSubmitType();
 
   @Test
   public void submitToEmptyRepo() throws JSchException, IOException,
@@ -113,7 +113,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     }
   }
 
-  private void setSubmitType(SubmitType submitType) throws IOException {
+  private void setSubmitType(ProjectSubmitType submitType) throws IOException {
     PutConfig.Input in = new PutConfig.Input();
     in.submitType = submitType;
     in.useContentMerge = InheritableBoolean.FALSE;

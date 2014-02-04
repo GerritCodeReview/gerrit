@@ -4,7 +4,7 @@ import static com.google.gerrit.acceptance.GitUtil.checkout;
 import static org.junit.Assert.assertEquals;
 
 import com.google.gerrit.acceptance.PushOneCommit;
-import com.google.gerrit.reviewdb.client.Project.SubmitType;
+import com.google.gerrit.extensions.common.ProjectSubmitType;
 import com.google.gwtorm.server.OrmException;
 
 import com.jcraft.jsch.JSchException;
@@ -20,8 +20,8 @@ import java.util.List;
 public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
 
   @Override
-  protected SubmitType getSubmitType() {
-    return SubmitType.MERGE_IF_NECESSARY;
+  protected ProjectSubmitType getSubmitType() {
+    return ProjectSubmitType.MERGE_IF_NECESSARY;
   }
 
   @Test

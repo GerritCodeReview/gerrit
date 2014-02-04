@@ -14,6 +14,9 @@
 
 package com.google.gerrit.reviewdb.client;
 
+import com.google.gerrit.extensions.common.InheritableBoolean;
+import com.google.gerrit.extensions.common.ProjectStatus;
+import com.google.gerrit.extensions.common.ProjectSubmitType;
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.StringKey;
 
@@ -65,32 +68,6 @@ public final class Project {
     }
   }
 
-  public static enum SubmitType {
-    FAST_FORWARD_ONLY,
-
-    MERGE_IF_NECESSARY,
-
-    REBASE_IF_NECESSARY,
-
-    MERGE_ALWAYS,
-
-    CHERRY_PICK
-  }
-
-  public static enum State {
-    ACTIVE,
-
-    READ_ONLY,
-
-    HIDDEN
-  }
-
-  public static enum InheritableBoolean {
-    TRUE,
-    FALSE,
-    INHERIT
-  }
-
   protected NameKey name;
 
   protected String description;
@@ -99,9 +76,9 @@ public final class Project {
 
   protected InheritableBoolean useSignedOffBy;
 
-  protected SubmitType submitType;
+  protected ProjectSubmitType submitType;
 
-  protected State state;
+  protected ProjectStatus state;
 
   protected NameKey parent;
 
@@ -122,8 +99,8 @@ public final class Project {
 
   public Project(Project.NameKey nameKey) {
     name = nameKey;
-    submitType = SubmitType.MERGE_IF_NECESSARY;
-    state = State.ACTIVE;
+    submitType = ProjectSubmitType.MERGE_IF_NECESSARY;
+    state = ProjectStatus.ACTIVE;
     useContributorAgreements = InheritableBoolean.INHERIT;
     useSignedOffBy = InheritableBoolean.INHERIT;
     requireChangeID = InheritableBoolean.INHERIT;
@@ -186,19 +163,19 @@ public final class Project {
     maxObjectSizeLimit = limit;
   }
 
-  public SubmitType getSubmitType() {
+  public ProjectSubmitType getSubmitType() {
     return submitType;
   }
 
-  public void setSubmitType(final SubmitType type) {
+  public void setSubmitType(final ProjectSubmitType type) {
     submitType = type;
   }
 
-  public State getState() {
+  public ProjectStatus getState() {
     return state;
   }
 
-  public void setState(final State newState) {
+  public void setState(final ProjectStatus newState) {
     state = newState;
   }
 

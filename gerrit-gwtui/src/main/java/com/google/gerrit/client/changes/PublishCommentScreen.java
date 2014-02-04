@@ -36,11 +36,11 @@ import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.extensions.common.ListChangesOption;
+import com.google.gerrit.extensions.common.ProjectSubmitType;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -169,7 +169,7 @@ public class PublishCommentScreen extends AccountScreen implements
         @Override
         public void onSuccess(NativeString result) {
           submitTypeRecord = SubmitTypeRecord.OK(
-              Project.SubmitType.valueOf(result.asString()));
+              ProjectSubmitType.valueOf(result.asString()));
         }
         public void onFailure(Throwable caught) {}
       }));

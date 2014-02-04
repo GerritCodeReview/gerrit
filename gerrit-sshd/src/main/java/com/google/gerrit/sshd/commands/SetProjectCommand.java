@@ -16,10 +16,10 @@ package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
+import com.google.gerrit.extensions.common.InheritableBoolean;
+import com.google.gerrit.extensions.common.ProjectStatus;
+import com.google.gerrit.extensions.common.ProjectSubmitType;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.Project.InheritableBoolean;
-import com.google.gerrit.reviewdb.client.Project.State;
-import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.ProjectCache;
@@ -51,7 +51,7 @@ final class SetProjectCommand extends SshCommand {
 
   @Option(name = "--submit-type", aliases = {"-t"}, usage = "project submit type\n"
       + "(default: MERGE_IF_NECESSARY)")
-  private SubmitType submitType;
+  private ProjectSubmitType submitType;
 
   @Option(name = "--contributor-agreements", usage = "if contributor agreement is required")
   private InheritableBoolean contributorAgreements;
@@ -106,7 +106,7 @@ final class SetProjectCommand extends SshCommand {
   }
 
   @Option(name = "--project-state", aliases = {"--ps"}, usage = "project's visibility state")
-  private State state;
+  private ProjectStatus state;
 
   @Option(name = "--max-object-size-limit", usage = "max Git object size for this project")
   private String maxObjectSizeLimit;

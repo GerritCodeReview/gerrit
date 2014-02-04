@@ -18,7 +18,7 @@ import static com.google.gerrit.acceptance.GitUtil.checkout;
 import static org.junit.Assert.assertEquals;
 
 import com.google.gerrit.acceptance.PushOneCommit;
-import com.google.gerrit.reviewdb.client.Project.SubmitType;
+import com.google.gerrit.extensions.common.ProjectSubmitType;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -27,8 +27,8 @@ import org.junit.Test;
 public class SubmitByRebaseIfNecessaryIT extends AbstractSubmit {
 
   @Override
-  protected SubmitType getSubmitType() {
-    return SubmitType.REBASE_IF_NECESSARY;
+  protected ProjectSubmitType getSubmitType() {
+    return ProjectSubmitType.REBASE_IF_NECESSARY;
   }
 
   @Test

@@ -14,7 +14,7 @@
 
 package com.google.gerrit.common.data;
 
-import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.extensions.common.ProjectSubmitType;
 
 /**
  * Describes the submit type for a change.
@@ -31,7 +31,7 @@ public class SubmitTypeRecord {
     RULE_ERROR
   }
 
-  public static SubmitTypeRecord OK(Project.SubmitType type) {
+  public static SubmitTypeRecord OK(ProjectSubmitType type) {
     SubmitTypeRecord r = new SubmitTypeRecord();
     r.status = Status.OK;
     r.type = type;
@@ -39,7 +39,7 @@ public class SubmitTypeRecord {
   }
 
   public Status status;
-  public Project.SubmitType type;
+  public ProjectSubmitType type;
   public String errorMessage;
 
   public String toString() {

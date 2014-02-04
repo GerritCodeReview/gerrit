@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "52691273_a7e9ca25",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/ConfigSuite.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-04T06:43:59Z",
+      "side": 1,
+      "message": "In second thought move that class to JGit project, so that all JGit dependent projects can participate in multi-config junit test party? And we consume already that guy:\n\n  maven_jar(\n    name \u003d \u0027junit\u0027,\n    id \u003d \u0027org.eclipse.jgit:org.eclipse.jgit.junit:\u0027 + VERS,\n    sha1 \u003d \u002710240657c6675cfa2b709c27ea89834aab200667\u0027,\n    license \u003d \u0027DO_NOT_DISTRIBUTE\u0027,\n    repository \u003d REPO,\n    unsign \u003d True,\n    deps \u003d [\u0027:jgit\u0027],\n  )",
+      "revId": "9760cdc2b2aff18194724b4f1077fb6ada811692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

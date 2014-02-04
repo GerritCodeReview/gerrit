@@ -16,6 +16,24 @@
       "revId": "46b1ac8f070f7808afb86d45db7c98ac819745b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "92862a64_71139878",
+        "filename": "gerrit-launcher/src/main/java/com/google/gerrit/launcher/GerritLauncher.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-02-04T17:45:38Z",
+      "side": 1,
+      "message": "Insofar as using DateTimeUtils is helpful primarily for testing, no, this is probably not necessary. My goal, though, was to use it across the board in server code. If war bloat is reason enough to omit it, I\u0027m probably ok with that.",
+      "parentUuid": "52691273_677752a8",
+      "revId": "46b1ac8f070f7808afb86d45db7c98ac819745b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

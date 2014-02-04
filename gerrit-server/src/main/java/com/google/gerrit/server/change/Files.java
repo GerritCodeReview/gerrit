@@ -227,12 +227,12 @@ class Files implements ChildCollection<RevisionResource, FileResource> {
 
           int op = -1;
           if (oldList.getOldId() != null) {
-            op = tw.addTree(rw.parseCommit(oldList.getOldId()).getTree());
+            op = tw.addTree(rw.parseTree(oldList.getOldId()));
           }
 
           int cp = -1;
           if (curList.getOldId() != null) {
-            cp = tw.addTree(rw.parseCommit(curList.getOldId()).getTree());
+            cp = tw.addTree(rw.parseTree(curList.getOldId()));
           }
 
           while (tw.next()) {

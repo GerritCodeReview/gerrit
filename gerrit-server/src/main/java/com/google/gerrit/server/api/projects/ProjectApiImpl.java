@@ -14,26 +14,91 @@
 
 package com.google.gerrit.server.api.projects;
 
+import com.google.gerrit.common.errors.ProjectCreationFailedException;
 import com.google.gerrit.extensions.api.projects.BranchApi;
 import com.google.gerrit.extensions.api.projects.ProjectApi;
+import com.google.gerrit.extensions.api.projects.ProjectInput;
+import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.TopLevelResource;
+import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
+import com.google.gerrit.server.project.CreateProject;
 import com.google.gerrit.server.project.ProjectResource;
-import com.google.inject.Inject;
+import com.google.gerrit.server.project.ProjectsCollection;
+import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
+
+import java.io.IOException;
 
 public class ProjectApiImpl implements ProjectApi {
   interface Factory {
     ProjectApiImpl create(ProjectResource project);
+    ProjectApiImpl create(String name);
   }
 
+  private final Provider<CreateProject.Factory> createProjectFactory;
+  private final ProjectApiImpl.Factory projectApi;
+  private final ProjectsCollection projects;
   private final ProjectResource project;
+  private final String name;
   private final BranchApiImpl.Factory branchApi;
 
-  @Inject
-  ProjectApiImpl(
+  @AssistedInject
+  ProjectApiImpl(Provider<CreateProject.Factory> createProjectFactory,
+      ProjectApiImpl.Factory projectApi,
+      ProjectsCollection projects,
       BranchApiImpl.Factory branchApiFactory,
       @Assisted ProjectResource project) {
+    this(createProjectFactory, projectApi, projects, branchApiFactory, project,
+        null);
+  }
+
+  @AssistedInject
+  ProjectApiImpl(Provider<CreateProject.Factory> createProjectFactory,
+      ProjectApiImpl.Factory projectApi,
+      ProjectsCollection projects,
+      BranchApiImpl.Factory branchApiFactory,
+      @Assisted String name) {
+    this(createProjectFactory, projectApi, projects, branchApiFactory, null,
+        name);
+  }
+
+  private ProjectApiImpl(Provider<CreateProject.Factory> createProjectFactory,
+      ProjectApiImpl.Factory projectApi,
+      ProjectsCollection projects,
+      BranchApiImpl.Factory branchApiFactory,
+      ProjectResource project,
+      String name) {
+    this.createProjectFactory = createProjectFactory;
+    this.projectApi = projectApi;
+    this.projects = projects;
     this.project = project;
+    this.name = name;
     this.branchApi = branchApiFactory;
+  }
+
+  @Override
+  public ProjectApi create() throws RestApiException {
+    return create(new ProjectInput());
+  }
+
+  @Override
+  public ProjectApi create(ProjectInput in) throws RestApiException {
+    try {
+      if (in.name != null && !name.equals(in.name)) {
+        throw new RestApiException("name must match input.name");
+      }
+      createProjectFactory.get().create(name)
+          .apply(TopLevelResource.INSTANCE, in);
+      return projectApi.create(projects.parse(name));
+    } catch (BadRequestException | UnprocessableEntityException
+        | ResourceConflictException | ResourceNotFoundException
+        | ProjectCreationFailedException | IOException e) {
+      throw new RestApiException("Cannot create project", e);
+    }
   }
 
   @Override

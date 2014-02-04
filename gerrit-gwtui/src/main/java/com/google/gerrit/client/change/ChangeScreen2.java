@@ -48,11 +48,10 @@ import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.client.ui.UserActivityMonitor;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.extensions.common.ListChangesOption;
+import com.google.gerrit.extensions.common.SubmitType;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.JsArrayString;
@@ -840,7 +839,7 @@ public class ChangeScreen2 extends Screen {
 
   private void renderSubmitType(String action) {
     try {
-      SubmitType type = Project.SubmitType.valueOf(action);
+      SubmitType type = SubmitType.valueOf(action);
       submitActionText.setInnerText(
           com.google.gerrit.client.admin.Util.toLongString(type));
     } catch (IllegalArgumentException e) {

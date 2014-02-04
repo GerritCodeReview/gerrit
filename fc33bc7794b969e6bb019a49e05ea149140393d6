@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "52691273_e706e238",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/projects/Projects.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-04T08:24:26Z",
+      "side": 1,
+      "message": "May be this method should be in ProjectApu, but Projects.name(String name) expects that the project already exist.",
+      "range": {
+        "startLine": 20,
+        "startChar": 13,
+        "endLine": 20,
+        "endChar": 36
+      },
+      "revId": "fc33bc7794b969e6bb019a49e05ea149140393d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

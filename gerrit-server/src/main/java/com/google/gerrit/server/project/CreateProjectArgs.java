@@ -14,10 +14,10 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.gerrit.extensions.common.InheritableBoolean;
+import com.google.gerrit.extensions.common.ProjectSubmitType;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.Project.InheritableBoolean;
-import com.google.gerrit.reviewdb.client.Project.SubmitType;
 
 import java.util.List;
 
@@ -27,7 +27,7 @@ public class CreateProjectArgs {
   public List<AccountGroup.UUID> ownerIds;
   public ProjectControl newParent;
   public String projectDescription;
-  public SubmitType submitType;
+  public ProjectSubmitType submitType;
   public InheritableBoolean contributorAgreements;
   public InheritableBoolean signedOffBy;
   public boolean permissionsOnly;
@@ -42,7 +42,7 @@ public class CreateProjectArgs {
     signedOffBy = InheritableBoolean.INHERIT;
     contentMerge = InheritableBoolean.INHERIT;
     changeIdRequired = InheritableBoolean.INHERIT;
-    submitType = SubmitType.MERGE_IF_NECESSARY;
+    submitType = ProjectSubmitType.MERGE_IF_NECESSARY;
   }
 
   public Project.NameKey getProject() {

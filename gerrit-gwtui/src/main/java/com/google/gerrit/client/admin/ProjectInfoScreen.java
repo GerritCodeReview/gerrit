@@ -34,10 +34,11 @@ import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.NpIntTextBox;
 import com.google.gerrit.client.ui.OnEditEnabler;
 import com.google.gerrit.client.ui.SmallHeading;
+import com.google.gerrit.extensions.common.InheritableBoolean;
+import com.google.gerrit.extensions.common.ProjectStatus;
+import com.google.gerrit.extensions.common.ProjectSubmitType;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadCommand;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.Project.InheritableBoolean;
-import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -185,7 +186,7 @@ public class ProjectInfoScreen extends ProjectScreen {
     grid.addHeader(new SmallHeading(Util.C.headingProjectOptions()));
 
     submitType = new ListBox();
-    for (final Project.SubmitType type : Project.SubmitType.values()) {
+    for (final ProjectSubmitType type : ProjectSubmitType.values()) {
       submitType.addItem(Util.toLongString(type), type.name());
     }
     submitType.addChangeHandler(new ChangeHandler() {
@@ -198,7 +199,7 @@ public class ProjectInfoScreen extends ProjectScreen {
     grid.add(Util.C.headingProjectSubmitType(), submitType);
 
     state = new ListBox();
-    for (final Project.State stateValue : Project.State.values()) {
+    for (final ProjectStatus stateValue : ProjectStatus.values()) {
       state.addItem(Util.toLongString(stateValue), stateValue.name());
     }
     saveEnabler.listenTo(state);
@@ -238,7 +239,7 @@ public class ProjectInfoScreen extends ProjectScreen {
    * content merge the useContentMerge checkbox gets disabled.
    */
   private void setEnabledForUseContentMerge() {
-    if (SubmitType.FAST_FORWARD_ONLY.equals(Project.SubmitType
+    if (ProjectSubmitType.FAST_FORWARD_ONLY.equals(ProjectSubmitType
         .valueOf(submitType.getValue(submitType.getSelectedIndex())))) {
       contentMerge.setEnabled(false);
       InheritedBooleanInfo b = InheritedBooleanInfo.create();
@@ -263,7 +264,7 @@ public class ProjectInfoScreen extends ProjectScreen {
     grid.addHtml(Util.C.useSignedOffBy(), signedOffBy);
   }
 
-  private void setSubmitType(final Project.SubmitType newSubmitType) {
+  private void setSubmitType(final ProjectSubmitType newSubmitType) {
     int index = -1;
     if (submitType != null) {
       for (int i = 0; i < submitType.getItemCount(); i++) {
@@ -277,7 +278,7 @@ public class ProjectInfoScreen extends ProjectScreen {
     }
   }
 
-  private void setState(final Project.State newState) {
+  private void setState(final ProjectStatus newState) {
     if (state != null) {
       for (int i = 0; i < state.getItemCount(); i++) {
         if (newState.name().equals(state.getValue(i))) {
@@ -569,8 +570,8 @@ public class ProjectInfoScreen extends ProjectScreen {
         getBool(contributorAgreements), getBool(contentMerge),
         getBool(signedOffBy), getBool(requireChangeID),
         maxObjectSizeLimit.getText().trim(),
-        Project.SubmitType.valueOf(submitType.getValue(submitType.getSelectedIndex())),
-        Project.State.valueOf(state.getValue(state.getSelectedIndex())),
+        ProjectSubmitType.valueOf(submitType.getValue(submitType.getSelectedIndex())),
+        ProjectStatus.valueOf(state.getValue(state.getSelectedIndex())),
         getPluginConfigValues(), new GerritCallback<ConfigInfo>() {
           @Override
           public void onSuccess(ConfigInfo result) {

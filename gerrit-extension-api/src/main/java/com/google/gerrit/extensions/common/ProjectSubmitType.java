@@ -1,4 +1,4 @@
-// Copyright (C) 2012 The Android Open Source Project
+// Copyright (C) 2014 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,23 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.reviewdb.client;
+package com.google.gerrit.extensions.common;
 
-import com.google.gerrit.extensions.common.InheritableBoolean;
-
-public class InheritedBoolean {
-
-  public InheritableBoolean value;
-  public boolean inheritedValue;
-
-  public InheritedBoolean() {
-  }
-
-  public void setValue(final InheritableBoolean value) {
-    this.value = value;
-  }
-
-  public void setInheritedValue(final boolean inheritedValue) {
-    this.inheritedValue = inheritedValue;
-  }
+public enum ProjectSubmitType {
+  FAST_FORWARD_ONLY,
+  MERGE_IF_NECESSARY,
+  REBASE_IF_NECESSARY,
+  MERGE_ALWAYS,
+  CHERRY_PICK
 }

@@ -91,12 +91,12 @@ public class ReviewerJson {
 
   public ReviewerInfo format(ReviewerInfo out, ChangeControl ctl,
       List<PatchSetApproval> approvals) throws OrmException {
-    approvals = labelNormalizer.normalize(ctl, approvals);
     LabelTypes labelTypes = ctl.getLabelTypes();
 
     // Don't use Maps.newTreeMap(Comparator) due to OpenJDK bug 100167.
     out.approvals = new TreeMap<String,String>(labelTypes.nameComparator());
-    for (PatchSetApproval ca : approvals) {
+    for (PatchSetApproval ca :
+        labelNormalizer.normalize(ctl, approvals).getNormalized()) {
       for (PermissionRange pr : ctl.getLabelRanges()) {
         if (!pr.isEmpty()) {
           LabelType at = labelTypes.byLabel(ca.getLabelId());

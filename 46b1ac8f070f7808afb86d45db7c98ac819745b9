@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "52691273_677752a8",
+        "filename": "gerrit-launcher/src/main/java/com/google/gerrit/launcher/GerritLauncher.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-02-04T15:56:41Z",
+      "side": 1,
+      "message": "Was it really necessary to use the joda time also here in the GerritLauncher?\n\nThe corresponding change in the gerrit-launcher/BUCK causes packaging all .class files from the joda time library in the root of the gerrit.war.",
+      "revId": "46b1ac8f070f7808afb86d45db7c98ac819745b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

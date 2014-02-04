@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "52691273_e7834240",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/Helper.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-04T11:55:57Z",
+      "side": 1,
+      "message": "You see, that what I meant in comment in JettyServer.java in previous ps. In one place you added final, in another you have not, even though final presents on Config config here.\n\nSuggestion: be consistent and don\u0027t add new finals that not needed in all places.",
+      "range": {
+        "startLine": 77,
+        "startChar": 6,
+        "endLine": 77,
+        "endChar": 47
+      },
+      "revId": "3a5d8713b56855e0c27577f078bbb24ab30d2028",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

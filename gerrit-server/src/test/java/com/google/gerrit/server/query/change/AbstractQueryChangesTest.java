@@ -28,6 +28,7 @@ import com.google.common.collect.Lists;
 import com.google.common.hash.Hashing;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.reviewdb.client.Account;
@@ -875,7 +876,7 @@ public abstract class AbstractQueryChangesTest {
   protected TestRepository<InMemoryRepository> createProject(String name)
       throws Exception {
     CreateProject create = projectFactory.create(name);
-    create.apply(TLR, new CreateProject.Input());
+    create.apply(TLR, new ProjectInput());
     return new TestRepository<InMemoryRepository>(
         repoManager.openRepository(new Project.NameKey(name)));
   }

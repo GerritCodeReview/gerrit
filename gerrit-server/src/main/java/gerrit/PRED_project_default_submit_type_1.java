@@ -14,7 +14,7 @@
 
 package gerrit;
 
-import com.google.gerrit.reviewdb.client.Project.SubmitType;
+import com.google.gerrit.extensions.common.ProjectSubmitType;
 import com.google.gerrit.rules.StoredValues;
 import com.google.gerrit.server.project.ChangeControl;
 
@@ -30,7 +30,7 @@ public class PRED_project_default_submit_type_1 extends Predicate.P1 {
   private static final SymbolTerm[] term;
 
   static {
-    SubmitType[] val = SubmitType.values();
+    ProjectSubmitType[] val = ProjectSubmitType.values();
     term = new SymbolTerm[val.length];
     for (int i = 0; i < val.length; i++) {
       term[i] = SymbolTerm.create(val[i].name());
@@ -48,7 +48,7 @@ public class PRED_project_default_submit_type_1 extends Predicate.P1 {
     Term a1 = arg1.dereference();
 
     ChangeControl control = StoredValues.CHANGE_CONTROL.get(engine);
-    SubmitType submitType = control.getProject().getSubmitType();
+    ProjectSubmitType submitType = control.getProject().getSubmitType();
 
     if (!a1.unify(term[submitType.ordinal()], engine.trail)) {
       return engine.fail();

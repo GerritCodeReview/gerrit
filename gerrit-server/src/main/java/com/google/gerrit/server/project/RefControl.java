@@ -22,7 +22,7 @@ import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.RefConfigSection;
 import com.google.gerrit.common.errors.InvalidNameException;
-import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.extensions.common.ProjectStatus;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
@@ -207,12 +207,12 @@ public class RefControl {
 
   public boolean canWrite() {
     return getProjectControl().getProject().getState().equals(
-        Project.State.ACTIVE);
+        ProjectStatus.ACTIVE);
   }
 
   public boolean canRead() {
     return getProjectControl().getProject().getState().equals(
-        Project.State.READ_ONLY) || canWrite();
+        ProjectStatus.READ_ONLY) || canWrite();
   }
 
   private boolean canPushWithForce() {

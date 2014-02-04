@@ -22,6 +22,7 @@ import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.RefConfigSection;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitTypeRecord;
+import com.google.gerrit.extensions.common.ProjectSubmitType;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -640,7 +641,7 @@ public class ChangeControl {
     String typeName = ((SymbolTerm)typeTerm).name();
     try {
       return SubmitTypeRecord.OK(
-          Project.SubmitType.valueOf(typeName.toUpperCase()));
+          ProjectSubmitType.valueOf(typeName.toUpperCase()));
     } catch (IllegalArgumentException e) {
       return logInvalidType(evaluator.getSubmitRule(), typeName);
     }

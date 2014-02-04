@@ -15,7 +15,7 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.common.base.Objects;
-import com.google.gerrit.reviewdb.client.Project.SubmitType;
+import com.google.gerrit.extensions.common.SubmitType;
 
 import org.eclipse.jgit.lib.ObjectId;
 

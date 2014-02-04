@@ -1,4 +1,4 @@
-// Copyright (C) 2013 The Android Open Source Project
+// Copyright (C) 2014 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,12 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.extensions.api.projects;
+package com.google.gerrit.extensions.common;
 
-import com.google.gerrit.extensions.restapi.RestApiException;
-
-public interface ProjectApi {
-  ProjectApi create(ProjectInput in) throws RestApiException;
-  ProjectApi create() throws RestApiException;
-  BranchApi branch(String ref);
+public enum SubmitType {
+  FAST_FORWARD_ONLY,
+  MERGE_IF_NECESSARY,
+  REBASE_IF_NECESSARY,
+  MERGE_ALWAYS,
+  CHERRY_PICK
 }

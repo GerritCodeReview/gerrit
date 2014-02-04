@@ -4,7 +4,7 @@ import static com.google.gerrit.acceptance.GitUtil.checkout;
 import static org.junit.Assert.assertEquals;
 
 import com.google.gerrit.acceptance.PushOneCommit;
-import com.google.gerrit.reviewdb.client.Project.SubmitType;
+import com.google.gerrit.extensions.common.SubmitType;
 import com.google.gwtorm.server.OrmException;
 
 import com.jcraft.jsch.JSchException;

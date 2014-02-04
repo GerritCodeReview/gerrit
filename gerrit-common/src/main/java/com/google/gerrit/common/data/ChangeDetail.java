@@ -14,10 +14,10 @@
 
 package com.google.gerrit.common.data;
 
+import com.google.gerrit.extensions.common.SubmitType;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.Project;
 
 import java.util.List;
 import java.util.Set;
@@ -41,7 +41,7 @@ public class ChangeDetail {
   protected List<PatchSet> patchSets;
   protected Set<PatchSet.Id> patchSetsWithDraftComments;
   protected List<SubmitRecord> submitRecords;
-  protected Project.SubmitType submitType;
+  protected SubmitType submitType;
   protected SubmitTypeRecord submitTypeRecord;
   protected boolean canSubmit;
   protected List<ChangeMessage> messages;

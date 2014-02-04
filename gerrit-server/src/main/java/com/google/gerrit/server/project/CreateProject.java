@@ -20,6 +20,9 @@ import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.errors.ProjectCreationFailedException;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
+import com.google.gerrit.extensions.api.projects.ProjectInput;
+import com.google.gerrit.extensions.common.InheritableBoolean;
+import com.google.gerrit.extensions.common.SubmitType;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -30,14 +33,10 @@ import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.Project.InheritableBoolean;
-import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.GroupsCollection;
-import com.google.gerrit.server.project.CreateProject.Input;
 import com.google.gerrit.server.project.ProjectJson.ProjectInfo;
-import com.google.gerrit.server.project.PutConfig.ConfigValue;
 import com.google.gerrit.server.validators.ProjectCreationValidationListener;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
@@ -48,27 +47,9 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 @RequiresCapability(GlobalCapability.CREATE_PROJECT)
-public class CreateProject implements RestModifyView<TopLevelResource, Input> {
-  public static class Input {
-    public String name;
-    public String parent;
-    public String description;
-    public boolean permissionsOnly;
-    public boolean createEmptyCommit;
-    public SubmitType submitType;
-    public List<String> branches;
-    public List<String> owners;
-    public InheritableBoolean useContributorAgreements;
-    public InheritableBoolean useSignedOffBy;
-    public InheritableBoolean useContentMerge;
-    public InheritableBoolean requireChangeId;
-    public String maxObjectSizeLimit;
-    public Map<String, Map<String, ConfigValue>> pluginConfigValues;
-  }
-
+public class CreateProject implements RestModifyView<TopLevelResource, ProjectInput> {
   public static interface Factory {
     CreateProject create(String name);
   }
@@ -103,12 +84,12 @@ public class CreateProject implements RestModifyView<TopLevelResource, Input> {
   }
 
   @Override
-  public Response<ProjectInfo> apply(TopLevelResource resource, Input input)
+  public Response<ProjectInfo> apply(TopLevelResource resource, ProjectInput input)
       throws BadRequestException, UnprocessableEntityException,
       ResourceConflictException, ProjectCreationFailedException,
       ResourceNotFoundException, IOException {
     if (input == null) {
-      input = new Input();
+      input = new ProjectInput();
     }
     if (input.name != null && !name.equals(input.name)) {
       throw new BadRequestException("name must match URL");

@@ -19,8 +19,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 
 import com.google.gerrit.acceptance.PushOneCommit;
-import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gwtorm.server.OrmException;
+import com.google.gerrit.extensions.common.SubmitType;
 
 import com.jcraft.jsch.JSchException;
 

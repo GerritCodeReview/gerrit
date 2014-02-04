@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.git.strategy;
 
+import com.google.gerrit.extensions.common.SubmitType;
 import com.google.gerrit.reviewdb.client.Branch;
-import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.GerritPersonIdent;

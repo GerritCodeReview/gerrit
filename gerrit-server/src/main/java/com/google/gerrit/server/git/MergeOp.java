@@ -30,6 +30,7 @@ import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.common.data.SubmitTypeRecord;
+import com.google.gerrit.extensions.common.SubmitType;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
@@ -37,7 +38,6 @@ import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -242,7 +242,7 @@ public class MergeOp {
       while (!toMerge.isEmpty()) {
         toMergeNextTurn.clear();
         final Set<SubmitType> submitTypes =
-            new HashSet<Project.SubmitType>(toMerge.keySet());
+            new HashSet<SubmitType>(toMerge.keySet());
         for (final SubmitType submitType : submitTypes) {
           if (reopen) {
             branchUpdate = openBranch();
@@ -559,7 +559,7 @@ public class MergeOp {
         }
       }
 
-      final SubmitType submitType = getSubmitType(commit.getControl(), ps);
+      SubmitType submitType = getSubmitType(commit.getControl(), ps);
       if (submitType == null) {
         commits.put(changeId,
             CodeReviewCommit.error(CommitMergeStatus.NO_SUBMIT_TYPE));

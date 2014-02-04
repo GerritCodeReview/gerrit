@@ -17,9 +17,9 @@ package com.google.gerrit.client.projects;
 import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.actions.ActionInfo;
 import com.google.gerrit.client.rpc.NativeMap;
-import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.Project.InheritableBoolean;
-import com.google.gerrit.reviewdb.client.Project.SubmitType;
+import com.google.gerrit.extensions.api.projects.ProjectState;
+import com.google.gerrit.extensions.common.InheritableBoolean;
+import com.google.gerrit.extensions.common.SubmitType;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.JsArrayString;
@@ -63,11 +63,11 @@ public class ConfigInfo extends JavaScriptObject {
   private final native String submit_typeRaw()
   /*-{ return this.submit_type }-*/;
 
-  public final Project.State state() {
+  public final ProjectState state() {
     if (stateRaw() == null) {
-      return Project.State.ACTIVE;
+      return ProjectState.ACTIVE;
     }
-    return Project.State.valueOf(stateRaw());
+    return ProjectState.valueOf(stateRaw());
   }
   private final native String stateRaw()
   /*-{ return this.state }-*/;

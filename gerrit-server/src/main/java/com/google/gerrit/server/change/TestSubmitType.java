@@ -17,11 +17,11 @@ package com.google.gerrit.server.change;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.Objects;
+import com.google.gerrit.extensions.common.SubmitType;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.rules.RulesCache;
 import com.google.gerrit.server.change.TestSubmitRule.Filters;

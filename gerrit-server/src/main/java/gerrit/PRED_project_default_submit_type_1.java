@@ -14,7 +14,7 @@
 
 package gerrit;
 
-import com.google.gerrit.reviewdb.client.Project.SubmitType;
+import com.google.gerrit.extensions.common.SubmitType;
 import com.google.gerrit.rules.StoredValues;
 import com.google.gerrit.server.project.ChangeControl;
 

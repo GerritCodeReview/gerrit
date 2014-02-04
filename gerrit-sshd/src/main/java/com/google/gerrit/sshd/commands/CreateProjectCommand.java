@@ -21,16 +21,17 @@ import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.errors.ProjectCreationFailedException;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
+import com.google.gerrit.extensions.api.projects.ProjectInput;
+import com.google.gerrit.extensions.api.projects.ProjectInput.ConfigValue;
+import com.google.gerrit.extensions.common.InheritableBoolean;
+import com.google.gerrit.extensions.common.SubmitType;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.Project.InheritableBoolean;
-import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gerrit.server.project.CreateProject;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
-import com.google.gerrit.server.project.PutConfig.ConfigValue;
 import com.google.gerrit.server.project.SuggestParentCandidates;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
@@ -148,7 +149,7 @@ final class CreateProjectCommand extends SshCommand {
           throw new UnloggedFailure(1, "fatal: Project name is required.");
         }
 
-        CreateProject.Input input = new CreateProject.Input();
+        ProjectInput input = new ProjectInput();
         input.name = projectName;
         if (ownerIds != null) {
           input.owners = Lists.transform(ownerIds,

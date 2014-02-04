@@ -14,6 +14,7 @@
 
 package com.google.gerrit.extensions.api.projects;
 
+
 public interface ProjectApi {
   BranchApi branch(String ref);
 }

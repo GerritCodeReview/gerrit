@@ -15,14 +15,14 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.common.base.Objects;
-import com.google.gerrit.reviewdb.client.Project.SubmitType;
+import com.google.gerrit.extensions.common.SubmitType;
 
 import org.eclipse.jgit.lib.ObjectId;
 
 import java.io.Serializable;
 
 public class ConflictKey implements Serializable {
-  private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 2L;
 
   private final ObjectId commit;
   private final ObjectId otherCommit;

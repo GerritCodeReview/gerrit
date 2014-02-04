@@ -232,7 +232,8 @@ public class ProjectControl {
   }
 
   private boolean isHidden() {
-    return getProject().getState().equals(Project.State.HIDDEN);
+    return getProject().getState().equals(
+        com.google.gerrit.extensions.api.projects.ProjectState.HIDDEN);
   }
 
   /** Can this user see this project exists? */

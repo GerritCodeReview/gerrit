@@ -14,11 +14,11 @@
 
 package com.google.gerrit.sshd.commands;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
-import com.google.gerrit.server.project.PutConfig.ConfigValue;
+import com.google.gerrit.extensions.api.projects.ProjectInput.ConfigValue;
 
 import org.junit.Before;
 import org.junit.Test;

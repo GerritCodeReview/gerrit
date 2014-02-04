@@ -18,19 +18,23 @@ import com.google.gerrit.extensions.api.projects.ProjectApi;
 import com.google.gerrit.extensions.api.projects.Projects;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
+import com.google.gerrit.server.project.CreateProject;
 import com.google.gerrit.server.project.ProjectsCollection;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 import java.io.IOException;
 
 class ProjectsImpl implements Projects {
-  private final ProjectsCollection projects;
   private final ProjectApiImpl.Factory api;
+  private final ProjectsCollection projects;
 
   @Inject
-  ProjectsImpl(ProjectsCollection projects, ProjectApiImpl.Factory api) {
-    this.projects = projects;
+  ProjectsImpl(Provider<CreateProject.Factory> createProjectFactory,
+      ProjectApiImpl.Factory api,
+      ProjectsCollection projects) {
     this.api = api;
+    this.projects = projects;
   }
 
   @Override

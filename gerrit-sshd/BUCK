@@ -46,6 +46,7 @@ java_test(
   ),
   deps = [
     ':sshd',
+    '//gerrit-extension-api:api',
     '//gerrit-server:server',
     '//lib:guava',
     '//lib:junit',

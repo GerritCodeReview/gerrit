@@ -18,11 +18,16 @@ import com.google.common.collect.Sets;
 import com.google.gerrit.server.PluginUser;
 import com.google.inject.AbstractModule;
 
+import groovy.lang.Binding;
+import groovy.lang.Script;
 import groovy.util.GroovyScriptEngine;
 
+import org.codehaus.groovy.runtime.InvokerHelper;
 import org.eclipse.jgit.internal.storage.file.FileSnapshot;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -54,7 +59,6 @@ class GroovyPlugin extends ScriptingPlugin {
       "groovy", "gvy", "gy", "gsh");
 
   private GroovyScriptEngine scriptEngine;
-  private Class scriptClass;
 
   public static class Factory implements ScriptingPlugin.Factory {
 
@@ -81,10 +85,55 @@ class GroovyPlugin extends ScriptingPlugin {
     super.start(env);
 
     scriptEngine = getHttpInjector().getInstance(GroovyScriptEngine.class);
-    scriptClass = scriptEngine.loadScriptByName(getSrcFile().getName());
+    Class<?> scriptClass =
+        scriptEngine.loadScriptByName(getSrcFile().getName());
 
-    AutoRegisterScript auto = new AutoRegisterScript(scriptClass, this);
-    auto.register();
+    AutoRegisterScript auto = new AutoRegisterScript(this);
+    if (!auto.scan(scriptClass)) {
+      scanGroovyScriptBindings(auto, scriptClass);
+    }
+
+    auto.registerFinal();
+  }
+
+  private void scanGroovyScriptBindings(AutoRegisterScript auto,
+      Class<?> scriptClass) throws InvalidPluginException {
+    Binding binding = new Binding();
+    Script script = InvokerHelper.createScript(scriptClass, binding);
+    script.run();
+
+    for (Object variable : binding.getVariables().keySet()) {
+      Object value = binding.getVariable(variable.toString());
+      if (value == null) {
+        continue;
+      }
+
+      if (ArrayList.class.isAssignableFrom(value.getClass())) {
+        scanArrayOfObjectOrClass(auto, value);
+      } else {
+        scanObjectOrClass(auto, value);
+      }
+    }
+  }
+
+  private void scanArrayOfObjectOrClass(AutoRegisterScript auto, Object value)
+      throws InvalidPluginException {
+    ArrayList list = (ArrayList) value;
+    for (Object element : list) {
+      if (element == null) {
+        continue;
+      }
+      scanObjectOrClass(auto, element);
+    }
+  }
+
+  private void scanObjectOrClass(AutoRegisterScript auto, Object element)
+      throws InvalidPluginException {
+    if (Class.class.isAssignableFrom(element.getClass())) {
+      auto.scan((Class<?>) element);
+    } else {
+      auto.scan(element.getClass());
+    }
   }
 
   @Override

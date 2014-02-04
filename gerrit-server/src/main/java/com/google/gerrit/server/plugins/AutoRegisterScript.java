@@ -42,35 +42,29 @@ class AutoRegisterScript {
 
   private Set<Class<?>> sysSingletons;
   private Multimap<TypeLiteral<?>, Class<?>> sysListen;
-  private final Class<?> scriptClass;
   private ScriptingPlugin scriptPlugin;
 
   Module sysModule;
   Module sshModule;
   Module httpModule;
 
-  AutoRegisterScript(Class<?> scriptClass, ScriptingPlugin scriptPlugin) {
-    this.scriptClass = scriptClass;
+  AutoRegisterScript(ScriptingPlugin scriptPlugin) {
     this.scriptPlugin = scriptPlugin;
     this.pluginName = scriptPlugin.getName();
     this.env = scriptPlugin.getGuiceEnvironment();
     this.sshGen = env.hasSshModule() ? env.newSshModuleGenerator() : null;
     this.httpGen = env.hasHttpModule() ? env.newHttpModuleGenerator() : null;
-  }
-
-  void register() throws InvalidPluginException {
     sysSingletons = Sets.newHashSet();
     sysListen = LinkedListMultimap.create();
-
     if (sshGen != null) {
       sshGen.setPluginName(pluginName);
     }
     if (httpGen != null) {
       httpGen.setPluginName(pluginName);
     }
+  }
 
-    scan();
-
+  void registerFinal() throws InvalidPluginException {
     if (!sysSingletons.isEmpty() || !sysListen.isEmpty()) {
       sysModule = makeSystemModule();
       scriptPlugin.setSysInjector(Guice.createInjector(env.getSysModule(),
@@ -78,13 +72,17 @@ class AutoRegisterScript {
     }
     if (sshGen != null) {
       sshModule = sshGen.create();
-      scriptPlugin.setSshInjector(Guice.createInjector(env.getSysModule(),
-          env.getSshModule(), sshModule));
+      if (sshModule != null) {
+        scriptPlugin.setSshInjector(Guice.createInjector(env.getSysModule(),
+            env.getSshModule(), sshModule));
+      }
     }
     if (httpGen != null) {
       httpModule = httpGen.create();
-      scriptPlugin.setHttpInjector(Guice.createInjector(env.getSysModule(),
-          env.getSysModule(), httpModule));
+      if (httpModule != null) {
+        scriptPlugin.setHttpInjector(Guice.createInjector(env.getSysModule(),
+            env.getSysModule(), httpModule));
+      }
     }
   }
 
@@ -109,14 +107,14 @@ class AutoRegisterScript {
     };
   }
 
-  private void scan() throws InvalidPluginException {
-    export(scriptClass.getAnnotation(Export.class));
-    listen(scriptClass.getAnnotation(Listen.class));
+  boolean scan(Class<?> scriptClass) throws InvalidPluginException {
+    return export(scriptClass) || listen(scriptClass);
   }
 
-  private void export(Export export) throws InvalidPluginException {
+  private boolean export(Class<?> scriptClass) throws InvalidPluginException {
+    Export export = scriptClass.getAnnotation(Export.class);
     if (export == null) {
-      return;
+      return false;
     }
 
     if (is("org.apache.sshd.server.Command", scriptClass)) {
@@ -138,18 +136,24 @@ class AutoRegisterScript {
             scriptClass.getName(), export.value()));
       }
     }
+
+    return true;
   }
 
-  private void listen(Listen listen) throws InvalidPluginException {
+  private boolean listen(Class<?> scriptClass) throws InvalidPluginException {
+    Listen listen = scriptClass.getAnnotation(Listen.class);
+
     if (listen == null) {
-      return;
+      return false;
     }
 
-    listen(scriptClass, scriptClass);
+    return listen(scriptClass, scriptClass);
   }
 
-  private void listen(java.lang.reflect.Type type, Class<?> clazz)
+  private boolean listen(java.lang.reflect.Type type, Class<?> clazz)
       throws InvalidPluginException {
+    boolean listened = false;
+
     while (type != null) {
       Class<?> rawType;
       if (type instanceof ParameterizedType) {
@@ -157,7 +161,7 @@ class AutoRegisterScript {
       } else if (type instanceof Class) {
         rawType = (Class<?>) type;
       } else {
-        return;
+        return false;
       }
 
       if (rawType.getAnnotation(ExtensionPoint.class) != null) {
@@ -187,17 +191,20 @@ class AutoRegisterScript {
               "Cannot register %s, server does not accept %s", clazz.getName(),
               rawType.getName()));
         }
-        return;
+        return true;
       }
+
 
       java.lang.reflect.Type[] interfaces = rawType.getGenericInterfaces();
       if (interfaces != null) {
         for (java.lang.reflect.Type i : interfaces) {
-          listen(i, clazz);
+          listened |= listen(i, clazz);
         }
       }
 
       type = rawType.getGenericSuperclass();
     }
+
+    return listened;
   }
 }

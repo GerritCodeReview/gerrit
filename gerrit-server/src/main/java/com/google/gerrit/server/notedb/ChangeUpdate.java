@@ -21,8 +21,6 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.GERRIT_PLACEHOLDER_
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Maps;
-import com.google.gerrit.common.data.LabelType;
-import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -48,6 +46,7 @@ import org.eclipse.jgit.revwalk.FooterKey;
 import org.eclipse.jgit.revwalk.RevCommit;
 
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Map;
 
@@ -66,14 +65,14 @@ public class ChangeUpdate extends VersionedMetaData {
     ChangeUpdate create(ChangeControl ctl);
     ChangeUpdate create(ChangeControl ctl, Date when);
     @VisibleForTesting
-    ChangeUpdate create(ChangeControl ctl, Date when, LabelTypes labelTypes);
+    ChangeUpdate create(ChangeControl ctl, Date when,
+        Comparator<String> labelNameComparator);
   }
 
   private final NotesMigration migration;
   private final GitRepositoryManager repoManager;
   private final AccountCache accountCache;
   private final MetaDataUpdate.User updateFactory;
-  private final LabelTypes labelTypes;
   private final ChangeControl ctl;
   private final PersonIdent serverIdent;
   private final Date when;
@@ -106,7 +105,8 @@ public class ChangeUpdate extends VersionedMetaData {
       @Assisted ChangeControl ctl,
       @Assisted Date when) {
     this(serverIdent, repoManager, migration, accountCache, updateFactory,
-        ctl, when, projectCache.get(getProjectName(ctl)).getLabelTypes());
+        ctl, when,
+        projectCache.get(getProjectName(ctl)).getLabelTypes().nameComparator());
   }
 
   private static Project.NameKey getProjectName(ChangeControl ctl) {
@@ -122,16 +122,15 @@ public class ChangeUpdate extends VersionedMetaData {
       MetaDataUpdate.User updateFactory,
       @Assisted ChangeControl ctl,
       @Assisted Date when,
-      @Assisted LabelTypes labelTypes) {
+      @Assisted Comparator<String> labelNameComparator) {
     this.repoManager = repoManager;
     this.migration = migration;
     this.accountCache = accountCache;
     this.updateFactory = updateFactory;
-    this.labelTypes = labelTypes;
     this.ctl = ctl;
     this.when = when;
     this.serverIdent = serverIdent;
-    this.approvals = Maps.newTreeMap(labelTypes.nameComparator());
+    this.approvals = Maps.newTreeMap(labelNameComparator);
     this.reviewers = Maps.newLinkedHashMap();
   }
 
@@ -281,11 +280,8 @@ public class ChangeUpdate extends VersionedMetaData {
           .append(" <").append(ident.getEmailAddress()).append(">\n");
     }
     for (Map.Entry<String, Short> e : approvals.entrySet()) {
-      LabelType lt = labelTypes.byLabel(e.getKey());
-      if (lt != null) {
-        addFooter(msg, FOOTER_LABEL,
-            new LabelVote(lt.getName(), e.getValue()).formatWithEquals());
-      }
+      addFooter(msg, FOOTER_LABEL,
+          new LabelVote(e.getKey(), e.getValue()).formatWithEquals());
     }
     commit.setMessage(msg.toString());
     return true;

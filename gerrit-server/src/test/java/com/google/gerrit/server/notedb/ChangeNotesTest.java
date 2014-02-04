@@ -16,8 +16,6 @@ package com.google.gerrit.server.notedb;
 
 import static com.google.gerrit.server.notedb.ReviewerState.CC;
 import static com.google.gerrit.server.notedb.ReviewerState.REVIEWER;
-import static com.google.gerrit.server.project.Util.category;
-import static com.google.gerrit.server.project.Util.value;
 import static com.google.inject.Scopes.SINGLETON;
 import static java.util.concurrent.TimeUnit.DAYS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
@@ -26,11 +24,10 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.easymock.EasyMock.expect;
 import static org.junit.Assert.assertEquals;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
-import com.google.gerrit.common.data.LabelTypes;
+import com.google.common.collect.Ordering;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
@@ -88,16 +85,6 @@ import java.util.concurrent.atomic.AtomicLong;
 public class ChangeNotesTest {
   private static final TimeZone TZ =
       TimeZone.getTimeZone("America/Los_Angeles");
-
-  private static final LabelTypes LABEL_TYPES = new LabelTypes(ImmutableList.of(
-      category("Verified",
-        value(1, "Verified"),
-        value(0, "No score"),
-        value(-1, "Fails")),
-      category("Code-Review",
-        value(1, "Looks Good To Me"),
-        value(0, "No score"),
-        value(-1, "Do Not Submit"))));
 
   private PersonIdent serverIdent;
   private Project.NameKey project;
@@ -182,8 +169,8 @@ public class ChangeNotesTest {
   public void approvalsCommitFormat() throws Exception {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);
-    update.putApproval("Code-Review", (short) -1);
     update.putApproval("Verified", (short) 1);
+    update.putApproval("Code-Review", (short) -1);
     update.putReviewer(changeOwner.getAccount().getId(), REVIEWER);
     update.putReviewer(otherUser.getAccount().getId(), CC);
     update.commit();
@@ -198,8 +185,8 @@ public class ChangeNotesTest {
           + "Patch-set: 1\n"
           + "Reviewer: Change Owner <1@gerrit>\n"
           + "CC: Other Account <2@gerrit>\n"
-          + "Label: Verified=+1\n"
-          + "Label: Code-Review=-1\n",
+          + "Label: Code-Review=-1\n"
+          + "Label: Verified=+1\n",
           commit.getFullMessage());
 
       PersonIdent author = commit.getAuthorIdent();
@@ -223,8 +210,8 @@ public class ChangeNotesTest {
   public void approvalsOnePatchSet() throws Exception {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);
-    update.putApproval("Code-Review", (short) -1);
     update.putApproval("Verified", (short) 1);
+    update.putApproval("Code-Review", (short) -1);
     update.commit();
 
     ChangeNotes notes = newNotes(c);
@@ -235,14 +222,14 @@ public class ChangeNotesTest {
 
     assertEquals(c.currentPatchSetId(), psas.get(0).getPatchSetId());
     assertEquals(1, psas.get(0).getAccountId().get());
-    assertEquals("Verified", psas.get(0).getLabel());
-    assertEquals((short) 1, psas.get(0).getValue());
+    assertEquals("Code-Review", psas.get(0).getLabel());
+    assertEquals((short) -1, psas.get(0).getValue());
     assertEquals(truncate(after(c, 1000)), psas.get(0).getGranted());
 
     assertEquals(c.currentPatchSetId(), psas.get(1).getPatchSetId());
     assertEquals(1, psas.get(1).getAccountId().get());
-    assertEquals("Code-Review", psas.get(1).getLabel());
-    assertEquals((short) -1, psas.get(1).getValue());
+    assertEquals("Verified", psas.get(1).getLabel());
+    assertEquals((short) 1, psas.get(1).getValue());
     assertEquals(psas.get(0).getGranted(), psas.get(1).getGranted());
   }
 
@@ -470,7 +457,8 @@ public class ChangeNotesTest {
         bind(IdentifiedUser.class).toInstance(user);
       }
     }).getInstance(ChangeUpdate.Factory.class).create(
-        stubChangeControl(c, user), TimeUtil.nowTs(), LABEL_TYPES);
+        stubChangeControl(c, user), TimeUtil.nowTs(),
+        Ordering.<String> natural());
   }
 
   private ChangeNotes newNotes(Change c) throws OrmException {

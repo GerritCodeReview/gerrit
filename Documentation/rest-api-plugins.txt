@@ -257,6 +257,7 @@ The `PluginInfo` entity describes a plugin.
 |`id`       ||The ID of the plugin.
 |`version`  ||The version of the plugin.
 |`index_url`|optional|URL of the plugin's default page.
+|`admin_url`|optional|URL of the plugin's administration page.
 |`disabled` |not set if `false`|Whether the plugin is disabled.
 |=======================
 

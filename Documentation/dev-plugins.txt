@@ -1602,6 +1602,16 @@ public class MyPlugin extends PluginEntryPoint {
 }
 ----
 
+== Register Administration Screen
+
+If a plugin implements a screen for its administration it can register
+this screen by setting `Gerrit-AdminUrl` in the manifest. The screen
+will then be linked from the plugin list screen.
+
+----
+  <Gerrit-AdminUrl>#/x/myPlugin/admin</Gerrit-AdminUrl>
+----
+
 [[http]]
 == HTTP Servlets
 

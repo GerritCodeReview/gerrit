@@ -28,8 +28,11 @@ import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
 
 import org.kohsuke.args4j.Option;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedWriter;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
@@ -42,6 +45,8 @@ import java.util.Map;
 /** List the installed plugins. */
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
 public class ListPlugins implements RestReadView<TopLevelResource> {
+  private static final Logger log = LoggerFactory.getLogger(ListPlugins.class);
+
   private final PluginLoader pluginLoader;
 
   @Deprecated
@@ -128,6 +133,7 @@ public class ListPlugins implements RestReadView<TopLevelResource> {
     String id;
     String version;
     String indexUrl;
+    String adminUrl;
     Boolean disabled;
 
     PluginInfo(Plugin p) {
@@ -137,6 +143,11 @@ public class ListPlugins implements RestReadView<TopLevelResource> {
 
       if (p.getJarFile() != null) {
         indexUrl = String.format("plugins/%s/", p.getName());
+        try {
+          adminUrl = p.getJarFile().getManifest().getMainAttributes().getValue("Gerrit-AdminUrl");
+        } catch (IOException e) {
+          log.error(String.format("Failed to read admin URL from plugin '%s'.", p.getName()), e);
+        }
       }
     }
   }

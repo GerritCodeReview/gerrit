@@ -23,6 +23,8 @@ import com.google.gerrit.client.ui.FancyFlexTable;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.ImageResourceRenderer;
 import com.google.gwt.user.client.ui.Panel;
 
 public class PluginListScreen extends PluginScreen {
@@ -86,14 +88,22 @@ public class PluginListScreen extends PluginScreen {
       if (plugin.disabled() || plugin.indexUrl() == null) {
         table.setText(row, 1, plugin.name());
       } else {
-        table.setWidget(
-            row,
-            1,
-            new Anchor(
-                plugin.name(),
-                Gerrit.selfRedirect(plugin.indexUrl()),
-                "_blank"));
+        HorizontalPanel p = new HorizontalPanel();
+        p.setStyleName(Gerrit.RESOURCES.css().pluginName());
+        p.add(new Anchor(plugin.name(),
+            Gerrit.selfRedirect(plugin.indexUrl()), "_blank"));
+
+        if (plugin.adminUrl() != null) {
+          Anchor adminScreenAcnhcor =
+              new Anchor(new ImageResourceRenderer().render(Gerrit.RESOURCES.gear()),
+              Gerrit.selfRedirect(plugin.adminUrl()));
+          adminScreenAcnhcor.setTitle(Util.C.pluginAdminToolTip());
+          p.add(adminScreenAcnhcor);
+        }
+
+        table.setWidget(row, 1, p);
       }
+
       table.setText(row, 2, plugin.version());
       table.setText(row, 3, plugin.disabled()
           ? Util.C.pluginDisabled()

@@ -20,6 +20,7 @@ public class PluginInfo extends JavaScriptObject {
   public final native String name() /*-{ return this.name }-*/;
   public final native String version() /*-{ return this.version }-*/;
   public final native String indexUrl() /*-{ return this.index_url }-*/;
+  public final native String adminUrl() /*-{ return this.admin_url }-*/;
   public final native boolean disabled() /*-{ return this.disabled || false }-*/;
 
   protected PluginInfo() {

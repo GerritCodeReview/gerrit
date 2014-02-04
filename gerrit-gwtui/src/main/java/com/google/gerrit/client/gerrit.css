@@ -1604,6 +1604,10 @@ a:hover.downloadLink {
 .pluginsTable {
 }
 
+.pluginName td {
+  padding: 2px;
+}
+
 /** ProjectListScreen **/
 .projectFilterPanel {
   margin-bottom: 10px;

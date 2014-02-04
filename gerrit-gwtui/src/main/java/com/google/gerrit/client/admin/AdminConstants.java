@@ -110,6 +110,7 @@ public interface AdminConstants extends Constants {
   String plugins();
   String pluginEnabled();
   String pluginDisabled();
+  String pluginAdminToolTip();
 
   String columnPluginName();
   String columnPluginVersion();

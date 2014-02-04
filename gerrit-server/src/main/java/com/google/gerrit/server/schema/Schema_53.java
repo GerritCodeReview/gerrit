@@ -31,11 +31,12 @@ import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
+import com.google.gerrit.extensions.common.InheritableBoolean;
+import com.google.gerrit.extensions.common.SubmitType;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.PatchSetApproval.LabelId;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.Project.InheritableBoolean;
 import com.google.gerrit.reviewdb.client.SystemConfig;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -213,16 +214,16 @@ class Schema_53 extends SchemaVersion {
 
     switch (rs.getString("submit_type").charAt(0)) {
       case 'F':
-        project.setSubmitType(Project.SubmitType.FAST_FORWARD_ONLY);
+        project.setSubmitType(SubmitType.FAST_FORWARD_ONLY);
         break;
       case 'M':
-        project.setSubmitType(Project.SubmitType.MERGE_IF_NECESSARY);
+        project.setSubmitType(SubmitType.MERGE_IF_NECESSARY);
         break;
       case 'A':
-        project.setSubmitType(Project.SubmitType.MERGE_ALWAYS);
+        project.setSubmitType(SubmitType.MERGE_ALWAYS);
         break;
       case 'C':
-        project.setSubmitType(Project.SubmitType.CHERRY_PICK);
+        project.setSubmitType(SubmitType.CHERRY_PICK);
         break;
       default:
         throw new OrmException("Unsupported submit_type="
@@ -238,8 +239,8 @@ class Schema_53 extends SchemaVersion {
   private static InheritableBoolean asInheritableBoolean(ResultSet rs, String col)
       throws SQLException {
     return "Y".equals(rs.getString(col))
-        ? Project.InheritableBoolean.TRUE
-        : Project.InheritableBoolean.INHERIT;
+        ? InheritableBoolean.TRUE
+        : InheritableBoolean.INHERIT;
   }
 
   private void readOldRefRights(ReviewDb db) throws SQLException {

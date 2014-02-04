@@ -15,7 +15,8 @@
 package com.google.gerrit.client.admin;
 
 import com.google.gerrit.common.data.ProjectAdminService;
-import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.extensions.api.projects.ProjectState;
+import com.google.gerrit.extensions.common.SubmitType;
 import com.google.gwt.core.client.GWT;
 import com.google.gwtjsonrpc.client.JsonUtil;
 
@@ -31,7 +32,7 @@ public class Util {
     AdminResources.I.css().ensureInjected();
   }
 
-  public static String toLongString(final Project.SubmitType type) {
+  public static String toLongString(final SubmitType type) {
     if (type == null) {
       return "";
     }
@@ -51,7 +52,7 @@ public class Util {
     }
   }
 
-  public static String toLongString(final Project.State type) {
+  public static String toLongString(final ProjectState type) {
     if (type == null) {
       return "";
     }

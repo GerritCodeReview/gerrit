@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "52691273_a74eaa86",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-02-04T11:38:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2e5ee1d_729178f7",
+      "range": {
+        "startLine": 25,
+        "startChar": 26,
+        "endLine": 25,
+        "endChar": 31
+      },
+      "revId": "2e47503517ac1eb683e1170cbae1c7b2b9a965ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d2ca6290_b37db8fc",
         "filename": "/COMMIT_MSG",
         "patchSetId": 15
@@ -59,6 +83,30 @@
       "writtenOn": "2014-02-03T22:21:09Z",
       "side": 1,
       "message": "May be also mention that doing this would install this plugin during init step?",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 46
+      },
+      "revId": "2e47503517ac1eb683e1170cbae1c7b2b9a965ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "325e5ed0_a6db0662",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-02-04T11:38:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d2ca6290_b37db8fc",
       "range": {
         "startLine": 29,
         "startChar": 0,
@@ -94,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "325e5ed0_46c1f26c",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/http/jetty/JettyServer.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-02-04T11:38:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d2ca6290_136fcc3d",
+      "range": {
+        "startLine": 135,
+        "startChar": 2,
+        "endLine": 135,
+        "endChar": 55
+      },
+      "revId": "2e47503517ac1eb683e1170cbae1c7b2b9a965ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b2e5ee1d_329bf019",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/http/jetty/JettyServer.java",
         "patchSetId": 15
@@ -105,6 +177,30 @@
       "writtenOn": "2014-02-03T22:21:09Z",
       "side": 1,
       "message": "Provider\u003cSecureTore\u003e secureStoreProvder\n\nand please no final. You can remove the other final too.",
+      "range": {
+        "startLine": 144,
+        "startChar": 26,
+        "endLine": 144,
+        "endChar": 70
+      },
+      "revId": "2e47503517ac1eb683e1170cbae1c7b2b9a965ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "325e5ed0_66be6ee6",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/http/jetty/JettyServer.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-02-04T11:38:04Z",
+      "side": 1,
+      "message": "Provider - Done\n\nWill not remove finals here IMO this is not relevant for this patch set.",
+      "parentUuid": "b2e5ee1d_329bf019",
       "range": {
         "startLine": 144,
         "startChar": 26,
@@ -140,6 +236,30 @@
     },
     {
       "key": {
+        "uuid": "325e5ed0_267156b1",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/SiteProgram.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-02-04T11:38:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2e5ee1d_1298ec18",
+      "range": {
+        "startLine": 109,
+        "startChar": 8,
+        "endLine": 109,
+        "endChar": 70
+      },
+      "revId": "2e47503517ac1eb683e1170cbae1c7b2b9a965ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d2ca6290_f3e21082",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/Helper.java",
         "patchSetId": 15
@@ -151,6 +271,30 @@
       "writtenOn": "2014-02-03T22:21:09Z",
       "side": 1,
       "message": "Not needed.",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 64
+      },
+      "revId": "2e47503517ac1eb683e1170cbae1c7b2b9a965ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "52691273_47448e65",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/Helper.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-02-04T11:38:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d2ca6290_f3e21082",
       "range": {
         "startLine": 25,
         "startChar": 0,
@@ -186,6 +330,30 @@
     },
     {
       "key": {
+        "uuid": "52691273_67419254",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/Helper.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-02-04T11:38:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2e5ee1d_f28328a9",
+      "range": {
+        "startLine": 76,
+        "startChar": 6,
+        "endLine": 76,
+        "endChar": 45
+      },
+      "revId": "2e47503517ac1eb683e1170cbae1c7b2b9a965ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b2e5ee1d_d28824c8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/AuthConfig.java",
         "patchSetId": 15
@@ -197,6 +365,30 @@
       "writtenOn": "2014-02-03T22:21:09Z",
       "side": 1,
       "message": "Not needed.",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 64
+      },
+      "revId": "2e47503517ac1eb683e1170cbae1c7b2b9a965ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "52691273_073e96cb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/AuthConfig.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-02-04T11:38:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2e5ee1d_d28824c8",
       "range": {
         "startLine": 21,
         "startChar": 0,
@@ -232,6 +424,30 @@
     },
     {
       "key": {
+        "uuid": "325e5ed0_06cbfa8e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/AuthConfig.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-02-04T11:38:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2e5ee1d_b27da0fc",
+      "range": {
+        "startLine": 63,
+        "startChar": 6,
+        "endLine": 63,
+        "endChar": 51
+      },
+      "revId": "2e47503517ac1eb683e1170cbae1c7b2b9a965ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b2e5ee1d_72785809",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/SmtpEmailSender.java",
         "patchSetId": 15
@@ -243,6 +459,30 @@
       "writtenOn": "2014-02-03T22:21:09Z",
       "side": 1,
       "message": "Not needed.",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 64
+      },
+      "revId": "2e47503517ac1eb683e1170cbae1c7b2b9a965ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "325e5ed0_26c8768f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/SmtpEmailSender.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-02-04T11:38:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2e5ee1d_72785809",
       "range": {
         "startLine": 21,
         "startChar": 0,
@@ -278,6 +518,30 @@
     },
     {
       "key": {
+        "uuid": "325e5ed0_c6b3a217",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/SmtpEmailSender.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-02-04T11:38:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2e5ee1d_92829ca2",
+      "range": {
+        "startLine": 73,
+        "startChar": 6,
+        "endLine": 73,
+        "endChar": 51
+      },
+      "revId": "2e47503517ac1eb683e1170cbae1c7b2b9a965ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d2ca6290_9382bca2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreException.java",
         "patchSetId": 15
@@ -289,6 +553,30 @@
       "writtenOn": "2014-02-03T22:21:09Z",
       "side": 1,
       "message": "2013 or 2014?",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "2e47503517ac1eb683e1170cbae1c7b2b9a965ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "325e5ed0_c6cc02ad",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreException.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-02-04T11:38:04Z",
+      "side": 1,
+      "message": "2013, Done",
+      "parentUuid": "d2ca6290_9382bca2",
       "range": {
         "startLine": 1,
         "startChar": 17,
@@ -324,6 +612,30 @@
     },
     {
       "key": {
+        "uuid": "52691273_e754a21c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreProvider.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-02-04T11:38:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d2ca6290_3372c827",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 10
+      },
+      "revId": "2e47503517ac1eb683e1170cbae1c7b2b9a965ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b2e5ee1d_5275540d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreProvider.java",
         "patchSetId": 15
@@ -335,6 +647,30 @@
       "writtenOn": "2014-02-03T22:21:09Z",
       "side": 1,
       "message": "Why this var is needed?",
+      "range": {
+        "startLine": 66,
+        "startChar": 8,
+        "endLine": 66,
+        "endChar": 34
+      },
+      "revId": "2e47503517ac1eb683e1170cbae1c7b2b9a965ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "52691273_87492683",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreProvider.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-02-04T11:38:04Z",
+      "side": 1,
+      "message": "For debugging purposes. It is easier to investigate its content when it is assigned got variable instead of adding it directly to result set",
+      "parentUuid": "b2e5ee1d_5275540d",
       "range": {
         "startLine": 66,
         "startChar": 8,
@@ -370,6 +706,30 @@
     },
     {
       "key": {
+        "uuid": "325e5ed0_86d60a39",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreProvider.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-02-04T11:38:04Z",
+      "side": 1,
+      "message": "see my explanation below",
+      "parentUuid": "d2ca6290_73784009",
+      "range": {
+        "startLine": 99,
+        "startChar": 15,
+        "endLine": 99,
+        "endChar": 76
+      },
+      "revId": "2e47503517ac1eb683e1170cbae1c7b2b9a965ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d2ca6290_5375440d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreProvider.java",
         "patchSetId": 15
@@ -381,6 +741,30 @@
       "writtenOn": "2014-02-03T22:21:09Z",
       "side": 1,
       "message": "Why is this needed?",
+      "range": {
+        "startLine": 147,
+        "startChar": 2,
+        "endLine": 172,
+        "endChar": 3
+      },
+      "revId": "2e47503517ac1eb683e1170cbae1c7b2b9a965ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "325e5ed0_e6d1fe43",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreProvider.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-02-04T11:38:04Z",
+      "side": 1,
+      "message": "This wrapper ensures property encryption.\n\nIf you put eg. example secure store from cookbook-plugin into existing gerrit site, then without this wrapper it will not encrypt passwords stored in secure.config. Instead it will read them as plain text, and return to caller, not knowing that they are not encrypted.\n\nInstead of adding additional requirements to secure store extension point and relay on implementation. We decided to always call \u0027set\u0027 method when secured property is accessed.",
+      "parentUuid": "d2ca6290_5375440d",
       "range": {
         "startLine": 147,
         "startChar": 2,

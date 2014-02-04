@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.git;
 
+import com.google.gerrit.extensions.common.ProjectSubmitType;
 import com.google.gerrit.reviewdb.client.Branch;
-import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -41,7 +41,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Set;
 
-/** Factory to create a {@link SubmitStrategy} for a {@link SubmitType}. */
+/** Factory to create a {@link SubmitStrategy} for a {@link ProjectSubmitType}. */
 public class SubmitStrategyFactory {
   private static final Logger log = LoggerFactory
       .getLogger(SubmitStrategyFactory.class);
@@ -80,7 +80,7 @@ public class SubmitStrategyFactory {
     this.indexer = indexer;
   }
 
-  public SubmitStrategy create(final SubmitType submitType, final ReviewDb db,
+  public SubmitStrategy create(final ProjectSubmitType submitType, final ReviewDb db,
       final Repository repo, final RevWalk rw, final ObjectInserter inserter,
       final RevFlag canMergeFlag, final Set<RevCommit> alreadyAccepted,
       final Branch.NameKey destBranch)

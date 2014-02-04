@@ -17,5 +17,6 @@ package com.google.gerrit.extensions.api.projects;
 import com.google.gerrit.extensions.restapi.RestApiException;
 
 public interface Projects {
+  ProjectApi create(ProjectInput in) throws RestApiException;
   ProjectApi name(String name) throws RestApiException;
 }

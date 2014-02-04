@@ -20,13 +20,16 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.GERRIT_PLACEHOLDER_
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Function;
+import com.google.common.base.Optional;
+import com.google.common.base.Supplier;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableSetMultimap;
-import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Multimap;
 import com.google.common.collect.Ordering;
-import com.google.common.collect.Sets;
+import com.google.common.collect.Table;
+import com.google.common.collect.Tables;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -56,7 +59,6 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /** View of a single {@link Change} based on the log of its notes branch. */
 public class ChangeNotes extends VersionedMetaData {
@@ -88,14 +90,15 @@ public class ChangeNotes extends VersionedMetaData {
     private final Change.Id changeId;
     private final ObjectId tip;
     private final RevWalk walk;
-    private final ListMultimap<PatchSet.Id, PatchSetApproval> approvals;
+    private final Map<PatchSet.Id,
+        Table<Account.Id, String, Optional<PatchSetApproval>>> approvals;
     private final Map<Account.Id, ReviewerState> reviewers;
 
     private Parser(Change.Id changeId, ObjectId tip, RevWalk walk) {
       this.changeId = changeId;
       this.tip = tip;
       this.walk = walk;
-      approvals = ArrayListMultimap.create();
+      approvals = Maps.newHashMap();
       reviewers = Maps.newLinkedHashMap();
     }
 
@@ -105,30 +108,30 @@ public class ChangeNotes extends VersionedMetaData {
         parse(commit);
       }
       pruneReviewers();
-      for (Collection<PatchSetApproval> v : approvals.asMap().values()) {
+    }
+
+    private ImmutableListMultimap<PatchSet.Id, PatchSetApproval>
+        buildApprovals() {
+      Multimap<PatchSet.Id, PatchSetApproval> result =
+          ArrayListMultimap.create(approvals.keySet().size(), 3);
+      for (Table<?, ?, Optional<PatchSetApproval>> curr
+          : approvals.values()) {
+        for (PatchSetApproval psa : Optional.presentInstances(curr.values())) {
+          result.put(psa.getPatchSetId(), psa);
+        }
+      }
+      for (Collection<PatchSetApproval> v : result.asMap().values()) {
         Collections.sort((List<PatchSetApproval>) v, PSA_BY_TIME);
       }
+      return ImmutableListMultimap.copyOf(result);
     }
 
     private void parse(RevCommit commit) throws ConfigInvalidException {
       PatchSet.Id psId = parsePatchSetId(commit);
       Account.Id accountId = parseIdent(commit);
-      List<PatchSetApproval> psas = approvals.get(psId);
-
-      Map<String, PatchSetApproval> curr =
-          Maps.newHashMapWithExpectedSize(psas.size());
-      for (PatchSetApproval psa : psas) {
-        if (psa.getAccountId().equals(accountId)) {
-          curr.put(psa.getLabel(), psa);
-        }
-      }
 
       for (String line : commit.getFooterLines(FOOTER_LABEL)) {
-        PatchSetApproval psa = parseApproval(psId, accountId, commit, line);
-        if (!curr.containsKey(psa.getLabel())) {
-          curr.put(psa.getLabel(), psa);
-          psas.add(psa);
-        }
+        parseApproval(psId, accountId, commit, line);
       }
       for (ReviewerState state : ReviewerState.values()) {
         for (String line : commit.getFooterLines(state.getFooterKey())) {
@@ -152,20 +155,47 @@ public class ChangeNotes extends VersionedMetaData {
       return new PatchSet.Id(changeId, psId);
     }
 
-    private PatchSetApproval parseApproval(PatchSet.Id psId, Account.Id accountId,
+    private void parseApproval(PatchSet.Id psId, Account.Id accountId,
         RevCommit commit, String line) throws ConfigInvalidException {
-      try {
-        LabelVote l = LabelVote.parseWithEquals(line);
-        return new PatchSetApproval(
-            new PatchSetApproval.Key(
-              psId, parseIdent(commit), new LabelId(l.getLabel())),
-            l.getValue(),
-            new Timestamp(commit.getCommitterIdent().getWhen().getTime()));
-      } catch (IllegalArgumentException e) {
-        ConfigInvalidException pe =
-            parseException("invalid %s: %s", FOOTER_LABEL, line);
-        pe.initCause(e);
-        throw pe;
+      Table<Account.Id, String, Optional<PatchSetApproval>> curr =
+          approvals.get(psId);
+      if (curr == null) {
+        curr = Tables.newCustomTable(
+            Maps.<Account.Id, Map<String, Optional<PatchSetApproval>>>
+                newHashMapWithExpectedSize(2),
+            new Supplier<Map<String, Optional<PatchSetApproval>>>() {
+              @Override
+              public Map<String, Optional<PatchSetApproval>> get() {
+                return Maps.newLinkedHashMap();
+              }
+            });
+        approvals.put(psId, curr);
+      }
+
+      if (line.startsWith("-")) {
+        String label = line.substring(1);
+        if (!curr.contains(accountId, label)) {
+          curr.put(accountId, label, Optional.<PatchSetApproval> absent());
+        }
+      } else {
+        LabelVote l;
+        try {
+          l = LabelVote.parseWithEquals(line);
+        } catch (IllegalArgumentException e) {
+          ConfigInvalidException pe =
+              parseException("invalid %s: %s", FOOTER_LABEL, line);
+          pe.initCause(e);
+          throw pe;
+        }
+        if (!curr.contains(accountId, l.getLabel())) {
+          curr.put(accountId, l.getLabel(), Optional.of(new PatchSetApproval(
+              new PatchSetApproval.Key(
+                  psId,
+                  accountId,
+                  new LabelId(l.getLabel())),
+              l.getValue(),
+              new Timestamp(commit.getCommitterIdent().getWhen().getTime()))));
+        }
       }
     }
 
@@ -203,22 +233,15 @@ public class ChangeNotes extends VersionedMetaData {
     }
 
     private void pruneReviewers() {
-      Set<Account.Id> removed = Sets.newHashSetWithExpectedSize(reviewers.size());
       Iterator<Map.Entry<Account.Id, ReviewerState>> rit =
           reviewers.entrySet().iterator();
       while (rit.hasNext()) {
         Map.Entry<Account.Id, ReviewerState> e = rit.next();
         if (e.getValue() == ReviewerState.REMOVED) {
-          removed.add(e.getKey());
           rit.remove();
-        }
-      }
-
-      Iterator<Map.Entry<PatchSet.Id, PatchSetApproval>> ait =
-          approvals.entries().iterator();
-      while (ait.hasNext()) {
-        if (removed.contains(ait.next().getValue().getAccountId())) {
-          ait.remove();
+          for (Table<Account.Id, ?, ?> curr : approvals.values()) {
+            curr.rowKeySet().remove(e.getKey());
+          }
         }
       }
     }
@@ -293,7 +316,7 @@ public class ChangeNotes extends VersionedMetaData {
     try {
       Parser parser = new Parser(change.getId(), rev, walk);
       parser.parseAll();
-      approvals = ImmutableListMultimap.copyOf(parser.approvals);
+      approvals = parser.buildApprovals();
       ImmutableSetMultimap.Builder<ReviewerState, Account.Id> reviewers =
           ImmutableSetMultimap.builder();
       for (Map.Entry<Account.Id, ReviewerState> e

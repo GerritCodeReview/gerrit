@@ -167,7 +167,7 @@ public class AccountCacheImpl implements AccountCache {
       for (AccountGroupMember g : db.accountGroupMembers().byAccount(who)) {
         final AccountGroup.Id groupId = g.getAccountGroupId();
         final AccountGroup group = groupCache.get(groupId);
-        if (group != null) {
+        if (group != null && group.getGroupUUID() != null) {
           internalGroups.add(group.getGroupUUID());
         }
       }

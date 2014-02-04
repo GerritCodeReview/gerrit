@@ -119,11 +119,12 @@ public class IncludingGroupMembership implements GroupMembership {
     GroupMembership membership = user.getEffectiveGroups();
     Set<AccountGroup.UUID> direct = user.state().getInternalGroups();
     Set<AccountGroup.UUID> r = Sets.newHashSet(direct);
-    List<AccountGroup.UUID> q = Lists.newArrayList(r);
+    r.remove(null);
 
+    List<AccountGroup.UUID> q = Lists.newArrayList(r);
     for (AccountGroup.UUID g : membership.intersection(
         includeCache.allExternalMembers())) {
-      if (r.add(g)) {
+      if (g != null && r.add(g)) {
         q.add(g);
       }
     }
@@ -131,7 +132,7 @@ public class IncludingGroupMembership implements GroupMembership {
     while (!q.isEmpty()) {
       AccountGroup.UUID id = q.remove(q.size() - 1);
       for (AccountGroup.UUID g : includeCache.memberIn(id)) {
-        if (r.add(g)) {
+        if (g != null && r.add(g)) {
           q.add(g);
           memberOf.put(g, true);
         }

@@ -38,6 +38,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.config.AllProjectsName;
+import com.google.gerrit.server.git.LabelNormalizer.Result;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.util.TimeUtil;
@@ -51,6 +52,8 @@ import org.eclipse.jgit.lib.Repository;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.List;
 
 /** Unit tests for {@link LabelNormalizer}. */
 public class LabelNormalizerTest {
@@ -136,8 +139,11 @@ public class LabelNormalizerTest {
 
     PatchSetApproval cr = psa(userId, "Code-Review", 2);
     PatchSetApproval v = psa(userId, "Verified", 1);
-    assertEquals(ImmutableList.of(copy(cr, 1), v),
-        norm.normalize(change, ImmutableList.of(cr, v)));
+    assertEquals(new Result(
+          list(v),
+          list(copy(cr, 1)),
+          list()),
+        norm.normalize(change, list(cr, v)));
   }
 
   @Test
@@ -149,16 +155,22 @@ public class LabelNormalizerTest {
 
     PatchSetApproval cr = psa(userId, "Code-Review", 5);
     PatchSetApproval v = psa(userId, "Verified", 5);
-    assertEquals(ImmutableList.of(copy(cr, 2), copy(v, 1)),
-        norm.normalize(change, ImmutableList.of(cr, v)));
+    assertEquals(new Result(
+          list(),
+          list(copy(cr, 2), copy(v, 1)),
+          list()),
+        norm.normalize(change, list(cr, v)));
   }
 
   @Test
   public void emptyPermissionRangeOmitsResult() throws Exception {
     PatchSetApproval cr = psa(userId, "Code-Review", 1);
     PatchSetApproval v = psa(userId, "Verified", 1);
-    assertEquals(ImmutableList.of(),
-        norm.normalize(change, ImmutableList.of(cr, v)));
+    assertEquals(new Result(
+          list(),
+          list(),
+          list(cr, v)),
+        norm.normalize(change, list(cr, v)));
   }
 
   @Test
@@ -169,8 +181,11 @@ public class LabelNormalizerTest {
 
     PatchSetApproval cr = psa(userId, "Code-Review", 0);
     PatchSetApproval v = psa(userId, "Verified", 0);
-    assertEquals(ImmutableList.of(cr),
-        norm.normalize(change, ImmutableList.of(cr, v)));
+    assertEquals(new Result(
+          list(cr),
+          list(),
+          list(v)),
+        norm.normalize(change, list(cr, v)));
   }
 
   private ProjectConfig loadAllProjects() throws Exception {
@@ -203,5 +218,9 @@ public class LabelNormalizerTest {
         new PatchSetApproval(src.getKey().getParentKey(), src);
     result.setValue((short) newValue);
     return result;
+  }
+
+  private static List<PatchSetApproval> list(PatchSetApproval... psas) {
+    return ImmutableList.<PatchSetApproval> copyOf(psas);
   }
 }

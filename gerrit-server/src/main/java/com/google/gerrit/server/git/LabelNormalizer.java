@@ -16,6 +16,10 @@ package com.google.gerrit.server.git;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
+import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Objects;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
@@ -43,6 +47,63 @@ import java.util.List;
  * This class normalizes old votes against current project configuration.
  */
 public class LabelNormalizer {
+  public static class Result {
+    private final ImmutableList<PatchSetApproval> unchanged;
+    private final ImmutableList<PatchSetApproval> updated;
+    private final ImmutableList<PatchSetApproval> deleted;
+
+    @VisibleForTesting
+    Result(
+        List<PatchSetApproval> unchanged,
+        List<PatchSetApproval> updated,
+        List<PatchSetApproval> deleted) {
+      this.unchanged = ImmutableList.copyOf(unchanged);
+      this.updated = ImmutableList.copyOf(updated);
+      this.deleted = ImmutableList.copyOf(deleted);
+    }
+
+    public ImmutableList<PatchSetApproval> getUnchanged() {
+      return unchanged;
+    }
+
+    public ImmutableList<PatchSetApproval> getUpdated() {
+      return updated;
+    }
+
+    public ImmutableList<PatchSetApproval> getDeleted() {
+      return deleted;
+    }
+
+    public Iterable<PatchSetApproval> getNormalized() {
+      return Iterables.concat(unchanged, updated);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+      if (o instanceof Result) {
+        Result r = (Result) o;
+        return Objects.equal(unchanged, r.unchanged)
+            && Objects.equal(updated, r.updated)
+            && Objects.equal(deleted, r.deleted);
+      }
+      return false;
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hashCode(unchanged, updated, deleted);
+    }
+
+    @Override
+    public String toString() {
+      return Objects.toStringHelper(this)
+          .add("unchanged", unchanged)
+          .add("updated", updated)
+          .add("deleted", deleted)
+          .toString();
+    }
+  }
+
   private final ChangeControl.GenericFactory changeFactory;
   private final IdentifiedUser.GenericFactory userFactory;
 
@@ -62,7 +123,7 @@ public class LabelNormalizer {
    *     permissions for that label.
    * @throws NoSuchChangeException
    */
-  public List<PatchSetApproval> normalize(Change change,
+  public Result normalize(Change change,
       Collection<PatchSetApproval> approvals) throws NoSuchChangeException {
     return normalize(
         changeFactory.controlFor(change, userFactory.create(change.getOwner())),
@@ -77,9 +138,13 @@ public class LabelNormalizer {
    *     included in the output, nor are approvals where the user has no
    *     permissions for that label.
    */
-  public List<PatchSetApproval> normalize(ChangeControl ctl,
+  public Result normalize(ChangeControl ctl,
       Collection<PatchSetApproval> approvals) {
-    List<PatchSetApproval> result =
+    List<PatchSetApproval> unchanged =
+        Lists.newArrayListWithCapacity(approvals.size());
+    List<PatchSetApproval> updated =
+        Lists.newArrayListWithCapacity(approvals.size());
+    List<PatchSetApproval> deleted =
         Lists.newArrayListWithCapacity(approvals.size());
     LabelTypes labelTypes = ctl.getLabelTypes();
     for (PatchSetApproval psa : approvals) {
@@ -88,19 +153,25 @@ public class LabelNormalizer {
           "Approval %s does not match change %s",
           psa.getKey(), ctl.getChange().getKey());
       if (psa.isSubmit()) {
-        result.add(copy(psa));
+        unchanged.add(psa);
         continue;
       }
       LabelType label = labelTypes.byLabel(psa.getLabelId());
-      if (label != null) {
-        psa = copy(psa);
-        applyTypeFloor(label, psa);
-        if (applyRightFloor(ctl, label, psa)) {
-          result.add(psa);
-        }
+      if (label == null) {
+        deleted.add(psa);
+        continue;
+      }
+      PatchSetApproval copy = copy(psa);
+      applyTypeFloor(label, copy);
+      if (!applyRightFloor(ctl, label, copy)) {
+        deleted.add(psa);
+      } else if (copy.getValue() != psa.getValue()) {
+        updated.add(copy);
+      } else {
+        unchanged.add(psa);
       }
     }
-    return result;
+    return new Result(unchanged, updated, deleted);
   }
 
   /**

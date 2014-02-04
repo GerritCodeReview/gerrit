@@ -81,8 +81,8 @@ public class ApprovalCopier {
     db.patchSetApprovals().insert(getForPatchSet(db, ctl, ps));
   }
 
-  private List<PatchSetApproval> getForPatchSet(ReviewDb db, ChangeControl ctl,
-      PatchSet ps) throws OrmException {
+  private Iterable<PatchSetApproval> getForPatchSet(ReviewDb db,
+      ChangeControl ctl, PatchSet ps) throws OrmException {
     ChangeData cd = changeDataFactory.create(db, ctl);
     try {
       ProjectState project =
@@ -123,7 +123,7 @@ public class ApprovalCopier {
             }
           }
         }
-        return labelNormalizer.normalize(ctl, byUser.values());
+        return labelNormalizer.normalize(ctl, byUser.values()).getNormalized();
       } finally {
         repo.close();
       }

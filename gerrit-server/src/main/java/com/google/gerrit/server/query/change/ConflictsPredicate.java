@@ -17,8 +17,8 @@ package com.google.gerrit.server.query.change;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.SubmitTypeRecord;
+import com.google.gerrit.extensions.common.ProjectSubmitType;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.MergeException;
@@ -95,7 +95,7 @@ class ConflictsPredicate extends OrPredicate<ChangeData> {
           if (!otherChange.getDest().equals(c.getDest())) {
             return false;
           }
-          SubmitType submitType = getSubmitType(otherChange, object);
+          ProjectSubmitType submitType = getSubmitType(otherChange, object);
           if (submitType == null) {
             return false;
           }
@@ -153,7 +153,7 @@ class ConflictsPredicate extends OrPredicate<ChangeData> {
           return 5;
         }
 
-        private SubmitType getSubmitType(Change change, ChangeData cd) throws OrmException {
+        private ProjectSubmitType getSubmitType(Change change, ChangeData cd) throws OrmException {
           try {
             final SubmitTypeRecord r =
                 args.changeControlGenericFactory.controlFor(change,

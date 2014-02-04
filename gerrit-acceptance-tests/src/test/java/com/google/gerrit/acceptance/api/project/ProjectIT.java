@@ -17,19 +17,24 @@ package com.google.gerrit.acceptance.api.project;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.extensions.api.projects.BranchInput;
+import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.restapi.RestApiException;
 
-import org.eclipse.jgit.api.errors.GitAPIException;
 import org.junit.Test;
-
-import java.io.IOException;
 
 @NoHttpd
 public class ProjectIT extends AbstractDaemonTest  {
 
   @Test
-  public void createBranch() throws GitAPIException,
-      IOException, RestApiException {
+  public void createProjectFoo() throws RestApiException {
+    ProjectInput in = new ProjectInput();
+    in.name = "foo";
+    gApi.projects()
+        .create(in);
+  }
+
+  @Test
+  public void createBranch() throws RestApiException {
     gApi.projects()
         .name(project.get())
         .branch("foo")

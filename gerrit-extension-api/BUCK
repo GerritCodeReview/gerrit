@@ -5,7 +5,11 @@ gwt_module(
   name = 'client',
   srcs = glob([
     SRC + 'webui/GerritTopMenu.java',
-    SRC + 'common/ListChangesOption.java'
+    SRC + 'common/InheritableBoolean.java',
+    SRC + 'common/ListChangesOption.java',
+    SRC + 'common/ProjectStatus.java',
+    SRC + 'common/ProjectSubmitType.java',
+    SRC + 'common/ListChangesOption.java',
   ]),
   gwtxml = SRC + 'Extensions.gwt.xml',
   visibility = ['PUBLIC'],

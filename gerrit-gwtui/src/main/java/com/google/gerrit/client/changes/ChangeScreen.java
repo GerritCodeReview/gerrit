@@ -42,6 +42,7 @@ import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.data.ChangeInfo;
 import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.extensions.common.ListChangesOption;
+import com.google.gerrit.extensions.common.ProjectSubmitType;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.CommentVisibilityStrategy;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
@@ -50,7 +51,6 @@ import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.Patch.ChangeType;
 import com.google.gerrit.reviewdb.client.Patch.PatchType;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -311,7 +311,7 @@ public class ChangeScreen extends Screen
             @Override
             public void onSuccess(NativeString result) {
               event.getValue().setSubmitTypeRecord(SubmitTypeRecord.OK(
-                  Project.SubmitType.valueOf(result.asString())));
+                  ProjectSubmitType.valueOf(result.asString())));
             }
             public void onFailure(Throwable caught) {}
           }));

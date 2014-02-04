@@ -21,6 +21,7 @@ import com.google.gerrit.acceptance.AcceptanceTestRequestScope;
 import com.google.gerrit.acceptance.SshSession;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.projects.BranchInput;
+import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -29,12 +30,9 @@ import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.util.Providers;
 
-import org.eclipse.jgit.api.errors.GitAPIException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.io.IOException;
 
 public class ProjectIT extends AbstractDaemonTest  {
 
@@ -69,8 +67,15 @@ public class ProjectIT extends AbstractDaemonTest  {
   }
 
   @Test
-  public void createBranch() throws GitAPIException,
-      IOException, RestApiException {
+  public void createProjectFoo() throws RestApiException {
+    ProjectInput in = new ProjectInput();
+    in.name = "foo";
+    gApi.projects()
+        .create(in);
+  }
+
+  @Test
+  public void createBranch() throws RestApiException {
     gApi.projects()
         .name(project.get())
         .branch("foo")

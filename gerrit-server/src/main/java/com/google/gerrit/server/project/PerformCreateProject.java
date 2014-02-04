@@ -22,12 +22,12 @@ import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.errors.ProjectCreationFailedException;
+import com.google.gerrit.extensions.common.ProjectSubmitType;
 import com.google.gerrit.extensions.events.NewProjectCreatedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupBackend;
@@ -188,7 +188,7 @@ public class PerformCreateProject {
       Project newProject = config.getProject();
       newProject.setDescription(createProjectArgs.projectDescription);
       newProject.setSubmitType(Objects.firstNonNull(createProjectArgs.submitType,
-          cfg.getEnum("repository", "*", "defaultSubmitType", SubmitType.MERGE_IF_NECESSARY)));
+          cfg.getEnum("repository", "*", "defaultSubmitType", ProjectSubmitType.MERGE_IF_NECESSARY)));
       newProject
           .setUseContributorAgreements(createProjectArgs.contributorAgreements);
       newProject.setUseSignedOffBy(createProjectArgs.signedOffBy);

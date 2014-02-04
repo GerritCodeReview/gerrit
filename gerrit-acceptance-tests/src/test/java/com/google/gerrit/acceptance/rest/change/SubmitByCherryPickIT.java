@@ -18,7 +18,7 @@ import static com.google.gerrit.acceptance.GitUtil.checkout;
 import static org.junit.Assert.assertEquals;
 
 import com.google.gerrit.acceptance.PushOneCommit;
-import com.google.gerrit.reviewdb.client.Project.SubmitType;
+import com.google.gerrit.extensions.common.ProjectSubmitType;
 
 import com.jcraft.jsch.JSchException;
 
@@ -32,8 +32,8 @@ import java.io.IOException;
 public class SubmitByCherryPickIT extends AbstractSubmit {
 
   @Override
-  protected SubmitType getSubmitType() {
-    return SubmitType.CHERRY_PICK;
+  protected ProjectSubmitType getSubmitType() {
+    return ProjectSubmitType.CHERRY_PICK;
   }
 
   @Test

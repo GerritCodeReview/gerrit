@@ -348,16 +348,14 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
     }
 
     List<PatchLineComment> del = Lists.newArrayList();
-    List<PatchLineComment> ins = Lists.newArrayList();
-    List<PatchLineComment> upd = Lists.newArrayList();
+    List<PatchLineComment> ups = Lists.newArrayList();
 
     for (Map.Entry<String, List<Comment>> ent : in.entrySet()) {
       String path = ent.getKey();
       for (Comment c : ent.getValue()) {
         String parent = Url.decode(c.inReplyTo);
         PatchLineComment e = drafts.remove(Url.decode(c.id));
-        boolean create = e == null;
-        if (create) {
+        if (e == null) {
           e = new PatchLineComment(
               new PatchLineComment.Key(
                   new Patch.Key(rsrc.getPatchSet().getId(), path),
@@ -373,7 +371,7 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
         e.setSide(c.side == Side.PARENT ? (short) 0 : (short) 1);
         e.setMessage(c.message);
         e.setRange(c.range);
-        (create ? ins : upd).add(e);
+        ups.add(e);
       }
     }
 
@@ -388,16 +386,14 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
         for (PatchLineComment e : drafts.values()) {
           e.setStatus(PatchLineComment.Status.PUBLISHED);
           e.setWrittenOn(timestamp);
-          upd.add(e);
+          ups.add(e);
         }
         break;
     }
     db.get().patchComments().delete(del);
-    db.get().patchComments().insert(ins);
-    db.get().patchComments().update(upd);
-    comments.addAll(ins);
-    comments.addAll(upd);
-    return !del.isEmpty() || !ins.isEmpty() || !upd.isEmpty();
+    db.get().patchComments().upsert(ups);
+    comments.addAll(ups);
+    return !del.isEmpty() || !ups.isEmpty();
   }
 
   private Map<String, PatchLineComment> scanDraftComments(
@@ -418,8 +414,7 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
     }
 
     List<PatchSetApproval> del = Lists.newArrayList();
-    List<PatchSetApproval> ins = Lists.newArrayList();
-    List<PatchSetApproval> upd = Lists.newArrayList();
+    List<PatchSetApproval> ups = Lists.newArrayList();
     Map<String, PatchSetApproval> current = scanLabels(rsrc, del);
 
     LabelTypes labelTypes = rsrc.getControl().getLabelTypes();
@@ -445,7 +440,7 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
         c.setValue(ent.getValue());
         c.setGranted(timestamp);
         c.cache(change);
-        upd.add(c);
+        ups.add(c);
         labelDelta.add(format(normName, c.getValue()));
         categories.put(normName, c.getValue());
       } else if (c != null && c.getValue() == ent.getValue()) {
@@ -458,23 +453,22 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
             ent.getValue(), TimeUtil.nowTs());
         c.setGranted(timestamp);
         c.cache(change);
-        ins.add(c);
+        ups.add(c);
         labelDelta.add(format(normName, c.getValue()));
         categories.put(normName, c.getValue());
       }
     }
 
-    forceCallerAsReviewer(rsrc, current, ins, upd, del);
+    forceCallerAsReviewer(rsrc, current, ups, del);
     db.get().patchSetApprovals().delete(del);
-    db.get().patchSetApprovals().insert(ins);
-    db.get().patchSetApprovals().update(upd);
-    return !del.isEmpty() || !ins.isEmpty() || !upd.isEmpty();
+    db.get().patchSetApprovals().upsert(ups);
+    return !del.isEmpty() || !ups.isEmpty();
   }
 
   private void forceCallerAsReviewer(RevisionResource rsrc,
-      Map<String, PatchSetApproval> current, List<PatchSetApproval> ins,
-      List<PatchSetApproval> upd, List<PatchSetApproval> del) {
-    if (current.isEmpty() && ins.isEmpty() && upd.isEmpty()) {
+      Map<String, PatchSetApproval> current, List<PatchSetApproval> ups,
+      List<PatchSetApproval> del) {
+    if (current.isEmpty() && ups.isEmpty()) {
       // TODO Find another way to link reviewers to changes.
       if (del.isEmpty()) {
         // If no existing label is being set to 0, hack in the caller
@@ -487,7 +481,7 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
             (short) 0, TimeUtil.nowTs());
         c.setGranted(timestamp);
         c.cache(change);
-        ins.add(c);
+        ups.add(c);
       } else {
         // Pick a random label that is about to be deleted and keep it.
         Iterator<PatchSetApproval> i = del.iterator();
@@ -496,7 +490,7 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
         c.setGranted(timestamp);
         c.cache(change);
         i.remove();
-        upd.add(c);
+        ups.add(c);
       }
     }
   }

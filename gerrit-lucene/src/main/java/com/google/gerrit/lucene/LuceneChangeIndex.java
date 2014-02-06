@@ -134,6 +134,18 @@ public class LuceneChangeIndex implements ChangeIndex {
     LUCENE_VERSIONS = versions.build();
   }
 
+  public static void setReady(SitePaths sitePaths, int version, boolean ready)
+      throws IOException {
+    try {
+      FileBasedConfig cfg =
+          LuceneVersionManager.loadGerritIndexConfig(sitePaths);
+      LuceneVersionManager.setReady(cfg, version, ready);
+      cfg.save();
+    } catch (ConfigInvalidException e) {
+      throw new IOException(e);
+    }
+  }
+
   static interface Factory {
     LuceneChangeIndex create(Schema<ChangeData> schema, String base);
   }
@@ -304,13 +316,7 @@ public class LuceneChangeIndex implements ChangeIndex {
 
   @Override
   public void markReady(boolean ready) throws IOException {
-    try {
-      FileBasedConfig cfg = LuceneVersionManager.loadGerritIndexConfig(sitePaths);
-      LuceneVersionManager.setReady(cfg, schema.getVersion(), ready);
-      cfg.save();
-    } catch (ConfigInvalidException e) {
-      throw new IOException(e);
-    }
+    setReady(sitePaths, schema.getVersion(), ready);
   }
 
   private static final ImmutableSet<String> FIELDS =

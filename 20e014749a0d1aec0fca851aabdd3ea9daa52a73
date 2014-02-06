@@ -2,6 +2,115 @@
   "comments": [
     {
       "key": {
+        "uuid": "328f3eaf_7e24f1be",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1302,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-02-06T13:25:55Z",
+      "side": 1,
+      "message": "\".  Can\"\n\nNot a problem with this change, but we might as well fix it while we\u0027re in here anyway.",
+      "range": {
+        "startLine": 1302,
+        "startChar": 39,
+        "endLine": 1302,
+        "endChar": 42
+      },
+      "revId": "20e014749a0d1aec0fca851aabdd3ea9daa52a73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "128cfab8_5d273bc4",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1309,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-02-06T13:25:55Z",
+      "side": 1,
+      "message": "\". Only\"",
+      "range": {
+        "startLine": 1309,
+        "startChar": 18,
+        "endLine": 1309,
+        "endChar": 21
+      },
+      "revId": "20e014749a0d1aec0fca851aabdd3ea9daa52a73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "328f3eaf_9e4ffd86",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1313,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-02-06T13:25:55Z",
+      "side": 1,
+      "message": "and here.\n\nunless it\u0027s consistently like this everywhere, in which case it might be better to fix in a separate change.",
+      "range": {
+        "startLine": 1313,
+        "startChar": 28,
+        "endLine": 1313,
+        "endChar": 31
+      },
+      "revId": "20e014749a0d1aec0fca851aabdd3ea9daa52a73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "128cfab8_7d24f7be",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-02-06T13:25:55Z",
+      "side": 1,
+      "message": "Isn\u0027t there a more elegant way of doing this than a massive if-else block?",
+      "range": {
+        "startLine": 369,
+        "startChar": 8,
+        "endLine": 379,
+        "endChar": 39
+      },
+      "revId": "20e014749a0d1aec0fca851aabdd3ea9daa52a73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "328f3eaf_be54b91b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ProjectConfigEntry.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-02-06T13:25:55Z",
+      "side": 1,
+      "message": "But we do for LIST.  Why not ARRAY?",
+      "revId": "20e014749a0d1aec0fca851aabdd3ea9daa52a73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "725e16ff_780de14e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutConfig.java",
         "patchSetId": 2

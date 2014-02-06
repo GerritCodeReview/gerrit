@@ -22,6 +22,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.PatchSetInserter.ValidatePolicy;
 import com.google.gerrit.server.changedetail.PathConflictException;
 import com.google.gerrit.server.changedetail.RebaseChange;
+import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
@@ -35,14 +36,17 @@ import java.util.List;
 import java.util.Map;
 
 public class RebaseIfNecessary extends SubmitStrategy {
-
+  private final PatchSetInfoFactory patchSetInfoFactory;
   private final RebaseChange rebaseChange;
   private final Map<Change.Id, CodeReviewCommit> newCommits;
   private final PersonIdent committerIdent;
 
-  RebaseIfNecessary(final SubmitStrategy.Arguments args,
-      final RebaseChange rebaseChange, PersonIdent committerIdent) {
+  RebaseIfNecessary(SubmitStrategy.Arguments args,
+      PatchSetInfoFactory patchSetInfoFactory,
+      RebaseChange rebaseChange,
+      PersonIdent committerIdent) {
     super(args);
+    this.patchSetInfoFactory = patchSetInfoFactory;
     this.rebaseChange = rebaseChange;
     this.newCommits = new HashMap<Change.Id, CodeReviewCommit>();
     this.committerIdent = committerIdent;
@@ -82,7 +86,7 @@ public class RebaseIfNecessary extends SubmitStrategy {
                 args.mergeUtil.getSubmitter(n).getAccountId());
             final PatchSet newPatchSet =
                 rebaseChange.rebase(args.repo, args.rw, args.inserter,
-                    n.patchsetId, n.getChange(), uploader,
+                    n.patchsetId, n.change(), uploader,
                     newMergeTip, args.mergeUtil, committerIdent,
                     false, false, ValidatePolicy.NONE);
 
@@ -91,7 +95,7 @@ public class RebaseIfNecessary extends SubmitStrategy {
             // describes the change being submitted.
             List<PatchSetApproval> approvals = Lists.newArrayList();
             for (PatchSetApproval a : args.approvalsUtil.byPatchSet(
-                args.db, n.notes, n.patchsetId)) {
+                args.db, n.notes(), n.patchsetId)) {
               approvals.add(new PatchSetApproval(newPatchSet.getId(), a));
             }
             args.db.patchSetApprovals().insert(approvals);
@@ -99,22 +103,19 @@ public class RebaseIfNecessary extends SubmitStrategy {
             newMergeTip =
                 (CodeReviewCommit) args.rw.parseCommit(ObjectId
                     .fromString(newPatchSet.getRevision().get()));
+            n.change().setCurrentPatchSet(
+                patchSetInfoFactory.get(newMergeTip, newPatchSet.getId()));
             newMergeTip.copyFrom(n);
+            newMergeTip.control =
+                args.changeControlFactory.controlFor(n.change(), uploader);
             newMergeTip.patchsetId = newPatchSet.getId();
-            newMergeTip.notes = args.notesFactory.create(
-                args.db.changes().get(newPatchSet.getId().getParentKey()));
             newMergeTip.statusCode = CommitMergeStatus.CLEAN_REBASE;
             newCommits.put(newPatchSet.getId().getParentKey(), newMergeTip);
             setRefLogIdent(args.mergeUtil.getSubmitter(n));
           } catch (PathConflictException e) {
             n.statusCode = CommitMergeStatus.PATH_CONFLICT;
-          } catch (NoSuchChangeException e) {
-            throw new MergeException("Cannot rebase " + n.name(), e);
-          } catch (OrmException e) {
-            throw new MergeException("Cannot rebase " + n.name(), e);
-          } catch (IOException e) {
-            throw new MergeException("Cannot rebase " + n.name(), e);
-          } catch (InvalidChangeOperationException e) {
+          } catch (NoSuchChangeException | OrmException | IOException
+              | InvalidChangeOperationException e) {
             throw new MergeException("Cannot rebase " + n.name(), e);
           }
         }

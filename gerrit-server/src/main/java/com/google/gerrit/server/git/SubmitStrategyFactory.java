@@ -23,9 +23,8 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.changedetail.RebaseChange;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.index.ChangeIndexer;
-import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
@@ -49,8 +48,7 @@ public class SubmitStrategyFactory {
 
   private final IdentifiedUser.GenericFactory identifiedUserFactory;
   private final PersonIdent myIdent;
-  private final ChangeNotes.Factory notesFactory;
-  private final ChangeUpdate.Factory updateFactory;
+  private final ChangeControl.GenericFactory changeControlFactory;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final GitReferenceUpdated gitRefUpdated;
   private final RebaseChange rebaseChange;
@@ -63,8 +61,7 @@ public class SubmitStrategyFactory {
   SubmitStrategyFactory(
       final IdentifiedUser.GenericFactory identifiedUserFactory,
       @GerritPersonIdent final PersonIdent myIdent,
-      final ChangeNotes.Factory notesFactory,
-      final ChangeUpdate.Factory updateFactory,
+      final ChangeControl.GenericFactory changeControlFactory,
       final PatchSetInfoFactory patchSetInfoFactory,
       final GitReferenceUpdated gitRefUpdated, final RebaseChange rebaseChange,
       final ProjectCache projectCache,
@@ -73,8 +70,7 @@ public class SubmitStrategyFactory {
       final ChangeIndexer indexer) {
     this.identifiedUserFactory = identifiedUserFactory;
     this.myIdent = myIdent;
-    this.notesFactory = notesFactory;
-    this.updateFactory = updateFactory;
+    this.changeControlFactory = changeControlFactory;
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.gitRefUpdated = gitRefUpdated;
     this.rebaseChange = rebaseChange;
@@ -92,7 +88,7 @@ public class SubmitStrategyFactory {
     ProjectState project = getProject(destBranch);
     final SubmitStrategy.Arguments args =
         new SubmitStrategy.Arguments(identifiedUserFactory, myIdent, db,
-            notesFactory, updateFactory, repo, rw, inserter, canMergeFlag,
+            changeControlFactory, repo, rw, inserter, canMergeFlag,
             alreadyAccepted, destBranch,approvalsUtil,
             mergeUtilFactory.create(project), indexer);
     switch (submitType) {
@@ -105,7 +101,8 @@ public class SubmitStrategyFactory {
       case MERGE_IF_NECESSARY:
         return new MergeIfNecessary(args);
       case REBASE_IF_NECESSARY:
-        return new RebaseIfNecessary(args, rebaseChange, myIdent);
+        return new RebaseIfNecessary(
+            args, patchSetInfoFactory, rebaseChange, myIdent);
       default:
         final String errorMsg = "No submit strategy for: " + submitType;
         log.error(errorMsg);

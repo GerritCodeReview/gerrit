@@ -279,8 +279,8 @@ public class MergeOp {
       for (final CodeReviewCommit commit : potentiallyStillSubmittableOnNextRun) {
         final Capable capable = isSubmitStillPossible(commit);
         if (capable != Capable.OK) {
-          sendMergeFail(commit.notes,
-              message(commit.getChange(), capable.getMessage()), false);
+          sendMergeFail(commit.notes(),
+              message(commit.change(), capable.getMessage()), false);
         }
       }
     } catch (NoSuchProjectException noProject) {
@@ -327,7 +327,12 @@ public class MergeOp {
     }
 
     for (CodeReviewCommit missingCommit : commit.missing) {
-      loadChangeInfo(missingCommit);
+      try {
+        loadChangeInfo(missingCommit);
+      } catch (NoSuchChangeException | OrmException e) {
+        log.error("Cannot check if missing commits are can be submitted", e);
+        return false;
+      }
 
       if (missingCommit.patchsetId == null) {
         // The commit doesn't have a patch set, so it cannot be
@@ -336,7 +341,7 @@ public class MergeOp {
         return false;
       }
 
-      if (!missingCommit.getChange().currentPatchSetId().equals(
+      if (!missingCommit.change().currentPatchSetId().equals(
           missingCommit.patchsetId)) {
         // If the missing commit is not the current patch set,
         // the change must be rebased to use the proper parent.
@@ -519,7 +524,12 @@ public class MergeOp {
         continue;
       }
 
-      commit.notes = notesFactory.create(chg);
+      try {
+        commit.control = changeControlFactory.controlFor(chg,
+            identifiedUserFactory.create(chg.getOwner()));
+      } catch (NoSuchChangeException e) {
+        throw new MergeException("Failed to validate changes", e);
+      }
       commit.patchsetId = ps.getId();
       commit.originalOrder = commitOrder++;
       commits.put(changeId, commit);
@@ -544,7 +554,7 @@ public class MergeOp {
         }
       }
 
-      final SubmitType submitType = getSubmitType(chg, ps);
+      final SubmitType submitType = getSubmitType(commit.control, ps);
       if (submitType == null) {
         commits.put(changeId,
             CodeReviewCommit.error(CommitMergeStatus.NO_SUBMIT_TYPE));
@@ -559,21 +569,13 @@ public class MergeOp {
     return toSubmit;
   }
 
-  private SubmitType getSubmitType(final Change change, final PatchSet ps) {
-    try {
-      final SubmitTypeRecord r =
-          changeControlFactory.controlFor(change,
-              identifiedUserFactory.create(change.getOwner()))
-              .getSubmitTypeRecord(db, ps);
-      if (r.status != SubmitTypeRecord.Status.OK) {
-        log.error("Failed to get submit type for " + change.getKey());
-        return null;
-      }
-      return r.type;
-    } catch (NoSuchChangeException e) {
-      log.error("Failed to get submit type for " + change.getKey(), e);
+  private SubmitType getSubmitType(ChangeControl ctl, PatchSet ps) {
+    SubmitTypeRecord r = ctl.getSubmitTypeRecord(db, ps);
+    if (r.status != SubmitTypeRecord.Status.OK) {
+      log.error("Failed to get submit type for " + ctl.getChange().getKey());
       return null;
     }
+    return r.type;
   }
 
   private void updateBranch(final SubmitStrategy strategy,
@@ -623,7 +625,7 @@ public class MergeOp {
 
             Account account = null;
             PatchSetApproval submitter = approvalsUtil.getSubmitter(
-                db, mergeTip.notes, mergeTip.patchsetId);
+                db, mergeTip.notes(), mergeTip.patchsetId);
             if (submitter != null) {
               account = accountCache.get(submitter.getAccountId()).getAccount();
             }
@@ -723,7 +725,7 @@ public class MergeOp {
 
   private Capable isSubmitStillPossible(final CodeReviewCommit commit) {
     final Capable capable;
-    final Change c = commit.getChange();
+    final Change c = commit.change();
     final boolean submitStillPossible = isSubmitForMissingCommitsStillPossible(commit);
     final long now = TimeUtil.nowMs();
     final long waitUntil = c.getLastUpdatedOn().getTime() + DEPENDENCY_DELAY;
@@ -748,7 +750,7 @@ public class MergeOp {
       m.append("\n");
       for (CodeReviewCommit missingCommit : commit.missing) {
         m.append("* ");
-        m.append(missingCommit.getChange().getKey().get());
+        m.append(missingCommit.change().getKey().get());
         m.append("\n");
       }
       capable = new Capable(m.toString());
@@ -767,10 +769,10 @@ public class MergeOp {
           m.append("* Depends on patch set ");
           m.append(missingCommit.patchsetId.get());
           m.append(" of ");
-          m.append(missingCommit.getChange().getKey().abbreviate());
-          if (missingCommit.patchsetId.get() != missingCommit.getChange().currentPatchSetId().get()) {
+          m.append(missingCommit.change().getKey().abbreviate());
+          if (missingCommit.patchsetId.get() != missingCommit.change().currentPatchSetId().get()) {
             m.append(", however the current patch set is ");
-            m.append(missingCommit.getChange().currentPatchSetId().get());
+            m.append(missingCommit.change().currentPatchSetId().get());
           }
           m.append(".\n");
 
@@ -788,18 +790,16 @@ public class MergeOp {
     return capable;
   }
 
-  private void loadChangeInfo(final CodeReviewCommit commit) {
-    if (commit.notes == null) {
-      try {
-        List<PatchSet> matches =
-            db.patchSets().byRevision(new RevId(commit.name())).toList();
-        if (matches.size() == 1) {
-          final PatchSet ps = matches.get(0);
-          commit.patchsetId = ps.getId();
-          commit.notes =
-              notesFactory.create(db.changes().get(ps.getId().getParentKey()));
-        }
-      } catch (OrmException e) {
+  private void loadChangeInfo(final CodeReviewCommit commit)
+      throws NoSuchChangeException, OrmException {
+    if (commit.control == null) {
+      List<PatchSet> matches =
+          db.patchSets().byRevision(new RevId(commit.name())).toList();
+      if (matches.size() == 1) {
+        PatchSet ps = matches.get(0);
+        commit.patchsetId = ps.getId();
+        commit.control =
+            changeControl(db.changes().get(ps.getId().getParentKey()));
       }
     }
   }
@@ -825,10 +825,10 @@ public class MergeOp {
       // We must pull the patchset out of commits, because the patchset ID is
       // modified when using the cherry-pick merge strategy.
       CodeReviewCommit commit = commits.get(c.getId());
-      PatchSet.Id merged = commit.getChange().currentPatchSetId();
+      PatchSet.Id merged = commit.change().currentPatchSetId();
       c = setMergedPatchSet(c.getId(), merged);
       PatchSetApproval submitter =
-          approvalsUtil.getSubmitter(db, commit.notes, merged);
+          approvalsUtil.getSubmitter(db, commit.notes(), merged);
       addMergedMessage(submitter, msg);
 
       db.commit();
@@ -904,9 +904,7 @@ public class MergeOp {
         }
 
         try {
-          final ChangeControl control = changeControlFactory.controlFor(c,
-              identifiedUserFactory.create(c.getOwner()));
-          final MergedSender cm = mergedSenderFactory.create(control);
+          MergedSender cm = mergedSenderFactory.create(changeControl(c));
           if (from != null) {
             cm.setFrom(from.getAccountId());
           }
@@ -924,8 +922,13 @@ public class MergeOp {
     }));
   }
 
+  private ChangeControl changeControl(Change c) throws NoSuchChangeException {
+    return changeControlFactory.controlFor(
+        c, identifiedUserFactory.create(c.getOwner()));
+  }
+
   private void setNew(CodeReviewCommit c, ChangeMessage msg) {
-    sendMergeFail(c.notes, msg, true);
+    sendMergeFail(c.notes(), msg, true);
   }
 
   private void setNew(Change c, ChangeMessage msg) throws OrmException {

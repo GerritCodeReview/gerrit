@@ -22,9 +22,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.index.ChangeIndexer;
-
-import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.project.ChangeControl;
 
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -52,8 +50,7 @@ public abstract class SubmitStrategy {
     protected final IdentifiedUser.GenericFactory identifiedUserFactory;
     protected final PersonIdent myIdent;
     protected final ReviewDb db;
-    protected final ChangeNotes.Factory notesFactory;
-    protected final ChangeUpdate.Factory updateFactory;
+    protected final ChangeControl.GenericFactory changeControlFactory;
 
     protected final Repository repo;
     protected final RevWalk rw;
@@ -68,17 +65,15 @@ public abstract class SubmitStrategy {
 
     Arguments(final IdentifiedUser.GenericFactory identifiedUserFactory,
         final PersonIdent myIdent, final ReviewDb db,
-        final ChangeNotes.Factory notesFactory,
-        final ChangeUpdate.Factory updateFactory, final Repository repo,
-        final RevWalk rw, final ObjectInserter inserter,
+        final ChangeControl.GenericFactory changeControlFactory,
+        final Repository repo, final RevWalk rw, final ObjectInserter inserter,
         final RevFlag canMergeFlag, final Set<RevCommit> alreadyAccepted,
         final Branch.NameKey destBranch, final ApprovalsUtil approvalsUtil,
         final MergeUtil mergeUtil, final ChangeIndexer indexer) {
       this.identifiedUserFactory = identifiedUserFactory;
       this.myIdent = myIdent;
       this.db = db;
-      this.notesFactory = notesFactory;
-      this.updateFactory = updateFactory;
+      this.changeControlFactory = changeControlFactory;
 
       this.repo = repo;
       this.rw = rw;

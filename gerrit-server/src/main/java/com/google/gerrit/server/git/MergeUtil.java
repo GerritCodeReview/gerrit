@@ -168,7 +168,7 @@ public class MergeUtil {
   }
 
   PatchSetApproval getSubmitter(CodeReviewCommit c) {
-    return approvalsUtil.getSubmitter(db.get(), c.notes, c.patchsetId);
+    return approvalsUtil.getSubmitter(db.get(), c.notes(), c.patchsetId);
   }
 
   public RevCommit createCherryPickFromCommit(Repository repo,
@@ -217,10 +217,10 @@ public class MergeUtil {
       msgbuf.append('\n');
     }
 
-    if (!contains(footers, CHANGE_ID, n.getChange().getKey().get())) {
+    if (!contains(footers, CHANGE_ID, n.change().getKey().get())) {
       msgbuf.append(CHANGE_ID.getName());
       msgbuf.append(": ");
-      msgbuf.append(n.getChange().getKey().get());
+      msgbuf.append(n.change().getKey().get());
       msgbuf.append('\n');
     }
 
@@ -313,7 +313,7 @@ public class MergeUtil {
 
   private List<PatchSetApproval> safeGetApprovals(CodeReviewCommit n) {
     try {
-      return approvalsUtil.byPatchSet(db.get(), n.notes, n.patchsetId);
+      return approvalsUtil.byPatchSet(db.get(), n.notes(), n.patchsetId);
     } catch (OrmException e) {
       log.error("Can't read approval records for " + n.patchsetId, e);
       return Collections.emptyList();
@@ -587,7 +587,10 @@ public class MergeUtil {
     mergeCommit.setCommitter(myIdent);
     mergeCommit.setMessage(msgbuf.toString());
 
-    return (CodeReviewCommit) rw.parseCommit(commit(inserter, mergeCommit));
+    CodeReviewCommit mergeResult =
+        (CodeReviewCommit) rw.parseCommit(commit(inserter, mergeCommit));
+    mergeResult.control = n.control;
+    return mergeResult;
   }
 
   private String summarize(RevWalk rw, List<CodeReviewCommit> merged)
@@ -600,8 +603,8 @@ public class MergeUtil {
 
     LinkedHashSet<String> topics = new LinkedHashSet<>(4);
     for (CodeReviewCommit c : merged) {
-      if (!Strings.isNullOrEmpty(c.getChange().getTopic())) {
-        topics.add(c.getChange().getTopic());
+      if (!Strings.isNullOrEmpty(c.change().getTopic())) {
+        topics.add(c.change().getTopic());
       }
     }
 
@@ -616,7 +619,7 @@ public class MergeUtil {
               new Function<CodeReviewCommit, String>() {
                 @Override
                 public String apply(CodeReviewCommit in) {
-                  return in.getChange().getKey().abbreviate();
+                  return in.change().getKey().abbreviate();
                 }
               })),
           merged.size() > 5 ? ", ..." : "");

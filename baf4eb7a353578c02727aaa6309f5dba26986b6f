@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "32781e6f_f6e90025",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-02-06T19:10:35Z",
+      "side": 1,
+      "message": "Here we build the control for the change owner, which may be different than the caller that is running this ChangeJson.",
+      "revId": "baf4eb7a353578c02727aaa6309f5dba26986b6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

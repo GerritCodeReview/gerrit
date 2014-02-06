@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "328f3eaf_7ef6b102",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 3289,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-02-06T00:23:58Z",
+      "side": 1,
+      "message": "The link:rest-api-accounts.html#account-id[\\{account-id\\}] of the user on whose behalf the action should be done.",
+      "range": {
+        "startLine": 3288,
+        "startChar": 0,
+        "endLine": 3289,
+        "endChar": 35
+      },
+      "revId": "c6cc7eb62a582aae2111e32b94752920e2bd2919",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "128cfab8_fde9e724",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 3291,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-02-06T00:23:58Z",
+      "side": 1,
+      "message": "enclose this in backticks",
+      "range": {
+        "startLine": 3291,
+        "startChar": 3,
+        "endLine": 3291,
+        "endChar": 15
+      },
+      "revId": "c6cc7eb62a582aae2111e32b94752920e2bd2919",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "328f3eaf_3eec2931",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 3291,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-02-06T00:23:58Z",
+      "side": 1,
+      "message": "\"does not need to be granted\"",
+      "range": {
+        "startLine": 3291,
+        "startChar": 16,
+        "endLine": 3291,
+        "endChar": 35
+      },
+      "revId": "c6cc7eb62a582aae2111e32b94752920e2bd2919",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "128cfab8_1def7328",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 3292,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-02-06T00:23:58Z",
+      "side": 1,
+      "message": "the CI account",
+      "range": {
+        "startLine": 3292,
+        "startChar": 27,
+        "endLine": 3292,
+        "endChar": 37
+      },
+      "revId": "c6cc7eb62a582aae2111e32b94752920e2bd2919",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "128cfab8_3dec2f31",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 3295,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-02-06T00:23:58Z",
+      "side": 1,
+      "message": "account",
+      "range": {
+        "startLine": 3295,
+        "startChar": 6,
+        "endLine": 3295,
+        "endChar": 12
+      },
+      "revId": "c6cc7eb62a582aae2111e32b94752920e2bd2919",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "328f3eaf_5ef9f5f1",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 3295,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-02-06T00:23:58Z",
+      "side": 1,
+      "message": "the CI account",
+      "range": {
+        "startLine": 3295,
+        "startChar": 3,
+        "endLine": 3295,
+        "endChar": 12
+      },
+      "revId": "c6cc7eb62a582aae2111e32b94752920e2bd2919",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

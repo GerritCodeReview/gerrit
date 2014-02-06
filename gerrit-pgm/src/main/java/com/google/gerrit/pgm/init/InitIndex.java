@@ -14,6 +14,9 @@
 
 package com.google.gerrit.pgm.init;
 
+import static com.google.gerrit.pgm.init.InitUtil.die;
+import static com.google.gerrit.pgm.init.InitUtil.toURI;
+
 import com.google.common.collect.Sets;
 import com.google.gerrit.lucene.LuceneChangeIndex;
 import com.google.gerrit.lucene.LuceneIndexModule;
@@ -53,6 +56,7 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.Collections;
 import java.util.SortedSet;
 
@@ -79,6 +83,14 @@ class InitIndex implements InitStep {
     ui.header("Index");
 
     IndexType type = index.select("Type", "type", IndexType.LUCENE);
+    if (type == IndexType.SOLR) {
+      String url = index.string("Solr Index URL", "url", "localhost:8983");
+      try {
+        toURI(url);
+      } catch (URISyntaxException e) {
+        throw die("invalid index.url");
+      }
+    }
     if (site.isNew && type == IndexType.LUCENE) {
       createLuceneIndex();
     } else {

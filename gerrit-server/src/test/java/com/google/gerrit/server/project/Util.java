@@ -29,20 +29,29 @@ import com.google.gerrit.reviewdb.client.AccountProjectWatch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.NameKey;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.rules.PrologEnvironment;
 import com.google.gerrit.rules.RulesCache;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.CapabilityControl;
+import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.account.ListGroupMembership;
 import com.google.gerrit.server.config.AllProjectsName;
+import com.google.gerrit.server.config.AnonymousCowardName;
+import com.google.gerrit.server.config.AnonymousCowardNameProvider;
+import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.server.config.CanonicalWebUrlProvider;
 import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.testutil.FakeAccountCache;
 import com.google.gerrit.testutil.InMemoryRepositoryManager;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -193,6 +202,7 @@ public class Util {
       protected void configure() {
         bind(Config.class).annotatedWith(GerritServerConfig.class).toInstance(
             new Config());
+        bind(ReviewDb.class).toProvider(Providers.<ReviewDb> of(null));
         bind(GitRepositoryManager.class).toInstance(repoManager);
         bind(PatchListCache.class)
             .toProvider(Providers.<PatchListCache> of(null));
@@ -201,6 +211,12 @@ public class Util {
         factory(ChangeControl.AssistedFactory.class);
         factory(ChangeData.Factory.class);
         bind(ProjectCache.class).toInstance(projectCache);
+        bind(AccountCache.class).toInstance(new FakeAccountCache());
+        bind(GroupBackend.class).to(SystemGroupBackend.class);
+        bind(String.class).annotatedWith(CanonicalWebUrl.class)
+            .toProvider(CanonicalWebUrlProvider.class);
+        bind(String.class).annotatedWith(AnonymousCowardName.class)
+            .toProvider(AnonymousCowardNameProvider.class);
       }
     });
 

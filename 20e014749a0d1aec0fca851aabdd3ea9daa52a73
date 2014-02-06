@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "725e16ff_780de14e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-02-06T12:07:02Z",
+      "side": 1,
+      "message": "I would prefer if this splitting would already be done on client side.\n\nAt the moment the API looks a bit asymmetric to me. When the client reads this configuration parameter it gets a list of values but for setting the same parameter it sends a single string with the concatinated values to the server. I think also for setting the parameter it should be a list of values.\n\nHaving it as a single string with concatinated values suits the current way how the values are presented as textarea to the user. It is possible to imagine different UI controls for this (e.g. having an input field that adds a value to a list which is shown below, e.g. similar to how members can be added to a group). In this case the client would already have a list of values and it would be artificial to concantinate them for sending them to the server as a single string.",
+      "range": {
+        "startLine": 235,
+        "startChar": 50,
+        "endLine": 236,
+        "endChar": 53
+      },
+      "revId": "20e014749a0d1aec0fca851aabdd3ea9daa52a73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

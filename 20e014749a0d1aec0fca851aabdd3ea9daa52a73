@@ -111,6 +111,24 @@
     },
     {
       "key": {
+        "uuid": "9269caa4_d9499382",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ProjectConfigEntry.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-06T22:08:58Z",
+      "side": 1,
+      "message": "Because i havn\u0027t done it yet ;-)",
+      "parentUuid": "328f3eaf_be54b91b",
+      "revId": "20e014749a0d1aec0fca851aabdd3ea9daa52a73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "725e16ff_780de14e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutConfig.java",
         "patchSetId": 2

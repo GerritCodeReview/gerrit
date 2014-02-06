@@ -14,6 +14,7 @@
 
 package com.google.gerrit.plugin.client.rpc;
 
+import com.google.gerrit.client.rpc.NativeString;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.rpc.AsyncCallback;

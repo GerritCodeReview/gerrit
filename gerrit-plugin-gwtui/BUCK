@@ -1,3 +1,4 @@
+COMMON = ['gerrit-gwtui-common/src/main/java/']
 SRC = 'src/main/java/com/google/gerrit/'
 SRCS = glob([SRC + '**/*.java'])
 
@@ -6,16 +7,41 @@ DEPS = [
   '//lib/gwt:dev',
 ]
 
-java_library2(
+java_binary(
   name = 'gwtui-api',
-  srcs = SRCS,
-  resources = glob(['src/main/**/*']),
-  compile_deps = DEPS,
+  deps = [
+    ':gwtui-api-lib',
+    '//gerrit-gwtui-common:client-lib',
+  ],
   visibility = ['PUBLIC'],
 )
 
 java_library(
+  name = 'gwtui-api-lib',
+  exported_deps = [':gwtui-api-lib2'],
+  visibility = ['PUBLIC'],
+)
+
+java_library2(
+  name = 'gwtui-api-lib2',
+  srcs = SRCS,
+  resources = glob(['src/main/**/*']),
+  deps = ['//gerrit-gwtui-common:client-lib2'],
+  compile_deps = DEPS,
+  visibility = ['PUBLIC'],
+)
+
+java_binary(
   name = 'gwtui-api-src',
+  deps = [
+    ':gwtui-api-src-lib',
+    '//gerrit-gwtui-common:client-src-lib',
+  ],
+  visibility = ['PUBLIC'],
+)
+
+java_library(
+  name = 'gwtui-api-src-lib',
   srcs = [],
   resources = glob(['src/main/**/*']),
   visibility = ['PUBLIC'],
@@ -24,9 +50,9 @@ java_library(
 java_doc(
   name = 'gwtui-api-javadoc',
   title = 'Gerrit Review GWT Extension API Documentation',
-  pkg = 'com.google.gerrit.plugin',
-  paths = ['$SRCDIR/src/main/java'],
-  srcs = SRCS,
-  deps = DEPS,
+  pkg = 'com.google.gerrit',
+  paths = ['$SRCDIR/src/main/java'] + COMMON,
+  srcs = SRCS + glob(COMMON),
+  deps = DEPS + ['//gerrit-gwtui-common:client-src-lib'],
   visibility = ['PUBLIC'],
 )

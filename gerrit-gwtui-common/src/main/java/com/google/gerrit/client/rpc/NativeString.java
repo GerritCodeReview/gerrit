@@ -1,4 +1,4 @@
-// Copyright (C) 2013 The Android Open Source Project
+// Copyright (C) 2012 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,23 +12,35 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.plugin.client.rpc;
+package com.google.gerrit.client.rpc;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /** Wraps a String that was returned from a JSON API. */
-public class NativeString extends JavaScriptObject {
-  private static final JavaScriptObject TYPE = init();
+public final class NativeString extends JavaScriptObject {
+  public static final JavaScriptObject TYPE = init();
 
-  private static final native JavaScriptObject init()
-  /*-{ return $wnd.Gerrit.JsonString }-*/;
+  // Used from core and plugins
+  private static final native JavaScriptObject init() /*-{
+    if ($wnd.Gerrit === undefined || $wnd.Gerrit.JsonString === undefined) {
+      return function(s){this.s=s};
+    } else {
+      return $wnd.Gerrit.JsonString;
+    }
+  }-*/;
 
-  public final native String asString()
-  /*-{ return this; }-*/;
+  static final NativeString wrap(String s) {
+    return wrap0(TYPE, s);
+  }
 
-  public static final
-  AsyncCallback<NativeString> unwrap(final AsyncCallback<String> cb) {
+  private static final native NativeString wrap0(JavaScriptObject T, String s)
+  /*-{ return new T(s) }-*/;
+
+  public final native String asString() /*-{ return this.s; }-*/;
+
+  public static final AsyncCallback<NativeString>
+  unwrap(final AsyncCallback<String> cb) {
     return new AsyncCallback<NativeString>() {
       @Override
       public void onSuccess(NativeString result) {

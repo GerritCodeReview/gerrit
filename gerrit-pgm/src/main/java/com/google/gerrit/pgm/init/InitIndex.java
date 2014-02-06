@@ -51,8 +51,11 @@ class InitIndex implements InitStep {
       LuceneChangeIndex.setReady(
           site, ChangeSchemas.getLatest().getVersion(), true);
     } else {
-      ui.message("The index must be built before starting Gerrit:\n"
-        + "  java -jar gerrit.war reindex -d site_path\n");
+      final String message = String.format(
+        "\nThe index must be %sbuilt before starting Gerrit:\n"
+        + "  java -jar gerrit.war reindex -d site_path\n",
+        site.isNew ? "" : "re");
+      ui.message(message);
       initFlags.autoStart = false;
     }
   }

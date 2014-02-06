@@ -33,6 +33,7 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NotesMigration;
@@ -150,11 +151,13 @@ public class ChangeData {
    * @return instance for testing.
    */
   static ChangeData createForTest(Change.Id id) {
-    return new ChangeData(null, null, null, null, null, null, id);
+    return new ChangeData(null, null, null, null, null, null, null, null, id);
   }
 
   private final ReviewDb db;
   private final GitRepositoryManager repoManager;
+  private final ChangeControl.GenericFactory changeControlFactory;
+  private final IdentifiedUser.GenericFactory userFactory;
   private final ChangeNotes.Factory notesFactory;
   private final ApprovalsUtil approvalsUtil;
   private final PatchListCache patchListCache;
@@ -180,6 +183,8 @@ public class ChangeData {
   @AssistedInject
   private ChangeData(
       GitRepositoryManager repoManager,
+      ChangeControl.GenericFactory changeControlFactory,
+      IdentifiedUser.GenericFactory userFactory,
       ChangeNotes.Factory notesFactory,
       ApprovalsUtil approvalsUtil,
       PatchListCache patchListCache,
@@ -188,6 +193,8 @@ public class ChangeData {
       @Assisted Change.Id id) {
     this.db = db;
     this.repoManager = repoManager;
+    this.changeControlFactory = changeControlFactory;
+    this.userFactory = userFactory;
     this.notesFactory = notesFactory;
     this.approvalsUtil = approvalsUtil;
     this.patchListCache = patchListCache;
@@ -198,6 +205,8 @@ public class ChangeData {
   @AssistedInject
   private ChangeData(
       GitRepositoryManager repoManager,
+      ChangeControl.GenericFactory changeControlFactory,
+      IdentifiedUser.GenericFactory userFactory,
       ChangeNotes.Factory notesFactory,
       ApprovalsUtil approvalsUtil,
       PatchListCache patchListCache,
@@ -206,6 +215,8 @@ public class ChangeData {
       @Assisted Change c) {
     this.db = db;
     this.repoManager = repoManager;
+    this.changeControlFactory = changeControlFactory;
+    this.userFactory = userFactory;
     this.notesFactory = notesFactory;
     this.approvalsUtil = approvalsUtil;
     this.patchListCache = patchListCache;
@@ -217,6 +228,8 @@ public class ChangeData {
   @AssistedInject
   private ChangeData(
       GitRepositoryManager repoManager,
+      ChangeControl.GenericFactory changeControlFactory,
+      IdentifiedUser.GenericFactory userFactory,
       ChangeNotes.Factory notesFactory,
       ApprovalsUtil approvalsUtil,
       PatchListCache patchListCache,
@@ -225,6 +238,8 @@ public class ChangeData {
       @Assisted ChangeControl c) {
     this.db = db;
     this.repoManager = repoManager;
+    this.changeControlFactory = changeControlFactory;
+    this.userFactory = userFactory;
     this.notesFactory = notesFactory;
     this.approvalsUtil = approvalsUtil;
     this.patchListCache = patchListCache;
@@ -324,7 +339,17 @@ public class ChangeData {
     return visibleTo == user;
   }
 
-  public ChangeControl changeControl() {
+  public boolean hasChangeControl() {
+    return changeControl != null;
+  }
+
+  public ChangeControl changeControl() throws NoSuchChangeException,
+      OrmException {
+    if (changeControl == null) {
+      Change c = change();
+      changeControl =
+          changeControlFactory.controlFor(c, userFactory.create(c.getOwner()));
+    }
     return changeControl;
   }
 

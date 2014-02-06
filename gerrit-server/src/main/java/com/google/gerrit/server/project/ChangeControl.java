@@ -217,6 +217,9 @@ public class ChangeControl {
   }
 
   public ChangeControl forUser(final CurrentUser who) {
+    if (getCurrentUser().equals(who)) {
+      return this;
+    }
     return new ChangeControl(approvalsUtil, changeDataFactory,
         getRefControl().forUser(who), notes);
   }

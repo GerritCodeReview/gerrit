@@ -1901,6 +1901,12 @@ Gerrit server.
 Open and closed changes are indexed in separate indexes named
 'changes_open' and 'changes_closed' respectively.
 
+[[index.url]]index.url::
++
+Only used when the type is `SOLR`.
++
+URL of the index server.
+
 [[index.name.ramBufferSize]]index.name.ramBufferSize::
 +
 Only used when the type is `LUCENE`.

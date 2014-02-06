@@ -100,9 +100,9 @@ class SolrChangeIndex implements ChangeIndex, LifecycleListener {
     this.indexes = indexes;
     this.schema = schema;
 
-    String url = cfg.getString("index", "solr", "url");
+    String url = cfg.getString("index", null, "url");
     if (Strings.isNullOrEmpty(url)) {
-      throw new IllegalStateException("index.solr.url must be supplied");
+      throw new IllegalStateException("index.url must be supplied");
     }
 
     // Version is only used to determine the list of stop words used by the

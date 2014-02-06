@@ -292,7 +292,7 @@ public class RebaseChange {
     rebasedCommit = revWalk.parseCommit(newId);
 
     final ChangeControl changeControl =
-        changeControlFactory.validateFor(change.getId(), uploader);
+        changeControlFactory.validateFor(change, uploader);
 
     PatchSetInserter patchSetInserter = patchSetInserterFactory
         .create(git, revWalk, changeControl, rebasedCommit)

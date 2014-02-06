@@ -125,7 +125,7 @@ public class MergeValidators {
           } else {
             if (!oldParent.equals(newParent)) {
               PatchSetApproval psa =
-                  approvalsUtil.getSubmitter(db, commit.notes, patchSetId);
+                  approvalsUtil.getSubmitter(db, commit.notes(), patchSetId);
               if (psa == null) {
                 throw new MergeValidationException(CommitMergeStatus.
                     SETTING_PARENT_PROJECT_ONLY_ALLOWED_BY_ADMIN);

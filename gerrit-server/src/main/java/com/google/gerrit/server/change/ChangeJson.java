@@ -361,7 +361,7 @@ public class ChangeJson {
       if (projectCtrl != null) {
         ctrl = projectCtrl.controlFor(cd.change());
       } else {
-        ctrl = cd.changeControl();
+        ctrl = cd.changeControl().forUser(userProvider.get());
       }
     } catch (NoSuchChangeException | ExecutionException e) {
       throw new OrmException(e);

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "725376fd_90da7490",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-02-06T20:32:05Z",
+      "side": 1,
+      "message": "This branch can never be reached, projectControls is a LoadingCache, not a Map. Reordered slightly.",
+      "revId": "d40b68ee965cbf720a008e9782fa77c99efc8fb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

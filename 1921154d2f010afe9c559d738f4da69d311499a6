@@ -169,6 +169,30 @@
     },
     {
       "key": {
+        "uuid": "9269caa4_d932730a",
+        "filename": "gerrit-plugin-gwtui/src/main/java/com/google/gerrit/plugin/client/rpc/NativeMap.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-02-06T11:42:16Z",
+      "side": 1,
+      "message": "Yes, having something like \u0027gerrit-gwtui-share\u0027 would be cool. Maybe name it \u0027gerrit-gwtui-common\u0027.",
+      "parentUuid": "725e16ff_b8069937",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "1921154d2f010afe9c559d738f4da69d311499a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "128cfab8_bddf5f7f",
         "filename": "gerrit-plugin-gwtui/src/main/java/com/google/gerrit/plugin/client/rpc/TransformCallback.java",
         "patchSetId": 1

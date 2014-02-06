@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "9269caa4_f900171d",
+        "filename": "gerrit-plugin-gwtui/src/main/java/com/google/gerrit/plugin/client/rpc/NativeMap.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-02-06T07:22:34Z",
+      "side": 1,
+      "message": "Maybe.\n\nI also started to think that we should may be have a set of client side classes that are shared between Gerrit Core UI and GWT plugins. There are several classes in Gerrit core UI that are useful for GWT plugins, e.g. OnEditEnabler, ConfirmationDialog + ConfirmationCallback. At the moment these kind of classes just get copied/reimplemented in the plugins. Also the code to suggest projects, reviewers etc. may be valueable for plugins. I just don\u0027t know how difficult it would be to start such a shared component. We could start with very few classes there and move over stuff when we find it useful for plugins.",
+      "parentUuid": "725e16ff_58f9fdf1",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "1921154d2f010afe9c559d738f4da69d311499a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "128cfab8_bddf5f7f",
         "filename": "gerrit-plugin-gwtui/src/main/java/com/google/gerrit/plugin/client/rpc/TransformCallback.java",
         "patchSetId": 1

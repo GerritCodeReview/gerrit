@@ -79,6 +79,9 @@ class InitIndex implements InitStep {
     ui.header("Index");
 
     IndexType type = index.select("Type", "type", IndexType.LUCENE);
+    if (type == IndexType.SOLR) {
+      index.string("Solr Index URL", "url", "localhost:8983");
+    }
     if (site.isNew && type == IndexType.LUCENE) {
       createLuceneIndex();
     } else {

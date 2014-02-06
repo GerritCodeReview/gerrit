@@ -86,6 +86,7 @@ import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -349,22 +350,21 @@ public class ChangeJson {
   }
 
   private ChangeControl control(ChangeData cd) throws OrmException {
-    ChangeControl ctrl = cd.changeControl();
-    if (ctrl != null && ctrl.getCurrentUser() == userProvider.get()) {
-      return ctrl;
-    } else if (lastControl != null
+    if (lastControl != null
         && cd.getId().equals(lastControl.getChange().getId())) {
       return lastControl;
     }
-
+    ChangeControl ctrl;
+    ProjectControl projectCtrl;
     try {
-      Change change = cd.change();
-      if (change == null) {
-        return null;
+      projectCtrl = projectControls.get(cd.change().getProject());
+      if (projectCtrl != null) {
+        ctrl = projectCtrl.controlFor(cd.change());
+      } else {
+        ctrl = cd.changeControl().forUser(userProvider.get());
       }
-      ctrl = projectControls.get(change.getProject()).controlFor(change);
-    } catch (ExecutionException e) {
-      return null;
+    } catch (NoSuchChangeException | ExecutionException e) {
+      throw new OrmException(e);
     }
     lastControl = ctrl;
     return ctrl;

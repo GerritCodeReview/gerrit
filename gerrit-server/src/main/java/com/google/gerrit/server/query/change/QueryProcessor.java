@@ -97,7 +97,6 @@ public class QueryProcessor {
   private final ChangeQueryBuilder queryBuilder;
   private final ChangeQueryRewriter queryRewriter;
   private final Provider<ReviewDb> db;
-  private final ChangeControl.GenericFactory changeControlFactory;
   private final TrackingFooters trackingFooters;
   private final CurrentUser user;
   private final int maxLimit;
@@ -124,14 +123,12 @@ public class QueryProcessor {
   QueryProcessor(EventFactory eventFactory,
       ChangeQueryBuilder.Factory queryBuilder, CurrentUser currentUser,
       ChangeQueryRewriter queryRewriter, Provider<ReviewDb> db,
-      TrackingFooters trackingFooters,
-      ChangeControl.GenericFactory changeControlFactory) {
+      TrackingFooters trackingFooters) {
     this.eventFactory = eventFactory;
     this.queryBuilder = queryBuilder.create(currentUser);
     this.queryRewriter = queryRewriter;
     this.db = db;
     this.trackingFooters = trackingFooters;
-    this.changeControlFactory = changeControlFactory;
     this.user = currentUser;
     this.maxLimit = currentUser.getCapabilities()
       .getRange(GlobalCapability.QUERY_LIMIT)
@@ -302,10 +299,7 @@ public class QueryProcessor {
         List<ChangeData> results = queryChanges(queryString);
         ChangeAttribute c = null;
         for (ChangeData d : results) {
-          ChangeControl cc = d.changeControl();
-          if (cc == null || cc.getCurrentUser() != user) {
-            cc = changeControlFactory.controlFor(d.change(), user);
-          }
+          ChangeControl cc = d.changeControl().forUser(user);
 
           LabelTypes labelTypes = cc.getLabelTypes();
           c = eventFactory.asChangeAttribute(d.change());

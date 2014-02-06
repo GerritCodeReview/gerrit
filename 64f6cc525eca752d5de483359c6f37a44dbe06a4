@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "328f3eaf_defb45e6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-02-06T05:47:09Z",
+      "side": 1,
+      "message": "This is probably wrong.  Should it be referring to documentation for SolrCloud instead?",
+      "range": {
+        "startLine": 15,
+        "startChar": 10,
+        "endLine": 18,
+        "endChar": 53
+      },
+      "revId": "64f6cc525eca752d5de483359c6f37a44dbe06a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

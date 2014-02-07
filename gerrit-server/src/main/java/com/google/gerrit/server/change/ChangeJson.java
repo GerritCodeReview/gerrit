@@ -482,18 +482,12 @@ public class ChangeJson {
       return;
     }
 
-    if (score != 0) {
-      if (score == type.getMin().getValue()) {
-        label.rejected = accountLoader.get(accountId);
-      } else if (score == type.getMax().getValue()) {
-        label.approved = accountLoader.get(accountId);
-      } else if (score < 0) {
-        label.disliked = accountLoader.get(accountId);
-        label.value = score;
-      } else if (score > 0 && label.disliked == null) {
-        label.recommended = accountLoader.get(accountId);
-        label.value = score;
-      }
+    if (score < 0) {
+      label.disliked = accountLoader.get(accountId);
+      label.value = score;
+    } else if (score > 0 && label.disliked == null) {
+      label.recommended = accountLoader.get(accountId);
+      label.value = score;
     }
   }
 

@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 public class LabelType {
+
   public static LabelType withDefaultValues(String name) {
     checkName(name);
     List<LabelValue> values = new ArrayList<>(2);

@@ -33,6 +33,29 @@
       "revId": "487a894328ddfcd5444a006dda55f56d120fdad8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "32265e9d_469db299",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ScalaPlugin.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-07T21:45:23Z",
+      "side": 1,
+      "message": "Groovy?",
+      "range": {
+        "startLine": 95,
+        "startChar": 8,
+        "endLine": 95,
+        "endChar": 74
+      },
+      "revId": "487a894328ddfcd5444a006dda55f56d120fdad8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

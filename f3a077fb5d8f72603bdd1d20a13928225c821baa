@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d21c2254_03ef2e28",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-07T08:07:04Z",
+      "side": 1,
+      "message": "Done. Moved the check to renderTextBox() method.",
+      "parentUuid": "6ff1cd4f_80dad68e",
+      "range": {
+        "startLine": 373,
+        "startChar": 40,
+        "endLine": 373,
+        "endChar": 45
+      },
+      "revId": "f3a077fb5d8f72603bdd1d20a13928225c821baa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6ff1cd4f_40e4ce4c",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
         "patchSetId": 4
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "32265e9d_06ef3a28",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-07T08:07:04Z",
+      "side": 1,
+      "message": "Done. Moved the check to renderListBox() method.",
+      "parentUuid": "6ff1cd4f_40e4ce4c",
+      "revId": "f3a077fb5d8f72603bdd1d20a13928225c821baa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6ff1cd4f_60dfd280",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
         "patchSetId": 4
@@ -53,6 +95,30 @@
       "writtenOn": "2014-02-07T07:21:15Z",
       "side": 1,
       "message": "Exception was not thrown before.  Will this break any existing functionality?",
+      "range": {
+        "startLine": 385,
+        "startChar": 12,
+        "endLine": 385,
+        "endChar": 79
+      },
+      "revId": "f3a077fb5d8f72603bdd1d20a13928225c821baa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d21c2254_23ec2a31",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-07T08:07:04Z",
+      "side": 1,
+      "message": "We should always fail earlier and fail loud if something like that happens.",
+      "parentUuid": "6ff1cd4f_60dfd280",
       "range": {
         "startLine": 385,
         "startChar": 12,

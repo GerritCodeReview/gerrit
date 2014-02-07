@@ -455,7 +455,7 @@ public class ChangeJson {
     }
 
     if (score != 0) {
-      if (score == type.getMin().getValue()) {
+      if (score == type.getMin().getValue() && type.isBlock()) {
         label.rejected = accountLoader.get(accountId);
       } else if (score == type.getMax().getValue()) {
         label.approved = accountLoader.get(accountId);

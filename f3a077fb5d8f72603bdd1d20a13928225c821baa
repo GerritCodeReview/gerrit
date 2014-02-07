@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6ff1cd4f_80dad68e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-02-07T07:21:15Z",
+      "side": 1,
+      "message": "In the previous version, this was called with `true` for INT and LONG types.",
+      "range": {
+        "startLine": 373,
+        "startChar": 40,
+        "endLine": 373,
+        "endChar": 45
+      },
+      "revId": "f3a077fb5d8f72603bdd1d20a13928225c821baa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ff1cd4f_40e4ce4c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-02-07T07:21:15Z",
+      "side": 1,
+      "message": "In the old version `w` is only assigned when `param.permittedValues() !\u003d null`",
+      "revId": "f3a077fb5d8f72603bdd1d20a13928225c821baa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ff1cd4f_60dfd280",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-02-07T07:21:15Z",
+      "side": 1,
+      "message": "Exception was not thrown before.  Will this break any existing functionality?",
+      "range": {
+        "startLine": 385,
+        "startChar": 12,
+        "endLine": 385,
+        "endChar": 79
+      },
+      "revId": "f3a077fb5d8f72603bdd1d20a13928225c821baa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

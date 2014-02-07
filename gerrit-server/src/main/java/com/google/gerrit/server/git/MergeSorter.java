@@ -26,12 +26,12 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-class MergeSorter {
+public class MergeSorter {
   private final RevWalk rw;
   private final RevFlag canMergeFlag;
   private final Set<RevCommit> accepted;
 
-  MergeSorter(final RevWalk rw, final Set<RevCommit> alreadyAccepted,
+  public MergeSorter(final RevWalk rw, final Set<RevCommit> alreadyAccepted,
       final RevFlag canMergeFlag) {
     this.rw = rw;
     this.canMergeFlag = canMergeFlag;

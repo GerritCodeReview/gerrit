@@ -27,20 +27,20 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-class RebaseSorter {
+public class RebaseSorter {
 
   private final RevWalk rw;
   private final RevFlag canMergeFlag;
   private final Set<RevCommit> accepted;
 
-  RebaseSorter(final RevWalk rw, final Set<RevCommit> alreadyAccepted,
+  public RebaseSorter(final RevWalk rw, final Set<RevCommit> alreadyAccepted,
       final RevFlag canMergeFlag) {
     this.rw = rw;
     this.canMergeFlag = canMergeFlag;
     this.accepted = alreadyAccepted;
   }
 
-  List<CodeReviewCommit> sort(Collection<CodeReviewCommit> incoming)
+  public List<CodeReviewCommit> sort(Collection<CodeReviewCommit> incoming)
       throws IOException {
     final List<CodeReviewCommit> sorted = new ArrayList<CodeReviewCommit>();
     final Set<CodeReviewCommit> sort = new HashSet<CodeReviewCommit>(incoming);

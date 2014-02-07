@@ -22,6 +22,7 @@ import static org.junit.Assert.assertEquals;
 import com.google.common.base.Joiner;
 import com.google.common.primitives.Chars;
 import com.google.gerrit.extensions.api.GerritApi;
+import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ListChangesOption;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -195,5 +196,11 @@ public abstract class AbstractDaemonTest {
 
   protected static Gson newGson() {
     return OutputFormat.JSON_COMPACT.newGson();
+  }
+
+  protected RevisionApi revision(PushOneCommit.Result r) throws Exception {
+    return gApi.changes()
+        .id(r.getChangeId())
+        .current();
   }
 }

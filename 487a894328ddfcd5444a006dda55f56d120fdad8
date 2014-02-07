@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "32265e9d_669aaea4",
+        "filename": "gerrit-server/BUCK",
+        "patchSetId": 4
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-02-07T22:00:05Z",
+      "side": 1,
+      "message": "Using commons:io was overkill: just avoided the IOUtils altogether :-)",
+      "parentUuid": "32265e9d_e68dbe6c",
+      "revId": "487a894328ddfcd5444a006dda55f56d120fdad8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "32265e9d_c688c25f",
         "filename": "gerrit-server/BUCK",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2014-02-07T21:16:47Z",
       "side": 1,
       "message": "Missing:\n\n \u0027//lib:scala-reflect\u0027,\n \u0027//lib:scala-library\u0027,",
+      "revId": "487a894328ddfcd5444a006dda55f56d120fdad8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d21c2254_2390aa82",
+        "filename": "gerrit-server/BUCK",
+        "patchSetId": 4
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-02-07T22:00:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "32265e9d_c688c25f",
       "revId": "487a894328ddfcd5444a006dda55f56d120fdad8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
         "endLine": 95,
         "endChar": 74
       },
+      "revId": "487a894328ddfcd5444a006dda55f56d120fdad8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "32265e9d_8665eaf3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ScalaPlugin.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-02-07T22:00:05Z",
+      "side": 1,
+      "message": "Lapsus :-) Removed all the Groovy stuff from here.",
+      "parentUuid": "32265e9d_469db299",
       "revId": "487a894328ddfcd5444a006dda55f56d120fdad8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

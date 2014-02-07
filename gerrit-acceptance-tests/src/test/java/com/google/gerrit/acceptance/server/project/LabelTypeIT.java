@@ -15,7 +15,6 @@
 package com.google.gerrit.acceptance.server.project;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.gerrit.extensions.common.ListChangesOption.DETAILED_LABELS;
 import static org.junit.Assert.assertEquals;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -23,7 +22,6 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
-import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -235,12 +233,6 @@ public class LabelTypeIT extends AbstractDaemonTest {
     }
   }
 
-  private RevisionApi revision(PushOneCommit.Result r) throws Exception {
-    return gApi.changes()
-        .id(r.getChangeId())
-        .current();
-  }
-
   private void merge(PushOneCommit.Result r) throws Exception {
     revision(r).review(ReviewInput.approve());
     revision(r).submit();
@@ -261,7 +253,7 @@ public class LabelTypeIT extends AbstractDaemonTest {
       throws Exception {
     // Don't use asserts from PushOneCommit so we can test the round-trip
     // through JSON instead of querying the DB directly.
-    ChangeInfo c = get(r.getChangeId(), DETAILED_LABELS);
+    ChangeInfo c = get(r.getChangeId());
     LabelInfo cr = c.labels.get("Code-Review");
     assertEquals(1, cr.all.size());
     assertEquals("Administrator", cr.all.get(0).name);

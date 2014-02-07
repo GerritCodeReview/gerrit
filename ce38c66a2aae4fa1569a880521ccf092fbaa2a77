@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4ff6c94a_dfeafb14",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CodeReviewCommit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-02-07T13:03:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d21c2254_231a6a85",
+      "range": {
+        "startLine": 59,
+        "startChar": 2,
+        "endLine": 59,
+        "endChar": 31
+      },
+      "revId": "ce38c66a2aae4fa1569a880521ccf092fbaa2a77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "32265e9d_261a7685",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CodeReviewCommit.java",
         "patchSetId": 1
@@ -60,6 +84,30 @@
       "side": 1,
       "message": "Yes, I\u0027ll do that.  I created the getter method manually, but the others were done automatically by Eclipse so that\u0027s why they are not together.",
       "parentUuid": "32265e9d_261a7685",
+      "range": {
+        "startLine": 104,
+        "startChar": 2,
+        "endLine": 106,
+        "endChar": 3
+      },
+      "revId": "ce38c66a2aae4fa1569a880521ccf092fbaa2a77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ff6c94a_ffedbf2e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CodeReviewCommit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-02-07T13:03:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6ff1cd4f_c0f7befe",
       "range": {
         "startLine": 104,
         "startChar": 2,

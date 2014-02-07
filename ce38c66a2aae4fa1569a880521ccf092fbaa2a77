@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d21c2254_231a6a85",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CodeReviewCommit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-02-07T10:07:55Z",
+      "side": 1,
+      "message": "Make this private too since we are now having getter and setter for it?",
+      "range": {
+        "startLine": 59,
+        "startChar": 2,
+        "endLine": 59,
+        "endChar": 31
+      },
+      "revId": "ce38c66a2aae4fa1569a880521ccf092fbaa2a77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "32265e9d_261a7685",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CodeReviewCommit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-02-07T10:07:55Z",
+      "side": 1,
+      "message": "Move this near the getPatchSetId method so that all getters and settters are next to each other?",
+      "range": {
+        "startLine": 104,
+        "startChar": 2,
+        "endLine": 106,
+        "endChar": 3
+      },
+      "revId": "ce38c66a2aae4fa1569a880521ccf092fbaa2a77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

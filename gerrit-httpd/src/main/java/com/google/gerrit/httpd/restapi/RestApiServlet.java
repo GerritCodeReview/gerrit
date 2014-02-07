@@ -270,7 +270,7 @@ public class RestApiServlet extends HttpServlet {
                     || "PUT".equals(req.getMethod()))) {
               @SuppressWarnings("unchecked")
               AcceptsCreate<RestResource> ac = (AcceptsCreate<RestResource>) c;
-              viewData = new ViewData(null, ac.create(rsrc, id));
+              viewData = new ViewData(viewData.pluginName, ac.create(rsrc, id));
               status = SC_CREATED;
             } else {
               throw e;

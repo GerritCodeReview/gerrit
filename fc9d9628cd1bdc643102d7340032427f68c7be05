@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "32265e9d_46f932f2",
+        "filename": "gerrit-plugin-gwtui/src/main/java/com/google/gerrit/plugin/client/rpc/NativeString.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-02-07T08:28:42Z",
+      "side": 0,
+      "message": "This initialization is different from the one in the Gerrit core NativeString class. It is important that we keep this initialization for the plugins. I\u0027m afraid I\u0027m not understanding all the implications but as far as I got it the init in com.google.gerrit.client.rpc.NativeString defines a new Object and on the plugin side in com.google.gerrit.plugin.client.rpc.NativeString we have to use this very same object and not define another new Object.\n\nSo we cannot simply delete this class and replace it by com.google.gerrit.client.rpc.NativeString.",
+      "range": {
+        "startLine": 24,
+        "startChar": 2,
+        "endLine": 25,
+        "endChar": 42
+      },
+      "revId": "fc9d9628cd1bdc643102d7340032427f68c7be05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

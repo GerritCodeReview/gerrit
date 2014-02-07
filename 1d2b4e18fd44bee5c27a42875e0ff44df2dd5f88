@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d21c2254_83015e24",
+        "filename": "gerrit-gwtui-common/src/main/java/com/google/gerrit/client/rpc/NativeString.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-02-07T08:28:42Z",
+      "side": 1,
+      "message": "I believe we cannot simply use this version of the NativeString class in the plugins, please see my inline comment on the deleted NativeString class [1].\n\n[1] https://gerrit-review.googlesource.com/#/c/54375/3/gerrit-plugin-gwtui/src/main/java/com/google/gerrit/plugin/client/rpc/NativeString.java",
+      "revId": "1d2b4e18fd44bee5c27a42875e0ff44df2dd5f88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "32265e9d_66f62e03",
+        "filename": "gerrit-gwtui-common/src/main/java/com/google/gerrit/client/rpc/Natives.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-02-07T08:28:42Z",
+      "side": 1,
+      "message": "The deleted com.google.gerrit.plugin.client.rpc.Natives class differs from this class. Are we sure we can simply replace it by this class?",
+      "revId": "1d2b4e18fd44bee5c27a42875e0ff44df2dd5f88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

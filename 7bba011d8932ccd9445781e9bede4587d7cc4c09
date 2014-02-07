@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4ff6c94a_5fdf0b80",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-02-07T08:43:20Z",
+      "side": 1,
+      "message": "I can\u0027t see a way to distinguish between failures due to \"nothing to commit\" (the change already exists on the target branch) and \"merge conflict\".\n\nAlso we are seeing cherry picks that work OK on the command line with `git cherry-pick`, but fail when done from the UI.",
+      "range": {
+        "startLine": 150,
+        "startChar": 8,
+        "endLine": 152,
+        "endChar": 9
+      },
+      "revId": "7bba011d8932ccd9445781e9bede4587d7cc4c09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

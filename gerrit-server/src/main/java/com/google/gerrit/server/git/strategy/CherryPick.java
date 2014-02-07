@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.git;
+package com.google.gerrit.server.git.strategy;
 
 import com.google.common.collect.Lists;
 import com.google.gerrit.reviewdb.client.Change;
@@ -24,6 +24,9 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.git.CodeReviewCommit;
+import com.google.gerrit.server.git.CommitMergeStatus;
+import com.google.gerrit.server.git.MergeException;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.util.TimeUtil;
@@ -69,13 +72,13 @@ public class CherryPick extends SubmitStrategy {
           // create the branch.
           //
           newMergeTip = n;
-          n.statusCode = CommitMergeStatus.CLEAN_MERGE;
+          n.setStatusCode(CommitMergeStatus.CLEAN_MERGE);
 
         } else if (n.getParentCount() == 0) {
           // Refuse to merge a root commit into an existing branch,
           // we cannot obtain a delta for the cherry-pick to apply.
           //
-          n.statusCode = CommitMergeStatus.CANNOT_CHERRY_PICK_ROOT;
+          n.setStatusCode(CommitMergeStatus.CANNOT_CHERRY_PICK_ROOT);
 
         } else if (n.getParentCount() == 1) {
           // If there is only one parent, a cherry-pick can be done by
@@ -86,9 +89,9 @@ public class CherryPick extends SubmitStrategy {
           newMergeTip = writeCherryPickCommit(mergeTip, n);
 
           if (newMergeTip != null) {
-            newCommits.put(newMergeTip.patchsetId.getParentKey(), newMergeTip);
+            newCommits.put(newMergeTip.getPatchsetId().getParentKey(), newMergeTip);
           } else {
-            n.statusCode = CommitMergeStatus.PATH_CONFLICT;
+            n.setStatusCode(CommitMergeStatus.PATH_CONFLICT);
           }
 
         } else {
@@ -177,7 +180,7 @@ public class CherryPick extends SubmitStrategy {
 
       final List<PatchSetApproval> approvals = Lists.newArrayList();
       for (PatchSetApproval a
-          : args.approvalsUtil.byPatchSet(args.db, n.notes(), n.patchsetId)) {
+          : args.approvalsUtil.byPatchSet(args.db, n.notes(), n.getPatchsetId())) {
         approvals.add(new PatchSetApproval(ps.getId(), a));
       }
       // TODO(dborowitz): This doesn't copy labels in the notedb. We should
@@ -203,10 +206,9 @@ public class CherryPick extends SubmitStrategy {
     gitRefUpdated.fire(n.change().getProject(), ru);
 
     newCommit.copyFrom(n);
-    newCommit.statusCode = CommitMergeStatus.CLEAN_PICK;
-    newCommit.control =
-        args.changeControlFactory.controlFor(n.change(), cherryPickUser);
-    newCommits.put(newCommit.patchsetId.getParentKey(), newCommit);
+    newCommit.setStatusCode(CommitMergeStatus.CLEAN_PICK);
+    newCommit.setControl(args.changeControlFactory.controlFor(n.change(), cherryPickUser));
+    newCommits.put(newCommit.getPatchsetId().getParentKey(), newCommit);
     setRefLogIdent(submitAudit);
     return newCommit;
   }

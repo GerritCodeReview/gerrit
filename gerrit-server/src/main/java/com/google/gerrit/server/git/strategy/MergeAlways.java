@@ -12,28 +12,36 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.git;
+package com.google.gerrit.server.git.strategy;
 
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.server.git.CodeReviewCommit;
+import com.google.gerrit.server.git.MergeException;
 
 import java.util.List;
 
-public class FastForwardOnly extends SubmitStrategy {
+public class MergeAlways extends SubmitStrategy {
 
-  FastForwardOnly(final SubmitStrategy.Arguments args) {
+  MergeAlways(final SubmitStrategy.Arguments args) {
     super(args);
   }
 
   @Override
-  protected CodeReviewCommit _run(final CodeReviewCommit mergeTip,
-      final List<CodeReviewCommit> toMerge) throws MergeException {
+  protected CodeReviewCommit _run(CodeReviewCommit mergeTip,
+      List<CodeReviewCommit> toMerge) throws MergeException {
     args.mergeUtil.reduceToMinimalMerge(args.mergeSorter, toMerge);
-    final CodeReviewCommit newMergeTip =
-        args.mergeUtil.getFirstFastForward(mergeTip, args.rw, toMerge);
 
+    if (mergeTip == null) {
+      // The branch is unborn. Take a fast-forward resolution to
+      // create the branch.
+      mergeTip = toMerge.remove(0);
+    }
+    CodeReviewCommit newMergeTip = mergeTip;
     while (!toMerge.isEmpty()) {
-      final CodeReviewCommit n = toMerge.remove(0);
-      n.statusCode = CommitMergeStatus.NOT_FAST_FORWARD;
+      newMergeTip =
+          args.mergeUtil.mergeOneCommit(args.myIdent, args.repo, args.rw,
+              args.inserter, args.canMergeFlag, args.destBranch, mergeTip,
+              toMerge.remove(0));
     }
 
     final PatchSetApproval submitApproval =
@@ -45,13 +53,9 @@ public class FastForwardOnly extends SubmitStrategy {
   }
 
   @Override
-  public boolean retryOnLockFailure() {
-    return false;
-  }
-
   public boolean dryRun(final CodeReviewCommit mergeTip,
       final CodeReviewCommit toMerge) throws MergeException {
-    return args.mergeUtil.canFastForward(args.mergeSorter, mergeTip, args.rw,
+    return args.mergeUtil.canMerge(args.mergeSorter, args.repo, mergeTip,
         toMerge);
   }
 }

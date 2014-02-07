@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.git;
+package com.google.gerrit.server.git.strategy;
 
 import com.google.common.collect.Lists;
 import com.google.gerrit.reviewdb.client.Change;
@@ -22,6 +22,10 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.PatchSetInserter.ValidatePolicy;
 import com.google.gerrit.server.changedetail.PathConflictException;
 import com.google.gerrit.server.changedetail.RebaseChange;
+import com.google.gerrit.server.git.CodeReviewCommit;
+import com.google.gerrit.server.git.CommitMergeStatus;
+import com.google.gerrit.server.git.MergeException;
+import com.google.gerrit.server.git.RebaseSorter;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -66,19 +70,19 @@ public class RebaseIfNecessary extends SubmitStrategy {
         // create the branch.
         //
         newMergeTip = n;
-        n.statusCode = CommitMergeStatus.CLEAN_MERGE;
+        n.setStatusCode(CommitMergeStatus.CLEAN_MERGE);
 
       } else if (n.getParentCount() == 0) {
         // Refuse to merge a root commit into an existing branch,
         // we cannot obtain a delta for the rebase to apply.
         //
-        n.statusCode = CommitMergeStatus.CANNOT_REBASE_ROOT;
+        n.setStatusCode(CommitMergeStatus.CANNOT_REBASE_ROOT);
 
       } else if (n.getParentCount() == 1) {
         if (args.mergeUtil.canFastForward(
             args.mergeSorter, newMergeTip, args.rw, n)) {
           newMergeTip = n;
-          n.statusCode = CommitMergeStatus.CLEAN_MERGE;
+          n.setStatusCode(CommitMergeStatus.CLEAN_MERGE);
 
         } else {
           try {
@@ -86,7 +90,7 @@ public class RebaseIfNecessary extends SubmitStrategy {
                 args.mergeUtil.getSubmitter(n).getAccountId());
             final PatchSet newPatchSet =
                 rebaseChange.rebase(args.repo, args.rw, args.inserter,
-                    n.patchsetId, n.change(), uploader,
+                    n.getPatchsetId(), n.change(), uploader,
                     newMergeTip, args.mergeUtil, committerIdent,
                     false, false, ValidatePolicy.NONE);
 
@@ -95,7 +99,7 @@ public class RebaseIfNecessary extends SubmitStrategy {
             // describes the change being submitted.
             List<PatchSetApproval> approvals = Lists.newArrayList();
             for (PatchSetApproval a : args.approvalsUtil.byPatchSet(
-                args.db, n.notes(), n.patchsetId)) {
+                args.db, n.notes(), n.getPatchsetId())) {
               approvals.add(new PatchSetApproval(newPatchSet.getId(), a));
             }
             args.db.patchSetApprovals().insert(approvals);
@@ -106,14 +110,13 @@ public class RebaseIfNecessary extends SubmitStrategy {
             n.change().setCurrentPatchSet(
                 patchSetInfoFactory.get(newMergeTip, newPatchSet.getId()));
             newMergeTip.copyFrom(n);
-            newMergeTip.control =
-                args.changeControlFactory.controlFor(n.change(), uploader);
-            newMergeTip.patchsetId = newPatchSet.getId();
-            newMergeTip.statusCode = CommitMergeStatus.CLEAN_REBASE;
+            newMergeTip.setControl(args.changeControlFactory.controlFor(n.change(), uploader));
+            newMergeTip.setPatchsetId(newPatchSet.getId());
+            newMergeTip.setStatusCode(CommitMergeStatus.CLEAN_REBASE);
             newCommits.put(newPatchSet.getId().getParentKey(), newMergeTip);
             setRefLogIdent(args.mergeUtil.getSubmitter(n));
           } catch (PathConflictException e) {
-            n.statusCode = CommitMergeStatus.PATH_CONFLICT;
+            n.setStatusCode(CommitMergeStatus.PATH_CONFLICT);
           } catch (NoSuchChangeException | OrmException | IOException
               | InvalidChangeOperationException e) {
             throw new MergeException("Cannot rebase " + n.name(), e);

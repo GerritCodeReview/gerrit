@@ -22,6 +22,30 @@
       "revId": "fc9d9628cd1bdc643102d7340032427f68c7be05",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d21c2254_03164e68",
+        "filename": "gerrit-plugin-gwtui/src/main/java/com/google/gerrit/plugin/client/rpc/NativeString.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-07T08:56:30Z",
+      "side": 0,
+      "message": "Can\u0027t we combine both implementation in one? What should happen, is that the only implementation check, if the $wnd.Gerrit.JsonString defined. If it is the case, return it (behave like in plugin, and if not, create a new one, behave like in core?",
+      "parentUuid": "32265e9d_46f932f2",
+      "range": {
+        "startLine": 24,
+        "startChar": 2,
+        "endLine": 25,
+        "endChar": 42
+      },
+      "revId": "fc9d9628cd1bdc643102d7340032427f68c7be05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

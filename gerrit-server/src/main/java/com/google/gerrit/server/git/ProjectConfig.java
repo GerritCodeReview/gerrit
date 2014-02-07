@@ -174,6 +174,11 @@ public class ProjectConfig extends VersionedMetaData {
 
   public static CommentLinkInfo buildCommentLink(Config cfg, String name,
       boolean allowRaw) throws IllegalArgumentException {
+    return buildCommentLink(cfg, name, allowRaw, null);
+  }
+
+  public static CommentLinkInfo buildCommentLink(Config cfg, String name,
+      boolean allowRaw, Project.NameKey projectName) throws IllegalArgumentException {
     String match = cfg.getString(COMMENTLINK, name, KEY_MATCH);
     if (match != null) {
       // Unfortunately this validation isn't entirely complete. Clients
@@ -205,6 +210,11 @@ public class ProjectConfig extends VersionedMetaData {
         return new CommentLinkInfo.Disabled(name);
       }
     }
+
+    if (projectName != null && !Strings.isNullOrEmpty(link)) {
+      link = link.replace("%(project)", projectName.get());
+    }
+
     return new CommentLinkInfo(name, match, link, html, enabled);
   }
 
@@ -682,7 +692,7 @@ public class ProjectConfig extends VersionedMetaData {
     commentLinkSections = Lists.newArrayListWithCapacity(subsections.size());
     for (String name : subsections) {
       try {
-        commentLinkSections.add(buildCommentLink(rc, name, false));
+        commentLinkSections.add(buildCommentLink(rc, name, false, projectName));
       } catch (PatternSyntaxException e) {
         error(new ValidationError(PROJECT_CONFIG, String.format(
             "Invalid pattern \"%s\" in commentlink.%s.match: %s",

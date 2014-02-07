@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d21c2254_83da3e90",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1302,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-07T07:13:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "328f3eaf_7e24f1be",
+      "range": {
+        "startLine": 1302,
+        "startChar": 39,
+        "endLine": 1302,
+        "endChar": 42
+      },
+      "revId": "20e014749a0d1aec0fca851aabdd3ea9daa52a73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "128cfab8_5d273bc4",
         "filename": "Documentation/rest-api-projects.txt",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2014-02-06T13:25:55Z",
       "side": 1,
       "message": "\". Only\"",
+      "range": {
+        "startLine": 1309,
+        "startChar": 18,
+        "endLine": 1309,
+        "endChar": 21
+      },
+      "revId": "20e014749a0d1aec0fca851aabdd3ea9daa52a73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d21c2254_a3df3a7f",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1309,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-07T07:13:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "128cfab8_5d273bc4",
       "range": {
         "startLine": 1309,
         "startChar": 18,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "d21c2254_c3e4364e",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1313,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-07T07:13:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "328f3eaf_9e4ffd86",
+      "range": {
+        "startLine": 1313,
+        "startChar": 28,
+        "endLine": 1313,
+        "endChar": 31
+      },
+      "revId": "20e014749a0d1aec0fca851aabdd3ea9daa52a73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "128cfab8_7d24f7be",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
         "patchSetId": 2
@@ -82,6 +154,30 @@
       "writtenOn": "2014-02-06T13:25:55Z",
       "side": 1,
       "message": "Isn\u0027t there a more elegant way of doing this than a massive if-else block?",
+      "range": {
+        "startLine": 369,
+        "startChar": 8,
+        "endLine": 379,
+        "endChar": 39
+      },
+      "revId": "20e014749a0d1aec0fca851aabdd3ea9daa52a73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "32265e9d_c6e4424e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-07T07:13:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "128cfab8_7d24f7be",
       "range": {
         "startLine": 369,
         "startChar": 8,

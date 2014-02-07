@@ -21,6 +21,7 @@ define_license(name = 'prologcafe')
 define_license(name = 'protobuf')
 define_license(name = 'slf4j')
 define_license(name = 'DO_NOT_DISTRIBUTE')
+define_license(name = 'scala')
 
 maven_jar(
   name = 'gwtorm',
@@ -247,4 +248,34 @@ maven_jar(
   license = 'DO_NOT_DISTRIBUTE',
   visibility = ['//lib:easymock'],
   attach_source = False,
+)
+
+maven_jar(
+  name = 'scala-compiler',
+  id = 'org.scala-lang:scala-compiler:2.10.3',
+  sha1 = 'fc9759d060ae131a73c020d477e25a14534cbedd',
+  license = 'scala',
+  attach_source = True,
+  deps = [
+    ':scala-reflect',
+  ],
+)
+
+maven_jar(
+  name = 'scala-reflect',
+  id = 'org.scala-lang:scala-reflect:2.10.3',
+  sha1 = '16dc45094c2d8919d21ee16a46a7ff7fa2aa3c88',
+  license = 'scala',
+  attach_source = True,
+  deps = [
+    ':scala-library',
+  ],
+)
+
+maven_jar(
+  name = 'scala-library',
+  id = 'org.scala-lang:scala-library:2.10.3',
+  sha1 = '21d99cee3d3e478255ef9fcc90b571fb2ab074fc',
+  attach_source = True,
+  license = 'scala',
 )

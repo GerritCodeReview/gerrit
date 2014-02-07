@@ -148,8 +148,7 @@ public class CherryPickChange {
         }
 
         if (cherryPickCommit == null) {
-          throw new MergeException(
-              "Could not create a merge commit during the cherry pick");
+          throw new MergeException("Cherry pick failed");
         }
 
         Change.Key changeKey;
@@ -169,7 +168,7 @@ public class CherryPickChange {
 
         if (destChanges.size() > 1) {
           throw new InvalidChangeOperationException("Several changes with key "
-              + changeKey + " resides on the same branch. "
+              + changeKey + " reside on the same branch. "
               + "Cannot create a new patch set.");
         } else if (destChanges.size() == 1) {
           // The change key exists on the destination branch. The cherry pick

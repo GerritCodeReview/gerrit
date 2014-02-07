@@ -46,6 +46,30 @@
       "revId": "fc9d9628cd1bdc643102d7340032427f68c7be05",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "32265e9d_c632820a",
+        "filename": "gerrit-plugin-gwtui/src/main/java/com/google/gerrit/plugin/client/rpc/NativeString.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-02-07T09:09:45Z",
+      "side": 0,
+      "message": "Yes, sounds to me like this should work.",
+      "parentUuid": "d21c2254_03164e68",
+      "range": {
+        "startLine": 24,
+        "startChar": 2,
+        "endLine": 25,
+        "endChar": 42
+      },
+      "revId": "fc9d9628cd1bdc643102d7340032427f68c7be05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

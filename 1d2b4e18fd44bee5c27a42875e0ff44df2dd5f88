@@ -69,6 +69,24 @@
       "revId": "1d2b4e18fd44bee5c27a42875e0ff44df2dd5f88",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d21c2254_83287e9c",
+        "filename": "gerrit-gwtui-common/src/main/java/com/google/gerrit/client/rpc/Natives.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-02-07T09:09:45Z",
+      "side": 1,
+      "message": "Yes it should be one class. It\u0027s just not clear to me why they are different now. This makes it difficult to me to judge if the one class can simply replace the other or if we need to do some adaptions to the class so that it can be used from core and plugin. Just wanted to raise this question since I feel uncertain about this.",
+      "parentUuid": "d21c2254_23134a79",
+      "revId": "1d2b4e18fd44bee5c27a42875e0ff44df2dd5f88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

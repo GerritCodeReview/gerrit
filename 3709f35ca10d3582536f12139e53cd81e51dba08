@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "32265e9d_4610526a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/CreateAccount.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-02-07T09:03:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5258321a_4ff94df2",
+      "range": {
+        "startLine": 126,
+        "startChar": 4,
+        "endLine": 134,
+        "endChar": 5
+      },
+      "revId": "3709f35ca10d3582536f12139e53cd81e51dba08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5258321a_6ff61103",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/CreateEmail.java",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2014-02-07T01:00:15Z",
       "side": 1,
       "message": "Don\u0027t we need to check for `input.email !\u003d null`?\n\nAlso as in the previous file, both this and the previous check could be inside the same block.",
+      "revId": "3709f35ca10d3582536f12139e53cd81e51dba08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d21c2254_e300521d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/CreateEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-02-07T09:03:20Z",
+      "side": 1,
+      "message": "\u003e Don\u0027t we need to check for `input.email !\u003d null`?\n\nNot necessarily. The CreateEmail REST endpoint is reached by doing a PUT on /accounts/\u003caccount-id\u003e/emails/\u003cemail-address\u003e\n\n\u003cemail-address\u003e is what we get in the \u0027email\u0027 variable and it cannot be null (since otherwise this REST endpoint would not be invoked at all).\n\n\u0027input.email\u0027 can be null, but if it is specified it must be the same email that was given in the URL. This is checked above in line 99.\n\n \u003e Also as in the previous file, both this and the previous \n \u003e check could be inside the same block.\n\nWe must do the check on \u0027email\u0027 even if \u0027input.email\u0027 is null. \u0027input.email\u0027 is not further used, but only \u0027email\u0027.",
+      "parentUuid": "5258321a_6ff61103",
       "revId": "3709f35ca10d3582536f12139e53cd81e51dba08",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

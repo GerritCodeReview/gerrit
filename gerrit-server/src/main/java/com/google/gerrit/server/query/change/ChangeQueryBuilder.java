@@ -34,7 +34,7 @@ import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.git.SubmitStrategyFactory;
+import com.google.gerrit.server.git.strategy.SubmitStrategyFactory;
 import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.index.Schema;

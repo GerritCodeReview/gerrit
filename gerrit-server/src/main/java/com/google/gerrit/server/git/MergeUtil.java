@@ -167,8 +167,8 @@ public class MergeUtil {
     });
   }
 
-  PatchSetApproval getSubmitter(CodeReviewCommit c) {
-    return approvalsUtil.getSubmitter(db.get(), c.notes(), c.patchsetId);
+  public PatchSetApproval getSubmitter(CodeReviewCommit c) {
+    return approvalsUtil.getSubmitter(db.get(), c.notes(), c.getPatchsetId());
   }
 
   public RevCommit createCherryPickFromCommit(Repository repo,
@@ -226,7 +226,7 @@ public class MergeUtil {
 
     final String siteUrl = urlProvider.get();
     if (siteUrl != null) {
-      final String url = siteUrl + n.patchsetId.getParentKey().get();
+      final String url = siteUrl + n.getPatchsetId().getParentKey().get();
       if (!contains(footers, REVIEWED_ON, url)) {
         msgbuf.append(REVIEWED_ON.getName());
         msgbuf.append(": ");
@@ -313,9 +313,9 @@ public class MergeUtil {
 
   private List<PatchSetApproval> safeGetApprovals(CodeReviewCommit n) {
     try {
-      return approvalsUtil.byPatchSet(db.get(), n.notes(), n.patchsetId);
+      return approvalsUtil.byPatchSet(db.get(), n.notes(), n.getPatchsetId());
     } catch (OrmException e) {
-      log.error("Can't read approval records for " + n.patchsetId, e);
+      log.error("Can't read approval records for " + n.getPatchsetId(), e);
       return Collections.emptyList();
     }
   }
@@ -540,7 +540,7 @@ public class MergeUtil {
     rw.markUninteresting(mergeTip);
     CodeReviewCommit failed;
     while ((failed = (CodeReviewCommit) rw.next()) != null) {
-      failed.statusCode = failure;
+      failed.setStatusCode(failure);
     }
     return failed;
   }
@@ -557,7 +557,7 @@ public class MergeUtil {
     rw.markUninteresting(mergeTip);
     for (final RevCommit c : rw) {
       final CodeReviewCommit crc = (CodeReviewCommit) c;
-      if (crc.patchsetId != null) {
+      if (crc.getPatchsetId() != null) {
         merged.add(crc);
       }
     }
@@ -589,7 +589,7 @@ public class MergeUtil {
 
     CodeReviewCommit mergeResult =
         (CodeReviewCommit) rw.parseCommit(commit(inserter, mergeCommit));
-    mergeResult.control = n.control;
+    mergeResult.setControl(n.getControl());
     return mergeResult;
   }
 
@@ -706,8 +706,8 @@ public class MergeUtil {
 
       CodeReviewCommit c;
       while ((c = (CodeReviewCommit) rw.next()) != null) {
-        if (c.patchsetId != null) {
-          c.statusCode = CommitMergeStatus.CLEAN_MERGE;
+        if (c.getPatchsetId() != null) {
+          c.setStatusCode(CommitMergeStatus.CLEAN_MERGE);
           if (submitApproval == null) {
             submitApproval = getSubmitter(c);
           }

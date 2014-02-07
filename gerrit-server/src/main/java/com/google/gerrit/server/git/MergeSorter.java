@@ -26,12 +26,12 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-class MergeSorter {
+public class MergeSorter {
   private final RevWalk rw;
   private final RevFlag canMergeFlag;
   private final Set<RevCommit> accepted;
 
-  MergeSorter(final RevWalk rw, final Set<RevCommit> alreadyAccepted,
+  public MergeSorter(final RevWalk rw, final Set<RevCommit> alreadyAccepted,
       final RevFlag canMergeFlag) {
     this.rw = rw;
     this.canMergeFlag = canMergeFlag;
@@ -59,7 +59,7 @@ class MergeSorter {
           // aren't permitted to merge at this time. Drop n.
           //
           if (n.missing == null) {
-            n.statusCode = CommitMergeStatus.MISSING_DEPENDENCY;
+            n.setStatusCode(CommitMergeStatus.MISSING_DEPENDENCY);
             n.missing = new ArrayList<CodeReviewCommit>();
           }
           n.missing.add((CodeReviewCommit) c);
@@ -68,7 +68,7 @@ class MergeSorter {
         }
       }
 
-      if (n.statusCode == CommitMergeStatus.MISSING_DEPENDENCY) {
+      if (n.getStatusCode() == CommitMergeStatus.MISSING_DEPENDENCY) {
         continue;
       }
 

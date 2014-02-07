@@ -15,8 +15,10 @@
 package com.google.gerrit.acceptance.rest.change;
 
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.server.change.ChangeJson.LabelInfo;
 
 import java.util.List;
+import java.util.Map;
 
 public class ChangeInfo {
   String id;
@@ -25,4 +27,5 @@ public class ChangeInfo {
   List<ChangeMessageInfo> messages;
   Change.Status status;
   public Boolean starred;
+  Map<String, LabelInfo> labels;
 }

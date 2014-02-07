@@ -22,6 +22,30 @@
       "revId": "2b257e24f8336e3ea94c131a4cba267d500d80d8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d21c2254_630d424f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 459,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-07T10:42:05Z",
+      "side": 1,
+      "message": "Well, it was a quick hack. Before we reinvent the wheel, may be it worst to check how the old change screen did this evaluation. And adapt it here in one or another way (see gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetPublishDetailFactory.java)\n\n      [...]\n      boolean couldSubmit \u003d false;\n      List\u003cSubmitRecord\u003e submitRecords \u003d control.canSubmit(db, patchSet);\n      for (SubmitRecord rec : submitRecords) {\n        if (rec.status \u003d\u003d SubmitRecord.Status.OK) {\n          couldSubmit \u003d true;\n        }\n\n        if (rec.labels !\u003d null) {\n          int ok \u003d 0;\n\n          for (SubmitRecord.Label lbl : rec.labels) {\n            aic.want(lbl.appliedBy);\n\n            boolean canMakeOk \u003d false;\n            PermissionRange range \u003d rangeByName.get(lbl.label);\n            if (range !\u003d null) {\n              LabelType lt \u003d control.getLabelTypes().byLabel(lbl.label);\n              if (lt !\u003d null \u0026\u0026 lt.getMax().getValue() \u003d\u003d range.getMax()) {\n                canMakeOk \u003d true;\n              }\n            }\n\n            switch (lbl.status) {\n              case OK:\n              case MAY:\n                ok++;\n                break;\n\n              case NEED:\n                if (canMakeOk) {\n                  ok++;\n                }\n                break;\n\n              case IMPOSSIBLE:\n              case REJECT:\n                break;\n            }\n          }\n\n          if (rec.status \u003d\u003d SubmitRecord.Status.NOT_READY\n              \u0026\u0026 ok \u003d\u003d rec.labels.size()) {\n            couldSubmit \u003d true;\n          }\n        }\n      }\n\n      if (couldSubmit \u0026\u0026 control.getRefControl().canSubmit()) {\n        detail.setCanSubmit(true);\n      }\n    }\n    [...]",
+      "parentUuid": "d21c2254_c3fb56e6",
+      "range": {
+        "startLine": 459,
+        "startChar": 53,
+        "endLine": 459,
+        "endChar": 60
+      },
+      "revId": "2b257e24f8336e3ea94c131a4cba267d500d80d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

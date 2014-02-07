@@ -64,6 +64,7 @@ java_library2(
     '//lib/lucene:core',
     '//lib/lucene:query-parser',
     '//lib:groovy',
+    '//lib:scala-compiler',
   ],
   compile_deps = [
     '//lib/bouncycastle:bcprov',

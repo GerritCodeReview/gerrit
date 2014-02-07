@@ -147,6 +147,24 @@
     },
     {
       "key": {
+        "uuid": "32265e9d_86da4a90",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ProjectConfigEntry.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-07T06:41:52Z",
+      "side": 1,
+      "message": "It very isolated task and can be done in follow up change. May be some one else would look into it?",
+      "parentUuid": "5258321a_2fec0931",
+      "revId": "20e014749a0d1aec0fca851aabdd3ea9daa52a73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "725e16ff_780de14e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutConfig.java",
         "patchSetId": 2

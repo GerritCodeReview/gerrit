@@ -1,8 +1,8 @@
 include_defs('//gerrit-acceptance-tests/tests.defs')
 
 acceptance_tests(
-  srcs = ['ChangeMessagesIT.java', 'DeleteDraftChangeIT.java',
-          'DeleteDraftPatchSetIT.java'],
+  srcs = ['CustomLabelIT.java', 'ChangeMessagesIT.java',
+          'DeleteDraftChangeIT.java', 'DeleteDraftPatchSetIT.java'],
   deps = [
     ':util',
     '//gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git:util',
@@ -37,6 +37,7 @@ java_library(
   deps = [
     '//lib:guava',
     '//gerrit-reviewdb:server',
+    '//gerrit-acceptance-tests:lib',
   ],
   visibility = ['//gerrit-acceptance-tests/...'],
 )

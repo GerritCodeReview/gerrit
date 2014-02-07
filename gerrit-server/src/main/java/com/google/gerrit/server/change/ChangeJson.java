@@ -454,21 +454,13 @@ public class ChangeJson {
       return;
     }
 
-    if (score != 0) {
-      if (score == type.getMin().getValue()) {
-        label.rejected = accountLoader.get(accountId);
-      } else if (score == type.getMax().getValue()) {
-        label.approved = accountLoader.get(accountId);
-      } else if (score < 0) {
-        label.disliked = accountLoader.get(accountId);
-        label.value = score;
-      } else if (score > 0 && label.disliked == null) {
-        label.recommended = accountLoader.get(accountId);
-        label.value = score;
-      }
+    if (score < 0) {
+      label.disliked = accountLoader.get(accountId);
+      label.value = score;
+    } else if (score > 0 && label.disliked == null) {
+      label.recommended = accountLoader.get(accountId);
+      label.value = score;
     }
-
-    return;
   }
 
   private void setAllApprovals(ChangeData cd,
@@ -984,19 +976,19 @@ public class ChangeJson {
     String message;
   }
 
-  static class LabelInfo {
+  public static class LabelInfo {
     transient SubmitRecord.Label.Status _status;
 
-    AccountInfo approved;
-    AccountInfo rejected;
-    AccountInfo recommended;
-    AccountInfo disliked;
-    List<ApprovalInfo> all;
+    public AccountInfo approved;
+    public AccountInfo rejected;
+    public AccountInfo recommended;
+    public AccountInfo disliked;
+    public List<ApprovalInfo> all;
 
-    Map<String, String> values;
+    public Map<String, String> values;
 
-    Short value;
-    Boolean optional;
+    public Short value;
+    public Boolean optional;
 
     void addApproval(ApprovalInfo ai) {
       if (all == null) {

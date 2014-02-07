@@ -46,4 +46,7 @@ public interface AccountAccess extends Access<Account, Account.Id> {
 
   @Query("ORDER BY accountId LIMIT ?")
   ResultSet<Account> firstNById(int n) throws OrmException;
+
+  @Query("ORDER BY accountId")
+  ResultSet<Account> all() throws OrmException;
 }

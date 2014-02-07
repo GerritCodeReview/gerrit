@@ -14,6 +14,7 @@
 
 package com.google.gerrit.common.data;
 
+import com.google.common.base.Preconditions;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetApproval.LabelId;
 
@@ -25,6 +26,9 @@ import java.util.List;
 import java.util.Map;
 
 public class LabelType {
+
+  private static final String MAX_WITH_BLOCK = "MaxWithBlock";
+
   public static LabelType withDefaultValues(String name) {
     checkName(name);
     List<LabelValue> values = new ArrayList<>(2);
@@ -127,7 +131,7 @@ public class LabelType {
     values = sortValues(valueList);
 
     abbreviation = defaultAbbreviation(name);
-    functionName = "MaxWithBlock";
+    functionName = MAX_WITH_BLOCK;
 
     maxNegative = Short.MIN_VALUE;
     maxPositive = Short.MAX_VALUE;
@@ -290,5 +294,11 @@ public class LabelType {
     }
     sb.append(']');
     return sb.toString();
+  }
+
+  public boolean isBlock() {
+    Preconditions.checkNotNull(functionName);
+    return functionName.equalsIgnoreCase(MAX_WITH_BLOCK)
+        || functionName.equalsIgnoreCase("AnyWithBlock");
   }
 }

@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "d21c2254_433e86cc",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/DeleteGroupCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-02-07T14:52:56Z",
+      "side": 1,
+      "message": "\u0027final\u0027 is not needed here",
+      "range": {
+        "startLine": 81,
+        "startChar": 6,
+        "endLine": 81,
+        "endChar": 11
+      },
+      "revId": "fbdba73dbe236919b6b95eefe1f7b49844d590ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "edfb05cc_a4fe82d6",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/DeleteGroupCommand.java",
         "patchSetId": 4
@@ -42,6 +65,23 @@
         "endLine": 166,
         "endChar": 31
       },
+      "revId": "fbdba73dbe236919b6b95eefe1f7b49844d590ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "32265e9d_06449a64",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/DeleteGroupCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-02-07T14:52:56Z",
+      "side": 1,
+      "message": "Why not print out removed permission to user?\n\nSuch output could be used for verification purposes.",
       "revId": "fbdba73dbe236919b6b95eefe1f7b49844d590ea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

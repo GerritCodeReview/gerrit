@@ -46,6 +46,8 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.git.strategy.SubmitStrategy;
+import com.google.gerrit.server.git.strategy.SubmitStrategyFactory;
 import com.google.gerrit.server.git.validators.MergeValidationException;
 import com.google.gerrit.server.git.validators.MergeValidators;
 import com.google.gerrit.server.index.ChangeIndexer;
@@ -262,7 +264,7 @@ public class MergeOp {
               // missing are still attempted to be merged with another submit
               // strategy, retry to merge this commit in the next turn
               it.remove();
-              commit.statusCode = null;
+              commit.setStatusCode(null);
               commit.missing = null;
               toMergeNextTurn.put(submitType, commit);
             }
@@ -334,7 +336,7 @@ public class MergeOp {
         return false;
       }
 
-      if (missingCommit.patchsetId == null) {
+      if (missingCommit.getPatchsetId() == null) {
         // The commit doesn't have a patch set, so it cannot be
         // submitted to the branch.
         //
@@ -342,7 +344,7 @@ public class MergeOp {
       }
 
       if (!missingCommit.change().currentPatchSetId().equals(
-          missingCommit.patchsetId)) {
+          missingCommit.getPatchsetId())) {
         // If the missing commit is not the current patch set,
         // the change must be rebased to use the proper parent.
         //
@@ -525,12 +527,12 @@ public class MergeOp {
       }
 
       try {
-        commit.control = changeControlFactory.controlFor(chg,
-            identifiedUserFactory.create(chg.getOwner()));
+        commit.setControl(changeControlFactory.controlFor(chg,
+            identifiedUserFactory.create(chg.getOwner())));
       } catch (NoSuchChangeException e) {
         throw new MergeException("Failed to validate changes", e);
       }
-      commit.patchsetId = ps.getId();
+      commit.setPatchsetId(ps.getId());
       commit.originalOrder = commitOrder++;
       commits.put(changeId, commit);
 
@@ -541,7 +543,7 @@ public class MergeOp {
         //
         try {
           if (rw.isMergedInto(commit, branchTip)) {
-            commit.statusCode = CommitMergeStatus.ALREADY_MERGED;
+            commit.setStatusCode(CommitMergeStatus.ALREADY_MERGED);
             try {
               setMerged(chg, null);
             } catch (OrmException e) {
@@ -554,7 +556,7 @@ public class MergeOp {
         }
       }
 
-      final SubmitType submitType = getSubmitType(commit.control, ps);
+      final SubmitType submitType = getSubmitType(commit.getControl(), ps);
       if (submitType == null) {
         commits.put(changeId,
             CodeReviewCommit.error(CommitMergeStatus.NO_SUBMIT_TYPE));
@@ -625,7 +627,7 @@ public class MergeOp {
 
             Account account = null;
             PatchSetApproval submitter = approvalsUtil.getSubmitter(
-                db, mergeTip.notes(), mergeTip.patchsetId);
+                db, mergeTip.notes(), mergeTip.getPatchsetId());
             if (submitter != null) {
               account = accountCache.get(submitter.getAccountId()).getAccount();
             }
@@ -654,7 +656,7 @@ public class MergeOp {
   private void updateChangeStatus(final List<Change> submitted) {
     for (final Change c : submitted) {
       final CodeReviewCommit commit = commits.get(c.getId());
-      final CommitMergeStatus s = commit != null ? commit.statusCode : null;
+      final CommitMergeStatus s = commit != null ? commit.getStatusCode() : null;
       if (s == null) {
         // Shouldn't ever happen, but leave the change alone. We'll pick
         // it up on the next pass.
@@ -765,12 +767,12 @@ public class MergeOp {
       m.append("The following dependency errors were found:\n");
       m.append("\n");
       for (CodeReviewCommit missingCommit : commit.missing) {
-        if (missingCommit.patchsetId != null) {
+        if (missingCommit.getPatchsetId() != null) {
           m.append("* Depends on patch set ");
-          m.append(missingCommit.patchsetId.get());
+          m.append(missingCommit.getPatchsetId().get());
           m.append(" of ");
           m.append(missingCommit.change().getKey().abbreviate());
-          if (missingCommit.patchsetId.get() != missingCommit.change().currentPatchSetId().get()) {
+          if (missingCommit.getPatchsetId().get() != missingCommit.change().currentPatchSetId().get()) {
             m.append(", however the current patch set is ");
             m.append(missingCommit.change().currentPatchSetId().get());
           }
@@ -792,14 +794,13 @@ public class MergeOp {
 
   private void loadChangeInfo(final CodeReviewCommit commit)
       throws NoSuchChangeException, OrmException {
-    if (commit.control == null) {
+    if (commit.getControl() == null) {
       List<PatchSet> matches =
           db.patchSets().byRevision(new RevId(commit.name())).toList();
       if (matches.size() == 1) {
         PatchSet ps = matches.get(0);
-        commit.patchsetId = ps.getId();
-        commit.control =
-            changeControl(db.changes().get(ps.getId().getParentKey()));
+        commit.setPatchsetId(ps.getId());
+        commit.setControl(changeControl(db.changes().get(ps.getId().getParentKey())));
       }
     }
   }

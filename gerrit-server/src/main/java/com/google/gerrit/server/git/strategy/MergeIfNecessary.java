@@ -12,9 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.git;
+package com.google.gerrit.server.git.strategy;
 
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.server.git.CodeReviewCommit;
+import com.google.gerrit.server.git.MergeException;
 
 import java.util.List;
 

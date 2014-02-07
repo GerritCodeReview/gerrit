@@ -216,8 +216,9 @@ public class SubmoduleOp {
           for (final Change chg : submitted) {
             final CodeReviewCommit c = commits.get(chg.getId());
             if (c != null
-                && (c.statusCode == CommitMergeStatus.CLEAN_MERGE
-                    || c.statusCode == CommitMergeStatus.CLEAN_PICK || c.statusCode == CommitMergeStatus.CLEAN_REBASE)) {
+                && (c.getStatusCode() == CommitMergeStatus.CLEAN_MERGE
+                    || c.getStatusCode() == CommitMergeStatus.CLEAN_PICK
+                    || c.getStatusCode() == CommitMergeStatus.CLEAN_REBASE)) {
               msgbuf += "\n";
               msgbuf += c.getFullMessage();
             }

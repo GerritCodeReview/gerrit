@@ -48,6 +48,29 @@
     },
     {
       "key": {
+        "uuid": "d21c2254_633b82db",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/DeleteGroupCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-02-07T16:07:55Z",
+      "side": 1,
+      "message": "This should be at least logged",
+      "range": {
+        "startLine": 160,
+        "startChar": 8,
+        "endLine": 160,
+        "endChar": 70
+      },
+      "revId": "fbdba73dbe236919b6b95eefe1f7b49844d590ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "edfb05cc_84038626",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/DeleteGroupCommand.java",
         "patchSetId": 4
@@ -64,6 +87,29 @@
         "startChar": 10,
         "endLine": 166,
         "endChar": 31
+      },
+      "revId": "fbdba73dbe236919b6b95eefe1f7b49844d590ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "32265e9d_463e92cc",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/DeleteGroupCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-02-07T16:07:55Z",
+      "side": 1,
+      "message": "Is this assignment really required?",
+      "range": {
+        "startLine": 175,
+        "startChar": 12,
+        "endLine": 175,
+        "endChar": 59
       },
       "revId": "fbdba73dbe236919b6b95eefe1f7b49844d590ea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

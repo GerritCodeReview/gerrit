@@ -22,6 +22,121 @@
       "revId": "6ef18982f50add4823663e1581ce6449a8cbcb6c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ef321df0_ac10236b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-02-08T02:08:39Z",
+      "side": 1,
+      "message": "enableHttpd",
+      "range": {
+        "startLine": 121,
+        "startChar": 18,
+        "endLine": 121,
+        "endChar": 29
+      },
+      "revId": "6ef18982f50add4823663e1581ce6449a8cbcb6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0f2691b5_2dfd4dda",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-02-08T02:08:39Z",
+      "side": 1,
+      "message": "enableHttpd",
+      "range": {
+        "startLine": 146,
+        "startChar": 62,
+        "endLine": 146,
+        "endChar": 73
+      },
+      "revId": "6ef18982f50add4823663e1581ce6449a8cbcb6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ef321df0_8c0d6751",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-02-08T02:08:39Z",
+      "side": 1,
+      "message": "enableHttpd",
+      "range": {
+        "startLine": 163,
+        "startChar": 73,
+        "endLine": 163,
+        "endChar": 84
+      },
+      "revId": "6ef18982f50add4823663e1581ce6449a8cbcb6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0f2691b5_4d089944",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-02-08T02:08:39Z",
+      "side": 1,
+      "message": "enableHttpd",
+      "range": {
+        "startLine": 52,
+        "startChar": 64,
+        "endLine": 52,
+        "endChar": 75
+      },
+      "revId": "6ef18982f50add4823663e1581ce6449a8cbcb6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0f2691b5_6d03552c",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-02-08T02:08:39Z",
+      "side": 1,
+      "message": "setEnableHttpd(boolean), matching the name of the flag.",
+      "range": {
+        "startLine": 437,
+        "startChar": 14,
+        "endLine": 437,
+        "endChar": 26
+      },
+      "revId": "6ef18982f50add4823663e1581ce6449a8cbcb6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

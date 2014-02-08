@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ef793db6_b4f420fb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/AutoRegisterScript.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-08T12:56:54Z",
+      "side": 1,
+      "message": "Not related to groovy support and should be in its own change. Move it in the previous change of this series [1] or in a new change.\n\n  [1] https://gerrit-review.googlesource.com/54102",
+      "revId": "238302d15bf50d3e8327d760242bbecbea308055",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

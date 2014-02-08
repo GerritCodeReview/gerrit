@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ef321df0_acf703ff",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1612,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-02-08T01:32:15Z",
+      "side": 1,
+      "message": "The problem I have with this is the plugin name could change on installation, especially if there is no Gerrit-PluginName in the manifest.",
+      "revId": "b67664543f879d44682206ac160e5e1657f092b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0f2691b5_0de97122",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/GerritResources.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-02-08T01:32:15Z",
+      "side": 1,
+      "message": "Not sure if \"gear\" means \"admin screen\". I guess... but maybe we mean to call this SettingsUrl instead of AdminUrl?",
+      "revId": "b67664543f879d44682206ac160e5e1657f092b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0f2691b5_eded052f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/PluginListScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-02-08T01:32:15Z",
+      "side": 1,
+      "message": "Why not just add another column to the table between name and version?",
+      "revId": "b67664543f879d44682206ac160e5e1657f092b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0f2691b5_cdea4915",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ListPlugins.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-02-08T01:32:15Z",
+      "side": 1,
+      "message": "JarPlugin holds the Manifest object. Maybe we should expose it or expose a way to read attributes from it?",
+      "revId": "b67664543f879d44682206ac160e5e1657f092b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

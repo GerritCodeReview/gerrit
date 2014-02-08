@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "ef793db6_34e9f022",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1612,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-02-08T12:11:33Z",
+      "side": 1,
+      "message": "\u003e 1. provide the plugin its own name in \u003cGerrit-PluginName\u003e?\n\n \u003e 2. was \u003cGerrit-AdminScreen\u003etrue\u003c/Gerrit-AdminScreen\u003e set to true?\n\nSounds good, but I found an even simpler solution.\n\nHave nothing in the manifest and if a plugin has a \u0027#/x/\u003cplugin-name\u003e/admin\u0027 screen then link to it.",
+      "parentUuid": "4f6b29dd_57da6c91",
+      "revId": "b67664543f879d44682206ac160e5e1657f092b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0f2691b5_0de97122",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/GerritResources.java",
         "patchSetId": 1
@@ -48,6 +66,24 @@
       "writtenOn": "2014-02-08T01:32:15Z",
       "side": 1,
       "message": "Not sure if \"gear\" means \"admin screen\". I guess... but maybe we mean to call this SettingsUrl instead of AdminUrl?",
+      "revId": "b67664543f879d44682206ac160e5e1657f092b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4f6b29dd_17e4f44b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/GerritResources.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-02-08T12:11:33Z",
+      "side": 1,
+      "message": "Yes, SettingsUrl sounds better, but with the new patch set the server doesn\u0027t need to return this URL anymore. Still I renamed the UI texts to \u0027Settings\u0027.",
+      "parentUuid": "0f2691b5_0de97122",
       "revId": "b67664543f879d44682206ac160e5e1657f092b5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -71,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "ef793db6_94f7a4ff",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/PluginListScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-02-08T12:11:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0f2691b5_eded052f",
+      "revId": "b67664543f879d44682206ac160e5e1657f092b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0f2691b5_cdea4915",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ListPlugins.java",
         "patchSetId": 1
@@ -82,6 +136,24 @@
       "writtenOn": "2014-02-08T01:32:15Z",
       "side": 1,
       "message": "JarPlugin holds the Manifest object. Maybe we should expose it or expose a way to read attributes from it?",
+      "revId": "b67664543f879d44682206ac160e5e1657f092b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ef793db6_d4ed1c2f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ListPlugins.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-02-08T12:11:33Z",
+      "side": 1,
+      "message": "Yes, it we should probably expose a way to read attributes from JarPlugin, but for now it is not needed anymore.",
+      "parentUuid": "0f2691b5_cdea4915",
       "revId": "b67664543f879d44682206ac160e5e1657f092b5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

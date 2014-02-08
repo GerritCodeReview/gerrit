@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4f6b29dd_57da6c91",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1612,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-08T08:25:31Z",
+      "side": 1,
+      "message": "We don\u0027t need to let plugins to configure the admin URL but claim it to be defined by convention instead of by configuration:\n\n  #/x/\u003cplugin-name\u003e/admin\n\nSo for PluginListScreen to contain a link to plugin owned admin screen the following two prerequisites must be satisfied:\n\n 1. provide the plugin its own name in \u003cGerrit-PluginName\u003e?\n 2. was \u003cGerrit-AdminScreen\u003etrue\u003c/Gerrit-AdminScreen\u003e set to true?\n\nin plugin\u0027s MANIFEST file.",
+      "parentUuid": "ef321df0_acf703ff",
+      "revId": "b67664543f879d44682206ac160e5e1657f092b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0f2691b5_0de97122",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/GerritResources.java",
         "patchSetId": 1

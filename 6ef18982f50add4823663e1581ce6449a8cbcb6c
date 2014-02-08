@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0f2691b5_8df441fb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-02-08T02:06:43Z",
+      "side": 1,
+      "message": "True but we still need to verify the REST API can serialize its responses, or that the URL parser hits the right resources. Or that access controls are checked in the RestApiServlet as expected. So we can\u0027t go converting everything without leaving at least some tests in REST API.",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 63
+      },
+      "revId": "6ef18982f50add4823663e1581ce6449a8cbcb6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

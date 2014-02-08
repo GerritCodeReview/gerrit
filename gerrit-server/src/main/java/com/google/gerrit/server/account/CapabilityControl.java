@@ -204,7 +204,11 @@ public class CapabilityControl {
 
   /** True if the user has this permission. Works only for non labels. */
   public boolean canPerform(String permissionName) {
-    return !access(permissionName).isEmpty();
+    if (GlobalCapability.ADMINISTRATE_SERVER.equals(permissionName)) {
+      return canAdministrateServer();
+    } else {
+      return !access(permissionName).isEmpty();
+    }
   }
 
   /** The range of permitted values associated with a label permission. */

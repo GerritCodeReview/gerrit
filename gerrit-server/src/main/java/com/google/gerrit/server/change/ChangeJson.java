@@ -227,6 +227,9 @@ public class ChangeJson {
   private ChangeInfo format(ChangeData cd, Optional<PatchSet.Id> limitToPsId)
       throws OrmException {
     accountLoader = accountLoaderFactory.create(has(DETAILED_ACCOUNTS));
+    if (has(REVIEWED)) {
+      ensureReviewedLoaded(Collections.singleton(cd));
+    }
     ChangeInfo res = toChangeInfo(cd, limitToPsId);
     accountLoader.fill();
     return res;

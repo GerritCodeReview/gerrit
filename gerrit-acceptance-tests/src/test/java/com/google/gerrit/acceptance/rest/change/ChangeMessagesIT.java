@@ -16,7 +16,6 @@ package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.gerrit.acceptance.GitUtil.cloneProject;
 import static com.google.gerrit.acceptance.GitUtil.createProject;
-import static com.google.gerrit.extensions.common.ListChangesOption.MESSAGES;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -29,7 +28,6 @@ import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
-import com.google.gerrit.extensions.common.ListChangesOption;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -45,7 +43,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.util.EnumSet;
 import java.util.Iterator;
 
 public class ChangeMessagesIT extends AbstractDaemonTest {
@@ -90,8 +87,7 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
       IOException, RestApiException {
     String changeId = createChange();
     postMessage(changeId, "Some nits need to be fixed.");
-    ChangeInfo c = getChange("p~master~" + changeId,
-        EnumSet.noneOf(ListChangesOption.class));
+    ChangeInfo c = getChange("p~master~" + changeId);
     assertNull(c.messages);
   }
 
@@ -99,7 +95,7 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
   public void defaultMessage() throws GitAPIException, IOException,
       RestApiException {
     String changeId = createChange();
-    ChangeInfo c = getChange("p~master~" + changeId, EnumSet.of(MESSAGES));
+    ChangeInfo c = getChangeAll("p~master~" + changeId);
     assertNotNull(c.messages);
     assertEquals(1, c.messages.size());
     assertEquals("Uploaded patch set 1.", c.messages.iterator().next().message);
@@ -113,7 +109,7 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
     postMessage(changeId, firstMessage);
     String secondMessage = "I like this feature.";
     postMessage(changeId, secondMessage);
-    ChangeInfo c = getChange("p~master~" + changeId, EnumSet.of(MESSAGES));
+    ChangeInfo c = getChangeAll("p~master~" + changeId);
     assertNotNull(c.messages);
     assertEquals(3, c.messages.size());
     Iterator<ChangeMessageInfo> it = c.messages.iterator();
@@ -139,8 +135,13 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
         .consume();
   }
 
-  private ChangeInfo getChange(String triplet, EnumSet<ListChangesOption> s)
+  private ChangeInfo getChange(String triplet)
       throws RestApiException {
-    return gApi.changes().id(triplet).get(s);
+    return gApi.changes().id(triplet).info();
+  }
+
+  private ChangeInfo getChangeAll(String triplet)
+      throws RestApiException {
+    return gApi.changes().id(triplet).get();
   }
 }

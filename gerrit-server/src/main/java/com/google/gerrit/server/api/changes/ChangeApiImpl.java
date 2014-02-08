@@ -170,4 +170,14 @@ class ChangeApiImpl implements ChangeApi {
       throw new RestApiException("Cannot retrieve change", e);
     }
   }
+
+  @Override
+  public ChangeInfo get() throws RestApiException {
+    return get(EnumSet.allOf(ListChangesOption.class));
+  }
+
+  @Override
+  public ChangeInfo info() throws RestApiException {
+    return get(EnumSet.noneOf(ListChangesOption.class));
+  }
 }

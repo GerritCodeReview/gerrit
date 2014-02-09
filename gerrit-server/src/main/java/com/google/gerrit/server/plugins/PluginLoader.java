@@ -15,9 +15,12 @@
 package com.google.gerrit.server.plugins;
 
 import com.google.common.base.CharMatcher;
+import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.base.Objects;
+import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
+import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.LinkedHashMultimap;
@@ -38,6 +41,7 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Provider;
+import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.internal.storage.file.FileSnapshot;
@@ -351,9 +355,9 @@ public class PluginLoader implements LifecycleListener {
     syncDisabledPlugins(jars);
 
     Map<String, File> activePlugins = filterDisabled(jars);
-    for (Map.Entry<String, File> entry : activePlugins.entrySet()) {
-      String name = entry.getKey();
-      File jar = entry.getValue();
+    for (Node p : sort(activePlugins)) {
+      String name = p.name;
+      File jar = p.file;
       FileSnapshot brokenTime = broken.get(name);
       if (brokenTime != null && !brokenTime.isModified(jar)) {
         continue;
@@ -615,12 +619,11 @@ public class PluginLoader implements LifecycleListener {
   // Filter out disabled plugins and transform the multimap to a map
   private static Map<String, File> filterDisabled(
       Multimap<String, File> jars) {
-    Map<String, File> activePlugins = Maps.newHashMapWithExpectedSize(
-        jars.keys().size());
+    Map<String, File> activePlugins = Maps.newLinkedHashMap();
     for (String name : jars.keys()) {
       for (File jar : jars.asMap().get(name)) {
         if (!jar.getName().endsWith(".disabled")) {
-          assert(!activePlugins.containsKey(name));
+          Preconditions.checkState(!activePlugins.containsKey(name));
           activePlugins.put(name, jar);
         }
       }
@@ -726,14 +729,90 @@ public class PluginLoader implements LifecycleListener {
     return null;
   }
 
+  private static String getDependentPlugins(File srcFile) throws IOException {
+    String fileName = srcFile.getName();
+    if (isJarPlugin(fileName)) {
+      JarFile jarFile = new JarFile(srcFile);
+      try {
+        return jarFile.getManifest().getMainAttributes()
+            .getValue("Gerrit-DependsOn");
+      } finally {
+        jarFile.close();
+      }
+    }
+    return null;
+  }
+
   private static Multimap<String, File> asMultimap(List<File> plugins)
       throws IOException {
     Multimap<String, File> map = LinkedHashMultimap.create();
-    for (File srcFile : plugins) {
-      map.put(Objects.firstNonNull(getGerritPluginName(srcFile),
-          nameOf(srcFile)), srcFile);
+    for (File f : plugins) {
+      map.put(Objects.firstNonNull(getGerritPluginName(f), nameOf(f)),
+          f);
     }
     return map;
+  }
+
+  private List<Node> sort(Map<String, File> activePlugins) {
+    return topologicalSort(Lists.newArrayList(
+        Iterables.transform(activePlugins.values(), new Function<File, Node>() {
+          @Override
+          public Node apply(File f) {
+            String n;
+            String deps;
+            try {
+              n = Objects.firstNonNull(getGerritPluginName(f), nameOf(f));
+              deps = Strings.nullToEmpty(getDependentPlugins(f));
+            } catch (IOException e) {
+              log.error(String.format(
+                  "Cannot read manifest for plugin: %s", f));
+              n = nameOf(f);
+              deps = "";
+            }
+            return new Node(n, f, Lists.newArrayList(Splitter.on(',')
+                .trimResults().omitEmptyStrings().split(deps)));
+          }
+        })));
+  }
+
+  private static List<Node> topologicalSort(List<Node> nodes) {
+    try {
+      List<Node> sorted = TopologicalSort.sort(toDAG(nodes));
+      Collections.reverse(sorted);
+      return sorted;
+    } catch (DAGCycleException e) {
+      log.error("Plugin dependency graph contains a cycle", e);
+      throw new ProvisionException("Plugin cannot be loaded");
+    }
+  }
+
+  private static DirectedGraph<Node> toDAG(List<Node> nodes) {
+    DirectedGraph<Node> g = new DirectedGraph<>();
+    Map<String, Node> m = Maps.newHashMapWithExpectedSize(nodes.size());
+    for (Node p : nodes) {
+      g.addNode(p);
+      m.put(p.name, p);
+    }
+    for (Node src : nodes) {
+      for (String dependsOn : src.deps) {
+        Node dest = m.get(dependsOn);
+        if (dest == null) {
+          log.error(String.format(
+              "Plugin %s depends on Plugin %s, that doesn't exist", src.name,
+              dependsOn));
+          throw new ProvisionException("Plugin cannot be loaded");
+        }
+        // Topological ordering of a directed graph is a linear ordering
+        // of its vertices such that for every directed edge uv from vertex
+        // u to vertex v, u comes before v in the ordering.
+        // In plugin domain however, plugin src depends on plugin dest
+        // means that plugin dest must be loaded before plugin src.
+        // We preserve the edge direction during the DAG construction
+        // and reverse the resulting ordering to get the right sorting.
+        g.addEdge(src, dest);
+      }
+    }
+    return g;
   }
 
   private static boolean isJarPlugin(String name) {
@@ -747,5 +826,17 @@ public class PluginLoader implements LifecycleListener {
   private static boolean isPlugin(String fileName, String ext) {
     String fullExt = "." + ext;
     return fileName.endsWith(fullExt) || fileName.endsWith(fullExt + ".disabled");
+  }
+
+  public static class Node {
+    String name;
+    File file;
+    List<String> deps;
+
+    Node(String n, File f, List<String> d) {
+      name = n;
+      file = f;
+      deps = d;
+    }
   }
 }

@@ -15,8 +15,10 @@
 package com.google.gerrit.server.plugins;
 
 import com.google.common.base.CharMatcher;
+import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.base.Objects;
+import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
@@ -24,6 +26,7 @@ import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
+import com.google.common.collect.Ordering;
 import com.google.common.collect.Queues;
 import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.annotations.PluginName;
@@ -74,6 +77,7 @@ import java.util.jar.Manifest;
 @Singleton
 public class PluginLoader implements LifecycleListener {
   static final String PLUGIN_TMP_PREFIX = "plugin_";
+  static int DEFAULT_LOAD_ORDER = Integer.MAX_VALUE;
   static final Logger log = LoggerFactory.getLogger(PluginLoader.class);
 
   private final File pluginsDir;
@@ -615,12 +619,11 @@ public class PluginLoader implements LifecycleListener {
   // Filter out disabled plugins and transform the multimap to a map
   private static Map<String, File> filterDisabled(
       Multimap<String, File> jars) {
-    Map<String, File> activePlugins = Maps.newHashMapWithExpectedSize(
-        jars.keys().size());
+    Map<String, File> activePlugins = Maps.newLinkedHashMap();
     for (String name : jars.keys()) {
       for (File jar : jars.asMap().get(name)) {
         if (!jar.getName().endsWith(".disabled")) {
-          assert(!activePlugins.containsKey(name));
+          Preconditions.checkState(!activePlugins.containsKey(name));
           activePlugins.put(name, jar);
         }
       }
@@ -726,10 +729,27 @@ public class PluginLoader implements LifecycleListener {
     return null;
   }
 
+  private static Integer getLoadOrder(File srcFile) throws IOException {
+    String fileName = srcFile.getName();
+    if (isJarPlugin(fileName)) {
+      JarFile jarFile = new JarFile(srcFile);
+      try {
+        String loadOrder = jarFile.getManifest().getMainAttributes()
+            .getValue("Gerrit-LoadOrder");
+        if (loadOrder != null) {
+            return Integer.valueOf(loadOrder);
+        }
+      } finally {
+        jarFile.close();
+      }
+    }
+    return DEFAULT_LOAD_ORDER;
+  }
+
   private static Multimap<String, File> asMultimap(List<File> plugins)
       throws IOException {
     Multimap<String, File> map = LinkedHashMultimap.create();
-    for (File srcFile : plugins) {
+    for (File srcFile : SORT_PLUGINS.immutableSortedCopy(plugins)) {
       map.put(Objects.firstNonNull(getGerritPluginName(srcFile),
           nameOf(srcFile)), srcFile);
     }
@@ -743,6 +763,21 @@ public class PluginLoader implements LifecycleListener {
   private static boolean isJsPlugin(String name) {
     return isPlugin(name, "js");
   }
+
+  private static Ordering<File> SORT_PLUGINS = Ordering.natural()
+      .onResultOf(new Function<File, Integer>() {
+        @Override
+        public Integer apply(File f) {
+          try {
+            return getLoadOrder(f);
+          } catch (IOException e) {
+            log.warn(String.format(
+                "File: %s cannot retrieve load order, assume last",
+                f.getName()));
+            return DEFAULT_LOAD_ORDER;
+          }
+        }
+      });
 
   private static boolean isPlugin(String fileName, String ext) {
     String fullExt = "." + ext;

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "afd105e4_12e40c4c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/PluginListScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-02-09T23:15:54Z",
+      "side": 1,
+      "message": "Don\u0027t use an Anchor like this. Instead use our InlineHyperlink with the target set to \"/x/\" + plugin.name() + \"/settings\". It will allow the screen to build its content in the background before navigating.",
+      "range": {
+        "startLine": 97,
+        "startChar": 10,
+        "endLine": 99,
+        "endChar": 72
+      },
+      "revId": "d20926a40d83f3aed242579b306ce0450efc4ad7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

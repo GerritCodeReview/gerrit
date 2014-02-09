@@ -17,6 +17,7 @@ package com.google.gerrit.server.plugins;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Joiner;
 import com.google.common.base.Objects;
+import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
@@ -29,7 +30,6 @@ import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.systemstatus.ServerInformation;
-import com.google.gerrit.extensions.webui.JavaScriptPlugin;
 import com.google.gerrit.server.PluginUser;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.ConfigUtil;
@@ -186,7 +186,7 @@ public class PluginLoader implements LifecycleListener {
       new File(pluginsDir, fileName + ".disabled").delete();
       tmp.renameTo(dst);
       try {
-        Plugin plugin = runPlugin(name, dst, active);
+        Plugin plugin = runPlugin(name, dst, active, null);
         if (active == null) {
           log.info(String.format("Installed plugin %s", plugin.getName()));
         }
@@ -262,7 +262,7 @@ public class PluginLoader implements LifecycleListener {
         unloadPlugin(active);
         try {
           FileSnapshot snapshot = FileSnapshot.save(off);
-          Plugin offPlugin = loadPlugin(name, off, snapshot);
+          Plugin offPlugin = loadPlugin(name, off, snapshot, null);
           disabled.put(name, offPlugin);
         } catch (Throwable e) {
           // This shouldn't happen, as the plugin was loaded earlier.
@@ -298,7 +298,7 @@ public class PluginLoader implements LifecycleListener {
         off.getSrcFile().renameTo(on);
 
         disabled.remove(name);
-        runPlugin(name, on, null);
+        runPlugin(name, on, null, null);
       }
       cleanInBackground();
     }
@@ -358,7 +358,7 @@ public class PluginLoader implements LifecycleListener {
         String name = active.getName();
         try {
           log.info(String.format("Reloading plugin %s", name));
-          runPlugin(name, active.getSrcFile(), active);
+          runPlugin(name, active.getSrcFile(), active, null);
         } catch (PluginInstallException e) {
           log.warn(String.format("Cannot reload plugin %s", name), e.getCause());
           throw e;
@@ -378,9 +378,9 @@ public class PluginLoader implements LifecycleListener {
     syncDisabledPlugins(jars);
 
     Map<String, File> activePlugins = filterDisabled(jars);
-    for (Map.Entry<String, File> entry : activePlugins.entrySet()) {
-      String name = entry.getKey();
-      File jar = entry.getValue();
+    for (Dependency d : DependencyResolver.sort(activePlugins)) {
+      String name = d.name;
+      File jar = d.file;
       FileSnapshot brokenTime = broken.get(name);
       if (brokenTime != null && !brokenTime.isModified(jar)) {
         continue;
@@ -397,7 +397,7 @@ public class PluginLoader implements LifecycleListener {
       }
 
       try {
-        Plugin loadedPlugin = runPlugin(name, jar, active);
+        Plugin loadedPlugin = runPlugin(name, jar, active, d);
         if (active == null && !loadedPlugin.isDisabled()) {
           log.info(String.format("Loaded plugin %s, version %s",
               loadedPlugin.getName(), loadedPlugin.getVersion()));
@@ -415,11 +415,12 @@ public class PluginLoader implements LifecycleListener {
     dropRemovedDisabledPlugins(jars);
   }
 
-  private Plugin runPlugin(String name, File plugin, Plugin oldPlugin)
+  private Plugin runPlugin(String name, File plugin, Plugin oldPlugin,
+      Dependency d)
       throws PluginInstallException {
     FileSnapshot snapshot = FileSnapshot.save(plugin);
     try {
-      Plugin newPlugin = loadPlugin(name, plugin, snapshot);
+      Plugin newPlugin = loadPlugin(name, plugin, snapshot, d);
       boolean reload = oldPlugin != null
           && oldPlugin.canReload()
           && newPlugin.canReload();
@@ -518,7 +519,8 @@ public class PluginLoader implements LifecycleListener {
     return 0 < ext ? name.substring(ext) : "";
   }
 
-  private Plugin loadPlugin(String name, File srcPlugin, FileSnapshot snapshot)
+  private Plugin loadPlugin(String name, File srcPlugin, FileSnapshot snapshot,
+      Dependency d)
       throws IOException, ClassNotFoundException, InvalidPluginException {
     String pluginName = srcPlugin.getName();
     if (isJarPlugin(pluginName)) {
@@ -530,7 +532,7 @@ public class PluginLoader implements LifecycleListener {
       } finally {
         in.close();
       }
-      return loadJarPlugin(name, srcPlugin, snapshot, tmp);
+      return loadJarPlugin(name, srcPlugin, snapshot, tmp, d);
     } else if (isScriptingPlugin(pluginName)) {
       return loadScriptingPlugin(name, srcPlugin, snapshot);
     } else {
@@ -540,7 +542,7 @@ public class PluginLoader implements LifecycleListener {
   }
 
   private Plugin loadJarPlugin(String name, File srcJar, FileSnapshot snapshot,
-      File tmp) throws IOException, InvalidPluginException,
+      File tmp, Dependency d) throws IOException, InvalidPluginException,
       MalformedURLException, ClassNotFoundException {
     JarFile jarFile = new JarFile(tmp);
     boolean keep = false;
@@ -571,9 +573,21 @@ public class PluginLoader implements LifecycleListener {
       }
       urls.add(tmp.toURI().toURL());
 
+      ClassLoader parentLoader = parentFor(type);
+      // TODO(davido): Simplify to only one dependent plugin for now.
+      // Support for multiple dependent plugins will be added later
+      // with MultiParentClassLoader feature.
+      if (d != null && d.deps.size() != 0) {
+        String dependentPlugin = d.deps.get(0);
+        Plugin p = running.get(dependentPlugin);
+        if (p instanceof JarPlugin) {
+          parentLoader = ((JarPlugin)p).getClassloader();
+        }
+      }
+
       ClassLoader pluginLoader = new URLClassLoader(
           urls.toArray(new URL[urls.size()]),
-          parentFor(type));
+          parentLoader);
       Class<? extends Module> sysModule = load(sysName, pluginLoader);
       Class<? extends Module> sshModule = load(sshName, pluginLoader);
       Class<? extends Module> httpModule = load(httpName, pluginLoader);
@@ -642,12 +656,11 @@ public class PluginLoader implements LifecycleListener {
   // Filter out disabled plugins and transform the multimap to a map
   private static Map<String, File> filterDisabled(
       Multimap<String, File> jars) {
-    Map<String, File> activePlugins = Maps.newHashMapWithExpectedSize(
-        jars.keys().size());
+    Map<String, File> activePlugins = Maps.newLinkedHashMap();
     for (String name : jars.keys()) {
       for (File jar : jars.asMap().get(name)) {
         if (!jar.getName().endsWith(".disabled")) {
-          assert(!activePlugins.containsKey(name));
+          Preconditions.checkState(!activePlugins.containsKey(name));
           activePlugins.put(name, jar);
         }
       }
@@ -756,14 +769,14 @@ public class PluginLoader implements LifecycleListener {
   private static Multimap<String, File> asMultimap(List<File> plugins)
       throws IOException {
     Multimap<String, File> map = LinkedHashMultimap.create();
-    for (File srcFile : plugins) {
-      map.put(Objects.firstNonNull(getGerritPluginName(srcFile),
-          nameOf(srcFile)), srcFile);
+    for (File f : plugins) {
+      map.put(Objects.firstNonNull(getGerritPluginName(f), nameOf(f)),
+          f);
     }
     return map;
   }
 
-  private static boolean isJarPlugin(String name) {
+  static boolean isJarPlugin(String name) {
     return isPlugin(name, "jar");
   }
 

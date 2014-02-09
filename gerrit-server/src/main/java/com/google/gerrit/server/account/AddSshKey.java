@@ -26,6 +26,7 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.AccountSshKey;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AddSshKey.Input;
 import com.google.gerrit.server.account.GetSshKeys.SshKeyInfo;
 import com.google.gerrit.server.ssh.SshKeyCache;
@@ -61,6 +62,11 @@ public class AddSshKey implements RestModifyView<AccountResource, Input> {
         && !self.get().getCapabilities().canAdministrateServer()) {
       throw new AuthException("not allowed to add SSH keys");
     }
+    return apply(rsrc.getUser(), input);
+  }
+
+  public Response<SshKeyInfo> apply(IdentifiedUser user, Input input)
+      throws BadRequestException, OrmException, IOException {
     if (input == null) {
       input = new Input();
     }
@@ -70,7 +76,7 @@ public class AddSshKey implements RestModifyView<AccountResource, Input> {
 
     int max = 0;
     for (AccountSshKey k : dbProvider.get().accountSshKeys()
-        .byAccount(rsrc.getUser().getAccountId())) {
+        .byAccount(user.getAccountId())) {
       max = Math.max(max, k.getKey().get());
     }
 
@@ -85,9 +91,9 @@ public class AddSshKey implements RestModifyView<AccountResource, Input> {
     try {
       AccountSshKey sshKey =
           sshKeyCache.create(new AccountSshKey.Id(
-              rsrc.getUser().getAccountId(), max + 1), sshPublicKey);
+              user.getAccountId(), max + 1), sshPublicKey);
       dbProvider.get().accountSshKeys().insert(Collections.singleton(sshKey));
-      sshKeyCache.evict(rsrc.getUser().getUserName());
+      sshKeyCache.evict(user.getUserName());
       return Response.<SshKeyInfo>created(new SshKeyInfo(sshKey));
     } catch (InvalidSshKeyException e) {
       throw new BadRequestException(e.getMessage());

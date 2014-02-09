@@ -96,6 +96,10 @@ class JarPlugin extends Plugin {
     this.httpModule = httpModule;
   }
 
+  ClassLoader getClassloader() {
+    return classLoader;
+  }
+
   File getSrcJar() {
     return getSrcFile();
   }

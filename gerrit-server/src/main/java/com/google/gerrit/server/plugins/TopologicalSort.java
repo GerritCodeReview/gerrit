@@ -50,7 +50,7 @@ public final class TopologicalSort {
    * @return A topological sort of that graph.
    * @throws IllegalArgumentException If the graph is not a DAG.
    */
-  public static <T> List<T> sort(DirectedGraph<T> g) {
+  public static <T> List<T> sort(DirectedGraph<T> g) throws DAGCycleException {
     /* Construct the reverse graph from the input graph. */
     DirectedGraph<T> gRev = reverseGraph(g);
 
@@ -89,7 +89,7 @@ public final class TopologicalSort {
    * @param expanded A set of nodes that have been fully expanded.
    */
   private static <T> void explore(T node, DirectedGraph<T> g, List<T> ordering,
-      Set<T> visited, Set<T> expanded) {
+      Set<T> visited, Set<T> expanded) throws DAGCycleException {
     /*
      * Check whether we've been here before. If so, we should stop the search.
      */
@@ -103,7 +103,7 @@ public final class TopologicalSort {
        * case, we should report an error.
        */
       if (expanded.contains(node)) return;
-      throw new IllegalArgumentException("Graph contains a cycle.");
+      throw new DAGCycleException("Graph contains a cycle.");
     }
 
     /* Mark that we've been here */

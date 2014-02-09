@@ -25,6 +25,7 @@ import org.apache.commons.lang.StringUtils;
 import org.eclipse.jgit.internal.storage.file.FileSnapshot;
 
 import java.io.File;
+import java.util.Collections;
 import java.util.jar.JarFile;
 
 public abstract class ScriptingPlugin extends Plugin {
@@ -43,7 +44,9 @@ public abstract class ScriptingPlugin extends Plugin {
 
   public ScriptingPlugin(String name, File srcFile, PluginUser pluginUser,
       FileSnapshot snapshot) {
-    super(StringUtils.substringBeforeLast(name, "-"), srcFile, pluginUser,
+    super(StringUtils.substringBeforeLast(name, "-"),
+        Collections.<String>emptySet(),
+        srcFile, pluginUser,
         snapshot, ApiType.SCRIPTING);
   }
 

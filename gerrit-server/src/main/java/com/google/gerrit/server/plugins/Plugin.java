@@ -15,6 +15,7 @@
 package com.google.gerrit.server.plugins;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
@@ -28,6 +29,7 @@ import org.eclipse.jgit.internal.storage.file.FileSnapshot;
 import java.io.File;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.jar.Attributes;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
@@ -68,6 +70,7 @@ public abstract class Plugin {
   }
 
   private final String name;
+  private final ImmutableSet<String> deps;
   private final File srcFile;
   private final ApiType apiType;
   private final boolean disabled;
@@ -80,11 +83,13 @@ public abstract class Plugin {
   private List<ReloadableRegistrationHandle<?>> reloadableHandles;
 
   public Plugin(String name,
+      Set<String> deps,
       File srcFile,
       PluginUser pluginUser,
       FileSnapshot snapshot,
       ApiType apiType) {
     this.name = name;
+    this.deps = ImmutableSet.copyOf(deps);
     this.srcFile = srcFile;
     this.apiType = apiType;
     this.snapshot = snapshot;
@@ -162,5 +167,9 @@ public abstract class Plugin {
 
   boolean isModified(File jar) {
     return snapshot.lastModified() != jar.lastModified();
+  }
+
+  Set<String> getDependencies() {
+    return deps;
   }
 }

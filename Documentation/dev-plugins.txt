@@ -207,6 +207,41 @@ name, i.e. `http://review.example.com:8080/plugin-name`.
 The canonical web URL may be injected into any .jar plugin regardless of
 whether or not the plugin provides an HTTP servlet.
 
+[[dependencies_between_plugins]]
+=== Dependencies Between Plugins
+
+A plugin can optionally depends on other plugin(s).
+
+====
+  Gerrit-DependsOn: Foo
+====
+
+This is needed for plugins that provide services for other plugins and it
+must be ensured that these plugins are loaded before other plugins.
+
+If a plugin depends on number of plugins, then the plugin names must be
+separated by comma.
+
+For Maven driven plugins, the following line must be included in the pom.xml
+file:
+
+[source,xml]
+----
+<manifestEntries>
+  <Gerrit-DependsOn>Foo, Bar, Baz</Gerrit-DependsOn>
+</manifestEntries>
+----
+
+For Buck driven plugins, the following line must be included in the BUCK
+configuration file:
+
+[source,python]
+----
+manifest_entries = [
+   'Gerrit-DependsOn: Foo, Bar, Baz',
+]
+----
+
 [[reload_method]]
 === Reload Method
 

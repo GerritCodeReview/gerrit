@@ -36,6 +36,7 @@ import org.eclipse.jgit.internal.storage.file.FileSnapshot;
 
 import java.io.File;
 import java.util.List;
+import java.util.Set;
 import java.util.jar.Attributes;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
@@ -73,6 +74,7 @@ class JarPlugin extends Plugin {
   private List<ReloadableRegistrationHandle<?>> reloadableHandles;
 
   public JarPlugin(String name,
+      Set<String> deps,
       String pluginCanonicalWebUrl,
       PluginUser pluginUser,
       File srcJar,
@@ -85,7 +87,7 @@ class JarPlugin extends Plugin {
       @Nullable Class<? extends Module> sysModule,
       @Nullable Class<? extends Module> sshModule,
       @Nullable Class<? extends Module> httpModule) {
-    super(name, srcJar, pluginUser, snapshot, apiType);
+    super(name, deps, srcJar, pluginUser, snapshot, apiType);
     this.pluginCanonicalWebUrl = pluginCanonicalWebUrl;
     this.jarFile = jarFile;
     this.manifest = manifest;
@@ -94,6 +96,10 @@ class JarPlugin extends Plugin {
     this.sysModule = sysModule;
     this.sshModule = sshModule;
     this.httpModule = httpModule;
+  }
+
+  ClassLoader getClassLoader() {
+    return classLoader;
   }
 
   File getSrcJar() {

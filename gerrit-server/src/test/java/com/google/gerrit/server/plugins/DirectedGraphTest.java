@@ -1,4 +1,4 @@
-// Copyright (C) 2009 The Android Open Source Project
+// Copyright (C) 2014 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,7 +16,13 @@ package com.google.gerrit.server.plugins;
 
 import static org.junit.Assert.assertArrayEquals;
 
+import com.google.common.collect.Sets;
+
 import org.junit.Test;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
 
 public class DirectedGraphTest {
 
@@ -32,7 +38,7 @@ public class DirectedGraphTest {
   }
 
   @Test
-  public void sort() {
+  public void sort() throws DAGCycleException {
     DirectedGraph<Node> g = new DirectedGraph<>();
     Node seven = addNode(g, "7");
     Node five = addNode(g, "5");
@@ -60,6 +66,93 @@ public class DirectedGraphTest {
 
     assertArrayEquals(new Node[] {five, three, seven, eleven, two, eight, nine,
         ten}, TopologicalSort.sort(g).toArray());
+  }
+
+  @Test(expected = DAGCycleException.class)
+  public void sort_DAGhasCycle() throws DAGCycleException {
+    DirectedGraph<Node> g = new DirectedGraph<>();
+    Node three = addNode(g, "3");
+    Node five = addNode(g, "5");
+    Node seven = addNode(g, "7");
+
+    g.addEdge(three, five);
+    g.addEdge(five, seven);
+    g.addEdge(seven, three);
+
+    TopologicalSort.sort(g);
+  }
+
+  @Test
+  public void sort_DAGhasCycleAndResolve() throws DAGCycleException {
+    DirectedGraph<Node> g = new DirectedGraph<>();
+    Node three = addNode(g, "3");
+    Node five = addNode(g, "5");
+    Node seven = addNode(g, "7");
+
+    g.addEdge(three, five);
+    g.addEdge(five, seven);
+    g.addEdge(seven, three);
+
+    try {
+      TopologicalSort.sort(g);
+    } catch (DAGCycleException e) {
+      Node dest = (Node)e.node;
+      Set<Node> sets = g.edgesTo(dest);
+      for (Node start : sets) {
+        g.removeEdge(start, dest);
+      }
+      TopologicalSort.sort(g);
+    }
+  }
+
+  @Test
+  public void sort_inducedSubgraph() throws DAGCycleException {
+    DirectedGraph<Node> g = new DirectedGraph<>();
+    Node a = addNode(g, "A");
+    Node b = addNode(g, "B");
+    Node c = addNode(g, "C");
+    Node d = addNode(g, "D");
+    Node e = addNode(g, "E");
+
+    g.addEdge(a, b);
+    g.addEdge(a, c);
+    g.addEdge(b, c);
+    g.addEdge(c, d);
+    g.addEdge(c, e);
+
+    Set<Node> subset = Sets.newHashSetWithExpectedSize(2);
+    subset.add(b);
+    subset.add(e);
+
+    List<Node> result = TopologicalSort.sortSubgraph(g, subset);
+    assertArrayEquals(new Node[] {a, b, c, e}, result.toArray());
+    Collections.reverse(result);
+    assertArrayEquals(new Node[] {e, c, b, a}, result.toArray());
+  }
+
+  @Test
+  public void sort_inducedSubgraphStarGraph() throws DAGCycleException {
+    DirectedGraph<Node> g = new DirectedGraph<>();
+    Node a = addNode(g, "A");
+    Node b = addNode(g, "B");
+    Node c = addNode(g, "C");
+    Node d = addNode(g, "D");
+    Node e = addNode(g, "E");
+
+    g.addEdge(a, b);
+    g.addEdge(a, c);
+    g.addEdge(b, c);
+    g.addEdge(c, d);
+    g.addEdge(c, e);
+
+    Set<Node> subset = Sets.newHashSetWithExpectedSize(2);
+    subset.add(c);
+    subset.add(e);
+
+    List<Node> result = TopologicalSort.sortSubgraph(g, subset);
+    assertArrayEquals(new Node[] {a, b, c, e}, result.toArray());
+    Collections.reverse(result);
+    assertArrayEquals(new Node[] {e, c, b, a}, result.toArray());
   }
 
   private static Node addNode(DirectedGraph<Node> g, String n) {

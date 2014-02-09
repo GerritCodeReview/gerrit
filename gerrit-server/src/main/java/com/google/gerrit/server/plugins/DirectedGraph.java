@@ -8,6 +8,8 @@
 
 package com.google.gerrit.server.plugins;
 
+import com.google.common.collect.Sets;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -108,6 +110,30 @@ public final class DirectedGraph<T> implements Iterable<T> {
     if (arcs == null)
       throw new NoSuchElementException("Source node does not exist.");
 
+    return Collections.unmodifiableSet(arcs);
+  }
+
+  /**
+   * Given a node in the graph, returns an immutable view of the edges
+   * pointing to that node as a set of start points.
+   *
+   * @param node The node whose edges should be queried.
+   * @return An immutable view of the edges poiting to that node.
+   * @throws NoSuchElementException If the node does not exist.
+   */
+  public Set<T> edgesTo(T dest) {
+    /* Check that the node exists. */
+    if (mGraph.get(dest) == null)
+      throw new NoSuchElementException("Destination node does not exist.");
+    Set<T> arcs = Sets.newHashSet();
+    for (T start : this) {
+      if (start == dest) {
+        continue;
+      }
+      if (edgeExists(start, dest)) {
+        arcs.add(start);
+      }
+    }
     return Collections.unmodifiableSet(arcs);
   }
 

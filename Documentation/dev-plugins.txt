@@ -207,6 +207,44 @@ name, i.e. `http://review.example.com:8080/plugin-name`.
 The canonical web URL may be injected into any .jar plugin regardless of
 whether or not the plugin provides an HTTP servlet.
 
+[[plugin_load_order]]
+=== Plugin Load Order
+
+A plugin can optionally provide its own load order value.
+
+====
+  Gerrit-LoadOrder: 0
+====
+
+This is needed for plugins that provide services for other plugins and it
+must be ensured that these plugins are loaded before other plugins.
+
+If `Gerrit-LoadOrder` is omitted, then the default plugin's load order
+`Integer.MAX_VALUE` is used. The highest order is 0, the lowest is
+`Integer.MAX_VALUE`. For the same load order value the actual loading order
+of plugins is undefined. The same hold true, when multiple plugins ommit
+`Gerrit-LoadOrder` value.
+
+For Maven driven plugins, the following line must be included in the pom.xml
+file:
+
+[source,xml]
+----
+<manifestEntries>
+  <Gerrit-LoadOrder>42</Gerrit-LoadOrder>
+</manifestEntries>
+----
+
+For Buck driven plugins, the following line must be included in the BUCK
+configuration file:
+
+[source,python]
+----
+manifest_entries = [
+   'Gerrit-LoadOrder: 42',
+]
+----
+
 [[reload_method]]
 === Reload Method
 

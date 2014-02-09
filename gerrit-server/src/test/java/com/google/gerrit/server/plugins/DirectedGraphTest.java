@@ -1,4 +1,4 @@
-// Copyright (C) 2009 The Android Open Source Project
+// Copyright (C) 2014 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -32,7 +32,7 @@ public class DirectedGraphTest {
   }
 
   @Test
-  public void sort() {
+  public void sort() throws DAGCycleException {
     DirectedGraph<Node> g = new DirectedGraph<>();
     Node seven = addNode(g, "7");
     Node five = addNode(g, "5");
@@ -60,6 +60,20 @@ public class DirectedGraphTest {
 
     assertArrayEquals(new Node[] {five, three, seven, eleven, two, eight, nine,
         ten}, TopologicalSort.sort(g).toArray());
+  }
+
+  @Test(expected = DAGCycleException.class)
+  public void sort_DAGhasCycle() throws DAGCycleException {
+    DirectedGraph<Node> g = new DirectedGraph<>();
+    Node three = addNode(g, "3");
+    Node five = addNode(g, "5");
+    Node seven = addNode(g, "7");
+
+    g.addEdge(three, five);
+    g.addEdge(five, seven);
+    g.addEdge(seven, three);
+
+    TopologicalSort.sort(g);
   }
 
   private static Node addNode(DirectedGraph<Node> g, String n) {

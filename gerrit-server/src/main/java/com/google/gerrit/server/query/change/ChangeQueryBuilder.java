@@ -16,6 +16,7 @@ package com.google.gerrit.server.query.change;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Lists;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -124,13 +125,10 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
           ChangeQueryBuilder.class);
 
   @SuppressWarnings("unchecked")
-  public static boolean hasLimit(Predicate<ChangeData> p) {
-    return find(p, IntPredicate.class, FIELD_LIMIT) != null;
-  }
-
-  @SuppressWarnings("unchecked")
-  public static int getLimit(Predicate<ChangeData> p) {
-    return ((IntPredicate<?>) find(p, IntPredicate.class, FIELD_LIMIT)).intValue();
+  public static Integer getLimit(Predicate<ChangeData> p) {
+    IntPredicate<?> ip =
+        (IntPredicate<?>) find(p, IntPredicate.class, FIELD_LIMIT);
+    return ip != null ? ip.intValue() : null;
   }
 
   public static boolean hasNonTrivialSortKeyAfter(Schema<ChangeData> schema,
@@ -237,12 +235,12 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   @Operator
   public Predicate<ChangeData> age(String value) {
-    return new AgePredicate(value);
+    return new AgePredicate(schema(args.indexes), value);
   }
 
   @Operator
   public Predicate<ChangeData> before(String value) throws QueryParseException {
-    return new BeforePredicate(value);
+    return new BeforePredicate(schema(args.indexes), value);
   }
 
   @Operator
@@ -252,7 +250,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   @Operator
   public Predicate<ChangeData> after(String value) throws QueryParseException {
-    return new AfterPredicate(value);
+    return new AfterPredicate(schema(args.indexes), value);
   }
 
   @Operator
@@ -660,16 +658,18 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     return new LimitPredicate(limit);
   }
 
+  boolean supportsSortKey() {
+    return SortKeyPredicate.hasSortKeyField(schema(args.indexes));
+  }
+
   @Operator
   public Predicate<ChangeData> sortkey_after(String sortKey) {
-    return new SortKeyPredicate.After(
-        BasicChangeRewrites.schema(args.indexes), args.db, sortKey);
+    return new SortKeyPredicate.After(schema(args.indexes), args.db, sortKey);
   }
 
   @Operator
   public Predicate<ChangeData> sortkey_before(String sortKey) {
-    return new SortKeyPredicate.Before(
-        BasicChangeRewrites.schema(args.indexes), args.db, sortKey);
+    return new SortKeyPredicate.Before(schema(args.indexes), args.db, sortKey);
   }
 
   @Operator
@@ -777,5 +777,10 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       return ((IdentifiedUser) currentUser).getAccountId();
     }
     throw new IllegalArgumentException();
+  }
+
+  private static Schema<ChangeData> schema(@Nullable IndexCollection indexes) {
+    ChangeIndex index = indexes != null ? indexes.getSearchIndex() : null;
+    return index != null ? index.getSchema() : null;
   }
 }

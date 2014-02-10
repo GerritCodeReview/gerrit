@@ -29,6 +29,10 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
 
 public abstract class SortKeyPredicate extends IndexPredicate<ChangeData> {
+  public static boolean hasSortKeyField(Schema<ChangeData> schema) {
+    return sortkeyFieldOrNull(schema) != null;
+  }
+
   @SuppressWarnings("deprecation")
   private static long parseSortKey(Schema<ChangeData> schema, String value) {
     FieldDef<ChangeData, ?> field = schema.getFields().get(SORTKEY.getName());
@@ -40,7 +44,8 @@ public abstract class SortKeyPredicate extends IndexPredicate<ChangeData> {
   }
 
   @SuppressWarnings("deprecation")
-  private static FieldDef<ChangeData, ?> sortkeyField(Schema<ChangeData> schema) {
+  private static FieldDef<ChangeData, ?> sortkeyFieldOrNull(
+      Schema<ChangeData> schema) {
     if (schema == null) {
       return ChangeField.LEGACY_SORTKEY;
     }
@@ -48,9 +53,13 @@ public abstract class SortKeyPredicate extends IndexPredicate<ChangeData> {
     if (f != null) {
       return f;
     }
+    return schema.getFields().get(ChangeField.LEGACY_SORTKEY.getName());
+  }
+
+  private static FieldDef<ChangeData, ?> sortkeyField(Schema<ChangeData> schema) {
     return checkNotNull(
-        schema.getFields().get(ChangeField.LEGACY_SORTKEY.getName()),
-        "schema missing sortkey field, found: %s", schema.getFields().keySet());
+        sortkeyFieldOrNull(schema),
+        "schema missing sortkey field, found: %s", schema);
   }
 
   protected final Schema<ChangeData> schema;

@@ -21,4 +21,6 @@ public interface Paginated {
   int limit();
 
   ResultSet<ChangeData> restart(ChangeData last) throws OrmException;
+
+  ResultSet<ChangeData> restart(int start) throws OrmException;
 }

@@ -80,6 +80,11 @@ public class QueryChanges implements RestReadView<TopLevelResource> {
     imp.setSortkeyBefore(key);
   }
 
+  @Option(name = "-S", metaVar = "CNT", usage = "Number of changes to skip")
+  public void setStart(int start) {
+    imp.setStart(start);
+  }
+
   @Inject
   QueryChanges(ChangeJson json, QueryProcessor qp, Provider<CurrentUser> user) {
     this.json = json;

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.GlobalCapability;
@@ -103,6 +104,7 @@ public class QueryProcessor {
 
   private OutputFormat outputFormat = OutputFormat.TEXT;
   private int limit;
+  private int start;
   private String sortkeyAfter;
   private String sortkeyBefore;
   private boolean includePatchSets;
@@ -142,6 +144,10 @@ public class QueryProcessor {
 
   void setLimit(int n) {
     limit = n;
+  }
+
+  void setStart(int n) {
+    start = n;
   }
 
   void setSortkeyAfter(String sortkey) {
@@ -240,17 +246,17 @@ public class QueryProcessor {
     List<ChangeDataSource> sources = Lists.newArrayListWithCapacity(cnt);
     for (String query : queries) {
       Predicate<ChangeData> q = parseQuery(query, visibleToMe);
-      Predicate<ChangeData> s = queryRewriter.rewrite(q);
+      Predicate<ChangeData> s = queryRewriter.rewrite(q, start);
       if (!(s instanceof ChangeDataSource)) {
         q = Predicate.and(queryBuilder.status_open(), q);
-        s = queryRewriter.rewrite(q);
+        s = queryRewriter.rewrite(q, start);
       }
       if (!(s instanceof ChangeDataSource)) {
         throw new QueryParseException("invalid query: " + s);
       }
 
       // Don't trust QueryRewriter to have left the visible predicate.
-      AndSource a = new AndSource(ImmutableList.of(s, visibleToMe));
+      AndSource a = new AndSource(ImmutableList.of(s, visibleToMe), start);
       limits.add(limit(q));
       sources.add(a);
     }
@@ -264,7 +270,11 @@ public class QueryProcessor {
     List<List<ChangeData>> out = Lists.newArrayListWithCapacity(cnt);
     for (int i = 0; i < cnt; i++) {
       List<ChangeData> results = matches.get(i).toList();
-      Collections.sort(results, sortkeyAfter != null ? cmpAfter : cmpBefore);
+      if (sortkeyAfter != null) {
+        Collections.sort(results, cmpAfter);
+      } else if (sortkeyBefore != null) {
+        Collections.sort(results, cmpBefore);
+      }
       if (results.size() > maxLimit) {
         moreResults = true;
       }
@@ -406,16 +416,14 @@ public class QueryProcessor {
   }
 
   private int limit(Predicate<ChangeData> s) {
-    int n = ChangeQueryBuilder.hasLimit(s)
-        ? ChangeQueryBuilder.getLimit(s)
-        : maxLimit;
+    int n = Objects.firstNonNull(ChangeQueryBuilder.getLimit(s), maxLimit);
     return limit > 0 ? Math.min(n, limit) + 1 : n + 1;
   }
 
   private Predicate<ChangeData> parseQuery(String queryString,
       final Predicate<ChangeData> visibleToMe) throws QueryParseException {
     Predicate<ChangeData> q = queryBuilder.parse(queryString);
-    if (!ChangeQueryBuilder.hasSortKey(q)) {
+    if (queryBuilder.supportsSortKey() && !ChangeQueryBuilder.hasSortKey(q)) {
       if (sortkeyBefore != null) {
         q = Predicate.and(q, queryBuilder.sortkey_before(sortkeyBefore));
       } else if (sortkeyAfter != null) {

@@ -639,7 +639,7 @@ public class JettyServer {
     }
 
     long time = TimeUtil.nowMs() - start;
-    log.info(String.format("UPDATED    %s in %.3fs", target, time / 1000.0));
+    log.info(String.format("LEGACY_UPDATED    %s in %.3fs", target, time / 1000.0));
   }
 
   private static Properties loadBuckProperties(File gen)

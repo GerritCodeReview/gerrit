@@ -37,6 +37,7 @@ import com.google.gerrit.server.query.change.OrSource;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.Set;
 
@@ -54,7 +55,7 @@ public class IndexRewriteTest {
     queryBuilder = new FakeQueryBuilder(indexes);
     rewrite = new IndexRewriteImpl(
         indexes,
-        new BasicChangeRewrites(null, indexes));
+        new BasicChangeRewrites(null));
   }
 
   @Test
@@ -97,7 +98,7 @@ public class IndexRewriteTest {
         parse("-status:abandoned (status:open OR status:merged)");
     assertEquals(
         query(parse("status:new OR status:submitted OR status:draft OR status:merged")),
-        rewrite.rewrite(in));
+        rewrite.rewrite(in, 0));
   }
 
   @Test
@@ -169,6 +170,23 @@ public class IndexRewriteTest {
   }
 
   @Test
+  public void testStartIncreasesLimit() throws Exception {
+    Predicate<ChangeData> f = parse("file:a");
+    Predicate<ChangeData> l = parse("limit:3");
+    Predicate<ChangeData> in = and(f, l);
+    assertEquals(and(query(f, 3), l), rewrite.rewrite(in, 0));
+    assertEquals(and(query(f, 4), l), rewrite.rewrite(in, 1));
+    assertEquals(and(query(f, 5), l), rewrite.rewrite(in, 2));
+  }
+
+  @Test
+  public void testStartDoesNotExceedMaxLimit() throws Exception {
+    Predicate<ChangeData> in = parse("file:a");
+    //assertEquals(query(in), rewrite.rewrite(in, 0));
+    assertEquals(query(in), rewrite.rewrite(in, 1));
+  }
+
+  @Test
   public void testGetPossibleStatus() throws Exception {
     assertEquals(EnumSet.allOf(Change.Status.class), status("file:a"));
     assertEquals(EnumSet.of(NEW), status("is:new"));
@@ -203,9 +221,14 @@ public class IndexRewriteTest {
     return queryBuilder.parse(query);
   }
 
+  @SafeVarargs
+  private static AndSource and(Predicate<ChangeData>... preds) {
+    return new AndSource(Arrays.asList(preds));
+  }
+
   private Predicate<ChangeData> rewrite(Predicate<ChangeData> in)
       throws QueryParseException {
-    return rewrite.rewrite(in);
+    return rewrite.rewrite(in, 0);
   }
 
   private IndexedChangeQuery query(Predicate<ChangeData> p)

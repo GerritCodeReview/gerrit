@@ -15,6 +15,7 @@
 package com.google.gerrit.server.index;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Objects;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.Change;
@@ -68,10 +69,11 @@ public class IndexRewriteImpl implements ChangeQueryRewriter {
    *
    * @param in predicate
    * @return the maximal set of statuses that any changes matching the input
-   *     predicates may have, based on examining boolean and
-   *     {@link ChangeStatusPredicate}s.
+   *         predicates may have, based on examining boolean and
+   *         {@link ChangeStatusPredicate}s.
    */
-  public static EnumSet<Change.Status> getPossibleStatus(Predicate<ChangeData> in) {
+  public static EnumSet<Change.Status> getPossibleStatus(
+      Predicate<ChangeData> in) {
     EnumSet<Change.Status> s = extractStatus(in);
     return s != null ? s : EnumSet.allOf(Change.Status.class);
   }
@@ -123,20 +125,23 @@ public class IndexRewriteImpl implements ChangeQueryRewriter {
   private final BasicChangeRewrites basicRewrites;
 
   @Inject
-  IndexRewriteImpl(IndexCollection indexes,
-      BasicChangeRewrites basicRewrites) {
+  IndexRewriteImpl(IndexCollection indexes, BasicChangeRewrites basicRewrites) {
     this.indexes = indexes;
     this.basicRewrites = basicRewrites;
   }
 
   @Override
-  public Predicate<ChangeData> rewrite(Predicate<ChangeData> in)
+  public Predicate<ChangeData> rewrite(Predicate<ChangeData> in, int start)
       throws QueryParseException {
     ChangeIndex index = indexes.getSearchIndex();
     in = basicRewrites.rewrite(in);
-    int limit = Math.max(1, ChangeQueryBuilder.hasLimit(in)
-        ? ChangeQueryBuilder.getLimit(in)
-        : MAX_LIMIT);
+    int limit =
+        Objects.firstNonNull(ChangeQueryBuilder.getLimit(in), MAX_LIMIT);
+    // Increase the limit rather than skipping, since we don't know how many
+    // skipped results would have been filtered out by the enclosing AndSource.
+    limit += start;
+    limit = Math.max(limit, 1);
+    limit = Math.min(limit, MAX_LIMIT);
 
     Predicate<ChangeData> out = rewriteImpl(in, index, limit);
     if (in == out || out instanceof IndexPredicate) {
@@ -154,13 +159,13 @@ public class IndexRewriteImpl implements ChangeQueryRewriter {
    * @param in predicate to rewrite.
    * @param index index whose schema determines which fields are indexed.
    * @param limit maximum number of results to return.
-   * @return {@code null} if no part of this subtree can be queried in the
-   *     index directly. {@code in} if this subtree and all its children can be
-   *     queried directly in the index. Otherwise, a predicate that is
-   *     semantically equivalent, with some of its subtrees wrapped to query the
-   *     index directly.
+   * @return {@code null} if no part of this subtree can be queried in the index
+   *         directly. {@code in} if this subtree and all its children can be
+   *         queried directly in the index. Otherwise, a predicate that is
+   *         semantically equivalent, with some of its subtrees wrapped to query
+   *         the index directly.
    * @throws QueryParseException if the underlying index implementation does not
-   *     support this predicate.
+   *         support this predicate.
    */
   private Predicate<ChangeData> rewriteImpl(Predicate<ChangeData> in,
       ChangeIndex index, int limit) throws QueryParseException {
@@ -208,16 +213,13 @@ public class IndexRewriteImpl implements ChangeQueryRewriter {
     return index.getSchema().getFields().containsKey(p.getField().getName());
   }
 
-  private Predicate<ChangeData> partitionChildren(
-      Predicate<ChangeData> in,
-      List<Predicate<ChangeData>> newChildren,
-      BitSet isIndexed,
-      ChangeIndex index,
-      int limit) throws QueryParseException {
+  private Predicate<ChangeData> partitionChildren(Predicate<ChangeData> in,
+      List<Predicate<ChangeData>> newChildren, BitSet isIndexed,
+      ChangeIndex index, int limit) throws QueryParseException {
     if (isIndexed.cardinality() == 1) {
       int i = isIndexed.nextSetBit(0);
-      newChildren.add(
-          0, new IndexedChangeQuery(index, newChildren.remove(i), limit));
+      newChildren.add(0, new IndexedChangeQuery(index, newChildren.remove(i),
+          limit));
       return copy(in, newChildren);
     }
 
@@ -226,8 +228,8 @@ public class IndexRewriteImpl implements ChangeQueryRewriter {
         Lists.newArrayListWithCapacity(isIndexed.cardinality());
 
     List<Predicate<ChangeData>> all =
-        Lists.newArrayListWithCapacity(
-            newChildren.size() - isIndexed.cardinality() + 1);
+        Lists.newArrayListWithCapacity(newChildren.size()
+            - isIndexed.cardinality() + 1);
 
     for (int i = 0; i < newChildren.size(); i++) {
       Predicate<ChangeData> c = newChildren.get(i);
@@ -241,8 +243,7 @@ public class IndexRewriteImpl implements ChangeQueryRewriter {
     return copy(in, all);
   }
 
-  private Predicate<ChangeData> copy(
-      Predicate<ChangeData> in,
+  private Predicate<ChangeData> copy(Predicate<ChangeData> in,
       List<Predicate<ChangeData>> all) {
     if (in instanceof AndPredicate) {
       return new AndSource(all);
@@ -253,9 +254,7 @@ public class IndexRewriteImpl implements ChangeQueryRewriter {
   }
 
   private static boolean isRewritePossible(Predicate<ChangeData> p) {
-    return p.getChildCount() > 0 && (
-           p instanceof AndPredicate
-        || p instanceof OrPredicate
-        || p instanceof NotPredicate);
+    return p.getChildCount() > 0
+        && (p instanceof AndPredicate || p instanceof OrPredicate || p instanceof NotPredicate);
   }
 }

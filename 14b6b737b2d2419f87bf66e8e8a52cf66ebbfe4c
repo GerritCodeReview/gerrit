@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6fdb8d06_b022d8b2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-02-10T23:22:12Z",
+      "side": 1,
+      "message": "Assuming you meant \"change\" below, I think it would also be clearer for this to say \"change\" (or perhaps \"change in the DB\")",
+      "range": {
+        "startLine": 7,
+        "startChar": 14,
+        "endLine": 7,
+        "endChar": 16
+      },
+      "revId": "14b6b737b2d2419f87bf66e8e8a52cf66ebbfe4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6fdb8d06_f018608c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-02-10T23:22:12Z",
+      "side": 1,
+      "message": "Did you mean \"change\"?",
+      "range": {
+        "startLine": 9,
+        "startChar": 48,
+        "endLine": 9,
+        "endChar": 56
+      },
+      "revId": "14b6b737b2d2419f87bf66e8e8a52cf66ebbfe4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6fdb8d06_902554bf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-02-10T23:22:12Z",
+      "side": 1,
+      "message": "Same comment as on summary line.",
+      "range": {
+        "startLine": 11,
+        "startChar": 4,
+        "endLine": 11,
+        "endChar": 6
+      },
+      "revId": "14b6b737b2d2419f87bf66e8e8a52cf66ebbfe4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6fdb8d06_50512c2b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-02-10T23:22:12Z",
+      "side": 1,
+      "message": "I\u0027m not sure I see the problem with the old code. The intention was, if any changes have been made to the comments table, then update the change in the DB, including bumping the timestamp.\n\nLooking at this code, that certainly seems to be the intention: insertComments should return true iff it inserted some comments, in which case the change should be updated as well. (Ditto for updateLabels and insertMessage.)\n\nI\u0027m seeing two possible issues here:\na. a bug in insertComments et al. not returning true when it should\nb. timestamp skew between the timestamp recorded by ChangeUtil.updated and the creation of the comments/message.\n\nIf (a), we should fix the return values. If (b), just pass the timestamp down into the methods where the child entities are being created.",
+      "revId": "14b6b737b2d2419f87bf66e8e8a52cf66ebbfe4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -537,6 +537,13 @@ the user has accidentally pushed the commit to the wrong branch, e.g.
 the commit was done on `branch-a`, but was then pushed to
 `refs/for/branch-b`.
 
+** Red Dot:
++
+If the selected patch set of a change is merged in branch(es) other 
+than the branch of current change under review then it is marked with
+a red dot. Also mouse over on dot shows the name of branch(es) in which
+that change is merged.
+
 +
 image::images/user-review-ui-change-screen-related-changes-indicators.png[width=800, link="images/user-review-ui-change-screen-related-changes-indicators.png"]
 

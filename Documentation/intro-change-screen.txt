@@ -255,6 +255,11 @@ patch set of a change, the descendent change is marked with a tilde (~).
 If an ancestor commit is not associated to a Gerrit change, i.e. has been pushed
 directly to the repository bypassing review, it is marked with a black dot.
 
+If the selected patch set of a change is merged in a branch other than the branch
+of current change under review then it is marked with a red asterisk (*).
+Also mouse over on asterisk (*) shows the name of branch in which that change is
+merged.
+
 This tab is only visible if related changes for the current active
 change exist.
 

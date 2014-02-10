@@ -25,6 +25,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Account.FieldName;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.PutName.Input;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -60,7 +61,11 @@ public class PutName implements RestModifyView<AccountResource, Input> {
         && !self.get().getCapabilities().canAdministrateServer()) {
       throw new AuthException("not allowed to change name");
     }
+    return apply(rsrc.getUser(), input);
+  }
 
+  public Response<String> apply(IdentifiedUser user, Input input)
+      throws MethodNotAllowedException, ResourceNotFoundException, OrmException {
     if (!realm.allowsEdit(FieldName.FULL_NAME)) {
       throw new MethodNotAllowedException("realm does not allow editing name");
     }
@@ -69,7 +74,7 @@ public class PutName implements RestModifyView<AccountResource, Input> {
       input = new Input();
     }
 
-    Account a = dbProvider.get().accounts().get(rsrc.getUser().getAccountId());
+    Account a = dbProvider.get().accounts().get(user.getAccountId());
     if (a == null) {
       throw new ResourceNotFoundException("account not found");
     }

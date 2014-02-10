@@ -25,4 +25,5 @@ public interface Messages extends com.google.gwt.i18n.client.Messages {
   String cherryPicks(String count);
   String sameTopic(int count);
   String sameTopic(String count);
+  String mergedBranch(String str);
 }

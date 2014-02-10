@@ -537,6 +537,13 @@ the user has accidentally pushed the commit to the wrong branch, e.g.
 the commit was done on `branch-a`, but was then pushed to
 `refs/for/branch-b`.
 
+** Red Asterisk:
++
+If the selected patch set of a change is merged in a branch other than
+the branch of current change under review then it is marked with a red
+asterisk (*). Also mouse over on asterisk (*) shows the name of branch
+in which that change is merged.
+
 +
 image::images/user-review-ui-change-screen-related-changes-indicators.png[width=800, link="images/user-review-ui-change-screen-related-changes-indicators.png"]
 

@@ -27,4 +27,5 @@ public interface ChangeMessages extends Messages {
   String cherryPicks(String count);
   String sameTopic(int count);
   String sameTopic(String count);
+  String mergedBranch(String str);
 }

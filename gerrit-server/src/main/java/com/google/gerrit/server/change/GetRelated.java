@@ -20,6 +20,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.data.IncludedInDetail;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.GitPerson;
 import com.google.gerrit.extensions.restapi.RestReadView;
@@ -100,8 +101,9 @@ public class GetRelated implements RestReadView<RevisionResource> {
       commits.put(p.getRevision().get(), p);
     }
 
-    RevCommit rev = rw.parseCommit(ObjectId.fromString(
-        rsrc.getPatchSet().getRevision().get()));
+    RevCommit rev =
+        rw.parseCommit(ObjectId.fromString(rsrc.getPatchSet().getRevision()
+            .get()));
     rw.sort(RevSort.TOPO);
     rw.markStart(rev);
 
@@ -121,8 +123,10 @@ public class GetRelated implements RestReadView<RevisionResource> {
       if (p != null) {
         g = changes.get(p.getId().getParentKey());
         added.add(p.getId().getParentKey());
+      } else {
+        g = rsrc.getChange();
       }
-      parents.add(new ChangeAndCommit(g, p, c));
+      parents.add(new ChangeAndCommit(g, p, c, gitMgr));
     }
     List<ChangeAndCommit> list = children(rsrc, rw, changes, patchSets, added);
     list.addAll(parents);
@@ -165,8 +169,7 @@ public class GetRelated implements RestReadView<RevisionResource> {
 
   private List<ChangeAndCommit> children(RevisionResource rsrc, RevWalk rw,
       Map<Change.Id, Change> changes, Map<PatchSet.Id, PatchSet> patchSets,
-      Set<Change.Id> added)
-      throws OrmException, IOException {
+      Set<Change.Id> added) throws OrmException, IOException {
     // children is a map of parent commit name to PatchSet built on it.
     Multimap<String, PatchSet.Id> children = allChildren(changes.keySet());
 
@@ -185,7 +188,7 @@ public class GetRelated implements RestReadView<RevisionResource> {
       for (PatchSet.Id psId : children.get(id)) {
         PatchSet.Id e = matches.get(psId.getParentKey());
         if ((e == null || e.get() < psId.get())
-            && isVisible(projectCtl, changes, patchSets, psId))  {
+            && isVisible(projectCtl, changes, patchSets, psId)) {
           matches.put(psId.getParentKey(), psId);
         }
       }
@@ -197,14 +200,14 @@ public class GetRelated implements RestReadView<RevisionResource> {
           continue;
         }
 
-        RevCommit c = rw.parseCommit(ObjectId.fromString(
-            ps.getRevision().get()));
+        RevCommit c =
+            rw.parseCommit(ObjectId.fromString(ps.getRevision().get()));
         if (!c.has(seenCommit)) {
           c.add(seenCommit);
           q.addFirst(ps.getRevision().get());
           if (added.add(ps.getId().getParentKey())) {
             rw.parseBody(c);
-            graph.add(new ChangeAndCommit(change, ps, c));
+            graph.add(new ChangeAndCommit(change, ps, c, gitMgr));
           }
         }
       }
@@ -214,8 +217,7 @@ public class GetRelated implements RestReadView<RevisionResource> {
   }
 
   private boolean isVisible(ProjectControl projectCtl,
-      Map<Change.Id, Change> changes,
-      Map<PatchSet.Id, PatchSet> patchSets,
+      Map<Change.Id, Change> changes, Map<PatchSet.Id, PatchSet> patchSets,
       PatchSet.Id psId) throws OrmException {
     Change c = changes.get(psId.getParentKey());
     PatchSet ps = patchSets.get(psId);
@@ -227,11 +229,12 @@ public class GetRelated implements RestReadView<RevisionResource> {
     return false;
   }
 
-  private void seedQueue(RevisionResource rsrc, RevWalk rw,
-      RevFlag seenCommit, Map<PatchSet.Id, PatchSet> patchSets,
-      LinkedList<String> q) throws IOException {
-    RevCommit tip = rw.parseCommit(ObjectId.fromString(
-        rsrc.getPatchSet().getRevision().get()));
+  private void seedQueue(RevisionResource rsrc, RevWalk rw, RevFlag seenCommit,
+      Map<PatchSet.Id, PatchSet> patchSets, LinkedList<String> q)
+      throws IOException {
+    RevCommit tip =
+        rw.parseCommit(ObjectId.fromString(rsrc.getPatchSet().getRevision()
+            .get()));
     tip.add(seenCommit);
     q.add(tip.name());
 
@@ -239,15 +242,14 @@ public class GetRelated implements RestReadView<RevisionResource> {
     for (PatchSet p : patchSets.values()) {
       if (cId.equals(p.getId().getParentKey())) {
         try {
-          RevCommit c = rw.parseCommit(ObjectId.fromString(
-              p.getRevision().get()));
+          RevCommit c =
+              rw.parseCommit(ObjectId.fromString(p.getRevision().get()));
           if (!c.has(seenCommit)) {
             c.add(seenCommit);
             q.add(c.name());
           }
         } catch (IOException e) {
-          log.warn(String.format(
-              "Cannot read patch set %d of %d",
+          log.warn(String.format("Cannot read patch set %d of %d",
               p.getPatchSetId(), cId.get()), e);
         }
       }
@@ -291,8 +293,11 @@ public class GetRelated implements RestReadView<RevisionResource> {
     public Integer _changeNumber;
     public Integer _revisionNumber;
     public Integer _currentRevisionNumber;
+    public List<String> branches;
 
-    ChangeAndCommit(@Nullable Change change, @Nullable PatchSet ps, RevCommit c) {
+    ChangeAndCommit(@Nullable Change change, @Nullable PatchSet ps,
+        RevCommit c, GitRepositoryManager gitMgr)
+        throws RepositoryNotFoundException, IOException, OrmException {
       if (change != null) {
         changeId = change.getKey().get();
         _changeNumber = change.getChangeId();
@@ -311,6 +316,24 @@ public class GetRelated implements RestReadView<RevisionResource> {
       }
       commit.author = toGitPerson(c.getAuthorIdent());
       commit.subject = c.getShortMessage();
+      if (change != null) {
+        IncludedInDetail detail;
+        {
+          Repository git = gitMgr.openRepository(change.getProject());
+          try {
+            RevWalk rw = new RevWalk(git);
+            try {
+              detail = IncludedInResolver.resolve(git, rw, c);
+            } finally {
+              rw.release();
+            }
+          } finally {
+            git.close();
+          }
+        }
+        branches =
+            detail.getBranches().size() != 0 ? detail.getBranches() : null;
+      }
     }
   }
 }

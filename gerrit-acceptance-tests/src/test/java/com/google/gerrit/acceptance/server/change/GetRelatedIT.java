@@ -16,14 +16,17 @@ package com.google.gerrit.acceptance.server.change;
 
 import static com.google.gerrit.acceptance.GitUtil.add;
 import static com.google.gerrit.acceptance.GitUtil.createCommit;
+import static com.google.gerrit.acceptance.GitUtil.checkout;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GitUtil.Commit;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.change.GetRelated.ChangeAndCommit;
@@ -137,6 +140,34 @@ public class GetRelatedIT extends AbstractDaemonTest {
       assertEquals("related to " + ps, c2.getChangeId(), related.get(1).changeId);
       assertEquals("related to " + ps, c1.getChangeId(), related.get(2).changeId);
     }
+  }
+
+  @Test
+  public void getRelatedBranches_postive() throws GitAPIException, IOException,
+      Exception {
+    gApi.projects().name(project.get()).branch("foo").create(new BranchInput());
+    add(git, "a.txt", "1");
+    Commit c1 = createCommit(git, admin.getIdent(), "subject: 1");
+    pushHead(git, "refs/heads/master", false);
+    checkout(git, c1.getCommit().name());
+    add(git, "b.txt", "2");
+    Commit c2 = createCommit(git, admin.getIdent(), "subject: 2");
+    pushHead(git, "refs/for/foo", false);
+    List<ChangeAndCommit> related = getRelated(getPatchSetId(c2));
+    assertEquals(1, related.get(1).branches.size());
+  }
+
+  @Test
+  public void getRelatedBranches_negative() throws GitAPIException,
+      IOException, Exception {
+    gApi.projects().name(project.get()).branch("foo").create(new BranchInput());
+    add(git, "a.txt", "1");
+    createCommit(git, admin.getIdent(), "subject: 1");
+    add(git, "b.txt", "2");
+    Commit c2 = createCommit(git, admin.getIdent(), "subject: 2");
+    pushHead(git, "refs/for/foo", false);
+    List<ChangeAndCommit> related = getRelated(getPatchSetId(c2));
+    assertNull(related.get(1).branches);
   }
 
   private List<ChangeAndCommit> getRelated(PatchSet.Id ps) throws IOException {

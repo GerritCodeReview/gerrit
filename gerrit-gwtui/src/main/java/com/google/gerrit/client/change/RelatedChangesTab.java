@@ -23,6 +23,7 @@ import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
+import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.RepeatingCommand;
 import com.google.gwt.dom.client.AnchorElement;
@@ -85,6 +86,7 @@ class RelatedChangesTab implements IsWidget {
 
   private boolean showBranches;
   private boolean showIndirectAncestors;
+  private boolean showMergedBranches;
   private boolean registerKeys;
   private int maxHeight;
 
@@ -106,6 +108,10 @@ class RelatedChangesTab implements IsWidget {
 
   void setShowIndirectAncestors(boolean showIndirectAncestors) {
     this.showIndirectAncestors = showIndirectAncestors;
+  }
+
+  void setShowMergedBranches(boolean showMergedBranches) {
+    this.showMergedBranches = showMergedBranches;
   }
 
   void setMaxHeight(int height) {
@@ -151,11 +157,13 @@ class RelatedChangesTab implements IsWidget {
     private final JsArray<ChangeAndCommit> changes;
     private final List<SafeHtml> rows;
     private final Set<String> connected;
+    private final Set<String> merged;
     private final NavigationList navList;
 
     private double start;
     private int row;
     private int connectedPos;
+    private int mergedPos;
     private int selected;
 
     private DisplayCommand(String revision, JsArray<ChangeAndCommit> changes,
@@ -166,6 +174,10 @@ class RelatedChangesTab implements IsWidget {
       rows = new ArrayList<>(changes.length());
       connectedPos = changes.length() - 1;
       connected = showIndirectAncestors
+          ? new HashSet<String>(Math.max(changes.length() * 4 / 3, 16))
+          : null;
+      mergedPos = changes.length() - 1;
+      merged = showMergedBranches
           ? new HashSet<String>(Math.max(changes.length() * 4 / 3, 16))
           : null;
     }
@@ -200,6 +212,22 @@ class RelatedChangesTab implements IsWidget {
       return false;
     }
 
+    private boolean computeMerged() {
+      if (!merged.contains(revision)) {
+        while (mergedPos > 0) {
+          CommitInfo c = changes.get(mergedPos).commit();
+          JsArrayString b = changes.get(mergedPos).branches();
+          if (b.get(0) != null) {
+            merged.add(c.commit());
+          }
+          mergedPos--;
+        }
+        return true;
+      }
+      return false;
+    }
+
+
     public boolean execute() {
       if (navList != view || !panel.isAttached()) {
         // If the user navigated away, we aren't in the DOM anymore.
@@ -213,11 +241,13 @@ class RelatedChangesTab implements IsWidget {
         return true;
       }
 
+      computeMerged();
       while (row < changes.length()) {
         ChangeAndCommit info = changes.get(row);
         String commit = info.commit().commit();
-        rows.add(new RowSafeHtml(
-            info, connected != null && !connected.contains(commit)));
+        rows.add(new RowSafeHtml(info, connected != null
+            && !connected.contains(commit), merged != null
+            && merged.contains(commit)));
         if (revision.equals(commit)) {
           selected = row;
         }
@@ -242,10 +272,12 @@ class RelatedChangesTab implements IsWidget {
     private String html;
     private ChangeAndCommit info;
     private final boolean notConnected;
+    private final boolean Merged;
 
-    RowSafeHtml(ChangeAndCommit info, boolean notConnected) {
+    RowSafeHtml(ChangeAndCommit info, boolean notConnected, boolean Merged) {
       this.info = info;
       this.notConnected = notConnected;
+      this.Merged = Merged;
     }
 
     @Override
@@ -298,6 +330,16 @@ class RelatedChangesTab implements IsWidget {
         sb.setStyleName(RelatedChanges.R.css().notCurrent());
         sb.setAttribute("title", Util.C.notCurrent());
         sb.append('\u25CF');
+      } else if (Merged) {
+        String str = null;
+        for (int i = 0; i <= info.branches().length(); i++) {
+          if (info.branches().get(i) != null) {
+            str = str + info.branches().get(i) + " ";
+          }
+        }
+        sb.setStyleName(RelatedChanges.R.css().mergedBranch());
+        sb.setAttribute("title", Resources.M.mergedBranch(str.substring(4)));
+        sb.append('*');
       } else {
         sb.setStyleName(RelatedChanges.R.css().current());
       }

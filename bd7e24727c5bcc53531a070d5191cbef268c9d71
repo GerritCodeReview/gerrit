@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "afd105e4_d21be486",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 450,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-02-10T16:22:39Z",
+      "side": 1,
+      "message": "This condition is the part that is incorrect. If the submit rules were run (which they were during initLabels() for an open change) they will set the approved/rejected fields of LabelInfo. If neither is set then this method should not be setting label.rejected, nor label.approved.",
+      "range": {
+        "startLine": 448,
+        "startChar": 4,
+        "endLine": 450,
+        "endChar": 5
+      },
+      "revId": "bd7e24727c5bcc53531a070d5191cbef268c9d71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

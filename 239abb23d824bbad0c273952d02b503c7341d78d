@@ -22,6 +22,30 @@
       "revId": "239abb23d824bbad0c273952d02b503c7341d78d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "afd105e4_b20d0051",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-02-10T12:43:35Z",
+      "side": 1,
+      "message": "No, I didn\u0027t consider that.\n\nWould it work?  I mean would we be always iterating over all the accounts that are available, and not just those that are in the cache?\n\nI won\u0027t have time to look into this until later in the week.  If you need it soon, feel free to upload an alternative implementation as a new patch set or separate change.  I will rework the corresponding change in admin-console later.",
+      "parentUuid": "4f6b29dd_972564bf",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 9
+      },
+      "revId": "239abb23d824bbad0c273952d02b503c7341d78d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

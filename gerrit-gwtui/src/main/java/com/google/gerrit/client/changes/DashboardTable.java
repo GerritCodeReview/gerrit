@@ -95,7 +95,7 @@ public class DashboardTable extends ChangeTable2 {
 
     if (queries.size() == 1) {
       ChangeList.next(queries.get(0),
-          0, PagedSingleListScreen.MAX_SORTKEY,
+          0, 0,
           new GerritCallback<ChangeList>() {
             @Override
             public void onSuccess(ChangeList result) {

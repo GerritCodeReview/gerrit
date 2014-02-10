@@ -27,7 +27,7 @@ review of your change, review these guidelines before submitting
 your change.  You can view the pending Gerrit contributions and
 their statuses here:
 
-* https://gerrit-review.googlesource.com/#/q/status:open+project:gerrit,n,z
+* https://gerrit-review.googlesource.com/#/q/status:open+project:gerrit
 
 Depending on the size of that list it might take a while for
 your change to get reviewed.  Naturally there are fewer

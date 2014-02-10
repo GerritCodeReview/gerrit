@@ -58,9 +58,9 @@ class DirectChangeByCommit extends HttpServlet {
       q = Predicate.and(q, builder.sortkey_before("z"), builder.limit(2), visibleToMe);
 
       ChangeQueryRewriter rewriter = queryRewriter.get();
-      Predicate<ChangeData> s = rewriter.rewrite(q);
+      Predicate<ChangeData> s = rewriter.rewrite(q, 0);
       if (!(s instanceof ChangeDataSource)) {
-        s = rewriter.rewrite(Predicate.and(builder.status_open(), q));
+        s = rewriter.rewrite(Predicate.and(builder.status_open(), q), 0);
       }
 
       if (s instanceof ChangeDataSource) {

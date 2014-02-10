@@ -38,7 +38,7 @@ public class ChangeSchemas {
         ChangeField.PROJECT,
         ChangeField.REF,
         ChangeField.TOPIC,
-        ChangeField.UPDATED,
+        ChangeField.LEGACY_UPDATED,
         ChangeField.LEGACY_SORTKEY,
         ChangeField.PATH,
         ChangeField.OWNER,
@@ -58,7 +58,7 @@ public class ChangeSchemas {
         ChangeField.PROJECT,
         ChangeField.REF,
         ChangeField.TOPIC,
-        ChangeField.UPDATED,
+        ChangeField.LEGACY_UPDATED,
         ChangeField.LEGACY_SORTKEY,
         ChangeField.PATH,
         ChangeField.OWNER,
@@ -72,6 +72,7 @@ public class ChangeSchemas {
         ChangeField.CHANGE,
         ChangeField.APPROVAL);
 
+  @SuppressWarnings("deprecation")
   static final Schema<ChangeData> V3 = release(
         ChangeField.LEGACY_ID,
         ChangeField.ID,
@@ -79,7 +80,7 @@ public class ChangeSchemas {
         ChangeField.PROJECT,
         ChangeField.REF,
         ChangeField.TOPIC,
-        ChangeField.UPDATED,
+        ChangeField.LEGACY_UPDATED,
         ChangeField.SORTKEY,
         ChangeField.PATH,
         ChangeField.OWNER,
@@ -96,6 +97,7 @@ public class ChangeSchemas {
   // For upgrade to Lucene 4.4.0 index format only.
   static final Schema<ChangeData> V4 = release(V3.getFields().values());
 
+  @SuppressWarnings("deprecation")
   static final Schema<ChangeData> V5 = release(
         ChangeField.LEGACY_ID,
         ChangeField.ID,
@@ -103,7 +105,7 @@ public class ChangeSchemas {
         ChangeField.PROJECT,
         ChangeField.REF,
         ChangeField.TOPIC,
-        ChangeField.UPDATED,
+        ChangeField.LEGACY_UPDATED,
         ChangeField.SORTKEY,
         ChangeField.PATH,
         ChangeField.OWNER,
@@ -121,6 +123,7 @@ public class ChangeSchemas {
   // For upgrade to Lucene 4.6.0 index format only.
   static final Schema<ChangeData> V6 = release(V5.getFields().values());
 
+  @SuppressWarnings("deprecation")
   static final Schema<ChangeData> V7 = release(
         ChangeField.LEGACY_ID,
         ChangeField.ID,
@@ -128,8 +131,30 @@ public class ChangeSchemas {
         ChangeField.PROJECT,
         ChangeField.REF,
         ChangeField.TOPIC,
-        ChangeField.UPDATED,
+        ChangeField.LEGACY_UPDATED,
         ChangeField.SORTKEY,
+        ChangeField.FILE_PART,
+        ChangeField.PATH,
+        ChangeField.OWNER,
+        ChangeField.REVIEWER,
+        ChangeField.COMMIT,
+        ChangeField.TR,
+        ChangeField.LABEL,
+        ChangeField.REVIEWED,
+        ChangeField.COMMIT_MESSAGE,
+        ChangeField.COMMENT,
+        ChangeField.CHANGE,
+        ChangeField.APPROVAL,
+        ChangeField.MERGEABLE);
+
+  static final Schema<ChangeData> V8 = release(
+        ChangeField.LEGACY_ID,
+        ChangeField.ID,
+        ChangeField.STATUS,
+        ChangeField.PROJECT,
+        ChangeField.REF,
+        ChangeField.TOPIC,
+        ChangeField.UPDATED,
         ChangeField.FILE_PART,
         ChangeField.PATH,
         ChangeField.OWNER,

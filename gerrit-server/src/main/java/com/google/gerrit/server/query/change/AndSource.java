@@ -14,9 +14,12 @@
 
 package com.google.gerrit.server.query.change;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 import com.google.common.base.Function;
 import com.google.common.base.Throwables;
 import com.google.common.collect.FluentIterable;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.gerrit.server.query.AndPredicate;
@@ -71,10 +74,18 @@ public class AndSource extends AndPredicate<ChangeData>
     return r;
   }
 
+  private final int start;
   private int cardinality = -1;
 
   public AndSource(Collection<? extends Predicate<ChangeData>> that) {
+    this(that, 0);
+  }
+
+  public AndSource(Collection<? extends Predicate<ChangeData>> that,
+      int start) {
     super(sort(that));
+    checkArgument(start >= 0, "negative start: %s", start);
+    this.start = start;
   }
 
   @Override
@@ -98,9 +109,13 @@ public class AndSource extends AndPredicate<ChangeData>
     if (source == null) {
       throw new OrmException("No ChangeDataSource: " + this);
     }
+    @SuppressWarnings("unchecked")
+    Predicate<ChangeData> pred = (Predicate<ChangeData>) source;
+    boolean useSortKey = ChangeQueryBuilder.hasSortKey(pred);
 
     List<ChangeData> r = Lists.newArrayList();
     ChangeData last = null;
+    int nextStart = 0;
     boolean skipped = false;
     for (ChangeData data : buffer(source, source.read())) {
       if (match(data)) {
@@ -109,6 +124,7 @@ public class AndSource extends AndPredicate<ChangeData>
         skipped = true;
       }
       last = data;
+      nextStart++;
     }
 
     if (skipped && last != null && source instanceof Paginated) {
@@ -117,21 +133,31 @@ public class AndSource extends AndPredicate<ChangeData>
       // limit the caller wants.  Restart the source and continue.
       //
       Paginated p = (Paginated) source;
-      while (skipped && r.size() < p.limit()) {
+      while (skipped && r.size() < p.limit() + start) {
         ChangeData lastBeforeRestart = last;
         skipped = false;
         last = null;
-        for (ChangeData data : buffer(source, p.restart(lastBeforeRestart))) {
+        ResultSet<ChangeData> next = useSortKey
+            ? p.restart(lastBeforeRestart)
+            : p.restart(nextStart);
+
+        for (ChangeData data : buffer(source, next)) {
           if (match(data)) {
             r.add(data);
           } else {
             skipped = true;
           }
           last = data;
+          nextStart++;
         }
       }
     }
 
+    if (start >= r.size()) {
+      r = ImmutableList.of();
+    } else if (start > 0) {
+      r = ImmutableList.copyOf(r.subList(start, r.size()));
+    }
     return new ListResultSet<ChangeData>(r);
   }
 

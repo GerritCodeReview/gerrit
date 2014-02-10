@@ -179,28 +179,46 @@ public class QueryBuilder {
         false, false);
   }
 
+  @SuppressWarnings("deprecation")
   private Query timestampQuery(IndexPredicate<ChangeData> p)
       throws QueryParseException {
     if (p instanceof TimestampRangePredicate) {
       TimestampRangePredicate<ChangeData> r =
           (TimestampRangePredicate<ChangeData>) p;
-      return NumericRangeQuery.newIntRange(
-          r.getField().getName(),
-          toIndexTime(r.getMinTimestamp()),
-          toIndexTime(r.getMaxTimestamp()),
-          true, true);
+      if (r.getField() == ChangeField.LEGACY_UPDATED) {
+        return NumericRangeQuery.newIntRange(
+            r.getField().getName(),
+            toIndexTimeInMinutes(r.getMinTimestamp()),
+            toIndexTimeInMinutes(r.getMaxTimestamp()),
+            true, true);
+      } else {
+        NumericRangeQuery.newLongRange(
+            r.getField().getName(),
+            r.getMinTimestamp().getTime(),
+            r.getMaxTimestamp().getTime(),
+            true, true);
+      }
     }
     throw new QueryParseException("not a timestamp: " + p);
   }
 
+  @SuppressWarnings("deprecation")
   private Query notTimestamp(TimestampRangePredicate<ChangeData> r)
       throws QueryParseException {
     if (r.getMinTimestamp().getTime() == 0) {
-      return NumericRangeQuery.newIntRange(
-          r.getField().getName(),
-          toIndexTime(r.getMaxTimestamp()),
-          null,
-          true, true);
+      if (r.getField() == ChangeField.LEGACY_UPDATED) {
+        return NumericRangeQuery.newIntRange(
+            r.getField().getName(),
+            toIndexTimeInMinutes(r.getMaxTimestamp()),
+            null,
+            true, true);
+      } else {
+        return NumericRangeQuery.newLongRange(
+            r.getField().getName(),
+            r.getMaxTimestamp().getTime(),
+            null,
+            true, true);
+      }
     }
     throw new QueryParseException("cannot negate: " + r);
   }
@@ -232,7 +250,7 @@ public class QueryBuilder {
     return queryBuilder.createPhraseQuery(p.getField().getName(), p.getValue());
   }
 
-  public static int toIndexTime(Timestamp ts) {
+  public int toIndexTimeInMinutes(Timestamp ts) {
     return (int) (ts.getTime() / 60000);
   }
 

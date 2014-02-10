@@ -14,12 +14,19 @@
 
 package com.google.gerrit.server.query.change;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.gerrit.server.index.ChangeField.UPDATED;
+
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.index.ChangeField;
+import com.google.gerrit.server.index.FieldDef;
+import com.google.gerrit.server.index.FieldType;
+import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.index.TimestampRangePredicate;
 import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.OrmException;
@@ -29,8 +36,24 @@ import java.sql.Timestamp;
 public class AgePredicate extends TimestampRangePredicate<ChangeData> {
   private final long cut;
 
-  AgePredicate(String value) {
-    super(ChangeField.UPDATED, ChangeQueryBuilder.FIELD_AGE, value);
+  @SuppressWarnings({"deprecation", "unchecked"})
+  private static FieldDef<ChangeData, Timestamp> updatedField(
+      Schema<ChangeData> schema) {
+    if (schema == null) {
+      return ChangeField.LEGACY_UPDATED;
+    }
+    FieldDef<ChangeData, ?> f = schema.getFields().get(UPDATED.getName());
+    if (f == null) {
+      f = schema.getFields().get(ChangeField.LEGACY_UPDATED.getName());
+      checkNotNull(f, "schema missing updated field, found: %s", schema);
+    }
+    checkArgument(f.getType() == FieldType.TIMESTAMP,
+        "expected %s to be TIMESTAMP, found %s", f.getName(), f.getType());
+    return (FieldDef<ChangeData, Timestamp>) f;
+  }
+
+  AgePredicate(Schema<ChangeData> schema, String value) {
+    super(updatedField(schema), ChangeQueryBuilder.FIELD_AGE, value);
 
     long s = ConfigUtil.getTimeUnit(getValue(), 0, SECONDS);
     long ms = MILLISECONDS.convert(s, SECONDS);

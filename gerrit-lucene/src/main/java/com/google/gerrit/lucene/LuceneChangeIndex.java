@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.server.index.IndexRewriteImpl.CLOSED_STATUSES;
 import static com.google.gerrit.server.index.IndexRewriteImpl.OPEN_STATUSES;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
@@ -48,6 +49,7 @@ import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeDataSource;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
+import com.google.gerrit.server.query.change.SortKeyPredicate;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Provider;
@@ -300,8 +302,8 @@ public class LuceneChangeIndex implements ChangeIndex {
   }
 
   @Override
-  public ChangeDataSource getSource(Predicate<ChangeData> p, int limit)
-      throws QueryParseException {
+  public ChangeDataSource getSource(Predicate<ChangeData> p, int start,
+      int limit) throws QueryParseException {
     Set<Change.Status> statuses = IndexRewriteImpl.getPossibleStatus(p);
     List<SubIndex> indexes = Lists.newArrayListWithCapacity(2);
     if (!Sets.intersection(statuses, OPEN_STATUSES).isEmpty()) {
@@ -310,8 +312,8 @@ public class LuceneChangeIndex implements ChangeIndex {
     if (!Sets.intersection(statuses, CLOSED_STATUSES).isEmpty()) {
       indexes.add(closedIndex);
     }
-    return new QuerySource(indexes, queryBuilder.toQuery(p), limit,
-        ChangeQueryBuilder.hasNonTrivialSortKeyAfter(schema, p));
+    return new QuerySource(indexes, queryBuilder.toQuery(p), start, limit,
+        getSort(schema, p));
   }
 
   @Override
@@ -322,18 +324,37 @@ public class LuceneChangeIndex implements ChangeIndex {
   private static final ImmutableSet<String> FIELDS =
       ImmutableSet.of(ID_FIELD, CHANGE_FIELD, APPROVAL_FIELD);
 
+  private static Sort getSort(Schema<ChangeData> schema,
+      Predicate<ChangeData> p) {
+    // Standard order is descending by sort key, unless reversed due to a
+    // sortkey_before predicate.
+    if (SortKeyPredicate.hasSortKeyField(schema)) {
+      boolean reverse = ChangeQueryBuilder.hasNonTrivialSortKeyAfter(schema, p);
+      return new Sort(new SortField(
+          ChangeField.SORTKEY.getName(), SortField.Type.LONG, !reverse));
+    } else {
+      return new Sort(
+          new SortField(
+            ChangeField.UPDATED.getName(), SortField.Type.LONG, true),
+          new SortField(
+            ChangeField.LEGACY_ID.getName(), SortField.Type.INT, true));
+    }
+  }
+
   private class QuerySource implements ChangeDataSource {
     private final List<SubIndex> indexes;
     private final Query query;
+    private final int start;
     private final int limit;
-    private final boolean reverse;
+    private final Sort sort;
 
-    private QuerySource(List<SubIndex> indexes, Query query, int limit,
-        boolean reverse) {
+    private QuerySource(List<SubIndex> indexes, Query query, int start,
+        int limit, Sort sort) {
       this.indexes = indexes;
       this.query = query;
+      this.start = start;
       this.limit = limit;
-      this.reverse = reverse;
+      this.sort = sort;
     }
 
     @Override
@@ -354,20 +375,14 @@ public class LuceneChangeIndex implements ChangeIndex {
     @Override
     public ResultSet<ChangeData> read() throws OrmException {
       IndexSearcher[] searchers = new IndexSearcher[indexes.size()];
-      Sort sort = new Sort(
-          new SortField(
-              ChangeField.SORTKEY.getName(),
-              SortField.Type.LONG,
-              // Standard order is descending by sort key, unless reversed due
-              // to a sortkey_before predicate.
-              !reverse));
       try {
+        int realLimit = start + limit;
         TopDocs[] hits = new TopDocs[indexes.size()];
         for (int i = 0; i < indexes.size(); i++) {
           searchers[i] = indexes.get(i).acquire();
-          hits[i] = searchers[i].search(query, limit, sort);
+          hits[i] = searchers[i].search(query, realLimit, sort);
         }
-        TopDocs docs = TopDocs.merge(sort, limit, hits);
+        TopDocs docs = TopDocs.merge(sort, realLimit, hits);
 
         List<ChangeData> result =
             Lists.newArrayListWithCapacity(docs.scoreDocs.length);
@@ -376,7 +391,14 @@ public class LuceneChangeIndex implements ChangeIndex {
           result.add(toChangeData(doc));
         }
 
-        final List<ChangeData> r = Collections.unmodifiableList(result);
+        final List<ChangeData> r;
+        if (start > result.size()) {
+          r = ImmutableList.of();
+        } else if (start > 0) {
+          r = ImmutableList.copyOf(result.subList(start, result.size()));
+        } else {
+          r = Collections.unmodifiableList(result);
+        }
         return new ResultSet<ChangeData>() {
           @Override
           public Iterator<ChangeData> iterator() {
@@ -462,9 +484,17 @@ public class LuceneChangeIndex implements ChangeIndex {
         doc.add(new LongField(name, (Long) value, store));
       }
     } else if (type == FieldType.TIMESTAMP) {
-      for (Object value : values.getValues()) {
-        int t = QueryBuilder.toIndexTime((Timestamp) value);
-        doc.add(new IntField(name, t, store));
+      @SuppressWarnings("deprecation")
+      boolean legacy = values.getField() == ChangeField.LEGACY_UPDATED;
+      if (legacy) {
+        for (Object value : values.getValues()) {
+          int t = queryBuilder.toIndexTimeInMinutes((Timestamp) value);
+          doc.add(new IntField(name, (int) t, store));
+        }
+      } else {
+        for (Object value : values.getValues()) {
+          doc.add(new LongField(name, ((Timestamp) value).getTime(), store));
+        }
       }
     } else if (type == FieldType.EXACT
         || type == FieldType.PREFIX) {

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "afd105e4_d2168469",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-02-10T08:25:01Z",
+      "side": 1,
+      "message": "Can you clarify here that it is done as a change message, that appears in the review history?",
+      "revId": "bc5c3b9a25edb1ac7de8cb3f480958920fbc4467",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

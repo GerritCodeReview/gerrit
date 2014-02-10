@@ -543,7 +543,8 @@ public class SqlRewriterImpl extends BasicChangeRewrites
   public Predicate<ChangeData> r99_allClosed() {
     return r20_byClosedNext(
         new SortKeyPredicate.Before(null, dbProvider, "z"),
-        new LimitPredicate(Integer.MAX_VALUE));
+        // MySQL Connector/J 5.1.21 has a hard limit on 50M rows.
+        new LimitPredicate(50000000));
   }
 
   @Rewrite("status:submitted")

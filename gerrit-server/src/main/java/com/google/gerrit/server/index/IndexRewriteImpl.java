@@ -15,6 +15,7 @@
 package com.google.gerrit.server.index;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Objects;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.Change;
@@ -130,13 +131,17 @@ public class IndexRewriteImpl implements ChangeQueryRewriter {
   }
 
   @Override
-  public Predicate<ChangeData> rewrite(Predicate<ChangeData> in)
+  public Predicate<ChangeData> rewrite(Predicate<ChangeData> in, int start)
       throws QueryParseException {
     ChangeIndex index = indexes.getSearchIndex();
     in = basicRewrites.rewrite(in);
-    int limit = Math.max(1, ChangeQueryBuilder.hasLimit(in)
-        ? ChangeQueryBuilder.getLimit(in)
-        : MAX_LIMIT);
+    int limit =
+        Objects.firstNonNull(ChangeQueryBuilder.getLimit(in), MAX_LIMIT);
+    // Increase the limit rather than skipping, since we don't know how many
+    // skipped results would have been filtered out by the enclosing AndSource.
+    limit += start;
+    limit = Math.max(limit, 1);
+    limit = Math.min(limit, MAX_LIMIT);
 
     Predicate<ChangeData> out = rewriteImpl(in, index, limit);
     if (in == out || out instanceof IndexPredicate) {

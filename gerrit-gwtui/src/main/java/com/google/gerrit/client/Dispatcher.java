@@ -22,6 +22,7 @@ import static com.google.gerrit.common.PageLinks.ADMIN_PROJECTS;
 import static com.google.gerrit.common.PageLinks.DASHBOARDS;
 import static com.google.gerrit.common.PageLinks.MINE;
 import static com.google.gerrit.common.PageLinks.PROJECTS;
+import static com.google.gerrit.common.PageLinks.QUERY;
 import static com.google.gerrit.common.PageLinks.REGISTER;
 import static com.google.gerrit.common.PageLinks.SETTINGS;
 import static com.google.gerrit.common.PageLinks.SETTINGS_AGREEMENTS;
@@ -34,6 +35,7 @@ import static com.google.gerrit.common.PageLinks.SETTINGS_PROJECTS;
 import static com.google.gerrit.common.PageLinks.SETTINGS_SSHKEYS;
 import static com.google.gerrit.common.PageLinks.SETTINGS_WEBIDENT;
 import static com.google.gerrit.common.PageLinks.op;
+import static com.google.gerrit.common.PageLinks.toChangeQuery;
 
 import com.google.gerrit.client.account.MyAgreementsScreen;
 import com.google.gerrit.client.account.MyContactInformationScreen;
@@ -83,8 +85,8 @@ import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DiffView;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
+import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DiffView;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
@@ -218,7 +220,7 @@ public class Dispatcher {
   }
 
   private static void select(final String token) {
-    if (matchPrefix("/q/", token)) {
+    if (matchPrefix(QUERY, token)) {
       query(token);
 
     } else if (matchPrefix("/Documentation/", token)) {
@@ -291,19 +293,19 @@ public class Dispatcher {
     }
 
     if (matchExact("mine,starred", token)) {
-      return PageLinks.toChangeQuery("is:starred");
+      return toChangeQuery("is:starred");
     }
 
     if (matchExact("mine,drafts", token)) {
-      return PageLinks.toChangeQuery("is:draft");
+      return toChangeQuery("is:draft");
     }
 
     if (matchExact("mine,comments", token)) {
-      return PageLinks.toChangeQuery("has:draft");
+      return toChangeQuery("has:draft");
     }
 
     if (matchPrefix("mine,watched,", token)) {
-      return PageLinks.toChangeQuery("is:watched status:open", skip(token));
+      return toChangeQuery("is:watched status:open");
     }
 
     return null;
@@ -311,15 +313,15 @@ public class Dispatcher {
 
   private static String legacyAll(final String token) {
     if (matchPrefix("all,abandoned,", token)) {
-      return PageLinks.toChangeQuery("status:abandoned", skip(token));
+      return toChangeQuery("status:abandoned");
     }
 
     if (matchPrefix("all,merged,", token)) {
-      return PageLinks.toChangeQuery("status:merged", skip(token));
+      return toChangeQuery("status:merged");
     }
 
     if (matchPrefix("all,open,", token)) {
-      return PageLinks.toChangeQuery("status:open", skip(token));
+      return toChangeQuery("status:open");
     }
 
     return null;
@@ -330,27 +332,21 @@ public class Dispatcher {
       final String s = skip(token);
       final int c = s.indexOf(',');
       Project.NameKey proj = Project.NameKey.parse(s.substring(0, c));
-      return PageLinks.toChangeQuery( //
-          "status:open " + op("project", proj.get()), //
-          s.substring(c + 1));
+      return toChangeQuery("status:open " + op("project", proj.get()));
     }
 
     if (matchPrefix("project,merged,", token)) {
       final String s = skip(token);
       final int c = s.indexOf(',');
       Project.NameKey proj = Project.NameKey.parse(s.substring(0, c));
-      return PageLinks.toChangeQuery( //
-          "status:merged " + op("project", proj.get()), //
-          s.substring(c + 1));
+      return toChangeQuery("status:merged " + op("project", proj.get()));
     }
 
     if (matchPrefix("project,abandoned,", token)) {
       final String s = skip(token);
       final int c = s.indexOf(',');
       Project.NameKey proj = Project.NameKey.parse(s.substring(0, c));
-      return PageLinks.toChangeQuery( //
-          "status:abandoned " + op("project", proj.get()), //
-          s.substring(c + 1));
+      return toChangeQuery("status:abandoned " + op("project", proj.get()));
     }
 
     return null;
@@ -408,10 +404,22 @@ public class Dispatcher {
     return null;
   }
 
-  private static void query(final String token) {
-    final String s = skip(token);
-    final int c = s.indexOf(',');
-    Gerrit.display(token, new QueryScreen(s.substring(0, c), s.substring(c + 1)));
+  private static void query(String token) {
+    String s = skip(token);
+    int c = s.indexOf(',');
+    Screen screen;
+    if (c >= 0) {
+      String prefix = s.substring(0, c);
+      if (s.substring(c).equals(",n,z")) {
+        // Respect legacy token with max sortkey.
+        screen = new QueryScreen(prefix, 0);
+      } else {
+        screen = new QueryScreen(prefix, Integer.parseInt(s.substring(c + 1)));
+      }
+    } else {
+      screen = new QueryScreen(s, 0);
+    }
+    Gerrit.display(token, screen);
   }
 
   private static Screen mine(final String token) {
@@ -462,7 +470,7 @@ public class Dispatcher {
           @Override
           public void onFailure(Throwable caught) {
             if ("default".equals(dashboardId) && RestApi.isNotFound(caught)) {
-              Gerrit.display(PageLinks.toChangeQuery(
+              Gerrit.display(toChangeQuery(
                   PageLinks.projectQuery(new Project.NameKey(project))));
             } else {
               super.onFailure(caught);

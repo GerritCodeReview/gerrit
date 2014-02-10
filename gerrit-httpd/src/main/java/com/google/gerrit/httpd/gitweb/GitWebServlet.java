@@ -261,15 +261,15 @@ class GitWebServlet extends HttpServlet {
       p.print("  my $h = shift;\n");
       p.print("  my $q;\n");
       p.print("  if (!$h || $h eq 'HEAD') {\n");
-      p.print("    $q = qq{#q,project:$ENV{'GERRIT_PROJECT_NAME'},n,z};\n");
+      p.print("    $q = qq{#q,project:$ENV{'GERRIT_PROJECT_NAME'}};\n");
       p.print("  } elsif ($h =~ /^refs\\/heads\\/([-\\w]+)$/) {\n");
       p.print("    $q = qq{#q,project:$ENV{'GERRIT_PROJECT_NAME'}");
-      p.print("+branch:$1,n,z};\n"); // wrapped
+      p.print("+branch:$1};\n"); // wrapped
       p.print("  } elsif ($h =~ /^refs\\/changes\\/\\d{2}\\/(\\d+)\\/\\d+$/) ");
       p.print("{\n"); // wrapped
       p.print("    $q = qq{#/c/$1};\n");
       p.print("  } else {\n");
-      p.print("    $q = qq{#/q/$h,n,z};\n");
+      p.print("    $q = qq{#/q/$h};\n");
       p.print("  }\n");
       p.print("  my $r = qq{$ENV{'GERRIT_CONTEXT_PATH'}$q};\n");
       p.print("  push @{$feature{'actions'}{'default'}},\n");

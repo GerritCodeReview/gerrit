@@ -25,17 +25,17 @@ import com.google.gwtorm.client.KeyUtil;
 public class QueryScreen extends PagedSingleListScreen implements
     ChangeListScreen {
   public static QueryScreen forQuery(String query) {
-    return forQuery(query, PageLinks.TOP);
+    return forQuery(query, 0);
   }
 
-  public static QueryScreen forQuery(String query, String position) {
-    return new QueryScreen(KeyUtil.encode(query), position);
+  public static QueryScreen forQuery(String query, int start) {
+    return new QueryScreen(KeyUtil.encode(query), start);
   }
 
   private final String query;
 
-  public QueryScreen(final String encQuery, final String positionToken) {
-    super("/q/" + encQuery, positionToken);
+  public QueryScreen(String encQuery, int start) {
+    super(PageLinks.QUERY + encQuery, start);
     query = KeyUtil.decode(encQuery);
   }
 
@@ -72,13 +72,9 @@ public class QueryScreen extends PagedSingleListScreen implements
   }
 
   @Override
-  protected void loadPrev() {
-    ChangeList.prev(query, pageSize, pos, loadCallback());
-  }
-
-  @Override
-  protected void loadNext() {
-    ChangeList.next(query, pageSize, pos, loadCallback());
+  protected void onLoad() {
+    super.onLoad();
+    ChangeList.next(query, start, pageSize, loadCallback());
   }
 
   private static boolean isSingleQuery(String query) {

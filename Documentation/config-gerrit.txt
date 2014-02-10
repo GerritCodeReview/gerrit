@@ -842,7 +842,7 @@ how the replacement is displayed to the user.
 ----
 [commentlink "changeid"]
   match = (I[0-9a-f]{8,40})
-  link = "#q,$1,n,z"
+  link = "#q,$1"
 
 [commentlink "bugzilla"]
   match = "(bug\\s+#?)(\\d+)"

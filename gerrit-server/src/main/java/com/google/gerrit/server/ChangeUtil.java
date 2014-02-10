@@ -86,7 +86,7 @@ public class ChangeUtil {
    * We overrun approximately 4,083 years later, so ~6092.
    */
   @VisibleForTesting
-  public static final long SORT_KEY_EPOCH_MINS =
+  private static final long SORT_KEY_EPOCH_MINS =
       MINUTES.convert(1222819200L, SECONDS);
 
   private static final Object uuidLock = new Object();

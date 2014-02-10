@@ -40,7 +40,7 @@ class MessagePredicate extends IndexPredicate<ChangeData> {
   public boolean match(ChangeData object) throws OrmException {
     try {
       for (ChangeData cData : index.getSource(
-          Predicate.and(new LegacyChangeIdPredicate(args, object.getId()), this), 1)
+          Predicate.and(new LegacyChangeIdPredicate(args, object.getId()), this), 0, 1)
           .read()) {
         if (cData.getId().equals(object.getId())) {
           return true;

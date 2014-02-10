@@ -20,6 +20,7 @@ import static com.google.gerrit.solr.IndexVersionCheck.SCHEMA_VERSIONS;
 import static com.google.gerrit.solr.IndexVersionCheck.solrIndexConfig;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.events.LifecycleListener;
@@ -41,6 +42,7 @@ import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeDataSource;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
+import com.google.gerrit.server.query.change.SortKeyPredicate;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Provider;
@@ -50,6 +52,7 @@ import org.apache.lucene.analysis.util.CharArraySet;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.util.Version;
 import org.apache.solr.client.solrj.SolrQuery;
+import org.apache.solr.client.solrj.SolrQuery.SortClause;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.CloudSolrServer;
@@ -210,7 +213,7 @@ class SolrChangeIndex implements ChangeIndex, LifecycleListener {
   }
 
   @Override
-  public ChangeDataSource getSource(Predicate<ChangeData> p, int limit)
+  public ChangeDataSource getSource(Predicate<ChangeData> p, int start, int limit)
       throws QueryParseException {
     Set<Change.Status> statuses = IndexRewriteImpl.getPossibleStatus(p);
     List<SolrServer> indexes = Lists.newArrayListWithCapacity(2);
@@ -220,8 +223,24 @@ class SolrChangeIndex implements ChangeIndex, LifecycleListener {
     if (!Sets.intersection(statuses, CLOSED_STATUSES).isEmpty()) {
       indexes.add(closedIndex);
     }
-    return new QuerySource(indexes, queryBuilder.toQuery(p), limit,
-        ChangeQueryBuilder.hasNonTrivialSortKeyAfter(schema, p));
+    return new QuerySource(indexes, queryBuilder.toQuery(p), start, limit,
+        getSorts(schema, p));
+  }
+
+  @SuppressWarnings("deprecation")
+  private static List<SortClause> getSorts(Schema<ChangeData> schema,
+      Predicate<ChangeData> p) {
+    if (SortKeyPredicate.hasSortKeyField(schema)) {
+      boolean reverse = ChangeQueryBuilder.hasNonTrivialSortKeyAfter(schema, p);
+      return ImmutableList.of(new SortClause(ChangeField.SORTKEY.getName(),
+          !reverse ? SolrQuery.ORDER.desc : SolrQuery.ORDER.asc));
+    } else {
+      return ImmutableList.of(
+          new SortClause(
+            ChangeField.UPDATED.getName(), SolrQuery.ORDER.desc),
+          new SortClause(
+            ChangeField.LEGACY_ID.getName(), SolrQuery.ORDER.desc));
+    }
   }
 
   private void commit(SolrServer server) throws IOException {
@@ -236,17 +255,18 @@ class SolrChangeIndex implements ChangeIndex, LifecycleListener {
     private final List<SolrServer> indexes;
     private final SolrQuery query;
 
-    public QuerySource(List<SolrServer> indexes, Query q, int limit,
-        boolean reverse) {
+    public QuerySource(List<SolrServer> indexes, Query q, int start, int limit,
+        List<SortClause> sorts) {
       this.indexes = indexes;
 
       query = new SolrQuery(q.toString());
       query.setParam("shards.tolerant", true);
       query.setParam("rows", Integer.toString(limit));
+      if (start != 0) {
+        query.setParam("start", Integer.toString(start));
+      }
       query.setFields(ID_FIELD);
-      query.setSort(
-          ChangeField.SORTKEY.getName(),
-          !reverse ? SolrQuery.ORDER.desc : SolrQuery.ORDER.asc);
+      query.setSorts(sorts);
     }
 
     @Override
@@ -329,8 +349,17 @@ class SolrChangeIndex implements ChangeIndex, LifecycleListener {
         doc.addField(name, (Long) value);
       }
     } else if (type == FieldType.TIMESTAMP) {
-      for (Object v : values.getValues()) {
-        doc.addField(name, QueryBuilder.toIndexTime((Timestamp) v));
+      @SuppressWarnings("deprecation")
+      boolean legacy = values.getField() == ChangeField.LEGACY_UPDATED;
+      if (legacy) {
+        for (Object value : values.getValues()) {
+          int t = queryBuilder.toIndexTimeInMinutes((Timestamp) value);
+          doc.addField(name, t);
+        }
+      } else {
+        for (Object value : values.getValues()) {
+          doc.addField(name, ((Timestamp) value).getTime());
+        }
       }
     } else if (type == FieldType.EXACT
         || type == FieldType.PREFIX

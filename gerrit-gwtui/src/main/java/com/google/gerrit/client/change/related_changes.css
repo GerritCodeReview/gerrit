@@ -68,6 +68,7 @@
 .current,
 .gitweb,
 .indirect,
+.mergedBranch,
 .notCurrent {
   display: inline-block;
   text-align: center;
@@ -82,6 +83,10 @@
 .indirect {
   color: #090;      /* green */
   font-weight: bold;
+}
+
+.mergedBranch {
+  color: #FF0000;   /* red */
 }
 
 .notCurrent {

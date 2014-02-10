@@ -21,6 +21,7 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.PutPreferred.Input;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -52,15 +53,19 @@ public class PutPreferred implements
         && !self.get().getCapabilities().canAdministrateServer()) {
       throw new AuthException("not allowed to set preferred email address");
     }
+    return apply(rsrc.getUser(), rsrc.getEmail());
+  }
 
-    Account a = dbProvider.get().accounts().get(rsrc.getUser().getAccountId());
+  public Response<String> apply(IdentifiedUser user, String email)
+      throws ResourceNotFoundException, OrmException {
+    Account a = dbProvider.get().accounts().get(user.getAccountId());
     if (a == null) {
       throw new ResourceNotFoundException("account not found");
     }
-    if (rsrc.getEmail().equals(a.getPreferredEmail())) {
+    if (email.equals(a.getPreferredEmail())) {
       return Response.ok("");
     }
-    a.setPreferredEmail(rsrc.getEmail());
+    a.setPreferredEmail(email);
     dbProvider.get().accounts().update(Collections.singleton(a));
     byIdCache.evict(a.getId());
     return Response.created("");

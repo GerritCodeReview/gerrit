@@ -46,6 +46,30 @@
       "revId": "239abb23d824bbad0c273952d02b503c7341d78d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4f6b29dd_776c50dd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-02-10T15:54:28Z",
+      "side": 1,
+      "message": "\u003e Would it work? I mean would we be always iterating over \n \u003e all the accounts that are available, and not just those \n \u003e that are in the cache?\n\nThis should return all accounts and not just the cached ones. At least the \u0027all\u0027 method of the project cache returns all projects. Of course the CacheLoader for the lister has to be implemented accordingly.\n\n \u003e I won\u0027t have time to look into this until later in the week.\n\nIt\u0027s not really urgent for me and I\u0027m likely busy with other things.\n\nI also didn\u0027t mean this as a mandatory comment. We can also just leave it as you have it now. Maybe it\u0027s not worth the effort to implement this in the AccountCache.",
+      "parentUuid": "afd105e4_b20d0051",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 9
+      },
+      "revId": "239abb23d824bbad0c273952d02b503c7341d78d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

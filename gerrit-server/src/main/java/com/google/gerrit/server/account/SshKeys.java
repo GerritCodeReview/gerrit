@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.AccountSshKey;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -55,16 +56,20 @@ public class SshKeys implements
         && !self.get().getCapabilities().canAdministrateServer()) {
       throw new ResourceNotFoundException();
     }
+    return parse(rsrc.getUser(), id);
+  }
 
+  public AccountResource.SshKey parse(IdentifiedUser user, IdString id)
+      throws ResourceNotFoundException, OrmException {
     try {
       int seq = Integer.parseInt(id.get(), 10);
       AccountSshKey sshKey =
           dbProvider.get().accountSshKeys()
-              .get(new AccountSshKey.Id(rsrc.getUser().getAccountId(), seq));
+              .get(new AccountSshKey.Id(user.getAccountId(), seq));
       if (sshKey == null) {
         throw new ResourceNotFoundException(id);
       }
-      return new AccountResource.SshKey(rsrc.getUser(), sshKey);
+      return new AccountResource.SshKey(user, sshKey);
     } catch (NumberFormatException e) {
       throw new ResourceNotFoundException(id);
     }

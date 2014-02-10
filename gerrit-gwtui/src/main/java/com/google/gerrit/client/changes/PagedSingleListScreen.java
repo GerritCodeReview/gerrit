@@ -26,25 +26,19 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
 
 public abstract class PagedSingleListScreen extends Screen {
-  protected static final String MIN_SORTKEY = "";
-  protected static final String MAX_SORTKEY = "z";
-
   protected final int pageSize;
+  protected final int start;
+  private final String anchorPrefix;
+
+  protected ChangeList changes;
   private ChangeTable2 table;
   private ChangeTable2.Section section;
-  protected Hyperlink prev;
-  protected Hyperlink next;
-  protected ChangeList changes;
+  private Hyperlink prev;
+  private Hyperlink next;
 
-  protected final String anchorPrefix;
-  protected boolean useLoadPrev;
-  protected String pos;
-
-  protected PagedSingleListScreen(final String anchorToken,
-      final String positionToken) {
+  protected PagedSingleListScreen(String anchorToken, int start) {
     anchorPrefix = anchorToken;
-    useLoadPrev = positionToken.startsWith("p,");
-    pos = positionToken.substring(2);
+    this.start = start;
 
     if (Gerrit.isSignedIn()) {
       final AccountGeneralPreferences p =
@@ -96,24 +90,10 @@ public abstract class PagedSingleListScreen extends Screen {
   }
 
   @Override
-  protected void onLoad() {
-    super.onLoad();
-    if (useLoadPrev) {
-      loadPrev();
-    } else {
-      loadNext();
-    }
-  }
-
-  @Override
   public void registerKeys() {
     super.registerKeys();
     table.setRegisterKeys(true);
   }
-
-  protected abstract void loadPrev();
-
-  protected abstract void loadNext();
 
   protected AsyncCallback<ChangeList> loadCallback() {
     return new ScreenLoadCallback<ChangeList>(this) {
@@ -124,22 +104,20 @@ public abstract class PagedSingleListScreen extends Screen {
     };
   }
 
-  protected void display(final ChangeList result) {
+  protected void display(ChangeList result) {
     changes = result;
     if (changes.length() != 0) {
-      final ChangeInfo f = changes.get(0);
-      final ChangeInfo l = changes.get(changes.length() - 1);
-
-      prev.setTargetHistoryToken(anchorPrefix + ",p," + f._sortkey());
-      next.setTargetHistoryToken(anchorPrefix + ",n," + l._sortkey());
-
-      if (useLoadPrev) {
-        prev.setVisible(f._more_changes());
-        next.setVisible(!MIN_SORTKEY.equals(pos));
+      if (start > 0) {
+        int p = start - pageSize;
+        prev.setTargetHistoryToken(anchorPrefix + (p > 0 ? "," + p : ""));
+        prev.setVisible(true);
       } else {
-        prev.setVisible(!MAX_SORTKEY.equals(pos));
-        next.setVisible(l._more_changes());
+        prev.setVisible(false);
       }
+
+      int n = start + changes.length();
+      next.setTargetHistoryToken(anchorPrefix + "," + n);
+      next.setVisible(changes.get(changes.length() - 1)._more_changes());
     }
     table.updateColumnsForLabels(result);
     section.display(result);

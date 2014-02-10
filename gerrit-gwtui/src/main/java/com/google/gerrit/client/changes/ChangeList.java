@@ -51,30 +51,16 @@ public class ChangeList extends JsArray<ChangeInfo> {
     call.get(callback);
   }
 
-  public static void prev(String query,
-      int limit, String sortkey,
-      AsyncCallback<ChangeList> callback) {
-    RestApi call = newQuery(query);
-    if (limit > 0) {
-      call.addParameter("n", limit);
-    }
-    addOptions(call, EnumSet.of(ListChangesOption.LABELS));
-    if (!PagedSingleListScreen.MIN_SORTKEY.equals(sortkey)) {
-      call.addParameter("P", sortkey);
-    }
-    call.get(callback);
-  }
-
   public static void next(String query,
-      int limit, String sortkey,
+      int start, int limit,
       AsyncCallback<ChangeList> callback) {
     RestApi call = newQuery(query);
     if (limit > 0) {
       call.addParameter("n", limit);
     }
     addOptions(call, EnumSet.of(ListChangesOption.LABELS));
-    if (!PagedSingleListScreen.MAX_SORTKEY.equals(sortkey)) {
-      call.addParameter("N", sortkey);
+    if (start != 0) {
+      call.addParameter("S", start);
     }
     call.get(callback);
   }

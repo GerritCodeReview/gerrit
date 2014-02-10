@@ -19,9 +19,7 @@ import static com.google.gerrit.server.notedb.ReviewerState.REVIEWER;
 import static com.google.gerrit.server.project.Util.category;
 import static com.google.gerrit.server.project.Util.value;
 import static com.google.inject.Scopes.SINGLETON;
-import static java.util.concurrent.TimeUnit.DAYS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
-import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.easymock.EasyMock.expect;
 import static org.junit.Assert.assertEquals;
@@ -38,7 +36,6 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
@@ -161,9 +158,7 @@ public class ChangeNotesTest {
 
   private void setMillisProvider() {
     clockStepMs = MILLISECONDS.convert(1, SECONDS);
-    final AtomicLong clockMs = new AtomicLong(
-        MILLISECONDS.convert(ChangeUtil.SORT_KEY_EPOCH_MINS, MINUTES)
-        + MILLISECONDS.convert(60, DAYS));
+    final AtomicLong clockMs = new AtomicLong(1222819200000L);
 
     DateTimeUtils.setCurrentMillisProvider(new MillisProvider() {
       @Override

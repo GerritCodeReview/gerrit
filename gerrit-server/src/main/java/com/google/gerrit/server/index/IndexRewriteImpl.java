@@ -147,9 +147,9 @@ public class IndexRewriteImpl implements ChangeQueryRewriter {
       return sqlRewriter.rewrite(in);
     }
     in = basicRewrites.rewrite(in);
-    int limit = ChangeQueryBuilder.hasLimit(in)
+    int limit = Math.max(1, ChangeQueryBuilder.hasLimit(in)
         ? ChangeQueryBuilder.getLimit(in)
-        : MAX_LIMIT;
+        : MAX_LIMIT);
 
     Predicate<ChangeData> out = rewriteImpl(in, index, limit);
     if (in == out || out instanceof IndexPredicate) {

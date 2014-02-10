@@ -129,20 +129,17 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
 
     ChangeUpdate update = null;
     db.get().changes().beginTransaction(revision.getChange().getId());
-    boolean dirty = false;
     try {
       change = db.get().changes().get(revision.getChange().getId());
       ChangeUtil.updated(change);
       timestamp = change.getLastUpdatedOn();
 
       update = updateFactory.create(revision.getControl(), timestamp);
-      dirty |= insertComments(revision, input.comments, input.drafts);
-      dirty |= updateLabels(revision, update, input.labels);
-      dirty |= insertMessage(revision, input.message);
-      if (dirty) {
-        db.get().changes().update(Collections.singleton(change));
-        db.get().commit();
-      }
+      insertComments(revision, input.comments, input.drafts);
+      updateLabels(revision, update, input.labels);
+      insertMessage(revision, input.message);
+      db.get().changes().update(Collections.singleton(change));
+      db.get().commit();
     } finally {
       db.get().rollback();
     }
@@ -151,11 +148,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     }
 
     CheckedFuture<?, IOException> indexWrite;
-    if (dirty) {
-      indexWrite = indexer.indexAsync(change.getId());
-    } else {
-      indexWrite = Futures.<Void, IOException> immediateCheckedFuture(null);
-    }
+    indexWrite = indexer.indexAsync(change.getId());
     if (input.notify.compareTo(NotifyHandling.NONE) > 0 && message != null) {
       email.create(
           input.notify,

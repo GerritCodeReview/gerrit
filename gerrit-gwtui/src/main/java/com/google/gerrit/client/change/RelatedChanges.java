@@ -28,6 +28,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
+import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.resources.client.ClientBundle;
@@ -60,6 +61,7 @@ public class RelatedChanges extends TabPanel {
     String row();
     String subject();
     String tabPanel();
+    String mergedBranch();
   }
 
   private enum Tab {
@@ -166,6 +168,7 @@ public class RelatedChanges extends TabPanel {
       setTabEnabled(tabInfo, false);
     }
     getTab(Tab.RELATED_CHANGES).setShowIndirectAncestors(true);
+    getTab(Tab.RELATED_CHANGES).setShowMergedBranches(true);
     getTab(Tab.CHERRY_PICKS).setShowBranches(true);
   }
 
@@ -372,6 +375,9 @@ public class RelatedChanges extends TabPanel {
     final native int _current_revision_number()
     /*-{ return this._current_revision_number }-*/;
 
+    final native JsArrayString branches()
+    /*-{ return this.branches }-*/;
+
     final native void set_change_number(int n)
     /*-{ this._change_number=n; }-*/;
 
@@ -380,6 +386,9 @@ public class RelatedChanges extends TabPanel {
 
     final native void set_current_revision_number(int n)
     /*-{ this._current_revision_number=n; }-*/;
+
+    final native void set_branches(JsArrayString s)
+    /*-{ this.branches=s }-*/;
 
     protected ChangeAndCommit() {
     }

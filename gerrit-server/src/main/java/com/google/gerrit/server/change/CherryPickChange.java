@@ -135,7 +135,8 @@ public class CherryPickChange {
             ChangeIdUtil
                 .computeChangeId(commitToCherryPick.getTree(), mergeTip,
                     commitToCherryPick.getAuthorIdent(), myIdent, message);
-        String commitMessage = ChangeIdUtil.insertId(message, computedChangeId);
+        String commitMessage =
+            ChangeIdUtil.insertId(message, computedChangeId).trim() + '\n';
 
         RevCommit cherryPickCommit;
         ObjectInserter oi = git.newObjectInserter();

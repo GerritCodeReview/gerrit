@@ -19,9 +19,7 @@ import static com.google.gerrit.server.notedb.ReviewerState.REVIEWER;
 import static com.google.gerrit.server.project.Util.category;
 import static com.google.gerrit.server.project.Util.value;
 import static com.google.inject.Scopes.SINGLETON;
-import static java.util.concurrent.TimeUnit.DAYS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
-import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.easymock.EasyMock.expect;
 import static org.junit.Assert.assertEquals;
@@ -38,7 +36,6 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
@@ -73,6 +70,7 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.joda.time.DateTime;
 import org.joda.time.DateTimeUtils;
 import org.joda.time.DateTimeUtils.MillisProvider;
 import org.junit.After;
@@ -107,11 +105,12 @@ public class ChangeNotesTest {
   private IdentifiedUser changeOwner;
   private IdentifiedUser otherUser;
   private Injector injector;
+  private String systemTimeZone;
   private volatile long clockStepMs;
 
   @Before
   public void setUp() throws Exception {
-    setMillisProvider();
+    setTimeForTesting();
 
     serverIdent = new PersonIdent(
         "Gerrit Server", "noreply@gerrit.com", TimeUtil.nowTs(), TZ);
@@ -159,11 +158,11 @@ public class ChangeNotesTest {
     otherUser = userFactory.create(ou.getId());
   }
 
-  private void setMillisProvider() {
+  private void setTimeForTesting() {
+    systemTimeZone = System.setProperty("user.timezone", "US/Eastern");
     clockStepMs = MILLISECONDS.convert(1, SECONDS);
     final AtomicLong clockMs = new AtomicLong(
-        MILLISECONDS.convert(ChangeUtil.SORT_KEY_EPOCH_MINS, MINUTES)
-        + MILLISECONDS.convert(60, DAYS));
+        new DateTime(2009, 9, 30, 17, 0, 0).getMillis());
 
     DateTimeUtils.setCurrentMillisProvider(new MillisProvider() {
       @Override
@@ -174,8 +173,9 @@ public class ChangeNotesTest {
   }
 
   @After
-  public void resetMillisProvider() {
+  public void resetTime() {
     DateTimeUtils.setCurrentMillisSystem();
+    System.setProperty("user.timezone", systemTimeZone);
   }
 
   @Test
@@ -207,7 +207,7 @@ public class ChangeNotesTest {
       assertEquals("1@gerrit", author.getEmailAddress());
       assertEquals(new Date(c.getCreatedOn().getTime() + 1000),
           author.getWhen());
-      assertEquals(TimeZone.getTimeZone("GMT-8:00"), author.getTimeZone());
+      assertEquals(TimeZone.getTimeZone("GMT-7:00"), author.getTimeZone());
 
       PersonIdent committer = commit.getCommitterIdent();
       assertEquals("Gerrit Server", committer.getName());

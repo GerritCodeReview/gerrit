@@ -14,13 +14,8 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.ChangeUtil;
-import com.google.gerrit.server.index.ChangeIndex;
-import com.google.gerrit.server.index.IndexCollection;
-import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.query.IntPredicate;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryRewriter;
@@ -41,19 +36,12 @@ public class BasicChangeRewrites extends QueryRewriter<ChangeData> {
       new QueryRewriter.Definition<ChangeData, BasicChangeRewrites>(
           BasicChangeRewrites.class, BUILDER);
 
-  static Schema<ChangeData> schema(@Nullable IndexCollection indexes) {
-    ChangeIndex index = indexes != null ? indexes.getSearchIndex() : null;
-    return index != null ? index.getSchema() : null;
-  }
-
   protected final Provider<ReviewDb> dbProvider;
-  private final IndexCollection indexes;
 
   @Inject
-  public BasicChangeRewrites(Provider<ReviewDb> dbProvider, IndexCollection indexes) {
+  public BasicChangeRewrites(Provider<ReviewDb> dbProvider) {
     super(mydef);
     this.dbProvider = dbProvider;
-    this.indexes = indexes;
   }
 
   @Rewrite("-status:open")
@@ -84,35 +72,12 @@ public class BasicChangeRewrites extends QueryRewriter<ChangeData> {
         new ChangeStatusPredicate(Change.Status.MERGED));
   }
 
-  @SuppressWarnings("unchecked")
-  @NoCostComputation
-  @Rewrite("sortkey_before:z A=(age:*)")
-  public Predicate<ChangeData> r00_ageToSortKey(@Named("A") AgePredicate a) {
-    String cut = ChangeUtil.sortKey(a.getCut(), Integer.MAX_VALUE);
-    return and(new SortKeyPredicate.Before(schema(indexes), dbProvider, cut), a);
-  }
-
   @NoCostComputation
   @Rewrite("A=(limit:*) B=(limit:*)")
   public Predicate<ChangeData> r00_smallestLimit(
       @Named("A") IntPredicate<ChangeData> a,
       @Named("B") IntPredicate<ChangeData> b) {
     return a.intValue() <= b.intValue() ? a : b;
-  }
-
-  @NoCostComputation
-  @Rewrite("A=(sortkey_before:*) B=(sortkey_before:*)")
-  public Predicate<ChangeData> r00_oldestSortKey(
-      @Named("A") SortKeyPredicate.Before a,
-      @Named("B") SortKeyPredicate.Before b) {
-    return a.getValue().compareTo(b.getValue()) <= 0 ? a : b;
-  }
-
-  @NoCostComputation
-  @Rewrite("A=(sortkey_after:*) B=(sortkey_after:*)")
-  public Predicate<ChangeData> r00_newestSortKey(
-      @Named("A") SortKeyPredicate.After a, @Named("B") SortKeyPredicate.After b) {
-    return a.getValue().compareTo(b.getValue()) >= 0 ? a : b;
   }
 
   private static final class InvalidProvider<T> implements Provider<T> {

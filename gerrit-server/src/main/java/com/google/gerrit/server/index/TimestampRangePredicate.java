@@ -14,7 +14,12 @@
 
 package com.google.gerrit.server.index;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.gerrit.server.index.ChangeField.UPDATED;
+
 import com.google.gerrit.server.query.QueryParseException;
+import com.google.gerrit.server.query.change.ChangeData;
 
 import org.eclipse.jgit.util.GitDateParser;
 import org.joda.time.DateTime;
@@ -25,6 +30,22 @@ import java.util.Date;
 import java.util.Locale;
 
 public abstract class TimestampRangePredicate<I> extends IndexPredicate<I> {
+  @SuppressWarnings({"deprecation", "unchecked"})
+  protected static FieldDef<ChangeData, Timestamp> updatedField(
+      Schema<ChangeData> schema) {
+    if (schema == null) {
+      return ChangeField.LEGACY_UPDATED;
+    }
+    FieldDef<ChangeData, ?> f = schema.getFields().get(UPDATED.getName());
+    if (f == null) {
+      f = schema.getFields().get(ChangeField.LEGACY_UPDATED.getName());
+      checkNotNull(f, "schema missing updated field, found: %s", schema);
+    }
+    checkArgument(f.getType() == FieldType.TIMESTAMP,
+        "expected %s to be TIMESTAMP, found %s", f.getName(), f.getType());
+    return (FieldDef<ChangeData, Timestamp>) f;
+  }
+
   protected static Date parse(String value) throws QueryParseException {
     try {
       return GitDateParser.parse(value, DateTime.now().toCalendar(Locale.US));

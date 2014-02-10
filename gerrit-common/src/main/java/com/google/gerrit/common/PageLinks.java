@@ -35,9 +35,8 @@ public class PageLinks {
   public static final String SETTINGS_NEW_AGREEMENT = "/settings/new-agreement";
   public static final String REGISTER = "/register";
 
-  public static final String TOP = "n,z";
-
   public static final String MINE = "/";
+  public static final String QUERY = "/q/";
   public static final String PROJECTS = "/projects/";
   public static final String DASHBOARDS = ",dashboards/";
   public static final String ADMIN_GROUPS = "/admin/groups/";
@@ -84,7 +83,7 @@ public class PageLinks {
   }
 
   public static String toAccountQuery(String fullname, Status status) {
-    return toChangeQuery(op("owner", fullname) + " " + status(status), TOP);
+    return toChangeQuery(op("owner", fullname) + " " + status(status));
   }
 
   public static String toCustomDashboard(final String params) {
@@ -95,12 +94,13 @@ public class PageLinks {
     return ADMIN_PROJECTS + proj.get() + ",dashboards";
   }
 
-  public static String toChangeQuery(final String query) {
-    return toChangeQuery(query, TOP);
+  public static String toChangeQuery(String query) {
+    return QUERY + KeyUtil.encode(query);
   }
 
-  public static String toChangeQuery(String query, String page) {
-    return "/q/" + KeyUtil.encode(query) + "," + page;
+  public static String toChangeQuery(String query, String start) {
+    int s = Integer.parseInt(start);
+    return QUERY + KeyUtil.encode(query) + (s > 0 ? "," + s : "");
   }
 
   public static String toProjectDashboard(Project.NameKey name, String id) {

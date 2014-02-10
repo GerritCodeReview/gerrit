@@ -115,10 +115,24 @@ public class ChangeField {
         }
       };
 
+  // Same value as UPDATED, but implementations truncated to minutes.
+  @Deprecated
+  /** Last update time since January 1, 1970. */
+  public static final FieldDef<ChangeData, Timestamp> LEGACY_UPDATED =
+      new FieldDef.Single<ChangeData, Timestamp>(
+          "updated", FieldType.TIMESTAMP, true) {
+        @Override
+        public Timestamp get(ChangeData input, FillArgs args)
+            throws OrmException {
+          return input.change().getLastUpdatedOn();
+        }
+      };
+
+
   /** Last update time since January 1, 1970. */
   public static final FieldDef<ChangeData, Timestamp> UPDATED =
       new FieldDef.Single<ChangeData, Timestamp>(
-          "updated", FieldType.TIMESTAMP, true) {
+          "updated2", FieldType.TIMESTAMP, true) {
         @Override
         public Timestamp get(ChangeData input, FillArgs args)
             throws OrmException {
@@ -152,6 +166,7 @@ public class ChangeField {
    * Redundant with {@link #UPDATED} and {@link #LEGACY_ID}, but secondary index
    * implementations may not be able to search over tuples of values.
    */
+  @Deprecated
   public static final FieldDef<ChangeData, Long> SORTKEY =
       new FieldDef.Single<ChangeData, Long>(
           "sortkey2", FieldType.LONG, true) {

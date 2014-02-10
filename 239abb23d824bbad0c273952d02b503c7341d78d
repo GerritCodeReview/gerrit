@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4f6b29dd_972564bf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-02-10T09:18:51Z",
+      "side": 1,
+      "message": "Just recently I was thinking about a feature which would require to iterate over all accounts. At that moment I was thinking that it might be better to add\n\n  Iterable\u003cAccountState\u003e all();\n\nto the AccountCache (similarly like we already have \u0027Iterable\u003cProject.NameKey\u003e all()\u0027 in the ProjectCache).\n\nDid you consider implementing this in the AccountCache?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 9
+      },
+      "revId": "239abb23d824bbad0c273952d02b503c7341d78d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

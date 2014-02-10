@@ -20,6 +20,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.data.IncludedInDetail;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.GitPerson;
 import com.google.gerrit.extensions.restapi.RestReadView;
@@ -50,6 +51,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -60,12 +62,13 @@ import java.util.Set;
 public class GetRelated implements RestReadView<RevisionResource> {
   private static final Logger log = LoggerFactory.getLogger(GetRelated.class);
 
-  private final GitRepositoryManager gitMgr;
+  private static GitRepositoryManager gitMgr;
   private final Provider<ReviewDb> dbProvider;
+  private static Change change;
 
   @Inject
   GetRelated(GitRepositoryManager gitMgr, Provider<ReviewDb> db) {
-    this.gitMgr = gitMgr;
+    GetRelated.gitMgr = gitMgr;
     this.dbProvider = db;
   }
 
@@ -111,9 +114,22 @@ public class GetRelated implements RestReadView<RevisionResource> {
       }
     }
 
+    List<RevCommit> lc = new ArrayList<RevCommit>();
+    for (RevCommit c; (c = rw.next()) != null;) {
+      lc.add(c);
+      PatchSet p = commits.get(c.name());
+      Change g = null;
+      if (p != null) {
+        g = changes.get(p.getId().getParentKey());
+        if (g != null) {
+          change = g;
+        }
+      }
+    }
+
     Set<Change.Id> added = Sets.newHashSet();
     List<ChangeAndCommit> parents = Lists.newArrayList();
-    for (RevCommit c; (c = rw.next()) != null;) {
+    for (RevCommit c: lc) {
       PatchSet p = commits.get(c.name());
       Change g = null;
       if (p != null) {
@@ -279,6 +295,12 @@ public class GetRelated implements RestReadView<RevisionResource> {
     return p;
   }
 
+  private static IncludedInDetail resolveBranches(RevCommit commit) throws Exception {
+    Repository git = gitMgr.openRepository(change.getProject());
+    RevWalk rw = new RevWalk(git);
+    return IncludedInResolver.resolve(git, rw, commit);
+  }
+
   public static class RelatedInfo {
     public List<ChangeAndCommit> changes;
   }
@@ -289,6 +311,7 @@ public class GetRelated implements RestReadView<RevisionResource> {
     public Integer _changeNumber;
     public Integer _revisionNumber;
     public Integer _currentRevisionNumber;
+    public List<String> branches;
 
     ChangeAndCommit(@Nullable Change change, @Nullable PatchSet ps, RevCommit c) {
       if (change != null) {
@@ -309,6 +332,13 @@ public class GetRelated implements RestReadView<RevisionResource> {
       }
       commit.author = toGitPerson(c.getAuthorIdent());
       commit.subject = c.getShortMessage();
+      IncludedInDetail detail = new IncludedInDetail();
+      try {
+       detail = resolveBranches(c);
+       } catch (Exception e) {
+       e.printStackTrace();
+     }
+     branches = detail.getBranches();
     }
   }
 }

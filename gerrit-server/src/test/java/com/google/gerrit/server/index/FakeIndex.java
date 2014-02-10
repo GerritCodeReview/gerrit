@@ -88,8 +88,8 @@ class FakeIndex implements ChangeIndex {
   }
 
   @Override
-  public ChangeDataSource getSource(Predicate<ChangeData> p, int limit)
-      throws QueryParseException {
+  public ChangeDataSource getSource(Predicate<ChangeData> p, int start,
+      int limit) throws QueryParseException {
     return new FakeIndex.Source(p);
   }
 

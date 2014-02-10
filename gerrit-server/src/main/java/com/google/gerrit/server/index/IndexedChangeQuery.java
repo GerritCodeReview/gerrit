@@ -89,7 +89,7 @@ public class IndexedChangeQuery extends Predicate<ChangeData>
     this.index = index;
     this.limit = limit;
     this.pred = pred;
-    this.source = index.getSource(pred, limit);
+    this.source = index.getSource(pred, 0, limit);
   }
 
   @Override
@@ -166,7 +166,20 @@ public class IndexedChangeQuery extends Predicate<ChangeData>
   public ResultSet<ChangeData> restart(ChangeData last) throws OrmException {
     pred = replaceSortKeyPredicates(pred, last.change().getSortKey());
     try {
-      source = index.getSource(pred, limit);
+      source = index.getSource(pred, 0, limit);
+    } catch (QueryParseException e) {
+      // Don't need to show this exception to the user; the only thing that
+      // changed about pred was its SortKeyPredicates, and any other QPEs
+      // that might happen should have already thrown from the constructor.
+      throw new OrmException(e);
+    }
+    return read();
+  }
+
+  @Override
+  public ResultSet<ChangeData> restart(int start) throws OrmException {
+    try {
+      source = index.getSource(pred, start, limit);
     } catch (QueryParseException e) {
       // Don't need to show this exception to the user; the only thing that
       // changed about pred was its SortKeyPredicates, and any other QPEs

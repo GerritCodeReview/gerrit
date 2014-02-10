@@ -115,10 +115,23 @@ public class ChangeField {
         }
       };
 
+  @Deprecated
+  /** Last update time since January 1, 1970. */
+  public static final FieldDef<ChangeData, Timestamp> LEGACY_UPDATED =
+      new FieldDef.Single<ChangeData, Timestamp>(
+          "updated", FieldType.TIMESTAMP, true) {
+        @Override
+        public Timestamp get(ChangeData input, FillArgs args)
+            throws OrmException {
+          return input.change().getLastUpdatedOn();
+        }
+      };
+
+
   /** Last update time since January 1, 1970. */
   public static final FieldDef<ChangeData, Timestamp> UPDATED =
       new FieldDef.Single<ChangeData, Timestamp>(
-          "updated", FieldType.TIMESTAMP, true) {
+          "updated2", FieldType.TIMESTAMP, true) {
         @Override
         public Timestamp get(ChangeData input, FillArgs args)
             throws OrmException {

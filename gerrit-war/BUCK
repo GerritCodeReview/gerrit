@@ -9,6 +9,7 @@ java_library2(
     '//gerrit-httpd:httpd',
     '//gerrit-lucene:lucene',
     '//gerrit-openid:openid',
+    '//gerrit-pgm:init-api',
     '//gerrit-pgm:init-base',
     '//gerrit-reviewdb:server',
     '//gerrit-server:server',

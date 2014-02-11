@@ -83,6 +83,7 @@ import java.util.List;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
@@ -105,6 +106,8 @@ public class WebAppInitializer extends GuiceServletContextListener
   private LifecycleManager manager;
   private GuiceFilter filter;
 
+  private ServletContext servletContext;
+
   @Override
   public void doFilter(ServletRequest req, ServletResponse res,
       FilterChain chain) throws IOException, ServletException {
@@ -119,7 +122,8 @@ public class WebAppInitializer extends GuiceServletContextListener
       }
 
       if (System.getProperty("gerrit.init") != null) {
-        new SiteInitializer(path, System.getProperty("gerrit.init_path")).init();
+        new SiteInitializer(path, System.getProperty("gerrit.init_path"),
+            new UnzippedDistribution(servletContext)).init();
       }
 
       try {
@@ -339,7 +343,8 @@ public class WebAppInitializer extends GuiceServletContextListener
 
   @Override
   public void init(FilterConfig cfg) throws ServletException {
-    contextInitialized(new ServletContextEvent(cfg.getServletContext()));
+    servletContext = cfg.getServletContext();
+    contextInitialized(new ServletContextEvent(servletContext));
     init();
     manager.start();
   }

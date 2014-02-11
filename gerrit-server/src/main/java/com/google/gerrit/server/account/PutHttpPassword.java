@@ -25,6 +25,7 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.PutHttpPassword.Input;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -94,21 +95,24 @@ public class PutHttpPassword implements RestModifyView<AccountResource, Input> {
       }
       newPassword = input.httpPassword;
     }
+    return apply(rsrc.getUser(), newPassword);
+  }
 
-    if (rsrc.getUser().getUserName() == null) {
+  public Response<String> apply(IdentifiedUser user, String newPassword)
+      throws ResourceNotFoundException, ResourceConflictException, OrmException {
+    if (user.getUserName() == null) {
       throw new ResourceConflictException("username must be set");
     }
 
     AccountExternalId id = dbProvider.get().accountExternalIds()
         .get(new AccountExternalId.Key(
-            SCHEME_USERNAME,
-            rsrc.getUser().getUserName()));
+            SCHEME_USERNAME, user.getUserName()));
     if (id == null) {
       throw new ResourceNotFoundException();
     }
     id.setPassword(newPassword);
     dbProvider.get().accountExternalIds().update(Collections.singleton(id));
-    accountCache.evict(rsrc.getUser().getAccountId());
+    accountCache.evict(user.getAccountId());
 
     return Strings.isNullOrEmpty(newPassword)
         ? Response.<String>none()

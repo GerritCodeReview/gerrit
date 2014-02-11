@@ -21,6 +21,7 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.AccountSshKey;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -45,10 +46,13 @@ public class GetSshKeys implements RestReadView<AccountResource> {
         && !self.get().getCapabilities().canAdministrateServer()) {
       throw new AuthException("not allowed to get SSH keys");
     }
+    return apply(rsrc.getUser());
+  }
 
+  public List<SshKeyInfo> apply(IdentifiedUser user) throws OrmException {
     List<SshKeyInfo> sshKeys = Lists.newArrayList();
     for (AccountSshKey sshKey : dbProvider.get().accountSshKeys()
-        .byAccount(rsrc.getUser().getAccountId()).toList()) {
+        .byAccount(user.getAccountId()).toList()) {
       sshKeys.add(new SshKeyInfo(sshKey));
     }
     return sshKeys;

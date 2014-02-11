@@ -26,6 +26,7 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.reviewdb.client.Account.FieldName;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.CreateEmail.Input;
 import com.google.gerrit.server.account.GetEmails.EmailInfo;
 import com.google.gerrit.server.config.AuthConfig;
@@ -87,16 +88,8 @@ public class CreateEmail implements RestModifyView<AccountResource, Input> {
       throw new AuthException("not allowed to add email address");
     }
 
-    if (!realm.allowsEdit(FieldName.REGISTER_NEW_EMAIL)) {
-      throw new MethodNotAllowedException("realm does not allow adding emails");
-    }
-
     if (input == null) {
       input = new Input();
-    }
-
-    if (input.email != null && !email.equals(input.email)) {
-      throw new BadRequestException("email address must match URL");
     }
 
     if (input.noConfirmation
@@ -104,19 +97,34 @@ public class CreateEmail implements RestModifyView<AccountResource, Input> {
       throw new AuthException("must be administrator to use no_confirmation");
     }
 
+    return apply(rsrc.getUser(), input);
+  }
+
+  public Response<EmailInfo> apply(IdentifiedUser user, Input input)
+      throws AuthException, BadRequestException, ResourceConflictException,
+      ResourceNotFoundException, OrmException, EmailException,
+      MethodNotAllowedException {
+    if (!realm.allowsEdit(FieldName.REGISTER_NEW_EMAIL)) {
+      throw new MethodNotAllowedException("realm does not allow adding emails");
+    }
+
+    if (input.email != null && !email.equals(input.email)) {
+      throw new BadRequestException("email address must match URL");
+    }
+
     EmailInfo info = new EmailInfo();
     info.email = email;
     if (input.noConfirmation
         || authConfig.getAuthType() == AuthType.DEVELOPMENT_BECOME_ANY_ACCOUNT) {
       try {
-        accountManager.link(rsrc.getUser().getAccountId(),
+        accountManager.link(user.getAccountId(),
             AuthRequest.forEmail(email));
       } catch (AccountException e) {
         throw new ResourceConflictException(e.getMessage());
       }
       if (input.preferred) {
         putPreferredProvider.get().apply(
-            new AccountResource.Email(rsrc.getUser(), email),
+            new AccountResource.Email(user, email),
             null);
         info.preferred = true;
       }

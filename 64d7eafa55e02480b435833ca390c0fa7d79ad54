@@ -175,6 +175,23 @@
       "revId": "64d7eafa55e02480b435833ca390c0fa7d79ad54",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "af582570_7ae4594d",
+        "filename": "contrib/gerrit-sync-inactive-with-ldap",
+        "patchSetId": 2
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2014-02-11T16:38:57Z",
+      "side": 1,
+      "message": "IPC::Open3 is a core module and allows you to capture stderr and stdout... Not that this is a problem, but, I personally like it.",
+      "revId": "64d7eafa55e02480b435833ca390c0fa7d79ad54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

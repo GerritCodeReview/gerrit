@@ -15,6 +15,7 @@
 package com.google.gerrit.httpd;
 
 import com.google.gerrit.pgm.BaseInit;
+import com.google.gerrit.pgm.init.PluginsDistribution;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,10 +32,13 @@ public final class SiteInitializer {
 
   private final String sitePath;
   private final String initPath;
+  private final PluginsDistribution pluginsDistribution;
 
-  SiteInitializer(String sitePath, String initPath) {
+  SiteInitializer(String sitePath, String initPath,
+      PluginsDistribution pluginsDistribution) {
     this.sitePath = sitePath;
     this.initPath = initPath;
+    this.pluginsDistribution = pluginsDistribution;
   }
 
   public void init() {
@@ -43,7 +47,7 @@ public final class SiteInitializer {
         File site = new File(sitePath);
         LOG.info(String.format("Initializing site at %s",
             site.getAbsolutePath()));
-        new BaseInit(site, false, true).run();
+        new BaseInit(site, false, true, pluginsDistribution).run();
         return;
       }
 
@@ -56,7 +60,8 @@ public final class SiteInitializer {
         if (site != null) {
           LOG.info(String.format("Initializing site at %s",
               site.getAbsolutePath()));
-          new BaseInit(site, new ReviewDbDataSourceProvider(), false, false).run();
+          new BaseInit(site, new ReviewDbDataSourceProvider(), false, false,
+              pluginsDistribution).run();
         }
       } finally {
         conn.close();

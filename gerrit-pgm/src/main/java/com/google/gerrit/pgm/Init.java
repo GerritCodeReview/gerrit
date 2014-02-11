@@ -60,10 +60,11 @@ public class Init extends BaseInit {
   Browser browser;
 
   public Init() {
+    super(new WarDistribution());
   }
 
   public Init(File sitePath) {
-    super(sitePath, true, true);
+    super(sitePath, true, true, new WarDistribution());
     batchMode = true;
     noAutoStart = true;
   }
@@ -74,7 +75,7 @@ public class Init extends BaseInit {
 
     if (!skipPlugins) {
       final List<PluginData> plugins =
-          InitPlugins.listPluginsAndRemoveTempFiles(init.site);
+          InitPlugins.listPluginsAndRemoveTempFiles(init.site, pluginsDistribution);
       ConsoleUI ui = ConsoleUI.getInstance(false);
       verifyInstallPluginList(ui, plugins);
       if (listPlugins) {

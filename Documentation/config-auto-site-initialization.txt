@@ -4,8 +4,9 @@
 
 Gerrit supports automatic site initialization on server startup
 when Gerrit runs in a servlet container. Both creation of a new site
-and upgrade of an existing site are supported. Installation of
-plugins during the site creation/initialization is not yet supported.
+and upgrade of an existing site are supported.  All packaged plugins
+will be installed when Gerrit is deployed in a servlet container and the
+location of the Gerrit distribution can be determined at runtime.
 
 This feature may be useful for such setups where Gerrit administrators
 don't have direct access to the database and the file system of the

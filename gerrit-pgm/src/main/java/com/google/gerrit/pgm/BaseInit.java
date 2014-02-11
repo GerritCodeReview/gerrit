@@ -22,6 +22,7 @@ import com.google.common.collect.Lists;
 import com.google.gerrit.pgm.init.InitFlags;
 import com.google.gerrit.pgm.init.InitModule;
 import com.google.gerrit.pgm.init.InstallPlugins;
+import com.google.gerrit.pgm.init.PluginsDistribution;
 import com.google.gerrit.pgm.init.SitePathInitializer;
 import com.google.gerrit.pgm.util.ConsoleUI;
 import com.google.gerrit.pgm.util.Die;
@@ -47,7 +48,11 @@ import com.google.inject.Provider;
 import com.google.inject.TypeLiteral;
 import com.google.inject.spi.Message;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,24 +60,31 @@ import javax.sql.DataSource;
 
 /** Initialize a new Gerrit installation. */
 public class BaseInit extends SiteProgram {
+  private static final Logger log =
+      LoggerFactory.getLogger(BaseInit.class);
 
   private final boolean standalone;
   private final boolean initDb;
+  protected final PluginsDistribution pluginsDistribution;
 
-  public BaseInit() {
+  protected BaseInit(PluginsDistribution pluginsDistribution) {
     this.standalone = true;
     this.initDb = true;
+    this.pluginsDistribution = pluginsDistribution;
   }
 
-  public BaseInit(File sitePath, boolean standalone, boolean initDb) {
-    this(sitePath, null, standalone, initDb);
+  public BaseInit(File sitePath, boolean standalone, boolean initDb,
+      PluginsDistribution pluginsDistribution) {
+    this(sitePath, null, standalone, initDb, pluginsDistribution);
   }
 
   public BaseInit(File sitePath, final Provider<DataSource> dsProvider,
-      boolean standalone, boolean initDb) {
+      boolean standalone, boolean initDb,
+      PluginsDistribution pluginsDistribution) {
     super(sitePath, dsProvider);
     this.standalone = standalone;
     this.initDb = initDb;
+    this.pluginsDistribution = pluginsDistribution;
   }
 
   @Override
@@ -123,7 +135,13 @@ public class BaseInit extends SiteProgram {
   }
 
   protected List<String> getInstallPlugins() {
-    return null;
+    try {
+      return pluginsDistribution.listPluginNames();
+    } catch (FileNotFoundException e) {
+      log.warn("Couldn't find distribution archive location."
+          + " No plugin will be installed");
+      return null;
+    }
   }
 
   protected boolean getAutoStart() {
@@ -161,6 +179,7 @@ public class BaseInit extends SiteProgram {
             Objects.firstNonNull(getInstallPlugins(), Lists.<String> newArrayList());
         bind(new TypeLiteral<List<String>>() {}).annotatedWith(
             InstallPlugins.class).toInstance(plugins);
+        bind(PluginsDistribution.class).toInstance(pluginsDistribution);
       }
     });
 

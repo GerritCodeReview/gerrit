@@ -191,8 +191,26 @@ public class Reindex extends SiteProgram {
         // once, so don't worry about cache removal.
         bind(new TypeLiteral<DynamicSet<CacheRemovalListener>>() {})
             .toInstance(DynamicSet.<CacheRemovalListener> emptySet());
+        bind(new TypeLiteral<List<CommentLinkInfo>>() {})
+            .toProvider(CommentLinkProvider.class).in(SINGLETON);
+        bind(String.class).annotatedWith(CanonicalWebUrl.class)
+            .toProvider(CanonicalWebUrlProvider.class);
+        bind(IdentifiedUser.class)
+          .toProvider(Providers. <IdentifiedUser>of(null));
+        bind(CurrentUser.class).to(IdentifiedUser.class);
+        install(new AccessControlModule());
         install(new DefaultCacheFactory.Module());
+        install(new GroupModule());
+        install(new PrologModule());
+        install(AccountByEmailCacheImpl.module());
+        install(AccountCacheImpl.module());
+        install(GroupCacheImpl.module());
+        install(GroupIncludeCacheImpl.module());
+        install(ProjectCacheImpl.module());
+        install(SectionSortCache.module());
+        factory(CapabilityControl.Factory.class);
         factory(ChangeData.Factory.class);
+        factory(ProjectState.Factory.class);
 
         if (recheckMergeable) {
           install(new MergeabilityModule());
@@ -250,38 +268,20 @@ public class Reindex extends SiteProgram {
   private static class MergeabilityModule extends FactoryModule {
     @Override
     public void configure() {
-      factory(ProjectState.Factory.class);
-      bind(new TypeLiteral<List<CommentLinkInfo>>() {})
-          .toProvider(CommentLinkProvider.class).in(SINGLETON);
-      bind(IdentifiedUser.class).toProvider(Providers.<IdentifiedUser>of(null));
-      bind(CurrentUser.class).to(IdentifiedUser.class);
-      bind(String.class).annotatedWith(CanonicalWebUrl.class)
-          .toProvider(CanonicalWebUrlProvider.class);
-
       factory(PatchSetInserter.Factory.class);
       bind(ChangeHooks.class).to(DisabledChangeHooks.class);
       bind(ReplacePatchSetSender.Factory.class).toProvider(
           Providers.<ReplacePatchSetSender.Factory>of(null));
 
-      factory(CapabilityControl.Factory.class);
       factory(MergeUtil.Factory.class);
       DynamicSet.setOf(binder(), GitReferenceUpdatedListener.class);
       DynamicSet.setOf(binder(), CommitValidationListener.class);
       factory(CommitValidators.Factory.class);
 
-      install(AccountCacheImpl.module());
-      install(AccountByEmailCacheImpl.module());
       install(ChangeKindCache.module());
-      install(GroupCacheImpl.module());
-      install(GroupIncludeCacheImpl.module());
-      install(ProjectCacheImpl.module());
-      install(SectionSortCache.module());
 
-      install(new AccessControlModule());
       install(new GitModule());
-      install(new GroupModule());
       install(new NoteDbModule());
-      install(new PrologModule());
     }
 
     @Provides

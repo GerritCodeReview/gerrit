@@ -19,8 +19,10 @@ import static com.google.inject.Stage.PRODUCTION;
 
 import com.google.common.base.Objects;
 import com.google.common.collect.Lists;
+import com.google.gerrit.pgm.init.GerritDistributionLocator;
 import com.google.gerrit.pgm.init.InitFlags;
 import com.google.gerrit.pgm.init.InitModule;
+import com.google.gerrit.pgm.init.InitPlugins;
 import com.google.gerrit.pgm.init.InstallPlugins;
 import com.google.gerrit.pgm.init.SitePathInitializer;
 import com.google.gerrit.pgm.util.ConsoleUI;
@@ -47,7 +49,11 @@ import com.google.inject.Provider;
 import com.google.inject.TypeLiteral;
 import com.google.inject.spi.Message;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,21 +61,27 @@ import javax.sql.DataSource;
 
 /** Initialize a new Gerrit installation. */
 public class BaseInit extends SiteProgram {
+  private static final Logger log =
+      LoggerFactory.getLogger(BaseInit.class);
 
   private final boolean standalone;
+  protected final GerritDistributionLocator distroLocator;
 
-  public BaseInit() {
+  protected BaseInit(GerritDistributionLocator distroLocator) {
     this.standalone = true;
+    this.distroLocator = distroLocator;
   }
 
-  public BaseInit(File sitePath, boolean standalone) {
-    this(sitePath, null, standalone);
+  public BaseInit(File sitePath, boolean standalone,
+      GerritDistributionLocator distroLocator) {
+    this(sitePath, null, standalone, distroLocator);
   }
 
   public BaseInit(File sitePath, final Provider<DataSource> dsProvider,
-      boolean standalone) {
+      boolean standalone, GerritDistributionLocator distroLocator) {
     super(sitePath, dsProvider);
     this.standalone = standalone;
+    this.distroLocator = distroLocator;
   }
 
   @Override
@@ -120,7 +132,23 @@ public class BaseInit extends SiteProgram {
   }
 
   protected List<String> getInstallPlugins() {
-    return null;
+    File root;
+    try {
+      root = distroLocator.locate();
+    } catch (FileNotFoundException e) {
+      log.warn("Couldn't find distribution archive location."
+          + " No plugin will be installed");
+      return null;
+    }
+    ArrayList<String> result = Lists.newArrayList();
+    File plugins = new File(root, InitPlugins.PLUGIN_DIR);
+    for (File p : plugins.listFiles()) {
+      String pluginJarName = p.getName();
+      String pluginName = pluginJarName.substring(0,
+          pluginJarName.length() - InitPlugins.JAR.length());
+      result.add(pluginName);
+    }
+    return result;
   }
 
   protected boolean getAutoStart() {
@@ -158,6 +186,7 @@ public class BaseInit extends SiteProgram {
             Objects.firstNonNull(getInstallPlugins(), Lists.<String> newArrayList());
         bind(new TypeLiteral<List<String>>() {}).annotatedWith(
             InstallPlugins.class).toInstance(plugins);
+        bind(GerritDistributionLocator.class).toInstance(distroLocator);
       }
     });
 

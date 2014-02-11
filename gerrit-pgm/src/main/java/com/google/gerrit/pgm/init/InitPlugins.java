@@ -15,7 +15,6 @@
 package com.google.gerrit.pgm.init;
 
 import com.google.common.collect.Lists;
-import com.google.gerrit.launcher.GerritLauncher;
 import com.google.gerrit.pgm.util.ConsoleUI;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.plugins.PluginLoader;
@@ -23,6 +22,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Enumeration;
@@ -35,8 +35,8 @@ import java.util.zip.ZipFile;
 
 @Singleton
 public class InitPlugins implements InitStep {
-  private static final String PLUGIN_DIR = "WEB-INF/plugins/";
-  private static final String JAR = ".jar";
+  public static final String PLUGIN_DIR = "WEB-INF/plugins/";
+  public static final String JAR = ".jar";
 
   public static class PluginData {
     public final String name;
@@ -50,42 +50,68 @@ public class InitPlugins implements InitStep {
     }
   }
 
-  public static List<PluginData> listPlugins(SitePaths site) throws IOException {
-    return listPlugins(site, false);
+  public static List<PluginData> listPlugins(SitePaths site,
+      GerritDistributionLocator distroLocator) throws IOException {
+    return listPlugins(site, false, distroLocator);
   }
 
-  public static List<PluginData> listPluginsAndRemoveTempFiles(SitePaths site) throws IOException {
-    return listPlugins(site, true);
+  public static List<PluginData> listPluginsAndRemoveTempFiles(SitePaths site,
+      GerritDistributionLocator distroLocator) throws IOException {
+    return listPlugins(site, true, distroLocator);
   }
 
-  private static List<PluginData> listPlugins(SitePaths site, boolean deleteTempPluginFile) throws IOException {
-    final File myWar = GerritLauncher.getDistributionArchive();
+  private static List<PluginData> listPlugins(SitePaths site, boolean deleteTempPluginFile,
+      GerritDistributionLocator distroLocator) throws IOException {
+    final File myWar = distroLocator.locate();
     final List<PluginData> result = Lists.newArrayList();
     try {
-      final ZipFile zf = new ZipFile(myWar);
-      try {
-        final Enumeration<? extends ZipEntry> e = zf.entries();
-        while (e.hasMoreElements()) {
-          final ZipEntry ze = e.nextElement();
-          if (ze.isDirectory()) {
-            continue;
-          }
-
-          if (ze.getName().startsWith(PLUGIN_DIR) && ze.getName().endsWith(JAR)) {
-            final String pluginJarName = new File(ze.getName()).getName();
-            final String pluginName = pluginJarName.substring(0,  pluginJarName.length() - JAR.length());
-            final InputStream in = zf.getInputStream(ze);
-            final File tmpPlugin = PluginLoader.storeInTemp(pluginName, in, site);
-            final String pluginVersion = getVersion(tmpPlugin);
-            if (deleteTempPluginFile) {
-              tmpPlugin.delete();
+      if (myWar.isFile()) {
+        final ZipFile zf = new ZipFile(myWar);
+        try {
+          final Enumeration<? extends ZipEntry> e = zf.entries();
+          while (e.hasMoreElements()) {
+            final ZipEntry ze = e.nextElement();
+            if (ze.isDirectory()) {
+              continue;
             }
 
-            result.add(new PluginData(pluginName, pluginVersion, tmpPlugin));
+            if (ze.getName().startsWith(PLUGIN_DIR) && ze.getName().endsWith(JAR)) {
+              final String pluginJarName = new File(ze.getName()).getName();
+              final String pluginName = pluginJarName.substring(0,
+                  pluginJarName.length() - JAR.length());
+              final InputStream in = zf.getInputStream(ze);
+              final File tmpPlugin = PluginLoader.storeInTemp(pluginName, in, site);
+              final String pluginVersion = getVersion(tmpPlugin);
+              if (deleteTempPluginFile) {
+                tmpPlugin.delete();
+              }
+
+              result.add(new PluginData(pluginName, pluginVersion, tmpPlugin));
+            }
           }
+        } finally {
+          zf.close();
         }
-      } finally {
-        zf.close();
+      } else {
+        File pluginDir = new File(myWar, PLUGIN_DIR);
+        for (File p : pluginDir.listFiles()) {
+          String pluginJarName = p.getName();
+          String pluginName = pluginJarName.substring(0,
+              pluginJarName.length() - JAR.length());
+          File tmpPlugin;
+          InputStream in = new FileInputStream(p);
+          try {
+            tmpPlugin = PluginLoader.storeInTemp(pluginName, in, site);
+          } finally {
+            in.close();
+          }
+          String pluginVersion = getVersion(tmpPlugin);
+          if (deleteTempPluginFile) {
+            tmpPlugin.delete();
+          }
+
+          result.add(new PluginData(pluginName, pluginVersion, tmpPlugin));
+        }
       }
     } catch (IOException e) {
       throw new IOException("Failure during plugin installation", e);
@@ -97,14 +123,17 @@ public class InitPlugins implements InitStep {
   private final SitePaths site;
   private final InitFlags initFlags;
   private final InitPluginStepsLoader pluginLoader;
+  private final GerritDistributionLocator distroLocator;
 
   @Inject
   InitPlugins(final ConsoleUI ui, final SitePaths site,
-      InitFlags initFlags, InitPluginStepsLoader pluginLoader) {
+      InitFlags initFlags, InitPluginStepsLoader pluginLoader,
+      GerritDistributionLocator distroLocator) {
     this.ui = ui;
     this.site = site;
     this.initFlags = initFlags;
     this.pluginLoader = pluginLoader;
+    this.distroLocator = distroLocator;
   }
 
   @Override
@@ -121,7 +150,7 @@ public class InitPlugins implements InitStep {
   }
 
   private void installPlugins() throws IOException {
-    List<PluginData> plugins = listPlugins(site);
+    List<PluginData> plugins = listPlugins(site, distroLocator);
     for (PluginData plugin : plugins) {
       String pluginName = plugin.name;
       try {

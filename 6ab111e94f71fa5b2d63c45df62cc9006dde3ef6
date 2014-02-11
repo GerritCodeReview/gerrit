@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6f39cd00_2008ea43",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-02-11T14:41:43Z",
+      "side": 1,
+      "message": "It\u0027s not clear from this description why this should be the case. An uncaught exception from AbstractProgram.run() doesn\u0027t bring down the program? That is a) surprising and b) not obviously Solr-related.",
+      "range": {
+        "startLine": 11,
+        "startChar": 12,
+        "endLine": 11,
+        "endChar": 28
+      },
+      "revId": "6ab111e94f71fa5b2d63c45df62cc9006dde3ef6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -16,6 +16,24 @@
       "revId": "238302d15bf50d3e8327d760242bbecbea308055",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2f435582_5e219582",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/AutoRegisterScript.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-02-11T21:53:05Z",
+      "side": 1,
+      "message": "Possibly a new independent change would make more sense.\nThis class is really for support the self-registration of classes defined in any script, Groovy, Scala or any other scripting languages defined even by other plugins.",
+      "parentUuid": "ef793db6_b4f420fb",
+      "revId": "238302d15bf50d3e8327d760242bbecbea308055",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -17,7 +17,6 @@ package com.google.gerrit.server.schema;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.common.primitives.Longs;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gerrit.common.data.GlobalCapability;
@@ -448,7 +447,7 @@ public class Schema_65 extends SchemaVersion {
           @Override
           public int compare(
               AccountGroupAgreement a1, AccountGroupAgreement a2) {
-            return Longs.compare(a1.getTime(), a2.getTime());
+            return Long.compare(a1.getTime(), a2.getTime());
           }
         });
         return groupAgreements;

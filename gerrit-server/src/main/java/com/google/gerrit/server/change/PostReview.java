@@ -404,15 +404,13 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           del.add(c);
           update.putApproval(ent.getKey(), (short) 0);
         }
-      } else if (c != null && c.getValue() != ent.getValue()) {
+      } else if (c != null) {
         c.setValue(ent.getValue());
         c.setGranted(timestamp);
         ups.add(c);
         addLabelDelta(normName, c.getValue());
         categories.put(normName, c.getValue());
         update.putApproval(ent.getKey(), ent.getValue());
-      } else if (c != null && c.getValue() == ent.getValue()) {
-        current.put(normName, c);
       } else if (c == null) {
         c = new PatchSetApproval(new PatchSetApproval.Key(
                 rsrc.getPatchSet().getId(),

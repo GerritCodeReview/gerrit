@@ -77,6 +77,8 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
       throw new AuthException("abandon not permitted");
     } else if (!change.getStatus().isOpen()) {
       throw new ResourceConflictException("change is " + status(change));
+    } else if (change.getStatus() == Change.Status.DRAFT) {
+      throw new ResourceConflictException("draft changes cannot be abandoned");
     }
 
     ChangeMessage message;
@@ -133,6 +135,7 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
       .setLabel("Abandon")
       .setTitle("Abandon the change")
       .setVisible(resource.getChange().getStatus().isOpen()
+          && resource.getChange().getStatus() != Change.Status.DRAFT
           && resource.getControl().canAbandon());
   }
 

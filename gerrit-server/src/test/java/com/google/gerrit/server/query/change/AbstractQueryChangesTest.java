@@ -18,6 +18,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.concurrent.TimeUnit.DAYS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -69,6 +70,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
 @Ignore
@@ -659,6 +661,38 @@ public abstract class AbstractQueryChangesTest {
     assertTrue(query("comment:foo").isEmpty());
     assertResultEquals(change, queryOne("comment:toplevel"));
     assertResultEquals(change, queryOne("comment:inline"));
+  }
+
+  @Test
+  public void byAge() throws Exception {
+    long thirtyHours = MILLISECONDS.convert(30, TimeUnit.HOURS);
+    clockStepMs = thirtyHours;
+    TestRepository<InMemoryRepository> repo = createProject("repo");
+    Change change1 = newChange(repo, null, null, null, null).insert();
+    Change change2 = newChange(repo, null, null, null, null).insert();
+    clockStepMs = 0; // Queried by AgePredicate constructor.
+    long now = TimeUtil.nowMs();
+    assertEquals(thirtyHours, lastUpdatedMs(change2) - lastUpdatedMs(change1));
+    assertEquals(thirtyHours, now - lastUpdatedMs(change2));
+    assertEquals(now, TimeUtil.nowMs());
+
+    assertTrue(query("-age:1d").isEmpty());
+    assertTrue(query("-age:" + (30*60-1) + "m").isEmpty());
+    assertResultEquals(change2, queryOne("-age:2d"));
+
+    List<ChangeInfo> results;
+    results = query("-age:3d");
+    assertEquals(2, results.size());
+    assertResultEquals(change2, results.get(0));
+    assertResultEquals(change1, results.get(1));
+
+    assertTrue(query("age:3d").isEmpty());
+    assertResultEquals(change1, queryOne("age:2d"));
+
+    results = query("age:1d");
+    assertEquals(2, results.size());
+    assertResultEquals(change2, results.get(0));
+    assertResultEquals(change1, results.get(1));
   }
 
   protected ChangeInserter newChange(

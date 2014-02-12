@@ -71,8 +71,7 @@ import com.google.gerrit.solr.SolrIndexModule;
 import com.google.gerrit.sshd.SshHostKeyModule;
 import com.google.gerrit.sshd.SshKeyCacheImpl;
 import com.google.gerrit.sshd.SshModule;
-import com.google.gerrit.sshd.commands.MasterCommandModule;
-import com.google.gerrit.sshd.commands.SlaveCommandModule;
+import com.google.gerrit.sshd.commands.DefaultCommandModule;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -382,11 +381,8 @@ public class Daemon extends SiteProgram {
     if (!test) {
       modules.add(new SshHostKeyModule());
     }
-    if (slave) {
-      modules.add(new SlaveCommandModule());
-    } else {
-      modules.add(new MasterCommandModule());
-    }
+    modules.add(new DefaultCommandModule(slave));
+
     return sysInjector.createChildInjector(modules);
   }
 

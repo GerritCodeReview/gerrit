@@ -31,7 +31,6 @@ import com.google.gerrit.server.plugins.ReloadPluginListener;
 import com.google.gerrit.server.plugins.StartPluginListener;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gerrit.server.util.RequestScopePropagator;
-import com.google.gerrit.sshd.commands.DefaultCommandModule;
 import com.google.gerrit.sshd.commands.QueryShell;
 import com.google.inject.Inject;
 import com.google.inject.internal.UniqueAnnotations;
@@ -83,8 +82,6 @@ public class SshModule extends LifecycleModule {
 
     bind(GSSAuthenticator.class).to(GerritGSSAuthenticator.class);
     bind(PublickeyAuthenticator.class).to(DatabasePubKeyAuth.class);
-
-    install(new DefaultCommandModule());
 
     bind(ModuleGenerator.class).to(SshAutoRegisterModuleGenerator.class);
     bind(SshPluginStarterCallback.class);

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0f693106_d53bbcd7",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Dispatcher.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-02-12T18:03:27Z",
+      "side": 1,
+      "message": "Done in next patch set as you saw.",
+      "parentUuid": "8f5d2162_19df2b81",
+      "range": {
+        "startLine": 412,
+        "startChar": 29,
+        "endLine": 412,
+        "endChar": 65
+      },
+      "revId": "3924d77807972e33318e27c64c72aa00faab6594",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8f5d2162_79e4674d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PagedSingleListScreen.java",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2014-02-12T00:34:27Z",
       "side": 1,
       "message": "Unnecessary to take the max when you just compare it to \u003e0",
+      "range": {
+        "startLine": 111,
+        "startChar": 16,
+        "endLine": 111,
+        "endChar": 45
+      },
+      "revId": "3924d77807972e33318e27c64c72aa00faab6594",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0f693106_357e7091",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PagedSingleListScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-02-12T18:03:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8f5d2162_79e4674d",
       "range": {
         "startLine": 111,
         "startChar": 16,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "0f693106_15837443",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PagedSingleListScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-02-12T18:03:27Z",
+      "side": 1,
+      "message": "Done, I think it\u0027s clearer this way (and is robust to a certain class of bug in the server).",
+      "parentUuid": "8f5d2162_59e9a321",
+      "range": {
+        "startLine": 118,
+        "startChar": 63,
+        "endLine": 118,
+        "endChar": 71
+      },
+      "revId": "3924d77807972e33318e27c64c72aa00faab6594",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8f5d2162_b9ed5f30",
         "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
         "patchSetId": 2
@@ -88,6 +160,24 @@
     },
     {
       "key": {
+        "uuid": "8f2b61c2_6932e50c",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-02-12T18:03:27Z",
+      "side": 1,
+      "message": "scoreDocs is an array, just iterated starting at start.",
+      "parentUuid": "8f5d2162_b9ed5f30",
+      "revId": "3924d77807972e33318e27c64c72aa00faab6594",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6f52ad52_78e4614d",
         "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/QueryBuilder.java",
         "patchSetId": 2
@@ -99,6 +189,24 @@
       "writtenOn": "2014-02-12T00:34:27Z",
       "side": 1,
       "message": "missing return",
+      "revId": "3924d77807972e33318e27c64c72aa00faab6594",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0f693106_7588e85b",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/QueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-02-12T18:03:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6f52ad52_78e4614d",
       "revId": "3924d77807972e33318e27c64c72aa00faab6594",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

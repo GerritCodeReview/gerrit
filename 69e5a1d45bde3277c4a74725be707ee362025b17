@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0f693106_95414458",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Dispatcher.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-02-12T18:03:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8f5d2162_f9f7d7fd",
+      "range": {
+        "startLine": 413,
+        "startChar": 5,
+        "endLine": 418,
+        "endChar": 7
+      },
+      "revId": "69e5a1d45bde3277c4a74725be707ee362025b17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0f693106_55e96c21",
         "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/QueryBuilder.java",
         "patchSetId": 3
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "0f693106_f53eb8c9",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/QueryBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-02-12T18:03:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0f693106_55e96c21",
+      "revId": "69e5a1d45bde3277c4a74725be707ee362025b17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8f5d2162_d9f493fc",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
         "patchSetId": 3
@@ -53,6 +95,24 @@
       "writtenOn": "2014-02-12T01:10:14Z",
       "side": 1,
       "message": "Consider @Deprecated?",
+      "revId": "69e5a1d45bde3277c4a74725be707ee362025b17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8f2b61c2_092d29a9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-02-12T18:03:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8f5d2162_d9f493fc",
       "revId": "69e5a1d45bde3277c4a74725be707ee362025b17",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

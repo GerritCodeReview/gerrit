@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8f2b61c2_49e9e121",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RebaseIfNecessary.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-02-12T06:19:24Z",
+      "side": 1,
+      "message": "Add details here.",
+      "range": {
+        "startLine": 184,
+        "startChar": 5,
+        "endLine": 185,
+        "endChar": 12
+      },
+      "revId": "666a22ac7befc1f085364335b5866bf511fce96f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

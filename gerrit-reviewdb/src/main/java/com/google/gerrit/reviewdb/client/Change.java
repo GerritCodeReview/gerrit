@@ -286,7 +286,10 @@ public final class Change {
      * a replacement patch set, and it cannot be merged. Draft comments however
      * may be published, permitting reviewers to send constructive feedback.
      */
-    ABANDONED('A');
+    ABANDONED('A'),
+
+    /** Change is closed, but came from {@link #DRAFT} status. */
+    ABANDONED_DRAFT('D');
 
     private final char code;
     private final boolean closed;

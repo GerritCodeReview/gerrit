@@ -37,7 +37,8 @@ class ReviewerPredicate extends IndexPredicate<ChangeData> {
   @Override
   public boolean match(final ChangeData object) throws OrmException {
     if (!allowDrafts &&
-        object.change().getStatus() == Change.Status.DRAFT) {
+        (object.change().getStatus() == Change.Status.DRAFT
+        || object.change().getStatus() == Change.Status.ABANDONED_DRAFT)) {
       return false;
     }
     for (Account.Id accountId : object.reviewers().values()) {

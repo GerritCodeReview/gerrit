@@ -93,6 +93,10 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
               change.setStatus(Status.NEW);
               ChangeUtil.updated(change);
               return change;
+            } else if (change.getStatus() == Status.ABANDONED_DRAFT) {
+              change.setStatus(Status.DRAFT);
+              ChangeUtil.updated(change);
+              return change;
             }
             return null;
           }

@@ -250,7 +250,8 @@ public class ChangeControl {
 
   /** Can this user see this change? */
   public boolean isVisible(ReviewDb db) throws OrmException {
-    if (getChange().getStatus() == Change.Status.DRAFT
+    Change.Status status = getChange().getStatus();
+    if ((status == Change.Status.DRAFT || status == Change.Status.ABANDONED_DRAFT)
         && !isDraftVisible(db, null)) {
       return false;
     }

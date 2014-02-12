@@ -21,6 +21,7 @@ public interface ChangeConstants extends Constants {
   String statusLongSubmitted();
   String statusLongMerged();
   String statusLongAbandoned();
+  String statusLongAbandonedDraft();
   String statusLongDraft();
   String readyToSubmit();
   String mergeConflict();

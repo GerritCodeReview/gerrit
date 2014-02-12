@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ef4cddb4_fc2fc96a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/AutoRegisterScript.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-12T07:20:18Z",
+      "side": 1,
+      "message": "2014?",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "ace261476644d20f76d6eea329b032e4a17de4aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ef4cddb4_dc2c8d79",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/AutoRegisterScript.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-12T07:20:18Z",
+      "side": 1,
+      "message": "Can we respect CommandMetaData annotation too? Currently the description is lost:\n\n  @Export(\"recommend\")\n  @CommandMetaData(name \u003d \"recommend\", description \u003d \"Vote +1 on Code-Review\")\n  class Recommend extends Review {\n    void run() {\n      stdout.println(\"Recommend change: \" + change)\n      gApi.changes()\n          .id(change)\n          .current()\n          .review(ReviewInput.recommend())\n   }\n }\n\nlisting the commands description is lost:\n\n  ssh gerrit review\n  Available commands of review are:\n   recommend\n See \u0027review COMMAND --help\u0027 for more information.\n\nIn Java plugin (expected output) is:\n\n  ssh gerrit review\n  Available commands of review are:\n   recommend     Vote +1 on Code-Review",
+      "range": {
+        "startLine": 120,
+        "startChar": 12,
+        "endLine": 120,
+        "endChar": 42
+      },
+      "revId": "ace261476644d20f76d6eea329b032e4a17de4aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

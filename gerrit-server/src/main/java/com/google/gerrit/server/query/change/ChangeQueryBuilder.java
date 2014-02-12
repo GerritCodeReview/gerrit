@@ -84,7 +84,9 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   // NOTE: As new search operations are added, please keep the
   // SearchSuggestOracle up to date.
 
+  public static final String FIELD_AFTER = "after";
   public static final String FIELD_AGE = "age";
+  public static final String FIELD_BEFORE = "before";
   public static final String FIELD_BRANCH = "branch";
   public static final String FIELD_CHANGE = "change";
   public static final String FIELD_COMMENT = "comment";
@@ -236,6 +238,26 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   @Operator
   public Predicate<ChangeData> age(String value) {
     return new AgePredicate(value);
+  }
+
+  @Operator
+  public Predicate<ChangeData> before(String value) throws QueryParseException {
+    return new BeforePredicate(value);
+  }
+
+  @Operator
+  public Predicate<ChangeData> until(String value) throws QueryParseException {
+    return before(value);
+  }
+
+  @Operator
+  public Predicate<ChangeData> after(String value) throws QueryParseException {
+    return new AfterPredicate(value);
+  }
+
+  @Operator
+  public Predicate<ChangeData> since(String value) throws QueryParseException {
+    return after(value);
   }
 
   @Operator

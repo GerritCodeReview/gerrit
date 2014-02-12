@@ -64,6 +64,20 @@ to include a unit suffix, for example `age:2d`:
 * mon, month, months (`1 month` is treated as `30 days`)
 * y, year, years (`1 year` is treated as `365 days`)
 
+[[before_until]]
+before:'TIME'/until:'TIME'
++
+Changes modified before the given 'TIME', inclusive. With no time,
+assumes 00:00:00 in the local time zone. Supports many formats supported
+by `git log`.
+
+[[after_since]]
+after:'TIME'/since:'TIME'
++
+Changes modified before the given 'TIME', inclusive. With no time,
+assumes 00:00:00 in the local time zone. Supports many formats supported
+by `git log`.
+
 [[change]]
 change:'ID'::
 +

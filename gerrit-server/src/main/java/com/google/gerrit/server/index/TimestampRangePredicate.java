@@ -14,14 +14,36 @@
 
 package com.google.gerrit.server.index;
 
+import com.google.gerrit.server.query.QueryParseException;
+
+import org.eclipse.jgit.util.GitDateParser;
+import org.joda.time.DateTime;
+
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.util.Date;
+import java.util.Locale;
 
 public abstract class TimestampRangePredicate<I> extends IndexPredicate<I> {
+  protected static Date parse(String value) throws QueryParseException {
+    try {
+      return GitDateParser.parse(value, DateTime.now().toCalendar(Locale.US));
+    } catch (ParseException e) {
+      // ParseException's message is specific and helpful, so preserve it.
+      throw new QueryParseException(e.getMessage(), e);
+    }
+  }
+
   protected TimestampRangePredicate(FieldDef<I, Timestamp> def,
       String name, String value) {
     super(def, name, value);
   }
 
-  public abstract Timestamp getMinTimestamp();
-  public abstract Timestamp getMaxTimestamp();
+  public abstract Date getMinTimestamp();
+  public abstract Date getMaxTimestamp();
+
+  @Override
+  public int getCost() {
+    return 1;
+  }
 }

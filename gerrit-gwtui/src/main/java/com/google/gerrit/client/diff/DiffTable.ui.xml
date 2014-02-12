@@ -27,7 +27,6 @@ limitations under the License.
       border-bottom: 1px solid #ddd;
     }
 
-    .difftable { max-width: 1484px; }
     .difftable .CodeMirror-lines { padding: 0; }
     .difftable .CodeMirror pre {
       padding: 0;
@@ -104,6 +103,7 @@ limitations under the License.
       z-index: 2;
     }
     .showtabs .cm-tab:before {
+      position: absolute;
       content: "\00bb";
       color: #f00;
     }

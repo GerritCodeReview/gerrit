@@ -36,6 +36,23 @@ that were set to a URL.
 If HEAD was detached the `GetHead` REST endpoint refused to resolve HEAD
 when the user was not a project owner.
 
+* link:https://code.google.com/p/gerrit/issues/detail?id=2932[Issue 2932]:
+Keep `status:closed` limit below MySQL Connector/J's hard limit.
++
+Since MySQL Connector/J 5.1.21 does not allow limits above 50M rows
+and aborts them with 'setMaxRows() out of range', we cannot use `MAX_VALUE`
+as limit for plain `status:closed` queries.
+
+* Fix IllegalArgumentException when running query with `limit:0` on secondary
+index.
++
+Running a query with `limit:0` when the secondary index is enabled was causing
+an internal server error.
+
+* Remove dependency on joda time library in gerrit launcher.
++
+The joda time library was being unnecessarily packaged in the root of
+the gerrit.war file.
 
 Change Screen / Diff Screen
 ---------------------------
@@ -65,6 +82,40 @@ the topic edit.
 +
 The action was using the cherry-pick button instead of the revert button.
 
+* Improve the error message shown when cherry picking a change fails.
++
+The error message "Could not create merge commit during cherry pick" was
+confusing for users, and is replaced with simply "Cherry pick failed".
+
+* Add newline on commit messages created by cherry picking a change in the UI
+or via the REST API.
++
+If a commit was cherry-picked from the UI or via the REST API, the
+trailing newline on the end of the commit message was lost.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=2405[Issue 2405]:
+Update change to invalidate cache after deletion of draft revision.
++
+When a non-current draft patch set was deleted no update of the change
+was made, causing the change screen to not work properly because it
+relied on cached data.
+
+* Extend change screen's horizontal bars to full width.
++
+This allows the title of the change message to have some padding within
+the bar.
+
+* Fix tab alignment to be correct width in side-by-side diff.
++
+This fixes the tab width to be the user's preference, rather than
+1 + user's preference when show tabs is enabled.
+
+* Fill the browser width in side-by-side diff.
++
+Filling the browser available space with each side of the diff at
+50% size allows the user to more easily view long lines if they
+have a wide display, and better fit on more narrow displays by
+splitting the available width at 50%.
 
 ssh
 ---
@@ -93,6 +144,8 @@ without any arguments on a server running in slave mode.
 The `replication` command is provided by the replication plugin, so it is no
 longer relevant to mention this in the description of a core command.
 
+* Fix aliasing of SSH commands.
+
 
 Replication Plugin
 ------------------
@@ -118,6 +171,11 @@ differentiate between local and remote repository errors.
 * Update documentation to clarify replication of refs/meta/config when
 refspec is 'all refs'.
 
+Upgrades
+--------
+
+
+* JGit is upgraded to 3.2.0.201312181205-r
 
 Documentation
 -------------

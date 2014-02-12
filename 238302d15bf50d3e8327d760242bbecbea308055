@@ -52,6 +52,24 @@
       "revId": "238302d15bf50d3e8327d760242bbecbea308055",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ef4cddb4_5c3a3daa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/AutoRegisterScript.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-02-12T08:13:00Z",
+      "side": 1,
+      "message": "We could possibly discuss and tacke the scripting language support in separate plugins during the Hackathon :-)",
+      "parentUuid": "2f435582_9ed03d1d",
+      "revId": "238302d15bf50d3e8327d760242bbecbea308055",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

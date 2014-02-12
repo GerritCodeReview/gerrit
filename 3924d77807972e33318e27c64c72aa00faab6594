@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8f5d2162_19df2b81",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Dispatcher.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-02-12T00:34:27Z",
+      "side": 1,
+      "message": "There are going to be a lot of links to \",n,z\". This is going to fail on those.\n\nI understand your point about breaking links to specific sortkey tokens but ,n,z is heavily bookmarked.",
+      "range": {
+        "startLine": 412,
+        "startChar": 29,
+        "endLine": 412,
+        "endChar": 65
+      },
+      "revId": "3924d77807972e33318e27c64c72aa00faab6594",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8f5d2162_79e4674d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PagedSingleListScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-02-12T00:34:27Z",
+      "side": 1,
+      "message": "Unnecessary to take the max when you just compare it to \u003e0",
+      "range": {
+        "startLine": 111,
+        "startChar": 16,
+        "endLine": 111,
+        "endChar": 45
+      },
+      "revId": "3924d77807972e33318e27c64c72aa00faab6594",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8f5d2162_59e9a321",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PagedSingleListScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-02-12T00:34:27Z",
+      "side": 1,
+      "message": "Maybe changes.length()? Although that should exactly equal pageSize and if it doesn\u0027t _more_changes really better be false.",
+      "range": {
+        "startLine": 118,
+        "startChar": 63,
+        "endLine": 118,
+        "endChar": 71
+      },
+      "revId": "3924d77807972e33318e27c64c72aa00faab6594",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8f5d2162_b9ed5f30",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-02-12T00:34:27Z",
+      "side": 1,
+      "message": "Maybe something like:\n\n  if (result.size() \u003c start) {\n    result.add(null);\n  } else {\n    Document doc \u003d searchers[sd.shardIndex].doc(sd.doc, FIELDS);\n    result.add(toChangeData(doc));\n  }\n\nso we avoid looking up the stored field on documents we will simply discard in the subList truncation below.",
+      "revId": "3924d77807972e33318e27c64c72aa00faab6594",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6f52ad52_78e4614d",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/QueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-02-12T00:34:27Z",
+      "side": 1,
+      "message": "missing return",
+      "revId": "3924d77807972e33318e27c64c72aa00faab6594",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

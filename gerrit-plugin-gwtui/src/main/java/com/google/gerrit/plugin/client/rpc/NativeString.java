@@ -25,7 +25,7 @@ public class NativeString extends JavaScriptObject {
   /*-{ return $wnd.Gerrit.JsonString }-*/;
 
   public final native String asString()
-  /*-{ return this.get(); }-*/;
+  /*-{ return this; }-*/;
 
   public static final
   AsyncCallback<NativeString> unwrap(final AsyncCallback<String> cb) {

@@ -34,6 +34,24 @@
       "revId": "238302d15bf50d3e8327d760242bbecbea308055",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2f435582_9ed03d1d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/AutoRegisterScript.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-12T07:14:59Z",
+      "side": 1,
+      "message": "Agreed. All changes to this file should be in its own change, so that we can merge it in core and [optionally] move the language specific changes in own plugins:\n\n* groovy-provier\n* scala-provider\n* [...]",
+      "parentUuid": "2f435582_5e219582",
+      "revId": "238302d15bf50d3e8327d760242bbecbea308055",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

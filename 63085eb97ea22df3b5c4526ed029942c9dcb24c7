@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2f435582_def3e5b8",
+        "filename": "ReleaseNotes/ReleaseNotes-2.8.2.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-02-12T14:17:48Z",
+      "side": 1,
+      "message": "This is not correct. The dependency to joda time library was not removed from Gerrit, but only from the GerritLauncher class. Gerrit itself is still using it.",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 41
+      },
+      "revId": "63085eb97ea22df3b5c4526ed029942c9dcb24c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

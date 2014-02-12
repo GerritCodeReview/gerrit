@@ -45,7 +45,7 @@ import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.util.BytesRef;
 import org.apache.lucene.util.NumericUtils;
 
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 public class QueryBuilder {
@@ -232,7 +232,7 @@ public class QueryBuilder {
     return queryBuilder.createPhraseQuery(p.getField().getName(), p.getValue());
   }
 
-  public static int toIndexTime(Timestamp ts) {
+  public static int toIndexTime(Date ts) {
     return (int) (ts.getTime() / 60000);
   }
 

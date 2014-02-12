@@ -37,10 +37,12 @@ public class AgePredicate extends TimestampRangePredicate<ChangeData> {
     this.cut = TimeUtil.nowMs() - ms;
   }
 
+  @Override
   public Timestamp getMinTimestamp() {
     return new Timestamp(0);
   }
 
+  @Override
   public Timestamp getMaxTimestamp() {
     return new Timestamp(cut);
   }
@@ -53,10 +55,5 @@ public class AgePredicate extends TimestampRangePredicate<ChangeData> {
   public boolean match(final ChangeData object) throws OrmException {
     Change change = object.change();
     return change != null && change.getLastUpdatedOn().getTime() <= cut;
-  }
-
-  @Override
-  public int getCost() {
-    return 1;
   }
 }

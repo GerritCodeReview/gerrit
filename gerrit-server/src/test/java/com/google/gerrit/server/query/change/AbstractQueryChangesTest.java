@@ -15,10 +15,9 @@
 package com.google.gerrit.server.query.change;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static java.util.concurrent.TimeUnit.DAYS;
+import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -36,7 +35,6 @@ import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountManager;
@@ -62,6 +60,7 @@ import com.google.inject.util.Providers;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.joda.time.DateTime;
 import org.joda.time.DateTimeUtils;
 import org.joda.time.DateTimeUtils.MillisProvider;
 import org.junit.After;
@@ -70,7 +69,6 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
 @Ignore
@@ -95,6 +93,8 @@ public abstract class AbstractQueryChangesTest {
   protected Account.Id userId;
   protected CurrentUser user;
   protected volatile long clockStepMs;
+
+  private String systemTimeZone;
 
   protected abstract Injector createInjector();
 
@@ -138,11 +138,11 @@ public abstract class AbstractQueryChangesTest {
   }
 
   @Before
-  public void setMillisProvider() {
+  public void setTimeForTesting() {
+    systemTimeZone = System.setProperty("user.timezone", "EST");
     clockStepMs = 1;
     final AtomicLong clockMs = new AtomicLong(
-        MILLISECONDS.convert(ChangeUtil.SORT_KEY_EPOCH_MINS, MINUTES)
-        + MILLISECONDS.convert(60, DAYS));
+        new DateTime(2009, 9, 30, 17, 0, 0).getMillis());
 
     DateTimeUtils.setCurrentMillisProvider(new MillisProvider() {
       @Override
@@ -153,8 +153,9 @@ public abstract class AbstractQueryChangesTest {
   }
 
   @After
-  public void resetMillisProvider() {
+  public void resetTime() {
     DateTimeUtils.setCurrentMillisSystem();
+    System.setProperty("user.timezone", systemTimeZone);
   }
 
   @Test
@@ -665,7 +666,7 @@ public abstract class AbstractQueryChangesTest {
 
   @Test
   public void byAge() throws Exception {
-    long thirtyHours = MILLISECONDS.convert(30, TimeUnit.HOURS);
+    long thirtyHours = MILLISECONDS.convert(30, HOURS);
     clockStepMs = thirtyHours;
     TestRepository<InMemoryRepository> repo = createProject("repo");
     Change change1 = newChange(repo, null, null, null, null).insert();
@@ -690,6 +691,98 @@ public abstract class AbstractQueryChangesTest {
     assertResultEquals(change1, queryOne("age:2d"));
 
     results = query("age:1d");
+    assertEquals(2, results.size());
+    assertResultEquals(change2, results.get(0));
+    assertResultEquals(change1, results.get(1));
+  }
+
+  @Test
+  public void byBeforeAbsolute() throws Exception {
+    clockStepMs = MILLISECONDS.convert(30, HOURS);
+    TestRepository<InMemoryRepository> repo = createProject("repo");
+    Change change1 = newChange(repo, null, null, null, null).insert();
+    Change change2 = newChange(repo, null, null, null, null).insert();
+    clockStepMs = 0;
+
+    // GitDateParser drops unparsed portions of the string, so be very careful
+    // with formats.
+    assertTrue(query("before:2009-09-29").isEmpty());
+    assertTrue(query("before:2009-09-30").isEmpty());
+    assertTrue(query("before:\"2009-09-30 16:59:00 -0500\"").isEmpty());
+    assertResultEquals(change1,
+        queryOne("before:\"2009-09-30 17:00:01 -0500\""));
+    assertResultEquals(change1, queryOne("before:2009-10-01"));
+
+    List<ChangeInfo> results;
+    results = query("before:2009-10-03");
+    assertEquals(2, results.size());
+    assertResultEquals(change2, results.get(0));
+    assertResultEquals(change1, results.get(1));
+  }
+
+  @Test
+  public void byBeforeRelative() throws Exception {
+    clockStepMs = MILLISECONDS.convert(30, HOURS);
+    TestRepository<InMemoryRepository> repo = createProject("repo");
+    Change change1 = newChange(repo, null, null, null, null).insert();
+    Change change2 = newChange(repo, null, null, null, null).insert();
+    clockStepMs = 0;
+
+    assertTrue(query("before:\"3 days ago\"").isEmpty());
+    assertResultEquals(change1, queryOne("before:\"2 days ago\""));
+
+    List<ChangeInfo> results;
+    results = query("before:\"1 day ago\"");
+    assertEquals(2, results.size());
+    assertResultEquals(change2, results.get(0));
+    assertResultEquals(change1, results.get(1));
+
+    results = query("before:\"12 hours ago\"");
+    assertEquals(2, results.size());
+    assertResultEquals(change2, results.get(0));
+    assertResultEquals(change1, results.get(1));
+  }
+
+  @Test
+  public void byAfterAbsolute() throws Exception {
+    clockStepMs = MILLISECONDS.convert(30, HOURS);
+    TestRepository<InMemoryRepository> repo = createProject("repo");
+    Change change1 = newChange(repo, null, null, null, null).insert();
+    Change change2 = newChange(repo, null, null, null, null).insert();
+    clockStepMs = 0;
+
+    // GitDateParser drops unparsed portions of the string, so be very careful
+    // with formats.
+    assertTrue(query("after:2009-10-02").isEmpty());
+    assertResultEquals(change2,
+        queryOne("after:\"2009-10-01 20:59:59 -0500\""));
+    assertResultEquals(change2, queryOne("after:2009-10-01"));
+
+    List<ChangeInfo> results;
+    results = query("after:2009-09-30");
+    assertEquals(2, results.size());
+    assertResultEquals(change2, results.get(0));
+    assertResultEquals(change1, results.get(1));
+  }
+
+  @Test
+  public void byAfterRelative() throws Exception {
+    clockStepMs = MILLISECONDS.convert(30, HOURS);
+    TestRepository<InMemoryRepository> repo = createProject("repo");
+    Change change1 = newChange(repo, null, null, null, null).insert();
+    Change change2 = newChange(repo, null, null, null, null).insert();
+    clockStepMs = 0;
+
+    assertTrue(query("after:\"1 days ago\"").isEmpty());
+    assertResultEquals(change2, queryOne("after:\"2 days ago\""));
+
+    List<ChangeInfo> results;
+    results = query("after:\"3 days ago\"");
+    assertEquals(2, results.size());
+    assertResultEquals(change2, results.get(0));
+    assertResultEquals(change1, results.get(1));
+
+    results = query("after:\"72 hours ago\"");
     assertEquals(2, results.size());
     assertResultEquals(change2, results.get(0));
     assertResultEquals(change1, results.get(1));

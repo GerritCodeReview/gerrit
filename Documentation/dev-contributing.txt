@@ -6,7 +6,15 @@ agreement on file with the project.
 
 * https://gerrit-review.googlesource.com/
 
-The Contributor License Agreements:
+A Contributor License Agreement must be completed before contributions
+are accepted.  To view and accept the agreements do the following:
+
+* Click "Sign In" at the top right corner of https://gerrit-review.googlesource.com/
+* Sign In with your Google account
+* After signing in, go to https://gerrit-review.googlesource.com/#/settings/agreements
+* Click "New Contributor Agreement" and follow the instructions
+
+For reference, the actual agreements are linked below
 
 * https://gerrit-review.googlesource.com/static/cla_individual.html
 * https://gerrit-review.googlesource.com/static/cla_corporate.html

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ef4cddb4_fca229bc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-12T05:22:21Z",
+      "side": 1,
+      "message": "OH REALLY? Who cares about visibility of abandoned/restored draft changes?\nThe only thing that project cares about is a vote of one person [1]:\n\n\"I don\u0027t think it makes sense to add a status that is not used by core gerrit. New statuses bring in all sorts of complicated corner cases, the draft status showed us that. Using a new status complicates existing workflows and queries. If we really want new statuses, then we should break things only once, and make statuses completely generic. Generic states are supported by many workflow tools.\"\n\nBefore merging that guy, why not to merge this guy too [2]?\n\n [1] https://gerrit-review.googlesource.com/50250\n [2] https://gerrit-review.googlesource.com/50254",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 66
+      },
+      "revId": "de92409df5902eb6487cffc985bc7569087e6935",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

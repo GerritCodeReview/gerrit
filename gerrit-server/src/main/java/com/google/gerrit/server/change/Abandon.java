@@ -89,7 +89,9 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
           @Override
           public Change update(Change change) {
             if (change.getStatus().isOpen()) {
-              change.setStatus(Change.Status.ABANDONED);
+              change.setStatus(change.getStatus() == Change.Status.DRAFT
+                  ? Change.Status.ABANDONED_DRAFT
+                  : Change.Status.ABANDONED);
               ChangeUtil.updated(change);
               return change;
             }

@@ -31,7 +31,6 @@ import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.ChangeStatus;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.ListChangesOption;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.server.change.ChangeJson;
 
@@ -40,13 +39,15 @@ import java.util.List;
 import java.util.Map;
 
 class ChangeInfoMapper {
-  private final static ImmutableMap<Change.Status, ChangeStatus> MAP =
-      Maps.immutableEnumMap(ImmutableMap.of(
-          Status.DRAFT, ChangeStatus.DRAFT,
-          Status.NEW, ChangeStatus.NEW,
-          Status.SUBMITTED, ChangeStatus.SUBMITTED,
-          Status.MERGED, ChangeStatus.MERGED,
-          Status.ABANDONED, ChangeStatus.ABANDONED));
+  private final static ImmutableMap<Status, ChangeStatus> MAP =
+      Maps.immutableEnumMap(ImmutableMap.<Status, ChangeStatus> builder()
+          .put(Status.DRAFT, ChangeStatus.DRAFT)
+          .put(Status.NEW, ChangeStatus.NEW)
+          .put(Status.SUBMITTED, ChangeStatus.SUBMITTED)
+          .put(Status.MERGED, ChangeStatus.MERGED)
+          .put(Status.ABANDONED, ChangeStatus.ABANDONED)
+          .put(Status.ABANDONED_DRAFT, ChangeStatus.ABANDONED_DRAFT)
+          .build());
 
   private final EnumSet<ListChangesOption> s;
 

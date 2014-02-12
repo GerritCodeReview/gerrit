@@ -581,7 +581,9 @@ public class Gerrit implements EntryPoint {
     menuBars.put(GerritTopMenu.ALL.menuName, m);
     addLink(m, C.menuAllOpen(), PageLinks.toChangeQuery("status:open"));
     addLink(m, C.menuAllMerged(), PageLinks.toChangeQuery("status:merged"));
-    addLink(m, C.menuAllAbandoned(), PageLinks.toChangeQuery("status:abandoned"));
+    addLink(m, C.menuAllAbandoned(), PageLinks.toChangeQuery(signedIn
+        ? "status:abandoned OR (status:abandoned_draft AND owner:self)"
+        : "status:abandoned"));
     menuLeft.add(m, C.menuAll());
 
     if (signedIn) {

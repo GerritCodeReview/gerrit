@@ -142,7 +142,8 @@ public class Publish implements RestModifyView<RevisionResource, Input>,
       return new UiAction.Description()
         .setTitle(String.format("Publish revision %d",
             rsrc.getPatchSet().getPatchSetId()))
-        .setVisible(rsrc.getPatchSet().isDraft()
+        .setVisible(rsrc.getChange().getStatus().isOpen()
+            && rsrc.getPatchSet().isDraft()
             && rsrc.getPatchSet().getId().equals(current)
             && rsrc.getControl().canPublish(dbProvider.get()));
     } catch (OrmException e) {

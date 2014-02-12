@@ -23,7 +23,6 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
@@ -76,7 +75,8 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
     Change change = req.getChange();
     if (!control.canRestore()) {
       throw new AuthException("restore not permitted");
-    } else if (change.getStatus() != Status.ABANDONED) {
+    } else if (change.getStatus() != Change.Status.ABANDONED
+        && change.getStatus() != Change.Status.ABANDONED_DRAFT) {
       throw new ResourceConflictException("change is " + status(change));
     }
 
@@ -89,8 +89,12 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
         new AtomicUpdate<Change>() {
           @Override
           public Change update(Change change) {
-            if (change.getStatus() == Status.ABANDONED) {
-              change.setStatus(Status.NEW);
+            if (change.getStatus() == Change.Status.ABANDONED) {
+              change.setStatus(Change.Status.NEW);
+              ChangeUtil.updated(change);
+              return change;
+            } else if (change.getStatus() == Change.Status.ABANDONED_DRAFT) {
+              change.setStatus(Change.Status.DRAFT);
               ChangeUtil.updated(change);
               return change;
             }
@@ -130,10 +134,12 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
 
   @Override
   public UiAction.Description getDescription(ChangeResource resource) {
+    Change.Status status = resource.getChange().getStatus();
     return new UiAction.Description()
       .setLabel("Restore")
       .setTitle("Restore the change")
-      .setVisible(resource.getChange().getStatus() == Status.ABANDONED
+      .setVisible((status == Change.Status.ABANDONED
+          || status == Change.Status.ABANDONED_DRAFT)
           && resource.getControl().canRestore());
   }
 

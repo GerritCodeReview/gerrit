@@ -97,5 +97,8 @@ public enum ChangeStatus {
    * a replacement patch set, and it cannot be merged. Draft comments however
    * may be published, permitting reviewers to send constructive feedback.
    */
-  ABANDONED
+  ABANDONED,
+
+  /** Change is closed, but came from {@link #DRAFT} status. */
+  ABANDONED_DRAFT
 }

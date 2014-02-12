@@ -216,7 +216,8 @@ public class ChangeField {
             throws OrmException {
           Set<Integer> r = Sets.newHashSet();
           if (!args.allowsDrafts &&
-              input.change().getStatus() == Change.Status.DRAFT) {
+              (input.change().getStatus() == Change.Status.DRAFT
+              || input.change().getStatus() == Change.Status.ABANDONED_DRAFT)) {
             return r;
           }
           for (PatchSetApproval a : input.approvals().values()) {

@@ -85,6 +85,9 @@ public class AccountsCollection implements
     if (user == null) {
       throw new UnprocessableEntityException(String.format(
           "Account Not Found: %s", id));
+    } else if (!accountControlFactory.get().canSee(user.getAccount())) {
+      throw new UnprocessableEntityException(String.format(
+          "Account Not Found: %s", id));
     }
     return user;
   }

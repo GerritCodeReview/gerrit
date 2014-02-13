@@ -17,6 +17,8 @@ package com.google.gerrit.lucene;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.server.index.IndexRewriteImpl.CLOSED_STATUSES;
 import static com.google.gerrit.server.index.IndexRewriteImpl.OPEN_STATUSES;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.MINUTES;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -28,6 +30,8 @@ import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
+
+import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.ChangeField;
@@ -131,17 +135,33 @@ public class LuceneChangeIndex implements ChangeIndex {
     LuceneChangeIndex create(Schema<ChangeData> schema, String base);
   }
 
-  private static IndexWriterConfig getIndexWriterConfig(Version version,
-      Config cfg, String name) {
-    IndexWriterConfig writerConfig = new IndexWriterConfig(version,
-        new StandardAnalyzer(version, CharArraySet.EMPTY_SET));
-    writerConfig.setOpenMode(OpenMode.CREATE_OR_APPEND);
-    double m = 1 << 20;
-    writerConfig.setRAMBufferSizeMB(cfg.getLong("index", name, "ramBufferSize",
+  static class GerritIndexWriterConfig {
+    private final IndexWriterConfig luceneConfig;
+    private final long commitWithinMs;
+
+    private GerritIndexWriterConfig(Version version, Config cfg, String name) {
+      luceneConfig = new IndexWriterConfig(version,
+          new StandardAnalyzer(version, CharArraySet.EMPTY_SET));
+      luceneConfig.setOpenMode(OpenMode.CREATE_OR_APPEND);
+      double m = 1 << 20;
+      luceneConfig.setRAMBufferSizeMB(cfg.getLong(
+          "index", name, "ramBufferSize",
           (long) (IndexWriterConfig.DEFAULT_RAM_BUFFER_SIZE_MB * m)) / m);
-    writerConfig.setMaxBufferedDocs(cfg.getInt("index", name, "maxBufferedDocs",
+      luceneConfig.setMaxBufferedDocs(cfg.getInt(
+          "index", name, "maxBufferedDocs",
           IndexWriterConfig.DEFAULT_MAX_BUFFERED_DOCS));
-    return writerConfig;
+      commitWithinMs = ConfigUtil.getTimeUnit(
+          cfg, "index", name, "commitWithin",
+          MILLISECONDS.convert(5, MINUTES), MILLISECONDS);
+    }
+
+    IndexWriterConfig getLuceneConfig() {
+      return luceneConfig;
+    }
+
+    long getCommitWithinMs() {
+      return commitWithinMs;
+    }
   }
 
   private final SitePaths sitePaths;
@@ -174,10 +194,10 @@ public class LuceneChangeIndex implements ChangeIndex {
         LUCENE_VERSIONS.get(schema),
         "unknown Lucene version for index schema: %s", schema);
 
-    IndexWriterConfig openConfig =
-        getIndexWriterConfig(luceneVersion, cfg, "changes_open");
-    IndexWriterConfig closedConfig =
-        getIndexWriterConfig(luceneVersion, cfg, "changes_closed");
+    GerritIndexWriterConfig openConfig =
+        new GerritIndexWriterConfig(luceneVersion, cfg, "changes_open");
+    GerritIndexWriterConfig closedConfig =
+        new GerritIndexWriterConfig(luceneVersion, cfg, "changes_closed");
     if (cfg.getBoolean("index", "lucene", "testInmemory", false)) {
       openIndex = new SubIndex(new RAMDirectory(), "ramOpen", openConfig);
       closedIndex = new SubIndex(new RAMDirectory(), "ramClosed", closedConfig);

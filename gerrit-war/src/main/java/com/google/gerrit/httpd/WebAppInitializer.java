@@ -17,6 +17,7 @@ package com.google.gerrit.httpd;
 import static com.google.inject.Scopes.SINGLETON;
 import static com.google.inject.Stage.PRODUCTION;
 
+import com.google.common.base.Splitter;
 import com.google.gerrit.common.ChangeHookRunner;
 import com.google.gerrit.httpd.auth.openid.OpenIdModule;
 import com.google.gerrit.httpd.plugins.HttpPluginModule;
@@ -122,8 +123,16 @@ public class WebAppInitializer extends GuiceServletContextListener
       }
 
       if (System.getProperty("gerrit.init") != null) {
+        List<String> pluginsToInstall;
+        String installPlugins = System.getProperty("gerrit.install_plugins");
+        if (installPlugins == null) {
+          pluginsToInstall = null;
+        } else {
+          pluginsToInstall = Splitter.on(",").trimResults().omitEmptyStrings()
+              .splitToList(installPlugins);
+        }
         new SiteInitializer(path, System.getProperty("gerrit.init_path"),
-            new UnzippedDistribution(servletContext)).init();
+            new UnzippedDistribution(servletContext), pluginsToInstall).init();
       }
 
       try {

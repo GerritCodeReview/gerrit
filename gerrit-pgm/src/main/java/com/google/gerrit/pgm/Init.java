@@ -60,11 +60,11 @@ public class Init extends BaseInit {
   Browser browser;
 
   public Init() {
-    super(new WarDistribution());
+    super(new WarDistribution(), null);
   }
 
   public Init(File sitePath) {
-    super(sitePath, true, true, new WarDistribution());
+    super(sitePath, true, true, new WarDistribution(), null);
     batchMode = true;
     noAutoStart = true;
   }

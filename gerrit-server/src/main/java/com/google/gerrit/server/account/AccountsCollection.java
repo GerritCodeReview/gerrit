@@ -59,7 +59,7 @@ public class AccountsCollection implements
   @Override
   public AccountResource parse(TopLevelResource root, IdString id)
       throws ResourceNotFoundException, AuthException, OrmException {
-    IdentifiedUser user = _parse(id.get());
+    IdentifiedUser user = parseId(id.get());
     if (user == null) {
       throw new ResourceNotFoundException(id);
     } else if (!accountControlFactory.get().canSee(user.getAccount())) {
@@ -81,18 +81,33 @@ public class AccountsCollection implements
    */
   public IdentifiedUser parse(String id) throws AuthException,
       UnprocessableEntityException, OrmException {
-    IdentifiedUser user = _parse(id);
+    IdentifiedUser user = parseId(id);
     if (user == null) {
+      throw new UnprocessableEntityException(String.format(
+          "Account Not Found: %s", id));
+    } else if (!accountControlFactory.get().canSee(user.getAccount())) {
       throw new UnprocessableEntityException(String.format(
           "Account Not Found: %s", id));
     }
     return user;
   }
 
-  private IdentifiedUser _parse(String id) throws AuthException, OrmException {
-    CurrentUser user = self.get();
-
+  /**
+   * Parses an account ID and returns the user without making any permission
+   * check whether the current user can see the account.
+   *
+   * @param id ID of the account, can be a string of the format
+   *        "Full Name <email@example.com>", just the email address, a full name
+   *        if it is unique, an account ID, a user name or 'self' for the
+   *        calling user
+   * @return the user, null if no user is found for the given account ID
+   * @throws AuthException thrown if 'self' is used as account ID and the
+   *         current user is not authenticated
+   * @throws OrmException
+   */
+  public IdentifiedUser parseId(String id) throws AuthException, OrmException {
     if (id.equals("self")) {
+      CurrentUser user = self.get();
       if (user.isIdentifiedUser()) {
         return (IdentifiedUser) user;
       } else if (user instanceof AnonymousUser) {

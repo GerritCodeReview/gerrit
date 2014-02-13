@@ -60,11 +60,11 @@ public class Init extends BaseInit {
   Browser browser;
 
   public Init() {
-    super(new GerritWarLocator());
+    super(new GerritWarLocator(), null);
   }
 
   public Init(File sitePath) {
-    super(sitePath, true, new GerritWarLocator());
+    super(sitePath, true, new GerritWarLocator(), null);
     batchMode = true;
     noAutoStart = true;
   }

@@ -129,6 +129,21 @@ Default is zero.
 +
 Common unit suffixes of k, m, or g are supported.
 
+[[receive.checkReceivedObjects]]receive.checkReceivedObjects::
++
+Controls whether or not the JGit functionality for checking received objects
+is enabled.
++
+By default Gerrit checks the validity of git objects. Setting this variable to
+false should not be used unless a project with history containing invalid
+objects needs to be pushed into a Gerrit repository.
++
+This functionality is provided as some other git implementations have allowed
+bad history to be written into git repositories. If these repositories need pushing
+up to Gerrit then the JGit checks need to be disabled.
++
+The default value for this is true, false disables the checks.
+
 [[submit-section]]
 === Submit section
 

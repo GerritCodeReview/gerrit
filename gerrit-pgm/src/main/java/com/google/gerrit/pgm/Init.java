@@ -31,7 +31,6 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Module;
-import com.google.inject.Provider;
 
 import org.kohsuke.args4j.Option;
 
@@ -39,8 +38,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
-
-import javax.sql.DataSource;
 
 /** Initialize a new Gerrit installation. */
 public class Init extends BaseInit {
@@ -66,11 +63,7 @@ public class Init extends BaseInit {
   }
 
   public Init(File sitePath) {
-    this(sitePath, null);
-  }
-
-  public Init(File sitePath, final Provider<DataSource> dsProvider) {
-    super(sitePath, dsProvider, true);
+    super(sitePath, true);
     batchMode = true;
     noAutoStart = true;
   }

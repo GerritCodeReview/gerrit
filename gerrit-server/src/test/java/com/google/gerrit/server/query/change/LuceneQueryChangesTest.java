@@ -22,4 +22,9 @@ public class LuceneQueryChangesTest extends AbstractQueryChangesTest {
   protected Injector createInjector() {
     return Guice.createInjector(new InMemoryModule());
   }
+
+  @Ignore
+  public void updatedOrderWithSubMinuteResolution() {
+    // Fails on v7; refer to v7-specific test.
+  }
 }

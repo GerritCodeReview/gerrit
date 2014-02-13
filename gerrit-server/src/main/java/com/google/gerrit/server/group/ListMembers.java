@@ -57,6 +57,10 @@ public class ListMembers implements RestReadView<GroupResource> {
     this.accountLoader = accountLoaderFactory.create(true);
   }
 
+  public void setRecursive(boolean recursive) {
+    this.recursive = recursive;
+  }
+
   @Override
   public List<AccountInfo> apply(final GroupResource resource)
       throws MethodNotAllowedException, OrmException {

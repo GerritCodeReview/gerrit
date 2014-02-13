@@ -25,6 +25,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
 public final class SiteInitializer {
   private static final Logger LOG = LoggerFactory
@@ -33,12 +34,14 @@ public final class SiteInitializer {
   private final String sitePath;
   private final String initPath;
   private final GerritDistributionLocator distroLocator;
+  private final List<String> pluginsToInstall;
 
   SiteInitializer(String sitePath, String initPath,
-      GerritDistributionLocator distroLocator) {
+      GerritDistributionLocator distroLocator, List<String> pluginsToInstall) {
     this.sitePath = sitePath;
     this.initPath = initPath;
     this.distroLocator = distroLocator;
+    this.pluginsToInstall = pluginsToInstall;
   }
 
   public void init() {
@@ -47,7 +50,7 @@ public final class SiteInitializer {
         File site = new File(sitePath);
         LOG.info(String.format("Initializing site at %s",
             site.getAbsolutePath()));
-        new BaseInit(site, false, distroLocator).run();
+        new BaseInit(site, false, distroLocator, pluginsToInstall).run();
         return;
       }
 
@@ -61,7 +64,7 @@ public final class SiteInitializer {
           LOG.info(String.format("Initializing site at %s",
               site.getAbsolutePath()));
           new BaseInit(site, new ReviewDbDataSourceProvider(), false,
-              distroLocator).run();
+              distroLocator, pluginsToInstall).run();
         }
       } finally {
         conn.close();

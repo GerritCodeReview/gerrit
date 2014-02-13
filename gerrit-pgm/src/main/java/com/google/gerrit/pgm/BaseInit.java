@@ -66,22 +66,27 @@ public class BaseInit extends SiteProgram {
 
   private final boolean standalone;
   protected final GerritDistributionLocator distroLocator;
+  private final List<String> pluginsToInstall;
 
-  protected BaseInit(GerritDistributionLocator distroLocator) {
+  protected BaseInit(GerritDistributionLocator distroLocator,
+      List<String> pluginsToInstall) {
     this.standalone = true;
     this.distroLocator = distroLocator;
+    this.pluginsToInstall = pluginsToInstall;
   }
 
   public BaseInit(File sitePath, boolean standalone,
-      GerritDistributionLocator distroLocator) {
-    this(sitePath, null, standalone, distroLocator);
+      GerritDistributionLocator distroLocator, List<String> pluginsToInstall) {
+    this(sitePath, null, standalone, distroLocator, pluginsToInstall);
   }
 
   public BaseInit(File sitePath, final Provider<DataSource> dsProvider,
-      boolean standalone, GerritDistributionLocator distroLocator) {
+      boolean standalone, GerritDistributionLocator distroLocator,
+      List<String> pluginsToInstall) {
     super(sitePath, dsProvider);
     this.standalone = standalone;
     this.distroLocator = distroLocator;
+    this.pluginsToInstall = pluginsToInstall;
   }
 
   @Override
@@ -146,7 +151,9 @@ public class BaseInit extends SiteProgram {
       String pluginJarName = p.getName();
       String pluginName = pluginJarName.substring(0,
           pluginJarName.length() - InitPlugins.JAR.length());
-      result.add(pluginName);
+      if (pluginsToInstall == null || pluginsToInstall.contains(pluginName)) {
+        result.add(pluginName);
+      }
     }
     return result;
   }

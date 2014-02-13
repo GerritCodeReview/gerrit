@@ -1889,7 +1889,8 @@ A link:http://lucene.apache.org/[Lucene] index is used.
 +
 * `SOLR`
 +
-A link:http://lucene.apache.org/solr/[Solr] index is used.
+A link:https://cwiki.apache.org/confluence/display/solr/SolrCloud[
+SolrCloud] index is used.
 
 +
 By default, `LUCENE`.
@@ -1900,6 +1901,12 @@ Gerrit server.
 
 Open and closed changes are indexed in separate indexes named
 'changes_open' and 'changes_closed' respectively.
+
+[[index.url]]index.url::
++
+Only used when the type is `SOLR`.
++
+URL of the index server.
 
 [[index.name.ramBufferSize]]index.name.ramBufferSize::
 +

@@ -143,11 +143,15 @@ public class Reindex extends SiteProgram {
     sysManager.start();
 
     index = sysInjector.getInstance(IndexCollection.class).getSearchIndex();
-    index.markReady(false);
-    index.deleteAll();
-    int result = indexAll();
-    index.markReady(true);
-
+    int result = 0;
+    try {
+      index.markReady(false);
+      index.deleteAll();
+      result = indexAll();
+      index.markReady(true);
+    } catch (Exception e) {
+      throw die(e.getMessage());
+    }
     sysManager.stop();
     dbManager.stop();
     return result;

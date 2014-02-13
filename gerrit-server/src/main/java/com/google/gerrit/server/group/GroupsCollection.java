@@ -84,7 +84,7 @@ public class GroupsCollection implements
       throw new ResourceNotFoundException(id);
     }
 
-    GroupDescription.Basic group = _parse(id.get());
+    GroupDescription.Basic group = parseId(id.get());
     if (group == null) {
       throw new ResourceNotFoundException(id.get());
     }
@@ -106,7 +106,7 @@ public class GroupsCollection implements
    */
   public GroupDescription.Basic parse(String id)
       throws UnprocessableEntityException {
-    GroupDescription.Basic group = _parse(id);
+    GroupDescription.Basic group = parseId(id);
     if (group == null || !groupControlFactory.controlFor(group).isVisible()) {
       throw new UnprocessableEntityException(String.format(
           "Group Not Found: %s", id));
@@ -135,7 +135,15 @@ public class GroupsCollection implements
     return group;
   }
 
-  private GroupDescription.Basic _parse(String id) {
+  /**
+   * Parses a group ID and returns the group without making any permission
+   * check whether the current user can see the group.
+   *
+   * @param id ID of the group, can be a group UUID, a group name or a legacy
+   *        group ID
+   * @return the group, null if no group is found for the given group ID
+   */
+  public GroupDescription.Basic parseId(String id) {
     AccountGroup.UUID uuid = new AccountGroup.UUID(id);
     if (groupBackend.handles(uuid)) {
       GroupDescription.Basic d = groupBackend.get(uuid);

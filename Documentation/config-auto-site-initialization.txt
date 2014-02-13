@@ -4,9 +4,11 @@
 
 Gerrit supports automatic site initialization on server startup
 when Gerrit runs in a servlet container. Both creation of a new site
-and upgrade of an existing site are supported.  All packaged plugins
-will be installed when Gerrit is deployed in a servlet container and the
-location of the Gerrit distribution can be determined at runtime.
+and upgrade of an existing site are supported. By default, all packaged
+plugins will be installed when Gerrit is deployed in a servlet container
+and the location of the Gerrit distribution can be determined at
+runtime. It is also possible to install only a subset of packaged
+plugins or not install any plugin.
 
 This feature may be useful for such setups where Gerrit administrators
 don't have direct access to the database and the file system of the
@@ -49,6 +51,11 @@ skip some required initialization steps (for example, Lucene index
 creation). In order to auto initialize Gerrit with an embedded H2
 database use the `gerrit.site_path` to define the location of the review
 site and don't define a JNDI resource with a URL under that path.
+
+If the 'gerrit.install_plugins' property is not defined then all packaged
+plugins will be installed. If it is defined then it is parsed as a
+comma separated list of plugin names to install. If the value is an
+empty string then no plugin will be installed.
 
 === Example 1
 

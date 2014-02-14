@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0f44d1e7_ddd94b9d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1883,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-02-14T21:03:50Z",
+      "side": 1,
+      "message": "I was planning to do that in master, but for this stable-2.8 change I was sticking with the existing index.name.* convention.",
+      "parentUuid": "af33c57d_02df4a80",
+      "range": {
+        "startLine": 1883,
+        "startChar": 0,
+        "endLine": 1883,
+        "endChar": 27
+      },
+      "revId": "85bd0f65487f221204da1f2050cee379247a013a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0f8a112f_2ddf2d81",
         "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/AutoCommitWriter.java",
         "patchSetId": 1
@@ -76,6 +100,30 @@
       "writtenOn": "2014-02-14T20:53:40Z",
       "side": 1,
       "message": "This works for period 60s but never returns for:\n\n [index \"changes_open\"]\n  commitWithin \u003d 0\n [index \"changes_closed\"]\n  commitWithin \u003d 0\n\nwith:\n\n  java.lang.StackOverflowError\n\tat org.apache.lucene.index.DocumentsWriter.finishFullFlush(DocumentsWriter.java:646)\n\tat org.apache.lucene.index.IndexWriter.prepareCommitInternal(IndexWriter.java:2854)\n\tat org.apache.lucene.index.IndexWriter.commitInternal(IndexWriter.java:2970)\n\tat org.apache.lucene.index.IndexWriter.commit(IndexWriter.java:2940)\n\tat com.google.gerrit.lucene.AutoCommitWriter.doAfterFlush(AutoCommitWriter.java:140)\n\tat org.apache.lucene.index.IndexWriter.prepareCommitInternal(IndexWriter.java:2855)\n\tat org.apache.lucene.index.IndexWriter.commitInternal(IndexWriter.java:2970)",
+      "range": {
+        "startLine": 104,
+        "startChar": 4,
+        "endLine": 105,
+        "endChar": 62
+      },
+      "revId": "85bd0f65487f221204da1f2050cee379247a013a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ef505da6_dcd94d9d",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/SubIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-02-14T21:03:50Z",
+      "side": 1,
+      "message": "Thanks for checking this, will look into it.",
+      "parentUuid": "af33c57d_a2e3fe44",
       "range": {
         "startLine": 104,
         "startChar": 4,

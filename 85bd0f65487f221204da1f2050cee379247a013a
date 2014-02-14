@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "4f4249dd_ffde7f82",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1883,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-14T21:22:08Z",
+      "side": 1,
+      "message": "Sounds good.",
+      "parentUuid": "0f44d1e7_ddd94b9d",
+      "range": {
+        "startLine": 1883,
+        "startChar": 0,
+        "endLine": 1883,
+        "endChar": 27
+      },
+      "revId": "85bd0f65487f221204da1f2050cee379247a013a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0f8a112f_2ddf2d81",
         "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/AutoCommitWriter.java",
         "patchSetId": 1
@@ -60,6 +84,29 @@
       "writtenOn": "2014-02-13T23:34:28Z",
       "side": 1,
       "message": "Shouldn\u0027t `autoFlush()` be called here?",
+      "revId": "85bd0f65487f221204da1f2050cee379247a013a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4f4249dd_9fe3b345",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/AutoCommitWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-14T21:22:08Z",
+      "side": 1,
+      "message": "This override makes problem. Remove it and move the statement:\n\n  if (autoCommit) {\n    commit();\n  }\n\nin manualFlash(), after flush(true, true) instead?",
+      "range": {
+        "startLine": 137,
+        "startChar": 2,
+        "endLine": 142,
+        "endChar": 3
+      },
       "revId": "85bd0f65487f221204da1f2050cee379247a013a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

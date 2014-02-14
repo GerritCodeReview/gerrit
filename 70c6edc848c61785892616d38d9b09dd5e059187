@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "af33c57d_82eb5a19",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-14T22:43:14Z",
+      "side": 1,
+      "message": "Good news: plugins are installed. Bad news: Gerrit doesn\u0027t start on tomcat-7 (not sure if it is related to this change, or if -Dgerrit.init was already broken before). My steps:\n\n* buck build release\n* deploy buck-out/gen/release.war to $tomcat-7/webapps\n* set -Dgerrit.init -Dgerrit.init_path\u003d/non-existing-path\n* start tomcat\n\nLog:\n\n http://paste.openstack.org/show/65586\n\nInit site seems to be uncomplete, for example index directory is missing:\n\n http://paste.openstack.org/show/65589/\n\nHowever if i call init manually, all is fine, Gerrit starts and index directory is there:\n\n http://paste.openstack.org/show/65588/\n\nDoes it work for you to initialize site from scratch, example 3 in your original change [1]?\n\n [1] https://gerrit-review.googlesource.com/#/c/46171",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 60
+      },
+      "revId": "70c6edc848c61785892616d38d9b09dd5e059187",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "af33c57d_62ee562c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-14T22:43:14Z",
+      "side": 1,
+      "message": "We may want to install also foreign plugins with gerrit.init  option, not packaged in release.war, i. e. delete-project, for example by putting it in some directory and passing this directory to gerrit.init with system property? Dariusz made it possible in this change with --with-secure-store-plugin option [1].\n\n [1] https://gerrit-review.googlesource.com/#/c/48180",
+      "range": {
+        "startLine": 11,
+        "startChar": 21,
+        "endLine": 12,
+        "endChar": 13
+      },
+      "revId": "70c6edc848c61785892616d38d9b09dd5e059187",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0f8a112f_0d03512c",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/BaseInit.java",
         "patchSetId": 1

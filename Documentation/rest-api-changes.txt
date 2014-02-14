@@ -242,6 +242,11 @@ default. Optional fields are:
   authenticated and has commented on the current revision.
 --
 
+[[patch-set-links]]
+--
+* `PATCHSET_LINKS`: include the webLinks field.
+--
+
 .Request
 ----
   GET /changes/?q=97&o=CURRENT_REVISION&o=CURRENT_COMMIT&o=CURRENT_FILES&o=DOWNLOAD_COMMANDS HTTP/1.0
@@ -3243,6 +3248,8 @@ link:#file-info[FileInfo] entities.
 Actions the caller might be able to perform on this revision. The
 information is a map of view name to link:#action-info[ActionInfo]
 entities.
+|'webLinks'	|optional|
+Links to patch set in external tools as a list.
 |===========================
 
 [[rule-input]]

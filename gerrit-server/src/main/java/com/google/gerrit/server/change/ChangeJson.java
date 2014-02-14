@@ -28,6 +28,7 @@ import static com.google.gerrit.extensions.common.ListChangesOption.DRAFT_COMMEN
 import static com.google.gerrit.extensions.common.ListChangesOption.LABELS;
 import static com.google.gerrit.extensions.common.ListChangesOption.MESSAGES;
 import static com.google.gerrit.extensions.common.ListChangesOption.REVIEWED;
+import static com.google.gerrit.extensions.common.ListChangesOption.WEB_LINKS;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Objects;
@@ -79,6 +80,8 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.WebLinks;
+import com.google.gerrit.server.WebLinks.Factory;
 import com.google.gerrit.server.account.AccountInfo;
 import com.google.gerrit.server.extensions.webui.UiActions;
 import com.google.gerrit.server.git.LabelNormalizer;
@@ -152,6 +155,7 @@ public class ChangeJson {
   private ChangeControl lastControl;
   private Set<Change.Id> reviewed;
   private LoadingCache<Project.NameKey, ProjectControl> projectControls;
+  private Factory webLinkFactory;
 
   @Inject
   ChangeJson(
@@ -169,7 +173,8 @@ public class ChangeJson {
       DynamicMap<DownloadScheme> downloadSchemes,
       DynamicMap<DownloadCommand> downloadCommands,
       DynamicMap<RestView<ChangeResource>> changeViews,
-      Revisions revisions) {
+      Revisions revisions,
+      WebLinks.Factory webLinksFactory) {
     this.db = db;
     this.labelNormalizer = ln;
     this.userProvider = user;
@@ -185,6 +190,7 @@ public class ChangeJson {
     this.downloadCommands = downloadCommands;
     this.changeViews = changeViews;
     this.revisions = revisions;
+    this.webLinkFactory = webLinksFactory;
 
     options = EnumSet.noneOf(ListChangesOption.class);
     projectControls = CacheBuilder.newBuilder()
@@ -328,7 +334,7 @@ public class ChangeJson {
     if (has(ALL_REVISIONS)
         || has(CURRENT_REVISION)
         || limitToPsId.isPresent()) {
-      out.revisions = revisions(cd, limitToPsId);
+      out.revisions = revisions(cd, limitToPsId, out.project);
       if (out.revisions != null) {
         for (Map.Entry<String, RevisionInfo> entry : out.revisions.entrySet()) {
           if (entry.getValue().isCurrent) {
@@ -790,7 +796,7 @@ public class ChangeJson {
   }
 
   private Map<String, RevisionInfo> revisions(ChangeData cd,
-      Optional<PatchSet.Id> limitToPsId) throws OrmException {
+      Optional<PatchSet.Id> limitToPsId, String project) throws OrmException {
     ChangeControl ctl = control(cd);
     if (ctl == null) {
       return null;
@@ -819,13 +825,13 @@ public class ChangeJson {
     Map<String, RevisionInfo> res = Maps.newLinkedHashMap();
     for (PatchSet in : src) {
       if (ctl.isPatchVisible(in, db.get())) {
-        res.put(in.getRevision().get(), toRevisionInfo(cd, in));
+        res.put(in.getRevision().get(), toRevisionInfo(cd, in, project));
       }
     }
     return res;
   }
 
-  private RevisionInfo toRevisionInfo(ChangeData cd, PatchSet in)
+  private RevisionInfo toRevisionInfo(ChangeData cd, PatchSet in, String project)
       throws OrmException {
     RevisionInfo out = new RevisionInfo();
     out.isCurrent = in.getId().equals(cd.change().currentPatchSetId());
@@ -872,7 +878,13 @@ public class ChangeJson {
           ? true
           : null;
     }
-
+    if (has(WEB_LINKS)) {
+      out.webLinks = Lists.newArrayList();
+      for (WebLinks.Link link : webLinkFactory.create().getPatchSetLinks(
+          project, in.getRevision().get())) {
+        out.webLinks.add(new RevisionInfo.WebLinkInfo(link.name, link.url));
+      }
+    }
     return out;
   }
 
@@ -885,7 +897,6 @@ public class ChangeJson {
     commit.committer = toGitPerson(info.getCommitter());
     commit.subject = info.getSubject();
     commit.message = info.getMessage();
-
     for (ParentInfo parent : info.getParents()) {
       CommitInfo i = new CommitInfo();
       i.commit = parent.id.get();

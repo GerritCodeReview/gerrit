@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ef969d57_2cdf3381",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/QueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-02-14T15:12:06Z",
+      "side": 1,
+      "message": "stable-2.8 uses Lucene 4.4, QueryBuilder is a new API in Lucene 4.6.",
+      "revId": "75410485b1b7fe868c3b3bbdcd0f6e4ae2ea5b04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

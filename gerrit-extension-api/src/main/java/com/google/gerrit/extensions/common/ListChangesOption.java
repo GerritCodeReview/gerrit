@@ -49,7 +49,10 @@ public enum ListChangesOption {
   DRAFT_COMMENTS(12),
 
   /** Include download commands for the caller. */
-  DOWNLOAD_COMMANDS(13);
+  DOWNLOAD_COMMANDS(13),
+
+  /** Include patch set weblinks. */
+  PATCHSET_LINKS(14);
 
   private final int value;
 

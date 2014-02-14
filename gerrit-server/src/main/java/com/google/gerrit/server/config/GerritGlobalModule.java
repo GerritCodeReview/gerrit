@@ -31,6 +31,7 @@ import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.systemstatus.MessageOfTheDay;
+import com.google.gerrit.extensions.webui.PatchSetWebLink;
 import com.google.gerrit.extensions.webui.TopMenu;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.rules.PrologModule;
@@ -42,6 +43,7 @@ import com.google.gerrit.server.FileTypeRegistry;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.MimeUtilFileTypeRegistry;
 import com.google.gerrit.server.PluginUser;
+import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.account.AccountByEmailCacheImpl;
 import com.google.gerrit.server.account.AccountCacheImpl;
 import com.google.gerrit.server.account.AccountControl;
@@ -263,6 +265,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicMap.mapOf(binder(), DownloadScheme.class);
     DynamicMap.mapOf(binder(), DownloadCommand.class);
     DynamicMap.mapOf(binder(), ProjectConfigEntry.class);
+    DynamicSet.setOf(binder(), PatchSetWebLink.class);
 
     bind(AnonymousUser.class);
 
@@ -270,6 +273,7 @@ public class GerritGlobalModule extends FactoryModule {
     factory(MergeValidators.Factory.class);
     factory(ProjectConfigValidator.Factory.class);
     factory(NotesBranchUtil.Factory.class);
+    factory(WebLinks.Factory.class);
 
     bind(AccountManager.class);
     bind(ChangeUserName.CurrentUser.class);

@@ -202,7 +202,8 @@ public class ChangeScreen2 extends Screen {
     RestApi call = ChangeApi.detail(changeId.get());
     ChangeList.addOptions(call, EnumSet.of(
       ListChangesOption.CURRENT_ACTIONS,
-      ListChangesOption.ALL_REVISIONS));
+      ListChangesOption.ALL_REVISIONS,
+      ListChangesOption.PATCHSET_LINKS));
     if (!fg) {
       call.background();
     }

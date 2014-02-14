@@ -28,10 +28,15 @@ CodeScreen2 thread on the repo-discuss mailing list].
 Configuration
 -------------
 
-The new change screen is deactivated by default. It can be activated system-wide
-by changing the link:config-gerrit.html[gerrit.changeScreen] setting to
-`CHANGE_SCREEN2`.  Users can deactivate it by setting `OLD_UI` on their user
-preferences page.
+The new change screen is deactivated by default.  Administrators can activate
+it system-wide by changing the link:config-gerrit.html[gerrit.changeScreen]
+setting to `CHANGE_SCREEN2`.
+
+Users can switch between the old and new screens by selecting "Old Screen" or
+"New Screen" in the "Change View" setting on their user preferences page.
+
+By setting "Default", users can select to use whichever screen the site
+administrator has configured.
 
 [[switching-between-patch-sets]]
 Switching between patch sets

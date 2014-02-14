@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0f44d1e7_bde8ff1f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1346,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-02-14T23:31:59Z",
+      "side": 1,
+      "message": "What was the motivation for this condition?\n\nI\u0027ve received a question from a user asking why it only warns when 33% or more lines are too long.",
+      "range": {
+        "startLine": 1346,
+        "startChar": 4,
+        "endLine": 1346,
+        "endChar": 66
+      },
+      "revId": "c1fe3e4563711bd37a770bb84874339f191db09c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

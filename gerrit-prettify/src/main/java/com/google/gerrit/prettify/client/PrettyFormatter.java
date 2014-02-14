@@ -145,7 +145,7 @@ public abstract class PrettyFormatter implements SparseHtmlFile {
       // separated by '</span>'. For the prettify parser this now looks like two
       // separate line endings. This messes up the line counting below.
       // Drop any '\r' to avoid this problem.
-      html = html.replace("\r</span>\n", "</span>\n");
+      html = html.replaceAll("\r</span>(<span class=\"wdc\">)?\n", "</span>$1\n");
 
       html = html.replaceAll("(\r)?\n", " $1\n");
       html = prettify(html, getFileType());

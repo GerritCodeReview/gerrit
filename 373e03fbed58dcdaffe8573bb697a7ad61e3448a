@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cf939968_abea2913",
+        "filename": "Documentation/config-auto-site-initialization.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-02-14T15:15:41Z",
+      "side": 1,
+      "message": "s/It/If",
+      "range": {
+        "startLine": 45,
+        "startChar": 49,
+        "endLine": 45,
+        "endChar": 51
+      },
+      "revId": "373e03fbed58dcdaffe8573bb697a7ad61e3448a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

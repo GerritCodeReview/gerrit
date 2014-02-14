@@ -79,6 +79,10 @@ limitations under the License.
       top: 0px;
       right: -16px;
      }
+     <!-- To make room for the copyableLabel from the adjacent column -->
+     .webLinkCell a:first-child {
+      margin-left:16px;
+     }
   </ui:style>
   <g:HTMLPanel>
     <g:ScrollPanel styleName='{style.scroll}' ui:field='scroll'>
@@ -114,7 +118,7 @@ limitations under the License.
       <tr>
         <th><ui:msg>Commit</ui:msg></th>
         <td><clippy:CopyableLabel styleName='{style.clippy}' ui:field='commitName'/></td>
-        <td><a style="margin-left:16px;" ui:field='browserLink' href=""/></td>
+        <td ui:field='webLinkCell' class='{style.webLinkCell}'></td>
       </tr>
       <tr>
         <th><ui:msg>Change-Id</ui:msg></th>

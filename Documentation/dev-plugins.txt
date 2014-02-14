@@ -1692,6 +1692,38 @@ commands by implementing
 The download schemes and download commands which are used most often
 are provided by the Gerrit core plugin `download-commands`.
 
+[[links-to-external-tools]]
+== Links To External Tools
+
+Gerrit has extension points that enables development of a
+light-weight plugin that links commits to external
+tools (GitBlit, CGit, company specific resources etc).
+
+
+[source, java]
+----
+import com.google.gerrit.extensions.annotations.Listen;
+import com.google.gerrit.extensions.webui.PatchSetWebLink;;
+
+@Listen
+public class MyWeblinkPlugin implements PatchSetWebLink{
+
+  private String name = "MyLink";
+  private String placeHolderUrl_p_c = "http://my.tool.com/project=%s/commit=%s";
+
+  @Override
+  public String getLinkName() {
+    return name ;
+  }
+
+  @Override
+  public String getPatchSetUrl(String project, String commit) {
+    return String.format(placeHolderUrl_p_c, project, commit);
+  }
+
+}
+----
+
 [[documentation]]
 == Documentation
 

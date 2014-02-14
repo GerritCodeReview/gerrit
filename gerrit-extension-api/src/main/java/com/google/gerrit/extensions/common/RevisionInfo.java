@@ -14,6 +14,7 @@
 
 package com.google.gerrit.extensions.common;
 
+import java.util.List;
 import java.util.Map;
 
 public class RevisionInfo {
@@ -25,4 +26,15 @@ public class RevisionInfo {
   public CommitInfo commit;
   public Map<String, FileInfo> files;
   public Map<String, ActionInfo> actions;
+  public List<WebLinkInfo> webLinks;
+
+  public static class WebLinkInfo {
+    public String linkName;
+    public String linkUrl;
+
+    public WebLinkInfo(String name, String url) {
+      linkName = name;
+      linkUrl = url;
+    }
+  }
 }

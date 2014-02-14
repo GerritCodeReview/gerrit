@@ -21,24 +21,27 @@ import com.google.gerrit.client.changes.ChangeInfo;
 import com.google.gerrit.client.changes.ChangeInfo.CommitInfo;
 import com.google.gerrit.client.changes.ChangeInfo.GitPerson;
 import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
+import com.google.gerrit.client.changes.ChangeInfo.WebLinkInfo;
+import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.AnchorElement;
+import com.google.gwt.core.client.JsArray;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.TableCellElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
@@ -53,7 +56,7 @@ class CommitBox extends Composite {
 
   @UiField Style style;
   @UiField CopyableLabel commitName;
-  @UiField AnchorElement browserLink;
+  @UiField TableCellElement webLinkCell;
   @UiField InlineHyperlink authorNameEmail;
   @UiField Element authorDate;
   @UiField InlineHyperlink committerNameEmail;
@@ -100,14 +103,32 @@ class CommitBox extends Composite {
         committerDate, change.status());
     text.setHTML(commentLinkProcessor.apply(
         new SafeHtmlBuilder().append(commit.message()).linkify()));
+    change.revision(revision);
+    setWebLinks(change, revision, revInfo);
+  }
 
+  private void setWebLinks(ChangeInfo change, String revision,
+      RevisionInfo revInfo) {
     GitwebLink gw = Gerrit.getGitwebLink();
     if (gw != null && gw.canLink(revInfo)) {
-      browserLink.setInnerText(gw.getLinkName());
-      browserLink.setHref(gw.toRevision(change.project(), revision));
-    } else {
-      UIObject.setVisible(browserLink, false);
+      addWebLink(gw.toRevision(change.project(), revision), gw.getLinkName());
     }
+
+    JsArray<WebLinkInfo> links = revInfo.web_links();
+
+    if (links != null) {
+      for (WebLinkInfo link : Natives.asList(links)) {
+        addWebLink(link.linkUrl(), link.linkName());
+      }
+    }
+  }
+
+  private void addWebLink(String href, String name) {
+    Anchor a = new Anchor();
+    a.setHref(href);
+    a.setText(parenthesize(name));
+    Element el = a.getElement();
+    webLinkCell.appendChild(el);
   }
 
   private static void formatLink(GitPerson person, InlineHyperlink name,
@@ -116,6 +137,14 @@ class CommitBox extends Composite {
     name.setTargetHistoryToken(PageLinks
         .toAccountQuery(owner(person), status));
     date.setInnerText(FormatUtil.mediumFormat(person.date()));
+  }
+
+  private static String parenthesize(String str) {
+    return new StringBuilder()
+        .append("(")
+        .append(str)
+        .append(")")
+        .toString();
   }
 
   private static String renderName(GitPerson person) {

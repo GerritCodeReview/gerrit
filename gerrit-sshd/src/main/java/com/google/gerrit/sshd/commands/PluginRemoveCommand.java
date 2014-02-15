@@ -39,7 +39,10 @@ final class PluginRemoveCommand extends SshCommand {
   private PluginLoader loader;
 
   @Override
-  protected void run() {
+  protected void run() throws UnloggedFailure {
+    if (!loader.isRemoteInstallEnabled()) {
+      throw die("remote plugin administration is disabled");
+    }
     if (names != null && !names.isEmpty()) {
       loader.disablePlugins(Sets.newHashSet(names));
     }

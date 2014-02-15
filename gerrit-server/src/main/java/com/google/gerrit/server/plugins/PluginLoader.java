@@ -90,6 +90,7 @@ public class PluginLoader implements LifecycleListener {
   private final Provider<PluginCleanerTask> cleaner;
   private final PluginScannerThread scanner;
   private final Provider<String> urlProvider;
+  private final boolean remoteInstall;
 
   @Inject
   public PluginLoader(SitePaths sitePaths,
@@ -113,6 +114,7 @@ public class PluginLoader implements LifecycleListener {
     cleaner = pct;
     urlProvider = provider;
 
+    remoteInstall = cfg.getBoolean("plugins", null, "remoteInstall", true);
     long checkFrequency = ConfigUtil.getTimeUnit(cfg,
         "plugins", null, "checkFrequency",
         TimeUnit.MINUTES.toMillis(1), TimeUnit.MILLISECONDS);
@@ -121,6 +123,10 @@ public class PluginLoader implements LifecycleListener {
     } else {
       scanner = null;
     }
+  }
+
+  public boolean isRemoteInstallEnabled() {
+    return remoteInstall;
   }
 
   public Plugin get(String name) {
@@ -143,6 +149,8 @@ public class PluginLoader implements LifecycleListener {
 
   public void installPluginFromStream(String originalName, InputStream in)
       throws IOException, PluginInstallException {
+    checkRemoteInstall();
+
     String fileName = originalName;
     if (!(fileName.endsWith(".jar") || fileName.endsWith(".js"))) {
       fileName += ".jar";
@@ -227,6 +235,11 @@ public class PluginLoader implements LifecycleListener {
   }
 
   public void disablePlugins(Set<String> names) {
+    if (!isRemoteInstallEnabled()) {
+      log.warn("Remote install not enabled, ignoring disablePlugins: " + names);
+      return;
+    }
+
     synchronized (this) {
       for (String name : names) {
         Plugin active = running.get(name);
@@ -255,6 +268,11 @@ public class PluginLoader implements LifecycleListener {
   }
 
   public void enablePlugins(Set<String> names) throws PluginInstallException {
+    if (!isRemoteInstallEnabled()) {
+      log.warn("Remote install not enabled, ignoring enablePlugins: " + names);
+      return;
+    }
+
     synchronized (this) {
       for (String name : names) {
         Plugin off = disabled.get(name);
@@ -747,5 +765,11 @@ public class PluginLoader implements LifecycleListener {
   private static boolean isPlugin(String fileName, String ext) {
     String fullExt = "." + ext;
     return fileName.endsWith(fullExt) || fileName.endsWith(fullExt + ".disabled");
+  }
+
+  private void checkRemoteInstall() throws PluginInstallException {
+    if (!isRemoteInstallEnabled()) {
+      throw new PluginInstallException("remote installation is disabled");
+    }
   }
 }

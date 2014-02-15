@@ -18,6 +18,7 @@ import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.RawInput;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
@@ -53,8 +54,11 @@ class InstallPlugin implements RestModifyView<TopLevelResource, Input> {
   }
 
   @Override
-  public Response<PluginInfo> apply(TopLevelResource resource,
-      Input input) throws BadRequestException, IOException {
+  public Response<PluginInfo> apply(TopLevelResource resource, Input input)
+      throws BadRequestException, MethodNotAllowedException, IOException {
+    if (!loader.isRemoteInstallEnabled()) {
+      throw new MethodNotAllowedException("remote installation is disabled");
+    }
     try {
       InputStream in;
       if (input.raw != null) {
@@ -102,8 +106,8 @@ class InstallPlugin implements RestModifyView<TopLevelResource, Input> {
     }
 
     @Override
-    public Response<PluginInfo> apply(PluginResource resource,
-        Input input) throws BadRequestException, IOException {
+    public Response<PluginInfo> apply(PluginResource resource, Input input)
+        throws BadRequestException, MethodNotAllowedException, IOException {
       return new InstallPlugin(loader, resource.getName(), false)
         .apply(TopLevelResource.INSTANCE, input);
     }

@@ -17,6 +17,7 @@ package com.google.gerrit.server.plugins;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.plugins.DisablePlugin.Input;
 import com.google.gerrit.server.plugins.ListPlugins.PluginInfo;
@@ -35,7 +36,11 @@ class DisablePlugin implements RestModifyView<PluginResource, Input> {
   }
 
   @Override
-  public PluginInfo apply(PluginResource resource, Input input) {
+  public PluginInfo apply(PluginResource resource, Input input)
+      throws MethodNotAllowedException {
+    if (!loader.isRemoteInstallEnabled()) {
+      throw new MethodNotAllowedException("remote installation is disabled");
+    }
     String name = resource.getName();
     loader.disablePlugins(ImmutableSet.of(name));
     return new PluginInfo(loader.get(name));

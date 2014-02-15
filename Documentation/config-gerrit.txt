@@ -2303,6 +2303,11 @@ may force reloading with link:cmd-plugin.html[gerrit plugin reload].
 +
 Default is 1 minute.
 
+[[plugins.remoteInstall]]plugins.remoteInstall::
++
+Enable remote installation of plugins, over HTTP and SSH. If set
+to false remote installation is disabled. Defaults to true.
+
 
 [[receive]]
 === Section receive

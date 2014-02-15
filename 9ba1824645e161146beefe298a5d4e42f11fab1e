@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "af1ca5fb_5aee952b",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2306,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-02-15T01:13:58Z",
+      "side": 1,
+      "message": "`allowRemoteInstall` would be a bit more verbose, but describe the purpose better.",
+      "range": {
+        "startLine": 2306,
+        "startChar": 33,
+        "endLine": 2306,
+        "endChar": 46
+      },
+      "revId": "9ba1824645e161146beefe298a5d4e42f11fab1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

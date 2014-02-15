@@ -17,6 +17,7 @@ package com.google.gerrit.server.plugins;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.plugins.EnablePlugin.Input;
@@ -40,7 +41,11 @@ class EnablePlugin implements RestModifyView<PluginResource, Input> {
 
   @Override
   public PluginInfo apply(PluginResource resource, Input input)
-      throws ResourceConflictException {
+      throws ResourceConflictException, MethodNotAllowedException {
+    if (!loader.isRemoteAdminEnabled()) {
+      throw new MethodNotAllowedException(
+          "remote plugin administration is disabled");
+    }
     String name = resource.getName();
     try {
       loader.enablePlugins(ImmutableSet.of(name));

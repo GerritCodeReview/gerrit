@@ -56,6 +56,9 @@ final class PluginInstallCommand extends SshCommand {
 
   @Override
   protected void run() throws UnloggedFailure {
+    if (!loader.isRemoteAdminEnabled()) {
+      throw die("remote installation is disabled");
+    }
     if (Strings.isNullOrEmpty(source)) {
       throw die("Argument \"-|URL\" is required");
     }

@@ -40,9 +40,13 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
 
+import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.Iterator;
+import java.util.List;
 
 class DownloadBox extends VerticalPanel {
+  private final static String ARCHIVE[] = {".tar", ".tbz2", ".tgz", ".txz"};
   private final ChangeInfo change;
   private final String revision;
   private final PatchSet.Id psId;
@@ -109,6 +113,7 @@ class DownloadBox extends VerticalPanel {
       }
     }
     insertPatch();
+    insertArchive();
     insertCommand(null, scheme);
   }
 
@@ -139,6 +144,34 @@ class DownloadBox extends VerticalPanel {
     p.add(spacer);
     p.add(patchZip);
     insertCommand("Patch-File", p);
+  }
+
+  private void insertArchive() {
+    List<Anchor> formats = new ArrayList<>(ARCHIVE.length);
+    for (String f : ARCHIVE) {
+      Anchor archive = new Anchor(f);
+      archive.setHref(new RestApi("/changes/")
+          .id(psId.getParentKey().get())
+          .view("revisions")
+          .id(revision)
+          .view("archive")
+          .addParameter("format", f)
+          .url());
+      formats.add(archive);
+    }
+
+    HorizontalPanel p = new HorizontalPanel();
+    Iterator<Anchor> it = formats.iterator();
+    while (it.hasNext()) {
+      Anchor a = it.next();
+      p.add(a);
+      if (it.hasNext()) {
+        InlineLabel spacer = new InlineLabel("|");
+        spacer.setStyleName(Gerrit.RESOURCES.css().downloadBoxSpacer());
+        p.add(spacer);
+      }
+    }
+    insertCommand("Archive", p);
   }
 
   private void insertCommand(String commandName, Widget w) {

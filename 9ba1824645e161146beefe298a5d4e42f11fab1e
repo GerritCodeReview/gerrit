@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "cf4d5911_fb076f34",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2306,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-02-17T02:06:31Z",
+      "side": 1,
+      "message": "I would prefer `allowRemoteInstall`",
+      "parentUuid": "cf4d5911_5beea32b",
+      "range": {
+        "startLine": 2306,
+        "startChar": 33,
+        "endLine": 2306,
+        "endChar": 46
+      },
+      "revId": "9ba1824645e161146beefe298a5d4e42f11fab1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "af33c57d_42f552f4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
         "patchSetId": 1
@@ -60,6 +84,30 @@
       "writtenOn": "2014-02-15T06:45:13Z",
       "side": 1,
       "message": "I would expect the default to be false. Don\u0027t allow remote installation.",
+      "range": {
+        "startLine": 117,
+        "startChar": 69,
+        "endLine": 117,
+        "endChar": 73
+      },
+      "revId": "9ba1824645e161146beefe298a5d4e42f11fab1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "af1ca5fb_1af81ded",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-02-17T02:06:31Z",
+      "side": 1,
+      "message": "On the other hand it would be less surprising for users if the default results in the same behaviour as before.",
+      "parentUuid": "af33c57d_42f552f4",
       "range": {
         "startLine": 117,
         "startChar": 69,

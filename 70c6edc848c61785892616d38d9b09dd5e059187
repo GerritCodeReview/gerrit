@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "af6ae563_6a14f75f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-17T10:41:09Z",
+      "side": 1,
+      "message": "More or less the same steps as described in the comment Sep 13 11:50 AM change:\n\n https://gerrit-review.googlesource.com/#/c/46171/16/gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitModule.java\n\nCan you try it with non existing H2 Database:\n\n \u003cResource\n    name\u003d\"jdbc/ReviewDb\"\n    type\u003d\"javax.sql.DataSource\"\n    username\u003d\"\"\n    driverClassName\u003d\"org.h2.Driver\"\n    password\u003d\"\"\n    url\u003d\"jdbc:h2:file:/home/davido/projects/test_site_auto/db/ReviewDB\"\n    maxActive\u003d\"100\"\n    maxIdle\u003d\"20\"/\u003e",
+      "parentUuid": "cf7b9935_4b1ca57f",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 60
+      },
+      "revId": "70c6edc848c61785892616d38d9b09dd5e059187",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "af33c57d_62ee562c",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

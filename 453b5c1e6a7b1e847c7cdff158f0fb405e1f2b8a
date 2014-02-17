@@ -46,6 +46,30 @@
       "revId": "453b5c1e6a7b1e847c7cdff158f0fb405e1f2b8a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cf7b9935_4b92658f",
+        "filename": "gerrit-plugin-gwtui/src/main/java/com/google/gerrit/plugin/client/rpc/NativeString.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-17T18:12:52Z",
+      "side": 0,
+      "message": "But this is an object and not a string. What was your test case exactly? How can i reproduce it? Have you tried with this.s, like it is the case in NativeString core?\n\nI noticed that get() function not used any more at all and can be probably removed from NativeString\u0027s core class.",
+      "parentUuid": "af6ae563_6a19578e",
+      "range": {
+        "startLine": 28,
+        "startChar": 14,
+        "endLine": 28,
+        "endChar": 24
+      },
+      "revId": "453b5c1e6a7b1e847c7cdff158f0fb405e1f2b8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

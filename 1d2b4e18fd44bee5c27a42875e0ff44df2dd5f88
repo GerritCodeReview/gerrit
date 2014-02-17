@@ -87,6 +87,24 @@
       "revId": "1d2b4e18fd44bee5c27a42875e0ff44df2dd5f88",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cf7b9935_cb6655ff",
+        "filename": "gerrit-gwtui-common/src/main/java/com/google/gerrit/client/rpc/Natives.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-17T22:02:21Z",
+      "side": 1,
+      "message": "I checked the differences. The core class has more functions. So i think the plugin class can be replaced.",
+      "parentUuid": "d21c2254_83287e9c",
+      "revId": "1d2b4e18fd44bee5c27a42875e0ff44df2dd5f88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

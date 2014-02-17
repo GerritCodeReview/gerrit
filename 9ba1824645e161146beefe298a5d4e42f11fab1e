@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "cf5479b3_0311ae6e",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2306,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-02-17T23:33:40Z",
+      "side": 1,
+      "message": "OK, allowRemoteInstall it is.",
+      "parentUuid": "cf4d5911_fb076f34",
+      "range": {
+        "startLine": 2306,
+        "startChar": 33,
+        "endLine": 2306,
+        "endChar": 46
+      },
+      "revId": "9ba1824645e161146beefe298a5d4e42f11fab1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "af33c57d_42f552f4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
         "patchSetId": 1
@@ -168,6 +192,30 @@
     },
     {
       "key": {
+        "uuid": "8f6fe175_e92c75ae",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-02-17T23:33:40Z",
+      "side": 1,
+      "message": "Done, default is false.",
+      "parentUuid": "cf5479b3_43eec62b",
+      "range": {
+        "startLine": 117,
+        "startChar": 69,
+        "endLine": 117,
+        "endChar": 73
+      },
+      "revId": "9ba1824645e161146beefe298a5d4e42f11fab1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cf7b9935_ab8c296f",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/PluginEnableCommand.java",
         "patchSetId": 1
@@ -185,6 +233,24 @@
     },
     {
       "key": {
+        "uuid": "cf5479b3_230e2a4c",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/PluginEnableCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-02-17T23:33:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cf7b9935_ab8c296f",
+      "revId": "9ba1824645e161146beefe298a5d4e42f11fab1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "af6ae563_ca2723ca",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/PluginRemoveCommand.java",
         "patchSetId": 1
@@ -196,6 +262,24 @@
       "writtenOn": "2014-02-17T14:11:13Z",
       "side": 1,
       "message": "again, \"remote installation...\" might be a confusing error message when someone tries to remove a plugin",
+      "revId": "9ba1824645e161146beefe298a5d4e42f11fab1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8f6fe175_89313909",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/PluginRemoveCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-02-17T23:33:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "af6ae563_ca2723ca",
       "revId": "9ba1824645e161146beefe298a5d4e42f11fab1e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

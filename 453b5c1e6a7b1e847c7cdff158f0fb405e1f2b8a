@@ -70,6 +70,30 @@
       "revId": "453b5c1e6a7b1e847c7cdff158f0fb405e1f2b8a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "af6ae563_ca50832b",
+        "filename": "gerrit-plugin-gwtui/src/main/java/com/google/gerrit/plugin/client/rpc/NativeString.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-17T18:21:22Z",
+      "side": 0,
+      "message": "So i changed the definition of NativeString in core to be:\n\n private static final native JavaScriptObject init() /*-{\n    if ($wnd.Gerrit \u003d\u003d\u003d undefined || $wnd.Gerrit.JsonString \u003d\u003d\u003d undefined) {\n      return function(s){this.s\u003ds};\n    } else {\n      return $wnd.Gerrit.JsonString;\n    }\n  }-*/;\n\n\nAfter loading of cookbook-plugin on current master, and opening JavaScript console in Chrome:\n\n window.Gerrit.JsonString\n function (s){\n   this.s \u003d s;\n }\n\nAnd when instantiated i am getting:\n\n a \u003d new window.Gerrit.JsonString(\"a\")\n Object {s: \"a\"}\n typeof(a) \u003d\u003e \"object\"\n typeof(a.s) \u003d\u003e \"string\"",
+      "parentUuid": "cf7b9935_4b92658f",
+      "range": {
+        "startLine": 28,
+        "startChar": 14,
+        "endLine": 28,
+        "endChar": 24
+      },
+      "revId": "453b5c1e6a7b1e847c7cdff158f0fb405e1f2b8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

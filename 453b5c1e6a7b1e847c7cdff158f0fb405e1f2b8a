@@ -22,6 +22,30 @@
       "revId": "453b5c1e6a7b1e847c7cdff158f0fb405e1f2b8a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "af6ae563_6a19578e",
+        "filename": "gerrit-plugin-gwtui/src/main/java/com/google/gerrit/plugin/client/rpc/NativeString.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-02-17T18:04:15Z",
+      "side": 0,
+      "message": "As explained in the commit message, this was not working at runtime and failed with saying that \u0027get\u0027 is not a function. Just returning \u0027this\u0027 works. Not sure why the one works but not the other.",
+      "parentUuid": "af6ae563_aa366ffc",
+      "range": {
+        "startLine": 28,
+        "startChar": 14,
+        "endLine": 28,
+        "endChar": 24
+      },
+      "revId": "453b5c1e6a7b1e847c7cdff158f0fb405e1f2b8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -22,6 +22,14 @@ maven_jar(
 )
 
 maven_jar(
+  name = 'compress',
+  id = 'org.apache.commons:commons-compress:1.7',
+  sha1 = 'ab365c96ee9bc88adcc6fa40d185c8e15a31410d',
+  license = 'Apache2.0',
+  exclude = ['META-INF/LICENSE.txt', 'META-INF/NOTICE.txt'],
+)
+
+maven_jar(
   name = 'dbcp',
   id = 'commons-dbcp:commons-dbcp:1.4',
   sha1 = '30be73c965cc990b153a100aaaaafcf239f82d39',

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "af6ae563_aa366ffc",
+        "filename": "gerrit-plugin-gwtui/src/main/java/com/google/gerrit/plugin/client/rpc/NativeString.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-17T17:54:08Z",
+      "side": 0,
+      "message": "Why this change? While looking into harmonizing of NativeString class in core and plugin in this change [1], i am wondering why this was changed?\n\nIn plugin JsonString \u003d T object form NativeString class in core. So returning this.get() would return \"string\" type, while returning this would return an object.\n\n [1] https://gerrit-review.googlesource.com/#/c/54375",
+      "range": {
+        "startLine": 28,
+        "startChar": 14,
+        "endLine": 28,
+        "endChar": 24
+      },
+      "revId": "453b5c1e6a7b1e847c7cdff158f0fb405e1f2b8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

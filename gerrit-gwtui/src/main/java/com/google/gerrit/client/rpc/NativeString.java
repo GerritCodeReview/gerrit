@@ -21,13 +21,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 public final class NativeString extends JavaScriptObject {
   public static final JavaScriptObject TYPE = init();
 
-  private static final native JavaScriptObject init() /*-{
-    var T = function(s){this.s=s};
-    T.prototype = {
-      get: function(){return this.s},
-    };
-    return T;
-  }-*/;
+  private static final native JavaScriptObject init() /*-{ return function(s){this.s=s}; }-*/;
 
   static final NativeString wrap(String s) {
     return wrap0(TYPE, s);

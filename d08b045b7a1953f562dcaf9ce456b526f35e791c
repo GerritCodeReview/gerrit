@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "af6ae563_ea554718",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/SubIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-17T20:13:14Z",
+      "side": 1,
+      "message": "Sanitize non negative values? If someone missed time units, providing just 30 instead of 30s then the scheduler is going to be invoked every 30 ms.",
+      "range": {
+        "startLine": 69,
+        "startChar": 4,
+        "endLine": 69,
+        "endChar": 57
+      },
+      "revId": "d08b045b7a1953f562dcaf9ce456b526f35e791c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

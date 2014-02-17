@@ -70,6 +70,24 @@
     },
     {
       "key": {
+        "uuid": "af6ae563_0a3f7bc7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ArchiveFormat.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-17T23:51:12Z",
+      "side": 1,
+      "message": "*LOL*\n\nI am a fair guy, i don\u0027t claim i have written that code...\n\nWill do, though ;-)",
+      "parentUuid": "8f6fe175_6919658e",
+      "revId": "d0871b7c55b57dd3386776f93f803e23d775fa9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cf5479b3_a3369afc",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetPatch.java",
         "patchSetId": 1

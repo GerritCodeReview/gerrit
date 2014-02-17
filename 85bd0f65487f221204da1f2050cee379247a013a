@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "6fe9cd2a_a0de3a81",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1883,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-02-17T19:10:18Z",
+      "side": 1,
+      "message": "Per my last comment, to be consistent with the way we do index configuration already. I plan to change it in master.",
+      "parentUuid": "cf4d5911_fbde8f82",
+      "range": {
+        "startLine": 1883,
+        "startChar": 0,
+        "endLine": 1883,
+        "endChar": 27
+      },
+      "revId": "85bd0f65487f221204da1f2050cee379247a013a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0f8a112f_2ddf2d81",
         "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/AutoCommitWriter.java",
         "patchSetId": 1

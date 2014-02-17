@@ -117,6 +117,30 @@
       "revId": "9ba1824645e161146beefe298a5d4e42f11fab1e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cf7b9935_abe8a91f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-17T07:38:13Z",
+      "side": 1,
+      "message": "Preserving the same behaviour as before is a very valid point, but i think that in this specific case the old behaviour was surprising itself.\n\nIn big infrastructure teams it is non unsusal to divide the Administrator roles: one group has the access to the machine, while another group don\u0027t. Both groups were granted admin right.\n\nI would expect that per default, without access to the machine, no changing of software is possible. Currently it is not the case: we don\u0027t have \"allowRemoteInstall\" property at all. But now we can fix the default to be more defensive: false.",
+      "parentUuid": "af1ca5fb_1af81ded",
+      "range": {
+        "startLine": 117,
+        "startChar": 69,
+        "endLine": 117,
+        "endChar": 73
+      },
+      "revId": "9ba1824645e161146beefe298a5d4e42f11fab1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

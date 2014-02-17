@@ -33,6 +33,30 @@ maven_jar(
   ],
 )
 
+java_library(
+  name = 'jgit-archive',
+  exported_deps = [
+    ':jgit-archive_library',
+    '//lib/commons:compress',
+    '//lib:tukaani-xz',
+  ],
+  visibility = ['PUBLIC'],
+)
+
+maven_jar(
+  name = 'jgit-archive_library',
+  id = 'org.eclipse.jgit:org.eclipse.jgit.archive:' + VERS,
+  sha1 = '0fb6f48a0b0905c9aea86b7cb0b8b233f5f78da1',
+  license = 'jgit',
+  repository = REPO,
+  deps = [':jgit'],
+  unsign = True,
+  exclude = [
+    'about.html',
+    'plugin.properties',
+  ],
+)
+
 maven_jar(
   name = 'junit',
   id = 'org.eclipse.jgit:org.eclipse.jgit.junit:' + VERS,

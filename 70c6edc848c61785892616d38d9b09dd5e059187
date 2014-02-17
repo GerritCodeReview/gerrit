@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "cf7b9935_4b1ca57f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-02-17T10:25:33Z",
+      "side": 1,
+      "message": "For me it works, the index folder is created and populated and Gerrit starts successfully.\nI am testing with a local postgres server.\n\nWhat have you configured as your jdbc/ReviewDb JNDI resource in your Tomcat?",
+      "parentUuid": "af33c57d_82eb5a19",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 60
+      },
+      "revId": "70c6edc848c61785892616d38d9b09dd5e059187",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "af33c57d_62ee562c",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2014-02-14T22:43:14Z",
       "side": 1,
       "message": "We may want to install also foreign plugins with gerrit.init  option, not packaged in release.war, i. e. delete-project, for example by putting it in some directory and passing this directory to gerrit.init with system property? Dariusz made it possible in this change with --with-secure-store-plugin option [1].\n\n [1] https://gerrit-review.googlesource.com/#/c/48180",
+      "range": {
+        "startLine": 11,
+        "startChar": 21,
+        "endLine": 12,
+        "endChar": 13
+      },
+      "revId": "70c6edc848c61785892616d38d9b09dd5e059187",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "af6ae563_ca02c327",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-02-17T10:25:33Z",
+      "side": 1,
+      "message": "I agree, this should also be supported... but in a follow up change.",
+      "parentUuid": "af33c57d_62ee562c",
       "range": {
         "startLine": 11,
         "startChar": 21,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "af6ae563_ea078734",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/BaseInit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-02-17T10:25:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0f8a112f_0d03512c",
+      "range": {
+        "startLine": 139,
+        "startChar": 16,
+        "endLine": 139,
+        "endChar": 55
+      },
+      "revId": "70c6edc848c61785892616d38d9b09dd5e059187",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ef969d57_ccf78ffe",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/GerritDistributionLocator.java",
         "patchSetId": 1
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "cf7b9935_6b19618e",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/GerritDistributionLocator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-02-17T10:25:33Z",
+      "side": 1,
+      "message": "Thanks.\nProper usage of articles in english (and german too) is something that I am always struggling with.\n\nDone.",
+      "parentUuid": "ef969d57_ccf78ffe",
+      "range": {
+        "startLine": 29,
+        "startChar": 15,
+        "endLine": 29,
+        "endChar": 16
+      },
+      "revId": "70c6edc848c61785892616d38d9b09dd5e059187",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ef969d57_ecf44bfc",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/GerritDistributionLocator.java",
         "patchSetId": 1
@@ -105,6 +201,30 @@
       "writtenOn": "2014-02-14T16:07:00Z",
       "side": 1,
       "message": "of the",
+      "range": {
+        "startLine": 31,
+        "startChar": 26,
+        "endLine": 31,
+        "endChar": 29
+      },
+      "revId": "70c6edc848c61785892616d38d9b09dd5e059187",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "af6ae563_8afccbde",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/GerritDistributionLocator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-02-17T10:25:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ef969d57_ecf44bfc",
       "range": {
         "startLine": 31,
         "startChar": 26,

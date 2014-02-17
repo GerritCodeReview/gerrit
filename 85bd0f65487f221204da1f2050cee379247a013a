@@ -138,6 +138,24 @@
     },
     {
       "key": {
+        "uuid": "4feec935_9fdef381",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/AutoCommitWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-02-17T19:39:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0f8a112f_2ddf2d81",
+      "revId": "85bd0f65487f221204da1f2050cee379247a013a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4f4249dd_9fe3b345",
         "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/AutoCommitWriter.java",
         "patchSetId": 1
@@ -161,6 +179,30 @@
     },
     {
       "key": {
+        "uuid": "4feec935_ffe3bf43",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/AutoCommitWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-02-17T19:39:31Z",
+      "side": 1,
+      "message": "Ok, that seems sound as long as it\u0027s not possible to produce a flush except by calling one of the other overridden methods. Which I don\u0027t think it is. Done.",
+      "parentUuid": "4f4249dd_9fe3b345",
+      "range": {
+        "startLine": 137,
+        "startChar": 2,
+        "endLine": 142,
+        "endChar": 3
+      },
+      "revId": "85bd0f65487f221204da1f2050cee379247a013a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "af33c57d_e2d9069d",
         "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/SubIndex.java",
         "patchSetId": 1
@@ -172,6 +214,30 @@
       "writtenOn": "2014-02-14T20:53:40Z",
       "side": 1,
       "message": "Wrap it in hasUncommittedChanges()?\n\n  if (delegateWriter.hasUncommittedChanges()) {\n     delegateWriter.manualFlush();\n     delegateWriter.commit();\n  }",
+      "range": {
+        "startLine": 86,
+        "startChar": 12,
+        "endLine": 87,
+        "endChar": 36
+      },
+      "revId": "85bd0f65487f221204da1f2050cee379247a013a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4feec935_dfe87b21",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/SubIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-02-17T19:39:31Z",
+      "side": 1,
+      "message": "I would have thought these methods would be cheap/no-op if this was false, but I see no harm in being explicit. Done.",
+      "parentUuid": "af33c57d_e2d9069d",
       "range": {
         "startLine": 86,
         "startChar": 12,

@@ -24,6 +24,8 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
 
+import org.eclipse.jgit.api.ArchiveCommand;
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.ObjectId;
@@ -38,11 +40,13 @@ import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 public class GetPatch implements RestReadView<RevisionResource> {
   private final GitRepositoryManager repoManager;
+  private final Map<String, ArchiveFormat> formats;
 
   @Option(name = "--zip")
   private boolean zip;
@@ -50,9 +54,13 @@ public class GetPatch implements RestReadView<RevisionResource> {
   @Option(name = "--download")
   private boolean download;
 
+  @Option(name = "--archive")
+  private boolean archive;
+
   @Inject
   GetPatch(GitRepositoryManager repoManager) {
     this.repoManager = repoManager;
+    formats = ArchiveFormat.init();
   }
 
   @Override
@@ -77,6 +85,7 @@ public class GetPatch implements RestReadView<RevisionResource> {
           }
           final RevCommit base = parents[0];
           rw.parseBody(base);
+          final ObjectId treeId = rw.parseTree(base);
 
           BinaryResult bin = new BinaryResult() {
             @Override
@@ -89,6 +98,16 @@ public class GetPatch implements RestReadView<RevisionResource> {
                 format(zos);
                 zos.closeEntry();
                 zos.finish();
+              } else if (archive) {
+                try {
+                  new ArchiveCommand(repo)
+                    .setFormat(formats.get(".tgz").name())
+                    .setTree(treeId)
+                    .setOutputStream(out)
+                    .call();
+                } catch (GitAPIException e) {
+                  throw new IOException(e);
+                }
               } else {
                 format(out);
               }
@@ -113,6 +132,11 @@ public class GetPatch implements RestReadView<RevisionResource> {
             bin.disableGzip()
                .setContentType("application/zip")
                .setAttachmentName(fileName(rw, commit) + ".zip");
+          } else if (archive) {
+            bin.disableGzip()
+               .setContentType(ArchiveFormat.TGZ.getMimeType())
+               .setAttachmentName(rw.getObjectReader()
+               .abbreviate(commit, 8).name() + ".tar.gz");
           } else {
             bin.base64()
                .setContentType("application/mbox")

@@ -109,6 +109,7 @@ class DownloadBox extends VerticalPanel {
       }
     }
     insertPatch();
+    insertArchive();
     insertCommand(null, scheme);
   }
 
@@ -132,6 +133,15 @@ class DownloadBox extends VerticalPanel {
       .addParameterTrue("zip")
       .url());
 
+    patchZip = new Anchor(id + ".tar.gz");
+    patchZip.setHref(new RestApi("/changes/")
+      .id(psId.getParentKey().get())
+      .view("revisions")
+      .id(revision)
+      .view("patch")
+      .addParameterTrue("archive")
+      .url());
+
     HorizontalPanel p = new HorizontalPanel();
     p.add(patchBase64);
     InlineLabel spacer = new InlineLabel("|");
@@ -139,6 +149,22 @@ class DownloadBox extends VerticalPanel {
     p.add(spacer);
     p.add(patchZip);
     insertCommand("Patch-File", p);
+  }
+
+  private void insertArchive() {
+    String id = revision.substring(0, 7);
+    Anchor archive = new Anchor(id + ".tar.gz");
+    archive.setHref(new RestApi("/changes/")
+      .id(psId.getParentKey().get())
+      .view("revisions")
+      .id(revision)
+      .view("patch")
+      .addParameterTrue("archive")
+      .url());
+
+    HorizontalPanel p = new HorizontalPanel();
+    p.add(archive);
+    insertCommand("Archive", p);
   }
 
   private void insertCommand(String commandName, Widget w) {

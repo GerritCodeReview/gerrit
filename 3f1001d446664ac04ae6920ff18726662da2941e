@@ -52,6 +52,24 @@
       "revId": "3f1001d446664ac04ae6920ff18726662da2941e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cf7b9935_cb7df594",
+        "filename": "gerrit-plugin-archetype/src/main/resources/archetype-resources/tools/download_file.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-17T13:08:48Z",
+      "side": 1,
+      "message": "More then that, if we would have a submodule, then not only plugins but other projects would benefit from it as well: gwtorm, gitiles and JGit to name a few.\n\nThe client would clone that module say under tools/bucklets and would get the whole Buck/Python tool chain we have so far, like java_library2, maven_jar and friends.",
+      "parentUuid": "f2c12653_54606cdf",
+      "revId": "3f1001d446664ac04ae6920ff18726662da2941e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

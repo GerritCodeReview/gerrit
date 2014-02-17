@@ -437,9 +437,9 @@ Command implementations must extend the base class SshCommand:
 import com.google.gerrit.sshd.SshCommand;
 import com.google.gerrit.sshd.CommandMetaData;
 
-@CommandMetaData(name="print", descr="Print hello command")
+@CommandMetaData(name="print", description="Print hello command")
 class PrintHello extends SshCommand {
-  protected abstract void run() {
+  protected void run() {
     stdout.print("Hello\n");
   }
 }
@@ -455,7 +455,7 @@ import com.google.gerrit.sshd.SshCommand;
 
 @Export("print")
 class PrintHello extends SshCommand {
-  protected abstract void run() {
+  protected void run() {
     stdout.print("Hello\n");
   }
 }

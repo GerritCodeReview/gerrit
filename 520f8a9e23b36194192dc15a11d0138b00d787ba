@@ -22,6 +22,30 @@
       "revId": "520f8a9e23b36194192dc15a11d0138b00d787ba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "af6ae563_6a787797",
+        "filename": "gerrit-gwtui-common/src/main/java/com/google/gerrit/client/rpc/NativeString.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-18T10:43:20Z",
+      "side": 1,
+      "message": "I checked it with cookbook-plugin and it works as expected. That is what DefaultAction is doing:\n\n static void invoke(ChangeInfo change, ActionInfo action, RestApi api) {\n    final Change.Id id \u003d change.legacy_id();\n    AsyncCallback\u003cJavaScriptObject\u003e cb \u003d new GerritCallback\u003cJavaScriptObject\u003e() {\n      @Override\n      public void onSuccess(JavaScriptObject msg) {\n        if (NativeString.is(msg)) {\n          NativeString str \u003d (NativeString) msg;\n          if (!str.asString().isEmpty()) {\n            Window.alert(str.asString());\n          }\n        }\n        Gerrit.display(PageLinks.toChange(id));\n      }\n    };\n    invoke(action, api, cb);\n  }\n\nCan you change your old code and see if it fixes your problem?",
+      "parentUuid": "cf7b9935_4bc0256b",
+      "range": {
+        "startLine": 40,
+        "startChar": 2,
+        "endLine": 40,
+        "endChar": 65
+      },
+      "revId": "520f8a9e23b36194192dc15a11d0138b00d787ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -47,7 +47,12 @@ function(data) {
   var docs = 'https://gerrit-documentation.storage.googleapis.com/';
   var src = 'https://gerrit.googlesource.com/gerrit/+/'
 
-  data.items.sort(function(a,b) {
+  var items = data.items.filter(function(i) {
+    return i.name.indexOf('gerrit-snapshot-') != 0;
+  });
+
+
+  items.sort(function(a,b) {
     var av = rx.exec(a.name);
     var bv = rx.exec(b.name);
     if (!av || !bv) {
@@ -75,8 +80,8 @@ function(data) {
   });
 
   var latest = false;
-  for (var i = 0; i < data.items.length; i++) {
-    var f = data.items[i];
+  for (var i = 0; i < items.length; i++) {
+    var f = items[i];
     var v = rx.exec(f.name);
 
     if ('index.html' == f.name) {

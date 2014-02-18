@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cf7b9935_4bc0256b",
+        "filename": "gerrit-gwtui-common/src/main/java/com/google/gerrit/client/rpc/NativeString.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-02-18T09:55:25Z",
+      "side": 1,
+      "message": "If invoked from a plugin this always returns the string \"undefined\" (or null if no string is set).\n\nFor testing I\u0027m using an older version of the serviceuser plugin from this change[1]. In the ServiceUserScreem it contains a GET request to a REST endpoint which returns an \"ok\" string (the current version of the plugin doesn\u0027t contain this call anymore). \n\n  new RestApi(\"config\").id(\"server\")\n        .view(Plugin.get().getPluginName(), \"serviceusers\").id(serviceUser)\n        .view(\"active\").get(NativeString.unwrap(new AsyncCallback\u003cString\u003e() {\n      @Override\n      public void onSuccess(String result) {\n        activeToggle.setValue(result !\u003d null \u0026\u0026 \"ok\".equals(result.trim()));\n        activeToggle.setVisible(true);\n      }\n\n      @Override\n      public void onFailure(Throwable caught) {\n        // never invoked\n      }\n    }));\n\nIf the user is active and \"ok\" is returned \u0027result\u0027 conatins \"undefined\". If the user is not active and no string is returned \u0027result\u0027 is null as it is expected.\n\nThe NativeString.unwrap(...) method is internally invoking the NativeString.asString() method.\n\nUnfortunately I\u0027m too much of a JavaScript dummy to understand why it like this and how to make it work :(\n\n[1] https://gerrit-review.googlesource.com/#/c/54504/",
+      "range": {
+        "startLine": 40,
+        "startChar": 2,
+        "endLine": 40,
+        "endChar": 65
+      },
+      "revId": "520f8a9e23b36194192dc15a11d0138b00d787ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

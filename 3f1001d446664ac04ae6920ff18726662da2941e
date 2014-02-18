@@ -70,6 +70,24 @@
       "revId": "3f1001d446664ac04ae6920ff18726662da2941e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "af6ae563_8a604be2",
+        "filename": "gerrit-plugin-archetype/src/main/resources/archetype-resources/tools/download_file.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-02-18T10:10:56Z",
+      "side": 1,
+      "message": "Putting this code into a submodule sounds like a good idea! Unfortunately I\u0027m not having time to look into this somewhen soon.",
+      "parentUuid": "cf7b9935_cb7df594",
+      "revId": "3f1001d446664ac04ae6920ff18726662da2941e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

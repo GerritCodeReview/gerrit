@@ -8,6 +8,22 @@ link:https://gerrit-releases.storage.googleapis.com/gerrit-2.8.2.war[
 https://gerrit-releases.storage.googleapis.com/gerrit-2.8.2.war]
 
 
+Lucene Index
+------------
+
+* Support committing Lucene writes within a fixed interval.
++
+The `ramBufferSize` and `maxBufferedDocs` options control how often the
+writer is flushed, but this does not fsync files on disk and thus
+might not be permanent, particularly in a machine under heavy load.
++
+As a result, commits to the index may not be completed, and updates may
+be lost if the server goes down.
++
+A new option `commitWithin` is added, to control how frequently the
+indexes are committed.
+
+
 General
 -------
 
@@ -48,6 +64,14 @@ index.
 +
 Running a query with `limit:0` when the secondary index is enabled was causing
 an internal server error.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=2331[Issue 2331]:
+Make sure change-merged event contains correct patch set number.
++
+When a change is submitted with the cherry-pick strategy, or when the
+change is rebased with the "rebase if necessary" strategy, a new patch
+set is created.  The newly created patch set was not being set in the
+change-merged event.
 
 * Remove dependency on joda time library in gerrit launcher.
 +

@@ -32,6 +32,12 @@ li p {
   padding: 2px;
 }
 
+.listingblock > .content pre {
+  background: none;
+  border: 0 solid silver;
+  padding: 0 0 0 0;
+}
+
 dl dt {
   margin-top: 1em;
 }

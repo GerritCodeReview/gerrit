@@ -39,10 +39,10 @@ public class CodeReviewCommit extends RevCommit {
    * This value is only available on commits that have a PatchSet represented in
    * the code review system.
    */
-  PatchSet.Id patchsetId;
+  private PatchSet.Id patchsetId;
 
   /** Change control for the change owner. */
-  ChangeControl control;
+  private ChangeControl control;
 
   /**
    * Ordinal position of this commit within the submit queue.
@@ -56,7 +56,7 @@ public class CodeReviewCommit extends RevCommit {
    * <p>
    * Only valid if {@link #patchsetId} is not null.
    */
-  CommitMergeStatus statusCode;
+  private CommitMergeStatus statusCode;
 
   /** Commits which are missing ancestors of this commit. */
   List<CodeReviewCommit> missing;
@@ -66,10 +66,26 @@ public class CodeReviewCommit extends RevCommit {
   }
 
   public ChangeNotes notes() {
-    return control.getNotes();
+    return getControl().getNotes();
   }
 
-  void copyFrom(final CodeReviewCommit src) {
+  public CommitMergeStatus getStatusCode() {
+    return statusCode;
+  }
+
+  public void setStatusCode(CommitMergeStatus statusCode) {
+    this.statusCode = statusCode;
+  }
+
+  public PatchSet.Id getPatchsetId() {
+    return patchsetId;
+  }
+
+  public void setPatchsetId(PatchSet.Id patchsetId) {
+    this.patchsetId = patchsetId;
+  }
+
+  public void copyFrom(final CodeReviewCommit src) {
     control = src.control;
     patchsetId = src.patchsetId;
     originalOrder = src.originalOrder;
@@ -77,7 +93,15 @@ public class CodeReviewCommit extends RevCommit {
     missing = src.missing;
   }
 
-  Change change() {
-    return control.getChange();
+  public Change change() {
+    return getControl().getChange();
+  }
+
+  public ChangeControl getControl() {
+    return control;
+  }
+
+  public void setControl(ChangeControl control) {
+    this.control = control;
   }
 }

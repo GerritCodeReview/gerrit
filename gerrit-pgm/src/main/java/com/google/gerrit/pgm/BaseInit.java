@@ -57,19 +57,22 @@ import javax.sql.DataSource;
 public class BaseInit extends SiteProgram {
 
   private final boolean standalone;
+  private final boolean initDb;
 
   public BaseInit() {
     this.standalone = true;
+    this.initDb = true;
   }
 
-  public BaseInit(File sitePath, boolean standalone) {
-    this(sitePath, null, standalone);
+  public BaseInit(File sitePath, boolean standalone, boolean initDb) {
+    this(sitePath, null, standalone, initDb);
   }
 
   public BaseInit(File sitePath, final Provider<DataSource> dsProvider,
-      boolean standalone) {
+      boolean standalone, boolean initDb) {
     super(sitePath, dsProvider);
     this.standalone = standalone;
+    this.initDb = initDb;
   }
 
   @Override
@@ -148,7 +151,7 @@ public class BaseInit extends SiteProgram {
     final File sitePath = getSitePath();
     final List<Module> m = new ArrayList<Module>();
 
-    m.add(new InitModule(standalone));
+    m.add(new InitModule(standalone, initDb));
     m.add(new AbstractModule() {
       @Override
       protected void configure() {

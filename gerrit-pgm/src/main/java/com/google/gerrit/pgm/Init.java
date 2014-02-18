@@ -63,7 +63,7 @@ public class Init extends BaseInit {
   }
 
   public Init(File sitePath) {
-    super(sitePath, true);
+    super(sitePath, true, true);
     batchMode = true;
     noAutoStart = true;
   }

@@ -25,9 +25,11 @@ import java.lang.annotation.Annotation;
 public class InitModule extends FactoryModule {
 
   private final boolean standalone;
+  private final boolean initDb;
 
-  public InitModule(boolean standalone) {
+  public InitModule(boolean standalone, boolean initDb) {
     this.standalone = standalone;
+    this.initDb = initDb;
   }
 
   @Override
@@ -43,7 +45,7 @@ public class InitModule extends FactoryModule {
     step().to(UpgradeFrom2_0_x.class);
 
     step().to(InitGitManager.class);
-    if (standalone) {
+    if (initDb) {
       step().to(InitDatabase.class);
     }
     step().to(InitIndex.class);

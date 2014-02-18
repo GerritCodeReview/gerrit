@@ -627,7 +627,7 @@ Configuration
 * Fix 'query disabled' error when Query Limit is set.
 
 * Honor the `gerrit.createChangeId` setting from the git config in the
-The link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/cmd-hook-commit-msg.html[
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/cmd-hook-commit-msg.html[
 `commit-msg` hook].
 
 * link:https://code.google.com/p/gerrit/issues/detail?id=2045[Issue 2045]:

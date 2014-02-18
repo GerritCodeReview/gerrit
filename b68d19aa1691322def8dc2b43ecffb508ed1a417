@@ -22,6 +22,30 @@
       "revId": "b68d19aa1691322def8dc2b43ecffb508ed1a417",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8f6fe175_a94f5d82",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CodeReviewCommit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-02-18T00:24:56Z",
+      "side": 1,
+      "message": "This was part of Eclipse\u0027s automated refactoring.\n\nI\u0027ve changed it back.",
+      "parentUuid": "cf7b9935_4b458561",
+      "range": {
+        "startLine": 89,
+        "startChar": 4,
+        "endLine": 90,
+        "endChar": 39
+      },
+      "revId": "b68d19aa1691322def8dc2b43ecffb508ed1a417",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

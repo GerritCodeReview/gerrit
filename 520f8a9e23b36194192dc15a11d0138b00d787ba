@@ -46,6 +46,30 @@
       "revId": "520f8a9e23b36194192dc15a11d0138b00d787ba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "af6ae563_cacba391",
+        "filename": "gerrit-gwtui-common/src/main/java/com/google/gerrit/client/rpc/NativeString.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-02-18T11:52:54Z",
+      "side": 1,
+      "message": "Yes, this works and now also with my code I\u0027m not able to reproduce the problem anymore. Seems to work just fine. I\u0027m pretty sure that I double checked my test environment when I was testing this morning, but now it looks like there must have been something messed up with it :(",
+      "parentUuid": "af6ae563_6a787797",
+      "range": {
+        "startLine": 40,
+        "startChar": 2,
+        "endLine": 40,
+        "endChar": 65
+      },
+      "revId": "520f8a9e23b36194192dc15a11d0138b00d787ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

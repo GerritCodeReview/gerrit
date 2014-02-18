@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "cf7b9935_4b7b4595",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/DownloadBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-18T07:11:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cf5479b3_e32c92ae",
+      "revId": "d0871b7c55b57dd3386776f93f803e23d775fa9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cf5479b3_83311e09",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/DownloadBox.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "cf7b9935_2b7279b7",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/DownloadBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-18T07:11:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cf5479b3_83311e09",
+      "revId": "d0871b7c55b57dd3386776f93f803e23d775fa9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8f6fe175_0926a9c9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ArchiveFormat.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2014-02-17T23:46:45Z",
       "side": 1,
       "message": "FYI, we are OK with this being the standard header used in Gerrit.",
+      "revId": "d0871b7c55b57dd3386776f93f803e23d775fa9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "af6ae563_8a87eb4c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ArchiveFormat.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-18T07:11:36Z",
+      "side": 1,
+      "message": "If wanted, i can change it.",
+      "parentUuid": "8f6fe175_0926a9c9",
       "revId": "d0871b7c55b57dd3386776f93f803e23d775fa9e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -88,6 +142,24 @@
     },
     {
       "key": {
+        "uuid": "af6ae563_ca7de394",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ArchiveFormat.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-18T07:11:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8f6fe175_6919658e",
+      "revId": "d0871b7c55b57dd3386776f93f803e23d775fa9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cf5479b3_a3369afc",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetPatch.java",
         "patchSetId": 1
@@ -99,6 +171,24 @@
       "writtenOn": "2014-02-17T23:46:45Z",
       "side": 1,
       "message": "Make this static and do it once? The data doesn\u0027t change but GetPatch is per-request so we are building up this map on each request, even if the caller wants a zip or download patch and never needs the archive code.",
+      "revId": "d0871b7c55b57dd3386776f93f803e23d775fa9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cf7b9935_6b788197",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetPatch.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-18T07:11:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cf5479b3_a3369afc",
       "revId": "d0871b7c55b57dd3386776f93f803e23d775fa9e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -128,6 +218,30 @@
     },
     {
       "key": {
+        "uuid": "cf7b9935_cbcbb591",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetPatch.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-18T07:11:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8f6fe175_29236dba",
+      "range": {
+        "startLine": 80,
+        "startChar": 10,
+        "endLine": 82,
+        "endChar": 52
+      },
+      "revId": "d0871b7c55b57dd3386776f93f803e23d775fa9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cf5479b3_431c867f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetPatch.java",
         "patchSetId": 1
@@ -139,6 +253,24 @@
       "writtenOn": "2014-02-17T23:46:45Z",
       "side": 1,
       "message": "Push this down into the archive branch? Its only used there.",
+      "revId": "d0871b7c55b57dd3386776f93f803e23d775fa9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "af6ae563_ea82273e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetPatch.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-18T07:11:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cf5479b3_431c867f",
       "revId": "d0871b7c55b57dd3386776f93f803e23d775fa9e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -168,6 +300,30 @@
     },
     {
       "key": {
+        "uuid": "cf7b9935_0b753d9e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetPatch.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-18T07:11:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8f6fe175_c950912b",
+      "range": {
+        "startLine": 104,
+        "startChar": 31,
+        "endLine": 104,
+        "endChar": 57
+      },
+      "revId": "d0871b7c55b57dd3386776f93f803e23d775fa9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cf5479b3_6319828e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetPatch.java",
         "patchSetId": 1
@@ -179,6 +335,24 @@
       "writtenOn": "2014-02-17T23:46:45Z",
       "side": 1,
       "message": "This needs to match what ArchiveCommand was given above. So you might as well hardcode the ArchiveFormat lookup above too. Or at least store the constant into a final local variable that is used in these two places, making it easier to accept other formats in the future by updating only one local variable store.",
+      "revId": "d0871b7c55b57dd3386776f93f803e23d775fa9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cf7b9935_ebd0f141",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetPatch.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-18T07:11:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cf5479b3_6319828e",
       "revId": "d0871b7c55b57dd3386776f93f803e23d775fa9e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

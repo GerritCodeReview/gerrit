@@ -1932,6 +1932,20 @@ Lucene documentation] for further details.
 Defaults to -1, meaning no maximum is set and the writer will flush
 according to RAM usage.
 
+[[index.name.commitWithin]]index.name.commitWithin::
++
+Only used when the type is `LUCENE`.
++
+Determines the period at which changes are automatically committed to
+stable store on disk. This is a costly operation and may block
+additional index writes, so lower with caution.
++
+If zero or negative, changes are committed after every write. This is
+very costly but may be useful if offline reindexing is infeasible, or
+for development servers.
++
+Defaults to 300000 ms (5 minutes).
+
 Sample index configuration:
 ----
 [index]

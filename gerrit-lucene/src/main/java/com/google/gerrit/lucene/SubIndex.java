@@ -14,13 +14,15 @@
 
 package com.google.gerrit.lucene;
 
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+
 import com.google.common.collect.Maps;
 import com.google.common.util.concurrent.AbstractFuture;
 import com.google.common.util.concurrent.ListenableFuture;
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import com.google.gerrit.lucene.LuceneChangeIndex.GerritIndexWriterConfig;
 
 import org.apache.lucene.document.Document;
-import org.apache.lucene.index.IndexWriter;
-import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.index.TrackingIndexWriter;
 import org.apache.lucene.search.ControlledRealTimeReopenThread;
@@ -39,6 +41,8 @@ import java.io.IOException;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -52,15 +56,54 @@ class SubIndex {
   private final SearcherManager searcherManager;
   private final ControlledRealTimeReopenThread<IndexSearcher> reopenThread;
   private final ConcurrentMap<RefreshListener, Boolean> refreshListeners;
+  private final ScheduledExecutorService commitExecutor;
 
-  SubIndex(File file, IndexWriterConfig writerConfig) throws IOException {
+  SubIndex(File file, GerritIndexWriterConfig writerConfig) throws IOException {
     this(FSDirectory.open(file), file.getName(), writerConfig);
   }
 
-  SubIndex(Directory dir, String dirName, IndexWriterConfig writerConfig)
-      throws IOException {
+  SubIndex(Directory dir, final String dirName,
+      GerritIndexWriterConfig writerConfig) throws IOException {
     this.dir = dir;
-    writer = new TrackingIndexWriter(new IndexWriter(dir, writerConfig));
+
+    final AutoCommitWriter delegateWriter;
+    long commitPeriod = writerConfig.getCommitWithinMs();
+    if (commitPeriod <= 0) {
+      commitExecutor = null;
+      delegateWriter =
+          new AutoCommitWriter(dir, writerConfig.getLuceneConfig(), true);
+    } else {
+      commitExecutor = new ScheduledThreadPoolExecutor(1,
+          new ThreadFactoryBuilder()
+            .setNameFormat("Commit-%d " + dirName)
+            .setDaemon(true)
+            .build());
+      delegateWriter =
+          new AutoCommitWriter(dir, writerConfig.getLuceneConfig(), false);
+      commitExecutor.scheduleAtFixedRate(new Runnable() {
+        @Override
+        public void run() {
+          try {
+            if (delegateWriter.hasUncommittedChanges()) {
+              delegateWriter.manualFlush();
+              delegateWriter.commit();
+            }
+          } catch (IOException e) {
+            log.error("Error committing Lucene index " + dirName, e);
+          } catch (OutOfMemoryError e) {
+            log.error("Error committing Lucene index " + dirName, e);
+            try {
+              delegateWriter.close();
+            } catch (IOException e2) {
+              log.error("SEVERE: Error closing Lucene index "
+                + dirName + " after OOM; index may be corrupted.", e);
+            }
+          }
+        }
+      }, commitPeriod, commitPeriod, MILLISECONDS);
+    }
+
+    writer = new TrackingIndexWriter(delegateWriter);
     searcherManager = new SearcherManager(
         writer.getIndexWriter(), true, new SearcherFactory());
 
@@ -156,7 +199,7 @@ class SubIndex {
         TimeoutException, ExecutionException {
       if (!isDone()) {
         reopenThread.waitForGeneration(gen,
-            (int) TimeUnit.MILLISECONDS.convert(timeout, unit));
+            (int) MILLISECONDS.convert(timeout, unit));
         set(null);
       }
       return super.get(timeout, unit);

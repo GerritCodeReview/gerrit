@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8f6fe175_49458161",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2306,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-02-18T00:28:47Z",
+      "side": 1,
+      "message": "Since the error messages have been changed to say \"remote plugin administration\" maybe it would be better to name this `allowRemoteAdmin`?",
+      "range": {
+        "startLine": 2306,
+        "startChar": 38,
+        "endLine": 2306,
+        "endChar": 56
+      },
+      "revId": "9cdbc9dda4a80b9bbceb0ca0ab539549aa44dc98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

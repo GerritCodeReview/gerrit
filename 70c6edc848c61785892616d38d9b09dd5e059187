@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "af6ae563_8a312b09",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-02-19T13:39:28Z",
+      "side": 1,
+      "message": "OK, I finally understood why it doesn\u0027t work with the embedded H2 database.\n\nThe problem is that SitePaths.isNew will be false for a H2 based new site because as soon as the first DB connection is open the site folder will be created (because it is the parent folder for the \u0027db\u0027 folder). therefore isNew \u003d false and this cause the InitIndex (line 82) to skip lucene index creation.\n\nHowever, if you want to use embedded H2 then there is no need to specify -Dgerrit.init_path plus the ReviewDb JNDI resource (which you have to point to the correct folder...). It is easier and more natural to specify -Dgerrit.site_path\u003d... and let Gerrit create H2 database under that folder. JNDI resource is not needed. However, auto init with -Dgerrit.site_path was broken (was probably never working. This is fixed in [1].\n\n[1] https://gerrit-review.googlesource.com/54730",
+      "parentUuid": "af6ae563_6a14f75f",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 60
+      },
+      "revId": "70c6edc848c61785892616d38d9b09dd5e059187",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "af33c57d_62ee562c",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

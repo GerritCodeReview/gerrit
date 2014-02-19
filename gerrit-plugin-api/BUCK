@@ -23,7 +23,6 @@ java_library(
     '//gerrit-common:annotations',
     '//gerrit-common:server',
     '//gerrit-extension-api:api',
-    '//gerrit-plugin-gwtui:gwtui-api-lib',
     '//gerrit-reviewdb:server',
     '//lib:args4j',
     '//lib:guava',

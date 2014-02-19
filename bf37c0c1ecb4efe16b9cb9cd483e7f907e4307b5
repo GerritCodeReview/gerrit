@@ -118,6 +118,30 @@
       "revId": "bf37c0c1ecb4efe16b9cb9cd483e7f907e4307b5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cf7b9935_2baa7964",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/rpc/RestApi.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-02-19T10:03:12Z",
+      "side": 0,
+      "message": "Yes, this is how I understand it now.\n\n \u003e Should this change be rejected for some reasons, the \n \u003e workaround for your change would be to wrap your array in \n \u003e an artificial map, … and you are done ;-)\n\nYes, this should work :)",
+      "parentUuid": "cf7b9935_6bb081d8",
+      "range": {
+        "startLine": 376,
+        "startChar": 6,
+        "endLine": 376,
+        "endChar": 55
+      },
+      "revId": "bf37c0c1ecb4efe16b9cb9cd483e7f907e4307b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

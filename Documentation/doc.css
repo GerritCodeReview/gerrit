@@ -35,3 +35,13 @@ li p {
 dl dt {
   margin-top: 1em;
 }
+
+table.tableblock {
+  border-collapse: collapse;
+}
+
+table.tableblock,
+th.tableblock,
+td.tableblock {
+  border: 1px solid #EEE;
+}

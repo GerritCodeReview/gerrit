@@ -95,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "af6ae563_eaba27c3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ConfigInfo.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-02-19T09:57:40Z",
+      "side": 1,
+      "message": "\u003e Are you proposing now to change String value to \n \u003e List\u003cString\u003evalue?\n\nThis would be possible and maybe this is the easiest solution. However what I meant was a bit different. I was imagening something like this:\n\n  public static class ConfigParameterInfo {\n    public String displayName;\n    public String description;\n    public String warning;\n    public ProjectConfigEntry.Type type;\n    public Boolean editable;\n    public Boolean inheritable;\n    public String configuredValue;\n    public String inheritedValue;\n    public List\u003cString\u003e permittedValues;\n  }\n\n  public static class SingleValueConfigParameterInfo extends ConfigParameterInfo {\n    public String value;\n  }\n\n  public static class ArrayValueConfigParameterInfo extends ConfigParameterInfo {\n    public List\u003cString\u003e value;\n  }\n\nThen we could either return SingleValueConfigParameterInfo which results in\n\n  \"value\": \"a\"\n\nor return ArrayValueConfigParameterInfo which results in\n\n  \"value\": [\"a\", \"b\", \"c\"]\n\nNot sure though if it\u0027s worth the effort. Only wanted to put it into the discussion.",
+      "parentUuid": "af6ae563_0af77ba8",
+      "range": {
+        "startLine": 212,
+        "startChar": 4,
+        "endLine": 212,
+        "endChar": 31
+      },
+      "revId": "8c8fa634984773bb6d6c315cb0b0eb182e80ef37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cf7b9935_8b984d67",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutConfig.java",
         "patchSetId": 7

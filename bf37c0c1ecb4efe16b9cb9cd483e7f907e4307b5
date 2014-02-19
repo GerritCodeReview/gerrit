@@ -70,6 +70,30 @@
       "revId": "bf37c0c1ecb4efe16b9cb9cd483e7f907e4307b5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "af6ae563_aa074fe3",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/rpc/RestApi.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-02-19T09:14:31Z",
+      "side": 0,
+      "message": "\u003e As mentioned above, this change did just that [1], and it \n \u003e worked. Well, at least i think it did ;-)\n\nYes, but there the list is a value in a map. Maybe this makes the difference.",
+      "parentUuid": "cf7b9935_2bd1190e",
+      "range": {
+        "startLine": 376,
+        "startChar": 6,
+        "endLine": 376,
+        "endChar": 55
+      },
+      "revId": "bf37c0c1ecb4efe16b9cb9cd483e7f907e4307b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

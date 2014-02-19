@@ -22,6 +22,30 @@
       "revId": "a2d892565376367af28cf385cc21bdbb3aa8fac2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cf7b9935_cb0895f8",
+        "filename": "website/releases/index.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-19T06:49:12Z",
+      "side": 1,
+      "message": "The cool thing about JavaScrit is, you can make it yourself:\n\n if (typeof String.prototype.startsWith !\u003d \u0027function\u0027) {\n  String.prototype.startsWith \u003d function (str){\n    return this.slice(0, str.length) \u003d\u003d str;\n  };\n }",
+      "parentUuid": "8f6fe175_896059e2",
+      "range": {
+        "startLine": 51,
+        "startChar": 11,
+        "endLine": 51,
+        "endChar": 51
+      },
+      "revId": "a2d892565376367af28cf385cc21bdbb3aa8fac2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

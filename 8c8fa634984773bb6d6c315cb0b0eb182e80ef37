@@ -119,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "cf7b9935_ab92e93c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ConfigInfo.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-19T10:26:33Z",
+      "side": 1,
+      "message": "But wouldn\u0027t that mean that we would have to duplicate the view:\n\n class PutConfigSingle implements RestModifyView\u003cProjectResource, SingleValueConfigParameterInfo\u003e { …\n\nand\n\n class PutConfigArray implements RestModifyView\u003cProjectResource, ArrayValueConfigParameterInfo\u003e { …",
+      "parentUuid": "af6ae563_eaba27c3",
+      "range": {
+        "startLine": 212,
+        "startChar": 4,
+        "endLine": 212,
+        "endChar": 31
+      },
+      "revId": "8c8fa634984773bb6d6c315cb0b0eb182e80ef37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cf7b9935_8b984d67",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutConfig.java",
         "patchSetId": 7

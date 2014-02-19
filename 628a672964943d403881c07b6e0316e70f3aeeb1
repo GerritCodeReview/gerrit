@@ -22,6 +22,30 @@
       "revId": "628a672964943d403881c07b6e0316e70f3aeeb1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cf7b9935_abc42950",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-02-19T07:48:06Z",
+      "side": 1,
+      "message": "I don\u0027t use it in English, but in German it\u0027s a word for sure :)",
+      "parentUuid": "8f6fe175_29728db7",
+      "range": {
+        "startLine": 11,
+        "startChar": 18,
+        "endLine": 11,
+        "endChar": 28
+      },
+      "revId": "628a672964943d403881c07b6e0316e70f3aeeb1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

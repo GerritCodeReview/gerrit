@@ -70,7 +70,7 @@ public class LabelTypeIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     revision(r).review(ReviewInput.reject());
     assertApproval(r, -2);
-    r = ammendChange(r.getChangeId());
+    r = amendChange(r.getChangeId());
     assertApproval(r, 0);
   }
 
@@ -81,7 +81,7 @@ public class LabelTypeIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     revision(r).review(ReviewInput.reject());
     assertApproval(r, -2);
-    r = ammendChange(r.getChangeId());
+    r = amendChange(r.getChangeId());
     assertApproval(r, -2);
   }
 
@@ -90,7 +90,7 @@ public class LabelTypeIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     revision(r).review(ReviewInput.approve());
     assertApproval(r, 2);
-    r = ammendChange(r.getChangeId());
+    r = amendChange(r.getChangeId());
     assertApproval(r, 0);
   }
 
@@ -101,7 +101,7 @@ public class LabelTypeIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     revision(r).review(ReviewInput.approve());
     assertApproval(r, 2);
-    r = ammendChange(r.getChangeId());
+    r = amendChange(r.getChangeId());
     assertApproval(r, 2);
   }
 
@@ -114,7 +114,7 @@ public class LabelTypeIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     revision(r).review(ReviewInput.recommend());
     assertApproval(r, 1);
-    r = ammendChange(r.getChangeId());
+    r = amendChange(r.getChangeId());
     assertApproval(r, 0);
   }
 
@@ -127,7 +127,7 @@ public class LabelTypeIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     revision(r).review(ReviewInput.dislike());
     assertApproval(r, -1);
-    r = ammendChange(r.getChangeId());
+    r = amendChange(r.getChangeId());
     assertApproval(r, 0);
   }
 

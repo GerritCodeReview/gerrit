@@ -154,7 +154,7 @@ public abstract class AbstractDaemonTest {
 
   private static final List<Character> RANDOM =
       Chars.asList(new char[]{'a','b','c','d','e','f','g','h'});
-  protected PushOneCommit.Result ammendChange(String changeId)
+  protected PushOneCommit.Result amendChange(String changeId)
       throws GitAPIException, IOException {
     Collections.shuffle(RANDOM);
     PushOneCommit push =

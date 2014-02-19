@@ -143,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "af6ae563_6ac71753",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ConfigInfo.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-02-19T10:32:45Z",
+      "side": 1,
+      "message": "Ah, yes, looks like for the PutConfig case this doesn\u0027t work.\n\nThen I\u0027m fine with either solution\n\n a) having 2 fields (\"value\" + \"values\") or\n b) having just \"value\" which is always a list.",
+      "parentUuid": "cf7b9935_ab92e93c",
+      "range": {
+        "startLine": 212,
+        "startChar": 4,
+        "endLine": 212,
+        "endChar": 31
+      },
+      "revId": "8c8fa634984773bb6d6c315cb0b0eb182e80ef37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cf7b9935_8b984d67",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutConfig.java",
         "patchSetId": 7

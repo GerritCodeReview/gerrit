@@ -71,6 +71,30 @@
     },
     {
       "key": {
+        "uuid": "af6ae563_0af77ba8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ConfigInfo.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-19T09:30:43Z",
+      "side": 1,
+      "message": "Well, that how the old patch set was working: The section wasn\u0027t parsed on the client side; instead unparsed string was passed to the server, that was doing the splitting on new line character. You made a valid point to make the interface symmetric for read and write operations.\n\nAre you proposing now to change String value to List\u003cString\u003evalue?\n\nThen we would pass also single values as an array:\n\n* single value \u003d\u003e \"value\": [\"a\"]\n* multiple value \u003d\u003e \"value\": [\"a\", \"b\", \"c\"]\n\nGson is the parser that we are using on the server side, and it relies entirely on reflection. It takes a string and try to match to the fields in Input class that is defined in view accessed in the request to set the values. So with\n\n value: \"a\"\n\nit expect to have String value field in the Input class, whereas for\n\n value: [\"a\", \"b\", \"c\"]\n\nIt expect to have List\u003cString\u003e. That\u0027s how i understand it.",
+      "parentUuid": "af6ae563_8a028bd4",
+      "range": {
+        "startLine": 212,
+        "startChar": 4,
+        "endLine": 212,
+        "endChar": 31
+      },
+      "revId": "8c8fa634984773bb6d6c315cb0b0eb182e80ef37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cf7b9935_8b984d67",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutConfig.java",
         "patchSetId": 7

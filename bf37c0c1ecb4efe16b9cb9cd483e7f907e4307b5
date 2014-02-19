@@ -22,6 +22,30 @@
       "revId": "bf37c0c1ecb4efe16b9cb9cd483e7f907e4307b5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cf7b9935_0bd45dfd",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/rpc/RestApi.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-02-19T08:42:16Z",
+      "side": 0,
+      "message": "\u003e What is the difference to this change where it didn\u0027t work?\n\nI was also puzzled by this. One difference here is that in case of MemberInput it is the root element which is a list, but in my case it is a normal JavaScript object that contains a member that is a list (I couldn\u0027t find any example for this in Gerrit core). Still I couldn\u0027t find anything in the code that would handle a list on root level...\n\n \u003e Not related here, but i cannot launch GWT development mode \n \u003e with serviceuser or cookbook plugins any more. I think \n \u003e this is related to GWT parts in these plugin. \n\nYes, I believe running GWT development mode with GWT UI plugins never worked so far.",
+      "parentUuid": "af6ae563_0ade9b2e",
+      "range": {
+        "startLine": 376,
+        "startChar": 6,
+        "endLine": 376,
+        "endChar": 55
+      },
+      "revId": "bf37c0c1ecb4efe16b9cb9cd483e7f907e4307b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

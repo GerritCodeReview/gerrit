@@ -137,7 +137,7 @@ public class ChangeScreen2 extends Screen {
 
   @UiField Element ccText;
   @UiField Reviewers reviewers;
-  @UiField Element ownerText;
+  @UiField InlineHyperlink ownerLink;
   @UiField Element statusText;
   @UiField Image projectQuery;
   @UiField InlineHyperlink projectLink;
@@ -825,11 +825,17 @@ public class ChangeScreen2 extends Screen {
     String name = info.owner().name() != null
         ? info.owner().name()
         : Gerrit.getConfig().getAnonymousCowardName();
-    String email = info.owner().email() != null
+
+    ownerLink.setText(name);
+    ownerLink.setTitle(info.owner().email() != null
         ? info.owner().email()
-        : name;
-    ownerText.setInnerText(name);
-    ownerText.setTitle(email);
+        : name);
+    ownerLink.setTargetHistoryToken(PageLinks.toAccountQuery(
+        info.owner().name() != null
+        ? info.owner().name()
+        : info.owner().email() != null
+        ? info.owner().email()
+        : String.valueOf(info.owner()._account_id()), Change.Status.NEW));
   }
 
   private void renderSubmitType(String action) {

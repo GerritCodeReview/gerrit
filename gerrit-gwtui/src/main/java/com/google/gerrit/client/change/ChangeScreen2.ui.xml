@@ -368,7 +368,7 @@ limitations under the License.
           <table id='change_infoTable'>
             <tr>
               <th><ui:msg>Owner</ui:msg></th>
-              <td ui:field='ownerText'/>
+              <td><x:InlineHyperlink ui:field='ownerLink'/></td>
             </tr>
             <tr>
               <th><ui:msg>Reviewers</ui:msg></th>

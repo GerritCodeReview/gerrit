@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "af6ae563_ca9e4354",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-19T14:18:27Z",
+      "side": 1,
+      "message": "\u003e  JNDI resource is not needed\n\nHow that?",
+      "parentUuid": "af6ae563_8a312b09",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 60
+      },
+      "revId": "70c6edc848c61785892616d38d9b09dd5e059187",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "af33c57d_62ee562c",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

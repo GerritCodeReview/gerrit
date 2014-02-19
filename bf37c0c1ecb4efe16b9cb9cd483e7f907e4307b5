@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "af6ae563_0ade9b2e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/rpc/RestApi.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-19T08:34:56Z",
+      "side": 0,
+      "message": "This still raises the question: Why was this change working with old JSONObject serialization approach [1]? That also relies on the serializing of array as arrays and not as maps. More than that, we have other constructs in core, that rely on JSON array serialization, e. g.:\n\n private static class MemberInput extends JavaScriptObject {\n    final native void init() /*-{ this.members \u003d []; }-*/;\n    final native void add_member(String n) /*-{ this.members.push(n); }-*/;\n\n    static MemberInput create() {\n      MemberInput m \u003d (MemberInput) createObject();\n      m.init();\n      return m;\n    }\n\n    protected MemberInput() {\n    }\n  }\n\nWhat is the difference to this change where it didn\u0027t work?\n\nNot related here, but i cannot launch GWT development mode with serviceuser or cookbook plugins any more. I think this is related to GWT parts in these plugin. \n\n* [1] https://gerrit-review.googlesource.com/54230\n* [2] https://gerrit-review.googlesource.com/54694",
+      "range": {
+        "startLine": 376,
+        "startChar": 6,
+        "endLine": 376,
+        "endChar": 55
+      },
+      "revId": "bf37c0c1ecb4efe16b9cb9cd483e7f907e4307b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -17,6 +17,7 @@ package com.google.gerrit.server.plugins;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AcceptsCreate;
 import com.google.gerrit.extensions.restapi.IdString;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestCollection;
 import com.google.gerrit.extensions.restapi.RestView;
@@ -58,7 +59,10 @@ public class PluginsCollection implements
   @SuppressWarnings("unchecked")
   @Override
   public InstallPlugin create(TopLevelResource parent, IdString id)
-      throws ResourceNotFoundException {
+      throws ResourceNotFoundException, MethodNotAllowedException {
+    if (!loader.isRemoteAdminEnabled()) {
+      throw new MethodNotAllowedException("remote installation is disabled");
+    }
     return new InstallPlugin(loader, id.get(), true /* created */);
   }
 

@@ -35,6 +35,7 @@ public class CapabilityConstants extends TranslationBundle {
   public String runAs;
   public String runGC;
   public String streamEvents;
+  public String viewAllAccounts;
   public String viewCaches;
   public String viewConnections;
   public String viewQueue;

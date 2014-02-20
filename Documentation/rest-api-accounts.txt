@@ -1137,6 +1137,9 @@ capability.
 |`streamEvents`      |not set if `false`|Whether the user has the
 link:access-control.html#capability_streamEvents[Stream Events]
 capability.
+|`viewAllAccounts`   |not set if `false`|Whether the user has the
+link:access-control.html#capability_viewAllAccounts[View All Accounts]
+capability.
 |`viewCaches`        |not set if `false`|Whether the user has the
 link:access-control.html#capability_viewCaches[View Caches] capability.
 |`viewConnections`   |not set if `false`|Whether the user has the

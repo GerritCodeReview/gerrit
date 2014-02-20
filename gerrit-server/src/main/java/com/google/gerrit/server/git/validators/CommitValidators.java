@@ -186,10 +186,19 @@ public class CommitValidators {
 
       if (idList.isEmpty()) {
         if (projectControl.getProjectState().isRequireChangeID()) {
-          String errMsg = "missing Change-Id in commit message footer";
-          messages.add(getFixedCommitMsgWithChangeId(
-              errMsg, receiveEvent.commit));
-          throw new CommitValidationException(errMsg, messages);
+          String shortMsg = receiveEvent.commit.getShortMessage();
+          String changeIdPrefix = CHANGE_ID.getName() + ":";
+          if (shortMsg.startsWith(changeIdPrefix)
+              && shortMsg.substring(changeIdPrefix.length()).trim()
+                  .matches("^I[0-9a-f]{8,}.*$")) {
+            throw new CommitValidationException(
+                "missing subject; Change-Id must be in commit message footer");
+          } else {
+            String errMsg = "missing Change-Id in commit message footer";
+            messages.add(getFixedCommitMsgWithChangeId(
+                errMsg, receiveEvent.commit));
+            throw new CommitValidationException(errMsg, messages);
+          }
         }
       } else if (idList.size() > 1) {
         throw new CommitValidationException(

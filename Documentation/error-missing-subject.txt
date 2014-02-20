@@ -1,0 +1,33 @@
+= missing subject; Change-Id must be in commit message footer
+
+With this error message Gerrit rejects to push a commit to a project
+which is configured to always require a Change-Id in the commit
+message if the commit message of the pushed commit does not contain
+a subject and a message, but only a Change-Id.
+
+This error happens if the Change-Id is the only line in the commit
+message.
+
+You can see the commit messages for existing commits in the history
+by doing a link:http://www.kernel.org/pub/software/scm/git/docs/git-log.html[git log].
+
+== Change-Id is the only line in the commit message
+
+Gerrit does not parse the subject of a commit message for the
+Change-Id even if this is the only and last paragraph of the commit
+message.
+
+If the Change-Id is the only line in the commit message you must update
+the commit message and insert a subject as the first line in the commit
+message. The Change-Id must be in the last paragraph of the commit
+message, i.e. separated from the subject by a blank line. How to update
+the commit message is explained
+link:error-push-fails-due-to-commit-message.html[here].
+
+
+GERRIT
+------
+Part of link:error-messages.html[Gerrit Error Messages]
+
+SEARCHBOX
+---------

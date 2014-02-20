@@ -22,6 +22,30 @@
       "revId": "a0af7febe66d3c33aeb73c448222af0240b5e14c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "afd66580_6a11b76e",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 747,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-02-20T23:02:29Z",
+      "side": 1,
+      "message": "My best guess is it\u0027s timezone related. Does java.util.TimeZone.getDefault() report different values in buck vs. command line?\n\nI\u0027m going to rewrite this change soon to use a different date parser and be more clear about timezones, I\u0027ll definitely take a look then.",
+      "parentUuid": "2f8fd5ae_be2cb9ad",
+      "range": {
+        "startLine": 747,
+        "startChar": 14,
+        "endLine": 747,
+        "endChar": 31
+      },
+      "revId": "a0af7febe66d3c33aeb73c448222af0240b5e14c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

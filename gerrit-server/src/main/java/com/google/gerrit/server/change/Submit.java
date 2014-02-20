@@ -71,10 +71,6 @@ import java.util.Map;
 
 public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     UiAction<RevisionResource> {
-  public static class Input {
-    public boolean waitForMerge;
-  }
-
   public enum Status {
     SUBMITTED, MERGED
   }

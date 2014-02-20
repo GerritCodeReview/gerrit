@@ -445,7 +445,17 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     if (!caller.canSubmitAs()) {
       throw new AuthException("submit on behalf of not permitted");
     }
-    ChangeControl target = caller.forUser(accounts.parse(in.onBehalfOf));
+    IdentifiedUser targetUser = accounts.parseId(in.onBehalfOf);
+    if (targetUser == null) {
+      throw new UnprocessableEntityException(String.format(
+          "Account Not Found: %s", in.onBehalfOf));
+    }
+    ChangeControl target = caller.forUser(targetUser);
+    if (target.getRefControl().isVisible()) {
+      throw new UnprocessableEntityException(String.format(
+          "on_behalf_of account %s cannot see destination ref",
+          targetUser.getAccountId()));
+    }
     return new RevisionResource(changes.parse(target), rsrc.getPatchSet());
   }
 

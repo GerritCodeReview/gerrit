@@ -29,6 +29,7 @@ class CapabilityInfo {
   public boolean runAs;
   public boolean runGC;
   public boolean streamEvents;
+  public boolean viewAllAccounts;
   public boolean viewCaches;
   public boolean viewConnections;
   public boolean viewQueue;

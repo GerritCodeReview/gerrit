@@ -121,6 +121,30 @@
     },
     {
       "key": {
+        "uuid": "2f8fd5ae_9e029d26",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-02-20T08:32:49Z",
+      "side": 1,
+      "message": "When gerrit.site_path is defined then Gerrit startup first looks at that path and then uses etc/gerrit.config (database section) in order to find the database. So, in that case JNDI is not used to locate the database.\n\nIf gerrit.site_path is not defined then Gerrit startup first connects to the database defined via JNDI, looks in the system_config table and its site_path column in order to find the review site folder.",
+      "parentUuid": "af6ae563_ca9e4354",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 60
+      },
+      "revId": "70c6edc848c61785892616d38d9b09dd5e059187",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "af33c57d_62ee562c",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

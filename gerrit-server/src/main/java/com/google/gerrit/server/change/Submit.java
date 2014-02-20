@@ -18,6 +18,7 @@ import static com.google.gerrit.common.data.SubmitRecord.Status.OK;
 
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
+import com.google.common.base.Strings;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
@@ -29,6 +30,7 @@ import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -42,6 +44,7 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ProjectUtil;
+import com.google.gerrit.server.account.AccountsCollection;
 import com.google.gerrit.server.change.ChangeJson.ChangeInfo;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LabelNormalizer;
@@ -95,6 +98,8 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
   private final MergeQueue mergeQueue;
   private final ChangeIndexer indexer;
   private final LabelNormalizer labelNormalizer;
+  private final AccountsCollection accounts;
+  private final ChangesCollection changes;
 
   @Inject
   Submit(@GerritPersonIdent PersonIdent serverIdent,
@@ -104,6 +109,8 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
       ChangeUpdate.Factory updateFactory,
       ApprovalsUtil approvalsUtil,
       MergeQueue mergeQueue,
+      AccountsCollection accounts,
+      ChangesCollection changes,
       ChangeIndexer indexer,
       LabelNormalizer labelNormalizer) {
     this.serverIdent = serverIdent;
@@ -113,6 +120,8 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     this.updateFactory = updateFactory;
     this.approvalsUtil = approvalsUtil;
     this.mergeQueue = mergeQueue;
+    this.accounts = accounts;
+    this.changes = changes;
     this.indexer = indexer;
     this.labelNormalizer = labelNormalizer;
   }
@@ -120,11 +129,16 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
   @Override
   public Output apply(RevisionResource rsrc, SubmitInput input)
       throws AuthException, ResourceConflictException,
-      RepositoryNotFoundException, IOException, OrmException {
+      RepositoryNotFoundException, IOException, OrmException,
+      UnprocessableEntityException {
+    input.onBehalfOf = Strings.emptyToNull(input.onBehalfOf);
+    if (input.onBehalfOf != null) {
+      rsrc = onBehalfOf(rsrc, input);
+    }
     ChangeControl control = rsrc.getControl();
     IdentifiedUser caller = (IdentifiedUser) control.getCurrentUser();
     Change change = rsrc.getChange();
-    if (!control.canSubmit()) {
+    if (input.onBehalfOf == null && !control.canSubmit()) {
       throw new AuthException("submit not permitted");
     } else if (!change.getStatus().isOpen()) {
       throw new ResourceConflictException("change is " + status(change));
@@ -422,6 +436,19 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     return change != null ? change.getStatus().name().toLowerCase() : "deleted";
   }
 
+  private RevisionResource onBehalfOf(RevisionResource rsrc, SubmitInput in)
+      throws AuthException, UnprocessableEntityException, OrmException {
+    ChangeControl caller = rsrc.getControl();
+    if (!caller.canSubmit()) {
+      throw new AuthException("submit not permitted");
+    }
+    if (!caller.canSubmitAs()) {
+      throw new AuthException("submit on behalf of not permitted");
+    }
+    ChangeControl target = caller.forUser(accounts.parse(in.onBehalfOf));
+    return new RevisionResource(changes.parse(target), rsrc.getPatchSet());
+  }
+
   public static class CurrentRevision implements
       RestModifyView<ChangeResource, SubmitInput> {
     private final Provider<ReviewDb> dbProvider;
@@ -440,7 +467,8 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     @Override
     public ChangeInfo apply(ChangeResource rsrc, SubmitInput input)
         throws AuthException, ResourceConflictException,
-        RepositoryNotFoundException, IOException, OrmException {
+        RepositoryNotFoundException, IOException, OrmException,
+        UnprocessableEntityException {
       PatchSet ps = dbProvider.get().patchSets()
         .get(rsrc.getChange().currentPatchSetId());
       if (ps == null) {

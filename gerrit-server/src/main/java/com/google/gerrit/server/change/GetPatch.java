@@ -25,6 +25,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.diff.DiffFormatter;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -57,84 +58,87 @@ public class GetPatch implements RestReadView<RevisionResource> {
 
   @Override
   public BinaryResult apply(RevisionResource rsrc)
-      throws ResourceNotFoundException, ResourceConflictException {
+      throws ResourceNotFoundException, ResourceConflictException, IOException {
     Project.NameKey project = rsrc.getControl().getProject().getNameKey();
+    final Repository repo;
+    try {
+      repo = repoManager.openRepository(project);
+    } catch (RepositoryNotFoundException notFound) {
+      throw new ResourceNotFoundException(
+          rsrc.getPatchSet().getRevision().get(), notFound);
+    }
+
     boolean close = true;
     try {
-      final Repository repo = repoManager.openRepository(project);
+      final RevWalk rw = new RevWalk(repo);
       try {
-        final RevWalk rw = new RevWalk(repo);
-        try {
-          final RevCommit commit =
-              rw.parseCommit(ObjectId.fromString(rsrc.getPatchSet()
-                  .getRevision().get()));
-          RevCommit[] parents = commit.getParents();
-          if (parents.length > 1) {
-            throw new ResourceConflictException(
-                "Revision has more than 1 parent.");
-          } else if (parents.length == 0) {
-            throw new ResourceConflictException("Revision has no parent.");
-          }
-          final RevCommit base = parents[0];
-          rw.parseBody(base);
-
-          BinaryResult bin = new BinaryResult() {
-            @Override
-            public void writeTo(OutputStream out) throws IOException {
-              if (zip) {
-                ZipOutputStream zos = new ZipOutputStream(out);
-                ZipEntry e = new ZipEntry(fileName(rw, commit));
-                e.setTime(commit.getCommitTime() * 1000L);
-                zos.putNextEntry(e);
-                format(zos);
-                zos.closeEntry();
-                zos.finish();
-              } else {
-                format(out);
-              }
-            }
-
-            private void format(OutputStream out) throws IOException {
-              out.write(formatEmailHeader(commit).getBytes(UTF_8));
-              DiffFormatter fmt = new DiffFormatter(out);
-              fmt.setRepository(repo);
-              fmt.format(base.getTree(), commit.getTree());
-              fmt.flush();
-            }
-
-            @Override
-            public void close() throws IOException {
-              rw.release();
-              repo.close();
-            }
-          };
-
-          if (zip) {
-            bin.disableGzip()
-               .setContentType("application/zip")
-               .setAttachmentName(fileName(rw, commit) + ".zip");
-          } else {
-            bin.base64()
-               .setContentType("application/mbox")
-               .setAttachmentName(download
-                   ? fileName(rw, commit) + ".base64"
-                   : null);
-          }
-
-          close = false;
-          return bin;
-        } finally {
-          if (close) {
-            rw.release();
-          }
+        final RevCommit commit =
+            rw.parseCommit(ObjectId.fromString(rsrc.getPatchSet()
+                .getRevision().get()));
+        RevCommit[] parents = commit.getParents();
+        if (parents.length > 1) {
+          throw new ResourceConflictException(
+              "Revision has more than 1 parent.");
+        } else if (parents.length == 0) {
+          throw new ResourceConflictException("Revision has no parent.");
         }
+        final RevCommit base = parents[0];
+        rw.parseBody(base);
+
+        BinaryResult bin = new BinaryResult() {
+          @Override
+          public void writeTo(OutputStream out) throws IOException {
+            if (zip) {
+              ZipOutputStream zos = new ZipOutputStream(out);
+              ZipEntry e = new ZipEntry(fileName(rw, commit));
+              e.setTime(commit.getCommitTime() * 1000L);
+              zos.putNextEntry(e);
+              format(zos);
+              zos.closeEntry();
+              zos.finish();
+            } else {
+              format(out);
+            }
+          }
+
+          private void format(OutputStream out) throws IOException {
+            out.write(formatEmailHeader(commit).getBytes(UTF_8));
+            DiffFormatter fmt = new DiffFormatter(out);
+            fmt.setRepository(repo);
+            fmt.format(base.getTree(), commit.getTree());
+            fmt.flush();
+          }
+
+          @Override
+          public void close() throws IOException {
+            rw.release();
+            repo.close();
+          }
+        };
+
+        if (zip) {
+          bin.disableGzip()
+             .setContentType("application/zip")
+             .setAttachmentName(fileName(rw, commit) + ".zip");
+        } else {
+          bin.base64()
+             .setContentType("application/mbox")
+             .setAttachmentName(download
+                 ? fileName(rw, commit) + ".base64"
+                 : null);
+        }
+
+        close = false;
+        return bin;
       } finally {
         if (close) {
-          repo.close();
+          rw.release();
         }
       }
-    } catch (IOException e) {
-      throw new ResourceNotFoundException();
+    } finally {
+      if (close) {
+        repo.close();
+      }
     }
   }
 

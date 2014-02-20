@@ -79,6 +79,9 @@ public class GlobalCapability {
   /** Can perform streaming of Gerrit events. */
   public static final String STREAM_EVENTS = "streamEvents";
 
+  /** Can view all accounts, regardless of {@code accounts.visibility}. */
+  public static final String VIEW_ALL_ACCOUNTS = "viewAllAccounts";
+
   /** Can view the server's current cache states. */
   public static final String VIEW_CACHES = "viewCaches";
 
@@ -106,6 +109,7 @@ public class GlobalCapability {
     NAMES_ALL.add(RUN_AS);
     NAMES_ALL.add(RUN_GC);
     NAMES_ALL.add(STREAM_EVENTS);
+    NAMES_ALL.add(VIEW_ALL_ACCOUNTS);
     NAMES_ALL.add(VIEW_CACHES);
     NAMES_ALL.add(VIEW_CONNECTIONS);
     NAMES_ALL.add(VIEW_QUEUE);

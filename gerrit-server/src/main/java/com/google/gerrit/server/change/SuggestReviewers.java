@@ -270,8 +270,8 @@ public class SuggestReviewers implements RestReadView<ChangeResource> {
 
   public static class SuggestedReviewerInfo implements Comparable<SuggestedReviewerInfo> {
     String kind = "gerritcodereview#suggestedreviewer";
-    AccountInfo account;
-    GroupBaseInfo group;
+    public AccountInfo account;
+    public GroupBaseInfo group;
 
     SuggestedReviewerInfo(AccountInfo a) {
       this.account = a;

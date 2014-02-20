@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2f8fd5ae_7ef5d1f4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-20T08:21:36Z",
+      "side": 1,
+      "message": "That works only when i remove ReviewDB definition from context.xml:\n\n \u003cResource\n    name\u003d\"jdbc/ReviewDb\"\n    type\u003d\"javax.sql.DataSource\"\n    username\u003d\"\"\n    driverClassName\u003d\"org.h2.Driver\"\n    password\u003d\"\"\n    url\u003d\"jdbc:h2:file:/home/davido/projects/test_site_auto/db/ReviewDB\"\n    maxActive\u003d\"100\"\n    maxIdle\u003d\"20\"/\u003e\n\nIf jndi is defined in context.xml, even if i am using -Dgerrit.site_path instead of -Dgerrit.init_path it fails to start:\n\n* http://paste.openstack.org/show/67533/\n* http://paste.openstack.org/show/67534/\n\nIf it is expected, then we should document it.",
+      "range": {
+        "startLine": 17,
+        "startChar": 44,
+        "endLine": 18,
+        "endChar": 71
+      },
+      "revId": "af275d1eddcb316738e2c0cac3c658f585b9e2d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

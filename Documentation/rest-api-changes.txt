@@ -3287,12 +3287,12 @@ whether the change could be merged successfully.
 |`on_behalf_of`|optional|
 The link:rest-api-accounts.html#account-id[\{account-id\}] of the user on
 whose behalf the action should be done. To use this option the caller must
-have been granted both `Submit` and `SubmitAs` permission. The user named
-by `on_behalf_of` does not need to be granted `Submit` permissions. This
-feature is aimed for CI solutions: the CI account can be granted both
-permssions, so individual users don't need `Submit` permission themselves.
-Still the changes can be submited on behalf of real users and not with the
-identity of the CI account.
+have been granted both `Submit` and `Submit (On Behalf Of)` permissions.
+The user named by `on_behalf_of` does not need to be granted the `Submit`
+permission. This feature is aimed for CI solutions: the CI account can be
+granted both permssions, so individual users don't need `Submit` permission
+themselves. Still the changes can be submited on behalf of real users and
+not with the identity of the CI account.
 |==========================
 
 [[submit-input]]

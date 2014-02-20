@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0fc771d6_a502be25",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-20T07:44:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0fc771d6_a5d91e9e",
+      "range": {
+        "startLine": 10,
+        "startChar": 39,
+        "endLine": 10,
+        "endChar": 43
+      },
+      "revId": "29c0f4c23a3dde89f699e11fb126df4a265b4494",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cf12b90d_f3fc90df",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetPatch.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2014-02-20T01:01:22Z",
       "side": 1,
       "message": "We shouldn\u0027t catch this either. Its unexpected at this point to fail.",
+      "range": {
+        "startLine": 66,
+        "startChar": 4,
+        "endLine": 69,
+        "endChar": 5
+      },
+      "revId": "29c0f4c23a3dde89f699e11fb126df4a265b4494",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0fc771d6_45f5caf4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetPatch.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-20T07:44:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cf12b90d_f3fc90df",
       "range": {
         "startLine": 66,
         "startChar": 4,

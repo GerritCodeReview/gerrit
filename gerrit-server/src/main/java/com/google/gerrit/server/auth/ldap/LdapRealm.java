@@ -59,7 +59,7 @@ import javax.naming.directory.DirContext;
 import javax.security.auth.login.LoginException;
 
 @Singleton
-class LdapRealm implements Realm {
+public class LdapRealm implements Realm {
   static final Logger log = LoggerFactory.getLogger(LdapRealm.class);
   static final String LDAP = "com.sun.jndi.ldap.LdapCtxFactory";
   static final String USERNAME = "username";

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "afd66580_aa272fca",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-02-21T00:53:29Z",
+      "side": 1,
+      "message": "change this to a semicolon.",
+      "range": {
+        "startLine": 195,
+        "startChar": 32,
+        "endLine": 195,
+        "endChar": 33
+      },
+      "revId": "ac03d96c20e17d757e71a11a6dbbf0aa316b709e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

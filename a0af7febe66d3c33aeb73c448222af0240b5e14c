@@ -70,6 +70,30 @@
       "revId": "a0af7febe66d3c33aeb73c448222af0240b5e14c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cf12b90d_d38cf470",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 747,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-02-21T18:06:47Z",
+      "side": 1,
+      "message": "That\u0027s odd. US/Eastern is expected since that\u0027s what we set in setTimeForTesting above. Why it shouldn\u0027t be working in buck is unclear. If multiple instances of this test are running concurrently there might be a race on setting the system property, but I was pretty sure tests were single-threaded.",
+      "parentUuid": "2f8fd5ae_3e78a996",
+      "range": {
+        "startLine": 747,
+        "startChar": 14,
+        "endLine": 747,
+        "endChar": 31
+      },
+      "revId": "a0af7febe66d3c33aeb73c448222af0240b5e14c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

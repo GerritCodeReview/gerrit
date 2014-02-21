@@ -16,6 +16,29 @@
       "revId": "c7355522e3966694773bf24cee31571dcf6b787d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0fc771d6_c5209a82",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PutName.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-02-21T11:42:02Z",
+      "side": 1,
+      "message": "Can you write this as a single if-statement?",
+      "range": {
+        "startLine": 82,
+        "startChar": 4,
+        "endLine": 91,
+        "endChar": 5
+      },
+      "revId": "c7355522e3966694773bf24cee31571dcf6b787d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

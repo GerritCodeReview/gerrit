@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2f8fd5ae_be6bd9c4",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SuggestReviewersIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-21T07:50:30Z",
+      "side": 1,
+      "message": "Ad before this line:\n\n  assertEquals(1, reviewers.size());\n\nTo have nicer failure reporting in case GlobalCapability.VIEW_ALL_ACCOUNTS is broken.",
+      "range": {
+        "startLine": 157,
+        "startChar": 4,
+        "endLine": 157,
+        "endChar": 76
+      },
+      "revId": "cddd1d126f60864af0fd4360cd93475a61a7d6c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

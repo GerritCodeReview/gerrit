@@ -46,6 +46,30 @@
       "revId": "e2a1e7ef34fd6bc2c132e4529e62ff13f0fbb27a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2f8fd5ae_be3f599a",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/WarDistribution.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-21T17:16:33Z",
+      "side": 1,
+      "message": "We don\u0027t put .disabled jars in web-inf/plugins. I just copied an exerpt for you.\n\n\u003e The name from the MANIFEST is used as the display name in the Web UI, right?\n\nThe name of the plugin from the manifest is used for everything and not only for Web UI, e. g. for SSH command name, plugin-owned capabilities, and plugin specific config-section in project.config file.\n\nCheck replication plugin:\n\n gerrit_plugin(\n  name \u003d \u0027replication\u0027,\n  srcs \u003d glob([\u0027src/main/java/**/*.java\u0027]),\n  resources \u003d glob([\u0027src/main/resources/**/*\u0027]),\n  manifest_entries \u003d [\n    \u0027Gerrit-PluginName: replication\u0027,\n\nIt defines plugin name in the manifest file. If we change Buck build process and say append suffix 1.2 to the generated jar file that is packaged in WEB-INF/lugins, then the code above is wrong, because the induced plugin name would be:\n\n \"replication-1.2\"\n\nand not\n\n  \"replication\"\n\nany more. All granted replication-startReplication capabilities would be lost (because it would look for replication-1.2-startReplication, and ssh command would be\n\n  ssh gerrit replication-1.2 start\n\nand not\n\n  ssh gerrit replication start\n\nBut apparently the old code was already broken too, so i this problem is probably unrelated to this change, but was forgotten to take care about as plugin-owned name feature in MANIFEST.MF was introduced.",
+      "parentUuid": "0fc771d6_6549e64b",
+      "range": {
+        "startLine": 50,
+        "startChar": 12,
+        "endLine": 51,
+        "endChar": 55
+      },
+      "revId": "e2a1e7ef34fd6bc2c132e4529e62ff13f0fbb27a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

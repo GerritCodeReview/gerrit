@@ -37,6 +37,18 @@ if defined, will be used to determine the site path. The database
 connectivity, also for this case, is defined by the `jdbc/ReviewDb`
 JNDI property.
 
+[WARNING]
+Defining the `jdbc/ReviewDb` JNDI property for an H2 database under the
+path defined by either `gerrit.site_path` or `gerrit.init_path` will
+cause an incomplete auto initialization and Gerrit will fail to start.
+Opening a connection to such database will create a subfolder under the
+site path folder (in order to create the H2 database) and Gerrit will
+not any more consider that site path to be new and, because of that,
+skip some required initialization steps (for example, Lucene index
+creation). In order to auto initialize Gerrit with an embedded H2
+database use the `gerrit.site_path` to define the location of the review
+site and don't define a JNDI resource with a URL under that path.
+
 === Example 1
 
 Prepare Tomcat so that a site is initialized at a given path using

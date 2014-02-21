@@ -43,7 +43,7 @@ public final class SiteInitializer {
         File site = new File(sitePath);
         LOG.info(String.format("Initializing site at %s",
             site.getAbsolutePath()));
-        new BaseInit(site, false).run();
+        new BaseInit(site, false, true).run();
         return;
       }
 
@@ -56,7 +56,7 @@ public final class SiteInitializer {
         if (site != null) {
           LOG.info(String.format("Initializing site at %s",
               site.getAbsolutePath()));
-          new BaseInit(site, new ReviewDbDataSourceProvider(), false).run();
+          new BaseInit(site, new ReviewDbDataSourceProvider(), false, false).run();
         }
       } finally {
         conn.close();

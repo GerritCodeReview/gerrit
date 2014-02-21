@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "afd66580_ca4f0382",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-02-21T07:45:30Z",
+      "side": 1,
+      "message": "We had a discussion with David O in the below link for Issue 379 and concluded to use the drop down feature.\n\nhttps://groups.google.com/forum/#!topic/repo-discuss/NsdAXwSDSQA",
+      "parentUuid": "8f6fe175_89ae19ab",
+      "range": {
+        "startLine": 20,
+        "startChar": 9,
+        "endLine": 20,
+        "endChar": 18
+      },
+      "revId": "d7cc60449c8cbfd29e4084ff7af3437192fa187a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8f6fe175_09ca2989",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Dispatcher.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2014-02-19T13:07:05Z",
       "side": 1,
       "message": "Nit: add a space before `\u003d\u003d`\n\nIt was already like that, but if you\u0027re editing this line anyway it might as well be fixed.",
+      "range": {
+        "startLine": 517,
+        "startChar": 28,
+        "endLine": 517,
+        "endChar": 35
+      },
+      "revId": "d7cc60449c8cbfd29e4084ff7af3437192fa187a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cf12b90d_f34ad073",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Dispatcher.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 517,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-02-21T07:45:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8f6fe175_09ca2989",
       "range": {
         "startLine": 517,
         "startChar": 28,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "afd66580_2a45ff62",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Dispatcher.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 569,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-02-21T07:45:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8f6fe175_29c7ed81",
+      "range": {
+        "startLine": 569,
+        "startChar": 16,
+        "endLine": 569,
+        "endChar": 20
+      },
+      "revId": "d7cc60449c8cbfd29e4084ff7af3437192fa187a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8f6fe175_c9b41103",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
         "patchSetId": 1
@@ -82,6 +154,30 @@
       "writtenOn": "2014-02-19T13:07:05Z",
       "side": 1,
       "message": "Not a very good variable name.",
+      "range": {
+        "startLine": 121,
+        "startChar": 17,
+        "endLine": 121,
+        "endChar": 22
+      },
+      "revId": "d7cc60449c8cbfd29e4084ff7af3437192fa187a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "afd66580_0a42bb5a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-02-21T07:45:30Z",
+      "side": 1,
+      "message": "Changed to \"basename\"",
+      "parentUuid": "8f6fe175_c9b41103",
       "range": {
         "startLine": 121,
         "startChar": 17,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "cf12b90d_d34fd481",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-02-21T07:45:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cf5479b3_e3d01242",
+      "range": {
+        "startLine": 134,
+        "startChar": 22,
+        "endLine": 134,
+        "endChar": 23
+      },
+      "revId": "d7cc60449c8cbfd29e4084ff7af3437192fa187a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cf5479b3_83d59e30",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
         "patchSetId": 1
@@ -128,6 +248,24 @@
       "writtenOn": "2014-02-19T13:07:05Z",
       "side": 1,
       "message": "Wrap this line.",
+      "revId": "d7cc60449c8cbfd29e4084ff7af3437192fa187a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "afd66580_6a3ff7c6",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-02-21T07:45:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cf5479b3_83d59e30",
       "revId": "d7cc60449c8cbfd29e4084ff7af3437192fa187a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -157,6 +295,30 @@
     },
     {
       "key": {
+        "uuid": "afd66580_4a3cb3d0",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeConstants.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-02-21T07:45:30Z",
+      "side": 1,
+      "message": "Changed to lower case.",
+      "parentUuid": "cf5479b3_a3da1a5c",
+      "range": {
+        "startLine": 119,
+        "startChar": 27,
+        "endLine": 119,
+        "endChar": 41
+      },
+      "revId": "d7cc60449c8cbfd29e4084ff7af3437192fa187a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8f6fe175_e9b9d5f7",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/Header.java",
         "patchSetId": 1
@@ -168,6 +330,30 @@
       "writtenOn": "2014-02-19T13:07:05Z",
       "side": 1,
       "message": "Can go on the previous line.",
+      "range": {
+        "startLine": 103,
+        "startChar": 8,
+        "endLine": 103,
+        "endChar": 15
+      },
+      "revId": "d7cc60449c8cbfd29e4084ff7af3437192fa187a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cf12b90d_33456863",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/Header.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-02-21T07:45:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8f6fe175_e9b9d5f7",
       "range": {
         "startLine": 103,
         "startChar": 8,

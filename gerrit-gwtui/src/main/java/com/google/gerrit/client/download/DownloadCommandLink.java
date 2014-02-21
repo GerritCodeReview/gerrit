@@ -17,9 +17,11 @@ package com.google.gerrit.client.download;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadCommand;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.aria.client.Roles;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
@@ -112,6 +114,55 @@ public abstract class DownloadCommandLink extends Anchor implements ClickHandler
       protected void setCurrentUrl(DownloadUrlLink link) {
         widget.setVisible(true);
         copyLabel.setText("git clone " + link.getUrlData());
+      }
+    }
+
+    public class CloneWithCommitMsgHookCommandLink extends DownloadCommandLink {
+      private final Project.NameKey project;
+
+      public CloneWithCommitMsgHookCommandLink(Project.NameKey project) {
+        super(DownloadCommand.CHECKOUT, "clone with commmit-msg hook");
+        this.project = project;
+      }
+
+      @Override
+      protected void setCurrentUrl(DownloadUrlLink link) {
+        widget.setVisible(true);
+
+        String sshPort = "29418";
+        String sshAddr = Gerrit.getConfig().getSshdAddress();
+        int p = sshAddr.lastIndexOf(':');
+        if (p != -1 && !sshAddr.endsWith(":")) {
+          sshPort = sshAddr.substring(p + 1);
+        }
+
+        StringBuilder cmd = new StringBuilder();
+        cmd.append("git clone ");
+        cmd.append(link.getUrlData());
+        cmd.append(" && scp -p -P ");
+        cmd.append(sshPort);
+        cmd.append(" ");
+        cmd.append(Gerrit.getUserAccount().getUserName());
+        cmd.append("@");
+
+        if (sshAddr.startsWith("*:") || p == -1) {
+          cmd.append(Window.Location.getHostName());
+        } else {
+          cmd.append(sshAddr.substring(0, p));
+        }
+
+        cmd.append(":hooks/commit-msg ");
+
+        p = project.get().lastIndexOf('/');
+        if (p != -1) {
+          cmd.append(project.get().substring(p + 1));
+        } else {
+          cmd.append(project.get());
+        }
+
+        cmd.append("/.git/hooks/");
+
+        copyLabel.setText(cmd.toString());
       }
     }
 

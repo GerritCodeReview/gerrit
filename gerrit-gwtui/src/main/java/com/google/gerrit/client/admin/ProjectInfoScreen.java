@@ -591,9 +591,19 @@ public class ProjectInfoScreen extends ProjectScreen {
         if (allowedCommands.contains(DownloadCommand.CHECKOUT)
             || allowedCommands.contains(DownloadCommand.DEFAULT_DOWNLOADS)) {
           commands.add(cmdLinkfactory.new CloneCommandLink());
+          if (Gerrit.getConfig().getSshdAddress() != null && hasUserName()) {
+            commands.add(
+                cmdLinkfactory.new CloneWithCommitMsgHookCommandLink(getProjectKey()));
+          }
         }
       }
     }
+  }
+
+  private static boolean hasUserName() {
+    return Gerrit.isSignedIn()
+        && Gerrit.getUserAccount().getUserName() != null
+        && Gerrit.getUserAccount().getUserName().length() > 0;
   }
 
   private class LabeledWidgetsGrid extends FlexTable {

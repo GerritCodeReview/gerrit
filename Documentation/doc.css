@@ -32,6 +32,22 @@ li p {
   padding: 2px;
 }
 
+.listingblock > .content pre {
+  background: none;
+  border: 0 solid silver;
+  padding: 0 0 0 0;
+}
+
 dl dt {
   margin-top: 1em;
+}
+
+table.tableblock {
+  border-collapse: collapse;
+}
+
+table.tableblock,
+th.tableblock,
+td.tableblock {
+  border: 1px solid #EEE;
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0fc771d6_a53abeaa",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/WarDistribution.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-21T12:57:44Z",
+      "side": 1,
+      "message": "That is probably correct, because either core plugins are not defining its own plugin name or the plugin name are the same as file name, but it is dangerous, because theoretically, plugin can provide their own name, and this name may or may not correspond to the jar file name:\n\nExample:\nfoo-1.0.jar\n\nWhen this plugin has defined name \u003d foo, then the plugin name is \"foo\",\nif not, then the plugin name is \"foo-1.0\".\n\nThe correct way would be to check MANIFEST.MF of that file. If there is no Gerrit-PluginName there, then the line 50, 51 applies otherwise the name defined in manifest must be used.\n\nThe combination of two methods from PluginLoader is the right way to retrieve the plugin name:\n\n String correctPluginName \u003d Objects.firstNonNull(getGerritPluginName(file),\n        nameOf(fileName));\n\n private static String nameOf(String name) {\n    if (name.endsWith(\".disabled\")) {\n      name \u003d name.substring(0, name.lastIndexOf(\u0027.\u0027));\n    }\n    int ext \u003d name.lastIndexOf(\u0027.\u0027);\n    return 0 \u003c ext ? name.substring(0, ext) : name;\n  }\n\n public static String getGerritPluginName(File srcFile) throws IOException {\n    String fileName \u003d srcFile.getName();\n    if (isJarPlugin(fileName)) {\n      JarFile jarFile \u003d new JarFile(srcFile);\n      try {\n        return jarFile.getManifest().getMainAttributes()\n            .getValue(\"Gerrit-PluginName\");\n      } finally {\n        jarFile.close();\n      }\n    }\n    if (isJsPlugin(fileName)) {\n      return fileName.substring(0, fileName.length() - 3);\n    }\n    return null;\n  }",
+      "range": {
+        "startLine": 50,
+        "startChar": 12,
+        "endLine": 51,
+        "endChar": 55
+      },
+      "revId": "e2a1e7ef34fd6bc2c132e4529e62ff13f0fbb27a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -22,6 +22,30 @@
       "revId": "f08089f802d7d3183e43e7c7c0aab2bbd39a8241",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cf12b90d_f3313008",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 767,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-02-21T01:29:01Z",
+      "side": 1,
+      "message": "In all the other cases, the name of the permission here matches the name of the permission used in the project config.\n\ni.e. \"View Drafts\" -\u003e \"viewDrafts\".\n\nWould it be better to change this to \"Submit As\" instead of \"Submit (On Behalf Of)\"?",
+      "parentUuid": "0fc771d6_453caad0",
+      "range": {
+        "startLine": 767,
+        "startChar": 4,
+        "endLine": 767,
+        "endChar": 10
+      },
+      "revId": "f08089f802d7d3183e43e7c7c0aab2bbd39a8241",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

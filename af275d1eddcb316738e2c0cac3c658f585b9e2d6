@@ -22,6 +22,30 @@
       "revId": "af275d1eddcb316738e2c0cac3c658f585b9e2d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0fc771d6_a5b47e01",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-02-21T09:31:18Z",
+      "side": 1,
+      "message": "Updated the documentation",
+      "parentUuid": "2f8fd5ae_7ef5d1f4",
+      "range": {
+        "startLine": 17,
+        "startChar": 44,
+        "endLine": 18,
+        "endChar": 71
+      },
+      "revId": "af275d1eddcb316738e2c0cac3c658f585b9e2d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

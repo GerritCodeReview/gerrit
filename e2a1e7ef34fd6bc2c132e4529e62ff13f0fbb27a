@@ -22,6 +22,30 @@
       "revId": "e2a1e7ef34fd6bc2c132e4529e62ff13f0fbb27a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0fc771d6_6549e64b",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/WarDistribution.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-02-21T15:56:20Z",
+      "side": 1,
+      "message": "\u003e    if (name.endsWith(\".disabled\")) {\n\nwhy would we have packaged a plugin jar whose name ends with \".disabled\" into gerrit.war/WEB-INF/plugins ? I am not aware that we do that and for what purpose.\n\nI think the pluginName here should be the name of the file as this is the name used to persist the plugin jar under the $site_path/plugins folder.\nThe name from the MANIFEST is used as the display name in the Web UI, right?",
+      "parentUuid": "0fc771d6_a53abeaa",
+      "range": {
+        "startLine": 50,
+        "startChar": 12,
+        "endLine": 51,
+        "endChar": 55
+      },
+      "revId": "e2a1e7ef34fd6bc2c132e4529e62ff13f0fbb27a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -22,6 +22,30 @@
       "revId": "a02e77f9b6841c71538206346130f5beddcc3ced",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2f8fd5ae_be167932",
+        "filename": "Documentation/config-auto-site-initialization.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-02-21T12:24:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0fc771d6_65a3a6c2",
+      "range": {
+        "startLine": 40,
+        "startChar": 1,
+        "endLine": 40,
+        "endChar": 5
+      },
+      "revId": "a02e77f9b6841c71538206346130f5beddcc3ced",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

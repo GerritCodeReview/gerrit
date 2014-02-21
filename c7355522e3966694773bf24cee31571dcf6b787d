@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0fc771d6_8516a232",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PutName.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-02-21T11:01:14Z",
+      "side": 1,
+      "message": "this commit belongs to improvement, it is not perfect because in the case of \n\n  -the realm instanceof DefaultRealm, \n  -the authType is \"HTTP\" \n  -the auth.httpDisplaynameHeader is configured. \n\nI can not find a way to distinguish the manually created account with others, so in this case admin still cannot update the full name of manually created account.\nexpect to any idea and hints about it.",
+      "revId": "c7355522e3966694773bf24cee31571dcf6b787d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

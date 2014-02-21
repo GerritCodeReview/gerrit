@@ -94,6 +94,30 @@
       "revId": "e2a1e7ef34fd6bc2c132e4529e62ff13f0fbb27a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2f8fd5ae_1e4f6d53",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/WarDistribution.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-21T17:47:25Z",
+      "side": 1,
+      "message": "I only answered Sasa question what plugin name is used for.\n\nYou are right about the installation, but we already reading the content of manifest file in \n\n InitPlugins.getVersion(plugin)\n\nto dump the right plugin version during interactive installation:\n\n  if (!(initFlags.installPlugins.contains(pluginName) || ui.yesno(false,\n            \"Install plugin %s version %s\", pluginName, plugin.version))) {\n          tmpPlugin.delete();\n          continue;\n }\n\n\nwhereas the plugin name is still induced from the file name, even though it can be different in the manifest. It is only cosmetic, but it is still not quite correct.",
+      "parentUuid": "2f8fd5ae_fe39e1b5",
+      "range": {
+        "startLine": 50,
+        "startChar": 12,
+        "endLine": 51,
+        "endChar": 55
+      },
+      "revId": "e2a1e7ef34fd6bc2c132e4529e62ff13f0fbb27a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

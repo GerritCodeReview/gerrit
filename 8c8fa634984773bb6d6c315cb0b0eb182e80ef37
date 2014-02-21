@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2f8fd5ae_1ed4cd0f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 517,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-21T22:12:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cf7b9935_cb9e5554",
+      "range": {
+        "startLine": 517,
+        "startChar": 4,
+        "endLine": 517,
+        "endChar": 19
+      },
+      "revId": "8c8fa634984773bb6d6c315cb0b0eb182e80ef37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cf7b9935_eba31195",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ConfigInfo.java",
         "patchSetId": 7
@@ -36,6 +60,30 @@
       "writtenOn": "2014-02-19T09:13:11Z",
       "side": 1,
       "message": "Should init() only be invoked if multiple values are set?\n\nOtherwise for a single value it will look like this in JSON:\n\n  {\"values\":[], \"value\":\"true\"}\n\n\u0027\"values\":[]\u0027 seems to be unnecassary here.",
+      "range": {
+        "startLine": 173,
+        "startChar": 6,
+        "endLine": 173,
+        "endChar": 15
+      },
+      "revId": "8c8fa634984773bb6d6c315cb0b0eb182e80ef37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2f8fd5ae_3ed18920",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ConfigInfo.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-21T22:12:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cf7b9935_eba31195",
       "range": {
         "startLine": 173,
         "startChar": 6,
@@ -167,6 +215,30 @@
     },
     {
       "key": {
+        "uuid": "2f8fd5ae_5ede552f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ConfigInfo.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-21T22:12:48Z",
+      "side": 1,
+      "message": "I suggest to go for a) then. Switching to list semantic for single value configuration parameters for both input and output containers (symmetry) would make the code more complex.",
+      "parentUuid": "af6ae563_6ac71753",
+      "range": {
+        "startLine": 212,
+        "startChar": 4,
+        "endLine": 212,
+        "endChar": 31
+      },
+      "revId": "8c8fa634984773bb6d6c315cb0b0eb182e80ef37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cf7b9935_8b984d67",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutConfig.java",
         "patchSetId": 7
@@ -178,6 +250,30 @@
       "writtenOn": "2014-02-19T09:13:11Z",
       "side": 1,
       "message": "[optional] Same as in [1]. I\u0027m wondering if we could have a single value field here which either contains a string or a list of strings.\n\n[1] https://gerrit-review.googlesource.com/#/c/54230/7/gerrit-server/src/main/java/com/google/gerrit/server/project/ConfigInfo.java",
+      "range": {
+        "startLine": 56,
+        "startChar": 4,
+        "endLine": 57,
+        "endChar": 31
+      },
+      "revId": "8c8fa634984773bb6d6c315cb0b0eb182e80ef37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0fc771d6_05d11220",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-21T22:12:48Z",
+      "side": 1,
+      "message": "We have concluded to let it as is.",
+      "parentUuid": "cf7b9935_8b984d67",
       "range": {
         "startLine": 56,
         "startChar": 4,

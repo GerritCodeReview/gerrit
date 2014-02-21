@@ -104,6 +104,9 @@ public class AccountControl {
         && ((IdentifiedUser) currentUser).getAccountId().equals(otherUser)) {
       return true;
     }
+    if (currentUser.getCapabilities().canViewAllAccounts()) {
+      return true;
+    }
 
     switch (accountVisibility) {
       case ALL:
@@ -139,7 +142,7 @@ public class AccountControl {
       default:
         throw new IllegalStateException("Bad AccountVisibility " + accountVisibility);
     }
-    return currentUser.getCapabilities().canAdministrateServer();
+    return false;
   }
 
   private Set<AccountGroup.UUID> groupsOf(Account.Id account) {

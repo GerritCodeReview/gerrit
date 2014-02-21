@@ -94,6 +94,30 @@
       "revId": "a0af7febe66d3c33aeb73c448222af0240b5e14c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0fc771d6_c5eedada",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 747,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-21T21:05:09Z",
+      "side": 1,
+      "message": "Fixed in [1].\n\n[1] https://gerrit-review.googlesource.com/#/c/54794",
+      "parentUuid": "cf12b90d_d38cf470",
+      "range": {
+        "startLine": 747,
+        "startChar": 14,
+        "endLine": 747,
+        "endChar": 31
+      },
+      "revId": "a0af7febe66d3c33aeb73c448222af0240b5e14c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

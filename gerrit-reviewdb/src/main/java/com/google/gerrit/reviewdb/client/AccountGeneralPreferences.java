@@ -80,6 +80,11 @@ public final class AccountGeneralPreferences {
     UNIFIED_DIFF
   }
 
+  public static enum PreselectRevision {
+    PRESELECT_BASE,
+    PRESELECT_PREVIOUS_REVISION
+  }
+
   public static enum ChangeScreen {
     OLD_UI,
     CHANGE_SCREEN2
@@ -157,6 +162,9 @@ public final class AccountGeneralPreferences {
 
   @Column(id = 16)
   protected boolean sizeBarInChangeTable;
+
+  @Column(id = 17, length = 35, notNull = false)
+  protected String preselectRevision;
 
   public AccountGeneralPreferences() {
   }
@@ -308,6 +316,17 @@ public final class AccountGeneralPreferences {
     this.sizeBarInChangeTable = sizeBarInChangeTable;
   }
 
+  public PreselectRevision getPreselectRevision() {
+    if (preselectRevision == null) {
+      return PreselectRevision.PRESELECT_BASE;
+    }
+    return PreselectRevision.valueOf(preselectRevision);
+  }
+
+  public void setPreselectRevision(PreselectRevision preselectRevision) {
+    this.preselectRevision = preselectRevision.name();
+  }
+
   public void resetToDefaults() {
     maximumPageSize = DEFAULT_PAGESIZE;
     showSiteHeader = true;
@@ -324,5 +343,6 @@ public final class AccountGeneralPreferences {
     diffView = null;
     changeScreen = null;
     sizeBarInChangeTable = true;
+    preselectRevision = null;
   }
 }

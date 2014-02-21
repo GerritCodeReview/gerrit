@@ -25,6 +25,7 @@ import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DateFormat;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DiffView;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadCommand;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadScheme;
+import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.PreselectRevision;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.TimeFormat;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
@@ -74,6 +75,7 @@ public class GetPreferences implements RestReadView<AccountResource> {
     CommentVisibilityStrategy commentVisibilityStrategy;
     DiffView diffView;
     ChangeScreen changeScreen;
+    PreselectRevision preselectRevision;
 
     PreferenceInfo(AccountGeneralPreferences p) {
       changesPerPage = p.getMaximumPageSize();
@@ -91,6 +93,7 @@ public class GetPreferences implements RestReadView<AccountResource> {
       commentVisibilityStrategy = p.getCommentVisibilityStrategy();
       diffView = p.getDiffView();
       changeScreen = p.getChangeScreen();
+      preselectRevision = p.getPreselectRevision();
     }
   }
 }

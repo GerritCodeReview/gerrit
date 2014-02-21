@@ -1,0 +1,228 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0fc771d6_25a9aea2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-21T09:54:27Z",
+      "side": 1,
+      "message": "I think it makes sense to rebase this change on top of Shawn\u0027s change [1], that adds support for:\n\n  PRSELECT_DIFF_AGAINST_PRIOR_REVISION_ME_LAST_COMMENTED_ON\n\nAnd add this option to the MyPreference screen in addition to \n\n  PRSELECT_DIFF_AGAINST_PREVIOUS_REVISION\n\nin this change.\n\n* [1] https://gerrit-review.googlesource.com/52153",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 59
+      },
+      "revId": "873561af4ad9e31db5381dd6f17208784d0bfa3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0fc771d6_e5ae76ab",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/AccountConstants.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-21T09:54:27Z",
+      "side": 1,
+      "message": "Preselect Diff Against?",
+      "range": {
+        "startLine": 22,
+        "startChar": 20,
+        "endLine": 22,
+        "endChar": 39
+      },
+      "revId": "873561af4ad9e31db5381dd6f17208784d0bfa3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2f8fd5ae_beb919f9",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyPreferencesScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-21T09:54:27Z",
+      "side": 1,
+      "message": "I don\u0027t think this is that prominent and desire the first row place on the preferences screen. Put it at the end.",
+      "range": {
+        "startLine": 155,
+        "startChar": 4,
+        "endLine": 156,
+        "endChar": 57
+      },
+      "revId": "873561af4ad9e31db5381dd6f17208784d0bfa3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2f8fd5ae_5ecad589",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 551,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-21T09:54:27Z",
+      "side": 1,
+      "message": "compare as enum and not as String:\n\n  preselectRevision \u003d\u003d PreselectRevision.PRESELECT_PREVIOUS_REVISION\n\nOr import it statically.",
+      "range": {
+        "startLine": 551,
+        "startChar": 8,
+        "endLine": 551,
+        "endChar": 70
+      },
+      "revId": "873561af4ad9e31db5381dd6f17208784d0bfa3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2f8fd5ae_3ebd09e7",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 552,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-21T09:54:27Z",
+      "side": 1,
+      "message": "!diffChange",
+      "range": {
+        "startLine": 552,
+        "startChar": 28,
+        "endLine": 552,
+        "endChar": 46
+      },
+      "revId": "873561af4ad9e31db5381dd6f17208784d0bfa3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2f8fd5ae_feb3a114",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 560,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-21T09:54:27Z",
+      "side": 1,
+      "message": "basename \u003d base \u003d list.get(i - 1).name();",
+      "revId": "873561af4ad9e31db5381dd6f17208784d0bfa3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0fc771d6_45c78a80",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 903,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-21T09:54:27Z",
+      "side": 1,
+      "message": "The same  comment as above",
+      "range": {
+        "startLine": 903,
+        "startChar": 13,
+        "endLine": 903,
+        "endChar": 75
+      },
+      "revId": "873561af4ad9e31db5381dd6f17208784d0bfa3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0fc771d6_c5b37a15",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/Header.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-21T09:54:27Z",
+      "side": 1,
+      "message": "Nit: space before and after \u0027+\u0027",
+      "range": {
+        "startLine": 102,
+        "startChar": 41,
+        "endLine": 102,
+        "endChar": 42
+      },
+      "revId": "873561af4ad9e31db5381dd6f17208784d0bfa3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2f8fd5ae_9eb45d02",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AccountGeneralPreferences.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-21T09:54:27Z",
+      "side": 1,
+      "message": "PreselectDiffAgainst is a better name?",
+      "range": {
+        "startLine": 83,
+        "startChar": 21,
+        "endLine": 83,
+        "endChar": 38
+      },
+      "revId": "873561af4ad9e31db5381dd6f17208784d0bfa3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0fc771d6_85b982f9",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AccountGeneralPreferences.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-21T09:54:27Z",
+      "side": 1,
+      "message": "You don\u0027t need to repeat the name of enum in the values of enum., Just BASE, PREVIOUS_REVISION, PRIOR_REVISION_ME_LAST_COMMENTED_ON, ...",
+      "range": {
+        "startLine": 84,
+        "startChar": 4,
+        "endLine": 84,
+        "endChar": 13
+      },
+      "revId": "873561af4ad9e31db5381dd6f17208784d0bfa3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

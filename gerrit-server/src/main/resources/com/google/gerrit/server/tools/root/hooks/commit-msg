@@ -26,7 +26,7 @@ MSG="$1"
 #
 add_ChangeId() {
 	clean_message=`sed -e '
-		/^diff --git a\/.*/{
+		/^diff --git .*/{
 			s///
 			q
 		}
@@ -81,7 +81,7 @@ add_ChangeId() {
 	# Skip the line starting with the diff command and everything after it,
 	# up to the end of the file, assuming it is only patch data.
 	# If more than one line before the diff was empty, strip all but one.
-	/^diff --git a/ {
+	/^diff --git / {
 		blankLines = 0
 		while (getline) { }
 		next

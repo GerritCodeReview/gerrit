@@ -46,6 +46,30 @@
       "revId": "f08089f802d7d3183e43e7c7c0aab2bbd39a8241",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0fc771d6_853fc29a",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 767,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-21T15:34:50Z",
+      "side": 1,
+      "message": "Well, it is defined that way also for Review on behalf of, so it is probably better to be consequent here and let it as is.",
+      "parentUuid": "cf12b90d_f3313008",
+      "range": {
+        "startLine": 767,
+        "startChar": 4,
+        "endLine": 767,
+        "endChar": 10
+      },
+      "revId": "f08089f802d7d3183e43e7c7c0aab2bbd39a8241",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

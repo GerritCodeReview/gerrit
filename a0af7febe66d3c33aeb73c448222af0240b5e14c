@@ -46,6 +46,30 @@
       "revId": "a0af7febe66d3c33aeb73c448222af0240b5e14c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2f8fd5ae_3e78a996",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 747,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-02-21T08:15:22Z",
+      "side": 1,
+      "message": "Yes, for me the timezones are different when running this test from Eclipse (\"US/Eastern\") and from Buck (\"Europe/Berlin\"). This likely is the reason why these tests are failing for me when running them from Buck.",
+      "parentUuid": "afd66580_6a11b76e",
+      "range": {
+        "startLine": 747,
+        "startChar": 14,
+        "endLine": 747,
+        "endChar": 31
+      },
+      "revId": "a0af7febe66d3c33aeb73c448222af0240b5e14c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

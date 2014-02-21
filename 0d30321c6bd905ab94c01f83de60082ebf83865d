@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "afd66580_6a9c179e",
+        "filename": "lib/LICENSE-PUBLIC_DOMAIN",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2014-02-21T18:21:27Z",
+      "side": 1,
+      "message": "There\u0027s already a lib/LICENSE-PublicDomain. Probably simplest to add a separate lib/LICENSE-xz with a copy of COPYING from http://git.tukaani.org/xz-java.git:\n\n\nLicensing of XZ for Java\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\n\n    All the files in this package have been written by Lasse Collin\n    and/or Igor Pavlov. All these files have been put into the\n    public domain. You can do whatever you want with these files.\n\n    This software is provided \"as is\", without any warranty.",
+      "revId": "0d30321c6bd905ab94c01f83de60082ebf83865d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

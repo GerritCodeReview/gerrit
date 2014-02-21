@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0fc771d6_a5df5e2f",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/BaseInit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-21T18:26:02Z",
+      "side": 1,
+      "message": "Either switch these lines or use earlier return when pluginsToInstall is null. We don\u0027t need to retrieve plugin list (directory operations) if we don\u0027t want to install them.",
+      "range": {
+        "startLine": 144,
+        "startChar": 6,
+        "endLine": 145,
+        "endChar": 37
+      },
+      "revId": "f61471e7f2a592239128747065350bd216be25eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

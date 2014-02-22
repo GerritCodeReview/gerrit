@@ -491,7 +491,8 @@ public class SideBySide2 extends Screen {
     cmA = newCM(diff.meta_a(), diff.text_a(), DisplaySide.A, diffTable.cmA);
     cmB = newCM(diff.meta_b(), diff.text_b(), DisplaySide.B, diffTable.cmB);
     diffTable.overview.init(cmB);
-    chunkManager = new ChunkManager(this, cmA, cmB, diffTable.overview);
+    chunkManager = new ChunkManager(this, cmA, cmB, diffTable.overview,
+        prefs.theme().isDark());
     skipManager = new SkipManager(this, commentManager);
 
     columnMarginA = DOM.createDiv();

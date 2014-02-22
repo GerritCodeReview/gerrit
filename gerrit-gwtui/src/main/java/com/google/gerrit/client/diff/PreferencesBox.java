@@ -397,5 +397,14 @@ class PreferencesBox extends Composite {
     theme.addItem(
         Theme.NEAT.name().toLowerCase(),
         Theme.NEAT.name());
+    theme.addItem(
+        Theme.MIDNIGHT.name().toLowerCase(),
+        Theme.MIDNIGHT.name());
+    theme.addItem(
+        Theme.NIGHT.name().toLowerCase(),
+        Theme.NIGHT.name());
+    theme.addItem(
+        Theme.TWILIGHT.name().toLowerCase(),
+        Theme.TWILIGHT.name());
   }
 }

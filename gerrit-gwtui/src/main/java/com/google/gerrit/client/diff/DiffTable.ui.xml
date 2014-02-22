@@ -79,6 +79,14 @@ limitations under the License.
     .noIntraline .a .intralineBg { background-color: #faa; }
     .noIntraline .b .intralineBg { background-color: #9f9; }
 
+    .a .diff_dark { background-color: #400; }
+    .b .diff_dark { background-color: #444; }
+
+    .a .intralineBg_dark { background-color: #888; }
+    .b .intralineBg_dark { background-color: #bbb; }
+    .noIntraline .a .intralineBg_dark { background-color: #400; }
+    .noIntraline .b .intralineBg_dark { background-color: #444; }
+
     .patchSetNav {
       background-color: #f7f7f7;
       line-height: 1;

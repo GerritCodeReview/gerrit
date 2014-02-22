@@ -51,15 +51,18 @@ class ChunkManager {
   private List<TextMarker> markers;
   private List<Runnable> undo;
   private List<LineWidget> padding;
+  private boolean dark;
 
   ChunkManager(SideBySide2 host,
       CodeMirror cmA,
       CodeMirror cmB,
-      OverviewBar sidePanel) {
+      OverviewBar sidePanel,
+      boolean dark) {
     this.host = host;
     this.cmA = cmA;
     this.cmB = cmB;
     this.sidePanel = sidePanel;
+    this.dark = dark;
     this.mapper = new LineMapper();
   }
 
@@ -99,8 +102,8 @@ class ChunkManager {
     padding = new ArrayList<>();
 
     String diffColor = diff.meta_a() == null || diff.meta_b() == null
-        ? DiffTable.style.intralineBg()
-        : DiffTable.style.diff();
+        ? (dark ? DiffTable.style.intralineBg_dark() : DiffTable.style.intralineBg())
+        : (dark ? DiffTable.style.diff_dark() : DiffTable.style.diff());
 
     for (Region current : Natives.asList(diff.content())) {
       if (current.ab() != null) {
@@ -126,7 +129,7 @@ class ChunkManager {
 
     String color = a == null || b == null
         ? diffColor
-        : DiffTable.style.intralineBg();
+        : (dark ? DiffTable.style.intralineBg_dark() : DiffTable.style.intralineBg());
 
     colorLines(cmA, color, startA, aLen);
     colorLines(cmB, color, startB, bLen);
@@ -169,7 +172,7 @@ class ChunkManager {
         .set("readOnly", true);
 
     Configuration diff = Configuration.create()
-        .set("className", DiffTable.style.diff())
+        .set("className", dark ? DiffTable.style.diff_dark() : DiffTable.style.diff())
         .set("readOnly", true);
 
     LineCharacter last = CodeMirror.pos(0, 0);
@@ -184,7 +187,7 @@ class ChunkManager {
       markers.add(cm.markText(from, to, diff));
       last = to;
       colorLines(cm, LineClassWhere.BACKGROUND,
-          DiffTable.style.diff(),
+          (dark ? DiffTable.style.diff_dark() : DiffTable.style.diff()),
           from.getLine(), to.getLine());
     }
   }

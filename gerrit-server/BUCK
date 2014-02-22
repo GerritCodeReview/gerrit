@@ -141,12 +141,13 @@ java_test(
   ],
 )
 
+QUERY_TESTS = glob(
+  ['src/test/java/com/google/gerrit/server/query/**/*.java'],
+)
+
 java_test(
-  name = 'server_tests',
-  srcs = glob(
-    ['src/test/java/**/*.java'],
-    excludes = TESTUTIL + PROLOG_TESTS + PROLOG_TEST_CASE
-  ),
+  name = 'query_tests',
+  srcs = QUERY_TESTS,
   deps = [
     ':server',
     ':testutil',
@@ -157,8 +158,6 @@ java_test(
     '//gerrit-extension-api:api',
     '//gerrit-reviewdb:server',
     '//gerrit-server/src/main/prolog:common',
-    '//lib:args4j',
-    '//lib:easymock',
     '//lib:guava',
     '//lib:gwtorm',
     '//lib:junit',
@@ -167,8 +166,35 @@ java_test(
     '//lib/jgit:jgit',
     '//lib/jgit:junit',
     '//lib/joda:joda-time',
+  ],
+  source_under_test = [':server'],
+)
+
+java_test(
+  name = 'server_tests',
+  srcs = glob(
+    ['src/test/java/**/*.java'],
+    excludes = TESTUTIL + PROLOG_TESTS + PROLOG_TEST_CASE + QUERY_TESTS
+  ),
+  deps = [
+    ':server',
+    ':testutil',
+    '//gerrit-antlr:query_exception',
+    '//gerrit-common:annotations',
+    '//gerrit-common:server',
+    '//gerrit-extension-api:api',
+    '//gerrit-reviewdb:server',
+    '//gerrit-server/src/main/prolog:common',
+    '//lib:args4j',
+    '//lib:easymock',
+    '//lib:guava',
+    '//lib:gwtorm',
+    '//lib:junit',
+    '//lib/guice:guice',
+    '//lib/jgit:jgit',
+    '//lib/jgit:junit',
+    '//lib/joda:joda-time',
     '//lib/prolog:prolog-cafe',
   ],
   source_under_test = [':server'],
-  vm_args = ['-Duser.timezone=US/Eastern'],
 )

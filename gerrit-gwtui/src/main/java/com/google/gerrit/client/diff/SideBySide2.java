@@ -482,6 +482,7 @@ public class SideBySide2 extends Screen {
   }
 
   private void display(final CommentsCollections comments) {
+    setThemeStyles(prefs.theme().isDark());
     setShowTabs(prefs.showTabs());
     setShowIntraline(prefs.intralineDifference());
     if (prefs.showLineNumbers()) {
@@ -558,6 +559,14 @@ public class SideBySide2 extends Screen {
 
   DiffInfo.IntraLineStatus getIntraLineStatus() {
     return diff.intraline_status();
+  }
+
+  void setThemeStyles(boolean d) {
+    if (d) {
+      diffTable.addStyleName(DiffTable.style.dark());
+    } else {
+      diffTable.removeStyleName(DiffTable.style.dark());
+    }
   }
 
   void setShowTabs(boolean b) {

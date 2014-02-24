@@ -34,6 +34,24 @@
       "revId": "4d18355291ddbb79c261ecef717c650cc5ffeba2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cf439932_ab2c69ad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-02-24T10:22:15Z",
+      "side": 1,
+      "message": "I noticed those after I commented.  Still, I think the commit message should include a bit more detail about why the change is being made.",
+      "parentUuid": "2f26f59c_26eb561b",
+      "revId": "4d18355291ddbb79c261ecef717c650cc5ffeba2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

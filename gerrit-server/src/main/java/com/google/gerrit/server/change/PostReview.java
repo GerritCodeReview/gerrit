@@ -193,14 +193,16 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
     } else {
       indexWrite = Futures.<Void, IOException> immediateCheckedFuture(null);
     }
-    if (input.notify.compareTo(NotifyHandling.NONE) > 0 && message != null) {
-      email.create(
-          input.notify,
-          change,
-          revision.getPatchSet(),
-          revision.getAccountId(),
-          message,
-          comments).sendAsync();
+    if (message != null) {
+      if (input.notify.compareTo(NotifyHandling.NONE) > 0) {
+        email.create(
+            input.notify,
+            change,
+            revision.getPatchSet(),
+            revision.getAccountId(),
+            message,
+            comments).sendAsync();
+      }
       fireCommentAddedHook(revision);
     }
 

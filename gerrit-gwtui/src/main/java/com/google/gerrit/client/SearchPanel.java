@@ -102,7 +102,7 @@ class SearchPanel extends Composite {
   }
 
   private void doSearch() {
-    final String query = searchBox.getText().trim();
+    String query = searchBox.getText().trim();
     if ("".equals(query)) {
       return;
     }
@@ -112,6 +112,11 @@ class SearchPanel extends Composite {
     if (query.matches("^[1-9][0-9]*$")) {
       Gerrit.display(PageLinks.toChange(Change.Id.parse(query)));
     } else {
+      // Add explicit timezone for any before/after queries and update the
+      // search // box, since REST API inputs/outputs are UTC unless otherwise
+      // specified.
+      query = DateTimeReplacer.replaceTimestamps(query);
+      searchBox.setText(query);
       Gerrit.display(PageLinks.toChangeQuery(query), QueryScreen.forQuery(query));
     }
   }

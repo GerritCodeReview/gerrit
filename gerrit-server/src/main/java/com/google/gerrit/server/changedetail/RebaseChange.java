@@ -299,6 +299,7 @@ public class RebaseChange {
         .setCopyLabels(true)
         .setValidatePolicy(validate)
         .setDraft(originalPatchSet.isDraft())
+        .setUploader(uploader.getAccountId())
         .setSendMail(sendMail)
         .setRunHooks(runHooks);
 

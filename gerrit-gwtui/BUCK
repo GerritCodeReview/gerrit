@@ -110,20 +110,11 @@ java_library(
 java_test(
   name = 'ui_tests',
   srcs = glob(['src/test/java/**/*.java']),
-  resources = glob(['src/test/resources/**/*']) + [
-    'src/main/java/com/google/gerrit/GerritGwtUI.gwt.xml',
-  ],
   deps = [
     ':ui_module_lib',
-    '//gerrit-common:client_lib',
-    '//gerrit-extension-api:client_lib',
     '//lib:junit',
-    '//lib/gwt:dev',
-    '//lib/gwt:user',
-    '//lib/gwt:gwt-test-utils',
     '//lib/jgit:jgit',
   ],
   source_under_test = [':ui_module_lib'],
-  vm_args = ['-Xmx512m'],
   visibility = ['//tools/eclipse:classpath'],
 )

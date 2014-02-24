@@ -114,6 +114,7 @@ public class PatchSetInserter {
   private boolean draft;
   private boolean runHooks;
   private boolean sendMail;
+  private Account.Id uploader;
 
   @Inject
   public PatchSetInserter(ChangeHooks hooks,
@@ -207,6 +208,11 @@ public class PatchSetInserter {
 
   public PatchSetInserter setSendMail(boolean sendMail) {
     this.sendMail = sendMail;
+    return this;
+  }
+
+  public PatchSetInserter setUploader(Account.Id uploader) {
+    this.uploader = uploader;
     return this;
   }
 
@@ -337,6 +343,9 @@ public class PatchSetInserter {
       patchSet.setRevision(new RevId(commit.name()));
     }
     patchSet.setDraft(draft);
+    if (uploader != null) {
+      patchSet.setUploader(uploader);
+    }
   }
 
   private void validate() throws InvalidChangeOperationException {

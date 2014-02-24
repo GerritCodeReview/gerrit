@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8f37e1c2_298fad62",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/SearchPanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2014-02-24T19:43:06Z",
+      "side": 1,
+      "message": "Why 30?",
+      "range": {
+        "startLine": 128,
+        "startChar": 56,
+        "endLine": 128,
+        "endChar": 60
+      },
+      "revId": "26d64e71f15ebab125a58cb50bc9c16fbd5cc148",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8f37e1c2_499ce19d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/SearchPanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2014-02-24T19:43:06Z",
+      "side": 1,
+      "message": "What happens to a query like\n\n message:before:1/1/01\n\nor\n\n nonsensebefore:...\n\n?",
+      "range": {
+        "startLine": 131,
+        "startChar": 0,
+        "endLine": 131,
+        "endChar": 32
+      },
+      "revId": "26d64e71f15ebab125a58cb50bc9c16fbd5cc148",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

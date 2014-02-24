@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8f37e1c2_8950992a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/Version.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-02-24T14:31:39Z",
+      "side": 1,
+      "message": "There are probably a few other places in the codebase that could use Java 7\u0027s try-with-resource statement to reduce complexity a bit.",
+      "range": {
+        "startLine": 38,
+        "startChar": 4,
+        "endLine": 38,
+        "endChar": 73
+      },
+      "revId": "1dc6629aef4413da8d4e147f302846e3e18e515c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

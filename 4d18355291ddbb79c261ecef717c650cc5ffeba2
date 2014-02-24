@@ -52,6 +52,41 @@
       "revId": "4d18355291ddbb79c261ecef717c650cc5ffeba2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cf439932_8b508d2a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-02-24T15:51:12Z",
+      "side": 1,
+      "message": "Per my previous comments, this is just another workaround and I\u0027d still like to get to the bottom of this. This new target hasn\u0027t isolated only the query tests, so we just got lucky that the the conflicting tests ended up on the other side of the cut.\n\nThat said I am fine with this change in the name of parallelism, as the query tests probably take as long as the rest of the server tests combined.",
+      "parentUuid": "cf439932_ab2c69ad",
+      "revId": "4d18355291ddbb79c261ecef717c650cc5ffeba2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8f37e1c2_e94f5581",
+        "filename": "gerrit-server/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-02-24T15:51:12Z",
+      "side": 1,
+      "message": "This deps list can be trimmed.",
+      "revId": "4d18355291ddbb79c261ecef717c650cc5ffeba2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

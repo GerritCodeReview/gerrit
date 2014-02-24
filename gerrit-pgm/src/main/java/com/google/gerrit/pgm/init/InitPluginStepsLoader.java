@@ -72,15 +72,19 @@ public class InitPluginStepsLoader {
           new URLClassLoader(new URL[] {jar.toURI().toURL()},
               InitPluginStepsLoader.class.getClassLoader());
       JarFile jarFile = new JarFile(jar);
-      Attributes jarFileAttributes = jarFile.getManifest().getMainAttributes();
-      String initClassName = jarFileAttributes.getValue("Gerrit-InitStep");
-      if (initClassName == null) {
-        return null;
+      try {
+        Attributes jarFileAttributes = jarFile.getManifest().getMainAttributes();
+        String initClassName = jarFileAttributes.getValue("Gerrit-InitStep");
+        if (initClassName == null) {
+          return null;
+        }
+        @SuppressWarnings("unchecked")
+        Class<? extends InitStep> initStepClass =
+            (Class<? extends InitStep>) pluginLoader.loadClass(initClassName);
+        return getPluginInjector(jar).getInstance(initStepClass);
+      } finally {
+        jarFile.close();
       }
-      @SuppressWarnings("unchecked")
-      Class<? extends InitStep> initStepClass =
-          (Class<? extends InitStep>) pluginLoader.loadClass(initClassName);
-      return getPluginInjector(jar).getInstance(initStepClass);
     } catch (ClassCastException e) {
       ui.message(
           "WARN: InitStep from plugin %s does not implement %s (Exception: %s)",

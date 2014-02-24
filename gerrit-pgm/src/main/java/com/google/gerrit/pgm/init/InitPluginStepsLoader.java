@@ -65,13 +65,12 @@ public class InitPluginStepsLoader {
     return pluginsInitSteps;
   }
 
-  @SuppressWarnings("resource")
   private InitStep loadInitStep(File jar) {
-    try {
-      ClassLoader pluginLoader =
-          new URLClassLoader(new URL[] {jar.toURI().toURL()},
-              InitPluginStepsLoader.class.getClassLoader());
-      JarFile jarFile = new JarFile(jar);
+    try (URLClassLoader pluginLoader =
+             new URLClassLoader(new URL[] {jar.toURI().toURL()},
+                 InitPluginStepsLoader.class.getClassLoader());
+         JarFile jarFile = new JarFile(jar);) {
+
       Attributes jarFileAttributes = jarFile.getManifest().getMainAttributes();
       String initClassName = jarFileAttributes.getValue("Gerrit-InitStep");
       if (initClassName == null) {

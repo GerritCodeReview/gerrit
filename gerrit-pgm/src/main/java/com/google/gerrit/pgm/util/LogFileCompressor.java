@@ -118,21 +118,15 @@ public class LogFileCompressor implements Runnable {
     final File dst = new File(dir, src.getName() + ".gz");
     final File tmp = new File(dir, ".tmp." + src.getName());
     try {
-      final InputStream in = new FileInputStream(src);
-      try {
-        OutputStream out = new GZIPOutputStream(new FileOutputStream(tmp));
-        try {
-          final byte[] buf = new byte[2048];
-          int n;
-          while (0 < (n = in.read(buf))) {
-            out.write(buf, 0, n);
-          }
-        } finally {
-          out.close();
+      try (InputStream in = new FileInputStream(src);
+        FileOutputStream fo = new FileOutputStream(tmp);
+        OutputStream out = new GZIPOutputStream(fo)) {
+        final byte[] buf = new byte[2048];
+        int n;
+        while (0 < (n = in.read(buf))) {
+          out.write(buf, 0, n);
         }
         tmp.setReadOnly();
-      } finally {
-        in.close();
       }
       if (!tmp.renameTo(dst)) {
         throw new IOException("Cannot rename " + tmp + " to " + dst);

@@ -20,6 +20,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -165,11 +166,16 @@ public class JythonShell {
   }
 
   protected void execResource(final String p) {
-    InputStream in = JythonShell.class.getClassLoader().getResourceAsStream(p);
-    if (in != null) {
-      execStream(in, "resource " + p);
-    } else {
-      log.error("Cannot load resource " + p);
+    try {
+      try (InputStream in = JythonShell.class.getClassLoader().getResourceAsStream(p)) {
+        if (in != null) {
+          execStream(in, "resource " + p);
+        } else {
+          log.error("Cannot load resource " + p);
+        }
+      }
+    } catch (IOException e) {
+      log.error(e.getMessage(), e);
     }
   }
 

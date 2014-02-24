@@ -736,20 +736,24 @@ public abstract class AbstractQueryChangesTest {
   }
 
   @Test
-  public void byBeforeAbsolute() throws Exception {
+  public void byBefore() throws Exception {
     clockStepMs = MILLISECONDS.convert(30, HOURS);
     TestRepository<InMemoryRepository> repo = createProject("repo");
     Change change1 = newChange(repo, null, null, null, null).insert();
     Change change2 = newChange(repo, null, null, null, null).insert();
     clockStepMs = 0;
 
-    // GitDateParser drops unparsed portions of the string, so be very careful
-    // with formats.
     assertTrue(query("before:2009-09-29").isEmpty());
     assertTrue(query("before:2009-09-30").isEmpty());
     assertTrue(query("before:\"2009-09-30 16:59:00 -0400\"").isEmpty());
+    assertTrue(query("before:\"2009-09-30 20:59:00 -0000\"").isEmpty());
+    assertTrue(query("before:\"2009-09-30 20:59:00\"").isEmpty());
     assertResultEquals(change1,
-        queryOne("before:\"2009-09-30 21:02:00 -0400\""));
+        queryOne("before:\"2009-09-30 17:02:00 -0400\""));
+    assertResultEquals(change1,
+        queryOne("before:\"2009-10-01 21:02:00 -0000\""));
+    assertResultEquals(change1,
+        queryOne("before:\"2009-10-01 21:02:00\""));
     assertResultEquals(change1, queryOne("before:2009-10-01"));
 
     List<ChangeInfo> results;
@@ -760,68 +764,22 @@ public abstract class AbstractQueryChangesTest {
   }
 
   @Test
-  public void byBeforeRelative() throws Exception {
+  public void byAfter() throws Exception {
     clockStepMs = MILLISECONDS.convert(30, HOURS);
     TestRepository<InMemoryRepository> repo = createProject("repo");
     Change change1 = newChange(repo, null, null, null, null).insert();
     Change change2 = newChange(repo, null, null, null, null).insert();
     clockStepMs = 0;
 
-    assertTrue(query("before:\"3 days ago\"").isEmpty());
-    assertResultEquals(change1, queryOne("before:\"2 days ago\""));
-
-    List<ChangeInfo> results;
-    results = query("before:\"1 day ago\"");
-    assertEquals(2, results.size());
-    assertResultEquals(change2, results.get(0));
-    assertResultEquals(change1, results.get(1));
-
-    results = query("before:\"12 hours ago\"");
-    assertEquals(2, results.size());
-    assertResultEquals(change2, results.get(0));
-    assertResultEquals(change1, results.get(1));
-  }
-
-  @Test
-  public void byAfterAbsolute() throws Exception {
-    clockStepMs = MILLISECONDS.convert(30, HOURS);
-    TestRepository<InMemoryRepository> repo = createProject("repo");
-    Change change1 = newChange(repo, null, null, null, null).insert();
-    Change change2 = newChange(repo, null, null, null, null).insert();
-    clockStepMs = 0;
-
-    // GitDateParser drops unparsed portions of the string, so be very careful
-    // with formats.
-    assertTrue(query("after:2009-10-02").isEmpty());
+    assertTrue(query("after:2009-10-03").isEmpty());
     assertResultEquals(change2,
         queryOne("after:\"2009-10-01 20:59:59 -0400\""));
+    assertResultEquals(change2,
+        queryOne("after:\"2009-10-01 20:59:59 -0000\""));
     assertResultEquals(change2, queryOne("after:2009-10-01"));
 
     List<ChangeInfo> results;
     results = query("after:2009-09-30");
-    assertEquals(2, results.size());
-    assertResultEquals(change2, results.get(0));
-    assertResultEquals(change1, results.get(1));
-  }
-
-  @Test
-  public void byAfterRelative() throws Exception {
-    clockStepMs = MILLISECONDS.convert(30, HOURS);
-    TestRepository<InMemoryRepository> repo = createProject("repo");
-    Change change1 = newChange(repo, null, null, null, null).insert();
-    Change change2 = newChange(repo, null, null, null, null).insert();
-    clockStepMs = 0;
-
-    assertTrue(query("after:\"1 days ago\"").isEmpty());
-    assertResultEquals(change2, queryOne("after:\"2 days ago\""));
-
-    List<ChangeInfo> results;
-    results = query("after:\"3 days ago\"");
-    assertEquals(2, results.size());
-    assertResultEquals(change2, results.get(0));
-    assertResultEquals(change1, results.get(1));
-
-    results = query("after:\"72 hours ago\"");
     assertEquals(2, results.size());
     assertResultEquals(change2, results.get(0));
     assertResultEquals(change1, results.get(1));

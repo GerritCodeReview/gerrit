@@ -22,6 +22,30 @@
       "revId": "1dc6629aef4413da8d4e147f302846e3e18e515c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2f26f59c_e68cde70",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/Version.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-02-24T14:34:28Z",
+      "side": 1,
+      "message": "Yes, I\u0027m sure about this :)\n\nBut now I\u0027m just looking at those where we potentially miss to close a resource.",
+      "parentUuid": "8f37e1c2_8950992a",
+      "range": {
+        "startLine": 38,
+        "startChar": 4,
+        "endLine": 38,
+        "endChar": 73
+      },
+      "revId": "1dc6629aef4413da8d4e147f302846e3e18e515c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -424,6 +424,14 @@ by Gerrit just before a ReceivePack instance will be used. Usually,
 plugins will make use of the setXXX methods on the ReceivePack to
 set additional properties on it.
 
+[[post-receive-hook]]
+== Post Receive-Pack Hooks
+
+Plugins may register PostReceiveHook instances in order to get
+notified when JGit successfully receives a pack. This may be useful
+for those plugins which would like to monitor changes in Git
+repositories.
+
 [[ssh]]
 == SSH Commands
 

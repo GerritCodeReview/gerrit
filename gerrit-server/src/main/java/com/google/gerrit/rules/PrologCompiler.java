@@ -235,10 +235,9 @@ public class PrologCompiler implements Callable<PrologCompiler.Status> {
       mf.getMainAttributes().putValue("Source-Commit", metaConfig.name());
       mf.getMainAttributes().putValue("Source-Blob", rulesId.name());
 
-      FileOutputStream stream = new FileOutputStream(tmpjar);
-      JarOutputStream out = new JarOutputStream(stream, mf);
-      byte buffer[] = new byte[10240];
-      try {
+      try (FileOutputStream stream = new FileOutputStream(tmpjar);
+          JarOutputStream out = new JarOutputStream(stream, mf)) {
+        byte buffer[] = new byte[10240];
         for (String path : toBeJared) {
           JarEntry jarAdd = new JarEntry(path);
           File f = new File(tempDir, path);
@@ -260,8 +259,6 @@ public class PrologCompiler implements Callable<PrologCompiler.Status> {
           }
           out.closeEntry();
         }
-      } finally {
-        out.close();
       }
 
       if (!tmpjar.renameTo(archiveFile)) {

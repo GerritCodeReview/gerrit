@@ -14,12 +14,16 @@
 
 package com.google.gerrit.common;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
 public class Version {
+  private static final Logger log = LoggerFactory.getLogger(Version.class);
   private static final String version;
 
   public static String getVersion() {
@@ -31,13 +35,11 @@ public class Version {
   }
 
   private static String loadVersion() {
-    InputStream in = Version.class.getResourceAsStream("Version");
-    if (in == null) {
-      return null;
-    }
-    try {
-      BufferedReader r = new BufferedReader(new InputStreamReader(in, "UTF-8"));
-      try {
+    try (InputStream in = Version.class.getResourceAsStream("Version")) {
+      if (in == null) {
+        return null;
+      }
+      try (BufferedReader r = new BufferedReader(new InputStreamReader(in, "UTF-8"))) {
         String vs = r.readLine();
         if (vs != null && vs.startsWith("v")) {
           vs = vs.substring(1);
@@ -46,10 +48,9 @@ public class Version {
           vs = null;
         }
         return vs;
-      } finally {
-        r.close();
       }
     } catch (IOException e) {
+      log.error(e.getMessage(), e);
       return null;
     }
   }

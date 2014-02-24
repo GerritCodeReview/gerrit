@@ -54,6 +54,8 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -66,25 +68,29 @@ public class BaseInit extends SiteProgram {
   private final boolean standalone;
   private final boolean initDb;
   protected final PluginsDistribution pluginsDistribution;
+  private final List<String> pluginsToInstall;
 
-  protected BaseInit(PluginsDistribution pluginsDistribution) {
+  protected BaseInit(PluginsDistribution pluginsDistribution,
+      List<String> pluginsToInstall) {
     this.standalone = true;
     this.initDb = true;
     this.pluginsDistribution = pluginsDistribution;
+    this.pluginsToInstall = pluginsToInstall;
   }
 
   public BaseInit(File sitePath, boolean standalone, boolean initDb,
-      PluginsDistribution pluginsDistribution) {
-    this(sitePath, null, standalone, initDb, pluginsDistribution);
+      PluginsDistribution pluginsDistribution, List<String> pluginsToInstall) {
+    this(sitePath, null, standalone, initDb, pluginsDistribution, pluginsToInstall);
   }
 
   public BaseInit(File sitePath, final Provider<DataSource> dsProvider,
       boolean standalone, boolean initDb,
-      PluginsDistribution pluginsDistribution) {
+      PluginsDistribution pluginsDistribution, List<String> pluginsToInstall) {
     super(sitePath, dsProvider);
     this.standalone = standalone;
     this.initDb = initDb;
     this.pluginsDistribution = pluginsDistribution;
+    this.pluginsToInstall = pluginsToInstall;
   }
 
   @Override
@@ -136,7 +142,19 @@ public class BaseInit extends SiteProgram {
 
   protected List<String> getInstallPlugins() {
     try {
-      return pluginsDistribution.listPluginNames();
+      if (pluginsToInstall != null && pluginsToInstall.isEmpty()) {
+        return Collections.emptyList();
+      }
+      List<String> names = pluginsDistribution.listPluginNames();
+      if (pluginsToInstall != null) {
+        for (Iterator<String> i = names.iterator(); i.hasNext();) {
+          String n = i.next();
+          if (!pluginsToInstall.contains(n)) {
+            i.remove();
+          }
+        }
+      }
+      return names;
     } catch (FileNotFoundException e) {
       log.warn("Couldn't find distribution archive location."
           + " No plugin will be installed");

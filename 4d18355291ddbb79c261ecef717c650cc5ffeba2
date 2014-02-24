@@ -87,6 +87,24 @@
       "revId": "4d18355291ddbb79c261ecef717c650cc5ffeba2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4f3169d0_077bb695",
+        "filename": "gerrit-server/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-24T16:28:01Z",
+      "side": 1,
+      "message": "I already trimmed it. I did check it again: each dep in this list is needed for query tests to work.",
+      "parentUuid": "8f37e1c2_e94f5581",
+      "revId": "4d18355291ddbb79c261ecef717c650cc5ffeba2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

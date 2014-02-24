@@ -67,16 +67,16 @@ to include a unit suffix, for example `age:2d`:
 [[before_until]]
 before:'TIME'/until:'TIME'
 +
-Changes modified before the given 'TIME', inclusive. With no time,
-assumes 00:00:00 in the local time zone. Supports many formats supported
-by `git log`.
+Changes modified before the given 'TIME', inclusive. Must be in the
+format `2006-01-02[ 15:04:05[.890][ -0700]]`; omitting the time defaults
+to 00:00:00 and omitting the timezone defaults to UTC.
 
 [[after_since]]
 after:'TIME'/since:'TIME'
 +
-Changes modified before the given 'TIME', inclusive. With no time,
-assumes 00:00:00 in the local time zone. Supports many formats supported
-by `git log`.
+Changes modified after the given 'TIME', inclusive. Must be in the
+format `2006-01-02[ 15:04:05[.890][ -0700]]`; omitting the time defaults
+to 00:00:00 and omitting the timezone defaults to UTC.
 
 [[change]]
 change:'ID'::

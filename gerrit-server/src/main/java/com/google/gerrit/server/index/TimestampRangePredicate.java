@@ -20,14 +20,10 @@ import static com.google.gerrit.server.index.ChangeField.UPDATED;
 
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
-
-import org.eclipse.jgit.util.GitDateParser;
-import org.joda.time.DateTime;
+import com.google.gwtjsonrpc.common.JavaSqlTimestampHelper;
 
 import java.sql.Timestamp;
-import java.text.ParseException;
 import java.util.Date;
-import java.util.Locale;
 
 public abstract class TimestampRangePredicate<I> extends IndexPredicate<I> {
   @SuppressWarnings({"deprecation", "unchecked"})
@@ -46,11 +42,11 @@ public abstract class TimestampRangePredicate<I> extends IndexPredicate<I> {
     return (FieldDef<ChangeData, Timestamp>) f;
   }
 
-  protected static Date parse(String value) throws QueryParseException {
+  protected static Timestamp parse(String value) throws QueryParseException {
     try {
-      return GitDateParser.parse(value, DateTime.now().toCalendar(Locale.US));
-    } catch (ParseException e) {
-      // ParseException's message is specific and helpful, so preserve it.
+      return JavaSqlTimestampHelper.parseTimestamp(value);
+    } catch (IllegalArgumentException e) {
+      // parseTimestamp's errors are specific and helpful, so preserve them.
       throw new QueryParseException(e.getMessage(), e);
     }
   }

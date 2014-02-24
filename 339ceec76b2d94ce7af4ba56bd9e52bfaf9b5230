@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8f37e1c2_c960d1e3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2014-02-24T21:39:17Z",
+      "side": 1,
+      "message": "code.google.com/p/gwt-test-utils tells me the project has moved to https://github.com/gwt-test-utils/gwt-test-utils.",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 54
+      },
+      "revId": "339ceec76b2d94ce7af4ba56bd9e52bfaf9b5230",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

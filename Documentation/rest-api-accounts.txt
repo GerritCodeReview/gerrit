@@ -113,7 +113,7 @@ If the account does not have a name an empty string is returned.
 Sets the full name of an account.
 
 The new account name must be provided in the request body inside
-a link:#account-name-input[AccountNameInput] entity.
+an link:#account-name-input[AccountNameInput] entity.
 
 .Request
 ----

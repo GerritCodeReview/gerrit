@@ -22,6 +22,30 @@
       "revId": "f61471e7f2a592239128747065350bd216be25eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2f26f59c_06173a66",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/BaseInit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-02-24T10:12:31Z",
+      "side": 1,
+      "message": "Actually (pluginsToInstall \u003d\u003d null) means \"install all packaged plugins\"... so in that case we need to retrieve the plugin list from the distribution.\nThis behaviour of  \u0027gerrit.install_plugins\u0027 property is described in [1].\n\nHowever, thanks to your comment I realized that this place could be optimized\nfor the case when (pluginsToInstall !\u003d null \u0026\u0026 pluginsToInstall.size() \u003d\u003d 0), which means \"don\u0027t install plugins\".\n\n\n[1] https://gerrit-review.googlesource.com/#/c/54620/5/Documentation/config-auto-site-initialization.txt@55",
+      "parentUuid": "0fc771d6_a5df5e2f",
+      "range": {
+        "startLine": 144,
+        "startChar": 6,
+        "endLine": 145,
+        "endChar": 37
+      },
+      "revId": "f61471e7f2a592239128747065350bd216be25eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

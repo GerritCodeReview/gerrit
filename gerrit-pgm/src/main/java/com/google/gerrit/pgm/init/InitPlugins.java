@@ -15,7 +15,6 @@
 package com.google.gerrit.pgm.init;
 
 import com.google.common.collect.Lists;
-import com.google.gerrit.launcher.GerritLauncher;
 import com.google.gerrit.pgm.util.ConsoleUI;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.plugins.PluginLoader;
@@ -25,18 +24,15 @@ import com.google.inject.Singleton;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Enumeration;
 import java.util.List;
 import java.util.jar.Attributes;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
 
 @Singleton
 public class InitPlugins implements InitStep {
-  private static final String PLUGIN_DIR = "WEB-INF/plugins/";
-  private static final String JAR = ".jar";
+  public static final String PLUGIN_DIR = "WEB-INF/plugins/";
+  public static final String JAR = ".jar";
 
   public static class PluginData {
     public final String name;
@@ -50,46 +46,31 @@ public class InitPlugins implements InitStep {
     }
   }
 
-  public static List<PluginData> listPlugins(SitePaths site) throws IOException {
-    return listPlugins(site, false);
+  public static List<PluginData> listPlugins(SitePaths site,
+      PluginsDistribution pluginsDistribution) throws IOException {
+    return listPlugins(site, false, pluginsDistribution);
   }
 
-  public static List<PluginData> listPluginsAndRemoveTempFiles(SitePaths site) throws IOException {
-    return listPlugins(site, true);
+  public static List<PluginData> listPluginsAndRemoveTempFiles(SitePaths site,
+      PluginsDistribution pluginsDistribution) throws IOException {
+    return listPlugins(site, true, pluginsDistribution);
   }
 
-  private static List<PluginData> listPlugins(SitePaths site, boolean deleteTempPluginFile) throws IOException {
-    final File myWar = GerritLauncher.getDistributionArchive();
+  private static List<PluginData> listPlugins(final SitePaths site,
+      final boolean deleteTempPluginFile, PluginsDistribution pluginsDistribution)
+          throws IOException {
     final List<PluginData> result = Lists.newArrayList();
-    try {
-      final ZipFile zf = new ZipFile(myWar);
-      try {
-        final Enumeration<? extends ZipEntry> e = zf.entries();
-        while (e.hasMoreElements()) {
-          final ZipEntry ze = e.nextElement();
-          if (ze.isDirectory()) {
-            continue;
-          }
-
-          if (ze.getName().startsWith(PLUGIN_DIR) && ze.getName().endsWith(JAR)) {
-            final String pluginJarName = new File(ze.getName()).getName();
-            final String pluginName = pluginJarName.substring(0,  pluginJarName.length() - JAR.length());
-            final InputStream in = zf.getInputStream(ze);
-            final File tmpPlugin = PluginLoader.storeInTemp(pluginName, in, site);
-            final String pluginVersion = getVersion(tmpPlugin);
-            if (deleteTempPluginFile) {
-              tmpPlugin.delete();
-            }
-
-            result.add(new PluginData(pluginName, pluginVersion, tmpPlugin));
-          }
+    pluginsDistribution.foreach(new PluginsDistribution.Processor() {
+      @Override
+      public void process(String pluginName, InputStream in) throws IOException {
+        File tmpPlugin = PluginLoader.storeInTemp(pluginName, in, site);
+        String pluginVersion = getVersion(tmpPlugin);
+        if (deleteTempPluginFile) {
+          tmpPlugin.delete();
         }
-      } finally {
-        zf.close();
+        result.add(new PluginData(pluginName, pluginVersion, tmpPlugin));
       }
-    } catch (IOException e) {
-      throw new IOException("Failure during plugin installation", e);
-    }
+    });
     return result;
   }
 
@@ -97,14 +78,17 @@ public class InitPlugins implements InitStep {
   private final SitePaths site;
   private final InitFlags initFlags;
   private final InitPluginStepsLoader pluginLoader;
+  private final PluginsDistribution pluginsDistribution;
 
   @Inject
   InitPlugins(final ConsoleUI ui, final SitePaths site,
-      InitFlags initFlags, InitPluginStepsLoader pluginLoader) {
+      InitFlags initFlags, InitPluginStepsLoader pluginLoader,
+      PluginsDistribution pluginsDistribution) {
     this.ui = ui;
     this.site = site;
     this.initFlags = initFlags;
     this.pluginLoader = pluginLoader;
+    this.pluginsDistribution = pluginsDistribution;
   }
 
   @Override
@@ -121,7 +105,7 @@ public class InitPlugins implements InitStep {
   }
 
   private void installPlugins() throws IOException {
-    List<PluginData> plugins = listPlugins(site);
+    List<PluginData> plugins = listPlugins(site, pluginsDistribution);
     for (PluginData plugin : plugins) {
       String pluginName = plugin.name;
       try {

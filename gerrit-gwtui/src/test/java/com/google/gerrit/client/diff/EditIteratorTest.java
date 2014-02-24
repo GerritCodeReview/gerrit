@@ -30,7 +30,6 @@ import org.junit.Test;
 
 /** Unit tests for EditIterator */
 @GwtModule("com.google.gerrit.GerritGwtUI")
-@Ignore
 public class EditIteratorTest extends GwtTest {
   private JsArrayString lines;
 

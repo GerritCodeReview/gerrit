@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0f23f18e_e5013621",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1933,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-02-24T23:08:36Z",
+      "side": 1,
+      "message": "This cache has size 0 by default, and this is already being calculated earlier in this method when you call approvalCopier.copy.\n\nThat said, the fact that we\u0027re trying to use ChangeKind elsewhere to improve usability is a sign that we have a useful abstraction :)\n\nI\u0027d prefer this be preceded by a change that persists the ChangeKindCache and sets a nonzero default weight.",
+      "revId": "ef2b0c2c7fc23272963367c8d603470fa600d8ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

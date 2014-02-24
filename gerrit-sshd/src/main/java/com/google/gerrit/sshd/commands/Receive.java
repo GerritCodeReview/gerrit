@@ -14,6 +14,7 @@
 
 package com.google.gerrit.sshd.commands;
 
+import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Account;
@@ -32,6 +33,8 @@ import org.eclipse.jgit.errors.UnpackException;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.transport.AdvertiseRefsHook;
+import org.eclipse.jgit.transport.PostReceiveHook;
+import org.eclipse.jgit.transport.PostReceiveHookChain;
 import org.eclipse.jgit.transport.ReceivePack;
 import org.kohsuke.args4j.Option;
 import org.slf4j.Logger;
@@ -63,6 +66,9 @@ final class Receive extends AbstractGitCommand {
 
   @Inject
   private DynamicSet<ReceivePackInitializer> receivePackInitializers;
+
+  @Inject
+  private DynamicSet<PostReceiveHook> postReceiveHooks;
 
   private final Set<Account.Id> reviewerId = new HashSet<Account.Id>();
   private final Set<Account.Id> ccId = new HashSet<Account.Id>();
@@ -103,6 +109,7 @@ final class Receive extends AbstractGitCommand {
     rp.setMaxObjectSizeLimit(config.getEffectiveMaxObjectSizeLimit(
         projectControl.getProjectState()));
     init(rp);
+    setPostReceiveHooks(rp);
     try {
       rp.receive(in, out, err);
     } catch (UnpackException badStream) {
@@ -172,6 +179,15 @@ final class Receive extends AbstractGitCommand {
   private void init(ReceivePack rp) {
     for (ReceivePackInitializer initializer : receivePackInitializers) {
       initializer.init(projectControl.getProject().getNameKey(), rp);
+    }
+  }
+
+  private void setPostReceiveHooks(ReceivePack rp) {
+    List<PostReceiveHook> hooks = Lists.newArrayList(postReceiveHooks);
+    if (hooks.size() == 1) {
+      rp.setPostReceiveHook(hooks.get(0));
+    } else if (hooks.size() > 1) {
+      rp.setPostReceiveHook(PostReceiveHookChain.newChain(hooks));
     }
   }
 

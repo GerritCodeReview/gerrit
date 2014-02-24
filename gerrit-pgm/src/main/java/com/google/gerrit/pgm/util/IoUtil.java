@@ -58,35 +58,31 @@ public final class IoUtil {
       throw noAddURL("Not loaded by URLClassLoader", null);
     }
 
-    @SuppressWarnings("resource")
-    URLClassLoader urlClassLoader = (URLClassLoader) cl;
-
-    Method addURL;
-    try {
-      addURL = URLClassLoader.class.getDeclaredMethod("addURL", URL.class);
-      addURL.setAccessible(true);
-    } catch (SecurityException e) {
-      throw noAddURL("Method addURL not available", e);
-    } catch (NoSuchMethodException e) {
-      throw noAddURL("Method addURL not available", e);
-    }
-
-    Set<URL> have = Sets.newHashSet(Arrays.asList(urlClassLoader.getURLs()));
-    for (File path : jars) {
+    try (URLClassLoader urlClassLoader = (URLClassLoader) cl) {
+      Method addURL;
       try {
-        URL url = path.toURI().toURL();
-        if (have.add(url)) {
-          addURL.invoke(cl, url);
-        }
-      } catch (MalformedURLException e) {
-        throw noAddURL("addURL " + path + " failed", e);
-      } catch (IllegalArgumentException e) {
-        throw noAddURL("addURL " + path + " failed", e);
-      } catch (IllegalAccessException e) {
-        throw noAddURL("addURL " + path + " failed", e);
-      } catch (InvocationTargetException e) {
-        throw noAddURL("addURL " + path + " failed", e.getCause());
+        addURL = URLClassLoader.class.getDeclaredMethod("addURL", URL.class);
+        addURL.setAccessible(true);
+      } catch (SecurityException | NoSuchMethodException e) {
+        throw noAddURL("Method addURL not available", e);
       }
+
+      Set<URL> have = Sets.newHashSet(Arrays.asList(urlClassLoader.getURLs()));
+      for (File path : jars) {
+        try {
+          URL url = path.toURI().toURL();
+          if (have.add(url)) {
+            addURL.invoke(cl, url);
+          }
+        } catch (MalformedURLException | IllegalArgumentException |
+            IllegalAccessException e) {
+          throw noAddURL("addURL " + path + " failed", e);
+        } catch (InvocationTargetException e) {
+          throw noAddURL("addURL " + path + " failed", e.getCause());
+        }
+      }
+    } catch (IOException ioe) {
+      throw noAddURL("Error closing URLClassLoader", ioe);
     }
   }
 

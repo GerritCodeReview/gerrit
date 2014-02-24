@@ -32,7 +32,6 @@ import com.google.gwt.http.client.RequestException;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.http.client.URL;
 import com.google.gwt.json.client.JSONException;
-import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.json.client.JSONValue;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -373,14 +372,15 @@ public class RestApi {
       if (!background) {
         RpcStatus.INSTANCE.onRpcStart();
       }
-      String body = new JSONObject(content).toString();
       RequestBuilder req = request(method);
       req.setHeader("Content-Type", JSON_UTF8);
-      req.sendRequest(body, httpCallback);
+      req.sendRequest(str(content), httpCallback);
     } catch (RequestException e) {
       httpCallback.onError(null, e);
     }
   }
+
+  private static native String str(JavaScriptObject jso) /*-{ return JSON.stringify(jso); }-*/;
 
   private <T extends JavaScriptObject> void sendRaw(Method method, String body,
       AsyncCallback<T> cb) {

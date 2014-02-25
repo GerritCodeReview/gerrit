@@ -108,16 +108,10 @@ class EncryptedContactStore implements ContactStore {
     return true;
   }
 
-  @SuppressWarnings("resource")
   private static PGPPublicKeyRingCollection readPubRing(final File pub) {
-    try {
-      InputStream in = new FileInputStream(pub);
-      try {
-        in = PGPUtil.getDecoderStream(in);
+    try (InputStream fin = new FileInputStream(pub);
+        InputStream in = PGPUtil.getDecoderStream(fin)) {
         return new PGPPublicKeyRingCollection(in);
-      } finally {
-        in.close();
-      }
     } catch (IOException e) {
       throw new ProvisionException("Cannot read " + pub, e);
     } catch (PGPException e) {

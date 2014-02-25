@@ -162,10 +162,11 @@ class InitUtil {
 
   static void extract(final File dst, final Class<?> sibling,
       final String name) throws IOException {
-    final InputStream in = open(sibling, name);
-    if (in != null) {
-      ByteBuffer buf = IO.readWholeStream(in, 8192);
-      copy(dst, buf);
+    try (InputStream in = open(sibling, name)) {
+      if (in != null) {
+        ByteBuffer buf = IO.readWholeStream(in, 8192);
+        copy(dst, buf);
+      }
     }
   }
 

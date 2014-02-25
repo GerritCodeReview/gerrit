@@ -26,6 +26,7 @@ import org.kohsuke.args4j.Option;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.nio.ByteBuffer;
@@ -42,9 +43,9 @@ public class ProtoGen extends AbstractProgram {
     }
     try {
       JavaSchemaModel jsm = new JavaSchemaModel(ReviewDb.class);
-      PrintWriter out = new PrintWriter(new BufferedWriter(
-          new OutputStreamWriter(lock.getOutputStream(), "UTF-8")));
-      try {
+      try (OutputStream o = lock.getOutputStream();
+          PrintWriter out = new PrintWriter(
+              new BufferedWriter(new OutputStreamWriter(o, "UTF-8")))) {
         String header;
         InputStream in = getClass().getResourceAsStream("ProtoGenHeader.txt");
         try {
@@ -60,8 +61,6 @@ public class ProtoGen extends AbstractProgram {
         out.write(header.replace("@@VERSION@@", version));
         jsm.generateProto(out);
         out.flush();
-      } finally {
-        out.close();
       }
       if (!lock.commit()) {
         throw die("Could not write to " + file);

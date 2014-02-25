@@ -106,21 +106,19 @@ class Libraries {
   }
 
   private static String read(final String p) throws IOException {
-    InputStream in = Libraries.class.getClassLoader().getResourceAsStream(p);
-    if (in == null) {
-      throw new FileNotFoundException("Cannot load resource " + p);
-    }
-    final Reader r = new InputStreamReader(in, "UTF-8");
-    try {
-      final StringBuilder buf = new StringBuilder();
-      final char[] tmp = new char[512];
-      int n;
-      while (0 < (n = r.read(tmp))) {
-        buf.append(tmp, 0, n);
+    try (InputStream in = Libraries.class.getClassLoader().getResourceAsStream(p)) {
+      if (in == null) {
+        throw new FileNotFoundException("Cannot load resource " + p);
       }
-      return buf.toString();
-    } finally {
-      r.close();
+      try (Reader r = new InputStreamReader(in, "UTF-8")) {
+        final StringBuilder buf = new StringBuilder();
+        final char[] tmp = new char[512];
+        int n;
+        while (0 < (n = r.read(tmp))) {
+          buf.append(tmp, 0, n);
+        }
+        return buf.toString();
+      }
     }
   }
 }

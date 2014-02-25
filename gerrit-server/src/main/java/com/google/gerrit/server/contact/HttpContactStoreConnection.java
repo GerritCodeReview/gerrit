@@ -48,9 +48,9 @@ public class HttpContactStoreConnection implements ContactStoreConnection {
         "application/x-www-form-urlencoded; charset=UTF-8");
     conn.setDoOutput(true);
     conn.setFixedLengthStreamingMode(body.length);
-    final OutputStream out = conn.getOutputStream();
-    out.write(body);
-    out.close();
+    try (OutputStream out = conn.getOutputStream()) {
+      out.write(body);
+    }
     if (conn.getResponseCode() != HttpURLConnection.HTTP_OK) {
       throw new IOException("Connection failed: " + conn.getResponseCode());
     }

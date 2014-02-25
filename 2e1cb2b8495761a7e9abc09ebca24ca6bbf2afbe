@@ -46,6 +46,30 @@
       "revId": "2e1cb2b8495761a7e9abc09ebca24ca6bbf2afbe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2f26f59c_c6bfe2b0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/TagCache.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-02-25T21:12:07Z",
+      "side": 1,
+      "message": "Thanks!",
+      "parentUuid": "8f37e1c2_8911793f",
+      "range": {
+        "startLine": 87,
+        "startChar": 4,
+        "endLine": 98,
+        "endChar": 22
+      },
+      "revId": "2e1cb2b8495761a7e9abc09ebca24ca6bbf2afbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

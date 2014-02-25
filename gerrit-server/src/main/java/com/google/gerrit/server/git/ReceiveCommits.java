@@ -27,6 +27,7 @@ import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_NONFASTF
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_OTHER_REASON;
 
 import com.google.common.base.Function;
+import com.google.common.base.Joiner;
 import com.google.common.base.Predicate;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
@@ -147,6 +148,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -891,6 +893,13 @@ public class ReceiveCommits {
                     projectControl.getProjectState().getConfig()
                         .getPluginConfig(e.getPluginName())
                         .getString(e.getExportName());
+                if (configEntry.getType() == ProjectConfigEntry.Type.ARRAY) {
+                  List<String> l =
+                      Arrays.asList(projectControl.getProjectState()
+                          .getConfig().getPluginConfig(e.getPluginName())
+                          .getStringList(e.getExportName()));
+                  oldValue = Joiner.on("\n").join(l);
+                }
 
                 if ((value == null ? oldValue != null : !value.equals(oldValue)) &&
                     !configEntry.isEditable(projectControl.getProjectState())) {

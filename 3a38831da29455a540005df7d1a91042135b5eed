@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4f3169d0_c71b5e59",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1514,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-25T07:45:24Z",
+      "side": 1,
+      "message": "This is still a copy of RestApi from the core. We should merge that too, like NativeStrings.",
+      "range": {
+        "startLine": 1514,
+        "startChar": 1,
+        "endLine": 1514,
+        "endChar": 44
+      },
+      "revId": "3a38831da29455a540005df7d1a91042135b5eed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

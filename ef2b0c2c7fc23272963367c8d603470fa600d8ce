@@ -34,6 +34,24 @@
       "revId": "ef2b0c2c7fc23272963367c8d603470fa600d8ce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8f37e1c2_69a0c5b4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1933,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-02-25T20:33:36Z",
+      "side": 1,
+      "message": "Could have fooled me :)\n\nI\u0027ll probably get to fixing this cache in the next couple days.",
+      "parentUuid": "4f3169d0_47a3eec1",
+      "revId": "ef2b0c2c7fc23272963367c8d603470fa600d8ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

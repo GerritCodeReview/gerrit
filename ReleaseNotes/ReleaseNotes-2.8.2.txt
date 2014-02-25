@@ -66,12 +66,46 @@ Running a query with `limit:0` when the secondary index is enabled was causing
 an internal server error.
 
 * link:https://code.google.com/p/gerrit/issues/detail?id=2331[Issue 2331]:
-Make sure change-merged event contains correct patch set number.
+Make sure `change-merged` event contains correct patch set number.
 +
 When a change is submitted with the cherry-pick strategy, or when the
 change is rebased with the "rebase if necessary" strategy, a new patch
 set is created.  The newly created patch set was not being set in the
-change-merged event.
+`change-merged` event.
+
+* Guard against `diff.mnemonicprefix` in `commit-msg` hook.
++
+When `diff.mnemonicprefix` was enabled in the git config, committing
+changes with `git commit -v` caused the diff to be included in the
+generated commit message.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=2453[Issue 2453]:
+Fix submit rule evaluation for non blocking labels.
++
+Putting a negative score on a label configured as `NoBlock` was causing
+the submit button to be disabled.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=2331[Issue 2331]:
+Allow to create branch with new commits.
++
+Branches could not be created with a new commit which is not on other branches
+already.
+
+* Fix incompatibility between "Rebase if Necessary" and "copy scores".
++
+When a project was set up with "Rebase if Necessary", one of its labels had
+`copyAllScoresOnTrivialRebase` or `copyMaxScore`, and a change that actually
+needed a trivial rebase was submitted, Gerrit first rebased the change, and in
+the process copied the approval for the label.  It then copied all the
+approvals, including the one already copied, which resulted in a constraint
+violation on the database.
+
+* Add `Implementation-Vendor` default manifest entry for plugins.
++
+In buck, the `java_binary` rule merges manifest entries from dependent JARs
+unless the input JAR possesses these entries itself.  This was causing some
+plugins to display the wrong vendor information if they had dependency on
+another JAR file that provided a `Implementation-Vendor` value.
 
 * Remove dependency on joda time library in gerrit launcher.
 +
@@ -141,6 +175,19 @@ Filling the browser available space with each side of the diff at
 have a wide display, and better fit on more narrow displays by
 splitting the available width at 50%.
 
+* Fire `comment-added` stream event even when mail notification is not sent.
++
+Unchecking the "and send email" option on the change screen prevented the
+`comment-added` event from being sent to the event stream.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=2493[Issue 2493]:
+Set uploader to current user in `patchset-created` event upon rebasing
+a change in the UI.
++
+When a change was rebased from the change screen, the `uploader` field
+of the `patchset-created` event was incorrectly set to the original
+change uploader, rather than the user that performed the rebase.
+
 ssh
 ---
 
@@ -170,6 +217,8 @@ longer relevant to mention this in the description of a core command.
 
 * Fix aliasing of SSH commands.
 
+* link:https://code.google.com/p/gerrit/issues/detail?id=2515[Issue 2515]:
+Fix internal server error when updating an existing label with `gerrit review`.
 
 Replication Plugin
 ------------------
@@ -221,3 +270,7 @@ which has not been used for some time.
 
 * Add a link from the plugin documentation to the validation listeners API
 documentation.
+
+* Remove double border around code snippets.
+
+* Add border around tables.

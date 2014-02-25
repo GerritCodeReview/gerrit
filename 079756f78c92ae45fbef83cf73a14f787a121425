@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2f26f59c_064f3a53",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-02-25T08:30:51Z",
+      "side": 1,
+      "message": "This is not correct. If you want to allow this you need to assign the \u0027Push\u0027 access right on \u0027refs/heads/*\u0027 in addition to the \u0027Create Reference\u0027 access right. Pushing new commits directly into the repository means you are bypassing code review and this must only be allowed if you have the \u0027Push\u0027 access right, mustn\u0027t it?",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 17
+      },
+      "revId": "079756f78c92ae45fbef83cf73a14f787a121425",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -371,18 +371,20 @@ public class PublishCommentScreen extends AccountScreen implements
           priorFile = fn;
         }
 
-        final CommentEditorPanel editor =
-            new CommentEditorPanel(c, commentLinkProcessor);
-        if (c.getLine() == AbstractPatchContentTable.R_HEAD) {
-          editor.setAuthorNameText(Gerrit.getUserAccountInfo(),
-              Util.C.fileCommentHeader());
-        } else {
-          editor.setAuthorNameText(Gerrit.getUserAccountInfo(),
-              Util.M.lineHeader(c.getLine()));
+        if (panel != null) {
+          final CommentEditorPanel editor =
+              new CommentEditorPanel(c, commentLinkProcessor);
+          if (c.getLine() == AbstractPatchContentTable.R_HEAD) {
+            editor.setAuthorNameText(Gerrit.getUserAccountInfo(),
+                Util.C.fileCommentHeader());
+          } else {
+            editor.setAuthorNameText(Gerrit.getUserAccountInfo(),
+                Util.M.lineHeader(c.getLine()));
+          }
+          editor.setOpen(true);
+          commentEditors.add(editor);
+          panel.add(editor);
         }
-        editor.setOpen(true);
-        commentEditors.add(editor);
-        panel.add(editor);
       }
     }
   }

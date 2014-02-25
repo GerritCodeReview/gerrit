@@ -65,26 +65,28 @@ public class InitPluginStepsLoader {
     return pluginsInitSteps;
   }
 
+  @SuppressWarnings("resource")
   private InitStep loadInitStep(File jar) {
-    try (URLClassLoader pluginLoader =
-             new URLClassLoader(new URL[] {jar.toURI().toURL()},
-                 InitPluginStepsLoader.class.getClassLoader());
-         JarFile jarFile = new JarFile(jar);) {
-
-      Attributes jarFileAttributes = jarFile.getManifest().getMainAttributes();
-      String initClassName = jarFileAttributes.getValue("Gerrit-InitStep");
-      if (initClassName == null) {
+    try {
+      URLClassLoader pluginLoader =
+          new URLClassLoader(new URL[] {jar.toURI().toURL()},
+             InitPluginStepsLoader.class.getClassLoader());
+      try (JarFile jarFile = new JarFile(jar)) {
+        Attributes jarFileAttributes = jarFile.getManifest().getMainAttributes();
+        String initClassName = jarFileAttributes.getValue("Gerrit-InitStep");
+        if (initClassName == null) {
+          return null;
+        }
+        @SuppressWarnings("unchecked")
+        Class<? extends InitStep> initStepClass =
+            (Class<? extends InitStep>) pluginLoader.loadClass(initClassName);
+        return getPluginInjector(jar).getInstance(initStepClass);
+      } catch (ClassCastException e) {
+        ui.message(
+            "WARN: InitStep from plugin %s does not implement %s (Exception: %s)",
+            jar.getName(), InitStep.class.getName(), e.getMessage());
         return null;
       }
-      @SuppressWarnings("unchecked")
-      Class<? extends InitStep> initStepClass =
-          (Class<? extends InitStep>) pluginLoader.loadClass(initClassName);
-      return getPluginInjector(jar).getInstance(initStepClass);
-    } catch (ClassCastException e) {
-      ui.message(
-          "WARN: InitStep from plugin %s does not implement %s (Exception: %s)",
-          jar.getName(), InitStep.class.getName(), e.getMessage());
-      return null;
     } catch (Exception e) {
       ui.message(
           "WARN: Cannot load and get plugin init step for %s (Exception: %s)",

@@ -16,6 +16,24 @@
       "revId": "ef2b0c2c7fc23272963367c8d603470fa600d8ce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4f3169d0_47a3eec1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1933,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2014-02-25T07:20:59Z",
+      "side": 1,
+      "message": "Can you please take over the change? I don\u0027t speak Java. :)",
+      "parentUuid": "0f23f18e_e5013621",
+      "revId": "ef2b0c2c7fc23272963367c8d603470fa600d8ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

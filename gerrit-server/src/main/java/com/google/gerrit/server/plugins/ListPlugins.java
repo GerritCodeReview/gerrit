@@ -82,6 +82,9 @@ public class ListPlugins implements RestReadView<TopLevelResource> {
       } catch (UnsupportedEncodingException e) {
         throw new RuntimeException("JVM lacks UTF-8 encoding", e);
       }
+    } else if (!format.isJson()) {
+      throw new IllegalStateException(
+          "Text output requires that a diplay OutputStream is provided.");
     }
 
     Map<String, PluginInfo> output = Maps.newTreeMap();

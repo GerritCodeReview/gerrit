@@ -22,6 +22,30 @@
       "revId": "2e1cb2b8495761a7e9abc09ebca24ca6bbf2afbe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8f37e1c2_8911793f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/TagCache.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-02-25T20:43:46Z",
+      "side": 1,
+      "message": "The cache getIfPresent and put are sufficiently synchronized to ensure read-after-write views the write. So this is safe.",
+      "parentUuid": "4f3169d0_e7c4e251",
+      "range": {
+        "startLine": 87,
+        "startChar": 4,
+        "endLine": 98,
+        "endChar": 22
+      },
+      "revId": "2e1cb2b8495761a7e9abc09ebca24ca6bbf2afbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

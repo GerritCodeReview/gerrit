@@ -14,11 +14,9 @@
 
 package com.google.gerrit.server.cache.h2;
 
-import com.google.common.base.Preconditions;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.server.cache.CacheBinding;
@@ -36,6 +34,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -48,11 +48,10 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
 
   private final DefaultCacheFactory defaultFactory;
   private final Config config;
-   private final File cacheDir;
+  private final File cacheDir;
   private final List<H2CacheImpl<?, ?>> caches;
   private final ExecutorService executor;
   private final ScheduledExecutorService cleanup;
-  private volatile boolean started;
 
   @Inject
   H2CacheFactory(
@@ -78,7 +77,7 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
       cacheDir = null;
     }
 
-    caches = Lists.newLinkedList();
+    caches = Collections.synchronizedList(new LinkedList<H2CacheImpl<?, ?>>());
 
     if (cacheDir != null) {
       executor = Executors.newFixedThreadPool(
@@ -100,7 +99,6 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
 
   @Override
   public void start() {
-    started = true;
     if (executor != null) {
       for (final H2CacheImpl<?, ?> cache : caches) {
         executor.execute(new Runnable() {
@@ -149,7 +147,6 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
   @SuppressWarnings({"unchecked", "cast"})
   @Override
   public <K, V> Cache<K, V> build(CacheBinding<K, V> def) {
-    Preconditions.checkState(!started, "cache must be built before start");
     long limit = config.getLong("cache", def.name(), "diskLimit", 128 << 20);
 
     if (cacheDir == null || limit <= 0) {
@@ -169,7 +166,6 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
   public <K, V> LoadingCache<K, V> build(
       CacheBinding<K, V> def,
       CacheLoader<K, V> loader) {
-    Preconditions.checkState(!started, "cache must be built before start");
     long limit = config.getLong("cache", def.name(), "diskLimit", 128 << 20);
 
     if (cacheDir == null || limit <= 0) {

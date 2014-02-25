@@ -136,6 +136,30 @@
       "revId": "079756f78c92ae45fbef83cf73a14f787a121425",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4f3169d0_27d19a20",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-02-25T08:52:42Z",
+      "side": 1,
+      "message": "The check was introduced in \nhttps://gerrit-review.googlesource.com/#/c/50253\nAnd the pushing of branches with new commits was not taken into account.",
+      "parentUuid": "cf439932_4b75c59d",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 17
+      },
+      "revId": "079756f78c92ae45fbef83cf73a14f787a121425",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

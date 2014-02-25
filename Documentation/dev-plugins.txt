@@ -1511,7 +1511,7 @@ unique name and must be registered in the GWT module:
 ----
 
 If a GWT plugin wants to invoke the Gerrit REST API it can use
-`com.google.gerrit.plugin.client.rpc.RestApi` to contruct the URL
+`com.google.gerrit.plugin.client.rpc.RestApi` to construct the URL
 path and to trigger the REST calls.
 
 Example for invoking a Gerrit core REST endpoint:

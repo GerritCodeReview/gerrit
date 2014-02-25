@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.cache.h2;
 
-import com.google.common.base.Preconditions;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
@@ -52,7 +51,6 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
   private final List<H2CacheImpl<?, ?>> caches;
   private final ExecutorService executor;
   private final ScheduledExecutorService cleanup;
-  private volatile boolean started;
 
   @Inject
   H2CacheFactory(
@@ -100,7 +98,6 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
 
   @Override
   public void start() {
-    started = true;
     if (executor != null) {
       for (final H2CacheImpl<?, ?> cache : caches) {
         executor.execute(new Runnable() {
@@ -149,7 +146,6 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
   @SuppressWarnings({"unchecked", "cast"})
   @Override
   public <K, V> Cache<K, V> build(CacheBinding<K, V> def) {
-    Preconditions.checkState(!started, "cache must be built before start");
     long limit = config.getLong("cache", def.name(), "diskLimit", 128 << 20);
 
     if (cacheDir == null || limit <= 0) {
@@ -169,7 +165,6 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
   public <K, V> LoadingCache<K, V> build(
       CacheBinding<K, V> def,
       CacheLoader<K, V> loader) {
-    Preconditions.checkState(!started, "cache must be built before start");
     long limit = config.getLong("cache", def.name(), "diskLimit", 128 << 20);
 
     if (cacheDir == null || limit <= 0) {

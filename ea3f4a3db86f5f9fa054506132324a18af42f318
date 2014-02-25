@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4f3169d0_67db923e",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/shell/JythonShell.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-02-25T09:29:40Z",
+      "side": 1,
+      "message": "the catch could be part of the innter try block, no need to nest two blocks",
+      "revId": "ea3f4a3db86f5f9fa054506132324a18af42f318",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4f3169d0_870886f7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/rules/PrologCompiler.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-02-25T09:29:40Z",
+      "side": 1,
+      "message": "this formatting is not the same as in some other places with multiple resources in the try block. make it consistent",
+      "revId": "ea3f4a3db86f5f9fa054506132324a18af42f318",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

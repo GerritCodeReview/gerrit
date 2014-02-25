@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4f3169d0_e7c4e251",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/TagCache.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-02-25T15:00:06Z",
+      "side": 1,
+      "message": "Shawn, I have to ask if this is thread safe. I was reading about issues with the \"Double-Checked Locking\" pattern [1] and I can see that in other places where this pattern is used (e.g. in DispatchCommandProvider.getMap()) we make this pattern safe by declaring the member variable as volatile. I\u0027m wondering if putting a value into the cache is volatile or are we safe here by other means?\n\n[1] http://www.cs.umd.edu/~pugh/java/memoryModel/DoubleCheckedLocking.html",
+      "range": {
+        "startLine": 87,
+        "startChar": 4,
+        "endLine": 98,
+        "endChar": 22
+      },
+      "revId": "2e1cb2b8495761a7e9abc09ebca24ca6bbf2afbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

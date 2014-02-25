@@ -14,20 +14,22 @@
 
 package com.google.gerrit.server.cache.h2;
 
-import com.google.common.base.Preconditions;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.google.gerrit.extensions.events.LifecycleListener;
+import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.server.cache.CacheBinding;
 import com.google.gerrit.server.cache.PersistentCacheFactory;
 import com.google.gerrit.server.cache.h2.H2CacheImpl.SqlStore;
 import com.google.gerrit.server.cache.h2.H2CacheImpl.ValueHolder;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.plugins.Plugin;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 
@@ -37,6 +39,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -48,17 +51,18 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
 
   private final DefaultCacheFactory defaultFactory;
   private final Config config;
-   private final File cacheDir;
+  private final File cacheDir;
   private final List<H2CacheImpl<?, ?>> caches;
+  private final DynamicMap<Cache<?, ?>> cacheMap;
   private final ExecutorService executor;
   private final ScheduledExecutorService cleanup;
-  private volatile boolean started;
 
   @Inject
   H2CacheFactory(
       DefaultCacheFactory defaultCacheFactory,
       @GerritServerConfig Config cfg,
-      SitePaths site) {
+      SitePaths site,
+      DynamicMap<Cache<?, ?>> cacheMap) {
     defaultFactory = defaultCacheFactory;
     config = cfg;
 
@@ -79,6 +83,7 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
     }
 
     caches = Lists.newLinkedList();
+    this.cacheMap = cacheMap;
 
     if (cacheDir != null) {
       executor = Executors.newFixedThreadPool(
@@ -100,7 +105,6 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
 
   @Override
   public void start() {
-    started = true;
     if (executor != null) {
       for (final H2CacheImpl<?, ?> cache : caches) {
         executor.execute(new Runnable() {
@@ -141,15 +145,16 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
         log.warn("Interrupted waiting for disk cache to shutdown");
       }
     }
-    for (H2CacheImpl<?, ?> cache : caches) {
-      cache.stop();
+    synchronized (caches) {
+      for (H2CacheImpl<?, ?> cache : caches) {
+        cache.stop();
+      }
     }
   }
 
   @SuppressWarnings({"unchecked", "cast"})
   @Override
   public <K, V> Cache<K, V> build(CacheBinding<K, V> def) {
-    Preconditions.checkState(!started, "cache must be built before start");
     long limit = config.getLong("cache", def.name(), "diskLimit", 128 << 20);
 
     if (cacheDir == null || limit <= 0) {
@@ -160,7 +165,9 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
     H2CacheImpl<K, V> cache = new H2CacheImpl<K, V>(
         executor, store, def.keyType(),
         (Cache<K, ValueHolder<V>>) defaultFactory.create(def, true).build());
-    caches.add(cache);
+    synchronized (caches) {
+      caches.add(cache);
+    }
     return cache;
   }
 
@@ -169,7 +176,6 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
   public <K, V> LoadingCache<K, V> build(
       CacheBinding<K, V> def,
       CacheLoader<K, V> loader) {
-    Preconditions.checkState(!started, "cache must be built before start");
     long limit = config.getLong("cache", def.name(), "diskLimit", 128 << 20);
 
     if (cacheDir == null || limit <= 0) {
@@ -185,6 +191,19 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
         executor, store, def.keyType(), mem);
     caches.add(cache);
     return cache;
+  }
+
+  @Override
+  public void onStop(Plugin plugin) {
+    synchronized (caches) {
+      for (Map.Entry<String, Provider<Cache<?, ?>>> entry :
+          cacheMap.byPlugin(plugin.getName()).entrySet()) {
+        Cache<?, ?> cache = entry.getValue().get();
+        if (caches.remove(cache)) {
+          ((H2CacheImpl<?, ?>) cache).stop();
+        }
+      }
+    }
   }
 
   private <V, K> SqlStore<K, V> newSqlStore(

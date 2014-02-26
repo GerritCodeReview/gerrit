@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4f3169d0_876c068f",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1700,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-02-26T16:11:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2f26f59c_66db8e3e",
+      "range": {
+        "startLine": 1698,
+        "startChar": 0,
+        "endLine": 1700,
+        "endChar": 54
+      },
+      "revId": "aab90299e77ab11ebf172e87d58e994e2b7a0e63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4f3169d0_07fd7687",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 1
@@ -71,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "2f26f59c_667f0e36",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1709,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-02-26T16:11:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4f3169d0_07fd7687",
+      "range": {
+        "startLine": 1709,
+        "startChar": 55,
+        "endLine": 1709,
+        "endChar": 56
+      },
+      "revId": "aab90299e77ab11ebf172e87d58e994e2b7a0e63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2f26f59c_e69dbe55",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 1
@@ -82,6 +130,30 @@
       "writtenOn": "2014-02-26T11:33:25Z",
       "side": 1,
       "message": "We are using camel case naming convention in sever code.",
+      "range": {
+        "startLine": 1712,
+        "startChar": 17,
+        "endLine": 1712,
+        "endChar": 35
+      },
+      "revId": "aab90299e77ab11ebf172e87d58e994e2b7a0e63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2f26f59c_866c0a8f",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1712,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-02-26T16:11:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2f26f59c_e69dbe55",
       "range": {
         "startLine": 1712,
         "startChar": 17,
@@ -140,6 +212,30 @@
     },
     {
       "key": {
+        "uuid": "2f26f59c_468212eb",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/RevisionInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-02-26T16:11:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2f26f59c_c68d221d",
+      "range": {
+        "startLine": 29,
+        "startChar": 2,
+        "endLine": 29,
+        "endChar": 36
+      },
+      "revId": "aab90299e77ab11ebf172e87d58e994e2b7a0e63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4f3169d0_27b0bad7",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/webui/PatchSetWebLink.java",
         "patchSetId": 1
@@ -151,6 +247,30 @@
       "writtenOn": "2014-02-26T11:33:25Z",
       "side": 1,
       "message": "May be mention in the commit message, that only revision specific links are supported and not Change specific? We are supporting UiAction for both RevisionResource and ChangeResource, but place them in the same panel.\n\nI can see value for supporting ChangeWebLink as well, by putting change specific links in header panel of change screen (and not in commit box).",
+      "range": {
+        "startLine": 19,
+        "startChar": 17,
+        "endLine": 19,
+        "endChar": 32
+      },
+      "revId": "aab90299e77ab11ebf172e87d58e994e2b7a0e63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4f3169d0_0778164f",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/webui/PatchSetWebLink.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-02-26T16:11:52Z",
+      "side": 1,
+      "message": "It \"should\" be fairly straight forward to add an extensionpoint for ChangeWeblink as well.",
+      "parentUuid": "4f3169d0_27b0bad7",
       "range": {
         "startLine": 19,
         "startChar": 17,
@@ -186,6 +306,30 @@
     },
     {
       "key": {
+        "uuid": "4f3169d0_27751a58",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/webui/PatchSetWebLink.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-02-26T16:11:52Z",
+      "side": 1,
+      "message": "Hmmm, it is , even in the present, just a link to any commit. It\u0027s just named PatchSetWeblink...\nI believe the method name should be getUrl(...) instead (the name is really a leftover from a defunct idea I had about implementing all weblinks with one single class in the plugin)\nI\u0027m an inheritance-sucker so I\u0027m thinking a deeper structure here with PatchSetWeblink exends CommitWebLink extends WebLink...\nWhen would you link to anything in the UI that is a commit but not a patch set?",
+      "parentUuid": "2f26f59c_a688260e",
+      "range": {
+        "startLine": 28,
+        "startChar": 16,
+        "endLine": 28,
+        "endChar": 30
+      },
+      "revId": "aab90299e77ab11ebf172e87d58e994e2b7a0e63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4f3169d0_47adae7a",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/webui/WebLink.java",
         "patchSetId": 1
@@ -197,6 +341,30 @@
       "writtenOn": "2014-02-26T11:33:25Z",
       "side": 1,
       "message": "I wouldn\u0027t use public here, as all methods in interfaces are public, but i see we are doing it differently. The JLS is very clear about it [1]:\n\n\"It is permitted, but discouraged as a matter of style, to redundantly specify\nthe public and/or abstract modifier for a method declared in an interface.\"\n\n[1] http://docs.oracle.com/javase/specs/jls/se7/html/jls-9.html#jls-9.4",
+      "range": {
+        "startLine": 26,
+        "startChar": 2,
+        "endLine": 26,
+        "endChar": 9
+      },
+      "revId": "aab90299e77ab11ebf172e87d58e994e2b7a0e63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4f3169d0_c766feac",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/webui/WebLink.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-02-26T16:11:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4f3169d0_47adae7a",
       "range": {
         "startLine": 26,
         "startChar": 2,
@@ -232,6 +400,30 @@
     },
     {
       "key": {
+        "uuid": "4f3169d0_e76b0272",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-02-26T16:11:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4f3169d0_67aab265",
+      "range": {
+        "startLine": 106,
+        "startChar": 4,
+        "endLine": 106,
+        "endChar": 30
+      },
+      "revId": "aab90299e77ab11ebf172e87d58e994e2b7a0e63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2f26f59c_a60d8606",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.ui.xml",
         "patchSetId": 1
@@ -243,6 +435,30 @@
       "writtenOn": "2014-02-26T11:28:39Z",
       "side": 1,
       "message": "Can you fix the alignment here? All lines except \u0027margin-left:16px;\u0027 should be moved one space to the left.",
+      "range": {
+        "startLine": 81,
+        "startChar": 5,
+        "endLine": 85,
+        "endChar": 6
+      },
+      "revId": "aab90299e77ab11ebf172e87d58e994e2b7a0e63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4f3169d0_0761f692",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.ui.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-02-26T16:11:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2f26f59c_a60d8606",
       "range": {
         "startLine": 81,
         "startChar": 5,
@@ -278,6 +494,30 @@
     },
     {
       "key": {
+        "uuid": "4f3169d0_275efad7",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-02-26T16:11:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2f26f59c_26b0b6d7",
+      "range": {
+        "startLine": 301,
+        "startChar": 31,
+        "endLine": 301,
+        "endChar": 39
+      },
+      "revId": "aab90299e77ab11ebf172e87d58e994e2b7a0e63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2f26f59c_46adb27a",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfo.java",
         "patchSetId": 1
@@ -289,6 +529,30 @@
       "writtenOn": "2014-02-26T11:33:25Z",
       "side": 1,
       "message": "Same comment as above.",
+      "range": {
+        "startLine": 302,
+        "startChar": 31,
+        "endLine": 302,
+        "endChar": 38
+      },
+      "revId": "aab90299e77ab11ebf172e87d58e994e2b7a0e63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4f3169d0_475beee6",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-02-26T16:11:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2f26f59c_46adb27a",
       "range": {
         "startLine": 302,
         "startChar": 31,
@@ -347,6 +611,30 @@
     },
     {
       "key": {
+        "uuid": "2f26f59c_a671066a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/WebLinks.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-02-26T16:11:52Z",
+      "side": 1,
+      "message": "I\u0027ll meet you half way. The call to DynamicSet.size() is quite expensive.",
+      "parentUuid": "4f3169d0_07b3b6e6",
+      "range": {
+        "startLine": 36,
+        "startChar": 42,
+        "endLine": 36,
+        "endChar": 46
+      },
+      "revId": "aab90299e77ab11ebf172e87d58e994e2b7a0e63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4f3169d0_e792223e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 1
@@ -381,6 +669,30 @@
       "writtenOn": "2014-02-26T11:28:39Z",
       "side": 1,
       "message": "If I understand it correctly the idea is to support also other web links in future (e.g. for branches and projects). Will we have one DynamicSet for each web link kind or could we also have a single DynamicSet of just WebLink?",
+      "range": {
+        "startLine": 268,
+        "startChar": 4,
+        "endLine": 268,
+        "endChar": 54
+      },
+      "revId": "aab90299e77ab11ebf172e87d58e994e2b7a0e63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4f3169d0_47820eeb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritGlobalModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-02-26T16:11:52Z",
+      "side": 1,
+      "message": "I\u0027m thinking one DynamicSet for each weblink-type, since each weblink takes different arguments to produce the url so if we mix them we need to filter them out in the end.",
+      "parentUuid": "2f26f59c_86832af3",
       "range": {
         "startLine": 268,
         "startChar": 4,

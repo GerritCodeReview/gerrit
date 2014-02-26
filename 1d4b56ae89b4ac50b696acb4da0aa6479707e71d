@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "cf439932_0bc01d6a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/DateTimeReplacer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-02-26T00:22:46Z",
+      "side": 1,
+      "message": "I see where you\u0027re coming from, but I have been trying to go the way of fewer magic predicates (predicates that trigger predicate tree postprocessing instead of being passed through to the search index) rather than more.\n\nSo that means if I went this route, I would be sorely tempted to make \"(before:foo ts:PST) OR (before:bar ts:GMT)\" work as expected. But then the rewrite code is unlikely to be less complex than this parsing code.\n\nAlso, having the client add tz:PST still means the client has to have a little state machine to parse quotes and spaces. But simpler than what I have, I\u0027ll concede.\n\nThat said this code seriously sucks too. I\u0027ll think on it.\n\n\nAside on magic predicates: it really bugs me that \"(project:foo limit:3) OR (project:bar limit:2)\" doesn\u0027t behave as expected. The server just grabs the first limit it finds and applies that. So among other things this means OR isn\u0027t commutative in the presence of limit operators.\n\nHmm...this might be slightly more palatable if we just rewrite the grammar so magic predicates (limit, tz, visibleto, probably missing a couple) can only happen at the top level. Then the \"use the first predicate\" approach is easier to reason about.",
+      "parentUuid": "fc1d7d5d_5405ac2d",
+      "revId": "1d4b56ae89b4ac50b696acb4da0aa6479707e71d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fc1d7d5d_7400a81f",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/DateTimeReplacer.java",
         "patchSetId": 5
@@ -76,6 +94,30 @@
       "writtenOn": "2014-02-26T00:07:17Z",
       "side": 1,
       "message": "According to Query.g {} is the same as \"\"",
+      "range": {
+        "startLine": 51,
+        "startChar": 6,
+        "endLine": 52,
+        "endChar": 27
+      },
+      "revId": "1d4b56ae89b4ac50b696acb4da0aa6479707e71d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cf439932_cbd53530",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/DateTimeReplacer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-02-26T00:22:46Z",
+      "side": 1,
+      "message": "Sigh. If I\u0027m reading correctly {{}} is still not allowed though?",
+      "parentUuid": "0f23f18e_8527a2ca",
       "range": {
         "startLine": 51,
         "startChar": 6,

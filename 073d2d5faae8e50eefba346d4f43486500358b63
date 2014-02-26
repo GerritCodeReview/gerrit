@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cf439932_6bc7e180",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-02-26T01:21:16Z",
+      "side": 1,
+      "message": "Which checker are you using?",
+      "range": {
+        "startLine": 16,
+        "startChar": 49,
+        "endLine": 17,
+        "endChar": 7
+      },
+      "revId": "073d2d5faae8e50eefba346d4f43486500358b63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8f37e1c2_29232d8c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ListPlugins.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-02-26T01:21:16Z",
+      "side": 1,
+      "message": "display",
+      "range": {
+        "startLine": 87,
+        "startChar": 39,
+        "endLine": 87,
+        "endChar": 45
+      },
+      "revId": "073d2d5faae8e50eefba346d4f43486500358b63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

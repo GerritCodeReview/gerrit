@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cf439932_abb9c9f8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PublishCommentScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-02-26T01:24:51Z",
+      "side": 1,
+      "message": "can\u0027t we just put this block inside the `if` block at lines 360-372?",
+      "range": {
+        "startLine": 375,
+        "startChar": 2,
+        "endLine": 386,
+        "endChar": 28
+      },
+      "revId": "f96927d530af26b7b8819351f5523150cfc5efbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

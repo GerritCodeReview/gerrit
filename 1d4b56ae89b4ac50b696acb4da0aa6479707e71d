@@ -78,6 +78,24 @@
     },
     {
       "key": {
+        "uuid": "8f37e1c2_69db653e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/DateTimeReplacer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-02-26T19:56:13Z",
+      "side": 1,
+      "message": "I was actually proposing changing the query grammar so \"(limit:X AND Y) OR Z\" doesn\u0027t parse. If we do that, then I don\u0027t think we have to change much to make \"\u003cparsed query\u003e AND \u003cextra visibleto predicate\u003e\" work.\n\nGlad to hear visibleto is not magic, since I\u0027ve made my anti-magic stance clear :)",
+      "parentUuid": "8f37e1c2_094f4953",
+      "revId": "1d4b56ae89b4ac50b696acb4da0aa6479707e71d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fc1d7d5d_7400a81f",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/DateTimeReplacer.java",
         "patchSetId": 5

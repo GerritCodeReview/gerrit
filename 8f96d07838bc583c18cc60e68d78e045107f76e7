@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8f37e1c2_e9ee75da",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-02-26T16:58:52Z",
+      "side": 1,
+      "message": "When a plugin stops it should close the H2CacheImpl to release the JDBC connections, rather than leaking them. But this may not matter with H2. It might be fine to leak those handles and simply let the Java GC clean them up.",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 10
+      },
+      "revId": "8f96d07838bc583c18cc60e68d78e045107f76e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8f37e1c2_c9e9b1d5",
+        "filename": "gerrit-cache-h2/src/main/java/com/google/gerrit/server/cache/h2/H2CacheFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-02-26T16:58:52Z",
+      "side": 1,
+      "message": "Nit: There appears to be 3 spaces at the start of this line. While you are here can you fix it?",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 10
+      },
+      "revId": "8f96d07838bc583c18cc60e68d78e045107f76e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8f37e1c2_a9e47dfe",
+        "filename": "gerrit-cache-h2/src/main/java/com/google/gerrit/server/cache/h2/H2CacheFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-02-26T16:58:52Z",
+      "side": 1,
+      "message": "The caches list is not thread-safe. We cannot safely add an entry after startup unless access is synchronized.",
+      "revId": "8f96d07838bc583c18cc60e68d78e045107f76e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

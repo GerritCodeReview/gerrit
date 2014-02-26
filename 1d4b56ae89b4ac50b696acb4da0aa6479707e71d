@@ -60,6 +60,24 @@
     },
     {
       "key": {
+        "uuid": "8f37e1c2_094f4953",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/DateTimeReplacer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-02-26T16:06:02Z",
+      "side": 1,
+      "message": "I would be entirely OK with a change that made limit: operator only available on the top level of the query parse tree. You do have to be careful because the code around the query parser adds ($query AND visibleto:$user) to filter results. So the limit might not always be at the root, unless you modify this wrapper to hoist the limit up when it does the AND node construction.\n\ntz would then be like limit, only one permitted in the query string at the top level.\n\nvisibleto is allowed to occur more than once. Its not magical the way limit is. If we have only a single user mentioned by visibleto there is some ChangeControl caching that happens to improve performance, but you can do queries that are effectively \"(status:open AND visibleto:Dave) AND visibleto:self)\". ChangeControl caching isn\u0027t as efficient in this case, but its still a valid query, show me the changes that are open that both Dave and I can see.",
+      "parentUuid": "cf439932_0bc01d6a",
+      "revId": "1d4b56ae89b4ac50b696acb4da0aa6479707e71d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fc1d7d5d_7400a81f",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/DateTimeReplacer.java",
         "patchSetId": 5
@@ -118,6 +136,30 @@
       "side": 1,
       "message": "Sigh. If I\u0027m reading correctly {{}} is still not allowed though?",
       "parentUuid": "0f23f18e_8527a2ca",
+      "range": {
+        "startLine": 51,
+        "startChar": 6,
+        "endLine": 52,
+        "endChar": 27
+      },
+      "revId": "1d4b56ae89b4ac50b696acb4da0aa6479707e71d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8f37e1c2_e93915b6",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/DateTimeReplacer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-02-26T16:06:02Z",
+      "side": 1,
+      "message": "Correct. \" cannot be used inside of \"\" and { or } cannot be used within {}. {} exists so you can say message:{foo\"bar\"} as there is no other way to query for \". Yes this means it is impossible to search for both { and \" in the same operator.",
+      "parentUuid": "cf439932_cbd53530",
       "range": {
         "startLine": 51,
         "startChar": 6,

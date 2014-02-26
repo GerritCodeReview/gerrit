@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "cf439932_2ba6b9d2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-02-26T16:59:16Z",
+      "side": 1,
+      "message": "FWIW I am willing to try leaking the H2 handles and see what happens. :-)",
+      "parentUuid": "8f37e1c2_e9ee75da",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 10
+      },
+      "revId": "8f96d07838bc583c18cc60e68d78e045107f76e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8f37e1c2_c9e9b1d5",
         "filename": "gerrit-cache-h2/src/main/java/com/google/gerrit/server/cache/h2/H2CacheFactory.java",
         "patchSetId": 1

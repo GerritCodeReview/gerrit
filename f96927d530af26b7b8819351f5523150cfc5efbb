@@ -22,6 +22,30 @@
       "revId": "f96927d530af26b7b8819351f5523150cfc5efbb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2f26f59c_a6a3c695",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PublishCommentScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-02-26T10:39:44Z",
+      "side": 1,
+      "message": "This was my first thought, but looking closer at the algorithm there is this loop over the PatchLineComments and PatchLineComments can have the same patchKey. All PatchLineComments that have the same patchKey should be added to the same panel. Moving this code up into this if block would mean that for each patchKey we would only add the first PatchLineComment to the panel. So this code has to stay outside of the if block.\n\nAssuming that the patchKey of a PatchLineComment cannot be an empty it cannot be equal to the initial value of \u0027priorFile\u0027 and hence panel is always initialised. Then this fix is not really needed. Maybe I just just abandon this.",
+      "parentUuid": "cf439932_abb9c9f8",
+      "range": {
+        "startLine": 375,
+        "startChar": 2,
+        "endLine": 386,
+        "endChar": 28
+      },
+      "revId": "f96927d530af26b7b8819351f5523150cfc5efbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

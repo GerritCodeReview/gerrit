@@ -37,6 +37,7 @@ public class DefaultFileExtensionRegistry extends MimeDetector {
       .put(".gitmodules", INI)
       .put("project.config", INI)
       .put("BUCK", PYTHON)
+      .put("bucklet", newMimeType(PYTHON.toString(), 1))
       .put("defs", newMimeType(PYTHON.toString(), 1))
       .put("py", newMimeType(PYTHON.toString(), 1))
       .put("go", newMimeType("text/x-go", 1))

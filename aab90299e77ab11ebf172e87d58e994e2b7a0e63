@@ -330,6 +330,30 @@
     },
     {
       "key": {
+        "uuid": "2f26f59c_6658eee9",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/webui/PatchSetWebLink.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-02-26T20:01:23Z",
+      "side": 1,
+      "message": "I like the idea of being able to implement all web links in a single class. So I believe it is good to choose method names that they don\u0027t conflict with each other. \n\n \u003e When would you link to anything in the UI that is a commit but not a patch set?\n\nCurrently we are not having this case, But I could imagine that one day we would like to also show commits which were pushed directly into a repository, bypassing code review. For these commits there are no patch sets, but having a link to GitWeb etc. would still make sense. Maybe this is just looking to far ahead. I\u0027m actually pretty fine with calling it PatchSetWebLink and getPatchSetUrl. When reading this method name I was only wondering why the arguments are not project + patch set, but project + commit.",
+      "parentUuid": "4f3169d0_27751a58",
+      "range": {
+        "startLine": 28,
+        "startChar": 16,
+        "endLine": 28,
+        "endChar": 30
+      },
+      "revId": "aab90299e77ab11ebf172e87d58e994e2b7a0e63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4f3169d0_47adae7a",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/webui/WebLink.java",
         "patchSetId": 1
@@ -693,6 +717,30 @@
       "side": 1,
       "message": "I\u0027m thinking one DynamicSet for each weblink-type, since each weblink takes different arguments to produce the url so if we mix them we need to filter them out in the end.",
       "parentUuid": "2f26f59c_86832af3",
+      "range": {
+        "startLine": 268,
+        "startChar": 4,
+        "endLine": 268,
+        "endChar": 54
+      },
+      "revId": "aab90299e77ab11ebf172e87d58e994e2b7a0e63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4f3169d0_a7ae6a63",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritGlobalModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-02-26T20:01:23Z",
+      "side": 1,
+      "message": "Yes, having just one DynamicSet for WebLink makes it a little more difficult to use in Gerrit core since we are normally only needing one kind in a place and then we would need to filter.\n\nOn the other hand as a plugin author I would likely have a single class implementing several WebLink interfaces. Having the DynamicSet for WebLink I would only need to bind my class once in Guice. Having a DynamicSet for each weblink-type means I need to bind my class for each type once.\n\nI\u0027m fine with either way.",
+      "parentUuid": "4f3169d0_47820eeb",
       "range": {
         "startLine": 268,
         "startChar": 4,

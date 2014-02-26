@@ -205,8 +205,8 @@ class PatchSetsBox extends Composite {
       .append(FormatUtil.shortFormatDayTime(c.committer().date()))
       .closeTd();
 
-    String an = c.author() != null ? c.author().name() : null;
-    String cn = c.committer() != null ? c.committer().name() : null;
+    String an = c.author() != null ? c.author().name() : "";
+    String cn = c.committer() != null ? c.committer().name() : "";
     sb.openTd();
     sb.append(an);
     if (!"".equals(an) && !"".equals(cn) && !an.equals(cn)) {

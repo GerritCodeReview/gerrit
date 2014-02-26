@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0f23f18e_45112a6e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/DateTimeReplacer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-02-26T00:07:17Z",
+      "side": 1,
+      "message": "Unnecessary (see below).",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 41
+      },
+      "revId": "1d4b56ae89b4ac50b696acb4da0aa6479707e71d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc1d7d5d_5405ac2d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/DateTimeReplacer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-02-26T00:07:17Z",
+      "side": 1,
+      "message": "Would it be easier to have a new predicate \"tz:PST\" that the client can include into the query string if its not present, and then the server pushes this down in the query parse tree?\n\nSo \"before:2013-01-01\" is rewritten at the client as \"tz:PST before:2013-01-01\" and then server pushes that preference down to the operators, rather than the client trying to parse the grammar and rewrite.",
+      "revId": "1d4b56ae89b4ac50b696acb4da0aa6479707e71d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc1d7d5d_7400a81f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/DateTimeReplacer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-02-26T00:07:17Z",
+      "side": 1,
+      "message": "This isn\u0027t necessary in client code. GWT compiles StringBuilder to this thing that buffers an array of JavaScript String objects and then calls join on them to squash the buffer down when the array gets \"too long\", or when you call toString().\n\nSingle character appends are single character strings pushed into this array.\n\nTrying to presize doesn\u0027t really buy you enough to bother with the complexity of the code.",
+      "range": {
+        "startLine": 36,
+        "startChar": 8,
+        "endLine": 36,
+        "endChar": 46
+      },
+      "revId": "1d4b56ae89b4ac50b696acb4da0aa6479707e71d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0f23f18e_8527a2ca",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/DateTimeReplacer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-02-26T00:07:17Z",
+      "side": 1,
+      "message": "According to Query.g {} is the same as \"\"",
+      "range": {
+        "startLine": 51,
+        "startChar": 6,
+        "endLine": 52,
+        "endChar": 27
+      },
+      "revId": "1d4b56ae89b4ac50b696acb4da0aa6479707e71d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0f23f18e_650e264d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/DateTimeReplacer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-02-26T00:07:17Z",
+      "side": 1,
+      "message": "Don\u0027t pass in the inQuote value. Avoid making the call inside the caller if inQuote is true.",
+      "range": {
+        "startLine": 64,
+        "startChar": 8,
+        "endLine": 64,
+        "endChar": 15
+      },
+      "revId": "1d4b56ae89b4ac50b696acb4da0aa6479707e71d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0f23f18e_25142e5f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/DateTimeReplacer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-02-26T00:07:17Z",
+      "side": 1,
+      "message": "Drop this argument.",
+      "range": {
+        "startLine": 69,
+        "startChar": 43,
+        "endLine": 69,
+        "endChar": 77
+      },
+      "revId": "1d4b56ae89b4ac50b696acb4da0aa6479707e71d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0f23f18e_05173266",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/SearchPanel.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-02-26T00:07:17Z",
+      "side": 1,
+      "message": "Remove // between search and box",
+      "range": {
+        "startLine": 116,
+        "startChar": 6,
+        "endLine": 116,
+        "endChar": 23
+      },
+      "revId": "1d4b56ae89b4ac50b696acb4da0aa6479707e71d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

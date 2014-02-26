@@ -48,6 +48,75 @@
     },
     {
       "key": {
+        "uuid": "4f3169d0_e79dc255",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1709,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-26T11:33:25Z",
+      "side": 1,
+      "message": "Nit: blank is missing here.",
+      "range": {
+        "startLine": 1709,
+        "startChar": 55,
+        "endLine": 1709,
+        "endChar": 56
+      },
+      "revId": "aab90299e77ab11ebf172e87d58e994e2b7a0e63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2f26f59c_e69dbe55",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1712,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-26T11:33:25Z",
+      "side": 1,
+      "message": "We are using camel case naming convention in sever code.",
+      "range": {
+        "startLine": 1712,
+        "startChar": 17,
+        "endLine": 1712,
+        "endChar": 35
+      },
+      "revId": "aab90299e77ab11ebf172e87d58e994e2b7a0e63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2f26f59c_06b3bae6",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/RevisionInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-26T11:33:25Z",
+      "side": 1,
+      "message": "ChangeWebLinks would go into ChangeInfo.",
+      "range": {
+        "startLine": 20,
+        "startChar": 13,
+        "endLine": 20,
+        "endChar": 25
+      },
+      "revId": "aab90299e77ab11ebf172e87d58e994e2b7a0e63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2f26f59c_c68d221d",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/RevisionInfo.java",
         "patchSetId": 1
@@ -71,6 +140,29 @@
     },
     {
       "key": {
+        "uuid": "4f3169d0_27b0bad7",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/webui/PatchSetWebLink.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-26T11:33:25Z",
+      "side": 1,
+      "message": "May be mention in the commit message, that only revision specific links are supported and not Change specific? We are supporting UiAction for both RevisionResource and ChangeResource, but place them in the same panel.\n\nI can see value for supporting ChangeWebLink as well, by putting change specific links in header panel of change screen (and not in commit box).",
+      "range": {
+        "startLine": 19,
+        "startChar": 17,
+        "endLine": 19,
+        "endChar": 32
+      },
+      "revId": "aab90299e77ab11ebf172e87d58e994e2b7a0e63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2f26f59c_a688260e",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/webui/PatchSetWebLink.java",
         "patchSetId": 1
@@ -87,6 +179,29 @@
         "startChar": 16,
         "endLine": 28,
         "endChar": 30
+      },
+      "revId": "aab90299e77ab11ebf172e87d58e994e2b7a0e63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4f3169d0_47adae7a",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/webui/WebLink.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-26T11:33:25Z",
+      "side": 1,
+      "message": "I wouldn\u0027t use public here, as all methods in interfaces are public, but i see we are doing it differently. The JLS is very clear about it [1]:\n\n\"It is permitted, but discouraged as a matter of style, to redundantly specify\nthe public and/or abstract modifier for a method declared in an interface.\"\n\n[1] http://docs.oracle.com/javase/specs/jls/se7/html/jls-9.html#jls-9.4",
+      "range": {
+        "startLine": 26,
+        "startChar": 2,
+        "endLine": 26,
+        "endChar": 9
       },
       "revId": "aab90299e77ab11ebf172e87d58e994e2b7a0e63",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
@@ -140,6 +255,121 @@
     },
     {
       "key": {
+        "uuid": "2f26f59c_26b0b6d7",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-26T11:33:25Z",
+      "side": 1,
+      "message": "Be consequent with yourself concerning naming conventions. You are mixing low case with underscore (line 220) with camel case naming convention in the same source file.",
+      "range": {
+        "startLine": 301,
+        "startChar": 31,
+        "endLine": 301,
+        "endChar": 39
+      },
+      "revId": "aab90299e77ab11ebf172e87d58e994e2b7a0e63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2f26f59c_46adb27a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-26T11:33:25Z",
+      "side": 1,
+      "message": "Same comment as above.",
+      "range": {
+        "startLine": 302,
+        "startChar": 31,
+        "endLine": 302,
+        "endChar": 38
+      },
+      "revId": "aab90299e77ab11ebf172e87d58e994e2b7a0e63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2f26f59c_66aaae65",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/WebLinks.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-26T11:33:25Z",
+      "side": 1,
+      "message": "I don\u0027t think you need factory pattern here. Just inject WebLinks directly.",
+      "range": {
+        "startLine": 23,
+        "startChar": 2,
+        "endLine": 25,
+        "endChar": 3
+      },
+      "revId": "aab90299e77ab11ebf172e87d58e994e2b7a0e63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4f3169d0_07b3b6e6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/WebLinks.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-26T11:33:25Z",
+      "side": 1,
+      "message": "We are on Java 7 now. Either without type or with Guava\u0027s:\n\n  Lists.newArrayListWithExpectedCapacity(patchSetLinks.size());",
+      "range": {
+        "startLine": 36,
+        "startChar": 42,
+        "endLine": 36,
+        "endChar": 46
+      },
+      "revId": "aab90299e77ab11ebf172e87d58e994e2b7a0e63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4f3169d0_e792223e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 883,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-26T11:33:25Z",
+      "side": 1,
+      "message": "We are trying to only fetch the data that is really needed on that screen that issues the request. So the screens are passing request options what to fetch, like\n\n  if (has(DRAFT_COMMENTS))\n\non line 869. That because the same REST requests are fired multiple times in different parts of the UI: change screen, PatchSet box, Download box, etc, and only a subset of data must be rendered and retrieved. Consider to introduce new request option:\n\n WEB_LINKS\n\nor some such and pass it from the client only in change screen, and only fetch the data if this option was passed.",
+      "range": {
+        "startLine": 879,
+        "startChar": 4,
+        "endLine": 883,
+        "endChar": 5
+      },
+      "revId": "aab90299e77ab11ebf172e87d58e994e2b7a0e63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2f26f59c_86832af3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritGlobalModule.java",
         "patchSetId": 1
@@ -156,6 +386,29 @@
         "startChar": 4,
         "endLine": 268,
         "endChar": 54
+      },
+      "revId": "aab90299e77ab11ebf172e87d58e994e2b7a0e63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4f3169d0_a7882a0e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritGlobalModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-26T11:33:25Z",
+      "side": 1,
+      "message": "Not needed.",
+      "range": {
+        "startLine": 276,
+        "startChar": 4,
+        "endLine": 276,
+        "endChar": 36
       },
       "revId": "aab90299e77ab11ebf172e87d58e994e2b7a0e63",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

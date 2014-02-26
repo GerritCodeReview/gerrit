@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cf439932_6ba0c1b4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetArchive.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-02-26T17:07:16Z",
+      "side": 1,
+      "message": "nit: static before instance members",
+      "revId": "47c6a50310120759357ceee2ae79cdd34fe3e18a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cf439932_8b116d3f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetArchive.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-02-26T17:07:16Z",
+      "side": 1,
+      "message": "parseTree is unnecessary here, commit.getTree() is sufficient.",
+      "range": {
+        "startLine": 73,
+        "startChar": 27,
+        "endLine": 73,
+        "endChar": 39
+      },
+      "revId": "47c6a50310120759357ceee2ae79cdd34fe3e18a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cf439932_ab162932",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetArchive.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-02-26T17:07:16Z",
+      "side": 1,
+      "message": "nit: line break at , not .",
+      "range": {
+        "startLine": 107,
+        "startChar": 33,
+        "endLine": 108,
+        "endChar": 42
+      },
+      "revId": "47c6a50310120759357ceee2ae79cdd34fe3e18a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8f37e1c2_29d16d20",
+        "filename": "lib/jgit/BUCK",
+        "patchSetId": 8
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-02-26T17:07:16Z",
+      "side": 1,
+      "message": "We shouldn\u0027t have to export this. It should be just deps, which means you don\u0027t need the java_library() wrapping the maven_jar. You can just use maven_jar() and put commons:compress and tukaani-xz into deps.",
+      "revId": "47c6a50310120759357ceee2ae79cdd34fe3e18a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

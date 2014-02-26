@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2f26f59c_66db8e3e",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1700,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-02-26T11:28:39Z",
+      "side": 1,
+      "message": "[optional] Should we add some more details about where these links will be displayed in the Gerrit WebUI?",
+      "range": {
+        "startLine": 1698,
+        "startChar": 0,
+        "endLine": 1700,
+        "endChar": 54
+      },
+      "revId": "aab90299e77ab11ebf172e87d58e994e2b7a0e63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4f3169d0_07fd7687",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1709,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-02-26T11:28:39Z",
+      "side": 1,
+      "message": "nit: missing space before \u0027{\u0027",
+      "range": {
+        "startLine": 1709,
+        "startChar": 55,
+        "endLine": 1709,
+        "endChar": 56
+      },
+      "revId": "aab90299e77ab11ebf172e87d58e994e2b7a0e63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2f26f59c_c68d221d",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/RevisionInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-02-26T11:28:39Z",
+      "side": 1,
+      "message": "Please document this new field in the REST API documentation.",
+      "range": {
+        "startLine": 29,
+        "startChar": 2,
+        "endLine": 29,
+        "endChar": 36
+      },
+      "revId": "aab90299e77ab11ebf172e87d58e994e2b7a0e63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2f26f59c_a688260e",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/webui/PatchSetWebLink.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-02-26T11:28:39Z",
+      "side": 1,
+      "message": "Is this tied to a patch set, could it (in future) just be a link to any commit (even if there isn\u0027t a patch set for it)?",
+      "range": {
+        "startLine": 28,
+        "startChar": 16,
+        "endLine": 28,
+        "endChar": 30
+      },
+      "revId": "aab90299e77ab11ebf172e87d58e994e2b7a0e63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4f3169d0_67aab265",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-02-26T11:28:39Z",
+      "side": 1,
+      "message": "Remove this?",
+      "range": {
+        "startLine": 106,
+        "startChar": 4,
+        "endLine": 106,
+        "endChar": 30
+      },
+      "revId": "aab90299e77ab11ebf172e87d58e994e2b7a0e63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2f26f59c_a60d8606",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.ui.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-02-26T11:28:39Z",
+      "side": 1,
+      "message": "Can you fix the alignment here? All lines except \u0027margin-left:16px;\u0027 should be moved one space to the left.",
+      "range": {
+        "startLine": 81,
+        "startChar": 5,
+        "endLine": 85,
+        "endChar": 6
+      },
+      "revId": "aab90299e77ab11ebf172e87d58e994e2b7a0e63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2f26f59c_86832af3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritGlobalModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-02-26T11:28:39Z",
+      "side": 1,
+      "message": "If I understand it correctly the idea is to support also other web links in future (e.g. for branches and projects). Will we have one DynamicSet for each web link kind or could we also have a single DynamicSet of just WebLink?",
+      "range": {
+        "startLine": 268,
+        "startChar": 4,
+        "endLine": 268,
+        "endChar": 54
+      },
+      "revId": "aab90299e77ab11ebf172e87d58e994e2b7a0e63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

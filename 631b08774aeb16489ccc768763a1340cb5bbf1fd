@@ -22,6 +22,30 @@
       "revId": "631b08774aeb16489ccc768763a1340cb5bbf1fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2f26f59c_a6d746df",
+        "filename": "tools/default.defs",
+        "patchSetId": 3
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-27T08:16:40Z",
+      "side": 1,
+      "message": "I think it is not defined, who winns. So you propose to test if these keys are contained in the supplied manifest_entries list before blindly overwrite them? Sounds like doable and certainly for a follow-up change.",
+      "parentUuid": "8f37e1c2_a9babdc1",
+      "range": {
+        "startLine": 145,
+        "startChar": 0,
+        "endLine": 146,
+        "endChar": 43
+      },
+      "revId": "631b08774aeb16489ccc768763a1340cb5bbf1fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

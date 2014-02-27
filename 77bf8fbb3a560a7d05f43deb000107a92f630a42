@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "8f37e1c2_69d1a50d",
+        "filename": "gerrit-cache-h2/src/main/java/com/google/gerrit/server/cache/h2/H2CacheFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-02-27T18:36:18Z",
+      "side": 1,
+      "message": "In ps1 I said it was OK to ignore this stop call on unloading plugins. But I think I was wrong.\n\nDuring stop() we write any dirty entries back to the database if they haven\u0027t been written yet. That helps to avoid confusion when the next process reads from the database. Unfortunately the two caches are disconnected between the two plugin instances so during a reload the plugin may see inconsistent data from its persistent cache. The old cache data will be in the database and shown to the new plugin instance, while the new cache data is stuck in the old plugin instance\u0027s in memory buffer and may not make it out to the database until \"later\", if it all. Confusing for a plugin author to debug.\n\nWe also leak the entire in-memory cache here in caches. The in memory cache is held by the H2CacheImpl, which is pinned in the caches list. It needs to be removed from the caches list during plugin unload to allow the VM to garbage collection the in-memory cache data and free that memory for reuse.",
+      "revId": "77bf8fbb3a560a7d05f43deb000107a92f630a42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4f3169d0_470f6eb8",
         "filename": "gerrit-cache-h2/src/main/java/com/google/gerrit/server/cache/h2/H2CacheFactory.java",
         "patchSetId": 2
@@ -37,6 +54,30 @@
       "side": 1,
       "message": "Hmm.. on the other side it is probably safer to synchronize also here and not think about this place in the future?",
       "parentUuid": "4f3169d0_470f6eb8",
+      "range": {
+        "startLine": 142,
+        "startChar": 0,
+        "endLine": 144,
+        "endChar": 5
+      },
+      "revId": "77bf8fbb3a560a7d05f43deb000107a92f630a42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8f37e1c2_49d4e1fe",
+        "filename": "gerrit-cache-h2/src/main/java/com/google/gerrit/server/cache/h2/H2CacheFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-02-27T18:36:18Z",
+      "side": 1,
+      "message": "I think you are right, but I would prefer to be clear about it here and just synchronize around the caches list:\n\n  synchronized (caches) {\n    for (H2CacheImpl\u003c?,?\u003e cache: caches) {\n      cache.stop();\n    }\n  }\n\n  synchronized (caches) {\n    caches.add(cache);\n  }",
+      "parentUuid": "2f26f59c_66f38e83",
       "range": {
         "startLine": 142,
         "startChar": 0,

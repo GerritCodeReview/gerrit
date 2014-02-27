@@ -3073,6 +3073,8 @@ link:rest-api-accounts.html#account-info[AccountInfo] entity.
 |`disliked`    |optional|One user who disliked this label on the change
 (voted negatively, but not the minimum value) as an
 link:rest-api-accounts.html#account-info[AccountInfo] entity.
+|`blocking`    |optional|If `true`, the label blocks submit operation.
+If not set, the default is false.
 |`value`       |optional|The voting value of the user who
 recommended/disliked this label on the change if it is not
 "`+1`"/"`-1`".

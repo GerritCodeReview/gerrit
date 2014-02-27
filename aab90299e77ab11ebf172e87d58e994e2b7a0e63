@@ -612,6 +612,30 @@
     },
     {
       "key": {
+        "uuid": "4f3169d0_27e43ac1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/WebLinks.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-02-27T08:34:39Z",
+      "side": 1,
+      "message": "Please correct me if I\u0027m wrong. But now when weblinks are optional in the ListChangesOptions, the factory pattern is, accidently, valid. Since WebLinks are only instanciated when needed.\nIf this is the case I believe this is the first instance of coding by accident, that I witnessed, that actually paid off.\nI could argue that I had this in mind all along... I won\u0027t! I will take the shame.",
+      "parentUuid": "2f26f59c_66aaae65",
+      "range": {
+        "startLine": 23,
+        "startChar": 2,
+        "endLine": 25,
+        "endChar": 3
+      },
+      "revId": "aab90299e77ab11ebf172e87d58e994e2b7a0e63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4f3169d0_07b3b6e6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/WebLinks.java",
         "patchSetId": 1
@@ -764,6 +788,30 @@
       "writtenOn": "2014-02-26T11:33:25Z",
       "side": 1,
       "message": "Not needed.",
+      "range": {
+        "startLine": 276,
+        "startChar": 4,
+        "endLine": 276,
+        "endChar": 36
+      },
+      "revId": "aab90299e77ab11ebf172e87d58e994e2b7a0e63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2f26f59c_c6cc4252",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritGlobalModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-02-27T08:34:39Z",
+      "side": 1,
+      "message": "Or is it? See other comment and please advice!",
+      "parentUuid": "4f3169d0_a7882a0e",
       "range": {
         "startLine": 276,
         "startChar": 4,

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8f37e1c2_a9babdc1",
+        "filename": "tools/default.defs",
+        "patchSetId": 3
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-02-27T08:10:31Z",
+      "side": 1,
+      "message": "What happens if manifest_entries contains entries with same keys as those that have been set in lines 141-144?\n\nI\u0027m assuming the ones set at lines 141-144 will get overwritten.  Is that OK?\n\n(If it\u0027s not OK, let\u0027s fix it in a separate change).",
+      "range": {
+        "startLine": 145,
+        "startChar": 0,
+        "endLine": 146,
+        "endChar": 43
+      },
+      "revId": "631b08774aeb16489ccc768763a1340cb5bbf1fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

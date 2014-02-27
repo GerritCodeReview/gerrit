@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cf439932_2b23198c",
+        "filename": "tools/default.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-02-27T06:39:52Z",
+      "side": 1,
+      "message": "Is this trailing comma needed?",
+      "range": {
+        "startLine": 144,
+        "startChar": 71,
+        "endLine": 144,
+        "endChar": 72
+      },
+      "revId": "96e7108f4c4895428d63fcde307736b1518e5f2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

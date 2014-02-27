@@ -126,10 +126,12 @@ class Labels extends Grid {
             break;
           case REJECT:
           case IMPOSSIBLE:
-            if (current) {
-              statusText.setInnerText("Not " + name);
+            if (label.blocking()) {
+              if (current) {
+                statusText.setInnerText("Not " + name);
+              }
+              canSubmit = false;
             }
-            canSubmit = false;
             break;
           default:
             break;

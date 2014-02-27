@@ -46,6 +46,30 @@
       "revId": "631b08774aeb16489ccc768763a1340cb5bbf1fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8f37e1c2_09cae95a",
+        "filename": "tools/default.defs",
+        "patchSetId": 3
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-02-27T08:20:03Z",
+      "side": 1,
+      "message": "Yes, something like that.  I\u0027m not sure that it\u0027s necessary for stable-2.8 though.\n\nIt might also be a good idea to enforce that the strings given in manifest_entries follow the \"key: value\" pattern, if not already done elsewhere.",
+      "parentUuid": "2f26f59c_a6d746df",
+      "range": {
+        "startLine": 145,
+        "startChar": 0,
+        "endLine": 146,
+        "endChar": 43
+      },
+      "revId": "631b08774aeb16489ccc768763a1340cb5bbf1fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

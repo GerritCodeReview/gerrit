@@ -96,6 +96,24 @@
     },
     {
       "key": {
+        "uuid": "8f37e1c2_29c7ad53",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/DateTimeReplacer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-02-27T18:19:45Z",
+      "side": 1,
+      "message": "After reading a bit I think this is possible with ANTLR predicates or listeners, but I don\u0027t think we want to start hard-coding individual search operators in the grammar. The performance benefit of doing it inline during the parse rather than after the fact is likely to be negligible.\n\nIt will not be hard to teach find() to enforce the result is only at the top level, and to ensure we only call find() on results before the final AND with visibleto.",
+      "parentUuid": "8f37e1c2_69db653e",
+      "revId": "1d4b56ae89b4ac50b696acb4da0aa6479707e71d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fc1d7d5d_7400a81f",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/DateTimeReplacer.java",
         "patchSetId": 5

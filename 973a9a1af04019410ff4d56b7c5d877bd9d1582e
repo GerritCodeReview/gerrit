@@ -22,6 +22,30 @@
       "revId": "973a9a1af04019410ff4d56b7c5d877bd9d1582e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4f3169d0_07ec96a0",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/ListChangesOption.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-02-27T11:19:48Z",
+      "side": 1,
+      "message": "I\u0027m all on board with the name being unfortunate. \nBut when you say \"change related web_link\" are you talking about a link to a patch set that might also need the change id (maybe in a link to issue tracking system), or are you talking about a link that is only related to the change in it self?",
+      "parentUuid": "2f26f59c_e6d13eeb",
+      "range": {
+        "startLine": 55,
+        "startChar": 2,
+        "endLine": 55,
+        "endChar": 16
+      },
+      "revId": "973a9a1af04019410ff4d56b7c5d877bd9d1582e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

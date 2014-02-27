@@ -22,6 +22,30 @@
       "revId": "77bf8fbb3a560a7d05f43deb000107a92f630a42",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2f26f59c_66f38e83",
+        "filename": "gerrit-cache-h2/src/main/java/com/google/gerrit/server/cache/h2/H2CacheFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-02-27T16:01:27Z",
+      "side": 1,
+      "message": "Hmm.. on the other side it is probably safer to synchronize also here and not think about this place in the future?",
+      "parentUuid": "4f3169d0_470f6eb8",
+      "range": {
+        "startLine": 142,
+        "startChar": 0,
+        "endLine": 144,
+        "endChar": 5
+      },
+      "revId": "77bf8fbb3a560a7d05f43deb000107a92f630a42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

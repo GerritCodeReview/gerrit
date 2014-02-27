@@ -660,6 +660,30 @@
     },
     {
       "key": {
+        "uuid": "2f26f59c_06e73ac8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/WebLinks.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-02-27T11:19:55Z",
+      "side": 1,
+      "message": "Just to set the record straight, I totally admit to not thinking about that at all when I introduced the factory pattern, it was simply and truthfully bad coding.\nAnd after this latest comment of yours my face is still red :-)",
+      "parentUuid": "4f3169d0_67de32f7",
+      "range": {
+        "startLine": 23,
+        "startChar": 2,
+        "endLine": 25,
+        "endChar": 3
+      },
+      "revId": "aab90299e77ab11ebf172e87d58e994e2b7a0e63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4f3169d0_07b3b6e6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/WebLinks.java",
         "patchSetId": 1

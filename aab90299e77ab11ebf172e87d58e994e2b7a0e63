@@ -636,6 +636,30 @@
     },
     {
       "key": {
+        "uuid": "4f3169d0_67de32f7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/WebLinks.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-27T09:16:34Z",
+      "side": 1,
+      "message": "Oh, cute comment: that would be your chance to claim it was all my intention, and you haven\u0027t used it ;-)\n\nBut, even after making WebLinks optional, factory pattern is still wrong here. The appropriate pattern to create the injected bean only when it is really needed is Provider pattern. So you inject\n\n  Provider\u003cWebLinks\u003e webLinksProvider;\n\nand call get() on it only when WebLinks was requested in request:\n\n  if (has(WEB_LINKS)) {\n    webLinksProvider.get().getPatchSetLinks(project, revision);\n  }",
+      "parentUuid": "4f3169d0_27e43ac1",
+      "range": {
+        "startLine": 23,
+        "startChar": 2,
+        "endLine": 25,
+        "endChar": 3
+      },
+      "revId": "aab90299e77ab11ebf172e87d58e994e2b7a0e63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4f3169d0_07b3b6e6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/WebLinks.java",
         "patchSetId": 1

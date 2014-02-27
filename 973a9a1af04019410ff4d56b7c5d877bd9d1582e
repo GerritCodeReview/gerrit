@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2f26f59c_e6d13eeb",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/ListChangesOption.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-02-27T09:19:34Z",
+      "side": 1,
+      "message": "I wouldn\u0027t use type/kind in the name. For UiActions we currently support UiActions for RevisionResource and ChangeResource. As per my previous comment it makes sense to have change related web_link (using change_id as request parameter to the link) and not only patch set.\n\nSo the appropriate name here is:\n\n  WEB_LINKS",
+      "range": {
+        "startLine": 55,
+        "startChar": 2,
+        "endLine": 55,
+        "endChar": 16
+      },
+      "revId": "973a9a1af04019410ff4d56b7c5d877bd9d1582e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

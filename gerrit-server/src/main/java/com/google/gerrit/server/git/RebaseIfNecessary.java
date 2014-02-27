@@ -91,7 +91,9 @@ public class RebaseIfNecessary extends SubmitStrategy {
             for (PatchSetApproval a : args.mergeUtil.getApprovalsForCommit(n)) {
               approvals.add(new PatchSetApproval(newPatchSet.getId(), a));
             }
-            args.db.patchSetApprovals().insert(approvals);
+            // rebaseChange.rebase() may already have copied some approvals,
+            // use upsert, not insert, to avoid constraint violation on database
+            args.db.patchSetApprovals().upsert(approvals);
             newMergeTip =
                 (CodeReviewCommit) args.rw.parseCommit(ObjectId
                     .fromString(newPatchSet.getRevision().get()));

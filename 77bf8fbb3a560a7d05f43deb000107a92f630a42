@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4f3169d0_470f6eb8",
+        "filename": "gerrit-cache-h2/src/main/java/com/google/gerrit/server/cache/h2/H2CacheFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-02-27T15:57:34Z",
+      "side": 1,
+      "message": "I guess this iterator doesn\u0027t need to be synchronized as at this point the PluginLoader is already stopped (as it is bound after the H2CacheFactory and stopping goes in the reverse order) and, thus, all plugins are stopped.",
+      "range": {
+        "startLine": 142,
+        "startChar": 0,
+        "endLine": 144,
+        "endChar": 5
+      },
+      "revId": "77bf8fbb3a560a7d05f43deb000107a92f630a42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

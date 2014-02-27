@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cf439932_6b2d2172",
+        "filename": "tools/default.defs",
+        "patchSetId": 2
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-02-27T07:07:59Z",
+      "side": 1,
+      "message": "Semicolon is missing at the end of the line after `$OUT`.  Compare with lines 141 and 142.",
+      "revId": "559d0cb8b24d2b45a4166c57a1f73fb4672b1d2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

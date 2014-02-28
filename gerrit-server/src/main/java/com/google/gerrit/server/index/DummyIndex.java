@@ -16,9 +16,9 @@ package com.google.gerrit.server.index;
 
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.query.Predicate;
-import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeDataSource;
+import com.google.gerrit.server.query.change.QueryOptions;
 
 import java.io.IOException;
 
@@ -45,8 +45,7 @@ public class DummyIndex implements ChangeIndex {
   }
 
   @Override
-  public ChangeDataSource getSource(Predicate<ChangeData> p, int start,
-      int limit) throws QueryParseException {
+  public ChangeDataSource getSource(Predicate<ChangeData> p, QueryOptions opts) {
     throw new UnsupportedOperationException();
   }
 

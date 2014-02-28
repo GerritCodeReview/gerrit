@@ -139,10 +139,11 @@ public class QueryProcessor {
             "Cannot go beyond page " + indexConfig.maxPages() + "of results");
       }
 
-      Predicate<ChangeData> s = queryRewriter.rewrite(q, start, limit + 1);
+      QueryOptions opts = QueryOptions.create(indexConfig, start, limit + 1);
+      Predicate<ChangeData> s = queryRewriter.rewrite(q, opts);
       if (!(s instanceof ChangeDataSource)) {
         q = Predicate.and(open(), q);
-        s = queryRewriter.rewrite(q, start, limit);
+        s = queryRewriter.rewrite(q, opts);
       }
       if (!(s instanceof ChangeDataSource)) {
         throw new QueryParseException("invalid query: " + s);

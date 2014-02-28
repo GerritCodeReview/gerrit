@@ -20,6 +20,7 @@ import static com.google.gerrit.reviewdb.client.Change.Status.ABANDONED;
 import static com.google.gerrit.reviewdb.client.Change.Status.DRAFT;
 import static com.google.gerrit.reviewdb.client.Change.Status.MERGED;
 import static com.google.gerrit.reviewdb.client.Change.Status.NEW;
+import static com.google.gerrit.server.index.IndexedChangeQuery.convertOptions;
 import static com.google.gerrit.server.query.Predicate.and;
 import static com.google.gerrit.server.query.Predicate.or;
 import static org.junit.Assert.assertEquals;
@@ -32,6 +33,7 @@ import com.google.gerrit.server.query.change.AndSource;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.OrSource;
+import com.google.gerrit.server.query.change.QueryOptions;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -43,6 +45,8 @@ import java.util.EnumSet;
 import java.util.Set;
 
 public class IndexRewriteTest {
+  private static final IndexConfig CONFIG = IndexConfig.createDefault();
+
   @Rule
   public ExpectedException exception = ExpectedException.none();
 
@@ -101,7 +105,7 @@ public class IndexRewriteTest {
   public void testThreeLevelTreeWithAllIndexPredicates() throws Exception {
     Predicate<ChangeData> in =
         parse("-status:abandoned (file:a OR file:b)");
-    assertThat(rewrite.rewrite(in, 0, DEFAULT_MAX_QUERY_LIMIT))
+    assertThat(rewrite.rewrite(in, options(0, DEFAULT_MAX_QUERY_LIMIT)))
         .isEqualTo(query(in));
   }
 
@@ -170,9 +174,10 @@ public class IndexRewriteTest {
   }
 
   @Test
-  public void testLimitArgumentOverridesAllLimitPredicates() throws Exception {
+  public void testOptionsArgumentOverridesAllLimitPredicates()
+      throws Exception {
     Predicate<ChangeData> in = parse("limit:1 file:a limit:3");
-    Predicate<ChangeData> out = rewrite(in, 5);
+    Predicate<ChangeData> out = rewrite(in, options(0, 5));
     assertThat(out.getClass()).isEqualTo(AndSource.class);
     assertThat(out.getChildren())
         .containsExactly(
@@ -183,17 +188,17 @@ public class IndexRewriteTest {
   }
 
   @Test
-  public void testStartIncreasesLimit() throws Exception {
+  public void testStartIncreasesLimitInQueryButNotPredicate() throws Exception {
     int n = 3;
     Predicate<ChangeData> f = parse("file:a");
     Predicate<ChangeData> l = parse("limit:" + n);
     Predicate<ChangeData> in = andSource(f, l);
-    assertThat(rewrite.rewrite(in, 0, n))
-        .isEqualTo(andSource(query(f, 3), parse("limit:3")));
-    assertThat(rewrite.rewrite(in, 1, n))
-        .isEqualTo(andSource(query(f, 4), parse("limit:4")));
-    assertThat(rewrite.rewrite(in, 2, n))
-        .isEqualTo(andSource(query(f, 5), parse("limit:5")));
+    assertThat(rewrite.rewrite(in, options(0, n)))
+        .isEqualTo(andSource(query(f, 3), l));
+    assertThat(rewrite.rewrite(in, options(1, n)))
+        .isEqualTo(andSource(query(f, 4), l));
+    assertThat(rewrite.rewrite(in, options(2, n)))
+        .isEqualTo(andSource(query(f, 5), l));
   }
 
   @Test
@@ -238,6 +243,22 @@ public class IndexRewriteTest {
     rewrite(parse(q + " OR file:d"));
   }
 
+  @Test
+  public void testConvertOptions() throws Exception {
+    assertEquals(options(0, 3), convertOptions(options(0, 3)));
+    assertEquals(options(0, 4), convertOptions(options(1, 3)));
+    assertEquals(options(0, 5), convertOptions(options(2, 3)));
+  }
+
+  @Test
+  public void testAddingStartToLimitDoesNotExceedBackendLimit() throws Exception {
+    int max = CONFIG.maxLimit();
+    assertEquals(options(0, max), convertOptions(options(0, max)));
+    assertEquals(options(0, max), convertOptions(options(1, max)));
+    assertEquals(options(0, max), convertOptions(options(1, max - 1)));
+    assertEquals(options(0, max), convertOptions(options(2, max - 1)));
+  }
+
   private Predicate<ChangeData> parse(String query) throws QueryParseException {
     return queryBuilder.parse(query);
   }
@@ -249,12 +270,12 @@ public class IndexRewriteTest {
 
   private Predicate<ChangeData> rewrite(Predicate<ChangeData> in)
       throws QueryParseException {
-    return rewrite.rewrite(in, 0, DEFAULT_MAX_QUERY_LIMIT);
+    return rewrite.rewrite(in, options(0, DEFAULT_MAX_QUERY_LIMIT));
   }
 
-  private Predicate<ChangeData> rewrite(Predicate<ChangeData> in, int limit)
-      throws QueryParseException {
-    return rewrite.rewrite(in, 0, limit);
+  private Predicate<ChangeData> rewrite(Predicate<ChangeData> in,
+      QueryOptions opts) throws QueryParseException {
+    return rewrite.rewrite(in, opts);
   }
 
   private IndexedChangeQuery query(Predicate<ChangeData> p)
@@ -264,7 +285,11 @@ public class IndexRewriteTest {
 
   private IndexedChangeQuery query(Predicate<ChangeData> p, int limit)
       throws QueryParseException {
-    return new IndexedChangeQuery(index, p, limit);
+    return new IndexedChangeQuery(index, p, options(0, limit));
+  }
+
+  private static QueryOptions options(int start, int limit) {
+    return QueryOptions.create(CONFIG, start, limit);
   }
 
   private Set<Change.Status> status(String query) throws QueryParseException {

@@ -128,7 +128,7 @@ public class AndSource extends AndPredicate<ChangeData>
       // limit the caller wants.  Restart the source and continue.
       //
       Paginated p = (Paginated) source;
-      while (skipped && r.size() < p.limit() + start) {
+      while (skipped && r.size() < p.getOptions().limit() + start) {
         skipped = false;
         ResultSet<ChangeData> next = p.restart(nextStart);
 

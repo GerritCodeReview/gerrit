@@ -19,6 +19,7 @@ import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeDataSource;
+import com.google.gerrit.server.query.change.QueryOptions;
 
 import java.io.IOException;
 
@@ -81,16 +82,16 @@ public interface ChangeIndex {
    * @param p the predicate to match. Must be a tree containing only AND, OR,
    *     or NOT predicates as internal nodes, and {@link IndexPredicate}s as
    *     leaves.
-   * @param start offset in results list at which to start returning results.
-   * @param limit maximum number of results to return.
+   * @param opts query options not implied by the predicate, such as start and
+   *     limit.
    * @return a source of documents matching the predicate. Documents must be
    *     returned in descending updated timestamp order.
    *
    * @throws QueryParseException if the predicate could not be converted to an
    *     indexed data source.
    */
-  public ChangeDataSource getSource(Predicate<ChangeData> p, int start,
-      int limit) throws QueryParseException;
+  public ChangeDataSource getSource(Predicate<ChangeData> p, QueryOptions opts)
+      throws QueryParseException;
 
   /**
    * Mark whether this index is up-to-date and ready to serve reads.

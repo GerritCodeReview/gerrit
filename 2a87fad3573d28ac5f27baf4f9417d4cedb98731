@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dc48b97a_43de2684",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/CreateAccount.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2014-02-28T20:13:26Z",
+      "side": 1,
+      "message": "D\u0027oh, wrong spacing style.",
+      "revId": "2a87fad3573d28ac5f27baf4f9417d4cedb98731",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc48b97a_23e32a48",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/CreateAccount.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2014-02-28T20:13:26Z",
+      "side": 1,
+      "message": "Same here.",
+      "revId": "2a87fad3573d28ac5f27baf4f9417d4cedb98731",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

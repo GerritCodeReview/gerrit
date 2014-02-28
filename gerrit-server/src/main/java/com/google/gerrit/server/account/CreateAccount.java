@@ -35,6 +35,7 @@ import com.google.gerrit.reviewdb.client.AccountSshKey;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.CreateAccount.Input;
+import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.group.GroupsCollection;
 import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gerrit.server.util.TimeUtil;
@@ -65,6 +66,9 @@ public class CreateAccount implements RestModifyView<TopLevelResource, Input> {
   }
 
   private final ReviewDb db;
+  private final AccountManager accountManager;
+  private final AccountResolver accountResolver;
+  private final AuthConfig authConfig;
   private final Provider<IdentifiedUser> currentUser;
   private final GroupsCollection groupsCollection;
   private final SshKeyCache sshKeyCache;
@@ -74,12 +78,17 @@ public class CreateAccount implements RestModifyView<TopLevelResource, Input> {
   private final String username;
 
   @Inject
-  CreateAccount(ReviewDb db, Provider<IdentifiedUser> currentUser,
+  CreateAccount(ReviewDb db, AccountManager accountManager,
+      AccountResolver accountResolver,
+      AuthConfig authConfig, Provider<IdentifiedUser> currentUser,
       GroupsCollection groupsCollection, SshKeyCache sshKeyCache,
       AccountCache accountCache, AccountByEmailCache byEmailCache,
       AccountInfo.Loader.Factory infoLoader,
       @Assisted String username) {
     this.db = db;
+    this.accountManager = accountManager;
+    this.accountResolver = accountResolver;
+    this.authConfig = authConfig;
     this.currentUser = currentUser;
     this.groupsCollection = groupsCollection;
     this.sshKeyCache = sshKeyCache;
@@ -107,7 +116,31 @@ public class CreateAccount implements RestModifyView<TopLevelResource, Input> {
 
     Set<AccountGroup.Id> groups = parseGroups(input.groups);
 
-    Account.Id id = new Account.Id(db.nextAccountId());
+    final Account account = accountResolver.find(username);
+    Account.Id id = null;
+    boolean ldapImported = false;
+    if (account != null) {
+      throw new ResourceConflictException(
+          "username '" + username + "' already exists");
+    } else {
+      switch (authConfig.getAuthType()) {
+        case HTTP_LDAP:
+        case CLIENT_SSL_CERT_LDAP:
+        case LDAP:
+          try {
+            AuthRequest req = AuthRequest.forUser(username);
+            req.setSkipAuthentication(true);
+            id = accountManager.authenticate(req).getAccountId();
+            ldapImported = true;
+          } catch (AccountException e) {
+            id = new Account.Id(db.nextAccountId());
+          }
+          break;
+        default:
+          id = new Account.Id(db.nextAccountId());
+        }
+      }
+
     AccountSshKey key = createSshKey(id, input.sshKey);
 
     AccountExternalId extUser =
@@ -118,7 +151,7 @@ public class CreateAccount implements RestModifyView<TopLevelResource, Input> {
       extUser.setPassword(input.httpPassword);
     }
 
-    if (db.accountExternalIds().get(extUser.getKey()) != null) {
+    if (!ldapImported && db.accountExternalIds().get(extUser.getKey()) != null) {
       throw new ResourceConflictException(
           "username '" + username + "' already exists");
     }
@@ -128,11 +161,13 @@ public class CreateAccount implements RestModifyView<TopLevelResource, Input> {
           "email '" + input.email + "' already exists");
     }
 
-    try {
-      db.accountExternalIds().insert(Collections.singleton(extUser));
-    } catch (OrmDuplicateKeyException duplicateKey) {
-      throw new ResourceConflictException(
-          "username '" + username + "' already exists");
+    if (!ldapImported) {
+      try {
+        db.accountExternalIds().insert(Collections.singleton(extUser));
+      } catch (OrmDuplicateKeyException duplicateKey) {
+        throw new ResourceConflictException(
+            "username '" + username + "' already exists");
+      }
     }
 
     if (input.email != null) {
@@ -151,10 +186,12 @@ public class CreateAccount implements RestModifyView<TopLevelResource, Input> {
       }
     }
 
-    Account a = new Account(id, TimeUtil.nowTs());
-    a.setFullName(input.name);
-    a.setPreferredEmail(input.email);
-    db.accounts().insert(Collections.singleton(a));
+    if (!ldapImported) {
+      Account a = new Account(id, TimeUtil.nowTs());
+      a.setFullName(input.name);
+      a.setPreferredEmail(input.email);
+      db.accounts().insert(Collections.singleton(a));
+    }
 
     if (key != null) {
       db.accountSshKeys().insert(Collections.singleton(key));

@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cf439932_0bb3bde6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-01T13:17:56Z",
+      "side": 1,
+      "message": "Please limit the subject to one line.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 39
+      },
+      "revId": "f7b2f1faa29f0bd5c812b286dbb6327aa700911d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cf439932_2bb079d7",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChangesTab.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-01T13:17:56Z",
+      "side": 1,
+      "message": "s/Merged/merged",
+      "range": {
+        "startLine": 275,
+        "startChar": 26,
+        "endLine": 275,
+        "endChar": 32
+      },
+      "revId": "f7b2f1faa29f0bd5c812b286dbb6327aa700911d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cf439932_4badc57a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChangesTab.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-01T13:17:56Z",
+      "side": 1,
+      "message": "merged",
+      "range": {
+        "startLine": 277,
+        "startChar": 68,
+        "endLine": 277,
+        "endChar": 74
+      },
+      "revId": "f7b2f1faa29f0bd5c812b286dbb6327aa700911d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c4fb17f_652b669a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChangesTab.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-01T13:17:56Z",
+      "side": 1,
+      "message": "Isn\u0027t there a better way to iterate over the list?",
+      "range": {
+        "startLine": 335,
+        "startChar": 8,
+        "endLine": 335,
+        "endChar": 59
+      },
+      "revId": "f7b2f1faa29f0bd5c812b286dbb6327aa700911d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cf439932_6baa8165",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRelated.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-01T13:17:56Z",
+      "side": 1,
+      "message": "Why can\u0027t `gitMgr` from line 65 be used?",
+      "range": {
+        "startLine": 66,
+        "startChar": 2,
+        "endLine": 66,
+        "endChar": 51
+      },
+      "revId": "f7b2f1faa29f0bd5c812b286dbb6327aa700911d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c4fb17f_45306a00",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRelated.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-01T13:17:56Z",
+      "side": 1,
+      "message": "`Static` suffix is not necessary.",
+      "range": {
+        "startLine": 68,
+        "startChar": 30,
+        "endLine": 68,
+        "endChar": 36
+      },
+      "revId": "f7b2f1faa29f0bd5c812b286dbb6327aa700911d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c4fb17f_25356ef0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRelated.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-01T13:17:56Z",
+      "side": 1,
+      "message": "`_` prefix is not necessary.",
+      "range": {
+        "startLine": 337,
+        "startChar": 23,
+        "endLine": 337,
+        "endChar": 24
+      },
+      "revId": "f7b2f1faa29f0bd5c812b286dbb6327aa700911d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

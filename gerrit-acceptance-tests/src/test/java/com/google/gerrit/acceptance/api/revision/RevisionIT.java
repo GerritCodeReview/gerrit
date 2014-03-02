@@ -14,6 +14,9 @@
 
 package com.google.gerrit.acceptance.api.revision;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -21,6 +24,7 @@ import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -138,6 +142,42 @@ public class RevisionIT extends AbstractDaemonTest {
         .review(ReviewInput.approve());
     cApi.current()
         .submit();
+  }
+
+  @Test
+  public void canRebase()
+      throws GitAPIException, IOException, RestApiException, Exception {
+    PushOneCommit push = pushFactory.create(db, admin.getIdent());
+    PushOneCommit.Result r1 = push.to(git, "refs/for/master");
+    merge(r1);
+
+    push = pushFactory.create(db, admin.getIdent());
+    PushOneCommit.Result r2 = push.to(git, "refs/for/master");
+    assertFalse(gApi.changes()
+        .id(r2.getChangeId())
+        .revision(r2.getCommit().name())
+        .canRebase());
+    merge(r2);
+
+    git.checkout().setName(r1.getCommit().name()).call();
+    push = pushFactory.create(db, admin.getIdent());
+    PushOneCommit.Result r3 = push.to(git, "refs/for/master");
+
+    assertTrue(gApi.changes()
+        .id(r3.getChangeId())
+        .revision(r3.getCommit().name())
+        .canRebase());
+  }
+
+  protected RevisionApi revision(PushOneCommit.Result r) throws Exception {
+    return gApi.changes()
+        .id(r.getChangeId())
+        .current();
+  }
+
+  private void merge(PushOneCommit.Result r) throws Exception {
+    revision(r).review(ReviewInput.approve());
+    revision(r).submit();
   }
 
   private PushOneCommit.Result updateChange(PushOneCommit.Result r,

@@ -26,4 +26,5 @@ public interface RevisionApi {
   void publish() throws RestApiException;
   ChangeApi cherryPick(CherryPickInput in) throws RestApiException;
   ChangeApi rebase() throws RestApiException;
+  boolean canRebase();
 }

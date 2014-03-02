@@ -29,6 +29,7 @@ import com.google.gerrit.server.change.Publish;
 import com.google.gerrit.server.change.Rebase;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.Submit;
+import com.google.gerrit.server.changedetail.RebaseChange;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -45,6 +46,7 @@ class RevisionApiImpl implements RevisionApi {
   private final Provider<CherryPick> cherryPick;
   private final Provider<DeleteDraftPatchSet> deleteDraft;
   private final Provider<Rebase> rebase;
+  private final Provider<RebaseChange> rebaseChange;
   private final Provider<PostReview> review;
   private final Provider<Submit> submit;
   private final Provider<Publish> publish;
@@ -55,6 +57,7 @@ class RevisionApiImpl implements RevisionApi {
       Provider<CherryPick> cherryPick,
       Provider<DeleteDraftPatchSet> deleteDraft,
       Provider<Rebase> rebase,
+      Provider<RebaseChange> rebaseChange,
       Provider<PostReview> review,
       Provider<Submit> submit,
       Provider<Publish> publish,
@@ -63,6 +66,7 @@ class RevisionApiImpl implements RevisionApi {
     this.cherryPick = cherryPick;
     this.deleteDraft = deleteDraft;
     this.rebase = rebase;
+    this.rebaseChange = rebaseChange;
     this.review = review;
     this.submit = submit;
     this.publish = publish;
@@ -119,6 +123,11 @@ class RevisionApiImpl implements RevisionApi {
     } catch (OrmException | EmailException e) {
       throw new RestApiException("Cannot rebase ps", e);
     }
+  }
+
+  @Override
+  public boolean canRebase() {
+    return rebaseChange.get().canRebase(revision);
   }
 
   @Override

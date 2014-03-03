@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1c4fb17f_255e8e2a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/DownloadBox.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-03T23:05:49Z",
+      "side": 1,
+      "message": "I find it weird to show \".tar\" in the web UI. Why not just \"tar\"?",
+      "revId": "6ee05cd79b40732f152c88238128411530cea048",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c4fb17f_056392ee",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/DownloadBox.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-03T23:05:49Z",
+      "side": 1,
+      "message": "I think the parameter should be taking \"tar\" not \".tar\".\n\nSorry I missed this earlier.",
+      "revId": "6ee05cd79b40732f152c88238128411530cea048",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

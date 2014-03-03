@@ -378,22 +378,13 @@ public class PatchSetInserter {
 
   public static ChangeKind getChangeKind(MergeUtil.Factory mergeUtilFactory, ProjectState project,
       Repository git, RevCommit prior, RevCommit next) {
-    if (!next.getFullMessage().equals(prior.getFullMessage())) {
-      if (next.getTree() == prior.getTree() && isSameParents(prior, next)) {
-        return ChangeKind.NO_CODE_CHANGE;
-      } else {
-        return ChangeKind.REWORK;
-      }
+    if (next.getTree() == prior.getTree() && isSameParents(prior, next)) {
+      return ChangeKind.NO_CODE_CHANGE;
     }
 
     if (prior.getParentCount() != 1 || next.getParentCount() != 1) {
       // Trivial rebases done by machine only work well on 1 parent.
       return ChangeKind.REWORK;
-    }
-
-    if (next.getTree() == prior.getTree() &&
-       isSameParents(prior, next)) {
-      return ChangeKind.TRIVIAL_REBASE;
     }
 
     // A trivial rebase can be detected by looking for the next commit

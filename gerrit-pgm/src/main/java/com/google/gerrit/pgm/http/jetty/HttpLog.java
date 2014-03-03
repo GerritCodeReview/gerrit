@@ -14,8 +14,7 @@
 
 package com.google.gerrit.pgm.http.jetty;
 
-import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.httpd.GetUserFilter;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.util.LogUtil;
 import com.google.gerrit.server.util.TimeUtil;
@@ -95,11 +94,6 @@ class HttpLog extends AbstractLifeCycle implements RequestLog {
 
   @Override
   public void log(final Request req, final Response rsp) {
-    CurrentUser user = (CurrentUser) req.getAttribute(GetUserFilter.REQ_ATTR_KEY);
-    doLog(req, rsp, user);
-  }
-
-  private void doLog(Request req, Response rsp, CurrentUser user) {
     final LoggingEvent event = new LoggingEvent( //
         Logger.class.getName(), // fqnOfCategoryClass
         log, // logger
@@ -119,13 +113,9 @@ class HttpLog extends AbstractLifeCycle implements RequestLog {
       uri = uri + "?" + qs;
     }
 
-    if (user != null && user.isIdentifiedUser()) {
-      IdentifiedUser who = (IdentifiedUser) user;
-      if (who.getUserName() != null && !who.getUserName().isEmpty()) {
-        event.setProperty(P_USER, who.getUserName());
-      } else {
-        event.setProperty(P_USER, "a/" + who.getAccountId());
-      }
+    String user = (String) req.getAttribute(GetUserFilter.REQ_ATTR_KEY);
+    if (user != null) {
+      event.setProperty(P_USER, user);
     }
 
     set(event, P_HOST, req.getRemoteAddr());

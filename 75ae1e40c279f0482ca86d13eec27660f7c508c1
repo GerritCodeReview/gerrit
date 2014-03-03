@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1c4fb17f_25d9ee68",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/download/DownloadCommandLink.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-03T23:16:59Z",
+      "side": 1,
+      "message": "missing cmd.append(). you build the substring but never put the host name into the command line.",
+      "range": {
+        "startLine": 151,
+        "startChar": 10,
+        "endLine": 151,
+        "endChar": 44
+      },
+      "revId": "75ae1e40c279f0482ca86d13eec27660f7c508c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

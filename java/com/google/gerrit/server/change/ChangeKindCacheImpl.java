@@ -210,15 +210,11 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
         RevCommit next = rw.parseCommit(key.next());
         rw.parseBody(next);
 
-        if (!next.getFullMessage().equals(prior.getFullMessage())) {
-          if (isSameDeltaAndTree(rw, prior, next)) {
-            return ChangeKind.NO_CODE_CHANGE;
-          }
-          return ChangeKind.REWORK;
-        }
-
         if (isSameDeltaAndTree(rw, prior, next)) {
-          return ChangeKind.NO_CHANGE;
+          if (next.getFullMessage().equals(prior.getFullMessage())) {
+            return ChangeKind.NO_CHANGE;
+          }
+          return ChangeKind.NO_CODE_CHANGE;
         }
 
         if (prior.getParentCount() == 0 || next.getParentCount() == 0) {

@@ -253,7 +253,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     assertVotes(c, admin, 2, 0);
     assertVotes(c, user, -2, 0);
 
-    // check that votes are not sticky when rework is done by cherry-pick
+    // check that votes are sticky when cherry-pick alters the commit message
     testRepo.reset(projectOperations.project(project).getHead("master"));
     changeId = createChange().getChangeId();
     vote(admin, changeId, 2, 1);
@@ -261,8 +261,8 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
 
     cherryPickChangeId = cherryPick(changeId, REWORK);
     c = detailedChange(cherryPickChangeId);
-    assertVotes(c, admin, 0, 0);
-    assertVotes(c, user, 0, 0);
+    assertVotes(c, admin, 2, 0);
+    assertVotes(c, user, -2, 0);
   }
 
   @Test

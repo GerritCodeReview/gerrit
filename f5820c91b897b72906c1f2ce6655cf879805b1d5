@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1c4fb17f_856e62d1",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitOverHttpServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-03T23:13:34Z",
+      "side": 1,
+      "message": "Unnecessary, already done by newChain.",
+      "range": {
+        "startLine": 296,
+        "startChar": 6,
+        "endLine": 300,
+        "endChar": 7
+      },
+      "revId": "f5820c91b897b72906c1f2ce6655cf879805b1d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c4fb17f_a5715eb1",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Receive.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-03T23:13:34Z",
+      "side": 1,
+      "message": "PostReceiveHookChain.newChain() already does this optimization about returning the 0th hook if there is exactly 1 hook passed in.",
+      "range": {
+        "startLine": 187,
+        "startChar": 4,
+        "endLine": 191,
+        "endChar": 5
+      },
+      "revId": "f5820c91b897b72906c1f2ce6655cf879805b1d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

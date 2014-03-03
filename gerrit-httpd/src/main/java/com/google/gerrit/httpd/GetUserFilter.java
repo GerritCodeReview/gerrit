@@ -12,9 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.pgm.http.jetty;
+package com.google.gerrit.httpd;
 
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -24,7 +25,6 @@ import com.google.inject.servlet.ServletModule;
 import org.eclipse.jgit.lib.Config;
 
 import java.io.IOException;
-import java.net.URI;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -34,28 +34,27 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
 /**
- * Stores as a request attribute, so the {@link HttpLog} can include the the
- * user for the request outside of the request scope.
+ * Stores user as a request attribute, so the servlet container access log like
+ * {@link HttpLog} can include the the user for the request outside of the
+ * request scope.
  */
 @Singleton
 public class GetUserFilter implements Filter {
 
-  static final String REQ_ATTR_KEY = CurrentUser.class.toString();
+  public static final String REQ_ATTR_KEY = "User";
 
   public static class Module extends ServletModule {
 
-    private boolean loggingEnabled;
+    private final boolean enabled;
 
     @Inject
     Module(@GerritServerConfig final Config cfg) {
-      URI[] urls = JettyServer.listenURLs(cfg);
-      boolean reverseProxy = JettyServer.isReverseProxied(urls);
-      this.loggingEnabled = cfg.getBoolean("httpd", "requestLog", !reverseProxy);
+      enabled = cfg.getBoolean("http", "addUserAsRequestAttribute", true);
     }
 
     @Override
     protected void configureServlets() {
-      if (loggingEnabled) {
+      if (enabled) {
         filter("/*").through(GetUserFilter.class);
       }
     }
@@ -72,7 +71,15 @@ public class GetUserFilter implements Filter {
   public void doFilter(
       ServletRequest req, ServletResponse resp, FilterChain chain)
       throws IOException, ServletException {
-    req.setAttribute(REQ_ATTR_KEY, userProvider.get());
+    CurrentUser user = userProvider.get();
+    if (user != null && user.isIdentifiedUser()) {
+      IdentifiedUser who = (IdentifiedUser) user;
+      if (who.getUserName() != null && !who.getUserName().isEmpty()) {
+        req.setAttribute(REQ_ATTR_KEY, who.getUserName());
+      } else {
+        req.setAttribute(REQ_ATTR_KEY, "a/" + who.getAccountId());
+      }
+    }
     chain.doFilter(req, resp);
   }
 

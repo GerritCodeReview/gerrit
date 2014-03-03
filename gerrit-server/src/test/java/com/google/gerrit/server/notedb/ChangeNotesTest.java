@@ -97,7 +97,7 @@ public class ChangeNotesTest {
   private IdentifiedUser changeOwner;
   private IdentifiedUser otherUser;
   private Injector injector;
-  private String systemTimeZone;
+  private TimeZone systemTimeZone;
   private volatile long clockStepMs;
 
   @Before
@@ -152,7 +152,10 @@ public class ChangeNotesTest {
   }
 
   private void setTimeForTesting() {
-    systemTimeZone = System.setProperty("user.timezone", "US/Eastern");
+    synchronized (TimeZone.class) {
+      systemTimeZone = TimeZone.getDefault();
+      TimeZone.setDefault(TimeZone.getTimeZone("GMT-05:00")); // Not TZ.
+    }
     clockStepMs = MILLISECONDS.convert(1, SECONDS);
     final AtomicLong clockMs = new AtomicLong(
         new DateTime(2009, 9, 30, 17, 0, 0).getMillis());
@@ -168,7 +171,7 @@ public class ChangeNotesTest {
   @After
   public void resetTime() {
     DateTimeUtils.setCurrentMillisSystem();
-    System.setProperty("user.timezone", systemTimeZone);
+    TimeZone.setDefault(systemTimeZone);
   }
 
   @Test

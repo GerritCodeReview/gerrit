@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fca01d5c_7cde7984",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffTable.ui.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-03T23:23:01Z",
+      "side": 1,
+      "message": "Should we be able to just define one new CSS class and prefix the selector:\n\n  .dark .a .diff\n\nand then add .dark on the entire DOM tree when the theme isDark? It simplifies the code. This is what .noIntraline is doing.",
+      "revId": "f8ff5bd5cd4cf394260249564428dfece6a23d08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

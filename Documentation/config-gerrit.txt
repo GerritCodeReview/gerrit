@@ -1647,6 +1647,24 @@ Optional password to authenticate to the HTTP proxy with.
 This property is honored only if the password does not
 appear in the http.proxy property above.
 
+[[http.addUserAsRequestAttribute]]http.addUserAsRequestAttribute::
++
+If true, 'User' attribute will be added to the request attributes so it
+can be accessed outside the request scope (will be set to username or id
+if username not configured).
++
+This attribute can be used by the servlet container to log user in the
+http access log.
++
+When running the embedded servlet container, this attribute is used to
+print user in the httpd_log.
++
+* `%{User}r`
++
+Pattern to print user in Tomcat AccessLog.
+
++
+Default value is true.
 
 [[httpd]]
 === Section httpd

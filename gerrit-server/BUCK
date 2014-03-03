@@ -170,5 +170,4 @@ java_test(
     '//lib/prolog:prolog-cafe',
   ],
   source_under_test = [':server'],
-  vm_args = ['-Duser.timezone=US/Eastern'],
 )

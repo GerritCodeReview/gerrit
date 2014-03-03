@@ -68,7 +68,10 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 import java.util.concurrent.atomic.AtomicLong;
 
 @Ignore
@@ -94,7 +97,7 @@ public abstract class AbstractQueryChangesTest {
   protected CurrentUser user;
   protected volatile long clockStepMs;
 
-  private String systemTimeZone;
+  private TimeZone systemTimeZone;
 
   protected abstract Injector createInjector();
 
@@ -139,7 +142,10 @@ public abstract class AbstractQueryChangesTest {
 
   @Before
   public void setTimeForTesting() {
-    systemTimeZone = System.setProperty("user.timezone", "US/Eastern");
+    synchronized (TimeZone.class) {
+      systemTimeZone = TimeZone.getDefault();
+      TimeZone.setDefault(TimeZone.getTimeZone("GMT-05:00"));
+    }
     clockStepMs = 1;
     final AtomicLong clockMs = new AtomicLong(
         new DateTime(2009, 9, 30, 17, 0, 0).getMillis());
@@ -155,7 +161,12 @@ public abstract class AbstractQueryChangesTest {
   @After
   public void resetTime() {
     DateTimeUtils.setCurrentMillisSystem();
-    System.setProperty("user.timezone", systemTimeZone);
+    TimeZone.setDefault(systemTimeZone);
+  }
+
+  @Test
+  public void testTimeZone() throws Exception {
+    assertEquals("-0500", new SimpleDateFormat("Z").format(new Date()));
   }
 
   @Test

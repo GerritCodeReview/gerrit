@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4f3169d0_c77efef5",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/DownloadBox.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-03-03T23:34:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c4fb17f_255e8e2a",
+      "revId": "6ee05cd79b40732f152c88238128411530cea048",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c4fb17f_056392ee",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/DownloadBox.java",
         "patchSetId": 11
@@ -30,6 +48,24 @@
       "writtenOn": "2014-03-03T23:05:49Z",
       "side": 1,
       "message": "I think the parameter should be taking \"tar\" not \".tar\".\n\nSorry I missed this earlier.",
+      "revId": "6ee05cd79b40732f152c88238128411530cea048",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2f26f59c_869b2a1c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/DownloadBox.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-03-03T23:34:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c4fb17f_056392ee",
       "revId": "6ee05cd79b40732f152c88238128411530cea048",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

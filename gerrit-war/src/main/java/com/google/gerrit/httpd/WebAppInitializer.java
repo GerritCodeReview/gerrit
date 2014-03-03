@@ -344,6 +344,7 @@ public class WebAppInitializer extends GuiceServletContextListener
     if (authConfig.getAuthType() == AuthType.OPENID) {
       modules.add(new OpenIdModule());
     }
+    modules.add(sysInjector.getInstance(GetUserFilter.Module.class));
 
     return sysInjector.createChildInjector(modules);
   }

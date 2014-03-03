@@ -26,7 +26,7 @@ public final class HttpLogLayout extends Layout {
   private long lastTimeMillis;
   private String lastTimeString;
 
-  HttpLogLayout() {
+  public HttpLogLayout() {
     final TimeZone tz = TimeZone.getDefault();
     dateFormat = new SimpleDateFormat("dd/MMM/yyyy:HH:mm:ss Z");
     dateFormat.setTimeZone(tz);

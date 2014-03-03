@@ -76,6 +76,7 @@ import com.google.gerrit.server.git.GitModule;
 import com.google.gerrit.server.git.MergeQueue;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.NotesBranchUtil;
+import com.google.gerrit.server.git.ReceivePackInitializer;
 import com.google.gerrit.server.git.ReloadSubmitQueueOp;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.TransferConfig;

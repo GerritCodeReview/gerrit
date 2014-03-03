@@ -94,6 +94,30 @@
     },
     {
       "key": {
+        "uuid": "4f3169d0_6742b2ca",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChangesTab.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-03-03T11:57:31Z",
+      "side": 1,
+      "message": "Please let me know which is the preferred way in this case?",
+      "parentUuid": "1c4fb17f_652b669a",
+      "range": {
+        "startLine": 335,
+        "startChar": 8,
+        "endLine": 335,
+        "endChar": 59
+      },
+      "revId": "f7b2f1faa29f0bd5c812b286dbb6327aa700911d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cf439932_6baa8165",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRelated.java",
         "patchSetId": 2

@@ -122,12 +122,8 @@ public class ChangeKindCache {
         RevCommit next = walk.parseCommit(key.next);
         walk.parseBody(next);
 
-        if (!next.getFullMessage().equals(prior.getFullMessage())) {
-          if (next.getTree() == prior.getTree() && isSameParents(prior, next)) {
-            return ChangeKind.NO_CODE_CHANGE;
-          } else {
-            return ChangeKind.REWORK;
-          }
+        if (next.getTree() == prior.getTree() && isSameParents(prior, next)) {
+          return ChangeKind.NO_CODE_CHANGE;
         }
 
         if (prior.getParentCount() != 1 || next.getParentCount() != 1) {

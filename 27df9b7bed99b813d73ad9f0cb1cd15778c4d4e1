@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cf439932_ab88e90d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-03T00:48:39Z",
+      "side": 1,
+      "message": "Does it not also check if the revision actually can be rebased, even if it\u0027s not based on the latest revision?",
+      "range": {
+        "startLine": 9,
+        "startChar": 36,
+        "endLine": 10,
+        "endChar": 63
+      },
+      "revId": "27df9b7bed99b813d73ad9f0cb1cd15778c4d4e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c4fb17f_a5283e97",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-03T00:48:39Z",
+      "side": 1,
+      "message": "Why put these in variables if they are only used once at line 168?",
+      "range": {
+        "startLine": 150,
+        "startChar": 0,
+        "endLine": 152,
+        "endChar": 33
+      },
+      "revId": "27df9b7bed99b813d73ad9f0cb1cd15778c4d4e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

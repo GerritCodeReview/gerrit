@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c71e1c9_99f6fbff",
+        "filename": "Documentation/js-api.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 656,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-04T01:27:07Z",
+      "side": 1,
+      "message": "\"inside\"\n\nor is \"inside of\" commonly used in US English?",
+      "range": {
+        "startLine": 656,
+        "startChar": 24,
+        "endLine": 656,
+        "endChar": 33
+      },
+      "revId": "9a4ed8632ce5dbd6681f6943de2a420984674bd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

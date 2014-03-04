@@ -22,6 +22,30 @@
       "revId": "6eabad25087fa6f1595353078ed933cc43ad7ec8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7cb42db0_88f697ff",
+        "filename": "gerrit-prettify/src/main/java/com/google/gerrit/prettify/client/PrettyFormatter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 416,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-03-04T10:17:17Z",
+      "side": 1,
+      "message": "Fixed by\n  https://gerrit-review.googlesource.com/54980",
+      "parentUuid": "9c71e1c9_f910576a",
+      "range": {
+        "startLine": 416,
+        "startChar": 28,
+        "endLine": 416,
+        "endChar": 41
+      },
+      "revId": "6eabad25087fa6f1595353078ed933cc43ad7ec8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

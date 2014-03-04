@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9cbf218c_09faa9e1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/CreateAccount.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-03-04T11:32:35Z",
+      "side": 1,
+      "message": "Maybe write a warning into the error log?",
+      "range": {
+        "startLine": 135,
+        "startChar": 19,
+        "endLine": 135,
+        "endChar": 37
+      },
+      "revId": "3e9ef778664fed8e02378299062ae1b5ceb80752",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7cb42db0_6805632e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/CreateAccount.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-03-04T11:32:35Z",
+      "side": 1,
+      "message": "If a user was imported from LDAP and an HTTP password was set on extUser in line 151 then the external ID in the database must be updated. I believe you would need to do this in an else block.",
+      "range": {
+        "startLine": 164,
+        "startChar": 4,
+        "endLine": 171,
+        "endChar": 5
+      },
+      "revId": "3e9ef778664fed8e02378299062ae1b5ceb80752",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7cb42db0_08faa7e1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/CreateAccount.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-03-04T11:32:35Z",
+      "side": 1,
+      "message": "Do we need another check here if the account was imported from LDAP? Normally before adding an email to an account in a realm we check whether the realm allows editing the email field. See com.google.gerrit.server.account.CreateEmail (line 107 - 109):\n\n  if (!realm.allowsEdit(FieldName.REGISTER_NEW_EMAIL)) {\n    throw new MethodNotAllowedException(\"realm does not allow adding emails\");\n  }\n\nI\u0027m not sure if for LDAP the email field can be read only but if yes, we need to check this here if the account was imported from LDAP.",
+      "range": {
+        "startLine": 173,
+        "startChar": 4,
+        "endLine": 187,
+        "endChar": 5
+      },
+      "revId": "3e9ef778664fed8e02378299062ae1b5ceb80752",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

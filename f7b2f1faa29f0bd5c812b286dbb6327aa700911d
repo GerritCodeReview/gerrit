@@ -118,6 +118,30 @@
     },
     {
       "key": {
+        "uuid": "9c71e1c9_39ffafd2",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChangesTab.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-04T04:48:06Z",
+      "side": 1,
+      "message": "Now I see the iteration is done like this in other places too, so it\u0027s OK.\n\nI was thinking something like:\n\n  for (String s: info.branches()) {\n    ..        \n  }\n\nbut it seems that does not work because this construct requires the variable to be an array or Iterable, and `info.branches()` returns a JsArrayString which is neither of those types.",
+      "parentUuid": "4f3169d0_6742b2ca",
+      "range": {
+        "startLine": 335,
+        "startChar": 8,
+        "endLine": 335,
+        "endChar": 59
+      },
+      "revId": "f7b2f1faa29f0bd5c812b286dbb6327aa700911d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cf439932_6baa8165",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRelated.java",
         "patchSetId": 2
@@ -153,6 +177,30 @@
       "side": 1,
       "message": "gitMgr in line 65 cannot be used since later gitMgrStatic is being used in a static function in line 301.\nUsing gitMgr there, would require gitMgr in line 65 to be changed to type static.",
       "parentUuid": "cf439932_6baa8165",
+      "range": {
+        "startLine": 66,
+        "startChar": 2,
+        "endLine": 66,
+        "endChar": 51
+      },
+      "revId": "f7b2f1faa29f0bd5c812b286dbb6327aa700911d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c71e1c9_d9131375",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRelated.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-04T04:48:06Z",
+      "side": 1,
+      "message": "Then why not make gitMgr static?",
+      "parentUuid": "4f3169d0_2748bae8",
       "range": {
         "startLine": 66,
         "startChar": 2,

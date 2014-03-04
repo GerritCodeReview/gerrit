@@ -213,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "7cb42db0_08e38747",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRelated.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-03-04T08:41:29Z",
+      "side": 1,
+      "message": "Making gitMgr static also requires the final modifier to be removed since it is not initialized. Also there is a warning that static field GetRelated.gitMgr should be accessed in a static way.Please confirm if this is the way to go then I can change it to static.",
+      "parentUuid": "9c71e1c9_d9131375",
+      "range": {
+        "startLine": 66,
+        "startChar": 2,
+        "endLine": 66,
+        "endChar": 51
+      },
+      "revId": "f7b2f1faa29f0bd5c812b286dbb6327aa700911d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c4fb17f_45306a00",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRelated.java",
         "patchSetId": 2

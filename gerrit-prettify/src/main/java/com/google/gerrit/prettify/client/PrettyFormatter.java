@@ -408,7 +408,7 @@ public abstract class PrettyFormatter implements SparseHtmlFile {
 
         String line = src.get(index) + "\n";
         for (int c = 0; c < line.length();) {
-          if (charEdits != null && charEdits.size() <= lastIdx) {
+          if (charEdits == null || (charEdits.size() <= lastIdx)) {
             appendShowBareCR(buf, line.substring(c), false);
             break;
           }

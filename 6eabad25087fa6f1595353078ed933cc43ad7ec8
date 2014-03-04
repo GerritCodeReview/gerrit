@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c71e1c9_f910576a",
+        "filename": "gerrit-prettify/src/main/java/com/google/gerrit/prettify/client/PrettyFormatter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 416,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-04T05:24:30Z",
+      "side": 1,
+      "message": "Now FindBugs is reporting a potential NPE on this line.",
+      "range": {
+        "startLine": 416,
+        "startChar": 28,
+        "endLine": 416,
+        "endChar": 41
+      },
+      "revId": "6eabad25087fa6f1595353078ed933cc43ad7ec8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

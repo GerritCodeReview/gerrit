@@ -16,6 +16,7 @@ package com.google.gerrit.sshd.commands;
 
 import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 
+import com.google.common.base.Objects;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.TaskInfoFactory;
@@ -139,14 +140,17 @@ final class ShowQueue extends SshCommand {
             id(taskInfo.getTaskId()), start, startTime, "",
             taskInfo.getTaskString(taskNameWidth)));
       } else if (regularUserCanSee) {
-        if (remoteName == null) {
-          remoteName = projectName.get();
-        } else {
-          remoteName = remoteName + "/" + projectName;
+        if (projectName != null) {
+          if (remoteName == null) {
+            remoteName = projectName.get();
+          } else {
+            remoteName = remoteName + "/" + projectName.get();
+          }
         }
 
-        stdout.print(String.format("%8s %-12s %-4s %s\n", //
-            id(taskInfo.getTaskId()), start, startTime, remoteName));
+        stdout.print(String.format("%8s %-12s %-4s %s\n",
+            id(taskInfo.getTaskId()), start, startTime,
+            Objects.firstNonNull(remoteName, "n/a")));
       }
     }
     stdout.print("----------------------------------------------"

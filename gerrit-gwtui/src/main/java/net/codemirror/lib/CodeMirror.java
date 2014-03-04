@@ -180,28 +180,34 @@ public class CodeMirror extends JavaScriptObject {
     }));
   }-*/;
 
-  /** TODO: Break this line after updating GWT */
   public final native void on(String event, EventHandler handler) /*-{
     this.on(event, $entry(function(cm, e) {
-      handler.@net.codemirror.lib.CodeMirror.EventHandler::handle(Lnet/codemirror/lib/CodeMirror;Lcom/google/gwt/dom/client/NativeEvent;)(cm, e);
+      handler.@net.codemirror.lib.CodeMirror.EventHandler::handle(
+        Lnet/codemirror/lib/CodeMirror;Lcom/google/gwt/dom/client/NativeEvent;)(cm, e);
     }));
   }-*/;
 
   public final native void on(String event, RenderLineHandler handler) /*-{
     this.on(event, $entry(function(cm, h, ele) {
-      handler.@net.codemirror.lib.CodeMirror.RenderLineHandler::handle(Lnet/codemirror/lib/CodeMirror;Lnet/codemirror/lib/CodeMirror$LineHandle;Lcom/google/gwt/dom/client/Element;)(cm, h, ele);
+      handler.@net.codemirror.lib.CodeMirror.RenderLineHandler::handle(
+        Lnet/codemirror/lib/CodeMirror;Lnet/codemirror/lib/CodeMirror$LineHandle;
+        Lcom/google/gwt/dom/client/Element;)(cm, h, ele);
     }));
   }-*/;
 
   public final native void on(String event, GutterClickHandler handler) /*-{
     this.on(event, $entry(function(cm, l, g, e) {
-      handler.@net.codemirror.lib.CodeMirror.GutterClickHandler::handle(Lnet/codemirror/lib/CodeMirror;ILjava/lang/String;Lcom/google/gwt/dom/client/NativeEvent;)(cm, l, g, e);
+      handler.@net.codemirror.lib.CodeMirror.GutterClickHandler::handle(
+        Lnet/codemirror/lib/CodeMirror;ILjava/lang/String;
+        Lcom/google/gwt/dom/client/NativeEvent;)(cm, l, g, e);
     }));
   }-*/;
 
   public final native void on(String event, BeforeSelectionChangeHandler handler) /*-{
     this.on(event, $entry(function(cm, e) {
-      handler.@net.codemirror.lib.CodeMirror.BeforeSelectionChangeHandler::handle(Lnet/codemirror/lib/CodeMirror;Lnet/codemirror/lib/LineCharacter;Lnet/codemirror/lib/LineCharacter;)(cm,e.anchor,e.head);
+      handler.@net.codemirror.lib.CodeMirror.BeforeSelectionChangeHandler::handle(
+        Lnet/codemirror/lib/CodeMirror;Lnet/codemirror/lib/LineCharacter;
+        Lnet/codemirror/lib/LineCharacter;)(cm,e.anchor,e.head);
     }));
   }-*/;
 

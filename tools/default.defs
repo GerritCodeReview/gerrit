@@ -152,7 +152,8 @@ def gerrit_plugin(
     mf_src = []
     mf_cmd += 'echo "Manifest-Version: 1.0" >$OUT;'
     mf_cmd += 'echo "Gerrit-ApiType: %s" >>$OUT;' % type
-    mf_cmd += 'echo "Implementation-Version: $v" >>$OUT'
+    mf_cmd += 'echo "Implementation-Version: $v" >>$OUT;'
+    mf_cmd += 'echo "Implementation-Vendor: Gerrit Code Review" >>$OUT'
     for line in manifest_entries:
       mf_cmd += ';echo "%s" >> $OUT' % line
   genrule(

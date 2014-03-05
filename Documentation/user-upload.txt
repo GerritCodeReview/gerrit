@@ -20,7 +20,8 @@ user must authenticate via HTTP/HTTPS.
 
 When link:config-gerrit.html#auth.gitBasicAuth[gitBasicAuth] is enabled,
 the user is authenticated using standard BasicAuth and credentials validated
-using the same authentication method configured for the Gerrit Web UI.
+using the randomly generated HTTP password on the `HTTP Password` tab or
+against LDAP when configured for the Gerrit Web UI.
 
 When gitBasicAuth is not configured, the user's HTTP credentials can be
 accessed within Gerrit by going to `Settings`, and then accessing the `HTTP

@@ -29,7 +29,7 @@ public abstract class SettingsScreen extends MenuScreen {
     if (Gerrit.getConfig().getSshdAddress() != null) {
       link(Util.C.tabSshKeys(), PageLinks.SETTINGS_SSHKEYS);
     }
-    if (!Gerrit.getConfig().isGitBasicAuth()) {
+    if (!Gerrit.getConfig().isHttpPasswordEnabled()) {
       link(Util.C.tabHttpAccess(), PageLinks.SETTINGS_HTTP_PASSWORD);
     }
     link(Util.C.tabWebIdentities(), PageLinks.SETTINGS_WEBIDENT);

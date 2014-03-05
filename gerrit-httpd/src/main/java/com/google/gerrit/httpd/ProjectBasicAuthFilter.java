@@ -137,6 +137,14 @@ class ProjectBasicAuthFilter implements Filter {
       return false;
     }
 
+    if (!authConfig.isLdapAuthType()
+        && !passwordMatchesTheUserGeneratedOne(who, username, password)) {
+      log.warn("Authentication failed for " + username
+          + ": password do not match the ones stored in Gerrit");
+      rsp.sendError(SC_UNAUTHORIZED);
+      return false;
+    }
+
     AuthRequest whoAuth = AuthRequest.forUser(username);
     whoAuth.setPassword(password);
 
@@ -152,6 +160,13 @@ class ProjectBasicAuthFilter implements Filter {
       rsp.sendError(SC_UNAUTHORIZED);
       return false;
     }
+  }
+
+  private boolean passwordMatchesTheUserGeneratedOne(AccountState who,
+      String username, String password) {
+    String accountPassword = who.getPassword(username);
+    return accountPassword != null && password != null
+        && accountPassword.equals(password);
   }
 
   private String encoding(HttpServletRequest req) {

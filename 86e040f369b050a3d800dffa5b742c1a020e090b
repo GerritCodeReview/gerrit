@@ -46,6 +46,30 @@
       "revId": "86e040f369b050a3d800dffa5b742c1a020e090b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bcba259a_eae94724",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/api/HtmlTemplate.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2014-03-05T04:06:05Z",
+      "side": 1,
+      "message": "Yes it\u0027s supported in GWT 2.6.",
+      "parentUuid": "fca01d5c_3c8c7171",
+      "range": {
+        "startLine": 48,
+        "startChar": 6,
+        "endLine": 48,
+        "endChar": 207
+      },
+      "revId": "86e040f369b050a3d800dffa5b742c1a020e090b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

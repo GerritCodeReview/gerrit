@@ -45,6 +45,7 @@ public interface AccountConstants extends Constants {
   String myMenuName();
   String myMenuUrl();
   String myMenuReset();
+  String preselectRevision();
 
   String changeScreenOldUi();
   String changeScreenNewUi();

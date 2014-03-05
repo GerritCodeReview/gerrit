@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "7cb42db0_68300301",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-03-05T14:49:15Z",
+      "side": 1,
+      "message": "Why wasn\u0027t this change rebased on top of [1]?\n\n [1] https://gerrit-review.googlesource.com/52153",
+      "parentUuid": "9c71e1c9_f9bff7dc",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 59
+      },
+      "revId": "873561af4ad9e31db5381dd6f17208784d0bfa3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0fc771d6_e5ae76ab",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/AccountConstants.properties",
         "patchSetId": 2

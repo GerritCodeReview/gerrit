@@ -18,6 +18,7 @@ import com.google.gerrit.common.data.GerritConfig;
 import com.google.gerrit.common.data.GitwebConfig;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
+import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AnonymousCowardName;
@@ -134,7 +135,7 @@ class GerritConfigProvider implements Provider<GerritConfig> {
         reportBugUrl : "http://code.google.com/p/gerrit/issues/list");
     config.setReportBugText(cfg.getString("gerrit", null, "reportBugText"));
 
-    config.setGitBasicAuth(authConfig.isGitBasicAuth());
+    config.setGitBasicAuth(authConfig.isGitBasicAuth() && authConfig.isLdapAuthType());
 
     final Set<Account.FieldName> fields = new HashSet<Account.FieldName>();
     for (final Account.FieldName n : Account.FieldName.values()) {

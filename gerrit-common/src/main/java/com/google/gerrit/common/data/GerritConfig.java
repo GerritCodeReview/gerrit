@@ -34,6 +34,7 @@ public class GerritConfig implements Cloneable {
   protected String reportBugUrl;
   protected String reportBugText;
   protected boolean gitBasicAuth;
+  protected boolean httpPasswordEnabled;
 
   protected GitwebConfig gitweb;
   protected boolean useContributorAgreements;
@@ -118,6 +119,14 @@ public class GerritConfig implements Cloneable {
 
   public void setGitBasicAuth(boolean gba) {
     gitBasicAuth = gba;
+  }
+
+  public boolean isHttpPasswordEnabled() {
+    return httpPasswordEnabled;
+  }
+
+  public void setHttpPasswordEnabled(boolean httpPasswordEnabled) {
+    this.httpPasswordEnabled = httpPasswordEnabled;
   }
 
   public String getEditFullNameUrl() {

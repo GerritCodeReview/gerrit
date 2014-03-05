@@ -47,6 +47,7 @@ import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.client.ui.UserActivityMonitor;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.extensions.common.ListChangesOption;
+import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.PreselectDiffAgainst;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -116,6 +117,8 @@ public class ChangeScreen2 extends Screen {
 
   private final Change.Id changeId;
   private String base;
+  private String basename;
+  private String basename1;
   private String revision;
   private ChangeInfo changeInfo;
   private CommentLinkProcessor commentLinkProcessor;
@@ -127,6 +130,9 @@ public class ChangeScreen2 extends Screen {
   private Timestamp lastDisplayedUpdate;
   private UpdateAvailableBar updateAvailable;
   private boolean openReplyBox;
+  private boolean loaded;
+  private boolean diffChange;
+  private String panel;
 
   @UiField HTMLPanel headerLine;
   @UiField Style style;
@@ -172,11 +178,13 @@ public class ChangeScreen2 extends Screen {
   private PatchSetsAction patchSetsAction;
   private DownloadAction downloadAction;
 
-  public ChangeScreen2(Change.Id changeId, String base, String revision, boolean openReplyBox) {
+  public ChangeScreen2(Change.Id changeId, String base, String revision,
+      boolean openReplyBox, String panel) {
     this.changeId = changeId;
     this.base = normalize(base);
     this.revision = normalize(revision);
     this.openReplyBox = openReplyBox;
+    this.panel = panel;
     add(uiBinder.createAndBindUi(this));
   }
 
@@ -528,6 +536,7 @@ public class ChangeScreen2 extends Screen {
 
   @UiHandler("diffBase")
   void onChangeRevision(ChangeEvent e) {
+    diffChange = true;
     int idx = diffBase.getSelectedIndex();
     if (0 <= idx) {
       String n = diffBase.getValue(idx);
@@ -543,11 +552,36 @@ public class ChangeScreen2 extends Screen {
     }
   }
 
-  private void loadConfigInfo(final ChangeInfo info, final String baseName) {
-    CallbackGroup group = new CallbackGroup();
+  private void loadConfigInfo(final ChangeInfo info, String baseName) {
+    info.revisions().copyKeysIntoChildren("name");
     final MessageInfo last = myLastReply(info);
     final RevisionInfo rev = resolveRevisionToDisplay(info);
+    PreselectDiffAgainst preselectRevision =
+        Gerrit.getUserAccount().getGeneralPreferences().getPreselectRevision();
+    if (preselectRevision == PreselectDiffAgainst.PREVIOUS_REVISION
+        && panel == null && !diffChange) {
+      JsArray<RevisionInfo> list = info.revisions().values();
+      RevisionInfo.sortRevisionInfoByNumber(list);
+      if (list.length() > 1) {
+        for (int i = list.length() - 1; i >= 0; i--) {
+          RevisionInfo r = list.get(i);
+          if (r.name().equals(revision)) {
+            basename = base = list.get(i - 1).name();
+            break;
+          }
+        }
+      }
+    }
 
+    if (preselectRevision == PreselectDiffAgainst.PRIOR_REVISION_ME_LAST_COMMENTED_ON && last != null
+        && 0 < last._revisionNumber() && last._revisionNumber() < rev._number()
+        && panel == null && !diffChange) {
+      basename1 = base = Integer.toString(last._revisionNumber());
+    }
+    diffChange = false;
+    final RevisionInfo b = resolveRevisionOrPatchSetId(info, base, null);
+
+    CallbackGroup group = new CallbackGroup();
     final RevisionInfo base;
     boolean loadDiff = true;
     if (baseName != null) {
@@ -902,6 +936,8 @@ public class ChangeScreen2 extends Screen {
   }
 
   private void renderDiffBaseListBox(ChangeInfo info) {
+    PreselectDiffAgainst preselectRevision =
+        Gerrit.getUserAccount().getGeneralPreferences().getPreselectRevision();
     JsArray<RevisionInfo> list = info.revisions().values();
     RevisionInfo.sortRevisionInfoByNumber(list);
     int selectedIdx = list.length();
@@ -913,7 +949,13 @@ public class ChangeScreen2 extends Screen {
         SelectElement.as(diffBase.getElement()).getOptions()
             .getItem(diffBase.getItemCount() - 1).setDisabled(true);
       }
-      if (base != null && (base.equals(r.name()) || base.equals(id))) {
+      if (basename != null
+          && preselectRevision == PreselectDiffAgainst.PREVIOUS_REVISION
+          && r.name().equals(revision)) {
+        selectedIdx = diffBase.getItemCount();
+      }
+      if (basename1 != null
+          && preselectRevision == PreselectDiffAgainst.PRIOR_REVISION_ME_LAST_COMMENTED_ON && String.valueOf(r._number()).equals(basename1)) {
         selectedIdx = diffBase.getItemCount() - 1;
       }
     }

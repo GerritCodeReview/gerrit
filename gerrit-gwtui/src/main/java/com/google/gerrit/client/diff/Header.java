@@ -99,7 +99,7 @@ class Header extends Composite {
     up.setTargetHistoryToken(PageLinks.toChange(
         patchSetId.getParentKey(),
         base != null ? String.valueOf(base.get()) : null,
-        String.valueOf(patchSetId.get())));
+        String.valueOf(patchSetId.get())) + ",sd");
   }
 
   private static SafeHtml formatPath(String path, String project, String commit) {

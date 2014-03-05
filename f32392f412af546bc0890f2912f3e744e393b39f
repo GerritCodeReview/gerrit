@@ -1,0 +1,234 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fca01d5c_3c51d126",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-05T01:22:47Z",
+      "side": 1,
+      "message": "in",
+      "range": {
+        "startLine": 10,
+        "startChar": 33,
+        "endLine": 10,
+        "endChar": 36
+      },
+      "revId": "f32392f412af546bc0890f2912f3e744e393b39f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c71e1c9_398c8f71",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-05T01:22:47Z",
+      "side": 1,
+      "message": "T",
+      "range": {
+        "startLine": 14,
+        "startChar": 56,
+        "endLine": 14,
+        "endChar": 57
+      },
+      "revId": "f32392f412af546bc0890f2912f3e744e393b39f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fca01d5c_dc454d65",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-05T01:22:47Z",
+      "side": 1,
+      "message": "Gerrit",
+      "range": {
+        "startLine": 14,
+        "startChar": 21,
+        "endLine": 14,
+        "endChar": 27
+      },
+      "revId": "f32392f412af546bc0890f2912f3e744e393b39f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c71e1c9_19874b50",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-05T01:22:47Z",
+      "side": 1,
+      "message": "Missing space here",
+      "range": {
+        "startLine": 14,
+        "startChar": 50,
+        "endLine": 14,
+        "endChar": 51
+      },
+      "revId": "f32392f412af546bc0890f2912f3e744e393b39f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c71e1c9_d990f383",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-05T01:22:47Z",
+      "side": 1,
+      "message": "Extra space",
+      "range": {
+        "startLine": 15,
+        "startChar": 60,
+        "endLine": 15,
+        "endChar": 61
+      },
+      "revId": "f32392f412af546bc0890f2912f3e744e393b39f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fca01d5c_fc42895a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-05T01:22:47Z",
+      "side": 1,
+      "message": "\". It\"",
+      "range": {
+        "startLine": 16,
+        "startChar": 26,
+        "endLine": 16,
+        "endChar": 30
+      },
+      "revId": "f32392f412af546bc0890f2912f3e744e393b39f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fca01d5c_9c3fc5c5",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1645,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-05T01:22:47Z",
+      "side": 1,
+      "message": "Missing space.",
+      "range": {
+        "startLine": 1645,
+        "startChar": 41,
+        "endLine": 1645,
+        "endChar": 42
+      },
+      "revId": "f32392f412af546bc0890f2912f3e744e393b39f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c71e1c9_f98db76c",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1646,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-05T01:22:47Z",
+      "side": 1,
+      "message": "Start a new paragraph.",
+      "range": {
+        "startLine": 1646,
+        "startChar": 28,
+        "endLine": 1646,
+        "endChar": 29
+      },
+      "revId": "f32392f412af546bc0890f2912f3e744e393b39f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fca01d5c_bc3c01d1",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1647,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-05T01:22:47Z",
+      "side": 1,
+      "message": "New paragraph.",
+      "range": {
+        "startLine": 1647,
+        "startChar": 45,
+        "endLine": 1647,
+        "endChar": 46
+      },
+      "revId": "f32392f412af546bc0890f2912f3e744e393b39f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fca01d5c_5c7dbd91",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1650,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-05T01:22:47Z",
+      "side": 1,
+      "message": "Put this in a bullet like other examples.",
+      "range": {
+        "startLine": 1649,
+        "startChar": 11,
+        "endLine": 1650,
+        "endChar": 20
+      },
+      "revId": "f32392f412af546bc0890f2912f3e744e393b39f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

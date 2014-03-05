@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7cb42db0_482bbf99",
+        "filename": "gerrit-cache-h2/src/main/java/com/google/gerrit/server/cache/h2/H2CacheFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-03-05T12:08:46Z",
+      "side": 1,
+      "message": "I agree.\n\nWhile trying to do what you proposed I couldn\u0027t find an obvious way of stopping all persistent caches (and removing them from the caches list) created by a plugin when that plugin is unloaded. The plugin itself knows its caches but we don\u0027t (yet) have a kind of on-unload event that would be executed in that plugin just before it will be unloaded. \n\nIn the PluginGuiceEnvironment we have onStartPlugin and onReloadPlugin so we could also have onUnloadPlugin there. Assuming we do introduce this method it is still not very obvious to me how to find all caches (from this.caches list) which belong to a given plugin.\n\nMaybe I am missing something obvious?\nIf not, then please let me know which of the above discussed solution would you prefer.",
+      "parentUuid": "8f37e1c2_69d1a50d",
+      "revId": "77bf8fbb3a560a7d05f43deb000107a92f630a42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4f3169d0_470f6eb8",
         "filename": "gerrit-cache-h2/src/main/java/com/google/gerrit/server/cache/h2/H2CacheFactory.java",
         "patchSetId": 2

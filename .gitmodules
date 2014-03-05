@@ -1,23 +1,23 @@
 [submodule "plugins/commit-message-length-validator"]
 	path = plugins/commit-message-length-validator
-	url = ../plugins/commit-message-length-validator
+	url = https://gerrit.googlesource.com/plugins/commit-message-length-validator
 
 [submodule "plugins/cookbook-plugin"]
 	path = plugins/cookbook-plugin
-	url = ../plugins/cookbook-plugin
+	url = https://gerrit.googlesource.com/plugins/cookbook-plugin
 
 [submodule "plugins/download-commands"]
 	path = plugins/download-commands
-	url = ../plugins/download-commands
+	url = https://gerrit.googlesource.com/plugins/download-commands
 
 [submodule "plugins/replication"]
 	path = plugins/replication
-	url = ../plugins/replication
+	url = https://gerrit.googlesource.com/plugins/replication
 
 [submodule "plugins/reviewnotes"]
 	path = plugins/reviewnotes
-	url = ../plugins/reviewnotes
+	url = https://gerrit.googlesource.com/plugins/reviewnotes
 
 [submodule "plugins/singleusergroup"]
 	path = plugins/singleusergroup
-	url = ../plugins/singleusergroup
+	url = https://gerrit.googlesource.com/plugins/singleusergroup

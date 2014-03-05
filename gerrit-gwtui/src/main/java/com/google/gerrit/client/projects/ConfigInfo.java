@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.projects;
 
+import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.actions.ActionInfo;
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.reviewdb.client.Project;
@@ -87,7 +88,12 @@ public class ConfigInfo extends JavaScriptObject {
       if (cl.link() != null) {
         commentLinks.add(new LinkFindReplace(cl.match(), cl.link()));
       } else {
-        commentLinks.add(new RawFindReplace(cl.match(), cl.html()));
+        try {
+          FindReplace fr = new RawFindReplace(cl.match(), cl.html());
+          commentLinks.add(fr);
+        } catch (RuntimeException e) {
+          new ErrorDialog(e.getMessage()).center();
+        }
       }
     }
     return commentLinks;

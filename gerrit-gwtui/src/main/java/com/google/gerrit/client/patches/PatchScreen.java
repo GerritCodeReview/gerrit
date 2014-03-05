@@ -526,7 +526,8 @@ public abstract class PatchScreen extends Screen implements
       new ErrorDialog(PatchUtil.C.intralineFailure()).show();
     } else if (intralineTimeout) {
       intralineTimeout = false;
-      new ErrorDialog(PatchUtil.C.intralineTimeout()).show();
+      new ErrorDialog(PatchUtil.C.intralineTimeout()).setText(
+          Gerrit.C.warnTitle()).show();
     }
     if (topView != null && prefs.get().isRetainHeader()) {
       setTopView(topView);

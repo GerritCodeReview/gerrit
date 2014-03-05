@@ -22,6 +22,30 @@
       "revId": "86e040f369b050a3d800dffa5b742c1a020e090b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fca01d5c_3c8c7171",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/api/HtmlTemplate.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-05T03:58:55Z",
+      "side": 1,
+      "message": "Does line wrapping work now in JSNI?",
+      "parentUuid": "7cdb4d06_7005502e",
+      "range": {
+        "startLine": 48,
+        "startChar": 6,
+        "endLine": 48,
+        "endChar": 207
+      },
+      "revId": "86e040f369b050a3d800dffa5b742c1a020e090b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

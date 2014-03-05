@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fca01d5c_bc972177",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/GerritConstants.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-05T14:17:11Z",
+      "side": 1,
+      "message": "Warning",
+      "range": {
+        "startLine": 14,
+        "startChar": 26,
+        "endLine": 14,
+        "endChar": 30
+      },
+      "revId": "c1fca02a33fa34b2a56517d536ed3064272cf499",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

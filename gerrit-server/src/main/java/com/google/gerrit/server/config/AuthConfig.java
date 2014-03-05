@@ -277,4 +277,9 @@ public class AuthConfig {
   public String getRegisterPageUrl() {
     return registerPageUrl;
   }
+
+  public boolean isLdapAuthType() {
+    return authType == AuthType.LDAP ||
+        authType == AuthType.LDAP_BIND;
+  }
 }

@@ -75,7 +75,7 @@ public class ErrorDialog extends PluginSafePopupPanel {
     center.add(body);
     center.add(buttons);
 
-    setText(Gerrit.C.errorDialogTitle());
+    setText(Gerrit.C.errorTitle());
     addStyleName(Gerrit.RESOURCES.css().errorDialog());
     add(center);
 
@@ -155,8 +155,9 @@ public class ErrorDialog extends PluginSafePopupPanel {
     }
   }
 
-  public void setText(final String t) {
+  public ErrorDialog setText(final String t) {
     text.setText(t);
+    return this;
   }
 
   @Override

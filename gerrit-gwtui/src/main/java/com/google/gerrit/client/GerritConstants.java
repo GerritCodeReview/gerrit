@@ -28,8 +28,9 @@ public interface GerritConstants extends Constants {
   String registerDialogTitle();
   String loginTypeUnsupported();
 
-  String errorDialogTitle();
+  String errorTitle();
   String errorDialogContinue();
+  String warnTitle();
 
   String confirmationDialogOk();
   String confirmationDialogCancel();

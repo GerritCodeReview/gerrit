@@ -18,6 +18,7 @@ import com.google.gerrit.common.data.GerritConfig;
 import com.google.gerrit.common.data.GitwebConfig;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
+import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AnonymousCowardName;
@@ -86,6 +87,7 @@ class GerritConfigProvider implements Provider<GerritConfig> {
         config.setRegisterUrl(cfg.getString("auth", null, "registerurl"));
         config.setRegisterText(cfg.getString("auth", null, "registertext"));
         config.setEditFullNameUrl(cfg.getString("auth", null, "editFullNameUrl"));
+        config.setHttpPasswordSettingsDisabled(!authConfig.isGitBasicAuth());
         break;
 
       case CUSTOM_EXTENSION:
@@ -133,8 +135,6 @@ class GerritConfigProvider implements Provider<GerritConfig> {
     config.setReportBugUrl(reportBugUrl != null ?
         reportBugUrl : "http://code.google.com/p/gerrit/issues/list");
     config.setReportBugText(cfg.getString("gerrit", null, "reportBugText"));
-
-    config.setGitBasicAuth(authConfig.isGitBasicAuth());
 
     final Set<Account.FieldName> fields = new HashSet<Account.FieldName>();
     for (final Account.FieldName n : Account.FieldName.values()) {

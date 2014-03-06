@@ -1,0 +1,245 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fca01d5c_5c0a9df2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/Dependency.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-06T23:18:57Z",
+      "side": 1,
+      "message": "I find this class name misleading. Its not a dependency, its a description of a plugin with its set of dependencies.",
+      "range": {
+        "startLine": 20,
+        "startChar": 6,
+        "endLine": 20,
+        "endChar": 16
+      },
+      "revId": "33c34c477a14bb62c4fd8577f6133f76ee16a223",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fca01d5c_9ce025e7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/Dependency.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-06T23:18:57Z",
+      "side": 1,
+      "message": "final?",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 20
+      },
+      "revId": "33c34c477a14bb62c4fd8577f6133f76ee16a223",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fca01d5c_7c0f5901",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/Dependency.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-06T23:18:57Z",
+      "side": 1,
+      "message": "Use a LinkedHashSet instead? A dependency can only appear once, but order matters.",
+      "range": {
+        "startLine": 25,
+        "startChar": 31,
+        "endLine": 25,
+        "endChar": 43
+      },
+      "revId": "33c34c477a14bb62c4fd8577f6133f76ee16a223",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c71e1c9_d9fd5388",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/DependencyResolver.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-06T23:18:57Z",
+      "side": 1,
+      "message": "private?",
+      "revId": "33c34c477a14bb62c4fd8577f6133f76ee16a223",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c71e1c9_99f7dba4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/DependencyResolver.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-06T23:18:57Z",
+      "side": 1,
+      "message": "dummy private constructors for utility classes should go at the very end of the class",
+      "revId": "33c34c477a14bb62c4fd8577f6133f76ee16a223",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c71e1c9_59b5c3d0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/DependencyResolver.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-06T23:18:57Z",
+      "side": 1,
+      "message": "It should be simpler to just write the edges in the other direction into the DAG.\n\nCreate the edge from the parent to the child. Then the standard topological sorting will produce the parent first, which is the startup ordering.",
+      "range": {
+        "startLine": 46,
+        "startChar": 2,
+        "endLine": 47,
+        "endChar": 65
+      },
+      "revId": "33c34c477a14bb62c4fd8577f6133f76ee16a223",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c71e1c9_19bf4bb3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/DependencyResolver.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-06T23:18:57Z",
+      "side": 1,
+      "message": "You should identify the plugin.",
+      "range": {
+        "startLine": 69,
+        "startChar": 18,
+        "endLine": 69,
+        "endChar": 45
+      },
+      "revId": "33c34c477a14bb62c4fd8577f6133f76ee16a223",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c71e1c9_79ba07c4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/DependencyResolver.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-06T23:18:57Z",
+      "side": 1,
+      "message": "So one plugin with multiple deps stops the entire loading process?",
+      "range": {
+        "startLine": 67,
+        "startChar": 12,
+        "endLine": 71,
+        "endChar": 13
+      },
+      "revId": "33c34c477a14bb62c4fd8577f6133f76ee16a223",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fca01d5c_bcf401a0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/DependencyResolver.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-06T23:18:57Z",
+      "side": 1,
+      "message": "A cycle is harder to handle. But I think we should remove the nodes that are part of the cycle and load the rest of the graph.",
+      "range": {
+        "startLine": 84,
+        "startChar": 6,
+        "endLine": 85,
+        "endChar": 49
+      },
+      "revId": "33c34c477a14bb62c4fd8577f6133f76ee16a223",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c71e1c9_b9f41fa0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/DependencyResolver.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-06T23:18:57Z",
+      "side": 1,
+      "message": "So this failure in one plugin makes the entire plugin system stop loading all plugins?",
+      "range": {
+        "startLine": 99,
+        "startChar": 8,
+        "endLine": 105,
+        "endChar": 9
+      },
+      "revId": "33c34c477a14bb62c4fd8577f6133f76ee16a223",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c71e1c9_790f6701",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 577,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-06T23:18:57Z",
+      "side": 1,
+      "message": "This is misleading. \"dependentPlugin\" would be a plugin that requires the current plugin to function.\n\nA better name would be parentPlugin.",
+      "range": {
+        "startLine": 577,
+        "startChar": 15,
+        "endLine": 577,
+        "endChar": 30
+      },
+      "revId": "33c34c477a14bb62c4fd8577f6133f76ee16a223",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

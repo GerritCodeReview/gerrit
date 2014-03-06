@@ -39,6 +39,7 @@ class DiffTable extends Composite {
   interface DiffTableStyle extends CssResource {
     String fullscreen();
     String intralineBg();
+    String dark();
     String diff();
     String noIntraline();
     String activeLine();
@@ -68,7 +69,8 @@ class DiffTable extends Composite {
   private SideBySide2 parent;
   private boolean headerVisible;
 
-  DiffTable(SideBySide2 parent, PatchSet.Id base, PatchSet.Id revision, String path) {
+  DiffTable(SideBySide2 parent, PatchSet.Id base, PatchSet.Id revision,
+      String path) {
     patchSetSelectBoxA = new PatchSetSelectBox2(
         parent, DisplaySide.A, revision.getParentKey(), base, path);
     patchSetSelectBoxB = new PatchSetSelectBox2(

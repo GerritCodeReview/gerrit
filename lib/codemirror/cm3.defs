@@ -6,7 +6,10 @@ CM3_CSS = [
 CM3_THEMES = [
   'theme/eclipse.css',
   'theme/elegant.css',
+  'theme/midnight.css',
   'theme/neat.css',
+  'theme/night.css',
+  'theme/twilight.css',
 ]
 
 CM3_JS = [

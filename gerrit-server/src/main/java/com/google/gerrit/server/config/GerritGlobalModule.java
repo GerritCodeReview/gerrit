@@ -126,6 +126,7 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.internal.UniqueAnnotations;
 
 import org.apache.velocity.runtime.RuntimeInstance;
+import org.eclipse.jgit.transport.PostReceiveHook;
 
 import java.util.List;
 import java.util.Set;
@@ -245,6 +246,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicMap.mapOf(binder(), CapabilityDefinition.class);
     DynamicSet.setOf(binder(), GitReferenceUpdatedListener.class);
     DynamicSet.setOf(binder(), ReceivePackInitializer.class);
+    DynamicSet.setOf(binder(), PostReceiveHook.class);
     DynamicSet.setOf(binder(), NewProjectCreatedListener.class);
     DynamicSet.setOf(binder(), ProjectDeletedListener.class);
     DynamicSet.setOf(binder(), HeadUpdatedListener.class);

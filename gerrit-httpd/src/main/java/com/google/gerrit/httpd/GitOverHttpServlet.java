@@ -15,6 +15,7 @@
 package com.google.gerrit.httpd;
 
 import com.google.common.cache.Cache;
+import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Project;
@@ -48,6 +49,8 @@ import org.eclipse.jgit.http.server.ServletUtils;
 import org.eclipse.jgit.http.server.resolver.AsIsFileService;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.transport.PostReceiveHook;
+import org.eclipse.jgit.transport.PostReceiveHookChain;
 import org.eclipse.jgit.transport.ReceivePack;
 import org.eclipse.jgit.transport.UploadPack;
 import org.eclipse.jgit.transport.resolver.ReceivePackFactory;
@@ -247,13 +250,16 @@ public class GitOverHttpServlet extends GitServlet {
     private final AsyncReceiveCommits.Factory factory;
     private final TransferConfig config;
     private DynamicSet<ReceivePackInitializer> receivePackInitializers;
+    private DynamicSet<PostReceiveHook> postReceiveHooks;
 
     @Inject
     ReceiveFactory(AsyncReceiveCommits.Factory factory, TransferConfig config,
-        DynamicSet<ReceivePackInitializer> receivePackInitializers) {
+        DynamicSet<ReceivePackInitializer> receivePackInitializers,
+        DynamicSet<PostReceiveHook> postReceiveHooks) {
       this.factory = factory;
       this.config = config;
       this.receivePackInitializers = receivePackInitializers;
+      this.postReceiveHooks = postReceiveHooks;
     }
 
     @Override
@@ -273,6 +279,8 @@ public class GitOverHttpServlet extends GitServlet {
       rp.setTimeout(config.getTimeout());
       rp.setMaxObjectSizeLimit(config.getMaxObjectSizeLimit());
       init(pc.getProject().getNameKey(), rp);
+      rp.setPostReceiveHook(PostReceiveHookChain.newChain(
+          Lists.newArrayList(postReceiveHooks)));
       req.setAttribute(ATT_RC, rc);
       return rp;
     }

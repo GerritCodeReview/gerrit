@@ -21,6 +21,7 @@ import static com.google.gerrit.server.project.Util.value;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
@@ -77,8 +78,8 @@ public class CustomLabelIT extends AbstractDaemonTest {
     ChangeInfo c = get(r.getChangeId());
     LabelInfo q = c.labels.get(Q.getName());
     assertEquals(1, q.all.size());
-    assertNull(q.rejected);
-    assertNotNull(q.disliked);
+    assertNotNull(q.rejected);
+    assertNull(q.blocking);
   }
 
   @Test
@@ -90,8 +91,8 @@ public class CustomLabelIT extends AbstractDaemonTest {
     ChangeInfo c = get(r.getChangeId());
     LabelInfo q = c.labels.get(Q.getName());
     assertEquals(1, q.all.size());
-    assertNull(q.rejected);
-    assertNotNull(q.disliked);
+    assertNotNull(q.rejected);
+    assertNull(q.blocking);
   }
 
   @Test
@@ -103,8 +104,8 @@ public class CustomLabelIT extends AbstractDaemonTest {
     ChangeInfo c = get(r.getChangeId());
     LabelInfo q = c.labels.get(Q.getName());
     assertEquals(1, q.all.size());
-    assertNull(q.rejected);
-    assertNotNull(q.disliked);
+    assertNotNull(q.rejected);
+    assertNull(q.blocking);
   }
 
   @Test
@@ -118,6 +119,7 @@ public class CustomLabelIT extends AbstractDaemonTest {
     assertEquals(1, q.all.size());
     assertNull(q.disliked);
     assertNotNull(q.rejected);
+    assertTrue(q.blocking);
   }
 
   @Test
@@ -130,6 +132,7 @@ public class CustomLabelIT extends AbstractDaemonTest {
     assertEquals(1, q.all.size());
     assertNull(q.disliked);
     assertNotNull(q.rejected);
+    assertTrue(q.blocking);
   }
 
   private void saveLabelConfig() throws Exception {

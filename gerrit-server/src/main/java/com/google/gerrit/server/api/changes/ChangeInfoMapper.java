@@ -117,6 +117,7 @@ class ChangeInfoMapper {
       lo.disliked = fromAcountInfo(li.disliked);
       lo.value = li.value;
       lo.optional = li.optional;
+      lo.blocking = li.blocking;
       lo.values = li.values;
       if (li.all != null) {
         lo.all = Lists.newArrayListWithExpectedSize(li.all.size());

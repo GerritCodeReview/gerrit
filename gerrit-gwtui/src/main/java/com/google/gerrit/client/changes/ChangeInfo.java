@@ -160,6 +160,7 @@ public class ChangeInfo extends JavaScriptObject {
     public final native String value_text(String n) /*-{ return this.values[n]; }-*/;
 
     public final native boolean optional() /*-{ return this.optional ? true : false; }-*/;
+    public final native boolean blocking() /*-{ return this.blocking ? true : false; }-*/;
     final native short _value()
     /*-{
       if (this.value) return this.value;

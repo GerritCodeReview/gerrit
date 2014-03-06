@@ -269,6 +269,9 @@ public class SubmoduleOp {
 
       for (final Map.Entry<Branch.NameKey, ObjectId> me : modules.entrySet()) {
         RevCommit c = myRw.parseCommit(me.getValue());
+        if (c == null) {
+          continue;
+        }
 
         msgbuf.append("\nProject: ");
         msgbuf.append(me.getKey().getParentKey().get());

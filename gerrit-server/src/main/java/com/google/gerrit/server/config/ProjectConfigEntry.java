@@ -284,11 +284,11 @@ public class ProjectConfigEntry {
     return value != null ? Boolean.parseBoolean(value) : null;
   }
 
-  private static int toInt(String value) {
+  private static Integer toInt(String value) {
     return value != null ? Integer.parseInt(value) : null;
   }
 
-  private static long toLong(String value) {
+  private static Long toLong(String value) {
     return value != null ? Long.parseLong(value) : null;
   }
 }

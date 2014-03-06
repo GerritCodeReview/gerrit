@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bc2f85b4_62515626",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/AutoRegisterScript.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-03-06T23:55:01Z",
+      "side": 1,
+      "message": "2013/2014?",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "c2c5e3ae361b4c8c2883c38f54a78a4afd772ef3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

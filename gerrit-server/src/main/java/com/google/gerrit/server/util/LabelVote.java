@@ -45,8 +45,10 @@ public class LabelVote {
     if (sign == 0) {
       return new LabelVote(text, (short) 1);
     }
-    return new LabelVote(text.substring(0, i),
-        (short)(sign * Short.parseShort(text.substring(i + 1))));
+    return new LabelVote(text.substring(0, i).endsWith("=")
+        ? text.substring(0, i - 1)
+        : text.substring(0, i),
+        (short) (sign * Short.parseShort(text.substring(i + 1))));
   }
 
   public static LabelVote parseWithEquals(String text) {

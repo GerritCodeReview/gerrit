@@ -40,6 +40,24 @@
       "revId": "b7591d85371050ce33b650e18b3fc7ae64a0f9dd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fca01d5c_5c113d38",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ConfigInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-06T12:51:12Z",
+      "side": 1,
+      "message": "See my comment in the cover note.  Instead of presenting the error to the user here, is it possible to catch it when initially loading the config?  Then, log an error and disable the erroneous commentlink?",
+      "parentUuid": "bc2f85b4_422b7299",
+      "revId": "b7591d85371050ce33b650e18b3fc7ae64a0f9dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bcba259a_6a57971e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/api/ApiGlue.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2014-03-06T23:53:09Z",
+      "side": 1,
+      "message": "Wrap this line?",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 144
+      },
+      "revId": "01d465c009746518dcf9b082d04096d7f0cc32eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -22,6 +22,24 @@
       "revId": "b7591d85371050ce33b650e18b3fc7ae64a0f9dd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc2f85b4_422b7299",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ConfigInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-03-06T09:38:32Z",
+      "side": 1,
+      "message": "under debug environment the case is :  \n(SyntaxError) @com.google.gwt.regexp.shared.RegExp::compile(Ljava/lang/String;)([string: \u0027((?\u003c!https?://[^\\s]{1,2000})DMS\\d{8})\u0027]): Invalid regular expression: /((?\u003c!https?://[^\\s]{1,2000})DMS\\d{8})/: Invalid group\n\n\nrunning the same case not in debug environment it shows: \n\n(SyntaxError) stack: SyntaxError: Invalid regular expression: /((?\u003c!https?://[^\\s]{1,2000})DMS\\d{8})/: Invalid group at new RegExp (native) at Object.hrd (http://localhost:8080/gerrit_ui/D3DB4EF1B6528DA6D8E78A77E2D06436.cache.html:1712:26) at pDb (http://localhost:8080/gerrit_ui/D3DB4EF1B6528DA6D8E78A77E2D06436.cache.html:3435:220) at Object.M7 (http://localhost:8080/gerrit_ui/D3DB4EF1B6528DA6D8E78A77E2D06436.cache.html:3638:25820) at sEb (http://localhost:8080/gerrit_ui/D3DB4EF1B6528DA6D8E78A77E2D06436.cache.html:2059:46) at jEb (http://localhost:8080/gerrit_ui/D3DB4EF1B6528DA6D8E78A77E2D06436.cache.html:2758:97) at Object.vEb [as fc] (http://localhost:8080/gerrit_ui/D3DB4EF1B6528DA6D8E78A77E2D06436.cache.html:3641:16908) at Object.JDb [as fc] (http://localhost:8080/gerrit_ui/D3DB4EF1B6528DA6D8E78A77E2D06436.cache.html:3641:16423) at Object.YFb [as $c] (http://localhost:8080/gerrit_ui/D3DB4EF1B6528DA6D8E78A77E2D06436.cache.html:3641:19161) at Wsc (http://localhost:8080/gerrit_ui/D3DB4EF1B6528DA6D8E78A77E2D06436.cache.html:3019:141): Invalid regular expression: /((?\u003c!https?://[^\\s]{1,2000})DMS\\d{8})/: Invalid group\n\n\nI am thinking how to cut it \nwelcome ideas . :)",
+      "parentUuid": "9c71e1c9_39200f80",
+      "revId": "b7591d85371050ce33b650e18b3fc7ae64a0f9dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

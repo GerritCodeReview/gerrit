@@ -431,7 +431,7 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
         continue;
       }
 
-      PatchSetApproval c = current.remove(name);
+      PatchSetApproval c = current.remove(lt.getName());
       String normName = lt.getName();
       if (ent.getValue() == null || ent.getValue() == 0) {
         // User requested delete of this label.

@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "9cbf218c_c9457165",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-03-06T08:10:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9c71e1c9_99ccbba8",
+      "revId": "be49fc752da17fc938f440db82523d2b8196b879",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fca01d5c_bc6e41d1",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 1
@@ -48,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "9cbf218c_e942b55a",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-03-06T08:10:20Z",
+      "side": 1,
+      "message": "Just too late in the evening ... the Digest Auth description was not intended to be changed.",
+      "parentUuid": "fca01d5c_bc6e41d1",
+      "revId": "be49fc752da17fc938f440db82523d2b8196b879",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9c71e1c9_b9c97f97",
         "filename": "Documentation/user-upload.txt",
         "patchSetId": 1
@@ -65,6 +101,24 @@
         "endLine": 23,
         "endChar": 69
       },
+      "revId": "be49fc752da17fc938f440db82523d2b8196b879",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc2f85b4_020e8a4f",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-03-06T08:10:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9c71e1c9_b9c97f97",
       "revId": "be49fc752da17fc938f440db82523d2b8196b879",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -111,6 +165,42 @@
         "endLine": 143,
         "endChar": 26
       },
+      "revId": "be49fc752da17fc938f440db82523d2b8196b879",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc2f85b4_c2130275",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ProjectBasicAuthFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-03-06T08:10:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9c71e1c9_59b62308",
+      "revId": "be49fc752da17fc938f440db82523d2b8196b879",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc2f85b4_a2107e69",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ProjectBasicAuthFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-03-06T08:10:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fca01d5c_5ccffda1",
       "revId": "be49fc752da17fc938f440db82523d2b8196b879",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

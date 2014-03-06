@@ -1,0 +1,152 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c71e1c9_99e03be7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRelated.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-06T22:51:36Z",
+      "side": 1,
+      "message": "We use Java 7 style now. new ArrayList\u003c\u003e() is sufficient.",
+      "range": {
+        "startLine": 117,
+        "startChar": 25,
+        "endLine": 117,
+        "endChar": 49
+      },
+      "revId": "8f3b446d69a1de96635ef70beb2cedb3cd7035e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c71e1c9_b9ddff31",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRelated.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-06T22:51:36Z",
+      "side": 1,
+      "message": "This loop should be able to be folded with the loop below that you pulled this out of. So we only need to traverse the commits once, not twice.",
+      "range": {
+        "startLine": 118,
+        "startChar": 4,
+        "endLine": 119,
+        "endChar": 16
+      },
+      "revId": "8f3b446d69a1de96635ef70beb2cedb3cd7035e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c71e1c9_f9d37723",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRelated.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-06T22:51:36Z",
+      "side": 1,
+      "message": "The repository must be closed.",
+      "revId": "8f3b446d69a1de96635ef70beb2cedb3cd7035e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fca01d5c_3cf231c0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRelated.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-06T22:51:36Z",
+      "side": 1,
+      "message": "The RevWalk must be released.",
+      "revId": "8f3b446d69a1de96635ef70beb2cedb3cd7035e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fca01d5c_dcd6ad16",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRelated.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-06T22:51:36Z",
+      "side": 1,
+      "message": "This is unnecessarily slow when change !\u003d null and we know the branch name from the change object.",
+      "revId": "8f3b446d69a1de96635ef70beb2cedb3cd7035e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fca01d5c_7ce8b9d3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRelated.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-06T22:51:36Z",
+      "side": 1,
+      "message": "We try to avoid catch Exception",
+      "revId": "8f3b446d69a1de96635ef70beb2cedb3cd7035e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c71e1c9_d9d6b316",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRelated.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-06T22:51:36Z",
+      "side": 1,
+      "message": "Do not printStackTrace.",
+      "revId": "8f3b446d69a1de96635ef70beb2cedb3cd7035e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fca01d5c_1cedf5e2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRelated.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-06T22:51:36Z",
+      "side": 1,
+      "message": "This should be null if the collection is empty, so that nothing is returned.",
+      "revId": "8f3b446d69a1de96635ef70beb2cedb3cd7035e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

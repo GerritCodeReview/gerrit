@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c71e1c9_99ccbba8",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-06T00:16:27Z",
+      "side": 1,
+      "message": "when it is",
+      "range": {
+        "startLine": 426,
+        "startChar": 40,
+        "endLine": 426,
+        "endChar": 47
+      },
+      "revId": "be49fc752da17fc938f440db82523d2b8196b879",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fca01d5c_bc6e41d1",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-06T00:16:27Z",
+      "side": 1,
+      "message": "?",
+      "range": {
+        "startLine": 431,
+        "startChar": 0,
+        "endLine": 431,
+        "endChar": 6
+      },
+      "revId": "be49fc752da17fc938f440db82523d2b8196b879",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c71e1c9_b9c97f97",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-06T00:16:27Z",
+      "side": 1,
+      "message": "the \"HTTP Password\" tab in the user settings page",
+      "range": {
+        "startLine": 23,
+        "startChar": 46,
+        "endLine": 23,
+        "endChar": 69
+      },
+      "revId": "be49fc752da17fc938f440db82523d2b8196b879",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fca01d5c_5ccffda1",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ProjectBasicAuthFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-06T00:16:27Z",
+      "side": 1,
+      "message": "one",
+      "range": {
+        "startLine": 143,
+        "startChar": 41,
+        "endLine": 143,
+        "endChar": 45
+      },
+      "revId": "be49fc752da17fc938f440db82523d2b8196b879",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c71e1c9_59b62308",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ProjectBasicAuthFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-06T00:16:27Z",
+      "side": 1,
+      "message": "does",
+      "range": {
+        "startLine": 143,
+        "startChar": 24,
+        "endLine": 143,
+        "endChar": 26
+      },
+      "revId": "be49fc752da17fc938f440db82523d2b8196b879",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "bc2f85b4_a2e99e25",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-03-06T06:56:07Z",
+      "side": 1,
+      "message": "\u003e I think it makes sense to rebase this change on top of Shawn\u0027s change [1]\n\nDone. I hadn\u0027t time to look deeper into conflict resolution in ChangeScreen2 method:\n\n void loadConfigInfo(final ChangeInfo info, String baseName);\n\nSo it is probably broken now and must be fixed.",
+      "parentUuid": "fca01d5c_7cd43931",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 59
+      },
+      "revId": "873561af4ad9e31db5381dd6f17208784d0bfa3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0fc771d6_e5ae76ab",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/AccountConstants.properties",
         "patchSetId": 2

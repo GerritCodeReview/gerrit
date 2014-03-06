@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "fca01d5c_7cd43931",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-03-06T05:58:01Z",
+      "side": 1,
+      "message": "While trying to do rebase this change on top of [1], i faced\nmany conflicts in local workspace. Many of the files were also missing, which again needed to add separately. I tried resolving them but still some conflicts were left. Hence i incorporated shawn\u0027s change into it.\nPlease suggest if we can go ahead with this or still we need to do rebase.",
+      "parentUuid": "7cb42db0_68300301",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 59
+      },
+      "revId": "873561af4ad9e31db5381dd6f17208784d0bfa3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0fc771d6_e5ae76ab",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/AccountConstants.properties",
         "patchSetId": 2

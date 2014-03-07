@@ -43,14 +43,6 @@ gwt_module(
   visibility = ['PUBLIC'],
 )
 
-java_library(
-  name = 'Linker',
-  srcs = glob([SRC + 'linker/rebind/*.java']),
-  resources = [SRC + 'linker/ServerPlannedIFrameLinker.gwt.xml'],
-  deps = ['//lib/gwt:dev'],
-  visibility = ['PUBLIC'],
-)
-
 java_library2(
   name = 'linker_server',
   srcs = glob([SRC + 'linker/server/*.java']),

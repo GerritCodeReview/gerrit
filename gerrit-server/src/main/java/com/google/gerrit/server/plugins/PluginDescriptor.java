@@ -27,4 +27,8 @@ class PluginDescriptor {
     file = f;
     deps = d;
   }
+
+  boolean isJar() {
+    return file.getName().endsWith(".jar");
+  }
 }

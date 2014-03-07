@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dc627923_73e3e046",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 648,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2014-03-07T23:15:11Z",
+      "side": 1,
+      "message": "Micronit: could decrease indentation by handling this case up front.\n\n if (mergeTip \u003d\u003d null || branchTip \u003d\u003d mergeTip)\n   return null;\n if (RefNames.REFS_CONFIG.equals(...",
+      "range": {
+        "startLine": 647,
+        "startChar": 0,
+        "endLine": 648,
+        "endChar": 18
+      },
+      "revId": "6f77129e3d85497b2c114363269a6c7c17f700a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

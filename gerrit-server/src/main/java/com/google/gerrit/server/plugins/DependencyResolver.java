@@ -40,7 +40,7 @@ class DependencyResolver {
   // means that plugin dest must be loaded before plugin src.
   // We preserve the edge direction during the DAG construction
   // and reverse the resulting ordering to get the right sorting.
-  static List<PluginDescriptor> sort(final PluginLoader pluginLoader, Map<String, File> activePlugins) {
+  static Iterable<PluginDescriptor> sort(final PluginLoader pluginLoader, Map<String, File> activePlugins) {
     return reverseTopologicalSort(Lists.newArrayList(Iterables.transform(
         activePlugins.values(), new Function<File, PluginDescriptor>() {
           @Override
@@ -72,11 +72,20 @@ class DependencyResolver {
         })));
   }
 
-  private static List<PluginDescriptor> reverseTopologicalSort(List<PluginDescriptor> nodes) {
+  private static Iterable<PluginDescriptor> reverseTopologicalSort(List<PluginDescriptor> nodes) {
     try {
-      List<PluginDescriptor> sorted = TopologicalSort.sort(toDAG(nodes));
+      List<PluginDescriptor> jarPlugins = Lists.newArrayListWithCapacity(nodes.size());
+      List<PluginDescriptor> scriptingPlugins = Lists.newArrayList();
+      for (PluginDescriptor pluginDescriptor : nodes) {
+        if (pluginDescriptor.isJar()) {
+          jarPlugins.add(pluginDescriptor);
+        } else {
+          scriptingPlugins.add(pluginDescriptor);
+        }
+      }
+      List<PluginDescriptor> sorted = TopologicalSort.sort(toDAG(jarPlugins));
       Collections.reverse(sorted);
-      return sorted;
+      return Iterables.concat(sorted, scriptingPlugins);
     } catch (DAGCycleException e) {
       PluginLoader.log.error("Plugin dependency graph contains a cycle", e);
       throw new ProvisionException("Plugin cannot be loaded: "
@@ -108,9 +117,9 @@ class DependencyResolver {
     return g;
   }
 
-  private static String getDependencies(File srcFile) throws IOException {
-    if (PluginLoader.isJarPlugin(srcFile)) {
-      JarFile jarFile = new JarFile(srcFile);
+  private static String getDependencies(File f) throws IOException {
+    if (PluginLoader.isJarPlugin(f)) {
+      JarFile jarFile = new JarFile(f);
       try {
         return jarFile.getManifest().getMainAttributes()
             .getValue("Gerrit-Dependencies");

@@ -30,7 +30,18 @@ General
 * Only add "cherry picked from" when cherry picking a merged change.
 +
 The "(cherry picked from commit ...)" line was being added in the commit
-message when cherry picking from closed changes, which included abandoned.
+message when cherry picking from closed changes, which included those that were
+abandoned.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=2513[Issue 2513]:
+Improve the "This patchset was cherry picked" message.
++
+When cherry-picking a change, the message "This patchset was cherry picked to
+change: <Change-Id>" was added as a message on the change.  This was not very
+useful as the Change-Id is the same on the newly created change.
++
+The message is changed to "This patchset was cherry picked to branch <branch
+name> as commit <SHA1>".
 
 * Fix PUSH permission check for draft changes.
 +
@@ -106,6 +117,12 @@ In buck, the `java_binary` rule merges manifest entries from dependent JARs
 unless the input JAR possesses these entries itself.  This was causing some
 plugins to display the wrong vendor information if they had dependency on
 another JAR file that provided a `Implementation-Vendor` value.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=2498[Issue 2498]:
+Handle null commits when updating submodules.
++
+In some edge cases it was possible that a null commit would exist, and this
+caused a crash when updating submodules.
 
 * Remove dependency on joda time library in gerrit launcher.
 +
@@ -187,6 +204,19 @@ a change in the UI.
 When a change was rebased from the change screen, the `uploader` field
 of the `patchset-created` event was incorrectly set to the original
 change uploader, rather than the user that performed the rebase.
+
+* Display a warning instead of an error when the intraline diff times out.
++
+Displaying an error was confusing for users and administrators.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=2514[Issue 2514]:
+Display an error message when commentlink regex is invalid.
++
+If a commentlink was configured with an invalid regular expression, for example
+an expression that is valid in Java but not in JavaScript, the change screen
+failed to load.
++
+Now, an error message will be displayed in the UI.
 
 ssh
 ---

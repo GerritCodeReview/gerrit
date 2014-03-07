@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "bc2f85b4_42cff2a1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRelated.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-03-07T11:57:40Z",
+      "side": 1,
+      "message": "This loop is used to retrieve the value of g which is not null only once in the entire loop and store it in static variable  change which is used later in function IncludedInDetail. If we use the below loop to do the same then we don\u0027t get the value of g as its value is null for all the times it loops except 1.Hence, we need to traverse the commit twice. Please let me know if there is better way to get the (not null)value of change.",
+      "parentUuid": "9c71e1c9_b9ddff31",
+      "range": {
+        "startLine": 118,
+        "startChar": 4,
+        "endLine": 119,
+        "endChar": 16
+      },
+      "revId": "8f3b446d69a1de96635ef70beb2cedb3cd7035e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9c71e1c9_f9d37723",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRelated.java",
         "patchSetId": 4
@@ -99,6 +123,24 @@
     },
     {
       "key": {
+        "uuid": "bc2f85b4_82d9fa6a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRelated.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-03-07T11:57:40Z",
+      "side": 1,
+      "message": "Do you mean to use change.getDest.get() here when chamge !\u003d null? But that returns branch only of current change under review and not of related changes. Please correct if I am missing something.",
+      "parentUuid": "fca01d5c_dcd6ad16",
+      "revId": "8f3b446d69a1de96635ef70beb2cedb3cd7035e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fca01d5c_7ce8b9d3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRelated.java",
         "patchSetId": 4
@@ -110,6 +152,24 @@
       "writtenOn": "2014-03-06T22:51:36Z",
       "side": 1,
       "message": "We try to avoid catch Exception",
+      "revId": "8f3b446d69a1de96635ef70beb2cedb3cd7035e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc2f85b4_22d46e30",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRelated.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-03-07T11:57:40Z",
+      "side": 1,
+      "message": "Removing try catch here gives error : Unhandled exception type Exception. Please let me know how it can be handled after removing catch.",
+      "parentUuid": "fca01d5c_7ce8b9d3",
       "revId": "8f3b446d69a1de96635ef70beb2cedb3cd7035e1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

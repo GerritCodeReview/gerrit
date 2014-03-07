@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "dc627923_b3ec5836",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-07T23:24:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc657d2a_34d9509b",
+      "range": {
+        "startLine": 14,
+        "startChar": 30,
+        "endLine": 14,
+        "endChar": 36
+      },
+      "revId": "36f3db272dd8973fe135d383dc9e54edaa5d1ffa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fc657d2a_14ded482",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Mergeable.java",
         "patchSetId": 1
@@ -59,6 +83,30 @@
       "writtenOn": "2014-03-07T23:10:57Z",
       "side": 1,
       "message": "Missing \"return c\"?",
+      "range": {
+        "startLine": 188,
+        "startChar": 0,
+        "endLine": 188,
+        "endChar": 53
+      },
+      "revId": "36f3db272dd8973fe135d383dc9e54edaa5d1ffa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc657d2a_74e3c846",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Mergeable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-07T23:24:27Z",
+      "side": 1,
+      "message": "Done. Unit tests actually caught this by failing in weird unexpected ways.",
+      "parentUuid": "fc657d2a_14ded482",
       "range": {
         "startLine": 188,
         "startChar": 0,
@@ -94,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "fc657d2a_54e84c21",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Mergeable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-07T23:24:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c697106_35d9509b",
+      "range": {
+        "startLine": 185,
+        "startChar": 11,
+        "endLine": 189,
+        "endChar": 13
+      },
+      "revId": "36f3db272dd8973fe135d383dc9e54edaa5d1ffa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3c6c7514_76e3d046",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Mergeable.java",
         "patchSetId": 1
@@ -105,6 +177,30 @@
       "writtenOn": "2014-03-07T23:04:39Z",
       "side": 1,
       "message": "Always returning null?",
+      "range": {
+        "startLine": 190,
+        "startChar": 12,
+        "endLine": 190,
+        "endChar": 24
+      },
+      "revId": "36f3db272dd8973fe135d383dc9e54edaa5d1ffa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc657d2a_b4ec4036",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Mergeable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-07T23:24:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c6c7514_76e3d046",
       "range": {
         "startLine": 190,
         "startChar": 12,

@@ -34,7 +34,7 @@ import java.lang.reflect.ParameterizedType;
 import java.util.Map;
 import java.util.Set;
 
-class AutoRegisterScript {
+public class AutoRegisterScript {
   private final String pluginName;
   private final PluginGuiceEnvironment env;
   private final ModuleGenerator sshGen;
@@ -48,7 +48,7 @@ class AutoRegisterScript {
   Module sshModule;
   Module httpModule;
 
-  AutoRegisterScript(ScriptingPlugin scriptPlugin) {
+  public AutoRegisterScript(ScriptingPlugin scriptPlugin) {
     this.scriptPlugin = scriptPlugin;
     this.pluginName = scriptPlugin.getName();
     this.env = scriptPlugin.getGuiceEnvironment();
@@ -64,7 +64,7 @@ class AutoRegisterScript {
     }
   }
 
-  void registerFinal() throws InvalidPluginException {
+  public void registerFinal() throws InvalidPluginException {
     if (!sysSingletons.isEmpty() || !sysListen.isEmpty()) {
       sysModule = makeSystemModule();
       scriptPlugin.setSysInjector(Guice.createInjector(env.getSysModule(),
@@ -107,7 +107,7 @@ class AutoRegisterScript {
     };
   }
 
-  boolean scan(Class<?> scriptClass) throws InvalidPluginException {
+  public boolean scan(Class<?> scriptClass) throws InvalidPluginException {
     return export(scriptClass) || listen(scriptClass);
   }
 
@@ -208,3 +208,4 @@ class AutoRegisterScript {
     return listened;
   }
 }
+

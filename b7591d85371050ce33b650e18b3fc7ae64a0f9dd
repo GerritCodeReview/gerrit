@@ -58,6 +58,24 @@
       "revId": "b7591d85371050ce33b650e18b3fc7ae64a0f9dd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fca01d5c_dc246d96",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ConfigInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-03-07T03:03:35Z",
+      "side": 1,
+      "message": "I don\u0027t think it is possible by far, Javascript supported regular expressions is not same as that of java, I think that is why Gwt compile it on web side.\ncorrect me if I am wrong.\n\nplease review patchset 5, now the config is:\n\n[commentlink \"dms\"]\n      match \u003d ((?\u003c!https?://[^\\\\s]{1,2000})DMS\\\\d{8})\n\nin debug mode the error message will show :\n\n(SyntaxError) @com.google.gwt.regexp.shared.RegExp::compile(Ljava/lang/String;)([string: \u0027((?\u003c!https?://[^\\s]{1,2000})DMS\\d{8})\u0027]): Invalid regular expression: /((?\u003c!https?://[^\\s]{1,2000})DMS\\d{8})/: Invalid group\n\n\ndeploy war and run, the error message will show: \n\n(SyntaxError) stack: SyntaxError: Invalid regular expression: /((?\u003c!https?://[^\\s]{1,2000})DMS\\d{8})/: Invalid group at new RegExp (native)\n\nI think it is short and enough.",
+      "parentUuid": "fca01d5c_5c113d38",
+      "revId": "b7591d85371050ce33b650e18b3fc7ae64a0f9dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

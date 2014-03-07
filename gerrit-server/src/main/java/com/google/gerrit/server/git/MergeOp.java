@@ -249,11 +249,14 @@ public class MergeOp {
           }
           final SubmitStrategy strategy = createStrategy(submitType);
           preMerge(strategy, toMerge.get(submitType));
-          updateBranch(strategy, branchUpdate);
+          RefUpdate update = updateBranch(strategy, branchUpdate);
           reopen = true;
 
           updateChangeStatus(toSubmit.get(submitType));
           updateSubscriptions(toSubmit.get(submitType));
+          if (update != null) {
+            fireRefUpdated(update);
+          }
 
           for (final Iterator<CodeReviewCommit> it =
               potentiallyStillSubmittable.iterator(); it.hasNext();) {
@@ -580,11 +583,11 @@ public class MergeOp {
     return r.type;
   }
 
-  private void updateBranch(final SubmitStrategy strategy,
+  private RefUpdate updateBranch(final SubmitStrategy strategy,
       final RefUpdate branchUpdate) throws MergeException {
     if ((branchTip == null && mergeTip == null) || branchTip == mergeTip) {
       // nothing to do
-      return;
+      return null;
     }
 
     if (mergeTip != null && (branchTip == null || branchTip != mergeTip)) {
@@ -623,16 +626,7 @@ public class MergeOp {
                   destProject.getProject().getDescription());
             }
 
-            gitRefUpdated.fire(destBranch.getParentKey(), branchUpdate);
-
-            Account account = null;
-            PatchSetApproval submitter = approvalsUtil.getSubmitter(
-                db, mergeTip.notes(), mergeTip.getPatchsetId());
-            if (submitter != null) {
-              account = accountCache.get(submitter.getAccountId()).getAccount();
-            }
-            hooks.doRefUpdatedHook(destBranch, branchUpdate, account);
-            break;
+            return branchUpdate;
 
           case LOCK_FAILURE:
             String msg;
@@ -650,7 +644,21 @@ public class MergeOp {
       } catch (IOException e) {
         throw new MergeException("Cannot update " + branchUpdate.getName(), e);
       }
+    } else {
+      return null;
     }
+  }
+
+  private void fireRefUpdated(RefUpdate branchUpdate) {
+    gitRefUpdated.fire(destBranch.getParentKey(), branchUpdate);
+
+    Account account = null;
+    PatchSetApproval submitter = approvalsUtil.getSubmitter(
+        db, mergeTip.notes(), mergeTip.getPatchsetId());
+    if (submitter != null) {
+      account = accountCache.get(submitter.getAccountId()).getAccount();
+    }
+    hooks.doRefUpdatedHook(destBranch, branchUpdate, account);
   }
 
   private void updateChangeStatus(final List<Change> submitted) {

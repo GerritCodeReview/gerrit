@@ -241,23 +241,29 @@ public class CherryPickChange {
           change.getDest().getParentKey().get(), ru.getResult()));
     }
 
-    ins.setMessage(buildChangeMessage(patchSetId, change)).insert();
+    ins.setMessage(buildChangeMessage(patchSetId, change, cherryPickCommit))
+        .insert();
 
     return change.getId();
   }
 
-  private ChangeMessage buildChangeMessage(PatchSet.Id patchSetId, Change dest)
-      throws OrmException {
+  private ChangeMessage buildChangeMessage(PatchSet.Id patchSetId, Change dest,
+      RevCommit cherryPickCommit) throws OrmException {
     ChangeMessage cmsg = new ChangeMessage(
         new ChangeMessage.Key(
             patchSetId.getParentKey(), ChangeUtil.messageUUID(db)),
         currentUser.getAccountId(), TimeUtil.nowTs(), patchSetId);
-    StringBuilder msgBuf =
-        new StringBuilder("Patch Set " + patchSetId.get()
-            + ": Cherry Picked");
+    StringBuilder msgBuf = new StringBuilder("Patch Set ");
+    msgBuf.append(patchSetId.get());
+    msgBuf.append(": Cherry Picked");
     msgBuf.append("\n\n");
-    msgBuf.append("This patchset was cherry picked to change: "
-        + dest.getKey().get());
+    msgBuf.append("This patchset was cherry picked to branch ");
+
+    String destBranchName = dest.getDest().get();
+    msgBuf.append(destBranchName.substring(destBranchName
+        .indexOf("refs/heads/") + "refs/heads/".length()));
+    msgBuf.append(" as commit ");
+    msgBuf.append(cherryPickCommit.getId().getName());
     cmsg.setMessage(msgBuf.toString());
     return cmsg;
   }

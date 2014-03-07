@@ -39,6 +39,29 @@
       "revId": "d4e2ae3d8368866a770c1aaabd5a0108e143bd4a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c439582_9e1b1d86",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-07T09:15:11Z",
+      "side": 1,
+      "message": "Is there any way to also show the sha1 of the new change?\n\nI.e. \"This patchset was cherry picked to branch refs/heads/stable as abc123a....\"",
+      "range": {
+        "startLine": 260,
+        "startChar": 10,
+        "endLine": 260,
+        "endChar": 32
+      },
+      "revId": "d4e2ae3d8368866a770c1aaabd5a0108e143bd4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

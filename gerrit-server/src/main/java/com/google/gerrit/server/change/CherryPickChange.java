@@ -256,8 +256,8 @@ public class CherryPickChange {
         new StringBuilder("Patch Set " + patchSetId.get()
             + ": Cherry Picked");
     msgBuf.append("\n\n");
-    msgBuf.append("This patchset was cherry picked to change: "
-        + dest.getKey().get());
+    msgBuf.append("This patchset was cherry picked to branch: "
+        + dest.getDest().get());
     cmsg.setMessage(msgBuf.toString());
     return cmsg;
   }

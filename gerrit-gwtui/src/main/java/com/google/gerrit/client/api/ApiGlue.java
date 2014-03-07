@@ -46,7 +46,10 @@ public class ApiGlue {
       getPluginName: @com.google.gerrit.client.api.ApiGlue::getPluginName(),
       install: function (f) {
         var p = this._getPluginByUrl(@com.google.gerrit.client.api.PluginName::getCallerUrl()());
-        @com.google.gerrit.client.api.ApiGlue::install(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gerrit/client/api/Plugin;)(f,p);
+        @com.google.gerrit.client.api.ApiGlue::install(
+            Lcom/google/gwt/core/client/JavaScriptObject;
+            Lcom/google/gerrit/client/api/Plugin;)
+          (f,p);
       },
       installGwt: function(u){return this._getPluginByUrl(u)},
       _getPluginByUrl: function(u) {
@@ -80,26 +83,64 @@ public class ApiGlue {
         return serverUrl;
       },
 
-      _api: function(u) {return @com.google.gerrit.client.rpc.RestApi::new(Ljava/lang/String;)(u)},
-      get: function(u,b){@com.google.gerrit.client.api.ActionContext::get(Lcom/google/gerrit/client/rpc/RestApi;Lcom/google/gwt/core/client/JavaScriptObject;)(this._api(u),b)},
-      post: function(u,i,b){
-        if (typeof i=='string')
-          @com.google.gerrit.client.api.ActionContext::post(Lcom/google/gerrit/client/rpc/RestApi;Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)(this._api(u),i,b);
-        else
-          @com.google.gerrit.client.api.ActionContext::post(Lcom/google/gerrit/client/rpc/RestApi;Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;)(this._api(u),i,b);
+      _api: function(u) {
+        return @com.google.gerrit.client.rpc.RestApi::new(Ljava/lang/String;)(u);
       },
-      put: function(u,i,b){
-        if(b){
-          if(typeof i=='string')
-            @com.google.gerrit.client.api.ActionContext::put(Lcom/google/gerrit/client/rpc/RestApi;Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)(this._api(u),i,b);
-          else
-            @com.google.gerrit.client.api.ActionContext::put(Lcom/google/gerrit/client/rpc/RestApi;Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;)(this._api(u),i,b);
-        }else{
-          @com.google.gerrit.client.api.ActionContext::put(Lcom/google/gerrit/client/rpc/RestApi;Lcom/google/gwt/core/client/JavaScriptObject;)(this._api(u),i)
+      get: function(u,b) {
+        @com.google.gerrit.client.api.ActionContext::get(
+            Lcom/google/gerrit/client/rpc/RestApi;
+            Lcom/google/gwt/core/client/JavaScriptObject;)
+          (this._api(u), b);
+      },
+      post: function(u,i,b) {
+        if (typeof i == 'string') {
+          @com.google.gerrit.client.api.ActionContext::post(
+              Lcom/google/gerrit/client/rpc/RestApi;
+              Ljava/lang/String;
+              Lcom/google/gwt/core/client/JavaScriptObject;)
+            (this._api(u), i, b);
+        } else {
+          @com.google.gerrit.client.api.ActionContext::post(
+              Lcom/google/gerrit/client/rpc/RestApi;
+              Lcom/google/gwt/core/client/JavaScriptObject;
+              Lcom/google/gwt/core/client/JavaScriptObject;)
+            (this._api(u), i, b);
         }
       },
-      'delete': function(u,b){@com.google.gerrit.client.api.ActionContext::delete(Lcom/google/gerrit/client/rpc/RestApi;Lcom/google/gwt/core/client/JavaScriptObject;)(this._api(u),b)},
-      del: function(u,b){@com.google.gerrit.client.api.ActionContext::delete(Lcom/google/gerrit/client/rpc/RestApi;Lcom/google/gwt/core/client/JavaScriptObject;)(this._api(u),b)},
+      put: function(u,i,b) {
+        if (b) {
+          if (typeof i == 'string') {
+            @com.google.gerrit.client.api.ActionContext::put(
+                Lcom/google/gerrit/client/rpc/RestApi;
+                Ljava/lang/String;
+                Lcom/google/gwt/core/client/JavaScriptObject;)
+              (this._api(u), i, b);
+          } else {
+            @com.google.gerrit.client.api.ActionContext::put(
+                Lcom/google/gerrit/client/rpc/RestApi;
+                Lcom/google/gwt/core/client/JavaScriptObject;
+                Lcom/google/gwt/core/client/JavaScriptObject;)
+              (this._api(u), i, b);
+          }
+        } else {
+          @com.google.gerrit.client.api.ActionContext::put(
+              Lcom/google/gerrit/client/rpc/RestApi;
+              Lcom/google/gwt/core/client/JavaScriptObject;)
+            (this._api(u), i);
+        }
+      },
+      'delete': function(u,b) {
+        @com.google.gerrit.client.api.ActionContext::delete(
+            Lcom/google/gerrit/client/rpc/RestApi;
+            Lcom/google/gwt/core/client/JavaScriptObject;)
+          (this._api(u), b);
+      },
+      del: function(u,b) {
+        @com.google.gerrit.client.api.ActionContext::delete(
+            Lcom/google/gerrit/client/rpc/RestApi;
+            Lcom/google/gwt/core/client/JavaScriptObject;)
+          (this._api(u), b);
+      },
     };
   }-*/;
 

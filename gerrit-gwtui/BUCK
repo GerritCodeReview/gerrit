@@ -71,7 +71,6 @@ gwt_module(
   compile_deps = [
     ':diffy_logo',
     '//gerrit-gwtexpui:CSS',
-    '//gerrit-gwtexpui:Linker',
     '//lib:gwtjsonrpc',
     '//lib:gwtjsonrpc_src',
     '//lib:gwtorm',

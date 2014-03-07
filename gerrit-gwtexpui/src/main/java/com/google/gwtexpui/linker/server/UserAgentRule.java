@@ -28,7 +28,7 @@ import javax.servlet.http.HttpServletRequest;
  * <p>
  * Ported from JavaScript in {@code com.google.gwt.user.UserAgent.gwt.xml}.
  */
-public class UserAgentRule implements Rule {
+public class UserAgentRule {
   private static final Pattern msie = compile(".*msie ([0-9]+)\\.([0-9]+).*");
   private static final Pattern gecko = compile(".*rv:([0-9]+)\\.([0-9]+).*");
 
@@ -36,7 +36,6 @@ public class UserAgentRule implements Rule {
     return "user.agent";
   }
 
-  @Override
   public String select(HttpServletRequest req) {
     String ua = req.getHeader("User-Agent");
     if (ua == null) {

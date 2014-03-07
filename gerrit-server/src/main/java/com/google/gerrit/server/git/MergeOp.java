@@ -249,11 +249,14 @@ public class MergeOp {
           }
           final SubmitStrategy strategy = createStrategy(submitType);
           preMerge(strategy, toMerge.get(submitType));
-          updateBranch(strategy, branchUpdate);
+          RefUpdate update = updateBranch(strategy, branchUpdate);
           reopen = true;
 
           updateChangeStatus(toSubmit.get(submitType));
           updateSubscriptions(toSubmit.get(submitType));
+          if (update != null) {
+            fireRefUpdated(update);
+          }
 
           for (final Iterator<CodeReviewCommit> it =
               potentiallyStillSubmittable.iterator(); it.hasNext();) {
@@ -580,77 +583,78 @@ public class MergeOp {
     return r.type;
   }
 
-  private void updateBranch(final SubmitStrategy strategy,
+  private RefUpdate updateBranch(final SubmitStrategy strategy,
       final RefUpdate branchUpdate) throws MergeException {
-    if ((branchTip == null && mergeTip == null) || branchTip == mergeTip) {
+    if (branchTip == mergeTip || mergeTip == null) {
       // nothing to do
-      return;
+      return null;
     }
 
-    if (mergeTip != null && (branchTip == null || branchTip != mergeTip)) {
-      if (RefNames.REFS_CONFIG.equals(branchUpdate.getName())) {
-        try {
-          ProjectConfig cfg =
-              new ProjectConfig(destProject.getProject().getNameKey());
-          cfg.load(repo, mergeTip);
-        } catch (Exception e) {
-          throw new MergeException("Submit would store invalid"
-              + " project configuration " + mergeTip.name() + " for "
-              + destProject.getProject().getName(), e);
-        }
-      }
-
-      branchUpdate.setRefLogIdent(refLogIdent);
-      branchUpdate.setForceUpdate(false);
-      branchUpdate.setNewObjectId(mergeTip);
-      branchUpdate.setRefLogMessage("merged", true);
+    if (RefNames.REFS_CONFIG.equals(branchUpdate.getName())) {
       try {
-        switch (branchUpdate.update(rw)) {
-          case NEW:
-          case FAST_FORWARD:
-            if (branchUpdate.getResult() == RefUpdate.Result.FAST_FORWARD) {
-              tagCache.updateFastForward(destBranch.getParentKey(),
-                  branchUpdate.getName(),
-                  branchUpdate.getOldObjectId(),
-                  mergeTip);
-            }
-
-            if (RefNames.REFS_CONFIG.equals(branchUpdate.getName())) {
-              projectCache.evict(destProject.getProject());
-              destProject = projectCache.get(destProject.getProject().getNameKey());
-              repoManager.setProjectDescription(
-                  destProject.getProject().getNameKey(),
-                  destProject.getProject().getDescription());
-            }
-
-            gitRefUpdated.fire(destBranch.getParentKey(), branchUpdate);
-
-            Account account = null;
-            PatchSetApproval submitter = approvalsUtil.getSubmitter(
-                db, mergeTip.notes(), mergeTip.getPatchsetId());
-            if (submitter != null) {
-              account = accountCache.get(submitter.getAccountId()).getAccount();
-            }
-            hooks.doRefUpdatedHook(destBranch, branchUpdate, account);
-            break;
-
-          case LOCK_FAILURE:
-            String msg;
-            if (strategy.retryOnLockFailure()) {
-              mergeQueue.recheckAfter(destBranch, LOCK_FAILURE_RETRY_DELAY,
-                  MILLISECONDS);
-              msg = "will retry";
-            } else {
-              msg = "will not retry";
-            }
-            throw new IOException(branchUpdate.getResult().name() + ", " + msg);
-          default:
-            throw new IOException(branchUpdate.getResult().name());
-        }
-      } catch (IOException e) {
-        throw new MergeException("Cannot update " + branchUpdate.getName(), e);
+        ProjectConfig cfg =
+            new ProjectConfig(destProject.getProject().getNameKey());
+        cfg.load(repo, mergeTip);
+      } catch (Exception e) {
+        throw new MergeException("Submit would store invalid"
+            + " project configuration " + mergeTip.name() + " for "
+            + destProject.getProject().getName(), e);
       }
     }
+
+    branchUpdate.setRefLogIdent(refLogIdent);
+    branchUpdate.setForceUpdate(false);
+    branchUpdate.setNewObjectId(mergeTip);
+    branchUpdate.setRefLogMessage("merged", true);
+    try {
+      switch (branchUpdate.update(rw)) {
+        case NEW:
+        case FAST_FORWARD:
+          if (branchUpdate.getResult() == RefUpdate.Result.FAST_FORWARD) {
+            tagCache.updateFastForward(destBranch.getParentKey(),
+                branchUpdate.getName(),
+                branchUpdate.getOldObjectId(),
+                mergeTip);
+          }
+
+          if (RefNames.REFS_CONFIG.equals(branchUpdate.getName())) {
+            projectCache.evict(destProject.getProject());
+            destProject = projectCache.get(destProject.getProject().getNameKey());
+            repoManager.setProjectDescription(
+                destProject.getProject().getNameKey(),
+                destProject.getProject().getDescription());
+          }
+
+          return branchUpdate;
+
+        case LOCK_FAILURE:
+          String msg;
+          if (strategy.retryOnLockFailure()) {
+            mergeQueue.recheckAfter(destBranch, LOCK_FAILURE_RETRY_DELAY,
+                MILLISECONDS);
+            msg = "will retry";
+          } else {
+            msg = "will not retry";
+          }
+          throw new IOException(branchUpdate.getResult().name() + ", " + msg);
+        default:
+          throw new IOException(branchUpdate.getResult().name());
+      }
+    } catch (IOException e) {
+      throw new MergeException("Cannot update " + branchUpdate.getName(), e);
+    }
+  }
+
+  private void fireRefUpdated(RefUpdate branchUpdate) {
+    gitRefUpdated.fire(destBranch.getParentKey(), branchUpdate);
+
+    Account account = null;
+    PatchSetApproval submitter = approvalsUtil.getSubmitter(
+        db, mergeTip.notes(), mergeTip.getPatchsetId());
+    if (submitter != null) {
+      account = accountCache.get(submitter.getAccountId()).getAccount();
+    }
+    hooks.doRefUpdatedHook(destBranch, branchUpdate, account);
   }
 
   private void updateChangeStatus(final List<Change> submitted) {

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c6c7514_16dedc82",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-03-07T23:04:39Z",
+      "side": 1,
+      "message": "s/stauts/status",
+      "range": {
+        "startLine": 14,
+        "startChar": 30,
+        "endLine": 14,
+        "endChar": 36
+      },
+      "revId": "36f3db272dd8973fe135d383dc9e54edaa5d1ffa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c697106_35d9509b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Mergeable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-03-07T23:04:39Z",
+      "side": 1,
+      "message": "indention seems to be wrong",
+      "range": {
+        "startLine": 185,
+        "startChar": 11,
+        "endLine": 189,
+        "endChar": 13
+      },
+      "revId": "36f3db272dd8973fe135d383dc9e54edaa5d1ffa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c6c7514_76e3d046",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Mergeable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-03-07T23:04:39Z",
+      "side": 1,
+      "message": "Always returning null?",
+      "range": {
+        "startLine": 190,
+        "startChar": 12,
+        "endLine": 190,
+        "endChar": 24
+      },
+      "revId": "36f3db272dd8973fe135d383dc9e54edaa5d1ffa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

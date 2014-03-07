@@ -111,18 +111,29 @@ class DependencyResolver {
     return g;
   }
 
-  private static String getDependencies(File srcFile) throws IOException {
-    String fileName = srcFile.getName();
+  private static String getDependencies(File f) throws IOException {
+    String fileName = f.getName();
     if (PluginLoader.isJarPlugin(fileName)) {
-      JarFile jarFile = new JarFile(srcFile);
+      JarFile jarFile = new JarFile(f);
       try {
         return jarFile.getManifest().getMainAttributes()
             .getValue("Gerrit-Dependencies");
       } finally {
         jarFile.close();
       }
+    } else {
+      // TODO(davido): externalize this mapping to some better place
+      String extension = PluginLoader.getExtension(f);
+      switch(extension) {
+        case ".groovy":
+        case ".gvy":
+        case ".gy":
+        case ".gsh":
+          return "groovy-provider";
+        default:
+          return null;
+      }
     }
-    return null;
   }
 
   private DependencyResolver() {}

@@ -510,7 +510,7 @@ public class PluginLoader implements LifecycleListener {
     return 0 < ext ? name.substring(0, ext) : name;
   }
 
-  private static String getExtension(File file) {
+  static String getExtension(File file) {
     return getExtension(file.getName());
   }
 
@@ -782,7 +782,7 @@ public class PluginLoader implements LifecycleListener {
   }
 
   private static boolean isScriptingPlugin(String name) {
-    String ext = StringUtils.substringAfterLast(name,".");
+    String ext = StringUtils.substringAfterLast(name, ".");
     return isPlugin(name, ext);
   }
 

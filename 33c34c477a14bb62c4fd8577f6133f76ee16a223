@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9cbf218c_095e292a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/Dependency.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-03-07T07:57:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fca01d5c_5c0a9df2",
+      "range": {
+        "startLine": 20,
+        "startChar": 6,
+        "endLine": 20,
+        "endChar": 16
+      },
+      "revId": "33c34c477a14bb62c4fd8577f6133f76ee16a223",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fca01d5c_9ce025e7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/Dependency.java",
         "patchSetId": 15
@@ -36,6 +60,30 @@
       "writtenOn": "2014-03-06T23:18:57Z",
       "side": 1,
       "message": "final?",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 20
+      },
+      "revId": "33c34c477a14bb62c4fd8577f6133f76ee16a223",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9cbf218c_2963edee",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/Dependency.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-03-07T07:57:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fca01d5c_9ce025e7",
       "range": {
         "startLine": 21,
         "startChar": 0,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "9cbf218c_c977b1a5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/Dependency.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-03-07T07:57:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fca01d5c_7c0f5901",
+      "range": {
+        "startLine": 25,
+        "startChar": 31,
+        "endLine": 25,
+        "endChar": 43
+      },
+      "revId": "33c34c477a14bb62c4fd8577f6133f76ee16a223",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9c71e1c9_d9fd5388",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/DependencyResolver.java",
         "patchSetId": 15
@@ -82,6 +154,24 @@
       "writtenOn": "2014-03-06T23:18:57Z",
       "side": 1,
       "message": "private?",
+      "revId": "33c34c477a14bb62c4fd8577f6133f76ee16a223",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9cbf218c_e974f5a2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/DependencyResolver.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-03-07T07:57:46Z",
+      "side": 1,
+      "message": "Removed and use now logger from PluginLoader, like in all other places related to plugin loading.",
+      "parentUuid": "9c71e1c9_d9fd5388",
       "revId": "33c34c477a14bb62c4fd8577f6133f76ee16a223",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -105,6 +195,24 @@
     },
     {
       "key": {
+        "uuid": "bc2f85b4_a28d1e6e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/DependencyResolver.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-03-07T07:57:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9c71e1c9_99f7dba4",
+      "revId": "33c34c477a14bb62c4fd8577f6133f76ee16a223",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9c71e1c9_59b5c3d0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/DependencyResolver.java",
         "patchSetId": 15
@@ -116,6 +224,30 @@
       "writtenOn": "2014-03-06T23:18:57Z",
       "side": 1,
       "message": "It should be simpler to just write the edges in the other direction into the DAG.\n\nCreate the edge from the parent to the child. Then the standard topological sorting will produce the parent first, which is the startup ordering.",
+      "range": {
+        "startLine": 46,
+        "startChar": 2,
+        "endLine": 47,
+        "endChar": 65
+      },
+      "revId": "33c34c477a14bb62c4fd8577f6133f76ee16a223",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9cbf218c_8971b9b1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/DependencyResolver.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-03-07T07:57:46Z",
+      "side": 1,
+      "message": "Yes, this was my first thought and implementation. Then i thought about it once time again and was worried about readability and maintanence of hidden reversed ordering of direction of edges and decided to comment it why the direction was reversed during DAG construction. In the next thought i decided to preserve direction and reverse the topological sort ordering.\n\nAnd i seems to be not the only one who did it this way [1]. Unless you insist to change it i would prefer to let it this way.\n\n[1] https://github.com/decebals/pf4j/blob/master/pf4j/src/main/java/ro/fortsoft/pf4j/DependencyResolver.java#L55",
+      "parentUuid": "9c71e1c9_59b5c3d0",
       "range": {
         "startLine": 46,
         "startChar": 2,
@@ -151,6 +283,30 @@
     },
     {
       "key": {
+        "uuid": "bc2f85b4_029b2aa6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/DependencyResolver.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-03-07T07:57:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9c71e1c9_19bf4bb3",
+      "range": {
+        "startLine": 69,
+        "startChar": 18,
+        "endLine": 69,
+        "endChar": 45
+      },
+      "revId": "33c34c477a14bb62c4fd8577f6133f76ee16a223",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9c71e1c9_79ba07c4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/DependencyResolver.java",
         "patchSetId": 15
@@ -162,6 +318,30 @@
       "writtenOn": "2014-03-06T23:18:57Z",
       "side": 1,
       "message": "So one plugin with multiple deps stops the entire loading process?",
+      "range": {
+        "startLine": 67,
+        "startChar": 12,
+        "endLine": 71,
+        "endChar": 13
+      },
+      "revId": "33c34c477a14bb62c4fd8577f6133f76ee16a223",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc2f85b4_e2972676",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/DependencyResolver.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-03-07T07:57:46Z",
+      "side": 1,
+      "message": "This particular place is never going to happen. As mention in PluginLoader.java i am working on MultiParentClassLoader feature and it is almost ready.",
+      "parentUuid": "9c71e1c9_79ba07c4",
       "range": {
         "startLine": 67,
         "startChar": 12,
@@ -197,6 +377,30 @@
     },
     {
       "key": {
+        "uuid": "bc2f85b4_426412f8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/DependencyResolver.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-03-07T07:57:46Z",
+      "side": 1,
+      "message": "Eliminating cycles in directed graph to obtain a DAG is \nNP-hard problem [1]. But even when we resolve the cycle(s), the probability is very high, that the plugins cannot be loaded anyway.\n\n* [1] http://en.wikipedia.org/wiki/Feedback_arc_set",
+      "parentUuid": "fca01d5c_bcf401a0",
+      "range": {
+        "startLine": 84,
+        "startChar": 6,
+        "endLine": 85,
+        "endChar": 49
+      },
+      "revId": "33c34c477a14bb62c4fd8577f6133f76ee16a223",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9c71e1c9_b9f41fa0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/DependencyResolver.java",
         "patchSetId": 15
@@ -220,6 +424,30 @@
     },
     {
       "key": {
+        "uuid": "9cbf218c_a96efdd0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/DependencyResolver.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-03-07T07:57:46Z",
+      "side": 1,
+      "message": "Switched to warning instead:\n\n WARN  com.google.gerrit.server.plugins.PluginLoader : \n Missing dependency: plugin cookbook depends on foo that doesn\u0027t exist\n\nDone",
+      "parentUuid": "9c71e1c9_b9f41fa0",
+      "range": {
+        "startLine": 99,
+        "startChar": 8,
+        "endLine": 105,
+        "endChar": 9
+      },
+      "revId": "33c34c477a14bb62c4fd8577f6133f76ee16a223",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9c71e1c9_790f6701",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
         "patchSetId": 15
@@ -231,6 +459,30 @@
       "writtenOn": "2014-03-06T23:18:57Z",
       "side": 1,
       "message": "This is misleading. \"dependentPlugin\" would be a plugin that requires the current plugin to function.\n\nA better name would be parentPlugin.",
+      "range": {
+        "startLine": 577,
+        "startChar": 15,
+        "endLine": 577,
+        "endChar": 30
+      },
+      "revId": "33c34c477a14bb62c4fd8577f6133f76ee16a223",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc2f85b4_c2902284",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 577,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-03-07T07:57:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9c71e1c9_790f6701",
       "range": {
         "startLine": 577,
         "startChar": 15,

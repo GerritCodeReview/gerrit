@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5c3e89eb_bf137775",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-07T09:12:45Z",
+      "side": 1,
+      "message": "Note that this will show the entire branch name like \"ref/heads/stable\".",
+      "revId": "d4e2ae3d8368866a770c1aaabd5a0108e143bd4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c439582_be1ed975",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-07T09:12:45Z",
+      "side": 1,
+      "message": "These append calls can be chained on to the initial new(), rather than using several statements.  Also it\u0027s better to use .append() throughout, rather than concatenating with `+`.\n\n StringBuild msgBuf \u003d \n   new StringBuilder(\"Patch Set \")\n     .append(patchSetId.get())\n     .append(\": Cherry Picked\")\n     .append(\"\\n\\n\")\n     .append(\"This patchset was cherry picked to branch: \")\n     .append(dest.getDest().get());",
+      "range": {
+        "startLine": 258,
+        "startChar": 4,
+        "endLine": 260,
+        "endChar": 32
+      },
+      "revId": "d4e2ae3d8368866a770c1aaabd5a0108e143bd4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

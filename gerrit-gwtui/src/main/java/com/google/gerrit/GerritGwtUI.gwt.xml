@@ -21,7 +21,6 @@
   <inherits name='com.google.gwtexpui.clippy.Clippy'/>
   <inherits name='com.google.gwtexpui.css.CSS'/>
   <inherits name='com.google.gwtexpui.globalkey.GlobalKey'/>
-  <inherits name='com.google.gwtexpui.linker.ServerPlannedIFrameLinker'/>
   <inherits name='com.google.gwtexpui.progress.Progress'/>
   <inherits name='com.google.gwtexpui.safehtml.SafeHtml'/>
   <inherits name='com.google.gerrit.extensions.Extensions'/>
@@ -37,6 +36,7 @@
   <set-property name='locale' value='en'/>
   <set-configuration-property name='UiBinder.useSafeHtmlTemplates' value='true'/>
   <set-configuration-property name='CssResource.style' value='stable'/>
+  <add-linker name='xsiframe'/>
 
   <set-property name='gwt.logging.logLevel' value='SEVERE'/>
   <set-property name='gwt.logging.popupHandler' value='DISABLED'/>

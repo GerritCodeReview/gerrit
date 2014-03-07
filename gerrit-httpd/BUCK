@@ -12,7 +12,6 @@ java_library2(
     '//gerrit-common:annotations',
     '//gerrit-common:server',
     '//gerrit-extension-api:api',
-    '//gerrit-gwtexpui:linker_server',
     '//gerrit-gwtexpui:server',
     '//gerrit-patch-jgit:server',
     '//gerrit-prettify:server',

@@ -31,8 +31,6 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gwtexpui.linker.server.Permutation;
-import com.google.gwtexpui.linker.server.PermutationSelector;
 import com.google.gwtexpui.server.CacheHeaders;
 import com.google.gwtjsonrpc.server.JsonServlet;
 import com.google.gwtjsonrpc.server.RPCServletUtils;
@@ -54,9 +52,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.StringWriter;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -83,7 +79,6 @@ public class HostPageServlet extends HttpServlet {
   private final SitePaths site;
   private final Document template;
   private final String noCacheName;
-  private final PermutationSelector selector;
   private final boolean refreshHeaderFooter;
   private final StaticServlet staticServlet;
   private volatile Page page;
@@ -107,7 +102,6 @@ public class HostPageServlet extends HttpServlet {
     site = sp;
     refreshHeaderFooter = cfg.getBoolean("site", "refreshHeaderFooter", true);
     staticServlet = ss;
-    boolean checkUserAgent = cfg.getBoolean("site", "checkUserAgent", true);
 
     final String pageName = "HostPage.html";
     template = HtmlDomUtil.parseFile(getClass(), pageName);
@@ -152,10 +146,6 @@ public class HostPageServlet extends HttpServlet {
     }
 
     noCacheName = src;
-    selector = new PermutationSelector("gerrit_ui");
-    if (checkUserAgent && !IS_DEV) {
-      selector.init(servletContext);
-    }
     page = new Page();
   }
 
@@ -268,13 +258,8 @@ public class HostPageServlet extends HttpServlet {
     Page pg = get();
     if ("1".equals(req.getParameter("dbg"))) {
       return pg.debug;
-    } else if ("0".equals(req.getParameter("s"))) {
-      // If s=0 is used in the URL, the user has explicitly asked us
-      // to not perform selection on the server side, perhaps due to
-      // it incorrectly guessing their user agent.
-      return pg.get(null);
     }
-    return pg.get(selector.select(req));
+    return pg.opt;
   }
 
   private void insertETags(Element e) {
@@ -315,7 +300,7 @@ public class HostPageServlet extends HttpServlet {
     private final FileInfo css;
     private final FileInfo header;
     private final FileInfo footer;
-    private final Map<Permutation, Content> permutations;
+    private final Content opt;
     private final Content debug;
 
     Page() throws IOException {
@@ -339,31 +324,14 @@ public class HostPageServlet extends HttpServlet {
       data.appendChild(hostDoc.createTextNode(w.toString()));
       data.appendChild(hostDoc.createComment(HPD_ID));
 
-      permutations = new HashMap<Permutation, Content>();
-      for (Permutation p : selector.getPermutations()) {
-        final Document d = HtmlDomUtil.clone(hostDoc);
-        Element nocache = HtmlDomUtil.find(d, "gerrit_module");
-        nocache.getParentNode().removeChild(nocache);
-        p.inject(d);
-        permutations.put(p, new Content(d));
-      }
-
       Element nocache = HtmlDomUtil.find(hostDoc, "gerrit_module");
       asScript(nocache);
       nocache.removeAttribute("id");
       nocache.setAttribute("src", noCacheName);
-      permutations.put(null, new Content(hostDoc));
+      opt = new Content(hostDoc);
 
       nocache.setAttribute("src", "gerrit_ui/gerrit_dbg.nocache.js");
       debug = new Content(hostDoc);
-    }
-
-    Content get(Permutation p) {
-      Content c = permutations.get(p);
-      if (c == null) {
-        c = permutations.get(null);
-      }
-      return c;
     }
 
     boolean isStale() {

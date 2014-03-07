@@ -25,6 +25,52 @@
     },
     {
       "key": {
+        "uuid": "fc657d2a_34d9509b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2014-03-07T23:10:57Z",
+      "side": 1,
+      "message": "status",
+      "range": {
+        "startLine": 14,
+        "startChar": 30,
+        "endLine": 14,
+        "endChar": 36
+      },
+      "revId": "36f3db272dd8973fe135d383dc9e54edaa5d1ffa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc657d2a_14ded482",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Mergeable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2014-03-07T23:10:57Z",
+      "side": 1,
+      "message": "Missing \"return c\"?",
+      "range": {
+        "startLine": 188,
+        "startChar": 0,
+        "endLine": 188,
+        "endChar": 53
+      },
+      "revId": "36f3db272dd8973fe135d383dc9e54edaa5d1ffa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c697106_35d9509b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Mergeable.java",
         "patchSetId": 1

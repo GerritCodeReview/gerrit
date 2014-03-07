@@ -30,6 +30,7 @@ import com.google.gerrit.server.git.MergeException;
 import com.google.gerrit.server.git.strategy.SubmitStrategyFactory;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -51,7 +52,6 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
@@ -131,11 +131,11 @@ public class Mergeable implements RestReadView<RevisionResource> {
   }
 
   private boolean refresh(Change change,
-      PatchSet ps,
+      final PatchSet ps,
       Project.SubmitType type,
       Repository git,
       Map<String, Ref> refs,
-      Ref ref) throws IOException, OrmException {
+      final Ref ref) throws IOException, OrmException {
     RevWalk rw = new RevWalk(git) {
       @Override
       protected CodeReviewCommit createCommit(AnyObjectId id) {
@@ -158,7 +158,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
       CodeReviewCommit rev = parse(rw, id);
       rev.add(canMerge);
 
-      boolean mergeable;
+      final boolean mergeable;
       if (ref == null || ref.getObjectId() == null) {
         mergeable = true; // Assume yes on new branch.
       } else {
@@ -177,11 +177,22 @@ public class Mergeable implements RestReadView<RevisionResource> {
             change.getDest()).dryRun(tip, rev);
       }
 
-      Change c = db.get().changes().get(change.getId());
+      Change c = db.get().changes().atomicUpdate(
+        change.getId(),
+        new AtomicUpdate<Change>() {
+          @Override
+          public Change update(Change c) {
+            if (c.getStatus().isOpen()
+                && ps.getId().equals(c.currentPatchSetId())) {
+              c.setMergeable(mergeable);
+              c.setLastSha1MergeTested(toRevId(ref));
+              return c;
+            } else {
+              return null;
+            }
+          }
+        });
       if (c != null) {
-        c.setMergeable(mergeable);
-        c.setLastSha1MergeTested(toRevId(ref));
-        db.get().changes().update(Collections.singleton(c));
         indexer.index(db.get(), c);
       }
       return mergeable;

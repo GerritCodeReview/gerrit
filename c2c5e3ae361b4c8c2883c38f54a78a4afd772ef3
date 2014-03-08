@@ -22,6 +22,23 @@
       "revId": "c2c5e3ae361b4c8c2883c38f54a78a4afd772ef3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c0cc977_eff6e1ff",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/AutoRegisterScript.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-08T05:57:41Z",
+      "side": 1,
+      "message": "I simply don\u0027t understand how this would work in the context of a script file.",
+      "revId": "c2c5e3ae361b4c8c2883c38f54a78a4afd772ef3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

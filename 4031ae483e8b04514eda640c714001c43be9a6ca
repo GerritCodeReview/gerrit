@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5c0cc977_ef0d4154",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/DependencyResolver.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-08T06:18:34Z",
+      "side": 1,
+      "message": "Instead of using DynamicSet\u003cScriptingPlugin.Factory\u003e use DynamicMap. This will give you the plugin name and extension as the binding data. Then you can look in DynamicMap for any plugin that supplied the extension of the file. If you find the entry you know the name of the plugin the script needs to depend on.\n\nI think that makes the more sense. Its still easy for a plugin to register the same factory object instance several times, once for each extension.",
+      "range": {
+        "startLine": 123,
+        "startChar": 0,
+        "endLine": 124,
+        "endChar": 54
+      },
+      "revId": "4031ae483e8b04514eda640c714001c43be9a6ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

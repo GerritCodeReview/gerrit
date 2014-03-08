@@ -1,0 +1,273 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7c07cd52_1030a4ff",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/DependencyResolver.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-08T06:15:12Z",
+      "side": 1,
+      "message": "Skip the variable here:\n\n  PluginLoader.log.warn(String.format(",
+      "range": {
+        "startLine": 78,
+        "startChar": 10,
+        "endLine": 78,
+        "endChar": 37
+      },
+      "revId": "60fdfe6e5d7b6b1ef46377bd7ecd39f043a919a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c0cc977_4fff2dd1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/DependencyResolver.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-08T06:15:12Z",
+      "side": 1,
+      "message": "This broke funny. I would prefer:\n\n  n \u003d Objects.firstNonNull(\n    case1,\n    case2);",
+      "range": {
+        "startLine": 95,
+        "startChar": 6,
+        "endLine": 97,
+        "endChar": 38
+      },
+      "revId": "60fdfe6e5d7b6b1ef46377bd7ecd39f043a919a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c0cc977_af133975",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/DependencyResolver.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-08T06:15:12Z",
+      "side": 1,
+      "message": "We should at least include e.getMessage() here.",
+      "range": {
+        "startLine": 100,
+        "startChar": 6,
+        "endLine": 101,
+        "endChar": 52
+      },
+      "revId": "60fdfe6e5d7b6b1ef46377bd7ecd39f043a919a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c07cd52_9010146a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JarPlugin.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-08T06:15:12Z",
+      "side": 1,
+      "message": "getClassLoader",
+      "range": {
+        "startLine": 99,
+        "startChar": 14,
+        "endLine": 99,
+        "endChar": 28
+      },
+      "revId": "60fdfe6e5d7b6b1ef46377bd7ecd39f043a919a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c0cc977_6ffaf1e2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/MultiParentClassLoader.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-08T06:15:12Z",
+      "side": 1,
+      "message": "I think order matters. We should preserve the order listed in the manifest and use LinkedHashSet here.",
+      "range": {
+        "startLine": 28,
+        "startChar": 37,
+        "endLine": 28,
+        "endChar": 52
+      },
+      "revId": "60fdfe6e5d7b6b1ef46377bd7ecd39f043a919a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c07cd52_d00a9c39",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/MultiParentClassLoader.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-08T06:15:12Z",
+      "side": 1,
+      "message": "make this final",
+      "revId": "60fdfe6e5d7b6b1ef46377bd7ecd39f043a919a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c07cd52_302b289b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/MultiParentClassLoader.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-08T06:15:12Z",
+      "side": 1,
+      "message": "nit: blank line between a field and method declaration",
+      "revId": "60fdfe6e5d7b6b1ef46377bd7ecd39f043a919a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c07cd52_70fad0e2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginDescriptor.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-08T06:15:12Z",
+      "side": 1,
+      "message": "This is a much better name, thanks.",
+      "revId": "60fdfe6e5d7b6b1ef46377bd7ecd39f043a919a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c0cc977_2f00e91e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginDescriptor.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-08T06:15:12Z",
+      "side": 1,
+      "message": "This could be ImmutableSet.",
+      "range": {
+        "startLine": 23,
+        "startChar": 8,
+        "endLine": 23,
+        "endChar": 11
+      },
+      "revId": "60fdfe6e5d7b6b1ef46377bd7ecd39f043a919a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c07cd52_f00d2054",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-08T06:15:12Z",
+      "side": 1,
+      "message": "No ordering is promised here. running is a ConcurrentHashMap with no constraint on the iteration of values. We could stop parents before children. Is this OK?",
+      "range": {
+        "startLine": 326,
+        "startChar": 6,
+        "endLine": 328,
+        "endChar": 7
+      },
+      "revId": "60fdfe6e5d7b6b1ef46377bd7ecd39f043a919a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c0cc977_0f05252f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-08T06:15:12Z",
+      "side": 1,
+      "message": "Should we reload plugins in dependency order if the caller gave us more than one and one depends on the other?\n\nShould we reload a child plugin if only the parent plugin is reloaded? The parent reloading will make a new ClassLoader and the children are still using the old one.",
+      "revId": "60fdfe6e5d7b6b1ef46377bd7ecd39f043a919a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c07cd52_b0139875",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 581,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-08T06:15:12Z",
+      "side": 1,
+      "message": "Objects.getOnlyElement(d.deps)",
+      "range": {
+        "startLine": 581,
+        "startChar": 32,
+        "endLine": 581,
+        "endChar": 56
+      },
+      "revId": "60fdfe6e5d7b6b1ef46377bd7ecd39f043a919a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c07cd52_50ffccd0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/TopologicalSort.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-08T06:15:12Z",
+      "side": 1,
+      "message": "Here we know that node was part of a cycle.\n\nTo get rid of the cycle part of the graph I think we should drop the plugin \"node\"  from the graph. Once its removed, go through the remaining nodes and delete any that depend on the deleted node. Repeat until the graph is either empty or you stop removing nodes. That should let you kill the subgraph containing a cycle and still load other plugins that have no dependency graph.",
+      "revId": "60fdfe6e5d7b6b1ef46377bd7ecd39f043a919a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -22,6 +22,30 @@
       "revId": "4031ae483e8b04514eda640c714001c43be9a6ca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bccb0565_22d9ee9a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/DependencyResolver.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-03-08T06:37:34Z",
+      "side": 1,
+      "message": "This method is called from sort, that is called from scan:\n\n  scan() {\n    sort()\n  }\n\nAt that point plugins are not loaded. The language foo provider is not loaded. Yet, foo.extension file is dicovered and the question asked here is which foo provider plugin it depends on, if at all (JS don\u0027t).\n\nOne thing we could do is to separate scan() in two phases:\n\n 1. scan only for JAR plugins, load them\n 2. scan and load the rest",
+      "parentUuid": "5c0cc977_ef0d4154",
+      "range": {
+        "startLine": 123,
+        "startChar": 0,
+        "endLine": 124,
+        "endChar": 54
+      },
+      "revId": "4031ae483e8b04514eda640c714001c43be9a6ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

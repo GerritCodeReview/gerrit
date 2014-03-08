@@ -36,6 +36,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
+import org.apache.commons.validator.routines.EmailValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -90,6 +91,10 @@ public class CreateEmail implements RestModifyView<AccountResource, Input> {
 
     if (input == null) {
       input = new Input();
+    }
+
+    if (!EmailValidator.getInstance().isValid(email)) {
+      throw new BadRequestException("invalid email address");
     }
 
     if (input.noConfirmation

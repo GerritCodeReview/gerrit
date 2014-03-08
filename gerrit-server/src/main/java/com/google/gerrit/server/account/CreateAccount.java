@@ -44,6 +44,8 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
+import org.apache.commons.validator.routines.EmailValidator;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -122,10 +124,14 @@ public class CreateAccount implements RestModifyView<TopLevelResource, Input> {
       throw new ResourceConflictException(
           "username '" + username + "' already exists");
     }
-    if (input.email != null
-        && db.accountExternalIds().get(getEmailKey(input.email)) != null) {
-      throw new UnprocessableEntityException(
-          "email '" + input.email + "' already exists");
+    if (input.email != null) {
+      if (db.accountExternalIds().get(getEmailKey(input.email)) != null) {
+        throw new UnprocessableEntityException(
+            "email '" + input.email + "' already exists");
+      }
+      if (!EmailValidator.getInstance().isValid(input.email)) {
+        throw new BadRequestException("invalid email address");
+      }
     }
 
     try {

@@ -85,6 +85,13 @@ maven_jar(
 )
 
 maven_jar(
+  name = 'validator',
+  id = 'commons-validator:commons-validator:1.4.0',
+  sha1 = '42fa1046955ade59f5354a1876cfc523cea33815',
+  license = 'Apache2.0',
+)
+
+maven_jar(
   name = 'httpclient',
   id = 'org.apache.httpcomponents:httpclient:4.2.5',
   bin_sha1 = '666e26e76f2e87d84e4f16acb546481ae1b8e9a6',

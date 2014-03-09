@@ -72,6 +72,29 @@
     },
     {
       "key": {
+        "uuid": "5c0cc977_2f2bc99a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRelated.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-09T14:06:09Z",
+      "side": 1,
+      "message": "This should explicitly mention the exceptions that can be thrown, rather than just mentioning the Exception base class.",
+      "range": {
+        "startLine": 298,
+        "startChar": 68,
+        "endLine": 298,
+        "endChar": 84
+      },
+      "revId": "8f3b446d69a1de96635ef70beb2cedb3cd7035e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9c71e1c9_f9d37723",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRelated.java",
         "patchSetId": 4
@@ -170,6 +193,24 @@
       "side": 1,
       "message": "Removing try catch here gives error : Unhandled exception type Exception. Please let me know how it can be handled after removing catch.",
       "parentUuid": "fca01d5c_7ce8b9d3",
+      "revId": "8f3b446d69a1de96635ef70beb2cedb3cd7035e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c07cd52_503a2ce1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRelated.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-09T14:06:09Z",
+      "side": 1,
+      "message": "This is because of the `throws Exception` at line 298.",
+      "parentUuid": "bc2f85b4_22d46e30",
       "revId": "8f3b446d69a1de96635ef70beb2cedb3cd7035e1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

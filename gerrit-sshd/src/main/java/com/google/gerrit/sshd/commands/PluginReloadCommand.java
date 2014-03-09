@@ -41,6 +41,9 @@ final class PluginReloadCommand extends SshCommand {
 
   @Override
   protected void run() throws UnloggedFailure {
+    if (!loader.isRemoteAdminEnabled()) {
+      throw die("remote plugin administration is disabled");
+    }
     if (names == null || names.isEmpty()) {
       loader.rescan();
     } else {

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5c0cc977_4f3a8de1",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/PluginReloadCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-10T00:34:26Z",
+      "side": 1,
+      "message": "remote plugin administration",
+      "range": {
+        "startLine": 45,
+        "startChar": 17,
+        "endLine": 45,
+        "endChar": 36
+      },
+      "revId": "e66108630905d8011873c8fcd6efefb548e9e275",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

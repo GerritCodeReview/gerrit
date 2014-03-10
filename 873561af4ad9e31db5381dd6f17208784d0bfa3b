@@ -145,6 +145,30 @@
     },
     {
       "key": {
+        "uuid": "5c0cc977_6f4cb193",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-10T06:35:55Z",
+      "side": 1,
+      "message": "The latest patch set does not seem to be based on that change.",
+      "parentUuid": "5c0cc977_8f1bd585",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 59
+      },
+      "revId": "873561af4ad9e31db5381dd6f17208784d0bfa3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0fc771d6_e5ae76ab",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/AccountConstants.properties",
         "patchSetId": 2

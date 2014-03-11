@@ -18,6 +18,7 @@ import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.actions.ActionInfo;
+import com.google.gerrit.client.api.ChangeGlue;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.ChangeInfo;
 import com.google.gerrit.client.changes.ChangeInfo.CommitInfo;
@@ -31,6 +32,7 @@ import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.diff.DiffApi;
 import com.google.gerrit.client.diff.FileInfo;
 import com.google.gerrit.client.projects.ConfigInfoCache;
+import com.google.gerrit.client.projects.ConfigInfoCache.Entry;
 import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.NativeMap;
@@ -45,7 +47,8 @@ import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.client.ui.UserActivityMonitor;
 import com.google.gerrit.common.PageLinks;
-import com.google.gerrit.common.changes.ListChangesOption;
+import com.google.gerrit.extensions.common.ListChangesOption;
+import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.PreselectDiffAgainst;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -79,7 +82,6 @@ import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
 import com.google.gwtexpui.globalkey.client.KeyCommandSet;
-import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 import com.google.gwtorm.client.KeyUtil;
 
 import java.sql.Timestamp;
@@ -104,7 +106,7 @@ public class ChangeScreen2 extends Screen {
   }
 
   static ChangeScreen2 get(NativeEvent in) {
-    com.google.gwt.user.client.Element e = in.getEventTarget().cast();
+    Element e = in.getEventTarget().cast();
     for (e = DOM.getParent(e); e != null; e = DOM.getParent(e)) {
       EventListener l = DOM.getEventListener(e);
       if (l instanceof ChangeScreen2) {
@@ -116,27 +118,31 @@ public class ChangeScreen2 extends Screen {
 
   private final Change.Id changeId;
   private String base;
+  private String basename;
+  private String basename1;
   private String revision;
   private ChangeInfo changeInfo;
   private CommentLinkProcessor commentLinkProcessor;
 
   private KeyCommandSet keysNavigation;
   private KeyCommandSet keysAction;
-  private List<HandlerRegistration> handlers = new ArrayList<HandlerRegistration>(4);
+  private List<HandlerRegistration> handlers = new ArrayList<>(4);
   private UpdateCheckTimer updateCheck;
   private Timestamp lastDisplayedUpdate;
   private UpdateAvailableBar updateAvailable;
   private boolean openReplyBox;
+  private boolean loaded;
+  private boolean diffChange;
+  private String panel;
 
   @UiField HTMLPanel headerLine;
   @UiField Style style;
-  @UiField Element commitSubjectText;
   @UiField ToggleButton star;
   @UiField Anchor permalink;
 
-  @UiField Element reviewersText;
+  @UiField Element ccText;
   @UiField Reviewers reviewers;
-  @UiField Element ownerText;
+  @UiField InlineHyperlink ownerLink;
   @UiField Element statusText;
   @UiField Image projectQuery;
   @UiField InlineHyperlink projectLink;
@@ -157,10 +163,11 @@ public class ChangeScreen2 extends Screen {
   @UiField History history;
 
   @UiField Button includedIn;
-  @UiField Button revisions;
-  @UiField Element revisionsText;
+  @UiField Button patchSets;
+  @UiField Element patchSetsText;
   @UiField Button download;
   @UiField Button reply;
+  @UiField Button openAll;
   @UiField Button expandAll;
   @UiField Button collapseAll;
   @UiField Button editMessage;
@@ -169,14 +176,16 @@ public class ChangeScreen2 extends Screen {
   private ReplyAction replyAction;
   private EditMessageAction editMessageAction;
   private IncludedInAction includedInAction;
-  private RevisionsAction revisionsAction;
+  private PatchSetsAction patchSetsAction;
   private DownloadAction downloadAction;
 
-  public ChangeScreen2(Change.Id changeId, String base, String revision, boolean openReplyBox) {
+  public ChangeScreen2(Change.Id changeId, String base, String revision,
+      boolean openReplyBox, String panel) {
     this.changeId = changeId;
     this.base = normalize(base);
     this.revision = normalize(revision);
     this.openReplyBox = openReplyBox;
+    this.panel = panel;
     add(uiBinder.createAndBindUi(this));
   }
 
@@ -191,7 +200,6 @@ public class ChangeScreen2 extends Screen {
       @Override
       public void onSuccess(ChangeInfo info) {
         info.init();
-        ConfigInfoCache.add(info);
         loadConfigInfo(info, base);
       }
     });
@@ -210,6 +218,9 @@ public class ChangeScreen2 extends Screen {
 
   @Override
   protected void onUnload() {
+    if (replyAction != null) {
+      replyAction.hide();
+    }
     if (updateCheck != null) {
       updateCheck.cancel();
       updateCheck = null;
@@ -228,7 +239,7 @@ public class ChangeScreen2 extends Screen {
     Resources.I.style().ensureInjected();
     star.setVisible(Gerrit.isSignedIn());
     labels.init(style, statusText);
-    reviewers.init(style, reviewersText);
+    reviewers.init(style, ccText);
 
     keysNavigation = new KeyCommandSet(Gerrit.C.sectionNavigation());
     keysNavigation.add(new KeyCommand(0, 'u', Util.C.upToChangeList()) {
@@ -339,11 +350,11 @@ public class ChangeScreen2 extends Screen {
     }
 
     int currentlyViewedPatchSet = info.revision(revision)._number();
-    revisionsText.setInnerText(Resources.M.revisions(
+    patchSetsText.setInnerText(Resources.M.patchSets(
         currentlyViewedPatchSet, currentPatchSet));
-    revisionsAction = new RevisionsAction(
+    patchSetsAction = new PatchSetsAction(
         info.legacy_id(), revision,
-        style, headerLine, revisions);
+        style, headerLine, patchSets);
   }
 
   private void initDownloadAction(ChangeInfo info, String revision) {
@@ -420,7 +431,11 @@ public class ChangeScreen2 extends Screen {
       }
     }
 
+    ChangeGlue.fireShowChange(changeInfo, changeInfo.revision(revision));
     startPoller();
+    if (NewChangeScreenBar.show()) {
+      add(new NewChangeScreenBar(changeId));
+    }
   }
 
   private void scrollToPath(String token) {
@@ -465,9 +480,9 @@ public class ChangeScreen2 extends Screen {
     downloadAction.show();
   }
 
-  @UiHandler("revisions")
-  void onRevision(ClickEvent e) {
-    revisionsAction.show();
+  @UiHandler("patchSets")
+  void onPatchSets(ClickEvent e) {
+    patchSetsAction.show();
   }
 
   @UiHandler("reply")
@@ -494,6 +509,11 @@ public class ChangeScreen2 extends Screen {
     editMessageAction.onEdit();
   }
 
+  @UiHandler("openAll")
+  void onOpenAll(ClickEvent e) {
+    files.openAll();
+  }
+
   @UiHandler("expandAll")
   void onExpandAll(ClickEvent e) {
     int n = history.getWidgetCount();
@@ -516,80 +536,64 @@ public class ChangeScreen2 extends Screen {
 
   @UiHandler("diffBase")
   void onChangeRevision(ChangeEvent e) {
+    diffChange = true;
     int idx = diffBase.getSelectedIndex();
     if (0 <= idx) {
       String n = diffBase.getValue(idx);
-      RevisionInfo base = resolveRevisionOrPatchSetId(
-          changeInfo,
-          !n.isEmpty() ? n : null,
-          null);
-      RevisionInfoCache.add(changeId, base);
-      MessageInfo last = myLastReply(changeInfo);
-      CallbackGroup group = new CallbackGroup();
-      loadDiff(base, changeInfo.revision(revision), last, group);
-      group.done();
+      loadConfigInfo(changeInfo, !n.isEmpty() ? n : null);
     }
   }
 
-  private void loadConfigInfo(final ChangeInfo info, final String baseName) {
-    CallbackGroup group = new CallbackGroup();
+  private void loadConfigInfo(final ChangeInfo info, String base) {
+    info.revisions().copyKeysIntoChildren("name");
     final MessageInfo last = myLastReply(info);
     final RevisionInfo rev = resolveRevisionToDisplay(info);
-
-    final RevisionInfo base;
-    boolean loadDiff = true;
-    if (baseName != null) {
-      base = resolveRevisionOrPatchSetId(info, baseName, null);
-    } else if (last != null
-        && 0 < last._revisionNumber()
-        && last._revisionNumber() < rev._number()) {
-      base = resolveRevisionOrPatchSetId(info,
-          Integer.toString(last._revisionNumber()), null);
-      if (base != null) {
-        loadDiff = false;
-        loadCommit(base, group);
+    PreselectDiffAgainst preselectRevision =
+        Gerrit.getUserAccount().getGeneralPreferences().getPreselectRevision();
+    if (preselectRevision == PreselectDiffAgainst.PREVIOUS_REVISION
+        && panel == null && !diffChange) {
+      JsArray<RevisionInfo> list = info.revisions().values();
+      RevisionInfo.sortRevisionInfoByNumber(list);
+      if (list.length() > 1) {
+        for (int i = list.length() - 1; i >= 0; i--) {
+          RevisionInfo r = list.get(i);
+          if (r.name().equals(revision)) {
+            basename = base = list.get(i - 1).name();
+            break;
+          }
+        }
       }
-    } else {
-      base = null;
     }
 
-    loadCommit(rev, group);
-    RevisionInfoCache.add(changeId, base);
-    RevisionInfoCache.add(changeId, rev);
+    if (preselectRevision == PreselectDiffAgainst.PRIOR_REVISION_ME_LAST_COMMENTED_ON && last != null
+        && 0 < last._revisionNumber() && last._revisionNumber() < rev._number()
+        && panel == null && !diffChange) {
+      basename1 = base = Integer.toString(last._revisionNumber());
+    }
+    diffChange = false;
+    final RevisionInfo b = resolveRevisionOrPatchSetId(info, base, null);
 
-    final ScreenLoadCallback<ConfigInfoCache.Entry> display =
-      new ScreenLoadCallback<ConfigInfoCache.Entry>(this) {
+    CallbackGroup group = new CallbackGroup();
+    loadDiff(b, rev, myLastReply(info), group);
+    loadCommit(rev, group);
+
+    if (loaded) {
+      group.done();
+      return;
+    }
+
+    RevisionInfoCache.add(changeId, rev);
+    ConfigInfoCache.add(info);
+    ConfigInfoCache.get(info.project_name_key(),
+      group.addFinal(new ScreenLoadCallback<ConfigInfoCache.Entry>(this) {
         @Override
-        protected void preDisplay(ConfigInfoCache.Entry result) {
+        protected void preDisplay(Entry result) {
+          loaded = true;
           commentLinkProcessor = result.getCommentLinkProcessor();
           setTheme(result.getTheme());
           renderChangeInfo(info);
         }
-      };
-
-    final AsyncCallback<ConfigInfoCache.Entry> cb;
-    if (loadDiff) {
-      loadDiff(base, rev, last, group);
-      cb = display;
-    } else {
-      cb =  new GerritCallback<ConfigInfoCache.Entry>() {
-        @Override
-        public void onSuccess(ConfigInfoCache.Entry result) {
-          CallbackGroup group = new CallbackGroup();
-          RevisionInfo b = null;
-          if (sameParents(base, rev)) {
-            String baseId = Integer.toString(base._number());
-            ChangeScreen2.this.base = baseId;
-            setToken(PageLinks.toChange(changeId, baseId,
-                Integer.toString(rev._number())));
-            b = base;
-          }
-          loadDiff(b, rev, last, group);
-          group.addFinal(display).onSuccess(result);
-        }
-      };
-    }
-    ConfigInfoCache.get(info.project_name_key(), group.addFinal(cb));
+      }));
   }
 
   static MessageInfo myLastReply(ChangeInfo info) {
@@ -646,8 +650,7 @@ public class ChangeScreen2 extends Screen {
   private List<NativeMap<JsArray<CommentInfo>>> loadComments(
       RevisionInfo rev, CallbackGroup group) {
     final int id = rev._number();
-    final List<NativeMap<JsArray<CommentInfo>>> r =
-        new ArrayList<NativeMap<JsArray<CommentInfo>>>(1);
+    final List<NativeMap<JsArray<CommentInfo>>> r = new ArrayList<>(1);
     ChangeApi.revision(changeId.get(), rev.name())
       .view("comments")
       .get(group.add(new AsyncCallback<NativeMap<JsArray<CommentInfo>>>() {
@@ -666,8 +669,7 @@ public class ChangeScreen2 extends Screen {
 
   private List<NativeMap<JsArray<CommentInfo>>> loadDrafts(
       RevisionInfo rev, CallbackGroup group) {
-    final List<NativeMap<JsArray<CommentInfo>>> r =
-        new ArrayList<NativeMap<JsArray<CommentInfo>>>(1);
+    final List<NativeMap<JsArray<CommentInfo>>> r = new ArrayList<>(1);
     if (Gerrit.isSignedIn()) {
       ChangeApi.revision(changeId.get(), rev.name())
         .view("drafts")
@@ -688,20 +690,18 @@ public class ChangeScreen2 extends Screen {
   }
 
   private void loadCommit(final RevisionInfo rev, CallbackGroup group) {
-    if (rev.commit() == null) {
-      ChangeApi.revision(changeId.get(), rev.name())
-        .view("commit")
-        .get(group.add(new AsyncCallback<CommitInfo>() {
-          @Override
-          public void onSuccess(CommitInfo info) {
-            rev.set_commit(info);
-          }
+    ChangeApi.revision(changeId.get(), rev.name())
+      .view("commit")
+      .get(group.add(new AsyncCallback<CommitInfo>() {
+        @Override
+        public void onSuccess(CommitInfo info) {
+          rev.set_commit(info);
+        }
 
-          @Override
-          public void onFailure(Throwable caught) {
-          }
-        }));
-    }
+        @Override
+        public void onFailure(Throwable caught) {
+        }
+      }));
   }
 
   private void loadSubmitType(final Change.Status status, final boolean canSubmit) {
@@ -793,15 +793,15 @@ public class ChangeScreen2 extends Screen {
     lastDisplayedUpdate = info.updated();
     boolean current = info.status().isOpen()
         && revision.equals(info.current_revision());
-    boolean canSubmit = labels.set(info, current);
 
     if (!current && info.status() == Change.Status.NEW) {
       statusText.setInnerText(Util.C.notCurrent());
+      labels.setVisible(false);
     } else {
       statusText.setInnerText(Util.toLongString(info.status()));
     }
+    boolean canSubmit = labels.set(info, current);
 
-    renderCommitSubject(info);
     renderOwner(info);
     renderActionTextDate(info);
     renderDiffBaseListBox(info);
@@ -819,7 +819,6 @@ public class ChangeScreen2 extends Screen {
     commit.set(commentLinkProcessor, info, revision);
     related.set(info, revision);
     reviewers.set(info);
-    quickApprove.set(info, revision);
 
     if (Gerrit.isSignedIn()) {
       initEditMessageAction(info, revision);
@@ -837,8 +836,10 @@ public class ChangeScreen2 extends Screen {
     history.set(commentLinkProcessor, replyAction, changeId, info);
 
     if (current) {
+      quickApprove.set(info, revision, replyAction);
       loadSubmitType(info.status(), canSubmit);
     } else {
+      quickApprove.setVisible(false);
       setVisible(strategy, false);
     }
 
@@ -851,20 +852,22 @@ public class ChangeScreen2 extends Screen {
     setWindowTitle(sb.toString());
   }
 
-  private void renderCommitSubject(ChangeInfo info) {
-    RevisionInfo rev = info.revision(revision);
-    String sub = rev.commit().subject();
-    commitSubjectText.setInnerSafeHtml(commentLinkProcessor.apply(
-      new SafeHtmlBuilder().append(sub).linkify()));
-  }
-
   private void renderOwner(ChangeInfo info) {
     // TODO info card hover
     String name = info.owner().name() != null
         ? info.owner().name()
         : Gerrit.getConfig().getAnonymousCowardName();
-    ownerText.setInnerText(name);
-    ownerText.setTitle(name);
+
+    ownerLink.setText(name);
+    ownerLink.setTitle(info.owner().email() != null
+        ? info.owner().email()
+        : name);
+    ownerLink.setTargetHistoryToken(PageLinks.toAccountQuery(
+        info.owner().name() != null
+        ? info.owner().name()
+        : info.owner().email() != null
+        ? info.owner().email()
+        : String.valueOf(info.owner()._account_id()), Change.Status.NEW));
   }
 
   private void renderSubmitType(String action) {
@@ -889,18 +892,30 @@ public class ChangeScreen2 extends Screen {
   }
 
   private void renderDiffBaseListBox(ChangeInfo info) {
+    PreselectDiffAgainst preselectRevision =
+        Gerrit.getUserAccount().getGeneralPreferences().getPreselectRevision();
     JsArray<RevisionInfo> list = info.revisions().values();
     RevisionInfo.sortRevisionInfoByNumber(list);
     int selectedIdx = list.length();
     for (int i = list.length() - 1; i >= 0; i--) {
       RevisionInfo r = list.get(i);
-      String id = String.valueOf(r._number());
-      diffBase.addItem(id + ": " + r.name().substring(0, 6), r.name());
+      diffBase.addItem(
+        r._number() + ": " + r.name().substring(0, 6),
+        r.name());
       if (r.name().equals(revision)) {
         SelectElement.as(diffBase.getElement()).getOptions()
             .getItem(diffBase.getItemCount() - 1).setDisabled(true);
       }
-      if (base != null && (base.equals(r.name()) || base.equals(id))) {
+      if (basename != null
+          && preselectRevision == PreselectDiffAgainst.PREVIOUS_REVISION
+          && r.name().equals(revision)) {
+        selectedIdx = diffBase.getItemCount();
+      }
+      if (basename1 != null
+          && preselectRevision == PreselectDiffAgainst.PRIOR_REVISION_ME_LAST_COMMENTED_ON && String.valueOf(r._number()).equals(basename1)) {
+        selectedIdx = diffBase.getItemCount() - 1;
+      }
+      if (base != null && base.equals(String.valueOf(r._number()))) {
         selectedIdx = diffBase.getItemCount() - 1;
       }
     }
@@ -959,22 +974,5 @@ public class ChangeScreen2 extends Screen {
 
   private static String normalize(String r) {
     return r != null && !r.isEmpty() ? r : null;
-  }
-
-  private static boolean sameParents(RevisionInfo a, RevisionInfo b) {
-    if (a != null && b != null && a.commit() != null && b.commit() != null) {
-      JsArray<CommitInfo> aParents = a.commit().parents();
-      JsArray<CommitInfo> bParents = b.commit().parents();
-      if (aParents != null && bParents != null
-          && aParents.length() == bParents.length()) {
-        for (int i = 0; i < aParents.length(); i++) {
-          if (!aParents.get(i).commit().equals(bParents.get(i).commit())) {
-            return false;
-          }
-        }
-        return true;
-      }
-    }
-    return false;
   }
 }

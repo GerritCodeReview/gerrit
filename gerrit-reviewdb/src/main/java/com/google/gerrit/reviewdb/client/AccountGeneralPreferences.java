@@ -46,7 +46,10 @@ public final class AccountGeneralPreferences {
     ISO("MM-dd", "yyyy-MM-dd"),
 
     /** European style dates: 27. Apr, 27.04.2010 */
-    EURO("d. MMM", "dd.MM.yyyy");
+    EURO("d. MMM", "dd.MM.yyyy"),
+
+    /** UK style dates: 27/04, 27/04/2010 */
+    UK("dd/MM", "dd/MM/yyyy");
 
     private final String shortFormat;
     private final String longFormat;
@@ -75,6 +78,12 @@ public final class AccountGeneralPreferences {
   public static enum DiffView {
     SIDE_BY_SIDE,
     UNIFIED_DIFF
+  }
+
+  public static enum PreselectDiffAgainst {
+    BASE,
+    PREVIOUS_REVISION,
+    PRIOR_REVISION_ME_LAST_COMMENTED_ON
   }
 
   public static enum ChangeScreen {
@@ -151,6 +160,12 @@ public final class AccountGeneralPreferences {
 
   @Column(id = 15, length = 20, notNull = false)
   protected String changeScreen;
+
+  @Column(id = 16)
+  protected boolean sizeBarInChangeTable;
+
+  @Column(id = 17, length = 40, notNull = false)
+  protected String preselectRevision;
 
   public AccountGeneralPreferences() {
   }
@@ -294,6 +309,25 @@ public final class AccountGeneralPreferences {
     changeScreen = ui != null ? ui.name() : null;
   }
 
+  public boolean isSizeBarInChangeTable() {
+    return sizeBarInChangeTable;
+  }
+
+  public void setSizeBarInChangeTable(boolean sizeBarInChangeTable) {
+    this.sizeBarInChangeTable = sizeBarInChangeTable;
+  }
+
+  public PreselectDiffAgainst getPreselectRevision() {
+    if (preselectRevision == null) {
+      return PreselectDiffAgainst.BASE;
+    }
+    return PreselectDiffAgainst.valueOf(preselectRevision);
+  }
+
+  public void setPreselectRevision(PreselectDiffAgainst preselectRevision) {
+    this.preselectRevision = preselectRevision.name();
+  }
+
   public void resetToDefaults() {
     maximumPageSize = DEFAULT_PAGESIZE;
     showSiteHeader = true;
@@ -309,5 +343,7 @@ public final class AccountGeneralPreferences {
     commentVisibilityStrategy = null;
     diffView = null;
     changeScreen = null;
+    sizeBarInChangeTable = true;
+    preselectRevision = null;
   }
 }

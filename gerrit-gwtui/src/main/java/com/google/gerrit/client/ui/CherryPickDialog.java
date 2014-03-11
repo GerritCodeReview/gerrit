@@ -93,6 +93,10 @@ public abstract class CherryPickDialog extends ActionDialog {
 
     @Override
     public String getDisplayString() {
+      final String refsHeads = "refs/heads/";
+      if (branch.ref().startsWith(refsHeads)) {
+        return branch.ref().substring(refsHeads.length());
+      }
       return branch.ref();
     }
 

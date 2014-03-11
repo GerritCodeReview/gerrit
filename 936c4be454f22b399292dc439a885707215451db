@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "bccb0565_828c7a73",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-03-11T09:48:20Z",
+      "side": 1,
+      "message": "In second thought, it should probably be the combination of old condition:\n\n  if (next.getTree() \u003d\u003d prior.getTree() \u0026\u0026 isSameParents(prior, next)) {\n    if (next.getFullMessage().equals(prior.getFullMessage())) {\n      return ChangeKind.TRIVIAL_REBASE;\n    } else {\n      return ChangeKind.NO_CODE_CHANGE;\n    }\n  }\n\nAnd the condition on the line 390 should be removed.",
+      "range": {
+        "startLine": 381,
+        "startChar": 4,
+        "endLine": 383,
+        "endChar": 5
+      },
+      "revId": "936c4be454f22b399292dc439a885707215451db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7cd50dff_2052ca2e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
         "patchSetId": 5

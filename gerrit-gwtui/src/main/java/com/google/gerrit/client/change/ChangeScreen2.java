@@ -801,7 +801,8 @@ public class ChangeScreen2 extends Screen {
         });
       }
     }
-    history.set(commentLinkProcessor, replyAction, changeId, info);
+    history.set(commentLinkProcessor, replyAction, changeId, info,
+        expandAll, collapseAll);
 
     if (current) {
       quickApprove.set(info, revision, replyAction);

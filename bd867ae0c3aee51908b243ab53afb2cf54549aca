@@ -22,6 +22,30 @@
       "revId": "bd867ae0c3aee51908b243ab53afb2cf54549aca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bccb0565_42827240",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2014-03-11T09:37:27Z",
+      "side": 0,
+      "message": "Why? This will be much harder to understand and configure (not to mention code changes).\n\nI don\u0027t think this case deserves its own handling.",
+      "parentUuid": "bccb0565_023dcacb",
+      "range": {
+        "startLine": 381,
+        "startChar": 4,
+        "endLine": 381,
+        "endChar": 64
+      },
+      "revId": "bd867ae0c3aee51908b243ab53afb2cf54549aca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bccb0565_023dcacb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-03-11T09:16:03Z",
+      "side": 0,
+      "message": "I believe it is wrong to just remove this condition. We may want to differentiate between TRIVIAL_REBASE and COMMIT_MESSAGE_CHANGED, aka NO_CODE_CHANGE.\n\nMay be you want to introduce new enum:\n\n  TRIVIAL_REBASE_WITH_CHANGED_COMMIT_MESSAGE\n\nand add additional label copy strategy for this (certainly not a change for 2.8.2)?",
+      "range": {
+        "startLine": 381,
+        "startChar": 4,
+        "endLine": 381,
+        "endChar": 64
+      },
+      "revId": "bd867ae0c3aee51908b243ab53afb2cf54549aca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

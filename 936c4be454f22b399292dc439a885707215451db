@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7cd50dff_2052ca2e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-03-11T09:16:03Z",
+      "side": 1,
+      "message": "Remove this? Because it is the same as condition on line 381 above, but different ChangeKind is returned back.",
+      "range": {
+        "startLine": 390,
+        "startChar": 4,
+        "endLine": 393,
+        "endChar": 5
+      },
+      "revId": "936c4be454f22b399292dc439a885707215451db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

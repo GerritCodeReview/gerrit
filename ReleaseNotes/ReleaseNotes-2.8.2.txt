@@ -124,6 +124,12 @@ Handle null commits when updating submodules.
 In some edge cases it was possible that a null commit would exist, and this
 caused a crash when updating submodules.
 
+* Update and insert comments/approvals in a single step.
++
+When a review includes both new label scores and updates to existing label
+scores, use `upsert` to record them all at the same time, rather than in
+separate `update` and `insert` operations.
+
 * Remove dependency on joda time library in gerrit launcher.
 +
 The joda time library was being unnecessarily packaged in the root of

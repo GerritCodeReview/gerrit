@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7cd50dff_604cd293",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2014-03-11T09:52:19Z",
+      "side": 1,
+      "message": "It\u0027s the other way around. If the commit message is equal, it is NO_CODE_CHANGE. Otherwise it is a TRIVIAL_REBASE.\n\nBut this is also wrong. If the tree, parents and commit message are all equal, the change is rejected (\"no new changes\")...",
+      "parentUuid": "bccb0565_828c7a73",
+      "range": {
+        "startLine": 381,
+        "startChar": 4,
+        "endLine": 383,
+        "endChar": 5
+      },
+      "revId": "936c4be454f22b399292dc439a885707215451db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7cd50dff_2052ca2e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
         "patchSetId": 5

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5c0cc977_4fde0d52",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/CherryPickDialog.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-11T05:57:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bccb0565_2252ce2e",
+      "revId": "ddcacf0d2a0c0a3c8d03f368778df4460029d4f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bccb0565_0226aac9",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/CherryPickDialog.java",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2014-03-11T05:30:35Z",
       "side": 1,
       "message": "0",
+      "range": {
+        "startLine": 98,
+        "startChar": 12,
+        "endLine": 98,
+        "endChar": 47
+      },
+      "revId": "ddcacf0d2a0c0a3c8d03f368778df4460029d4f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c0cc977_6fd95168",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/CherryPickDialog.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-11T05:57:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bccb0565_0226aac9",
       "range": {
         "startLine": 98,
         "startChar": 12,

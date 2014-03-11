@@ -130,6 +130,13 @@ When a review includes both new label scores and updates to existing label
 scores, use `upsert` to record them all at the same time, rather than in
 separate `update` and `insert` operations.
 
+* link:https://code.google.com/p/gerrit/issues/detail?id=2374[Issue 2374]:
+Prevent duplicate commits in same project when uploading to `refs/changes/n`.
++
+Under certain circumstances, when pushing to `refs/changes/n`, the same
+commit could be pushed onto multiple changes even if the changes were on the
+same branch.
+
 * Remove dependency on joda time library in gerrit launcher.
 +
 The joda time library was being unnecessarily packaged in the root of

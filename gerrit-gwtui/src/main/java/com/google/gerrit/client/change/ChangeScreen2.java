@@ -14,6 +14,9 @@
 
 package com.google.gerrit.client.change;
 
+import static com.google.gerrit.reviewdb.client.AccountGeneralPreferences.CommentVisibilityStrategy.COLLAPSE_ALL;
+import static com.google.gerrit.reviewdb.client.AccountGeneralPreferences.CommentVisibilityStrategy.EXPAND_ALL;
+
 import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
@@ -48,6 +51,7 @@ import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.client.ui.UserActivityMonitor;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.changes.ListChangesOption;
+import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.CommentVisibilityStrategy;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -729,6 +733,7 @@ public class ChangeScreen2 extends Screen {
     renderOwner(info);
     renderActionTextDate(info);
     renderDiffBaseListBox(info);
+    initCommentVisibilityStrategy();
     initIncludedInAction(info);
     initRevisionsAction(info, revision);
     initDownloadAction(info, revision);
@@ -772,6 +777,55 @@ public class ChangeScreen2 extends Screen {
       sb.append(info.subject());
     }
     setWindowTitle(sb.toString());
+  }
+
+  private void initCommentVisibilityStrategy() {
+    CommentVisibilityStrategy commentVisibilityStrategy =
+        CommentVisibilityStrategy.EXPAND_RECENT;
+    if (Gerrit.isSignedIn()) {
+      commentVisibilityStrategy = Gerrit.getUserAccount()
+          .getGeneralPreferences().getCommentVisibilityStrategy();
+    }
+
+    long AGE = 7 * 24 * 60 * 60 * 1000L;
+    Timestamp aged = new Timestamp(System.currentTimeMillis() - AGE);
+
+    int n = history.getWidgetCount();
+    for (int i = 0; i < n; i++) {
+      Message msg = (Message) history.getWidget(i);
+
+      boolean isRecent;
+      if (i == n - 1) {
+        isRecent = true;
+      } else {
+        isRecent = msg.getMessageInfo().date().after(aged);
+      }
+
+      boolean isOpen = false;
+      switch (commentVisibilityStrategy) {
+        case COLLAPSE_ALL:
+          break;
+        case EXPAND_ALL:
+          isOpen = true;
+          break;
+        case EXPAND_MOST_RECENT:
+          isOpen = i == n - 1;
+          break;
+        case EXPAND_RECENT:
+        default:
+          isOpen = isRecent;
+          break;
+      }
+      msg.setOpen(isOpen);
+    }
+
+    if (commentVisibilityStrategy == COLLAPSE_ALL) {
+      expandAll.setVisible(false);
+      collapseAll.setVisible(true);
+    } else if (commentVisibilityStrategy == EXPAND_ALL) {
+      expandAll.setVisible(true);
+      collapseAll.setVisible(false);
+    }
   }
 
   private void renderOwner(ChangeInfo info) {

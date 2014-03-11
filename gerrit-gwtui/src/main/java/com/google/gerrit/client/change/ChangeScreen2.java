@@ -747,7 +747,7 @@ public class ChangeScreen2 extends Screen {
     related.set(info, revision);
     reviewers.set(info);
     quickApprove.set(info, revision);
-    history.set(commentLinkProcessor, changeId, info);
+    history.set(commentLinkProcessor, changeId, info, expandAll, collapseAll);
 
     if (Gerrit.isSignedIn()) {
       initEditMessageAction(info, revision);

@@ -61,10 +61,11 @@ import org.apache.sshd.common.forward.TcpipServerChannel;
 import org.apache.sshd.common.future.CloseFuture;
 import org.apache.sshd.common.future.SshFutureListener;
 import org.apache.sshd.common.io.IoAcceptor;
-import org.apache.sshd.common.io.IoServiceFactory;
+import org.apache.sshd.common.io.IoServiceFactoryFactory;
 import org.apache.sshd.common.io.IoSession;
-import org.apache.sshd.common.io.mina.MinaServiceFactory;
+import org.apache.sshd.common.io.mina.MinaServiceFactoryFactory;
 import org.apache.sshd.common.io.mina.MinaSession;
+import org.apache.sshd.common.io.nio2.Nio2ServiceFactoryFactory;
 import org.apache.sshd.common.mac.HMACMD5;
 import org.apache.sshd.common.mac.HMACMD596;
 import org.apache.sshd.common.mac.HMACSHA1;
@@ -184,8 +185,13 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
     final String kerberosPrincipal = cfg.getString(
         "sshd", null, "kerberosPrincipal");
 
-    System.setProperty(IoServiceFactory.class.getName(),
-        MinaServiceFactory.class.getName());
+    SshSessionBackend backend = cfg.getEnum(
+        "sshd", null, "backend", SshSessionBackend.MINA);
+
+    System.setProperty(IoServiceFactoryFactory.class.getName(),
+        backend == SshSessionBackend.MINA
+            ? MinaServiceFactoryFactory.class.getName()
+            : Nio2ServiceFactoryFactory.class.getName());
 
     if (SecurityUtils.isBouncyCastleRegistered()) {
       initProviderBouncyCastle();
@@ -280,8 +286,10 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   public synchronized void stop() {
     if (acceptor != null) {
       try {
-        acceptor.dispose();
+        acceptor.close(true).await();
         log.info("Stopped Gerrit SSHD");
+      } catch (InterruptedException e) {
+        log.warn("Exception caught while closing", e);
       } finally {
         acceptor = null;
       }

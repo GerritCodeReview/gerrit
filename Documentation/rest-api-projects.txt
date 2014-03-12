@@ -92,6 +92,22 @@ List all projects that start with `platform/`:
 ----
 E.g. this feature can be used by suggestion client UI's to limit results.
 
+The `/projects/` URL also accepts a limit integer in the `n` parameter.
+This limits the results to show `n` projects.
+
+Query the first 25 projects in project list.
+----
+  GET /projects/?n=25 HTTP/1.0
+----
+
+The `/projects/` URL also accepts a start integer in the `S` parameter.
+The results will skip `S` projects from project list.
+
+Query 25 projects starting from index 50.
+----
+  GET /projects/?n=25&S=50 HTTP/1.0
+----
+
 [[get-project]]
 === Get Project
 --

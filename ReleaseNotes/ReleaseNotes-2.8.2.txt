@@ -63,7 +63,7 @@ that were set to a URL.
 If HEAD was detached the `GetHead` REST endpoint refused to resolve HEAD
 when the user was not a project owner.
 
-* link:https://code.google.com/p/gerrit/issues/detail?id=2932[Issue 2932]:
+* link:https://code.google.com/p/gerrit/issues/detail?id=2392[Issue 2392]:
 Keep `status:closed` limit below MySQL Connector/J's hard limit.
 +
 Since MySQL Connector/J 5.1.21 does not allow limits above 50M rows

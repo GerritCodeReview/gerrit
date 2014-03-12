@@ -144,6 +144,11 @@ public class ListProjects implements RestReadView<TopLevelResource> {
     this.limit = limit;
   }
 
+  @Option(name = "-S", metaVar = "CNT", usage = "number of projects to skip")
+  public void setStart(int start) {
+    this.start = start;
+  }
+
   @Option(name = "-p", metaVar = "PREFIX", usage = "match project prefix")
   public void setMatchPrefix(String matchPrefix) {
     this.matchPrefix = matchPrefix;
@@ -166,6 +171,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
   private boolean showDescription;
   private boolean all;
   private int limit;
+  private int start;
   private String matchPrefix;
   private String matchSubstring;
   private AccountGroup.UUID groupUuid;
@@ -231,6 +237,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
       }
     }
 
+    int foundIndex = 0;
     int found = 0;
     Map<String, ProjectInfo> output = Maps.newTreeMap();
     Map<String, String> hiddenNames = Maps.newHashMap();
@@ -361,6 +368,10 @@ public class ListProjects implements RestReadView<TopLevelResource> {
             log.warn("Unexpected error reading " + projectName, err);
             continue;
           }
+        }
+
+        if (foundIndex++ < start) {
+          continue;
         }
 
         if (limit > 0 && ++found > limit) {

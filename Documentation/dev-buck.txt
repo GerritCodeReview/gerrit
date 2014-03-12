@@ -17,13 +17,20 @@ Clone the git and build it:
   ant
 ----
 
-Make sure you have a `bin/` directory in your home directory and that
-it is included in your path:
+If you don't have a `bin/` directory in your home directory, create one:
 
 ----
   mkdir ~/bin
+----
+
+Add the `~/bin` folder to the path:
+
+----
   PATH=~/bin:$PATH
 ----
+
+Note that the buck executable needs to be available in all shell sessions,
+so also make sure it is appended to the path globally.
 
 Add a symbolic link in `~/bin` to the buck executable:
 

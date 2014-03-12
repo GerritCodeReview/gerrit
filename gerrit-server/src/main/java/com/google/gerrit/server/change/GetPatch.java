@@ -69,10 +69,7 @@ public class GetPatch implements RestReadView<RevisionResource> {
               rw.parseCommit(ObjectId.fromString(rsrc.getPatchSet()
                   .getRevision().get()));
           RevCommit[] parents = commit.getParents();
-          if (parents.length > 1) {
-            throw new ResourceConflictException(
-                "Revision has more than 1 parent.");
-          } else if (parents.length == 0) {
+          if (parents.length == 0) {
             throw new ResourceConflictException("Revision has no parent.");
           }
           final RevCommit base = parents[0];

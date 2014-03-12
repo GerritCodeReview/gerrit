@@ -152,6 +152,11 @@ WHERE status = 'd';
 
 
 -- *********************************************************************
+-- PatchSetAccess
+CREATE INDEX patch_sets_byRevision
+ON patch_sets (revision);
+
+-- *********************************************************************
 -- PatchSetAncestorAccess
 --    @PrimaryKey covers: ancestorsOf
 --    covers:             descendantsOf

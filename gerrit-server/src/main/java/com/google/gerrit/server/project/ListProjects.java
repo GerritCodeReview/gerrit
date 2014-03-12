@@ -144,6 +144,11 @@ public class ListProjects implements RestReadView<TopLevelResource> {
     this.limit = limit;
   }
 
+  @Option(name = "-S", metaVar = "CNT", usage = "number of projects to skip")
+  public void setStart(int start) {
+    this.start = start;
+  }
+
   @Option(name = "-p", metaVar = "PREFIX", usage = "match project prefix")
   public void setMatchPrefix(String matchPrefix) {
     this.matchPrefix = matchPrefix;
@@ -166,6 +171,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
   private boolean showDescription;
   private boolean all;
   private int limit;
+  private int start;
   private String matchPrefix;
   private String matchSubstring;
   private AccountGroup.UUID groupUuid;
@@ -231,7 +237,6 @@ public class ListProjects implements RestReadView<TopLevelResource> {
       }
     }
 
-    int found = 0;
     Map<String, ProjectInfo> output = Maps.newTreeMap();
     Map<String, String> hiddenNames = Maps.newHashMap();
     Set<String> rejected = new HashSet<String>();
@@ -363,10 +368,6 @@ public class ListProjects implements RestReadView<TopLevelResource> {
           }
         }
 
-        if (limit > 0 && ++found > limit) {
-          break;
-        }
-
         if (stdout == null || format.isJson()) {
           output.put(info.name, info);
           continue;
@@ -414,10 +415,11 @@ public class ListProjects implements RestReadView<TopLevelResource> {
   }
 
   private Iterable<Project.NameKey> scan() {
+    Iterable<Project.NameKey> results;
     if (matchPrefix != null) {
-      return projectCache.byName(matchPrefix);
+      results = projectCache.byName(matchPrefix);
     } else if (matchSubstring != null) {
-      return Iterables.filter(projectCache.all(),
+      results = Iterables.filter(projectCache.all(),
           new Predicate<Project.NameKey>() {
             public boolean apply(Project.NameKey in) {
               return in.get().toLowerCase(Locale.US)
@@ -425,9 +427,19 @@ public class ListProjects implements RestReadView<TopLevelResource> {
             }
           });
     } else {
-      return projectCache.all();
+      results = projectCache.all();
     }
+
+    if (start > 0) {
+      results = Iterables.skip(results, start);
+    }
+
+    if (limit > 0) {
+      results = Iterables.limit(results, limit);
+    }
+    return results;
   }
+
 
   private void printProjectTree(final PrintWriter stdout,
       final TreeMap<Project.NameKey, ProjectNode> treeMap) {

@@ -63,7 +63,7 @@ that were set to a URL.
 If HEAD was detached the `GetHead` REST endpoint refused to resolve HEAD
 when the user was not a project owner.
 
-* link:https://code.google.com/p/gerrit/issues/detail?id=2932[Issue 2932]:
+* link:https://code.google.com/p/gerrit/issues/detail?id=2392[Issue 2392]:
 Keep `status:closed` limit below MySQL Connector/J's hard limit.
 +
 Since MySQL Connector/J 5.1.21 does not allow limits above 50M rows
@@ -96,7 +96,7 @@ Fix submit rule evaluation for non blocking labels.
 Putting a negative score on a label configured as `NoBlock` was causing
 the submit button to be disabled.
 
-* link:https://code.google.com/p/gerrit/issues/detail?id=2331[Issue 2331]:
+* link:https://code.google.com/p/gerrit/issues/detail?id=2441[Issue 2441]:
 Allow to create branch with new commits.
 +
 Branches could not be created with a new commit which is not on other branches

@@ -65,6 +65,7 @@ import org.apache.sshd.common.io.IoServiceFactory;
 import org.apache.sshd.common.io.IoSession;
 import org.apache.sshd.common.io.mina.MinaServiceFactory;
 import org.apache.sshd.common.io.mina.MinaSession;
+import org.apache.sshd.common.io.nio2.Nio2ServiceFactory;
 import org.apache.sshd.common.mac.HMACMD5;
 import org.apache.sshd.common.mac.HMACMD596;
 import org.apache.sshd.common.mac.HMACSHA1;
@@ -184,8 +185,13 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
     final String kerberosPrincipal = cfg.getString(
         "sshd", null, "kerberosPrincipal");
 
+    SshSessionBackend backend = cfg.getEnum(
+        "sshd", null, "backend", SshSessionBackend.MINA);
+
     System.setProperty(IoServiceFactory.class.getName(),
-        MinaServiceFactory.class.getName());
+        backend == SshSessionBackend.MINA
+            ? MinaServiceFactory.class.getName()
+            : Nio2ServiceFactory.class.getName());
 
     if (SecurityUtils.isBouncyCastleRegistered()) {
       initProviderBouncyCastle();
@@ -277,6 +283,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   }
 
   @Override
+  @SuppressWarnings("deprecation")
   public synchronized void stop() {
     if (acceptor != null) {
       try {

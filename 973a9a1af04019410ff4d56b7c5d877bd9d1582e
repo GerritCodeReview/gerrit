@@ -70,6 +70,30 @@
       "revId": "973a9a1af04019410ff4d56b7c5d877bd9d1582e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bccb0565_c2bf62dd",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/ListChangesOption.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-03-12T10:36:40Z",
+      "side": 1,
+      "message": "I am referencing to a link that needs change id. And more generally to be prepared for other web links on change screen like comments, files and what not.\n\nBy choosing more generic name for this option we could extend the response with more list for new link types we may want to introduce later as extension points for plugins.",
+      "parentUuid": "7cd50dff_006f86cf",
+      "range": {
+        "startLine": 55,
+        "startChar": 2,
+        "endLine": 55,
+        "endChar": 16
+      },
+      "revId": "973a9a1af04019410ff4d56b7c5d877bd9d1582e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

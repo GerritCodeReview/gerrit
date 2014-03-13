@@ -16,6 +16,7 @@ package com.google.gerrit.server.git.strategy;
 
 import com.google.gerrit.extensions.common.SubmitType;
 import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.SubmitTypeExt.ContentMerge;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -87,12 +88,28 @@ public class SubmitStrategyFactory {
       final RevFlag canMergeFlag, final Set<RevCommit> alreadyAccepted,
       final Branch.NameKey destBranch)
       throws MergeException, NoSuchProjectException {
+    return create(submitType, db, repo, rw, inserter, canMergeFlag,
+        alreadyAccepted, destBranch, ContentMerge.DEFAULT);
+  }
+
+  public SubmitStrategy create(final SubmitType submitType, final ReviewDb db,
+      final Repository repo, final RevWalk rw, final ObjectInserter inserter,
+      final RevFlag canMergeFlag, final Set<RevCommit> alreadyAccepted,
+      final Branch.NameKey destBranch, final ContentMerge contentMerge)
+      throws MergeException, NoSuchProjectException {
     ProjectState project = getProject(destBranch);
+    MergeUtil mergeUtil;
+    if (contentMerge == ContentMerge.DEFAULT) {
+      mergeUtil = mergeUtilFactory.create(project);
+    } else {
+      mergeUtil = mergeUtilFactory.create(project,
+          contentMerge == ContentMerge.TRUE);
+    }
     final SubmitStrategy.Arguments args =
         new SubmitStrategy.Arguments(identifiedUserFactory, myIdent, db,
             changeControlFactory, repo, rw, inserter, canMergeFlag,
             alreadyAccepted, destBranch,approvalsUtil,
-            mergeUtilFactory.create(project), indexer);
+            mergeUtil, indexer);
     switch (submitType) {
       case CHERRY_PICK:
         return new CherryPick(args, patchSetInfoFactory, gitRefUpdated);
@@ -110,6 +127,7 @@ public class SubmitStrategyFactory {
         log.error(errorMsg);
         throw new MergeException(errorMsg);
     }
+
   }
 
   private ProjectState getProject(Branch.NameKey branch)

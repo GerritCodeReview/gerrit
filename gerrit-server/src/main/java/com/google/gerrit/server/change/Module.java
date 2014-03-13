@@ -80,8 +80,10 @@ public class Module extends RestApiModule {
     post(REVISION_KIND, "message").to(EditMessage.class);
     get(REVISION_KIND, "patch").to(GetPatch.class);
     get(REVISION_KIND, "submit_type").to(TestSubmitType.Get.class);
+    get(REVISION_KIND, "submit_type_ext").to(TestSubmitTypeExt.Get.class);
     post(REVISION_KIND, "test.submit_rule").to(TestSubmitRule.class);
     post(REVISION_KIND, "test.submit_type").to(TestSubmitType.class);
+    post(REVISION_KIND, "test.submit_type_ext").to(TestSubmitTypeExt.class);
     get(REVISION_KIND, "archive").to(GetArchive.class);
 
     child(REVISION_KIND, "drafts").to(Drafts.class);

@@ -15,6 +15,7 @@
 package com.google.gerrit.common.data;
 
 import com.google.gerrit.extensions.common.SubmitType;
+import com.google.gerrit.reviewdb.client.SubmitTypeExt.ContentMerge;
 
 /**
  * Describes the submit type for a change.
@@ -32,14 +33,21 @@ public class SubmitTypeRecord {
   }
 
   public static SubmitTypeRecord OK(SubmitType type) {
+    return OK(type, ContentMerge.DEFAULT);
+  }
+
+  public static SubmitTypeRecord OK(SubmitType type,
+      ContentMerge contentMerge) {
     SubmitTypeRecord r = new SubmitTypeRecord();
     r.status = Status.OK;
     r.type = type;
+    r.contentMerge = contentMerge;
     return r;
   }
 
   public Status status;
   public SubmitType type;
+  public ContentMerge contentMerge;
   public String errorMessage;
 
   public String toString() {
@@ -51,6 +59,11 @@ public class SubmitTypeRecord {
     if (type != null) {
       sb.append('[');
       sb.append(type.name());
+      if (contentMerge != ContentMerge.DEFAULT) {
+        sb.append("(");
+        sb.append(contentMerge.name());
+        sb.append(")");
+      }
       sb.append(']');
     }
     return sb.toString();

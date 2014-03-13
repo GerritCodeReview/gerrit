@@ -889,11 +889,18 @@ public class Gerrit implements EntryPoint {
   }
 
   private static void addExtensionLink(LinkMenuBar m, TopMenuItem item) {
-    Anchor atag = anchor(item.getName(), selfRedirect(item.getUrl()));
+    Anchor atag = anchor(item.getName(), isAbsolute(item.getUrl())
+        ? item.getUrl()
+        : selfRedirect(item.getUrl()));
+
     atag.setTarget(item.getTarget());
     if (item.getId() != null) {
       atag.getElement().setAttribute("id", item.getId());
     }
     m.add(atag);
+  }
+
+  private static boolean isAbsolute(String url) {
+    return url.matches("^https?://.*");
   }
 }

@@ -169,9 +169,11 @@ public class LuceneChangeIndex implements ChangeIndex {
       luceneConfig.setMaxBufferedDocs(cfg.getInt(
           "index", name, "maxBufferedDocs",
           IndexWriterConfig.DEFAULT_MAX_BUFFERED_DOCS));
-      commitWithinMs = ConfigUtil.getTimeUnit(
-          cfg, "index", name, "commitWithin",
-          MILLISECONDS.convert(5, MINUTES), MILLISECONDS);
+      commitWithinMs =
+          cfg.getString("index", name, "commitWithin").trim().substring(0, 2).equals("-1")
+              ? -1L
+              : ConfigUtil.getTimeUnit(cfg, "index", name,
+              "commitWithin", MILLISECONDS.convert(5, MINUTES), MILLISECONDS);
     }
 
     IndexWriterConfig getLuceneConfig() {

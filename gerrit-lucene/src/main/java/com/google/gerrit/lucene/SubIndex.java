@@ -23,6 +23,7 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.google.gerrit.lucene.LuceneChangeIndex.GerritIndexWriterConfig;
 
 import org.apache.lucene.document.Document;
+import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.index.TrackingIndexWriter;
 import org.apache.lucene.search.ControlledRealTimeReopenThread;
@@ -41,7 +42,6 @@ import java.io.IOException;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
-import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -56,7 +56,6 @@ class SubIndex {
   private final SearcherManager searcherManager;
   private final ControlledRealTimeReopenThread<IndexSearcher> reopenThread;
   private final ConcurrentMap<RefreshListener, Boolean> refreshListeners;
-  private final ScheduledExecutorService commitExecutor;
 
   SubIndex(File file, GerritIndexWriterConfig writerConfig) throws IOException {
     this(FSDirectory.open(file), file.getName(), writerConfig);
@@ -65,22 +64,24 @@ class SubIndex {
   SubIndex(Directory dir, final String dirName,
       GerritIndexWriterConfig writerConfig) throws IOException {
     this.dir = dir;
-
-    final AutoCommitWriter delegateWriter;
     long commitPeriod = writerConfig.getCommitWithinMs();
-    if (commitPeriod <= 0) {
-      commitExecutor = null;
-      delegateWriter =
-          new AutoCommitWriter(dir, writerConfig.getLuceneConfig(), true);
+    if (commitPeriod == -1) {
+      writer =
+          new TrackingIndexWriter(new IndexWriter(dir,
+              writerConfig.getLuceneConfig()));
+    } else if (commitPeriod == 0) {
+      writer =
+          new TrackingIndexWriter(new AutoCommitWriter(dir,
+              writerConfig.getLuceneConfig(), true));
     } else {
-      commitExecutor = new ScheduledThreadPoolExecutor(1,
-          new ThreadFactoryBuilder()
-            .setNameFormat("Commit-%d " + dirName)
-            .setDaemon(true)
-            .build());
-      delegateWriter =
+      final AutoCommitWriter delegateWriter =
           new AutoCommitWriter(dir, writerConfig.getLuceneConfig(), false);
-      commitExecutor.scheduleAtFixedRate(new Runnable() {
+      writer = new TrackingIndexWriter(delegateWriter);
+
+      new ScheduledThreadPoolExecutor(1, new ThreadFactoryBuilder()
+      .setNameFormat("Commit-%d " + dirName)
+      .setDaemon(true)
+      .build()).scheduleAtFixedRate(new Runnable() {
         @Override
         public void run() {
           try {
@@ -103,7 +104,6 @@ class SubIndex {
       }, commitPeriod, commitPeriod, MILLISECONDS);
     }
 
-    writer = new TrackingIndexWriter(delegateWriter);
     searcherManager = new SearcherManager(
         writer.getIndexWriter(), true, new SearcherFactory());
 

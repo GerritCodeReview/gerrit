@@ -89,6 +89,7 @@ import com.google.gwtorm.client.KeyUtil;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 public class Gerrit implements EntryPoint {
   public static final GerritConstants C = GWT.create(GerritConstants.class);
@@ -889,11 +890,21 @@ public class Gerrit implements EntryPoint {
   }
 
   private static void addExtensionLink(LinkMenuBar m, TopMenuItem item) {
-    Anchor atag = anchor(item.getName(), selfRedirect(item.getUrl()));
+    Anchor atag;
+    if (item.getUrl() != null && isAbsolute(item.getUrl())) {
+      atag = anchor(item.getName(), item.getUrl());
+    } else {
+      atag = anchor(item.getName(), selfRedirect(item.getUrl()));
+    }
     atag.setTarget(item.getTarget());
     if (item.getId() != null) {
       atag.getElement().setAttribute("id", item.getId());
     }
     m.add(atag);
+  }
+
+  private static boolean isAbsolute(String url) {
+    String pattern = "^https?://.*";
+    return url.matches(pattern);
   }
 }

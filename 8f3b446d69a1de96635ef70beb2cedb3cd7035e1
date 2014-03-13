@@ -272,6 +272,24 @@
     },
     {
       "key": {
+        "uuid": "7cd50dff_40e8aed3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRelated.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-03-13T10:17:19Z",
+      "side": 1,
+      "message": "typo* when change!\u003dnull",
+      "parentUuid": "bc2f85b4_82d9fa6a",
+      "revId": "8f3b446d69a1de96635ef70beb2cedb3cd7035e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fca01d5c_7ce8b9d3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRelated.java",
         "patchSetId": 4

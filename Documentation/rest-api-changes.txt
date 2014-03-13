@@ -1814,6 +1814,36 @@ Gets the method the server will use to submit (merge) the change.
   "MERGE_IF_NECESSARY"
 ----
 
+[[get-submit-type-ext]]
+=== Get Submit Type Extended
+--
+'GET /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/submit_type_ext'
+--
+
+Same as link:#get-submit-type[Get Submit Type] but extended with the
+content_merge attribute. The content_merge attribute tells whether the server
+will perform content merge in case of merge conflicts when merging the change.
+
+.Request
+----
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/current/submit_type_ext HTTP/1.0
+----
+
+As response a link:#submit-type-ext[SubmitTypeExt] entity is returned.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "submit_type":"MERGE_IF_NECESSARY",
+    "content_merge":"TRUE"
+  }
+----
+
 [[test-submit-type]]
 === Test Submit Type
 --
@@ -3352,6 +3382,28 @@ is currently an empty object.
 |`error_message`|optional|
 When status is RULE_ERROR this message provides some text describing
 the failure of the rule predicate.
+|===========================
+
+[[submit-type-ext]]
+=== SubmitTypeExt
+The `SubmitTypeExt` entity described result from a submit_type.
+
+[options="header",width="50%",cols="1,^1,5"]
+|===========================
+|Field Name      ||Description
+|`submit_type`||
+One of the following:
+`FAST_FORWARD_ONLY`
+`MERGE_IF_NECESSARY`
+`REBASE_IF_NECESSARY`
+`MERGE_ALWAYS`
+`CHERRY_PICK`
+|`content_merge`||
+Can have one of the following values: +
+`TRUE`, the server will perform content merge for the change +
+`FALSE`, the server will not perform content merge for the change +
+`DEFAULT`, the project's default setting for the `Automatically resolve conflicts`
+will be used to decide whether to perform content merge
 |===========================
 
 [[topic-input]]

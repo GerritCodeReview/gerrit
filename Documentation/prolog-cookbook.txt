@@ -46,6 +46,9 @@ type.
 Prolog based submit type computes a submit type for each change. The computed
 submit type is shown on the change screen for each change.
 
+It is also possible to control the 'Content Merge' flag per change from a Prolog
+based submit type.
+
 == Prolog Language
 This document is not a complete Prolog tutorial.
 link:http://en.wikipedia.org/wiki/Prolog[This Wikipedia page on Prolog] is a
@@ -272,6 +275,12 @@ represents one of the supported submit types:
 * `merge_always`
 * `cherry_pick`
 * `rebase_if_necessary`
+
+In addition the return result can also be a structure named after one of the
+above listed submit types and containg an argument that can be:
+
+* `content_merge`
+* `no_content_merge`
 
 == Submit Type Filter
 Submit type filter works the same way as the xref:SubmitFilter[Submit Filter]
@@ -1020,6 +1029,39 @@ previous example.
 If all file names in the change end with `.txt`, then the
 `gerrit:commit_delta('(?<!\.txt)$')` will fail as no file name will match this
 regular expression.
+
+=== Example 4: Enforce `Content Merge` for master branch
+Use the `Cherry Pick` submit type for all changes. For the master branch
+enforce the `Content Merge`. For all other changes use project's default
+`Content Merge` setting.
+
+rules.pl
+[caption=""]
+====
+  submit_type(cherry_pick(content_merge)) :-
+    gerrit:change_branch('refs/heads/master').
+
+  submit_type(cherry_pick).
+====
+
+=== Example 5: Disable `Content Merge` for stable branches
+Use project's default `Submit Type` for all changes. Disable `Content Merge`
+for stable branches and use project's default `Content Merge` for all other
+branches.
+
+rules.pl
+[caption=""]
+====
+  submit_type(S) :-
+    gerrit:change_branch(B),
+    regex_matches('refs/heads/stable.*', B),
+    !,
+    gerrit:project_default_submit_type(D),
+    S =.. [D, no_content_merge].
+
+  submit_type(D) :-
+    gerrit:project_default_submit_type(D),
+====
 
 GERRIT
 ------

@@ -28,6 +28,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.SubmitTypeExt.ContentMerge;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
@@ -626,20 +627,39 @@ public class ChangeControl {
     }
 
     Term typeTerm = results.get(0);
-    if (!typeTerm.isSymbol()) {
-      log.error("Submit rule '" + evaluator.getSubmitRule() + "' for change "
-          + getChange().getId() + " of " + getProject().getName()
-          + " did not return a symbol.");
-      return typeRuleError("Project submit rule has invalid solution");
+    String typeName;
+    ContentMerge contentMerge;
+    if (typeTerm.isSymbol()) {
+      typeName = ((SymbolTerm)typeTerm).name();
+      contentMerge = ContentMerge.DEFAULT;
+    } else if (typeTerm.isStructure()) {
+      StructureTerm st = (StructureTerm) typeTerm;
+      typeName = st.name();
+      String s = st.arg(0).name();
+      if (s.equalsIgnoreCase("content_merge")) {
+        contentMerge = ContentMerge.TRUE;
+      } else if (s.equalsIgnoreCase("no_content_merge")) {
+        contentMerge = ContentMerge.FALSE;
+      } else {
+        return invalidSolution(evaluator);
+      }
+    } else {
+      return invalidSolution(evaluator);
     }
 
-    String typeName = ((SymbolTerm)typeTerm).name();
     try {
       return SubmitTypeRecord.OK(
-          SubmitType.valueOf(typeName.toUpperCase()));
+          SubmitType.valueOf(typeName.toUpperCase()), contentMerge);
     } catch (IllegalArgumentException e) {
       return logInvalidType(evaluator.getSubmitRule(), typeName);
     }
+  }
+
+  private SubmitTypeRecord invalidSolution(SubmitRuleEvaluator evaluator) {
+    log.error("Submit rule '" + evaluator.getSubmitRule() + "' for change "
+        + getChange().getId() + " of " + getProject().getName()
+        + " produced an invalid result.");
+    return typeRuleError("Project submit rule has invalid solution");
   }
 
   private List<SubmitRecord> logInvalidResult(Term rule, Term record, String reason) {

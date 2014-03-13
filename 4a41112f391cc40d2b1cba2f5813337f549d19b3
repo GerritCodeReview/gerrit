@@ -1,0 +1,130 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bccb0565_e2d2a60f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-03-13T20:23:39Z",
+      "side": 1,
+      "message": "You may refer to 46a1ffb34f68d7656a94b7ae9f45c01efdbf3520, where this problem was introduced.",
+      "revId": "4a41112f391cc40d2b1cba2f5813337f549d19b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bccb0565_c2c5a24c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-03-13T20:23:39Z",
+      "side": 1,
+      "message": "Remove this sentence.",
+      "range": {
+        "startLine": 9,
+        "startChar": 51,
+        "endLine": 10,
+        "endChar": 13
+      },
+      "revId": "4a41112f391cc40d2b1cba2f5813337f549d19b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7cd50dff_6004d2e2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-03-13T20:23:39Z",
+      "side": 1,
+      "message": "Add here the line:\n\nBug: Issue 2551",
+      "revId": "4a41112f391cc40d2b1cba2f5813337f549d19b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bccb0565_a2c89e65",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 894,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-03-13T20:23:39Z",
+      "side": 1,
+      "message": "The check \n\n  item.getUrl() !\u003d null\n\nis not needed.",
+      "range": {
+        "startLine": 894,
+        "startChar": 8,
+        "endLine": 894,
+        "endChar": 30
+      },
+      "revId": "4a41112f391cc40d2b1cba2f5813337f549d19b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bccb0565_82c47a52",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 898,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-03-13T20:23:39Z",
+      "side": 1,
+      "message": "Use ternary operator:\n\n atag \u003d anchor(item.getName(), isAbsolute(item.getUrl())\n    ? item.getUrl()\n    : selfRedirect(item.getUrl());",
+      "range": {
+        "startLine": 894,
+        "startChar": 4,
+        "endLine": 898,
+        "endChar": 5
+      },
+      "revId": "4a41112f391cc40d2b1cba2f5813337f549d19b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7cd50dff_400fce00",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 907,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-03-13T20:23:39Z",
+      "side": 1,
+      "message": "This variable is not needed, just use the pattern direct.",
+      "range": {
+        "startLine": 907,
+        "startChar": 4,
+        "endLine": 907,
+        "endChar": 18
+      },
+      "revId": "4a41112f391cc40d2b1cba2f5813337f549d19b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

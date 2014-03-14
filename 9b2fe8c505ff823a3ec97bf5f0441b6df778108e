@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fc6f3d39_64e86a22",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-14T06:00:06Z",
+      "side": 1,
+      "message": "Add the info log back after this line?",
+      "revId": "9b2fe8c505ff823a3ec97bf5f0441b6df778108e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

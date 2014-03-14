@@ -23,6 +23,7 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -62,6 +63,9 @@ import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.Collections;
+import java.util.List;
 
 public abstract class AbstractSubmit extends AbstractDaemonTest {
 
@@ -153,6 +157,22 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     submit(changeId, HttpStatus.SC_CONFLICT);
   }
 
+  protected void submitStatusOnly(String changeId)
+      throws IOException, OrmException {
+    approve(changeId);
+    Change c = db.changes().byKey(new Change.Key(changeId)).toList().get(0);
+    c.setStatus(Change.Status.SUBMITTED);
+    db.changes().update(Collections.singleton(c));
+    db.patchSetApprovals().insert(Collections.singleton(
+        new PatchSetApproval(
+            new PatchSetApproval.Key(
+                c.currentPatchSetId(),
+                admin.id,
+                PatchSetApproval.LabelId.SUBMIT),
+            (short) 1,
+            new Timestamp(System.currentTimeMillis()))));
+  }
+
   private void submit(String changeId, int expectedStatus) throws IOException {
     approve(changeId);
     SubmitInput subm = new SubmitInput();
@@ -231,6 +251,22 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     Repository repo = repoManager.openRepository(project);
     try {
       return getHead(repo, "refs/heads/master");
+    } finally {
+      repo.close();
+    }
+  }
+
+  protected List<RevCommit> getRemoteLog() throws IOException {
+    Repository repo = repoManager.openRepository(project);
+    try {
+      RevWalk rw = new RevWalk(repo);
+      try {
+        rw.markStart(rw.parseCommit(
+            repo.getRef("refs/heads/master").getObjectId()));
+        return Lists.newArrayList(rw);
+      } finally {
+        rw.release();
+      }
     } finally {
       repo.close();
     }

@@ -16,6 +16,24 @@
       "revId": "315ef42e3e7e94f3573df8ea6e4b8791fcb7518a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c733125_e50a9639",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-14T07:38:49Z",
+      "side": 1,
+      "message": "These aren\u0027t fixing an active data corruption the way the other parts of 2.8.3 are. So punt to 2.8.4",
+      "parentUuid": "dc6c394a_a3e97a25",
+      "revId": "315ef42e3e7e94f3573df8ea6e4b8791fcb7518a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

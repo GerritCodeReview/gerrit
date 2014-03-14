@@ -39,6 +39,30 @@
       "revId": "ca313527213efbb4ee934226b505d3b443b78a06",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c733125_45e36a46",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-14T05:51:32Z",
+      "side": 1,
+      "message": "Deprecation was added in [1] but the commit message does not have detail.\n\n[1] https://git-wip-us.apache.org/repos/asf?p\u003dmina-sshd.git;a\u003dcommitdiff;h\u003d18bcdf797dfba5e462413a6ccce9dd6d3da2025b",
+      "parentUuid": "3c763513_06d97a9a",
+      "range": {
+        "startLine": 290,
+        "startChar": 8,
+        "endLine": 290,
+        "endChar": 26
+      },
+      "revId": "ca313527213efbb4ee934226b505d3b443b78a06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1780,7 +1780,7 @@ public class ReceiveCommits {
       if (newCommit == priorCommit) {
         // Ignore requests to make the change its current state.
         skip = true;
-        reject(inputCommand, "commit already exists");
+        reject(inputCommand, "commit already exists (as current patchset)");
         return false;
       }
 
@@ -1792,8 +1792,16 @@ public class ReceiveCommits {
         reject(inputCommand, "change " + ontoChange + " closed");
         return false;
       } else if (revisions.containsKey(newCommit)) {
-        reject(inputCommand, "commit already exists");
+        reject(inputCommand, "commit already exists (in the change)");
         return false;
+      }
+
+      for (final Ref r : rp.getRepository().getRefDatabase()
+          .getRefs("refs/changes").values()) {
+        if (r.getObjectId().equals(inputCommand.getNewId())) {
+          reject(inputCommand, "commit already exists (in the project)");
+          return false;
+        }
       }
 
       for (RevCommit prior : revisions.keySet()) {

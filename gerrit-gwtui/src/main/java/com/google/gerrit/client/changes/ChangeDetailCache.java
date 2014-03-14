@@ -42,7 +42,6 @@ import com.google.gerrit.reviewdb.client.PatchSetInfo.ParentInfo;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.client.UserIdentity;
 import com.google.gwt.core.client.JsArray;
-import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwtjsonrpc.common.AsyncCallback;
 
 import java.util.ArrayList;

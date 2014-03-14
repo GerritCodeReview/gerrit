@@ -46,6 +46,29 @@
       "revId": "e44f78a7913af87eadabf52bf78fe0bcc9bd7c50",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc6f3d39_e4f37a0d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 981,
+      "author": {
+        "id": 1015362
+      },
+      "writtenOn": "2014-03-14T06:24:03Z",
+      "side": 1,
+      "message": "Note: The call to selfRedirect was not actually included in the original (Base 1). This was introduced in a later commit (46a1ffb) on the 2.9 branch. We might not want to include this here.",
+      "range": {
+        "startLine": 981,
+        "startChar": 10,
+        "endLine": 981,
+        "endChar": 22
+      },
+      "revId": "e44f78a7913af87eadabf52bf78fe0bcc9bd7c50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5c0cc977_cff4bda1",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-14T00:46:10Z",
+      "side": 1,
+      "message": "Do you intend to fix this in another commit?",
+      "revId": "ca313527213efbb4ee934226b505d3b443b78a06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -65,14 +65,14 @@ to include a unit suffix, for example `age:2d`:
 * y, year, years (`1 year` is treated as `365 days`)
 
 [[before_until]]
-before:'TIME'/until:'TIME'
+before:'TIME'/until:'TIME'::
 +
 Changes modified before the given 'TIME', inclusive. Must be in the
 format `2006-01-02[ 15:04:05[.890][ -0700]]`; omitting the time defaults
 to 00:00:00 and omitting the timezone defaults to UTC.
 
 [[after_since]]
-after:'TIME'/since:'TIME'
+after:'TIME'/since:'TIME'::
 +
 Changes modified after the given 'TIME', inclusive. Must be in the
 format `2006-01-02[ 15:04:05[.890][ -0700]]`; omitting the time defaults

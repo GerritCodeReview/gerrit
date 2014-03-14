@@ -86,7 +86,7 @@ public class CherryPick extends SubmitStrategy {
           // that on the current merge tip.
           //
 
-          newMergeTip = writeCherryPickCommit(mergeTip, n);
+          newMergeTip = writeCherryPickCommit(newMergeTip, n);
 
           if (newMergeTip != null) {
             newCommits.put(newMergeTip.getPatchsetId().getParentKey(), newMergeTip);

@@ -129,6 +129,9 @@ link:cmd-set-project-parent.html[gerrit set-project-parent]::
 link:cmd-ls-user-refs.html[gerrit ls-user-refs]::
 	Lists refs visible for a specified user.
 
+link:cmd-show-backend.html[gerrit show-backend]::
+	Display SSH backend.
+
 link:cmd-show-caches.html[gerrit show-caches]::
 	Display current cache statistics.
 

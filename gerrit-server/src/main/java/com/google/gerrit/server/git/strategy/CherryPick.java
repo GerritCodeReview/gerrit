@@ -60,18 +60,17 @@ public class CherryPick extends SubmitStrategy {
   }
 
   @Override
-  protected CodeReviewCommit _run(final CodeReviewCommit mergeTip,
+  protected CodeReviewCommit _run(CodeReviewCommit mergeTip,
       final List<CodeReviewCommit> toMerge) throws MergeException {
-    CodeReviewCommit newMergeTip = mergeTip;
     while (!toMerge.isEmpty()) {
       final CodeReviewCommit n = toMerge.remove(0);
 
       try {
-        if (newMergeTip == null) {
+        if (mergeTip == null) {
           // The branch is unborn. Take a fast-forward resolution to
           // create the branch.
           //
-          newMergeTip = n;
+          mergeTip = n;
           n.setStatusCode(CommitMergeStatus.CLEAN_MERGE);
 
         } else if (n.getParentCount() == 0) {
@@ -86,10 +85,10 @@ public class CherryPick extends SubmitStrategy {
           // that on the current merge tip.
           //
 
-          newMergeTip = writeCherryPickCommit(mergeTip, n);
+          mergeTip = writeCherryPickCommit(mergeTip, n);
 
-          if (newMergeTip != null) {
-            newCommits.put(newMergeTip.getPatchsetId().getParentKey(), newMergeTip);
+          if (mergeTip != null) {
+            newCommits.put(mergeTip.getPatchsetId().getParentKey(), mergeTip);
           } else {
             n.setStatusCode(CommitMergeStatus.PATH_CONFLICT);
           }
@@ -102,17 +101,17 @@ public class CherryPick extends SubmitStrategy {
           // instead behave as though MERGE_IF_NECESSARY was configured.
           //
           if (!args.mergeUtil.hasMissingDependencies(args.mergeSorter, n)) {
-            if (args.rw.isMergedInto(newMergeTip, n)) {
-              newMergeTip = n;
+            if (args.rw.isMergedInto(mergeTip, n)) {
+              mergeTip = n;
             } else {
-              newMergeTip =
+              mergeTip =
                   args.mergeUtil.mergeOneCommit(args.myIdent, args.repo,
                       args.rw, args.inserter, args.canMergeFlag,
-                      args.destBranch, newMergeTip, n);
+                      args.destBranch, mergeTip, n);
            }
             final PatchSetApproval submitApproval =
                 args.mergeUtil.markCleanMerges(args.rw, args.canMergeFlag,
-                    newMergeTip, args.alreadyAccepted);
+                    mergeTip, args.alreadyAccepted);
             setRefLogIdent(submitApproval);
 
           } else {
@@ -127,7 +126,7 @@ public class CherryPick extends SubmitStrategy {
         throw new MergeException("Cannot merge " + n.name(), e);
       }
     }
-    return newMergeTip;
+    return mergeTip;
   }
 
   private CodeReviewCommit writeCherryPickCommit(CodeReviewCommit mergeTip,

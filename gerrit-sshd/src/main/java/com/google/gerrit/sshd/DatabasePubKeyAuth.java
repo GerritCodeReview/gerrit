@@ -92,10 +92,12 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
     }
   }
 
-  public boolean authenticate(String username,
-      final PublicKey suppliedKey, final ServerSession session) {
-    final SshSession sd = session.getAttribute(SshSession.KEY);
-
+  public boolean authenticate(String username, PublicKey suppliedKey,
+      ServerSession session) {
+    SshSession sd = session.getAttribute(SshSession.KEY);
+    if (sd.getCurrentUser() != null) {
+      return true;
+    }
     if (PeerDaemonUser.USER_NAME.equals(username)) {
       if (myHostKeys.contains(suppliedKey)
           || getPeerKeys().contains(suppliedKey)) {
@@ -112,10 +114,10 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
       username = username.toLowerCase(Locale.US);
     }
 
-    final Iterable<SshKeyCacheEntry> keyList = sshKeyCache.get(username);
-    final SshKeyCacheEntry key = find(keyList, suppliedKey);
+    Iterable<SshKeyCacheEntry> keyList = sshKeyCache.get(username);
+    SshKeyCacheEntry key = find(keyList, suppliedKey);
     if (key == null) {
-      final String err;
+      String err;
       if (keyList == SshKeyCacheImpl.NO_SUCH_USER) {
         err = "user-not-found";
       } else if (keyList == SshKeyCacheImpl.NO_KEYS) {
@@ -133,7 +135,7 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
     // security check to ensure there aren't two users sharing the same
     // user name on the server.
     //
-    for (final SshKeyCacheEntry otherKey : keyList) {
+    for (SshKeyCacheEntry otherKey : keyList) {
       if (!key.getAccount().equals(otherKey.getAccount())) {
         sd.authenticationError(username, "keys-cross-accounts");
         return false;

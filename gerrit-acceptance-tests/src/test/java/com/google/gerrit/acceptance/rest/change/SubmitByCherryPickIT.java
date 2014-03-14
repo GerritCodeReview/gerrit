@@ -16,9 +16,11 @@ package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.gerrit.acceptance.git.GitUtil.checkout;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 
 import com.google.gerrit.acceptance.git.PushOneCommit;
 import com.google.gerrit.reviewdb.client.Project.SubmitType;
+import com.google.gwtorm.server.OrmException;
 
 import com.jcraft.jsch.JSchException;
 
@@ -28,6 +30,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.List;
 
 public class SubmitByCherryPickIT extends AbstractSubmit {
 
@@ -139,5 +142,43 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
         createChange(git, "Change 3", "b.txt", "different content");
     submitWithConflict(change3.getChangeId());
     assertEquals(oldHead, getRemoteHead());
+  }
+
+  @Test
+  public void submitMultipleChanges()
+      throws JSchException, IOException, GitAPIException, OrmException {
+    Git git = createProject();
+    RevCommit initialHead = getRemoteHead();
+
+    checkout(git, initialHead.getId().getName());
+    PushOneCommit.Result change2 = createChange(git, "Change 2", "b", "b");
+
+    checkout(git, initialHead.getId().getName());
+    PushOneCommit.Result change3 = createChange(git, "Change 3", "c", "c");
+
+    checkout(git, initialHead.getId().getName());
+    PushOneCommit.Result change4 = createChange(git, "Change 4", "d", "d");
+
+    submitStatusOnly(change2.getChangeId());
+    submitStatusOnly(change3.getChangeId());
+    submit(change4.getChangeId());
+
+    List<RevCommit> log = getRemoteLog();
+    assertEquals(
+        change4.getCommit().getShortMessage(),
+        log.get(0).getShortMessage());
+    assertSame(log.get(1), log.get(0).getParent(0));
+
+    assertEquals(
+        change3.getCommit().getShortMessage(),
+        log.get(1).getShortMessage());
+    assertSame(log.get(2), log.get(1).getParent(0));
+
+    assertEquals(
+        change2.getCommit().getShortMessage(),
+        log.get(2).getShortMessage());
+    assertSame(log.get(3), log.get(2).getParent(0));
+
+    assertEquals(initialHead.getId(), log.get(3).getId());
   }
 }

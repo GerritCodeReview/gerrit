@@ -34,20 +34,19 @@ public class MergeAlways extends SubmitStrategy {
       // create the branch.
       mergeTip = toMerge.remove(0);
     }
-    CodeReviewCommit newMergeTip = mergeTip;
     while (!toMerge.isEmpty()) {
-      newMergeTip =
+      mergeTip =
           args.mergeUtil.mergeOneCommit(args.myIdent, args.repo, args.rw,
               args.inserter, args.canMergeFlag, args.destBranch, mergeTip,
               toMerge.remove(0));
     }
 
     final PatchSetApproval submitApproval =
-        args.mergeUtil.markCleanMerges(args.rw, args.canMergeFlag, newMergeTip,
+        args.mergeUtil.markCleanMerges(args.rw, args.canMergeFlag, mergeTip,
             args.alreadyAccepted);
     setRefLogIdent(submitApproval);
 
-    return newMergeTip;
+    return mergeTip;
   }
 
   @Override

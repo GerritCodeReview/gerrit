@@ -20,6 +20,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 
+import com.google.common.collect.Lists;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AccountCreator;
 import com.google.gerrit.acceptance.RestResponse;
@@ -29,6 +30,7 @@ import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.git.GitUtil;
 import com.google.gerrit.acceptance.git.PushOneCommit;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.InheritableBoolean;
 import com.google.gerrit.reviewdb.client.Project.SubmitType;
@@ -36,6 +38,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 
@@ -55,6 +58,9 @@ import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.Collections;
+import java.util.List;
 
 public abstract class AbstractSubmit extends AbstractDaemonTest {
 
@@ -155,6 +161,22 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     submit(changeId, HttpStatus.SC_CONFLICT);
   }
 
+  protected void submitStatusOnly(String changeId)
+      throws IOException, OrmException {
+    approve(changeId);
+    Change c = db.changes().byKey(new Change.Key(changeId)).toList().get(0);
+    c.setStatus(Change.Status.SUBMITTED);
+    db.changes().update(Collections.singleton(c));
+    db.patchSetApprovals().insert(Collections.singleton(
+        new PatchSetApproval(
+            new PatchSetApproval.Key(
+                c.currentPatchSetId(),
+                admin.id,
+                PatchSetApproval.LabelId.SUBMIT),
+            (short) 1,
+            new Timestamp(System.currentTimeMillis()))));
+  }
+
   private void submit(String changeId, int expectedStatus) throws IOException {
     approve(changeId);
     RestResponse r =
@@ -205,6 +227,22 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     Repository repo = repoManager.openRepository(project);
     try {
       return getHead(repo, "refs/heads/master");
+    } finally {
+      repo.close();
+    }
+  }
+
+  protected List<RevCommit> getRemoteLog() throws IOException {
+    Repository repo = repoManager.openRepository(project);
+    try {
+      RevWalk rw = new RevWalk(repo);
+      try {
+        rw.markStart(rw.parseCommit(
+            repo.getRef("refs/heads/master").getObjectId()));
+        return Lists.newArrayList(rw);
+      } finally {
+        rw.release();
+      }
     } finally {
       repo.close();
     }

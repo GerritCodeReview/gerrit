@@ -14,10 +14,12 @@
 
 package com.google.gerrit.acceptance.rest.change;
 
+import static com.google.gerrit.acceptance.git.GitUtil.checkout;
 import static org.junit.Assert.assertEquals;
 
 import com.google.gerrit.acceptance.git.PushOneCommit;
 import com.google.gerrit.reviewdb.client.Project.SubmitType;
+import com.google.gwtorm.server.OrmException;
 
 import com.jcraft.jsch.JSchException;
 
@@ -27,6 +29,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.List;
 
 public class SubmitByMergeAlwaysIT extends AbstractSubmitByMerge {
 
@@ -46,5 +49,43 @@ public class SubmitByMergeAlwaysIT extends AbstractSubmitByMerge {
     assertEquals(2, head.getParentCount());
     assertEquals(oldHead, head.getParent(0));
     assertEquals(change.getCommitId(), head.getParent(1));
+  }
+
+  @Test
+  public void submitMultipleChanges()
+      throws JSchException, IOException, GitAPIException, OrmException {
+    Git git = createProject();
+    RevCommit initialHead = getRemoteHead();
+
+    checkout(git, initialHead.getId().getName());
+    PushOneCommit.Result change2 = createChange(git, "Change 2", "b", "b");
+
+    checkout(git, initialHead.getId().getName());
+    PushOneCommit.Result change3 = createChange(git, "Change 3", "c", "c");
+
+    checkout(git, initialHead.getId().getName());
+    PushOneCommit.Result change4 = createChange(git, "Change 4", "d", "d");
+
+    submitStatusOnly(change2.getChangeId());
+    submitStatusOnly(change3.getChangeId());
+    submit(change4.getChangeId());
+
+    List<RevCommit> log = getRemoteLog();
+    RevCommit tip = log.get(0);
+    assertEquals(
+        change4.getCommit().getShortMessage(),
+        tip.getParent(1).getShortMessage());
+
+    tip = tip.getParent(0);
+    assertEquals(
+        change3.getCommit().getShortMessage(),
+        tip.getParent(1).getShortMessage());
+
+    tip = tip.getParent(0);
+    assertEquals(
+        change2.getCommit().getShortMessage(),
+        tip.getParent(1).getShortMessage());
+
+    assertEquals(initialHead.getId(), tip.getParent(0).getId());
   }
 }

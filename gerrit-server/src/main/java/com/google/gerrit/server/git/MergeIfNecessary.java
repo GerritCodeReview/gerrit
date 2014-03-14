@@ -35,22 +35,22 @@ public class MergeIfNecessary extends SubmitStrategy {
       mergeTip = toMerge.remove(0);
     }
 
-    CodeReviewCommit newMergeTip =
+    mergeTip =
         args.mergeUtil.getFirstFastForward(mergeTip, args.rw, toMerge);
 
     // For every other commit do a pair-wise merge.
     while (!toMerge.isEmpty()) {
-      newMergeTip =
+      mergeTip =
           args.mergeUtil.mergeOneCommit(args.myIdent, args.repo, args.rw,
               args.inserter, args.canMergeFlag, args.destBranch, mergeTip,
               toMerge.remove(0));
     }
 
     final PatchSetApproval submitApproval = args.mergeUtil.markCleanMerges(
-        args.rw, args.canMergeFlag, newMergeTip, args.alreadyAccepted);
+        args.rw, args.canMergeFlag, mergeTip, args.alreadyAccepted);
     setRefLogIdent(submitApproval);
 
-    return newMergeTip;
+    return mergeTip;
   }
 
   @Override

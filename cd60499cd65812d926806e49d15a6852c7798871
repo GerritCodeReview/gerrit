@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5c0cc977_2fb589d2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-14T00:48:35Z",
+      "side": 1,
+      "message": "add \"with cherry pick merge strategy\"?",
+      "revId": "cd60499cd65812d926806e49d15a6852c7798871",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

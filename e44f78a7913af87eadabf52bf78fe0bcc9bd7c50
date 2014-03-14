@@ -22,6 +22,30 @@
       "revId": "e44f78a7913af87eadabf52bf78fe0bcc9bd7c50",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c0cc977_8fac7585",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 979,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-14T01:42:43Z",
+      "side": 1,
+      "message": "Yes, as a preemptive merge conflict resolution.\n\nThe final modifiers are already removed on master.  If we leave them here there will be conflict when stable-2.8 is merged to master.",
+      "parentUuid": "1cdc112f_3d82ef3f",
+      "range": {
+        "startLine": 979,
+        "startChar": 4,
+        "endLine": 979,
+        "endChar": 10
+      },
+      "revId": "e44f78a7913af87eadabf52bf78fe0bcc9bd7c50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -494,6 +494,9 @@ by PrintHello class will be available to users as:
 $ ssh -p 29418 review.example.com helloworld print
 ----
 
+[[multiple-commands]]
+=== Multiple Commands bound to one implementation
+
 Multiple SSH commands can be bound to the same implementation class. For
 example a Gerrit Shell plugin can bind different shell commands to the same
 implementation class:
@@ -531,6 +534,9 @@ And the call:
 $ ssh -p 29418 review.example.com shell ls
 $ ssh -p 29418 review.example.com shell ps
 ----
+
+[[root-level-commands]]
+=== Root Level Commands
 
 Single command plugins are also supported. In this scenario plugin binds
 SSH command to its own name. `SshModule` must inherit from

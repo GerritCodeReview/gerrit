@@ -859,6 +859,15 @@ Suggested access rights to grant:
 * xref:category_push[`Push`] to 'refs/for/refs/heads/*'
 * link:config-labels.html#label_Code-Review[`Code-Review`] with range '-1' to '+1' for 'refs/heads/*'
 
+If it's desired have the possibility to upload temporarily hidden
+changes there's a specific permission for that.  This enables someone
+to add specific reviewers for early feedback before making the change
+publically visible.
+
+Optional access rights to grant:
+
+* <<category_publish_drafts,`Publish Drafts`>> to `refs/drafts/*`
+
 
 [[examples_developer]]
 Developer

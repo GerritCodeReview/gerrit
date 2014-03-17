@@ -1,9 +1,7 @@
-Making a Release of a Gerrit Subproject / Core Plugin
-=====================================================
+= Making a Release of a Gerrit Subproject / Core Plugin
 
 [[make-snapshot]]
-Make a Snapshot
----------------
+== Make a Snapshot
 
 * Only for plugins:
 ** In the `pom.xml` update the Gerrit version under `properties` >
@@ -27,8 +25,7 @@ repository:
 * Test Gerrit with this snapshot locally
 
 
-Publish Snapshot
-----------------
+== Publish Snapshot
 
 If a Snapshot for a Subproject was created that should be referenced by
 Gerrit while current Gerrit development is ongoing, this Snapshot needs
@@ -54,8 +51,7 @@ and Gerrit has to reference the released Subproject version.
 
 
 [[prepare-release]]
-Prepare the Release
--------------------
+== Prepare the Release
 
 * link:#make-snapshot[First create (and test) the latest snapshot for
 the subproject/plugin]
@@ -78,8 +74,7 @@ below)
 
 
 [[publish-release]]
-Publish the Release
--------------------
+== Publish the Release
 
 * Make sure you have done the configuration needed for deployment:
 ** link:dev-release-deploy-config.html#deploy-configuration-settings-xml[

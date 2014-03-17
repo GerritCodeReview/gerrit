@@ -1,12 +1,9 @@
-gerrit set-reviewers
-====================
+= gerrit set-reviewers
 
-NAME
-----
+== NAME
 gerrit set-reviewers - Add or remove reviewers to a change
 
-SYNOPSIS
---------
+== SYNOPSIS
 [verse]
 'ssh' -p <port> <host> 'gerrit set-reviewers'
   [--project <PROJECT> | -p <PROJECT>]
@@ -15,8 +12,7 @@ SYNOPSIS
   [--]
   {COMMIT | CHANGE-ID}...
 
-DESCRIPTION
------------
+== DESCRIPTION
 Adds or removes reviewers to the specified change, sending email
 notifications when changes are made.
 
@@ -25,8 +21,7 @@ such as 'Iac6b2ac2'.  They may also be specified by numeric change
 identifiers, such as '8242' or by complete or abbreviated commit
 SHA-1s.
 
-OPTIONS
--------
+== OPTIONS
 
 --project::
 -p::
@@ -50,16 +45,13 @@ OPTIONS
 -h::
 	Display site-specific usage information
 
-ACCESS
-------
+== ACCESS
 Any user who has configured an SSH key.
 
-SCRIPTING
----------
+== SCRIPTING
 This command is intended to be used in scripts.
 
-EXAMPLES
---------
+== EXAMPLES
 
 Add reviewers alice and bob, but remove eve from change Iac6b2ac2.
 =====

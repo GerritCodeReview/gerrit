@@ -1,13 +1,11 @@
-Gerrit Code Review - Developer Setup
-====================================
+= Gerrit Code Review - Developer Setup
 
 Facebook Buck is needed to compile the code, and an SQL database to
 house the review metadata.  H2 is recommended for development
 databases, as it requires no external server process.
 
 
-Getting the Source
-------------------
+== Getting the Source
 
 Create a new client workspace:
 
@@ -21,15 +19,13 @@ the core plugins, which are included as git submodules, are also
 cloned.
 
 
-Compiling
----------
+== Compiling
 
 For details on how to build the source code with Buck, refer to:
 link:dev-buck.html#build[Building on the command line with Buck].
 
 
-Configuring Eclipse
--------------------
+== Configuring Eclipse
 
 To use the Eclipse IDE for development, please see
 link:dev-eclipse.html[Eclipse Setup].
@@ -38,8 +34,7 @@ For details on how to configure the Eclipse workspace with Buck,
 refer to: link:dev-buck.html#eclipse[Eclipse integration with Buck].
 
 
-Mac OS X
---------
+== Mac OS X
 
 On Mac OS X ensure "Java For Mac OS X 10.5 Upate 4" (or later) has
 been installed, and that `JAVA_HOME` is set to
@@ -50,8 +45,7 @@ version crash during the build due to a bug in the JIT compiler.
 
 
 [[init]]
-Site Initialization
--------------------
+== Site Initialization
 
 After compiling (above), run Gerrit's 'init' command to create a
 testing site for development use:
@@ -76,13 +70,11 @@ through the web interface:
 ----
 
 
-Testing
--------
+== Testing
 
 
 [[tests]]
-Running the Acceptance Tests
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Running the Acceptance Tests
 
 Gerrit has a set of integration tests that test the Gerrit daemon via
 REST, SSH and the git protocol.
@@ -96,8 +88,7 @@ please refer to:
 link:dev-buck.html#tests[Running integration tests with Buck].
 
 
-Running the Daemon
-~~~~~~~~~~~~~~~~~~
+=== Running the Daemon
 
 The daemon can be directly launched from the build area, without
 copying to the test site:
@@ -107,8 +98,7 @@ copying to the test site:
 ----
 
 
-Querying the Database
-~~~~~~~~~~~~~~~~~~~~~
+=== Querying the Database
 
 The embedded H2 database can be queried and updated from the
 command line.  If the daemon is not currently running:
@@ -126,8 +116,7 @@ using an administrator user account:
 
 
 [[debug-javascript]]
-Debugging JavaScript
-~~~~~~~~~~~~~~~~~~~~
+=== Debugging JavaScript
 
 When debugging browser specific issues add `?dbg=1` to the URL so the
 resulting JavaScript more closely matches the Java sources.  The debug
@@ -146,8 +135,7 @@ To use the GWT DETAILED style the package must be recompiled and
 ----
 
 
-Release Builds
---------------
+== Release Builds
 
 To create a release build for a production server, or deployment
 through the download site:
@@ -165,8 +153,7 @@ an additional flag:
 ----
 
 
-Client-Server RPC
------------------
+== Client-Server RPC
 
 The client-server RPC implementation is gwtjsonrpc, not the stock RPC
 system that comes with GWT.  This buys us automatic XSRF protection.
@@ -177,15 +164,13 @@ The programming API is virtually identical, except service interfaces
 extend RemoteJsonService instead of RemoteService.
 
 
-Why GWT?
---------
+== Why GWT?
 
 We like it.  Plus we can write Java code once and run it both in
 the browser and on the server side.
 
 
-External Links
---------------
+== External Links
 
 Google Web Toolkit:
 

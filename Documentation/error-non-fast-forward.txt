@@ -1,5 +1,4 @@
-non-fast forward
-================
+= non-fast forward
 
 With this error message Gerrit rejects a push if the remote branch can't
 be fast forwarded onto the pushed commit. This is the case if the
@@ -20,8 +19,7 @@ There are different reasons why this error can occur:
 . you are pushing the commit to the wrong project
 
 
-the remote branch has evolved since you started your development
-----------------------------------------------------------------
+== the remote branch has evolved since you started your development
 
 You start your development based on the current tip of the remote
 branch. While you implement your feature / bug-fix, a change in Gerrit
@@ -36,8 +34,7 @@ message 'non-fast forward'. To solve the problem you have to either
 Afterwards the push should be successful.
 
 
-you are pushing the commit to the wrong project
------------------------------------------------
+== you are pushing the commit to the wrong project
 
 If you do a commit in one project and then accidentally push this
 commit, with bypassing code review, to another project, this will fail

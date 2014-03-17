@@ -1,5 +1,4 @@
-Gerrit Code Review - Quick get started guide
-============================================
+= Gerrit Code Review - Quick get started guide
 
 ****
 This guide was made with the impatient in mind, ready to try out Gerrit on their
@@ -21,8 +20,7 @@ OpenID provider you choose is necessary for both you and your Gerrit instance.
 
 
 [[requirements]]
-Requirements
-------------
+== Requirements
 
 Most distributions come with Java today. Do you already have Java installed?
 
@@ -39,8 +37,7 @@ If Java isn't installed, get it:
 
 
 [[user]]
-Create a user to host the Gerrit service
-----------------------------------------
+== Create a user to host the Gerrit service
 
 We will run the service as a non-privileged user on your system.
 First create the user and then become the user:
@@ -55,8 +52,7 @@ as your own user as well.
 
 
 [[download]]
-Download Gerrit
----------------
+== Download Gerrit
 
 It's time to download the archive that contains the Gerrit web and ssh service.
 
@@ -70,8 +66,7 @@ This tutorial is based on version 2.2.2, and you can download that from this lin
 
 
 [[initialization]]
-Initialize the Site
--------------------
+== Initialize the Site
 
 It's time to run the initialization, and with the batch switch enabled, we don't have to answer any questions at all:
 
@@ -111,16 +106,14 @@ commands to gerrit.sh.
 
 include::config-login-register.txt[]
 
-Project creation
-----------------
+== Project creation
 
 Your base Gerrit server is now running and you have a user that's ready
 to interact with it.  You now have two options, either you create a new
 test project to work with or you already have a git with history that
 you would like to import into Gerrit and try out code review on.
 
-New project from scratch
-~~~~~~~~~~~~~~~~~~~~~~~~
+=== New project from scratch
 If you choose to create a new repository from scratch, it's easier for
 you to create a project with an initial commit in it. That way first
 time setup between client and server is easier.
@@ -134,8 +127,7 @@ This is done via the SSH port:
 
 This will create a repository that you can clone to work with.
 
-Already existing project
-~~~~~~~~~~~~~~~~~~~~~~~~
+=== Already existing project
 
 The other alternative is if you already have a git project that you
 want to try out Gerrit on.
@@ -166,8 +158,7 @@ After that it's time to upload the previous history to the server:
 This will create a repository that you can clone to work with.
 
 
-My first change
----------------
+== My first change
 
 Download a local clone of the repository and move into it
 
@@ -216,8 +207,7 @@ You should now be able to access your change by browsing to the http URL
 suggested above, http://localhost:8080/1
 
 
-Quick Installation Complete
----------------------------
+== Quick Installation Complete
 
 This covers the scope of getting Gerrit started and your first change uploaded.
 It doesn't give any clue as to how the review workflow works, please read

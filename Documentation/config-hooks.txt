@@ -1,5 +1,4 @@
-Gerrit Code Review - Hooks
-==========================
+= Gerrit Code Review - Hooks
 
 Gerrit does not run any of the standard git hooks in the
 repositories it works with, but it does have its own hook mechanism
@@ -17,11 +16,9 @@ the outcome of any given change. Because of the fact the hooks are
 run in the background after the activity, a hook might not be notified
 about an event if the server is shutdown before the hook can be invoked.
 
-Supported Hooks
----------------
+== Supported Hooks
 
-ref-update
-~~~~~~~~~~
+=== ref-update
 
 This is called when a push request is received by Gerrit. It allows
 a push to be rejected before it is committed to the Gerrit repository.
@@ -38,8 +35,7 @@ for configuration details.
   ref-update --project <project name> --refname <refname> --uploader <uploader> --oldrev <sha1> --newrev <sha1>
 ====
 
-patchset-created
-~~~~~~~~~~~~~~~~
+=== patchset-created
 
 This is called whenever a patchset is created (this includes new
 changes and drafts).
@@ -48,8 +44,7 @@ changes and drafts).
   patchset-created --change <change id> --is-draft <boolean> --change-url <change url> --project <project name> --branch <branch> --topic <topic> --uploader <uploader> --commit <sha1> --patchset <patchset id>
 ====
 
-draft-published
-~~~~~~~~~~~~~~~
+=== draft-published
 
 This is called whenever a draft change is published.
 
@@ -57,8 +52,7 @@ This is called whenever a draft change is published.
   draft-published --change <change id> --change-url <change url> --project <project name> --branch <branch> --topic <topic> --uploader <uploader> --commit <sha1> --patchset <patchset id>
 ====
 
-comment-added
-~~~~~~~~~~~~~
+=== comment-added
 
 This is called whenever a comment is added to a change.
 
@@ -66,8 +60,7 @@ This is called whenever a comment is added to a change.
   comment-added --change <change id> --is-draft <boolean> --change-url <change url> --project <project name> --branch <branch> --topic <topic> --author <comment author> --commit <commit> --comment <comment> [--<approval category id> <score> --<approval category id> <score> ...]
 ====
 
-change-merged
-~~~~~~~~~~~~~
+=== change-merged
 
 Called whenever a change has been merged.
 
@@ -75,8 +68,7 @@ Called whenever a change has been merged.
   change-merged --change <change id> --change-url <change url> --project <project name> --branch <branch> --topic <topic> --submitter <submitter> --commit <sha1>
 ====
 
-merge-failed
-~~~~~~~~~~~~
+=== merge-failed
 
 Called whenever a change has failed to merge.
 
@@ -84,8 +76,7 @@ Called whenever a change has failed to merge.
   merge-failed --change <change id> --change-url <change url> --project <project name> --branch <branch> --topic <topic> --submitter <submitter> --commit <sha1> --reason <reason>
 ====
 
-change-abandoned
-~~~~~~~~~~~~~~~~
+=== change-abandoned
 
 Called whenever a change has been abandoned.
 
@@ -93,8 +84,7 @@ Called whenever a change has been abandoned.
   change-abandoned --change <change id> --change-url <change url> --project <project name> --branch <branch> --topic <topic> --abandoner <abandoner> --commit <sha1> --reason <reason>
 ====
 
-change-restored
-~~~~~~~~~~~~~~~
+=== change-restored
 
 Called whenever a change has been restored.
 
@@ -102,8 +92,7 @@ Called whenever a change has been restored.
   change-restored --change <change id> --change-url <change url> --project <project name> --branch <branch> --topic <topic> --restorer <restorer> --commit <sha1> --reason <reason>
 ====
 
-ref-updated
-~~~~~~~~~~~
+=== ref-updated
 
 Called whenever a ref has been updated.
 
@@ -111,8 +100,7 @@ Called whenever a ref has been updated.
   ref-updated --oldrev <old rev> --newrev <new rev> --refname <ref name> --project <project name> --submitter <submitter>
 ====
 
-reviewer-added
-~~~~~~~~~~~~~~
+=== reviewer-added
 
 Called whenever a reviewer is added to a change.
 
@@ -120,8 +108,7 @@ Called whenever a reviewer is added to a change.
   reviewer-added --change <change id> --change-url <change url> --project <project name> --branch <branch> --reviewer <reviewer>
 ====
 
-topic-changed
-~~~~~~~~~~~~~
+=== topic-changed
 
 Called whenever a change's topic is changed from the Web UI or via the REST API.
 
@@ -129,8 +116,7 @@ Called whenever a change's topic is changed from the Web UI or via the REST API.
   topic-changed --change <change id> --project <project name> --branch <branch> --changer <changer> --old-topic <old topic> --new-topic <new topic>
 ====
 
-cla-signed
-~~~~~~~~~~
+=== cla-signed
 
 Called whenever a user signs a contributor license agreement.
 
@@ -139,8 +125,7 @@ Called whenever a user signs a contributor license agreement.
 ====
 
 
-Configuration Settings
-----------------------
+== Configuration Settings
 
 It is possible to change where Gerrit looks for hooks, and what
 filenames it looks for, by adding a [hooks] section in gerrit.config.
@@ -152,8 +137,7 @@ hooks.draftPublishedHook, hooks.commentAddedHook, hooks.changeMergedHook,
 hooks.changeAbandonedHook, hooks.changeRestoredHook, hooks.refUpdatedHook,
 hooks.refUpdateHook, hooks.reviewerAddedHook and hooks.claSignedHook.
 
-Missing Change URLs
--------------------
+== Missing Change URLs
 
 If link:config-gerrit.html#gerrit.canonicalWebUrl[gerrit.canonicalWebUrl]
 is not set in `gerrit.config` the `--change-url` flag may not be
@@ -161,8 +145,7 @@ passed to all hooks.  Hooks started out of an SSH context (for example
 the patchset-created hook) don't know the server's web URL, unless
 this variable is configured.
 
-See Also
---------
+== See Also
 
 * link:config-gerrit.html#hooks[Section hooks]
 

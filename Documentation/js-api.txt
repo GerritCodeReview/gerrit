@@ -1,11 +1,9 @@
-Gerrit Code Review - JavaScript API
-===================================
+= Gerrit Code Review - JavaScript API
 
 Gerrit Code Review supports an API for JavaScript plugins to interact
 with the web UI and the server process.
 
-Entry Point
------------
+== Entry Point
 
 JavaScript is loaded using a standard `<script src='...'>` HTML tag.
 Plugins should protect the global namespace by defining their code
@@ -21,15 +19,13 @@ Gerrit.install(function (self) {
 
 
 [[self]]
-Plugin Instance
----------------
+== Plugin Instance
 
 The plugin instance is passed to the plugin's initialization function
 and provides a number of utility services to plugin authors.
 
 [[self_delete]]
-self.delete()
-~~~~~~~~~~~~~
+=== self.delete()
 Issues a DELETE REST API request to the Gerrit server.
 
 .Signature
@@ -46,8 +42,7 @@ Gerrit.delete(url, callback)
   `204 No Content`, which is passed as null.
 
 [[self_get]]
-self.get()
-~~~~~~~~~~
+=== self.get()
 Issues a GET REST API request to the Gerrit server.
 
 .Signature
@@ -65,15 +60,13 @@ self.get(url, callback)
   as described in the relevant REST API documentation.
 
 [[self_getPluginName]]
-self.getPluginName()
-~~~~~~~~~~~~~~~~~~~~
+=== self.getPluginName()
 Returns the name this plugin was installed as by the server
 administrator. The plugin name is required to access REST API
 views installed by the plugin, or to access resources.
 
 [[self_post]]
-self.post()
-~~~~~~~~~~~
+=== self.post()
 Issues a POST REST API request to the Gerrit server.
 
 .Signature
@@ -101,8 +94,7 @@ self.post(
 ----
 
 [[self_put]]
-self.put()
-~~~~~~~~~~
+=== self.put()
 Issues a PUT REST API request to the Gerrit server.
 
 .Signature
@@ -130,8 +122,7 @@ self.put(
 ----
 
 [[self_onAction]]
-self.onAction()
-~~~~~~~~~~~~~~~
+=== self.onAction()
 Register a JavaScript callback to be invoked when the user clicks
 on a button associated with a server side `UiAction`.
 
@@ -152,8 +143,7 @@ Gerrit.onAction(type, view_name, callback);
   function will be passed a link:#ActionContext[action context].
 
 [[self_url]]
-self.url()
-~~~~~~~~~~
+=== self.url()
 Returns a URL within the plugin's URL space. If invoked with no
 parameter the URL of the plugin is returned. If passed a string
 the argument is appended to the plugin URL.
@@ -166,23 +156,20 @@ self.url('/static/icon.png');  // "https://gerrit-review.googlesource.com/plugin
 
 
 [[ActionContext]]
-Action Context
---------------
+== Action Context
 A new action context is passed to the `onAction` callback function
 each time the associated action button is clicked by the user. A
 context is initialized with sufficient state to issue the associated
 REST API RPC.
 
 [[context_action]]
-context.action
-~~~~~~~~~~~~~~
+=== context.action
 An link:rest-api-changes.html#action-info[ActionInfo] object instance
 supplied by the server describing the UI button the user used to
 invoke the action.
 
 [[context_call]]
-context.call()
-~~~~~~~~~~~~~~
+=== context.call()
 Issues the REST API call associated with the action. The HTTP method
 used comes from `context.action.method`, hiding the JavaScript from
 needing to care.
@@ -211,16 +198,14 @@ context.call(
 ----
 
 [[context_change]]
-context.change
-~~~~~~~~~~~~~~
+=== context.change
 When the action is invoked on a change a
 link:rest-api-changes.html#change-info[ChangeInfo] object instance
 describing the change. Available fields of the ChangeInfo may vary
 based on the options used by the UI when it loaded the change.
 
 [[context_delete]]
-context.delete()
-~~~~~~~~~~~~~~~~
+=== context.delete()
 Issues a DELETE REST API call to the URL associated with the action.
 
 .Signature
@@ -239,8 +224,7 @@ context.delete(function () {});
 ----
 
 [[context_get]]
-context.get()
-~~~~~~~~~~~~~
+=== context.get()
 Issues a GET REST API call to the URL associated with the action.
 
 .Signature
@@ -262,19 +246,16 @@ context.get(function (result) {
 ----
 
 [[context_go]]
-context.go()
-~~~~~~~~~~~~
+=== context.go()
 Go to a page. Shorthand for link:#Gerrit_go[`Gerrit.go()`].
 
 [[context_hide]]
-context.hide()
-~~~~~~~~~~~~~~
+=== context.hide()
 Hide the currently visible popup displayed by
 link:#context_popup[`context.popup()`].
 
 [[context_post]]
-context.post()
-~~~~~~~~~~~~~~
+=== context.post()
 Issues a POST REST API call to the URL associated with the action.
 
 .Signature
@@ -300,8 +281,7 @@ context.post(
 ----
 
 [[context_popup]]
-context.popup()
-~~~~~~~~~~~~~~~
+=== context.popup()
 
 Displays a small popup near the activation button to gather
 additional input from the user before executing the REST API RPC.
@@ -344,8 +324,7 @@ self.onAction('revision', 'start-build', function (c) {
 ----
 
 [[context_put]]
-context.put()
-~~~~~~~~~~~~~
+=== context.put()
 Issues a PUT REST API call to the URL associated with the action.
 
 .Signature
@@ -371,14 +350,12 @@ context.put(
 ----
 
 [[context_refresh]]
-context.refresh()
-~~~~~~~~~~~~~~~~~
+=== context.refresh()
 Refresh the current display. Shorthand for
 link:#Gerrit_refresh[`Gerrit.refresh()`].
 
 [[context_revision]]
-context.revision
-~~~~~~~~~~~~~~~~
+=== context.revision
 When the action is invoked on a specific revision of a change,
 a link:rest-api-changes.html#revision-info[RevisionInfo]
 object instance describing the revision. Available fields of the
@@ -386,13 +363,11 @@ RevisionInfo may vary based on the options used by the UI when it
 loaded the change.
 
 [[context_project]]
-context.project
-~~~~~~~~~~~~~~~
+=== context.project
 When the action is invoked on a specific project,
 the name of the project.
 
-Action Context HTML Helpers
----------------------------
+== Action Context HTML Helpers
 The link:#ActionContext[action context] includes some HTML helper
 functions to make working with DOM based widgets less painful.
 
@@ -430,16 +405,14 @@ functions to make working with DOM based widgets less painful.
 * `msg(label)`: a new label.
 
 [[Gerrit]]
-Gerrit
-------
+== Gerrit
 
 The `Gerrit` object is the only symbol provided into the global
 namespace by Gerrit Code Review. All top-level functions can be
 accessed through this name.
 
 [[Gerrit_delete]]
-Gerrit.delete()
-~~~~~~~~~~~~~~~
+=== Gerrit.delete()
 Issues a DELETE REST API request to the Gerrit server. For plugin
 private REST API URLs see link:#self_delete[self.delete()].
 
@@ -464,8 +437,7 @@ Gerrit.delete(
 ----
 
 [[Gerrit_get]]
-Gerrit.get()
-~~~~~~~~~~~~
+=== Gerrit.get()
 Issues a GET REST API request to the Gerrit server. For plugin
 private REST API URLs see link:#self_get[self.get()].
 
@@ -493,8 +465,7 @@ Gerrit.get('/changes/?q=status:open', function (open) {
 ----
 
 [[Gerrit_getPluginName]]
-Gerrit.getPluginName()
-~~~~~~~~~~~~~~~~~~~~~~
+=== Gerrit.getPluginName()
 Returns the name this plugin was installed as by the server
 administrator. The plugin name is required to access REST API
 views installed by the plugin, or to access resources.
@@ -504,8 +475,7 @@ must guess the name from the JavaScript call stack. Plugins are
 encouraged to use `self.getPluginName()` whenever possible.
 
 [[Gerrit_go]]
-Gerrit.go()
-~~~~~~~~~~~
+=== Gerrit.go()
 Updates the web UI to display the view identified by the supplied
 URL token. The URL token is the text after `#` in the browser URL.
 
@@ -519,8 +489,7 @@ the current browser window will navigate to the non-Gerrit URL.
 The user can return to Gerrit with the back button.
 
 [[Gerrit_install]]
-Gerrit.install()
-~~~~~~~~~~~~~~~~
+=== Gerrit.install()
 Registers a new plugin by invoking the supplied initialization
 function. The function is passed the link:#self[plugin instance].
 
@@ -532,8 +501,7 @@ Gerrit.install(function (self) {
 ----
 
 [[Gerrit_post]]
-Gerrit.post()
-~~~~~~~~~~~~~
+=== Gerrit.post()
 Issues a POST REST API request to the Gerrit server. For plugin
 private REST API URLs see link:#self_post[self.post()].
 
@@ -562,8 +530,7 @@ Gerrit.post(
 ----
 
 [[Gerrit_put]]
-Gerrit.put()
-~~~~~~~~~~~~
+=== Gerrit.put()
 Issues a PUT REST API request to the Gerrit server. For plugin
 private REST API URLs see link:#self_put[self.put()].
 
@@ -592,8 +559,7 @@ Gerrit.put(
 ----
 
 [[Gerrit_onAction]]
-Gerrit.onAction()
-~~~~~~~~~~~~~~~~~
+=== Gerrit.onAction()
 Register a JavaScript callback to be invoked when the user clicks
 on a button associated with a server side `UiAction`.
 
@@ -614,13 +580,11 @@ Gerrit.onAction(type, view_name, callback);
   function will be passed a link:#ActionContext[ActionContext].
 
 [[Gerrit_refresh]]
-Gerrit.refresh()
-~~~~~~~~~~~~~~~~
+=== Gerrit.refresh()
 Redisplays the current web UI view, refreshing all information.
 
 [[Gerrit_url]]
-Gerrit.url()
-~~~~~~~~~~~~
+=== Gerrit.url()
 Returns the URL of the Gerrit Code Review server. If invoked with
 no parameter the URL of the site is returned. If passed a string
 the argument is appended to the site URL.

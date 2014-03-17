@@ -1,18 +1,14 @@
-gerrit show-queue
-=================
+= gerrit show-queue
 
-NAME
-----
+== NAME
 gerrit show-queue - Display the background work queues, including replication
 
-SYNOPSIS
---------
+== SYNOPSIS
 [verse]
 'ssh' -p <port> <host> 'gerrit show-queue'
 'ssh' -p <port> <host> 'ps'
 
-DESCRIPTION
------------
+== DESCRIPTION
 Presents a table of the pending activity the Gerrit daemon
 is currently performing, or will perform in the near future.
 Gerrit contains an internal scheduler, similar to cron, that it
@@ -22,8 +18,7 @@ Tasks that are completed or canceled exit the queue very quickly
 once they enter this state, but it can be possible to observe tasks
 in these states.
 
-ACCESS
-------
+== ACCESS
 End-users may see a task in the queue only if they can also see
 the project the task is associated with. Tasks operating on other
 projects, or that do not have a specific project are hidden.
@@ -33,19 +28,16 @@ granted
 link:access-control.html#capability_viewQueue[the 'View Queue' capability]
 can see all queue entries.
 
-SCRIPTING
----------
+== SCRIPTING
 Intended for interactive use only.
 
-OPTIONS
--------
+== OPTIONS
 --wide::
 -w::
 	Do not format the output to the terminal width (default of
 	80 columns).
 
-DISPLAY
--------
+== DISPLAY
 
 Task::
 	Unique task identifier on this server.	May be passed into
@@ -70,8 +62,7 @@ Command::
 	Short text description of the task that will be performed
 	at the given time.
 
-EXAMPLES
---------
+== EXAMPLES
 
 The following queue contains two tasks scheduled to replicate the
 `tools/gerrit.git` project to two different remote systems, `dst1`

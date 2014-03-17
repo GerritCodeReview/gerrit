@@ -1,5 +1,4 @@
-not Signed-off-by author/committer/uploader in commit message footer
-====================================================================
+= not Signed-off-by author/committer/uploader in commit message footer
 
 Projects in Gerrit can be configured to require a link:user-signedoffby.html#Signed-off-by[Signed-off-by] in
 the footer of the commit message to enforce that every change is signed by the

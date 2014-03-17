@@ -1,40 +1,32 @@
-gerrit rename-group
-===================
+= gerrit rename-group
 
-NAME
-----
+== NAME
 gerrit rename-group - Rename an account group.
 
-SYNOPSIS
---------
+== SYNOPSIS
 [verse]
 'ssh' -p <port> <host> 'gerrit rename-group'
   <GROUP>
   <NEWNAME>
 
-DESCRIPTION
------------
+== DESCRIPTION
 Renames an account group.
 
-ACCESS
-------
+== ACCESS
 Caller must be a member of the group owning the group to be renamed
 or be a member of the privileged 'Administrators' group.
 
-SCRIPTING
----------
+== SCRIPTING
 This command is intended to be used in scripts.
 
-OPTIONS
--------
+== OPTIONS
 <GROUP>::
 	Required; name of the group to be renamed.
 
 <NEWNAME>::
 	Required; new name of the group.
 
-EXAMPLES
---------
+== EXAMPLES
 Rename the group "MyGroup" to "MyCommitters".
 
 ====

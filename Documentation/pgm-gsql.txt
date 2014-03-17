@@ -1,17 +1,13 @@
-gsql
-====
+= gsql
 
-NAME
-----
+== NAME
 gsql - Administrative interface to idle database
 
-SYNOPSIS
---------
+== SYNOPSIS
 [verse]
 'java' -jar gerrit.war 'gsql' -d <SITE_PATH>
 
-DESCRIPTION
------------
+== DESCRIPTION
 Interactive query support against the configured SQL database.
 All SQL statements are supported, including SELECT, UPDATE, INSERT,
 DELETE and ALTER.
@@ -20,22 +16,19 @@ This command is primarily intended to access a local H2 database
 which is not currently open by a Gerrit daemon.  To access an open
 database use link:cmd-gsql.html[gerrit gsql] over SSH.
 
-OPTIONS
--------
+== OPTIONS
 
 -d::
 --site-path::
 	Location of the gerrit.config file, and all other per-site
 	configuration data, supporting libraries and log files.
 
-CONTEXT
--------
+== CONTEXT
 This command can only be run on a server which has direct
 connectivity to the metadata database, and local access to the
 managed Git repositories.
 
-EXAMPLES
---------
+== EXAMPLES
 To manually correct a user's SSH user name:
 
 ====

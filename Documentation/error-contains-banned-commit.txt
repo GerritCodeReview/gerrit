@@ -1,5 +1,4 @@
-contains banned commit ...
-==========================
+= contains banned commit ...
 
 With this error message Gerrit rejects to push a commit that is
 banned or that would merge in an ancestor that is banned.

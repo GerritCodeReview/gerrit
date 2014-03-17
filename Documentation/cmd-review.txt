@@ -1,12 +1,10 @@
 gerrit review
 ==============
 
-NAME
-----
+== NAME
 gerrit review - Verify, approve and/or submit one or more patch sets
 
-SYNOPSIS
---------
+== SYNOPSIS
 [verse]
 'ssh' -p <port> <host> 'gerrit review'
   [--project <PROJECT> | -p <PROJECT>]
@@ -19,8 +17,7 @@ SYNOPSIS
   [--label Label-Name=<N>]
   {COMMIT | CHANGEID,PATCHSET}...
 
-DESCRIPTION
------------
+== DESCRIPTION
 Updates the current user's approval status of the specified patch
 sets and/or submits them for merging, sending out email
 notifications and updating the database.
@@ -34,8 +31,7 @@ in multiple projects the `--project` option may be used to limit where
 Gerrit searches for the change to only the contents of the specified project.
 
 
-OPTIONS
--------
+== OPTIONS
 
 --project::
 -p::
@@ -85,16 +81,13 @@ OPTIONS
 --label::
         Set a label by name to the value 'N'.
 
-ACCESS
-------
+== ACCESS
 Any user who has configured an SSH key.
 
-SCRIPTING
----------
+== SCRIPTING
 This command is intended to be used in scripts.
 
-EXAMPLES
---------
+== EXAMPLES
 
 Approve the change with commit c0ff33 as "Verified +1"
 =====
@@ -124,8 +117,7 @@ Abandon an active change:
   $ ssh -p 29418 review.example.com gerrit review --abandon c0ff33
 ====
 
-SEE ALSO
---------
+== SEE ALSO
 
 * link:access-control.html[Access Controls]
 

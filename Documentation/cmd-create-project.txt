@@ -1,12 +1,9 @@
-gerrit create-project
-=====================
+= gerrit create-project
 
-NAME
-----
+== NAME
 gerrit create-project - Create a new hosted project
 
-SYNOPSIS
---------
+== SYNOPSIS
 [verse]
 'ssh' -p <port> <host> 'gerrit create-project'
   [--owner <GROUP> ... | -o <GROUP> ...]
@@ -24,8 +21,7 @@ SYNOPSIS
   [--max-object-size-limit <N>]
   { <NAME> | --name <NAME> }
 
-DESCRIPTION
------------
+== DESCRIPTION
 Creates a new bare Git repository under `gerrit.basePath`, using
 the project name supplied.  The newly created repository is empty
 (has no commits), but is registered in the Gerrit database so that
@@ -37,18 +33,15 @@ the configured remote systems over SSH and uses command line git
 on the remote system to create the empty repository.
 
 
-ACCESS
-------
+== ACCESS
 Caller must be a member of the privileged 'Administrators' group,
 or have been granted
 link:access-control.html#capability_createProject[the 'Create Project' global capability].
 
-SCRIPTING
----------
+== SCRIPTING
 This command is intended to be used in scripts.
 
-OPTIONS
--------
+== OPTIONS
 <NAME>::
 	Required; name of the new project to create.  If name ends
 	with `.git` the suffix will be automatically removed.
@@ -156,8 +149,7 @@ link:project-setup.html#submit_type[Change Submit Actions].
 Common unit suffixes of 'k', 'm', or 'g' are supported.
 
 
-EXAMPLES
---------
+== EXAMPLES
 Create a new project called `tools/gerrit`:
 
 ====
@@ -175,8 +167,7 @@ shell needs double quotes around the value to ensure the single quotes
 are passed through SSH as-is to the remote Gerrit server, which uses
 the single quotes to delimit the value.
 
-REPLICATION
------------
+== REPLICATION
 If the replication plugin is installed, the plugin will attempt to
 perform remote repository creation by a Bourne shell script:
 
@@ -193,8 +184,7 @@ A custom extension or plugin may also be developed to implement the
 NewProjectCreatedListener extension point and handle custom logic
 for remote repository creation.
 
-SEE ALSO
---------
+== SEE ALSO
 
 * link:project-setup.html[Project Setup]
 

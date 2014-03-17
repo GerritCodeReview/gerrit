@@ -1,5 +1,4 @@
-Change Screen - Introduction
-============================
+= Change Screen - Introduction
 
 As of Gerrit 2.8 the change screen was redesigned from the ground up. The old
 change screen is deprecated and will be discontinued in one of the next Gerrit
@@ -25,8 +24,7 @@ link:https://groups.google.com/forum/#!topic/repo-discuss/6Ryz9p6AzgE[
 CodeScreen2 thread on the repo-discuss mailing list].
 
 [[configuration]]
-Configuration
--------------
+== Configuration
 
 The new change screen is deactivated by default.  Administrators can activate
 it system-wide by changing the link:config-gerrit.html[gerrit.changeScreen]
@@ -39,8 +37,7 @@ By setting "Default", users can select to use whichever screen the site
 administrator has configured.
 
 [[switching-between-patch-sets]]
-Switching between patch sets
-----------------------------
+== Switching between patch sets
 
 As already mentioned above, the main difference between the old and the new
 change screen is the fact that only one patch set is presented on the screen.
@@ -53,15 +50,13 @@ ascending and reverse patch set sorting order is not supported on the new change
 screen.
 
 [[download-commands]]
-Download commands
------------------
+== Download commands
 
 The download commands are moved to the 'Download' drop down box.  Patch files
 can be downloaded as base64 encoded or zipped versions.
 
 [[included-in]]
-Included in
------------
+== Included in
 
 To see the branches a specific change was merged into and the list of the tags
 a change was tagged with, use the 'Included In' drop down on the change header,
@@ -70,8 +65,7 @@ to the left of the 'Revisions' drop down.
 Note that this list is only visible on merged changes.
 
 [[quick-approve]]
-Quick approve
--------------
+== Quick approve
 
 The so called 'Quick approve' button is some times confusing. Normal users (i.e.
 non-maintainers) see this as 'Verified+1' button to the right of the 'Reply'
@@ -92,8 +86,7 @@ using this button, hence the name 'Quick approve'. To provide comments, the
 'Reply' button should be used.
 
 [[reply-button]]
-Reply button
-------------
+== Reply button
 
 This button corresponds to the 'Review' button the on patch set panel on the old
 change screen.  The only new feature: the user can optionally send an email
@@ -102,8 +95,7 @@ during the vote.
 Key bindings: "a" to open the drop down. "ESC" to close it.
 
 [[edit-commit-message]]
-Edit commit message
--------------------
+== Edit commit message
 
 To edit the commit message use the 'Edit Message' button on the change header,
 which will open a drop-down editor box.
@@ -119,23 +111,20 @@ clicking the icon again unstars the change.
 Key bindings: "s" to star/unstar the change.
 
 [[edit-change-topic]]
-Edit change topic
------------------
+== Edit change topic
 
 To edit the topic use the edit icon to the right of the topic field.
 
 Key bindings: "t" to open the drop down. "ESC" to close it.
 
 [[abandon-restore]]
-Abandon or Restore changes
---------------------------
+== Abandon or Restore changes
 
 When a change is abandoned or restored, a panel appears and a comment message
 can be provided.
 
 [[working-with-drafts]]
-Working with draft changes and patch sets
------------------------------------------
+== Working with draft changes and patch sets
 
 When a change or a patch set is a draft, then three additional buttons appear on
 the action panel: 'Publish', 'Delete Revision', and 'Delete Change'. In the
@@ -143,16 +132,14 @@ the action panel: 'Publish', 'Delete Revision', and 'Delete Change'. In the
 indicate that the patch set is a draft.
 
 [[draft-comments]]
-Highlight draft comments
-------------------------
+== Highlight draft comments
 
 If a patch set has draft comments that weren't published yet, then that patch
 set is marked on the list in the 'Revisions' drop down list. In addition a red
 "draft" prefix appears on the filenames in the file table.
 
 [[codemirror]]
-Codemirror
-----------
+== Codemirror
 
 On the user preferences page, 'Side By Side' or 'Unified Diff' view can be
 configured.  Use the "/" key to start the CodeMirror search, like in vim.
@@ -164,8 +151,7 @@ lines with the mouse and then click the bottom-most line number to create a
 range comment for the highlighted lines.
 
 [[reviewers]]
-Reviewers
----------
+== Reviewers
 
 Reviewer are split into two groups: Reviewers who actually voted on the change
 in the 'Reviewers' field, and reviewers, who were added to the change but didn't
@@ -181,8 +167,7 @@ To remove reviewers click on the 'x' icon in the reviewer's "chip".
 Key bindings:  "c" to add a reviewer. "ESC" to close the drop down.
 
 [[auto-refresh]]
-Auto refresh of change data
----------------------------
+== Auto refresh of change data
 
 On the new change screen polling for updates to the currently open change is
 activated per default.  For example, if another user votes or comments on the
@@ -193,8 +178,7 @@ The default delay is 30 seconds.  It can be configured with the
 link:config-gerrit.html[change.updateDelay] setting.
 
 [[related-changes]]
-Related changes
----------------
+== Related changes
 
 Dependencies and dependent changes are listed in the 'Related Changes' drop
 down.
@@ -203,8 +187,7 @@ Key bindings:  "J" & "K" to navigate between the related changes. "O" to
 open the currently selected related change.
 
 [[file-table]]
-File table
-----------
+== File table
 
 The user can now manually toggle the 'reviewed' flag per file using the check
 box to the left of the filename.
@@ -213,8 +196,7 @@ Key bindings: "j" & "k" to navigate in the file table, and "r" to toggle the
 'reviewed' flag.
 
 [[diff-against]]
-Diff against
-------------
+== Diff against
 
 In the 'Diff against' dropdown, base reference version can be selected. On
 selecting an entry the file table list is reloaded and shows only the files
@@ -223,8 +205,7 @@ is passed to the side by side view, so that code mirror windows "remember"
 the base reference version choice made on the change screen.
 
 [[history]]
-History
--------
+== History
 
 The history table shows change messages and inline file comments. Expand All and
 Collapse All buttons show/hide the messages.
@@ -232,8 +213,7 @@ Collapse All buttons show/hide the messages.
 Key bindings: "x" expands all messages, "z" collapses them again.
 
 [[missing-features]]
-Missing features
-----------------
+== Missing features
 
 Several features have not been implemented yet:
 

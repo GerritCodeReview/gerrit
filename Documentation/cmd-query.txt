@@ -1,12 +1,9 @@
-gerrit query
-============
+= gerrit query
 
-NAME
-----
+== NAME
 gerrit query - Query the change database
 
-SYNOPSIS
---------
+== SYNOPSIS
 [verse]
 'ssh' -p <port> <host> 'gerrit query'
   [--format {TEXT | JSON}]
@@ -22,8 +19,7 @@ SYNOPSIS
   [limit:<n>]
   [resume_sortkey:<sortKey>]
 
-DESCRIPTION
------------
+== DESCRIPTION
 
 Queries the change database and returns results describing changes
 that match the input query.  More recently updated changes appear
@@ -48,8 +44,7 @@ Query operators may quote values using matched curly braces
 levels of shell quoting (caller shell invoking SSH, and the SSH
 command line parser in the server).
 
-OPTIONS
--------
+== OPTIONS
 --format::
 	Formatting method for the results. `TEXT` is the default,
 	presenting a human readable display. `JSON` returns
@@ -106,16 +101,13 @@ resume_sortkey:<sortKey>::
 	resume a prior query.  This is actually a query operator,
 	and not a command line option.
 
-ACCESS
-------
+== ACCESS
 Any user who has configured an SSH key.
 
-SCRIPTING
----------
+== SCRIPTING
 This command is intended to be used in scripts.
 
-EXAMPLES
---------
+== EXAMPLES
 
 Find the 2 most recent open changes in the tools/gerrit project:
 ====
@@ -134,8 +126,7 @@ Resume the same query and obtain the final results:
 ====
 
 
-SCHEMA
-------
+== SCHEMA
 The JSON messages consist of nested objects referencing the
 link:json.html#change[change],
 link:json.html#patchSet[patchset],
@@ -145,8 +136,7 @@ involved, and other attributes as appropriate.
 Note that any field may be missing in the JSON messages, so consumers
 of this JSON stream should deal with that appropriately.
 
-SEE ALSO
---------
+== SEE ALSO
 
 * link:user-search.html[Query Operators]
 * link:json.html[JSON Data Formats]

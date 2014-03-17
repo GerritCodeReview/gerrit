@@ -1,18 +1,14 @@
-plugin reload
-=============
+= plugin reload
 
-NAME
-----
+== NAME
 plugin reload - Reload/Restart plugins.
 
-SYNOPSIS
---------
+== SYNOPSIS
 [verse]
 'ssh' -p <port> <host> 'gerrit plugin reload'
   <NAME> ...
 
-DESCRIPTION
------------
+== DESCRIPTION
 Reload/Restart plugins.
 
 Whether a plugin is reloaded or restarted is defined by the plugin's
@@ -21,22 +17,18 @@ link:dev-plugins.html#reload_method[reload method].
 E.g. a plugin needs to be reloaded if its configuration is modified to
 make the new configuration data become active.
 
-ACCESS
-------
+== ACCESS
 Caller must be a member of the privileged 'Administrators' group.
 
-SCRIPTING
----------
+== SCRIPTING
 This command is intended to be used in scripts.
 
-OPTIONS
--------
+== OPTIONS
 <NAME>::
 	Name of the plugin that should be reloaded.  Multiple names of
 	plugins that should be reloaded may be specified.
 
-EXAMPLES
---------
+== EXAMPLES
 Reload a plugin:
 
 ====

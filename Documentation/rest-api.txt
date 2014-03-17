@@ -1,5 +1,4 @@
-Gerrit Code Review - REST API
-=============================
+= Gerrit Code Review - REST API
 
 Gerrit Code Review comes with a REST like API available over HTTP.
 The API is suitable for automated tools to build upon, as well as
@@ -7,8 +6,7 @@ supporting some ad-hoc scripting use cases.
 
 See also: link:dev-rest-api.html[REST API Developers' Notes].
 
-Endpoints
----------
+== Endpoints
 link:rest-api-access.html[/access/]::
   Access Right related REST endpoints
 link:rest-api-accounts.html[/accounts/]::
@@ -24,12 +22,10 @@ link:rest-api-plugins.html[/plugins/]::
 link:rest-api-projects.html[/projects/]::
   Project related REST endpoints
 
-Protocol Details
-----------------
+== Protocol Details
 
 [[authentication]]
-Authentication
-~~~~~~~~~~~~~~
+=== Authentication
 By default all REST endpoints assume anonymous access and filter
 results to correspond to what anonymous users can read (which may
 be nothing at all).
@@ -41,16 +37,14 @@ prefix the endpoint URL with `/a/`. For example to authenticate to
 `/projects/` request URL `/a/projects/`.
 
 [[preconditions]]
-Preconditions
-~~~~~~~~~~~~~
+=== Preconditions
 Clients can request PUT to create a new resource and not overwrite
 an existing one by adding `If-None-Match: *` to the request HTTP
 headers. If the named resource already exists the server will respond
 with HTTP 412 Precondition Failed.
 
 [[output]]
-Output Format
-~~~~~~~~~~~~~
+=== Output Format
 Most APIs return pretty printed JSON by default. Compact JSON can be
 requested by setting the `Accept` HTTP request header to include
 `application/json`, for example:
@@ -83,29 +77,25 @@ Responses will be gzip compressed by the server if the HTTP
 save on network transfer time for larger responses.
 
 [[timestamp]]
-Timestamp
-~~~~~~~~~
+=== Timestamp
 Timestamps are given in UTC and have the format
 "'yyyy-mm-dd hh:mm:ss.fffffffff'" where "'ffffffffff'" indicates the
 nanoseconds.
 
 [[encoding]]
-Encoding
-~~~~~~~~
+=== Encoding
 All IDs that appear in the URL of a REST call (e.g. project name, group name)
 must be URL encoded.
 
 [[response-codes]]
-Response Codes
-~~~~~~~~~~~~~~
+=== Response Codes
 HTTP status codes are well defined and the Gerrit REST endpoints use
 them as described in the HTTP spec.
 
 Here are examples for some HTTP status codes that show how they are
 used in the context of the Gerrit REST API.
 
-400 Bad Request
-^^^^^^^^^^^^^^^
+==== 400 Bad Request
 `400 Bad Request` is used if the request is not understood by the
 server due to malformed syntax.
 
@@ -116,8 +106,7 @@ body doesn't contain valid JSON.
 `400 Bad Request` is also used if required input fields are not set or
 if options are set which cannot be used together.
 
-403 Forbidden
-^^^^^^^^^^^^^
+==== 403 Forbidden
 `403 Forbidden` is used if the operation is not allowed because the
 calling user has no sufficient permissions.
 
@@ -128,14 +117,12 @@ assigned.
 `403 Forbidden` is also used if `self` is used as account ID and the
 REST call was done without authentication.
 
-404 Not Found
-^^^^^^^^^^^^^
+==== 404 Not Found
 `404 Not Found` is returned if the resource that is specified by the
 URL is not found or is not visible to the calling user. A resource
 cannot be found if the URL contains a non-existing ID or view.
 
-405 Method Not Allowed
-^^^^^^^^^^^^^^^^^^^^^^
+==== 405 Method Not Allowed
 `405 Method Not Allowed` is used if the resource exists but doesn't
 support the operation.
 
@@ -143,8 +130,7 @@ E.g. some of the `/groups/` endpoints are only supported for Gerrit
 internal groups, if they are invoked for an external group the response
 is `405 Method Not Allowed`.
 
-409 Conflict
-^^^^^^^^^^^^
+==== 409 Conflict
 `409 Conflict` is used if the request cannot be completed because the
 current state of the resource doesn't allow the operation.
 
@@ -155,14 +141,12 @@ operation.
 `409 Conflict` is also used if you try to create a resource but the
 name is already occupied by an existing resource.
 
-412 Precondition Failed
-^^^^^^^^^^^^^^^^^^^^^^^
+==== 412 Precondition Failed
 `412 Precondition Failed` is used if a precondition from the request
 header fields is not fulfilled as described in the link:#preconditions[
 Preconditions] section.
 
-422 Unprocessable Entity
-^^^^^^^^^^^^^^^^^^^^^^^^
+==== 422 Unprocessable Entity
 `422 Unprocessable Entity` is returned if the ID of a resource that is
 specified in the request body cannot be resolved.
 

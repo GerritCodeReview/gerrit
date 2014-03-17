@@ -1,19 +1,15 @@
-gerrit-cherry-pick
-==================
+= gerrit-cherry-pick
 
-NAME
-----
+== NAME
 gerrit-cherry-pick - Download and cherry pick one or more changes
 
-SYNOPSIS
---------
+== SYNOPSIS
 [verse]
 'gerrit-cherry-pick' <remote> <changeid>...
 'gerrit-cherry-pick' --continue | --skip | --abort
 'gerrit-cherry-pick' --close <remote>
 
-DESCRIPTION
------------
+== DESCRIPTION
 Downloads the listed changes specified on the command line and
 proceeds to cherry-pick them (rewriting commit SHA-1s as it goes)
 onto the current branch.
@@ -31,8 +27,7 @@ existing changes post cherry-pick is better handled simply by
 ensuring link:user-changeid.html[Change-Id lines] are present in
 each commit message.
 
-OBTAINING
----------
+== OBTAINING
 To obtain the 'gerrit-cherry-pick' script use scp, curl or wget to
 copy it to your local system:
 

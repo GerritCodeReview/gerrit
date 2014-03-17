@@ -1,30 +1,23 @@
-kill
-====
+= kill
 
-NAME
-----
+== NAME
 kill - Cancel or abort a background task
 
-SYNOPSIS
---------
+== SYNOPSIS
 [verse]
 'ssh' -p <port> <host> 'kill' <ID> ...
 
-DESCRIPTION
------------
+== DESCRIPTION
 Cancels a scheduled task from the queue.  If the task has already
 been started, requests for the task to cancel as soon as it reaches
 its next cancellation point (which is usually blocking IO).
 
-ACCESS
-------
+== ACCESS
 Caller must be a member of the privileged 'Administrators' group,
 or have been granted link:access-control.html#capability_kill[the 'Kill Task' global capability].
 
-SCRIPTING
----------
+== SCRIPTING
 Intended for interactive use only.
 
-GERRIT
-------
+== GERRIT
 Part of link:index.html[Gerrit Code Review]

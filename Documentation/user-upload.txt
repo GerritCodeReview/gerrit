@@ -1,5 +1,4 @@
-Gerrit Code Review - Uploading Changes
-======================================
+= Gerrit Code Review - Uploading Changes
 
 Gerrit supports three methods of uploading changes:
 
@@ -14,8 +13,7 @@ Gerrit supports two methods of authenticating the uploading user.  SSH
 public key, and HTTP/HTTPS.
 
 [[http]]
-HTTP/HTTPS
-----------
+== HTTP/HTTPS
 
 On Gerrit installations that do not support SSH authentication, the
 user must authenticate via HTTP/HTTPS.
@@ -33,8 +31,7 @@ is configured, the password can be obtained by clicking on `Obtain Password`
 and then following the site-specific instructions.  On sites where this URL is
 not configured, the password can be obtained by clicking on `Generate Password`.
 
-SSH
----
+== SSH
 
 Each user uploading changes to Gerrit must configure one or more SSH
 public keys.  The per-user SSH key list can be accessed over the web
@@ -42,8 +39,7 @@ within Gerrit by `Settings`, and then accessing the `SSH Public Keys`
 tab.
 
 [[configure_ssh]]
-Configuration
-~~~~~~~~~~~~~
+=== Configuration
 
 To register a new SSH key for use with Gerrit, paste the contents of
 your `id_rsa.pub` or `id_dsa.pub` file into the text box and click
@@ -76,8 +72,7 @@ documentation, for more details on configuration of the agent
 process and how to add the private key.
 
 [[test_ssh]]
-Testing Connections
-~~~~~~~~~~~~~~~~~~~
+=== Testing Connections
 
 To verify your SSH key is working correctly, try using an SSH client
 to connect to Gerrit's SSHD port.  By default Gerrit runs on
@@ -120,12 +115,10 @@ The returned output from this URL is always `'hostname' SP 'port'`,
 or `NOT_AVAILABLE` if the SSHD server is not currently running.
 
 
-git push
---------
+== git push
 
 [[push_create]]
-Create Changes
-~~~~~~~~~~~~~~
+=== Create Changes
 
 To create new changes for review, simply push to the project's
 magical `refs/for/'branch'` ref using any Git client tool:
@@ -207,8 +200,7 @@ branches, consider adding a custom remote block to your project's
 
 
 [[push_replace]]
-Replace Changes
-~~~~~~~~~~~~~~~
+=== Replace Changes
 
 To add an additional patch set to a change, ensure Change-Id
 lines were created in the original commit messages, and just use
@@ -226,8 +218,7 @@ manual mapping technique described below.
 For more about Change-Ids, see link:user-changeid.html[Change-Id Lines].
 
 [[manual_replacement_mapping]]
-Manual Replacement Mapping
-^^^^^^^^^^^^^^^^^^^^^^^^^^
+==== Manual Replacement Mapping
 
 .Deprecation Warning
 ****
@@ -286,8 +277,7 @@ always include the create change refspec when uploading replacements.
 
 
 [[bypass_review]]
-Bypass Review
-~~~~~~~~~~~~~
+=== Bypass Review
 
 Changes (and annotated tags) can be pushed directly into a
 repository, bypassing the review process.  This is primarily useful
@@ -334,8 +324,7 @@ make undesired changes to the public repository.
 
 
 [[auto_merge]]
-Auto-Merge during Push
-~~~~~~~~~~~~~~~~~~~~~~
+=== Auto-Merge during Push
 
 Changes can be directly submitted on push.  This is primarily useful
 for teams that don't want to do code review but want to use Gerrit's
@@ -354,8 +343,7 @@ set the merge can be reattempted by using `%submit` again.
 
 
 [[base]]
-Selecting Merge Base
-~~~~~~~~~~~~~~~~~~~~
+=== Selecting Merge Base
 
 By default new changes are opened only for new unique commits
 that have never before been seen by the Gerrit server. Clients
@@ -367,16 +355,14 @@ by setting the merge base SHA-1 using the '%base' argument:
 ====
 
 
-repo upload
------------
+== repo upload
 
 repo is a multiple repository management tool, most commonly
 used by the Android Open Source Project.  For more details, see
 link:http://source.android.com/source/using-repo.html[using repo].
 
 [[repo_create]]
-Create Changes
-~~~~~~~~~~~~~~
+=== Create Changes
 
 To upload changes to a project using `repo`, ensure the manifest's
 review field has been configured to point to the Gerrit server.
@@ -394,8 +380,7 @@ be sent through command line options.
 For more details on using `repo upload`, see `repo help upload`.
 
 [[repo_replace]]
-Replace Changes
-~~~~~~~~~~~~~~~
+=== Replace Changes
 
 To replace changes, ensure Change-Id lines were created in the
 commit messages, and just use `repo upload`.
@@ -413,8 +398,7 @@ by using `git push` to a specific `refs/changes/change#` reference.
 For more about Change-Ids, see link:user-changeid.html[Change-Id Lines].
 
 
-Gritty Details
---------------
+== Gritty Details
 
 As Gerrit implements the entire SSH and Git server stack within its
 own process space, Gerrit maintains complete control over how the

@@ -1,21 +1,17 @@
 gerrit show-caches
 ===================
 
-NAME
-----
+== NAME
 gerrit show-caches - Display current cache statistics
 
-SYNOPSIS
---------
+== SYNOPSIS
 [verse]
 'ssh' -p <port> <host> 'gerrit show-caches' [--gc] [--show-jvm]
 
-DESCRIPTION
------------
+== DESCRIPTION
 Display statistics about the size and hit ratio of in-memory caches.
 
-OPTIONS
--------
+== OPTIONS
 --gc::
 	Request Java garbage collection before displaying information
 	about the Java memory heap.
@@ -29,18 +25,15 @@ OPTIONS
 -w::
 	Width of the output table.
 
-ACCESS
-------
+== ACCESS
 Caller must be a member of the privileged 'Administrators' group,
 or have been granted
 link:access-control.html#capability_viewCaches[the 'View Caches' global capability].
 
-SCRIPTING
----------
+== SCRIPTING
 Intended for interactive use only.
 
-EXAMPLES
---------
+== EXAMPLES
 
 ====
 	$ ssh -p 29418 review.example.com gerrit show-caches
@@ -73,8 +66,7 @@ EXAMPLES
 	           0 open files,        6 cpus available,       23 threads
 ====
 
-SEE ALSO
---------
+== SEE ALSO
 
 * link:cmd-flush-caches.html[gerrit flush-caches]
 * link:config-gerrit.html#cache[Cache Configuration]

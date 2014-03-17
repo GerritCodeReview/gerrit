@@ -1,17 +1,13 @@
-ScanTrackingIds
-===============
+= ScanTrackingIds
 
-NAME
-----
+== NAME
 ScanTrackingIds - Rescan changes to index trackingids
 
-SYNOPSIS
---------
+== SYNOPSIS
 [verse]
 'java' -jar gerrit.war 'ScanTrackingIds' -d <SITE_PATH>
 
-DESCRIPTION
------------
+== DESCRIPTION
 Scans every known change and updates the indexed tracking
 ids associated with the change, after editing the trackingid
 configuration in gerrit.config.
@@ -20,16 +16,14 @@ This task can take quite some time, but can run in the background
 concurrently to the server if the database is MySQL or PostgreSQL.
 If the database is H2, this task must be run by itself.
 
-STATUS
-------
+== STATUS
 This command will be replaced by `reindex`.
 
 If secondary indexing is enabled
 (link:config-gerrit.html#index.type[index.type] set to `LUCENE`
 or `SOLR`) use link:pgm-reindex.html[reindex].
 
-OPTIONS
--------
+== OPTIONS
 
 -d::
 \--site-path::
@@ -40,14 +34,12 @@ OPTIONS
 	Number of threads to perform the scan work with.  Defaults to
 	twice the number of CPUs available.
 
-CONTEXT
--------
+== CONTEXT
 This command can only be run on a server which has direct
 connectivity to the metadata database, and local access to the
 managed Git repositories.
 
-EXAMPLES
---------
+== EXAMPLES
 To rescan all known trackingids:
 
 ====

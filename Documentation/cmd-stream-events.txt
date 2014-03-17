@@ -1,17 +1,13 @@
-gerrit stream-events
-====================
+= gerrit stream-events
 
-NAME
-----
+== NAME
 gerrit stream-events - Monitor events occurring in real time
 
-SYNOPSIS
---------
+== SYNOPSIS
 [verse]
 'ssh' -p <port> <host> 'gerrit stream-events'
 
-DESCRIPTION
------------
+== DESCRIPTION
 
 Provides a portal into the major events occurring on the server,
 outputting activity data in real-time to the client.  Events are
@@ -21,18 +17,15 @@ the project repository.
 
 Event output is in JSON, one event per line.
 
-ACCESS
-------
+== ACCESS
 Caller must be a member of the privileged 'Administrators' group,
 or have been granted
 link:access-control.html#capability_streamEvents[the 'Stream Events' global capability].
 
-SCRIPTING
----------
+== SCRIPTING
 This command is intended to be used in scripts.
 
-EXAMPLES
---------
+== EXAMPLES
 
 ====
   $ ssh -p 29418 review.example.com gerrit stream-events
@@ -40,8 +33,7 @@ EXAMPLES
   {"type":"comment-added",change:{"project":"tools/gerrit", ...}, ...}
 ====
 
-SCHEMA
-------
+== SCHEMA
 The JSON messages consist of nested objects referencing the *change*,
 *patchSet*, *account* involved, and other attributes as appropriate.
 The currently supported message types are *patchset-created*,
@@ -53,10 +45,8 @@ Note that any field may be missing in the JSON messages, so consumers of
 this JSON stream should deal with that appropriately.
 
 [[events]]
-Events
-~~~~~~
-Patchset Created
-^^^^^^^^^^^^^^^^
+=== Events
+==== Patchset Created
 type:: "patchset-created"
 
 change:: link:json.html#change[change attribute]
@@ -65,8 +55,7 @@ patchSet:: link:json.html#patchSet[patchSet attribute]
 
 uploader:: link:json.html#account[account attribute]
 
-Draft Published
-^^^^^^^^^^^^^^^
+==== Draft Published
 type:: "draft-published"
 
 change:: link:json.html#change[change attribute]
@@ -75,8 +64,7 @@ patchSet:: link:json.html#patchSet[patchSet attribute]
 
 uploader:: link:json.html#account[account attribute]
 
-Change Abandoned
-^^^^^^^^^^^^^^^^
+==== Change Abandoned
 type:: "change-abandoned"
 
 change:: link:json.html#change[change attribute]
@@ -87,8 +75,7 @@ abandoner:: link:json.html#account[account attribute]
 
 reason:: Reason for abandoning the change.
 
-Change Restored
-^^^^^^^^^^^^^^^
+==== Change Restored
 type:: "change-restored"
 
 change:: link:json.html#change[change attribute]
@@ -99,8 +86,7 @@ restorer:: link:json.html#account[account attribute]
 
 reason:: Reason for restoring the change.
 
-Change Merged
-^^^^^^^^^^^^^
+==== Change Merged
 type:: "change-merged"
 
 change:: link:json.html#change[change attribute]
@@ -109,8 +95,7 @@ patchSet:: link:json.html#patchSet[patchSet attribute]
 
 submitter:: link:json.html#account[account attribute]
 
-Merge Failed
-^^^^^^^^^^^^
+==== Merge Failed
 type:: "merge-failed"
 
 change:: link:json.html#change[change attribute]
@@ -121,8 +106,7 @@ submitter:: link:json.html#account[account attribute]
 
 reason:: Reason that the merge failed.
 
-Comment Added
-^^^^^^^^^^^^^
+==== Comment Added
 type:: "comment-added"
 
 change:: link:json.html#change[change attribute]
@@ -135,16 +119,14 @@ approvals:: All link:json.html#approval[approval attributes] granted.
 
 comment:: Comment text author had written
 
-Ref Updated
-^^^^^^^^^^^
+==== Ref Updated
 type:: "ref-updated"
 
 submitter:: link:json.html#account[account attribute]
 
 refUpdate:: link:json.html#refUpdate[refUpdate attribute]
 
-Reviewer Added
-^^^^^^^^^^^^^^
+==== Reviewer Added
 type:: "reviewer-added"
 
 change:: link:json.html#change[change attribute]
@@ -153,8 +135,7 @@ patchSet:: link:json.html#patchSet[patchSet attribute]
 
 reviewer:: link:json.html#account[account attribute]
 
-Topic Changed
-^^^^^^^^^^^^^
+==== Topic Changed
 type:: "topic-changed"
 
 change:: link:json.html#change[change attribute]
@@ -163,8 +144,7 @@ changer:: link:json.html#account[account attribute]
 
 oldTopic:: Topic name before it was changed.
 
-SEE ALSO
---------
+== SEE ALSO
 
 * link:json.html[JSON Data Formats]
 * link:access-control.html[Access Controls]

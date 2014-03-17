@@ -1,12 +1,9 @@
-gerrit set-account
-==================
+= gerrit set-account
 
-NAME
-----
+== NAME
 gerrit set-account - Change an account's settings.
 
-SYNOPSIS
---------
+== SYNOPSIS
 [verse]
 set-account [--full-name <FULLNAME>] [--active|--inactive] \
             [--add-email <EMAIL>] [--delete-email <EMAIL> | ALL] \
@@ -14,8 +11,7 @@ set-account [--full-name <FULLNAME>] [--active|--inactive] \
             [--delete-ssh-key - | <KEY> | ALL] \
             [--http-password <PASSWORD>] <USER>
 
-DESCRIPTION
------------
+== DESCRIPTION
 Modifies a given user's settings. This command can be useful to
 deactivate an account, set HTTP password, add/delete ssh keys without
 going through the UI.
@@ -23,16 +19,13 @@ going through the UI.
 It also allows managing email addresses, which bypasses the
 verification step we force within the UI.
 
-ACCESS
-------
+== ACCESS
 Caller must be a member of the privileged 'Administrators' group.
 
-SCRIPTING
----------
+== SCRIPTING
 This command is intended to be used in scripts.
 
-OPTIONS
--------
+== OPTIONS
 <USER>::
     Required; Full name, email-address, SSH username or account id.
 
@@ -83,8 +76,7 @@ This most likely requires double quoting the value, for example
 --http-password::
     Set the HTTP password for the user account.
 
-EXAMPLES
---------
+== EXAMPLES
 Add an email and SSH key to `watcher`'s account:
 
 ====

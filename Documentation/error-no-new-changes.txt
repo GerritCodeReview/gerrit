@@ -1,5 +1,4 @@
-no new changes
-==============
+= no new changes
 
 With this error message Gerrit rejects to push a commit if the pushed
 commit was already successfully pushed to Gerrit in project scope.

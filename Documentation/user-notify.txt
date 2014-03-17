@@ -1,15 +1,12 @@
-Gerrit Code Review - Email Notifications
-========================================
+= Gerrit Code Review - Email Notifications
 
-Description
------------
+== Description
 
 Gerrit can automatically notify users by email when new changes are
 uploaded for review, after comments have been posted on a change,
 or after the change has been submitted to a branch.
 
-User Level Settings
--------------------
+== User Level Settings
 
 Individual users can configure email subscriptions by editing
 watched projects through Settings > Watched Projects with the web UI.
@@ -30,8 +27,7 @@ who added the comment unless the user has enabled the 'CC Me On Comments I
 Write' option in the user preferences.
 
 
-Project Level Settings
-----------------------
+== Project Level Settings
 
 Project owners and site administrators can configure project level
 notifications, enabling Gerrit Code Review to automatically send

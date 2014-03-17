@@ -1,17 +1,14 @@
-Gerrit Code Review - /changes/ REST API
-=======================================
+= Gerrit Code Review - /changes/ REST API
 
 This page describes the change related REST endpoints.
 Please also take note of the general information on the
 link:rest-api.html[REST API].
 
 [[change-endpoints]]
-Change Endpoints
-----------------
+== Change Endpoints
 
 [[list-changes]]
-Query Changes
-~~~~~~~~~~~~~
+=== Query Changes
 [verse]
 'GET /changes/'
 
@@ -359,8 +356,7 @@ default. Optional fields are:
 ----
 
 [[get-change]]
-Get Change
-~~~~~~~~~~
+=== Get Change
 [verse]
 'GET /changes/link:#change-id[\{change-id\}]'
 
@@ -406,8 +402,7 @@ describes the change.
 ----
 
 [[get-change-detail]]
-Get Change Detail
-~~~~~~~~~~~~~~~~~
+=== Get Change Detail
 [verse]
 'GET /changes/link:#change-id[\{change-id\}]/detail'
 
@@ -574,8 +569,7 @@ describes the change.
 ----
 
 [[get-topic]]
-Get Topic
-~~~~~~~~~
+=== Get Topic
 [verse]
 'GET /changes/link:#change-id[\{change-id\}]/topic'
 
@@ -599,8 +593,7 @@ Retrieves the topic of a change.
 If the change does not have a topic an empty string is returned.
 
 [[set-topic]]
-Set Topic
-~~~~~~~~~
+=== Set Topic
 [verse]
 'PUT /changes/link:#change-id[\{change-id\}]/topic'
 
@@ -634,8 +627,7 @@ As response the new topic is returned.
 If the topic was deleted the response is "`204 No Content`".
 
 [[delete-topic]]
-Delete Topic
-~~~~~~~~~~~~
+=== Delete Topic
 [verse]
 'DELETE /changes/link:#change-id[\{change-id\}]/topic'
 
@@ -659,8 +651,7 @@ link:#set-topic[PUT] to delete the topic.
 ----
 
 [[abandon-change]]
-Abandon Change
-~~~~~~~~~~~~~~
+=== Abandon Change
 [verse]
 'POST /changes/link:#change-id[\{change-id\}]/abandon'
 
@@ -717,8 +708,7 @@ the error message is contained in the response body.
 ----
 
 [[restore-change]]
-Restore Change
-~~~~~~~~~~~~~~
+=== Restore Change
 [verse]
 'POST /changes/link:#change-id[\{change-id\}]/restore'
 
@@ -775,8 +765,7 @@ the error message is contained in the response body.
 ----
 
 [[rebase-change]]
-Rebase Change
-~~~~~~~~~~~~~
+=== Rebase Change
 [verse]
 'POST /changes/link:#change-id[\{change-id\}]/rebase'
 
@@ -864,8 +853,7 @@ body.
 ----
 
 [[revert-change]]
-Revert Change
-~~~~~~~~~~~~~
+=== Revert Change
 [verse]
 'POST /changes/link:#change-id[\{change-id\}]/revert'
 
@@ -922,8 +910,7 @@ the error message is contained in the response body.
 ----
 
 [[submit-change]]
-Submit Change
-~~~~~~~~~~~~~
+=== Submit Change
 [verse]
 'POST /changes/link:#change-id[\{change-id\}]/submit'
 
@@ -985,8 +972,7 @@ message is contained in the response body.
 ----
 
 [[publish-draft-change]]
-Publish Draft Change
-~~~~~~~~~~~~~~~~~~~~
+=== Publish Draft Change
 [verse]
 'POST /changes/link:#change-id[\{change-id\}]/publish'
 
@@ -1004,8 +990,7 @@ Publishes a draft change.
 ----
 
 [[delete-draft-change]]
-Delete Draft Change
-~~~~~~~~~~~~~~~~~~~
+=== Delete Draft Change
 [verse]
 'DELETE /changes/link:#change-id[\{change-id\}]'
 
@@ -1023,8 +1008,7 @@ Deletes a draft change.
 ----
 
 [[get-included-in]]
-Get Included In
-~~~~~~~~~~~~~~~
+=== Get Included In
 [verse]
 'GET /changes/link:#change-id[\{change-id\}]/in'
 
@@ -1053,12 +1037,10 @@ an link:#included-in-info[IncludedInInfo] entity is returned.
 ----
 
 [[reviewer-endpoints]]
-Reviewer Endpoints
-------------------
+== Reviewer Endpoints
 
 [[list-reviewers]]
-List Reviewers
-~~~~~~~~~~~~~~
+=== List Reviewers
 [verse]
 'GET /changes/link:#change-id[\{change-id\}]/reviewers/'
 
@@ -1103,8 +1085,7 @@ As result a list of link:#reviewer-info[ReviewerInfo] entries is returned.
 ----
 
 [[suggest-reviewers]]
-Suggest Reviewers
-~~~~~~~~~~~~~~~~~
+=== Suggest Reviewers
 [verse]
 'GET /changes/link:#change-id[\{change-id\}]/suggest_reviewers?q=J&n=5'
 
@@ -1145,8 +1126,7 @@ As result a list of link:#suggested-reviewer-info[SuggestedReviewerInfo] entries
 ----
 
 [[get-reviewer]]
-Get Reviewer
-~~~~~~~~~~~~
+=== Get Reviewer
 [verse]
 'GET /changes/link:#change-id[\{change-id\}]/reviewers/link:rest-api-accounts.html#account-id[\{account-id\}]'
 
@@ -1180,8 +1160,7 @@ describes the reviewer.
 ----
 
 [[add-reviewer]]
-Add Reviewer
-~~~~~~~~~~~~
+=== Add Reviewer
 [verse]
 'POST /changes/link:#change-id[\{change-id\}]/reviewers'
 
@@ -1271,8 +1250,7 @@ To confirm the addition of the reviewers, resend the request with the
 ----
 
 [[delete-reviewer]]
-Delete Reviewer
-~~~~~~~~~~~~~~~
+=== Delete Reviewer
 [verse]
 'DELETE /changes/link:#change-id[\{change-id\}]/reviewers/link:rest-api-accounts.html#account-id[\{account-id\}]'
 
@@ -1289,12 +1267,10 @@ Deletes a reviewer from a change.
 ----
 
 [[revision-endpoints]]
-Revision Endpoints
-------------------
+== Revision Endpoints
 
 [[get-commit]]
-Get Commit
-~~~~~~~~~~
+=== Get Commit
 [verse]
 'GET /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/commit'
 
@@ -1342,8 +1318,7 @@ describes the revision.
 
 
 [[get-review]]
-Get Review
-~~~~~~~~~~
+=== Get Review
 [verse]
 'GET /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/review'
 
@@ -1475,8 +1450,7 @@ for the current patch set.
 ----
 
 [[set-review]]
-Set Review
-~~~~~~~~~~
+=== Set Review
 [verse]
 'POST /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/review'
 
@@ -1528,8 +1502,7 @@ describes the applied labels.
 ----
 
 [[rebase-revision]]
-Rebase Revision
-~~~~~~~~~~~~~~~
+=== Rebase Revision
 [verse]
 'POST /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/rebase'
 
@@ -1617,8 +1590,7 @@ body.
 ----
 
 [[submit-revision]]
-Submit Revision
-~~~~~~~~~~~~~~~
+=== Submit Revision
 [verse]
 'POST /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/submit'
 
@@ -1667,8 +1639,7 @@ message is contained in the response body.
 ----
 
 [[publish-draft-revision]]
-Publish Draft Revision
-~~~~~~~~~~~~~~~~~~~~~~
+=== Publish Draft Revision
 [verse]
 'POST /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/publish'
 
@@ -1686,8 +1657,7 @@ Publishes a draft revision.
 ----
 
 [[delete-draft-revision]]
-Delete Draft Revision
-~~~~~~~~~~~~~~~~~~~~~
+=== Delete Draft Revision
 [verse]
 'DELETE /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]'
 
@@ -1705,8 +1675,7 @@ Deletes a draft revision.
 ----
 
 [[get-patch]]
-Get Patch
-~~~~~~~~~
+=== Get Patch
 [verse]
 'GET /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/patch'
 
@@ -1740,8 +1709,7 @@ will suggest the browser save the patch as `commitsha1.diff.base64`,
 for later processing by command line tools.
 
 [[get-mergeable]]
-Get Mergeable
-~~~~~~~~~~~~~
+=== Get Mergeable
 [verse]
 'GET /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/mergeable'
 
@@ -1767,8 +1735,7 @@ an indicator if the change is currently mergeable.
 ----
 
 [[get-submit-type]]
-Get Submit Type
-~~~~~~~~~~~~~~~
+=== Get Submit Type
 [verse]
 'GET /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/submit_type'
 
@@ -1790,8 +1757,7 @@ Gets the method the server will use to submit (merge) the change.
 ----
 
 [[test-submit-type]]
-Test Submit Type
-~~~~~~~~~~~~~~~~
+=== Test Submit Type
 [verse]
 'POST /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/test.submit_type'
 
@@ -1821,8 +1787,7 @@ a project-specific rule.
 ----
 
 [[test-submit-rule]]
-Test Submit Rule
-~~~~~~~~~~~~~~~~
+=== Test Submit Rule
 [verse]
 'POST /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/test.submit_rule'
 
@@ -1863,8 +1828,7 @@ describing the permutations that satisfy the tested submit rule.
 ----
 
 [[list-drafts]]
-List Drafts
-~~~~~~~~~~~
+=== List Drafts
 [verse]
 'GET /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/drafts/'
 
@@ -1909,8 +1873,7 @@ sorted by file path.
 ----
 
 [[create-draft]]
-Create Draft
-~~~~~~~~~~~~
+=== Create Draft
 [verse]
 'PUT /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/drafts'
 
@@ -1952,8 +1915,7 @@ describes the draft comment.
 ----
 
 [[get-draft]]
-Get Draft
-~~~~~~~~~
+=== Get Draft
 [verse]
 'GET /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/drafts/link:#draft-id[\{draft-id\}]'
 
@@ -1986,8 +1948,7 @@ describes the draft comment.
 ----
 
 [[update-draft]]
-Update Draft
-~~~~~~~~~~~~
+=== Update Draft
 [verse]
 'PUT /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/drafts/link:#draft-id[\{draft-id\}]'
 
@@ -2029,8 +1990,7 @@ describes the draft comment.
 ----
 
 [[delete-draft]]
-Delete Draft
-~~~~~~~~~~~~
+=== Delete Draft
 [verse]
 'DELETE /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/drafts/link:#draft-id[\{draft-id\}]'
 
@@ -2047,8 +2007,7 @@ Deletes a draft comment from a revision.
 ----
 
 [[list-comments]]
-List Comments
-~~~~~~~~~~~~~
+=== List Comments
 [verse]
 'GET /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/comments/'
 
@@ -2102,8 +2061,7 @@ sorted by file path.
 ----
 
 [[get-comment]]
-Get Comment
-~~~~~~~~~~~
+=== Get Comment
 [verse]
 'GET /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/comments/link:#comment-id[\{comment-id\}]'
 
@@ -2140,8 +2098,7 @@ describes the published comment.
 ----
 
 [[list-files]]
-List Files
-~~~~~~~~~~
+=== List Files
 [verse]
 'GET /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/files/'
 
@@ -2198,8 +2155,7 @@ need the FileInfo should make two requests.
 ----
 
 [[get-content]]
-Get Content
-~~~~~~~~~~~
+=== Get Content
 [verse]
 'GET /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/files/link:#file-id[\{file-id\}]/content'
 
@@ -2222,8 +2178,7 @@ The content is returned as base64 encoded string.
 ----
 
 [[get-diff]]
-Get Diff
-~~~~~~~~
+=== Get Diff
 [verse]
 'GET /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/files/link:#file-id[\{file-id\}]/diff'
 
@@ -2388,8 +2343,7 @@ The `context` parameter can be specified to control the number of lines of surro
 in the diff.  Valid values are `ALL` or number of lines.
 
 [[set-reviewed]]
-Set Reviewed
-~~~~~~~~~~~~
+=== Set Reviewed
 [verse]
 'PUT /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/files/link:#file-id[\{file-id\}]/reviewed'
 
@@ -2409,8 +2363,7 @@ If the file was already marked as reviewed by the calling user the
 response is "`200 OK`".
 
 [[delete-reviewed]]
-Delete Reviewed
-~~~~~~~~~~~~~~~
+=== Delete Reviewed
 [verse]
 'DELETE /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/files/link:#file-id[\{file-id\}]/reviewed'
 
@@ -2427,8 +2380,7 @@ Deletes the reviewed flag of the calling user from a file of a revision.
 ----
 
 [[cherry-pick]]
-Cherry Pick Revision
-~~~~~~~~~~~~~~~~~~~~
+=== Cherry Pick Revision
 [verse]
 'POST /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/cherrypick'
 
@@ -2478,8 +2430,7 @@ describes the resulting cherry picked change.
 ----
 
 [[message]]
-Edit Commit Message
-~~~~~~~~~~~~~~~~~~~
+=== Edit Commit Message
 [verse]
 'POST /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/message'
 
@@ -2528,18 +2479,15 @@ describes the change.
 ----
 
 [[ids]]
-IDs
----
+== IDs
 
 [[account-id]]
-link:rest-api-accounts.html#account-id[\{account-id\}]
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== link:rest-api-accounts.html#account-id[\{account-id\}]
 --
 --
 
 [[change-id]]
-\{change-id\}
-~~~~~~~~~~~~~
+=== \{change-id\}
 Identifier that uniquely identifies one change.
 
 This can be:
@@ -2552,13 +2500,11 @@ This can be:
 * a legacy numeric change ID ("4247")
 
 [[comment-id]]
-\{comment-id\}
-~~~~~~~~~~~~~~
+=== \{comment-id\}
 UUID of a published comment.
 
 [[draft-id]]
-\{draft-id\}
-~~~~~~~~~~~~
+=== \{draft-id\}
 UUID of a draft comment.
 
 [[file-id]]
@@ -2567,8 +2513,7 @@ UUID of a draft comment.
 The path of the file.
 
 [[revision-id]]
-\{revision-id\}
-~~~~~~~~~~~~~~~
+=== \{revision-id\}
 Identifier that uniquely identifies one revision of a change.
 
 This can be:
@@ -2580,12 +2525,10 @@ This can be:
 * a legacy numeric patch number ("1" for first patch set of the change)
 
 [[json-entities]]
-JSON Entities
--------------
+== JSON Entities
 
 [[abandon-input]]
-AbandonInput
-~~~~~~~~~~~~
+=== AbandonInput
 The `AbandonInput` entity contains information for abandoning a change.
 
 [options="header",width="50%",cols="1,^1,5"]
@@ -2597,8 +2540,7 @@ change.
 |===========================
 
 [[action-info]]
-ActionInfo
-~~~~~~~~~~
+=== ActionInfo
 The `ActionInfo` entity describes a REST API call the client can
 make to manipulate a resource. These are frequently implemented by
 plugins and may be discovered at runtime.
@@ -2624,8 +2566,7 @@ at the server or permissions are modified. Not present if false.
 |====================================
 
 [[add-reviewer-result]]
-AddReviewerResult
-~~~~~~~~~~~~~~~~~
+=== AddReviewerResult
 The `AddReviewerResult` entity describes the result of adding a
 reviewer to a change.
 
@@ -2644,8 +2585,7 @@ Whether adding the reviewer requires confirmation.
 |===========================
 
 [[approval-info]]
-ApprovalInfo
-~~~~~~~~~~~~
+=== ApprovalInfo
 The `ApprovalInfo` entity contains information about an approval from a
 user for a label on a change.
 
@@ -2665,8 +2605,7 @@ The time and date describing when the approval was made.
 |===========================
 
 [[group-base-info]]
-GroupBaseInfo
-~~~~~~~~~~~~~
+=== GroupBaseInfo
 The `GroupBaseInfo` entity contains base information about the group.
 
 [options="header",width="50%",cols="1,6"]
@@ -2677,8 +2616,7 @@ The `GroupBaseInfo` entity contains base information about the group.
 |==========================
 
 [[change-info]]
-ChangeInfo
-~~~~~~~~~~
+=== ChangeInfo
 The `ChangeInfo` entity contains information about a change.
 
 [options="header",width="50%",cols="1,^1,5"]
@@ -2756,8 +2694,7 @@ Only set on either the last or the first change that is returned.
 |==================================
 
 [[change-message-info]]
-ChangeMessageInfo
-~~~~~~~~~~~~~~~~~
+=== ChangeMessageInfo
 The `ChangeMessageInfo` entity contains information about a message
 attached to a change.
 
@@ -2777,8 +2714,7 @@ Which patchset (if any) generated this message.
 |==================================
 
 [[cherrypick-input]]
-CherryPickInput
-~~~~~~~~~~~~~~~
+=== CherryPickInput
 The `CherryPickInput` entity contains information for cherry-picking a change to a new branch.
 
 [options="header",width="50%",cols="1,6"]
@@ -2789,8 +2725,7 @@ The `CherryPickInput` entity contains information for cherry-picking a change to
 |===========================
 
 [[comment-info]]
-CommentInfo
-~~~~~~~~~~~
+=== CommentInfo
 The `CommentInfo` entity contains information about an inline comment.
 
 [options="header",width="50%",cols="1,^1,5"]
@@ -2825,8 +2760,7 @@ Unset for draft comments, assumed to be the calling user.
 |===========================
 
 [[comment-input]]
-CommentInput
-~~~~~~~~~~~~
+=== CommentInput
 The `CommitInput` entity contains information for creating an inline
 comment.
 
@@ -2866,8 +2800,7 @@ comment is deleted.
 |===========================
 
 [[comment-range]]
-CommentRange
-~~~~~~~~~~~~
+=== CommentRange
 The `CommentRange` entity describes the range of an inline comment.
 
 [options="header",width="50%",cols="1,^1,5"]
@@ -2880,8 +2813,7 @@ The `CommentRange` entity describes the range of an inline comment.
 |===========================
 
 [[commit-info]]
-CommitInfo
-~~~~~~~~~~
+=== CommitInfo
 The `CommitInfo` entity contains information about a commit.
 
 [options="header",width="50%",cols="1,6"]
@@ -2902,8 +2834,7 @@ The subject of the commit (header line of the commit message).
 |==========================
 
 [[diff-content]]
-DiffContent
-~~~~~~~~~~~
+=== DiffContent
 The `DiffContent` entity contains information about the content differences
 in a file.
 
@@ -2924,8 +2855,7 @@ too large to include all common lines.
 |==========================
 
 [[diff-file-meta-info]]
-DiffFileMetaInfo
-~~~~~~~~~~~~~~~~
+=== DiffFileMetaInfo
 The `DiffFileMetaInfo` entity contains meta information about a file diff.
 
 [options="header",width="50%",cols="1,6"]
@@ -2936,8 +2866,7 @@ The `DiffFileMetaInfo` entity contains meta information about a file diff.
 |==========================
 
 [[diff-info]]
-DiffInfo
-~~~~~~~~
+=== DiffInfo
 The `DiffInfo` entity contains information about the diff of a file
 in a revision.
 
@@ -2960,8 +2889,7 @@ link:#diff-content[DiffContent] entities.
 |==========================
 
 [[diff-intraline-info]]
-DiffIntralineInfo
-~~~~~~~~~~~~~~~~~
+=== DiffIntralineInfo
 The `DiffIntralineInfo` entity contains information about intraline edits in a
 file.
 
@@ -2975,8 +2903,7 @@ Note that the implied newline character at the end of each line is included in
 the length calculation, and thus it is possible for the edits to span newlines.
 
 [[fetch-info]]
-FetchInfo
-~~~~~~~~~
+=== FetchInfo
 The `FetchInfo` entity contains information about how to fetch a patch
 set via a certain protocol.
 
@@ -2992,8 +2919,7 @@ Only set if link:#download_commands[download commands] are requested.
 |==========================
 
 [[file-info]]
-FileInfo
-~~~~~~~~
+=== FileInfo
 The `FileInfo` entity contains information about a file in a patch set.
 
 [options="header",width="50%",cols="1,^1,5"]
@@ -3016,8 +2942,7 @@ Not set for binary files or if no lines were deleted.
 |=============================
 
 [[git-person-info]]
-GitPersonInfo
-~~~~~~~~~~~~~
+=== GitPersonInfo
 The `GitPersonInfo` entity contains information about the
 author/committer of a commit.
 
@@ -3033,8 +2958,7 @@ constructed.
 |==========================
 
 [[label-info]]
-LabelInfo
-~~~~~~~~~
+=== LabelInfo
 The `LabelInfo` entity contains information about a label on a change, always
 corresponding to the current patch set.
 
@@ -3045,8 +2969,7 @@ link:#labels[`LABELS`] and link:#detailed-labels[`DETAILED_LABELS`].
 * For detailed information about labels, including exact numeric votes for all
   users and the allowed range of votes for the current user, use `DETAILED_LABELS`.
 
-Common fields
-^^^^^^^^^^^^^
+==== Common fields
 [options="header",width="50%",cols="1,^1,5"]
 |===========================
 |Field Name    ||Description
@@ -3056,8 +2979,7 @@ it's neither necessary for submission nor does it block submission if
 set.
 |===========================
 
-Fields set by `LABELS`
-^^^^^^^^^^^^^^^^^^^^^^
+==== Fields set by `LABELS`
 [options="header",width="50%",cols="1,^1,5"]
 |===========================
 |Field Name    ||Description
@@ -3080,8 +3002,7 @@ recommended/disliked this label on the change if it is not
 "`+1`"/"`-1`".
 |===========================
 
-Fields set by `DETAILED_LABELS`
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+==== Fields set by `DETAILED_LABELS`
 [options="header",width="50%",cols="1,^1,5"]
 |===========================
 |Field Name    ||Description
@@ -3094,8 +3015,7 @@ to the value descriptions.
 
 
 [[restore-input]]
-RestoreInput
-~~~~~~~~~~~~
+=== RestoreInput
 The `RestoreInput` entity contains information for restoring a change.
 
 [options="header",width="50%",cols="1,^1,5"]
@@ -3107,8 +3027,7 @@ change.
 |===========================
 
 [[revert-input]]
-RevertInput
-~~~~~~~~~~~
+=== RevertInput
 The `RevertInput` entity contains information for reverting a change.
 
 [options="header",width="50%",cols="1,^1,5"]
@@ -3120,8 +3039,7 @@ change.
 |===========================
 
 [[review-info]]
-ReviewInfo
-~~~~~~~~~~
+=== ReviewInfo
 The `ReviewInfo` entity contains information about a review.
 
 [options="header",width="50%",cols="1,6"]
@@ -3133,8 +3051,7 @@ voting values.
 |===========================
 
 [[review-input]]
-ReviewInput
-~~~~~~~~~~~
+=== ReviewInput
 The `ReviewInput` entity contains information for adding a review to a
 revision.
 
@@ -3174,8 +3091,7 @@ have been granted `labelAs-NAME` permission for all keys of labels.
 |============================
 
 [[reviewer-info]]
-ReviewerInfo
-~~~~~~~~~~~~
+=== ReviewerInfo
 The `ReviewerInfo` entity contains information about a reviewer and its
 votes on a change.
 
@@ -3194,8 +3110,7 @@ approval values ("`-2`", "`-1`", " `0`", "`+1`", "`+2`").
 |==========================
 
 [[reviewer-input]]
-ReviewerInput
-~~~~~~~~~~~~~
+=== ReviewerInput
 The `ReviewerInput` entity contains information for adding a reviewer
 to a change.
 
@@ -3216,8 +3131,7 @@ confirmation] when adding a group as reviewer that has many members.
 |===========================
 
 [[revision-info]]
-RevisionInfo
-~~~~~~~~~~~~
+=== RevisionInfo
 The `RevisionInfo` entity contains information about a patch set.
 
 [options="header",width="50%",cols="1,^1,5"]
@@ -3244,8 +3158,7 @@ entities.
 |===========================
 
 [[rule-input]]
-RuleInput
-~~~~~~~~~
+=== RuleInput
 The `RuleInput` entity contains information to test a Prolog rule.
 
 [options="header",width="50%",cols="1,^1,5"]
@@ -3262,8 +3175,7 @@ to return results from the input rule.
 |===========================
 
 [[suggested-reviewer-info]]
-SuggestedReviewerInfo
-~~~~~~~~~~~~~~~~~~~~~
+=== SuggestedReviewerInfo
 The `SuggestedReviewerInfo` entity contains information about a reviewer
 that can be added to a change (an account or a group).
 
@@ -3273,8 +3185,7 @@ the `group` field that contains the
 link:rest-api-changes.html#group-base-info[GroupBaseInfo] entity.
 
 [[submit-info]]
-SubmitInfo
-~~~~~~~~~~
+=== SubmitInfo
 The `SubmitInfo` entity contains information about the change status
 after submitting.
 
@@ -3290,8 +3201,7 @@ whether the change could be merged successfully.
 |==========================
 
 [[submit-input]]
-SubmitInput
-~~~~~~~~~~~
+=== SubmitInput
 The `SubmitInput` entity contains information for submitting a change.
 
 [options="header",width="50%",cols="1,^1,5"]
@@ -3305,8 +3215,7 @@ could be merged successfully.
 |===========================
 
 [[submit-record]]
-SubmitRecord
-~~~~~~~~~~~~
+=== SubmitRecord
 The `SubmitRecord` entity describes results from a submit_rule.
 
 [options="header",width="50%",cols="1,^1,5"]
@@ -3341,8 +3250,7 @@ the failure of the rule predicate.
 |===========================
 
 [[topic-input]]
-TopicInput
-~~~~~~~~~~
+=== TopicInput
 The `TopicInput` entity contains information for setting a topic.
 
 [options="header",width="50%",cols="1,^1,5"]
@@ -3356,8 +3264,7 @@ topic.
 |===========================
 
 [[included-in-info]]
-IncludedInInfo
-~~~~~~~~~~~~~~
+=== IncludedInInfo
 The `IncludedInInfo` entity contains information about the branches a
 change was merged into and tags it was tagged with.
 

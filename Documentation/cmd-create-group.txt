@@ -1,12 +1,9 @@
-gerrit create-group
-===================
+= gerrit create-group
 
-NAME
-----
+== NAME
 gerrit create-group - Create a new account group.
 
-SYNOPSIS
---------
+== SYNOPSIS
 [verse]
 'ssh' -p <port> <host> 'gerrit create-group'
   [--owner <GROUP> | -o <GROUP>]
@@ -16,8 +13,7 @@ SYNOPSIS
   [--visible-to-all]
   <GROUP>
 
-DESCRIPTION
------------
+== DESCRIPTION
 Creates a new account group.  The group creating user (the user that
 fired the create-group command) is not automatically added to
 the created group.  In case the creating user wants to be a member of
@@ -25,18 +21,15 @@ the group he/she must list itself in the --member option.  This is
 slightly different from Gerrit's Web UI where the creating user automatically
 becomes a member of the newly created group.
 
-ACCESS
-------
+== ACCESS
 Caller must be a member of the privileged 'Administrators' group,
 or have been granted
 link:access-control.html#capability_createGroup[the 'Create Group' global capability].
 
-SCRIPTING
----------
+== SCRIPTING
 This command is intended to be used in scripts.
 
-OPTIONS
--------
+== OPTIONS
 <GROUP>::
 	Required; name of the new group.
 
@@ -68,8 +61,7 @@ to the group.
 --visible-to-all::
 	If specified, the group members will be visible to all users.
 
-EXAMPLES
---------
+== EXAMPLES
 Create a new account group called `gerritdev` with two initial members
 `developer1` and `developer2`.  The group should be owned by itself:
 

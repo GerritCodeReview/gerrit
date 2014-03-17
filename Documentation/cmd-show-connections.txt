@@ -1,33 +1,26 @@
-gerrit show-connections
-=======================
+= gerrit show-connections
 
-NAME
-----
+== NAME
 gerrit show-connections - Display active client SSH connections
 
-SYNOPSIS
---------
+== SYNOPSIS
 [verse]
 'ssh' -p <port> <host> 'gerrit show-connections' [--numeric | -n]
 
-DESCRIPTION
------------
+== DESCRIPTION
 Presents a table of the active SSH connections, the users who
 are currently connected to the internal server and performing
 an activity.
 
-ACCESS
-------
+== ACCESS
 Caller must be a member of the privileged 'Administrators' group,
 or have been granted
 link:access-control.html#capability_viewConnections[the 'View Connections' global capability].
 
-SCRIPTING
----------
+== SCRIPTING
 Intended for interactive use only.
 
-OPTIONS
--------
+== OPTIONS
 --numeric::
 -n::
 	Show client hostnames as IP addresses instead of DNS hostname.
@@ -37,8 +30,7 @@ OPTIONS
 	Do not format the output to the terminal width (default of
 	80 columns).
 
-DISPLAY
--------
+== DISPLAY
 
 Session::
 	Unique session identifier on this server.  Session
@@ -64,8 +56,7 @@ Remote Host::
 	Reverse lookup hostname, or if -n option is used, the remote
 	IP address.
 
-EXAMPLES
---------
+== EXAMPLES
 
 With reverse DNS lookup (default):
 ====

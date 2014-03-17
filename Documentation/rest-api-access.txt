@@ -1,17 +1,14 @@
-Gerrit Code Review - /access/ REST API
-======================================
+= Gerrit Code Review - /access/ REST API
 
 This page describes the access rights related REST endpoints.
 Please also take note of the general information on the
 link:rest-api.html[REST API].
 
 [[access-endpoints]]
-Access Rights Endpoints
------------------------
+== Access Rights Endpoints
 
 [[list-access]]
-List Access Rights
-~~~~~~~~~~~~~~~~~~
+=== List Access Rights
 [verse]
 'GET /access/?project=link:rest-api-projects.html#project-name[\{project-name\}]'
 
@@ -288,8 +285,7 @@ The entries in the map are sorted by project name.
 ----
 
 [[access-section-info]]
-AccessSectionInfo
-~~~~~~~~~~~~~~~~~
+=== AccessSectionInfo
 The `AccessSectionInfo` describes the access rights that are assigned
 on a ref.
 
@@ -303,8 +299,7 @@ entities.
 |==================================
 
 [[permission-info]]
-PermissionInfo
-~~~~~~~~~~~~~~
+=== PermissionInfo
 The `PermissionInfo` entity contains information about an assigned
 permission.
 
@@ -322,8 +317,7 @@ link:#permission-info[PermissionRuleInfo] entities.
 |==================================
 
 [[permission-rule-info]]
-PermissionRuleInfo
-~~~~~~~~~~~~~~~~~~
+=== PermissionRuleInfo
 The `PermissionRuleInfo` entity contains information about a permission
 rule that is assigned to group.
 
@@ -345,8 +339,7 @@ The max value of the permission range.
 |==================================
 
 [[project-access-info]]
-ProjectAccessInfo
-~~~~~~~~~~~~~~~~~
+=== ProjectAccessInfo
 The `ProjectAccessInfo` entity contains information about the access
 rights for a project.
 

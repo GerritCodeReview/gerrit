@@ -1,12 +1,9 @@
-gerrit create-account
-=====================
+= gerrit create-account
 
-NAME
-----
+== NAME
 gerrit create-account - Create a new user account.
 
-SYNOPSIS
---------
+== SYNOPSIS
 [verse]
 'ssh' -p <port> <host> 'gerrit create-account'
   [--group <GROUP>]
@@ -16,8 +13,7 @@ SYNOPSIS
   [--http-password <PASSWORD>]
   <USERNAME>
 
-DESCRIPTION
------------
+== DESCRIPTION
 Creates a new internal-only user account.
 
 If the account is created without an email address, it may only be
@@ -32,18 +28,15 @@ If LDAP authentication is being used, the user account is created
 without checking the LDAP directory.  Consequently users can be
 created in Gerrit that do not exist in the underlying LDAP directory.
 
-ACCESS
-------
+== ACCESS
 Caller must be a member of the privileged 'Administrators' group,
 or have been granted
 link:access-control.html#capability_createAccount[the 'Create Account' global capability].
 
-SCRIPTING
----------
+== SCRIPTING
 This command is intended to be used in scripts.
 
-OPTIONS
--------
+== OPTIONS
 <USERNAME>::
 	Required; SSH username of the user account.
 
@@ -69,8 +62,7 @@ This most likely requires double quoting the value, for example
 --http-password::
     HTTP password for the user account.
 
-EXAMPLES
---------
+== EXAMPLES
 Create a new batch/role access user account called `watcher` in
 the 'Non-Interactive Users' group.
 

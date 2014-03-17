@@ -1,17 +1,14 @@
-Gerrit Code Review - /projects/ REST API
-========================================
+= Gerrit Code Review - /projects/ REST API
 
 This page describes the project related REST endpoints.
 Please also take note of the general information on the
 link:rest-api.html[REST API].
 
 [[project-endpoints]]
-Project Endpoints
------------------
+== Project Endpoints
 
 [[list-projects]]
-List Projects
-~~~~~~~~~~~~~
+=== List Projects
 [verse]
 'GET /projects/'
 
@@ -95,8 +92,7 @@ List all projects that start with `platform/`:
 E.g. this feature can be used by suggestion client UI's to limit results.
 
 [[get-project]]
-Get Project
-~~~~~~~~~~~
+=== Get Project
 [verse]
 'GET /projects/link:#project-name[\{project-name\}]'
 
@@ -127,8 +123,7 @@ describes the project.
 ----
 
 [[create-project]]
-Create Project
-~~~~~~~~~~~~~~
+=== Create Project
 [verse]
 'PUT /projects/link:#project-name[\{project-name\}]'
 
@@ -171,8 +166,7 @@ describes the created project.
 ----
 
 [[get-project-description]]
-Get Project Description
-~~~~~~~~~~~~~~~~~~~~~~~
+=== Get Project Description
 [verse]
 'GET /projects/link:#project-name[\{project-name\}]/description'
 
@@ -196,8 +190,7 @@ Retrieves the description of a project.
 If the project does not have a description an empty string is returned.
 
 [[set-project-description]]
-Set Project Description
-~~~~~~~~~~~~~~~~~~~~~~~
+=== Set Project Description
 [verse]
 'PUT /projects/link:#project-name[\{project-name\}]/description'
 
@@ -232,8 +225,7 @@ As response the new project description is returned.
 If the description was deleted the response is "`204 No Content`".
 
 [[delete-project-description]]
-Delete Project Description
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Delete Project Description
 [verse]
 'DELETE /projects/link:#project-name[\{project-name\}]/description'
 
@@ -258,8 +250,7 @@ link:#set-project-description[PUT] to delete the description.
 ----
 
 [[get-project-parent]]
-Get Project Parent
-~~~~~~~~~~~~~~~~~~
+=== Get Project Parent
 [verse]
 'GET /projects/link:#project-name[\{project-name\}]/parent'
 
@@ -282,8 +273,7 @@ Retrieves the name of a project's parent project. For the
 ----
 
 [[set-project-parent]]
-Set Project Parent
-~~~~~~~~~~~~~~~~~~
+=== Set Project Parent
 [verse]
 'PUT /projects/link:#project-name[\{project-name\}]/parent'
 
@@ -316,8 +306,7 @@ As response the new parent project name is returned.
 ----
 
 [[get-head]]
-Get HEAD
-~~~~~~~~
+=== Get HEAD
 [verse]
 'GET /projects/link:#project-name[\{project-name\}]/HEAD'
 
@@ -339,8 +328,7 @@ Retrieves for a project the name of the branch to which `HEAD` points.
 ----
 
 [[set-head]]
-Set HEAD
-~~~~~~~~
+=== Set HEAD
 [verse]
 'PUT /projects/link:#project-name[\{project-name\}]/HEAD'
 
@@ -372,8 +360,7 @@ As response the new ref to which `HEAD` points is returned.
 ----
 
 [[get-repository-statistics]]
-Get Repository Statistics
-~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Get Repository Statistics
 [verse]
 'GET /projects/link:#project-name[\{project-name\}]/statistics.git'
 
@@ -406,8 +393,7 @@ link:#repository-statistics-info[RepositoryStatisticsInfo] entity.
 ----
 
 [[get-config]]
-Get Config
-~~~~~~~~~~
+=== Get Config
 [verse]
 'GET /projects/link:#project-name[\{project-name\}]/config'
 
@@ -474,8 +460,7 @@ read access to `refs/meta/config`.
 ----
 
 [[set-config]]
-Set Config
-~~~~~~~~~~
+=== Set Config
 [verse]
 'PUT /projects/link:#project-name[\{project-name\}]/config'
 
@@ -545,8 +530,7 @@ ConfigInfo] entity.
 ----
 
 [[run-gc]]
-Run GC
-~~~~~~
+=== Run GC
 [verse]
 'POST /projects/link:#project-name[\{project-name\}]/gc'
 
@@ -584,12 +568,10 @@ The response is the streamed output of the garbage collection.
 ----
 
 [[branch-endpoints]]
-Branch Endpoints
-----------------
+== Branch Endpoints
 
 [[list-branches]]
-List Branches
-~~~~~~~~~~~~~
+=== List Branches
 [verse]
 'GET /projects/link:#project-name[\{project-name\}]/branches/'
 
@@ -632,8 +614,7 @@ returned.
 ----
 
 [[get-branch]]
-Get Branch
-~~~~~~~~~~
+=== Get Branch
 [verse]
 'GET /projects/link:#project-name[\{project-name\}]/branches/link:#branch-id[\{branch-id\}]'
 
@@ -661,8 +642,7 @@ describes the branch.
 ----
 
 [[create-branch]]
-Create Branch
-~~~~~~~~~~~~~
+=== Create Branch
 [verse]
 'PUT /projects/link:#project-name[\{project-name\}]/branches/link:#branch-id[\{branch-id\}]'
 
@@ -699,8 +679,7 @@ describes the created branch.
 ----
 
 [[delete-branch]]
-Delete Branch
-~~~~~~~~~~~~~
+=== Delete Branch
 [verse]
 'DELETE /projects/link:#project-name[\{project-name\}]/branches/link:#branch-id[\{branch-id\}]'
 
@@ -717,12 +696,10 @@ Deletes a branch.
 ----
 
 [[child-project-endpoints]]
-Child Project Endpoints
------------------------
+== Child Project Endpoints
 
 [[list-child-projects]]
-List Child Projects
-~~~~~~~~~~~~~~~~~~~
+=== List Child Projects
 [verse]
 'GET /projects/link:#project-name[\{project-name\}]/children/'
 
@@ -826,8 +803,7 @@ are not resolved further.
 ----
 
 [[get-child-project]]
-Get Child Project
-~~~~~~~~~~~~~~~~~
+=== Get Child Project
 [verse]
 'GET /projects/link:#project-name[\{project-name\}]/children/link:#project-name[\{project-name\}]'
 
@@ -859,12 +835,10 @@ describes the child project.
 ----
 
 [[dashboard-endpoints]]
-Dashboard Endpoints
--------------------
+== Dashboard Endpoints
 
 [[list-dashboards]]
-List Dashboards
-~~~~~~~~~~~~~~~
+=== List Dashboards
 [verse]
 'GET /projects/link:#project-name[\{project-name\}]/dashboards/'
 
@@ -917,8 +891,7 @@ get::/projects/All-Projects/dashboards/
 ****
 
 [[get-dashboard]]
-Get Dashboard
-~~~~~~~~~~~~~
+=== Get Dashboard
 [verse]
 'GET /projects/link:#project-name[\{project-name\}]/dashboards/link:#dashboard-id[\{dashboard-id\}]'
 
@@ -1000,8 +973,7 @@ dashboard-id.
 ----
 
 [[set-dashboard]]
-Set Dashboard
-~~~~~~~~~~~~~
+=== Set Dashboard
 [verse]
 'PUT /projects/link:#project-name[\{project-name\}]/dashboards/link:#dashboard-id[\{dashboard-id\}]'
 
@@ -1056,8 +1028,7 @@ link:#dashboard-info[DashboardInfo] entity.
 ----
 
 [[delete-dashboard]]
-Delete Dashboard
-~~~~~~~~~~~~~~~~
+=== Delete Dashboard
 [verse]
 'DELETE /projects/link:#project-name[\{project-name\}]/dashboards/link:#dashboard-id[\{dashboard-id\}]'
 
@@ -1083,36 +1054,30 @@ requests.
 
 
 [[ids]]
-IDs
----
+== IDs
 
 [[branch-id]]
-\{branch-id\}
-~~~~~~~~~~~~~
+=== \{branch-id\}
 The name of a branch or `HEAD`. The prefix `refs/heads/` can be
 omitted.
 
 [[dashboard-id]]
-\{dashboard-id\}
-~~~~~~~~~~~~~~~~
+=== \{dashboard-id\}
 The ID of a dashboard in the format '<ref>:<path>'.
 
 A special dashboard ID is `default` which represents the default
 dashboard of a project.
 
 [[project-name]]
-\{project-name\}
-~~~~~~~~~~~~~~~~
+=== \{project-name\}
 The name of the project.
 
 
 [[json-entities]]
-JSON Entities
--------------
+== JSON Entities
 
 [[branch-info]]
-BranchInfo
-~~~~~~~~~~
+=== BranchInfo
 The `BranchInfo` entity contains information about a branch.
 
 [options="header",width="50%",cols="1,^2,4"]
@@ -1125,8 +1090,7 @@ Whether the calling user can delete this branch.
 |=========================
 
 [[branch-input]]
-BranchInput
-~~~~~~~~~~~
+=== BranchInput
 The `BranchInput` entity contains information for the creation of
 a new branch.
 
@@ -1143,8 +1107,7 @@ If not set, `HEAD` will be used as base revision.
 |=======================
 
 [[config-info]]
-ConfigInfo
-~~~~~~~~~~
+=== ConfigInfo
 The `ConfigInfo` entity contains information about the effective project
 configuration.
 
@@ -1199,8 +1162,7 @@ link:rest-api-changes.html#action-info[ActionInfo] entities.
 |=========================================
 
 [[config-input]]
-ConfigInput
-~~~~~~~~~~~
+=== ConfigInput
 The `ConfigInput` entity describes a new project configuration.
 
 [options="header",width="50%",cols="1,^2,4"]
@@ -1250,8 +1212,7 @@ If not set, the project state is not updated.
 |=========================================
 
 [[dashboard-info]]
-DashboardInfo
-~~~~~~~~~~~~~
+=== DashboardInfo
 The `DashboardInfo` entity contains information about a project
 dashboard.
 
@@ -1289,8 +1250,7 @@ The list of link:#dashboard-section-info[sections] in the dashboard.
 |===============================
 
 [[dashboard-input]]
-DashboardInput
-~~~~~~~~~~~~~~
+=== DashboardInput
 The `DashboardInput` entity contains information to create/update a
 project dashboard.
 
@@ -1304,8 +1264,7 @@ Message that should be used to commit the change of the dashboard.
 |=============================
 
 [[dashboard-section-info]]
-DashboardSectionInfo
-~~~~~~~~~~~~~~~~~~~~
+=== DashboardSectionInfo
 The `DashboardSectionInfo` entity contains information about a section
 in a dashboard.
 
@@ -1318,8 +1277,7 @@ Tokens such as `${project}` are not resolved.
 |===========================
 
 [[head-input]]
-HeadInput
-~~~~~~~~~
+=== HeadInput
 The `HeadInput` entity contains information for setting `HEAD` for a
 project.
 
@@ -1332,8 +1290,7 @@ omitted.
 |============================
 
 [[inherited-boolean-info]]
-InheritedBooleanInfo
-~~~~~~~~~~~~~~~~~~~~
+=== InheritedBooleanInfo
 A boolean value that can also be inherited.
 
 [options="header",width="50%",cols="1,^2,4"]
@@ -1349,8 +1306,7 @@ Not set if there is no parent.
 |================================
 
 [[max-object-size-limit-info]]
-MaxObjectSizeLimitInfo
-~~~~~~~~~~~~~~~~~~~~~~
+=== MaxObjectSizeLimitInfo
 The `MaxObjectSizeLimitInfo` entity contains information about the
 link:config-gerrit.html#receive.maxObjectSizeLimit[max object size
 limit] of a project.
@@ -1372,8 +1328,7 @@ Not set if there is no global limit for the object size.
 |===============================
 
 [[project-description-input]]
-ProjectDescriptionInput
-~~~~~~~~~~~~~~~~~~~~~~~
+=== ProjectDescriptionInput
 The `ProjectDescriptionInput` entity contains information for setting a
 project description.
 
@@ -1389,8 +1344,7 @@ branch.
 |=============================
 
 [[project-info]]
-ProjectInfo
-~~~~~~~~~~~
+=== ProjectInfo
 The `ProjectInfo` entity contains information about a project.
 
 [options="header",width="50%",cols="1,^2,4"]
@@ -1410,8 +1364,7 @@ is increased for each non-visible project).
 |===========================
 
 [[project-input]]
-ProjectInput
-~~~~~~~~~~~~
+=== ProjectInput
 The `ProjectInput` entity contains information for the creation of
 a new project.
 
@@ -1463,8 +1416,7 @@ Common unit suffixes of 'k', 'm', or 'g' are supported.
 |=========================================
 
 [[project-parent-input]]
-ProjectParentInput
-~~~~~~~~~~~~~~~~~~
+=== ProjectParentInput
 The `ProjectParentInput` entity contains information for setting a
 project parent.
 
@@ -1478,8 +1430,7 @@ in the `project.config` file to the `refs/meta/config` branch.
 |=============================
 
 [[repository-statistics-info]]
-RepositoryStatisticsInfo
-~~~~~~~~~~~~~~~~~~~~~~~~
+=== RepositoryStatisticsInfo
 The `RepositoryStatisticsInfo` entity contains information about
 statistics of a Git repository.
 
@@ -1496,8 +1447,7 @@ statistics of a Git repository.
 |======================================
 
 [[theme-info]]
-ThemeInfo
-~~~~~~~~~
+=== ThemeInfo
 The `ThemeInfo` entity describes a theme.
 
 [options="header",width="50%",cols="1,^2,4"]

@@ -1,12 +1,9 @@
-suexec
-======
+= suexec
 
-NAME
-----
+== NAME
 suexec - Execute a command as any registered user account
 
-SYNOPSIS
---------
+== SYNOPSIS
 [verse]
 'ssh' -p <port>
   -i SITE_PATH/etc/ssh_host_rsa_key
@@ -17,8 +14,7 @@ SYNOPSIS
   [--]
   [COMMAND]
 
-DESCRIPTION
------------
+== DESCRIPTION
 The suexec command permits executing any other command as any other
 registered user account.
 
@@ -27,8 +23,7 @@ or any user granted granted the link:access-control.html#capability_runAs[Run As
 capability. The run as capability is permitted to be used only if
 link:config-gerrit.html[auth.enableRunAs] is true.
 
-OPTIONS
--------
+== OPTIONS
 
 --as::
 	Email address of the user you want to impersonate.
@@ -40,18 +35,15 @@ OPTIONS
 COMMAND::
 	Gerrit command you want to run.
 
-ACCESS
-------
+== ACCESS
 Caller must be the magic user Gerrit Code Review using the SSH
 daemon's host key, or a key on this daemon's peer host key ring,
 or a user granted the Run As capability.
 
-SCRIPTING
----------
+== SCRIPTING
 This command is intended to be used in scripts.
 
-EXAMPLES
---------
+== EXAMPLES
 
 Approve the change with commit c0ff33 as "Verified +1" as user bob@example.com
 =====

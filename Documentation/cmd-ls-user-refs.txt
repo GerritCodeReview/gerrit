@@ -1,20 +1,16 @@
-gerrit ls-user-refs
-===================
+= gerrit ls-user-refs
 
-NAME
-----
+== NAME
 gerrit ls-user-refs - List refs visible to a specific user
 
-SYNOPSIS
---------
+== SYNOPSIS
 [verse]
 'ssh' -p <port> <host> 'gerrit ls-user-refs'
   [--project PROJECT> | -p <PROJECT>]
   [--user <USER> | -u <USER>]
   [--only-refs-heads]
 
-DESCRIPTION
------------
+== DESCRIPTION
 Displays all refs that the specified user can see.
 
 Allows an administrator to query which refs are visible for
@@ -23,12 +19,10 @@ user cannot access certain refs and also to help admins
 verify that certain secret refs are not exposed to the wrong
 groups.
 
-ACCESS
-------
+== ACCESS
 Administrators
 
-OPTIONS
--------
+== OPTIONS
 --project::
 -p::
 	Required; Name of the project for which the refs should be listed.
@@ -42,8 +36,7 @@ OPTIONS
 --only-refs-heads::
 	Only list the refs found under refs/heads/*
 
-EXAMPLES
---------
+== EXAMPLES
 
 List visible refs for the user "mr.developer" in project "gerrit"
 =====

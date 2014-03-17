@@ -1,8 +1,6 @@
-Gerrit Code Review - Change-Ids
-===============================
+= Gerrit Code Review - Change-Ids
 
-Description
------------
+== Description
 
 Gerrit Code Review sometimes relies upon a Change-Id line at the
 bottom of a commit message to uniquely identify a change across all
@@ -41,8 +39,7 @@ To avoid confusion with commit names, Change-Ids are typically prefixed with
 an uppercase `I`.
 
 [[creation]]
-Creation
---------
+== Creation
 
 Gerrit Code Review provides a standard 'commit-msg' hook which
 can be installed in the local Git repository to automatically
@@ -92,12 +89,10 @@ message if additional revisions to a change are required.
 For more details on using git push to upload changes to Gerrit,
 see link:user-upload.html#push_create[creating changes by git push].
 
-Git Tasks
----------
+== Git Tasks
 
 [[new]]
-Creating a new commit
-~~~~~~~~~~~~~~~~~~~~~
+=== Creating a new commit
 
 When creating a new commit, ensure the 'commit-msg' hook has been
 installed in your repository (see above), and don't put a Change-Id
@@ -107,24 +102,21 @@ Change-Id line.  You can inspect the modified message after the
 commit is complete by executing `git show`.
 
 [[amend]]
-Amending a commit
-~~~~~~~~~~~~~~~~~
+=== Amending a commit
 
 When amending a commit with `git commit --amend`, leave the
 Change-Id line unmodified in the commit message.  This will allow
 Gerrit to automatically update the change with the amended commit.
 
 [[rebase]]
-Rebasing a commit
-~~~~~~~~~~~~~~~~~
+=== Rebasing a commit
 
 When rebasing a commit, leave the Change-Id line unmodified in the
 commit message.  This will allow Gerrit to automatically update
 the change with the rebased commit.
 
 [[squash]]
-Squashing commits
-~~~~~~~~~~~~~~~~~
+=== Squashing commits
 
 When squashing several commits together, try to preserve only one
 Change-Id line, and remove the others from the commit message.
@@ -139,8 +131,7 @@ to keep in the squashed commit message, and manually abandon the
 other changes through the web interface.
 
 [[cherry-pick]]
-Cherry-picking a commit
-~~~~~~~~~~~~~~~~~~~~~~~
+=== Cherry-picking a commit
 
 When cherry-picking a commit, leave the Change-Id line alone to
 have Gerrit treat the cherry-picked commit as a replacement for
@@ -156,8 +147,7 @@ a change from the current development branch to a maintenance
 release branch.
 
 [[update-old]]
-Updating an old commit
-~~~~~~~~~~~~~~~~~~~~~~
+=== Updating an old commit
 
 If a commit was created before the availability of Change-Id support,
 or was created in a Git repository that was missing the 'commit-msg'

@@ -1,15 +1,12 @@
-commit-msg Hook
-===============
+= commit-msg Hook
 
 
-NAME
-----
+== NAME
 
 
 commit-msg - Edit commit messages to insert a `Change-Id` tag.
 
-DESCRIPTION
------------
+== DESCRIPTION
 
 
 A Git hook automatically invoked by `git commit`, and most other
@@ -58,8 +55,7 @@ change viewed on the web.
 The `Change-Id` will not be added if `gerrit.createChangeId` is set
 to `false` in the git config.
 
-OBTAINING
----------
+== OBTAINING
 
 
 To obtain the `commit-msg` script use `scp`, `wget` or `curl` to download
@@ -88,16 +84,14 @@ Make sure the hook file is executable:
   $ chmod u+x ~/duhproject/.git/hooks/commit-msg
 ====
 
-SEE ALSO
---------
+== SEE ALSO
 
 
 * link:user-changeid.html[Change-Id Lines]
 * link:http://www.kernel.org/pub/software/scm/git/docs/git-commit.html[git-commit(1)]
 * link:http://www.kernel.org/pub/software/scm/git/docs/githooks.html[githooks(5)]
 
-IMPLEMENTATION
---------------
+== IMPLEMENTATION
 
 
 The hook generates unique `Change-Id` lines by creating a virtual

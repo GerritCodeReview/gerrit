@@ -1,8 +1,6 @@
-Gerrit Code Review - Project Configuration
-==========================================
+= Gerrit Code Review - Project Configuration
 
-Create Through SSH
-------------------
+== Create Through SSH
 
 Creating a new repository over SSH is perhaps the easiest way to
 configure a new project:
@@ -15,13 +13,11 @@ See link:cmd-create-project.html[gerrit create-project] for more
 details.
 
 
-Manual Creation
----------------
+== Manual Creation
 
 Projects may also be manually created.
 
-Create Git Repository
-~~~~~~~~~~~~~~~~~~~~~
+=== Create Git Repository
 
 Create a Git repository under gerrit.basePath:
 
@@ -40,8 +36,7 @@ protocol, don't forget to create a `git-daemon-export-ok` file:
   touch $base_path/new/project.git/git-daemon-export-ok
 ====
 
-Register Project
-~~~~~~~~~~~~~~~~
+=== Register Project
 
 Either restart the server, or flush the `project_list` cache:
 
@@ -50,8 +45,7 @@ Either restart the server, or flush the `project_list` cache:
 ====
 
 [[submit_type]]
-Change Submit Action
---------------------
+== Change Submit Action
 
 The method Gerrit uses to submit a change to a project can be
 modified by any project owner through the project console, `Projects` >
@@ -115,8 +109,7 @@ If `Automatically resolve conflicts` is enabled, Gerrit will try
 to do a content merge when a path conflict occurs.
 
 
-Registering Additional Branches
--------------------------------
+== Registering Additional Branches
 
 Branches can be created over the SSH port by any `git push` client,
 if the user has been granted the `Create Reference` access right.

@@ -1,5 +1,4 @@
-squash commits first
-====================
+= squash commits first
 
 With this error message Gerrit rejects to push a commit if it
 contains the same Change-ID as a predecessor commit.
@@ -19,8 +18,7 @@ changes to be reviewed and accidentally included the same Change-ID
 into the different commit messages.
 
 
-Example
--------
+== Example
 
 Here an example about how the push is failing. Please note that the
 two commits 'one commit' and 'another commit' both have the same

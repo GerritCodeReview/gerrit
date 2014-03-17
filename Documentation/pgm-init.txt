@@ -1,12 +1,9 @@
-init
-====
+= init
 
-NAME
-----
+== NAME
 init - Initialize a new Gerrit server installation
 
-SYNOPSIS
---------
+== SYNOPSIS
 [verse]
 'java' -jar gerrit.war 'init'
 	-d <SITE_PATH>
@@ -15,8 +12,7 @@ SYNOPSIS
 	[--list-plugins]
 	[--install-plugin=<PLUGIN_NAME>]
 
-DESCRIPTION
------------
+== DESCRIPTION
 Creates a new Gerrit server installation, interactively prompting
 for some basic setup prior to writing default configuration files
 into a newly created `$site_path`.
@@ -24,8 +20,7 @@ into a newly created `$site_path`.
 If run in an existing `$site_path`, init will upgrade some resources
 as necessary.
 
-OPTIONS
--------
+== OPTIONS
 --batch::
 	Run in batch mode, skipping interactive prompts.  Reasonable
 	configuration defaults are chosen based on the whims of
@@ -53,8 +48,7 @@ objects these SQL statements have to be executed manually.
 --install-plugin::
 	Automatically install plugin with given name without asking.
 
-CONTEXT
--------
+== CONTEXT
 This command can only be run on a server which has direct
 connectivity to the metadata database, and local access to the
 managed Git repositories.

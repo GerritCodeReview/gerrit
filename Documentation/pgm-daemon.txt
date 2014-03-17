@@ -1,12 +1,9 @@
-daemon
-======
+= daemon
 
-NAME
-----
+== NAME
 daemon - Gerrit network server
 
-SYNOPSIS
---------
+== SYNOPSIS
 [verse]
 'java' -jar gerrit.war 'daemon'
 	-d <SITE_PATH>
@@ -17,8 +14,7 @@ SYNOPSIS
 	[--headless]
 	[--init]
 
-DESCRIPTION
------------
+== DESCRIPTION
 Runs the Gerrit network daemon on the local system, configured as
 per the local copy of link:config-gerrit.html[gerrit.config].
 
@@ -29,8 +25,7 @@ filesystem.  However, any option within gerrit.config, including
 link:config-gerrit.html#gerrit.basePath[gerrit.basePath] may be set
 to different values.
 
-OPTIONS
--------
+== OPTIONS
 
 -d::
 --site-path::
@@ -68,21 +63,18 @@ This option automatically implies '--disable-httpd --enable-sshd'.
 	Run init before starting the daemon. This will create a new site or
 	upgrade an existing site.
 
-CONTEXT
--------
+== CONTEXT
 This command can only be run on a server which has direct
 connectivity to the metadata database, and local access to the
 managed Git repositories.
 
-LOGGING
--------
+== LOGGING
 Error and warning messages from the server are automatically written
 to the log file under '$site_path/logs/error_log'.  This log file
 is automatically rotated at 12:00 AM GMT each day, allowing an
 external log cleaning service to clean up the prior logs.
 
-KNOWN ISSUES
-------------
+== KNOWN ISSUES
 Slave daemon caches can quickly become out of date when modifications
 are made on the master.  The following configuration is suggested in
 a slave to reduce the maxAge for each cache entry, so that changes

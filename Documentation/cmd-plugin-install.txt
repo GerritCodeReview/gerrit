@@ -1,34 +1,27 @@
-plugin install
-==============
+= plugin install
 
-NAME
-----
+== NAME
 plugin install - Install/Add a plugin.
 
 plugin add - Install/Add a plugin.
 
-SYNOPSIS
---------
+== SYNOPSIS
 [verse]
 'ssh' -p <port> <host> 'gerrit plugin install | add'
   [--name <NAME> | -n <NAME>]
   - | <URL> | <PATH>
 
-DESCRIPTION
------------
+== DESCRIPTION
 Install/Add a plugin. The plugin will be copied into the site path's
 `plugins` directory.
 
-ACCESS
-------
+== ACCESS
 Caller must be a member of the privileged 'Administrators' group.
 
-SCRIPTING
----------
+== SCRIPTING
 This command is intended to be used in scripts.
 
-OPTIONS
--------
+== OPTIONS
 -::
 	Plugin jar as piped input.
 
@@ -45,8 +38,7 @@ OPTIONS
 	provides its own name in the MANIFEST file, then the plugin name from the
 	MANIFEST file has precedence over this option.
 
-EXAMPLES
---------
+== EXAMPLES
 Install a plugin from an absolute file path on the server's host:
 
 ====

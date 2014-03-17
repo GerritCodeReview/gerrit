@@ -1,5 +1,4 @@
-Making a Gerrit Release
-=======================
+= Making a Gerrit Release
 
 [NOTE]
 ========================================================================
@@ -16,16 +15,14 @@ and as a checklist for those already familiar with these
 tasks.
 
 
-Gerrit Release Type
--------------------
+== Gerrit Release Type
 
 Here are some guidelines on release approaches depending on the
 type of release you want to make (`stable-fix`, `stable`, `RC0`,
 `RC1`...).
 
 [[stable]]
-Stable
-~~~~~~
+=== Stable
 
 A `stable` release is generally built from the `master` branch and may
 need to undergo some stabilization before releasing the final release.
@@ -51,8 +48,7 @@ There should be no new features in this release, only bug fixes
 * Finally create the `stable` release (no `RC`)
 
 
-Stable-Fix
-~~~~~~~~~~
+=== Stable-Fix
 
 `stable-fix` releases should likely only contain bug fixes and doc
 updates.
@@ -64,8 +60,7 @@ objectives are met
 
 
 [[security]]
-Security-Fix
-~~~~~~~~~~~~
+=== Security-Fix
 
 `security-fix` releases should only contain bug fixes for security
 issues.
@@ -82,8 +77,7 @@ the `gerrit-security-fixes` project be taken over into the public
 `gerrit` project.
 
 
-Create the Actual Release
--------------------------
+== Create the Actual Release
 
 To create a Gerrit release the following steps have to be done:
 
@@ -106,8 +100,7 @@ To create a Gerrit release the following steps have to be done:
 
 
 [[subproject]]
-Release Subprojects
-~~~~~~~~~~~~~~~~~~~
+=== Release Subprojects
 
 The subprojects to be released are:
 
@@ -132,8 +125,7 @@ to the released version
 
 
 [[build-gerrit]]
-Build Gerrit
-~~~~~~~~~~~~
+=== Build Gerrit
 
 * Build the Gerrit WAR
 +
@@ -145,13 +137,11 @@ Build Gerrit
 * Test the new Gerrit version
 
 [[publish-gerrit]]
-Publish the Gerrit Release
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Publish the Gerrit Release
 
 
 [[extension-and-plugin-api]]
-Publish the Extension and Plugin API Jars
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+==== Publish the Extension and Plugin API Jars
 
 * Make sure you have done the
 link:dev-release-deploy-config.html#deploy-configuration-settings-xml[
@@ -165,15 +155,13 @@ configuration needed for deployment]
 
 
 [[publish-core-plugins]]
-Publish the Core Plugins
-^^^^^^^^^^^^^^^^^^^^^^^^
+==== Publish the Core Plugins
 
 * link:dev-release-subproject.html#publish-release[Publish the Release]
 
 
 [[publish-gerrit-war]]
-Publish the Gerrit WAR (with Core Plugins)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+==== Publish the Gerrit WAR (with Core Plugins)
 
 * The WAR file to upload is `gerrit-package-plugins\target\gerrit-full-v2.5.war`
 * Upload WAR to `code.google.com/p/gerrit` (manual via web browser)
@@ -186,8 +174,7 @@ Publish the Gerrit WAR (with Core Plugins)
 
 
 [[push-stable]]
-Push the Stable Branch
-^^^^^^^^^^^^^^^^^^^^^^
+==== Push the Stable Branch
 
 * create the stable branch `stable-2.5` in the `gerrit` project
 +
@@ -199,8 +186,7 @@ get them merged
 
 
 [[push-tag]]
-Push the Release Tag
-^^^^^^^^^^^^^^^^^^^^
+==== Push the Release Tag
 
 * Push the new Release Tag
 +
@@ -218,8 +204,7 @@ For a final `stable` release:
 
 
 [[upload-documentation]]
-Upload the Documentation
-^^^^^^^^^^^^^^^^^^^^^^^^
+==== Upload the Documentation
 
 ====
  make -C Documentation PRIOR=2.4 update
@@ -253,8 +238,7 @@ somewhere under `~/.subversion/auth` folder.
 
 
 [[update-issues]]
-Update the Issues
-^^^^^^^^^^^^^^^^^
+==== Update the Issues
 
 ====
  How do the issues get updated?  Do you run a script to do
@@ -274,8 +258,7 @@ because `Status=Submitted` is considered a closed issue.
 
 
 [[announce]]
-Announce on Mailing List
-^^^^^^^^^^^^^^^^^^^^^^^^
+==== Announce on Mailing List
 
 * Send an email to the mailing list to announce the release, consider
 including some or all of the following in the email:
@@ -327,8 +310,7 @@ To read more about the bug fixes:
 
 
 [[increase-version]]
-Increase Gerrit Version for Current Development
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Increase Gerrit Version for Current Development
 
 All new development that is done in the `master` branch will be
 included in the next Gerrit release. Update the Gerrit version in each
@@ -341,8 +323,7 @@ review and get it merged.
 
 
 [[merge-stable]]
-Merge `stable` into `master`
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Merge `stable` into `master`
 
 After every release, stable should be merged to master to ensure that
 none of the changes/fixes ever get lost.

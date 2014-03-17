@@ -1,8 +1,6 @@
-Gerrit Code Review - Searching Changes
-======================================
+= Gerrit Code Review - Searching Changes
 
-Default Searches
-----------------
+== Default Searches
 
 Most basic searches can be viewed by clicking on a link along the top
 menu bar.  The link will prefill the search box with a common search
@@ -24,8 +22,7 @@ matches the search, the change will be presented instead of a list.
 |=================================================
 
 
-Basic Change Search
--------------------
+== Basic Change Search
 
 Similar to many popular search engines on the web, just enter some
 text and let Gerrit figure out the meaning:
@@ -41,8 +38,7 @@ text and let Gerrit figure out the meaning:
 |=============================================================
 
 
-Search Operators
-----------------
+== Search Operators
 
 Operators act as restrictions on the search.  As more operators
 are added to the same query string, they further restrict the
@@ -273,8 +269,7 @@ status:abandoned::
 Change has been abandoned.
 
 
-Argument Quoting
-----------------
+== Argument Quoting
 
 Operator values that are not bare words (roughly A-Z, a-z, 0-9, @,
 hyphen, dot and underscore) must be quoted for the query parser.
@@ -284,8 +279,7 @@ Quoting is accepted as either double quotes
 curly braces (e.g. `message:{the value}`).
 
 
-Boolean Operators
------------------
+== Boolean Operators
 
 Unless otherwise specified, operators are joined using the `AND`
 boolean operator, thereby restricting the search results.
@@ -293,30 +287,26 @@ boolean operator, thereby restricting the search results.
 Parentheses can be used to force a particular precedence on complex
 operator expressions, otherwise OR has higher precedence than AND.
 
-Negation
-~~~~~~~~
+=== Negation
 Any operator can be negated by prefixing it with `-`, for example
 `-is:starred` is the exact opposite of `is:starred` and will
 therefore return changes that are *not* starred by the current user.
 
 The operator `NOT` (in all caps) is a synonym.
 
-AND
-~~~
+=== AND
 The boolean operator `AND` (in all caps) can be used to join two
 other operators together.  This results in a restriction of the
 results, returning only changes that match both operators.
 
-OR
-~~
+=== OR
 The boolean operator `OR` (in all caps) can be used to find changes
 that match either operator.  This increases the number of results
 that are returned, as more changes are considered.
 
 
 [[labels]]
-Labels
-------
+== Labels
 Label operators can be used to match approval scores given during
 a code review.  The specific set of supported labels depends on
 the server configuration, however the `Code-Review` label is provided
@@ -384,8 +374,7 @@ Matches changes that are ready to be submitted.
 Changes that are blocked from submission due to a blocking score.
 
 
-Magical Operators
------------------
+== Magical Operators
 
 Most of these operators exist to support features of Gerrit Code
 Review, and are not meant to be accessed by the average end-user.

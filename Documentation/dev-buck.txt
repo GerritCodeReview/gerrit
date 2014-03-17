@@ -1,9 +1,7 @@
-Gerrit Code Review - Building with Buck
-=======================================
+= Gerrit Code Review - Building with Buck
 
 
-Installation
-------------
+== Installation
 
 There is currently no binary distribution of Buck, so it has to be manually
 built and installed.  Apache Ant is required.  Currently only Linux and Mac
@@ -57,12 +55,10 @@ the script's header comments for installation instructions.
 
 
 [[eclipse]]
-Eclipse Integration
--------------------
+== Eclipse Integration
 
 
-Generating the Eclipse Project
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Generating the Eclipse Project
 
 Create the Eclipse project:
 
@@ -82,8 +78,7 @@ Filters on a folder, they will be overwritten the next time you run
 `tools/eclipse/project.py`.
 
 
-Refreshing the Classpath
-~~~~~~~~~~~~~~~~~~~~~~~~
+=== Refreshing the Classpath
 
 If an updated classpath is needed, the Eclipse project can be
 refreshed and missing dependency JARs can be downloaded:
@@ -93,8 +88,7 @@ refreshed and missing dependency JARs can be downloaded:
 ----
 
 
-Attaching Sources
-~~~~~~~~~~~~~~~~~
+=== Attaching Sources
 
 To save time and bandwidth source JARs are only downloaded by the buck
 build where necessary to compile Java source into JavaScript using the
@@ -107,12 +101,10 @@ show documentation or dive into the implementation of a library JAR:
 
 
 [[build]]
-Building on the Command Line
-----------------------------
+== Building on the Command Line
 
 
-Gerrit Development WAR File
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Gerrit Development WAR File
 
 To build the Gerrit web application:
 
@@ -127,8 +119,7 @@ The output executable WAR will be placed in:
 ----
 
 
-Extension and Plugin API JAR Files
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Extension and Plugin API JAR Files
 
 To build the extension and plugin API JAR files:
 
@@ -159,8 +150,7 @@ The type of the repo is induced from the Gerrit version name, i.e.
 * `2.8-SNAPSHOT`: snapshot repo
 * `2.8`: release repo
 
-Plugins
-~~~~~~~
+=== Plugins
 
 To build all core plugins:
 
@@ -197,8 +187,7 @@ is not regenerated.
 
 
 [[documentation]]
-Documentation
-~~~~~~~~~~~~~
+=== Documentation
 
 To build the documentation:
 
@@ -219,8 +208,7 @@ The html files will also be bundled into `html.zip` in this location:
 ----
 
 [[release]]
-Gerrit Release WAR File
-~~~~~~~~~~~~~~~~~~~~~~~
+=== Gerrit Release WAR File
 
 To build the release of the Gerrit web application, including documentation and
 all core plugins:
@@ -236,8 +224,7 @@ The output release WAR will be placed in:
 ----
 
 [[tests]]
-Running Unit Tests
-------------------
+== Running Unit Tests
 
 To run all tests including acceptance tests:
 
@@ -259,8 +246,7 @@ To run a specific test, e.g. the acceptance test
 ----
 
 
-Dependencies
-------------
+== Dependencies
 
 Dependency JARs are normally downloaded automatically, but Buck can inspect
 its graph and download any missing JAR files.  This is useful to enable
@@ -291,8 +277,7 @@ The `local.properties` file may be placed in the root of the gerrit repository
 being built, or in `~/.gerritcodereview/`.  The file in the root of the gerrit
 repository has precedence.
 
-Building against unpublished Maven JARs
----------------------------------------
+== Building against unpublished Maven JARs
 
 To build against unpublished Maven JARs, like gwtorm or PrologCafe, the custom
 JARs must be installed in the local Maven repository (`mvn clean install`) and
@@ -309,8 +294,7 @@ that artifact:
  )
 ----
 
-Caching Build Results
-~~~~~~~~~~~~~~~~~~~~~
+=== Caching Build Results
 
 Build results can be locally cached, saving rebuild time when
 switching between Git branches. Buck's documentation covers
@@ -326,8 +310,7 @@ The trivial case using a local directory is:
 ----
 
 [[buck-daemon]]
-Using Buck daemon
-~~~~~~~~~~~~~~~~~
+=== Using Buck daemon
 
 Buck ships with a daemon command `buckd`, which uses the
 link:https://github.com/martylamb/nailgun[Nailgun] protocol for running
@@ -353,8 +336,7 @@ run `buck` as usual:
   [-] BUILDING...FINISHED 0.2s
 ----
 
-Override Buck's settings
-~~~~~~~~~~~~~~~~~~~~~~~~
+=== Override Buck's settings
 
 User-specific configuration can be placed in one of the following files:
 `/etc/buck.conf`, `$HOME/.buck/buck.conf` or `$HOME/.buckrc`.

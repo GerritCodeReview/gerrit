@@ -1,28 +1,23 @@
-git-receive-pack
-================
+= git-receive-pack
 
-NAME
-----
+== NAME
 git-receive-pack - Receive what is pushed into the repository
 
-SYNOPSIS
---------
+== SYNOPSIS
 [verse]
 'git receive-pack'
   [--reviewer <address> | --re <address>]
   [--cc <address>]
   <project>
 
-DESCRIPTION
------------
+== DESCRIPTION
 Invoked by 'git push' and updates the project's repository with
 the information fed from the 'git push' end.
 
 End users can supply options to this command by passing them through
 to 'git push', which will relay them automatically.
 
-OPTIONS
--------
+== OPTIONS
 
 <project>::
 	The remote repository that will receive the pushed objects,
@@ -39,12 +34,10 @@ OPTIONS
 	Carbon-copy <address> on the created or updated changes.
 	Deprecated, use `refs/for/branch%cc=address` instead.
 
-ACCESS
-------
+== ACCESS
 Any user who has configured an SSH key.
 
-EXAMPLES
---------
+== EXAMPLES
 
 Send a review for a change on the master branch to charlie@example.com:
 =====
@@ -80,8 +73,7 @@ alice and bob is much easier:
 	git push charlie
 ====
 
-SEE ALSO
---------
+== SEE ALSO
 
 * link:user-upload.html[Uploading Changes]
 

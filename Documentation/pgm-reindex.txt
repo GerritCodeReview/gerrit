@@ -1,21 +1,16 @@
-reindex
-=======
+= reindex
 
-NAME
-----
+== NAME
 reindex - Rebuild the secondary index
 
-SYNOPSIS
---------
+== SYNOPSIS
 [verse]
 'java' -jar gerrit.war 'reindex' [<OPTIONS>]
 
-DESCRIPTION
------------
+== DESCRIPTION
 Rebuilds the secondary index.
 
-OPTIONS
--------
+== OPTIONS
 --threads::
 	Number of threads to use for indexing.
 
@@ -31,8 +26,7 @@ OPTIONS
 --dry-run::
 	Dry run.  Don't write anything to index.
 
-CONTEXT
--------
+== CONTEXT
 The secondary index must be enabled. See
 link:config-gerrit.html#index.type[index.type].
 

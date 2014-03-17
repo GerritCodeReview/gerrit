@@ -1,5 +1,4 @@
-invalid Change-Id line format in commit message footer
-======================================================
+= invalid Change-Id line format in commit message footer
 
 With this error message Gerrit rejects to push a commit if its commit
 message footer contains an invalid Change-Id line.
@@ -20,8 +19,7 @@ link:error-push-fails-due-to-commit-message.html#commit_hook[here]. In case you 
 Change-Id will be automatically generated and inserted.
 
 
-SEE ALSO
---------
+== SEE ALSO
 
 * link:user-changeid.html[Change-Id Lines]
 

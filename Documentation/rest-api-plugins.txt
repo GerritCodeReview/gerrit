@@ -1,13 +1,11 @@
-Gerrit Code Review - /plugins/ REST API
-=======================================
+= Gerrit Code Review - /plugins/ REST API
 
 This page describes the plugin related REST endpoints.
 Please also take note of the general information on the
 link:rest-api.html[REST API].
 
 [[plugin-endpoints]]
-Plugin Endpoints
-----------------
+== Plugin Endpoints
 
 Gerrit REST endpoints for installed plugins are available under
 '/plugins/link:#plugin-id[\{plugin-id\}]/gerrit~<endpoint-id>'.
@@ -17,8 +15,7 @@ namespace.
 
 
 [[list-plugins]]
-List Plugins
-~~~~~~~~~~~~
+=== List Plugins
 [verse]
 'GET /plugins/'
 
@@ -57,8 +54,7 @@ by plugin ID.
 ----
 
 [[install-plugin]]
-Install Plugin
-~~~~~~~~~~~~~~
+=== Install Plugin
 [verse]
 'PUT /plugins/link:#plugin-id[\{plugin-id\}]'
 
@@ -108,8 +104,7 @@ describes the plugin.
 If an existing plugin was overwritten the response is "`200 OK`".
 
 [[get-plugin-status]]
-Get Plugin Status
-~~~~~~~~~~~~~~~~~
+=== Get Plugin Status
 [verse]
 'GET /plugins/link:#plugin-id[\{plugin-id\}]/gerrit~status'
 
@@ -138,8 +133,7 @@ describes the plugin.
 ----
 
 [[enable-plugin]]
-Enable Plugin
-~~~~~~~~~~~~~
+=== Enable Plugin
 [verse]
 'POST /plugins/link:#plugin-id[\{plugin-id\}]/gerrit~enable'
 
@@ -168,8 +162,7 @@ describes the plugin.
 ----
 
 [[disable-plugin]]
-Disable Plugin
-~~~~~~~~~~~~~~
+=== Disable Plugin
 [verse]
 'POST /plugins/link:#plugin-id[\{plugin-id\}]/gerrit~disable'
 
@@ -204,8 +197,7 @@ describes the plugin.
 ----
 
 [[reload-plugin]]
-Reload Plugin
-~~~~~~~~~~~~~
+=== Reload Plugin
 [verse]
 'POST /plugins/link:#plugin-id[\{plugin-id\}]/gerrit~reload'
 
@@ -236,21 +228,17 @@ describes the plugin.
 
 
 [[ids]]
-IDs
----
+== IDs
 
 [[plugin-id]]
-\{plugin-id\}
-~~~~~~~~~~~~~
+=== \{plugin-id\}
 The ID of the plugin.
 
 [[json-entities]]
-JSON Entities
--------------
+== JSON Entities
 
 [[plugin-info]]
-PluginInfo
-~~~~~~~~~~
+=== PluginInfo
 The `PluginInfo` entity describes a plugin.
 
 [options="header",width="50%",cols="1,^2,4"]
@@ -263,8 +251,7 @@ The `PluginInfo` entity describes a plugin.
 |=======================
 
 [[plugin-input]]
-PluginInput
-~~~~~~~~~~~
+=== PluginInput
 The `PluginInput` entity describes a plugin that should be installed.
 
 [options="header",width="50%",cols="1,6"]

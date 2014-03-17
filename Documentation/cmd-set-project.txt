@@ -1,12 +1,9 @@
-gerrit set-project
-==================
+= gerrit set-project
 
-NAME
-----
+== NAME
 gerrit set-project - Change a project's settings.
 
-SYNOPSIS
---------
+== SYNOPSIS
 [verse]
 'ssh' -p <port> <host> 'gerrit set-project'
   [--description <DESC> | -d <DESC>]
@@ -19,24 +16,20 @@ SYNOPSIS
   [--max-object-size-limit <N>]
   <NAME>
 
-DESCRIPTION
------------
+== DESCRIPTION
 Modifies a given project's settings. This command can be useful to
 batch change projects.
 
 The command is argument-safe, that is, if no argument is given the
 previous settings are kept intact.
 
-ACCESS
-------
+== ACCESS
 Caller must be a member of the privileged 'Administrators' group.
 
-SCRIPTING
----------
+== SCRIPTING
 This command is intended to be used in scripts.
 
-OPTIONS
--------
+== OPTIONS
 <NAME>::
     Required; name of the project to edit.  If name ends
     with `.git` the suffix will be automatically removed.
@@ -104,8 +97,7 @@ is granted, but all modification operations are disabled.
 +
 Common unit suffixes of 'k', 'm', or 'g' are supported.
 
-EXAMPLES
---------
+== EXAMPLES
 Change project `example` to be hidden, require change id, don't use content merge
 and use 'merge if necessary' as merge strategy:
 

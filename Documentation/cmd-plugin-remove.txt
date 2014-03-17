@@ -1,39 +1,31 @@
-plugin remove
-=============
+= plugin remove
 
-NAME
-----
+== NAME
 plugin remove - Disable plugins.
 
 plugin rm - Disable plugins.
 
-SYNOPSIS
---------
+== SYNOPSIS
 [verse]
 'ssh' -p <port> <host> 'gerrit plugin remove | rm'
   <NAME> ...
 
-DESCRIPTION
------------
+== DESCRIPTION
 Disable plugins. The plugins will be disabled by renaming the plugin
 jars in the site path's `plugins` directory to `<plugin-jar-name>.disabled`.
 
-ACCESS
-------
+== ACCESS
 Caller must be a member of the privileged 'Administrators' group.
 
-SCRIPTING
----------
+== SCRIPTING
 This command is intended to be used in scripts.
 
-OPTIONS
--------
+== OPTIONS
 <NAME>::
 	Name of the plugin that should be disabled.  Multiple names of
 	plugins that should be disabled may be specified.
 
-EXAMPLES
---------
+== EXAMPLES
 Disable a plugin:
 
 ====

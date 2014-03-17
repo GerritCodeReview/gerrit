@@ -1,6 +1,5 @@
 [[usersetup]]
-Initial Login
--------------
+== Initial Login
 It's time to exit the gerrit2 account as you now have Gerrit running on your
 host and setup your first workspace.
 
@@ -21,8 +20,7 @@ If you have the files, you may skip the key generating step.
 If you don't see the files in your listing, your will have to generate rsa
 keys for your ssh sessions:
 
-SSH key generation
-~~~~~~~~~~~~~~~~~~
+=== SSH key generation
 
 *Please don't generate new keys if you already have a valid keypair!*
 *They will be overwritten!*
@@ -53,8 +51,7 @@ SSH key generation
   user@host:~$
 ----
 
-Registering your key in Gerrit
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Registering your key in Gerrit
 
 Open a browser and enter the canonical url of your Gerrit server.  You can
 find the url in the settings file.

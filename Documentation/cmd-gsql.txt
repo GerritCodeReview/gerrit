@@ -1,25 +1,20 @@
-gerrit gsql
-===========
+= gerrit gsql
 
-NAME
-----
+== NAME
 gerrit gsql - Administrative interface to active database
 
-SYNOPSIS
---------
+== SYNOPSIS
 [verse]
 'ssh' -p <port> <host> 'gerrit gsql'
   [--format {PRETTY | JSON | JSON_SINGLE}]
   [-c QUERY]
 
-DESCRIPTION
------------
+== DESCRIPTION
 Provides interactive query support directly against the underlying
 SQL database used by the host Gerrit server.  All SQL statements
 are supported, including SELECT, UPDATE, INSERT, DELETE and ALTER.
 
-OPTIONS
--------
+== OPTIONS
 --format::
 	Set the format records are output in.  In PRETTY (the
 	default) records are displayed in a tabular output suitable
@@ -32,19 +27,16 @@ OPTIONS
 -c::
 	Execute the single query statement supplied, and then exit.
 
-ACCESS
-------
+== ACCESS
 Caller must have been granted the
 link:access-control.html#capability_accessDatabase[Access Database]
 global capability.
 
-SCRIPTING
----------
+== SCRIPTING
 Intended for interactive use only, unless format is JSON, or
 JSON_SINGLE.
 
-EXAMPLES
---------
+== EXAMPLES
 To manually correct a user's SSH user name:
 
 ====

@@ -1,12 +1,10 @@
-Gitweb Integration
-------------------
+== Gitweb Integration
 
 Gerrit Code Review can manage and generate hyperlinks to gitweb,
 allowing users to jump from Gerrit content to the same information,
 but shown by gitweb.
 
-Internal/Managed gitweb
-~~~~~~~~~~~~~~~~~~~~~~~
+=== Internal/Managed gitweb
 
 In the internal configuration, Gerrit inspects the request, enforces
 its project level access controls, and directly executes `gitweb.cgi`
@@ -37,16 +35,14 @@ To enable this feature, set both: `gitweb.cgi` and `gitweb.url`.
 After updating `'$site_path'/etc/gerrit.config`, the Gerrit server must
 be restarted and clients must reload the host page to see the change.
 
-Configuration
-^^^^^^^^^^^^^
+==== Configuration
 
 Most of the gitweb configuration file is handled automatically
 by Gerrit Code Review.  Site specific overrides can be placed in
 `'$site_path'/etc/gitweb_config.perl`, as this file is loaded as
 part of the generated configuration file.
 
-Logo and CSS
-^^^^^^^^^^^^
+==== Logo and CSS
 
 If the package-manager installed CGI (`/usr/lib/cgi-bin/gitweb.cgi`)
 is being used, the stock CSS and logo files will be served from
@@ -56,25 +52,21 @@ Otherwise, Gerrit expects `gitweb.css` and `git-logo.png` to be found
 in the same directory as the CGI script itself.  This matches with
 the default source code distribution, and most custom installations.
 
-Access Control
-^^^^^^^^^^^^^^
+==== Access Control
 
 Access controls for internally managed gitweb page views are enforced
 using the standard project READ +1 permission.
 
-External/Unmanaged gitweb
-~~~~~~~~~~~~~~~~~~~~~~~~~
+=== External/Unmanaged gitweb
 
 For the external configuration, gitweb runs under the control of an
 external web server, and Gerrit access controls are not enforced. Gerrit
 provides configuration parameters for integration with GitWeb.
 
 [[linuxGitWeb]]
-Linux Installation
-^^^^^^^^^^^^^^^^^^
+==== Linux Installation
 
-Install GitWeb
-++++++++++++++
+===== Install GitWeb
 
 On Ubuntu:
 
@@ -88,8 +80,7 @@ With Yum:
   $ yum install gitweb
 ====
 
-Configure GitWeb
-++++++++++++++++
+===== Configure GitWeb
 
 
 Update `/etc/gitweb.conf`, add the public GIT repositories:
@@ -120,11 +111,9 @@ $logo = "git-logo.png";
 $favicon = "git-favicon.png";
 ----
 
-Configure & Restart Apache Web Server
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+==== Configure & Restart Apache Web Server
 
-Configure Apache
-++++++++++++++++
+===== Configure Apache
 
 
 Link gitweb to `/var/www/gitweb`, check `/etc/gitweb.conf` if unsure of paths:
@@ -153,8 +142,7 @@ AllowOverride None
 *NOTE* This may have already been added by yum/apt-get. If that's the case, leave as
 is.
 
-Restart the Apache Web Server
-+++++++++++++++++++++++++++++
+===== Restart the Apache Web Server
 
 ====
 $ sudo /etc/init.d/apache2 restart
@@ -165,8 +153,7 @@ Now you should be able to view your repository projects online:
 link:http://localhost/gitweb[http://localhost/gitweb]
 
 [[WindowsGitWeb]]
-Windows Installation
-^^^^^^^^^^^^^^^^^^^^
+==== Windows Installation
 
 Instructions are available for installing the GitWeb module distributed with
 MsysGit:
@@ -214,8 +201,7 @@ contents: `bin/` `lib/` `site/`
 
 copy the contents of lib into `msysgit/lib/perl5/5.8.8` and overwrite existing files.
 
-Enable GitWeb Integration
-^^^^^^^^^^^^^^^^^^^^^^^^^
+==== Enable GitWeb Integration
 
 To enable the external gitweb integration, set
 link:config-gerrit.html#gitweb.url[gitweb.url] with the URL of your
@@ -245,23 +231,20 @@ $ git config -f $site_path/etc/gerrit.config gitweb.filehistory ?p=\${project}\;
 After updating `'$site_path'/etc/gerrit.config`, the Gerrit server must
 be restarted and clients must reload the host page to see the change.
 
-Access Control
-++++++++++++++
+===== Access Control
 
 Gitweb access controls can be implemented using standard web server
 access controls.  This isn't typically integrated with Gerrit's own
 access controls.  Caution must be taken to ensure the controls are
 consistent if access needs to be restricted.
 
-Caching Gitweb
-++++++++++++++
+===== Caching Gitweb
 
 If your repository set is large and you are expecting a lot
 of users, you may want to look at the caching forks used by
 high-traffic sites like kernel.org or repo.or.cz.
 
-Alternatives to gitweb
-~~~~~~~~~~~~~~~~~~~~~~
+=== Alternatives to gitweb
 There are other alternatives to gitweb that can also be used with
 Gerrit, such as cgit.
 
@@ -269,8 +252,7 @@ cgit can be used by specifying `gitweb.type` to be 'cgit'.
 
 It is also possible to define custom patterns.
 
-See Also
-~~~~~~~~
+=== See Also
 
 * link:config-gerrit.html#gitweb[Section gitweb]
 * link:http://hjemli.net/git/cgit/[cgit]

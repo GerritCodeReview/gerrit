@@ -1,13 +1,11 @@
-Gerrit Code Review - Signed-off-by Lines
-=========================================
+= Gerrit Code Review - Signed-off-by Lines
 
 [NOTE]
 This document was literally taken from link:http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=blob;f=Documentation/SubmittingPatches;hb=4e8a2372f9255a1464ef488ed925455f53fbdaa1[linux-2.6 Documentation/SubmittingPatches]
 and is covered by the GPLv2.
 
 [[Signed-off-by]]
-Signed-off-by:
---------------
+== Signed-off-by:
 
 To improve tracking of who did what, especially with patches that can
 percolate to their final resting place in the kernel through several
@@ -86,8 +84,7 @@ which appears in the changelog.
 
 [[Acked-by]]
 [[Cc]]
-Acked-by:, Cc:
---------------
+== Acked-by:, Cc:
 
 The Signed-off-by: tag indicates that the signer was involved in the
 development of the patch, or that he/she was in the patch's delivery path.
@@ -121,8 +118,7 @@ have been included in the discussion
 [[Reported-by]]
 [[Tested-by]]
 [[Reviewed-by]]
-Reported-by:, Tested-by: and Reviewed-by:
------------------------------------------
+== Reported-by:, Tested-by: and Reviewed-by:
 
 If this patch fixes a problem reported by somebody else, consider adding a
 Reported-by: tag to credit the reporter for their contribution.  Please
@@ -172,6 +168,5 @@ done on the patch.  Reviewed-by: tags, when supplied by reviewers known to
 understand the subject area and to perform thorough reviews, will normally
 increase the likelihood of your patch getting into the kernel.
 
-GERRIT
-------
+== GERRIT
 Part of link:index.html[Gerrit Code Review]

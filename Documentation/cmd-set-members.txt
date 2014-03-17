@@ -1,12 +1,9 @@
-gerrit set-members
-==================
+= gerrit set-members
 
-NAME
-----
+== NAME
 gerrit set-members - Set group members
 
-SYNOPSIS
---------
+== SYNOPSIS
 [verse]
 'ssh' -p <port> <host> 'gerrit set-members'
   [--add USER ...]
@@ -16,12 +13,10 @@ SYNOPSIS
   [--]
   <GROUP> ...
 
-DESCRIPTION
------------
+== DESCRIPTION
 Set the group members for the specified groups.
 
-OPTIONS
--------
+== OPTIONS
 <GROUP>::
 	Required; name of the group for which the members should be set.
 	The members for multiple groups can be set at once by specifying
@@ -51,16 +46,13 @@ OPTIONS
 The `set-members` command is processing the options in the following
 order: `--remove`, `--exclude`, `--add`, `--include`
 
-ACCESS
-------
+== ACCESS
 Any user who has configured an SSH key.
 
-SCRIPTING
----------
+== SCRIPTING
 This command is intended to be used in scripts.
 
-EXAMPLES
---------
+== EXAMPLES
 
 Add alice and bob, but remove eve from the groups my-committers and
 my-verifiers.

@@ -1,8 +1,6 @@
-Gerrit Code Review - Command Line Tools
-=======================================
+= Gerrit Code Review - Command Line Tools
 
-Client
-------
+== Client
 
 Client commands and hooks can be downloaded via scp, wget or curl
 from Gerrit's daemon, and then executed on the client system.
@@ -18,14 +16,12 @@ To download a client command or hook, use scp or an http client:
 For more details on how to determine the correct SSH port number,
 see link:user-upload.html#test_ssh[Testing Your SSH Connection].
 
-[[client_commands]]Commands
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== [[client_commands]]Commands
 
 link:cmd-cherry-pick.html[gerrit-cherry-pick]::
   Download and cherry-pick one or more changes (commits).
 
-[[client_hooks]]Hooks
-~~~~~~~~~~~~~~~~~~~~~
+=== [[client_hooks]]Hooks
 
 Client hooks can be installed into a local Git repository, improving
 the developer experience when working with a Gerrit Code Review
@@ -35,8 +31,7 @@ link:cmd-hook-commit-msg.html[commit-msg]::
   Automatically generate `Change-Id: ` tags in commit messages.
 
 
-Server
-------
+== Server
 
 Aside from the standard Git server side actions, Gerrit supports
 several other commands over its internal SSH daemon.  As Gerrit does
@@ -48,8 +43,7 @@ from an ssh client, for example:
 For more details on how to determine the correct SSH port number,
 see link:user-upload.html#test_ssh[Testing Your SSH Connection].
 
-[[user_commands]]User Commands
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== [[user_commands]]User Commands
 
 link:cmd-ban-commit.html[gerrit ban-commit]::
 	Bans a commit from a project's repository.

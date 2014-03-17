@@ -1,5 +1,4 @@
-Gerrit Code Review - Server Side Administrative Tools
-=====================================================
+= Gerrit Code Review - Server Side Administrative Tools
 
 Server side tools can be started by executing the WAR file
 through the Java command line.  For example:
@@ -8,8 +7,7 @@ through the Java command line.  For example:
 
 Tool should be one of the following names:
 
-Tools
------
+== Tools
 
 link:pgm-init.html[init]::
 	Initialize a new Gerrit server installation.
@@ -32,8 +30,7 @@ link:pgm-rulec.html[rulec]::
 version::
 	Display the release version of Gerrit Code Review.
 
-Transition Utilities
-~~~~~~~~~~~~~~~~~~~~
+=== Transition Utilities
 
 link:pgm-ScanTrackingIds.html[ScanTrackingIds]::
 	Rescan all changes after configuring trackingids.

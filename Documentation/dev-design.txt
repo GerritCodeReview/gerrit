@@ -1,8 +1,6 @@
-Gerrit Code Review - System Design
-==================================
+= Gerrit Code Review - System Design
 
-Objective
----------
+== Objective
 
 Gerrit is a web based code review system, facilitating online code
 reviews for projects using the Git version control system.
@@ -17,8 +15,7 @@ hand by the project maintainer.  This functionality enables a more
 centralized usage of Git.
 
 
-Background
-----------
+== Background
 
 Google developed Mondrian, a Perforce based code review tool to
 facilitate peer-review of changes prior to submission to the central
@@ -74,8 +71,7 @@ on a J2EE servlet container and an SQL database.
 * link:http://source.android.com/[Android Open Source Project]
 
 
-Overview
---------
+== Overview
 
 Developers create one or more changes on their local desktop system,
 then upload them for review to Gerrit using the standard `git push`
@@ -121,8 +117,7 @@ are maintained, the user pressing the submit button does not need
 to be the author of the change.
 
 
-Infrastructure
---------------
+== Infrastructure
 
 End-user web browsers make HTTP requests directly to Gerrit's
 HTTP server.  As nearly all of the user interface is implemented
@@ -184,8 +179,7 @@ has been migrated out of the database and into the git
 repositories for each project.
 
 
-Project Information
--------------------
+== Project Information
 
 Gerrit is developed as a self-hosting open source project:
 
@@ -196,8 +190,7 @@ Gerrit is developed as a self-hosting open source project:
 * link:https://review.source.android.com/[Change Review]
 
 
-Internationalization and Localization
--------------------------------------
+== Internationalization and Localization
 
 As a source code review system for open source projects, where the
 commonly preferred language for communication is typically English,
@@ -220,8 +213,7 @@ before translating the UI to an RTL language.
 * link:i18n-readme.html[Gerrit's i18n Support]
 
 
-Accessibility Considerations
-----------------------------
+== Accessibility Considerations
 
 Whenever possible Gerrit displays raw text rather than image icons,
 so screen readers should still be able to provide useful information
@@ -239,8 +231,7 @@ When possible, Gerrit uses the ARIA properties on DOM widgets to
 provide hints to screen readers.
 
 
-Browser Compatibility
----------------------
+== Browser Compatibility
 
 Supporting non-JavaScript enabled browsers is a non-goal for Gerrit.
 
@@ -281,8 +272,7 @@ Therefore the lack of support for most search engine spiders is a
 non-issue for most Gerrit deployments.
 
 
-Product Integration
--------------------
+== Product Integration
 
 Gerrit integrates with an existing gitweb installation by optionally
 creating hyperlinks to reference changes on the gitweb server.
@@ -328,8 +318,7 @@ Gerrit does not integrate with any Google service, or any other
 services other than those listed above.
 
 
-Standards / Developer APIs
---------------------------
+== Standards / Developer APIs
 
 Gerrit uses an XSRF protected variant of JSON-RPC 1.1 to communicate
 between the browser client and the server.
@@ -356,8 +345,7 @@ to be used with the JSON-RPC interface.
 * link:http://code.google.com/p/gerrit/source/browse/README?repo=gwtjsonrpc&name=master[XSRF JSON-RPC]
 
 
-Privacy Considerations
-----------------------
+== Privacy Considerations
 
 Gerrit stores the following information per user account:
 
@@ -409,8 +397,7 @@ really left to the discretion of the Gerrit site administrator as
 to when it is reasonable to reveal this information to a 3rd party.
 
 
-Spam and Abuse Considerations
------------------------------
+== Spam and Abuse Considerations
 
 Gerrit makes no attempt to detect spam changes or comments.  The
 somewhat high barrier to entry makes it unlikely that a spammer
@@ -441,8 +428,7 @@ These assumptions may need to be revisited in the future if any
 public Gerrit site actually notices spam.
 
 
-Latency
--------
+== Latency
 
 Gerrit targets for sub-250 ms per page request, mostly by using
 very compact JSON payloads between client and server.  However, as
@@ -451,8 +437,7 @@ database) is out of control of the Gerrit developers, no real
 guarantees can be made about latency.
 
 
-Scalability
------------
+== Scalability
 
 Gerrit is designed for a very large scale open source project, or
 large commercial development project.  Roughly this amounts to
@@ -477,8 +462,7 @@ to run closer to the estimated maximum if sufficient memory is made
 available to the JVM and the relevant cache.*.memoryLimit variables
 are increased from their defaults.
 
-Discussion
-~~~~~~~~~~
+=== Discussion
 
 Very few, if any open source projects have more than a handful of
 Git repositories associated with them.  Since Gerrit treats each
@@ -548,8 +532,7 @@ less than 10 files modified in any single change. Changes larger than
 version of an upstream library, where the reviewer has little to do
 beyond verifying the project compiles and passes a test suite.
 
-CPU Usage - Web UI
-~~~~~~~~~~~~~~~~~~
+=== CPU Usage - Web UI
 
 Gerrit's web UI would require on average `4+F+F*C` HTTP requests to
 review a change and post comments.  Here `F` is the number of files
@@ -581,8 +564,7 @@ Given a more realistic estimate of 79 changes per day (from the
 Linux kernel) suggests only 8,532 queries per day, and a much lower
 0.29 QPS when spread out over an 8 hour work day.
 
-CPU Usage - Git over SSH/HTTP
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== CPU Usage - Git over SSH/HTTP
 
 A 24 core server is able to handle ~25 concurrent `git fetch`
 operations per second. The issue here is each concurrent operation
@@ -609,8 +591,7 @@ If the server's own network interface is 1 Gib/sec (Gigabit Ethernet),
 the system can really only serve about 10 concurrent clients at the
 10 MiB/sec speed, no matter how many cores it has.
 
-Disk Usage
-~~~~~~~~~~
+=== Disk Usage
 
 The average size of a revision in the Linux kernel once compressed by
 Git is 2,327 bytes, or roughly 2 KiB.  Over the course of a year a
@@ -630,8 +611,7 @@ clients from needing to clone unnecessary materials (for example a C
 developer does not need every 800+ megabyte firmware image created by
 the product's quality assurance team).
 
-Redundancy & Reliability
-------------------------
+== Redundancy & Reliability
 
 Gerrit largely assumes that the local filesystem where Git repository
 data is stored is always available.  Important data written to disk
@@ -666,8 +646,7 @@ of time on the Gerrit site anyway in order to ensure any interested
 parties around the world have had a chance to comment.  This expected
 lag largely allows for some downtime in a disaster scenario.
 
-Backups
-~~~~~~~
+=== Backups
 
 PostgreSQL and MySQL can be configured to replicate their data to
 other systems, where they are applied to a warm-standby backup in
@@ -683,8 +662,7 @@ to send copies of all changes over SSH to other servers, or to the
 Amazon S3 blob storage service.
 
 
-Logging Plan
-------------
+== Logging Plan
 
 Gerrit does not maintain logs on its own.
 
@@ -711,8 +689,7 @@ logs may be mined for usage information.  This is outside of the
 scope of Gerrit.
 
 
-Testing Plan
-------------
+== Testing Plan
 
 Gerrit is currently manually tested through its web UI.
 
@@ -721,8 +698,7 @@ changes to JGit are rejected unless corresponding automated unit
 tests are included.
 
 
-Caveats
--------
+== Caveats
 
 Reitveld can't be used as it does not provide the "submit over the
 web" feature that Gerrit provides for Git.

@@ -1,8 +1,6 @@
-Gerrit Code Review - Configuration
-==================================
+= Gerrit Code Review - Configuration
 
-File `etc/gerrit.config`
-------------------------
+== File `etc/gerrit.config`
 
 The optional file `'$site_path'/etc/gerrit.config` is a Git-style
 config file that controls many host specific settings for Gerrit.
@@ -21,8 +19,7 @@ Sample `etc/gerrit.config`:
   directory = /var/cache/gerrit2
 ----
 
-[[accounts]]Section accounts
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== [[accounts]]Section accounts
 
 [[accounts.visibility]]accounts.visibility::
 +
@@ -42,8 +39,7 @@ If `NONE`, no users other than the current user are visible.
 +
 Default is `ALL`.
 
-[[addreviewer]]Section addreviewer
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== [[addreviewer]]Section addreviewer
 
 [[addreviewer.maxWithoutConfirmation]]addreviewer.maxWithoutConfirmation::
 +
@@ -69,8 +65,7 @@ be added at once by adding a group as reviewer.
 +
 Default is 20.
 
-[[auth]]Section auth
-~~~~~~~~~~~~~~~~~~~~
+=== [[auth]]Section auth
 
 See also link:config-sso.html[SSO configuration].
 
@@ -464,8 +459,7 @@ editing gerrit.config and restarting the server.
 +
 Default is true.
 
-[[cache]]Section cache
-~~~~~~~~~~~~~~~~~~~~~~
+=== [[cache]]Section cache
 
 [[cache.directory]]cache.directory::
 +
@@ -542,8 +536,7 @@ Default is 128 MiB per cache.
 +
 If 0, disk storage for the cache is disabled.
 
-[[cache_names]]Standard Caches
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+==== [[cache_names]]Standard Caches
 
 cache `"accounts"`::
 +
@@ -705,8 +698,7 @@ this cache is approximately 346 bytes.
 
 See also link:cmd-flush-caches.html[gerrit flush-caches].
 
-[[cache_options]]Cache Options
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+==== [[cache_options]]Cache Options
 
 cache.diff_intraline.maxIdleWorkers::
 +
@@ -767,8 +759,7 @@ link:cmd-flush-caches.html[gerrit flush-caches].
 +
 Default is 5 minutes.
 
-[[change]]Section change
-~~~~~~~~~~~~~~~~~~~~~~~~
+=== [[change]]Section change
 
 [[change.updateDelay]]change.updateDelay::
 +
@@ -789,8 +780,7 @@ If 0 the update polling is disabled.
 +
 Default is 30 seconds.
 
-[[changeMerge]]Section changeMerge
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== [[changeMerge]]Section changeMerge
 
 changeMerge.checkFrequency::
 +
@@ -811,8 +801,7 @@ the result.
 +
 By default this is false (test is not enabled).
 
-[[commentlink]]Section commentlink
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== [[commentlink]]Section commentlink
 Comment links are find/replace strings applied to change descriptions,
 patch comments, in-line code comments and approval category value descriptions
 to turn set strings into hyperlinks.  One common use is for linking to
@@ -896,8 +885,7 @@ to anonymous users via the
 link:rest-api-projects.html#get-config[REST API].
 
 
-[[contactstore]]Section contactstore
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== [[contactstore]]Section contactstore
 
 [[contactstore.url]]contactstore.url::
 +
@@ -912,8 +900,7 @@ See link:config-contact.html[Contact Information].
 Shared secret of the web based contact store.
 
 
-[[container]]Section container
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== [[container]]Section container
 
 These settings are applied only if Gerrit is started as the container
 process through Gerrit's 'gerrit.sh' rc.d compatible wrapper script.
@@ -968,8 +955,7 @@ If not set, defaults to '$site_path/bin/gerrit.war', or to
 '$HOME/gerrit.war'.
 
 
-[[core]]Section core
-~~~~~~~~~~~~~~~~~~~~
+=== [[core]]Section core
 
 [[core.packedGitWindowSize]]core.packedGitWindowSize::
 +
@@ -1075,8 +1061,7 @@ conflicts.
 +
 Default is false, but in a future release may default to true.
 
-[[database]]Section database
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== [[database]]Section database
 
 The database section configures where Gerrit stores its metadata
 records about user accounts and change reviews.
@@ -1213,8 +1198,7 @@ Default is `30 seconds`.
 This setting only applies if
 <<database.connectionPool,database.connectionPool>> is true.
 
-[[download]]Section download
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== [[download]]Section download
 
 ----
 [download]
@@ -1294,8 +1278,7 @@ not default, as not all instances will deploy repo.
 If `download.scheme` is not specified, SSH, HTTP and Anonymous HTTP
 downloads are allowed.
 
-[[gerrit]]Section gerrit
-~~~~~~~~~~~~~~~~~~~~~~~~
+=== [[gerrit]]Section gerrit
 
 [[gerrit.basePath]]gerrit.basePath::
 +
@@ -1374,8 +1357,7 @@ administrator's ticket queue.
 Default change screen UI to direct users to. Valid values are
 `OLD_UI` and `CHANGE_SCREEN2`. Default is `OLD_UI`.
 
-[[gitweb]]Section gitweb
-~~~~~~~~~~~~~~~~~~~~~~~~
+=== [[gitweb]]Section gitweb
 
 Gerrit can forward requests to either an internally managed gitweb
 (which allows Gerrit to enforce some access controls), or to an
@@ -1487,8 +1469,7 @@ the links to draft patch sets from the change review screen.
 +
 Valid values are "true" and "false," default is "true".
 
-[[groups]]Section groups
-~~~~~~~~~~~~~~~~~~~~~~~~
+=== [[groups]]Section groups
 
 [[groups.newGroupsVisibleToAll]]groups.newGroupsVisibleToAll::
 +
@@ -1497,8 +1478,7 @@ all registered users.
 +
 By default, false.
 
-[[hooks]]Section hooks
-~~~~~~~~~~~~~~~~~~~~~~
+=== [[hooks]]Section hooks
 
 See also link:config-hooks.html[Hooks].
 
@@ -1571,8 +1551,7 @@ Optional filename for the ref update hook, if not specified then
 Optional timeout value in seconds for synchronous hooks, if not specified
 then 30 seconds will be used.
 
-[[http]]Section http
-~~~~~~~~~~~~~~~~~~~~
+=== [[http]]Section http
 
 [[http.proxy]]http.proxy::
 +
@@ -1593,8 +1572,7 @@ This property is honored only if the password does not
 appear in the http.proxy property above.
 
 
-[[httpd]]Section httpd
-~~~~~~~~~~~~~~~~~~~~~~
+=== [[httpd]]Section httpd
 
 The httpd section configures the embedded servlet container.
 
@@ -1823,8 +1801,7 @@ If not absolute, the path is resolved relative to `$site_path`.
 If the file doesn't exist or can't be read the default robots.txt file
 bundled with the .war will be used instead.
 
-[[index]]Section index
-~~~~~~~~~~~~~~~~~~~~~~
+=== [[index]]Section index
 
 The index section configures the secondary index.
 
@@ -1923,8 +1900,7 @@ Sample index configuration:
   maxBufferedDocs = 500
 ----
 
-[[ldap]]Section ldap
-~~~~~~~~~~~~~~~~~~~~
+=== [[ldap]]Section ldap
 
 LDAP integration is only enabled if `auth.type` is set to
 `HTTP_LDAP`, `LDAP` or `CLIENT_SSL_CERT_LDAP`.  See above for a
@@ -2210,8 +2186,7 @@ On Windows servers the registry key `HKEY_LOCAL_MACHINE\System\CurrentControlSet
 must have the DWORD value `allowtgtsessionkey` set to 1 and the account must not
 have local administrator privileges.
 
-[[mimetype]]Section mimetype
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== [[mimetype]]Section mimetype
 
 [[mimetype.name.safe]]mimetype.<name>.safe::
 +
@@ -2239,8 +2214,7 @@ Common examples:
 ----
 
 
-[[pack]]Section pack
-~~~~~~~~~~~~~~~~~~~~
+=== [[pack]]Section pack
 Global settings controlling how Gerrit Code Review creates pack
 streams for Git clients running clone, fetch, or pull.  Most of these
 variables are per-client request, and thus should be carefully set
@@ -2264,8 +2238,7 @@ auto-detected and one thread per CPU is used, per client request.
 By default, 1.
 
 
-[[plugins]]Section plugins
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== [[plugins]]Section plugins
 
 [[plugins.checkFrequency]]plugins.checkFrequency::
 +
@@ -2280,8 +2253,7 @@ may force reloading with link:cmd-plugin.html[gerrit plugin reload].
 Default is 1 minute.
 
 
-[[receive]]Section receive
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== [[receive]]Section receive
 This section is used to set who can execute the 'receive-pack' and
 to limit the maximum Git object size that 'receive-pack' will accept.
 'receive-pack' is what runs on the server during a user's push or
@@ -2381,8 +2353,7 @@ Default is 2 minutes. If no unit is specified, milliseconds
 is assumed.
 
 
-[[repository]]Section repository
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== [[repository]]Section repository
 Repositories in this sense are the same as projects.
 
 In the following example configuration `Registered Users` is set
@@ -2403,8 +2374,7 @@ A name of a group which exists in the database. Zero, one or many
 groups are allowed.  Each on its own line.  Groups which don't exist
 in the database are ignored.
 
-[[rules]]Section rules
-~~~~~~~~~~~~~~~~~~~~~~
+=== [[rules]]Section rules
 
 [[rules.enable]]rules.enable::
 +
@@ -2414,8 +2384,7 @@ only the default internal rules will be used.
 +
 Default is true, to execute project specific rules.
 
-[[sendemail]]Section sendemail
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== [[sendemail]]Section sendemail
 
 [[sendemail.enable]]sendemail.enable::
 +
@@ -2543,8 +2512,7 @@ should expire.
 By default, unset, so no Expiry-Date header is generated.
 
 
-[[site]]Section site
-~~~~~~~~~~~~~~~~~~~~
+=== [[site]]Section site
 
 [[site.checkUserAgent]]site.checkUserAgent::
 +
@@ -2566,8 +2534,7 @@ If true the deprecated `/query` URL is available to return JSON
 and text results for changes. If false, the URL is disabled and
 returns 404 to clients. Default is true, enabling `/query`.
 
-[[ssh-alias]] Section ssh-alias
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== [[ssh-alias]] Section ssh-alias
 
 Variables in section ssh-alias permit the site administrator to alias
 another command from Gerrit or a plugin into the `gerrit` command
@@ -2578,8 +2545,7 @@ namespace. To alias `replication start` to `gerrit replicate`:
   replicate = replication start
 ----
 
-[[sshd]] Section sshd
-~~~~~~~~~~~~~~~~~~~~~
+=== [[sshd]] Section sshd
 
 [[sshd.listenAddress]]sshd.listenAddress::
 +
@@ -2779,8 +2745,7 @@ If enabled, a request log file is written out by the SSH daemon.
 +
 By default, true.
 
-[[suggest]] Section suggest
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== [[suggest]] Section suggest
 
 [[suggest.accounts]]suggest.accounts::
 +
@@ -2806,8 +2771,7 @@ are provided. If set to 0, suggestions are always provided.
 +
 By default 0.
 
-[[theme]] Section theme
-~~~~~~~~~~~~~~~~~~~~~~~
+=== [[theme]] Section theme
 
 [[theme.backgroundColor]]theme.backgroundColor::
 +
@@ -2904,8 +2868,7 @@ As example, here is the theme configuration to have the old green look:
   backgroundColor = FFFFFF
 ----
 
-[[trackingid]] Section trackingid
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== [[trackingid]] Section trackingid
 
 Tagged footer lines containing references to external
 tracking systems, parsed out of the commit message and
@@ -2960,8 +2923,7 @@ The name of the external tracking system (maximum 10 characters).
 It is possible to have several trackingid entries for the same
 tracking system.
 
-[[transfer]] Section transfer
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== [[transfer]] Section transfer
 
 [[transfer.timeout]]transfer.timeout::
 +
@@ -2978,8 +2940,7 @@ reasonable timeout value.
 Defaults to 0 seconds, wait indefinitely.
 
 
-[[upload]]Section upload
-~~~~~~~~~~~~~~~~~~~~~~~~
+=== [[upload]]Section upload
 Sets the group of users allowed to execute 'upload-pack' on the
 server, 'upload-pack' is what runs on the server during a user's
 fetch, clone or repo sync command.
@@ -2999,8 +2960,7 @@ If no groups are added, any user will be allowed to execute
 'upload-pack' on the server.
 
 
-[[user]] Section user
-~~~~~~~~~~~~~~~~~~~~~
+=== [[user]] Section user
 
 [[user.name]]user.name::
 +
@@ -3027,8 +2987,7 @@ notifications if the full name of the user is not set.
 By default "Anonymous Coward" is used.
 
 
-File `etc/secure.config`
-------------------------
+== File `etc/secure.config`
 The optional file `'$site_path'/etc/secure.config` overrides (or
 supplements) the settings supplied by `'$site_path'/etc/gerrit.config`.
 The file should be readable only by the daemon process and can be
@@ -3058,8 +3017,7 @@ Sample `etc/secure.config`:
   password = s3kr3t
 ----
 
-File `etc/peer_keys`
---------------------
+== File `etc/peer_keys`
 
 The optional file `'$site_path'/etc/peer_keys` controls who can
 login as the 'Gerrit Code Review' user, required for the link:cmd-suexec.html[suexec]
@@ -3068,8 +3026,7 @@ command.
 The format is one Base-64 encoded public key per line.
 
 
-Database system_config
-----------------------
+== Database system_config
 
 Several columns in the `system_config` table within the metadata
 database may be set to control how Gerrit behaves.
@@ -3079,8 +3036,7 @@ The contents of the `system_config` table are cached at startup
 by Gerrit.  If you modify any columns in this table, Gerrit needs
 to be restarted before it will use the new values.
 
-Configurable Parameters
-~~~~~~~~~~~~~~~~~~~~~~~
+=== Configurable Parameters
 
 site_path::
 +

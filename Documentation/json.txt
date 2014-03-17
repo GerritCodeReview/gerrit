@@ -1,5 +1,4 @@
-Gerrit Code Review - JSON Data
-==============================
+= Gerrit Code Review - JSON Data
 
 Some commands produce JSON data streams intended for other
 applications to consume.  The structures are documented below.
@@ -7,8 +6,7 @@ Note that any field may be missing in the JSON messages, so consumers
 of this JSON stream should deal with that appropriately.
 
 [[change]]
-change
-------
+== change
 The Gerrit change being reviewed, or that was already reviewed.
 
 project:: Project path in Gerrit.
@@ -73,8 +71,7 @@ submitRecords:: The <<submitRecord,submitRecord attribute>> contains
 information about whether this change has been or can be submitted.
 
 [[trackingid]]
-trackingid
-----------
+== trackingid
 A link to an issue tracking system.
 
 system:: Name of the system.  This comes straight from the
@@ -83,8 +80,7 @@ gerrit.config file.
 id:: Id number as scraped out of the commit message.
 
 [[account]]
-account
--------
+== account
 A user account.
 
 name:: User's full name, if configured.
@@ -94,8 +90,7 @@ email:: User's preferred email address.
 username:: User's username, if configured.
 
 [[patchSet]]
-patchSet
---------
+== patchSet
 Refers to a specific patchset within a <<change,change>>.
 
 number:: The patchset number.
@@ -128,8 +123,7 @@ sizeInsertions:: Size information of insertions of this patchset.
 sizeDeletions:: Size information of deletions of this patchset.
 
 [[approval]]
-approval
---------
+== approval
 Records the code review approval granted to a patch set.
 
 type:: Internal name of the approval given.
@@ -157,8 +151,7 @@ refName:: Ref name within project.
 project:: Project path in Gerrit.
 
 [[submitRecord]]
-submitRecord
-------------
+== submitRecord
 Information about the submit status of a change.
 
 status:: Current submit status.
@@ -173,8 +166,7 @@ labels:: This describes the state of each code review
 <<label,label attribute>>, unless the status is RULE_ERROR.
 
 [[label]]
-label
------
+== label
 Information about a code review label for a change.
 
 label:: The name of the label.
@@ -198,8 +190,7 @@ status:: The status of the label.
 by:: The <<account,account>> that applied the label.
 
 [[dependency]]
-dependency
-----------
+== dependency
 Information about a change or patchset dependency.
 
 id:: Change identifier.
@@ -213,8 +204,7 @@ ref:: Ref name.
 isCurrentPatchSet:: If the revision is the current patchset of the change.
 
 [[message]]
-message
--------
+== message
 Comment added on a change by a reviewer.
 
 timestamp:: Time in seconds since the UNIX epoch when this comment
@@ -225,8 +215,7 @@ reviewer:: The <<account,account>> that added the comment.
 message:: The comment text.
 
 [[patchsetcomment]]
-patchsetComment
----------------
+== patchsetComment
 Comment added on a patchset by a reviewer.
 
 file:: The name of the file on which the comment was added.
@@ -238,8 +227,7 @@ reviewer:: The <<account,account>> that added the comment.
 message:: The comment text.
 
 [[file]]
-file
-----
+== file
 Information about a patch on a file.
 
 file:: The name of the file.  If the file is renamed, the new name.
@@ -264,8 +252,7 @@ insertions:: number of insertions of this patch.
 
 deletions::  number of deletions of this patch.
 
-SEE ALSO
---------
+== SEE ALSO
 
 * link:cmd-stream-events.html[gerrit stream-events]
 * link:cmd-query.html[gerrit query]

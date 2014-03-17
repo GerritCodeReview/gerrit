@@ -1,36 +1,29 @@
-gerrit test-submit type
-=======================
+= gerrit test-submit type
 
-NAME
-----
+== NAME
 gerrit test-submit type - Test prolog submit type with a chosen change.
 
-SYNOPSIS
---------
+== SYNOPSIS
 [verse]
 'ssh' -p <port> <host> 'gerrit test-submit type'
   [-s]
   [--no-filters]
   CHANGE
 
-DESCRIPTION
------------
+== DESCRIPTION
 Provides a way to test prolog submit type.
 
-OPTIONS
--------
+== OPTIONS
 -s::
 	Reads a rules.pl file from stdin instead of rules.pl in refs/meta/config.
 
 --no-filters::
 	Don't run the submit_type_filter/2 from the parent projects of the specified change.
 
-ACCESS
-------
+== ACCESS
 Can be used by anyone that has permission to read the specified change.
 
-EXAMPLES
---------
+== EXAMPLES
 
 Test submit_type from stdin and return the submit type.
 ====
@@ -44,8 +37,7 @@ Test the active submit_type from the refs/meta/config branch, ignoring filters i
  "MERGE_IF_NECESSARY"
 ====
 
-SCRIPTING
----------
+== SCRIPTING
 Can be used either interactively for testing new prolog submit type, or from a script to check the submit type of a change.
 
 GERRIT

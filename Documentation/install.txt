@@ -1,9 +1,7 @@
-Gerrit Code Review - Standalone Daemon Installation Guide
-=========================================================
+= Gerrit Code Review - Standalone Daemon Installation Guide
 
 [[requirements]]
-Requirements
-------------
+== Requirements
 To run the Gerrit service, the following requirements must be met on
 the host:
 
@@ -14,8 +12,7 @@ choice of either using the embedded H2 or to host your own MySQL or PostgreSQL.
 
 
 [[download]]
-Download Gerrit
----------------
+== Download Gerrit
 
 Current and past binary releases of Gerrit can be obtained from
 the link:https://gerrit-releases.storage.googleapis.com/index.html[
@@ -31,8 +28,7 @@ the notes under link:dev-readme.html[developer setup].
 include::database-setup.txt[]
 
 [[init]]
-Initialize the Site
--------------------
+== Initialize the Site
 
 Gerrit stores configuration files, the server's SSH keys, and the
 managed Git repositories under a local directory, typically referred
@@ -90,8 +86,7 @@ permitting server management over the web and over SSH.  Subsequent
 users will be automatically registered as unprivileged users.
 
 
-Installation Complete
----------------------
+== Installation Complete
 
 Your base Gerrit server is now installed and running.  You're now ready to
 either set up more projects or start working with the projects you've already
@@ -99,8 +94,7 @@ imported.
 
 
 [[project_setup]]
-Project Setup
--------------
+== Project Setup
 
 See link:project-setup.html[Project Setup] for further details on
 how to register a new project with Gerrit.  This step is necessary
@@ -108,8 +102,7 @@ if existing Git repositories were not imported during 'init'.
 
 
 [[rc_d]]
-Start/Stop Daemon
------------------
+== Start/Stop Daemon
 
 To control the Gerrit Code Review daemon that is running in the
 background, use the rc.d style start script created by 'init':
@@ -149,8 +142,7 @@ link:install-j2ee.html[J2EE installation].
 
 
 [[customize]]
-Site Customization
-------------------
+== Site Customization
 
 Gerrit Code Review supports some site-specific customization options.
 For more information, see the related topics in this manual:
@@ -164,8 +156,7 @@ For more information, see the related topics in this manual:
 
 
 [[anonymous_access]]
-Anonymous Access
-----------------
+== Anonymous Access
 
 Exporting the Git repository directory
 (link:config-gerrit.html#gerrit.basePath[gerrit.basePath]) over the
@@ -177,14 +168,12 @@ for details on how to configure this if anonymous access is desired.
 
 
 [[plugins]]
-Plugins
--------
+== Plugins
 
 Place Gerrit plugins in the review_site/plugins directory to have them loaded on Gerrit startup.
 
 
-External Documentation Links
-----------------------------
+== External Documentation Links
 
 * http://www.postgresql.org/docs/[PostgreSQL Documentation]
 * http://dev.mysql.com/doc/[MySQL Documentation]

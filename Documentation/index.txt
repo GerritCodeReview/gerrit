@@ -1,8 +1,6 @@
-Gerrit Code Review for Git
-==========================
+= Gerrit Code Review for Git
 
-Index
------
+== Index
 
 . General info
 .. link:licenses.html[Licenses and Notices]
@@ -83,8 +81,7 @@ Index
 .. link:dev-release-subproject.html[Developer Subproject Release]
 
 
-Resources
----------
+== Resources
 
 * link:http://code.google.com/p/gerrit/[Homepage]
 * link:http://gerrit-releases.storage.googleapis.com/index.html[Downloads]

@@ -1,5 +1,4 @@
-commit already exists
-=====================
+= commit already exists
 
 With "commit already exists (as current patchset)" or
 "commit already exists (in the change)" error message

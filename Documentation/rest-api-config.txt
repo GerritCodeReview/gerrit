@@ -1,5 +1,4 @@
-Gerrit Code Review - /config/ REST API
-======================================
+= Gerrit Code Review - /config/ REST API
 
 This page describes the config related REST endpoints.
 Please also take note of the general information on the
@@ -10,8 +9,7 @@ Config Endpoints
 ---------------
 
 [[get-version]]
-Get Version
-~~~~~~~~~~~
+=== Get Version
 [verse]
 'GET /config/server/version'
 
@@ -32,8 +30,7 @@ Returns the version of the Gerrit server.
 ----
 
 [[list-capabilities]]
-List Capabilities
-~~~~~~~~~~~~~~~~~
+=== List Capabilities
 [verse]
 'GET /config/server/capabilities'
 
@@ -136,8 +133,7 @@ The entries in the map are sorted by capability ID.
 ----
 
 [[get-top-menus]]
-Get Top Menus
-~~~~~~~~~~~~~
+=== Get Top Menus
 [verse]
 'GET /config/server/top-menus'
 
@@ -173,12 +169,10 @@ link:#top-menu-entry-info[TopMenuEntryInfo] entities is returned.
 
 
 [[json-entities]]
-JSON Entities
--------------
+== JSON Entities
 
 [[capability-info]]
-CapabilityInfo
-~~~~~~~~~~~~~~
+=== CapabilityInfo
 The `CapabilityInfo` entity contains information about a capability.
 
 [options="header",width="50%",cols="1,6"]
@@ -190,8 +184,7 @@ The `CapabilityInfo` entity contains information about a capability.
 |=================================
 
 [[top-menu-entry-info]]
-TopMenuEntryInfo
-~~~~~~~~~~~~~~~~
+=== TopMenuEntryInfo
 The `TopMenuEntryInfo` entity contains information about a top menu
 entry.
 
@@ -203,8 +196,7 @@ entry.
 |=================================
 
 [[top-menu-item-info]]
-TopMenuItemInfo
-~~~~~~~~~~~~~~~
+=== TopMenuItemInfo
 The `TopMenuItemInfo` entity contains information about a menu item in
 a top menu entry.
 

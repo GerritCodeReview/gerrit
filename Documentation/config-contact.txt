@@ -1,5 +1,4 @@
-Gerrit Code Review - Contact Information
-========================================
+= Gerrit Code Review - Contact Information
 
 To help ensure contributor privacy, but still support gathering of
 contributor agreements as necessary, Gerrit encrypts all offline
@@ -12,8 +11,7 @@ and the `contactstore.url` setting in `gerrit.config` is not set,
 Gerrit will not collect contact information from users.
 
 
-Setup
------
+== Setup
 
 Ensure Bouncy Castle Crypto API is available in the web application's
 CLASSPATH (e.g. in `'JETTY_HOME'/lib/plus` for Jetty).  Gerrit needs
@@ -85,8 +83,7 @@ URL (in `contactstore.url`), and if needed, APPSEC value (in
 ====
 
 
-Contact Store Protocol
-----------------------
+== Contact Store Protocol
 
 To implement a new contact store, the following details are useful.
 
@@ -135,8 +132,7 @@ Using `https://` for the store URL is *highly* encouraged, as it
 prevents man-in-the-middle attacks from reading the shared secret
 APPSEC token, or messing with the data field.
 
-Data Format
-~~~~~~~~~~~
+=== Data Format
 
 Once decrypted the `data` field looks something like the following:
 

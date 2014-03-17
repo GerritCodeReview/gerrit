@@ -1828,6 +1828,13 @@ bundled with the .war will be used instead.
 
 The index section configures the secondary index.
 
+Note that after enabling the secondary index, the index must be built
+using the link:pgm-reindex.html[reindex program] before restarting the
+Gerrit server.
+
+Open and closed changes are indexed in separate indexes named
+'changes_open' and 'changes_closed' respectively.
+
 [[index.type]]index.type::
 +
 Type of secondary indexing employed by Gerrit.  The supported
@@ -1848,13 +1855,6 @@ query operators are routed through the standard SQL query engine.
 
 +
 By default, `SQL`.
-
-After enabling the secondary index, the index must be built using
-the link:pgm-reindex.html[reindex program] before restarting the
-Gerrit server.
-
-Open and closed changes are indexed in separate indexes named
-'changes_open' and 'changes_closed' respectively.
 
 [[index.name.ramBufferSize]]index.name.ramBufferSize::
 +

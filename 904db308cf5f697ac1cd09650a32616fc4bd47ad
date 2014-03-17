@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bcc06569_ba4b517b",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1863,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-03-17T10:28:52Z",
+      "side": 1,
+      "message": "I guess it\u0027s indeed one thread, but I\u0027m wondering why in the code we have \u00270\u0027 as default value?\n\nSee IndexModule:\n\n  threads \u003d config.getInt(\"index\", null, \"threads\", 0);",
+      "range": {
+        "startLine": 1863,
+        "startChar": 0,
+        "endLine": 1863,
+        "endChar": 53
+      },
+      "revId": "904db308cf5f697ac1cd09650a32616fc4bd47ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

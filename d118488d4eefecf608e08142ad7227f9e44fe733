@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9cc5617b_d92f33a3",
+        "filename": "tools/default.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-03-17T07:26:43Z",
+      "side": 1,
+      "message": "re.escape() function also does the job, but it escapes more characters, like \u0027.\u0027.",
+      "range": {
+        "startLine": 146,
+        "startChar": 13,
+        "endLine": 146,
+        "endChar": 36
+      },
+      "revId": "d118488d4eefecf608e08142ad7227f9e44fe733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

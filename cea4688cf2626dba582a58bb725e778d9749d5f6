@@ -16,6 +16,24 @@
       "revId": "cea4688cf2626dba582a58bb725e778d9749d5f6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9cc5617b_f92af794",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/CachingPublicKeyAuthenticator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-03-17T06:08:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3cab959f_be3459f4",
+      "revId": "cea4688cf2626dba582a58bb725e778d9749d5f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

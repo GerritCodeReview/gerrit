@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bcc06569_3a0e2150",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/IndexModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-03-17T08:58:38Z",
+      "side": 1,
+      "message": "need document this configuration.",
+      "revId": "6e68cf39170e31391982c174027cfde49a9fe573",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

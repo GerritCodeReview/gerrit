@@ -16,6 +16,24 @@
       "revId": "6e68cf39170e31391982c174027cfde49a9fe573",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bcc06569_fa2ae994",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/IndexModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-03-17T09:07:41Z",
+      "side": 1,
+      "message": "a good value of \u0027index.threads\u0027 can improve the performance of \n --gerrit stop command\n --reindex command\n --users online actions that need async update index(delete, index ).",
+      "parentUuid": "bcc06569_3a0e2150",
+      "revId": "6e68cf39170e31391982c174027cfde49a9fe573",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

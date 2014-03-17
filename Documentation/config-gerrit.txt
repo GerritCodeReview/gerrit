@@ -1856,6 +1856,12 @@ query operators are routed through the standard SQL query engine.
 +
 By default, `SQL`.
 
+[[index.threads]]index.threads::
++
+Determines the number of threads to use for indexing.
++
+Defaults to 1 if not set, or set to a negative value.
+
 [[index.name.ramBufferSize]]index.name.ramBufferSize::
 +
 Only used when the type is `LUCENE`.

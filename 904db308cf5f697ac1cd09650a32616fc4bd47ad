@@ -22,6 +22,30 @@
       "revId": "904db308cf5f697ac1cd09650a32616fc4bd47ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ca689d4_3f29679b",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1863,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-17T10:45:06Z",
+      "side": 1,
+      "message": "The code has default 0, but then in the next block:\n\n if (threads \u003c\u003d 0) {\n   return MoreExecutors.sameThreadExecutor();\n }\n\nI imagine it\u0027s because the getInt method needs to be given a default value and 0 was chosen arbitrarily.",
+      "parentUuid": "bcc06569_ba4b517b",
+      "range": {
+        "startLine": 1863,
+        "startChar": 0,
+        "endLine": 1863,
+        "endChar": 53
+      },
+      "revId": "904db308cf5f697ac1cd09650a32616fc4bd47ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

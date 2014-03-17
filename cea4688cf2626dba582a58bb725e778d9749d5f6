@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3cab959f_be3459f4",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/CachingPublicKeyAuthenticator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-17T01:17:14Z",
+      "side": 1,
+      "message": "Add `@Override` here and on the other overridden methods.",
+      "revId": "cea4688cf2626dba582a58bb725e778d9749d5f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

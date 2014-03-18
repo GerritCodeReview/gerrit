@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3cab959f_fe7c2198",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-18T04:40:37Z",
+      "side": 1,
+      "message": "The text appears in the Contact Information tab on the user settings page; it is not specific to the individual CLA.",
+      "range": {
+        "startLine": 9,
+        "startChar": 19,
+        "endLine": 9,
+        "endChar": 47
+      },
+      "revId": "80391920391927bb6e5e8686a0228d6ac15ae757",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cab959f_1e3d8dcb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-18T04:40:37Z",
+      "side": 1,
+      "message": "It\u0027s not possible to retrieve the stored information, but it is still possible to overwrite it with new information.",
+      "range": {
+        "startLine": 11,
+        "startChar": 53,
+        "endLine": 12,
+        "endChar": 24
+      },
+      "revId": "80391920391927bb6e5e8686a0228d6ac15ae757",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

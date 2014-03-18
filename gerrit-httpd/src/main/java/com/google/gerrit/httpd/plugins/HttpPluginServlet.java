@@ -52,6 +52,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.util.Collections;
 import java.util.Comparator;
@@ -258,7 +259,7 @@ class HttpPluginServlet extends HttpServlet
       return;
     }
 
-    String uri = req.getRequestURI();
+    String uri = URLEncoder.encode(req.getRequestURI(), "UTF-8");
     String ctx = req.getContextPath();
     if (uri.length() <= ctx.length()) {
       Resource.NOT_FOUND.send(req, res);

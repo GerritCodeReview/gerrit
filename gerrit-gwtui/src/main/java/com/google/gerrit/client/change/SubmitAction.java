@@ -24,31 +24,64 @@ import com.google.gerrit.client.changes.SubmitInfo;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gwt.user.client.Window;
 
 class SubmitAction {
   static void call(ChangeInfo changeInfo, RevisionInfo revisionInfo) {
     if (ChangeGlue.onSubmitChange(changeInfo, revisionInfo)) {
       final Change.Id changeId = changeInfo.legacy_id();
-      ChangeApi.submit(
-        changeId.get(), revisionInfo.name(),
-        new GerritCallback<SubmitInfo>() {
-          public void onSuccess(SubmitInfo result) {
-            redisplay();
-          }
 
-          public void onFailure(Throwable err) {
-            if (SubmitFailureDialog.isConflict(err)) {
-              new SubmitFailureDialog(err.getMessage()).center();
-            } else {
-              super.onFailure(err);
-            }
-            redisplay();
-          }
+      if (revisionInfo.commit().otherBranchCommit().equalsIgnoreCase("different branch commit")) {
+        boolean reply =
+            Window
+                .confirm("You are about to merge change from a different branch.\n "
+                    + "Do you want to continue ?");
+        if (reply == true) {
+          ChangeApi.submit(changeId.get(), revisionInfo.name(),
+              new GerritCallback<SubmitInfo>() {
+                public void onSuccess(SubmitInfo result) {
+                  redisplay();
+                }
 
-          private void redisplay() {
-            Gerrit.display(PageLinks.toChange(changeId));
-          }
-        });
+                public void onFailure(Throwable err) {
+                  if (SubmitFailureDialog.isConflict(err)) {
+                    new SubmitFailureDialog(err.getMessage()).center();
+                  } else {
+                    super.onFailure(err);
+                  }
+                  redisplay();
+                }
+
+                private void redisplay() {
+                  Gerrit.display(PageLinks.toChange(changeId));
+                }
+              });
+        } else {
+          Gerrit.display(PageLinks.toChange(changeId));
+        }
+      }
+
+      else {
+        ChangeApi.submit(changeId.get(), revisionInfo.name(),
+            new GerritCallback<SubmitInfo>() {
+              public void onSuccess(SubmitInfo result) {
+                redisplay();
+              }
+
+              public void onFailure(Throwable err) {
+                if (SubmitFailureDialog.isConflict(err)) {
+                  new SubmitFailureDialog(err.getMessage()).center();
+                } else {
+                  super.onFailure(err);
+                }
+                redisplay();
+              }
+
+              private void redisplay() {
+                Gerrit.display(PageLinks.toChange(changeId));
+              }
+            });
+      }
     }
   }
 }

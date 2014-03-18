@@ -250,6 +250,7 @@ public class ChangeInfo extends JavaScriptObject {
     public final native GitPerson committer() /*-{ return this.committer; }-*/;
     public final native String subject() /*-{ return this.subject; }-*/;
     public final native String message() /*-{ return this.message; }-*/;
+    public final native String otherBranchCommit() /*-{ return this.otherBranchCommit; }-*/;
 
     protected CommitInfo() {
     }

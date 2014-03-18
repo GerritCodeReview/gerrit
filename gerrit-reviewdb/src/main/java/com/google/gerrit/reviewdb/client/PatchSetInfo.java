@@ -54,6 +54,9 @@ public final class PatchSetInfo {
   /** SHA-1 of commit */
   protected String revId;
 
+  /** Commit and pushed branch are same or different. */
+  protected String otherBranchCommit;
+
   protected PatchSetInfo() {
   }
 
@@ -115,5 +118,13 @@ public final class PatchSetInfo {
 
   public String getRevId() {
     return revId;
+  }
+
+  public void setOtherBranchCommit(final String str) {
+    otherBranchCommit = str;
+  }
+
+  public String getOtherBranchCommit() {
+    return otherBranchCommit;
   }
 }

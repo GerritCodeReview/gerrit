@@ -18,7 +18,10 @@ import com.google.common.base.CharMatcher;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.CanonicalWebUrl;
@@ -32,6 +35,7 @@ import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gerrit.server.util.MagicBranch;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
 import com.jcraft.jsch.HostKey;
@@ -52,12 +56,15 @@ import java.net.URL;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class CommitValidators {
   private static final Logger log = LoggerFactory
       .getLogger(CommitValidators.class);
 
   private static final FooterKey CHANGE_ID = new FooterKey("Change-Id");
+  public static final FooterKey DEPENDS_ON = new FooterKey("Depends-On");
 
   public interface Factory {
     CommitValidators create(RefControl refControl, SshInfo sshInfo,
@@ -71,6 +78,7 @@ public class CommitValidators {
   private final SshInfo sshInfo;
   private final Repository repo;
   private final DynamicSet<CommitValidationListener> commitValidationListeners;
+  private final Provider<ReviewDb> dbProvider;
 
   @Inject
   CommitValidators(@GerritPersonIdent final PersonIdent gerritIdent,
@@ -78,7 +86,8 @@ public class CommitValidators {
       @GerritServerConfig final Config config,
       final DynamicSet<CommitValidationListener> commitValidationListeners,
       @Assisted final SshInfo sshInfo,
-      @Assisted final Repository repo, @Assisted final RefControl refControl) {
+      @Assisted final Repository repo, @Assisted final RefControl refControl,
+      final Provider<ReviewDb> dbProvider) {
     this.gerritIdent = gerritIdent;
     this.refControl = refControl;
     this.canonicalWebUrl = canonicalWebUrl;
@@ -87,6 +96,7 @@ public class CommitValidators {
     this.sshInfo = sshInfo;
     this.repo = repo;
     this.commitValidationListeners = commitValidationListeners;
+    this.dbProvider = dbProvider;
   }
 
   public List<CommitValidationMessage> validateForReceiveCommits(
@@ -107,6 +117,7 @@ public class CommitValidators {
       validators.add(new ChangeIdValidator(refControl, canonicalWebUrl,
           installCommitMsgHookCommand, sshInfo));
     }
+    validators.add(new DependsOnValidator(refControl, dbProvider));
     validators.add(new ConfigValidator(refControl, repo));
     validators.add(new PluginCommitValidationListener(commitValidationListeners));
 
@@ -142,6 +153,7 @@ public class CommitValidators {
       validators.add(new ChangeIdValidator(refControl, canonicalWebUrl,
           installCommitMsgHookCommand, sshInfo));
     }
+    validators.add(new DependsOnValidator(refControl, dbProvider));
     validators.add(new ConfigValidator(refControl, repo));
     validators.add(new PluginCommitValidationListener(commitValidationListeners));
 
@@ -300,6 +312,65 @@ public class CommitValidators {
 
       return String.format("  gitdir=$(git rev-parse --git-dir); scp -p -P %d %s@%s:hooks/commit-msg ${gitdir}/hooks/",
           sshPort, user.getUserName(), sshHost);
+    }
+  }
+
+  /**
+   * Validate Depends-On footer fields
+   */
+  public static class DependsOnValidator implements CommitValidationListener {
+    private final ProjectControl projectControl;
+    private final IdentifiedUser user;
+    private final Provider<ReviewDb> dbProvider;
+
+
+    public DependsOnValidator(RefControl refControl, final Provider<ReviewDb> dbProvider) {
+      this.projectControl = refControl.getProjectControl();
+      this.user = (IdentifiedUser) projectControl.getCurrentUser();
+      this.dbProvider = dbProvider;
+    }
+
+    @Override
+    public List<CommitValidationMessage> onCommitReceived(
+        CommitReceivedEvent receiveEvent) throws CommitValidationException {
+      final List<String> idList = receiveEvent.commit.getFooterLines(DEPENDS_ON);
+
+      List<CommitValidationMessage> messages =
+          new LinkedList<CommitValidationMessage>();
+
+      final Pattern p = Pattern.compile("^(.*)~(.*)~(I[0-9a-f]{8,}.*)$");
+      for (int i = 0; i < idList.size(); i++) {
+        String dependsOn = idList.get(i).trim();
+        Matcher m = p.matcher(dependsOn);
+        if (m.matches()) {
+          boolean valid = false;
+          String project = m.group(1);
+          String branch = m.group(2);
+          Change.Key changeKey = Change.Key.parse(m.group(3));
+          try {
+            List<Change> changes = dbProvider.get().changes().byKey(changeKey).toList();
+            for (Change change : changes) {
+              if ((change.getDest().get().equals(branch) || change.getDest().getShortName().equals(branch)) 
+               && (change.getProject().get().equals(project))) {
+                valid = true;
+              }
+            }
+            if (valid == false) {
+              messages.add(new CommitValidationMessage("No match for "+DEPENDS_ON+" "+dependsOn, true));
+            }
+          } catch (Exception e) {
+            messages.add(new CommitValidationMessage("Exception processing "+DEPENDS_ON+" "+dependsOn, true));
+          }
+        } else {
+          messages.add(new CommitValidationMessage("Invalid format "+DEPENDS_ON+" "+dependsOn, true));
+        }
+      }
+      if (messages.size() > 0) {
+        final String errMsg =
+              "Errors parsing Depends-On entries in commit message footer";
+        throw new CommitValidationException(errMsg, messages);
+      }
+      return Collections.emptyList();
     }
   }
 

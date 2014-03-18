@@ -248,8 +248,7 @@ public class RefControl {
     }
 
     if (object instanceof RevCommit) {
-      return getCurrentUser().getCapabilities().canAdministrateServer()
-          || (owner && !isBlocked(Permission.CREATE))
+      return (owner && !isBlocked(Permission.CREATE))
           || (canPerform(Permission.CREATE) && (!existsOnServer && canUpdate() || projectControl
               .canReadCommit(rw, (RevCommit) object)));
     } else if (object instanceof RevTag) {

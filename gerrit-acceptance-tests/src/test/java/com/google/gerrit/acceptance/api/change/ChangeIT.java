@@ -14,6 +14,10 @@
 
 package com.google.gerrit.acceptance.api.change;
 
+import static com.google.gerrit.acceptance.GitUtil.add;
+import static com.google.gerrit.acceptance.GitUtil.createCommit;
+import static com.google.gerrit.acceptance.GitUtil.pushHead;
+import static com.google.gerrit.acceptance.GitUtil.checkout;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
@@ -23,11 +27,13 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.GitUtil.Commit;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeStatus;
@@ -255,5 +261,28 @@ public class ChangeIT extends AbstractDaemonTest {
     RevisionInfo rev = Iterables.getOnlyElement(result.revisions.values());
     assertEquals(r.getPatchSetId().get(), rev._number);
     assertFalse(rev.actions.isEmpty());
+  }
+
+  @Test
+  public void testOtherBranchCommit_Positive() throws Exception {
+    gApi.projects()
+        .name(project.get())
+        .branch("foo")
+        .create(new BranchInput());
+    add(git, "foo", "foo");
+    Commit c = createCommit(git, admin.getIdent(), "foo");
+    pushHead(git, "refs/heads/master", false);
+    checkout(git, c.getCommit().name());
+    PushOneCommit push = pushFactory.create(db, admin.getIdent());
+    ChangeInfo info = get(push.to(git, "refs/for/foo").getChangeId());
+    assertTrue(Iterables.getOnlyElement(info.revisions.values())
+        .commit.otherBranchCommit);
+  }
+
+  @Test
+  public void testOtherBranchCommit_Negative() throws Exception {
+    assertFalse(Iterables.getOnlyElement(get(createChange()
+        .getChangeId()).revisions.values())
+        .commit.otherBranchCommit);
   }
 }

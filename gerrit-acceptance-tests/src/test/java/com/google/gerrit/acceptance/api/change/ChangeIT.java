@@ -15,12 +15,16 @@
 package com.google.gerrit.acceptance.api.change;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 
+import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeStatus;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -125,5 +129,25 @@ public class ChangeIT extends AbstractDaemonTest {
     assertEquals(in.project, info.project);
     assertEquals(in.branch, info.branch);
     assertEquals(in.subject, info.subject);
+  }
+
+  @Test
+  public void testOtherBranchCommit_Positive() throws Exception {
+    gApi.projects()
+        .name(project.get())
+        .branch("foo")
+        .create(new BranchInput());
+    createChange();
+    PushOneCommit push = pushFactory.create(db, admin.getIdent());
+    ChangeInfo info = get(push.to(git, "refs/for/foo").getChangeId());
+    assertTrue(Iterables.getOnlyElement(info.revisions.values())
+        .commit.otherBranchCommit);
+  }
+
+  @Test
+  public void testOtherBranchCommit_Negative() throws Exception {
+    assertFalse(Iterables.getOnlyElement(get(createChange()
+        .getChangeId()).revisions.values())
+        .commit.otherBranchCommit);
   }
 }

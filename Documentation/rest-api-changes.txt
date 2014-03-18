@@ -2993,6 +2993,9 @@ link:#git-person-info[GitPersonInfo] entity.
 |`subject`     |
 The subject of the commit (header line of the commit message).
 |`message`     |The commit message.
+|`otherBranchCommit`     |
+Whether submitting this commit will cause parents commits
+to merge in its branch which are already merged in other branch
 |==========================
 
 [[diff-content]]

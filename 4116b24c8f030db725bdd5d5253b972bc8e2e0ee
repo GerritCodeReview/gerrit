@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9cc5617b_d96853ce",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-03-18T16:51:23Z",
+      "side": 1,
+      "message": "With [1] I didn\u0027t intend to always allow administrators to create new branches by push. This was a mistake. I rather intended that administrators always can create new branches from the WebUI. Without having tested it, I believe it could be implemented like this:\n\n  public boolean canCreate(RevWalk rw, RevObject object, boolean existsOnServer) {\n    if (!canWrite()) {\n      return false;\n    }\n    boolean owner;\n    boolean admin;\n    switch (getCurrentUser().getAccessPath()) {\n      case REST_API:\n      case JSON_RPC:\n        owner \u003d isOwner();\n        admin \u003d getCurrentUser().getCapabilities().canAdministrateServer();\n        break;\n\n      default:\n        owner \u003d false;\n        admin \u003d false;\n    }\n\n    if (object instanceof RevCommit) {\n      return admin\n          || (owner \u0026\u0026 !isBlocked(Permission.CREATE))\n          || (canPerform(Permission.CREATE) \u0026\u0026 (!existsOnServer \u0026\u0026 canUpdate() || projectControl\n              .canReadCommit(rw, (RevCommit) object)));\n  ...\n\nBut I could also agree to have no special case for administrators at all.\n\n[1] https://gerrit-review.googlesource.com/54048",
+      "range": {
+        "startLine": 235,
+        "startChar": 2,
+        "endLine": 253,
+        "endChar": 55
+      },
+      "revId": "4116b24c8f030db725bdd5d5253b972bc8e2e0ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

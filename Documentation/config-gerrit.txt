@@ -1878,6 +1878,13 @@ bundled with the .war will be used instead.
 
 The index section configures the secondary index.
 
+Note that after enabling the secondary index, the index must be built
+using the link:pgm-reindex.html[reindex program] before restarting the
+Gerrit server.
+
+Open and closed changes are indexed in separate indexes named
+'changes_open' and 'changes_closed' respectively.
+
 [[index.type]]index.type::
 +
 Type of secondary indexing employed by Gerrit.  The supported
@@ -1894,13 +1901,12 @@ SolrCloud] index is used.
 
 +
 By default, `LUCENE`.
-+
-After changing the secondary index type, the index must be rebuilt
-using the link:pgm-reindex.html[reindex program] before restarting the
-Gerrit server.
 
-Open and closed changes are indexed in separate indexes named
-'changes_open' and 'changes_closed' respectively.
+[[index.threads]]index.threads::
++
+Determines the number of threads to use for indexing.
++
+Defaults to 1 if not set, or set to a negative value.
 
 [[index.url]]index.url::
 +

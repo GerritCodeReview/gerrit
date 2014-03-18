@@ -22,6 +22,30 @@
       "revId": "f22c45379579b8b7b7af6287041fe2f7d22070ec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bcc06569_9a8bed5a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 24
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-03-18T06:11:43Z",
+      "side": 1,
+      "message": "True. Was lost during latest rebasing. Done.",
+      "parentUuid": "5ca689d4_9f62b3e8",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 34
+      },
+      "revId": "f22c45379579b8b7b7af6287041fe2f7d22070ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

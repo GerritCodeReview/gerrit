@@ -24,18 +24,39 @@ import com.google.gerrit.client.changes.SubmitInfo;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gwt.user.client.Window;
 
 class SubmitAction {
   static void call(ChangeInfo changeInfo, RevisionInfo revisionInfo) {
     if (ChangeGlue.onSubmitChange(changeInfo, revisionInfo)) {
       final Change.Id changeId = changeInfo.legacy_id();
-      ChangeApi.submit(
-        changeId.get(), revisionInfo.name(),
+      if (revisionInfo.commit().otherBranchCommit() == true) {
+        boolean reply =
+            Window
+                .confirm("You are about to merge change from a different branch.\n "
+                    + "Do you want to continue?");
+        if (reply == true) {
+          submitChange(changeInfo, revisionInfo);
+        } else {
+          Gerrit.display(PageLinks.toChange(changeId));
+        }
+      } else {
+        submitChange(changeInfo, revisionInfo);
+      }
+    }
+  }
+
+  private static void submitChange(ChangeInfo changeInfo,
+      RevisionInfo revisionInfo) {
+    final Change.Id changeId = changeInfo.legacy_id();
+    ChangeApi.submit(changeId.get(), revisionInfo.name(),
         new GerritCallback<SubmitInfo>() {
+          @Override
           public void onSuccess(SubmitInfo result) {
             redisplay();
           }
 
+          @Override
           public void onFailure(Throwable err) {
             if (SubmitFailureDialog.isConflict(err)) {
               new SubmitFailureDialog(err.getMessage()).center();
@@ -49,6 +70,5 @@ class SubmitAction {
             Gerrit.display(PageLinks.toChange(changeId));
           }
         });
-    }
   }
 }

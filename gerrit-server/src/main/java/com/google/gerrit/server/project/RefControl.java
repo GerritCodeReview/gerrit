@@ -237,18 +237,21 @@ public class RefControl {
       return false;
     }
     boolean owner;
+    boolean admin;
     switch (getCurrentUser().getAccessPath()) {
       case REST_API:
       case JSON_RPC:
         owner = isOwner();
+        admin = getCurrentUser().getCapabilities().canAdministrateServer();
         break;
 
       default:
         owner = false;
+        admin = false;
     }
 
     if (object instanceof RevCommit) {
-      return getCurrentUser().getCapabilities().canAdministrateServer()
+      return admin
           || (owner && !isBlocked(Permission.CREATE))
           || (canPerform(Permission.CREATE) && (!existsOnServer && canUpdate() || projectControl
               .canReadCommit(rw, (RevCommit) object)));

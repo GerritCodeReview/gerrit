@@ -58,6 +58,7 @@ public class CommitValidators {
       .getLogger(CommitValidators.class);
 
   private static final FooterKey CHANGE_ID = new FooterKey("Change-Id");
+  public static final FooterKey DEPENDS_ON = new FooterKey("Depends-On");
 
   public interface Factory {
     CommitValidators create(RefControl refControl, SshInfo sshInfo,
@@ -107,6 +108,7 @@ public class CommitValidators {
       validators.add(new ChangeIdValidator(refControl, canonicalWebUrl,
           installCommitMsgHookCommand, sshInfo));
     }
+    validators.add(new DependsOnValidator(refControl));
     validators.add(new ConfigValidator(refControl, repo));
     validators.add(new PluginCommitValidationListener(commitValidationListeners));
 
@@ -142,6 +144,7 @@ public class CommitValidators {
       validators.add(new ChangeIdValidator(refControl, canonicalWebUrl,
           installCommitMsgHookCommand, sshInfo));
     }
+    validators.add(new DependsOnValidator(refControl));
     validators.add(new ConfigValidator(refControl, repo));
     validators.add(new PluginCommitValidationListener(commitValidationListeners));
 
@@ -300,6 +303,37 @@ public class CommitValidators {
 
       return String.format("  gitdir=$(git rev-parse --git-dir); scp -p -P %d %s@%s:hooks/commit-msg ${gitdir}/hooks/",
           sshPort, user.getUserName(), sshHost);
+    }
+  }
+
+  /**
+   * Validate Depends-On footer fields
+   */
+  public static class DependsOnValidator implements CommitValidationListener {
+    private final ProjectControl projectControl;
+    private final IdentifiedUser user;
+
+    public DependsOnValidator(RefControl refControl) {
+      this.projectControl = refControl.getProjectControl();
+      this.user = (IdentifiedUser) projectControl.getCurrentUser();
+    }
+
+    @Override
+    public List<CommitValidationMessage> onCommitReceived(
+        CommitReceivedEvent receiveEvent) throws CommitValidationException {
+      final List<String> idList = receiveEvent.commit.getFooterLines(DEPENDS_ON);
+
+      List<CommitValidationMessage> messages =
+          new LinkedList<CommitValidationMessage>();
+
+      final String v = idList.get(idList.size() - 1).trim();
+      if (!v.matches("^.+/I[0-9a-f]{8,}.*$")) {
+        final String errMsg =
+            "invalid Depends-On line format in commit message footer";
+        messages.add(new CommitValidationMessage(v, true));
+        throw new CommitValidationException(errMsg, messages);
+      }
+      return Collections.emptyList();
     }
   }
 

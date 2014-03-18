@@ -62,6 +62,8 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.i18n.client.LocaleInfo;
+import com.google.gwt.json.client.JSONObject;
+import com.google.gwt.json.client.JSONString;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DisclosurePanel;
@@ -329,8 +331,22 @@ public class ChangeScreen extends Screen
               }
 
               private void dependsOn(RelatedChanges.RelatedInfo info) {
+                String thisProject = event.getValue().getChange().getProject().get();
                 ChangeAndCommit self = null;
                 Map<String, ChangeAndCommit> m = new HashMap<String, ChangeAndCommit>();
+                List<ChangeInfo> d = new ArrayList<ChangeInfo>();
+
+                // First check for dependencies on external projects
+		for (int i = 0; i < info.changes().length(); i++) {
+		  ChangeAndCommit c = info.changes().get(i);
+                  if (c.projectName() != thisProject) {
+		    ChangeInfo ci = new ChangeInfo();
+		    load(c, ci);
+		    d.add(ci);
+                  }
+		}
+
+                // Now check for same-project dependencies
                 for (int i = 0; i < info.changes().length(); i++) {
                   ChangeAndCommit c = info.changes().get(i);
                   if (changeId.equals(c.legacy_id())) {
@@ -342,7 +358,6 @@ public class ChangeScreen extends Screen
                 }
                 if (self != null && self.commit() != null
                     && self.commit().parents() != null) {
-                  List<ChangeInfo> d = new ArrayList<ChangeInfo>();
                   for (CommitInfo p : Natives.asList(self.commit().parents())) {
                     ChangeAndCommit pc = m.get(p.commit());
                     if (pc != null && pc.has_change_number()) {
@@ -351,8 +366,8 @@ public class ChangeScreen extends Screen
                       d.add(i);
                     }
                   }
-                  event.getValue().setDependsOn(d);
                 }
+                event.getValue().setDependsOn(d);
               }
 
               private void neededBy(RelatedChanges.RelatedInfo info) {

@@ -28,15 +28,21 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.revwalk.filter.RevFilter;
 
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -92,6 +98,7 @@ public class PatchSetInfoFactory {
             rw.parseCommit(ObjectId.fromString(patchSet.getRevision().get()));
         PatchSetInfo info = get(src, patchSet.getId());
         info.setParents(toParentInfos(src.getParents(), rw));
+        info.setOtherBranchCommit(otherBranchCommit(change, patchSet));
         return info;
       } finally {
         rw.release();
@@ -121,8 +128,9 @@ public class PatchSetInfoFactory {
     return u;
   }
 
-  private List<PatchSetInfo.ParentInfo> toParentInfos(final RevCommit[] parents,
-      final RevWalk walk) throws IOException, MissingObjectException {
+  private List<PatchSetInfo.ParentInfo> toParentInfos(
+      final RevCommit[] parents, final RevWalk walk) throws IOException,
+      MissingObjectException {
     List<PatchSetInfo.ParentInfo> pInfos = new ArrayList<>(parents.length);
     for (RevCommit parent : parents) {
       walk.parseBody(parent);
@@ -133,4 +141,62 @@ public class PatchSetInfoFactory {
     return pInfos;
   }
 
+  private boolean otherBranchCommit(Change change, PatchSet patchSet)
+      throws RepositoryNotFoundException, IOException,
+      PatchSetInfoNotAvailableException {
+    Repository git = repoManager.openRepository(change.getProject());
+    String targetBranch = change.getDest().get();
+    boolean otherBranchCommit = true;
+    try {
+      RefDatabase refDb = git.getRefDatabase();
+      RevWalk rw = new RevWalk(git);
+      RevCommit pushedCommit =
+          rw.parseCommit(ObjectId.fromString(patchSet.getRevision().get()));
+      RevCommit mergeBase;
+      RevFilter oldRevFilter = rw.getRevFilter();
+      try {
+        rw.reset();
+        rw.setRevFilter(RevFilter.MERGE_BASE);
+        rw.markStart(pushedCommit);
+        Ref targetRef = refDb.getRef(targetBranch);
+        RevCommit target = rw.parseCommit(targetRef.getObjectId());
+        rw.markStart(target);
+        RevCommit result = rw.next();
+        if (result != null) {
+          mergeBase = result;
+        } else {
+          return true;
+        }
+      } catch (IOException e) {
+        throw new PatchSetInfoNotAvailableException(e);
+      } finally {
+        rw.reset();
+        rw.setRevFilter(oldRevFilter);
+      }
+      try {
+        rw.markStart(pushedCommit);
+        Collection<Ref> branches = refDb.getRefs(Constants.R_HEADS).values();
+        ObjectId mergeBaseObject = git.resolve(mergeBase.name());
+        for (Ref branch : branches) {
+          if (!branch.getObjectId().equals(mergeBaseObject)) {
+            rw.markUninteresting(rw.parseCommit(branch.getObjectId()));
+          }
+        }
+        for (RevCommit n; (n = rw.next()) != null;) {
+          if (n.equals(mergeBase)) {
+            otherBranchCommit = false;
+          }
+        }
+        return otherBranchCommit;
+      } catch (IOException e) {
+        throw new PatchSetInfoNotAvailableException(e);
+      } finally {
+        rw.release();
+      }
+    } catch (IOException e) {
+      throw new PatchSetInfoNotAvailableException(e);
+    } finally {
+      git.close();
+    }
+  }
 }

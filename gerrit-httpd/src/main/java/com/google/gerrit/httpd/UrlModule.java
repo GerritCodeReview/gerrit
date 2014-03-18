@@ -46,6 +46,7 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -232,7 +233,7 @@ class UrlModule extends ServletModule {
   static void toGerrit(final String target, final HttpServletRequest req,
       final HttpServletResponse rsp) throws IOException {
     final StringBuilder url = new StringBuilder();
-    url.append(req.getContextPath());
+    url.append(URLEncoder.encode(req.getContextPath(), "UTF-8"));
     url.append('/');
     url.append('#');
     url.append(target);

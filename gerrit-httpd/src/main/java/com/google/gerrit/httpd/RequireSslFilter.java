@@ -22,6 +22,7 @@ import com.google.inject.Singleton;
 import com.google.inject.servlet.ServletModule;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -82,7 +83,7 @@ class RequireSslFilter implements Filter {
         url = urlProvider.get() + req.getServletPath();
       }
       rsp.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
-      rsp.setHeader("Location", url);
+      rsp.setHeader("Location", URLEncoder.encode(url, "UTF-8"));
     }
   }
 

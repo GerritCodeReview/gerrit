@@ -2988,6 +2988,8 @@ link:#git-person-info[GitPersonInfo] entity.
 |`subject`     |
 The subject of the commit (header line of the commit message).
 |`message`     |The commit message.
+|`otherBranchCommit`     |
+Commit branch and pushed branch are same or different.
 |==========================
 
 [[diff-content]]

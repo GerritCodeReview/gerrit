@@ -28,6 +28,7 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeStatus;
@@ -255,5 +256,24 @@ public class ChangeIT extends AbstractDaemonTest {
     RevisionInfo rev = Iterables.getOnlyElement(result.revisions.values());
     assertEquals(r.getPatchSetId().get(), rev._number);
     assertFalse(rev.actions.isEmpty());
+  }
+
+  public void testOtherBranchCommit_Positive() throws Exception {
+    gApi.projects()
+        .name(project.get())
+        .branch("foo")
+        .create(new BranchInput());
+    createChange();
+    PushOneCommit push = pushFactory.create(db, admin.getIdent());
+    ChangeInfo info = get(push.to(git, "refs/for/foo").getChangeId());
+    assertTrue(Iterables.getOnlyElement(info.revisions.values())
+        .commit.otherBranchCommit);
+  }
+
+  @Test
+  public void testOtherBranchCommit_Negative() throws Exception {
+    assertFalse(Iterables.getOnlyElement(get(createChange()
+        .getChangeId()).revisions.values())
+        .commit.otherBranchCommit);
   }
 }

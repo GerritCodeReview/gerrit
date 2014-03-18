@@ -331,8 +331,9 @@ public class RelatedChanges extends TabPanel {
     }
 
     public final native String id() /*-{ return this.change_id }-*/;
+    public final native String projectName() /*-{ return this.project_name }-*/;
     public final native CommitInfo commit() /*-{ return this.commit }-*/;
-    final native String branch() /*-{ return this.branch }-*/;
+    public final native String branch() /*-{ return this.branch }-*/;
 
     final native void set_id(String i)
     /*-{ if(i)this.change_id=i; }-*/;

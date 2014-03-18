@@ -23,6 +23,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -52,7 +53,7 @@ public class HttpsClientSslCertLoginServlet extends HttpServlet {
   protected void doGet(final HttpServletRequest req,
       final HttpServletResponse rsp) throws IOException {
     final StringBuilder rdr = new StringBuilder();
-    rdr.append(urlProvider.get());
+    rdr.append(URLEncoder.encode(urlProvider.get(), "UTF-8"));
     rdr.append('#');
     rdr.append(getToken(req));
 

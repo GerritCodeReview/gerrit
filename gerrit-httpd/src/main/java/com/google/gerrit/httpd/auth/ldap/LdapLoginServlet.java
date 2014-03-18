@@ -39,6 +39,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
@@ -143,7 +144,7 @@ class LdapLoginServlet extends HttpServlet {
     }
 
     StringBuilder dest = new StringBuilder();
-    dest.append(urlProvider.get(req));
+    dest.append(URLEncoder.encode(urlProvider.get(req), "UTF-8"));
     dest.append('#');
     dest.append(getToken(req));
 

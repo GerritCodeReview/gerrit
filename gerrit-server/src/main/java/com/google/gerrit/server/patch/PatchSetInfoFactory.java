@@ -28,8 +28,12 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -37,6 +41,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -92,6 +97,7 @@ public class PatchSetInfoFactory {
             rw.parseCommit(ObjectId.fromString(patchSet.getRevision().get()));
         PatchSetInfo info = get(src, patchSet.getId());
         info.setParents(toParentInfos(src.getParents(), rw));
+        info.setOther(other(change, patchSet));
         return info;
       } finally {
         rw.release();
@@ -134,4 +140,40 @@ public class PatchSetInfoFactory {
     return pInfos;
   }
 
+  private int other(Change change, PatchSet patchSet)
+      throws RepositoryNotFoundException, IOException,
+      PatchSetInfoNotAvailableException {
+    Repository git = repoManager.openRepository(change.getProject());
+    String targetBranch = change.getDest().get();
+    int flag = 0;
+    try {
+      RefDatabase refDb = git.getRefDatabase();
+      Ref targetRef = refDb.getRef(targetBranch);
+      Collection<Ref> branches = refDb.getRefs(Constants.R_HEADS).values();
+      RevWalk rw = new RevWalk(git);
+      RevCommit pushedCommit =
+          rw.parseCommit(ObjectId.fromString(patchSet.getRevision().get()));
+      RevCommit target = rw.parseCommit(targetRef.getObjectId());
+      try {
+        rw.markStart(pushedCommit);
+        for (Ref branch : branches) {
+          if (branch.getObjectId() != targetRef.getObjectId()) {
+            rw.markUninteresting(rw.parseCommit(branch.getObjectId()));
+          }
+        }
+        for (RevCommit n; (n = rw.next()) != null;) {
+          if (n.equals(target)) {
+            // targetRef reached
+            flag = 1;
+            break;
+          }
+        }
+      } finally {
+        rw.release();
+      }
+    } finally {
+      git.close();
+    }
+    return flag;
+  }
 }

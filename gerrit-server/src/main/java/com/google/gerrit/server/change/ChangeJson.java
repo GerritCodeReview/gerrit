@@ -897,6 +897,7 @@ public class ChangeJson {
     commit.committer = toGitPerson(info.getCommitter());
     commit.subject = info.getSubject();
     commit.message = info.getMessage();
+    commit.other = info.getOther();
     for (ParentInfo parent : info.getParents()) {
       CommitInfo i = new CommitInfo();
       i.commit = parent.id.get();

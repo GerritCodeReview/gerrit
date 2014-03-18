@@ -54,6 +54,8 @@ public final class PatchSetInfo {
   /** SHA-1 of commit */
   protected String revId;
 
+  protected int other;
+
   protected PatchSetInfo() {
   }
 
@@ -115,5 +117,13 @@ public final class PatchSetInfo {
 
   public String getRevId() {
     return revId;
+  }
+
+  public void setOther(final int o) {
+    other = o;
+  }
+
+  public int getOther() {
+    return other;
   }
 }

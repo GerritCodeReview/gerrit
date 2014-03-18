@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9cc5617b_f96317ef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-03-18T14:15:42Z",
+      "side": 1,
+      "message": "I actually believe that detecting this case as REWORK is correct. Let me try to explain why.\n\n1. If only the commit message is changed, the change kind is NO_CODE_CHANGE. If there is no code change it is not needed do verify the change again, but the voting on the Verified label can be kept. On the other side votings on Code-Review label should be removed, because the commit message is part of what is reviewed.\n\n2. If it is a trivial rebase with no change in the commit message, the change kind is TRIVIAL_REBASE. In this case the diff to the parent commit did not change and hence there is no need to review it again so that the votings on the Code-Review label can be kept. On the other side the Verified votings must be removed because the change is now done on a different base.\n\n3. If you combine both cases, trivial rebase + commit message was changed, this means because of the trivial rebase the Verified voting must be removed and because of the changed commit message the Code-Review voting must be removed, which is excetly what you would do if the change kind is REWORK. This is why I think REWORK is correct in this case.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 61
+      },
+      "revId": "987ca4c35f9424ed3bb4897222506a3b9f13d87c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

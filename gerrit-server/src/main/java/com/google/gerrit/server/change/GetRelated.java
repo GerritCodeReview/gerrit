@@ -26,10 +26,14 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetAncestor;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
@@ -55,6 +59,8 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.Set;
 
 public class GetRelated implements RestReadView<RevisionResource> {
@@ -71,7 +77,7 @@ public class GetRelated implements RestReadView<RevisionResource> {
 
   @Override
   public RelatedInfo apply(RevisionResource rsrc)
-      throws RepositoryNotFoundException, IOException, OrmException {
+      throws RepositoryNotFoundException, IOException, OrmException, NoSuchChangeException {
     Repository git = gitMgr.openRepository(rsrc.getChange().getProject());
     try {
       Ref ref = git.getRef(rsrc.getChange().getDest().get());
@@ -79,6 +85,13 @@ public class GetRelated implements RestReadView<RevisionResource> {
       try {
         RelatedInfo info = new RelatedInfo();
         info.changes = walk(rsrc, rw, ref);
+        // Now process Depends-On footer fields
+        RevCommit rev = rw.parseCommit(ObjectId.fromString(
+            rsrc.getPatchSet().getRevision().get()));
+        List<String> idList = rev.getFooterLines(CommitValidators.DEPENDS_ON);
+        for (int i = 0; i < idList.size(); i++) {
+          info.changes.addAll(walkDependsOn(rsrc, idList.get(i)));
+        }
         return info;
       } finally {
         rw.release();
@@ -86,6 +99,41 @@ public class GetRelated implements RestReadView<RevisionResource> {
     } finally {
       git.close();
     }
+  }
+
+  private List<ChangeAndCommit> walkDependsOn(RevisionResource rsrc, String dependsOn)
+      throws RepositoryNotFoundException, IOException, NoSuchChangeException, OrmException {
+    List<ChangeAndCommit> result = Lists.newArrayList();
+
+    Pattern p = Pattern.compile("^(.*)~(.*)~(I[0-9a-f]{8,}.*)$");
+    Matcher m = p.matcher(dependsOn);
+    if (m.matches()) {
+      Project.NameKey projectName = Project.NameKey.parse(m.group(1));
+      String branch = m.group(2);
+      Change.Key changeKey = Change.Key.parse(m.group(3));
+      List<Change> changes = dbProvider.get().changes().byKey(changeKey).toList();
+      for (Change change : changes) {
+        if (change.getDest().get().equals(branch) || change.getDest().getShortName().equals(branch)) {
+          PatchSet.Id currentPatchSetId = change.currentPatchSetId();
+          PatchSet patchSet = dbProvider.get().patchSets().get(currentPatchSetId);
+          Repository git = gitMgr.openRepository(change.getProject());
+          try {
+            Ref ref = git.getRef(branch);
+            RevWalk rw = new RevWalk(git);
+            try {
+              String objectId = patchSet.getRevision().get();
+              RevCommit commit = rw.parseCommit(ObjectId.fromString(patchSet.getRevision().get()));
+              result.add(new ChangeAndCommit(change, patchSet, commit));
+            } finally {
+              rw.release();
+            }
+          } finally {
+            git.close();
+          }
+        }
+      }
+    }
+    return result;
   }
 
   private List<ChangeAndCommit> walk(RevisionResource rsrc, RevWalk rw, Ref ref)
@@ -285,6 +333,8 @@ public class GetRelated implements RestReadView<RevisionResource> {
 
   public static class ChangeAndCommit {
     public String changeId;
+    public String projectName;
+    public String branch;
     public CommitInfo commit;
     public Integer _changeNumber;
     public Integer _revisionNumber;
@@ -293,6 +343,8 @@ public class GetRelated implements RestReadView<RevisionResource> {
     ChangeAndCommit(@Nullable Change change, @Nullable PatchSet ps, RevCommit c) {
       if (change != null) {
         changeId = change.getKey().get();
+        projectName = change.getDest().getParentKey().get();
+        branch = change.getDest().getShortName();
         _changeNumber = change.getChangeId();
         _revisionNumber = ps != null ? ps.getPatchSetId() : null;
         PatchSet.Id curr = change.currentPatchSetId();

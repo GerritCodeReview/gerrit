@@ -121,7 +121,7 @@ public abstract class DownloadCommandLink extends Anchor implements ClickHandler
       private final Project.NameKey project;
 
       public CloneWithCommitMsgHookCommandLink(Project.NameKey project) {
-        super(DownloadCommand.CHECKOUT, "clone with commmit-msg hook");
+        super(DownloadCommand.CHECKOUT, "clone with commit-msg hook");
         this.project = project;
       }
 

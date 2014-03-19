@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "3cab959f_fe3781c0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-19T00:49:49Z",
+      "side": 1,
+      "message": "This should be in the footer as\n\n Bug: Issue 2557",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 60
+      },
+      "revId": "4116b24c8f030db725bdd5d5253b972bc8e2e0ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9cc5617b_d96853ce",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
         "patchSetId": 2

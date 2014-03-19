@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3cab959f_5ed4350c",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 1904,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-03-19T16:06:17Z",
+      "side": 1,
+      "message": "Nobody should be modifying their gerrit.config temporarily just to run reindex, so there\u0027s no point in documenting this.\n\nA better fix would be to override the configuration from within Reindex, either by setting the value in the global Config, or using a provider with a different implementation in Reindex.",
+      "revId": "a7a6cb8a738283d209d8ba8dc1f9c28ddfa2badf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

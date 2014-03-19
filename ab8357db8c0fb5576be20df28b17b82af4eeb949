@@ -22,6 +22,30 @@
       "revId": "ab8357db8c0fb5576be20df28b17b82af4eeb949",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bcc06569_da15e525",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1015538
+      },
+      "writtenOn": "2014-03-19T19:09:43Z",
+      "side": 1,
+      "message": "I hadn\u0027t; I\u0027ll make the next patchset use the project~branch~changeset syntax used by /changes/\u003cn\u003e/detail. It looks a bit ugly but is probably the safest option for now - I\u0027ll also investigate the safety of using the change number instead (this is already tied to project/branch/changeId, but feels less resilient to gerrit database damage).",
+      "parentUuid": "3cab959f_9ef19dbd",
+      "range": {
+        "startLine": 12,
+        "startChar": 31,
+        "endLine": 12,
+        "endChar": 42
+      },
+      "revId": "ab8357db8c0fb5576be20df28b17b82af4eeb949",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

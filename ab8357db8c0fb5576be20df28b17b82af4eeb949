@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3cab959f_9ef19dbd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2014-03-19T14:56:12Z",
+      "side": 1,
+      "message": "The biggest concern I see with using Change-Id is how to distinguish between multiple changes in the same project with the same Change-Id. Each branch in that project can legally have a change with the same Change-Id. Have you considered this?",
+      "range": {
+        "startLine": 12,
+        "startChar": 31,
+        "endLine": 12,
+        "endChar": 42
+      },
+      "revId": "ab8357db8c0fb5576be20df28b17b82af4eeb949",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

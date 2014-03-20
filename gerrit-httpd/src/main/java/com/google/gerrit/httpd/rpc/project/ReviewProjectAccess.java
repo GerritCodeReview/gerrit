@@ -102,8 +102,8 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
   }
 
   @Override
-  protected Change.Id updateProjectConfig(ProjectConfig config, MetaDataUpdate md)
-      throws IOException, OrmException {
+  protected Change.Id updateProjectConfig(ProjectConfig config, MetaDataUpdate md,
+      ObjectId base) throws IOException, OrmException {
     Change.Id changeId = new Change.Id(db.nextChangeId());
     PatchSet ps =
         new PatchSet(new PatchSet.Id(changeId, Change.INITIAL_PATCH_SET_ID));

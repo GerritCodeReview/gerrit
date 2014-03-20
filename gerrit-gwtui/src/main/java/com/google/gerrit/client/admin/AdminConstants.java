@@ -130,4 +130,7 @@ public interface AdminConstants extends Constants {
   String sectionTypeReference();
   String sectionTypeSection();
   Map<String, String> sectionNames();
+
+  String pagedProjectListPrev();
+  String pagedProjectListNext();
 }

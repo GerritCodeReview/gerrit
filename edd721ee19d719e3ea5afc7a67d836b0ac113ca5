@@ -16,6 +16,29 @@
       "revId": "edd721ee19d719e3ea5afc7a67d836b0ac113ca5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc7e5d24_4c14bf5d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-03-20T10:20:29Z",
+      "side": 1,
+      "message": "From what I can see cfg goes out of scope here and the commitWithin value has not been read once.",
+      "range": {
+        "startLine": 122,
+        "startChar": 17,
+        "endLine": 122,
+        "endChar": 18
+      },
+      "revId": "edd721ee19d719e3ea5afc7a67d836b0ac113ca5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

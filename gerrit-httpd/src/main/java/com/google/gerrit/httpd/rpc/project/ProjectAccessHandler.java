@@ -129,15 +129,15 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
         md.setMessage("Modify access rules\n");
       }
 
-      return updateProjectConfig(config, md);
+      return updateProjectConfig(config, md, base);
     } finally {
       md.close();
     }
   }
 
   protected abstract T updateProjectConfig(ProjectConfig config,
-      MetaDataUpdate md) throws IOException, NoSuchProjectException,
-      ConfigInvalidException, OrmException;
+      MetaDataUpdate md, ObjectId base) throws IOException,
+      NoSuchProjectException, ConfigInvalidException, OrmException;
 
   private void replace(ProjectConfig config, Set<String> toDelete,
       AccessSection section) throws NoSuchGroupException {

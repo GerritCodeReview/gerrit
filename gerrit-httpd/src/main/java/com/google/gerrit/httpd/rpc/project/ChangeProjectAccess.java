@@ -14,11 +14,15 @@
 
 package com.google.gerrit.httpd.rpc.project;
 
+import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.ProjectAccess;
+import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupBackend;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.NoSuchProjectException;
@@ -29,6 +33,7 @@ import com.google.inject.assistedinject.Assisted;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.revwalk.RevCommit;
 
 import java.io.IOException;
 import java.util.List;
@@ -41,6 +46,8 @@ class ChangeProjectAccess extends ProjectAccessHandler<ProjectAccess> {
         @Nullable @Assisted String message);
   }
 
+  private final ChangeHooks hooks;
+  private final IdentifiedUser user;
   private final ProjectAccessFactory.Factory projectAccessFactory;
   private final ProjectCache projectCache;
 
@@ -49,6 +56,7 @@ class ChangeProjectAccess extends ProjectAccessHandler<ProjectAccess> {
       final ProjectControl.Factory projectControlFactory,
       final ProjectCache projectCache, final GroupBackend groupBackend,
       final MetaDataUpdate.User metaDataUpdateFactory,
+      ChangeHooks hooks, IdentifiedUser user,
 
       @Assisted final Project.NameKey projectName,
       @Nullable @Assisted final ObjectId base,
@@ -58,12 +66,20 @@ class ChangeProjectAccess extends ProjectAccessHandler<ProjectAccess> {
         projectName, base, sectionList, message, true);
     this.projectAccessFactory = projectAccessFactory;
     this.projectCache = projectCache;
+    this.hooks = hooks;
+    this.user = user;
   }
 
   @Override
   protected ProjectAccess updateProjectConfig(ProjectConfig config,
-      MetaDataUpdate md) throws IOException, NoSuchProjectException, ConfigInvalidException {
-    config.commit(md);
+      MetaDataUpdate md, ObjectId base) throws IOException,
+      NoSuchProjectException, ConfigInvalidException {
+    RevCommit commit = config.commit(md);
+
+    hooks.doRefUpdatedHook(
+      new Branch.NameKey(config.getProject().getNameKey(), GitRepositoryManager.REF_CONFIG),
+      base, commit.getId(), user.getAccount());
+
     projectCache.evict(config.getProject());
     return projectAccessFactory.create(projectName).call();
   }

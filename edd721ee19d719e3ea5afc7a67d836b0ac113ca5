@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fc7e5d24_ccd8af99",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-03-20T03:24:18Z",
+      "side": 1,
+      "message": "I am cooking to let reindex not use commitWithin at all, that will be more quicker ?",
+      "revId": "edd721ee19d719e3ea5afc7a67d836b0ac113ca5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

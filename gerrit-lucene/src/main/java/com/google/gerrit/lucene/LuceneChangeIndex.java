@@ -137,7 +137,7 @@ public class LuceneChangeIndex implements ChangeIndex {
 
   static class GerritIndexWriterConfig {
     private final IndexWriterConfig luceneConfig;
-    private final long commitWithinMs;
+    private long commitWithinMs;
 
     private GerritIndexWriterConfig(Version version, Config cfg, String name) {
       luceneConfig = new IndexWriterConfig(version,
@@ -150,9 +150,17 @@ public class LuceneChangeIndex implements ChangeIndex {
       luceneConfig.setMaxBufferedDocs(cfg.getInt(
           "index", name, "maxBufferedDocs",
           IndexWriterConfig.DEFAULT_MAX_BUFFERED_DOCS));
-      commitWithinMs = ConfigUtil.getTimeUnit(
-          cfg, "index", name, "commitWithin",
-          MILLISECONDS.convert(5, MINUTES), MILLISECONDS);
+      try {
+        if ((commitWithinMs = cfg.getLong("index", name, "commitWithin", 0)) >= 0) {
+          commitWithinMs =
+              ConfigUtil.getTimeUnit(cfg, "index", name, "commitWithin",
+                  MILLISECONDS.convert(5, MINUTES), MILLISECONDS);
+        }
+      } catch (IllegalArgumentException e) {
+        commitWithinMs =
+            ConfigUtil.getTimeUnit(cfg, "index", name, "commitWithin",
+                MILLISECONDS.convert(5, MINUTES), MILLISECONDS);
+      }
     }
 
     IndexWriterConfig getLuceneConfig() {

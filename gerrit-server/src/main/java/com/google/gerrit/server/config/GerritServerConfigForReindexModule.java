@@ -1,4 +1,4 @@
-// Copyright (C) 2009 The Android Open Source Project
+// Copyright (C) 2014 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,24 +15,14 @@
 package com.google.gerrit.server.config;
 
 import static com.google.inject.Scopes.SINGLETON;
-import com.google.inject.AbstractModule;
 import org.eclipse.jgit.lib.Config;
 
-class CommonGerritServerConfigModule extends AbstractModule {
-  @Override
-  protected void configure() {
-    bind(SitePaths.class);
-    bind(TrackingFooters.class).toProvider(TrackingFootersProvider.class).in(
-        SINGLETON);
-  }
-}
-
-/** Creates {@link GerritServerConfig}. */
-public class GerritServerConfigModule extends CommonGerritServerConfigModule {
+public class GerritServerConfigForReindexModule extends
+    CommonGerritServerConfigModule {
   @Override
   protected void configure() {
     super.configure();
     bind(Config.class).annotatedWith(GerritServerConfig.class)
-        .toProvider(GerritServerConfigProvider.class).in(SINGLETON);
+        .toProvider(GerritServerConfigForReindexProvider.class).in(SINGLETON);
   }
 }

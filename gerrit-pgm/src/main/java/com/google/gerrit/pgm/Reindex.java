@@ -30,6 +30,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.cache.CacheRemovalListener;
 import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.config.GerritServerConfigForReindexModule;
 import com.google.gerrit.server.index.ChangeBatchIndexer;
 import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.ChangeSchemas;
@@ -70,6 +71,9 @@ public class Reindex extends SiteProgram {
   @Option(name = "--threads", usage = "Number of threads to use for indexing")
   private int threads = Runtime.getRuntime().availableProcessors();
 
+  @Option(name = "--disableAutomaticCommit", usage = "disable automatic commit, default to true, Only used for LUCENE")
+  private boolean disableAutomaticCommit = true;
+
   @Option(name = "--schema-version",
       usage = "Schema version to reindex; default is most recent version")
   private Integer version;
@@ -95,6 +99,7 @@ public class Reindex extends SiteProgram {
       throw die("index.type must be configured (or not SQL)");
     }
     limitThreads();
+    disableAutomaticCommit();
     if (version == null) {
       version = ChangeSchemas.getLatest().getVersion();
     }
@@ -116,6 +121,16 @@ public class Reindex extends SiteProgram {
     sysManager.stop();
     dbManager.stop();
     return result;
+  }
+
+  private void disableAutomaticCommit() {
+    Config cfg =
+        dbInjector.getInstance(Key.get(Config.class, GerritServerConfig.class));
+    if (disableAutomaticCommit &&
+        cfg.getEnum("index", null, "type", IndexType.SQL).equals(IndexType.LUCENE)) {
+      cfg.setString("index", "changes_open", "commitWithin", "-1");
+      cfg.setString("index", "changes_closed", "commitWithin", "-1");
+    }
   }
 
   private void limitThreads() {
@@ -231,5 +246,14 @@ public class Reindex extends SiteProgram {
     double t = result.elapsed(TimeUnit.MILLISECONDS) / 1000d;
     System.out.format("Reindexed %d changes in %.01fs (%.01f/s)\n", n, t, n/t);
     return result.success() ? 0 : 1;
+  }
+
+  @Override
+  protected Module getConfigModule() {
+    if (disableAutomaticCommit) {
+      return new GerritServerConfigForReindexModule();
+    } else {
+      return super.getConfigModule();
+    }
   }
 }

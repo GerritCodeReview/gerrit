@@ -94,7 +94,11 @@ public class Reindex extends SiteProgram {
     if (IndexModule.getIndexType(dbInjector) == IndexType.SQL) {
       throw die("index.type must be configured (or not SQL)");
     }
-    limitThreads();
+    Config cfg = dbInjector.getInstance(
+        Key.get(Config.class, GerritServerConfig.class));
+    cfg.setInt("index", "changes_open", "commitWithin", 300000);
+    cfg.setInt("index", "changes_closed", "commitWithin", 300000);
+    limitThreads(cfg);
     if (version == null) {
       version = ChangeSchemas.getLatest().getVersion();
     }
@@ -118,9 +122,7 @@ public class Reindex extends SiteProgram {
     return result;
   }
 
-  private void limitThreads() {
-    Config cfg =
-        dbInjector.getInstance(Key.get(Config.class, GerritServerConfig.class));
+  private void limitThreads(Config cfg) {
     boolean usePool = cfg.getBoolean("database", "connectionpool",
         dbInjector.getInstance(DataSourceType.class).usePool());
     int poolLimit = cfg.getInt("database", "poollimit",

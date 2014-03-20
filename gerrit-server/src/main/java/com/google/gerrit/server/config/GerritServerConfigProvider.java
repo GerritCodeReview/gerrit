@@ -28,19 +28,11 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 
 /** Provides {@link Config} annotated with {@link GerritServerConfig}. */
-class GerritServerConfigProvider implements Provider<Config> {
+public class GerritServerConfigProvider implements Provider<Config> {
   private static final Logger log =
       LoggerFactory.getLogger(GerritServerConfigProvider.class);
 
-  private final SitePaths site;
-
-  @Inject
-  GerritServerConfigProvider(final SitePaths site) {
-    this.site = site;
-  }
-
-  @Override
-  public Config get() {
+  public static Config getConfig(final SitePaths site) {
     FileBasedConfig cfg = new FileBasedConfig(site.gerrit_config, FS.DETECTED);
 
     if (!cfg.getFile().exists()) {
@@ -69,5 +61,17 @@ class GerritServerConfigProvider implements Provider<Config> {
     }
 
     return cfg;
+  }
+
+  private final SitePaths site;
+
+  @Inject
+  GerritServerConfigProvider(final SitePaths site) {
+    this.site = site;
+  }
+
+  @Override
+  public Config get() {
+    return getConfig(site);
   }
 }

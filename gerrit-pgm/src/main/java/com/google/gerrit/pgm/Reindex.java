@@ -15,6 +15,7 @@
 package com.google.gerrit.pgm;
 
 import static com.google.gerrit.server.schema.DataSourceProvider.Context.MULTI_USER;
+import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
@@ -30,6 +31,10 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.cache.CacheRemovalListener;
 import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.config.GerritServerConfigProvider;
+import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.config.TrackingFooters;
+import com.google.gerrit.server.config.TrackingFootersProvider;
 import com.google.gerrit.server.index.ChangeBatchIndexer;
 import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.ChangeSchemas;
@@ -48,7 +53,9 @@ import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Module;
 import com.google.inject.Provider;
+import com.google.inject.Provides;
 import com.google.inject.ProvisionException;
+import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 
 import org.eclipse.jgit.lib.Config;
@@ -231,5 +238,30 @@ public class Reindex extends SiteProgram {
     double t = result.elapsed(TimeUnit.MILLISECONDS) / 1000d;
     System.out.format("Reindexed %d changes in %.01fs (%.01f/s)\n", n, t, n/t);
     return result.success() ? 0 : 1;
+  }
+
+  @Override
+  protected Module getConfigModule() {
+    return new AbstractModule() {
+      @Override
+      protected void configure() {
+        bind(SitePaths.class);
+        bind(TrackingFooters.class).toProvider(TrackingFootersProvider.class)
+            .in(SINGLETON);
+      }
+
+      @Provides
+      @Singleton
+      @GerritServerConfig
+      Config getGerritServerConfigForReindex(final SitePaths site) {
+        Config cfg = GerritServerConfigProvider.getConfig(site);
+        if (cfg.getEnum("index", null, "type", IndexType.SQL).equals(
+            IndexType.LUCENE)) {
+          cfg.setString("index", "changes_open", "commitWithin", "-1");
+          cfg.setString("index", "changes_closed", "commitWithin", "-1");
+        }
+        return cfg;
+      }
+    };
   }
 }

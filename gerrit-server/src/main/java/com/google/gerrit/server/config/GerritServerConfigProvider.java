@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.config;
 
+import com.google.gerrit.server.index.IndexModule.IndexType;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
@@ -68,6 +69,24 @@ class GerritServerConfigProvider implements Provider<Config> {
       }
     }
 
+    return cfg;
+  }
+}
+
+class GerritServerConfigForReindexProvider extends GerritServerConfigProvider {
+  @Inject
+  GerritServerConfigForReindexProvider(SitePaths site) {
+    super(site);
+  }
+
+  @Override
+  public Config get() {
+    Config cfg = super.get();
+    if (cfg.getEnum("index", null, "type", IndexType.SQL).equals(
+        IndexType.LUCENE)) {
+      cfg.setString("index", "changes_open", "commitWithin", "-1");
+      cfg.setString("index", "changes_closed", "commitWithin", "-1");
+    }
     return cfg;
   }
 }

@@ -118,7 +118,7 @@ public abstract class SiteProgram extends AbstractProgram {
         }
       }
     });
-    Module configModule = new GerritServerConfigModule();
+    Module configModule = getConfigModule();
     modules.add(configModule);
     Injector cfgInjector = Guice.createInjector(sitePathModule, configModule);
     Config cfg = cfgInjector.getInstance(Key.get(Config.class, GerritServerConfig.class));
@@ -220,5 +220,9 @@ public abstract class SiteProgram extends AbstractProgram {
         && why.getCause() != null
         && why.getMessage().startsWith(
             "Cannot create PoolableConnectionFactory");
+  }
+
+  protected Module getConfigModule() {
+    return new GerritServerConfigModule();
   }
 }

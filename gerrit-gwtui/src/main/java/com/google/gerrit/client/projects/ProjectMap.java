@@ -53,16 +53,24 @@ public class ProjectMap extends NativeMap<ProjectInfo> {
         .get(NativeMap.copyKeysIntoChildren(cb));
   }
 
-  public static void match(String match, AsyncCallback<ProjectMap> cb) {
-    if (match == null || "".equals(match)) {
-      all(cb);
-    } else {
-      new RestApi("/projects/")
-          .addParameter("m", match)
-          .addParameterRaw("type", "ALL")
-          .addParameterTrue("d") // description
-          .get(NativeMap.copyKeysIntoChildren(cb));
+  public static void match(String match, int limit, int start, AsyncCallback<ProjectMap> cb) {
+    RestApi call = new RestApi("/projects/");
+    if (match != null) {
+      call.addParameter("m", match);
     }
+    if (limit > 0) {
+      call.addParameter("n", limit);
+    }
+    if (start > 0) {
+      call.addParameter("S", start);
+    }
+    call.addParameterRaw("type", "ALL");
+    call.addParameterTrue("d"); // description
+    call.get(NativeMap.copyKeysIntoChildren(cb));
+  }
+
+  public static void match(String match, AsyncCallback<ProjectMap> cb) {
+    match(match, 0, 0, cb);
   }
 
   protected ProjectMap() {

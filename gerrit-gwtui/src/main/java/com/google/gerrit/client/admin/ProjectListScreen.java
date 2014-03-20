@@ -24,11 +24,13 @@ import com.google.gerrit.client.projects.ProjectMap;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.FilteredUserInterface;
 import com.google.gerrit.client.ui.HighlightingInlineHyperlink;
+import com.google.gerrit.client.ui.Hyperlink;
 import com.google.gerrit.client.ui.IgnoreOutdatedFilterResultsCallbackWrapper;
 import com.google.gerrit.client.ui.ProjectSearchLink;
 import com.google.gerrit.client.ui.ProjectsTable;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
@@ -41,11 +43,16 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwtexpui.globalkey.client.NpTextBox;
 
 public class ProjectListScreen extends Screen implements FilteredUserInterface {
+  private Hyperlink prev;
+  private Hyperlink next;
   private ProjectsTable projects;
   private NpTextBox filterTxt;
   private String subname = "";
+  private int startPosition;
+  private int pageSize;
 
   public ProjectListScreen() {
+    configurePageSize();
   }
 
   public ProjectListScreen(String params) {
@@ -58,6 +65,22 @@ public class ProjectListScreen extends Screen implements FilteredUserInterface {
       if ("filter".equals(kv[0])) {
         subname = URL.decodeQueryString(kv[1]);
       }
+
+      if ("skip".equals(kv[0]) && URL.decodeQueryString(kv[1]).matches("^[\\d]+")) {
+        startPosition = Integer.parseInt(URL.decodeQueryString(kv[1]));
+      }
+    }
+    configurePageSize();
+  }
+
+  private void configurePageSize() {
+    if (Gerrit.isSignedIn()) {
+      final AccountGeneralPreferences p =
+          Gerrit.getUserAccount().getGeneralPreferences();
+      final short m = p.getMaximumPageSize();
+      pageSize = 0 < m ? m : AccountGeneralPreferences.DEFAULT_PAGESIZE;
+    } else {
+      pageSize = AccountGeneralPreferences.DEFAULT_PAGESIZE;
     }
   }
 
@@ -65,13 +88,17 @@ public class ProjectListScreen extends Screen implements FilteredUserInterface {
   protected void onLoad() {
     super.onLoad();
     display();
-    refresh(false);
+    refresh(false, false);
   }
 
-  private void refresh(final boolean open) {
-    setToken(subname == null || "".equals(subname) ? ADMIN_PROJECTS
-        : ADMIN_PROJECTS + "?filter=" + URL.encodeQueryString(subname));
-    ProjectMap.match(subname,
+  private void refresh(final boolean open, final boolean filterModified) {
+    if (filterModified){
+      startPosition = 0;
+    }
+    setToken(getTokenForScreen(subname, startPosition));
+    // Retrieve one more project than page size to determine if there are more
+    // projects to display
+    ProjectMap.match(subname, pageSize + 1, startPosition,
         new IgnoreOutdatedFilterResultsCallbackWrapper<ProjectMap>(this,
             new GerritCallback<ProjectMap>() {
               @Override
@@ -80,10 +107,42 @@ public class ProjectListScreen extends Screen implements FilteredUserInterface {
                   Gerrit.display(PageLinks.toProject(
                       result.values().get(0).name_key()));
                 } else {
-                  projects.display(result);
+                  if (result.size() <= pageSize) {
+                    projects.display(result);
+                    next.setVisible(false);
+                  } else {
+                    projects.displaySubset(result, 0, result.size() - 1);
+                    setupNavigationLink(next, subname, startPosition + pageSize);
+                  }
+                  if (startPosition > 0) {
+                    setupNavigationLink(prev, subname, startPosition - pageSize);
+                  } else {
+                    prev.setVisible(false);
+                  }
                 }
               }
             }));
+  }
+
+  private void setupNavigationLink(Hyperlink link, String filter, int skip) {
+    link.setTargetHistoryToken(getTokenForScreen(filter, skip));
+    link.setVisible(true);
+  }
+
+  private String getTokenForScreen(String filter, int skip) {
+    String token = ADMIN_PROJECTS;
+    if (filter != null && !filter.isEmpty()) {
+      token += "?filter=" + URL.encodeQueryString(filter);
+    }
+    if (skip > 0) {
+      if (token.contains("?filter=")) {
+        token += ",";
+      } else {
+        token += "?";
+      }
+      token += "skip=" + skip;
+    }
+    return token;
   }
 
   @Override
@@ -96,6 +155,12 @@ public class ProjectListScreen extends Screen implements FilteredUserInterface {
     super.onInitUI();
     setPageTitle(Util.C.projectListTitle());
     initPageHeader();
+
+    prev = new Hyperlink(Util.C.pagedProjectListPrev(), true, "");
+    prev.setVisible(false);
+
+    next = new Hyperlink(Util.C.pagedProjectListNext(), true, "");
+    next.setVisible(false);
 
     projects = new ProjectsTable() {
       @Override
@@ -145,6 +210,11 @@ public class ProjectListScreen extends Screen implements FilteredUserInterface {
     projects.setSavePointerId(PageLinks.ADMIN_PROJECTS);
 
     add(projects);
+    final HorizontalPanel buttons = new HorizontalPanel();
+    buttons.setStyleName(Gerrit.RESOURCES.css().changeTablePrevNextLinks());
+    buttons.add(prev);
+    buttons.add(next);
+    add(buttons);
   }
 
   private void initPageHeader() {
@@ -160,9 +230,10 @@ public class ProjectListScreen extends Screen implements FilteredUserInterface {
       public void onKeyUp(KeyUpEvent event) {
         boolean enterPressed =
             event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER;
-        if (enterPressed || !filterTxt.getValue().equals(subname)) {
+        boolean filterModified = !filterTxt.getValue().equals(subname);
+        if (enterPressed || filterModified) {
           subname = filterTxt.getValue();
-          refresh(enterPressed);
+          refresh(enterPressed, filterModified);
         }
       }
     });

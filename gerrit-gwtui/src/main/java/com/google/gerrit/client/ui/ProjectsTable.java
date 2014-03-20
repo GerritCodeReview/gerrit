@@ -53,6 +53,10 @@ public class ProjectsTable extends NavigationTable<ProjectInfo> {
   }
 
   public void display(ProjectMap projects) {
+    displaySubset(projects, 0, projects.size());
+  }
+
+  public void displaySubset(ProjectMap projects, int fromIndex, int toIndex) {
     while (1 < table.getRowCount())
       table.removeRow(table.getRowCount() - 1);
 
@@ -63,7 +67,7 @@ public class ProjectsTable extends NavigationTable<ProjectInfo> {
         return a.name().compareTo(b.name());
       }
     });
-    for(ProjectInfo p : list)
+    for(ProjectInfo p : list.subList(fromIndex, toIndex))
       insert(table.getRowCount(), p);
 
     finishDisplay();

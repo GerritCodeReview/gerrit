@@ -155,6 +155,7 @@ def gerrit_plugin(
     mf_cmd += 'echo "Implementation-Version: $v" >>$OUT;'
     mf_cmd += 'echo "Implementation-Vendor: Gerrit Code Review" >>$OUT'
     for line in manifest_entries:
+      line = line.replace('$', '\$')
       mf_cmd += ';echo "%s" >> $OUT' % line
   genrule(
     name = name + '__manifest',

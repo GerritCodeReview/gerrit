@@ -95,6 +95,7 @@ public class Reindex extends SiteProgram {
       throw die("index.type must be configured (or not SQL)");
     }
     limitThreads();
+    disableLuceneAutomaticCommit();
     if (version == null) {
       version = ChangeSchemas.getLatest().getVersion();
     }
@@ -160,6 +161,15 @@ public class Reindex extends SiteProgram {
       }
     });
     return dbInjector.createChildInjector(modules);
+  }
+
+  private void disableLuceneAutomaticCommit() {
+    Config cfg =
+        dbInjector.getInstance(Key.get(Config.class, GerritServerConfig.class));
+    if (IndexModule.getIndexType(dbInjector) == IndexType.LUCENE) {
+      cfg.setLong("index", "changes_open", "commitWithin", -1);
+      cfg.setLong("index", "changes_closed", "commitWithin", -1);
+    }
   }
 
   private class ReviewDbModule extends LifecycleModule {

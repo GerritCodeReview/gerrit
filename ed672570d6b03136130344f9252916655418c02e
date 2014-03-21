@@ -16,6 +16,24 @@
       "revId": "ed672570d6b03136130344f9252916655418c02e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c1c751e_b6d84898",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-03-21T02:06:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c0769cb_b7d84898",
+      "revId": "ed672570d6b03136130344f9252916655418c02e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

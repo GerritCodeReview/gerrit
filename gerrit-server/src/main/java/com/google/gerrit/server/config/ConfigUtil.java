@@ -207,6 +207,10 @@ public class ConfigUtil {
       return defaultValue;
     }
 
+    if (s.startsWith("-")/* negative */) {
+      throw notTimeUnit(section, subsection, setting, valueString);
+    }
+
     try {
       return getTimeUnit(s, defaultValue, wantUnit);
     } catch (IllegalArgumentException notTime) {

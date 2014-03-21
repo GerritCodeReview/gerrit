@@ -1894,18 +1894,16 @@ Determines the period at which changes are automatically committed to
 stable store on disk. This is a costly operation and may block
 additional index writes, so lower with caution.
 +
-If zero or negative, changes are committed after every write. This is
-very costly but may be useful if offline reindexing is infeasible, or
-for development servers.
+If zero, changes are committed after every write. This is very costly
+but may be useful if offline reindexing is infeasible, or for development
+servers.
 +
-Values can be specified using standard time unit abbreviations (`ms`,
-`sec`, `min`, etc.).
+Values can be specified using standard time unit abbreviations (`ms`, `sec`,
+`min`, etc.).
 +
-This setting also applies when running the reindex program.  If it is
-configured to commit on every write, this will cause reindex to take
-an unnecessarily long time to complete on sites that have a lot of
-changes.  It is recommended to temporarily set a higher value while
-running reindex.
+If negative, `commitWithin` is disabled. Changes are flushed to disk when
+the in-memory buffer fills, but only committed and guaranteed to be synced
+to disk when the process finishes.
 
 Defaults to 300000 ms (5 minutes).
 

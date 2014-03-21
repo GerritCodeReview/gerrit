@@ -23,6 +23,7 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.google.gerrit.lucene.LuceneChangeIndex.GerritIndexWriterConfig;
 
 import org.apache.lucene.document.Document;
+import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.index.TrackingIndexWriter;
 import org.apache.lucene.search.ControlledRealTimeReopenThread;
@@ -40,7 +41,6 @@ import java.io.IOException;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
-import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -55,7 +55,6 @@ class SubIndex {
   private final SearcherManager searcherManager;
   private final ControlledRealTimeReopenThread<IndexSearcher> reopenThread;
   private final ConcurrentMap<RefreshListener, Boolean> refreshListeners;
-  private final ScheduledExecutorService commitExecutor;
 
   SubIndex(File file, GerritIndexWriterConfig writerConfig) throws IOException {
     this(FSDirectory.open(file), file.getName(), writerConfig);
@@ -65,41 +64,44 @@ class SubIndex {
       GerritIndexWriterConfig writerConfig) throws IOException {
     this.dir = dir;
 
-    final AutoCommitWriter delegateWriter;
+    IndexWriter delegateWriter;
     long commitPeriod = writerConfig.getCommitWithinMs();
-    if (commitPeriod <= 0) {
-      commitExecutor = null;
+    if (commitPeriod < 0) {
+      delegateWriter =
+          new IndexWriter(dir, writerConfig.getLuceneConfig());
+    } else if (commitPeriod == 0) {
       delegateWriter =
           new AutoCommitWriter(dir, writerConfig.getLuceneConfig(), true);
     } else {
-      commitExecutor = new ScheduledThreadPoolExecutor(1,
-          new ThreadFactoryBuilder()
-            .setNameFormat("Commit-%d " + dirName)
-            .setDaemon(true)
-            .build());
-      delegateWriter =
+      final AutoCommitWriter autoCommitWriter =
           new AutoCommitWriter(dir, writerConfig.getLuceneConfig(), false);
-      commitExecutor.scheduleAtFixedRate(new Runnable() {
-        @Override
-        public void run() {
-          try {
-            if (delegateWriter.hasUncommittedChanges()) {
-              delegateWriter.manualFlush();
-              delegateWriter.commit();
+      delegateWriter = autoCommitWriter;
+
+      new ScheduledThreadPoolExecutor(1, new ThreadFactoryBuilder()
+          .setNameFormat("Commit-%d " + dirName)
+          .setDaemon(true)
+          .build())
+          .scheduleAtFixedRate(new Runnable() {
+            @Override
+            public void run() {
+              try {
+                if (autoCommitWriter.hasUncommittedChanges()) {
+                  autoCommitWriter.manualFlush();
+                  autoCommitWriter.commit();
+                }
+              } catch (IOException e) {
+                log.error("Error committing Lucene index " + dirName, e);
+              } catch (OutOfMemoryError e) {
+                log.error("Error committing Lucene index " + dirName, e);
+                try {
+                  autoCommitWriter.close();
+                } catch (IOException e2) {
+                  log.error("SEVERE: Error closing Lucene index " + dirName
+                      + " after OOM; index may be corrupted.", e);
+                }
+              }
             }
-          } catch (IOException e) {
-            log.error("Error committing Lucene index " + dirName, e);
-          } catch (OutOfMemoryError e) {
-            log.error("Error committing Lucene index " + dirName, e);
-            try {
-              delegateWriter.close();
-            } catch (IOException e2) {
-              log.error("SEVERE: Error closing Lucene index "
-                + dirName + " after OOM; index may be corrupted.", e);
-            }
-          }
-        }
-      }, commitPeriod, commitPeriod, MILLISECONDS);
+          }, commitPeriod, commitPeriod, MILLISECONDS);
     }
 
     writer = new TrackingIndexWriter(delegateWriter);

@@ -27,12 +27,16 @@ import java.io.IOException;
 
 /** Writer that optionally flushes/commits after every write. */
 class AutoCommitWriter extends IndexWriter {
-  private boolean autoCommit;
+  enum AutoCommitType {
+    BUFFER_CONFIG_ONLY, AT_ONCE, PERIOD,
+  }
 
-  AutoCommitWriter(Directory dir, IndexWriterConfig config, boolean autoCommit)
-      throws IOException {
+  private AutoCommitType autoCommitType;
+
+  AutoCommitWriter(Directory dir, IndexWriterConfig config,
+      AutoCommitType autoCommitType) throws IOException {
     super(dir, config);
-    this.autoCommit = autoCommit;
+    this.autoCommitType = autoCommitType;
   }
 
   @Override
@@ -137,13 +141,13 @@ class AutoCommitWriter extends IndexWriter {
 
   void manualFlush() throws IOException {
     flush(true, true);
-    if (autoCommit) {
+    if (autoCommitType.equals(AutoCommitType.AT_ONCE)) {
       commit();
     }
   }
 
   private void autoFlush() throws IOException {
-    if (autoCommit) {
+    if (autoCommitType.equals(AutoCommitType.AT_ONCE)) {
       manualFlush();
     }
   }

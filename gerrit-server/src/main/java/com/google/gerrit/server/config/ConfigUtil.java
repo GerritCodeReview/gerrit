@@ -230,7 +230,7 @@ public class ConfigUtil {
       TimeUnit wantUnit) {
     Matcher m = Pattern.compile("^(0|[1-9][0-9]*)\\s*(.*)$").matcher(valueString);
     if (!m.matches()) {
-      return defaultValue;
+      throw notTimeUnit(valueString);
     }
 
     String digits = m.group(1);

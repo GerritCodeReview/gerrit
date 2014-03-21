@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5c0769cb_b7ffa8d2",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-21T15:07:01Z",
+      "side": 1,
+      "message": "I think this is from the implementation in the earlier patch set where commitWithin was being disabled by setting it to -1.\n\n-1 is not a valid time unit, so the try..catch was needed.\n\nI don\u0027t think it\u0027s needed any more.",
+      "parentUuid": "7c026dbc_38ed4931",
+      "range": {
+        "startLine": 153,
+        "startChar": 0,
+        "endLine": 163,
+        "endChar": 7
+      },
+      "revId": "0ace721cd1dbbaaef4929b2090344d5068417fde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c0769cb_57f44cf6",
         "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/SubIndex.java",
         "patchSetId": 11

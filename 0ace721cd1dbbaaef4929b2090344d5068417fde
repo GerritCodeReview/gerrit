@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "7c026dbc_f85d912d",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-22T07:23:57Z",
+      "side": 1,
+      "message": "Actually, it is needed.  The -1 is used in SubIndex to disable the commitWithin from being used.",
+      "parentUuid": "5c0769cb_b7ffa8d2",
+      "range": {
+        "startLine": 153,
+        "startChar": 0,
+        "endLine": 163,
+        "endChar": 7
+      },
+      "revId": "0ace721cd1dbbaaef4929b2090344d5068417fde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c0769cb_57f44cf6",
         "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/SubIndex.java",
         "patchSetId": 11
@@ -60,6 +84,30 @@
       "writtenOn": "2014-03-21T15:02:32Z",
       "side": 1,
       "message": "commitPeriod \u003c 0",
+      "range": {
+        "startLine": 67,
+        "startChar": 8,
+        "endLine": 67,
+        "endChar": 27
+      },
+      "revId": "0ace721cd1dbbaaef4929b2090344d5068417fde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c026dbc_d8624de9",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/SubIndex.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-22T07:23:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c0769cb_57f44cf6",
       "range": {
         "startLine": 67,
         "startChar": 8,
@@ -95,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "7c026dbc_3878a996",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-22T07:23:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c026dbc_18ea0519",
+      "range": {
+        "startLine": 169,
+        "startChar": 8,
+        "endLine": 169,
+        "endChar": 57
+      },
+      "revId": "0ace721cd1dbbaaef4929b2090344d5068417fde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7c026dbc_78f7c1fc",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
         "patchSetId": 11
@@ -118,6 +190,30 @@
     },
     {
       "key": {
+        "uuid": "7c026dbc_1875e59c",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-22T07:23:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c026dbc_78f7c1fc",
+      "range": {
+        "startLine": 171,
+        "startChar": 10,
+        "endLine": 171,
+        "endChar": 19
+      },
+      "revId": "0ace721cd1dbbaaef4929b2090344d5068417fde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7c026dbc_58f47df6",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
         "patchSetId": 11
@@ -129,6 +225,30 @@
       "writtenOn": "2014-03-21T15:02:32Z",
       "side": 1,
       "message": "setLong",
+      "range": {
+        "startLine": 172,
+        "startChar": 10,
+        "endLine": 172,
+        "endChar": 19
+      },
+      "revId": "0ace721cd1dbbaaef4929b2090344d5068417fde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c026dbc_787221b6",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-22T07:23:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c026dbc_58f47df6",
       "range": {
         "startLine": 172,
         "startChar": 10,

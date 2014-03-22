@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7c026dbc_78cd01a2",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeScreen.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-22T07:37:19Z",
+      "side": 1,
+      "message": "nit: move this to the end of the previous line",
+      "range": {
+        "startLine": 343,
+        "startChar": 18,
+        "endLine": 343,
+        "endChar": 21
+      },
+      "revId": "3cd1af1862be31e34f52a7f68c24baf1b348c6ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c0769cb_777230b6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-22T07:37:19Z",
+      "side": 1,
+      "message": "this code is similar to in GetRelated.  split it out to a utility method?",
+      "range": {
+        "startLine": 341,
+        "startChar": 6,
+        "endLine": 345,
+        "endChar": 26
+      },
+      "revId": "3cd1af1862be31e34f52a7f68c24baf1b348c6ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c026dbc_58cabd8b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-22T07:37:19Z",
+      "side": 1,
+      "message": "nit: add spacing around the operators, and wrap the line",
+      "range": {
+        "startLine": 360,
+        "startChar": 69,
+        "endLine": 360,
+        "endChar": 86
+      },
+      "revId": "3cd1af1862be31e34f52a7f68c24baf1b348c6ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c0769cb_1775b49c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-22T07:37:19Z",
+      "side": 1,
+      "message": "and here",
+      "revId": "3cd1af1862be31e34f52a7f68c24baf1b348c6ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c026dbc_b8b5d9fb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-22T07:37:19Z",
+      "side": 1,
+      "message": "and here",
+      "revId": "3cd1af1862be31e34f52a7f68c24baf1b348c6ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

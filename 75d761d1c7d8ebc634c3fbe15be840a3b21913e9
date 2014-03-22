@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5c0769cb_97ba64e9",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 869,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-22T17:08:27Z",
+      "side": 1,
+      "message": "Publish Drafts does not grant the permission to upload drafts.  See documentation:\n\n\"This category permits users to publish draft changes uploaded by other users.\"",
+      "revId": "75d761d1c7d8ebc634c3fbe15be840a3b21913e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

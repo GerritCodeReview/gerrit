@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7c026dbc_582c7d79",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 871,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-22T19:02:02Z",
+      "side": 1,
+      "message": "IIRC this is a global capability that applies globally, rather than to specific refs.",
+      "revId": "bf4ce3a402238af5c05ff655e596b3637f60d4a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

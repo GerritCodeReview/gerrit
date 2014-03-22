@@ -53,6 +53,7 @@ class NewChangeScreenBar extends Composite {
   private final Change.Id id;
 
   @UiField Element docs;
+  @UiField Element anon;
   @UiField Element settings;
   @UiField Anchor keepNew;
   @UiField Anchor keepOld;
@@ -61,6 +62,7 @@ class NewChangeScreenBar extends Composite {
     this.id = id;
     initWidget(uiBinder.createAndBindUi(this));
     UIObject.setVisible(docs, Gerrit.getConfig().isDocumentationAvailable());
+    UIObject.setVisible(anon, !Gerrit.isSignedIn());
     UIObject.setVisible(settings, Gerrit.isSignedIn());
   }
 

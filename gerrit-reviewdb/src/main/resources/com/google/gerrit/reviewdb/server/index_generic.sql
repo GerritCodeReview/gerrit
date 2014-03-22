@@ -101,6 +101,11 @@ ON patch_comments (status, author_id);
 
 
 -- *********************************************************************
+-- PatchSetAccess
+CREATE INDEX patch_sets_byRevision
+ON patch_sets (revision);
+
+-- *********************************************************************
 -- PatchSetAncestorAccess
 --    @PrimaryKey covers: ancestorsOf
 --    covers:             descendantsOf

@@ -793,7 +793,7 @@ private com.google.gerrit.server.config.PluginConfigFactory cfg;
 
 [...]
 
-String[] reviewers = cfg.getFromPluginConfigWithInheritance(project, "default-reviewer")
+String[] reviewers = cfg.getProjectPluginConfigWithInheritance(project, "default-reviewer")
                         .getStringList("branch", "refs/heads/master", "reviewer");
 ----
 

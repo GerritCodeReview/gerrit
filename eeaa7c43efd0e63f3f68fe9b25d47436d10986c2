@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1c197130_1511346d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 1904,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-03-22T17:47:51Z",
+      "side": 1,
+      "message": "I don\u0027t think it\u0027s worth mentioning this implementation detail in the documentation.\n\nMight be worth explicitly mentioned the negative case, specifically, that changes are only auto-committed when the in-memory buffer fills. (And let\u0027s double-check that the behavior in SubIndex is to commit after flush.)",
+      "revId": "eeaa7c43efd0e63f3f68fe9b25d47436d10986c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c0769cb_d7b4dcfc",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-03-22T17:47:51Z",
+      "side": 1,
+      "message": "Maybe it\u0027s because I am half paying attention to Edwin\u0027s talk but this seems like a no-op:\n\n try {\n   if (mayThrowIAE()) {\n     commitWithinMs \u003d foo();\n   }\n } catch (IAE) {\n   commitWithinMs \u003d foo();\n }\n\nSince foo() is the same in both cases the only way we don\u0027t end up with that value is if mayThrowIAE() returns false, in which case commitWithinMs remains 0. So the end result is...ignore negative values only if they don\u0027t have a time unit suffix. That doesn\u0027t seem right?\n\nWhat\u0027s wrong with just:\n\n commitWithMs \u003d ConfigUtil.getTimeUnit(...)\n\nThis will set it to a number that is either negative, zero, or positive, regardless of whether there is a time unit suffix.",
+      "revId": "eeaa7c43efd0e63f3f68fe9b25d47436d10986c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c026dbc_38254990",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/SubIndex.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-03-22T17:47:51Z",
+      "side": 1,
+      "message": "Per my comment in the docs, I think we want this to actually be a writer that is configured to auto-commit on flush. Can this easily be wedged into AutoCommitWriter? (I might also be ok with deferring this particular suggestion to master rather than stable-2.8.)",
+      "revId": "eeaa7c43efd0e63f3f68fe9b25d47436d10986c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

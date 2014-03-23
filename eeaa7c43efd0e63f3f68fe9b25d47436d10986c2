@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5c0769cb_f703e0d8",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 1904,
+      "author": {
+        "id": 1006818
+      },
+      "writtenOn": "2014-03-23T07:21:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c197130_1511346d",
+      "revId": "eeaa7c43efd0e63f3f68fe9b25d47436d10986c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c0769cb_d7b4dcfc",
         "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
         "patchSetId": 12
@@ -54,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "5c0769cb_d7085cf8",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1006818
+      },
+      "writtenOn": "2014-03-23T07:21:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c0769cb_d7b4dcfc",
+      "revId": "eeaa7c43efd0e63f3f68fe9b25d47436d10986c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7c026dbc_38254990",
         "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/SubIndex.java",
         "patchSetId": 12
@@ -65,6 +101,24 @@
       "writtenOn": "2014-03-22T17:47:51Z",
       "side": 1,
       "message": "Per my comment in the docs, I think we want this to actually be a writer that is configured to auto-commit on flush. Can this easily be wedged into AutoCommitWriter? (I might also be ok with deferring this particular suggestion to master rather than stable-2.8.)",
+      "revId": "eeaa7c43efd0e63f3f68fe9b25d47436d10986c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c026dbc_b8b4b9d6",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/SubIndex.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1006818
+      },
+      "writtenOn": "2014-03-23T07:21:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c026dbc_38254990",
       "revId": "eeaa7c43efd0e63f3f68fe9b25d47436d10986c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

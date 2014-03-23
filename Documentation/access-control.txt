@@ -519,7 +519,7 @@ The `Owner` category controls which groups can modify the project's
 configuration.  Users who are members of an owner group can:
 
 * Change the project description
-* Create a branch through SSH
+* Create a branch via the ssh command link:cmd-create-branch.html['create-branch']
 * Create/delete a branch through the web UI
 * Grant/revoke any access rights, including `Owner`
 
@@ -969,8 +969,7 @@ Optional access right to grant:
 === Administrator
 
 The administrator role is the most powerful role known in the Gerrit universe.
-This role may grant itself (or others) any access right, and it already has
-all capabilities granted as well.  By default the
+This role may grant itself (or others) any access right.  By default the
 <<administrators,`Administrators` group>> is the group that has this role.
 
 Mandatory access rights:
@@ -979,7 +978,8 @@ Mandatory access rights:
 
 Suggested access rights to grant:
 
-* <<examples_project-owner,Project owner rights>>
+* <<examples_project-owner,`Project owner rights`>>
+* Any <<global_capabilities,`capabilities`>> needed by the administrator
 
 
 == Enforcing site wide access policies

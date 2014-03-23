@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "5c0769cb_d7f17cbc",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-03-23T02:50:21Z",
+      "side": 1,
+      "message": "Dig into ConfigUtil.getTimeUnit(...)\nWhen it is negative, e.g. -1, it will not return -1.\nWhile getLong(…) will return -1, but for the case of \" 300000 ms\" getLong(…) will throw exception.\nThat is the reason. \nWelcome good idea here.",
+      "parentUuid": "5c0769cb_d7b4dcfc",
+      "revId": "eeaa7c43efd0e63f3f68fe9b25d47436d10986c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7c026dbc_38254990",
         "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/SubIndex.java",
         "patchSetId": 12

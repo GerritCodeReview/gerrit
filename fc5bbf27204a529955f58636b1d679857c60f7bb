@@ -1039,6 +1039,30 @@
     },
     {
       "key": {
+        "uuid": "7c026dbc_78f86195",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 569,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-03-23T05:16:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48587f1a_cf07fde0",
+      "range": {
+        "startLine": 569,
+        "startChar": 40,
+        "endLine": 569,
+        "endChar": 65
+      },
+      "revId": "fc5bbf27204a529955f58636b1d679857c60f7bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "685383fd_b0405824",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
         "patchSetId": 4

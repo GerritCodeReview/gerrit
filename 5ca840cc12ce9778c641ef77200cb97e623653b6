@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7c026dbc_58a0fd0c",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/GerritConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-03-24T19:01:24Z",
+      "side": 1,
+      "message": "Actually you are right: I forgot to include this method from GerritConfigProvider. Good spot :-)\n\nWill fix it now and make it more explicit.\n\nLuca.",
+      "parentUuid": "5c0769cb_77c870eb",
+      "range": {
+        "startLine": 128,
+        "startChar": 2,
+        "endLine": 130,
+        "endChar": 3
+      },
+      "revId": "5ca840cc12ce9778c641ef77200cb97e623653b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7c026dbc_d8d88dbe",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/SettingsScreen.java",
         "patchSetId": 3

@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c1c751e_760eb050",
+        "filename": "gerrit-reviewdb/src/main/resources/com/google/gerrit/reviewdb/server/index_maxdb.sql",
+        "patchSetId": 6
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-03-24T21:54:20Z",
+      "side": 1,
+      "message": "The other index_*.sql files define the patch_sets_byRevision index exactly at this place... This index is missing here.",
+      "revId": "228ba06c0ed041e8c128f4ff5a6ea6262bc8687b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc157df4_f4f918ee",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/MaxDb.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-03-24T21:54:20Z",
+      "side": 1,
+      "message": "Does it need to be public? Looks like package private is enough.",
+      "revId": "228ba06c0ed041e8c128f4ff5a6ea6262bc8687b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc157df4_94042434",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/MaxDb.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-03-24T21:54:20Z",
+      "side": 1,
+      "message": "Why not use the connection pool?\n\nCurrently, only MySql datasource type doesn\u0027t use pool but it also explains\nthere why. If there is a good reason not to use pool then this should be mentioned here.",
+      "revId": "228ba06c0ed041e8c128f4ff5a6ea6262bc8687b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

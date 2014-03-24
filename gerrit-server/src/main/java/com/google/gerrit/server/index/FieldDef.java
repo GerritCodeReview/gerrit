@@ -32,7 +32,7 @@ import org.eclipse.jgit.lib.Config;
 public abstract class FieldDef<I, T> {
   /** Definition of a single (non-repeatable) field. */
   public static abstract class Single<I, T> extends FieldDef<I, T> {
-    Single(String name, FieldType<T> type, boolean stored) {
+    protected Single(String name, FieldType<T> type, boolean stored) {
       super(name, type, stored);
     }
 
@@ -45,7 +45,7 @@ public abstract class FieldDef<I, T> {
   /** Definition of a repeatable field. */
   public static abstract class Repeatable<I, T>
       extends FieldDef<I, Iterable<T>> {
-    Repeatable(String name, FieldType<T> type, boolean stored) {
+    protected Repeatable(String name, FieldType<T> type, boolean stored) {
       super(name, type, stored);
     }
 
@@ -57,8 +57,8 @@ public abstract class FieldDef<I, T> {
 
   /** Arguments needed to fill in missing data in the input object. */
   public static class FillArgs {
-    final TrackingFooters trackingFooters;
-    final boolean allowsDrafts;
+    private final TrackingFooters trackingFooters;
+    private final boolean allowsDrafts;
 
     @Inject
     FillArgs(TrackingFooters trackingFooters,
@@ -68,13 +68,21 @@ public abstract class FieldDef<I, T> {
           ? true
           : cfg.getBoolean("change", "allowDrafts", true);
     }
+
+    public boolean isAllowsDrafts() {
+      return allowsDrafts;
+    }
+
+    public TrackingFooters getTrackingFooters() {
+      return trackingFooters;
+    }
   }
 
   private final String name;
   private final FieldType<?> type;
   private final boolean stored;
 
-  private FieldDef(String name, FieldType<?> type, boolean stored) {
+  public FieldDef(String name, FieldType<?> type, boolean stored) {
     this.name = name;
     this.type = type;
     this.stored = stored;

@@ -54,7 +54,7 @@ public class Schema<T> {
   private final ImmutableMap<String, FieldDef<T, ?>> fields;
   private int version;
 
-  protected Schema(boolean release, Iterable<FieldDef<T, ?>> fields) {
+  public Schema(boolean release, Iterable<FieldDef<T, ?>> fields) {
     this(0, release, fields);
   }
 
@@ -124,7 +124,7 @@ public class Schema<T> {
         .toString();
   }
 
-  void setVersion(int version) {
+  public void setVersion(int version) {
     this.version = version;
   }
 }

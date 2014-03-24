@@ -17,6 +17,7 @@ package com.google.gerrit.server.index;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.events.LifecycleListener;
+import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 

@@ -17,8 +17,8 @@ package com.google.gerrit.pgm.init;
 import com.google.gerrit.lucene.LuceneChangeIndex;
 import com.google.gerrit.pgm.util.ConsoleUI;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.index.ChangeSchemas;
 import com.google.gerrit.server.index.IndexModule.IndexType;
+import com.google.gerrit.server.index.change.ChangeSchemas;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 

@@ -17,9 +17,9 @@ package com.google.gerrit.lucene;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.collect.Lists;
-import com.google.gerrit.server.index.ChangeBatchIndexer;
-import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.IndexCollection;
+import com.google.gerrit.server.index.change.ChangeBatchIndexer;
+import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;

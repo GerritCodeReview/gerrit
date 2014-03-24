@@ -16,8 +16,9 @@ package com.google.gerrit.server.index;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.gerrit.server.index.ChangeField.UPDATED;
+import static com.google.gerrit.server.index.change.ChangeField.UPDATED;
 
+import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtjsonrpc.common.JavaSqlTimestampHelper;

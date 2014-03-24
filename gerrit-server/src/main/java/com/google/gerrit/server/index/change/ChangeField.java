@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.index;
+package com.google.gerrit.server.index.change;
 
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
@@ -24,6 +24,8 @@ import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.index.FieldDef;
+import com.google.gerrit.server.index.FieldType;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
@@ -230,7 +232,7 @@ public class ChangeField {
         public Iterable<Integer> get(ChangeData input, FillArgs args)
             throws OrmException {
           Set<Integer> r = Sets.newHashSet();
-          if (!args.allowsDrafts &&
+          if (!args.isAllowsDrafts() &&
               input.change().getStatus() == Change.Status.DRAFT) {
             return r;
           }
@@ -266,7 +268,7 @@ public class ChangeField {
         public Iterable<String> get(ChangeData input, FillArgs args)
             throws OrmException {
           try {
-            return Sets.newHashSet(args.trackingFooters.extract(
+            return Sets.newHashSet(args.getTrackingFooters().extract(
                 input.commitFooters()).values());
           } catch (NoSuchChangeException | IOException e) {
             throw new OrmException(e);

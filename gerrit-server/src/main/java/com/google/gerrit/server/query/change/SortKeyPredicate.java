@@ -15,16 +15,16 @@
 package com.google.gerrit.server.query.change;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.gerrit.server.index.ChangeField.SORTKEY;
+import static com.google.gerrit.server.index.change.ChangeField.SORTKEY;
 
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
-import com.google.gerrit.server.index.ChangeField;
 import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gerrit.server.index.Schema;
+import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
 

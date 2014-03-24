@@ -15,6 +15,8 @@
 package com.google.gerrit.server.index;
 
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.server.index.change.ChangeField;
+import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;

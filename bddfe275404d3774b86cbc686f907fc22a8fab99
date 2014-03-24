@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5c0769cb_97b70469",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 885,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-24T18:01:58Z",
+      "side": 1,
+      "message": "This line never seems to get hit.",
+      "revId": "bddfe275404d3774b86cbc686f907fc22a8fab99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

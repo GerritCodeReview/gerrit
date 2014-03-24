@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7c026dbc_5852bd50",
+        "filename": "lib/log/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2014-03-24T19:22:36Z",
+      "side": 1,
+      "message": "Why not 1.6.6 or 1.7.6?  (1.6.4 has a fix I want.)",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 5,
+        "endChar": 35
+      },
+      "revId": "b7e72f6dd8100f464aa0635ac77c8dee5b9425d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

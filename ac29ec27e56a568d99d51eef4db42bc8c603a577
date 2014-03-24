@@ -1,0 +1,434 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7c026dbc_189045f0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 33
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2014-03-24T19:32:23Z",
+      "side": 1,
+      "message": "Could you outline in the commit message what these numbers represent?",
+      "range": {
+        "startLine": 13,
+        "startChar": 2,
+        "endLine": 13,
+        "endChar": 6
+      },
+      "revId": "ac29ec27e56a568d99d51eef4db42bc8c603a577",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c026dbc_3832691f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RevisionEditCommands.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2014-03-24T19:32:23Z",
+      "side": 1,
+      "message": "This doesn\u0027t feel like it should be an object field?",
+      "range": {
+        "startLine": 81,
+        "startChar": 2,
+        "endLine": 81,
+        "endChar": 9
+      },
+      "revId": "ac29ec27e56a568d99d51eef4db42bc8c603a577",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c0769cb_fa3465f5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RevisionEditCommands.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2014-03-24T19:32:23Z",
+      "side": 1,
+      "message": "Maybe this should be at the object level instead of currentUser?",
+      "revId": "ac29ec27e56a568d99d51eef4db42bc8c603a577",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c0769cb_772cf0c2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RevisionEditCommands.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2014-03-24T19:32:23Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this try block start after line 110?  Same idea for line 172?",
+      "revId": "ac29ec27e56a568d99d51eef4db42bc8c603a577",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c026dbc_187de5c5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RevisionEditCommands.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2014-03-24T19:32:23Z",
+      "side": 1,
+      "message": "getRefChangePrefix()\n\ngetChangeEditsRef()",
+      "revId": "ac29ec27e56a568d99d51eef4db42bc8c603a577",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c026dbc_58775de3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RevisionEditCommands.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2014-03-24T19:32:23Z",
+      "side": 1,
+      "message": "If you put some of this lookup code in a static getEdits() method on RevisionEdit, you might be able to bypass having to pass in the Ref to the RevisionEdit constructor (and thus avoid the validation issue I point out in that file)?",
+      "range": {
+        "startLine": 208,
+        "startChar": 0,
+        "endLine": 208,
+        "endChar": 8
+      },
+      "revId": "ac29ec27e56a568d99d51eef4db42bc8c603a577",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c026dbc_184845a3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RevisionEditCommands.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2014-03-24T19:32:23Z",
+      "side": 1,
+      "message": "s/git/repo/?  More conventional I think.",
+      "range": {
+        "startLine": 247,
+        "startChar": 10,
+        "endLine": 247,
+        "endChar": 20
+      },
+      "revId": "ac29ec27e56a568d99d51eef4db42bc8c603a577",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c0769cb_3a141d5d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RevisionEditCommands.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2014-03-24T19:32:23Z",
+      "side": 1,
+      "message": "Unfortunately, this is not safe, you need to null check on these, or nest your trys.",
+      "revId": "ac29ec27e56a568d99d51eef4db42bc8c603a577",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c026dbc_78550137",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RevisionEditCommands.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2014-03-24T19:32:23Z",
+      "side": 1,
+      "message": "createCommit()",
+      "range": {
+        "startLine": 287,
+        "startChar": 19,
+        "endLine": 287,
+        "endChar": 25
+      },
+      "revId": "ac29ec27e56a568d99d51eef4db42bc8c603a577",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c026dbc_9842957e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RevisionEditCommands.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2014-03-24T19:32:23Z",
+      "side": 1,
+      "message": "s/git/repo/",
+      "range": {
+        "startLine": 300,
+        "startChar": 10,
+        "endLine": 300,
+        "endChar": 19
+      },
+      "revId": "ac29ec27e56a568d99d51eef4db42bc8c603a577",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c0769cb_d7933cce",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RevisionEditCommands.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2014-03-24T19:32:23Z",
+      "side": 1,
+      "message": "filename should probably come right before content.\n\nprevEdit should probably come before reader?\n\nIt is confusing why reader is needed, perhaps naming it prevTreeReader would help?",
+      "range": {
+        "startLine": 316,
+        "startChar": 19,
+        "endLine": 316,
+        "endChar": 31
+      },
+      "revId": "ac29ec27e56a568d99d51eef4db42bc8c603a577",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c0769cb_d7d85cbe",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RevisionEditCommands.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2014-03-24T19:32:23Z",
+      "side": 1,
+      "message": "Maybe s/e/dce/?  Since bytes[] is not seldecribing, I think you need a better variable name for c.",
+      "range": {
+        "startLine": 331,
+        "startChar": 57,
+        "endLine": 331,
+        "endChar": 71
+      },
+      "revId": "ac29ec27e56a568d99d51eef4db42bc8c603a577",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c0769cb_5713acb3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RevisionEditCommands.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2014-03-24T19:32:23Z",
+      "side": 1,
+      "message": "s/f/path/? (or filepath)  Same goes for the other uses of \"f\".",
+      "range": {
+        "startLine": 348,
+        "startChar": 64,
+        "endLine": 348,
+        "endChar": 70
+      },
+      "revId": "ac29ec27e56a568d99d51eef4db42bc8c603a577",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c026dbc_7874e10f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RevisionEditCommands.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2014-03-24T19:32:23Z",
+      "side": 1,
+      "message": "This could probably use a comment explaining the reasoning, perhaps something like \"If the file does not exist in the edit, still allow it to be restored from the base of the edit.\"",
+      "range": {
+        "startLine": 370,
+        "startChar": 16,
+        "endLine": 370,
+        "endChar": 20
+      },
+      "revId": "ac29ec27e56a568d99d51eef4db42bc8c603a577",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c0769cb_b7b20879",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RevisionEditCommands.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2014-03-24T19:32:23Z",
+      "side": 1,
+      "message": "s/newTree()/createTree()/?  If this is a lookup, let\u0027s use the \"get\" prefix, if it is a new object, let\u0027s use the \"create\" prefix.  Same goes for the other methods above.",
+      "range": {
+        "startLine": 384,
+        "startChar": 26,
+        "endLine": 384,
+        "endChar": 33
+      },
+      "revId": "ac29ec27e56a568d99d51eef4db42bc8c603a577",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c0769cb_b7568848",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RevisionEdit.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2014-03-24T19:32:23Z",
+      "side": 1,
+      "message": "Why do we need to be able to pass in the Ref here, it seems like it is potentially a conflict.  Maybe you should validate the refname here?  Also, is a Ref tied to a repo?",
+      "range": {
+        "startLine": 42,
+        "startChar": 22,
+        "endLine": 42,
+        "endChar": 36
+      },
+      "revId": "ac29ec27e56a568d99d51eef4db42bc8c603a577",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c026dbc_3899c9ef",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RevisionEdit.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2014-03-24T19:32:23Z",
+      "side": 1,
+      "message": "As much as I like this, it is often unintuitive instead of getRefName()?",
+      "revId": "ac29ec27e56a568d99d51eef4db42bc8c603a577",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c026dbc_f88e31aa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RevisionEdit.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2014-03-24T19:32:23Z",
+      "side": 1,
+      "message": "Why just get(), I think this needs a clue about what it is getting?",
+      "range": {
+        "startLine": 52,
+        "startChar": 19,
+        "endLine": 52,
+        "endChar": 22
+      },
+      "revId": "ac29ec27e56a568d99d51eef4db42bc8c603a577",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c026dbc_98de15a9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RevisionEdit.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2014-03-24T19:32:23Z",
+      "side": 1,
+      "message": "I think this is a bit confusing.  It looks like the prefix returned here is the prefix to the change without the patchset, but that is hard to get from this function name.  Since this is a public method, it should probable be clearer.",
+      "range": {
+        "startLine": 85,
+        "startChar": 30,
+        "endLine": 85,
+        "endChar": 39
+      },
+      "revId": "ac29ec27e56a568d99d51eef4db42bc8c603a577",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c026dbc_b8d959c5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RevisionEdit.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2014-03-24T19:32:23Z",
+      "side": 1,
+      "message": "Should we be sharding users into 1000 directories instead of 100?  With 10K users, 100 would lead to 100 files per dir.  100K users with 100 would give 1000 files per directory.  So using 100 will likely make going beyond 100K users a bit hard.\n\nIf we bump the sharding up to 1000 top level dirs, then we should be able to scale beyond 100K users.  I am not sure whether we will ever need to scale beyond 100K users though?",
+      "range": {
+        "startLine": 89,
+        "startChar": 38,
+        "endLine": 89,
+        "endChar": 41
+      },
+      "revId": "ac29ec27e56a568d99d51eef4db42bc8c603a577",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

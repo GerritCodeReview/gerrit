@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "7c026dbc_f8a8f12c",
+        "filename": "Documentation/gen_licenses.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-24T17:17:23Z",
+      "side": 1,
+      "message": "nit: import os before re",
+      "revId": "a8366f5c237e040987433ab3f30e0c8f854b50da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7c026dbc_583f5d34",
         "filename": "Documentation/gen_licenses.py",
         "patchSetId": 3
@@ -36,6 +53,23 @@
         "endLine": 32,
         "endChar": 39
       },
+      "revId": "a8366f5c237e040987433ab3f30e0c8f854b50da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c026dbc_98a3b54f",
+        "filename": "tools/pack_war.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-24T17:17:23Z",
+      "side": 1,
+      "message": "nit: these were in alphabetical order",
       "revId": "a8366f5c237e040987433ab3f30e0c8f854b50da",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

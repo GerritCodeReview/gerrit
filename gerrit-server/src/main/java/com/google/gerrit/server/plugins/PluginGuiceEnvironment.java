@@ -24,6 +24,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.extensions.annotations.RootRelative;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicMap;
@@ -56,6 +57,8 @@ import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * Tracks Guice bindings that should be exposed to loaded plugins.
@@ -491,6 +494,12 @@ public class PluginGuiceEnvironment {
     bindings.remove(Key.get(Injector.class));
     bindings.remove(Key.get(java.util.logging.Logger.class));
 
+    final @Nullable Binding<HttpServletRequest> requestBinding =
+        src.getExistingBinding(Key.get(HttpServletRequest.class));
+
+    final @Nullable Binding<HttpServletResponse> responseBinding =
+        src.getExistingBinding(Key.get(HttpServletResponse.class));
+
     return new AbstractModule() {
       @SuppressWarnings("unchecked")
       @Override
@@ -499,6 +508,17 @@ public class PluginGuiceEnvironment {
           Key<Object> k = (Key<Object>) e.getKey();
           Binding<Object> b = (Binding<Object>) e.getValue();
           bind(k).toProvider(b.getProvider());
+        }
+
+        if (requestBinding != null) {
+          bind(HttpServletRequest.class)
+              .annotatedWith(RootRelative.class)
+              .toProvider(requestBinding.getProvider());
+        }
+        if (responseBinding != null) {
+          bind(HttpServletResponse.class)
+              .annotatedWith(RootRelative.class)
+              .toProvider(responseBinding.getProvider());
         }
       }
     };

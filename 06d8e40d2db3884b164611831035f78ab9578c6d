@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c1c751e_96042c34",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/GroovyPlugin.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-03-24T05:38:53Z",
+      "side": 1,
+      "message": "2014",
+      "revId": "06d8e40d2db3884b164611831035f78ab9578c6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c1c751e_f6f920ee",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/GroovyPluginScriptEngine.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-03-24T05:38:53Z",
+      "side": 1,
+      "message": "2014",
+      "revId": "06d8e40d2db3884b164611831035f78ab9578c6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

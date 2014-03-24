@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c1c751e_56f454f6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ScalaPlugin.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-03-24T05:38:11Z",
+      "side": 1,
+      "message": "2014",
+      "revId": "a1140c5301374a5cd3016374f8ed52d8450e3c66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c1c751e_b6ffa8d2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ScalaPluginScriptEngine.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-03-24T05:38:11Z",
+      "side": 1,
+      "message": "2014",
+      "revId": "a1140c5301374a5cd3016374f8ed52d8450e3c66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

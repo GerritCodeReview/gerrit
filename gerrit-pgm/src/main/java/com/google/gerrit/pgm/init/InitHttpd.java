@@ -14,7 +14,7 @@
 
 package com.google.gerrit.pgm.init;
 
-import static com.google.gerrit.pgm.init.InitUtil.chmod;
+import static com.google.gerrit.common.FileUtil.chmod;
 import static com.google.gerrit.pgm.init.InitUtil.die;
 import static com.google.gerrit.pgm.init.InitUtil.domainOf;
 import static com.google.gerrit.pgm.init.InitUtil.isAnyAddress;

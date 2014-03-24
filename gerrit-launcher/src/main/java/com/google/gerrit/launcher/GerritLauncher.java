@@ -22,7 +22,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -324,11 +323,8 @@ public final class GerritLauncher {
     // ZipFile may have the path of our JAR hiding within itself.
     //
     try {
-      Field nameField = ZipFile.class.getDeclaredField("name");
-      nameField.setAccessible(true);
-
       JarFile jar = ((JarURLConnection) myClazz.openConnection()).getJarFile();
-      File path = new File((String) nameField.get(jar));
+      File path = new File(jar.getName());
       if (path.isFile()) {
         return path;
       }

@@ -22,6 +22,30 @@
       "revId": "b7e72f6dd8100f464aa0635ac77c8dee5b9425d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c026dbc_bbd83398",
+        "filename": "lib/log/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-24T19:36:49Z",
+      "side": 1,
+      "message": "Possibly 1.6.2 was the latest version when this change was made back in September?\n\nI\u0027ll see if I can upload a new patch set later, unless you\u0027re already doing it.",
+      "parentUuid": "7c026dbc_5852bd50",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 5,
+        "endChar": 35
+      },
+      "revId": "b7e72f6dd8100f464aa0635ac77c8dee5b9425d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

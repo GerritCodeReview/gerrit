@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7c026dbc_3861c96c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginGuiceEnvironment.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 541,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-24T16:42:49Z",
+      "side": 0,
+      "message": "Why are are now passing through this binding? Was this broken before that plugins could not get HttpServletRequest/Response? If so this should be in its own change with a better commit message.",
+      "range": {
+        "startLine": 536,
+        "startChar": 4,
+        "endLine": 541,
+        "endChar": 5
+      },
+      "revId": "79c4d89dfd39f01c696999631ce8f6d0804d6c1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

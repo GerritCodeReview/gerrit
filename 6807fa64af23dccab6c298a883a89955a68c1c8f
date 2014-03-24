@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5c0769cb_579a8c11",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/registration/DynamicItem.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-24T16:42:49Z",
+      "side": 1,
+      "message": "Maybe instead of doing this plugins should bind their implementation into a DynamicMap and the server has a config setting to identify which DynamicMap entry is served as the WebSession.\n\nThis would make it explicit for an admin to say which plugin provides the web session. Currently with that being replaceable a plugin could hijack the web session in random orderings by installing 2 plugins that provide the feature.",
+      "range": {
+        "startLine": 237,
+        "startChar": 0,
+        "endLine": 240,
+        "endChar": 35
+      },
+      "revId": "6807fa64af23dccab6c298a883a89955a68c1c8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c026dbc_d85b6dbf",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/H2CacheBasedWebSession.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-24T16:42:49Z",
+      "side": 1,
+      "message": "I don\u0027t like the boolean replaceable because its confusing to read this line. Its very important to know that the binding can be swapped but its unclear here saying that.",
+      "revId": "6807fa64af23dccab6c298a883a89955a68c1c8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -104,10 +104,11 @@ def maven_jar(
       out = '__' + name + '__no_src',
     )
 
+  srcdep = [':' + name + '__download_src'] if srcjar else []
   if exported_deps:
     prebuilt_jar(
       name = name + '__jar',
-      deps = deps + license + [':' + name + '__download_bin'],
+      deps = deps + srcdep + license + [':' + name + '__download_bin'],
       binary_jar = genfile(binjar),
       source_jar = genfile(srcjar) if srcjar else None,
     )
@@ -119,7 +120,7 @@ def maven_jar(
   else:
     prebuilt_jar(
       name = name,
-      deps = deps + license + [':' + name + '__download_bin'],
+      deps = deps + srcdep + license + [':' + name + '__download_bin'],
       binary_jar = genfile(binjar),
       source_jar = genfile(srcjar) if srcjar else None,
       visibility = visibility,

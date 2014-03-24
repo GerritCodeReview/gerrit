@@ -15,7 +15,7 @@
 
 from __future__ import print_function
 from optparse import OptionParser
-from os import makedirs, path, symlink
+from os import getcwd, chdir, makedirs, path, symlink
 from subprocess import check_call
 import sys
 from util import check_output
@@ -33,6 +33,8 @@ jars = set()
 
 def link_jars(libs, directory):
   makedirs(directory)
+  while not path.isfile(".buckconfig"):
+    chdir('..')
   cp = check_output(['buck', 'audit', 'classpath'] + libs)
   for j in cp.strip().splitlines():
     if j not in jars:

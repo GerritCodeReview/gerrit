@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5c0769cb_7a29759a",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 3251,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-03-24T19:41:56Z",
+      "side": 1,
+      "message": "nit: this should be spaces to be consistent with the other lines.",
+      "range": {
+        "startLine": 3251,
+        "startChar": 11,
+        "endLine": 3251,
+        "endChar": 12
+      },
+      "revId": "cc0953a1988c32e12646e21caa64ef3da83d6146",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c0769cb_da508125",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/webui/WebLink.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-03-24T19:41:56Z",
+      "side": 1,
+      "message": "Is this annotation needed here?\n\nPatchSetWebLink is already declared as extension point and implementing only WebLink does probably make not much sense?",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 15
+      },
+      "revId": "cc0953a1988c32e12646e21caa64ef3da83d6146",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

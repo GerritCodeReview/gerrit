@@ -45,8 +45,7 @@ class DefaultActions {
     invoke(action, api, cb);
   }
 
-  static void invokeProjectAction(final Project.NameKey project,
-      ActionInfo action, RestApi api) {
+  static void invoke(final Project.NameKey project, ActionInfo action, RestApi api) {
     AsyncCallback<JavaScriptObject> cb = new GerritCallback<JavaScriptObject>() {
       @Override
       public void onSuccess(JavaScriptObject msg) {

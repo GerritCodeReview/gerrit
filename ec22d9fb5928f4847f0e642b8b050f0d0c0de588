@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c1c751e_16113c6d",
+        "filename": "Documentation/gen_licenses.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-03-24T13:42:01Z",
+      "side": 1,
+      "message": "how do you know you have to go exactly 4 directories up?",
+      "revId": "ec22d9fb5928f4847f0e642b8b050f0d0c0de588",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

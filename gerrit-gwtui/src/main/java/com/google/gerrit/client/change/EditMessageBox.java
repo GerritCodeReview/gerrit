@@ -76,6 +76,7 @@ class EditMessageBox extends Composite {
 
   @UiHandler("save")
   void onSave(ClickEvent e) {
+    save.setEnabled(false);
     ChangeApi.message(changeId.get(), revision, message.getText().trim(),
         new GerritCallback<JavaScriptObject>() {
           @Override

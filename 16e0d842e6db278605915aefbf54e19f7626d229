@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5c0769cb_374b98a3",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/MaxDbInitializer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-24T18:47:52Z",
+      "side": 1,
+      "message": "Missing copyright and license header.",
+      "revId": "16e0d842e6db278605915aefbf54e19f7626d229",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c0769cb_174814a3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/MaxDb.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-24T18:47:52Z",
+      "side": 1,
+      "message": "Missing copyright and license header.",
+      "revId": "16e0d842e6db278605915aefbf54e19f7626d229",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

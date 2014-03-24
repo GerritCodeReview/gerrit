@@ -24,6 +24,7 @@ import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 class DefaultActions {
@@ -38,14 +39,27 @@ class DefaultActions {
   private static AsyncCallback<JavaScriptObject> callback(final String target) {
     return new GerritCallback<JavaScriptObject>() {
       @Override
-      public void onSuccess(JavaScriptObject msg) {
-        if (NativeString.is(msg)) {
-          NativeString str = (NativeString) msg;
-          if (!str.asString().isEmpty()) {
-            Window.alert(str.asString());
-          }
+      public void onSuccess(JavaScriptObject in) {
+        UiResult result = asUiResult(in);
+        if (result.alert() != null) {
+          Window.alert(result.alert());
         }
-        Gerrit.display(target);
+
+        if (result.redirectUrl() != null && result.openWindow()) {
+          Window.open(result.redirectUrl(), "_blank", null);
+        } else if (result.redirectUrl() != null) {
+          Location.assign(result.redirectUrl());
+        } else {
+          Gerrit.display(target);
+        }
+      }
+
+      private UiResult asUiResult(JavaScriptObject in) {
+        if (NativeString.is(in)) {
+          String str = ((NativeString) in).asString();
+          return str.isEmpty() ? UiResult.none() : UiResult.alert(str);
+        }
+        return in.cast();
       }
     };
   }
@@ -64,5 +78,17 @@ class DefaultActions {
   }
 
   private DefaultActions() {
+  }
+
+  private static class UiResult extends JavaScriptObject {
+    static native UiResult alert(String m) /*-{ return {'alert':m} }-*/;
+    static native UiResult none() /*-{ return {} }-*/;
+
+    final native String alert() /*-{ return this.alert }-*/;
+    final native String redirectUrl() /*-{ return this.url }-*/;
+    final native boolean openWindow() /*-{ return this.open_window || false }-*/;
+
+    protected UiResult() {
+    }
   }
 }

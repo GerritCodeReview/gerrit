@@ -19,13 +19,13 @@ import static com.google.inject.Stage.PRODUCTION;
 
 import com.google.common.base.Objects;
 import com.google.common.collect.Lists;
+import com.google.gerrit.common.Die;
 import com.google.gerrit.pgm.init.InitFlags;
 import com.google.gerrit.pgm.init.InitModule;
 import com.google.gerrit.pgm.init.InstallPlugins;
 import com.google.gerrit.pgm.init.PluginsDistribution;
 import com.google.gerrit.pgm.init.SitePathInitializer;
 import com.google.gerrit.pgm.util.ConsoleUI;
-import com.google.gerrit.pgm.util.Die;
 import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.SitePath;

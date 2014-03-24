@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7c026dbc_b8079977",
+        "filename": "Documentation/gen_licenses.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-03-24T18:17:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c026dbc_98e5758d",
+      "range": {
+        "startLine": 31,
+        "startChar": 24,
+        "endLine": 31,
+        "endChar": 37
+      },
+      "revId": "cf6216811e90b1129dddff2408a08753e8179875",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7c026dbc_b8e0397d",
         "filename": "tools/pack_war.py",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2014-03-24T18:03:14Z",
       "side": 1,
       "message": "Annoyingly the rest of this code uses single quotes for strings.",
+      "range": {
+        "startLine": 36,
+        "startChar": 24,
+        "endLine": 36,
+        "endChar": 37
+      },
+      "revId": "cf6216811e90b1129dddff2408a08753e8179875",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c026dbc_980c559d",
+        "filename": "tools/pack_war.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-03-24T18:17:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c026dbc_b8e0397d",
       "range": {
         "startLine": 36,
         "startChar": 24,

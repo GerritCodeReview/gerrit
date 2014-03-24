@@ -16,11 +16,17 @@ package com.google.gerrit.server.project;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.google.gerrit.extensions.common.ActionInfo;
+import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.extensions.restapi.RestView;
+import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.extensions.webui.UiActions;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
+import com.google.inject.util.Providers;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Constants;
@@ -34,14 +40,17 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 public class ListBranches implements RestReadView<ProjectResource> {
-
   private final GitRepositoryManager repoManager;
+  private final DynamicMap<RestView<BranchResource>> branchViews;
 
   @Inject
-  public ListBranches(GitRepositoryManager repoManager) {
+  public ListBranches(GitRepositoryManager repoManager,
+      DynamicMap<RestView<BranchResource>> branchViews) {
     this.repoManager = repoManager;
+    this.branchViews = branchViews;
   }
 
   @Override
@@ -136,17 +145,28 @@ public class ListBranches implements RestReadView<ProjectResource> {
     return branches;
   }
 
-  private static BranchInfo createBranchInfo(Ref ref, RefControl refControl,
+  private BranchInfo createBranchInfo(Ref ref, RefControl refControl,
       Set<String> targets) {
-    return new BranchInfo(ref.getName(),
+    BranchInfo info = new BranchInfo(ref.getName(),
         ref.getObjectId() != null ? ref.getObjectId().name() : null,
         !targets.contains(ref.getName()) && refControl.canDelete());
+    for (UiAction.Description d : UiActions.from(
+        branchViews,
+        new BranchResource(refControl.getProjectControl(), info),
+        Providers.of(refControl.getCurrentUser()))) {
+      if (info.actions == null) {
+        info.actions = new TreeMap<>();
+      }
+      info.actions.put(d.getId(), new ActionInfo(d));
+    }
+    return info;
   }
 
   public static class BranchInfo {
     public String ref;
     public String revision;
     public Boolean canDelete;
+    public Map<String, ActionInfo> actions;
 
     public BranchInfo(String ref, String revision, boolean canDelete) {
       this.ref = ref;

@@ -16,12 +16,34 @@ package com.google.gerrit.client.api;
 
 import com.google.gerrit.client.actions.ActionButton;
 import com.google.gerrit.client.actions.ActionInfo;
+import com.google.gerrit.client.projects.BranchInfo;
 import com.google.gerrit.client.projects.ProjectApi;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.JavaScriptObject;
 
 public class ProjectGlue {
+  public static void onAction(
+      Project.NameKey project,
+      BranchInfo branch,
+      ActionInfo action,
+      ActionButton button) {
+    RestApi api = ProjectApi.project(project)
+        .view("branches").id(branch.ref())
+        .view(action.id());
+    JavaScriptObject f = get(action.id());
+    if (f != null) {
+      ActionContext c = ActionContext.create(api);
+      c.set(action);
+      c.set(project);
+      c.set(branch);
+      c.button(button);
+      ApiGlue.invoke(f, c);
+    } else {
+      DefaultActions.invoke(project, action, api);
+    }
+  }
+
   public static void onAction(
       Project.NameKey project,
       ActionInfo action,

@@ -46,6 +46,30 @@
       "revId": "b7e72f6dd8100f464aa0635ac77c8dee5b9425d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c0769cb_1a75d99c",
+        "filename": "lib/log/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-24T21:13:37Z",
+      "side": 1,
+      "message": "Updated to 1.6.4",
+      "parentUuid": "7c026dbc_bbd83398",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 5,
+        "endChar": 35
+      },
+      "revId": "b7e72f6dd8100f464aa0635ac77c8dee5b9425d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

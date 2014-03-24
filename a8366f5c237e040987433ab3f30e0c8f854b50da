@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7c026dbc_583f5d34",
+        "filename": "Documentation/gen_licenses.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-24T17:14:17Z",
+      "side": 1,
+      "message": "unnecessary import, above you imported path from os",
+      "revId": "a8366f5c237e040987433ab3f30e0c8f854b50da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c026dbc_b89e7909",
+        "filename": "Documentation/gen_licenses.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-24T17:14:17Z",
+      "side": 1,
+      "message": "why is \u0027.buckconfig\u0027 not sufficient?",
+      "range": {
+        "startLine": 32,
+        "startChar": 24,
+        "endLine": 32,
+        "endChar": 39
+      },
+      "revId": "a8366f5c237e040987433ab3f30e0c8f854b50da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c0769cb_57fc4c1f",
+        "filename": "tools/pack_war.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-24T17:14:17Z",
+      "side": 1,
+      "message": "why is \u0027.buckconfig\u0027 not sufficient?",
+      "range": {
+        "startLine": 36,
+        "startChar": 24,
+        "endLine": 36,
+        "endChar": 39
+      },
+      "revId": "a8366f5c237e040987433ab3f30e0c8f854b50da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

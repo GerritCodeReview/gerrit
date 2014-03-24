@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "5c0769cb_975b8472",
+        "filename": "gerrit-reviewdb/src/main/resources/com/google/gerrit/reviewdb/server/index_maxdb.sql",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-24T18:45:56Z",
+      "side": 1,
+      "message": "No, if its missing in the other sql files we can omit the header.",
+      "parentUuid": "5c0769cb_d76a1c02",
+      "revId": "9a542716f0fea7bff479ca99dd7cac2909b52517",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c0769cb_f78e40aa",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/MaxDb.java",
         "patchSetId": 3

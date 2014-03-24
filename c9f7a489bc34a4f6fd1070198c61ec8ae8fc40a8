@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5c0769cb_faec65e8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginGuiceEnvironment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 546,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-24T23:30:36Z",
+      "side": 0,
+      "message": "I don\u0027t remember why I disallowed copying this type.\n\nI think its because the GuiceFilter we use to invoke the plugin servlets will automatically be given a new HttpServletRequest binding provided by the GuiceFilter. So copying our HttpServletRequest will confuse or break that.\n\nHowever that conflicts with the idea of shoving in WebSession through a DynamicItem that is invoked outside of the GuiceFilter.\n\nI don\u0027t think we can do both.\n\n:-(",
+      "revId": "c9f7a489bc34a4f6fd1070198c61ec8ae8fc40a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

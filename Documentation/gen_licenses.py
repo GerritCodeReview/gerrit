@@ -19,6 +19,7 @@ from __future__ import print_function
 
 from collections import defaultdict, deque
 import re
+from os import chdir, path
 from shutil import copyfileobj
 from subprocess import Popen, PIPE
 from sys import stdout
@@ -27,6 +28,9 @@ MAIN = ['//gerrit-pgm:pgm', '//gerrit-gwtui:ui_module']
 
 def parse_graph():
   graph = defaultdict(list)
+  import os.path
+  if not path.isfile("./.buckconfig"):
+    chdir('../../../..')
   p = Popen(
     ['buck', 'audit', 'classpath', '--dot'] + MAIN,
     stdout = PIPE)

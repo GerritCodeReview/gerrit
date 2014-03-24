@@ -64,8 +64,8 @@ limitations under the License.
       <ui:msg>You can<g:Anchor ui:field='keepOld'
           styleName='{style.action}'
           href='javascript:;'
-          title='Switch back to the old screen'><ui:attribute name='title'/>revert to the old screen</g:Anchor>
-      <span ui:field='settings'>in Settings &gt; Preferences</span>.
+          title='Switch back to the old screen'><ui:attribute name='title'/>revert
+            to the old screen</g:Anchor><span ui:field='settings'> in Settings &gt; Preferences</span>.
       <g:Anchor ui:field='keepNew'
           styleName='{style.action}'
           href='javascript:;'

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5c0769cb_179654bd",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/MaxDbInitializer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-03-24T18:28:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c0769cb_3799d8ef",
+      "revId": "9a542716f0fea7bff479ca99dd7cac2909b52517",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7c026dbc_b8b2f978",
         "filename": "gerrit-reviewdb/src/main/resources/com/google/gerrit/reviewdb/server/index_maxdb.sql",
         "patchSetId": 3
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "5c0769cb_d76a1c02",
+        "filename": "gerrit-reviewdb/src/main/resources/com/google/gerrit/reviewdb/server/index_maxdb.sql",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-03-24T18:28:09Z",
+      "side": 1,
+      "message": "Is it needed here? \n\n\u0027index_generic.sql\u0027 and \u0027index_postgres.sql\u0027 also don\u0027t have this header.",
+      "parentUuid": "7c026dbc_b8b2f978",
+      "revId": "9a542716f0fea7bff479ca99dd7cac2909b52517",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c0769cb_f78e40aa",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/MaxDb.java",
         "patchSetId": 3
@@ -47,6 +83,24 @@
       "writtenOn": "2014-03-24T18:20:44Z",
       "side": 1,
       "message": "Missing apache header.",
+      "revId": "9a542716f0fea7bff479ca99dd7cac2909b52517",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c0769cb_3780b86b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/MaxDb.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-03-24T18:28:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c0769cb_f78e40aa",
       "revId": "9a542716f0fea7bff479ca99dd7cac2909b52517",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -14,6 +14,9 @@
 
 package com.google.gerrit.pgm.init;
 
+import static com.google.gerrit.common.FileUtil.chmod;
+import static com.google.gerrit.common.FileUtil.modified;
+
 import com.google.gerrit.common.Die;
 
 import org.eclipse.jgit.internal.storage.file.LockFile;
@@ -33,7 +36,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
-import java.util.Arrays;
 
 /** Utility functions to help initialize a site. */
 class InitUtil {
@@ -71,40 +73,9 @@ class InitUtil {
     }
   }
 
-  private static boolean modified(FileBasedConfig cfg) throws IOException {
-    byte[] curVers;
-    try {
-      curVers = IO.readFully(cfg.getFile());
-    } catch (FileNotFoundException notFound) {
-      return true;
-    }
-
-    byte[] newVers = Constants.encode(cfg.toText());
-    return !Arrays.equals(curVers, newVers);
-  }
-
   static void mkdir(final File path) {
     if (!path.isDirectory() && !path.mkdir()) {
       throw die("Cannot make directory " + path);
-    }
-  }
-
-  static void chmod(final int mode, final File path) {
-    path.setReadable(false, false /* all */);
-    path.setWritable(false, false /* all */);
-    path.setExecutable(false, false /* all */);
-
-    path.setReadable((mode & 0400) == 0400, true /* owner only */);
-    path.setWritable((mode & 0200) == 0200, true /* owner only */);
-    if (path.isDirectory() || (mode & 0100) == 0100) {
-      path.setExecutable(true, true /* owner only */);
-    }
-
-    if ((mode & 0044) == 0044) {
-      path.setReadable(true, false /* all */);
-    }
-    if ((mode & 0011) == 0011) {
-      path.setExecutable(true, false /* all */);
     }
   }
 

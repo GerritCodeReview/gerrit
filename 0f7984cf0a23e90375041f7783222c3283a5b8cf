@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7c026dbc_db39a7ed",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/GerritConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-03-24T21:30:11Z",
+      "side": 1,
+      "message": "Agreed: I hate the negations with double-triple negations expressions in front of it :-)\n\nDone in the next patch-set.",
+      "parentUuid": "7c026dbc_5b0bd73e",
+      "revId": "0f7984cf0a23e90375041f7783222c3283a5b8cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c0769cb_da6241e9",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GerritConfigProvider.java",
         "patchSetId": 5

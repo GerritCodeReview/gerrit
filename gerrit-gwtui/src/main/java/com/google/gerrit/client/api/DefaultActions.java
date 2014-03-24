@@ -63,7 +63,9 @@ class DefaultActions {
 
   private static void invoke(ActionInfo action, RestApi api,
       AsyncCallback<JavaScriptObject> cb) {
-    if ("PUT".equalsIgnoreCase(action.method())) {
+    if ("GET".equalsIgnoreCase(action.method())) {
+      api.get(cb);
+    } else if ("PUT".equalsIgnoreCase(action.method())) {
       api.put(JavaScriptObject.createObject(), cb);
     } else if ("DELETE".equalsIgnoreCase(action.method())) {
       api.delete(cb);

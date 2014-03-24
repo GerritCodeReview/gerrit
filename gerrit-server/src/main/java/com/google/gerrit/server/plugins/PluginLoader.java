@@ -31,6 +31,7 @@ import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.systemstatus.ServerInformation;
 import com.google.gerrit.extensions.webui.JavaScriptPlugin;
 import com.google.gerrit.server.PluginUser;
+import com.google.gerrit.server.cache.PersistentCacheFactory;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -90,6 +91,7 @@ public class PluginLoader implements LifecycleListener {
   private final Provider<PluginCleanerTask> cleaner;
   private final PluginScannerThread scanner;
   private final Provider<String> urlProvider;
+  private final PersistentCacheFactory persistentCacheFactory;
   private final boolean remoteAdmin;
 
   @Inject
@@ -99,7 +101,8 @@ public class PluginLoader implements LifecycleListener {
       PluginUser.Factory puf,
       Provider<PluginCleanerTask> pct,
       @GerritServerConfig Config cfg,
-      @CanonicalWebUrl Provider<String> provider) {
+      @CanonicalWebUrl Provider<String> provider,
+      PersistentCacheFactory cacheFactory) {
     pluginsDir = sitePaths.plugins_dir;
     dataDir = sitePaths.data_dir;
     tmpDir = sitePaths.tmp_dir;
@@ -113,6 +116,7 @@ public class PluginLoader implements LifecycleListener {
     cleanupHandles = Maps.newConcurrentMap();
     cleaner = pct;
     urlProvider = provider;
+    persistentCacheFactory = cacheFactory;
 
     remoteAdmin =
         cfg.getBoolean("plugins", null, "allowRemoteAdmin", false);
@@ -228,6 +232,7 @@ public class PluginLoader implements LifecycleListener {
   }
 
   synchronized private void unloadPlugin(Plugin plugin) {
+    persistentCacheFactory.onStop(plugin);
     String name = plugin.getName();
     log.info(String.format("Unloading plugin %s", name));
     plugin.stop(env);

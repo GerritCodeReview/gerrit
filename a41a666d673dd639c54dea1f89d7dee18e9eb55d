@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7c026dbc_bbff93d2",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/webui/UiResult.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-24T19:53:08Z",
+      "side": 1,
+      "message": "I am wondering if we can use this for the Codenvy plugin to generate the URL at the server and open the UI without any JS. Then I can more easily run a read-only version of this on gerrit-review.",
+      "revId": "a41a666d673dd639c54dea1f89d7dee18e9eb55d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

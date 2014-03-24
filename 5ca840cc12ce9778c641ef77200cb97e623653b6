@@ -22,6 +22,29 @@
       "revId": "5ca840cc12ce9778c641ef77200cb97e623653b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c026dbc_d8d88dbe",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/SettingsScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-03-24T18:46:21Z",
+      "side": 1,
+      "message": "This check sounds wrong: now is \"if password is not enabled \u003d\u003e show password\"\n\nShould be: \"if password IS enabled \u003d\u003e show password\"",
+      "range": {
+        "startLine": 32,
+        "startChar": 8,
+        "endLine": 32,
+        "endChar": 49
+      },
+      "revId": "5ca840cc12ce9778c641ef77200cb97e623653b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

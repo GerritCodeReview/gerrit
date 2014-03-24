@@ -534,19 +534,15 @@ public class PluginGuiceEnvironment {
     if (is("javax.servlet.ServletContext", type)) {
       return false;
     }
-    if (is("javax.servlet.ServletRequest", type)) {
+    if (is("javax.servlet.ServletRequest", type)
+        && !is("javax.servlet.http.HttpServletRequest", type)) {
       return false;
     }
-    if (is("javax.servlet.ServletResponse", type)) {
+    if (is("javax.servlet.ServletResponse", type)
+        && !is("javax.servlet.http.HttpServletResponse", type)) {
       return false;
     }
     if (is("javax.servlet.http.HttpServlet", type)) {
-      return false;
-    }
-    if (is("javax.servlet.http.HttpServletRequest", type)) {
-      return false;
-    }
-    if (is("javax.servlet.http.HttpServletResponse", type)) {
       return false;
     }
     if (is("javax.servlet.http.HttpSession", type)) {

@@ -178,6 +178,7 @@ public class RelatedChanges extends TabPanel {
     cherryPicksQuery.append(op("project", info.project()));
     cherryPicksQuery.append(" ").append(op("change", info.change_id()));
     cherryPicksQuery.append(" ").append(op("-change", info.legacy_id().get()));
+    cherryPicksQuery.append(" -is:abandoned");
     ChangeList.query(cherryPicksQuery.toString(),
         EnumSet.of(ListChangesOption.CURRENT_REVISION, ListChangesOption.CURRENT_COMMIT),
         new TabChangeListCallback(Tab.CHERRY_PICKS, info.project(), revision));

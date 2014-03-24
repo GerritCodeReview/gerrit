@@ -17,12 +17,14 @@ package com.google.gerrit.pgm;
 import static com.google.gerrit.server.schema.DataSourceProvider.Context.MULTI_USER;
 import static com.google.inject.Scopes.SINGLETON;
 
+import com.google.common.cache.Cache;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.DisabledChangeHooks;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.events.LifecycleListener;
+import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.lifecycle.LifecycleModule;
@@ -195,6 +197,8 @@ public class Reindex extends SiteProgram {
         // once, so don't worry about cache removal.
         bind(new TypeLiteral<DynamicSet<CacheRemovalListener>>() {})
             .toInstance(DynamicSet.<CacheRemovalListener> emptySet());
+        bind(new TypeLiteral<DynamicMap<Cache<?, ?>>>() {})
+            .toInstance(DynamicMap.<Cache<?, ?>> emptyMap());
         bind(new TypeLiteral<List<CommentLinkInfo>>() {})
             .toProvider(CommentLinkProvider.class).in(SINGLETON);
         bind(String.class).annotatedWith(CanonicalWebUrl.class)

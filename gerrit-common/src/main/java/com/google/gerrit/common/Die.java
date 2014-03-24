@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.pgm.util;
+package com.google.gerrit.common;
 
 public class Die extends RuntimeException {
   private static final long serialVersionUID = 1L;

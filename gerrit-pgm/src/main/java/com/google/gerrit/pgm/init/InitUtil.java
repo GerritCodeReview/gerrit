@@ -14,7 +14,7 @@
 
 package com.google.gerrit.pgm.init;
 
-import com.google.gerrit.pgm.util.Die;
+import com.google.gerrit.common.Die;
 
 import org.eclipse.jgit.internal.storage.file.LockFile;
 import org.eclipse.jgit.lib.Constants;

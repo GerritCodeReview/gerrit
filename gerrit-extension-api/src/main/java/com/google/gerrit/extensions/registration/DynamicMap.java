@@ -206,4 +206,8 @@ public abstract class DynamicMap<T> implements Iterable<DynamicMap.Entry<T>> {
       return false;
     }
   }
+
+  public static <T> DynamicMap<T> emptyMap() {
+    return new DynamicMap<T>() {};
+  }
 }

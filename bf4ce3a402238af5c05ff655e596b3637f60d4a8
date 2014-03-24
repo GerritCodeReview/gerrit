@@ -16,6 +16,24 @@
       "revId": "bf4ce3a402238af5c05ff655e596b3637f60d4a8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c0769cb_57528c50",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 871,
+      "author": {
+        "id": 1014767
+      },
+      "writtenOn": "2014-03-24T18:48:13Z",
+      "side": 1,
+      "message": "Done, in accordance to face-to-face discussion.",
+      "parentUuid": "7c026dbc_582c7d79",
+      "revId": "bf4ce3a402238af5c05ff655e596b3637f60d4a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

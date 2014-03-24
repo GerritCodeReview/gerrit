@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5c0769cb_7aa4d5c9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-03-24T22:00:00Z",
+      "side": 1,
+      "message": "This is cool :-)\nDo we have a working example in the cookbook for this ?",
+      "revId": "91b9125605ded9e72aa37571cdda47586193f45d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

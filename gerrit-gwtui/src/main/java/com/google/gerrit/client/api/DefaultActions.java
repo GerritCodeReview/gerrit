@@ -21,50 +21,54 @@ import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.common.PageLinks;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 class DefaultActions {
   static void invoke(ChangeInfo change, ActionInfo action, RestApi api) {
-    final Change.Id id = change.legacy_id();
-    AsyncCallback<JavaScriptObject> cb = new GerritCallback<JavaScriptObject>() {
-      @Override
-      public void onSuccess(JavaScriptObject msg) {
-        if (NativeString.is(msg)) {
-          NativeString str = (NativeString) msg;
-          if (!str.asString().isEmpty()) {
-            Window.alert(str.asString());
-          }
-        }
-        Gerrit.display(PageLinks.toChange(id));
-      }
-    };
-    invoke(action, api, cb);
+    invoke(action, api, callback(PageLinks.toChange(change.legacy_id())));
   }
 
-  static void invokeProjectAction(final Project.NameKey project,
-      ActionInfo action, RestApi api) {
-    AsyncCallback<JavaScriptObject> cb = new GerritCallback<JavaScriptObject>() {
+  static void invoke(Project.NameKey project, ActionInfo action, RestApi api) {
+    invoke(action, api, callback(PageLinks.toProject(project)));
+  }
+
+  private static AsyncCallback<JavaScriptObject> callback(final String target) {
+    return new GerritCallback<JavaScriptObject>() {
       @Override
-      public void onSuccess(JavaScriptObject msg) {
-        if (NativeString.is(msg)) {
-          NativeString str = (NativeString) msg;
-          if (!str.asString().isEmpty()) {
-            Window.alert(str.asString());
-          }
+      public void onSuccess(JavaScriptObject in) {
+        UiResult result = asUiResult(in);
+        if (result.alert() != null) {
+          Window.alert(result.alert());
         }
-        Gerrit.display(PageLinks.toProject(project));
+
+        if (result.redirectUrl() != null && result.openWindow()) {
+          Window.open(result.redirectUrl(), "_blank", null);
+        } else if (result.redirectUrl() != null) {
+          Location.assign(result.redirectUrl());
+        } else {
+          Gerrit.display(target);
+        }
+      }
+
+      private UiResult asUiResult(JavaScriptObject in) {
+        if (NativeString.is(in)) {
+          String str = ((NativeString) in).asString();
+          return str.isEmpty() ? UiResult.none() : UiResult.alert(str);
+        }
+        return in.cast();
       }
     };
-    invoke(action, api, cb);
   }
 
   private static void invoke(ActionInfo action, RestApi api,
       AsyncCallback<JavaScriptObject> cb) {
-    if ("PUT".equalsIgnoreCase(action.method())) {
+    if ("GET".equalsIgnoreCase(action.method())) {
+      api.get(cb);
+    } else if ("PUT".equalsIgnoreCase(action.method())) {
       api.put(JavaScriptObject.createObject(), cb);
     } else if ("DELETE".equalsIgnoreCase(action.method())) {
       api.delete(cb);
@@ -74,5 +78,17 @@ class DefaultActions {
   }
 
   private DefaultActions() {
+  }
+
+  private static class UiResult extends JavaScriptObject {
+    static native UiResult alert(String m) /*-{ return {'alert':m} }-*/;
+    static native UiResult none() /*-{ return {} }-*/;
+
+    final native String alert() /*-{ return this.alert }-*/;
+    final native String redirectUrl() /*-{ return this.url }-*/;
+    final native boolean openWindow() /*-{ return this.open_window || false }-*/;
+
+    protected UiResult() {
+    }
   }
 }

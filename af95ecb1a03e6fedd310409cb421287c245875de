@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fc71fd8c_746fa8ce",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-03-25T21:42:49Z",
+      "side": 1,
+      "message": "Should this be just:\n\n  projects:\u0027PREFIX\u0027::\n\n?",
+      "range": {
+        "startLine": 131,
+        "startChar": 0,
+        "endLine": 131,
+        "endChar": 29
+      },
+      "revId": "af95ecb1a03e6fedd310409cb421287c245875de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc71fd8c_d4d87c67",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-03-25T21:42:49Z",
+      "side": 1,
+      "message": "Use FIELD_PROJECTS?",
+      "range": {
+        "startLine": 379,
+        "startChar": 59,
+        "endLine": 379,
+        "endChar": 67
+      },
+      "revId": "af95ecb1a03e6fedd310409cb421287c245875de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

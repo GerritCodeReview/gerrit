@@ -29,14 +29,23 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.testutil.ConfigSuite;
 import com.google.inject.Inject;
 
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
 import org.junit.Before;
 import org.junit.Test;
 
 @NoHttpd
 public class LabelTypeIT extends AbstractDaemonTest {
+  @ConfigSuite.Config
+  public static Config noteDbEnabled() {
+    Config cfg = new Config();
+    cfg.setBoolean("notedb", null, "write", true);
+    cfg.setBoolean("notedb", "patchSetApprovals", "read", true);
+    return cfg;
+  }
 
   @Inject
   private GitRepositoryManager repoManager;

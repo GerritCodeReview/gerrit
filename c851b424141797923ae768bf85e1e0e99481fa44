@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "bc7b055f_42fbd292",
+        "filename": "BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-03-25T16:24:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c8a099e_df86db51",
+      "revId": "c851b424141797923ae768bf85e1e0e99481fa44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bc7b055f_a209fefe",
         "filename": "Documentation/dev-buck.txt",
         "patchSetId": 3
@@ -30,6 +48,30 @@
       "writtenOn": "2014-03-25T16:21:02Z",
       "side": 1,
       "message": "\", a combined\"",
+      "range": {
+        "startLine": 265,
+        "startChar": 31,
+        "endLine": 265,
+        "endChar": 43
+      },
+      "revId": "c851b424141797923ae768bf85e1e0e99481fa44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc7b055f_22fece83",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-03-25T16:24:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc7b055f_a209fefe",
       "range": {
         "startLine": 265,
         "startChar": 31,

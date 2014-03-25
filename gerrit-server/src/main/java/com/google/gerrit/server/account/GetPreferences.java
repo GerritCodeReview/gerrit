@@ -32,6 +32,9 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 public class GetPreferences implements RestReadView<AccountResource> {
   private final Provider<CurrentUser> self;
   private final Provider<ReviewDb> db;
@@ -74,6 +77,7 @@ public class GetPreferences implements RestReadView<AccountResource> {
     CommentVisibilityStrategy commentVisibilityStrategy;
     DiffView diffView;
     ChangeScreen changeScreen;
+    Map<String, String> my;
 
     PreferenceInfo(AccountGeneralPreferences p) {
       changesPerPage = p.getMaximumPageSize();
@@ -91,6 +95,17 @@ public class GetPreferences implements RestReadView<AccountResource> {
       commentVisibilityStrategy = p.getCommentVisibilityStrategy();
       diffView = p.getDiffView();
       changeScreen = p.getChangeScreen();
+      my = my();
+    }
+
+    private Map<String, String> my() {
+      Map<String, String> my = new LinkedHashMap<String, String>();
+      my.put("Changes", "#/");
+      my.put("Drafts", "#/q/is:draft");
+      my.put("Draft Comments", "#/q/has:draft");
+      my.put("Watched Changes", "#/q/is:watched+is:open");
+      my.put("Starred Changes", "#/q/is:starred");
+      return my;
     }
   }
 }

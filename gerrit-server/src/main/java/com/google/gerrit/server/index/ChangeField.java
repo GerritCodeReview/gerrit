@@ -93,6 +93,17 @@ public class ChangeField {
         }
       };
 
+  /** Project containing the change, as a prefix field. */
+  public static final FieldDef<ChangeData, String> PROJECTS =
+      new FieldDef.Single<ChangeData, String>(
+          ChangeQueryBuilder.FIELD_PROJECTS, FieldType.PREFIX, false) {
+        @Override
+        public String get(ChangeData input, FillArgs args)
+            throws OrmException {
+          return input.change().getProject().get();
+        }
+      };
+
   /** Reference (aka branch) the change will submit onto. */
   public static final FieldDef<ChangeData, String> REF =
       new FieldDef.Single<ChangeData, String>(

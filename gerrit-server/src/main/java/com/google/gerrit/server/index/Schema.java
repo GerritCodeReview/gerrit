@@ -82,6 +82,10 @@ public class Schema<T> {
     return fields;
   }
 
+  public final boolean hasField(FieldDef<T, ?> field) {
+    return fields.get(field.getName()) == field;
+  }
+
   /**
    * Build all fields in the schema from an input object.
    * <p>

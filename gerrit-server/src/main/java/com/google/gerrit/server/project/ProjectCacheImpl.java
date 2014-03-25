@@ -22,6 +22,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.config.AllProjectsName;
+import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.inject.Inject;
@@ -74,6 +75,7 @@ public class ProjectCacheImpl implements ProjectCache {
   }
 
   private final AllProjectsName allProjectsName;
+  private final AllUsersName allUsersName;
   private final LoadingCache<String, ProjectState> byName;
   private final LoadingCache<ListKey, SortedSet<Project.NameKey>> list;
   private final Lock listLock;
@@ -82,10 +84,12 @@ public class ProjectCacheImpl implements ProjectCache {
   @Inject
   ProjectCacheImpl(
       final AllProjectsName allProjectsName,
+      final AllUsersName allUsersName,
       @Named(CACHE_NAME) LoadingCache<String, ProjectState> byName,
       @Named(CACHE_LIST) LoadingCache<ListKey, SortedSet<Project.NameKey>> list,
       ProjectCacheClock clock) {
     this.allProjectsName = allProjectsName;
+    this.allUsersName = allUsersName;
     this.byName = byName;
     this.list = list;
     this.listLock = new ReentrantLock(true /* fair */);
@@ -99,6 +103,16 @@ public class ProjectCacheImpl implements ProjectCache {
       // This should never occur, the server must have this
       // project to process anything.
       throw new IllegalStateException("Missing project " + allProjectsName);
+    }
+    return state;
+  }
+
+  @Override
+  public ProjectState getAllUsers() {
+    ProjectState state = get(allUsersName);
+    if (state == null) {
+      // This should never occur.
+      throw new IllegalStateException("Missing project " + allUsersName);
     }
     return state;
   }

@@ -42,6 +42,7 @@ public class SchemaCreator {
   File site_path;
 
   private final AllProjectsCreator allProjectsCreator;
+  private final AllUsersCreator allUsersCreator;
   private final PersonIdent serverUser;
   private final DataSourceType dataSourceType;
 
@@ -54,18 +55,21 @@ public class SchemaCreator {
   public SchemaCreator(SitePaths site,
       @Current SchemaVersion version,
       AllProjectsCreator ap,
+      AllUsersCreator auc,
       @GerritPersonIdent PersonIdent au,
       DataSourceType dst) {
-    this(site.site_path, version, ap, au, dst);
+    this(site.site_path, version, ap, auc, au, dst);
   }
 
   public SchemaCreator(@SitePath File site,
       @Current SchemaVersion version,
       AllProjectsCreator ap,
+      AllUsersCreator auc,
       @GerritPersonIdent PersonIdent au,
       DataSourceType dst) {
     site_path = site;
     allProjectsCreator = ap;
+    allUsersCreator = auc;
     serverUser = au;
     dataSourceType = dst;
     versionNbr = version.getVersionNbr();
@@ -90,6 +94,7 @@ public class SchemaCreator {
       .setAdministrators(GroupReference.forGroup(admin))
       .setBatchUsers(GroupReference.forGroup(batch))
       .create();
+    allUsersCreator.create();
     dataSourceType.getIndexScript().run(db);
   }
 

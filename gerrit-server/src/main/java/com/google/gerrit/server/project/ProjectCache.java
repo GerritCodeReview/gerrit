@@ -25,6 +25,9 @@ public interface ProjectCache {
   /** @return the parent state for all projects on this server. */
   public ProjectState getAllProjects();
 
+  /** @return the project state of the project storing meta data for all users. */
+  public ProjectState getAllUsers();
+
   /**
    * Get the cached data for a project by its unique name.
    *

@@ -20,6 +20,8 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.GerritPersonIdentProvider;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
+import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.AnonymousCowardNameProvider;
 import com.google.gerrit.server.config.FactoryModule;
@@ -37,6 +39,10 @@ public class SchemaModule extends FactoryModule {
 
     bind(AllProjectsName.class)
       .toProvider(AllProjectsNameProvider.class)
+      .in(SINGLETON);
+
+    bind(AllUsersName.class)
+      .toProvider(AllUsersNameProvider.class)
       .in(SINGLETON);
 
     bind(String.class).annotatedWith(AnonymousCowardName.class).toProvider(

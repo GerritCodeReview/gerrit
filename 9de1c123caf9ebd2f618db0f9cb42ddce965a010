@@ -22,6 +22,30 @@
       "revId": "9de1c123caf9ebd2f618db0f9cb42ddce965a010",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dcc0b9c1_c3c37648",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-25T16:28:09Z",
+      "side": 1,
+      "message": "There are several other docs that use this format, so it should be OK.\n\nHowever there are also several that use `[NOTE]`, so there is some inconsistency.  That can be fixed separately though.",
+      "parentUuid": "bc7b055f_c20e0204",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 5
+      },
+      "revId": "9de1c123caf9ebd2f618db0f9cb42ddce965a010",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

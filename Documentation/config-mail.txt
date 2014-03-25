@@ -176,7 +176,7 @@ $patchSetInfo::
 A reference to the current `PatchSetInfo`.
 
 
-== See Also
+== SEE ALSO
 
 * link:http://velocity.apache.org/[velocity]
 

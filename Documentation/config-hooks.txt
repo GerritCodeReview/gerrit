@@ -145,7 +145,7 @@ passed to all hooks.  Hooks started out of an SSH context (for example
 the patchset-created hook) don't know the server's web URL, unless
 this variable is configured.
 
-== See Also
+== SEE ALSO
 
 * link:config-gerrit.html#hooks[Section hooks]
 

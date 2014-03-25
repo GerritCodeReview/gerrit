@@ -390,6 +390,7 @@ public class ProjectBranchesScreen extends ProjectScreen {
       }
 
       FlowPanel actionsPanel = new FlowPanel();
+      actionsPanel.setStyleName("branch_actions");
       if (c != null) {
         actionsPanel.add(new Anchor(c.getLinkName(), false,
             c.toBranch(new Branch.NameKey(getProjectKey(), k.ref()))));

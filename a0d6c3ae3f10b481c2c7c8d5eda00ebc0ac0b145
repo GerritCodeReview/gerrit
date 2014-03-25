@@ -16,6 +16,24 @@
       "revId": "a0d6c3ae3f10b481c2c7c8d5eda00ebc0ac0b145",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c4e4155_710b583f",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/ProjectInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-03-25T18:19:24Z",
+      "side": 1,
+      "message": "We can do that, but right now all other FooInfos classe were moved to common package. Should we?",
+      "parentUuid": "1c3a51a9_edfe85d3",
+      "revId": "a0d6c3ae3f10b481c2c7c8d5eda00ebc0ac0b145",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

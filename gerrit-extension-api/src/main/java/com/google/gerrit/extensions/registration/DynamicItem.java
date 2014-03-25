@@ -152,6 +152,12 @@ public class DynamicItem<T> {
     while (!ref.compareAndSet(null, item)) {
       NamedProvider<T> old = ref.get();
       if (old != null) {
+        if ("gerrit".equals(old.pluginName)) {
+          if (ref.compareAndSet(old, item)) {
+            break;
+          }
+          old = ref.get();
+        }
         throw new ProvisionException(String.format(
             "%s already provided by %s, ignoring plugin %s",
             key.getTypeLiteral(), old.pluginName, pluginName));

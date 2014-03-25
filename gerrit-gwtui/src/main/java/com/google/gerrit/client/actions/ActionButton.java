@@ -20,6 +20,7 @@ import com.google.gerrit.client.api.ProjectGlue;
 import com.google.gerrit.client.api.RevisionGlue;
 import com.google.gerrit.client.changes.ChangeInfo;
 import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
+import com.google.gerrit.client.projects.BranchInfo;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -28,13 +29,19 @@ import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
 public class ActionButton extends Button implements ClickHandler {
   private final Project.NameKey project;
+  private final BranchInfo branch;
   private final ChangeInfo change;
   private final RevisionInfo revision;
   private final ActionInfo action;
   private ActionContext ctx;
 
   public ActionButton(Project.NameKey project, ActionInfo action) {
-    this(project, null, null, action);
+    this(project, null, null, null, action);
+  }
+
+  public ActionButton(Project.NameKey project, BranchInfo branch,
+      ActionInfo action) {
+    this(project, branch, null, null, action);
   }
 
   public ActionButton(ChangeInfo change, ActionInfo action) {
@@ -43,11 +50,11 @@ public class ActionButton extends Button implements ClickHandler {
 
   public ActionButton(ChangeInfo change, RevisionInfo revision,
       ActionInfo action) {
-    this(null, change, revision, action);
+    this(null, null, change, revision, action);
   }
 
-  private ActionButton(Project.NameKey project, ChangeInfo change,
-      RevisionInfo revision, ActionInfo action) {
+  private ActionButton(Project.NameKey project, BranchInfo branch,
+      ChangeInfo change, RevisionInfo revision, ActionInfo action) {
     super(new SafeHtmlBuilder()
       .openDiv()
       .append(action.label())
@@ -58,6 +65,7 @@ public class ActionButton extends Button implements ClickHandler {
     addClickHandler(this);
 
     this.project = project;
+    this.branch = branch;
     this.change = change;
     this.revision = revision;
     this.action = action;
@@ -75,6 +83,8 @@ public class ActionButton extends Button implements ClickHandler {
       RevisionGlue.onAction(change, revision, action, this);
     } else if (change != null) {
       ChangeGlue.onAction(change, action, this);
+    } else if (branch != null) {
+      ProjectGlue.onAction(project, branch, action, this);
     } else if (project != null) {
       ProjectGlue.onAction(project, action, this);
     }

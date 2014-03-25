@@ -22,6 +22,8 @@ import com.google.gerrit.client.GitwebLink;
 import com.google.gerrit.client.VoidResult;
 import com.google.gerrit.client.access.AccessMap;
 import com.google.gerrit.client.access.ProjectAccessInfo;
+import com.google.gerrit.client.actions.ActionButton;
+import com.google.gerrit.client.actions.ActionInfo;
 import com.google.gerrit.client.projects.BranchInfo;
 import com.google.gerrit.client.projects.ProjectApi;
 import com.google.gerrit.client.rpc.GerritCallback;
@@ -387,10 +389,18 @@ public class ProjectBranchesScreen extends ProjectScreen {
         table.setText(row, 3, "");
       }
 
+      FlowPanel actionsPanel = new FlowPanel();
       if (c != null) {
-        table.setWidget(row, 4, new Anchor(c.getLinkName(), false,
+        actionsPanel.add(new Anchor(c.getLinkName(), false,
             c.toBranch(new Branch.NameKey(getProjectKey(), k.ref()))));
       }
+      if (k.actions() != null) {
+        k.actions().copyKeysIntoChildren("id");
+        for (ActionInfo a : Natives.asList(k.actions().values())) {
+          actionsPanel.add(new ActionButton(getProjectKey(), k, a));
+        }
+      }
+      table.setWidget(row, 4, actionsPanel);
 
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
       String iconCellStyle = Gerrit.RESOURCES.css().iconCell();

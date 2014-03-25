@@ -16,6 +16,7 @@ package com.google.gerrit.client.api;
 
 import com.google.gerrit.client.actions.ActionButton;
 import com.google.gerrit.client.actions.ActionInfo;
+import com.google.gerrit.client.projects.BranchInfo;
 import com.google.gerrit.client.projects.ProjectApi;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.reviewdb.client.Project;
@@ -24,10 +25,31 @@ import com.google.gwt.core.client.JavaScriptObject;
 public class ProjectGlue {
   public static void onAction(
       Project.NameKey project,
+      BranchInfo branch,
+      ActionInfo action,
+      ActionButton button) {
+    RestApi api = ProjectApi.project(project)
+        .view("branches").id(branch.ref())
+        .view(action.id());
+    JavaScriptObject f = branchAction(action.id());
+    if (f != null) {
+      ActionContext c = ActionContext.create(api);
+      c.set(action);
+      c.set(project);
+      c.set(branch);
+      c.button(button);
+      ApiGlue.invoke(f, c);
+    } else {
+      DefaultActions.invoke(project, action, api);
+    }
+  }
+
+  public static void onAction(
+      Project.NameKey project,
       ActionInfo action,
       ActionButton button) {
     RestApi api = ProjectApi.project(project).view(action.id());
-    JavaScriptObject f = get(action.id());
+    JavaScriptObject f = projectAction(action.id());
     if (f != null) {
       ActionContext c = ActionContext.create(api);
       c.set(action);
@@ -39,8 +61,12 @@ public class ProjectGlue {
     }
   }
 
-  private static final native JavaScriptObject get(String id) /*-{
+  private static final native JavaScriptObject projectAction(String id) /*-{
     return $wnd.Gerrit.project_actions[id];
+  }-*/;
+
+  private static final native JavaScriptObject branchAction(String id) /*-{
+    return $wnd.Gerrit.branch_actions[id];
   }-*/;
 
   private ProjectGlue() {

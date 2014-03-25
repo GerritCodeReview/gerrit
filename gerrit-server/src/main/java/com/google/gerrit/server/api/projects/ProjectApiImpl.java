@@ -14,10 +14,12 @@
 
 package com.google.gerrit.server.api.projects;
 
+import com.google.common.base.Preconditions;
 import com.google.gerrit.common.errors.ProjectCreationFailedException;
 import com.google.gerrit.extensions.api.projects.BranchApi;
 import com.google.gerrit.extensions.api.projects.ProjectApi;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
+import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -25,6 +27,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.project.CreateProject;
+import com.google.gerrit.server.project.ProjectJson;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.ProjectsCollection;
 import com.google.inject.Provider;
@@ -43,6 +46,7 @@ public class ProjectApiImpl implements ProjectApi {
   private final ProjectApiImpl.Factory projectApi;
   private final ProjectsCollection projects;
   private final ProjectResource project;
+  private final ProjectJson projectJson;
   private final String name;
   private final BranchApiImpl.Factory branchApi;
 
@@ -50,31 +54,35 @@ public class ProjectApiImpl implements ProjectApi {
   ProjectApiImpl(Provider<CreateProject.Factory> createProjectFactory,
       ProjectApiImpl.Factory projectApi,
       ProjectsCollection projects,
+      ProjectJson projectJson,
       BranchApiImpl.Factory branchApiFactory,
       @Assisted ProjectResource project) {
-    this(createProjectFactory, projectApi, projects, branchApiFactory, project,
-        null);
+    this(createProjectFactory, projectApi, projects, projectJson,
+        branchApiFactory, project, null);
   }
 
   @AssistedInject
   ProjectApiImpl(Provider<CreateProject.Factory> createProjectFactory,
       ProjectApiImpl.Factory projectApi,
       ProjectsCollection projects,
+      ProjectJson projectJson,
       BranchApiImpl.Factory branchApiFactory,
       @Assisted String name) {
-    this(createProjectFactory, projectApi, projects, branchApiFactory, null,
-        name);
+    this(createProjectFactory, projectApi, projects, projectJson,
+        branchApiFactory, null, name);
   }
 
   private ProjectApiImpl(Provider<CreateProject.Factory> createProjectFactory,
       ProjectApiImpl.Factory projectApi,
       ProjectsCollection projects,
+      ProjectJson projectJson,
       BranchApiImpl.Factory branchApiFactory,
       ProjectResource project,
       String name) {
     this.createProjectFactory = createProjectFactory;
     this.projectApi = projectApi;
     this.projects = projects;
+    this.projectJson = projectJson;
     this.project = project;
     this.name = name;
     this.branchApi = branchApiFactory;
@@ -99,6 +107,12 @@ public class ProjectApiImpl implements ProjectApi {
         | ProjectCreationFailedException | IOException e) {
       throw new RestApiException("Cannot create project", e);
     }
+  }
+
+  @Override
+  public ProjectInfo get() {
+    Preconditions.checkNotNull(project);
+    return projectJson.format(project);
   }
 
   @Override

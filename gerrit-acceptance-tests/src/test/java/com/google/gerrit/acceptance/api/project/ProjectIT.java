@@ -14,6 +14,8 @@
 
 package com.google.gerrit.acceptance.api.project;
 
+import static org.junit.Assert.assertEquals;
+
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.extensions.api.projects.BranchInput;
@@ -30,17 +32,21 @@ public class ProjectIT extends AbstractDaemonTest  {
 
   @Test
   public void createProjectFoo() throws RestApiException {
-    gApi.projects()
-        .name("foo")
-        .create();
+    String name = "foo";
+    assertEquals(name,
+        gApi.projects()
+            .name(name)
+            .create()
+            .get()
+            .name);
   }
 
   @Test(expected = RestApiException.class)
   public void createProjectFooBar() throws RestApiException {
     ProjectInput in = new ProjectInput();
-    in.name = "bar";
+    in.name = "foo";
     gApi.projects()
-        .name("foo")
+        .name("bar")
         .create(in);
   }
 

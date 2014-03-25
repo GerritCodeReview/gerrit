@@ -274,6 +274,10 @@ public class Gerrit implements EntryPoint {
     return myConfig;
   }
 
+  public static JsGerritConfig getJsConfig() {
+    return new JsGerritConfig(myConfig);
+  }
+
   public static GitwebLink getGitwebLink() {
     GitwebConfig gw = getConfig().getGitwebLink();
     return gw != null && gw.type != null ? new GitwebLink(gw) : null;

@@ -459,6 +459,30 @@
     },
     {
       "key": {
+        "uuid": "9c4e4155_b1ddc087",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ScriptingPluginFactory.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-03-25T17:05:00Z",
+      "side": 1,
+      "message": "Ah, understood :-) One extra space needed ;-)",
+      "parentUuid": "bc7b055f_82d07a08",
+      "range": {
+        "startLine": 33,
+        "startChar": 2,
+        "endLine": 35,
+        "endChar": 3
+      },
+      "revId": "b638d25336deeb6587aa6ba22c8a78b57f0b72b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bc2f85b4_824c5a94",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ScriptingPluginFactory.java",
         "patchSetId": 16

@@ -53,6 +53,9 @@ public abstract class Plugin {
   }
 
   static ApiType getApiType(Manifest manifest) throws InvalidPluginException {
+    if (manifest == null) {
+      return ApiType.SCRIPTING;
+    }
     Attributes main = manifest.getMainAttributes();
     String v = main.getValue("Gerrit-ApiType");
     if (Strings.isNullOrEmpty(v)

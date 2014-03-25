@@ -2,6 +2,80 @@
   "comments": [
     {
       "key": {
+        "uuid": "fc981df7_dce26d42",
+        "filename": "gerrit-extension-api/BUCK",
+        "patchSetId": 10
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-25T01:17:19Z",
+      "side": 1,
+      "message": "nit: alpha sort",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 43
+      },
+      "revId": "70ca130fc43c27d17675e10edf7065471f8895df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c8a099e_1feda330",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/ProjectState.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-25T01:17:19Z",
+      "side": 1,
+      "message": "Should this be under projects package? Its only used by project related APIs.",
+      "revId": "70ca130fc43c27d17675e10edf7065471f8895df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc981df7_fce7294f",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/SubmitType.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-25T01:17:19Z",
+      "side": 1,
+      "message": "We had been trying to avoid this enum being really public but I guess we have no other good option at this time.",
+      "revId": "70ca130fc43c27d17675e10edf7065471f8895df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc981df7_bcdda187",
+        "filename": "gerrit-reviewdb/BUCK",
+        "patchSetId": 10
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-25T01:17:19Z",
+      "side": 1,
+      "message": "server",
+      "revId": "70ca130fc43c27d17675e10edf7065471f8895df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c8a099e_dfe25b42",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictKey.java",
         "patchSetId": 10

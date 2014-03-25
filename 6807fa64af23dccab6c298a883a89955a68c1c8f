@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7c026dbc_db6247e9",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/registration/DynamicItem.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2014-03-25T01:00:01Z",
+      "side": 1,
+      "message": "Instead, we made it so that only 1 plugin can replace any Gerrit provided DynamicItems here: https://gerrit-review.googlesource.com/#/c/55386/1  After further discussion, this solution seemed acceptable with the idea that eventually an admin could define a list of plugins that must load (and likely force them to load first).  That way, if 2 plugins provide a DynamicItem, the required list of plugins can determine which plugin gets to provide that DynamicItem.",
+      "parentUuid": "5c0769cb_579a8c11",
+      "range": {
+        "startLine": 237,
+        "startChar": 0,
+        "endLine": 240,
+        "endChar": 35
+      },
+      "revId": "6807fa64af23dccab6c298a883a89955a68c1c8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7c026dbc_d85b6dbf",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/H2CacheBasedWebSession.java",
         "patchSetId": 4
@@ -36,6 +60,24 @@
       "writtenOn": "2014-03-24T16:42:49Z",
       "side": 1,
       "message": "I don\u0027t like the boolean replaceable because its confusing to read this line. Its very important to know that the binding can be swapped but its unclear here saying that.",
+      "revId": "6807fa64af23dccab6c298a883a89955a68c1c8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c0769cb_9ae72903",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/H2CacheBasedWebSession.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2014-03-25T01:00:01Z",
+      "side": 1,
+      "message": "Goes away with the new design.",
+      "parentUuid": "7c026dbc_d85b6dbf",
       "revId": "6807fa64af23dccab6c298a883a89955a68c1c8f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dcc0b9c1_83817e3d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/History.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2014-03-25T01:58:38Z",
+      "side": 1,
+      "message": "I am sure that java supports some constants for this?",
+      "revId": "49123a7c2fa534b9a4c3683a5bbcf03d5b17c5a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc7b055f_c2560221",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/History.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2014-03-25T01:58:38Z",
+      "side": 1,
+      "message": "boolean isRecent \u003d (i \u003d\u003d n - 1) ? true : msg.getMessageInfo().date().after(aged);",
+      "range": {
+        "startLine": 175,
+        "startChar": 0,
+        "endLine": 180,
+        "endChar": 7
+      },
+      "revId": "49123a7c2fa534b9a4c3683a5bbcf03d5b17c5a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

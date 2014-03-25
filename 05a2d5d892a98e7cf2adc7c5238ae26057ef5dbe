@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5c8a099e_bf04b733",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetPreferences.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-25T01:24:08Z",
+      "side": 1,
+      "message": "nit: blank line before the large new code block that fills a map? Or pull the map creation into its own method so its more similar to above where each property is exactly one line?",
+      "range": {
+        "startLine": 97,
+        "startChar": 0,
+        "endLine": 98,
+        "endChar": 47
+      },
+      "revId": "05a2d5d892a98e7cf2adc7c5238ae26057ef5dbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc981df7_3cea7119",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetPreferences.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-25T01:24:08Z",
+      "side": 1,
+      "message": "I was thinking the user could set a preference to decide what query results appear at #/. That way \"g-i\" as a keyboard shortcut still goes to #/ and you can change that view by selecting a project dashboard.\n\nBut this is orthogonal and also interesting to let the user control the menu.",
+      "revId": "05a2d5d892a98e7cf2adc7c5238ae26057ef5dbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

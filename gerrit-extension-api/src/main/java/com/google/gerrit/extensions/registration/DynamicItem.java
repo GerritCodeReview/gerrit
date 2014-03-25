@@ -149,8 +149,9 @@ public class DynamicItem<T> {
    */
   public RegistrationHandle set(Provider<T> impl, String pluginName) {
     final NamedProvider<T> item = new NamedProvider<T>(impl, pluginName);
+    NamedProvider<T> old = null;
     while (!ref.compareAndSet(null, item)) {
-      NamedProvider<T> old = ref.get();
+      old = ref.get();
       if (old != null) {
         if ("gerrit".equals(old.pluginName)) {
           if (ref.compareAndSet(old, item)) {
@@ -163,10 +164,12 @@ public class DynamicItem<T> {
             key.getTypeLiteral(), old.pluginName, pluginName));
       }
     }
+
+    final NamedProvider<T> defaultItem = old;
     return new RegistrationHandle() {
       @Override
       public void remove() {
-        ref.compareAndSet(item, null);
+        ref.compareAndSet(item, defaultItem);
       }
     };
   }

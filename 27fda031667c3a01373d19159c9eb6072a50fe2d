@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fc71fd8c_b4d4e0d9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/RebaseIfNecessary.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-25T23:55:24Z",
+      "side": 1,
+      "message": "This order is random. If more than one patch set matches this commit name there is no assurance the last one is the latest.",
+      "range": {
+        "startLine": 193,
+        "startChar": 6,
+        "endLine": 197,
+        "endChar": 7
+      },
+      "revId": "27fda031667c3a01373d19159c9eb6072a50fe2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc71fd8c_d4c95c44",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/RebaseIfNecessary.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-25T23:55:24Z",
+      "side": 1,
+      "message": "ps could be null above. yet you do not gracefully handle it and instead wait for the JVM to trap NullPointerException, catch it in the bucket catch all below, and ignore it. This is poor programming style.",
+      "range": {
+        "startLine": 199,
+        "startChar": 69,
+        "endLine": 200,
+        "endChar": 28
+      },
+      "revId": "27fda031667c3a01373d19159c9eb6072a50fe2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c4e4155_3178f04d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/RebaseIfNecessary.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-25T23:55:24Z",
+      "side": 1,
+      "message": "This is always true. CodeReviewCommit equals passed a String is always false, which you negate.",
+      "range": {
+        "startLine": 202,
+        "startChar": 10,
+        "endLine": 202,
+        "endChar": 34
+      },
+      "revId": "27fda031667c3a01373d19159c9eb6072a50fe2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc71fd8c_54c70c32",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/RebaseIfNecessary.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-25T23:55:24Z",
+      "side": 1,
+      "message": "failures here should be logged for the admin. Its unlikely but it usually indicates corruption that may make gerrit do the wrong thing if ignored.",
+      "range": {
+        "startLine": 205,
+        "startChar": 4,
+        "endLine": 206,
+        "endChar": 5
+      },
+      "revId": "27fda031667c3a01373d19159c9eb6072a50fe2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

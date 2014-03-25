@@ -51,7 +51,7 @@ class AutoRegisterModules {
   Module sshModule;
   Module httpModule;
 
-  AutoRegisterModules(String pluginName,
+  public AutoRegisterModules(String pluginName,
       PluginGuiceEnvironment env,
       JarFile jarFile,
       ClassLoader classLoader) {
@@ -63,7 +63,7 @@ class AutoRegisterModules {
     this.httpGen = env.hasHttpModule() ? env.newHttpModuleGenerator() : null;
   }
 
-  AutoRegisterModules discover() throws InvalidPluginException {
+  public AutoRegisterModules discover() throws InvalidPluginException {
     sysSingletons = Sets.newHashSet();
     sysListen = LinkedListMultimap.create();
 

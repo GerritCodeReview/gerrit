@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.api.project;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.extensions.api.projects.BranchInput;
+import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.restapi.RestApiException;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -26,6 +27,22 @@ import java.io.IOException;
 
 @NoHttpd
 public class ProjectIT extends AbstractDaemonTest  {
+
+  @Test
+  public void createProjectFoo() throws RestApiException {
+    gApi.projects()
+        .name("foo")
+        .create();
+  }
+
+  @Test(expected = RestApiException.class)
+  public void createProjectFooBar() throws RestApiException {
+    ProjectInput in = new ProjectInput();
+    in.name = "bar";
+    gApi.projects()
+        .name("foo")
+        .create(in);
+  }
 
   @Test
   public void createBranch() throws GitAPIException,

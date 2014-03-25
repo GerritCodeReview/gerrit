@@ -43,11 +43,7 @@ text and let Gerrit figure out the meaning:
 Operators act as restrictions on the search.  As more operators
 are added to the same query string, they further restrict the
 returned results. Search can also be performed by typing only a
-text with no operator. It will try to match a project name by
-substring.
-
-E.g. Searching for just "gerrit is:starred" will try to match a
-project name by "gerrit" as substring.
+text with no operator, which will match against a variety of fields.
 
 [[age]]
 age:'AGE'::

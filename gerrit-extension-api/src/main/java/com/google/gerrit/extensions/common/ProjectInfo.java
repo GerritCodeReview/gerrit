@@ -1,4 +1,4 @@
-// Copyright (C) 2012 The Android Open Source Project
+// Copyright (C) 2014 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,23 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.project;
+package com.google.gerrit.extensions.common;
 
-import com.google.gerrit.extensions.common.ProjectInfo;
-import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.inject.Inject;
+import com.google.gerrit.extensions.api.projects.ProjectState;
 
-class GetProject implements RestReadView<ProjectResource> {
+import java.util.Map;
 
-  private final ProjectJson json;
-
-  @Inject
-  GetProject(ProjectJson json) {
-    this.json = json;
-  }
-
-  @Override
-  public ProjectInfo apply(ProjectResource rsrc) {
-    return json.format(rsrc);
-  }
+public class ProjectInfo {
+  public String id;
+  public String name;
+  public String parent;
+  public String description;
+  public ProjectState state;
+  public Map<String, String> branches;
 }

@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c4e4155_51e1f4e8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-25T23:17:08Z",
+      "side": 1,
+      "message": "refs/users/ is sufficient prefix. No need for refs/meta. We should be plural like changes heads and tags.",
+      "range": {
+        "startLine": 14,
+        "startChar": 1,
+        "endLine": 14,
+        "endChar": 32
+      },
+      "revId": "55c7124e32c3e80328704ab8f9928906355952ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc71fd8c_74dec82d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/RefNames.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-25T23:17:08Z",
+      "side": 1,
+      "message": "refs/users/",
+      "range": {
+        "startLine": 29,
+        "startChar": 42,
+        "endLine": 29,
+        "endChar": 57
+      },
+      "revId": "55c7124e32c3e80328704ab8f9928906355952ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc71fd8c_9409a4ff",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/RefNames.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-25T23:17:08Z",
+      "side": 1,
+      "message": "unnecessary new blank line",
+      "revId": "55c7124e32c3e80328704ab8f9928906355952ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c4e4155_91099cff",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/RefNames.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-25T23:17:08Z",
+      "side": 1,
+      "message": "public static methods above private constructor",
+      "revId": "55c7124e32c3e80328704ab8f9928906355952ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c4e4155_71def82d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/RefNames.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-25T23:17:08Z",
+      "side": 1,
+      "message": "METHOD_NAMES_ARE_NOT_LIKE_THIS",
+      "revId": "55c7124e32c3e80328704ab8f9928906355952ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

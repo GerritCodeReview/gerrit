@@ -131,6 +131,24 @@
     },
     {
       "key": {
+        "uuid": "9c4e4155_71a198b8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-03-25T22:38:11Z",
+      "side": 1,
+      "message": "This \u0027set\u0027 is needed when you drop SecureStore plugin in existing environment when all properties are not encrypted. Then this call will enforces encryption.",
+      "parentUuid": "fc71fd8c_d41a3c55",
+      "revId": "cbfbf834a2c9bf91fd7bfce43cdda908d20d7024",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9c4e4155_d1afa4a9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreProvider.java",
         "patchSetId": 2

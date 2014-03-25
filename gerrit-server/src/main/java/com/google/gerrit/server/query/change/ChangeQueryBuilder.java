@@ -392,8 +392,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   @Operator
   public Predicate<ChangeData> topic(String name) {
     if (name.startsWith("^"))
-      return new RegexTopicPredicate(name);
-    return new TopicPredicate(name);
+      return new RegexTopicPredicate(schema(args.indexes), name);
+    return new TopicPredicate(schema(args.indexes), name);
   }
 
   @Operator

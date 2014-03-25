@@ -155,4 +155,26 @@ public class LuceneQueryChangesV7Test extends AbstractQueryChangesTest {
     assertResultEquals(change2, results.get(0));
     assertResultEquals(change1, results.get(1));
   }
+
+  @Override
+  @Test
+  public void byTopic() throws Exception {
+    TestRepository<InMemoryRepository> repo = createProject("repo");
+    ChangeInserter ins1 = newChange(repo, null, null, null, null);
+    Change change1 = ins1.getChange();
+    change1.setTopic("feature1");
+    ins1.insert();
+
+    ChangeInserter ins2 = newChange(repo, null, null, null, null);
+    Change change2 = ins2.getChange();
+    change2.setTopic("feature2");
+    ins2.insert();
+
+    newChange(repo, null, null, null, null).insert();
+
+    assertTrue(query("topic:\"\"").isEmpty());
+    assertTrue(query("topic:foo").isEmpty());
+    assertResultEquals(change1, queryOne("topic:feature1"));
+    assertResultEquals(change2, queryOne("topic:feature2"));
+  }
 }

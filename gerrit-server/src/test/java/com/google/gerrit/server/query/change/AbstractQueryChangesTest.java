@@ -361,12 +361,12 @@ public abstract class AbstractQueryChangesTest {
     change2.setTopic("feature2");
     ins2.insert();
 
-    newChange(repo, null, null, null, null).insert();
+    Change change3 = newChange(repo, null, null, null, null).insert();
 
-    assertTrue(query("topic:\"\"").isEmpty());
     assertTrue(query("topic:foo").isEmpty());
     assertResultEquals(change1, queryOne("topic:feature1"));
     assertResultEquals(change2, queryOne("topic:feature2"));
+    assertResultEquals(change3, queryOne("topic:\"\""));
   }
 
   @Test

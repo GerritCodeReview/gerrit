@@ -37,7 +37,7 @@ public class ChangeSchemas {
         ChangeField.STATUS,
         ChangeField.PROJECT,
         ChangeField.REF,
-        ChangeField.TOPIC,
+        ChangeField.LEGACY_TOPIC,
         ChangeField.LEGACY_UPDATED,
         ChangeField.LEGACY_SORTKEY,
         ChangeField.PATH,
@@ -57,7 +57,7 @@ public class ChangeSchemas {
         ChangeField.STATUS,
         ChangeField.PROJECT,
         ChangeField.REF,
-        ChangeField.TOPIC,
+        ChangeField.LEGACY_TOPIC,
         ChangeField.LEGACY_UPDATED,
         ChangeField.LEGACY_SORTKEY,
         ChangeField.PATH,
@@ -79,7 +79,7 @@ public class ChangeSchemas {
         ChangeField.STATUS,
         ChangeField.PROJECT,
         ChangeField.REF,
-        ChangeField.TOPIC,
+        ChangeField.LEGACY_TOPIC,
         ChangeField.LEGACY_UPDATED,
         ChangeField.SORTKEY,
         ChangeField.PATH,
@@ -104,7 +104,7 @@ public class ChangeSchemas {
         ChangeField.STATUS,
         ChangeField.PROJECT,
         ChangeField.REF,
-        ChangeField.TOPIC,
+        ChangeField.LEGACY_TOPIC,
         ChangeField.LEGACY_UPDATED,
         ChangeField.SORTKEY,
         ChangeField.PATH,
@@ -130,7 +130,7 @@ public class ChangeSchemas {
         ChangeField.STATUS,
         ChangeField.PROJECT,
         ChangeField.REF,
-        ChangeField.TOPIC,
+        ChangeField.LEGACY_TOPIC,
         ChangeField.LEGACY_UPDATED,
         ChangeField.SORTKEY,
         ChangeField.FILE_PART,
@@ -147,13 +147,14 @@ public class ChangeSchemas {
         ChangeField.APPROVAL,
         ChangeField.MERGEABLE);
 
+  @SuppressWarnings("deprecation")
   static final Schema<ChangeData> V8 = release(
         ChangeField.LEGACY_ID,
         ChangeField.ID,
         ChangeField.STATUS,
         ChangeField.PROJECT,
         ChangeField.REF,
-        ChangeField.TOPIC,
+        ChangeField.LEGACY_TOPIC,
         ChangeField.UPDATED,
         ChangeField.FILE_PART,
         ChangeField.PATH,
@@ -169,7 +170,31 @@ public class ChangeSchemas {
         ChangeField.APPROVAL,
         ChangeField.MERGEABLE);
 
+  @SuppressWarnings("deprecation")
   static final Schema<ChangeData> V9 = release(
+        ChangeField.LEGACY_ID,
+        ChangeField.ID,
+        ChangeField.STATUS,
+        ChangeField.PROJECT,
+        ChangeField.PROJECTS,
+        ChangeField.REF,
+        ChangeField.LEGACY_TOPIC,
+        ChangeField.UPDATED,
+        ChangeField.FILE_PART,
+        ChangeField.PATH,
+        ChangeField.OWNER,
+        ChangeField.REVIEWER,
+        ChangeField.COMMIT,
+        ChangeField.TR,
+        ChangeField.LABEL,
+        ChangeField.REVIEWED,
+        ChangeField.COMMIT_MESSAGE,
+        ChangeField.COMMENT,
+        ChangeField.CHANGE,
+        ChangeField.APPROVAL,
+        ChangeField.MERGEABLE);
+
+  static final Schema<ChangeData> V10 = release(
         ChangeField.LEGACY_ID,
         ChangeField.ID,
         ChangeField.STATUS,
@@ -191,6 +216,7 @@ public class ChangeSchemas {
         ChangeField.CHANGE,
         ChangeField.APPROVAL,
         ChangeField.MERGEABLE);
+
 
 
   private static Schema<ChangeData> release(Collection<FieldDef<ChangeData, ?>> fields) {

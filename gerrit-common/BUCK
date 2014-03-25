@@ -7,6 +7,7 @@ ANNOTATIONS = [
 ]
 
 EXCLUDES = [
+  SRC + 'common/PluginData.java',
   SRC + 'common/FileUtil.java',
 ]
 
@@ -45,6 +46,7 @@ java_library(
     '//gerrit-reviewdb:server',
     '//lib:gwtjsonrpc',
     '//lib:gwtorm',
+    '//lib:guava',
     '//lib/jgit:jgit',
   ],
   visibility = ['PUBLIC'],

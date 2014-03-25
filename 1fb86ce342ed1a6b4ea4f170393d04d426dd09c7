@@ -124,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "d901abf4_dbe8d320",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStore.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-03-25T23:20:51Z",
+      "side": 1,
+      "message": "No, not in this case.",
+      "parentUuid": "fc71fd8c_b43ce0a6",
+      "revId": "1fb86ce342ed1a6b4ea4f170393d04d426dd09c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9c4e4155_11c3ec79",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreData.java",
         "patchSetId": 5
@@ -248,6 +266,24 @@
       "side": 1,
       "message": "same goes for this file as in previous one",
       "parentUuid": "d901abf4_1be75b54",
+      "revId": "1fb86ce342ed1a6b4ea4f170393d04d426dd09c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d901abf4_bbf507f7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreException.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-03-25T23:20:51Z",
+      "side": 1,
+      "message": "then leave it as it is",
+      "parentUuid": "9c4e4155_9137dcc1",
       "revId": "1fb86ce342ed1a6b4ea4f170393d04d426dd09c7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

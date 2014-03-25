@@ -18,9 +18,26 @@ import com.google.gerrit.client.extensions.TopMenuItem;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 
+import java.util.List;
+
 public class Preferences extends JavaScriptObject {
+  public static Preferences create(List<TopMenuItem> myMenus) {
+    Preferences p = createObject().cast();
+    p.setMyMenus(myMenus);
+    return p;
+  }
 
   public final native JsArray<TopMenuItem> my() /*-{ return this.my; }-*/;
+
+  final void setMyMenus(List<TopMenuItem> myMenus) {
+    initMy();
+    for (TopMenuItem n : myMenus) {
+      addMy(n);
+    }
+
+  }
+  final native void initMy() /*-{ this.my = []; }-*/;
+  final native void addMy(TopMenuItem m) /*-{ this.my.push(m); }-*/;
 
   protected Preferences() {
   }

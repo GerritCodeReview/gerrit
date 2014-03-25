@@ -17,10 +17,20 @@ package com.google.gerrit.client.extensions;
 import com.google.gwt.core.client.JavaScriptObject;
 
 public class TopMenuItem extends JavaScriptObject {
+  public static TopMenuItem create(String name, String url) {
+    TopMenuItem i = createObject().cast();
+    i.name(name);
+    i.url(url);
+    return i;
+  }
+
   public final native String getName() /*-{ return this.name; }-*/;
   public final native String getUrl() /*-{ return this.url; }-*/;
   public final native String getTarget() /*-{ return this.target; }-*/;
   public final native String getId() /*-{ return this.id; }-*/;
+
+  public final native void name(String n) /*-{ this.name = n }-*/;
+  public final native void url(String u) /*-{ this.url = u }-*/;
 
   protected TopMenuItem() {
   }

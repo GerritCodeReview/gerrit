@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "790a7f15_78d8a195",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/PluginData.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-03-25T22:31:31Z",
+      "side": 1,
+      "message": "2014",
+      "revId": "1fb86ce342ed1a6b4ea4f170393d04d426dd09c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9c4e4155_71ca788c",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/PluginData.java",
         "patchSetId": 5
@@ -72,6 +89,23 @@
     },
     {
       "key": {
+        "uuid": "d901abf4_3be21744",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStore.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-03-25T22:31:31Z",
+      "side": 1,
+      "message": "2014",
+      "revId": "1fb86ce342ed1a6b4ea4f170393d04d426dd09c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9c4e4155_11c3ec79",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreData.java",
         "patchSetId": 5
@@ -113,6 +147,47 @@
         "endLine": 70,
         "endChar": 83
       },
+      "revId": "1fb86ce342ed1a6b4ea4f170393d04d426dd09c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "790a7f15_58dddd83",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreData.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-03-25T22:31:31Z",
+      "side": 1,
+      "message": "I didn\u0027t know that having the same hashCode implies that the objects are equal ;-)",
+      "parentUuid": "fc71fd8c_f4b498fc",
+      "range": {
+        "startLine": 70,
+        "startChar": 11,
+        "endLine": 70,
+        "endChar": 83
+      },
+      "revId": "1fb86ce342ed1a6b4ea4f170393d04d426dd09c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d901abf4_1be75b54",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreException.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-03-25T22:31:31Z",
+      "side": 1,
+      "message": "2013",
       "revId": "1fb86ce342ed1a6b4ea4f170393d04d426dd09c7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

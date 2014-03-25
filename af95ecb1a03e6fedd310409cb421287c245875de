@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9c4e4155_716fd8ce",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-03-25T21:46:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc71fd8c_746fa8ce",
+      "range": {
+        "startLine": 131,
+        "startChar": 0,
+        "endLine": 131,
+        "endChar": 29
+      },
+      "revId": "af95ecb1a03e6fedd310409cb421287c245875de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fc71fd8c_d4d87c67",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2014-03-25T21:42:49Z",
       "side": 1,
       "message": "Use FIELD_PROJECTS?",
+      "range": {
+        "startLine": 379,
+        "startChar": 59,
+        "endLine": 379,
+        "endChar": 67
+      },
+      "revId": "af95ecb1a03e6fedd310409cb421287c245875de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c4e4155_91cefca3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-03-25T21:46:41Z",
+      "side": 1,
+      "message": "Not really, the predicate for @Operator methods is just the method name, which is what the message is matching.\n\nIt\u0027s just convention that the field name in the index usually (but NB not always).",
+      "parentUuid": "fc71fd8c_d4d87c67",
       "range": {
         "startLine": 379,
         "startChar": 59,

@@ -218,6 +218,7 @@ public class ChangeInfo extends JavaScriptObject {
 
     public final native boolean has_fetch() /*-{ return this.hasOwnProperty('fetch') }-*/;
     public final native NativeMap<FetchInfo> fetch() /*-{ return this.fetch; }-*/;
+    public final native JsArray<WebLinkInfo> web_links() /*-{ return this.web_links; }-*/;
 
     public static void sortRevisionInfoByNumber(JsArray<RevisionInfo> list) {
       Collections.sort(Natives.asList(list), new Comparator<RevisionInfo>() {
@@ -294,6 +295,13 @@ public class ChangeInfo extends JavaScriptObject {
     public final native JsArrayString tags() /*-{ return this.tags; }-*/;
 
     protected IncludedInInfo() {
+    }
+  }
+
+  public static class WebLinkInfo extends JavaScriptObject {
+    public final native String link_name() /*-{ return this.link_name; }-*/;
+    public final native String link_url() /*-{ return this.link_url; }-*/;
+    protected WebLinkInfo() {
     }
   }
 }

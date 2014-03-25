@@ -22,7 +22,6 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
@@ -56,7 +55,6 @@ import com.google.inject.assistedinject.Assisted;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.Config;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -74,14 +72,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       Pattern.compile("^[iI][0-9a-f]{4,}.*$");
   private static final Pattern DEF_CHANGE =
       Pattern.compile("^([1-9][0-9]*|[iI][0-9a-f]{4,}.*)$");
-
-  private static final Pattern PAT_COMMIT =
-      Pattern.compile("^([0-9a-fA-F]{4," + RevId.LEN + "})$");
-  private static final Pattern PAT_EMAIL =
-      Pattern.compile("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+");
-
-  private static final Pattern PAT_LABEL =
-      Pattern.compile("^[a-zA-Z][a-zA-Z0-9]*((=|>=|<=)[+-]?|[+-])\\d+$");
 
   // NOTE: As new search operations are added, please keep the
   // SearchSuggestOracle up to date.
@@ -688,52 +678,53 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Override
-  protected Predicate<ChangeData> defaultField(String query)
-      throws QueryParseException {
+  protected Predicate<ChangeData> defaultField(String query) {
     if (query.startsWith("refs/")) {
       return ref(query);
-
     } else if (DEF_CHANGE.matcher(query).matches()) {
       return change(query);
-
-    } else if (PAT_COMMIT.matcher(query).matches()) {
-      return commit(query);
-
-    } else if (PAT_EMAIL.matcher(query).find()) {
-      try {
-        return Predicate.or(owner(query), reviewer(query));
-      } catch (OrmException err) {
-        throw error("Cannot lookup user", err);
-      }
-
-    } else if (PAT_LABEL.matcher(query).find()) {
-      try {
-        return label(query);
-      } catch (OrmException err) {
-        throw error("Cannot lookup user", err);
-      }
-
-    } else {
-      // Try to match a project name by substring query.
-      final List<ProjectPredicate> predicate =
-          new ArrayList<ProjectPredicate>();
-      for (Project.NameKey name : args.projectCache.all()) {
-        if (name.get().toLowerCase().contains(query.toLowerCase())) {
-          predicate.add(new ProjectPredicate(name.get()));
-        }
-      }
-
-      // If two or more projects contains "query" as substring create an
-      // OrPredicate holding predicates for all these projects, otherwise if
-      // only one contains that, return only that one predicate by itself.
-      if (predicate.size() == 1) {
-        return predicate.get(0);
-      } else if (predicate.size() > 1) {
-        return Predicate.or(predicate);
-      }
-
-      throw error("Unsupported query:" + query);
     }
+
+    List<Predicate<ChangeData>> predicates = Lists.newArrayListWithCapacity(9);
+    try {
+      predicates.add(owner(query));
+    } catch (OrmException | QueryParseException e) {
+      // Skip.
+    }
+    try {
+      predicates.add(reviewer(query));
+    } catch (OrmException | QueryParseException e) {
+      // Skip.
+    }
+    try {
+      predicates.add(file(query));
+    } catch (QueryParseException e) {
+      // Skip.
+    }
+    try {
+      predicates.add(label(query));
+    } catch (OrmException | QueryParseException e) {
+      // Skip.
+    }
+    try {
+      predicates.add(message(query));
+    } catch (QueryParseException e) {
+      // Skip.
+    }
+    try {
+      predicates.add(comment(query));
+    } catch (QueryParseException e) {
+      // Skip.
+    }
+    try {
+      predicates.add(projects(query));
+    } catch (QueryParseException e) {
+      // Skip.
+    }
+    predicates.add(ref(query));
+    predicates.add(branch(query));
+    predicates.add(topic(query));
+    return Predicate.or(predicates);
   }
 
   private Set<Account.Id> parseAccount(String who)

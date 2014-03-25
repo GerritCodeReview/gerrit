@@ -223,11 +223,15 @@ public class ProjectState {
   }
 
   public ProjectLevelConfig getConfig(String fileName) {
+    return getConfig(fileName, RefNames.REFS_CONFIG);
+  }
+
+  public ProjectLevelConfig getConfig(String fileName, String ref) {
     if (configs.containsKey(fileName)) {
       return configs.get(fileName);
     }
 
-    ProjectLevelConfig cfg = new ProjectLevelConfig(fileName, this);
+    ProjectLevelConfig cfg = new ProjectLevelConfig(fileName, ref, this);
     try {
       Repository git = gitMgr.openRepository(getProject().getNameKey());
       try {

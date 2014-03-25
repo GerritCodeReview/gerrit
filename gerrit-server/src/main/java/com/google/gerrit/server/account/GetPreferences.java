@@ -27,23 +27,37 @@ import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DiffView;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadCommand;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadScheme;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.TimeFormat;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+
+import org.eclipse.jgit.lib.Config;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class GetPreferences implements RestReadView<AccountResource> {
+  public static final String PREFERENCES = "preferences.config";
+  public static final String MY = "my";
+  public static final String KEY_URL = "url";
+  public static final String KEY_TARGET = "target";
+  public static final String KEY_ID = "id";
+
   private final Provider<CurrentUser> self;
   private final Provider<ReviewDb> db;
+  private final ProjectState allUsers;
 
   @Inject
-  GetPreferences(Provider<CurrentUser> self, Provider<ReviewDb> db) {
+  GetPreferences(Provider<CurrentUser> self, Provider<ReviewDb> db,
+      ProjectCache projectCache) {
     this.self = self;
     this.db = db;
+    this.allUsers = projectCache.getAllUsers();
   }
 
   @Override
@@ -57,7 +71,8 @@ public class GetPreferences implements RestReadView<AccountResource> {
     if (a == null) {
       throw new ResourceNotFoundException();
     }
-    return new PreferenceInfo(a.getGeneralPreferences());
+    return new PreferenceInfo(a.getGeneralPreferences(),
+        rsrc.getUser().getAccountId(), allUsers);
   }
 
   static class PreferenceInfo {
@@ -80,7 +95,8 @@ public class GetPreferences implements RestReadView<AccountResource> {
     ChangeScreen changeScreen;
     List<TopMenu.MenuItem> my;
 
-    PreferenceInfo(AccountGeneralPreferences p) {
+    PreferenceInfo(AccountGeneralPreferences p, Account.Id accountId,
+        ProjectState allUsers) {
       changesPerPage = p.getMaximumPageSize();
       showSiteHeader = p.isShowSiteHeader() ? true : null;
       useFlashClipboard = p.isUseFlashClipboard() ? true : null;
@@ -96,17 +112,31 @@ public class GetPreferences implements RestReadView<AccountResource> {
       commentVisibilityStrategy = p.getCommentVisibilityStrategy();
       diffView = p.getDiffView();
       changeScreen = p.getChangeScreen();
-      my = my();
+      my = my(accountId, allUsers);
     }
 
-    private List<TopMenu.MenuItem> my() {
+    private List<TopMenu.MenuItem> my(Account.Id accountId, ProjectState allUsers) {
       List<TopMenu.MenuItem> my = new ArrayList<>();
-      my.add(new TopMenu.MenuItem("Changes", "#/", ""));
-      my.add(new TopMenu.MenuItem("Drafts", "#/q/is:draft", ""));
-      my.add(new TopMenu.MenuItem("Draft Comments", "#/q/has:draft", ""));
-      my.add(new TopMenu.MenuItem("Watched Changes", "#/q/is:watched+is:open", ""));
-      my.add(new TopMenu.MenuItem("Starred Changes", "#/q/is:starred", ""));
+      Config cfg = allUsers.getConfig(PREFERENCES,
+          RefNames.REFS_USER(accountId)).get();
+      for (String subsection : cfg.getSubsections(MY)) {
+        my.add(new TopMenu.MenuItem(subsection, my(cfg, subsection, KEY_URL, "#/"),
+            my(cfg, subsection, KEY_TARGET, null), my(cfg, subsection, KEY_ID, null)));
+      }
+      if (my.isEmpty()) {
+        my.add(new TopMenu.MenuItem("Changes", "#/", ""));
+        my.add(new TopMenu.MenuItem("Drafts", "#/q/is:draft", ""));
+        my.add(new TopMenu.MenuItem("Draft Comments", "#/q/has:draft", ""));
+        my.add(new TopMenu.MenuItem("Watched Changes", "#/q/is:watched+is:open", ""));
+        my.add(new TopMenu.MenuItem("Starred Changes", "#/q/is:starred", ""));
+      }
       return my;
+    }
+
+    private static String my(Config cfg, String subsection, String key,
+        String defaultValue) {
+      String value = cfg.getString(MY, subsection, key);
+      return value != null ? value : defaultValue;
     }
   }
 }

@@ -414,6 +414,7 @@ public class ChangeNotes extends VersionedMetaData {
   protected void onLoad() throws IOException, ConfigInvalidException {
     ObjectId rev = getRevision();
     if (rev == null) {
+      loadDefaults();
       return;
     }
     RevWalk walk = new RevWalk(reader);
@@ -437,6 +438,12 @@ public class ChangeNotes extends VersionedMetaData {
     } finally {
       walk.release();
     }
+  }
+
+  private void loadDefaults() {
+    approvals = ImmutableListMultimap.of();
+    reviewers = ImmutableSetMultimap.of();
+    submitRecords = ImmutableList.of();
   }
 
   @Override

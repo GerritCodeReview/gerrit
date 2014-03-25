@@ -91,6 +91,9 @@ public class ApiGlue {
       _api: function(u) {
         return @com.google.gerrit.client.rpc.RestApi::new(Ljava/lang/String;)(u);
       },
+      config: function() {
+        return @com.google.gerrit.client.Gerrit::getJsConfig()();
+      },
       get: function(u,b) {
         @com.google.gerrit.client.api.ActionContext::get(
             Lcom/google/gerrit/client/rpc/RestApi;

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5c8a099e_7f26afca",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetPreferences.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-25T02:11:12Z",
+      "side": 1,
+      "message": "nit: new ArrayList\u003c\u003e()\n\nWith Java 7 you do not need to repeat the type repeated again again. :-)",
+      "range": {
+        "startLine": 103,
+        "startChar": 34,
+        "endLine": 103,
+        "endChar": 65
+      },
+      "revId": "e2bdd2afc845656714fac7bba5255eb9f1f53d41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

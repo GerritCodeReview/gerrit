@@ -54,10 +54,12 @@ import com.google.gerrit.server.git.VersionedMetaData.BatchMetaDataUpdate;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.securestore.SecureStore;
 import com.google.gerrit.server.util.TimeUtil;
 import com.google.gerrit.testutil.FakeAccountCache;
 import com.google.gerrit.testutil.FakeRealm;
 import com.google.gerrit.testutil.InMemoryRepositoryManager;
+import com.google.gerrit.testutil.InMemorySecureStore;
 import com.google.gwtorm.client.KeyUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.StandardKeyEncoder;
@@ -142,6 +144,8 @@ public class ChangeNotesTest {
             .toInstance(serverIdent);
         bind(GitReferenceUpdated.class)
             .toInstance(GitReferenceUpdated.DISABLED);
+
+        bind(SecureStore.class).to(InMemorySecureStore.class);
       }
     });
 

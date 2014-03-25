@@ -18,7 +18,9 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.schema.DataSourceProvider;
 import com.google.gerrit.server.schema.DataSourceType;
+import com.google.gerrit.server.securestore.SecureStore;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.Config;
@@ -40,8 +42,9 @@ public class SiteLibraryBasedDataSourceProvider extends DataSourceProvider {
   SiteLibraryBasedDataSourceProvider(SitePaths site,
       @GerritServerConfig Config cfg,
       DataSourceProvider.Context ctx,
+      Provider<SecureStore> secureStoreProvider,
       DataSourceType dst) {
-    super(site, cfg, ctx, dst);
+    super(site, cfg, secureStoreProvider, ctx, dst);
     libdir = site.lib_dir;
   }
 

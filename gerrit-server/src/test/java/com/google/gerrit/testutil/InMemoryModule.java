@@ -53,6 +53,7 @@ import com.google.gerrit.server.schema.Current;
 import com.google.gerrit.server.schema.DataSourceType;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.schema.SchemaVersion;
+import com.google.gerrit.server.securestore.SecureStore;
 import com.google.gerrit.server.ssh.NoSshKeyCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
@@ -116,6 +117,8 @@ public class InMemoryModule extends FactoryModule {
       protected void configure() {
         bind(Config.class).annotatedWith(GerritServerConfig.class)
             .toInstance(cfg);
+
+        bind(SecureStore.class).to(InMemorySecureStore.class);
       }
     });
     install(cfgInjector.getInstance(GerritGlobalModule.class));
@@ -148,6 +151,8 @@ public class InMemoryModule extends FactoryModule {
       .to(InMemoryH2Type.class);
     bind(new TypeLiteral<SchemaFactory<ReviewDb>>() {})
         .to(InMemoryDatabase.class);
+
+    bind(SecureStore.class).to(InMemorySecureStore.class);
 
     bind(ChangeHooks.class).to(DisabledChangeHooks.class);
     install(NoSshKeyCache.module());

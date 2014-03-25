@@ -17,9 +17,11 @@ package com.google.gerrit.server.config;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.server.auth.openid.OpenIdProviderPattern;
+import com.google.gerrit.server.securestore.SecureStore;
 import com.google.gwtjsonrpc.server.SignedToken;
 import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.Config;
@@ -55,8 +57,8 @@ public class AuthConfig {
   private final SignedToken restToken;
 
   @Inject
-  AuthConfig(@GerritServerConfig final Config cfg)
-      throws XsrfException {
+  AuthConfig(@GerritServerConfig final Config cfg,
+      final Provider<SecureStore> secureStoreProvider) throws XsrfException {
     authType = toType(cfg);
     httpHeader = cfg.getString("auth", null, "httpheader");
     httpDisplaynameHeader = cfg.getString("auth", null, "httpdisplaynameheader");
@@ -76,7 +78,8 @@ public class AuthConfig {
     userNameToLowerCase = cfg.getBoolean("auth", "userNameToLowerCase", false);
 
 
-    String key = cfg.getString("auth", null, "registerEmailPrivateKey");
+    SecureStore secureStore = secureStoreProvider.get();
+    String key = secureStore.get("auth", null, "registerEmailPrivateKey");
     if (key != null && !key.isEmpty()) {
       int age = (int) ConfigUtil.getTimeUnit(cfg,
           "auth", null, "maxRegisterEmailTokenAge",
@@ -87,7 +90,7 @@ public class AuthConfig {
       emailReg = null;
     }
 
-    key = cfg.getString("auth", null, "restTokenPrivateKey");
+    key = secureStore.get("auth", null, "restTokenPrivateKey");
     if (key != null && !key.isEmpty()) {
       int age = (int) ConfigUtil.getTimeUnit(cfg,
           "auth", null, "maxRestTokenAge", 60, TimeUnit.SECONDS);

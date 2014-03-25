@@ -28,9 +28,11 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.schema.DataSourceType;
 import com.google.gerrit.server.schema.SchemaModule;
 import com.google.gerrit.server.schema.SchemaVersion;
+import com.google.gerrit.server.securestore.SecureStore;
 import com.google.gerrit.testutil.InMemoryDatabase;
 import com.google.gerrit.testutil.InMemoryH2Type;
 import com.google.gerrit.testutil.InMemoryRepositoryManager;
+import com.google.gerrit.testutil.InMemorySecureStore;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.OrmRuntimeException;
 import com.google.gwtorm.server.SchemaFactory;
@@ -79,6 +81,8 @@ class InMemoryTestingDatabaseModule extends LifecycleModule {
 
     install(new SchemaModule());
     bind(SchemaVersion.class).to(SchemaVersion.C);
+
+    bind(SecureStore.class).to(InMemorySecureStore.class);
   }
 
   @Provides

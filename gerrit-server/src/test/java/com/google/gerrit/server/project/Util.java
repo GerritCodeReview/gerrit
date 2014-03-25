@@ -53,8 +53,10 @@ import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.securestore.SecureStore;
 import com.google.gerrit.testutil.FakeAccountCache;
 import com.google.gerrit.testutil.InMemoryRepositoryManager;
+import com.google.gerrit.testutil.InMemorySecureStore;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.util.Providers;
@@ -250,6 +252,8 @@ public class Util {
         bind(String.class).annotatedWith(AnonymousCowardName.class)
             .toProvider(AnonymousCowardNameProvider.class);
         bind(ChangeKindCache.class).to(ChangeKindCacheImpl.NoCache.class);
+
+        bind(SecureStore.class).to(InMemorySecureStore.class);
       }
     });
 

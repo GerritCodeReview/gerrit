@@ -59,6 +59,24 @@
     },
     {
       "key": {
+        "uuid": "dcc0b9c1_03110e6d",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/SubmitType.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-03-25T01:21:40Z",
+      "side": 1,
+      "message": "I don\u0027t see the problem.\n\nIt\u0027s public when you create a project in the web UI, it\u0027s public in the REST API, why shouldn\u0027t it be public to extensions?",
+      "parentUuid": "fc981df7_fce7294f",
+      "revId": "70ca130fc43c27d17675e10edf7065471f8895df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c8a099e_9ffff3d2",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ConfigInfo.java",
         "patchSetId": 10

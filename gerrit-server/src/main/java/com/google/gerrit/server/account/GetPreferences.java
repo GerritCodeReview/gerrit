@@ -17,6 +17,7 @@ package com.google.gerrit.server.account;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.extensions.webui.TopMenu;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.ChangeScreen;
@@ -31,6 +32,9 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class GetPreferences implements RestReadView<AccountResource> {
   private final Provider<CurrentUser> self;
@@ -74,6 +78,7 @@ public class GetPreferences implements RestReadView<AccountResource> {
     CommentVisibilityStrategy commentVisibilityStrategy;
     DiffView diffView;
     ChangeScreen changeScreen;
+    List<TopMenu.MenuItem> my;
 
     PreferenceInfo(AccountGeneralPreferences p) {
       changesPerPage = p.getMaximumPageSize();
@@ -91,6 +96,17 @@ public class GetPreferences implements RestReadView<AccountResource> {
       commentVisibilityStrategy = p.getCommentVisibilityStrategy();
       diffView = p.getDiffView();
       changeScreen = p.getChangeScreen();
+      my = my();
+    }
+
+    private List<TopMenu.MenuItem> my() {
+      List<TopMenu.MenuItem> my = new ArrayList<TopMenu.MenuItem>();
+      my.add(new TopMenu.MenuItem("Changes", "#/", ""));
+      my.add(new TopMenu.MenuItem("Drafts", "#/q/is:draft", ""));
+      my.add(new TopMenu.MenuItem("Draft Comments", "#/q/has:draft", ""));
+      my.add(new TopMenu.MenuItem("Watched Changes", "#/q/is:watched+is:open", ""));
+      my.add(new TopMenu.MenuItem("Starred Changes", "#/q/is:starred", ""));
+      return my;
     }
   }
 }

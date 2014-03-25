@@ -18,8 +18,10 @@ import static com.google.gerrit.common.data.GlobalCapability.ADMINISTRATE_SERVER
 import static com.google.gerrit.common.data.GlobalCapability.CREATE_GROUP;
 import static com.google.gerrit.common.data.GlobalCapability.CREATE_PROJECT;
 
+import com.google.gerrit.client.account.AccountApi;
 import com.google.gerrit.client.account.AccountCapabilities;
 import com.google.gerrit.client.account.AccountInfo;
+import com.google.gerrit.client.account.Preferences;
 import com.google.gerrit.client.admin.ProjectScreen;
 import com.google.gerrit.client.api.ApiGlue;
 import com.google.gerrit.client.api.PluginLoader;
@@ -70,6 +72,7 @@ import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FocusPanel;
@@ -585,14 +588,21 @@ public class Gerrit implements EntryPoint {
     menuLeft.add(m, C.menuAll());
 
     if (signedIn) {
-      m = new LinkMenuBar();
+      final LinkMenuBar myBar = new LinkMenuBar();
       menuBars.put(GerritTopMenu.MY.menuName, m);
-      addLink(m, C.menuMyChanges(), PageLinks.MINE);
-      addLink(m, C.menuMyDrafts(), PageLinks.toChangeQuery("is:draft"));
-      addLink(m, C.menuMyDraftComments(), PageLinks.toChangeQuery("has:draft"));
-      addLink(m, C.menuMyWatchedChanges(), PageLinks.toChangeQuery("is:watched status:open"));
-      addLink(m, C.menuMyStarredChanges(), PageLinks.toChangeQuery("is:starred"));
-      menuLeft.add(m, C.menuMine());
+      AccountApi.self().view("preferences").get(new AsyncCallback<Preferences>() {
+        @Override
+        public void onSuccess(Preferences prefs) {
+          for (TopMenuItem item : Natives.asList(prefs.my())) {
+            addExtensionLink(myBar, item);
+          }
+        }
+
+        @Override
+        public void onFailure(Throwable caught) {
+        }
+      });
+      menuLeft.add(myBar, C.menuMine());
       menuLeft.selectTab(1);
     } else {
       menuLeft.selectTab(0);

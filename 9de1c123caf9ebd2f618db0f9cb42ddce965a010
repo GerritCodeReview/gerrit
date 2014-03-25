@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bc7b055f_c20e0204",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1014767
+      },
+      "writtenOn": "2014-03-25T16:23:43Z",
+      "side": 1,
+      "message": "NIT: When built, this looks like:\n\nNote Installing [...]\n\nI don\u0027t know why it turns out like that, but it doesn\u0027t look as good as it could\u0027ve. Not sure what can be done.\n\nI\u0027m overall happy with the docs now, so in my opinion it\u0027s hardly a dealbreaker.",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 5
+      },
+      "revId": "9de1c123caf9ebd2f618db0f9cb42ddce965a010",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

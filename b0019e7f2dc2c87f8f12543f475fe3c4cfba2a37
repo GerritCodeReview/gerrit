@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "dcc0b9c1_43a146b8",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/project/ProjectIT.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-03-25T05:24:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc7b055f_a2ce5ea3",
+      "revId": "b0019e7f2dc2c87f8f12543f475fe3c4cfba2a37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dcc0b9c1_03c0ee69",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/projects/ProjectApi.java",
         "patchSetId": 12
@@ -30,6 +48,24 @@
       "writtenOn": "2014-03-25T02:59:40Z",
       "side": 1,
       "message": "Extra blank line.",
+      "revId": "b0019e7f2dc2c87f8f12543f475fe3c4cfba2a37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dcc0b9c1_83ba1ee9",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/projects/ProjectApi.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-03-25T05:24:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dcc0b9c1_03c0ee69",
       "revId": "b0019e7f2dc2c87f8f12543f475fe3c4cfba2a37",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "bc7b055f_02de2a50",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/SubmitType.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-03-25T05:24:32Z",
+      "side": 1,
+      "message": "Yes, i did, can be done in follow up changes.",
+      "parentUuid": "bc7b055f_c2d36248",
+      "revId": "b0019e7f2dc2c87f8f12543f475fe3c4cfba2a37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bc7b055f_826f9acd",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/projects/ProjectsImpl.java",
         "patchSetId": 12
@@ -64,6 +118,24 @@
       "writtenOn": "2014-03-25T02:59:40Z",
       "side": 1,
       "message": "Non-renaming change.",
+      "revId": "b0019e7f2dc2c87f8f12543f475fe3c4cfba2a37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dcc0b9c1_03a74ed0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/projects/ProjectsImpl.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-03-25T05:24:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc7b055f_826f9acd",
       "revId": "b0019e7f2dc2c87f8f12543f475fe3c4cfba2a37",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

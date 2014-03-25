@@ -118,6 +118,7 @@ import com.google.gerrit.server.project.SectionSortCache;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ConflictsCacheImpl;
+import com.google.gerrit.server.securestore.SecureStore;
 import com.google.gerrit.server.ssh.SshAddressesModule;
 import com.google.gerrit.server.tools.ToolsCatalog;
 import com.google.gerrit.server.util.IdGenerator;
@@ -271,6 +272,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicMap.mapOf(binder(), DownloadCommand.class);
     DynamicMap.mapOf(binder(), ProjectConfigEntry.class);
     DynamicSet.setOf(binder(), PatchSetWebLink.class);
+    DynamicSet.setOf(binder(), SecureStore.class);
 
     bind(AnonymousUser.class);
 

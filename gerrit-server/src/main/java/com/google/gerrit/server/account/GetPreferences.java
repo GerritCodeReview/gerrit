@@ -116,12 +116,9 @@ public class GetPreferences implements RestReadView<AccountResource> {
     }
 
     private List<TopMenu.MenuItem> my(Account.Id accountId, ProjectState allUsers) {
-      List<TopMenu.MenuItem> my = new ArrayList<>();
-      Config cfg = allUsers.getConfig(PREFERENCES,
-          RefNames.REFS_USER(accountId)).get();
-      for (String subsection : cfg.getSubsections(MY)) {
-        my.add(new TopMenu.MenuItem(subsection, my(cfg, subsection, KEY_URL, "#/"),
-            my(cfg, subsection, KEY_TARGET, null), my(cfg, subsection, KEY_ID, null)));
+      List<TopMenu.MenuItem> my = my(allUsers, RefNames.REFS_USER(accountId));
+      if (my.isEmpty()) {
+        my = my(allUsers, RefNames.REFS_USER + "default");
       }
       if (my.isEmpty()) {
         my.add(new TopMenu.MenuItem("Changes", "#/", ""));
@@ -129,6 +126,16 @@ public class GetPreferences implements RestReadView<AccountResource> {
         my.add(new TopMenu.MenuItem("Draft Comments", "#/q/has:draft", ""));
         my.add(new TopMenu.MenuItem("Watched Changes", "#/q/is:watched+is:open", ""));
         my.add(new TopMenu.MenuItem("Starred Changes", "#/q/is:starred", ""));
+      }
+      return my;
+    }
+
+    private List<TopMenu.MenuItem> my(ProjectState allUsers, String ref) {
+      List<TopMenu.MenuItem> my = new ArrayList<>();
+      Config cfg = allUsers.getConfig(PREFERENCES, ref).get();
+      for (String subsection : cfg.getSubsections(MY)) {
+        my.add(new TopMenu.MenuItem(subsection, my(cfg, subsection, KEY_URL, "#/"),
+            my(cfg, subsection, KEY_TARGET, null), my(cfg, subsection, KEY_ID, null)));
       }
       return my;
     }

@@ -20,10 +20,12 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.persistence.DataSourceInterceptor;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.server.config.ConfigSection;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.securestore.SecureStore;
 import com.google.gwtorm.jdbc.SimpleDataSource;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -50,17 +52,20 @@ public class DataSourceProvider implements Provider<DataSource>,
   private final Config cfg;
   private final Context ctx;
   private final DataSourceType dst;
+  private final DynamicItem<SecureStore> secureStoreItem;
   private DataSource ds;
 
   @Inject
   protected DataSourceProvider(SitePaths site,
       @GerritServerConfig Config cfg,
+      DynamicItem<SecureStore> secureStoreItem,
       Context ctx,
       DataSourceType dst) {
     this.site = site;
     this.cfg = cfg;
     this.ctx = ctx;
     this.dst = dst;
+    this.secureStoreItem = secureStoreItem;
   }
 
   @Override
@@ -104,7 +109,7 @@ public class DataSourceProvider implements Provider<DataSource>,
     }
 
     String username = dbs.optional("username");
-    String password = dbs.optional("password");
+    String password = secureStoreItem.get().get("database", null, "password");
     String interceptor = dbs.optional("dataSourceInterceptorClass");
 
     boolean usePool;

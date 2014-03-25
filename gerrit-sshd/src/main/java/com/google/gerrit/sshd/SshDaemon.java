@@ -47,11 +47,15 @@ import org.apache.sshd.common.Session;
 import org.apache.sshd.common.Signature;
 import org.apache.sshd.common.SshdSocketAddress;
 import org.apache.sshd.common.cipher.AES128CBC;
+import org.apache.sshd.common.cipher.AES128CTR;
 import org.apache.sshd.common.cipher.AES192CBC;
 import org.apache.sshd.common.cipher.AES256CBC;
+import org.apache.sshd.common.cipher.AES256CTR;
 import org.apache.sshd.common.cipher.BlowfishCBC;
 import org.apache.sshd.common.cipher.CipherNone;
 import org.apache.sshd.common.cipher.TripleDESCBC;
+import org.apache.sshd.common.cipher.ARCFOUR128;
+import org.apache.sshd.common.cipher.ARCFOUR256;
 import org.apache.sshd.common.compression.CompressionNone;
 import org.apache.sshd.common.file.FileSystemFactory;
 import org.apache.sshd.common.file.FileSystemView;
@@ -375,6 +379,10 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
     a.add(new BlowfishCBC.Factory());
     a.add(new AES192CBC.Factory());
     a.add(new AES256CBC.Factory());
+    a.add(new AES128CTR.Factory());
+    a.add(new AES256CTR.Factory());
+    a.add(new ARCFOUR256.Factory());
+    a.add(new ARCFOUR128.Factory());
 
     for (Iterator<NamedFactory<Cipher>> i = a.iterator(); i.hasNext();) {
       final NamedFactory<Cipher> f = i.next();

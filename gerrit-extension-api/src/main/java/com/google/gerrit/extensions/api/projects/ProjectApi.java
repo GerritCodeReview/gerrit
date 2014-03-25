@@ -14,6 +14,10 @@
 
 package com.google.gerrit.extensions.api.projects;
 
+import com.google.gerrit.extensions.restapi.RestApiException;
+
 public interface ProjectApi {
+  ProjectApi create() throws RestApiException;
+  ProjectApi create(ProjectInput in) throws RestApiException;
   BranchApi branch(String ref);
 }

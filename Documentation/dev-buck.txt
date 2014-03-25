@@ -474,6 +474,74 @@ heap size:
   EOF
 ----
 
+== Sporadic failures of unit tests
+
+In case unit tests are failing for non obvious reasons, failed tests may need
+to be repeated:
+
+----
+FAIL  32,0s  7 Passed   1 Failed   com.google.gerrit.acceptance.rest.group.AddRemoveGroupMembersIT
+FAILURE includeRemoveGroup: verify: false
+com.jcraft.jsch.JSchException: verify: false
+	at com.jcraft.jsch.Session.connect(Session.java:330)
+	at com.jcraft.jsch.Session.connect(Session.java:183)
+	at com.google.gerrit.acceptance.SshSession.getSession(SshSession.java:83)
+	at com.google.gerrit.acceptance.SshSession.exec(SshSession.java:41)
+	at com.google.gerrit.acceptance.GitUtil.createProject(GitUtil.java:102)
+	at com.google.gerrit.acceptance.GitUtil.createProject(GitUtil.java:83)
+	at com.google.gerrit.acceptance.GitUtil.createProject(GitUtil.java:78)
+	at com.google.gerrit.acceptance.AbstractDaemonTest.beforeTest(AbstractDaemonTest.java:135)
+	at com.google.gerrit.acceptance.AbstractDaemonTest.access$100(AbstractDaemonTest.java:57)
+	at com.google.gerrit.acceptance.AbstractDaemonTest$1$1.evaluate(AbstractDaemonTest.java:99)
+	at org.junit.rules.RunRules.evaluate(RunRules.java:20)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:271)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:70)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:50)
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:238)
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:63)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:236)
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:53)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:229)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:309)
+	at org.junit.runners.Suite.runChild(Suite.java:127)
+	at org.junit.runners.Suite.runChild(Suite.java:26)
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:238)
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:63)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:236)
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:53)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:229)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:309)
+	at org.junit.runners.Suite.runChild(Suite.java:127)
+	at org.junit.runners.Suite.runChild(Suite.java:26)
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:238)
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:63)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:236)
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:53)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:229)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:309)
+	at org.junit.runner.JUnitCore.run(JUnitCore.java:160)
+	at org.junit.runner.JUnitCore.run(JUnitCore.java:138)
+	at com.facebook.buck.junit.JUnitRunner.run(JUnitRunner.java:138)
+	at com.facebook.buck.junit.JUnitRunner.main(JUnitRunner.java:371)
+----
+
+Because the test execution results are cached by Buck, they must be removed
+before:
+
+----
+  $ rm -rf buck-out/bin/gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/group/.AddRemoveGroupMembersIT/
+----
+
+After clearing the cache and repeating of the failed tests, they are mostly
+successful:
+
+----
+  $ buck test //gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/group:AddRemoveGroupMembersIT
+  TESTING //gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/group:AddRemoveGroupMembersIT
+  PASS  14,9s  8 Passed   0 Failed   com.google.gerrit.acceptance.rest.group.AddRemoveGroupMembersIT
+  TESTS PASSED
+----
+
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

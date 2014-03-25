@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5c8a099e_dfe25b42",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictKey.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-25T01:07:32Z",
+      "side": 1,
+      "message": "Change this to 2L and the cache should have invalidated itself on startup. No need to delete the cache manually.",
+      "revId": "70ca130fc43c27d17675e10edf7065471f8895df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

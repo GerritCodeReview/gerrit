@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fc981df7_fc500925",
+        "filename": "lib/log/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-25T16:22:29Z",
+      "side": 1,
+      "message": "What do we need from 1.7.x? This may block gerrit-review as that build environment is still using 1.6.1.",
+      "revId": "47a887cd9629e64e6c6550ec01fea8e68f908e3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

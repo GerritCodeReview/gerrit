@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dcc0b9c1_436f86ce",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2860,
+      "author": {
+        "id": 1014767
+      },
+      "writtenOn": "2014-03-25T02:51:22Z",
+      "side": 1,
+      "message": "These two links are broken, they don\u0027t work. This is because a trailing slash have been added to them. Please adjust.",
+      "range": {
+        "startLine": 2859,
+        "startChar": 2,
+        "endLine": 2860,
+        "endChar": 109
+      },
+      "revId": "c3aac1ad799af7af38efd8fdc1778f7b9a813f06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dcc0b9c1_637282b6",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2860,
+      "author": {
+        "id": 1014767
+      },
+      "writtenOn": "2014-03-25T02:51:22Z",
+      "side": 1,
+      "message": "This section isn\u0027t really to do with the configuration of Gerrit, but rather configuration/extension of the JDK. Therefore it should be a part of the installation requirements/instructions[1] instead.\n\nMy suggestion is to create a new section between \"Requirements\" and \"Download Gerrit\" that\u0027s named \"Configure java for strong cryptography\" or similar.\n\nAlso, there could be a word or link on where these policy files should go in the JDK installation area as that\u0027s not very intuitive for someone who\u0027s never seen this before.\n\n[1] Documentation/install.html#requirements",
+      "range": {
+        "startLine": 2854,
+        "startChar": 0,
+        "endLine": 2860,
+        "endChar": 109
+      },
+      "revId": "c3aac1ad799af7af38efd8fdc1778f7b9a813f06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

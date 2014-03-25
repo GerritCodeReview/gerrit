@@ -127,6 +127,11 @@ matches project names by regular expression.  The
 link:http://www.brics.dk/automaton/[dk.brics.automaton
 library] is used for evaluation of such patterns.
 
+[[projects]]
+projects:'PREFIX':'PROJECT'::
++
+Changes occurring in projects starting with 'PREFIX'.
+
 [[parentproject]]
 parentproject:'PROJECT'::
 +

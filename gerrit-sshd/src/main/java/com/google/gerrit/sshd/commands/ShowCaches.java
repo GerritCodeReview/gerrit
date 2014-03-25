@@ -36,7 +36,9 @@ import com.google.inject.Provider;
 
 import org.apache.sshd.common.io.IoAcceptor;
 import org.apache.sshd.common.io.IoSession;
+import org.apache.sshd.common.io.mina.MinaAcceptor;
 import org.apache.sshd.common.io.mina.MinaSession;
+import org.apache.sshd.common.io.nio2.Nio2Acceptor;
 import org.apache.sshd.server.Environment;
 import org.eclipse.jgit.internal.storage.file.WindowCacheStatAccessor;
 import org.kohsuke.args4j.Option;
@@ -111,7 +113,7 @@ final class ShowCaches extends CacheCommand {
     Date now = new Date();
     stdout.format(
         "%-25s %-20s      now  %16s\n",
-        "Gerrit Code Review",
+        "Gerrit Code Review (" + getBackend() + ")",
         Version.getVersion() != null ? Version.getVersion() : "",
         new SimpleDateFormat("HH:mm:ss   zzz").format(now));
     stdout.format(
@@ -179,6 +181,20 @@ final class ShowCaches extends CacheCommand {
     }
 
     stdout.flush();
+  }
+
+  private String getBackend() {
+    IoAcceptor acceptor = daemon.getIoAcceptor();
+    if (acceptor == null) {
+      return "";
+    }
+    if (acceptor instanceof MinaAcceptor) {
+      return "mina";
+    } else if (acceptor instanceof Nio2Acceptor) {
+      return "nio2";
+    } else {
+      return "unknown";
+    }
   }
 
   private void printMemoryCaches(

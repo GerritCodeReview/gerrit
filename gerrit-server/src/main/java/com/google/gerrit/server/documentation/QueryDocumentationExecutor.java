@@ -46,8 +46,7 @@ public class QueryDocumentationExecutor {
   private static final Logger log =
       LoggerFactory.getLogger(QueryDocumentationExecutor.class);
 
-  @SuppressWarnings("deprecation")
-  private static final Version LUCENE_VERSION = Version.LUCENE_46;
+  private static final Version LUCENE_VERSION = Version.LUCENE_47;
 
   private IndexSearcher searcher;
   private QueryParser parser;

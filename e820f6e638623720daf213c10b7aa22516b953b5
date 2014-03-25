@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "bc7b055f_02370ac0",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1010737
+      },
+      "writtenOn": "2014-03-25T08:28:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc7b055f_e21a2655",
+      "revId": "e820f6e638623720daf213c10b7aa22516b953b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bc7b055f_0220ea7f",
         "filename": "Documentation/install.txt",
         "patchSetId": 7
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "bc7b055f_224c0e60",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1010737
+      },
+      "writtenOn": "2014-03-25T08:28:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc7b055f_0220ea7f",
+      "revId": "e820f6e638623720daf213c10b7aa22516b953b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dcc0b9c1_0322ae87",
         "filename": "Documentation/install.txt",
         "patchSetId": 7
@@ -47,6 +83,30 @@
       "writtenOn": "2014-03-25T07:28:27Z",
       "side": 1,
       "message": "nit: there\u0027s an extra space here",
+      "range": {
+        "startLine": 27,
+        "startChar": 20,
+        "endLine": 27,
+        "endChar": 21
+      },
+      "revId": "e820f6e638623720daf213c10b7aa22516b953b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dcc0b9c1_03490e50",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1010737
+      },
+      "writtenOn": "2014-03-25T08:28:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dcc0b9c1_0322ae87",
       "range": {
         "startLine": 27,
         "startChar": 20,
@@ -87,6 +147,30 @@
       "writtenOn": "2014-03-25T07:28:27Z",
       "side": 1,
       "message": "it may be better to omit this and just say \"follow the instructions\" like in the earlier patch set.  it\u0027s possible that the contents will change in the future, making these instructions outdated.",
+      "range": {
+        "startLine": 27,
+        "startChar": 1,
+        "endLine": 51,
+        "endChar": 4
+      },
+      "revId": "e820f6e638623720daf213c10b7aa22516b953b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dcc0b9c1_63460240",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1010737
+      },
+      "writtenOn": "2014-03-25T08:28:21Z",
+      "side": 1,
+      "message": "I thought as much, reverted/reworded earlier content.",
+      "parentUuid": "bc7b055f_2225ee8f",
       "range": {
         "startLine": 27,
         "startChar": 1,

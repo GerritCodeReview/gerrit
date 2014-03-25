@@ -1,5 +1,4 @@
-gerrit ls-members
-================
+= gerrit ls-members
 
 == NAME
 gerrit ls-members - Show members of a given group

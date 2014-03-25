@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.notedb;
 
-import static com.google.common.base.Preconditions.checkArgument;
-
 import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
@@ -36,7 +34,7 @@ public class NotesMigration {
   static NotesMigration allEnabled() {
     Config cfg = new Config();
     cfg.setBoolean("notedb", null, "write", true);
-    //cfg.setBoolean("notedb", "patchSetApprovals", "read", true);
+    cfg.setBoolean("notedb", "patchSetApprovals", "read", true);
     return new NotesMigration(cfg);
   }
 
@@ -48,8 +46,6 @@ public class NotesMigration {
     write = cfg.getBoolean("notedb", null, "write", false);
     readPatchSetApprovals =
         cfg.getBoolean("notedb", "patchSetApprovals", "read", false);
-    checkArgument(!readPatchSetApprovals,
-        "notedb.readPatchSetApprovals not yet supported");
   }
 
   public boolean write() {

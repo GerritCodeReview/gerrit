@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "dcc0b9c1_23feca83",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-03-25T16:31:56Z",
+      "side": 1,
+      "message": "I know but I tried to be quite conservative in this refactoring.\n\nDid not want to introduce any instability by changing the logic on when and how things are failing.",
+      "parentUuid": "7c07cd52_3000481f",
+      "revId": "b638d25336deeb6587aa6ba22c8a78b57f0b72b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7c07cd52_d0f3bc0d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
         "patchSetId": 16
@@ -30,6 +48,30 @@
       "writtenOn": "2014-03-08T05:55:27Z",
       "side": 1,
       "message": "This was for the scripting plugin case. How will you handle a \".ruby\" or somesuch extension here?",
+      "range": {
+        "startLine": 162,
+        "startChar": 36,
+        "endLine": 162,
+        "endChar": 63
+      },
+      "revId": "b638d25336deeb6587aa6ba22c8a78b57f0b72b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc7b055f_82deba2a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-03-25T16:31:56Z",
+      "side": 1,
+      "message": "Yep, forgot to remove this \".js\" part from here.\nAnyway as discussed this code block is obsolete now :-)",
+      "parentUuid": "7c07cd52_d0f3bc0d",
       "range": {
         "startLine": 162,
         "startChar": 36,
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "dcc0b9c1_83b97ed0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 534,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-03-25T16:31:56Z",
+      "side": 1,
+      "message": "True, will add that extra check.",
+      "parentUuid": "5c0cc977_8fe91526",
+      "revId": "b638d25336deeb6587aa6ba22c8a78b57f0b72b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c0cc977_afecd935",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
         "patchSetId": 16
@@ -70,6 +130,30 @@
       "writtenOn": "2014-03-08T05:55:27Z",
       "side": 1,
       "message": "Please line wrap",
+      "range": {
+        "startLine": 601,
+        "startChar": 2,
+        "endLine": 603,
+        "endChar": 3
+      },
+      "revId": "b638d25336deeb6587aa6ba22c8a78b57f0b72b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dcc0b9c1_e3be72b4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 603,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-03-25T16:31:56Z",
+      "side": 1,
+      "message": "Will do in the next patch-set.",
+      "parentUuid": "5c0cc977_afecd935",
       "range": {
         "startLine": 601,
         "startChar": 2,
@@ -105,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "bc7b055f_a2b49ed6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 613,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-03-25T16:31:56Z",
+      "side": 1,
+      "message": "Fair point. Will remove the \u0027case\u0027 for now and then will plug this into the plugin API in the following changes.\n\nDid not want to make this initial refactoring too complex, again this was more a conservative approach.",
+      "parentUuid": "7c07cd52_f0f6c0ff",
+      "range": {
+        "startLine": 612,
+        "startChar": 6,
+        "endLine": 613,
+        "endChar": 54
+      },
+      "revId": "b638d25336deeb6587aa6ba22c8a78b57f0b72b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9cbf218c_c9901184",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
         "patchSetId": 16
@@ -116,6 +224,30 @@
       "writtenOn": "2014-03-06T23:54:55Z",
       "side": 1,
       "message": "Nit: missing blank.",
+      "range": {
+        "startLine": 771,
+        "startChar": 53,
+        "endLine": 771,
+        "endChar": 54
+      },
+      "revId": "b638d25336deeb6587aa6ba22c8a78b57f0b72b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc7b055f_e2bea6b4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 771,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-03-25T16:31:56Z",
+      "side": 1,
+      "message": "will add in next PS.",
+      "parentUuid": "9cbf218c_c9901184",
       "range": {
         "startLine": 771,
         "startChar": 53,
@@ -145,6 +277,24 @@
     },
     {
       "key": {
+        "uuid": "dcc0b9c1_03c62e57",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginModule.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-03-25T16:31:56Z",
+      "side": 1,
+      "message": "Will do.",
+      "parentUuid": "7c07cd52_90e93426",
+      "revId": "b638d25336deeb6587aa6ba22c8a78b57f0b72b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7c07cd52_70e3f046",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ScriptingPlugin.java",
         "patchSetId": 16
@@ -156,6 +306,30 @@
       "writtenOn": "2014-03-08T05:55:27Z",
       "side": 1,
       "message": "I think handlesExtension is a better name.",
+      "range": {
+        "startLine": 36,
+        "startChar": 12,
+        "endLine": 36,
+        "endChar": 31
+      },
+      "revId": "b638d25336deeb6587aa6ba22c8a78b57f0b72b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dcc0b9c1_63d3a215",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ScriptingPlugin.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-03-25T16:31:56Z",
+      "side": 1,
+      "message": "OK.",
+      "parentUuid": "7c07cd52_70e3f046",
       "range": {
         "startLine": 36,
         "startChar": 12,
@@ -185,6 +359,24 @@
     },
     {
       "key": {
+        "uuid": "dcc0b9c1_83a05e8c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ScriptingPlugin.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-03-25T16:31:56Z",
+      "side": 1,
+      "message": "Apparently the initial JsPlugin.java was just setting the httpInjector to null because it was the only one used.\n\nBut I agree that potentially other scripting plugins will use the others. Will do the change in the next PS.",
+      "parentUuid": "7c07cd52_10dee482",
+      "revId": "b638d25336deeb6587aa6ba22c8a78b57f0b72b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c0cc977_0fdec582",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ScriptingPluginFactory.java",
         "patchSetId": 16
@@ -202,6 +394,24 @@
     },
     {
       "key": {
+        "uuid": "bc7b055f_42c67258",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ScriptingPluginFactory.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-03-25T16:31:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c0cc977_0fdec582",
+      "revId": "b638d25336deeb6587aa6ba22c8a78b57f0b72b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7c07cd52_50e86c21",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ScriptingPluginFactory.java",
         "patchSetId": 16
@@ -213,6 +423,30 @@
       "writtenOn": "2014-03-08T05:55:27Z",
       "side": 1,
       "message": "indentation here looks flawed. its two spaces per level.",
+      "range": {
+        "startLine": 33,
+        "startChar": 2,
+        "endLine": 35,
+        "endChar": 3
+      },
+      "revId": "b638d25336deeb6587aa6ba22c8a78b57f0b72b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc7b055f_82d07a08",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ScriptingPluginFactory.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-03-25T16:31:56Z",
+      "side": 1,
+      "message": "?",
+      "parentUuid": "7c07cd52_50e86c21",
       "range": {
         "startLine": 33,
         "startChar": 2,
@@ -295,6 +529,30 @@
     },
     {
       "key": {
+        "uuid": "dcc0b9c1_c39a565c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ScriptingPluginFactory.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-03-25T16:31:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c0cc977_6fe31147",
+      "range": {
+        "startLine": 44,
+        "startChar": 4,
+        "endLine": 44,
+        "endChar": 8
+      },
+      "revId": "b638d25336deeb6587aa6ba22c8a78b57f0b72b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c0cc977_4fe8cd21",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ScriptingPluginFactory.java",
         "patchSetId": 16
@@ -306,6 +564,30 @@
       "writtenOn": "2014-03-08T05:55:27Z",
       "side": 1,
       "message": "nit: space after if before (",
+      "range": {
+        "startLine": 54,
+        "startChar": 6,
+        "endLine": 54,
+        "endChar": 10
+      },
+      "revId": "b638d25336deeb6587aa6ba22c8a78b57f0b72b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dcc0b9c1_23b08ad5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ScriptingPluginFactory.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-03-25T16:31:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c0cc977_4fe8cd21",
       "range": {
         "startLine": 54,
         "startChar": 6,

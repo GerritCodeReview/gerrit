@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5c8a099e_ff39dfec",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ShowCaches.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-25T01:57:18Z",
+      "side": 1,
+      "message": "Annoying, but I wonder if show-connections is a better place to display this information. It is already rather SSHD specific.",
+      "revId": "2600c75f3cf3a6fbfa79b1541f6e967ec686285c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c8a099e_df341bf6",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ShowCaches.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-25T01:57:18Z",
+      "side": 1,
+      "message": "I think David\u0027s comment about this being \u0027Gerrit Code Review (unknown)\u0027 with no context is relevant.",
+      "revId": "2600c75f3cf3a6fbfa79b1541f6e967ec686285c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

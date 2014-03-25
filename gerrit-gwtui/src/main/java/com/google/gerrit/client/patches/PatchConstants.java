@@ -14,9 +14,9 @@
 
 package com.google.gerrit.client.patches;
 
-import com.google.gwt.i18n.client.Constants;
+import com.google.gerrit.client.ui.UIMessages;
 
-public interface PatchConstants extends Constants {
+public interface PatchConstants extends UIMessages {
   String draft();
 
   String buttonReply();
@@ -81,6 +81,7 @@ public interface PatchConstants extends Constants {
   String fileTypeSymlink();
   String fileTypeGitlink();
 
+  String patchSkipRegion(String lineNumber);
   String patchSkipRegionStart();
   String patchSkipRegionEnd();
 }

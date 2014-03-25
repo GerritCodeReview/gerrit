@@ -32,6 +32,7 @@ import com.google.inject.Injector;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.List;
@@ -42,6 +43,13 @@ public class LuceneQueryChangesV7Test extends AbstractQueryChangesTest {
     cfg.setInt("index", "lucene", "testVersion", 7);
     return Guice.createInjector(new InMemoryModule(cfg));
   }
+
+  // Tests for features not supported in V7.
+  @Ignore
+  @Override
+  @Test
+  public void byProjectPrefix() {}
+  // End tests for features not supported in V7.
 
   @Test
   public void pagination() throws Exception {

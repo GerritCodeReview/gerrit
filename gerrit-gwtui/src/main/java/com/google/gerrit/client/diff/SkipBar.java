@@ -18,6 +18,7 @@ import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -97,11 +98,12 @@ class SkipBar extends Composite {
   void setMarker(TextMarker marker, int length) {
     this.marker = marker;
     numSkipLines = length;
-    skipNum.setText(Integer.toString(length));
     if (checkAndUpdateArrows()) {
       upArrow.setHTML(PatchUtil.M.expandBefore(NUM_ROWS_TO_EXPAND));
       downArrow.setHTML(PatchUtil.M.expandAfter(NUM_ROWS_TO_EXPAND));
     }
+    skipNum.setText(PatchUtil.C.patchSkipRegion(Integer
+        .toString(length)));
   }
 
   static void link(SkipBar barA, SkipBar barB) {
@@ -111,7 +113,8 @@ class SkipBar extends Composite {
 
   private void updateSkipNum() {
     numSkipLines -= NUM_ROWS_TO_EXPAND;
-    skipNum.setText(String.valueOf(numSkipLines));
+    skipNum.setText(PatchUtil.C.patchSkipRegion(Integer
+        .toString(numSkipLines)));
     checkAndUpdateArrows();
   }
 

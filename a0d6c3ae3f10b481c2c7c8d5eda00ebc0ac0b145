@@ -34,6 +34,24 @@
       "revId": "a0d6c3ae3f10b481c2c7c8d5eda00ebc0ac0b145",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc71fd8c_141f5474",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/ProjectInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-25T18:34:39Z",
+      "side": 1,
+      "message": "Urrgh. Yes you are right. OK.",
+      "parentUuid": "9c4e4155_710b583f",
+      "revId": "a0d6c3ae3f10b481c2c7c8d5eda00ebc0ac0b145",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

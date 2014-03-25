@@ -36,10 +36,9 @@ class JsPlugin extends ScriptingPlugin {
     }
 
     @Override
-    public boolean isMyScriptExtension(String scriptExtension) {
-      return scriptExtension.equalsIgnoreCase(JS_EXTENSION);
+    public boolean isMyFile(File file) {
+      return file.getName().toLowerCase().endsWith(JS_EXTENSION);
     }
-
   }
 
   JsPlugin(String name, File srcFile, PluginUser pluginUser,

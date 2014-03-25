@@ -14,10 +14,12 @@
 
 package com.google.gerrit.extensions.api.projects;
 
+import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
 
 public interface ProjectApi {
   ProjectApi create() throws RestApiException;
   ProjectApi create(ProjectInput in) throws RestApiException;
+  ProjectInfo get();
   BranchApi branch(String ref);
 }

@@ -24,10 +24,13 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.extensions.api.GerritApi;
+import com.google.gerrit.extensions.api.projects.ProjectApi;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.common.InheritableBoolean;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.common.SubmitType;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -64,6 +67,21 @@ public class CreateProjectIT extends AbstractDaemonTest {
 
   @Inject
   private GitRepositoryManager git;
+
+  @Inject
+  private GerritApi gApi;
+
+  @Test
+  public void testCreateProjectApi() throws RestApiException, IOException {
+    final String newProjectName = "newProject";
+    ProjectApi projectApi = gApi.projects().name(newProjectName).create();
+    ProjectInfo p = projectApi.get();
+    assertEquals(newProjectName, p.name);
+    ProjectState projectState = projectCache.get(new Project.NameKey(newProjectName));
+    assertNotNull(projectState);
+    assertProjectInfo(projectState.getProject(), p);
+    assertHead(newProjectName, "refs/heads/master");
+  }
 
   @Test
   public void testCreateProject() throws IOException {

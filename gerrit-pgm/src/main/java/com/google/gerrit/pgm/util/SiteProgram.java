@@ -30,6 +30,8 @@ import com.google.gerrit.server.schema.DataSourceProvider;
 import com.google.gerrit.server.schema.DataSourceType;
 import com.google.gerrit.server.schema.DatabaseModule;
 import com.google.gerrit.server.schema.SchemaModule;
+import com.google.gerrit.server.securestore.SecureStore;
+import com.google.gerrit.server.securestore.SecureStoreProvider;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.AbstractModule;
 import com.google.inject.Binding;
@@ -39,6 +41,7 @@ import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Module;
 import com.google.inject.Provider;
+import com.google.inject.Scopes;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 import com.google.inject.name.Names;
@@ -104,6 +107,8 @@ public abstract class SiteProgram extends AbstractProgram {
       @Override
       protected void configure() {
         bind(DataSourceProvider.Context.class).toInstance(context);
+        bind(SecureStore.class).toProvider(SecureStoreProvider.class).in(
+            Scopes.SINGLETON);
         if (dsProvider != null) {
           bind(Key.get(DataSource.class, Names.named("ReviewDb")))
             .toProvider(dsProvider)

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.index;
 
+import com.google.common.base.Objects;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
@@ -115,6 +116,7 @@ public class ChangeField {
         }
       };
 
+  @Deprecated
   /** Topic, a short annotation on the branch. */
   public static final FieldDef<ChangeData, String> TOPIC =
       new FieldDef.Single<ChangeData, String>(
@@ -123,6 +125,17 @@ public class ChangeField {
         public String get(ChangeData input, FillArgs args)
             throws OrmException {
           return input.change().getTopic();
+        }
+      };
+
+  /** Topic, a short annotation on the branch. */
+  public static final FieldDef<ChangeData, String> NEW_TOPIC =
+      new FieldDef.Single<ChangeData, String>(
+          "topic2", FieldType.EXACT, false) {
+        @Override
+        public String get(ChangeData input, FillArgs args)
+            throws OrmException {
+          return Objects.firstNonNull(input.change().getTopic(), "");
         }
       };
 

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9c4e4155_91635cf0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/AutoRegisterScript.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-03-25T20:53:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc2f85b4_62515626",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "c2c5e3ae361b4c8c2883c38f54a78a4afd772ef3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c0cc977_eff6e1ff",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/AutoRegisterScript.java",
         "patchSetId": 6
@@ -36,6 +60,24 @@
       "writtenOn": "2014-03-08T05:57:41Z",
       "side": 1,
       "message": "I simply don\u0027t understand how this would work in the context of a script file.",
+      "revId": "c2c5e3ae361b4c8c2883c38f54a78a4afd772ef3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c4e4155_7198b8a8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/AutoRegisterScript.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-03-25T20:53:36Z",
+      "side": 1,
+      "message": "Responsibility of this class is not to manage the script file but rather auto-register the classes obtained by parsing the script file.\n\nWill add one example on the top-level JavaDoc.",
+      "parentUuid": "5c0cc977_eff6e1ff",
       "revId": "c2c5e3ae361b4c8c2883c38f54a78a4afd772ef3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

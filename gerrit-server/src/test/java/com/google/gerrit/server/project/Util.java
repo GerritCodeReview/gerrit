@@ -24,6 +24,7 @@ import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.common.data.PermissionRule;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch;
 import com.google.gerrit.reviewdb.client.Change;
@@ -53,10 +54,13 @@ import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.securestore.SecureStore;
 import com.google.gerrit.testutil.FakeAccountCache;
 import com.google.gerrit.testutil.InMemoryRepositoryManager;
+import com.google.gerrit.testutil.InMemorySecureStore;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.google.inject.TypeLiteral;
 import com.google.inject.util.Providers;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -225,6 +229,9 @@ public class Util {
         bind(String.class).annotatedWith(AnonymousCowardName.class)
             .toProvider(AnonymousCowardNameProvider.class);
         bind(ChangeKindCache.class).to(ChangeKindCacheImpl.NoCache.class);
+
+        bind(new TypeLiteral<DynamicItem<SecureStore>>() {}).toInstance(
+            DynamicItem.<SecureStore> of(new InMemorySecureStore()));
       }
     });
 

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5c8a099e_3fea6719",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/RequireSslFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-25T01:15:39Z",
+      "side": 1,
+      "message": "I fail to see how this works properly. URL probably contains \"https://server/\". URLEncoder.encode considers : and / to be unsafe and will encode them. Which will confuse the crap out of the browser and prevent following.",
+      "revId": "1681b0f96be0d20760405d727d00e71cddbce9ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

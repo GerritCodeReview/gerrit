@@ -303,8 +303,27 @@ public abstract class AbstractQueryChangesTest {
     Change change2 = newChange(repo2, null, null, null, null).insert();
 
     assertTrue(query("project:foo").isEmpty());
+    assertTrue(query("project:repo").isEmpty());
     assertResultEquals(change1, queryOne("project:repo1"));
     assertResultEquals(change2, queryOne("project:repo2"));
+  }
+
+  @Test
+  public void byProjectPrefix() throws Exception {
+    TestRepository<InMemoryRepository> repo1 = createProject("repo1");
+    TestRepository<InMemoryRepository> repo2 = createProject("repo2");
+    Change change1 = newChange(repo1, null, null, null, null).insert();
+    Change change2 = newChange(repo2, null, null, null, null).insert();
+
+    assertTrue(query("projects:foo").isEmpty());
+    assertResultEquals(change1, queryOne("projects:repo1"));
+    assertResultEquals(change2, queryOne("projects:repo2"));
+
+    List<ChangeInfo> results;
+    results = query("projects:repo");
+    assertEquals(results.toString(), 2, results.size());
+    assertResultEquals(change2, results.get(0));
+    assertResultEquals(change1, results.get(1));
   }
 
   @Test

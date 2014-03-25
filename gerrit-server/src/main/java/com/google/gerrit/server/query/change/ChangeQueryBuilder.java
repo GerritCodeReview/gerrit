@@ -36,6 +36,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.strategy.SubmitStrategyFactory;
+import com.google.gerrit.server.index.ChangeField;
 import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.index.Schema;
@@ -106,6 +107,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public static final String FIELD_PARENTPROJECT = "parentproject";
   public static final String FIELD_PATH = "path";
   public static final String FIELD_PROJECT = "project";
+  public static final String FIELD_PROJECTS = "projects";
   public static final String FIELD_REF = "ref";
   public static final String FIELD_REVIEWER = "reviewer";
   public static final String FIELD_REVIEWERIN = "reviewerin";
@@ -369,6 +371,14 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     if (name.startsWith("^"))
       return new RegexProjectPredicate(name);
     return new ProjectPredicate(name);
+  }
+
+  @Operator
+  public Predicate<ChangeData> projects(String name) throws QueryParseException {
+    if (!schema(args.indexes).hasField(ChangeField.PROJECTS)) {
+      throw new QueryParseException("Unsupported operator: projects");
+    }
+    return new ProjectPrefixPredicate(name);
   }
 
   @Operator

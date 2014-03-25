@@ -564,7 +564,7 @@ public class PluginGuiceEnvironment {
     return true;
   }
 
-  static boolean is(String name, Class<?> type) {
+  public static boolean is(String name, Class<?> type) {
     while (type != null) {
       if (name.equals(type.getName())) {
         return true;

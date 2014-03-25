@@ -45,6 +45,64 @@
       "revId": "c42e4a1d412186c21e5a0ec45c788f0df2a6b131",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc71fd8c_34e1b0b3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-25T23:58:45Z",
+      "side": 1,
+      "message": "/changes/ REST API uses \"-S\" so this is just following the same style.",
+      "parentUuid": "9c4e4155_7143582e",
+      "range": {
+        "startLine": 147,
+        "startChar": 49,
+        "endLine": 147,
+        "endChar": 75
+      },
+      "revId": "c42e4a1d412186c21e5a0ec45c788f0df2a6b131",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc71fd8c_54de2cf6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-25T23:58:45Z",
+      "side": 1,
+      "message": "This access filtering code should be before the skip and limit code. Your change has moved it after. S\u003d10 might still return the same results as S\u003d0 if the first 10 projects on the server are invisible to the caller.",
+      "revId": "c42e4a1d412186c21e5a0ec45c788f0df2a6b131",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c4e4155_916d1c8f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-25T23:58:45Z",
+      "side": 1,
+      "message": "unnecessary blank line",
+      "revId": "c42e4a1d412186c21e5a0ec45c788f0df2a6b131",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

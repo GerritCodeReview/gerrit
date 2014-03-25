@@ -29,17 +29,23 @@ import java.util.Set;
 /** Configuration file in the projects refs/meta/config branch. */
 public class ProjectLevelConfig extends VersionedMetaData {
   private final String fileName;
+  private final String ref;
   private final ProjectState project;
   private Config cfg;
 
   public ProjectLevelConfig(String fileName, ProjectState project) {
+    this(fileName, RefNames.REFS_CONFIG, project);
+  }
+
+  public ProjectLevelConfig(String fileName, String ref, ProjectState project) {
     this.fileName = fileName;
     this.project = project;
+    this.ref = ref;
   }
 
   @Override
   protected String getRefName() {
-    return RefNames.REFS_CONFIG;
+    return ref;
   }
 
   @Override

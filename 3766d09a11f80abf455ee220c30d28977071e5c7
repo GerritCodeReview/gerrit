@@ -103,6 +103,24 @@
       "revId": "3766d09a11f80abf455ee220c30d28977071e5c7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dcc0b9c1_63aa8269",
+        "filename": "tools/default.defs",
+        "patchSetId": 2
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2014-03-25T16:35:05Z",
+      "side": 1,
+      "message": "What if there are soft links in the tree?  Don\u0027t our docs talk about being able to soft link in a plugin to the gerrit tree?",
+      "parentUuid": "dcc0b9c1_a39bda62",
+      "revId": "3766d09a11f80abf455ee220c30d28977071e5c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

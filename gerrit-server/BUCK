@@ -92,6 +92,7 @@ java_library(
     ':server',
     '//gerrit-common:server',
     '//gerrit-cache-h2:cache-h2',
+    '//gerrit-extension-api:api',
     '//gerrit-lucene:lucene',
     '//gerrit-reviewdb:server',
     '//lib:guava',

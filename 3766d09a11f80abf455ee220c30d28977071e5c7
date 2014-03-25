@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bc7b055f_02f2aabf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2014-03-25T14:26:26Z",
+      "side": 1,
+      "message": "Does that mean that the plugins will be broken when built on their own then (outside of the gerrit tree)?",
+      "revId": "3766d09a11f80abf455ee220c30d28977071e5c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

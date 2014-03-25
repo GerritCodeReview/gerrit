@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dcc0b9c1_e3f952ee",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 1716,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-03-25T01:20:46Z",
+      "side": 1,
+      "message": "Currently links to gitweb are also visible on projects page. IMO this extension should also contribute there",
+      "range": {
+        "startLine": 1716,
+        "startChar": 36,
+        "endLine": 1716,
+        "endChar": 71
+      },
+      "revId": "ae1a10ce48850a9527f08a5d476d0c4cc41a75e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

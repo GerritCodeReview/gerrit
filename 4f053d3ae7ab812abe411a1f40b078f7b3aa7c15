@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c4e4155_31c0f06a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 690,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-03-25T21:51:04Z",
+      "side": 1,
+      "message": "I\u0027m a little worried about doing 2-3 db lookups per default field search in the query. But not very much.\n\nI\u0027m a tiny bit worried about the cost of throwing and catching a few exceptions on every invocation. But even less than I am about the db lookup.",
+      "revId": "4f053d3ae7ab812abe411a1f40b078f7b3aa7c15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

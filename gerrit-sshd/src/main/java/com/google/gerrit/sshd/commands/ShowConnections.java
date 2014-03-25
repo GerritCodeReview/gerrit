@@ -30,7 +30,9 @@ import com.google.inject.Inject;
 
 import org.apache.sshd.common.io.IoAcceptor;
 import org.apache.sshd.common.io.IoSession;
+import org.apache.sshd.common.io.mina.MinaAcceptor;
 import org.apache.sshd.common.io.mina.MinaSession;
+import org.apache.sshd.common.io.nio2.Nio2Acceptor;
 import org.apache.sshd.server.Environment;
 import org.apache.sshd.server.session.ServerSession;
 import org.kohsuke.args4j.Option;
@@ -132,6 +134,20 @@ final class ShowConnections extends SshCommand {
           hostname(remoteAddress)));
     }
     stdout.print("--\n");
+    stdout.print("SSHD Backend: " + getBackend() + "\n");
+  }
+
+  private String getBackend() {
+    IoAcceptor acceptor = daemon.getIoAcceptor();
+    if (acceptor == null) {
+      return "";
+    } else if (acceptor instanceof MinaAcceptor) {
+      return "mina";
+    } else if (acceptor instanceof Nio2Acceptor) {
+      return "nio2";
+    } else {
+      return "unknown";
+    }
   }
 
   private static String id(final SshSession sd) {

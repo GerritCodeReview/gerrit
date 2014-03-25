@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "bc7b055f_a2d81e98",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/projects/ProjectInput.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-03-25T01:03:18Z",
+      "side": 1,
+      "message": "Actually we called BranchInput so far. So i am fine to rename both or to let the name be ProjectInput.",
+      "parentUuid": "5c0769cb_7a2fb56f",
+      "revId": "7321ff6e01e66dc63794fc120d255b60130e3135",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7c026dbc_9b68cfcd",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/ProjectStatus.java",
         "patchSetId": 9
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "bc7b055f_e2e22642",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/ProjectStatus.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-03-25T01:03:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c026dbc_9b68cfcd",
+      "range": {
+        "startLine": 17,
+        "startChar": 12,
+        "endLine": 17,
+        "endChar": 25
+      },
+      "revId": "7321ff6e01e66dc63794fc120d255b60130e3135",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c0769cb_ba378dc1",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/ProjectSubmitType.java",
         "patchSetId": 9
@@ -53,6 +95,30 @@
       "writtenOn": "2014-03-24T22:40:21Z",
       "side": 1,
       "message": "Considering we already have for example SubmitTypeRecord without the \"Project\", I think SubmitType would be fine.",
+      "range": {
+        "startLine": 17,
+        "startChar": 12,
+        "endLine": 17,
+        "endChar": 29
+      },
+      "revId": "7321ff6e01e66dc63794fc120d255b60130e3135",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc7b055f_c2dd2287",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/ProjectSubmitType.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-03-25T01:03:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c0769cb_ba378dc1",
       "range": {
         "startLine": 17,
         "startChar": 12,

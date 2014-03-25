@@ -13,8 +13,6 @@
 // limitations under the License.
 package com.google.gerrit.extensions.webui;
 
-import com.google.gerrit.extensions.annotations.ExtensionPoint;
-
 public interface WebLink {
 
   /**

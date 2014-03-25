@@ -17,8 +17,10 @@ package com.google.gerrit.server.mail;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.Version;
 import com.google.gerrit.common.errors.EmailException;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.securestore.SecureStore;
 import com.google.gerrit.server.util.TimeUtil;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
@@ -72,8 +74,10 @@ public class SmtpEmailSender implements EmailSender {
   private String importance;
   private int expiryDays;
 
+
   @Inject
-  SmtpEmailSender(@GerritServerConfig final Config cfg) {
+  SmtpEmailSender(@GerritServerConfig final Config cfg,
+      final DynamicItem<SecureStore> secureStoreItem) {
     enabled = cfg.getBoolean("sendemail", null, "enable", true);
     connectTimeout =
         Ints.checkedCast(ConfigUtil.getTimeUnit(cfg, "sendemail", null,
@@ -105,7 +109,7 @@ public class SmtpEmailSender implements EmailSender {
     smtpPort = cfg.getInt("sendemail", null, "smtpserverport", defaultPort);
 
     smtpUser = cfg.getString("sendemail", null, "smtpuser");
-    smtpPass = cfg.getString("sendemail", null, "smtppass");
+    smtpPass = secureStoreItem.get().get("sendemail", null, "smtppass");
 
     Set<String> rcpt = new HashSet<>();
     for (String addr : cfg.getStringList("sendemail", null, "allowrcpt")) {

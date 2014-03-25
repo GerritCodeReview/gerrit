@@ -1,31 +1,33 @@
 include_defs('//lib/maven.defs')
 
+VER = '1.7.6'
+
 maven_jar(
   name = 'api',
-  id = 'org.slf4j:slf4j-api:1.6.1',
-  sha1 = '6f3b8a24bf970f17289b234284c94f43eb42f0e4',
+  id = 'org.slf4j:slf4j-api:' + VER,
+  sha1 = '562424e36df3d2327e8e9301a76027fca17d54ea',
   license = 'slf4j',
 )
 
 maven_jar(
   name = 'impl_log4j',
-  id = 'org.slf4j:slf4j-log4j12:1.6.1',
-  sha1 = 'bd245d6746cdd4e6203e976e21d597a46f115802',
+  id = 'org.slf4j:slf4j-log4j12:' + VER,
+  sha1 = '6953717b9850aeb26d1b8375ca07dbd9c50eca4e',
   license = 'slf4j',
   deps = [':log4j'],
 )
 
 maven_jar(
-  name = 'log4j',
-  id = 'log4j:log4j:1.2.16',
-  sha1 = '7999a63bfccbc7c247a9aea10d83d4272bd492c6',
-  license = 'Apache2.0',
-  exclude = ['META-INF/LICENSE', 'META-INF/NOTICE'],
+  name = 'jcl-over-slf4j',
+  id = 'org.slf4j:jcl-over-slf4j:' + VER,
+  sha1 = 'ab1648fe1dd6f1e5c2ec6d12f394672bb8c1036a',
+  license = 'slf4j',
 )
 
 maven_jar(
-  name = 'jcl-over-slf4j',
-  id = 'org.slf4j:jcl-over-slf4j:1.6.1',
-  sha1 = '99c61095a14dfc9e47a086068033c286bf236475',
-  license = 'slf4j',
+  name = 'log4j',
+  id = 'log4j:log4j:1.2.17',
+  sha1 = '5af35056b4d257e4b64b9e8069c0746e8b08629f',
+  license = 'Apache2.0',
+  exclude = ['META-INF/LICENSE', 'META-INF/NOTICE'],
 )

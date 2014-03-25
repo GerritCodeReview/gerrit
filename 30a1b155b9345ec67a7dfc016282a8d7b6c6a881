@@ -22,6 +22,30 @@
       "revId": "30a1b155b9345ec67a7dfc016282a8d7b6c6a881",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc7b055f_e2ece6e8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetPreferences.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-03-25T14:06:21Z",
+      "side": 1,
+      "message": "Bah, why I can\u0027t stop doing this?\n\nDone",
+      "parentUuid": "dcc0b9c1_e3ecb2e8",
+      "range": {
+        "startLine": 117,
+        "startChar": 48,
+        "endLine": 117,
+        "endChar": 64
+      },
+      "revId": "30a1b155b9345ec67a7dfc016282a8d7b6c6a881",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

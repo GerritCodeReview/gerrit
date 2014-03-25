@@ -39,6 +39,7 @@ java_library(
   srcs = glob([SRC + 'common/**/*.java'], excludes = ANNOTATIONS),
   deps = [
     ':annotations',
+    '//gerrit-extension-api:api',
     '//gerrit-patch-jgit:server',
     '//gerrit-prettify:server',
     '//gerrit-reviewdb:server',

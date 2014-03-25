@@ -14,6 +14,9 @@
 
 package com.google.gerrit.reviewdb.client;
 
+import com.google.gerrit.extensions.api.projects.ProjectState;
+import com.google.gerrit.extensions.common.InheritableBoolean;
+import com.google.gerrit.extensions.common.SubmitType;
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.StringKey;
 
@@ -65,32 +68,6 @@ public final class Project {
     }
   }
 
-  public static enum SubmitType {
-    FAST_FORWARD_ONLY,
-
-    MERGE_IF_NECESSARY,
-
-    REBASE_IF_NECESSARY,
-
-    MERGE_ALWAYS,
-
-    CHERRY_PICK
-  }
-
-  public static enum State {
-    ACTIVE,
-
-    READ_ONLY,
-
-    HIDDEN
-  }
-
-  public static enum InheritableBoolean {
-    TRUE,
-    FALSE,
-    INHERIT
-  }
-
   protected NameKey name;
 
   protected String description;
@@ -101,7 +78,7 @@ public final class Project {
 
   protected SubmitType submitType;
 
-  protected State state;
+  protected ProjectState state;
 
   protected NameKey parent;
 
@@ -123,7 +100,7 @@ public final class Project {
   public Project(Project.NameKey nameKey) {
     name = nameKey;
     submitType = SubmitType.MERGE_IF_NECESSARY;
-    state = State.ACTIVE;
+    state = ProjectState.ACTIVE;
     useContributorAgreements = InheritableBoolean.INHERIT;
     useSignedOffBy = InheritableBoolean.INHERIT;
     requireChangeID = InheritableBoolean.INHERIT;
@@ -194,11 +171,11 @@ public final class Project {
     submitType = type;
   }
 
-  public State getState() {
+  public ProjectState getState() {
     return state;
   }
 
-  public void setState(final State newState) {
+  public void setState(final ProjectState newState) {
     state = newState;
   }
 

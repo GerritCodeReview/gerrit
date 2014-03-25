@@ -2851,6 +2851,11 @@ programmatic configuration.
 +
 By default, true.
 
+.Java Cryptography Extension (JCE) Unlimited Strength Jurisdiction Policy Files
+Support for extra strength cryptographic ciphers (_AES128CTR_, _AES256CTR_, _ARCFOUR256_,
+and _ARCFOUR128_) can be enabled by downloading the http://www.oracle.com/technetwork/java/javase/downloads/jce-7-download-432124.html/[JCE policy files] from Oracle and following the
+installation instructions there.
+
 [[suggest]]
 === Section suggest
 

@@ -97,11 +97,12 @@ class SkipBar extends Composite {
   void setMarker(TextMarker marker, int length) {
     this.marker = marker;
     numSkipLines = length;
-    skipNum.setText(Integer.toString(length));
     if (checkAndUpdateArrows()) {
       upArrow.setHTML(PatchUtil.M.expandBefore(NUM_ROWS_TO_EXPAND));
       downArrow.setHTML(PatchUtil.M.expandAfter(NUM_ROWS_TO_EXPAND));
     }
+    skipNum.setText(PatchUtil.C.patchSkipRegionStart() + " "
+        + Integer.toString(length) + " " + PatchUtil.C.patchSkipRegionEnd());
   }
 
   static void link(SkipBar barA, SkipBar barB) {

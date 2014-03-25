@@ -149,24 +149,33 @@ public class DynamicItem<T> {
    */
   public RegistrationHandle set(Provider<T> impl, String pluginName) {
     final NamedProvider<T> item = new NamedProvider<T>(impl, pluginName);
-    while (!ref.compareAndSet(null, item)) {
-      NamedProvider<T> old = ref.get();
-      if (old != null) {
-        if ("gerrit".equals(old.pluginName)) {
-          if (ref.compareAndSet(old, item)) {
-            break;
-          }
-          old = ref.get();
-        }
-        throw new ProvisionException(String.format(
-            "%s already provided by %s, ignoring plugin %s",
-            key.getTypeLiteral(), old.pluginName, pluginName));
+    final NamedProvider<T> saved;
+    while (true) {
+      if (ref.compareAndSet(null, item)) {
+        saved = null;
+        break;
       }
+
+      NamedProvider<T> old = ref.get();
+      if (old == null) {
+        continue;
+      }
+
+      if ("gerrit".equals(old.pluginName)) {
+        if (ref.compareAndSet(old, item)) {
+          saved = old;
+          break;
+        }
+        old = ref.get();
+      }
+      throw new ProvisionException(String.format(
+          "%s already provided by %s, ignoring plugin %s",
+          key.getTypeLiteral(), old.pluginName, pluginName));
     }
     return new RegistrationHandle() {
       @Override
       public void remove() {
-        ref.compareAndSet(item, null);
+        ref.compareAndSet(item, saved);
       }
     };
   }

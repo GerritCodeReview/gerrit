@@ -14,6 +14,7 @@
 
 package com.google.gerrit.reviewdb.client;
 
+
 /** Constants and utilities for Gerrit-specific ref names. */
 public class RefNames {
   public static final String REFS_CHANGES = "refs/changes/";
@@ -23,6 +24,9 @@ public class RefNames {
 
   /** Configuration settings for a project {@code refs/meta/config} */
   public static final String REFS_CONFIG = "refs/meta/config";
+
+  /** Preference settings for a user {@code refs/users} */
+  public static final String REFS_USER = "refs/users/";
 
   /** Configurations of project-specific dashboards (canned search queries). */
   public static final String REFS_DASHBOARDS = "refs/meta/dashboards/";
@@ -38,6 +42,20 @@ public class RefNames {
    * result of the merge commit's parents.
    */
   public static final String REFS_CACHE_AUTOMERGE = "refs/cache-automerge/";
+
+  public static String refsUsers(Account.Id accountId) {
+    StringBuilder r = new StringBuilder();
+    r.append(REFS_USER);
+    int account = accountId.get();
+    int m = account % 100;
+    if (m < 10) {
+      r.append('0');
+    }
+    r.append(m);
+    r.append('/');
+    r.append(account);
+    return r.toString();
+  }
 
   private RefNames() {
   }

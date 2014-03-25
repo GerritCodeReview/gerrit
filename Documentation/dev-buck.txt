@@ -259,6 +259,15 @@ The output release WAR will be placed in:
   buck-out/gen/release.war
 ----
 
+[[all]]
+=== Combined build target
+
+To build release and api targets, a combined build target is provided:
+
+----
+  buck build all
+----
+
 [[tests]]
 == Running Unit Tests
 
@@ -468,6 +477,45 @@ heap size:
   -XX:MaxPermSize=512m -Xms8000m -Xmx16000m
   EOF
 ----
+
+== Sporadic failures of unit tests
+
+In case unit tests are failing for non obvious reasons, failed tests may need
+to be repeated:
+
+----
+FAIL  32,0s  7 Passed   1 Failed   com.google.gerrit.acceptance.rest.group.AddRemoveGroupMembersIT
+FAILURE includeRemoveGroup: verify: false
+com.jcraft.jsch.JSchException: verify: false
+----
+
+Because the test execution results are cached by Buck, they must be removed
+before retrying:
+
+----
+  $ rm -rf buck-out/bin/gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/group/.AddRemoveGroupMembersIT/
+----
+
+After clearing the cache and repeating of the failed tests, they are successful:
+
+----
+  $ buck test //gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/group:AddRemoveGroupMembersIT
+  TESTING //gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/group:AddRemoveGroupMembersIT
+  PASS  14,9s  8 Passed   0 Failed   com.google.gerrit.acceptance.rest.group.AddRemoveGroupMembersIT
+  TESTS PASSED
+----
+
+An alternative approach is to use a Buck feature:
+--test-selectors (-filters, -f) option:
+
+----
+  buck test --all -f 'com.google.gerrit.acceptance.rest.change.SubmitByMergeAlwaysIT'
+  TESTING SELECTED TESTS
+  PASS  14,5s  6 Passed   0 Failed   com.google.gerrit.acceptance.rest.change.SubmitByMergeAlwaysIT
+  TESTS PASSED
+----
+
+When this option is used, cache is disabled per design and doesn't need to be deleted.
 
 GERRIT
 ------

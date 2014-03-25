@@ -230,6 +230,7 @@ def java_doc(
   genrule(
     name = name,
     cmd = ' '.join([
+      'while ! test -f .buckconfig; do cd ..; done;',
       'javadoc',
       '-quiet',
       '-protected',

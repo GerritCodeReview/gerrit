@@ -15,6 +15,7 @@
 package com.google.gerrit.server.index;
 
 import com.google.common.base.Splitter;
+import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.Account;
@@ -22,6 +23,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.PatchSet.Id;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -234,8 +236,11 @@ public class ChangeField {
               input.change().getStatus() == Change.Status.DRAFT) {
             return r;
           }
-          for (PatchSetApproval a : input.approvals().values()) {
-            r.add(a.getAccountId().get());
+          ListMultimap<Id, PatchSetApproval> approvals = input.approvals();
+          if (approvals != null) {
+            for (PatchSetApproval a : approvals.values()) {
+              r.add(a.getAccountId().get());
+            }
           }
           return r;
         }

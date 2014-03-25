@@ -35,6 +35,7 @@ import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.PatchSet.Id;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetApproval.LabelId;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
@@ -230,7 +231,11 @@ public class ApprovalsUtil {
     if (!migration.readPatchSetApprovals()) {
       return sortApprovals(db.patchSetApprovals().byPatchSet(psId));
     }
-    return notes.load().getApprovals().get(psId);
+    ImmutableListMultimap<Id, PatchSetApproval> approvals = notes.load().getApprovals();
+    if (approvals != null) {
+      return approvals.get(psId);
+    }
+    return Collections.emptyList();
   }
 
   public List<PatchSetApproval> byPatchSetUser(ReviewDb db,

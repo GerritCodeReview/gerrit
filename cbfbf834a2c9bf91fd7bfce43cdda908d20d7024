@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "fc71fd8c_74a168b8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-03-25T22:32:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9c4e4155_f1b4a8fc",
+      "range": {
+        "startLine": 100,
+        "startChar": 0,
+        "endLine": 103,
+        "endChar": 40
+      },
+      "revId": "cbfbf834a2c9bf91fd7bfce43cdda908d20d7024",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fc71fd8c_14aaf499",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreProvider.java",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2014-03-25T22:26:58Z",
       "side": 1,
       "message": "Inline msg. Line wrap the format args if necessary.",
+      "range": {
+        "startLine": 141,
+        "startChar": 0,
+        "endLine": 142,
+        "endChar": 40
+      },
+      "revId": "cbfbf834a2c9bf91fd7bfce43cdda908d20d7024",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc71fd8c_9410c437",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-03-25T22:32:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc71fd8c_14aaf499",
       "range": {
         "startLine": 141,
         "startChar": 0,
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "fc71fd8c_d41a3c55",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-03-25T22:32:13Z",
+      "side": 1,
+      "message": "It enforces data encryption.\n\nIn our case when secure store cannot decrypt it return value that he read from file. Then this value is encrypted by Gerrit\u0027s SecureStore impl.",
+      "parentUuid": "9c4e4155_b1ba20e9",
+      "revId": "cbfbf834a2c9bf91fd7bfce43cdda908d20d7024",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9c4e4155_d1afa4a9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreProvider.java",
         "patchSetId": 2
@@ -76,6 +142,24 @@
       "writtenOn": "2014-03-25T22:26:58Z",
       "side": 1,
       "message": "nit: unnecessary blank line",
+      "revId": "cbfbf834a2c9bf91fd7bfce43cdda908d20d7024",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc71fd8c_f41f3842",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-03-25T22:32:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9c4e4155_d1afa4a9",
       "revId": "cbfbf834a2c9bf91fd7bfce43cdda908d20d7024",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

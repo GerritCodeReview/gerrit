@@ -51,8 +51,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 public class DocIndexer {
-  @SuppressWarnings("deprecation")
-  private static final Version LUCENE_VERSION = Version.LUCENE_46;
+  private static final Version LUCENE_VERSION = Version.LUCENE_47;
   private static final Pattern SECTION_HEADER = Pattern.compile("^=+ (.*)");
 
   @Option(name = "-o", usage = "output JAR file")

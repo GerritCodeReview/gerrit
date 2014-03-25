@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1c3a51a9_8dd8a198",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SkipBar.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-25T17:06:09Z",
+      "side": 1,
+      "message": "Instead of 2 constant strings this should be a message.",
+      "range": {
+        "startLine": 104,
+        "startChar": 20,
+        "endLine": 105,
+        "endChar": 75
+      },
+      "revId": "c1ac9d94a2d442fce25b893e586ee020f5804d7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

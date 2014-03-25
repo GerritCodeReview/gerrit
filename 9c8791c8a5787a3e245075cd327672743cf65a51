@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1c3a51a9_addd5d87",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SkipBar.ui.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-25T17:06:09Z",
+      "side": 0,
+      "message": "You can do this in gwt.xml:\n\n  \u003cg:Anchor ui:field\u003d\u0027skipNumLink\u0027 addStyleNames\u003d\u0027{style.anchor}\u0027\u003e\u003cui:msg\u003e... skipped \u003cspan ui:field\u003d\u0027skipNum\u0027/\u003e common lines ...\u003c/ui:msg\u003e\u003c/g:Anchor\u003e",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 53
+      },
+      "revId": "9c8791c8a5787a3e245075cd327672743cf65a51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

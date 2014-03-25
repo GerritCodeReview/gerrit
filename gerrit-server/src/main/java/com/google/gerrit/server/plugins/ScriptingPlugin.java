@@ -33,7 +33,7 @@ public abstract class ScriptingPlugin extends Plugin {
     ScriptingPlugin get(String name, File srcFile, PluginUser pluginUser,
         FileSnapshot snapshot);
 
-    boolean isMyScriptExtension(String scriptExtension);
+    boolean isMyFile(File file);
   }
 
   private Injector httpInjector;

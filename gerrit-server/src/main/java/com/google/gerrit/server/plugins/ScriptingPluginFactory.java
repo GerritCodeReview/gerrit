@@ -19,13 +19,12 @@ import com.google.gerrit.server.plugins.ScriptingPlugin.Factory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import org.apache.commons.lang.StringUtils;
 import org.eclipse.jgit.internal.storage.file.FileSnapshot;
 
 import java.io.File;
 
 @Singleton
-public class ScriptingPluginFactory implements ScriptingPlugin.Factory {
+public class ScriptingPluginFactory {
 
   private DynamicSet<ScriptingPlugin.Factory> scriptingFactories;
 
@@ -34,13 +33,9 @@ public class ScriptingPluginFactory implements ScriptingPlugin.Factory {
    this.scriptingFactories = sf;
   }
 
-  @Override
   public ScriptingPlugin get(String name, File srcFile, PluginUser pluginUser,
       FileSnapshot snapshot) {
-
-    String srcFilename = srcFile.getName();
-    String scrFileExtension = StringUtils.substringAfterLast(srcFilename, ".");
-    ScriptingPlugin.Factory scriptingFactory = getFactory(scrFileExtension);
+    ScriptingPlugin.Factory scriptingFactory = getFactory(srcFile);
     if(scriptingFactory == null) {
       throw new IllegalArgumentException("Script file " + srcFile.getAbsolutePath() +
           " is not a known scripting language for a Gerrit plugin");
@@ -49,17 +44,12 @@ public class ScriptingPluginFactory implements ScriptingPlugin.Factory {
     return scriptingFactory.get(name, srcFile, pluginUser, snapshot);
   }
 
-  private Factory getFactory(String srcFileExtension) {
+  private Factory getFactory(File file) {
     for (ScriptingPlugin.Factory scriptingFactory : scriptingFactories) {
-      if(scriptingFactory.isMyScriptExtension(srcFileExtension)) {
+      if(scriptingFactory.isMyFile(file)) {
         return scriptingFactory;
-      };
+      }
     }
     return null;
-  }
-
-  @Override
-  public boolean isMyScriptExtension(String scriptExtension) {
-    return getFactory(scriptExtension) != null;
   }
 }

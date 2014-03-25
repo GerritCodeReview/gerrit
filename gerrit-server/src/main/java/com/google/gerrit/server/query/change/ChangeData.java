@@ -397,8 +397,6 @@ public class ChangeData {
       Change c = change();
       if (c == null) {
         currentApprovals = Collections.emptyList();
-      } else if (allApprovals != null) {
-        return allApprovals.get(c.currentPatchSetId());
       } else {
         currentApprovals = ImmutableList.copyOf(approvalsUtil.byPatchSet(
             db, changeControl(), c.currentPatchSetId()));

@@ -41,7 +41,6 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.LinkedHashMultimap;
-import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
@@ -509,22 +508,18 @@ public class ChangeJson {
       return;
     }
 
-    // All users ever added, even if they can't vote on one or all labels.
+    // Include a user in the output for this label if either:
+    //  - They are an explicit reviewer.
+    //  - They ever voted on this change.
     Set<Account.Id> allUsers = Sets.newHashSet();
-    ListMultimap<PatchSet.Id, PatchSetApproval> allApprovals =
-        cd.approvals();
-    for (PatchSetApproval psa : allApprovals.values()) {
+    allUsers.addAll(cd.reviewers().values());
+    for (PatchSetApproval psa : cd.approvals().values()) {
       allUsers.add(psa.getAccountId());
     }
 
-    List<PatchSetApproval> currentList =
-        allApprovals.get(baseCtrl.getChange().currentPatchSetId());
-    // Most recent, normalized vote on each label for the current patch set by
-    // each user (may be 0).
     Table<Account.Id, String, PatchSetApproval> current = HashBasedTable.create(
         allUsers.size(), baseCtrl.getLabelTypes().getLabelTypes().size());
-    for (PatchSetApproval psa :
-        labelNormalizer.normalize(baseCtrl, currentList).getNormalized()) {
+    for (PatchSetApproval psa : cd.currentApprovals()) {
       current.put(psa.getAccountId(), psa.getLabel(), psa);
     }
 
@@ -545,9 +540,9 @@ public class ChangeJson {
           value = Integer.valueOf(psa.getValue());
           date = psa.getGranted();
         } else {
-          // Either the user cannot vote on this label, or there just wasn't a
-          // dummy approval for this label. Explicitly check whether the user
-          // can vote on this label.
+          // Either the user cannot vote on this label, or they were added as a
+          // reviewer but have not responded yet. Explicitly check whether the
+          // user can vote on this label.
           value = labelNormalizer.canVote(ctl, lt, accountId) ? 0 : null;
         }
         e.getValue().addApproval(approvalInfo(accountId, value, date));

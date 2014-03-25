@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "5c8a099e_7f3dcfca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-25T16:18:11Z",
+      "side": 1,
+      "message": "This isn\u0027t the Buck commit that made this change; it fixes a documentation typo. You mean this is the version that Gerrit has upgraded to and somewhere in its ancestory the breakage happened?",
+      "revId": "3766d09a11f80abf455ee220c30d28977071e5c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bc7b055f_02f2aabf",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -13,6 +30,40 @@
       "writtenOn": "2014-03-25T14:26:26Z",
       "side": 1,
       "message": "Does that mean that the plugins will be broken when built on their own then (outside of the gerrit tree)?",
+      "revId": "3766d09a11f80abf455ee220c30d28977071e5c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c8a099e_9f7c5398",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-25T16:18:11Z",
+      "side": 1,
+      "message": "Ick. Really? Buck cds into the srcs directory within buck-out/gen? Ick.",
+      "revId": "3766d09a11f80abf455ee220c30d28977071e5c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c8a099e_bf81173d",
+        "filename": "tools/default.defs",
+        "patchSetId": 2
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-25T16:18:11Z",
+      "side": 1,
+      "message": "while ! test -f .buckconfig; do cd ..; done;",
       "revId": "3766d09a11f80abf455ee220c30d28977071e5c7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

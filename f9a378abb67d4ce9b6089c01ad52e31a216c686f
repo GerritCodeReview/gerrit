@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bc3225d1_eae7474f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetPreferences.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-25T17:42:23Z",
+      "side": 1,
+      "message": "This should be in RefNames.",
+      "revId": "f9a378abb67d4ce9b6089c01ad52e31a216c686f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c3a51a9_6df455f7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetPreferences.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-25T17:42:23Z",
+      "side": 1,
+      "message": "This needs to include the account id. And we should shard them. 10,000 user accounts in a single directory might cause some problems for the filesystem based stock git.",
+      "range": {
+        "startLine": 118,
+        "startChar": 54,
+        "endLine": 118,
+        "endChar": 68
+      },
+      "revId": "f9a378abb67d4ce9b6089c01ad52e31a216c686f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c3a51a9_8dffc1d2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetPreferences.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-25T17:42:23Z",
+      "side": 1,
+      "message": "Shard the namespace?",
+      "range": {
+        "startLine": 177,
+        "startChar": 43,
+        "endLine": 178,
+        "endChar": 39
+      },
+      "revId": "f9a378abb67d4ce9b6089c01ad52e31a216c686f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc3225d1_0aed7b30",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetPreferences.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-25T17:42:23Z",
+      "side": 1,
+      "message": "Isn\u0027t this implied by the Author field? Shouldn\u0027t the message just be \"Updated preferences\"?",
+      "range": {
+        "startLine": 194,
+        "startChar": 2,
+        "endLine": 201,
+        "endChar": 3
+      },
+      "revId": "f9a378abb67d4ce9b6089c01ad52e31a216c686f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

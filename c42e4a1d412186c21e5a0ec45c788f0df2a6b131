@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c4e4155_7143582e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-25T22:56:55Z",
+      "side": 1,
+      "message": "\"start offset\"?",
+      "range": {
+        "startLine": 147,
+        "startChar": 49,
+        "endLine": 147,
+        "endChar": 75
+      },
+      "revId": "c42e4a1d412186c21e5a0ec45c788f0df2a6b131",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c4e4155_5146543f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-25T22:56:55Z",
+      "side": 1,
+      "message": "`--offset` would maybe be better, with an alias something like `-o`",
+      "range": {
+        "startLine": 147,
+        "startChar": 18,
+        "endLine": 147,
+        "endChar": 20
+      },
+      "revId": "c42e4a1d412186c21e5a0ec45c788f0df2a6b131",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

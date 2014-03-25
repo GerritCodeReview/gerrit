@@ -265,7 +265,7 @@ cgit can be used by specifying `gitweb.type` to be 'cgit'.
 
 It is also possible to define custom patterns.
 
-=== See Also
+=== SEE ALSO
 
 * link:config-gerrit.html#gitweb[Section gitweb]
 * link:http://hjemli.net/git/cgit/[cgit]

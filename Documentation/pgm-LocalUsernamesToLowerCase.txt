@@ -52,7 +52,7 @@ To convert the local username of every account to lower case:
 	$ java -jar gerrit.war LocalUsernamesToLowerCase -d site_path
 ====
 
-== See Also
+== SEE ALSO
 
 * Configuration parameter link:config-gerrit.html#ldap.localUsernameToLowerCase[ldap.localUsernameToLowerCase]
 

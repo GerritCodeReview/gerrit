@@ -21,9 +21,11 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.errors.NoSuchGroupException;
+import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
+import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -33,7 +35,6 @@ import com.google.gerrit.server.StringUtil;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.project.ProjectJson.ProjectInfo;
 import com.google.gerrit.server.util.TreeFormatter;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
@@ -392,7 +393,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
       }
 
       for (ProjectInfo info : output.values()) {
-        info.finish();
+        info.id = Url.encode(info.name);
         info.name = null;
       }
       if (stdout == null) {

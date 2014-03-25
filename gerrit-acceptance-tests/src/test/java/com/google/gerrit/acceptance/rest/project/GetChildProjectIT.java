@@ -21,10 +21,10 @@ import static org.junit.Assert.assertEquals;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.SshSession;
+import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectJson.ProjectInfo;
 import com.google.inject.Inject;
 
 import com.jcraft.jsch.JSchException;

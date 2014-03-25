@@ -21,10 +21,10 @@ import static org.junit.Assert.assertTrue;
 import com.google.common.base.Predicate;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
+import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.project.ProjectJson.ProjectInfo;
 import com.google.gerrit.server.project.ProjectState;
 
 import java.util.List;

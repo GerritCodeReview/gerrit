@@ -15,13 +15,11 @@
 package com.google.gerrit.server.project;
 
 import com.google.common.base.Strings;
-import com.google.gerrit.extensions.api.projects.ProjectState;
+import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.inject.Inject;
-
-import java.util.Map;
 
 public class ProjectJson {
 
@@ -43,21 +41,7 @@ public class ProjectJson {
     info.parent = parentName != null ? parentName.get() : null;
     info.description = Strings.emptyToNull(p.getDescription());
     info.state = p.getState();
-    info.finish();
+    info.id = Url.encode(info.name);
     return info;
-  }
-
-  public static class ProjectInfo {
-    public final String kind = "gerritcodereview#project";
-    public String id;
-    public String name;
-    public String parent;
-    public String description;
-    public ProjectState state;
-    public Map<String, String> branches;
-
-    void finish() {
-      id = Url.encode(name);
-    }
   }
 }

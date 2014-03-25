@@ -22,6 +22,30 @@
       "revId": "9c8791c8a5787a3e245075cd327672743cf65a51",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc71fd8c_743de8ca",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SkipBar.ui.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-03-25T19:19:51Z",
+      "side": 0,
+      "message": "seams that when you put span element within anchor setting inner text is not working. seams that GWT is not overriding initially set value in span",
+      "parentUuid": "1c3a51a9_addd5d87",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 53
+      },
+      "revId": "9c8791c8a5787a3e245075cd327672743cf65a51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

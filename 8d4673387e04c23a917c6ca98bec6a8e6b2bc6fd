@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fc71fd8c_949b6463",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyPreferencesScreen.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-25T23:28:42Z",
+      "side": 1,
+      "message": "Load this using a CallbackGroup at the same time as myAccount. Add the ScreenLoadCallback as the 2nd callback to display the screen after both callbacks are finished successfully.",
+      "range": {
+        "startLine": 245,
+        "startChar": 8,
+        "endLine": 245,
+        "endChar": 84
+      },
+      "revId": "8d4673387e04c23a917c6ca98bec6a8e6b2bc6fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c4e4155_11c92c69",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyPreferencesScreen.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-25T23:28:42Z",
+      "side": 1,
+      "message": "We should port this to the new API since the REST API you are using to save the My menu is also already capable of storing the other properties.",
+      "range": {
+        "startLine": 387,
+        "startChar": 0,
+        "endLine": 402,
+        "endChar": 7
+      },
+      "revId": "8d4673387e04c23a917c6ca98bec6a8e6b2bc6fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc71fd8c_d495dc2c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyPreferencesScreen.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-25T23:28:42Z",
+      "side": 1,
+      "message": "Losing the error could be confusing for the user when the save doesn\u0027t work.",
+      "range": {
+        "startLine": 416,
+        "startChar": 10,
+        "endLine": 417,
+        "endChar": 11
+      },
+      "revId": "8d4673387e04c23a917c6ca98bec6a8e6b2bc6fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c4e4155_d1bec4b4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/Preferences.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-25T23:28:42Z",
+      "side": 1,
+      "message": "nit: unnecessary blank line",
+      "revId": "8d4673387e04c23a917c6ca98bec6a8e6b2bc6fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

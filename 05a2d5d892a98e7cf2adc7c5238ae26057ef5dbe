@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "bc7b055f_023aaae0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetPreferences.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-03-25T01:41:59Z",
+      "side": 1,
+      "message": "I\u0027ve moved it into an own method, but this method will go away with the next change that should allow the user to configure the menu items.",
+      "parentUuid": "5c8a099e_bf04b733",
+      "range": {
+        "startLine": 97,
+        "startChar": 0,
+        "endLine": 98,
+        "endChar": 47
+      },
+      "revId": "05a2d5d892a98e7cf2adc7c5238ae26057ef5dbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fc981df7_3cea7119",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetPreferences.java",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2014-03-25T01:24:08Z",
       "side": 1,
       "message": "I was thinking the user could set a preference to decide what query results appear at #/. That way \"g-i\" as a keyboard shortcut still goes to #/ and you can change that view by selecting a project dashboard.\n\nBut this is orthogonal and also interesting to let the user control the menu.",
+      "revId": "05a2d5d892a98e7cf2adc7c5238ae26057ef5dbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dcc0b9c1_a3511a2c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetPreferences.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-03-25T01:41:59Z",
+      "side": 1,
+      "message": "I\u0027ve discussed with Martin about this and we came to the conclusion that a user may actually want to configure n dashboards and not just 1. Making the \u0027My\u0027 menu completely customizable provides the most flexibility.\n\nBut you are right, defining which dashboard should be served on \u0027#/\u0027 is still worth doing.",
+      "parentUuid": "fc981df7_3cea7119",
       "revId": "05a2d5d892a98e7cf2adc7c5238ae26057ef5dbe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

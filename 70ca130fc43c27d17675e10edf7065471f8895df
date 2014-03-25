@@ -59,6 +59,29 @@
     },
     {
       "key": {
+        "uuid": "5c8a099e_9ffff3d2",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ConfigInfo.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-25T01:18:20Z",
+      "side": 1,
+      "message": "FWIW this sort of refactoring is easier to review when its by itself and is not combined with another edit, such as adding support to create a project by the API.",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 54
+      },
+      "revId": "70ca130fc43c27d17675e10edf7065471f8895df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fc981df7_bcdda187",
         "filename": "gerrit-reviewdb/BUCK",
         "patchSetId": 10

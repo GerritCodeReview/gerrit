@@ -26,8 +26,10 @@ import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.TimeFormat;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 
+import java.util.List;
+
 public class Preferences extends JavaScriptObject {
-  public static Preferences create(AccountGeneralPreferences in) {
+  public static Preferences create(AccountGeneralPreferences in, List<TopMenuItem> myMenus) {
     Preferences p = createObject().cast();
     if (in == null) {
       in = AccountGeneralPreferences.createDefault();
@@ -47,6 +49,7 @@ public class Preferences extends JavaScriptObject {
     p.commentVisibilityStrategy(in.getCommentVisibilityStrategy());
     p.diffView(in.getDiffView());
     p.changeScreen(in.getChangeScreen());
+    p.setMyMenus(myMenus);
     return p;
   }
 
@@ -194,6 +197,15 @@ public class Preferences extends JavaScriptObject {
   }
   private final native void changeScreenRaw(String s)
   /*-{ this.change_screen = s }-*/;
+
+  final void setMyMenus(List<TopMenuItem> myMenus) {
+    initMy();
+    for (TopMenuItem n : myMenus) {
+      addMy(n);
+    }
+  }
+  final native void initMy() /*-{ this.my = []; }-*/;
+  final native void addMy(TopMenuItem m) /*-{ this.my.push(m); }-*/;
 
   protected Preferences() {
   }

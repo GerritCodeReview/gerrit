@@ -19,7 +19,10 @@ import static com.google.gerrit.reviewdb.client.AccountGeneralPreferences.PAGESI
 
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.StringListPanel;
+import com.google.gerrit.client.extensions.TopMenuItem;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.OnEditEnabler;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
@@ -34,7 +37,10 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.ListBox;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 public class MyPreferencesScreen extends SettingsScreen {
   private CheckBox showSiteHeader;
@@ -50,6 +56,7 @@ public class MyPreferencesScreen extends SettingsScreen {
   private ListBox commentVisibilityStrategy;
   private ListBox changeScreen;
   private ListBox diffView;
+  private StringListPanel myMenus;
   private Button save;
 
   @Override
@@ -200,6 +207,12 @@ public class MyPreferencesScreen extends SettingsScreen {
         doSave();
       }
     });
+
+    myMenus = new StringListPanel(Util.C.myMenu(),
+        Arrays.asList(Util.C.myMenuName(), Util.C.myMenuUrl()), save);
+    myMenus.setInfo(Util.C.myMenuInfo());
+    add(myMenus);
+
     add(save);
 
     final OnEditEnabler e = new OnEditEnabler(save);
@@ -268,6 +281,12 @@ public class MyPreferencesScreen extends SettingsScreen {
     setListBox(diffView,
         AccountGeneralPreferences.DiffView.SIDE_BY_SIDE,
         p.diffView());
+
+    List<List<String>> values = new ArrayList<>();
+    for (TopMenuItem item : Natives.asList(p.my())) {
+      values.add(Arrays.asList(item.getName(), item.getUrl()));
+    }
+    myMenus.display(values);
   }
 
   private void setListBox(final ListBox f, final short defaultValue,
@@ -350,8 +369,13 @@ public class MyPreferencesScreen extends SettingsScreen {
     enable(false);
     save.setEnabled(false);
 
+    List<TopMenuItem> items = new ArrayList<>();
+    for (List<String> v : myMenus.getValues()) {
+      items.add(TopMenuItem.create(v.get(0), v.get(1)));
+    }
+
     AccountApi.self().view("preferences")
-        .post(Preferences.create(p), new GerritCallback<Preferences>() {
+        .post(Preferences.create(p, items), new GerritCallback<Preferences>() {
           @Override
           public void onSuccess(Preferences prefs) {
             Gerrit.getUserAccount().setGeneralPreferences(p);
@@ -359,6 +383,7 @@ public class MyPreferencesScreen extends SettingsScreen {
             Dispatcher.changeScreen2 = false;
             enable(true);
             display(prefs);
+            Gerrit.refreshMenuBar();
           }
 
           @Override

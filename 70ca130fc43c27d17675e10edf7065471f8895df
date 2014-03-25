@@ -113,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "5c8a099e_7f0b0f3f",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/SubmitType.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-03-25T01:32:04Z",
+      "side": 1,
+      "message": "Ok, fair enough.\n\nIt\u0027s easy enough to fix this though. Just make the field in the CreateProjectInput a string, make this a class with public constants, and validate the string value within the API.",
+      "parentUuid": "dcc0b9c1_6329e29a",
+      "revId": "70ca130fc43c27d17675e10edf7065471f8895df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c8a099e_9ffff3d2",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ConfigInfo.java",
         "patchSetId": 10

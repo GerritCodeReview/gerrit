@@ -549,6 +549,9 @@ public class PluginLoader implements LifecycleListener {
     boolean keep = false;
     try {
       Manifest manifest = jarFile.getManifest();
+      if (manifest == null) {
+        return loadScriptingPlugin(name, srcJar, snapshot);
+      }
       Plugin.ApiType type = Plugin.getApiType(manifest);
       Attributes main = manifest.getMainAttributes();
       String sysName = main.getValue("Gerrit-Module");
@@ -744,8 +747,10 @@ public class PluginLoader implements LifecycleListener {
     if (isJarPlugin(fileName)) {
       JarFile jarFile = new JarFile(srcFile);
       try {
-        return jarFile.getManifest().getMainAttributes()
-            .getValue("Gerrit-PluginName");
+        if (jarFile.getManifest() != null) {
+          return jarFile.getManifest().getMainAttributes()
+              .getValue("Gerrit-PluginName");
+        }
       } finally {
         jarFile.close();
       }

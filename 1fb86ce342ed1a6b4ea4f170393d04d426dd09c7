@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c4e4155_71ca788c",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/PluginData.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-25T22:06:53Z",
+      "side": 1,
+      "message": "equals/hashCode?",
+      "revId": "1fb86ce342ed1a6b4ea4f170393d04d426dd09c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc71fd8c_54cd4ca1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-25T22:06:53Z",
+      "side": 1,
+      "message": "nit: public static methods before private instance members. so move this up to line 79.",
+      "revId": "1fb86ce342ed1a6b4ea4f170393d04d426dd09c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c4e4155_11c3ec79",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreData.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-25T22:06:53Z",
+      "side": 1,
+      "message": "Why compare hashCode? Why not compare storeName or reference equality?",
+      "range": {
+        "startLine": 70,
+        "startChar": 11,
+        "endLine": 70,
+        "endChar": 83
+      },
+      "revId": "1fb86ce342ed1a6b4ea4f170393d04d426dd09c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

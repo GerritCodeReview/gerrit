@@ -102,6 +102,8 @@ class SkipBar extends Composite {
       upArrow.setHTML(PatchUtil.M.expandBefore(NUM_ROWS_TO_EXPAND));
       downArrow.setHTML(PatchUtil.M.expandAfter(NUM_ROWS_TO_EXPAND));
     }
+    skipNum.setText(PatchUtil.C.patchSkipRegionStart() + " "
+        + Integer.toString(skipped) + " " + PatchUtil.C.patchSkipRegionEnd());
   }
 
   static void link(SkipBar barA, SkipBar barB) {

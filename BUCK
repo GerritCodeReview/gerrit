@@ -27,3 +27,13 @@ genrule(
   deps = API_DEPS,
   out = 'api.zip',
 )
+
+genrule(
+  name = 'all',
+  cmd = 'echo done >$OUT',
+  deps = [
+    ':api',
+    ':release',
+  ],
+  out = '__fake.all__',
+)

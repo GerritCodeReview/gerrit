@@ -95,6 +95,24 @@
     },
     {
       "key": {
+        "uuid": "dcc0b9c1_6329e29a",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/SubmitType.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-03-25T01:30:33Z",
+      "side": 1,
+      "message": "The idea was to have an extension point for submit strategies that allows plugins to add futher strategies. But this is nothing on which we are already working and it\u0027s unlikely that we have time for this in the near future.",
+      "parentUuid": "fc981df7_5cf73dfc",
+      "revId": "70ca130fc43c27d17675e10edf7065471f8895df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c8a099e_9ffff3d2",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ConfigInfo.java",
         "patchSetId": 10

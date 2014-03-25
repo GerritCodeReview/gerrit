@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dcc0b9c1_c3b416fd",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-25T04:41:14Z",
+      "side": 1,
+      "message": "This should be a method in GerritCss.",
+      "revId": "90d6f58800ef344718f7b0bc8f1ddfa5d877c417",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

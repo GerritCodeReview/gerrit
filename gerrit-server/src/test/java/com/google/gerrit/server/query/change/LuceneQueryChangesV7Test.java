@@ -49,6 +49,11 @@ public class LuceneQueryChangesV7Test extends AbstractQueryChangesTest {
   @Override
   @Test
   public void byProjectPrefix() {}
+
+  @Ignore
+  @Override
+  @Test
+  public void byDefault() {}
   // End tests for features not supported in V7.
 
   @Test

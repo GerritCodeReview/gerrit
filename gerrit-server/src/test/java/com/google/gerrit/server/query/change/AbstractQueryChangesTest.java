@@ -111,6 +111,9 @@ public abstract class AbstractQueryChangesTest {
     schemaCreator.create(db);
     userId = accountManager.authenticate(AuthRequest.forUser("user"))
         .getAccountId();
+    Account userAccount = db.accounts().get(userId);
+    userAccount.setPreferredEmail("user@example.com");
+    db.accounts().update(ImmutableList.of(userAccount));
     user = userFactory.create(userId);
 
     requestContext.setContext(new RequestContext() {
@@ -803,6 +806,51 @@ public abstract class AbstractQueryChangesTest {
     assertEquals(2, results.size());
     assertResultEquals(change2, results.get(0));
     assertResultEquals(change1, results.get(1));
+  }
+
+  @Test
+  public void byDefault() throws Exception {
+    TestRepository<InMemoryRepository> repo = createProject("repo");
+
+    Change change1 = newChange(repo, null, null, null, null).insert();
+
+    RevCommit commit2 = repo.parseBody(
+        repo.commit().message("foosubject").create());
+    Change change2 = newChange(repo, commit2, null, null, null).insert();
+
+    RevCommit commit3 = repo.parseBody(
+        repo.commit()
+        .add("Foo.java", "foo contents")
+        .create());
+    Change change3 = newChange(repo, commit3, null, null, null).insert();
+
+    ChangeInserter ins4 = newChange(repo, null, null, null, null);
+    Change change4 = ins4.insert();
+    ReviewInput ri4 = new ReviewInput();
+    ri4.message = "toplevel";
+    ri4.labels = ImmutableMap.<String, Short> of("Code-Review", (short) 1);
+    postReview.apply(new RevisionResource(
+        changes.parse(change4.getId()), ins4.getPatchSet()), ri4);
+
+    ChangeInserter ins5 = newChange(repo, null, null, null, null);
+    Change change5 = ins5.getChange();
+    change5.setTopic("feature5");
+    ins5.insert();
+
+    Change change6 = newChange(repo, null, null, null, "branch6").insert();
+
+    assertResultEquals(change1,
+        queryOne(Integer.toString(change1.getId().get())));
+    assertResultEquals(change2, queryOne("foosubject"));
+    assertResultEquals(change3, queryOne("Foo.java"));
+    assertResultEquals(change4, queryOne("Code-Review+1"));
+    assertResultEquals(change4, queryOne("toplevel"));
+    assertResultEquals(change5, queryOne("feature5"));
+    assertResultEquals(change6, queryOne("branch6"));
+    assertResultEquals(change6, queryOne("refs/heads/branch6"));
+
+    assertEquals(6, query("user@example.com").size());
+    assertEquals(6, query("repo").size());
   }
 
   protected ChangeInserter newChange(

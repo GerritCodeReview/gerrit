@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fc71fd8c_f4501825",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-03-25T18:58:33Z",
+      "side": 1,
+      "message": "I don\u0027t want to return null from getApprovals(). It shouldn\u0027t be that hard to modify ChangeNotes.onLoad to handle a null revision.",
+      "revId": "98f727858341ed3610bcd96f65b6d01aef20759e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

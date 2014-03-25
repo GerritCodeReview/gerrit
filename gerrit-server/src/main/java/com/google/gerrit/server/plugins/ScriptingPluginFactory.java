@@ -37,10 +37,7 @@ public class ScriptingPluginFactory implements ScriptingPlugin.Factory {
   @Override
   public ScriptingPlugin get(String name, File srcFile, PluginUser pluginUser,
       FileSnapshot snapshot) {
-
-    String srcFilename = srcFile.getName();
-    String scrFileExtension = StringUtils.substringAfterLast(srcFilename, ".");
-    ScriptingPlugin.Factory scriptingFactory = getFactory(scrFileExtension);
+    ScriptingPlugin.Factory scriptingFactory = getFactory(srcFile);
     if(scriptingFactory == null) {
       throw new IllegalArgumentException("Script file " + srcFile.getAbsolutePath() +
           " is not a known scripting language for a Gerrit plugin");
@@ -49,11 +46,28 @@ public class ScriptingPluginFactory implements ScriptingPlugin.Factory {
     return scriptingFactory.get(name, srcFile, pluginUser, snapshot);
   }
 
-  private Factory getFactory(String srcFileExtension) {
+  private Factory getFactory(File file) {
+    // if is archive
+    if (file.isFile()) {
+      String filename = file.getName();
+      String fileExtension = StringUtils.substringAfterLast(filename, ".");
+      tryFileFile(fileExtension);
+    } else { // directory
+      for (File f: file.listFiles()) {
+        Factory factory = getFactory(f);
+        if (factory != null) {
+          return factory;
+        }
+      }
+    }
+    return null;
+  }
+
+  private Factory tryFileFile(String fileExtension) {
     for (ScriptingPlugin.Factory scriptingFactory : scriptingFactories) {
-      if(scriptingFactory.isMyScriptExtension(srcFileExtension)) {
+      if(scriptingFactory.isMyScriptExtension(fileExtension)) {
         return scriptingFactory;
-      };
+      }
     }
     return null;
   }

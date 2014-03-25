@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "bc7b055f_8226bac7",
+        "filename": "gerrit-extension-api/BUCK",
+        "patchSetId": 10
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-03-25T05:23:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc981df7_dce26d42",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 43
+      },
+      "revId": "70ca130fc43c27d17675e10edf7065471f8895df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c8a099e_1feda330",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/ProjectState.java",
         "patchSetId": 10
@@ -36,6 +60,24 @@
       "writtenOn": "2014-03-25T01:17:19Z",
       "side": 1,
       "message": "Should this be under projects package? Its only used by project related APIs.",
+      "revId": "70ca130fc43c27d17675e10edf7065471f8895df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc7b055f_a251fe2b",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/ProjectState.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-03-25T05:23:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c8a099e_1feda330",
       "revId": "70ca130fc43c27d17675e10edf7065471f8895df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -154,6 +196,30 @@
     },
     {
       "key": {
+        "uuid": "dcc0b9c1_a3ce3aa3",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ConfigInfo.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-03-25T05:23:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c8a099e_9ffff3d2",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 54
+      },
+      "revId": "70ca130fc43c27d17675e10edf7065471f8895df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fc981df7_bcdda187",
         "filename": "gerrit-reviewdb/BUCK",
         "patchSetId": 10
@@ -171,6 +237,24 @@
     },
     {
       "key": {
+        "uuid": "bc7b055f_0251ca26",
+        "filename": "gerrit-reviewdb/BUCK",
+        "patchSetId": 10
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-03-25T05:23:39Z",
+      "side": 1,
+      "message": "\u0027//gerrit-extension-api:api\u0027\n\nDone",
+      "parentUuid": "fc981df7_bcdda187",
+      "revId": "70ca130fc43c27d17675e10edf7065471f8895df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c8a099e_dfe25b42",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictKey.java",
         "patchSetId": 10
@@ -182,6 +266,24 @@
       "writtenOn": "2014-03-25T01:07:32Z",
       "side": 1,
       "message": "Change this to 2L and the cache should have invalidated itself on startup. No need to delete the cache manually.",
+      "revId": "70ca130fc43c27d17675e10edf7065471f8895df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc7b055f_2246ce70",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictKey.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-03-25T05:23:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c8a099e_dfe25b42",
       "revId": "70ca130fc43c27d17675e10edf7065471f8895df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

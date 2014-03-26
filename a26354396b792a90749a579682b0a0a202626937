@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d901abf4_1b007b1c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreData.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-03-26T15:14:44Z",
+      "side": 1,
+      "message": "I still think that this implementation of equals, together with the implementation from the parent class (PluginData) is broken.\n\nFor example, it is not transitive. Take the following 3 instances:\n\n  ssd1 \u003d SecureStoreData(name\u003d\"a\", version\u003d\"b\", pluginFile\u003d\"c\",\n    className\u003d\"d\", storeName \u003d \"e\")\n  ssd2 \u003d SecureStoreData(name\u003d\"a\", version\u003d\"b\", pluginFile\u003d\"c\",\n    className\u003d\"f\", storeName \u003d \"g\")\n  pd \u003d PluginData(name\u003d\"a\", version\u003d\"b\", pluginFile\u003d\"c\")\n\nthen the following it true:\n\n  ssd1.equals(pd)\n  pd.equals(ssd2)\n\nwhich implies that the following must be true\n\n  ssd1.equals(ssd2)\n\nbut actually it is false.",
+      "revId": "a26354396b792a90749a579682b0a0a202626937",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

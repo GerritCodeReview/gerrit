@@ -23,7 +23,6 @@ def genasciidoc(
   EXPN = '.expn'
 
   asciidoc = [
-      'cd $SRCDIR;',
       '$(exe //lib/asciidoctor:asciidoc)',
       '-z', '$OUT',
       '--tmp', '$TMP',

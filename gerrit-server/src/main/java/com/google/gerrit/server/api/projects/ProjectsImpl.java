@@ -37,7 +37,9 @@ class ProjectsImpl implements Projects {
   public ProjectApi name(String name) throws RestApiException {
     try {
       return api.create(projects.parse(name));
-    } catch (IOException | UnprocessableEntityException e) {
+    } catch (UnprocessableEntityException e) {
+      return api.create(name);
+    } catch (IOException e) {
       throw new RestApiException("Cannot retrieve project");
     }
   }

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "fc71fd8c_141cb4c5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreData.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-03-26T13:46:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "790a7f15_1800851c",
+      "revId": "0119c007076d536943274104f92ccde2fd7c872b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d901abf4_5b06033e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreData.java",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2014-03-26T09:42:35Z",
       "side": 1,
       "message": "If obj is not an instanceof SecureStoreData then this will cause an infinite loop.",
+      "revId": "0119c007076d536943274104f92ccde2fd7c872b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c4e4155_5142d4cb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreData.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-03-26T13:46:48Z",
+      "side": 1,
+      "message": "true, I meant super.equals, done",
+      "parentUuid": "d901abf4_5b06033e",
       "revId": "0119c007076d536943274104f92ccde2fd7c872b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

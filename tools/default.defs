@@ -241,7 +241,7 @@ def java_doc(
       '-link http://docs.oracle.com/javase/7/docs/api',
       '-subpackages ' + pkg,
       '-sourcepath ',
-      ':'.join([n for n in paths]),
+      ':'.join(['$SRCDIR/' + n for n in paths]),
       ' -classpath ',
       ':'.join(['$(location %s)' % n for n in deps]),
       '-d $TMP',

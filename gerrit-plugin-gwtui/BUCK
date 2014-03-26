@@ -51,7 +51,7 @@ java_doc(
   name = 'gwtui-api-javadoc',
   title = 'Gerrit Review GWT Extension API Documentation',
   pkg = 'com.google.gerrit',
-  paths = ['$SRCDIR/src/main/java'] + COMMON,
+  paths = ['src/main/java'] + COMMON,
   srcs = SRCS + glob(COMMON),
   deps = DEPS + ['//gerrit-gwtui-common:client-src-lib'],
   visibility = ['PUBLIC'],

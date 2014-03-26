@@ -25,6 +25,7 @@ import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.extensions.common.ListChangesOption;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
+import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.ArchiveFormat;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadScheme;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -44,6 +45,7 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 class DownloadBox extends VerticalPanel {
   private final static String ARCHIVE[] = {"tar", "tbz2", "tgz", "txz"};
@@ -147,21 +149,27 @@ class DownloadBox extends VerticalPanel {
   }
 
   private void insertArchive() {
-    List<Anchor> formats = new ArrayList<>(ARCHIVE.length);
+    Set<ArchiveFormat> activated = Gerrit.getConfig().getArchiveFormats();
+    if (activated.contains(ArchiveFormat.OFF)) {
+      return;
+    }
+    List<Anchor> anchors = new ArrayList<>(activated.size());
     for (String f : ARCHIVE) {
-      Anchor archive = new Anchor(f);
-      archive.setHref(new RestApi("/changes/")
-          .id(psId.getParentKey().get())
-          .view("revisions")
-          .id(revision)
-          .view("archive")
-          .addParameter("format", f)
-          .url());
-      formats.add(archive);
+      if (activated.contains(ArchiveFormat.valueOf(f.toUpperCase()))) {
+        Anchor archive = new Anchor(f);
+        archive.setHref(new RestApi("/changes/")
+            .id(psId.getParentKey().get())
+            .view("revisions")
+            .id(revision)
+            .view("archive")
+            .addParameter("format", f)
+            .url());
+        anchors.add(archive);
+      }
     }
 
     HorizontalPanel p = new HorizontalPanel();
-    Iterator<Anchor> it = formats.iterator();
+    Iterator<Anchor> it = anchors.iterator();
     while (it.hasNext()) {
       Anchor a = it.next();
       p.add(a);

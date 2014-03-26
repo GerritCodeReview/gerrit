@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fc71fd8c_378e1269",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ReviewProjectAccess.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-26T23:36:30Z",
+      "side": 1,
+      "message": "Is this intentionally not done async any more?",
+      "revId": "afd1d433be293a4ee198e6f42ea03d7d45108d1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

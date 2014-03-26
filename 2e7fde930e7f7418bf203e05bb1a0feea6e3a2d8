@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "790a7f15_582f1da4",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/PluginData.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-03-26T22:02:33Z",
+      "side": 1,
+      "message": "are any of these fields allowed/expected to be null?",
+      "revId": "2e7fde930e7f7418bf203e05bb1a0feea6e3a2d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "790a7f15_980b753d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/DirectoryPlugin.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-03-26T22:02:33Z",
+      "side": 1,
+      "message": "The whole class commented out?",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 3
+      },
+      "revId": "2e7fde930e7f7418bf203e05bb1a0feea6e3a2d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d901abf4_9b0b6b3d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreData.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-03-26T22:02:33Z",
+      "side": 1,
+      "message": "Sorry but this is still broken. For example:\n\n  ssd \u003d SecureStoreData(name\u003d\"a\", version\u003d\"b\", pluginFile\u003d\"c\",\n    className\u003d\"d\", storeName \u003d \"e\")\n  pd \u003d PluginData(name\u003d\"a\", version\u003d\"b\", pluginFile\u003d\"c\")\n\nNow:\n\n  pd.equals(ssd) \u003d\u003d true\n  ssd.equals(pd) \u003d\u003d false\n\n\nSo this equals violates symmetry.\n \n\nAs long as the parent class (PluginData) in instantiable and the child class adds a new field that plays a role in equals, there is no way to preserve the equals contract... at least this is what Josh Bloch claims ;-)\n\nThere are two possibilities:\n\n1. make the parent class abstract\n\n2. use composition instead of inheritance\n\n  class SecureStoreData {\n    private PluginData pluginData;\n    private String className;\n    private String storeName;\n  ...\n\n    public boolean equals(Object o) {\n      if (!(o instanceof SecureStoreData)) {\n        return false;\n      }\n      SecureStoreData ssd \u003d (SecureStoreData) o;\n      return ssd.pluginData.equals(pluginData)\n        \u0026\u0026 ssd.className.equals(className)\n        \u0026\u0026 ssdh.storeName.equals(storeName)\n  }",
+      "revId": "2e7fde930e7f7418bf203e05bb1a0feea6e3a2d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d901abf4_bb0e274d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreData.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-03-26T22:02:33Z",
+      "side": 1,
+      "message": "It is strange that the fields inherited from the parent class don\u0027t play\nany role in the equals here but are used in the equals of the parent class.",
+      "revId": "2e7fde930e7f7418bf203e05bb1a0feea6e3a2d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

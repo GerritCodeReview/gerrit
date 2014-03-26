@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "790a7f15_b8f519f7",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-03-26T02:45:46Z",
+      "side": 1,
+      "message": "without the patch of  https://gerrit-review.googlesource.com/#/c/55100/18/gerrit-server/src/main/java/com/google/gerrit/server/config/ConfigUtil.java ,\n\nrefer to \n --------------------------\n  public static long getTimeUnit(final String valueString, long  defaultValue,\n      TimeUnit wantUnit) {\n     Matcher m \u003d Pattern.compile(\"^(0|[1-9][0-9]*)\\\\s*(.*)$\").matcher(valueString);\n    if (!m.matches()) {\n      return defaultValue;\n    }\n...\n--------------------------\n\n\nhere when the value is -1 or other negtive, ConfigUtil.getTimeUnit() will return the default value.  That means \u0027disble commitWithin\u0027 can not work.",
+      "revId": "479450fd5312847bf3048179e3f0fa90ca946dd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -119,4 +119,6 @@ public interface GerritConstants extends Constants {
 
   String stringListPanelAdd();
   String stringListPanelDelete();
+  String stringListPanelUp();
+  String stringListPanelDown();
 }

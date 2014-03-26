@@ -209,7 +209,8 @@ public class MyPreferencesScreen extends SettingsScreen {
     });
 
     myMenus = new StringListPanel(Util.C.myMenu(),
-        Arrays.asList(Util.C.myMenuName(), Util.C.myMenuUrl()), save);
+        Arrays.asList(Util.C.myMenuName(), Util.C.myMenuUrl()),
+        save, false);
     myMenus.setInfo(Util.C.myMenuInfo());
     add(myMenus);
 

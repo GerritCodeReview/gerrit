@@ -33,7 +33,7 @@ java_library2(
 
 genrule(
   name = 'webapp_assets',
-  cmd = 'cd $SRCDIR/src/main/webapp; zip -qr $OUT .',
+  cmd = 'cd src/main/webapp; zip -qr $OUT .',
   srcs = glob(['src/main/webapp/**/*']),
   deps = [],
   out = 'webapp_assets.zip',
@@ -42,7 +42,7 @@ genrule(
 
 genrule(
   name = 'log4j-config__jar',
-  cmd = 'jar cf $OUT -C $SRCDIR/src/main/resources .',
+  cmd = 'jar cf $OUT -C src/main/resources .',
   srcs = ['src/main/resources/log4j.properties'],
   out = 'log4j-config.jar',
 )

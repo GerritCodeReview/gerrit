@@ -225,8 +225,13 @@ def java_doc(
     paths,
     srcs = [],
     deps = [],
-    visibility = []
+    visibility = [],
+    do_it_wrong = False,
   ):
+  if do_it_wrong:
+    sourcepath = paths
+  else:
+    sourcepath = ['$SRCDIR/' + n for n in paths]
   genrule(
     name = name,
     cmd = ' '.join([
@@ -241,7 +246,7 @@ def java_doc(
       '-link http://docs.oracle.com/javase/7/docs/api',
       '-subpackages ' + pkg,
       '-sourcepath ',
-      ':'.join([n for n in paths]),
+      ':'.join(sourcepath),
       ' -classpath ',
       ':'.join(['$(location %s)' % n for n in deps]),
       '-d $TMP',

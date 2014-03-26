@@ -24,6 +24,7 @@ import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
@@ -154,12 +155,13 @@ public class StringListPanel extends FlowPanel {
     List<List<String>> getValues() {
       List<List<String>> values = new ArrayList<>();
       for (int row = 2; row < table.getRowCount(); row++) {
-        values.add(getValues(row));
+        values.add(getRowItem(row));
       }
       return values;
     }
 
-    List<String> getValues(int row) {
+    @Override
+    protected List<String> getRowItem(int row) {
       List<String> v = new ArrayList<>();
       for (int i = 0; i < inputs.size(); i++) {
         v.add(table.getText(row, i + 1));
@@ -193,11 +195,7 @@ public class StringListPanel extends FlowPanel {
           down.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-              List<String> value = getValues(row);
-              List<String> nextValue = getValues(row + 1);
-              populate(row, nextValue, false);
-              populate(row + 1, value, row + 1 == table.getRowCount() - 1);
-              widget.setEnabled(true);
+              moveDown(row);
             }
           });
           table.setWidget(row, values.size() + 1, down);
@@ -209,16 +207,38 @@ public class StringListPanel extends FlowPanel {
           up.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-              List<String> previousValue = getValues(row - 1);
-              List<String> value = getValues(row);
-              populate(row - 1, value, false);
-              populate(row, previousValue, row == table.getRowCount() - 1);
-              widget.setEnabled(true);
+              moveUp(row);
             }
           });
           table.setWidget(row, values.size() + 2, up);
         }
       }
+    }
+
+    @Override
+    protected void onCellSingleClick(Event event, int row, int column) {
+      if (column == inputs.size() + 1 && row >= 2
+          && row < table.getRowCount() - 2) {
+        moveDown(row);
+      } else if (column == inputs.size() + 2 && row > 2) {
+        moveUp(row);
+      }
+    }
+
+    void moveDown(int row) {
+      swap(row, row + 1);
+    }
+
+    void moveUp(int row) {
+      swap(row - 1, row);
+    }
+
+    void swap(int row1, int row2) {
+      List<String> value = getRowItem(row1);
+      List<String> nextValue = getRowItem(row2);
+      populate(row1, nextValue, false);
+      populate(row2, value, row2 == table.getRowCount() - 1);
+      widget.setEnabled(true);
     }
 
     void add() {

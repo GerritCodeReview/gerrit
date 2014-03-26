@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fc71fd8c_b4ff8049",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ScriptingPluginFactory.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-26T00:03:46Z",
+      "side": 1,
+      "message": "Please see my earlier comments and actually address them if you want me to consider this series.",
+      "revId": "f80370acbabe6ef2aa927a5e56dfeb663acb9f00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

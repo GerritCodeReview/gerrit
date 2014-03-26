@@ -95,9 +95,7 @@ public class PrivateInternals_DynamicTypes {
         DynamicItem<Object> item = (DynamicItem<Object>) e.getValue();
 
         for (Binding<Object> b : bindings(src, type)) {
-          if (b.getKey().getAnnotation() != null) {
-            handles.add(item.set(b.getKey(), b.getProvider(), pluginName));
-          }
+          handles.add(item.set(b.getKey(), b.getProvider(), pluginName));
         }
       }
     } catch (RuntimeException e) {

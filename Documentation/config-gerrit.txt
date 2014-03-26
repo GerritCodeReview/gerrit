@@ -1317,6 +1317,12 @@ not default, as not all instances will deploy repo.
 If `download.scheme` is not specified, SSH, HTTP and Anonymous HTTP
 downloads are allowed.
 
+[[download.archive]]download.archive::
++
+Specifies if the archive command should be offered on the change screen.
++
+Defaults to false.
+
 [[gerrit]]
 === Section gerrit
 

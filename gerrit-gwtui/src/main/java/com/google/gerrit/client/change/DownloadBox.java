@@ -147,6 +147,9 @@ class DownloadBox extends VerticalPanel {
   }
 
   private void insertArchive() {
+    if (!Gerrit.getConfig().getDownloadArchive()) {
+      return;
+    }
     List<Anchor> formats = new ArrayList<>(ARCHIVE.length);
     for (String f : ARCHIVE) {
       Anchor archive = new Anchor(f);

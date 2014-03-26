@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c4e4155_f1ce6849",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyPreferencesScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-26T01:11:15Z",
+      "side": 1,
+      "message": "indent this line?",
+      "revId": "ecec2f295a881f3457f152091b7f8c009360b010",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

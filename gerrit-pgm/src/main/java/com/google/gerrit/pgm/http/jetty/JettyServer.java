@@ -323,8 +323,11 @@ public class JettyServer {
   private ThreadPool threadPool(Config cfg) {
     int maxThreads = cfg.getInt("httpd", null, "maxthreads", 25);
     int minThreads = cfg.getInt("httpd", null, "minthreads", 5);
-    int maxCapacity = cfg.getInt("httpd", null, "maxqueued", 50);
+    int maxQueued = cfg.getInt("httpd", null, "maxqueued", 50);
     int idleTimeout = (int)MILLISECONDS.convert(60, SECONDS);
+    int maxCapacity = maxQueued == 0
+        ? Integer.MAX_VALUE
+        : maxQueued;
     QueuedThreadPool pool = new QueuedThreadPool(
         maxThreads,
         minThreads,

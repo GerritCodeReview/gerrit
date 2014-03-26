@@ -16,6 +16,24 @@
       "revId": "f80370acbabe6ef2aa927a5e56dfeb663acb9f00",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c4e4155_715998eb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ScriptingPluginFactory.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-03-26T00:13:00Z",
+      "side": 1,
+      "message": "Done, I\u0027ve fixed formatting issues",
+      "parentUuid": "fc71fd8c_b4ff8049",
+      "revId": "f80370acbabe6ef2aa927a5e56dfeb663acb9f00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9c4e4155_d1a8842d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.8.4.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-26T16:25:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c3a51a9_ad81dd3c",
+      "range": {
+        "startLine": 22,
+        "startChar": 10,
+        "endLine": 22,
+        "endChar": 11
+      },
+      "revId": "b1a30a3dd8e663cc1259cb2ff45e3bde908221f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c3a51a9_6d3d35cb",
         "filename": "ReleaseNotes/ReleaseNotes-2.8.4.txt",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2014-03-26T15:10:37Z",
       "side": 1,
       "message": "nit:trailing space",
+      "range": {
+        "startLine": 42,
+        "startChar": 29,
+        "endLine": 42,
+        "endChar": 30
+      },
+      "revId": "b1a30a3dd8e663cc1259cb2ff45e3bde908221f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc71fd8c_34a45032",
+        "filename": "ReleaseNotes/ReleaseNotes-2.8.4.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-26T16:25:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c3a51a9_6d3d35cb",
       "range": {
         "startLine": 42,
         "startChar": 29,

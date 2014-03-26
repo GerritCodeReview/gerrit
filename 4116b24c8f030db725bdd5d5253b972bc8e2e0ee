@@ -69,6 +69,30 @@
       "revId": "4116b24c8f030db725bdd5d5253b972bc8e2e0ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc71fd8c_f43c98f5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-03-26T19:50:57Z",
+      "side": 1,
+      "message": "Right, so far admins were always able to create new branches via the WebUI. If this suddenly becomes an issue this should be done and discussed in an own change on master.",
+      "parentUuid": "fc71fd8c_b442207e",
+      "range": {
+        "startLine": 235,
+        "startChar": 2,
+        "endLine": 253,
+        "endChar": 55
+      },
+      "revId": "4116b24c8f030db725bdd5d5253b972bc8e2e0ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c4e4155_f1c108d2",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchConstants.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-03-26T18:43:22Z",
+      "side": 1,
+      "message": "old constants are still used by old diff view, therefore they were not removed",
+      "range": {
+        "startLine": 85,
+        "startChar": 2,
+        "endLine": 86,
+        "endChar": 29
+      },
+      "revId": "b6756230cd5ed5a3a9ace167f4453aea3f8b9fe0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

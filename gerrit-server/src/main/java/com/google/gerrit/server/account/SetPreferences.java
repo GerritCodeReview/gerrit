@@ -15,6 +15,7 @@
 package com.google.gerrit.server.account;
 
 import static com.google.gerrit.server.account.GetPreferences.KEY_ID;
+import static com.google.gerrit.server.account.GetPreferences.KEY_SCREEN;
 import static com.google.gerrit.server.account.GetPreferences.KEY_TARGET;
 import static com.google.gerrit.server.account.GetPreferences.KEY_URL;
 import static com.google.gerrit.server.account.GetPreferences.MY;
@@ -68,6 +69,7 @@ public class SetPreferences implements RestModifyView<AccountResource, Input> {
     CommentVisibilityStrategy commentVisibilityStrategy;
     DiffView diffView;
     ChangeScreen changeScreen;
+    String myScreen;
     List<TopMenu.MenuItem> my;
   }
 
@@ -162,7 +164,24 @@ public class SetPreferences implements RestModifyView<AccountResource, Input> {
 
       db.accounts().update(Collections.singleton(a));
       db.commit();
-      storeMyMenus(accountId, i.my);
+
+      ProjectLevelConfig prefsCfg =
+          allUsers.getConfig(PREFERENCES,
+              RefNames.refsUsers(accountId));
+      Config cfg = prefsCfg.get();
+      if (i.myScreen != null) {
+        if (i.myScreen.isEmpty()) {
+          cfg.unset(MY, null, KEY_SCREEN);
+        } else {
+          cfg.setString(MY, null, KEY_SCREEN, i.myScreen);
+        }
+      }
+      storeMyMenus(cfg, i.my);
+      MetaDataUpdate md =
+          metaDataUpdateFactory.create(allUsers.getProject().getNameKey());
+      md.setMessage("Updated preferences\n");
+      prefsCfg.commit(md);
+
       cache.evict(accountId);
     } finally {
       db.rollback();
@@ -170,28 +189,19 @@ public class SetPreferences implements RestModifyView<AccountResource, Input> {
     return new GetPreferences.PreferenceInfo(p, accountId, allUsers);
   }
 
-  private void storeMyMenus(Account.Id accountId, List<TopMenu.MenuItem> my)
+  private void storeMyMenus(Config cfg, List<TopMenu.MenuItem> my)
       throws IOException {
-    ProjectLevelConfig prefsCfg =
-        allUsers.getConfig(PREFERENCES,
-            RefNames.refsUsers(accountId));
-    Config cfg = prefsCfg.get();
     if (my != null) {
-      unsetSection(cfg, MY);
+      unsetSubsections(cfg, MY);
       for (TopMenu.MenuItem item : my) {
         cfg.setString(MY, item.name, KEY_URL, item.url);
         cfg.setString(MY, item.name, KEY_TARGET, item.target);
         cfg.setString(MY, item.name, KEY_ID, item.id);
       }
     }
-    MetaDataUpdate md =
-        metaDataUpdateFactory.create(allUsers.getProject().getNameKey());
-    md.setMessage("Updated preferences\n");
-    prefsCfg.commit(md);
   }
 
-  private static void unsetSection(Config cfg, String section) {
-    cfg.unsetSection(section, null);
+  private static void unsetSubsections(Config cfg, String section) {
     for (String subsection: cfg.getSubsections(section)) {
       cfg.unsetSection(section, subsection);
     }

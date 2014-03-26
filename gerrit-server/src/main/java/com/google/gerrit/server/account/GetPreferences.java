@@ -47,6 +47,7 @@ public class GetPreferences implements RestReadView<AccountResource> {
   public static final String KEY_URL = "url";
   public static final String KEY_TARGET = "target";
   public static final String KEY_ID = "id";
+  public static final String KEY_SCREEN = "screen";
 
   private final Provider<CurrentUser> self;
   private final Provider<ReviewDb> db;
@@ -93,6 +94,7 @@ public class GetPreferences implements RestReadView<AccountResource> {
     CommentVisibilityStrategy commentVisibilityStrategy;
     DiffView diffView;
     ChangeScreen changeScreen;
+    String myScreen;
     List<TopMenu.MenuItem> my;
 
     PreferenceInfo(AccountGeneralPreferences p, Account.Id accountId,
@@ -112,13 +114,17 @@ public class GetPreferences implements RestReadView<AccountResource> {
       commentVisibilityStrategy = p.getCommentVisibilityStrategy();
       diffView = p.getDiffView();
       changeScreen = p.getChangeScreen();
-      my = my(accountId, allUsers);
+
+      Config userPrefs = prefConfig(allUsers, RefNames.refsUsers(accountId));
+      Config defaultPrefs = prefConfig(allUsers, RefNames.REFS_USER + "default");
+      myScreen = readString(MY, KEY_SCREEN, userPrefs, defaultPrefs);
+      my = my(userPrefs, defaultPrefs);
     }
 
-    private List<TopMenu.MenuItem> my(Account.Id accountId, ProjectState allUsers) {
-      List<TopMenu.MenuItem> my = my(allUsers, RefNames.refsUsers(accountId));
+    private List<TopMenu.MenuItem> my(Config userPrefs, Config defaultPrefs) {
+      List<TopMenu.MenuItem> my = my(userPrefs);
       if (my.isEmpty()) {
-        my = my(allUsers, RefNames.REFS_USER + "default");
+        my = my(defaultPrefs);
       }
       if (my.isEmpty()) {
         my.add(new TopMenu.MenuItem("Changes", "#/", ""));
@@ -130,9 +136,21 @@ public class GetPreferences implements RestReadView<AccountResource> {
       return my;
     }
 
-    private List<TopMenu.MenuItem> my(ProjectState allUsers, String ref) {
+    private Config prefConfig(ProjectState allUsers, String ref) {
+      return allUsers.getConfig(PREFERENCES, ref).get();
+    }
+
+    private String readString(String section, String name, Config userPrefs,
+        Config defaultPrefs) {
+      String value = userPrefs.getString(section, null, name);
+      if (value == null) {
+        value = defaultPrefs.getString(section, null, name);
+      }
+      return value;
+    }
+
+    private List<TopMenu.MenuItem> my(Config cfg) {
       List<TopMenu.MenuItem> my = new ArrayList<>();
-      Config cfg = allUsers.getConfig(PREFERENCES, ref).get();
       for (String subsection : cfg.getSubsections(MY)) {
         my.add(new TopMenu.MenuItem(subsection, my(cfg, subsection, KEY_URL, "#/"),
             my(cfg, subsection, KEY_TARGET, null), my(cfg, subsection, KEY_ID, null)));

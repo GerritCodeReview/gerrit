@@ -37,6 +37,7 @@ import static com.google.gerrit.common.PageLinks.SETTINGS_WEBIDENT;
 import static com.google.gerrit.common.PageLinks.op;
 import static com.google.gerrit.common.PageLinks.toChangeQuery;
 
+import com.google.gerrit.client.account.AccountApi;
 import com.google.gerrit.client.account.MyAgreementsScreen;
 import com.google.gerrit.client.account.MyContactInformationScreen;
 import com.google.gerrit.client.account.MyGroupsScreen;
@@ -47,6 +48,7 @@ import com.google.gerrit.client.account.MyProfileScreen;
 import com.google.gerrit.client.account.MySshKeysScreen;
 import com.google.gerrit.client.account.MyWatchedProjectsScreen;
 import com.google.gerrit.client.account.NewAgreementScreen;
+import com.google.gerrit.client.account.Preferences;
 import com.google.gerrit.client.account.RegisterScreen;
 import com.google.gerrit.client.account.ValidateEmailScreen;
 import com.google.gerrit.client.admin.AccountGroupInfoScreen;
@@ -233,7 +235,7 @@ public class Dispatcher {
       extension(token);
 
     } else if (matchExact(MINE, token)) {
-      Gerrit.display(token, mine(token));
+      mine(token);
 
     } else if (matchPrefix("/dashboard/", token)) {
       dashboard(token);
@@ -422,14 +424,24 @@ public class Dispatcher {
     Gerrit.display(token, screen);
   }
 
-  private static Screen mine(final String token) {
+  private static void mine(final String token) {
     if (Gerrit.isSignedIn()) {
-      return new AccountDashboardScreen(Gerrit.getUserAccount().getId());
-
+      AccountApi.self().view("preferences")
+          .get(new GerritCallback<Preferences>() {
+            @Override
+            public void onSuccess(Preferences prefs) {
+              if (prefs.myScreen() != null) {
+                select(prefs.myScreen());
+              } else {
+                Gerrit.display(token, new AccountDashboardScreen(
+                    Gerrit.getUserAccount().getId()));
+              }
+            }
+      });
     } else {
       Screen r = new AccountDashboardScreen(null);
       r.setRequiresSignIn(true);
-      return r;
+      Gerrit.display(token, r);
     }
   }
 

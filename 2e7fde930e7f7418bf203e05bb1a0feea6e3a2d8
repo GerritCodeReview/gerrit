@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9c4e4155_51a3b41a",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/PluginData.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-03-26T23:21:03Z",
+      "side": 1,
+      "message": "IMO Objects.equal is not so much of overhead, I would rather keep this in place just in case",
+      "parentUuid": "790a7f15_582f1da4",
+      "revId": "2e7fde930e7f7418bf203e05bb1a0feea6e3a2d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "790a7f15_980b753d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/DirectoryPlugin.java",
         "patchSetId": 8
@@ -30,6 +48,30 @@
       "writtenOn": "2014-03-26T22:02:33Z",
       "side": 1,
       "message": "The whole class commented out?",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 3
+      },
+      "revId": "2e7fde930e7f7418bf203e05bb1a0feea6e3a2d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc71fd8c_f739faec",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/DirectoryPlugin.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-03-26T23:21:03Z",
+      "side": 1,
+      "message": "This what happen while working on multiple topics...",
+      "parentUuid": "790a7f15_980b753d",
       "range": {
         "startLine": 14,
         "startChar": 0,
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "fc71fd8c_b781423d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreData.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-03-26T23:21:03Z",
+      "side": 1,
+      "message": "see my reply on your next comment",
+      "parentUuid": "d901abf4_9b0b6b3d",
+      "revId": "2e7fde930e7f7418bf203e05bb1a0feea6e3a2d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d901abf4_bb0e274d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreData.java",
         "patchSetId": 8
@@ -70,6 +130,24 @@
       "writtenOn": "2014-03-26T22:02:33Z",
       "side": 1,
       "message": "It is strange that the fields inherited from the parent class don\u0027t play\nany role in the equals here but are used in the equals of the parent class.",
+      "revId": "2e7fde930e7f7418bf203e05bb1a0feea6e3a2d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c4e4155_b15b0072",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreData.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-03-26T23:21:03Z",
+      "side": 1,
+      "message": "So this is specific for this class. In case of PluginData, there could be many plugins with different versions.\n\nSecureStoreData is kind of different animal, it do not have version (it is not even exposed in web ui, only plugin that contains SecureStore impl will be shown).\n\nThis class enables other part of SecureStore impl, discovers all available stores and provide user all possibilities during init step. Later on this would be only used to load given impl during start up.\n\nFrom the other point of view... those classes only share common data and this makes problems... Plugin data describe whole plugin (like jar), but SecureStoreData describe part of plugin.",
+      "parentUuid": "d901abf4_bb0e274d",
       "revId": "2e7fde930e7f7418bf203e05bb1a0feea6e3a2d8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

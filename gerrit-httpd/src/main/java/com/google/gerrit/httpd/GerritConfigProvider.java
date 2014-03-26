@@ -18,7 +18,6 @@ import com.google.gerrit.common.data.GerritConfig;
 import com.google.gerrit.common.data.GitwebConfig;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
-import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AnonymousCowardName;

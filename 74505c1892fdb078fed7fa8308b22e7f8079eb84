@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "bc3225d1_6a3d17cb",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ChangeProjectAccess.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1003555
+      },
+      "writtenOn": "2014-03-26T16:49:11Z",
+      "side": 1,
+      "message": "I looked around the code and I don\u0027t understand how to get the ref name from MetaDataUpdate. I can\u0027t find any example which does so, and the code in ReviewProjectAccess.updateProjectConfig() uses GitRepositoryManager.REF_CONFIG. I thought maybe you meant to use config.getRefName(), but that has protected access.",
+      "parentUuid": "1c3a51a9_cd862952",
+      "range": {
+        "startLine": 79,
+        "startChar": 59,
+        "endLine": 79,
+        "endChar": 90
+      },
+      "revId": "74505c1892fdb078fed7fa8308b22e7f8079eb84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fc71fd8c_743fa834",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ChangeProjectAccess.java",
         "patchSetId": 1
@@ -78,6 +102,24 @@
       "side": 1,
       "message": "Not sure, I\u0027ll give it a look.",
       "parentUuid": "fc71fd8c_743fa834",
+      "revId": "74505c1892fdb078fed7fa8308b22e7f8079eb84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc3225d1_4a405352",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ChangeProjectAccess.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1003555
+      },
+      "writtenOn": "2014-03-26T16:49:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c3a51a9_ed8be558",
       "revId": "74505c1892fdb078fed7fa8308b22e7f8079eb84",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

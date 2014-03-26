@@ -469,9 +469,13 @@ public class PluginGuiceEnvironment {
 
   private Module copy(Injector src) {
     Set<TypeLiteral<?>> dynamicTypes = Sets.newHashSet();
+    Set<TypeLiteral<?>> dynamicItemTypes = Sets.newHashSet();
     for (Map.Entry<Key<?>, Binding<?>> e : src.getBindings().entrySet()) {
       TypeLiteral<?> type = e.getKey().getTypeLiteral();
-      if (type.getRawType() == DynamicSet.class
+      if (type.getRawType() == DynamicItem.class) {
+        ParameterizedType t = (ParameterizedType) type.getType();
+        dynamicItemTypes.add(TypeLiteral.get(t.getActualTypeArguments()[0]));
+      } else if (type.getRawType() == DynamicSet.class
           || type.getRawType() == DynamicMap.class) {
         ParameterizedType t = (ParameterizedType) type.getType();
         dynamicTypes.add(TypeLiteral.get(t.getActualTypeArguments()[0]));
@@ -487,6 +491,8 @@ public class PluginGuiceEnvironment {
         // but without an annotation may be magic glue implementing F and
         // using DynamicSet<F> or DynamicMap<F> internally. That should be
         // exported to plugins.
+        continue;
+      } else if (dynamicItemTypes.contains(e.getKey().getTypeLiteral())) {
         continue;
       } else if (shouldCopy(e.getKey())) {
         bindings.put(e.getKey(), e.getValue());

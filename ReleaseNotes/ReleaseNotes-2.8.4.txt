@@ -1,0 +1,70 @@
+Release notes for Gerrit 2.8.4
+==============================
+
+There are no schema changes from link:ReleaseNotes-2.8.3.html[2.8.3].
+
+Download:
+link:https://gerrit-releases.storage.googleapis.com/gerrit-2.8.4.war[
+https://gerrit-releases.storage.googleapis.com/gerrit-2.8.4.war]
+
+
+Bug Fixes
+---------
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=2456[Issue 2456]:
+Respect the comment visibility preference in the new change screen.
++
+The "Expand All" and "Collapse All" settings now work like they did on
+the old change screen.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=2538[Issue 2538]:
+Don't show the "Patch File" download for merge commits.
++
+The patch file download does not work for commits with more than one
+parent (i.e. merges) and results in an error being displayed.  Now the
+link is not shown for merge commits; a solution for merge patches will
+be investigated for future releases.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=2526[Issue 2526]:
+Hide the `refs/heads/` prefix in branch suggestion list for cherry-picks.
++
+Regular branches like `refs/heads/stable/` will now be displayed as
+just `stable` in the suggestion list when cherry-picking a change in the
+web UI.
+
+* Disable the "Save" button after it is pressed when editing the commit
+message.
++
+The "Save" button was not being disabled, and could be pressed multiple
+times while the message was being saved, resulting in multiple new patch
+sets being created.
+
+* Escape dollar sign in plugin manifest entries.
++
+Plugins could be built, but not loaded, if they had any manifest entries
+that contained a dollar sign.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=2564[Issue 2564]:
+Emit ref-updated event when editing project access via web UI.
+
+* Disable `commitWithin` when running Reindex.
++
+If `commitWithin` was set to a low value, it caused poor performance
+when running the Reindex program on sites with a large amount of changes.
++
+The `commitWithin` setting is now disabled from within Reindex by overriding
+the configuration with '-1'.  Index updates are auto-flushed but not
+auto-committed, which is the least safe but the most efficient for reindexing
+the entire site.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=2557[Issue 2557]:
+By default don't allow admins to create new branches by push.
++
+When pushing changes it is easy to make a typo in the refspec and in this case
+new branches should not be created. If administrators want to create branches
+by push they should explicitly assign themselves the needed access rights.
+
+* Fix syntax highlighting for shell files in new side-by-side diff.
+
+* Various documentation fixes and improvements.
+

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c4e4155_3190f0f0",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/History.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-26T16:43:56Z",
+      "side": 1,
+      "message": "We should double-check that this behaves as expected with the \"autoOpen\" feature, that was not on stable-2.8.",
+      "revId": "a15623d70e6b6b98294ae16ced08d0828eeb91d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

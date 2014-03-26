@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.gerrit.server.change.MergeabilityChecksExecutor.Priority;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.inject.AbstractModule;
@@ -21,7 +22,6 @@ import com.google.inject.Provides;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.Config;
-
 
 /** Module providing the {@link MergeabilityChecksExecutor}. */
 public class MergeabilityChecksExecutorModule extends AbstractModule {
@@ -31,11 +31,27 @@ public class MergeabilityChecksExecutorModule extends AbstractModule {
 
   @Provides
   @Singleton
-  @MergeabilityChecksExecutor
+  @MergeabilityChecksExecutor(Priority.BACKGROUND)
   public WorkQueue.Executor createMergeabilityChecksExecutor(
       @GerritServerConfig Config config,
       WorkQueue queues) {
     int poolSize = config.getInt("changeMerge", null, "threadPoolSize", 1);
     return queues.createQueue(poolSize, "MergeabilityChecks");
+  }
+
+  @Provides
+  @Singleton
+  @MergeabilityChecksExecutor(Priority.INTERACTIVE)
+  public WorkQueue.Executor createMergeabilityChecksExecutor(
+      @GerritServerConfig Config config,
+      WorkQueue queues,
+      @MergeabilityChecksExecutor(Priority.BACKGROUND)
+        WorkQueue.Executor backgroundExecutor) {
+    int poolSize =
+        config.getInt("changeMerge", null, "interactiveThreadPoolSize", 1);
+    if (poolSize <= 0) {
+      return backgroundExecutor;
+    }
+    return queues.createQueue(poolSize, "InteractiveMergeabilityChecks");
   }
 }

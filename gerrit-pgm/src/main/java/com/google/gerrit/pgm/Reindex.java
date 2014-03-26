@@ -44,6 +44,7 @@ import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
 import com.google.gerrit.server.change.ChangeKindCache;
 import com.google.gerrit.server.change.MergeabilityChecker;
 import com.google.gerrit.server.change.MergeabilityChecksExecutor;
+import com.google.gerrit.server.change.MergeabilityChecksExecutor.Priority;
 import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.CanonicalWebUrlProvider;
@@ -290,10 +291,19 @@ public class Reindex extends SiteProgram {
 
     @Provides
     @Singleton
-    @MergeabilityChecksExecutor
+    @MergeabilityChecksExecutor(Priority.BACKGROUND)
     public WorkQueue.Executor createMergeabilityChecksExecutor(
         WorkQueue queues) {
       return queues.createQueue(1, "MergeabilityChecks");
+    }
+
+    @Provides
+    @Singleton
+    @MergeabilityChecksExecutor(Priority.INTERACTIVE)
+    public WorkQueue.Executor createInteractiveMergeabilityChecksExecutor(
+        @MergeabilityChecksExecutor(Priority.BACKGROUND)
+          WorkQueue.Executor bg) {
+      return bg;
     }
   }
 

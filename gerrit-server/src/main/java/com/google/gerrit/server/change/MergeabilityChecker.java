@@ -34,6 +34,7 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.change.MergeabilityChecksExecutor.Priority;
 import com.google.gerrit.server.change.Mergeable.MergeableInfo;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
@@ -85,11 +86,13 @@ public class MergeabilityChecker implements GitReferenceUpdatedListener {
     private List<Project.NameKey> projects;
     private boolean force;
     private boolean reindex;
+    private boolean interactive;
 
     private Check() {
       changes = Lists.newArrayListWithExpectedSize(1);
       branches = Lists.newArrayListWithExpectedSize(1);
       projects = Lists.newArrayListWithExpectedSize(1);
+      interactive = true;
     }
 
     public Check addChange(Change change) {
@@ -99,11 +102,13 @@ public class MergeabilityChecker implements GitReferenceUpdatedListener {
 
     public Check addBranch(Branch.NameKey branch) {
       branches.add(branch);
+      interactive = false;
       return this;
     }
 
     public Check addProject(Project.NameKey project) {
       projects.add(project);
+      interactive = false;
       return this;
     }
 
@@ -119,7 +124,12 @@ public class MergeabilityChecker implements GitReferenceUpdatedListener {
       return this;
     }
 
+    private ListeningExecutorService getExecutor() {
+      return interactive ? interactiveExecutor : backgroundExecutor;
+    }
+
     public CheckedFuture<?, IOException> runAsync() {
+      final ListeningExecutorService executor = getExecutor();
       ListenableFuture<List<Change>> getChanges = executor.submit(
           new Callable<List<Change>>() {
             @Override
@@ -200,7 +210,8 @@ public class MergeabilityChecker implements GitReferenceUpdatedListener {
   private final ChangeControl.GenericFactory changeControlFactory;
   private final Provider<Mergeable> mergeable;
   private final ChangeIndexer indexer;
-  private final ListeningExecutorService executor;
+  private final ListeningExecutorService backgroundExecutor;
+  private final ListeningExecutorService interactiveExecutor;
   private final MergeabilityCheckQueue mergeabilityCheckQueue;
   private final MetaDataUpdate.Server metaDataUpdateFactory;
 
@@ -210,7 +221,10 @@ public class MergeabilityChecker implements GitReferenceUpdatedListener {
       IdentifiedUser.GenericFactory identifiedUserFactory,
       ChangeControl.GenericFactory changeControlFactory,
       Provider<Mergeable> mergeable, ChangeIndexer indexer,
-      @MergeabilityChecksExecutor Executor executor,
+      @MergeabilityChecksExecutor(Priority.BACKGROUND)
+        Executor backgroundExecutor,
+      @MergeabilityChecksExecutor(Priority.INTERACTIVE)
+        Executor interactiveExecutor,
       MergeabilityCheckQueue mergeabilityCheckQueue,
       MetaDataUpdate.Server metaDataUpdateFactory) {
     this.tl = tl;
@@ -219,7 +233,10 @@ public class MergeabilityChecker implements GitReferenceUpdatedListener {
     this.changeControlFactory = changeControlFactory;
     this.mergeable = mergeable;
     this.indexer = indexer;
-    this.executor = MoreExecutors.listeningDecorator(executor);
+    this.backgroundExecutor =
+        MoreExecutors.listeningDecorator(backgroundExecutor);
+    this.interactiveExecutor =
+        MoreExecutors.listeningDecorator(interactiveExecutor);
     this.mergeabilityCheckQueue = mergeabilityCheckQueue;
     this.metaDataUpdateFactory = metaDataUpdateFactory;
   }

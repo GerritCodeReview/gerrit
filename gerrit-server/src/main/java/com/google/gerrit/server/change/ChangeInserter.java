@@ -178,8 +178,10 @@ public class ChangeInserter {
     }
 
     update.commit();
-    CheckedFuture<?, IOException> f =
-        mergeabilityChecker.updateAndIndexAsync(change);
+    CheckedFuture<?, IOException> f = mergeabilityChecker.newCheck()
+        .addChange(change)
+        .reindex()
+        .runAsync();
     if (!messageIsForChange()) {
       insertMessage(db);
     }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c4e4155_11484cec",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-03-26T13:45:32Z",
+      "side": 1,
+      "message": "Can still be final, possibly with a tweak. Will change.",
+      "revId": "d4e3900e26f818f3660ac2d783a1e8fc1d7d273d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

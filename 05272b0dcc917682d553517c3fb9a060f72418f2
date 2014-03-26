@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c4e4155_94ffcad2",
+        "filename": "tools/version.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2014-03-26T23:52:05Z",
+      "side": 1,
+      "message": "* Stick to single quotes\n* No need to escape elbows\n* No need to escape slashes\n* You don\u0027t seem to be using group 2, so don\u0027t make it a group\n* group 2 can be simplified with \\w (this accepts 0s and underscores though...not sure if that\u0027s a problem for you)\n* No need to escape periods within []\n\nre.compile(r\u0027(\\s*)\u003cversion\u003e[-.\\w]+\u003c/version\u003e\u0027)",
+      "range": {
+        "startLine": 31,
+        "startChar": 10,
+        "endLine": 31,
+        "endChar": 71
+      },
+      "revId": "05272b0dcc917682d553517c3fb9a060f72418f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc71fd8c_17c3d679",
+        "filename": "tools/version.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2014-03-26T23:52:05Z",
+      "side": 1,
+      "message": "I prefer just catching the exception here (avoids race conditions...not that that\u0027s really an issue here)\n\n...\nexcept IOError:\n    pass  # or continue or whatever",
+      "range": {
+        "startLine": 36,
+        "startChar": 9,
+        "endLine": 36,
+        "endChar": 15
+      },
+      "revId": "05272b0dcc917682d553517c3fb9a060f72418f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c4e4155_d4f952ee",
+        "filename": "tools/version.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2014-03-26T23:52:05Z",
+      "side": 1,
+      "message": "The usual pythonic way of doing this is just\n\nfor line in open(pom):\n    m \u003d ...\n\nAlso, you will still have the newline character hanging out at the end, so there will no need to use join, just append all the strings together as you go.",
+      "range": {
+        "startLine": 41,
+        "startChar": 4,
+        "endLine": 43,
+        "endChar": 36
+      },
+      "revId": "05272b0dcc917682d553517c3fb9a060f72418f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

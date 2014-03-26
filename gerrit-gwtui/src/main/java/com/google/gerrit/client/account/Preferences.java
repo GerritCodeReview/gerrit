@@ -29,7 +29,8 @@ import com.google.gwt.core.client.JsArray;
 import java.util.List;
 
 public class Preferences extends JavaScriptObject {
-  public static Preferences create(AccountGeneralPreferences in, List<TopMenuItem> myMenus) {
+  public static Preferences create(AccountGeneralPreferences in,
+      List<TopMenuItem> myMenus, String myScreen) {
     Preferences p = createObject().cast();
     if (in == null) {
       in = AccountGeneralPreferences.createDefault();
@@ -49,6 +50,7 @@ public class Preferences extends JavaScriptObject {
     p.commentVisibilityStrategy(in.getCommentVisibilityStrategy());
     p.diffView(in.getDiffView());
     p.changeScreen(in.getChangeScreen());
+    p.myScreen(myScreen);
     p.setMyMenus(myMenus);
     return p;
   }
@@ -129,6 +131,9 @@ public class Preferences extends JavaScriptObject {
   private final native String changeScreenRaw()
   /*-{ return this.change_screen }-*/;
 
+  public final native String myScreen()
+  /*-{ return this.my_screen }-*/;
+
   public final native JsArray<TopMenuItem> my()
   /*-{ return this.my; }-*/;
 
@@ -197,6 +202,9 @@ public class Preferences extends JavaScriptObject {
   }
   private final native void changeScreenRaw(String s)
   /*-{ this.change_screen = s }-*/;
+
+  public final native void myScreen(String s)
+  /*-{ this.my_screen = s }-*/;
 
   final void setMyMenus(List<TopMenuItem> myMenus) {
     initMy();

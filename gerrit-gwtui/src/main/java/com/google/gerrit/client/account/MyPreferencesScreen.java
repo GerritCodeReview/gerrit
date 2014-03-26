@@ -36,6 +36,7 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwtexpui.globalkey.client.NpTextBox;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -56,6 +57,7 @@ public class MyPreferencesScreen extends SettingsScreen {
   private ListBox commentVisibilityStrategy;
   private ListBox changeScreen;
   private ListBox diffView;
+  private NpTextBox myScreen;
   private StringListPanel myMenus;
   private Button save;
 
@@ -143,8 +145,9 @@ public class MyPreferencesScreen extends SettingsScreen {
 
     relativeDateInChangeTable = new CheckBox(Util.C.showRelativeDateInChangeTable());
     sizeBarInChangeTable = new CheckBox(Util.C.showSizeBarInChangeTable());
+    myScreen = new NpTextBox();
 
-    final Grid formGrid = new Grid(12, 2);
+    final Grid formGrid = new Grid(13, 2);
 
     int row = 0;
     formGrid.setText(row, labelIdx, "");
@@ -197,6 +200,11 @@ public class MyPreferencesScreen extends SettingsScreen {
       formGrid.setText(row, labelIdx, Util.C.diffViewLabel());
       formGrid.setWidget(row, fieldIdx, diffView);
     }
+
+    formGrid.setText(row, labelIdx, Util.C.myScreen());
+    formGrid.setWidget(row, fieldIdx, myScreen);
+    row++;
+
     add(formGrid);
 
     save = new Button(Util.C.buttonSaveChanges());
@@ -230,6 +238,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     e.listenTo(commentVisibilityStrategy);
     e.listenTo(changeScreen);
     e.listenTo(diffView);
+    e.listenTo(myScreen);
   }
 
   @Override
@@ -282,6 +291,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     setListBox(diffView,
         AccountGeneralPreferences.DiffView.SIDE_BY_SIDE,
         p.diffView());
+    myScreen.setText(p.myScreen());
 
     List<List<String>> values = new ArrayList<>();
     for (TopMenuItem item : Natives.asList(p.my())) {
@@ -376,7 +386,8 @@ public class MyPreferencesScreen extends SettingsScreen {
     }
 
     AccountApi.self().view("preferences")
-        .post(Preferences.create(p, items), new GerritCallback<Preferences>() {
+        .post(Preferences.create(p, items, myScreen.getValue().trim()),
+            new GerritCallback<Preferences>() {
           @Override
           public void onSuccess(Preferences prefs) {
             Gerrit.getUserAccount().setGeneralPreferences(p);

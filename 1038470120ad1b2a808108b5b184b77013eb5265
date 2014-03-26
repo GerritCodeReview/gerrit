@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dcc0b9c1_439826a8",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 15
+      },
+      "lineNbr": 1905,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-03-26T01:23:07Z",
+      "side": 1,
+      "message": "Sigh. I take back my previous comments: I think we should not auto-commit during reindex, only at the very end. But let\u0027s be very clear about this behavior. Perhaps:\n\n\"If negative, `commitWithin` is disabled. Changes are flushed to disk when the in-memory buffer fills, but only committed and guaranteed to be synced to disk when the process finishes.\"\n\nGood news is this simplifies the construction in SubIndex.",
+      "revId": "1038470120ad1b2a808108b5b184b77013eb5265",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

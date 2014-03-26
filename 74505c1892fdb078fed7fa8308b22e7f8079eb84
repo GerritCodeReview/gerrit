@@ -147,6 +147,24 @@
       "revId": "74505c1892fdb078fed7fa8308b22e7f8079eb84",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc3225d1_8a7c0b98",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ChangeProjectAccess.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1003555
+      },
+      "writtenOn": "2014-03-26T17:01:22Z",
+      "side": 1,
+      "message": "It\u0027s actually easier than what I did in patch set 2. base is already directly available, no need to pass it in as an argument. See latest patch set.",
+      "parentUuid": "bc3225d1_4a405352",
+      "revId": "74505c1892fdb078fed7fa8308b22e7f8079eb84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

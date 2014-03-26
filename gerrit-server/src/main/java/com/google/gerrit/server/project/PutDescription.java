@@ -16,6 +16,7 @@ package com.google.gerrit.server.project;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
+import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
@@ -23,6 +24,7 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -33,6 +35,7 @@ import com.google.inject.Inject;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.revwalk.RevCommit;
 
 import java.io.IOException;
 
@@ -46,13 +49,16 @@ class PutDescription implements RestModifyView<ProjectResource, Input> {
   private final ProjectCache cache;
   private final MetaDataUpdate.Server updateFactory;
   private final GitRepositoryManager gitMgr;
+  private final ChangeHooks hooks;
 
   @Inject
   PutDescription(ProjectCache cache,
       MetaDataUpdate.Server updateFactory,
+      ChangeHooks hooks,
       GitRepositoryManager gitMgr) {
     this.cache = cache;
     this.updateFactory = updateFactory;
+    this.hooks = hooks;
     this.gitMgr = gitMgr;
   }
 
@@ -85,7 +91,10 @@ class PutDescription implements RestModifyView<ProjectResource, Input> {
         }
         md.setAuthor(user);
         md.setMessage(msg);
-        config.commit(md);
+        RevCommit commit = config.commit(md);
+        hooks.doRefUpdatedHook(
+          new Branch.NameKey(resource.getNameKey(), GitRepositoryManager.REF_CONFIG),
+          commit.getParent(0).getId(), commit.getId(), user.getAccount());
         cache.evict(ctl.getProject());
         gitMgr.setProjectDescription(
             resource.getNameKey(),

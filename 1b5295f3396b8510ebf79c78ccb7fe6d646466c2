@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c4e4155_b1722068",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/History.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-26T00:02:21Z",
+      "side": 1,
+      "message": "Add a comment to clarify what this means.  Maybe also mention why we don\u0027t use the time unit utility.",
+      "revId": "1b5295f3396b8510ebf79c78ccb7fe6d646466c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

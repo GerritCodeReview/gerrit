@@ -22,7 +22,6 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.OnEditEnabler;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.CommentVisibilityStrategy;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -34,7 +33,6 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwtjsonrpc.common.VoidResult;
 
 import java.util.Date;
 
@@ -223,9 +221,11 @@ public class MyPreferencesScreen extends SettingsScreen {
   @Override
   protected void onLoad() {
     super.onLoad();
-    Util.ACCOUNT_SVC.myAccount(new ScreenLoadCallback<Account>(this) {
-      public void preDisplay(final Account result) {
-        display(result.getGeneralPreferences());
+    AccountApi.self().view("preferences")
+        .get(new ScreenLoadCallback<Preferences>(this) {
+      @Override
+      public void preDisplay(Preferences prefs) {
+        display(prefs);
       }
     });
   }
@@ -246,28 +246,28 @@ public class MyPreferencesScreen extends SettingsScreen {
     diffView.setEnabled(on);
   }
 
-  private void display(final AccountGeneralPreferences p) {
-    showSiteHeader.setValue(p.isShowSiteHeader());
-    useFlashClipboard.setValue(p.isUseFlashClipboard());
-    copySelfOnEmails.setValue(p.isCopySelfOnEmails());
-    reversePatchSetOrder.setValue(p.isReversePatchSetOrder());
-    showUsernameInReviewCategory.setValue(p.isShowUsernameInReviewCategory());
-    setListBox(maximumPageSize, DEFAULT_PAGESIZE, p.getMaximumPageSize());
+  private void display(Preferences p) {
+    showSiteHeader.setValue(p.showSiteHeader());
+    useFlashClipboard.setValue(p.useFlashClipboard());
+    copySelfOnEmails.setValue(p.copySelfOnEmail());
+    reversePatchSetOrder.setValue(p.reversePatchSetOrder());
+    showUsernameInReviewCategory.setValue(p.showUsernameInReviewCategory());
+    setListBox(maximumPageSize, DEFAULT_PAGESIZE, p.changesPerPage());
     setListBox(dateFormat, AccountGeneralPreferences.DateFormat.STD, //
-        p.getDateFormat());
+        p.dateFormat());
     setListBox(timeFormat, AccountGeneralPreferences.TimeFormat.HHMM_12, //
-        p.getTimeFormat());
-    relativeDateInChangeTable.setValue(p.isRelativeDateInChangeTable());
-    sizeBarInChangeTable.setValue(p.isSizeBarInChangeTable());
+        p.timeFormat());
+    relativeDateInChangeTable.setValue(p.relativeDateInChangeTable());
+    sizeBarInChangeTable.setValue(p.sizeBarInChangeTable());
     setListBox(commentVisibilityStrategy,
         AccountGeneralPreferences.CommentVisibilityStrategy.EXPAND_RECENT,
-        p.getCommentVisibilityStrategy());
+        p.commentVisibilityStrategy());
     setListBox(changeScreen,
         null,
-        p.getChangeScreen());
+        p.changeScreen());
     setListBox(diffView,
         AccountGeneralPreferences.DiffView.SIDE_BY_SIDE,
-        p.getDiffView());
+        p.diffView());
   }
 
   private void setListBox(final ListBox f, final short defaultValue,
@@ -350,22 +350,24 @@ public class MyPreferencesScreen extends SettingsScreen {
     enable(false);
     save.setEnabled(false);
 
-    Util.ACCOUNT_SVC.changePreferences(p, new GerritCallback<VoidResult>() {
-      @Override
-      public void onSuccess(final VoidResult result) {
-        Gerrit.getUserAccount().setGeneralPreferences(p);
-        Gerrit.applyUserPreferences();
-        Dispatcher.changeScreen2 = false;
-        enable(true);
-      }
+    AccountApi.self().view("preferences")
+        .post(Preferences.create(p), new GerritCallback<Preferences>() {
+          @Override
+          public void onSuccess(Preferences prefs) {
+            Gerrit.getUserAccount().setGeneralPreferences(p);
+            Gerrit.applyUserPreferences();
+            Dispatcher.changeScreen2 = false;
+            enable(true);
+            display(prefs);
+          }
 
-      @Override
-      public void onFailure(final Throwable caught) {
-        enable(true);
-        save.setEnabled(true);
-        super.onFailure(caught);
-      }
-    });
+          @Override
+          public void onFailure(Throwable caught) {
+            enable(true);
+            save.setEnabled(true);
+            super.onFailure(caught);
+          }
+        });
   }
 
   private static String getLabel(AccountGeneralPreferences.ChangeScreen ui) {

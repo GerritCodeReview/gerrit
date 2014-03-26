@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9c4e4155_31bab09f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyPreferencesScreen.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-03-26T01:19:26Z",
+      "side": 1,
+      "message": "Not needed anymore after this screen was migrated to the REST API.",
+      "parentUuid": "fc71fd8c_949b6463",
+      "range": {
+        "startLine": 245,
+        "startChar": 8,
+        "endLine": 245,
+        "endChar": 84
+      },
+      "revId": "8d4673387e04c23a917c6ca98bec6a8e6b2bc6fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9c4e4155_11c92c69",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyPreferencesScreen.java",
         "patchSetId": 5
@@ -95,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "9c4e4155_51c73432",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyPreferencesScreen.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-03-26T01:19:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc71fd8c_d495dc2c",
+      "range": {
+        "startLine": 416,
+        "startChar": 10,
+        "endLine": 417,
+        "endChar": 11
+      },
+      "revId": "8d4673387e04c23a917c6ca98bec6a8e6b2bc6fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9c4e4155_d1bec4b4",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/Preferences.java",
         "patchSetId": 5
@@ -106,6 +154,24 @@
       "writtenOn": "2014-03-25T23:28:42Z",
       "side": 1,
       "message": "nit: unnecessary blank line",
+      "revId": "8d4673387e04c23a917c6ca98bec6a8e6b2bc6fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c4e4155_11bdac96",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/Preferences.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-03-26T01:19:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9c4e4155_d1bec4b4",
       "revId": "8d4673387e04c23a917c6ca98bec6a8e6b2bc6fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

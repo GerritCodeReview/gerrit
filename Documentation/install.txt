@@ -22,7 +22,7 @@ NOTE: Installing JCE extensions is optional and export restrictions may apply.
 . Download the unlimited strength JCE policy files.
 +
 - link:http://www.oracle.com/technetwork/java/javase/downloads/jce-7-download-432124.html[JDK7 JCE policy files]
-- link:http://www.oracle.com/technetwork/java/javase/downloads/jce-8-download-432124.html[JDK8 JCE policy files]
+- link:http://www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.html[JDK8 JCE policy files]
 . Uncompress and extract the downloaded file.
 +
 The downloaded file  contains the following files:

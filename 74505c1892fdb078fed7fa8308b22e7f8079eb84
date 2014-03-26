@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1c3a51a9_cd862952",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ChangeProjectAccess.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1003555
+      },
+      "writtenOn": "2014-03-26T15:48:13Z",
+      "side": 1,
+      "message": "I\u0027m not very familiar with the code, so I copied a lot of this from ReviewProjectAccess.java, which uses GitRepositoryManager.REF_CONFIG. I\u0027ll try to figure out what you mean. :-)",
+      "parentUuid": "9c4e4155_b126a045",
+      "range": {
+        "startLine": 79,
+        "startChar": 59,
+        "endLine": 79,
+        "endChar": 90
+      },
+      "revId": "74505c1892fdb078fed7fa8308b22e7f8079eb84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fc71fd8c_743fa834",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ChangeProjectAccess.java",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2014-03-26T02:21:05Z",
       "side": 1,
       "message": "I think this is safe because when coming through the web UI you can only create a single commit (though in theory MetaDataUpdate supports multiple commits in a single ref update). But it\u0027s a little confusing to reason about.\n\nIf you look at the caller of this in ProjectAccessHandler, the base ObjectId is already passed in. So maybe change this method to take an additional ObjectId, would that work?",
+      "revId": "74505c1892fdb078fed7fa8308b22e7f8079eb84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c3a51a9_ed8be558",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ChangeProjectAccess.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1003555
+      },
+      "writtenOn": "2014-03-26T15:48:13Z",
+      "side": 1,
+      "message": "Not sure, I\u0027ll give it a look.",
+      "parentUuid": "fc71fd8c_743fa834",
       "revId": "74505c1892fdb078fed7fa8308b22e7f8079eb84",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -529,7 +529,7 @@ public class Dispatcher {
     }
   }
 
-  private static boolean isChangeScreen2() {
+ public static boolean isChangeScreen2() {
     if (changeScreen2) {
       return true;
     }
@@ -593,6 +593,9 @@ public class Dispatcher {
           }
 
           if ("".equals(panel)) {
+            if (isChangeScreen2()) {
+              return new SideBySide2(baseId, id.getParentKey(), id.get());
+            }
             return new PatchScreen.SideBySide( //
                 id, //
                 patchIndex, //

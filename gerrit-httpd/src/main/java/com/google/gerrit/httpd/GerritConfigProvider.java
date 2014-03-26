@@ -128,6 +128,7 @@ class GerritConfigProvider implements Provider<GerritConfig> {
         "gerrit", null, "changeScreen",
         AccountGeneralPreferences.ChangeScreen.CHANGE_SCREEN2));
     config.setLargeChangeSize(cfg.getInt("change", "largeChange", 500));
+    config.setDownloadArchive(cfg.getBoolean("download", "archive", false));
     config.setNewFeatures(cfg.getBoolean("gerrit", "enableNewFeatures", true));
 
     final String reportBugUrl = cfg.getString("gerrit", null, "reportBugUrl");

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fc71fd8c_34f2904e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/History.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-26T06:34:51Z",
+      "side": 1,
+      "message": "nit: replace the tab with spaces.",
+      "revId": "ee06ed2a57aef9c396e22c495eee37dea567ecbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

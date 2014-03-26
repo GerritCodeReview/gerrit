@@ -22,6 +22,23 @@
       "revId": "87daf203a698f56e9af2b0c32f28dc40e549f7c7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "790a7f15_d811ed6e",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/http/jetty/JettyServer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-03-26T15:51:44Z",
+      "side": 1,
+      "message": "In case when 0 \u003c maxQueued \u0026\u0026 maxQueued \u003c minThreads the maxCapacity will be smaller than minThreads and the IllegalArgumentException will still be thrown when calling new BlockingArrayQueue at the line 335.\n\nI prefer the fix from Shawn [1]\n\n[1] https://gerrit-review.googlesource.com/#/c/55561/1",
+      "revId": "87daf203a698f56e9af2b0c32f28dc40e549f7c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

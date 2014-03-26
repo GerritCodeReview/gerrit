@@ -330,7 +330,7 @@ public class JettyServer {
         minThreads,
         idleTimeout,
         new BlockingArrayQueue<Runnable>(
-            minThreads, // capacity,
+            Math.min(minThreads, maxCapacity), // capacity,
             minThreads, // growBy,
             maxCapacity // maxCapacity
     ));

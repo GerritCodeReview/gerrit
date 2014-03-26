@@ -16,6 +16,23 @@
       "revId": "1b5295f3396b8510ebf79c78ccb7fe6d646466c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c4e4155_d167a4a8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/History.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-03-26T00:02:26Z",
+      "side": 1,
+      "message": "java.util.concurrent.TimeUnit is not available in GWT:\n\n  [ERROR] Line 49: No source code is available for type",
+      "revId": "1b5295f3396b8510ebf79c78ccb7fe6d646466c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

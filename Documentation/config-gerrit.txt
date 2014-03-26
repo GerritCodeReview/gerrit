@@ -1803,7 +1803,7 @@ By default 25, suitable for most lower-volume traffic sites.
 +
 Maximum number of client connections which can enter the worker
 thread pool waiting for a worker thread to become available.
-0 disables the queue and permits infinite number of connections.
+0 sets the queue size to the Integer.MAX_VALUE.
 +
 By default 50.
 

@@ -22,6 +22,7 @@ import com.google.gerrit.client.ui.ListenableAccountDiffPreference;
 import com.google.gerrit.client.ui.NavigationTable;
 import com.google.gerrit.client.ui.PatchLink;
 import com.google.gerrit.common.data.PatchSetDetail;
+import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DiffView;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.Patch.ChangeType;
 import com.google.gerrit.reviewdb.client.Patch.Key;
@@ -254,11 +255,19 @@ public class PatchTable extends Composite {
 
     Key thisKey = patch.getKey();
     PatchLink link;
-    if (patchType == PatchScreen.Type.SIDE_BY_SIDE) {
-      link = new PatchLink.SideBySide("", base, thisKey, index, detail, this);
-    } else {
+
+    boolean newScrren = Dispatcher.isChangeScreen2();
+    if (newScrren
+        && (detail.getPatches().get(index).getPatchType()
+            .equals(PatchType.BINARY) || Gerrit.getUserAccount()
+            .getGeneralPreferences().getDiffView()
+            .equals(DiffView.UNIFIED_DIFF))
+        || !newScrren && patchType == PatchScreen.Type.UNIFIED) {
       link = new PatchLink.Unified("", base, thisKey, index, detail, this);
+    } else {
+      link = new PatchLink.SideBySide("", base, thisKey, index, detail, this);
     }
+
     SafeHtmlBuilder text = new SafeHtmlBuilder();
     text.append(before);
     text.append(getFileNameOnly(patch));

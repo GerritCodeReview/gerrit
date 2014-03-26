@@ -1,0 +1,45 @@
+Release notes for Gerrit 2.8.4
+==============================
+
+There are no schema changes from link:ReleaseNotes-2.8.3.html[2.8.3].
+
+Download:
+link:https://gerrit-releases.storage.googleapis.com/gerrit-2.8.4.war[
+https://gerrit-releases.storage.googleapis.com/gerrit-2.8.4.war]
+
+
+Bug Fixes
+---------
+
+* Respect the comment visibility preference in the new change screen.
++
+The "Expand All" and "Collapse All" settings now work like they did on
+the old change screen.
+
+* Don't show the "Patch File" download for merge commits.
++
+The patch file download does not work for commits with more than one
+parent (i..e. merges) and results in an error being displayed.  Now the
+link is not shown for merge commits; a solution for merge patches will
+be investigated for future releases.
+
+* Hide the `refs/heads/` prefix in branch suggestion list for cherry-picks.
++
+Regular branches like `refs/heads/stable/` will now be displayed as
+just `stable` in the suggestion list when cherry-picking a change in the
+web UI.
+
+* Disable the "Save" button after it is pressed when editing the commit
+message.
++
+The "Save" button was not being disabled, and could be pressed multiple
+times while the message was being saved, resulting in multiple new patch
+sets being created.
+
+* Escape dollar sign in plugin manifest entries.
++
+Plugins could be built, but not loaded, if they had any manifest entries
+that contained a dollar sign. 
+
+* Various documentation fixes and improvements.
+

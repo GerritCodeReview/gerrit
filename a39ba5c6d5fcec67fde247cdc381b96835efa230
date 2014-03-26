@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fc71fd8c_37c0d26a",
+        "filename": "tools/version.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2014-03-26T23:53:52Z",
+      "side": 1,
+      "message": "also, I don\u0027t like using the os module like this...join is to innocuous.  Just write out os.path.join each time.",
+      "range": {
+        "startLine": 18,
+        "startChar": 28,
+        "endLine": 18,
+        "endChar": 32
+      },
+      "revId": "a39ba5c6d5fcec67fde247cdc381b96835efa230",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

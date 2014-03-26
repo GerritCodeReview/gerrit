@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "fc71fd8c_944c440e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyPreferencesScreen.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-03-26T00:51:51Z",
+      "side": 1,
+      "message": "*sigh* I know, I was afraid somebody would ask *me* to do it...\n\n  https://gerrit-review.googlesource.com/55527",
+      "parentUuid": "9c4e4155_11c92c69",
+      "range": {
+        "startLine": 387,
+        "startChar": 0,
+        "endLine": 402,
+        "endChar": 7
+      },
+      "revId": "8d4673387e04c23a917c6ca98bec6a8e6b2bc6fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fc71fd8c_d495dc2c",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyPreferencesScreen.java",
         "patchSetId": 5

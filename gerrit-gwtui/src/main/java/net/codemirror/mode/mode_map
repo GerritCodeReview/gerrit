@@ -52,6 +52,7 @@ text/x-ruby
 
 shell:
 text/x-sh
+application/x-shellscript
 
 sql:
 text/x-sql
@@ -67,5 +68,6 @@ text/xml
 application/xml
 
 application/x-javascript = application/javascript
+application/x-shellscript = text/x-sh
 text/x-h = text/x-c++hdr
 text/x-java-source = text/x-java

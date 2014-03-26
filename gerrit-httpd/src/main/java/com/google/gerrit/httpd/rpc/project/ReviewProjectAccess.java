@@ -155,7 +155,7 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
     } finally {
       db.rollback();
     }
-    mergeabilityChecker.updateAndIndexAsync(change).checkedGet();
+    mergeabilityChecker.newCheck().addChange(change).reindex().run();
     hooks.doPatchsetCreatedHook(change, ps, db);
     try {
       CreateChangeSender cm =

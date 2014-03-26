@@ -16,6 +16,24 @@
       "revId": "479450fd5312847bf3048179e3f0fa90ca946dd5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc71fd8c_f4065878",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-03-26T13:40:21Z",
+      "side": 1,
+      "message": "Oops, thought I had ported that patch, thanks.",
+      "parentUuid": "790a7f15_b8f519f7",
+      "revId": "479450fd5312847bf3048179e3f0fa90ca946dd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

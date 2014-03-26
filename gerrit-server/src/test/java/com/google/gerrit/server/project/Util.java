@@ -156,6 +156,11 @@ public class Util {
       }
 
       @Override
+      public ProjectState getAllUsers() {
+        return null;
+      }
+
+      @Override
       public ProjectState get(Project.NameKey projectName) {
         return all.get(projectName);
       }

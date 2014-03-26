@@ -1338,6 +1338,13 @@ relative to `gerrit.basePath`.
 +
 Defaults to `All-Projects` if not set.
 
+[[gerrit.allUsers]]gerrit.allUsers::
++
+Name of the project in which meta data of all users is stored.
+The name is relative to `gerrit.basePath`.
++
+Defaults to `All-Users` if not set.
+
 [[gerrit.canonicalWebUrl]]gerrit.canonicalWebUrl::
 +
 The default URL for Gerrit to be accessed through.

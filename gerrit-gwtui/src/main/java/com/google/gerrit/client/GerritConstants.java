@@ -116,4 +116,9 @@ public interface GerritConstants extends Constants {
   String projectAccessProposeForReviewHint();
 
   String userCannotVoteToolTip();
+
+  String stringListPanelAdd();
+  String stringListPanelDelete();
+  String stringListPanelUp();
+  String stringListPanelDown();
 }

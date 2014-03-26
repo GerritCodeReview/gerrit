@@ -103,6 +103,12 @@ public final class AccountGeneralPreferences {
     }
   }
 
+  public static AccountGeneralPreferences createDefault() {
+    AccountGeneralPreferences p = new AccountGeneralPreferences();
+    p.resetToDefaults();
+    return p;
+  }
+
   /** Number of changes to show in a screen. */
   @Column(id = 2)
   protected short maximumPageSize;

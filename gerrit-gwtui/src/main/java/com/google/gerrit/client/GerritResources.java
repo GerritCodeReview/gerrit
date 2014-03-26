@@ -28,6 +28,12 @@ public interface GerritResources extends ClientBundle {
   @Source("arrowRight.gif")
   public ImageResource arrowRight();
 
+  @Source("arrowUp.png")
+  public ImageResource arrowUp();
+
+  @Source("arrowDown.png")
+  public ImageResource arrowDown();
+
   @Source("editText.png")
   public ImageResource edit();
 
@@ -69,4 +75,7 @@ public interface GerritResources extends ClientBundle {
 
   @Source("warning.png")
   public ImageResource warning();
+
+  @Source("listAdd.png")
+  public ImageResource listAdd();
 }

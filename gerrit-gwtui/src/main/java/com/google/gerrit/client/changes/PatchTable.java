@@ -22,6 +22,7 @@ import com.google.gerrit.client.ui.ListenableAccountDiffPreference;
 import com.google.gerrit.client.ui.NavigationTable;
 import com.google.gerrit.client.ui.PatchLink;
 import com.google.gerrit.common.data.PatchSetDetail;
+import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DiffView;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.Patch.ChangeType;
 import com.google.gerrit.reviewdb.client.Patch.Key;
@@ -244,27 +245,39 @@ public class PatchTable extends Composite {
   /**
    * @return a link to the the given patch.
    * @param index The patch to link to
-   * @param patchType The type of patch display
+   * @param screenType The screen type of patch display
    * @param before A string to display at the beginning of the href text
    * @param after A string to display at the end of the href text
    */
-  public PatchLink createLink(int index, PatchScreen.Type patchType,
+  public PatchLink createLink(int index, PatchScreen.Type screenType,
       SafeHtml before, SafeHtml after) {
     Patch patch = patchList.get(index);
 
     Key thisKey = patch.getKey();
     PatchLink link;
-    if (patchType == PatchScreen.Type.SIDE_BY_SIDE) {
-      link = new PatchLink.SideBySide("", base, thisKey, index, detail, this);
-    } else {
+
+    if (isUifiedPatchLink(patch, screenType)) {
       link = new PatchLink.Unified("", base, thisKey, index, detail, this);
+    } else {
+      link = new PatchLink.SideBySide("", base, thisKey, index, detail, this);
     }
+
     SafeHtmlBuilder text = new SafeHtmlBuilder();
     text.append(before);
     text.append(getFileNameOnly(patch));
     text.append(after);
     SafeHtml.set(link, text);
     return link;
+  }
+
+  private static boolean isUifiedPatchLink(final Patch patch,
+      final PatchScreen.Type screenType) {
+    if (Dispatcher.isChangeScreen2()) {
+      return (patch.getPatchType().equals(PatchType.BINARY)
+          || Gerrit.getUserAccount().getGeneralPreferences().getDiffView()
+          .equals(DiffView.UNIFIED_DIFF));
+    }
+    return screenType == PatchScreen.Type.UNIFIED;
   }
 
   private static String getFileNameOnly(Patch patch) {

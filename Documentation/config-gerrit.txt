@@ -823,6 +823,14 @@ changes is updated.
 +
 Default is 1.
 
+[[changeMerge.interactiveThreadPoolSize]]changeMerge.interactiveThreadPoolSize::
++
+Maximum size of the thread pool in which the mergeability flag of open
+changes is updated, when processing interactive user requests (e.g.
+pushes to refs/for/*).
++
+Default is to share the pool for background mergeability checks.
+
 [[commentlink]]
 === Section commentlink
 

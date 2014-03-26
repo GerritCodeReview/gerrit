@@ -211,7 +211,7 @@ public class ChangeBatchIndexer {
   private boolean updateMergeable(Project.NameKey project) {
     if (mergeabilityChecker != null) {
       try {
-        mergeabilityChecker.update(project);
+        mergeabilityChecker.newCheck().addProject(project).run();
       } catch (IOException e) {
         log.error("Error in mergeability checker", e);
         return false;

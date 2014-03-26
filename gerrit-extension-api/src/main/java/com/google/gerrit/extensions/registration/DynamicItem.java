@@ -150,19 +150,17 @@ public class DynamicItem<T> {
   public RegistrationHandle set(Provider<T> impl, String pluginName) {
     final NamedProvider<T> item = new NamedProvider<T>(impl, pluginName);
     NamedProvider<T> old = null;
-    while (!ref.compareAndSet(null, item)) {
+    while (true) {
       old = ref.get();
-      if (old != null) {
-        if ("gerrit".equals(old.pluginName)) {
-          if (ref.compareAndSet(old, item)) {
-            break;
-          }
-          old = ref.get();
+      if (old == null || "gerrit".equals(old.pluginName)) {
+        if (ref.compareAndSet(old, item)) {
+          break;
         }
-        throw new ProvisionException(String.format(
-            "%s already provided by %s, ignoring plugin %s",
-            key.getTypeLiteral(), old.pluginName, pluginName));
+        continue;
       }
+      throw new ProvisionException(String.format(
+          "%s already provided by %s, ignoring plugin %s",
+          key.getTypeLiteral(), old.pluginName, pluginName));
     }
 
     final NamedProvider<T> defaultItem = old;
@@ -187,24 +185,31 @@ public class DynamicItem<T> {
   public ReloadableRegistrationHandle<T> set(Key<T> key, Provider<T> impl,
       String pluginName) {
     final NamedProvider<T> item = new NamedProvider<T>(impl, pluginName);
-    while (!ref.compareAndSet(null, item)) {
-      NamedProvider<T> old = ref.get();
-      if (old != null) {
-        throw new ProvisionException(String.format(
-            "%s already provided by %s, ignoring plugin %s",
-            this.key.getTypeLiteral(), old.pluginName, pluginName));
+    NamedProvider<T> old = null;
+    while (true) {
+      old = ref.get();
+      if (old == null || "gerrit".equals(old.pluginName)) {
+        if (ref.compareAndSet(old, item)) {
+          break;
+        }
+        continue;
       }
+      throw new ProvisionException(String.format(
+          "%s already provided by %s, ignoring plugin %s",
+          this.key.getTypeLiteral(), old.pluginName, pluginName));
     }
-    return new ReloadableHandle(key, item);
+    return new ReloadableHandle(key, item, old);
   }
 
   private class ReloadableHandle implements ReloadableRegistrationHandle<T> {
     private final Key<T> key;
     private final NamedProvider<T> item;
+    private final NamedProvider<T> defaultItem;
 
-    ReloadableHandle(Key<T> key, NamedProvider<T> item) {
+    ReloadableHandle(Key<T> key, NamedProvider<T> item, NamedProvider<T> defaultItem) {
       this.key = key;
       this.item = item;
+      this.defaultItem = defaultItem;
     }
 
     @Override
@@ -214,14 +219,14 @@ public class DynamicItem<T> {
 
     @Override
     public void remove() {
-      ref.compareAndSet(item, null);
+      ref.compareAndSet(item, defaultItem);
     }
 
     @Override
     public ReloadableHandle replace(Key<T> newKey, Provider<T> newItem) {
       NamedProvider<T> n = new NamedProvider<T>(newItem, item.pluginName);
       if (ref.compareAndSet(item, n)) {
-        return new ReloadableHandle(newKey, n);
+        return new ReloadableHandle(newKey, n, defaultItem);
       }
       return null;
     }

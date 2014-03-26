@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "fc71fd8c_f4d818be",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ChangeProjectAccess.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-03-26T16:52:35Z",
+      "side": 1,
+      "message": "I actually meant ProjectConfig, cf. VersionedMetaDataUpdate.getRefName(), sorry. But actually that method is protected, so I think RefNames.REF_CONFIG is the way to go.",
+      "parentUuid": "bc3225d1_6a3d17cb",
+      "range": {
+        "startLine": 79,
+        "startChar": 59,
+        "endLine": 79,
+        "endChar": 90
+      },
+      "revId": "74505c1892fdb078fed7fa8308b22e7f8079eb84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fc71fd8c_743fa834",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ChangeProjectAccess.java",
         "patchSetId": 1

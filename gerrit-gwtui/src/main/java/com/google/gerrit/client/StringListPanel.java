@@ -98,6 +98,7 @@ public class StringListPanel extends FlowPanel {
 
       FlexCellFormatter fmt = table.getFlexCellFormatter();
       fmt.addStyleName(0, 0, Gerrit.RESOURCES.css().iconHeader());
+      fmt.addStyleName(0, 0, Gerrit.RESOURCES.css().leftMostCell());
       for (int i = 0; i < names.size(); i++) {
         fmt.addStyleName(0, i + 1, Gerrit.RESOURCES.css().dataHeader());
         table.setText(0, i + 1, names.get(i));
@@ -127,6 +128,8 @@ public class StringListPanel extends FlowPanel {
           add();
         }
       });
+      fmt.addStyleName(1, 0, Gerrit.RESOURCES.css().iconHeader());
+      fmt.addStyleName(1, 0, Gerrit.RESOURCES.css().leftMostCell());
       table.setWidget(1, 0, addButton);
 
       if (!autoSort) {
@@ -167,6 +170,7 @@ public class StringListPanel extends FlowPanel {
     private void populate(final int row, List<String> values, boolean last) {
       FlexCellFormatter fmt = table.getFlexCellFormatter();
       fmt.addStyleName(row, 0, Gerrit.RESOURCES.css().iconCell());
+      fmt.addStyleName(row, 0, Gerrit.RESOURCES.css().leftMostCell());
       CheckBox checkBox = new CheckBox();
       checkBox.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
         @Override
@@ -181,6 +185,7 @@ public class StringListPanel extends FlowPanel {
       }
       if (!autoSort) {
         fmt.addStyleName(row, values.size() + 1, Gerrit.RESOURCES.css().iconCell());
+        fmt.addStyleName(row, values.size() + 2, Gerrit.RESOURCES.css().dataCell());
 
         if (!last) {
           Image down = new Image(Gerrit.RESOURCES.arrowDown());

@@ -14,28 +14,19 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.common.collect.Maps;
-
 import org.eclipse.jgit.api.ArchiveCommand;
 import org.eclipse.jgit.archive.TarFormat;
 import org.eclipse.jgit.archive.Tbz2Format;
 import org.eclipse.jgit.archive.TgzFormat;
 import org.eclipse.jgit.archive.TxzFormat;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.util.Collections;
-import java.util.Map;
-
-enum ArchiveFormat {
+public enum ArchiveFormat {
   TGZ("application/x-gzip", new TgzFormat()),
   TAR("application/x-tar", new TarFormat()),
   TBZ2("application/x-bzip2", new Tbz2Format()),
   TXZ("application/x-xz", new TxzFormat());
   // Zip is not supported because it may be interpreted by a Java plugin as a
   // valid JAR file, whose code would have access to cookies on the domain.
-
-  static final Logger log = LoggerFactory.getLogger(ArchiveFormat.class);
 
   private final ArchiveCommand.Format<?> format;
   private final String mimeType;
@@ -46,7 +37,7 @@ enum ArchiveFormat {
     ArchiveCommand.registerFormat(name(), format);
   }
 
-  String getShortName() {
+  public String getShortName() {
     return name().toLowerCase();
   }
 
@@ -60,25 +51,5 @@ enum ArchiveFormat {
 
   Iterable<String> getSuffixes() {
     return format.suffixes();
-  }
-
-  static Map<String, ArchiveFormat> init() {
-    String[] formats = new String[values().length];
-    for (int i = 0; i < values().length; i++) {
-      formats[i] = values()[i].name();
-    }
-
-    Map<String, ArchiveFormat> exts = Maps.newLinkedHashMap();
-    for (String name : formats) {
-      try {
-        ArchiveFormat format = valueOf(name.toUpperCase());
-        for (String ext : format.getSuffixes()) {
-          exts.put(ext, format);
-        }
-      } catch (IllegalArgumentException e) {
-        log.warn("Invalid archive.format {}", name);
-      }
-    }
-    return Collections.unmodifiableMap(exts);
   }
 }

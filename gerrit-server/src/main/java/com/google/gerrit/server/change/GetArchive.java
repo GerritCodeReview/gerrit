@@ -15,14 +15,19 @@
 package com.google.gerrit.server.change;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.server.config.ConfigUtil;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 import org.eclipse.jgit.api.ArchiveCommand;
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -31,18 +36,60 @@ import org.kohsuke.args4j.Option;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.Set;
 
-class GetArchive implements RestReadView<RevisionResource> {
-  private static final Map<String, ArchiveFormat> formats = ArchiveFormat.init();
+public class GetArchive implements RestReadView<RevisionResource> {
+  @Singleton
+  public static class AllowedFormats {
+    final ImmutableMap<String, ArchiveFormat> extensions;
+    final Set<ArchiveFormat> allowed;
+
+    @Inject
+    AllowedFormats(@GerritServerConfig Config cfg) {
+      Collection<ArchiveFormat> enabled;
+      String v = cfg.getString("download", null, "archive");
+      if (v == null) {
+        enabled = Arrays.asList(ArchiveFormat.values());
+      } else if (v.isEmpty() || "off".equalsIgnoreCase(v)) {
+        enabled = Collections.emptyList();
+      } else {
+        enabled = ConfigUtil.getEnumList(cfg,
+            "download", null, "archive",
+            ArchiveFormat.TGZ);
+      }
+
+      Map<String, ArchiveFormat> exts = new HashMap<>();
+      for (ArchiveFormat format : enabled) {
+        for (String ext : format.getSuffixes()) {
+          exts.put(ext, format);
+        }
+        exts.put(format.name().toLowerCase(), format);
+      }
+      extensions = ImmutableMap.copyOf(exts);
+      allowed = Collections.unmodifiableSet(new LinkedHashSet<>(enabled));
+    }
+
+    public Set<ArchiveFormat> getAllowed() {
+      return allowed;
+    }
+  }
+
   private final GitRepositoryManager repoManager;
+  private final AllowedFormats allowedFormats;
 
   @Option(name = "--format")
   private String format;
 
   @Inject
-  GetArchive(GitRepositoryManager repoManager) {
+  GetArchive(GitRepositoryManager repoManager, AllowedFormats allowedFormats) {
     this.repoManager = repoManager;
+    this.allowedFormats = allowedFormats;
   }
 
   @Override
@@ -51,7 +98,7 @@ class GetArchive implements RestReadView<RevisionResource> {
     if (Strings.isNullOrEmpty(format)) {
       throw new BadRequestException("format is not specified");
     }
-    final ArchiveFormat f = formats.get("." + format);
+    final ArchiveFormat f = allowedFormats.extensions.get("." + format);
     if (f == null) {
       throw new BadRequestException("unknown archive format");
     }

@@ -1330,7 +1330,8 @@ screen:
   archive = txz
 ----
 
-Defaults to no archive commands.
+If `download.archive` is not specified defaults to all archive
+commands. Set to `off` or empty string to disable.
 
 [[gerrit]]
 === Section gerrit

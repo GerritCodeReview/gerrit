@@ -22,6 +22,30 @@
       "revId": "99dea4bfba9ed2d5c3d6221d24e4d3bf5a545cd3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c4e4155_94a8aa5e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-03-27T22:45:17Z",
+      "side": 0,
+      "message": "Yupp, we don\u0027t care.",
+      "parentUuid": "fc71fd8c_f75bbabe",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 58
+      },
+      "revId": "99dea4bfba9ed2d5c3d6221d24e4d3bf5a545cd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

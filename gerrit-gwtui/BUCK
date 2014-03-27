@@ -27,7 +27,7 @@ gwt_application(
   name = 'ui_opt',
   module_target = MODULE,
   compiler_opts = GWT_COMPILER_OPTS,
-  deps = APP_DEPS,
+  deps = APP_DEPS + [':ui_dbg'],
 )
 
 gwt_application(

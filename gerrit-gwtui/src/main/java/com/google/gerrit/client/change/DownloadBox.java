@@ -48,7 +48,6 @@ import java.util.List;
 import java.util.Set;
 
 class DownloadBox extends VerticalPanel {
-  private final static String ARCHIVE[] = {"tar", "tbz2", "tgz", "txz"};
   private final ChangeInfo change;
   private final String revision;
   private final PatchSet.Id psId;
@@ -155,15 +154,16 @@ class DownloadBox extends VerticalPanel {
     }
 
     List<Anchor> anchors = new ArrayList<>(activated.size());
-    for (String f : ARCHIVE) {
-      if (activated.contains(ArchiveFormat.valueOf(f.toUpperCase()))) {
-        Anchor archive = new Anchor(f);
+    for (ArchiveFormat fmt : ArchiveFormat.values()) {
+      if (activated.contains(fmt) && fmt != ArchiveFormat.OFF) {
+        String format = fmt.name().toLowerCase();
+        Anchor archive = new Anchor(format);
         archive.setHref(new RestApi("/changes/")
             .id(psId.getParentKey().get())
             .view("revisions")
             .id(revision)
             .view("archive")
-            .addParameter("format", f)
+            .addParameter("format", format)
             .url());
         anchors.add(archive);
       }

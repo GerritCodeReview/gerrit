@@ -25,7 +25,6 @@ import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.extensions.common.ListChangesOption;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
-import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.ArchiveFormat;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadScheme;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -45,10 +44,8 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 class DownloadBox extends VerticalPanel {
-  private final static String ARCHIVE[] = {"tar", "tbz2", "tgz", "txz"};
   private final ChangeInfo change;
   private final String revision;
   private final PatchSet.Id psId;
@@ -149,23 +146,22 @@ class DownloadBox extends VerticalPanel {
   }
 
   private void insertArchive() {
-    Set<ArchiveFormat> activated = Gerrit.getConfig().getArchiveFormats();
-    if (activated.contains(ArchiveFormat.OFF)) {
+    List<String> activated = Gerrit.getConfig().getArchiveFormats();
+    if (activated.isEmpty()) {
       return;
     }
+
     List<Anchor> anchors = new ArrayList<>(activated.size());
-    for (String f : ARCHIVE) {
-      if (activated.contains(ArchiveFormat.valueOf(f.toUpperCase()))) {
-        Anchor archive = new Anchor(f);
-        archive.setHref(new RestApi("/changes/")
-            .id(psId.getParentKey().get())
-            .view("revisions")
-            .id(revision)
-            .view("archive")
-            .addParameter("format", f)
-            .url());
-        anchors.add(archive);
-      }
+    for (String f : activated) {
+      Anchor archive = new Anchor(f);
+      archive.setHref(new RestApi("/changes/")
+          .id(psId.getParentKey().get())
+          .view("revisions")
+          .id(revision)
+          .view("archive")
+          .addParameter("format", f)
+          .url());
+      anchors.add(archive);
     }
 
     HorizontalPanel p = new HorizontalPanel();

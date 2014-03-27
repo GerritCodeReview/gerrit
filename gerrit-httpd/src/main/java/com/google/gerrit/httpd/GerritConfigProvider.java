@@ -14,12 +14,16 @@
 
 package com.google.gerrit.httpd;
 
+import com.google.common.base.Function;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.GerritConfig;
 import com.google.gerrit.common.data.GitwebConfig;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
-import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.ArchiveFormat;
 import com.google.gerrit.server.account.Realm;
+import com.google.gerrit.server.change.ArchiveFormat;
+import com.google.gerrit.server.change.GetArchive;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.AuthConfig;
@@ -37,7 +41,6 @@ import org.eclipse.jgit.lib.Config;
 
 import java.net.MalformedURLException;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -48,6 +51,7 @@ class GerritConfigProvider implements Provider<GerritConfig> {
   private final Config cfg;
   private final AuthConfig authConfig;
   private final DownloadConfig downloadConfig;
+  private final GetArchive.AllowedFormats archiveFormats;
   private final GitWebConfig gitWebConfig;
   private final AllProjectsName wildProject;
   private final SshInfo sshInfo;
@@ -62,11 +66,13 @@ class GerritConfigProvider implements Provider<GerritConfig> {
       final AuthConfig ac, final GitWebConfig gwc, final AllProjectsName wp,
       final SshInfo si, final ContactStore cs,
       final ServletContext sc, final DownloadConfig dc,
+      final GetArchive.AllowedFormats af,
       final @AnonymousCowardName String acn) {
     realm = r;
     cfg = gsc;
     authConfig = ac;
     downloadConfig = dc;
+    archiveFormats = af;
     gitWebConfig = gwc;
     sshInfo = si;
     wildProject = wp;
@@ -130,11 +136,14 @@ class GerritConfigProvider implements Provider<GerritConfig> {
         "gerrit", null, "changeScreen",
         AccountGeneralPreferences.ChangeScreen.CHANGE_SCREEN2));
     config.setLargeChangeSize(cfg.getInt("change", "largeChange", 500));
-
-    List<ArchiveFormat> allArchiveFormats =
-        ConfigUtil.getEnumList(cfg, "download", null, "archive",
-            ArchiveFormat.OFF);
-    config.setArchiveFormats(new HashSet<>(allArchiveFormats));
+    config.setArchiveFormats(Lists.newArrayList(Iterables.transform(
+        archiveFormats.getAllowed(),
+        new Function<ArchiveFormat, String>() {
+          @Override
+          public String apply(ArchiveFormat in) {
+            return in.getShortName();
+          }
+        })));
 
     config.setNewFeatures(cfg.getBoolean("gerrit", "enableNewFeatures", true));
 

@@ -23,7 +23,6 @@ def genasciidoc(
   EXPN = '.expn'
 
   asciidoc = [
-      'cd $SRCDIR;',
       '$(exe //lib/asciidoctor:asciidoc)',
       '-z', '$OUT',
       '--tmp', '$TMP',
@@ -49,7 +48,7 @@ def genasciidoc(
     genrule(
       name = ex,
       cmd = '$(exe :replace_macros) --suffix=' + EXPN +
-            ' -s $SRCDIR/%s' % fn +
+            ' -s %s' % fn +
             ' -o $OUT',
       srcs = [src],
       deps = tx + [':replace_macros'],

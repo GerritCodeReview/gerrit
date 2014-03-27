@@ -53,6 +53,6 @@ java_doc(
   pkg = 'com.google.gerrit',
   paths = ['src/main/java'] + COMMON,
   srcs = SRCS + glob(COMMON),
-  deps = DEPS + ['//gerrit-gwtui-common:client-src-lib'],
+  deps = DEPS + ['//gerrit-gwtui-common:client-lib2'],
   visibility = ['PUBLIC'],
 )

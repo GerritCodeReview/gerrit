@@ -153,6 +153,7 @@ class DownloadBox extends VerticalPanel {
     if (activated.contains(ArchiveFormat.OFF)) {
       return;
     }
+
     List<Anchor> anchors = new ArrayList<>(activated.size());
     for (String f : ARCHIVE) {
       if (activated.contains(ArchiveFormat.valueOf(f.toUpperCase()))) {
@@ -166,6 +167,9 @@ class DownloadBox extends VerticalPanel {
             .url());
         anchors.add(archive);
       }
+    }
+    if (anchors.isEmpty()) {
+      return;
     }
 
     HorizontalPanel p = new HorizontalPanel();

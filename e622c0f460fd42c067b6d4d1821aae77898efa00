@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c4e4155_d44b127a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Dispatcher.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-27T00:15:54Z",
+      "side": 1,
+      "message": "Can\u0027t we cache this somewhere in the browser memory and only update it when the menus are loaded?",
+      "range": {
+        "startLine": 429,
+        "startChar": 6,
+        "endLine": 440,
+        "endChar": 9
+      },
+      "revId": "e622c0f460fd42c067b6d4d1821aae77898efa00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c4e4155_f4501625",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyPreferencesScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-27T00:15:54Z",
+      "side": 1,
+      "message": "This should be a field inside of p or Preferences not another argument to its create().",
+      "range": {
+        "startLine": 389,
+        "startChar": 43,
+        "endLine": 389,
+        "endChar": 69
+      },
+      "revId": "e622c0f460fd42c067b6d4d1821aae77898efa00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc71fd8c_b73ce2a6",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/Preferences.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-27T00:15:54Z",
+      "side": 1,
+      "message": "Just have the caller invoke this setter method instead of passing the argument.",
+      "revId": "e622c0f460fd42c067b6d4d1821aae77898efa00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c4e4155_34437e61",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetPreferences.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-27T00:15:54Z",
+      "side": 1,
+      "message": "If I don\u0027t set myScreen but I have replaced all of the screens and I don\u0027t have a screen called \"Changes\" or \"Default Screen\" that the server admin has set as the default myScreen what happens?",
+      "revId": "e622c0f460fd42c067b6d4d1821aae77898efa00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

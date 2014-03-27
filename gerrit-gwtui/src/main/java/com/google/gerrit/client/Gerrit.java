@@ -32,6 +32,7 @@ import com.google.gerrit.client.extensions.TopMenu;
 import com.google.gerrit.client.extensions.TopMenuItem;
 import com.google.gerrit.client.extensions.TopMenuList;
 import com.google.gerrit.client.patches.PatchScreen;
+import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.ui.LinkMenuBar;
@@ -107,6 +108,7 @@ public class Gerrit implements EntryPoint {
   private static GerritConfig myConfig;
   private static HostPageData.Theme myTheme;
   private static Account myAccount;
+  private static String defaultScreenToken;
   private static AccountDiffPreference myAccountDiffPref;
   private static String xGerritAuth;
 
@@ -266,6 +268,10 @@ public class Gerrit implements EntryPoint {
 
   public static boolean isHeaderVisible() {
     return topMenu.isVisible();
+  }
+
+  public static String getDefaultScreenToken() {
+    return defaultScreenToken;
   }
 
   public static RootPanel getBottomMenu() {
@@ -540,7 +546,7 @@ public class Gerrit implements EntryPoint {
 
     applyUserPreferences();
     populateBottomMenu(bottomMenu, hpd);
-    refreshMenuBar();
+    refreshMenuBar(false);
 
     History.addValueChangeHandler(new ValueChangeHandler<String>() {
       @Override
@@ -550,18 +556,27 @@ public class Gerrit implements EntryPoint {
     });
     JumpKeys.register(body);
 
-    String token = History.getToken();
-    if (token.isEmpty()) {
-      token = isSignedIn()
-          ? PageLinks.MINE
-          : PageLinks.toChangeQuery("status:open");
-    }
-
     saveDefaultTheme();
     if (hpd.messages != null) {
       new MessageOfTheDayBar(hpd.messages).show();
     }
-    PluginLoader.load(hpd.plugins, token);
+    CallbackGroup cbg = new CallbackGroup();
+    if (isSignedIn()) {
+      AccountApi.self().view("preferences").get(cbg.add(createMyMenuBarCallback()));
+    }
+    PluginLoader.load(hpd.plugins,
+        cbg.addFinal(new GerritCallback<VoidResult>() {
+          @Override
+          public void onSuccess(VoidResult result) {
+            String token = History.getToken();
+            if (token.isEmpty()) {
+              token = isSignedIn()
+                  ? PageLinks.MINE
+                  : PageLinks.toChangeQuery("status:open");
+            }
+            display(token);
+          }
+        }));
   }
 
   private void saveDefaultTheme() {
@@ -571,6 +586,10 @@ public class Gerrit implements EntryPoint {
   }
 
   public static void refreshMenuBar() {
+    refreshMenuBar(true);
+  }
+
+  private static void refreshMenuBar(boolean populateMyMenu) {
     menuLeft.clear();
     menuRight.clear();
 
@@ -588,20 +607,11 @@ public class Gerrit implements EntryPoint {
     menuLeft.add(m, C.menuAll());
 
     if (signedIn) {
-      final LinkMenuBar myBar = new LinkMenuBar();
+      LinkMenuBar myBar = new LinkMenuBar();
       menuBars.put(GerritTopMenu.MY.menuName, myBar);
-      AccountApi.self().view("preferences").get(new AsyncCallback<Preferences>() {
-        @Override
-        public void onSuccess(Preferences prefs) {
-          for (TopMenuItem item : Natives.asList(prefs.my())) {
-            addExtensionLink(myBar, item);
-          }
-        }
-
-        @Override
-        public void onFailure(Throwable caught) {
-        }
-      });
+      if (populateMyMenu) {
+        AccountApi.self().view("preferences").get(createMyMenuBarCallback());
+      }
       menuLeft.add(myBar, C.menuMine());
       menuLeft.selectTab(1);
     } else {
@@ -755,6 +765,27 @@ public class Gerrit implements EntryPoint {
         }
       }
     });
+  }
+
+  private static AsyncCallback<Preferences> createMyMenuBarCallback() {
+    return new GerritCallback<Preferences>() {
+      @Override
+      public void onSuccess(Preferences prefs) {
+        LinkMenuBar myBar = menuBars.get(GerritTopMenu.MY.menuName);
+        myBar.clear();
+        List<TopMenuItem> myMenuItems = Natives.asList(prefs.my());
+        String url = null;
+        if (!myMenuItems.isEmpty()) {
+          if (myMenuItems.get(0).getUrl().startsWith("#")) {
+            url = myMenuItems.get(0).getUrl().substring(1);
+          }
+          for (TopMenuItem item : myMenuItems) {
+            addExtensionLink(myBar, item);
+          }
+        }
+        defaultScreenToken = url;
+      }
+    };
   }
 
   public static void applyUserPreferences() {

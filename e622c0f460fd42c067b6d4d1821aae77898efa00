@@ -25,6 +25,23 @@
     },
     {
       "key": {
+        "uuid": "fc71fd8c_174cb65f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyPreferencesScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-27T00:16:35Z",
+      "side": 1,
+      "message": "Why isn\u0027t this a ListBox of the screens you have configured?\n\nWhat about just saying the g-i screen is the first screen in your My list?",
+      "revId": "e622c0f460fd42c067b6d4d1821aae77898efa00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9c4e4155_f4501625",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyPreferencesScreen.java",
         "patchSetId": 2

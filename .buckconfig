@@ -3,9 +3,12 @@
   api = //:api
   api_deploy = //tools/maven:deploy
   api_install = //tools/maven:install
+  chrome = //:chrome
   docs = //Documentation:html
+  firefox = //:firefox
   gerrit = //:gerrit
   release = //:release
+  safari = //:safari
   withdocs = //:withdocs
 
 [buildfile]

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fc71fd8c_57f9ce5f",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 832,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-27T21:51:37Z",
+      "side": 1,
+      "message": "I think this is a misguided default. Most servers should split these queues.",
+      "revId": "d494200c45de9b01ca12e58152c81d8072ff523e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

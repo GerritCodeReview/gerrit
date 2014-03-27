@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c4e4155_94098aff",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/DownloadBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-03-27T04:15:28Z",
+      "side": 1,
+      "message": "How this code can be reached? When the cnfig value was omited or or was set to OFF, then this method exits on the line 154. Otherwise at least one value was provided.",
+      "revId": "decb127e05316a6600cfb037740da3679b0a95be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -35,21 +35,17 @@ by project name.
   )]}'
   {
     "external/bison": {
-      "kind": "gerritcodereview#project",
       "id": "external%2Fbison",
       "description": "GNU parser generator"
     },
     "external/gcc": {
-      "kind": "gerritcodereview#project",
       "id": "external%2Fgcc",
     },
     "external/openssl": {
-      "kind": "gerritcodereview#project",
       "id": "external%2Fopenssl",
       "description": "encryption\ncrypto routines"
     },
     "test": {
-      "kind": "gerritcodereview#project",
       "id": "test",
       "description": "\u003chtml\u003e is escaped"
     }
@@ -81,11 +77,9 @@ List all projects that start with `platform/`:
   )]}'
   {
     "platform/drivers": {
-      "kind": "gerritcodereview#project",
       "id": "platform%2Fdrivers",
     },
     "platform/tools": {
-      "kind": "gerritcodereview#project",
       "id": "platform%2Ftools",
     }
   }
@@ -116,7 +110,6 @@ describes the project.
 
   )]}'
   {
-    "kind": "gerritcodereview#project",
     "id": "plugins%2Freplication",
     "name": "plugins/replication",
     "parent": "Public-Plugins",
@@ -160,7 +153,6 @@ describes the created project.
 
   )]}'
   {
-    "kind": "gerritcodereview#project",
     "id": "MyProject",
     "name": "MyProject",
     "parent": "All-Projects",
@@ -782,21 +774,18 @@ returned that describe the child projects.
   )]}'
   [
     {
-      "kind": "gerritcodereview#project",
       "id": "plugins%2Freplication",
       "name": "plugins/replication",
       "parent": "Public-Plugins",
       "description": "Copies to other servers using the Git protocol"
     },
     {
-      "kind": "gerritcodereview#project",
       "id": "plugins%2Freviewnotes",
       "name": "plugins/reviewnotes",
       "parent": "Public-Plugins",
       "description": "Annotates merged commits using notes on refs/notes/review."
     },
     {
-      "kind": "gerritcodereview#project",
       "id": "plugins%2Fsingleusergroup",
       "name": "plugins/singleusergroup",
       "parent": "Public-Plugins",
@@ -825,35 +814,30 @@ are not resolved further.
   )]}'
   [
     {
-      "kind": "gerritcodereview#project",
       "id": "gerrit",
       "name": "gerrit",
       "parent": "Public-Projects",
       "description": "Gerrit Code Review"
     },
     {
-      "kind": "gerritcodereview#project",
       "id": "plugins%2Freplication",
       "name": "plugins/replication",
       "parent": "Public-Plugins",
       "description": "Copies to other servers using the Git protocol"
     },
     {
-      "kind": "gerritcodereview#project",
       "id": "plugins%2Freviewnotes",
       "name": "plugins/reviewnotes",
       "parent": "Public-Plugins",
       "description": "Annotates merged commits using notes on refs/notes/review."
     },
     {
-      "kind": "gerritcodereview#project",
       "id": "plugins%2Fsingleusergroup",
       "name": "plugins/singleusergroup",
       "parent": "Public-Plugins",
       "description": "GroupBackend enabling users to be directly added to access rules"
     },
     {
-      "kind": "gerritcodereview#project",
       "id": "Public-Plugins",
       "name": "Public-Plugins",
       "parent": "Public-Projects",
@@ -887,7 +871,6 @@ describes the child project.
 
   )]}'
   {
-    "kind": "gerritcodereview#project",
     "id": "plugins%2Freplication",
     "name": "plugins/replication",
     "parent": "Public-Plugins",
@@ -1474,7 +1457,6 @@ The `ProjectInfo` entity contains information about a project.
 [options="header",width="50%",cols="1,^2,4"]
 |===========================
 |Field Name    ||Description
-|`kind`        ||`gerritcodereview#project`
 |`id`          ||The URL encoded project name.
 |`name`        |
 not set if returned in a map where the project name is used as map key|

@@ -18,6 +18,7 @@ import com.google.gerrit.common.data.GerritConfig;
 import com.google.gerrit.common.data.GitwebConfig;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
+import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.ArchiveFormat;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AnonymousCowardName;
@@ -36,6 +37,7 @@ import org.eclipse.jgit.lib.Config;
 
 import java.net.MalformedURLException;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -128,6 +130,12 @@ class GerritConfigProvider implements Provider<GerritConfig> {
         "gerrit", null, "changeScreen",
         AccountGeneralPreferences.ChangeScreen.CHANGE_SCREEN2));
     config.setLargeChangeSize(cfg.getInt("change", "largeChange", 500));
+
+    List<ArchiveFormat> allArchiveFormats =
+        ConfigUtil.getEnumList(cfg, "download", null, "archive",
+            ArchiveFormat.OFF);
+    config.setArchiveFormats(new HashSet<>(allArchiveFormats));
+
     config.setNewFeatures(cfg.getBoolean("gerrit", "enableNewFeatures", true));
 
     final String reportBugUrl = cfg.getString("gerrit", null, "reportBugUrl");

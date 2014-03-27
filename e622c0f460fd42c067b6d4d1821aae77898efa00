@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9c4e4155_14c3da79",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Dispatcher.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-03-27T01:27:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9c4e4155_d44b127a",
+      "range": {
+        "startLine": 429,
+        "startChar": 6,
+        "endLine": 440,
+        "endChar": 9
+      },
+      "revId": "e622c0f460fd42c067b6d4d1821aae77898efa00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fc71fd8c_174cb65f",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyPreferencesScreen.java",
         "patchSetId": 2
@@ -36,6 +60,24 @@
       "writtenOn": "2014-03-27T00:16:35Z",
       "side": 1,
       "message": "Why isn\u0027t this a ListBox of the screens you have configured?\n\nWhat about just saying the g-i screen is the first screen in your My list?",
+      "revId": "e622c0f460fd42c067b6d4d1821aae77898efa00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c4e4155_54cd62a1",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyPreferencesScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-03-27T01:27:03Z",
+      "side": 1,
+      "message": "\u003e What about just saying the g-i screen is the first screen in your My list?\n\nThis is a good suggestion. \n\nDone in [1].\n\n[1] https://gerrit-review.googlesource.com/55594",
+      "parentUuid": "fc71fd8c_174cb65f",
       "revId": "e622c0f460fd42c067b6d4d1821aae77898efa00",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "fc71fd8c_37c61258",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyPreferencesScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-03-27T01:27:03Z",
+      "side": 1,
+      "message": "not applicable anymore",
+      "parentUuid": "9c4e4155_f4501625",
+      "range": {
+        "startLine": 389,
+        "startChar": 43,
+        "endLine": 389,
+        "endChar": 69
+      },
+      "revId": "e622c0f460fd42c067b6d4d1821aae77898efa00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fc71fd8c_b73ce2a6",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/Preferences.java",
         "patchSetId": 2
@@ -82,6 +148,24 @@
     },
     {
       "key": {
+        "uuid": "9c4e4155_74ca668c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/Preferences.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-03-27T01:27:03Z",
+      "side": 1,
+      "message": "Not applicable anymore.",
+      "parentUuid": "fc71fd8c_b73ce2a6",
+      "revId": "e622c0f460fd42c067b6d4d1821aae77898efa00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9c4e4155_34437e61",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetPreferences.java",
         "patchSetId": 2
@@ -93,6 +177,24 @@
       "writtenOn": "2014-03-27T00:15:54Z",
       "side": 1,
       "message": "If I don\u0027t set myScreen but I have replaced all of the screens and I don\u0027t have a screen called \"Changes\" or \"Default Screen\" that the server admin has set as the default myScreen what happens?",
+      "revId": "e622c0f460fd42c067b6d4d1821aae77898efa00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc71fd8c_f7c3ba47",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetPreferences.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-03-27T01:27:03Z",
+      "side": 1,
+      "message": "This code is removed.",
+      "parentUuid": "9c4e4155_34437e61",
       "revId": "e622c0f460fd42c067b6d4d1821aae77898efa00",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fc71fd8c_9721a632",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 569,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-27T22:05:25Z",
+      "side": 1,
+      "message": "This and the preferences load below have a race condition. If the plugin load finishes first the user might see the existing account dashboard screen instead of their first My link if token \u003d MINE.",
+      "revId": "8522fb45ef453c140646e55f56a567618130afc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -131,10 +131,9 @@ class GerritConfigProvider implements Provider<GerritConfig> {
         AccountGeneralPreferences.ChangeScreen.CHANGE_SCREEN2));
     config.setLargeChangeSize(cfg.getInt("change", "largeChange", 500));
 
-    List<ArchiveFormat> allArchiveFormats =
-        ConfigUtil.getEnumList(cfg, "download", null, "archive",
-            ArchiveFormat.OFF);
-    config.setArchiveFormats(new HashSet<>(allArchiveFormats));
+    config.setArchiveFormats(new HashSet<>(ConfigUtil.getEnumList(cfg,
+        "download", null, "archive",
+        ArchiveFormat.OFF)));
 
     config.setNewFeatures(cfg.getBoolean("gerrit", "enableNewFeatures", true));
 

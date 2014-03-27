@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c4e4155_d4907236",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/ldap/LdapLoginServlet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-27T18:48:59Z",
+      "side": 1,
+      "message": "This still seems broken to me. The urlProvider.get(req) method returns a string like:\n\n  https://gerrit-review.googlesource.com/\n\nAfter URLEncode.encode() to make this string safe we have:\n\n  https%3a%2f%2fgerrit-review.googlesource.com%2f\n\nI know of no browser that can sanely follow that URL in a Location response header.\n\nHowever, since I don\u0027t use LDAP I\u0027m game for trying this and seeing if anyone who does complains when this ships in a release.",
+      "revId": "c920be37359a453787d7ef9beba1059b8e8bea50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc71fd8c_77db2a05",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/HttpPluginServlet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-27T18:48:59Z",
+      "side": 1,
+      "message": "I think this is now broken. If req.getRequestURI() contained \"/\", which it must as it should have at least \"/plugins/\" on it here, and ctx is \"/\" we now trim a single % from the start and are left with \"2fplugins%2f\". Which is going to work out great when we try to find the file.",
+      "range": {
+        "startLine": 266,
+        "startChar": 18,
+        "endLine": 266,
+        "endChar": 49
+      },
+      "revId": "c920be37359a453787d7ef9beba1059b8e8bea50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

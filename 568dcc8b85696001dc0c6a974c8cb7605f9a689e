@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fc71fd8c_b715c226",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-27T00:06:14Z",
+      "side": 1,
+      "message": "Is this actually written in all upper case in the config file?",
+      "range": {
+        "startLine": 18,
+        "startChar": 3,
+        "endLine": 18,
+        "endChar": 5
+      },
+      "revId": "568dcc8b85696001dc0c6a974c8cb7605f9a689e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c4e4155_d43152cd",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SkipBar.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-27T02:22:12Z",
+      "side": 1,
+      "message": "PatchUtil.M",
+      "range": {
+        "startLine": 104,
+        "startChar": 20,
+        "endLine": 104,
+        "endChar": 31
+      },
+      "revId": "a9760a8b3209376432868251d73e5582326a4f44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c4e4155_f43656c2",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SkipBar.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-27T02:22:12Z",
+      "side": 1,
+      "message": "PatchUtil.M",
+      "range": {
+        "startLine": 115,
+        "startChar": 20,
+        "endLine": 115,
+        "endChar": 31
+      },
+      "revId": "a9760a8b3209376432868251d73e5582326a4f44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc71fd8c_97860603",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchConstants.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-27T02:22:12Z",
+      "side": 1,
+      "message": "Do not extend this type.",
+      "revId": "a9760a8b3209376432868251d73e5582326a4f44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc71fd8c_b78b020c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchConstants.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-27T02:22:12Z",
+      "side": 1,
+      "message": "Put this in PatchMessages in the same package.",
+      "revId": "a9760a8b3209376432868251d73e5582326a4f44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc71fd8c_d7907e36",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchConstants.properties",
+        "patchSetId": 6
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-27T02:22:12Z",
+      "side": 1,
+      "message": "Put this in PatchMessages.properties",
+      "revId": "a9760a8b3209376432868251d73e5582326a4f44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc71fd8c_f7957a23",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchConstants.properties",
+        "patchSetId": 6
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-27T02:22:12Z",
+      "side": 1,
+      "message": "Are these used by the old UI?",
+      "revId": "a9760a8b3209376432868251d73e5582326a4f44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -45,6 +45,24 @@
       "revId": "0ee8ffc65510ef6bdf429cddefb6a1019eebc339",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d901abf4_3b3457f4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchTable.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-03-27T02:50:45Z",
+      "side": 1,
+      "message": "\u003e...you can return early after you make the decision on ...\ncool!  good coach.\n\nDone",
+      "parentUuid": "9c4e4155_5446423f",
+      "revId": "0ee8ffc65510ef6bdf429cddefb6a1019eebc339",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

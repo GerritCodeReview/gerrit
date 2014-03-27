@@ -19,6 +19,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.GerritPersonIdentProvider;
 import com.google.gerrit.server.config.AllProjectsName;
+import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.AnonymousCowardNameProvider;
 import com.google.gerrit.server.config.FactoryModule;
@@ -89,6 +90,8 @@ public class SchemaUpdaterTest {
 
         bind(AllProjectsName.class)
             .toInstance(new AllProjectsName("All-Projects"));
+        bind(AllUsersName.class)
+            .toInstance(new AllUsersName("All-Users"));
 
         bind(GitRepositoryManager.class)
             .toInstance(new InMemoryRepositoryManager());

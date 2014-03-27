@@ -53,7 +53,7 @@ public class ListChildProjectsIT extends AbstractDaemonTest {
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
     List<ProjectInfo> projectInfoList = toProjectInfoList(r);
     // Project 'p' was already created in the base class
-    assertTrue(projectInfoList.size() == 1);
+    assertTrue(projectInfoList.size() == 2);
   }
 
   @Test
@@ -67,7 +67,11 @@ public class ListChildProjectsIT extends AbstractDaemonTest {
 
     RestResponse r = GET("/projects/" + allProjects.get() + "/children/");
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
-    assertProjects(Arrays.asList(existingProject, child1, child2), toProjectInfoList(r));
+    assertProjects(
+        Arrays.asList(
+            new Project.NameKey("All-Users"),
+            existingProject, child1, child2),
+        toProjectInfoList(r));
   }
 
   @Test

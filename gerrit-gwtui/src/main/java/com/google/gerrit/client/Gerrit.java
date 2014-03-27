@@ -107,6 +107,7 @@ public class Gerrit implements EntryPoint {
   private static GerritConfig myConfig;
   private static HostPageData.Theme myTheme;
   private static Account myAccount;
+  private static String defaultScreenToken;
   private static AccountDiffPreference myAccountDiffPref;
   private static String xGerritAuth;
 
@@ -266,6 +267,10 @@ public class Gerrit implements EntryPoint {
 
   public static boolean isHeaderVisible() {
     return topMenu.isVisible();
+  }
+
+  public static String getDefaultScreenToken() {
+    return defaultScreenToken;
   }
 
   public static RootPanel getBottomMenu() {
@@ -593,9 +598,17 @@ public class Gerrit implements EntryPoint {
       AccountApi.self().view("preferences").get(new AsyncCallback<Preferences>() {
         @Override
         public void onSuccess(Preferences prefs) {
-          for (TopMenuItem item : Natives.asList(prefs.my())) {
-            addExtensionLink(myBar, item);
+          List<TopMenuItem> myMenuItems = Natives.asList(prefs.my());
+          String url = null;
+          if (!myMenuItems.isEmpty()) {
+            if (myMenuItems.get(0).getUrl().startsWith("#")) {
+              url = myMenuItems.get(0).getUrl().substring(1);
+            }
+            for (TopMenuItem item : myMenuItems) {
+              addExtensionLink(myBar, item);
+            }
           }
+          defaultScreenToken = url;
         }
 
         @Override

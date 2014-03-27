@@ -22,6 +22,30 @@
       "revId": "a39ba5c6d5fcec67fde247cdc381b96835efa230",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc71fd8c_37a7f2d0",
+        "filename": "tools/version.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-27T00:04:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc71fd8c_37c0d26a",
+      "range": {
+        "startLine": 18,
+        "startChar": 28,
+        "endLine": 18,
+        "endChar": 32
+      },
+      "revId": "a39ba5c6d5fcec67fde247cdc381b96835efa230",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

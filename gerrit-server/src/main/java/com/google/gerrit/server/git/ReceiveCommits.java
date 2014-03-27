@@ -2004,8 +2004,10 @@ public class ReceiveCommits {
       if (cmd.getResult() == NOT_ATTEMPTED) {
         cmd.execute(rp);
       }
-      CheckedFuture<?, IOException> f =
-          mergeabilityChecker.updateAndIndexAsync(change);
+      CheckedFuture<?, IOException> f = mergeabilityChecker.newCheck()
+          .addChange(change)
+          .reindex()
+          .runAsync();
       gitRefUpdated.fire(project.getNameKey(), newPatchSet.getRefName(),
           ObjectId.zeroId(), newCommit);
       hooks.doPatchsetCreatedHook(change, newPatchSet, db);

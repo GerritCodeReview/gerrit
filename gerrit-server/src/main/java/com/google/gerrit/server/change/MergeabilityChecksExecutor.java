@@ -28,4 +28,9 @@ import java.lang.annotation.Retention;
 @Retention(RUNTIME)
 @BindingAnnotation
 public @interface MergeabilityChecksExecutor {
+  public enum Priority {
+    BACKGROUND, INTERACTIVE;
+  }
+
+  Priority value();
 }

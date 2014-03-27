@@ -81,7 +81,8 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
       for (PatchSetApproval a : approvals(db, rsrc)) {
         if (control.canRemoveReviewer(a)) {
           del.add(a);
-          if (a.getValue() != 0) {
+          if (a.getPatchSetId().equals(control.getChange().currentPatchSetId())
+              && a.getValue() != 0) {
             if (msg.length() == 0) {
               msg.append("Removed the following approvals:\n\n");
             }

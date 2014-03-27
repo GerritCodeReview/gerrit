@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c4e4155_b42f6ea3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreProvider.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-27T00:01:04Z",
+      "side": 1,
+      "message": "Now that DynamicItem is safe in master (I merged the WebSession work from Martin and Jonathan) this should use the same model and have exactly one item contributed from a plugin that automatically overrides the default one supplied by Gerrit.",
+      "range": {
+        "startLine": 93,
+        "startChar": 0,
+        "endLine": 99,
+        "endChar": 5
+      },
+      "revId": "3f3bdddab5e592d77fb03cf3e109c577e7464bc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

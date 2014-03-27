@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c4e4155_9486ea02",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/History.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-27T18:41:25Z",
+      "side": 1,
+      "message": "This is stupid. autoOpen(lastReply) above is a better strategy. We expand any comments more recent than the last time this user replied on the change. Focusing on the last 7 days may cause some comments to be collapsed if the user last replied 9 days ago.",
+      "revId": "beb911f8b82ac429d880a1b5c966829afa1fcce6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

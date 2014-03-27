@@ -187,6 +187,24 @@
       "revId": "2e7fde930e7f7418bf203e05bb1a0feea6e3a2d8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c4e4155_f49ad65b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreData.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-03-27T14:34:30Z",
+      "side": 1,
+      "message": "In patch set 9 those classes are spitted. Could you look on it?",
+      "parentUuid": "790a7f15_1839a5ea",
+      "revId": "2e7fde930e7f7418bf203e05bb1a0feea6e3a2d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c4e4155_748266eb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-27T21:48:50Z",
+      "side": 1,
+      "message": "Pull this above the if and make the else be result.add(b);",
+      "range": {
+        "startLine": 139,
+        "startChar": 17,
+        "endLine": 140,
+        "endChar": 58
+      },
+      "revId": "1180ba0b47e5e81a15c737a28c7cd3e665b47c53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc71fd8c_f709fac2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-27T21:48:50Z",
+      "side": 1,
+      "message": "reuse \"b\" here",
+      "range": {
+        "startLine": 155,
+        "startChar": 29,
+        "endLine": 155,
+        "endChar": 64
+      },
+      "revId": "1180ba0b47e5e81a15c737a28c7cd3e665b47c53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc71fd8c_d704feab",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-27T21:48:50Z",
+      "side": 1,
+      "message": "Special case this above to avoid sending this onto the thread pool for the trivial case. Instead just make a future wrapping the contents of changes.",
+      "range": {
+        "startLine": 173,
+        "startChar": 6,
+        "endLine": 175,
+        "endChar": 7
+      },
+      "revId": "1180ba0b47e5e81a15c737a28c7cd3e665b47c53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

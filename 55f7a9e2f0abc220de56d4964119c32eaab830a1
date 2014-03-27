@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c4e4155_14467a70",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 833,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-03-27T00:14:24Z",
+      "side": 1,
+      "message": "Not sure whether the default should be sharing the background pool, or 1.",
+      "revId": "55f7a9e2f0abc220de56d4964119c32eaab830a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

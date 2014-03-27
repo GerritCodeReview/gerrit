@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fc71fd8c_976d268f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/DownloadBox.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-03-27T04:13:04Z",
+      "side": 1,
+      "message": "The order is preserving for when iterating over enum. My first approach was also to remove array, but i was trying to iterate over the set: The order is not defined.",
+      "range": {
+        "startLine": 156,
+        "startChar": 4,
+        "endLine": 156,
+        "endChar": 54
+      },
+      "revId": "22bcbfdd59c64b3ef5f2bde4da97d67f5323a859",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

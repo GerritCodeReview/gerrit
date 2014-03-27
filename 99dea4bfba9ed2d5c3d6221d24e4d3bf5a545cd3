@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fc71fd8c_f75bbabe",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2014-03-27T22:43:03Z",
+      "side": 0,
+      "message": "Is losing the \u0027kind\u0027 field in the REST API an intentional change?",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 58
+      },
+      "revId": "99dea4bfba9ed2d5c3d6221d24e4d3bf5a545cd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

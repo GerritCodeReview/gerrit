@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fc71fd8c_171676d6",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GetUserFilter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-27T22:16:58Z",
+      "side": 1,
+      "message": "\"a/\" + who.getAccountId()",
+      "range": {
+        "startLine": 80,
+        "startChar": 39,
+        "endLine": 80,
+        "endChar": 57
+      },
+      "revId": "8b569b104d9509ef2f36bbc6c0f095bb52a9b0b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

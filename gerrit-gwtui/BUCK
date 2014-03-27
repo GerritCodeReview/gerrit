@@ -32,7 +32,7 @@ gwt_application(
     '-XdisableClassMetadata',
     '-XdisableCastChecking',
   ],
-  deps = APP_DEPS,
+  deps = APP_DEPS + [':ui_dbg'],
 )
 
 gwt_application(

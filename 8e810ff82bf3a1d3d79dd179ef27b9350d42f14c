@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fc71fd8c_77deca2d",
+        "filename": "tools/default.defs",
+        "patchSetId": 4
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-27T00:45:13Z",
+      "side": 1,
+      "message": "Although I think this is the better way to handle the $SRCDIR reference, it breaks \":plugin-api-javadoc\" target due to that misusing Buck.",
+      "revId": "8e810ff82bf3a1d3d79dd179ef27b9350d42f14c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

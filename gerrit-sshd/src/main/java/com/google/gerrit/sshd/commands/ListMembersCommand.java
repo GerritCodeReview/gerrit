@@ -39,7 +39,7 @@ import javax.inject.Inject;
 /**
  * Implements a command that allows the user to see the members of a group.
  */
-@CommandMetaData(name = "ls-members", description = "Lists the members of a given group")
+@CommandMetaData(name = "ls-members", description = "List the members of a given group")
 public class ListMembersCommand extends BaseCommand {
   @Inject
   ListMembersCommandImpl impl;

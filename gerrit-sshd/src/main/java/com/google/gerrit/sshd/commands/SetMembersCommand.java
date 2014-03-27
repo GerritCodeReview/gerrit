@@ -43,7 +43,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
-@CommandMetaData(name = "set-members", description = "Modifies members of specific group or number of groups")
+@CommandMetaData(name = "set-members", description = "Modify members of specific group or number of groups")
 public class SetMembersCommand extends SshCommand {
 
   @Option(name = "--add", aliases = {"-a"}, metaVar = "USER", usage = "users that should be added as group member")

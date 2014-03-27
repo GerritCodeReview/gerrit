@@ -22,6 +22,30 @@
       "revId": "3f3bdddab5e592d77fb03cf3e109c577e7464bc5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc71fd8c_b70ea202",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreProvider.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-03-27T00:45:52Z",
+      "side": 1,
+      "message": "DynamicItem will not allow you to explicitly choose one implementation. This can make Gerrit not starting because of not being able to decrypt one of the passwords.\n\nWith current approach one plugin can provide multiple storage implementations and end user can choose one of them. With DynamicItem this also will not be possible.",
+      "parentUuid": "9c4e4155_b42f6ea3",
+      "range": {
+        "startLine": 93,
+        "startChar": 0,
+        "endLine": 99,
+        "endChar": 5
+      },
+      "revId": "3f3bdddab5e592d77fb03cf3e109c577e7464bc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

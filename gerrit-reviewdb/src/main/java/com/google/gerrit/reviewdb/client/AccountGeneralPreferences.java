@@ -35,10 +35,6 @@ public final class AccountGeneralPreferences {
     REPO_DOWNLOAD, PULL, CHECKOUT, CHERRY_PICK, FORMAT_PATCH, DEFAULT_DOWNLOADS
   }
 
-  public static enum ArchiveFormat {
-    OFF, TAR, TBZ2, TGZ, TXZ
-  }
-
   public static enum DateFormat {
     /** US style dates: Apr 27, Feb 14, 2010 */
     STD("MMM d", "MMM d, yyyy"),

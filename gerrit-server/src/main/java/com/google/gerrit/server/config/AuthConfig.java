@@ -43,6 +43,7 @@ public class AuthConfig {
   private final boolean enableRunAs;
   private final boolean userNameToLowerCase;
   private final boolean gitBasicAuth;
+  private final boolean authBackendEnabled;
   private final String loginUrl;
   private final String logoutUrl;
   private final String openIdSsoUrl;
@@ -76,6 +77,7 @@ public class AuthConfig {
     enableRunAs = cfg.getBoolean("auth", null, "enableRunAs", true);
     gitBasicAuth = cfg.getBoolean("auth", "gitBasicAuth", false);
     userNameToLowerCase = cfg.getBoolean("auth", "userNameToLowerCase", false);
+    authBackendEnabled = cfg.getBoolean("auth", "authBackend", false);
 
 
     String key = cfg.getString("auth", null, "registerEmailPrivateKey");
@@ -281,5 +283,9 @@ public class AuthConfig {
   public boolean isLdapAuthType() {
     return authType == AuthType.LDAP ||
         authType == AuthType.LDAP_BIND;
+  }
+
+  public boolean isAuthBackendEnabled() {
+    return authBackendEnabled;
   }
 }

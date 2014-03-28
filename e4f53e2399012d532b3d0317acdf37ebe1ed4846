@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f932efef_8c0b273d",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/SubIndex.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-03-28T17:36:34Z",
+      "side": 1,
+      "message": "Given that we\u0027re no longer using the value of hasListeners in cancel, I don\u0027t think it\u0027s necessary to have this AtomicBoolean at all. Calling refreshListeners.put(this, true) is a no-op after the first call. (Still need the !isDone() check.)",
+      "revId": "e4f53e2399012d532b3d0317acdf37ebe1ed4846",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d92feb8a_ab27e9c6",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/SubIndex.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-03-28T17:36:34Z",
+      "side": 1,
+      "message": "I think what the old code was trying to do was ensure this future gets removed from the list after a refresh if it was canceled.\n\nI think this might achieve the same result in a clearer way:\n\n boolean result \u003d super.cancel(mayInterruptIfRunning);\n if (result) {\n   refreshListeners.remove(this);\n }\n return result;\n\nIn particular, if it was successfully canceled, then the set(null) call within afterRefresh is a no-op.",
+      "revId": "e4f53e2399012d532b3d0317acdf37ebe1ed4846",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f932efef_6c2a3b96",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/SubIndex.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-03-28T17:36:34Z",
+      "side": 1,
+      "message": "I think part of the confusion here is caused by the fact that NrtFuture itself implements RefreshListener.\n\nIf you changed the refreshListeners map to a Map\u003cNrtFuture, Boolean\u003e (or even Set\u003cNrtFuture\u003e using Sets.newSetFromMap(Maps.newConcurrentMap())), you could rename this method to something more descriptive, e.g. removeIfCurrent().",
+      "revId": "e4f53e2399012d532b3d0317acdf37ebe1ed4846",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

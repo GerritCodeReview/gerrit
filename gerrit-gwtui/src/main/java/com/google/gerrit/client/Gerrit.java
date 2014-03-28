@@ -899,15 +899,24 @@ public class Gerrit implements EntryPoint {
   }
 
   private static void addExtensionLink(LinkMenuBar m, TopMenuItem item) {
-    Anchor atag = anchor(item.getName(), isAbsolute(item.getUrl())
-        ? item.getUrl()
-        : selfRedirect(item.getUrl()));
-
-    atag.setTarget(item.getTarget());
-    if (item.getId() != null) {
-      atag.getElement().setAttribute("id", item.getId());
+    if (item.getUrl().startsWith("#")
+        && (item.getTarget() == null || item.getTarget().isEmpty())) {
+      LinkMenuItem a =
+          new LinkMenuItem(item.getName(), item.getUrl().substring(1));
+      if (item.getId() != null) {
+        a.getElement().setAttribute("id", item.getId());
+      }
+      m.add(a);
+    } else {
+      Anchor atag = anchor(item.getName(), isAbsolute(item.getUrl())
+          ? item.getUrl()
+          : selfRedirect(item.getUrl()));
+      atag.setTarget(item.getTarget());
+      if (item.getId() != null) {
+        atag.getElement().setAttribute("id", item.getId());
+      }
+      m.add(atag);
     }
-    m.add(atag);
   }
 
   private static boolean isAbsolute(String url) {

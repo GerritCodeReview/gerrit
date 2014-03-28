@@ -36,7 +36,7 @@ public class MergeabilityChecksExecutorModule extends AbstractModule {
       @GerritServerConfig Config config,
       WorkQueue queues) {
     int poolSize = config.getInt("changeMerge", null, "threadPoolSize", 1);
-    return queues.createQueue(poolSize, "MergeabilityChecks");
+    return queues.createQueue(poolSize, "MergeabilityChecks-Background");
   }
 
   @Provides
@@ -52,6 +52,6 @@ public class MergeabilityChecksExecutorModule extends AbstractModule {
     if (poolSize <= 0) {
       return backgroundExecutor;
     }
-    return queues.createQueue(poolSize, "InteractiveMergeabilityChecks");
+    return queues.createQueue(poolSize, "MergeabilityChecks-Interactive");
   }
 }

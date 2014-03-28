@@ -48,7 +48,6 @@ class PutTopic implements RestModifyView<ChangeResource, Input>,
   static class Input {
     @DefaultInput
     String topic;
-    String message;
   }
 
   @Inject
@@ -92,12 +91,7 @@ class PutTopic implements RestModifyView<ChangeResource, Input>,
           new ChangeMessage.Key(change.getId(), ChangeUtil.messageUUID(db)),
           currentUser.getAccountId(), TimeUtil.nowTs(),
           change.currentPatchSetId());
-      StringBuilder msgBuf = new StringBuilder(summary);
-      if (!Strings.isNullOrEmpty(input.message)) {
-        msgBuf.append("\n\n");
-        msgBuf.append(input.message);
-      }
-      cmsg.setMessage(msgBuf.toString());
+      cmsg.setMessage(summary);
 
       db.changes().beginTransaction(change.getId());
       try {

@@ -48,14 +48,12 @@ public class ChangeApi {
   }
 
   /** Update the topic of a change. */
-  public static void topic(int id, String topic, String msg, AsyncCallback<String> cb) {
+  public static void topic(int id, String topic, AsyncCallback<String> cb) {
     RestApi call = call(id, "topic");
     topic = emptyToNull(topic);
-    msg = emptyToNull(msg);
-    if (topic != null || msg != null) {
+    if (topic != null) {
       Input input = Input.create();
       input.topic(topic);
-      input.message(msg);
       call.put(input, NativeString.unwrap(cb));
     } else {
       call.delete(NativeString.unwrap(cb));

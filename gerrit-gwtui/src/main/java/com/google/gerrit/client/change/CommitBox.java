@@ -114,10 +114,9 @@ class CommitBox extends Composite {
     }
 
     JsArray<WebLinkInfo> links = revInfo.web_links();
-
     if (links != null) {
       for (WebLinkInfo link : Natives.asList(links)) {
-        addWebLink(link.link_url(), link.link_name());
+        addWebLink(link.link_url(), parenthesize(link.link_name()));
       }
     }
   }
@@ -125,7 +124,7 @@ class CommitBox extends Composite {
   private void addWebLink(String href, String name) {
     Anchor a = new Anchor();
     a.setHref(href);
-    a.setText(parenthesize(name));
+    a.setText(name);
     Element el = a.getElement();
     webLinkCell.appendChild(el);
   }

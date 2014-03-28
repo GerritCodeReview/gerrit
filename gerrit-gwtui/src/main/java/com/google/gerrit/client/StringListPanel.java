@@ -147,9 +147,10 @@ public class StringListPanel extends FlowPanel {
       }
       int row = 2;
       for (List<String> v : values) {
-        populate(row, v, row == values.size() + 1);
+        populate(row, v);
         row++;
       }
+      updateNavigationLinks();
     }
 
     List<List<String>> getValues() {
@@ -169,7 +170,7 @@ public class StringListPanel extends FlowPanel {
       return v;
     }
 
-    private void populate(final int row, List<String> values, boolean last) {
+    private void populate(final int row, List<String> values) {
       FlexCellFormatter fmt = table.getFlexCellFormatter();
       fmt.addStyleName(row, 0, Gerrit.RESOURCES.css().iconCell());
       fmt.addStyleName(row, 0, Gerrit.RESOURCES.css().leftMostCell());
@@ -189,29 +190,25 @@ public class StringListPanel extends FlowPanel {
         fmt.addStyleName(row, values.size() + 1, Gerrit.RESOURCES.css().iconCell());
         fmt.addStyleName(row, values.size() + 2, Gerrit.RESOURCES.css().dataCell());
 
-        if (!last) {
-          Image down = new Image(Gerrit.RESOURCES.arrowDown());
-          down.setTitle(Gerrit.C.stringListPanelDown());
-          down.addClickHandler(new ClickHandler() {
-            @Override
-            public void onClick(ClickEvent event) {
-              moveDown(row);
-            }
-          });
-          table.setWidget(row, values.size() + 1, down);
-        }
+        Image down = new Image(Gerrit.RESOURCES.arrowDown());
+        down.setTitle(Gerrit.C.stringListPanelDown());
+        down.addClickHandler(new ClickHandler() {
+          @Override
+          public void onClick(ClickEvent event) {
+            moveDown(row);
+          }
+        });
+        table.setWidget(row, values.size() + 1, down);
 
-        if (row > 2) {
-          Image up = new Image(Gerrit.RESOURCES.arrowUp());
-          up.setTitle(Gerrit.C.stringListPanelUp());
-          up.addClickHandler(new ClickHandler() {
-            @Override
-            public void onClick(ClickEvent event) {
-              moveUp(row);
-            }
-          });
-          table.setWidget(row, values.size() + 2, up);
-        }
+        Image up = new Image(Gerrit.RESOURCES.arrowUp());
+        up.setTitle(Gerrit.C.stringListPanelUp());
+        up.addClickHandler(new ClickHandler() {
+          @Override
+          public void onClick(ClickEvent event) {
+            moveUp(row);
+          }
+        });
+        table.setWidget(row, values.size() + 2, up);
       }
     }
 
@@ -226,19 +223,34 @@ public class StringListPanel extends FlowPanel {
     }
 
     void moveDown(int row) {
-      swap(row, row + 1);
+      if (row < table.getRowCount() - 1) {
+        swap(row, row + 1);
+      }
     }
 
     void moveUp(int row) {
-      swap(row - 1, row);
+      if (row > 2) {
+        swap(row - 1, row);
+      }
     }
 
     void swap(int row1, int row2) {
       List<String> value = getRowItem(row1);
       List<String> nextValue = getRowItem(row2);
-      populate(row1, nextValue, false);
-      populate(row2, value, row2 == table.getRowCount() - 1);
+      populate(row1, nextValue);
+      populate(row2, value);
+      updateNavigationLinks();
       widget.setEnabled(true);
+    }
+
+    private void updateNavigationLinks() {
+      if (!autoSort) {
+        for (int row = 2; row < table.getRowCount(); row++) {
+          table.getWidget(row, inputs.size() + 1).setVisible(
+              row < table.getRowCount() - 1);
+          table.getWidget(row, inputs.size() + 2).setVisible(row > 2);
+        }
+      }
     }
 
     void add() {
@@ -250,7 +262,7 @@ public class StringListPanel extends FlowPanel {
           values.add(v);
         }
       }
-      t.insert(values);
+      insert(values);
     }
 
     void insert(List<String> v) {
@@ -267,7 +279,8 @@ public class StringListPanel extends FlowPanel {
         }
       }
       table.insertRow(insertPos);
-      populate(insertPos, v, insertPos == table.getRowCount() - 1);
+      populate(insertPos, v);
+      updateNavigationLinks();
     }
 
     void enableDelete() {
@@ -287,6 +300,7 @@ public class StringListPanel extends FlowPanel {
           table.removeRow(row--);
         }
       }
+      updateNavigationLinks();
     }
 
     @Override

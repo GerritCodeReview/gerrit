@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d92feb8a_2bfbf9e5",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-03-28T16:46:33Z",
+      "side": 1,
+      "message": "Might be too early in the morning, but this looks like a no-op.\n\nBefore:\n\n foo(x);\n\n private void foo(String x) {\n   bar(parenthesize(x));\n }\n\nAfter:\n\n foo(parenthesize(x));\n\n private void foo(String x) {\n   bar(x);\n }",
+      "revId": "bc31c47cedcc279a94f49efde034e8c410a3ccf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

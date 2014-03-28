@@ -206,6 +206,7 @@ class SubIndex {
         return true;
       } else if (isSearcherCurrent()) {
         set(null);
+        searcherManager.removeListener(this);
         return true;
       }
       return false;
@@ -235,6 +236,7 @@ class SubIndex {
     public void afterRefresh(boolean didRefresh) throws IOException {
       if (isSearcherCurrent()) {
         refreshListeners.remove(this);
+        searcherManager.removeListener(this);
         set(null);
       }
     }

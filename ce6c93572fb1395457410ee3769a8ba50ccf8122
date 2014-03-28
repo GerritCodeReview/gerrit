@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d92feb8a_8bf2ed0a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-28T07:36:39Z",
+      "side": 1,
+      "message": "I guess you just copied it from the implementation in the old change screen.  And yes, the intention when we (Conley and I) implemented it in the 2012 hackathon was to add information about why the topic is assigned/removed.\n\nI don\u0027t think I have ever used it other than testing it.",
+      "range": {
+        "startLine": 9,
+        "startChar": 1,
+        "endLine": 11,
+        "endChar": 68
+      },
+      "revId": "ce6c93572fb1395457410ee3769a8ba50ccf8122",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

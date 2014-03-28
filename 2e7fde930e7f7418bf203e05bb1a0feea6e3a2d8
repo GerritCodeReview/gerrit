@@ -205,6 +205,24 @@
       "revId": "2e7fde930e7f7418bf203e05bb1a0feea6e3a2d8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "595dbb30_27e21a44",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreData.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-03-28T10:17:33Z",
+      "side": 1,
+      "message": "So you spit on them? :-)\n\nyes I will take a look",
+      "parentUuid": "9c4e4155_f49ad65b",
+      "revId": "2e7fde930e7f7418bf203e05bb1a0feea6e3a2d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

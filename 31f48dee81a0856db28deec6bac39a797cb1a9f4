@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9963b3f1_a9f5bdf6",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Topic.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-03-28T17:30:53Z",
+      "side": 1,
+      "message": "I believe this needs to be removed now? Otherwise the build is still failing.",
+      "range": {
+        "startLine": 117,
+        "startChar": 2,
+        "endLine": 125,
+        "endChar": 3
+      },
+      "revId": "31f48dee81a0856db28deec6bac39a797cb1a9f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.common.base.Objects;
+import com.google.common.base.Strings;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
@@ -121,11 +123,11 @@ public class GetPreferences implements RestReadView<AccountResource> {
         my = my(allUsers, RefNames.REFS_USER + "default");
       }
       if (my.isEmpty()) {
-        my.add(new TopMenu.MenuItem("Changes", "#/", ""));
-        my.add(new TopMenu.MenuItem("Drafts", "#/q/is:draft", ""));
-        my.add(new TopMenu.MenuItem("Draft Comments", "#/q/has:draft", ""));
-        my.add(new TopMenu.MenuItem("Watched Changes", "#/q/is:watched+is:open", ""));
-        my.add(new TopMenu.MenuItem("Starred Changes", "#/q/is:starred", ""));
+        my.add(new TopMenu.MenuItem("Changes", "#/", null));
+        my.add(new TopMenu.MenuItem("Drafts", "#/q/is:draft", null));
+        my.add(new TopMenu.MenuItem("Draft Comments", "#/q/has:draft", null));
+        my.add(new TopMenu.MenuItem("Watched Changes", "#/q/is:watched+is:open", null));
+        my.add(new TopMenu.MenuItem("Starred Changes", "#/q/is:starred", null));
       }
       return my;
     }
@@ -134,16 +136,20 @@ public class GetPreferences implements RestReadView<AccountResource> {
       List<TopMenu.MenuItem> my = new ArrayList<>();
       Config cfg = allUsers.getConfig(PREFERENCES, ref).get();
       for (String subsection : cfg.getSubsections(MY)) {
-        my.add(new TopMenu.MenuItem(subsection, my(cfg, subsection, KEY_URL, "#/"),
-            my(cfg, subsection, KEY_TARGET, null), my(cfg, subsection, KEY_ID, null)));
+        my.add(new TopMenu.MenuItem(
+            subsection,
+            my(cfg, subsection, KEY_URL, "#/"),
+            my(cfg, subsection, KEY_TARGET, null),
+            my(cfg, subsection, KEY_ID, null)));
       }
       return my;
     }
 
     private static String my(Config cfg, String subsection, String key,
         String defaultValue) {
-      String value = cfg.getString(MY, subsection, key);
-      return value != null ? value : defaultValue;
+      return Objects.firstNonNull(
+          Strings.emptyToNull(cfg.getString(MY, subsection, key)),
+          defaultValue);
     }
   }
 }

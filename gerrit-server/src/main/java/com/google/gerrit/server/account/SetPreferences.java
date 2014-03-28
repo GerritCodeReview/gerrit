@@ -20,6 +20,7 @@ import static com.google.gerrit.server.account.GetPreferences.KEY_URL;
 import static com.google.gerrit.server.account.GetPreferences.MY;
 import static com.google.gerrit.server.account.GetPreferences.PREFERENCES;
 
+import com.google.common.base.Strings;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
@@ -179,15 +180,23 @@ public class SetPreferences implements RestModifyView<AccountResource, Input> {
     if (my != null) {
       unsetSection(cfg, MY);
       for (TopMenu.MenuItem item : my) {
-        cfg.setString(MY, item.name, KEY_URL, item.url);
-        cfg.setString(MY, item.name, KEY_TARGET, item.target);
-        cfg.setString(MY, item.name, KEY_ID, item.id);
+        set(cfg, item.name, KEY_URL, item.url);
+        set(cfg, item.name, KEY_TARGET, item.target);
+        set(cfg, item.name, KEY_ID, item.id);
       }
     }
     MetaDataUpdate md =
         metaDataUpdateFactory.create(allUsers.getProject().getNameKey());
     md.setMessage("Updated preferences\n");
     prefsCfg.commit(md);
+  }
+
+  private static void set(Config cfg, String section, String key, String val) {
+    if (Strings.isNullOrEmpty(val)) {
+      cfg.unset(MY, section, key);
+    } else {
+      cfg.setString(MY, section, key, val);
+    }
   }
 
   private static void unsetSection(Config cfg, String section) {

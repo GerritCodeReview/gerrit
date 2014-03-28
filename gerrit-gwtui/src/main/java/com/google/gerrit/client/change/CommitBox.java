@@ -29,6 +29,7 @@ import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
+import com.google.gwt.dom.client.AnchorElement;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.TableCellElement;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -36,7 +37,7 @@ import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
@@ -114,20 +115,18 @@ class CommitBox extends Composite {
     }
 
     JsArray<WebLinkInfo> links = revInfo.web_links();
-
     if (links != null) {
       for (WebLinkInfo link : Natives.asList(links)) {
-        addWebLink(link.link_url(), link.link_name());
+        addWebLink(link.link_url(), parenthesize(link.link_name()));
       }
     }
   }
 
   private void addWebLink(String href, String name) {
-    Anchor a = new Anchor();
+    AnchorElement a = DOM.createAnchor().cast();
     a.setHref(href);
-    a.setText(parenthesize(name));
-    Element el = a.getElement();
-    webLinkCell.appendChild(el);
+    a.setInnerText(name);
+    webLinkCell.appendChild(a);
   }
 
   private static void formatLink(GitPerson person, InlineHyperlink name,

@@ -213,15 +213,15 @@ class SubIndex {
 
     @Override
     public void addListener(Runnable listener, Executor executor) {
-      if (hasListeners.compareAndSet(false, true) && !isDone()) {
-        searcherManager.addListener(this);
+      if (!isDone() && hasListeners.compareAndSet(false, true)) {
+        refreshListeners.put(this, true);
       }
       super.addListener(listener, executor);
     }
 
     @Override
     public boolean cancel(boolean mayInterruptIfRunning) {
-      if (hasListeners.get()) {
+      if (hasListeners.compareAndSet(false, true)) {
         refreshListeners.put(this, true);
       }
       return super.cancel(mayInterruptIfRunning);

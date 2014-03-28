@@ -40,11 +40,6 @@ limitations under the License.
         <c:NpTextBox ui:field='input' visibleLength='55'/>
       </div>
       <div>
-        <c:NpTextArea ui:field='message'
-            visibleLines='3'
-            characterWidth='40'/>
-      </div>
-      <div>
         <g:Button ui:field='save' styleName='{res.style.button}'>
           <div>Update</div>
         </g:Button>

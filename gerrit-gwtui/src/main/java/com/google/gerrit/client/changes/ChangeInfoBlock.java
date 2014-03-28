@@ -174,6 +174,7 @@ public class ChangeInfoBlock extends Composite {
       super(Util.C.alterTopicTitle(), Util.C.headingAlterTopicMessage(),
           new ChangeDetailCache.IgnoreErrorCallback());
       change = chg;
+      message.setVisible(false);
 
       newTopic = new TextBox();
       newTopic.addKeyPressHandler(this);
@@ -190,7 +191,7 @@ public class ChangeInfoBlock extends Composite {
 
     private void doTopicEdit() {
       String topic = newTopic.getText();
-      ChangeApi.topic(change.getId().get(), topic, getMessageText(),
+      ChangeApi.topic(change.getId().get(), topic,
         new GerritCallback<String>() {
         @Override
         public void onSuccess(String result) {

@@ -36,7 +36,6 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.UIObject;
-import com.google.gwtexpui.globalkey.client.NpTextArea;
 import com.google.gwtexpui.globalkey.client.NpTextBox;
 
 /** Displays (and edits) the change topic string. */
@@ -53,7 +52,6 @@ class Topic extends Composite {
 
   @UiField Element form;
   @UiField NpTextBox input;
-  @UiField NpTextArea message;
   @UiField Button save;
   @UiField Button cancel;
 
@@ -116,22 +114,11 @@ class Topic extends Composite {
     }
   }
 
-  @UiHandler("message")
-  void onKeyDownMessage(KeyDownEvent e) {
-    if (e.getNativeKeyCode() == KeyCodes.KEY_ESCAPE) {
-      onCancel(null);
-    } else if (e.getNativeKeyCode() == KeyCodes.KEY_ENTER
-        && e.isControlKeyDown()) {
-      onSave(null);
-    }
-  }
-
   @UiHandler("save")
   void onSave(ClickEvent e) {
     ChangeApi.topic(
         psId.getParentKey().get(),
         input.getValue().trim(),
-        message.getValue().trim(),
         new GerritCallback<String>() {
           @Override
           public void onSuccess(String result) {

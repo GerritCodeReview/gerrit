@@ -3362,9 +3362,6 @@ The `TopicInput` entity contains information for setting a topic.
 |Field Name    ||Description
 |`topic`       |optional|The topic. +
 The topic will be deleted if not set.
-|`message`     |optional|
-Message to be added as review comment to the change when setting the
-topic.
 |===========================
 
 [[included-in-info]]

@@ -53,7 +53,6 @@ class Topic extends Composite {
 
   @UiField Element form;
   @UiField NpTextBox input;
-  @UiField NpTextArea message;
   @UiField Button save;
   @UiField Button cancel;
 
@@ -131,7 +130,6 @@ class Topic extends Composite {
     ChangeApi.topic(
         psId.getParentKey().get(),
         input.getValue().trim(),
-        message.getValue().trim(),
         new GerritCallback<String>() {
           @Override
           public void onSuccess(String result) {

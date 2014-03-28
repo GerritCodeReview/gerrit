@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f932efef_ecebcb1a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetPreferences.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-03-28T00:47:44Z",
+      "side": 1,
+      "message": "NPE for KEY_TARGET and KEY_ID above which use null as the default value.\n\nNew revision coming shortly.",
+      "range": {
+        "startLine": 150,
+        "startChar": 13,
+        "endLine": 152,
+        "endChar": 24
+      },
+      "revId": "20af3d70e6f6ebd5474515bab098392d0c8a7b7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

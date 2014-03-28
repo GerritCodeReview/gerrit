@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "595dbb30_67d81296",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-03-28T08:27:28Z",
+      "side": 1,
+      "message": "Yes, this is much neiter.\nTried this approach but my gwt-foo was not strong enough, never occured to me to look for a cast() method and without it... well.\nI admit I took the easy way out :-)",
+      "range": {
+        "startLine": 126,
+        "startChar": 26,
+        "endLine": 126,
+        "endChar": 38
+      },
+      "revId": "6115dc1c2c6253970bd8b568d3565baa0abe68d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

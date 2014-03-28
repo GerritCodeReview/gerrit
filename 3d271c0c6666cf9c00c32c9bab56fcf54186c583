@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d901abf4_fb1dcf7a",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/SubIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-03-28T08:06:42Z",
+      "side": 1,
+      "message": "The listeners of the searchManager.refreshListeners are never removed.\nThey will just keep piling up until restart.",
+      "range": {
+        "startLine": 169,
+        "startChar": 24,
+        "endLine": 169,
+        "endChar": 35
+      },
+      "revId": "3d271c0c6666cf9c00c32c9bab56fcf54186c583",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

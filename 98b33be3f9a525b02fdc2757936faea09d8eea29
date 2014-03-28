@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9963b3f1_69010524",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetPreferences.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-03-28T19:41:40Z",
+      "side": 1,
+      "message": "Not related to this change, but maybe you have an idea for this. What would be the best REST URL to expose the default preferences? I was thinking about adding a \"Reset\" button which sets the settings in the UI back to default, but only on save the reset would actually be really done.\n\n/accounts/default/preferences sounds nice, but I\u0027m not sure if it is a good idea to introduce a default user. Having this URL would then also allow the admin to set the defaults via REST. Any suggestions on this?",
+      "range": {
+        "startLine": 45,
+        "startChar": 13,
+        "endLine": 45,
+        "endChar": 27
+      },
+      "revId": "98b33be3f9a525b02fdc2757936faea09d8eea29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

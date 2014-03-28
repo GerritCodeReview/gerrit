@@ -16,7 +16,7 @@ package com.google.gerrit.lucene;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
-import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.AbstractFuture;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
@@ -38,13 +38,12 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.concurrent.ConcurrentMap;
+import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 /** Piece of the change index that is implemented as a separate Lucene index. */
 class SubIndex {
@@ -54,7 +53,7 @@ class SubIndex {
   private final TrackingIndexWriter writer;
   private final SearcherManager searcherManager;
   private final ControlledRealTimeReopenThread<IndexSearcher> reopenThread;
-  private final ConcurrentMap<RefreshListener, Boolean> refreshListeners;
+  private final Set<NrtFuture> notDoneNrtFutures;
 
   SubIndex(File file, GerritIndexWriterConfig writerConfig) throws IOException {
     this(FSDirectory.open(file), file.getName(), writerConfig);
@@ -106,7 +105,7 @@ class SubIndex {
     searcherManager = new SearcherManager(
         writer.getIndexWriter(), true, new SearcherFactory());
 
-    refreshListeners = Maps.newConcurrentMap();
+    notDoneNrtFutures = Sets.newConcurrentHashSet();
     searcherManager.addListener(new RefreshListener() {
       @Override
       public void beforeRefresh() throws IOException {
@@ -114,8 +113,8 @@ class SubIndex {
 
       @Override
       public void afterRefresh(boolean didRefresh) throws IOException {
-        for (RefreshListener l : refreshListeners.keySet()) {
-          l.afterRefresh(didRefresh);
+        for (NrtFuture f : notDoneNrtFutures) {
+          f.removeIfDone();
         }
       }
     });
@@ -171,10 +170,8 @@ class SubIndex {
     searcherManager.release(searcher);
   }
 
-  private final class NrtFuture extends AbstractFuture<Void>
-      implements RefreshListener {
+  private final class NrtFuture extends AbstractFuture<Void> {
     private final long gen;
-    private final AtomicBoolean hasListeners = new AtomicBoolean();
 
     NrtFuture(long gen) {
       this.gen = gen;
@@ -193,9 +190,10 @@ class SubIndex {
     public Void get(long timeout, TimeUnit unit) throws InterruptedException,
         TimeoutException, ExecutionException {
       if (!isDone()) {
-        reopenThread.waitForGeneration(gen,
-            (int) MILLISECONDS.convert(timeout, unit));
-        set(null);
+        if (reopenThread.waitForGeneration(gen,
+            (int) MILLISECONDS.convert(timeout, unit))) {
+          set(null);
+        }
       }
       return super.get(timeout, unit);
     }
@@ -204,7 +202,7 @@ class SubIndex {
     public boolean isDone() {
       if (super.isDone()) {
         return true;
-      } else if (isSearcherCurrent()) {
+      } else if (isGenAvailableNowForCurrentSearcher()) {
         set(null);
         return true;
       }
@@ -213,33 +211,31 @@ class SubIndex {
 
     @Override
     public void addListener(Runnable listener, Executor executor) {
-      if (hasListeners.compareAndSet(false, true) && !isDone()) {
-        searcherManager.addListener(this);
+      if (!isDone()) {
+        notDoneNrtFutures.add(this);
       }
       super.addListener(listener, executor);
     }
 
     @Override
     public boolean cancel(boolean mayInterruptIfRunning) {
-      if (hasListeners.get()) {
-        refreshListeners.put(this, true);
+      boolean result = super.cancel(mayInterruptIfRunning);
+      if (result) {
+        notDoneNrtFutures.remove(this);
       }
-      return super.cancel(mayInterruptIfRunning);
+      return result;
     }
 
-    @Override
-    public void beforeRefresh() throws IOException {
-    }
-
-    @Override
-    public void afterRefresh(boolean didRefresh) throws IOException {
-      if (isSearcherCurrent()) {
-        refreshListeners.remove(this);
-        set(null);
+    public void removeIfDone() throws IOException {
+      if (isGenAvailableNowForCurrentSearcher()) {
+        if (!isCancelled()) {
+          notDoneNrtFutures.remove(this);
+          set(null);
+        }
       }
     }
 
-    private boolean isSearcherCurrent() {
+    private boolean isGenAvailableNowForCurrentSearcher() {
       try {
         return reopenThread.waitForGeneration(gen, 0);
       } catch (InterruptedException e) {

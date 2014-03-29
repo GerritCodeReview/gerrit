@@ -22,6 +22,24 @@
       "revId": "ef62b9fe4efcb8098115a1c6f1f32f13f88a563e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b98317c4_c2f2420c",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/SubIndex.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1006818
+      },
+      "writtenOn": "2014-03-29T10:38:54Z",
+      "side": 1,
+      "message": "sharp sight, Thanks!\n\nDone",
+      "parentUuid": "798d1ff2_20e20a44",
+      "revId": "ef62b9fe4efcb8098115a1c6f1f32f13f88a563e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

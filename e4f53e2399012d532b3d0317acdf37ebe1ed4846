@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b98317c4_02e90a22",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/SubIndex.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1006818
+      },
+      "writtenOn": "2014-03-29T05:20:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f932efef_8c0b273d",
+      "revId": "e4f53e2399012d532b3d0317acdf37ebe1ed4846",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d92feb8a_ab27e9c6",
         "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/SubIndex.java",
         "patchSetId": 6
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "b98317c4_e2ebc61a",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/SubIndex.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1006818
+      },
+      "writtenOn": "2014-03-29T05:20:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d92feb8a_ab27e9c6",
+      "revId": "e4f53e2399012d532b3d0317acdf37ebe1ed4846",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f932efef_6c2a3b96",
         "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/SubIndex.java",
         "patchSetId": 6
@@ -47,6 +83,24 @@
       "writtenOn": "2014-03-28T17:36:34Z",
       "side": 1,
       "message": "I think part of the confusion here is caused by the fact that NrtFuture itself implements RefreshListener.\n\nIf you changed the refreshListeners map to a Map\u003cNrtFuture, Boolean\u003e (or even Set\u003cNrtFuture\u003e using Sets.newSetFromMap(Maps.newConcurrentMap())), you could rename this method to something more descriptive, e.g. removeIfCurrent().",
+      "revId": "e4f53e2399012d532b3d0317acdf37ebe1ed4846",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b98317c4_42e71253",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/SubIndex.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1006818
+      },
+      "writtenOn": "2014-03-29T05:20:49Z",
+      "side": 1,
+      "message": "good idea. Done",
+      "parentUuid": "f932efef_6c2a3b96",
       "revId": "e4f53e2399012d532b3d0317acdf37ebe1ed4846",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

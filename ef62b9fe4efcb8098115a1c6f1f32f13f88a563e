@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "798d1ff2_20e20a44",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/SubIndex.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-03-29T07:57:47Z",
+      "side": 1,
+      "message": "NIT This brace wants to be with his friends on the line above.",
+      "range": {
+        "startLine": 174,
+        "startChar": 5,
+        "endLine": 174,
+        "endChar": 6
+      },
+      "revId": "ef62b9fe4efcb8098115a1c6f1f32f13f88a563e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -146,6 +146,12 @@ public class Reviewers extends Composite {
     }
   }
 
+  @UiHandler("addme")
+  void onAddMe(ClickEvent e) {
+    String accountId = String.valueOf(Gerrit.getUserAccountInfo()._account_id());
+    addReviewer(accountId, false);
+  }
+
   @UiHandler("cancel")
   void onCancel(ClickEvent e) {
     openForm.setVisible(true);

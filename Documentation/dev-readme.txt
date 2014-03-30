@@ -53,12 +53,14 @@ refer to: link:dev-buck.html#eclipse[Eclipse integration with Buck].
 == Mac OS X
 
 On Mac OS X ensure "Java For Mac OS X 10.5 Upate 4" (or later) has
-been installed, and that `JAVA_HOME` is set to
-"/System/Library/Frameworks/JavaVM.framework/Versions/1.6/Home".
-Check the installed version by running `java -version` and looking
-for 'build 1.6.0_13-b03-211'.  Versions of Java 6 prior to this
-version crash during the build due to a bug in the JIT compiler.
+been installed, and that `JAVA_HOME` is set to the
+link:install.html#Requirements[required Java version]
 
+Java installations can typically be found in
+"/System/Library/Frameworks/JavaVM.framework/Versions".
+
+You can check the installed Java version by running `java -version` in
+the terminal.
 
 [[init]]
 == Site Initialization

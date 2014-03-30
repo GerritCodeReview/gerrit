@@ -32,6 +32,8 @@ import com.google.gerrit.server.change.ChangeKind;
 import com.google.gerrit.server.change.ChangeKindCache;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LabelNormalizer;
+import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
@@ -62,23 +64,41 @@ public class ApprovalCopier {
   private final ChangeKindCache changeKindCache;
   private final LabelNormalizer labelNormalizer;
   private final ChangeData.Factory changeDataFactory;
+  private final ChangeUpdate.Factory updateFactory;
+  private final NotesMigration migration;
 
   @Inject
   ApprovalCopier(GitRepositoryManager repoManager,
       ProjectCache projectCache,
       ChangeKindCache changeKindCache,
       LabelNormalizer labelNormalizer,
-      ChangeData.Factory changeDataFactory) {
+      ChangeData.Factory changeDataFactory,
+      ChangeUpdate.Factory updateFactory,
+      NotesMigration migration) {
     this.repoManager = repoManager;
     this.projectCache = projectCache;
     this.changeKindCache = changeKindCache;
     this.labelNormalizer = labelNormalizer;
     this.changeDataFactory = changeDataFactory;
+    this.updateFactory = updateFactory;
+    this.migration = migration;
   }
 
   public void copy(ReviewDb db, ChangeControl ctl, PatchSet ps)
-      throws OrmException {
-    db.patchSetApprovals().insert(getForPatchSet(db, ctl, ps));
+      throws OrmException, IOException {
+    Iterable<PatchSetApproval> forPatchSet = getForPatchSet(db, ctl, ps);
+    if (!(migration.readPatchSetApprovals())) {
+      db.patchSetApprovals().insert(forPatchSet);
+    } else {
+      ChangeUpdate update = updateFactory.create(ctl, ps.getCreatedOn());
+      update.setPatchSetId(ps.getId());
+      for (PatchSetApproval patchSetApproval : forPatchSet) {
+        update.putApproval(
+            patchSetApproval.getLabel(),
+            patchSetApproval.getValue());
+      }
+      update.commit();
+    }
   }
 
   private Iterable<PatchSetApproval> getForPatchSet(ReviewDb db,

@@ -181,8 +181,11 @@ public class ChangeUpdate extends VersionedMetaData {
   }
 
   public void setPatchSetId(PatchSet.Id psId) {
-    checkArgument(psId == null
-        || psId.getParentKey().equals(getChange().getKey()));
+    // TODO(davido):
+    // Unless ChangeControl has updated change with actual current ps,
+    // this check must stay deactivated, to be able to set current ps.
+    // checkArgument(psId == null
+    //     || psId.getParentKey().equals(getChange().getKey()));
     this.psId = psId;
   }
 

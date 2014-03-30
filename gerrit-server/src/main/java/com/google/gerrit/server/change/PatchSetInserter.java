@@ -277,6 +277,11 @@ public class PatchSetInserter {
       }
 
       if (copyLabels) {
+        // ctl is stale here:
+        // getCurrentPatchSet() returns pervious ps
+        // before the change was updated.
+        // Either change needs to be updated in ChangeControl
+        // or patchSet parameter has to be used to work correctly.
         approvalCopier.copy(db, ctl, patchSet);
       }
       db.commit();

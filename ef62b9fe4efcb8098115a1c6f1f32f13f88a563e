@@ -40,6 +40,40 @@
       "revId": "ef62b9fe4efcb8098115a1c6f1f32f13f88a563e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "998813e4_a1f5bef6",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/SubIndex.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-03-31T15:03:39Z",
+      "side": 1,
+      "message": "Why do you not want to remove it from the pending set if it\u0027s cancelled? Listeners aren\u0027t going to be notified either way.\n\nYou may still want to protect set(null) with this, but I\u0027m pretty sure it\u0027s a no-op if cancelled.",
+      "revId": "ef62b9fe4efcb8098115a1c6f1f32f13f88a563e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "998813e4_c1f2420c",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/SubIndex.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-03-31T15:03:39Z",
+      "side": 1,
+      "message": "IMHO isSearcherCurrent was clearer.",
+      "revId": "ef62b9fe4efcb8098115a1c6f1f32f13f88a563e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

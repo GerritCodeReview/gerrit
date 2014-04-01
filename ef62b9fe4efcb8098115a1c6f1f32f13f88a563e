@@ -60,6 +60,24 @@
     },
     {
       "key": {
+        "uuid": "798d1ff2_00e90622",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/SubIndex.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-04-01T02:33:33Z",
+      "side": 1,
+      "message": "Thanks reminding me again! \n my understanding is this has been done in cancel() , the above line 222 , where if this  \n NrtFure object is canceled successfully it will be removed from pending set( the \n notDoneNrtFutures), and does not call set(null).",
+      "parentUuid": "998813e4_a1f5bef6",
+      "revId": "ef62b9fe4efcb8098115a1c6f1f32f13f88a563e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "998813e4_c1f2420c",
         "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/SubIndex.java",
         "patchSetId": 8
@@ -71,6 +89,24 @@
       "writtenOn": "2014-03-31T15:03:39Z",
       "side": 1,
       "message": "IMHO isSearcherCurrent was clearer.",
+      "revId": "ef62b9fe4efcb8098115a1c6f1f32f13f88a563e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "798d1ff2_a0f5baf6",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/SubIndex.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-04-01T02:33:33Z",
+      "side": 1,
+      "message": "to be honest, till now I can not understand the meaning of isSearcherCurrent, thus \n\neach time I have to click the waitForGeneration() of below line 241 to reference its \n\ndescription with the special parameter 0. the new name is a bit longer, while it is really \n\neasier than the old one to understand what this function means.",
+      "parentUuid": "998813e4_c1f2420c",
       "revId": "ef62b9fe4efcb8098115a1c6f1f32f13f88a563e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

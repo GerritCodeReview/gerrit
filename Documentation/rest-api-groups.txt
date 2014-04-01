@@ -1008,10 +1008,10 @@ request body as a link:#groups-input[GroupsInput] entity.
   Content-Type: application/json;charset=UTF-8
 
   {
-    "groups": {
+    "groups": [
       "MyGroup",
       "MyOtherGroup"
-    }
+    ]
   }
 ----
 
@@ -1090,10 +1090,10 @@ body as a link:#groups-input[GroupsInput] entity.
   Content-Type: application/json;charset=UTF-8
 
   {
-    "members": {
+    "members": [
       "MyGroup",
       "MyOtherGroup"
-    }
+    ]
   }
 ----
 

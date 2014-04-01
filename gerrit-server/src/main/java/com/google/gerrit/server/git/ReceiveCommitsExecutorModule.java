@@ -47,6 +47,15 @@ public class ReceiveCommitsExecutorModule extends AbstractModule {
 
   @Provides
   @Singleton
+  @EmailReviewCommentsExecutor
+  public WorkQueue.Executor createEmailReviewCommentsExecutor(
+      @GerritServerConfig Config config, WorkQueue queues) {
+    int poolSize = config.getInt("sendemail", null, "threadPoolSize", 1);
+    return queues.createQueue(poolSize, "SendEmails");
+  }
+
+  @Provides
+  @Singleton
   @ChangeUpdateExecutor
   public ListeningExecutorService createChangeUpdateExecutor(@GerritServerConfig Config config) {
     int poolSize = config.getInt("receive", null, "changeUpdateThreads", 1);

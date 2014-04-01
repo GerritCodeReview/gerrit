@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "998813e4_a10e1e4d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 2438,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2014-04-01T12:10:44Z",
+      "side": 1,
+      "message": "Can you leave the default as-is? I suspect for most installs, one thread is just fine.",
+      "range": {
+        "startLine": 2438,
+        "startChar": 0,
+        "endLine": 2438,
+        "endChar": 40
+      },
+      "revId": "0a5547a26af25f21d595083ed9faffcd1996b1a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "798d1ff2_40006e1d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/EmailReviewComments.java",
         "patchSetId": 3

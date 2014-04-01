@@ -2422,6 +2422,21 @@ and all other properties of section sendemail are ignored.
 +
 By default, true, allowing notifications to be sent.
 
+[[sendemail.connectTimeout]]sendemail.connectTimeout::
++
+The connection timeout in milliseconds.
+A timeout of zero is interpreted as an infinite timeout. The
+connection will then block until established or an error occurs.
++
+By default, zero.
+
+[[sendemail.threadPoolSize]]sendemail.threadPoolSize::
++
+Maximum size of the thread pool in which the post review eamils are
+send out asynchronously.
++
+Defaults to the number of available CPUs according to the Java runtime.
+
 [[sendemail.from]]sendemail.from::
 +
 Designates what name and address Gerrit will place in the From

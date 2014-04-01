@@ -23,7 +23,8 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.change.PostReview.NotifyHandling;
-import com.google.gerrit.server.git.WorkQueue;
+import com.google.gerrit.server.git.EmailReviewCommentsExecutor;
+import com.google.gerrit.server.git.WorkQueue.Executor;
 import com.google.gerrit.server.mail.CommentSender;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.util.RequestContext;
@@ -55,7 +56,7 @@ class EmailReviewComments implements Runnable, RequestContext {
         List<PatchLineComment> comments);
   }
 
-  private final WorkQueue workQueue;
+  private final Executor sendEmailsExecutor;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final CommentSender.Factory commentSenderFactory;
   private final SchemaFactory<ReviewDb> schemaFactory;
@@ -71,7 +72,7 @@ class EmailReviewComments implements Runnable, RequestContext {
 
   @Inject
   EmailReviewComments (
-      WorkQueue workQueue,
+      @EmailReviewCommentsExecutor final Executor executor,
       PatchSetInfoFactory patchSetInfoFactory,
       CommentSender.Factory commentSenderFactory,
       SchemaFactory<ReviewDb> schemaFactory,
@@ -82,7 +83,7 @@ class EmailReviewComments implements Runnable, RequestContext {
       @Assisted Account.Id authorId,
       @Assisted ChangeMessage message,
       @Assisted List<PatchLineComment> comments) {
-    this.workQueue = workQueue;
+    this.sendEmailsExecutor = executor;
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.commentSenderFactory = commentSenderFactory;
     this.schemaFactory = schemaFactory;
@@ -96,7 +97,7 @@ class EmailReviewComments implements Runnable, RequestContext {
   }
 
   void sendAsync() {
-    workQueue.getDefaultQueue().submit(this);
+    sendEmailsExecutor.submit(this);
   }
 
   @Override

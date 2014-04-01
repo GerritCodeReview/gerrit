@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "b98317c4_e2142661",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1006818
+      },
+      "writtenOn": "2014-04-01T14:07:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "59921b13_dfebfb1a",
+      "revId": "0a5547a26af25f21d595083ed9faffcd1996b1a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "998813e4_a10e1e4d",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 3
@@ -48,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "b98317c4_4200721d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 2438,
+      "author": {
+        "id": 1006818
+      },
+      "writtenOn": "2014-04-01T14:07:36Z",
+      "side": 1,
+      "message": "ok . \n\nDone.",
+      "parentUuid": "998813e4_a10e1e4d",
+      "revId": "0a5547a26af25f21d595083ed9faffcd1996b1a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "798d1ff2_40006e1d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/EmailReviewComments.java",
         "patchSetId": 3
@@ -65,6 +101,24 @@
         "endLine": 75,
         "endChar": 29
       },
+      "revId": "0a5547a26af25f21d595083ed9faffcd1996b1a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "998813e4_612a5696",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/EmailReviewComments.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1006818
+      },
+      "writtenOn": "2014-04-01T14:07:36Z",
+      "side": 1,
+      "message": "Thanks a lot! David :)\nDone",
+      "parentUuid": "798d1ff2_40006e1d",
       "revId": "0a5547a26af25f21d595083ed9faffcd1996b1a0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

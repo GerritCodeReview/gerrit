@@ -43,6 +43,8 @@ import java.util.Set;
 /** Sends email via a nearby SMTP server. */
 @Singleton
 public class SmtpEmailSender implements EmailSender {
+  /** The socket's connect timeout (0 = infinite timeout) */
+  private static final int DEFAULT_CONNECT_TIMEOUT = 0;
   public static class Module extends AbstractModule {
     @Override
     protected void configure() {
@@ -55,6 +57,7 @@ public class SmtpEmailSender implements EmailSender {
   }
 
   private final boolean enabled;
+  private final int connectTimeout;
 
   private String smtpHost;
   private int smtpPort;
@@ -69,6 +72,8 @@ public class SmtpEmailSender implements EmailSender {
   @Inject
   SmtpEmailSender(@GerritServerConfig final Config cfg) {
     enabled = cfg.getBoolean("sendemail", null, "enable", true);
+    connectTimeout =
+        cfg.getInt("sendemail", "connectTimeout", DEFAULT_CONNECT_TIMEOUT);
 
     smtpHost = cfg.getString("sendemail", null, "smtpserver");
     if (smtpHost == null) {
@@ -239,6 +244,7 @@ public class SmtpEmailSender implements EmailSender {
     }
 
     try {
+      client.setConnectTimeout(connectTimeout);
       client.connect(smtpHost, smtpPort);
       if (!SMTPReply.isPositiveCompletion(client.getReplyCode())) {
         throw new EmailException("SMTP server rejected connection");

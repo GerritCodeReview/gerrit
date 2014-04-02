@@ -1,0 +1,199 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b98317c4_4252b22d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-04-02T10:03:04Z",
+      "side": 1,
+      "message": "\"gets stuck\"?\n\n\"becomes died\" is grammatically incorrect.",
+      "range": {
+        "startLine": 7,
+        "startChar": 47,
+        "endLine": 7,
+        "endChar": 59
+      },
+      "revId": "089ea957e5c032d955a67815a166ce5b705de049",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "998813e4_0144aa66",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-04-02T10:03:04Z",
+      "side": 1,
+      "message": "SMTP",
+      "range": {
+        "startLine": 10,
+        "startChar": 23,
+        "endLine": 10,
+        "endChar": 28
+      },
+      "revId": "089ea957e5c032d955a67815a166ce5b705de049",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "998813e4_a1405e53",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-04-02T10:03:04Z",
+      "side": 1,
+      "message": "whitespace",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 2
+      },
+      "revId": "089ea957e5c032d955a67815a166ce5b705de049",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b98317c4_224d2e8e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-04-02T10:03:04Z",
+      "side": 1,
+      "message": "remove the extra blank lines",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 0
+      },
+      "revId": "089ea957e5c032d955a67815a166ce5b705de049",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "998813e4_e1466671",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 2437,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-04-02T10:03:04Z",
+      "side": 1,
+      "message": "Mention that this is the timeout to the SMTP server.",
+      "revId": "089ea957e5c032d955a67815a166ce5b705de049",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b98317c4_c22482c4",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 2438,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-04-02T10:03:04Z",
+      "side": 1,
+      "message": "Should this be a new paragraph?  If so, you need a \"+\" line between this and the previous paragraph.",
+      "revId": "089ea957e5c032d955a67815a166ce5b705de049",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "998813e4_4152b22d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 2445,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-04-02T10:03:04Z",
+      "side": 1,
+      "message": "you can remove \"the\".",
+      "range": {
+        "startLine": 2445,
+        "startChar": 41,
+        "endLine": 2445,
+        "endChar": 44
+      },
+      "revId": "089ea957e5c032d955a67815a166ce5b705de049",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b98317c4_62533634",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 2446,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-04-02T10:03:04Z",
+      "side": 1,
+      "message": "notifications",
+      "range": {
+        "startLine": 2446,
+        "startChar": 0,
+        "endLine": 2446,
+        "endChar": 12
+      },
+      "revId": "089ea957e5c032d955a67815a166ce5b705de049",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b98317c4_8258ba4d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 2446,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-04-02T10:03:04Z",
+      "side": 1,
+      "message": "sent",
+      "range": {
+        "startLine": 2446,
+        "startChar": 17,
+        "endLine": 2446,
+        "endChar": 21
+      },
+      "revId": "089ea957e5c032d955a67815a166ce5b705de049",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

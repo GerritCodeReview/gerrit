@@ -111,6 +111,7 @@ public class Gerrit implements EntryPoint {
   private static String xGerritAuth;
 
   private static Map<String, LinkMenuBar> menuBars;
+  public static LinkMenuBar currentMenu;
 
   private static MorphingTabPanel menuLeft;
   private static LinkMenuBar menuRight;
@@ -622,7 +623,7 @@ public class Gerrit implements EntryPoint {
     final LinkMenuBar projectsBar = new LinkMenuBar() {
       @Override
       public void onScreenLoad(ScreenLoadEvent event) {
-        if (event.getScreen() instanceof ProjectScreen) {
+        if (event.getScreen() instanceof ProjectScreen && currentMenu == null) {
           menuLeft.selectTab(menuLeft.getWidgetIndex(this));
         }
       }
@@ -906,7 +907,7 @@ public class Gerrit implements EntryPoint {
       if (item.getId() != null) {
         a.getElement().setAttribute("id", item.getId());
       }
-      m.add(a);
+      m.addItem(a);
     } else {
       Anchor atag = anchor(item.getName(), isAbsolute(item.getUrl())
           ? item.getUrl()

@@ -17,8 +17,12 @@ package com.google.gerrit.client.ui;
 import com.google.gerrit.client.Gerrit;
 import com.google.gwt.aria.client.Roles;
 import com.google.gwt.dom.client.AnchorElement;
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Event;
 
 public class LinkMenuItem extends InlineHyperlink implements ScreenLoadHandler {
+  private LinkMenuBar bar;
+
   public LinkMenuItem(final String text, final String targetHistoryToken) {
     super(text, targetHistoryToken);
     setStyleName(Gerrit.RESOURCES.css().menuItem());
@@ -32,8 +36,21 @@ public class LinkMenuItem extends InlineHyperlink implements ScreenLoadHandler {
     AnchorElement.as(getElement()).blur();
   }
 
+  public void setMenuBar(LinkMenuBar bar) {
+    this.bar = bar;
+  }
+
+  @Override
+  public void onBrowserEvent(Event event) {
+    if (DOM.eventGetType(event) == Event.ONCLICK) {
+      Gerrit.currentMenu = bar;
+    }
+    super.onBrowserEvent(event);
+  }
+
   public void onScreenLoad(ScreenLoadEvent event) {
     if (event.getScreen().getToken().equals(getTargetHistoryToken())){
+      Gerrit.currentMenu = null;
       addStyleName(Gerrit.RESOURCES.css().activeRow());
     } else {
       removeStyleName(Gerrit.RESOURCES.css().activeRow());

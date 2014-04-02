@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "39972704_1ee2cd43",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/SubIndex.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-04-02T19:42:51Z",
+      "side": 1,
+      "message": "Apparently this method returns false when the wait time is exceeded.\n\nThe old implementation was just buggy. It completed the future anyway and lied to the caller the indexing was done.\n\nThe new implementation avoids this, but makes the caller potentially wait 2x the timeout. When waitForGeneration returns false the method should throw TimeoutException.",
+      "range": {
+        "startLine": 193,
+        "startChar": 25,
+        "endLine": 193,
+        "endChar": 42
+      },
+      "revId": "8314930f69ae72fecbee286349be851abdebefaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1940a374_3dd80f95",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/SubIndex.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-04-02T19:42:51Z",
+      "side": 1,
+      "message": "default access (package visible). This method is only called above and is not defined by an interface.",
+      "range": {
+        "startLine": 229,
+        "startChar": 4,
+        "endLine": 229,
+        "endChar": 10
+      },
+      "revId": "8314930f69ae72fecbee286349be851abdebefaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39972704_3ee78954",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/SubIndex.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-04-02T19:42:51Z",
+      "side": 1,
+      "message": "Unnecessary? I don\u0027t see anything in the body that throws IOException.",
+      "range": {
+        "startLine": 229,
+        "startChar": 31,
+        "endLine": 229,
+        "endChar": 49
+      },
+      "revId": "8314930f69ae72fecbee286349be851abdebefaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1940a374_7de29744",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/SubIndex.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-04-02T19:42:51Z",
+      "side": 1,
+      "message": "isDone? isDone returns true if the future is cancelled or has been set.",
+      "range": {
+        "startLine": 231,
+        "startChar": 13,
+        "endLine": 231,
+        "endChar": 24
+      },
+      "revId": "8314930f69ae72fecbee286349be851abdebefaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1940a374_1ddd5385",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/SubIndex.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-04-02T19:42:51Z",
+      "side": 1,
+      "message": "This should be outside of the isCancelled block. The method removeIfDone is only called if the future is inside of the concurrent set. If its in the set and the gen is available, the future should remove itself no matter what state the future is in.",
+      "revId": "8314930f69ae72fecbee286349be851abdebefaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

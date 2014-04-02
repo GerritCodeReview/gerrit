@@ -41,10 +41,12 @@ public class LinkMenuBar extends Composite implements ScreenLoadHandler {
   }
 
   public void addItem(final LinkMenuItem i) {
+    i.setMenuBar(this);
     add(i);
   }
 
   public void insertItem(final LinkMenuItem i, int beforeIndex) {
+    i.setMenuBar(this);
     insert(i, beforeIndex);
   }
 

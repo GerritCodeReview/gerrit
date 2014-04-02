@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "998813e4_8158ba4d",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-04-02T09:58:15Z",
+      "side": 1,
+      "message": "If you\u0027re editing this file please also fix this typo.",
+      "range": {
+        "startLine": 55,
+        "startChar": 43,
+        "endLine": 55,
+        "endChar": 48
+      },
+      "revId": "a36ad68407750b354d69c444232f8f32db38783c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b98317c4_a227fec6",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-04-02T09:58:15Z",
+      "side": 1,
+      "message": "Missing period at the end of this line.",
+      "revId": "a36ad68407750b354d69c444232f8f32db38783c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

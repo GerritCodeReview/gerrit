@@ -28,9 +28,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.ChangeIndexer;
-import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.mail.PatchSetNotificationSender;
-import com.google.gerrit.server.mail.ReplacePatchSetSender;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
@@ -63,8 +61,6 @@ public class PublishDraft implements Callable<ReviewResult> {
       final PatchSetInfoFactory patchSetInfoFactory,
       final ApprovalsUtil approvalsUtil,
       final AccountResolver accountResolver,
-      final CreateChangeSender.Factory createChangeSenderFactory,
-      final ReplacePatchSetSender.Factory replacePatchSetFactory,
       final ChangeIndexer indexer,
       final PatchSetNotificationSender sender,
       @Assisted final PatchSet.Id patchSetId) {

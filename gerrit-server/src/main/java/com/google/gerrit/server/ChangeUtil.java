@@ -41,7 +41,6 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.index.ChangeIndexer;
-import com.google.gerrit.server.mail.CommitMessageEditedSender;
 import com.google.gerrit.server.mail.RevertedSender;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
@@ -335,7 +334,6 @@ public class ChangeUtil {
   public static Change.Id editCommitMessage(final PatchSet.Id patchSetId,
       final RefControl refControl, final IdentifiedUser user,
       final String message, final ReviewDb db,
-      final CommitMessageEditedSender.Factory commitMessageEditedSenderFactory,
       Repository git, PersonIdent myIdent,
       PatchSetInserter.Factory patchSetInserterFactory)
       throws NoSuchChangeException, EmailException, OrmException,

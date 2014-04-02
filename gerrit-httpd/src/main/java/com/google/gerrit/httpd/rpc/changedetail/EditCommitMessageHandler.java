@@ -27,7 +27,6 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.mail.CommitMessageEditedSender;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
@@ -54,7 +53,6 @@ class EditCommitMessageHandler extends Handler<ChangeDetail> {
   private final ReviewDb db;
   private final IdentifiedUser currentUser;
   private final ChangeDetailFactory.Factory changeDetailFactory;
-  private final CommitMessageEditedSender.Factory commitMessageEditedSenderFactory;
   private final PatchSet.Id patchSetId;
   @Nullable
   private final String message;
@@ -66,7 +64,6 @@ class EditCommitMessageHandler extends Handler<ChangeDetail> {
   EditCommitMessageHandler(final ChangeControl.Factory changeControlFactory,
       final ReviewDb db, final IdentifiedUser currentUser,
       final ChangeDetailFactory.Factory changeDetailFactory,
-      final CommitMessageEditedSender.Factory commitMessageEditedSenderFactory,
       @Assisted final PatchSet.Id patchSetId,
       @Assisted @Nullable final String message,
       final GitRepositoryManager gitManager,
@@ -76,7 +73,6 @@ class EditCommitMessageHandler extends Handler<ChangeDetail> {
     this.db = db;
     this.currentUser = currentUser;
     this.changeDetailFactory = changeDetailFactory;
-    this.commitMessageEditedSenderFactory = commitMessageEditedSenderFactory;
     this.patchSetId = patchSetId;
     this.message = message;
     this.gitManager = gitManager;
@@ -105,8 +101,7 @@ class EditCommitMessageHandler extends Handler<ChangeDetail> {
     }
     try {
       ChangeUtil.editCommitMessage(patchSetId, control.getRefControl(),
-          currentUser, message, db, commitMessageEditedSenderFactory, git,
-          myIdent, patchSetInserterFactory);
+          currentUser, message, db, git, myIdent, patchSetInserterFactory);
       return changeDetailFactory.create(changeId).call();
     } finally {
       git.close();

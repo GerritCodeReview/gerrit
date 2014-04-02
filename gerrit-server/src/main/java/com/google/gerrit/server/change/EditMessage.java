@@ -30,7 +30,6 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.ChangeJson.ChangeInfo;
 import com.google.gerrit.server.change.EditMessage.Input;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.mail.CommitMessageEditedSender;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -50,7 +49,6 @@ class EditMessage implements RestModifyView<RevisionResource, Input>,
     UiAction<RevisionResource> {
 
   private final Provider<ReviewDb> dbProvider;
-  private final CommitMessageEditedSender.Factory commitMessageEditedSenderFactory;
   private final GitRepositoryManager gitManager;
   private final PersonIdent myIdent;
   private final PatchSetInserter.Factory patchSetInserterFactory;
@@ -63,13 +61,11 @@ class EditMessage implements RestModifyView<RevisionResource, Input>,
 
   @Inject
   EditMessage(final Provider<ReviewDb> dbProvider,
-      final CommitMessageEditedSender.Factory commitMessageEditedSenderFactory,
       final GitRepositoryManager gitManager,
       final PatchSetInserter.Factory patchSetInserterFactory,
       @GerritPersonIdent final PersonIdent myIdent,
       ChangeJson json) {
     this.dbProvider = dbProvider;
-    this.commitMessageEditedSenderFactory = commitMessageEditedSenderFactory;
     this.gitManager = gitManager;
     this.myIdent = myIdent;
     this.patchSetInserterFactory = patchSetInserterFactory;
@@ -97,7 +93,7 @@ class EditMessage implements RestModifyView<RevisionResource, Input>,
           rsrc.getControl().getRefControl(),
           (IdentifiedUser) rsrc.getControl().getCurrentUser(),
           input.message, dbProvider.get(),
-          commitMessageEditedSenderFactory, git, myIdent,
+          git, myIdent,
           patchSetInserterFactory));
     } catch (InvalidChangeOperationException e) {
       throw new BadRequestException(e.getMessage());

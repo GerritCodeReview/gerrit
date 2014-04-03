@@ -151,6 +151,24 @@
       "revId": "3d13a97c98c9171547d214a2629b1d391882f94f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f9658f2a_342af094",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/LinkMenuItem.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-04-03T15:52:55Z",
+      "side": 1,
+      "message": "But without this it was highlighting the wrong menu entry. E.g. \u0027My\u0027 menu was selected and the user edited the URL to open a project screen. Then still the \u0027My\u0027 menu was selected, since currentMenu was still set to \u0027My\u0027.\n\nWith the new patch set it should also in this case highlight the correct menu entry :)",
+      "parentUuid": "59577b41_d73d7ccc",
+      "revId": "3d13a97c98c9171547d214a2629b1d391882f94f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

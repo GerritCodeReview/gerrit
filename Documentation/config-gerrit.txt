@@ -1867,6 +1867,13 @@ file containing the class must be placed in the `$site_path/lib` folder.
 +
 If not specified, the default no-op implementation is used.
 
+[[gerrit.canLoadInIFrame]]gerrit.canLoadInIFrame::
++
+For security reasons Gerrit will always jump out of iframe.
+Setting this option to true will prevent this behavior.
++
+By default false.
+
 [[gitweb]]
 === Section gitweb
 

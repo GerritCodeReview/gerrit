@@ -147,6 +147,12 @@ public class HostPageServlet extends HttpServlet {
     } catch (IOException e) {
       throw new IOException("Failed reading " + src, e);
     }
+    if (cfg.getBoolean("gerrit", "canLoadInIFrame", false)) {
+      if (!src.contains("?")) {
+        src += "?";
+      }
+      src += "loadInIFrame=true";
+    }
 
     noCacheName = src;
     page = new Page();

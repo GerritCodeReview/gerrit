@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "59577b41_1781b43b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-04-03T17:13:58Z",
+      "side": 1,
+      "message": "Commit messages aren\u0027t Markdown so this looks weird.",
+      "revId": "fa02eee4d5b99cd45782e92cd146316aea328e8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "59577b41_77863055",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-04-03T17:13:58Z",
+      "side": 1,
+      "message": "Optional: this is the same as the return value from projectConfig.commit(md)",
+      "range": {
+        "startLine": 143,
+        "startChar": 33,
+        "endLine": 143,
+        "endChar": 60
+      },
+      "revId": "fa02eee4d5b99cd45782e92cd146316aea328e8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "396c8714_b6460870",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutDescription.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-04-03T17:13:58Z",
+      "side": 1,
+      "message": "Same (optional) comment as in PutConfig",
+      "range": {
+        "startLine": 97,
+        "startChar": 33,
+        "endLine": 97,
+        "endChar": 53
+      },
+      "revId": "fa02eee4d5b99cd45782e92cd146316aea328e8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

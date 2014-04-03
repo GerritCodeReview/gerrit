@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "396c8714_563974e9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-04-03T10:00:49Z",
+      "side": 1,
+      "message": "\"Allow to configure maximum size of file for diff view\"",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 39
+      },
+      "revId": "2931e345dc7aa2308f4ad4c4370d9219423736bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "59577b41_37531835",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-04-03T10:00:49Z",
+      "side": 1,
+      "message": "setting",
+      "range": {
+        "startLine": 9,
+        "startChar": 50,
+        "endLine": 9,
+        "endChar": 53
+      },
+      "revId": "2931e345dc7aa2308f4ad4c4370d9219423736bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "396c8714_b61d687c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-04-03T10:00:49Z",
+      "side": 1,
+      "message": "disabled",
+      "range": {
+        "startLine": 11,
+        "startChar": 25,
+        "endLine": 11,
+        "endChar": 32
+      },
+      "revId": "2931e345dc7aa2308f4ad4c4370d9219423736bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "396c8714_763470f5",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 606,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-04-03T10:00:49Z",
+      "side": 1,
+      "message": "This should be added as a section named `cache.name.bigFileSize` above, around line 544.",
+      "range": {
+        "startLine": 603,
+        "startChar": 0,
+        "endLine": 606,
+        "endChar": 20
+      },
+      "revId": "2931e345dc7aa2308f4ad4c4370d9219423736bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

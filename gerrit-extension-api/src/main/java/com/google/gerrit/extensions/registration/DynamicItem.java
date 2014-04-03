@@ -47,7 +47,8 @@ public class DynamicItem<T> {
   }
 
   /**
-   * Declare a singleton {@code DynamicItem<T>} with a binder.
+   * Declare a singleton {@code DynamicItem<T>} with a binder and default
+   * provider that will always choose last bound configuration.
    * <p>
    * Items must be defined in a Guice module before they can be bound:
    * <pre>
@@ -63,7 +64,27 @@ public class DynamicItem<T> {
   }
 
   /**
-   * Declare a singleton {@code DynamicItem<T>} with a binder.
+   * Declare a singleton {@code DynamicItem<T>} with a binder and custom
+   * provider.
+   * <p>
+   * Items must be defined in a Guice module before they can be bound:
+   * <pre>
+   *   DynamicItem.itemOf(binder(), Interface.class);
+   *   DynamicItem.bind(binder(), Interface.class).to(Impl.class);
+   * </pre>
+   *
+   * @param binder a new binder created in the module.
+   * @param member type of entry to store.
+   * @param provider custom item provider
+   */
+  public static <T> void itemOf(Binder binder, Class<T> member,
+      Class<? extends Provider<DynamicItem<T>>> provider) {
+    itemOf(binder, TypeLiteral.get(member), provider);
+  }
+
+  /**
+   * Declare a singleton {@code DynamicItem<T>} with a binder and default
+   * provider that will always choose last bound configuration.
    * <p>
    * Items must be defined in a Guice module before they can be bound:
    * <pre>
@@ -77,9 +98,30 @@ public class DynamicItem<T> {
     @SuppressWarnings("unchecked")
     Key<DynamicItem<T>> key = (Key<DynamicItem<T>>) Key.get(
         Types.newParameterizedType(DynamicItem.class, member.getType()));
-    binder.bind(key)
-      .toProvider(new DynamicItemProvider<T>(member, key))
-      .in(Scopes.SINGLETON);
+    binder.bind(key).toProvider(new DynamicItemProvider<T>(member, key))
+        .in(Scopes.SINGLETON);
+  }
+
+
+  /**
+   * Declare a singleton {@code DynamicItem<T>} with a binder and custom
+   * provider.
+   * <p>
+   * Items must be defined in a Guice module before they can be bound:
+   * <pre>
+   *   DynamicSet.itemOf(binder(), new TypeLiteral<Thing<Foo>>() {});
+   * </pre>
+   *
+   * @param binder a new binder created in the module.
+   * @param member type of entry to store.
+   */
+  public static <T> void itemOf(Binder binder, TypeLiteral<T> member,
+      Class<? extends Provider<DynamicItem<T>>> provider) {
+    @SuppressWarnings("unchecked")
+    Key<DynamicItem<T>> key =
+        (Key<DynamicItem<T>>) Key.get(Types.newParameterizedType(
+            DynamicItem.class, member.getType()));
+    binder.bind(key).toProvider(provider).in(Scopes.SINGLETON);
   }
 
   /**
@@ -103,6 +145,15 @@ public class DynamicItem<T> {
   public static <T> LinkedBindingBuilder<T> bind(Binder binder,
       TypeLiteral<T> type) {
     return binder.bind(type);
+  }
+
+  public static <T> DynamicItem<T> of(final T item) {
+    return new DynamicItem<T>(null, null, null) {
+      @Override
+      public T get() {
+        return item;
+      }
+    };
   }
 
   private final Key<DynamicItem<T>> key;

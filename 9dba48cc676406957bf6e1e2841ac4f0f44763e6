@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "59577b41_f727e0c5",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1911,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-04-03T09:53:14Z",
+      "side": 1,
+      "message": "Is it safe to assume that the reader knows what this means?\n\nOr would it be better to add a link to documentation?",
+      "range": {
+        "startLine": 1911,
+        "startChar": 36,
+        "endLine": 1911,
+        "endChar": 61
+      },
+      "revId": "9dba48cc676406957bf6e1e2841ac4f0f44763e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "59577b41_971ae47f",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1913,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-04-03T09:53:14Z",
+      "side": 1,
+      "message": "trailing whitespace.",
+      "range": {
+        "startLine": 1913,
+        "startChar": 18,
+        "endLine": 1913,
+        "endChar": 19
+      },
+      "revId": "9dba48cc676406957bf6e1e2841ac4f0f44763e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

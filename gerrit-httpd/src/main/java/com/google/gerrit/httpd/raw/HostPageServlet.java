@@ -90,6 +90,7 @@ public class HostPageServlet extends HttpServlet {
   private final SiteStaticDirectoryServlet staticServlet;
   private final boolean isNoteDbEnabled;
   private final Integer pluginsLoadTimeout;
+  private final boolean canLoadInIFrame;
   private final GetDiffPreferences getDiff;
   private volatile Page page;
 
@@ -116,6 +117,7 @@ public class HostPageServlet extends HttpServlet {
     staticServlet = ss;
     isNoteDbEnabled = migration.readChanges();
     pluginsLoadTimeout = getPluginsLoadTimeout(cfg);
+    canLoadInIFrame = cfg.getBoolean("gerrit", "canLoadInIFrame", false);
     getDiff = diffPref;
 
     String pageName = "HostPage.html";
@@ -322,6 +324,7 @@ public class HostPageServlet extends HttpServlet {
       pageData.version = Version.getVersion();
       pageData.isNoteDbEnabled = isNoteDbEnabled;
       pageData.pluginsLoadTimeout = pluginsLoadTimeout;
+      pageData.canLoadInIFrame = canLoadInIFrame;
 
       StringWriter w = new StringWriter();
       w.write("var " + HPD_ID + "=");

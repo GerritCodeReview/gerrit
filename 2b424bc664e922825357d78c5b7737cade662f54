@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "396c8714_1606dc3c",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 2379,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-04-03T04:45:51Z",
+      "side": 1,
+      "message": "Here is an example of documentation using time units.",
+      "range": {
+        "startLine": 2374,
+        "startChar": 57,
+        "endLine": 2379,
+        "endChar": 11
+      },
+      "revId": "2b424bc664e922825357d78c5b7737cade662f54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "59577b41_1706d43c",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 2423,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-04-03T04:45:51Z",
+      "side": 1,
+      "message": "I am not happy about exposing this variable, but we may have no choice.",
+      "range": {
+        "startLine": 2415,
+        "startChar": 0,
+        "endLine": 2423,
+        "endChar": 13
+      },
+      "revId": "2b424bc664e922825357d78c5b7737cade662f54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "396c8714_36015825",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 2437,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-04-03T04:45:51Z",
+      "side": 1,
+      "message": "This should accept the standard time unit suffixes we use elsewhere in our variables.",
+      "revId": "2b424bc664e922825357d78c5b7737cade662f54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "59577b41_77fbd0e4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/SmtpEmailSender.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-04-03T04:45:51Z",
+      "side": 1,
+      "message": "nit: blank line after this",
+      "revId": "2b424bc664e922825357d78c5b7737cade662f54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "59577b41_57004c1d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/SmtpEmailSender.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-04-03T04:45:51Z",
+      "side": 1,
+      "message": "ConfigUtil.getTimeUnit",
+      "range": {
+        "startLine": 76,
+        "startChar": 8,
+        "endLine": 76,
+        "endChar": 18
+      },
+      "revId": "2b424bc664e922825357d78c5b7737cade662f54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

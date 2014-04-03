@@ -38,6 +38,7 @@ import com.google.inject.servlet.GuiceFilter;
 import com.google.inject.servlet.GuiceServletContextListener;
 
 import org.eclipse.jetty.http.HttpScheme;
+import org.eclipse.jetty.jmx.MBeanContainer;
 import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.ForwardedRequestCustomizer;
 import org.eclipse.jetty.server.Handler;
@@ -57,6 +58,7 @@ import org.eclipse.jetty.servlet.FilterHolder;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.util.BlockingArrayQueue;
+import org.eclipse.jetty.util.log.Log;
 import org.eclipse.jetty.util.resource.Resource;
 import org.eclipse.jetty.util.ssl.SslContextFactory;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
@@ -74,6 +76,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InterruptedIOException;
 import java.io.PrintWriter;
+import java.lang.management.ManagementFactory;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -152,6 +155,13 @@ public class JettyServer {
       handler.setRequestLog(new HttpLog(site, cfg));
       handler.setHandler(app);
       app = handler;
+    }
+    if (cfg.getBoolean("httpd", "registerMBeans", false)) {
+      MBeanContainer mbean =
+          new MBeanContainer(ManagementFactory.getPlatformMBeanServer());
+      httpd.addEventListener(mbean);
+      httpd.addBean(Log.getRootLogger());
+      httpd.addBean(mbean);
     }
 
     httpd.setHandler(app);

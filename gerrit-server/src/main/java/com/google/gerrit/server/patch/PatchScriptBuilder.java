@@ -26,6 +26,7 @@ import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
 import com.google.gerrit.server.FileTypeRegistry;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 
 import eu.medsea.mimeutil.MimeType;
@@ -35,6 +36,7 @@ import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
@@ -52,7 +54,7 @@ import java.util.List;
 
 class PatchScriptBuilder {
   static final int MAX_CONTEXT = 5000000;
-  static final int BIG_FILE = 9000;
+  static int BIG_FILE;
 
   private static final Comparator<Edit> EDIT_SORT = new Comparator<Edit>() {
     @Override
@@ -79,11 +81,13 @@ class PatchScriptBuilder {
   private int context;
 
   @Inject
-  PatchScriptBuilder(final FileTypeRegistry ftr, final PatchListCache plc) {
+  PatchScriptBuilder(final FileTypeRegistry ftr, final PatchListCache plc,
+      @GerritServerConfig final Config cfg) {
     a = new Side();
     b = new Side();
     registry = ftr;
     patchListCache = plc;
+    BIG_FILE = cfg.getInt("cache", "diff", "bigFileSize", 9000);
   }
 
   void setRepository(Repository r, Project.NameKey projectKey) {

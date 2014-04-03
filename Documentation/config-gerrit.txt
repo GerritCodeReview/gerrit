@@ -599,6 +599,11 @@ Entries in this cache are relatively large, so memoryLimit is an
 estimate in bytes of memory used. Administrators should try to target
 cache.diff.memoryLimit to fit all changes users will view in a 1 or 2
 day span.
++
+Administrators can define what is the big file by set
+cache.diff.bigFileSize, the 'whole file' option of Preference->Context
+on the diff view will be disable if it is the big file's differences
+between two commits.
 
 cache `"diff_intraline"`::
 +

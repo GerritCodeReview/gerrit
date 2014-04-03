@@ -440,6 +440,17 @@ public class Dispatcher {
       return;
     }
 
+    if (rest.equals("self")) {
+      if (Gerrit.isSignedIn()) {
+        Gerrit.display(token, new AccountDashboardScreen(Gerrit.getUserAccount().getId()));
+      } else {
+        Screen s = new AccountDashboardScreen(null);
+        s.setRequiresSignIn(true);
+        Gerrit.display(token, s);
+      }
+      return;
+    }
+
     if (rest.startsWith("?")) {
       Gerrit.display(token, new CustomDashboardScreen(rest.substring(1)));
       return;

@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "f9658f2a_b4eba01b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/LinkMenuItem.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-04-03T14:32:06Z",
+      "side": 1,
+      "message": "Because I didn\u0027t realise I could just place it there. Having it ingo() would have been better.",
+      "parentUuid": "396c8714_b6eba81b",
+      "range": {
+        "startLine": 45,
+        "startChar": 4,
+        "endLine": 47,
+        "endChar": 5
+      },
+      "revId": "3d13a97c98c9171547d214a2629b1d391882f94f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "59577b41_d7f29c0b",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/LinkMenuItem.java",
         "patchSetId": 1
@@ -59,6 +83,24 @@
     },
     {
       "key": {
+        "uuid": "f9658f2a_f40eb84d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/LinkMenuItem.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-04-03T14:32:06Z",
+      "side": 1,
+      "message": "Sounds good. With the new patch set I\u0027ve implemented it this way.",
+      "parentUuid": "59577b41_d7f29c0b",
+      "revId": "3d13a97c98c9171547d214a2629b1d391882f94f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "59577b41_f7f520f6",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/LinkMenuItem.java",
         "patchSetId": 1
@@ -70,6 +112,24 @@
       "writtenOn": "2014-04-03T04:40:13Z",
       "side": 1,
       "message": "Clearing this here is counter-intuitive. This link\u0027s screen is the one being displayed. So why wouldn\u0027t we set currentMenu to our own menu? Or leave it set given that we color ourselves as the active link in our menu?",
+      "revId": "3d13a97c98c9171547d214a2629b1d391882f94f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f9658f2a_d40bbc3b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/LinkMenuItem.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-04-03T14:32:06Z",
+      "side": 1,
+      "message": "This was needed for the case when the user manually changed the token in the URL. Then currentMenu was still set but the user actually did not click on that menu.",
+      "parentUuid": "59577b41_f7f520f6",
       "revId": "3d13a97c98c9171547d214a2629b1d391882f94f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

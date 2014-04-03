@@ -190,6 +190,30 @@
     },
     {
       "key": {
+        "uuid": "59577b41_97430460",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/SubmitAction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-04-03T14:00:12Z",
+      "side": 1,
+      "message": "then it should be \"a change\"",
+      "parentUuid": "b9fdd774_1206ec3c",
+      "range": {
+        "startLine": 39,
+        "startChar": 49,
+        "endLine": 39,
+        "endChar": 55
+      },
+      "revId": "a8720cd2282588f29e9cc836ebd660ff29e2ce94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "998813e4_617c9696",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/SubmitAction.java",
         "patchSetId": 1

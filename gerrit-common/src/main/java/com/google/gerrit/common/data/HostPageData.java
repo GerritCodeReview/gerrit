@@ -40,6 +40,7 @@ public class HostPageData {
   public List<Message> messages;
   public Integer pluginsLoadTimeout;
   public boolean isNoteDbEnabled;
+  public boolean canLoadInIFrame;
 
   public static class Theme {
     public String backgroundColor;

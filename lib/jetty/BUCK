@@ -60,6 +60,18 @@ maven_jar(
 )
 
 maven_jar(
+  name = 'jmx',
+  id = 'org.eclipse.jetty:jetty-jmx:' + VERSION,
+  sha1 = 'eb1492a8c6362410f84c97907b2ffb94c4dfcc2f',
+  license = 'Apache2.0',
+  exported_deps = [
+    ':continuation',
+    ':http',
+  ],
+  exclude = EXCLUDE,
+)
+
+maven_jar(
   name = 'continuation',
   id = 'org.eclipse.jetty:jetty-continuation:' + VERSION,
   sha1 = '5751f7ea38488dd32180bd3273f7f8591928aee3',

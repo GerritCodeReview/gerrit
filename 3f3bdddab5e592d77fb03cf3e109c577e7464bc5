@@ -94,6 +94,30 @@
       "revId": "3f3bdddab5e592d77fb03cf3e109c577e7464bc5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "396c8714_5652142d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreProvider.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-04-03T15:37:22Z",
+      "side": 1,
+      "message": "Doh! Of course, that makes a lot of sense. The plugin supplying the secure storage needs to be started very very early.",
+      "parentUuid": "f9658f2a_34015025",
+      "range": {
+        "startLine": 93,
+        "startChar": 0,
+        "endLine": 99,
+        "endChar": 5
+      },
+      "revId": "3f3bdddab5e592d77fb03cf3e109c577e7464bc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

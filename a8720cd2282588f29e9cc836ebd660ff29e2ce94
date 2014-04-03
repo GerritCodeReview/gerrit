@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f9658f2a_74fbc8e4",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/CommitInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-04-03T12:17:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "998813e4_21868e54",
+      "range": {
+        "startLine": 26,
+        "startChar": 13,
+        "endLine": 26,
+        "endChar": 18
+      },
+      "revId": "a8720cd2282588f29e9cc836ebd660ff29e2ce94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b98317c4_0244aa66",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/SubmitAction.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2014-04-02T10:07:08Z",
       "side": 1,
       "message": "badly named variable.  what does \"flag\" mean?",
+      "range": {
+        "startLine": 34,
+        "startChar": 14,
+        "endLine": 34,
+        "endChar": 18
+      },
+      "revId": "a8720cd2282588f29e9cc836ebd660ff29e2ce94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f9658f2a_54004c1d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/SubmitAction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-04-03T12:17:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b98317c4_0244aa66",
       "range": {
         "startLine": 34,
         "startChar": 14,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "b9fdd774_32017025",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/SubmitAction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-04-03T12:17:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b98317c4_a2405e53",
+      "range": {
+        "startLine": 37,
+        "startChar": 16,
+        "endLine": 37,
+        "endChar": 17
+      },
+      "revId": "a8720cd2282588f29e9cc836ebd660ff29e2ce94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "998813e4_81819a3d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/SubmitAction.java",
         "patchSetId": 1
@@ -82,6 +154,30 @@
       "writtenOn": "2014-04-02T10:07:08Z",
       "side": 1,
       "message": "changes",
+      "range": {
+        "startLine": 39,
+        "startChar": 49,
+        "endLine": 39,
+        "endChar": 55
+      },
+      "revId": "a8720cd2282588f29e9cc836ebd660ff29e2ce94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9fdd774_1206ec3c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/SubmitAction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-04-03T12:17:35Z",
+      "side": 1,
+      "message": "only 1 change is getting merged.",
+      "parentUuid": "998813e4_81819a3d",
       "range": {
         "startLine": 39,
         "startChar": 49,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "b9fdd774_72fbf8e4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/SubmitAction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-04-03T12:17:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "998813e4_617c9696",
+      "range": {
+        "startLine": 40,
+        "startChar": 46,
+        "endLine": 40,
+        "endChar": 47
+      },
+      "revId": "a8720cd2282588f29e9cc836ebd660ff29e2ce94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b98317c4_c23d62cc",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchSetInfoFactory.java",
         "patchSetId": 1
@@ -128,6 +248,30 @@
       "writtenOn": "2014-04-02T10:07:08Z",
       "side": 1,
       "message": "use a meaningful name",
+      "range": {
+        "startLine": 148,
+        "startChar": 8,
+        "endLine": 148,
+        "endChar": 12
+      },
+      "revId": "a8720cd2282588f29e9cc836ebd660ff29e2ce94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f9658f2a_b4144060",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchSetInfoFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-04-03T12:17:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b98317c4_c23d62cc",
       "range": {
         "startLine": 148,
         "startChar": 8,

@@ -144,6 +144,12 @@ public class HostPageServlet extends HttpServlet {
         log.debug("No " + src + " in webapp root; keeping noncache.js URL");
       }
     }
+    if (cfg.getBoolean("gerrit", "canLoadInIFrame", false)) {
+      if (!src.contains("?")) {
+        src += "?";
+      }
+      src += "loadInIFrame=true";
+    }
 
     noCacheName = src;
     page = new Page();

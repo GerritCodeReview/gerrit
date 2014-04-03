@@ -386,7 +386,9 @@ public class Gerrit implements EntryPoint {
 
   @Override
   public void onModuleLoad() {
-    UserAgent.assertNotInIFrame();
+    if (!canLoadInIFrame(GWT.getModuleBaseURL() + GWT.getModuleName())) {
+      UserAgent.assertNotInIFrame();
+    }
 
     KeyUtil.setEncoderImpl(new KeyUtil.Encoder() {
       @Override
@@ -435,6 +437,19 @@ public class Gerrit implements EntryPoint {
       }
     });
   }
+
+  private native boolean canLoadInIFrame(String gwtScriptPath) /*-{
+    var scripts = document.getElementsByTagName("script");
+    if (scripts != null) {
+      for (var i = 0; i < scripts.length; i++) {
+        if (scripts[i].src.indexOf(gwtScriptPath + ".nocache.js") != 0) {
+          var s = scripts[i].src;
+          return s.indexOf("loadInIFrame=true") != 0;
+        }
+      }
+    }
+    return false;
+  }-*/;
 
   private static void initHostname() {
     myHost = Location.getHostName();

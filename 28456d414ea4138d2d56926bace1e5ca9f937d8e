@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b9fdd774_f2f528f6",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1911,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2014-04-03T12:12:53Z",
+      "side": 1,
+      "message": "JMX",
+      "range": {
+        "startLine": 1911,
+        "startChar": 58,
+        "endLine": 1911,
+        "endChar": 61
+      },
+      "revId": "28456d414ea4138d2d56926bace1e5ca9f937d8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

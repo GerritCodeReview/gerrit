@@ -34,6 +34,24 @@
       "revId": "8522fb45ef453c140646e55f56a567618130afc3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "59577b41_97e82420",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 569,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-04-03T04:31:39Z",
+      "side": 1,
+      "message": "Refactor PluginLoader. :-)\n\nChange the code in PluginLoader to invoke an AsyncCallback\u003cVoid\u003e.onSuccess() instead of Gerrit.display(token). The onSuccess method would instead invoke Gerrit.display(token).\n\nInstead of passing the String token into PluginLoader, pass the AsyncCallback\u003cVoid\u003e from this line in Gerrit.\n\nHere create a CallbackGroup. If the user is signed in, add the preference callback to the group. Then add the AsyncCallback that calls Gerrit.display(token). Pass the returned callback from the CallbackGroup into the PluginLoader instead.\n\nBoth callbacks will run at the same time, in the order they were installed into the CallbackGroup. By adding the user\u0027s My menu callback first its code will be fully executed before Gerrit.display(token) is invoked.",
+      "parentUuid": "595dbb30_47062e3e",
+      "revId": "8522fb45ef453c140646e55f56a567618130afc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

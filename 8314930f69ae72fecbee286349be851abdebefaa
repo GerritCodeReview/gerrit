@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "59921b13_bf24f7c2",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/SubIndex.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-04-03T05:35:13Z",
+      "side": 1,
+      "message": "Good coach. Thanks a lot!\nDone",
+      "parentUuid": "39972704_1ee2cd43",
+      "revId": "8314930f69ae72fecbee286349be851abdebefaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1940a374_3dd80f95",
         "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/SubIndex.java",
         "patchSetId": 9
@@ -71,6 +89,42 @@
     },
     {
       "key": {
+        "uuid": "59921b13_9f27b3c7",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/SubIndex.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-04-03T05:35:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39972704_3ee78954",
+      "revId": "8314930f69ae72fecbee286349be851abdebefaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "59921b13_ff1a7f80",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/SubIndex.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-04-03T05:35:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1940a374_3dd80f95",
+      "revId": "8314930f69ae72fecbee286349be851abdebefaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1940a374_7de29744",
         "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/SubIndex.java",
         "patchSetId": 9
@@ -94,6 +148,24 @@
     },
     {
       "key": {
+        "uuid": "798d1ff2_001b4686",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/SubIndex.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-04-03T05:35:13Z",
+      "side": 1,
+      "message": "here I want the set(null) will not be called when the future is cancelled,so I use \nisCancelled().",
+      "parentUuid": "1940a374_7de29744",
+      "revId": "8314930f69ae72fecbee286349be851abdebefaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1940a374_1ddd5385",
         "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/SubIndex.java",
         "patchSetId": 9
@@ -105,6 +177,24 @@
       "writtenOn": "2014-04-02T19:42:51Z",
       "side": 1,
       "message": "This should be outside of the isCancelled block. The method removeIfDone is only called if the future is inside of the concurrent set. If its in the set and the gen is available, the future should remove itself no matter what state the future is in.",
+      "revId": "8314930f69ae72fecbee286349be851abdebefaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "798d1ff2_e01d027b",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/SubIndex.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-04-03T05:35:13Z",
+      "side": 1,
+      "message": "Done.\n\nI ever just wanted the \u0027\u0027notDoneNrtFutures.remove(this)\u0027\u0027 will not be called twice in the\n rare case as below to gain a bit performance.  \n \n [\n time 0:  removeIfDone() is called \n \n time 1:                                                     cancel() is called and above  line 222 is  done \n                                                             and the \u0027result\u0027 is true.\n\n\n\n time 2:  above line 231 is called \n\n\n\n time 3:                                                      above line 224 is running, done \n\n\n \n time 4:  if line 232 is outside of the isCancelled block\n         it will run again.\n\n ]",
+      "parentUuid": "1940a374_1ddd5385",
       "revId": "8314930f69ae72fecbee286349be851abdebefaa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

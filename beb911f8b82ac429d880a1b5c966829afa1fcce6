@@ -16,6 +16,24 @@
       "revId": "beb911f8b82ac429d880a1b5c966829afa1fcce6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "59577b41_774d908d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/History.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-04-03T10:28:30Z",
+      "side": 1,
+      "message": "OK, so we should drop the comment visibility feature completely in change screen 2 for 2.9?",
+      "parentUuid": "9c4e4155_9486ea02",
+      "revId": "beb911f8b82ac429d880a1b5c966829afa1fcce6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "396c8714_d6f2a40b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-04-03T04:40:13Z",
+      "side": 1,
+      "message": "currentMenu is icky. But I think you have a good idea here. See the comments in LinkMenuItem.",
+      "revId": "3d13a97c98c9171547d214a2629b1d391882f94f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "396c8714_b6eba81b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/LinkMenuItem.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-04-03T04:40:13Z",
+      "side": 1,
+      "message": "Why not do this in go() above?",
+      "range": {
+        "startLine": 45,
+        "startChar": 4,
+        "endLine": 47,
+        "endChar": 5
+      },
+      "revId": "3d13a97c98c9171547d214a2629b1d391882f94f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "59577b41_d7f29c0b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/LinkMenuItem.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-04-03T04:40:13Z",
+      "side": 1,
+      "message": "Your good idea is to use this event to setup the coloring.\n\nEvery menu item is listening to the current screen event on the event bus. If the current screen exactly matches the menu item, we should just automatically select the parent menu and color the menu item. End of story. This would magically work for All and anything the user configures in My (ignoring pagination).\n\nProjects gets a bit more fuzzy. Projects \u003e List would just work. The other tabs don\u0027t work as trivially. Or do they? Don\u0027t the tabs (Info, Access) know the anchor names the for the current project? In which case they would also \"just work\".\n\nProject dashboards are the really fuzzy one. You kind of want to keep Projects \u003e Dashboards selected in this case. Maybe we override this method on that one menu item and do a more wildcard matching on the token.",
+      "revId": "3d13a97c98c9171547d214a2629b1d391882f94f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "59577b41_f7f520f6",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/LinkMenuItem.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-04-03T04:40:13Z",
+      "side": 1,
+      "message": "Clearing this here is counter-intuitive. This link\u0027s screen is the one being displayed. So why wouldn\u0027t we set currentMenu to our own menu? Or leave it set given that we color ourselves as the active link in our menu?",
+      "revId": "3d13a97c98c9171547d214a2629b1d391882f94f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

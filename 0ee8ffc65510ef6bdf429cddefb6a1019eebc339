@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "b9fdd774_32d85095",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchTable.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-04-03T06:37:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9c4e4155_3449be50",
+      "revId": "0ee8ffc65510ef6bdf429cddefb6a1019eebc339",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9c4e4155_5446423f",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchTable.java",
         "patchSetId": 4

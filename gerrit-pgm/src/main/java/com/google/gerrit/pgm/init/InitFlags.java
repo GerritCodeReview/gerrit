@@ -37,6 +37,7 @@ public class InitFlags {
   /** Skip plugins */
   public boolean skipPlugins;
 
+  public String secureStorePath;
   public final FileBasedConfig cfg;
   public final FileBasedConfig sec;
   public final List<String> installPlugins;

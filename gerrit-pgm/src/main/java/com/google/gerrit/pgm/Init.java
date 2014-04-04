@@ -18,9 +18,9 @@ import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.common.PluginData;
 import com.google.gerrit.pgm.init.Browser;
 import com.google.gerrit.pgm.init.InitPlugins;
-import com.google.gerrit.pgm.init.InitPlugins.PluginData;
 import com.google.gerrit.pgm.util.ConsoleUI;
 import com.google.gerrit.pgm.util.ErrorLogFile;
 import com.google.gerrit.pgm.util.IoUtil;
@@ -36,8 +36,8 @@ import org.kohsuke.args4j.Option;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 /** Initialize a new Gerrit installation. */
 public class Init extends BaseInit {

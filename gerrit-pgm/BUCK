@@ -15,6 +15,7 @@ java_library(
   name = 'init-api',
   srcs = INIT_API_SRCS,
   deps = [
+    '//gerrit-extension-api:api',
     '//gerrit-common:annotations',
     '//gerrit-common:server',
     '//gerrit-reviewdb:server',
@@ -33,7 +34,7 @@ java_sources(
   visibility = ['PUBLIC'],
 )
 
-INIT_BASE_SRCS = [SRCS + 'BaseInit.java'] + glob(
+INIT_BASE_SRCS = [SRCS + 'BaseInit.java', SRCS + 'SiteModule.java'] + glob(
     [SRCS + n for n in [
       'init/**/*.java',
       'util/**/*.java',
@@ -111,6 +112,7 @@ java_library(
     '//lib:gwtorm',
     '//lib:h2',
     '//lib:servlet-api-3_1',
+    '//lib:ow2-asm',
     '//lib/guice:guice',
     '//lib/guice:guice-servlet',
     '//lib/jetty:server',

@@ -24,9 +24,11 @@ public class SecureStoreData {
   public final File pluginFile;
   public final String storeName;
   public final String className;
+  public final String pluginName;
 
   public SecureStoreData(String pluginName, String className, File jarFile,
       String storeName) {
+    this.pluginName = pluginName;
     this.className = className;
     this.pluginFile = jarFile;
     this.storeName = String.format("%s/%s", pluginName, storeName);

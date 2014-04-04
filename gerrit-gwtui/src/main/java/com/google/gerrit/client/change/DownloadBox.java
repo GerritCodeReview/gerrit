@@ -112,7 +112,9 @@ class DownloadBox extends VerticalPanel {
         insertCommand(commandName, copyLabel);
       }
     }
-    insertPatch();
+    if (change.revision(revision).commit().parents().length() == 1) {
+      insertPatch();
+    }
     insertArchive();
     insertCommand(null, scheme);
   }

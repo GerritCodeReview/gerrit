@@ -96,6 +96,9 @@ public class ProjectApiImpl implements ProjectApi {
   @Override
   public ProjectApi create(ProjectInput in) throws RestApiException {
     try {
+      if (name == null) {
+        throw new RestApiException("Project already exists");
+      }
       if (in.name != null && !name.equals(in.name)) {
         throw new RestApiException("name must match input.name");
       }

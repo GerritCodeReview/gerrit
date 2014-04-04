@@ -50,6 +50,18 @@ public class ProjectIT extends AbstractDaemonTest  {
         .create(in);
   }
 
+  @Test(expected = RestApiException.class)
+  public void createProjectDuplicate() throws RestApiException {
+    ProjectInput in = new ProjectInput();
+    in.name = "baz";
+    gApi.projects()
+        .name("baz")
+        .create(in);
+    gApi.projects()
+        .name("baz")
+        .create(in);
+  }
+
   @Test
   public void createBranch() throws GitAPIException,
       IOException, RestApiException {

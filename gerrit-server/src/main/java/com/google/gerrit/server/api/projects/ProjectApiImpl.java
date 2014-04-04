@@ -96,6 +96,9 @@ public class ProjectApiImpl implements ProjectApi {
   @Override
   public ProjectApi create(ProjectInput in) throws RestApiException {
     try {
+      if (name == null) {
+        throw new ResourceConflictException("Project already exists");
+      }
       if (in.name != null && !name.equals(in.name)) {
         throw new RestApiException("name must match input.name");
       }
@@ -103,8 +106,8 @@ public class ProjectApiImpl implements ProjectApi {
           .apply(TopLevelResource.INSTANCE, in);
       return projectApi.create(projects.parse(name));
     } catch (BadRequestException | UnprocessableEntityException
-        | ResourceConflictException | ResourceNotFoundException
-        | ProjectCreationFailedException | IOException e) {
+        | ResourceNotFoundException | ProjectCreationFailedException
+        | IOException e) {
       throw new RestApiException("Cannot create project", e);
     }
   }

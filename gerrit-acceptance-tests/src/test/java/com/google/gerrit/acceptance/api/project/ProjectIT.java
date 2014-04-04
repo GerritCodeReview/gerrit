@@ -20,6 +20,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -47,6 +48,18 @@ public class ProjectIT extends AbstractDaemonTest  {
     in.name = "foo";
     gApi.projects()
         .name("bar")
+        .create(in);
+  }
+
+  @Test(expected = ResourceConflictException.class)
+  public void createProjectDuplicate() throws RestApiException {
+    ProjectInput in = new ProjectInput();
+    in.name = "baz";
+    gApi.projects()
+        .name("baz")
+        .create(in);
+    gApi.projects()
+        .name("baz")
         .create(in);
   }
 

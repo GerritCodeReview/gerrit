@@ -22,6 +22,53 @@
       "revId": "2d1aad669045118353b2a85445b82dbf215f46b4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "79a35fb3_d0f55cf6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/projects/ProjectApiImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1004735
+      },
+      "writtenOn": "2014-04-04T07:36:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "79a35fb3_90ebd41b",
+      "range": {
+        "startLine": 100,
+        "startChar": 18,
+        "endLine": 100,
+        "endChar": 61
+      },
+      "revId": "2d1aad669045118353b2a85445b82dbf215f46b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f9c10f53_94ebe41b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/projects/ProjectApiImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1004735
+      },
+      "writtenOn": "2014-04-04T07:36:45Z",
+      "side": 1,
+      "message": "If I change the above to ResourceConflictException (which makes sense), I\u0027d need to remove this catch, otherwise you just get the \u0027Cannot create project\u0027 error instead of the more descriptive \u0027Project already exists\u0027 message. I\u0027ll do this in the next patch",
+      "range": {
+        "startLine": 109,
+        "startChar": 10,
+        "endLine": 109,
+        "endChar": 35
+      },
+      "revId": "2d1aad669045118353b2a85445b82dbf215f46b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

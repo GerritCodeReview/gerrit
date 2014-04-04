@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "79a35fb3_90ebd41b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/projects/ProjectApiImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-04-04T07:20:43Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be a ResourceConflictException?",
+      "range": {
+        "startLine": 100,
+        "startChar": 18,
+        "endLine": 100,
+        "endChar": 61
+      },
+      "revId": "2d1aad669045118353b2a85445b82dbf215f46b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

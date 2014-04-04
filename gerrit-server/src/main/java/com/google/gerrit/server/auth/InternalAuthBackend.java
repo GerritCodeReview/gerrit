@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.auth;
 
+import com.google.common.base.Strings;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.config.AuthConfig;
@@ -42,7 +43,8 @@ public class InternalAuthBackend implements AuthBackend {
   public AuthUser authenticate(AuthRequest req)
       throws MissingCredentialsException, InvalidCredentialsException,
       UnknownUserException, UserNotAllowedException, AuthException {
-    if (req.getUsername() == null || req.getPassword() == null) {
+    if (Strings.isNullOrEmpty(req.getUsername())
+        || Strings.isNullOrEmpty(req.getPassword())) {
       throw new MissingCredentialsException();
     }
 

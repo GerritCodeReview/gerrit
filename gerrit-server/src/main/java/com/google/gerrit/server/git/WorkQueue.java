@@ -18,10 +18,12 @@ import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.reviewdb.client.Project.NameKey;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.util.IdGenerator;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -83,19 +85,21 @@ public class WorkQueue {
       };
 
   private Executor defaultQueue;
+  private int defaultQueueSize;
   private final IdGenerator idGenerator;
   private final CopyOnWriteArrayList<Executor> queues;
 
   @Inject
-  WorkQueue(final IdGenerator idGenerator) {
+  WorkQueue(final IdGenerator idGenerator, @GerritServerConfig final Config cfg) {
     this.idGenerator = idGenerator;
     this.queues = new CopyOnWriteArrayList<Executor>();
+    defaultQueueSize = cfg.getInt("execution", "defaultThreadPoolSize", 1);
   }
 
   /** Get the default work queue, for miscellaneous tasks. */
   public synchronized Executor getDefaultQueue() {
     if (defaultQueue == null) {
-      defaultQueue = createQueue(1, "WorkQueue");
+      defaultQueue = createQueue(defaultQueueSize, "WorkQueue");
     }
     return defaultQueue;
   }

@@ -14,9 +14,10 @@
 
 package com.google.gerrit.common;
 
+import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import com.google.gerrit.server.events.ChangeEvent;
 
-
+@ExtensionPoint
 public interface ChangeListener {
     public void onChangeEvent(ChangeEvent event);
 }

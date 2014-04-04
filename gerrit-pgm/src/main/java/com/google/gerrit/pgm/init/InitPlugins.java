@@ -19,6 +19,7 @@ import com.google.gerrit.common.PluginData;
 import com.google.gerrit.pgm.util.ConsoleUI;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.plugins.PluginLoader;
+import com.google.gerrit.server.securestore.SecureStoreData;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -61,6 +62,38 @@ public class InitPlugins implements InitStep {
       }
     });
     return result;
+  }
+
+  public static File installPlugin(PluginData plugin, ConsoleUI ui,
+      SitePaths site) throws IOException {
+    return installPlugin(plugin.pluginFile, plugin.name, ui, site);
+  }
+
+  public static File installPlugin(SecureStoreData plugin, ConsoleUI ui,
+      SitePaths site) throws IOException {
+    return installPlugin(plugin.pluginFile, plugin.pluginName, ui, site);
+  }
+
+  private static File installPlugin(File pluginFile, final String pluginName,
+      ConsoleUI ui, SitePaths site) throws IOException {
+    final File p = new File(site.plugins_dir, pluginName + JAR);
+    if (p.exists()) {
+      final String installedPluginVersion = getVersion(p);
+      if (!ui.yesno(false, "version %s is already installed, overwrite it",
+          installedPluginVersion)) {
+        pluginFile.delete();
+        return p;
+      }
+      if (!p.delete()) {
+        throw new IOException("Failed to delete plugin " + pluginName + ": "
+            + p.getAbsolutePath());
+      }
+    }
+    if (!pluginFile.renameTo(p)) {
+      throw new IOException("Failed to install plugin " + pluginName + ": "
+          + pluginFile.getAbsolutePath() + " -> " + p.getAbsolutePath());
+    }
+    return p;
   }
 
   private final ConsoleUI ui;
@@ -106,25 +139,7 @@ public class InitPlugins implements InitStep {
           continue;
         }
 
-        final File p = new File(site.plugins_dir, plugin.name + ".jar");
-        if (p.exists()) {
-          final String installedPluginVersion = getVersion(p);
-          if (!ui.yesno(false,
-              "version %s is already installed, overwrite it",
-              installedPluginVersion)) {
-            tmpPlugin.delete();
-            continue;
-          }
-          if (!p.delete()) {
-            throw new IOException("Failed to delete plugin " + pluginName
-                + ": " + p.getAbsolutePath());
-          }
-        }
-        if (!tmpPlugin.renameTo(p)) {
-          throw new IOException("Failed to install plugin " + pluginName
-              + ": " + tmpPlugin.getAbsolutePath() + " -> "
-              + p.getAbsolutePath());
-        }
+        installPlugin(plugin, ui, site);
       } finally {
         if (plugin.pluginFile.exists()) {
           plugin.pluginFile.delete();

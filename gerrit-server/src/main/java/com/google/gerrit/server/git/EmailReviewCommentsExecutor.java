@@ -1,4 +1,4 @@
-// Copyright (C) 2008 The Android Open Source Project
+// Copyright (C) 2014 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,15 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.client.patches;
+package com.google.gerrit.server.git;
 
-import com.google.gwt.i18n.client.Messages;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-import java.util.Date;
+import com.google.inject.BindingAnnotation;
 
-public interface PatchMessages extends Messages {
-  String expandBefore(int cnt);
-  String expandAfter(int cnt);
-  String draftSaved(Date when);
-  String patchSkipRegion(String lineNumber);
+import java.lang.annotation.Retention;
+
+/**
+ * Marker on the global {@link WorkQueue.Executor} used by
+ * {@link EmailReviewComments}.
+ */
+@Retention(RUNTIME)
+@BindingAnnotation
+public @interface EmailReviewCommentsExecutor {
 }

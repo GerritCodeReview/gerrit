@@ -1955,18 +1955,16 @@ Determines the period at which changes are automatically committed to
 stable store on disk. This is a costly operation and may block
 additional index writes, so lower with caution.
 +
-If zero or negative, changes are committed after every write. This is
-very costly but may be useful if offline reindexing is infeasible, or
-for development servers.
+If zero, changes are committed after every write. This is very costly
+but may be useful if offline reindexing is infeasible, or for development
+servers.
 +
-Values can be specified using standard time unit abbreviations (`ms`,
-`sec`, `min`, etc.).
+Values can be specified using standard time unit abbreviations (`ms`, `sec`,
+`min`, etc.).
 +
-This setting also applies when running the reindex program.  If it is
-configured to commit on every write, this will cause reindex to take
-an unnecessarily long time to complete on sites that have a lot of
-changes.  It is recommended to temporarily set a higher value while
-running reindex.
+If negative, `commitWithin` is disabled. Changes are flushed to disk when
+the in-memory buffer fills, but only committed and guaranteed to be synced
+to disk when the process finishes.
 
 Defaults to 300000 ms (5 minutes).
 
@@ -2495,12 +2493,42 @@ Default is true, to execute project specific rules.
 [[sendemail]]
 === Section sendemail
 
+[[execution]]Section execution
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+[[execution.defaultThreadPoolSize]]execution.defaultThreadPoolSize::
++
+The default size of the background execution thread pool in
+which miscellaneous tasks are handled.
++
+Default is 1.
+
 [[sendemail.enable]]sendemail.enable::
 +
 If false Gerrit will not send email messages, for any reason,
 and all other properties of section sendemail are ignored.
 +
 By default, true, allowing notifications to be sent.
+
+[[sendemail.connectTimeout]]sendemail.connectTimeout::
++
+The connection timeout of opening a socket connected to a
+remote SMTP server.
++
+Values can be specified using standard time unit abbreviations
+('ms', 'sec', 'min', etc.).
+If no unit is specified, milliseconds is assumed.
++
+Default is 0. A timeout of zero is interpreted as an infinite
+timeout. The connection will then block until established or
+an error occurs.
+
+[[sendemail.threadPoolSize]]sendemail.threadPoolSize::
++
+Maximum size of thread pool in which the review comments
+notifications are sent out asynchronously.
++
+By default, 1.
 
 [[sendemail.from]]sendemail.from::
 +

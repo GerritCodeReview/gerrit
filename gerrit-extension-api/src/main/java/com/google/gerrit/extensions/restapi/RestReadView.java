@@ -23,7 +23,7 @@ public interface RestReadView<R extends RestResource> extends RestView<R> {
   /**
    * Process the view operation by reading from the resource.
    *
-   * @param resource resource to modify.
+   * @param resource resource to read.
    * @return result to return to the client. Use {@link BinaryResult} to avoid
    *         automatic conversion to JSON.
    * @throws AuthException the client is not permitted to access this view.

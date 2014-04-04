@@ -16,13 +16,16 @@ package com.google.gerrit.server.project;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
+import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
@@ -32,6 +35,7 @@ import com.google.inject.Inject;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.ObjectId;
 
 import java.io.IOException;
 
@@ -45,13 +49,16 @@ class PutDescription implements RestModifyView<ProjectResource, Input> {
   private final ProjectCache cache;
   private final MetaDataUpdate.Server updateFactory;
   private final GitRepositoryManager gitMgr;
+  private final ChangeHooks hooks;
 
   @Inject
   PutDescription(ProjectCache cache,
       MetaDataUpdate.Server updateFactory,
+      ChangeHooks hooks,
       GitRepositoryManager gitMgr) {
     this.cache = cache;
     this.updateFactory = updateFactory;
+    this.hooks = hooks;
     this.gitMgr = gitMgr;
   }
 
@@ -84,7 +91,14 @@ class PutDescription implements RestModifyView<ProjectResource, Input> {
         }
         md.setAuthor(user);
         md.setMessage(msg);
-        config.commit(md);
+        ObjectId baseRev = config.getRevision();
+        ObjectId commitRev = config.commit(md);
+        // Only fire hook if project was actually changed.
+        if (!Objects.equal(baseRev, commitRev)) {
+          hooks.doRefUpdatedHook(
+            new Branch.NameKey(resource.getNameKey(), RefNames.REFS_CONFIG),
+            baseRev, commitRev, user.getAccount());
+        }
         cache.evict(ctl.getProject());
         gitMgr.setProjectDescription(
             resource.getNameKey(),

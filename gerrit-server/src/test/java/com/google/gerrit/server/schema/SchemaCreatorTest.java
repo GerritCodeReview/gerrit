@@ -129,6 +129,7 @@ public class SchemaCreatorTest {
     assertNotNull(codeReview);
     assertEquals("Code-Review", codeReview.getName());
     assertEquals("CR", codeReview.getAbbreviation());
+    assertEquals(0, codeReview.getDefaultValue());
     assertEquals("MaxWithBlock", codeReview.getFunctionName());
     assertTrue(codeReview.isCopyMinScore());
     assertValueRange(codeReview, 2, 1, 0, -1, -2);

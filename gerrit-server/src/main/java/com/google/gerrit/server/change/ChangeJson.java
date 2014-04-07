@@ -631,6 +631,7 @@ public class ChangeJson {
   }
 
   private void setLabelValues(LabelType type, LabelInfo label) {
+    label.defaultValue = type.getDefaultValue();
     label.values = Maps.newLinkedHashMap();
     for (LabelValue v : type.getValues()) {
       label.values.put(v.formatValue(), v.getText());
@@ -1007,6 +1008,7 @@ public class ChangeJson {
     public Map<String, String> values;
 
     public Short value;
+    public Short defaultValue;
     public Boolean optional;
     public Boolean blocking;
 

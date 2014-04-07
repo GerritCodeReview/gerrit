@@ -3093,6 +3093,7 @@ If not set, the default is false.
 |`value`       |optional|The voting value of the user who
 recommended/disliked this label on the change if it is not
 "`+1`"/"`-1`".
+|`defaultValue`|optional|The default voting value for the label.
 |===========================
 
 ==== Fields set by `DETAILED_LABELS`

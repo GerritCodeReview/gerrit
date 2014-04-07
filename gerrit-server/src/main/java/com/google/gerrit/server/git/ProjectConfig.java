@@ -129,6 +129,7 @@ public class ProjectConfig extends VersionedMetaData {
   private static final String LABEL = "label";
   private static final String KEY_ABBREVIATION = "abbreviation";
   private static final String KEY_FUNCTION = "function";
+  private static final String KEY_DEFAULT_VALUE = "defaultValue";
   private static final String KEY_COPY_MIN_SCORE = "copyMinScore";
   private static final String KEY_COPY_MAX_SCORE = "copyMaxScore";
   private static final String KEY_COPY_ALL_SCORES_ON_TRIVIAL_REBASE = "copyAllScoresOnTrivialRebase";
@@ -665,6 +666,15 @@ public class ProjectConfig extends VersionedMetaData {
             KEY_FUNCTION, name, Joiner.on(", ").join(LABEL_FUNCTIONS))));
         label.setFunctionName(null);
       }
+
+      short dv = (short) rc.getInt(LABEL, name, KEY_DEFAULT_VALUE, 0);
+      if (isInRange(dv, values)) {
+        label.setDefaultValue(dv);
+      } else {
+        error(new ValidationError(PROJECT_CONFIG, String.format(
+            "Invalid %s \"%s\" for label \"%s\"",
+            KEY_DEFAULT_VALUE, dv, name)));
+      }
       label.setCopyMinScore(
           rc.getBoolean(LABEL, name, KEY_COPY_MIN_SCORE, false));
       label.setCopyMaxScore(
@@ -678,6 +688,16 @@ public class ProjectConfig extends VersionedMetaData {
       label.setRefPatterns(getStringListOrNull(rc, LABEL, name, KEY_Branch));
       labelSections.put(name, label);
     }
+  }
+
+  private boolean isInRange(short value, List<LabelValue> values) {
+    for (LabelValue lv : values) {
+      short v = lv.getValue();
+      if (value >= v && value <= v) {
+        return true;
+      }
+    }
+    return false;
   }
 
   private List<String> getStringListOrNull(Config rc, String section,
@@ -1017,6 +1037,13 @@ public class ProjectConfig extends VersionedMetaData {
             LABEL, name, KEY_ABBREVIATION, label.getAbbreviation());
       } else {
         rc.unset(LABEL, name, KEY_ABBREVIATION);
+      }
+
+      if (label.getDefaultValue() != 0) {
+        rc.setInt(
+            LABEL, name, KEY_DEFAULT_VALUE, label.getDefaultValue());
+      } else {
+        rc.unset(LABEL, name, KEY_DEFAULT_VALUE);
       }
       if (label.isCopyMinScore()) {
         rc.setBoolean(LABEL, name, KEY_COPY_MIN_SCORE, true);

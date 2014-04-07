@@ -25,6 +25,7 @@ public class LabelInfo {
   public List<ApprovalInfo> all;
   public Map<String, String> values;
   public Short value;
+  public Short defaultValue;
   public Boolean optional;
   public Boolean blocking;
 }

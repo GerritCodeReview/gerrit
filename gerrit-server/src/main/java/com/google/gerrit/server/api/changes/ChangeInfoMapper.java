@@ -116,6 +116,7 @@ class ChangeInfoMapper {
       lo.recommended = fromAcountInfo(li.recommended);
       lo.disliked = fromAcountInfo(li.disliked);
       lo.value = li.value;
+      lo.defaultValue = li.defaultValue;
       lo.optional = li.optional;
       lo.blocking = li.blocking;
       lo.values = li.values;

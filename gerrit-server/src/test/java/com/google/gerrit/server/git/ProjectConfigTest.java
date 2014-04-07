@@ -21,9 +21,11 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import com.google.common.collect.Iterables;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gerrit.common.data.GroupReference;
+import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -47,6 +49,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.Map;
 
 public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
   private final GroupReference developers = new GroupReference(
@@ -112,6 +115,60 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
     assertTrue(submit.getExclusiveGroup());
     assertTrue(read.getExclusiveGroup());
     assertFalse(push.getExclusiveGroup());
+  }
+
+  @Test
+  public void testReadConfigLabelDefaultValue() throws Exception {
+    RevCommit rev = util.commit(util.tree( //
+        util.file("groups", util.blob(group(developers))), //
+        util.file("project.config", util.blob(""//
+            + "[label \"CustomLabel\"]\n" //
+            + "  value = -1 Negative\n" //
+            + "  value =  0 No Score\n" //
+            + "  value =  1 Positive\n")) //
+        ));
+
+    ProjectConfig cfg = read(rev);
+    Map<String, LabelType> labels = cfg.getLabelSections();
+    Short dv = labels.entrySet().iterator().next().getValue().getDefaultValue();
+    assertEquals(0, (int) dv);
+  }
+
+  @Test
+  public void testReadConfigLabelDefaultValueInRange() throws Exception {
+    RevCommit rev = util.commit(util.tree( //
+        util.file("groups", util.blob(group(developers))), //
+        util.file("project.config", util.blob(""//
+            + "[label \"CustomLabel\"]\n" //
+            + "  value = -1 Negative\n" //
+            + "  value =  0 No Score\n" //
+            + "  value =  1 Positive\n" //
+            + "  defaultValue = -1\n")) //
+        ));
+
+    ProjectConfig cfg = read(rev);
+    Map<String, LabelType> labels = cfg.getLabelSections();
+    Short dv = labels.entrySet().iterator().next().getValue().getDefaultValue();
+    assertEquals(-1, (int) dv);
+  }
+
+  @Test
+  public void testReadConfigLabelDefaultValueNotInRange() throws Exception {
+    RevCommit rev = util.commit(util.tree( //
+        util.file("groups", util.blob(group(developers))), //
+        util.file("project.config", util.blob(""//
+            + "[label \"CustomLabel\"]\n" //
+            + "  value = -1 Negative\n" //
+            + "  value =  0 No Score\n" //
+            + "  value =  1 Positive\n" //
+            + "  defaultValue = -2\n")) //
+        ));
+
+    ProjectConfig cfg = read(rev);
+    assertEquals(1, cfg.getValidationErrors().size());
+    assertEquals("project.config: Invalid defaultValue \"-2\" "
+      + "for label \"CustomLabel\"",
+      Iterables.getOnlyElement(cfg.getValidationErrors()).getMessage());
   }
 
   @Test

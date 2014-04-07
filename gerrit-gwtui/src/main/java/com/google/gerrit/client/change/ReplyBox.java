@@ -316,10 +316,23 @@ class ReplyBox extends Composite {
     }
   }
 
+  private Short normalizeDefaultValue(Short defaultValue, Set<Short> permittedValues) {
+    Short pmin = Collections.min(permittedValues);
+    Short pmax = Collections.max(permittedValues);
+    Short dv = defaultValue;
+    if (dv > pmax) {
+      dv = pmax;
+    } else if (dv < pmin) {
+      dv = pmin;
+    }
+    return dv;
+  }
+
   private void renderRadio(int row,
       List<Short> columns,
       LabelAndValues lv) {
     String id = lv.info.name();
+    Short dv = normalizeDefaultValue(lv.info.defaultValue(), lv.permitted);
 
     labelHelpColumn = 1 + columns.size();
     labelsTable.setText(row, 0, id);
@@ -339,9 +352,10 @@ class ReplyBox extends Composite {
       if (lv.permitted.contains(v)) {
         String text = lv.info.value_text(LabelValue.formatValue(v));
         LabelRadioButton b = new LabelRadioButton(group, text, v);
-        if ((self != null && v == self.value()) || (self == null && v == 0)) {
+        if ((self != null && v == self.value()) || (self == null && v == dv)) {
           b.setValue(true);
           group.select(b);
+          in.label(group.label, v);
           labelsTable.setText(row, labelHelpColumn, b.text);
         }
         group.buttons.add(b);

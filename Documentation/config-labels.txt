@@ -169,6 +169,14 @@ text"`. The `<#>` may be any positive or negative number with an
 optional leading `+`.
 
 
+[[label_default_value]]
+=== `label.Label-Name.defaultValue`
+
+The default value (or score) for the label.  This value must be within the
+range of valid label values.  It is optional, if not specified the default
+value will be 0.
+
+
 [[label_abbreviation]]
 === `label.Label-Name.abbreviation`
 
@@ -283,7 +291,7 @@ ignored if the label doesn't apply for that branch.
 === Example
 
 To define a new 3-valued category that behaves exactly like `Verified`,
-but has different names/labels:
+but has different names/labels and specifies a default score:
 
 ====
   [label "Copyright-Check"]
@@ -291,11 +299,12 @@ but has different names/labels:
       value = -1 Do not have copyright
       value =  0 No score
       value = +1 Copyright clear
+      defaultValue = -1
 ====
 
 The new column will appear at the end of the table, and `-1 Do not have
 copyright` will block submit, while `+1 Copyright clear` is required to
-enable submit.
+enable submit.  Gerrit will set the default score to -1.
 
 GERRIT
 ------

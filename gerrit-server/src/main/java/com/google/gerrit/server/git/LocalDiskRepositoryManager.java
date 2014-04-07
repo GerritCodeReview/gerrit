@@ -73,7 +73,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     private final Config serverConfig;
 
     @Inject
-    Lifecycle(@GerritServerConfig final Config cfg) {
+    public Lifecycle(@GerritServerConfig final Config cfg) {
       this.serverConfig = cfg;
     }
 

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.lucene;
 
+import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.config.SitePaths;
@@ -30,22 +31,37 @@ public class LuceneIndexModule extends LifecycleModule {
   private final Integer singleVersion;
   private final int threads;
   private final String base;
+  private final ListeningExecutorService indexExecutor;
 
   public LuceneIndexModule() {
-    this(null, 0, null);
+    this(null, 0, null, null);
   }
 
   public LuceneIndexModule(Integer singleVersion, int threads,
       String base) {
+    this(singleVersion, threads, base, null);
+  }
+
+  public LuceneIndexModule(ListeningExecutorService indexExecutor) {
+    this(null, 0, null, indexExecutor);
+  }
+
+  private LuceneIndexModule(Integer singleVersion, int threads, String base,
+      ListeningExecutorService indexExecutor) {
     this.singleVersion = singleVersion;
     this.threads = threads;
     this.base = base;
+    this.indexExecutor = indexExecutor;
   }
 
   @Override
   protected void configure() {
     factory(LuceneChangeIndex.Factory.class);
-    install(new IndexModule(threads));
+    if (indexExecutor != null) {
+      install(new IndexModule(indexExecutor));
+    } else {
+      install(new IndexModule(threads));
+    }
     if (singleVersion == null && base == null) {
       install(new MultiVersionModule());
     } else {

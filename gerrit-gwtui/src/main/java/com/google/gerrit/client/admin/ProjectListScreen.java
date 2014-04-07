@@ -180,8 +180,12 @@ public class ProjectListScreen extends Screen implements FilteredUserInterface {
     filterTxt.addKeyUpHandler(new KeyUpHandler() {
       @Override
       public void onKeyUp(KeyUpEvent event) {
-        subname = filterTxt.getValue();
-        refresh(event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER);
+        boolean enterPressed =
+            event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER;
+        if (enterPressed || !filterTxt.getValue().equals(subname)) {
+          subname = filterTxt.getValue();
+          refresh(enterPressed);
+        }
       }
     });
     hp.add(filterTxt);

@@ -16,6 +16,7 @@ package com.google.gerrit.client.api;
 
 import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.VoidResult;
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gwt.core.client.Callback;
@@ -23,6 +24,7 @@ import com.google.gwt.core.client.CodeDownloadException;
 import com.google.gwt.core.client.ScriptInjector;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwtexpui.progress.client.ProgressBar;
 
@@ -33,11 +35,12 @@ public class PluginLoader extends DialogBox {
   private static final int MAX_LOAD_TIME_MILLIS = 5000;
   private static PluginLoader self;
 
-  public static void load(List<String> plugins, final String token) {
+  public static void load(List<String> plugins,
+      AsyncCallback<VoidResult> callback) {
     if (plugins == null || plugins.isEmpty()) {
-      Gerrit.display(token);
+      callback.onSuccess(VoidResult.create());
     } else {
-      self = new PluginLoader(token);
+      self = new PluginLoader(callback);
       self.load(plugins);
       self.startTimers();
       self.center();
@@ -48,16 +51,16 @@ public class PluginLoader extends DialogBox {
     self.loadedOne();
   }
 
-  private final String token;
+  private final AsyncCallback<VoidResult> callback;
   private ProgressBar progress;
   private Timer show;
   private Timer update;
   private Timer timeout;
   private boolean visible;
 
-  private PluginLoader(String tokenToDisplay) {
+  private PluginLoader(AsyncCallback<VoidResult> cb) {
     super(/* auto hide */false, /* modal */true);
-    token = tokenToDisplay;
+    callback = cb;
     progress = new ProgressBar(Gerrit.C.loadingPlugins());
 
     setStyleName(Gerrit.RESOURCES.css().errorDialog());
@@ -139,7 +142,7 @@ public class PluginLoader extends DialogBox {
       }
     }
 
-    Gerrit.display(token);
+    callback.onSuccess(VoidResult.create());
   }
 
   private boolean hadFailures() {

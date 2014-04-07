@@ -233,7 +233,12 @@ public class Dispatcher {
       extension(token);
 
     } else if (matchExact(MINE, token)) {
-      Gerrit.display(token, mine(token));
+      String defaultScreenToken = Gerrit.getDefaultScreenToken();
+      if (defaultScreenToken != null && !MINE.equals(defaultScreenToken)) {
+        select(defaultScreenToken);
+      } else {
+        Gerrit.display(token, mine(token));
+      }
 
     } else if (matchPrefix("/dashboard/", token)) {
       dashboard(token);

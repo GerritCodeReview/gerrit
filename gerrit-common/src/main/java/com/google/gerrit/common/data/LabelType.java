@@ -108,6 +108,7 @@ public class LabelType {
   protected boolean copyMaxScore;
   protected boolean copyAllScoresOnTrivialRebase;
   protected boolean copyAllScoresIfNoCodeChange;
+  protected short defaultValue;
 
   protected List<LabelValue> values;
   protected short maxNegative;
@@ -125,6 +126,7 @@ public class LabelType {
     this.name = checkName(name);
     canOverride = true;
     values = sortValues(valueList);
+    defaultValue = 0;
 
     abbreviation = defaultAbbreviation(name);
     functionName = "MaxWithBlock";
@@ -198,6 +200,14 @@ public class LabelType {
     }
     final LabelValue v = values.get(values.size() - 1);
     return v.getValue() > 0 ? v : null;
+  }
+
+  public short getDefaultValue() {
+    return defaultValue;
+  }
+
+  public void setDefaultValue(short defaultValue) {
+    this.defaultValue = defaultValue;
   }
 
   public boolean isCopyMinScore() {

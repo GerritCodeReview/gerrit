@@ -69,6 +69,7 @@ public class LabelTypeIT extends AbstractDaemonTest {
     codeReview.setCopyMaxScore(false);
     codeReview.setCopyAllScoresOnTrivialRebase(false);
     codeReview.setCopyAllScoresIfNoCodeChange(false);
+    codeReview.setDefaultValue((short)-1);
     saveProjectConfig(cfg);
   }
 
@@ -264,6 +265,7 @@ public class LabelTypeIT extends AbstractDaemonTest {
     // through JSON instead of querying the DB directly.
     ChangeInfo c = get(r.getChangeId());
     LabelInfo cr = c.labels.get("Code-Review");
+    assertEquals(-1, (int) cr.defaultValue);
     assertEquals(1, cr.all.size());
     assertEquals("Administrator", cr.all.get(0).name);
     assertEquals(expected, cr.all.get(0).value.intValue());

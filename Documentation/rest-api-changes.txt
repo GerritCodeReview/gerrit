@@ -2791,7 +2791,7 @@ attached to a change.
 |Field Name           ||Description
 |`id`                 ||The ID of the message.
 |`author`             |optional|
-Author of the message as an 
+Author of the message as an
 link:rest-api-accounts.html#account-info[AccountInfo] entity. +
 Unset if written by the Gerrit system.
 |`date`            ||
@@ -3093,6 +3093,7 @@ If not set, the default is false.
 |`value`       |optional|The voting value of the user who
 recommended/disliked this label on the change if it is not
 "`+1`"/"`-1`".
+|`defaultValue`|optional|The default voting value for the label.
 |===========================
 
 ==== Fields set by `DETAILED_LABELS`

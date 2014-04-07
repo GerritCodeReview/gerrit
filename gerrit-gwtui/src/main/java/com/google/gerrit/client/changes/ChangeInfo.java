@@ -161,6 +161,7 @@ public class ChangeInfo extends JavaScriptObject {
 
     public final native boolean optional() /*-{ return this.optional ? true : false; }-*/;
     public final native boolean blocking() /*-{ return this.blocking ? true : false; }-*/;
+    public final native short defaultValue() /*-{ return this.defaultValue; }-*/;
     final native short _value()
     /*-{
       if (this.value) return this.value;

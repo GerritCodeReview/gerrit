@@ -75,6 +75,7 @@ java_library2(
   ],
   compile_deps = ['//gerrit-launcher:launcher'],
   visibility = [
+    '//gerrit-vhost:',
     '//gerrit-war:',
     '//gerrit-acceptance-tests/...',
   ],

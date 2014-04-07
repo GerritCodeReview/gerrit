@@ -589,7 +589,7 @@ public class Gerrit implements EntryPoint {
 
     if (signedIn) {
       final LinkMenuBar myBar = new LinkMenuBar();
-      menuBars.put(GerritTopMenu.MY.menuName, m);
+      menuBars.put(GerritTopMenu.MY.menuName, myBar);
       AccountApi.self().view("preferences").get(new AsyncCallback<Preferences>() {
         @Override
         public void onSuccess(Preferences prefs) {

@@ -339,6 +339,7 @@ class ReplyBox extends Composite {
       if (lv.permitted.contains(v)) {
         String text = lv.info.value_text(LabelValue.formatValue(v));
         LabelRadioButton b = new LabelRadioButton(group, text, v);
+        // set default label value
         if ((self != null && v == self.value()) || (self == null && v == 0)) {
           b.setValue(true);
           group.select(b);

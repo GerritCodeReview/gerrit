@@ -129,6 +129,7 @@ public class ProjectConfig extends VersionedMetaData {
   private static final String LABEL = "label";
   private static final String KEY_ABBREVIATION = "abbreviation";
   private static final String KEY_FUNCTION = "function";
+  private static final String KEY_DEFAULT_VALUE = "defaultValue";
   private static final String KEY_COPY_MIN_SCORE = "copyMinScore";
   private static final String KEY_COPY_MAX_SCORE = "copyMaxScore";
   private static final String KEY_COPY_ALL_SCORES_ON_TRIVIAL_REBASE = "copyAllScoresOnTrivialRebase";
@@ -665,6 +666,18 @@ public class ProjectConfig extends VersionedMetaData {
             KEY_FUNCTION, name, Joiner.on(", ").join(LABEL_FUNCTIONS))));
         label.setFunctionName(null);
       }
+
+      int defaultValue =  rc.getInt(LABEL, name, KEY_DEFAULT_VALUE, 0);
+      if (defaultValue <= getMaxValue(values) && defaultValue >= getMinValue(values)) {
+        String text = getValueText(defaultValue, values);
+        if (text != null) {
+          label.setDefaultValue(new LabelValue((short) defaultValue, text));
+        }
+      } else {
+        error(new ValidationError(PROJECT_CONFIG, String.format(
+            "Invalid %s \"%s\" for label \"%s\"",
+            KEY_DEFAULT_VALUE, defaultValue, name)));
+      }
       label.setCopyMinScore(
           rc.getBoolean(LABEL, name, KEY_COPY_MIN_SCORE, false));
       label.setCopyMaxScore(
@@ -678,6 +691,31 @@ public class ProjectConfig extends VersionedMetaData {
       label.setRefPatterns(getStringListOrNull(rc, LABEL, name, KEY_Branch));
       labelSections.put(name, label);
     }
+  }
+
+  private int getMaxValue(List<LabelValue> values) {
+    int max=Integer.MIN_VALUE;
+    for (LabelValue lv : values) {
+      max = Math.max(max,  lv.getValue());
+    }
+    return max;
+  }
+
+  private int getMinValue(List<LabelValue> values) {
+    int min = Integer.MAX_VALUE;
+    for (LabelValue lv : values) {
+      min = Math.min(min,  lv.getValue());
+    }
+    return min;
+  }
+
+  private String getValueText(int value, List<LabelValue> values) {
+    for (LabelValue lv : values) {
+      if (lv.getValue() == value) {
+        return lv.getText();
+      }
+    }
+    return null;
   }
 
   private List<String> getStringListOrNull(Config rc, String section,
@@ -1017,6 +1055,13 @@ public class ProjectConfig extends VersionedMetaData {
             LABEL, name, KEY_ABBREVIATION, label.getAbbreviation());
       } else {
         rc.unset(LABEL, name, KEY_ABBREVIATION);
+      }
+
+      if (label.getDefaultValue().getValue() != 0) {
+        rc.setInt(
+            LABEL, name, KEY_DEFAULT_VALUE, label.getDefaultValue().getValue());
+      } else {
+        rc.unset(LABEL, name, KEY_DEFAULT_VALUE);
       }
       if (label.isCopyMinScore()) {
         rc.setBoolean(LABEL, name, KEY_COPY_MIN_SCORE, true);

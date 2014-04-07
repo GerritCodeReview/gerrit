@@ -74,6 +74,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 class ReplyBox extends Composite {
   private static final String CODE_REVIEW = "Code-Review";
@@ -320,6 +322,7 @@ class ReplyBox extends Composite {
       List<Short> columns,
       LabelAndValues lv) {
     String id = lv.info.name();
+    Short dv = lv.info.defaultValue();
 
     labelHelpColumn = 1 + columns.size();
     labelsTable.setText(row, 0, id);
@@ -339,9 +342,10 @@ class ReplyBox extends Composite {
       if (lv.permitted.contains(v)) {
         String text = lv.info.value_text(LabelValue.formatValue(v));
         LabelRadioButton b = new LabelRadioButton(group, text, v);
-        if ((self != null && v == self.value()) || (self == null && v == 0)) {
+        if ((self != null && v == self.value()) || (self == null && v == dv)) {
           b.setValue(true);
           group.select(b);
+          in.label(group.label, v);
           labelsTable.setText(row, labelHelpColumn, b.text);
         }
         group.buttons.add(b);
@@ -516,4 +520,5 @@ class ReplyBox extends Composite {
       labelsTable.setText(group.row, labelHelpColumn, s);
     }
   }
+
 }

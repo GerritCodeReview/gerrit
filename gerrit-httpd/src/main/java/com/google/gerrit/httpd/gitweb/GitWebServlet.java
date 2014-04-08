@@ -377,7 +377,13 @@ class GitWebServlet extends HttpServlet {
         throw new NoSuchProjectException(nameKey);
       }
     } catch (NoSuchProjectException e) {
-      rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
+      if(project.getCurrentUser().isIdentifiedUser()) {
+        rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
+      } else {
+        //allow anonymous users a chance to login
+        //avoid leaking information by not distinguishing between project not existing and no access rights
+        rsp.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+      }
       return;
     }
 

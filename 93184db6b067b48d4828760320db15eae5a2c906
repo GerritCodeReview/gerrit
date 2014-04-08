@@ -34,6 +34,64 @@
       "revId": "93184db6b067b48d4828760320db15eae5a2c906",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99c5737b_9951bb2a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Reviewers.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-04-08T19:42:21Z",
+      "side": 1,
+      "message": "The Add Me button is hidden inside of the add form, so using it requires 2 clicks (one to open the form, another to add yourself). So its not a huge impact on the UI, Add Me is hidden away unless you really want to add yourself.",
+      "parentUuid": "9913b3db_69ece533",
+      "revId": "93184db6b067b48d4828760320db15eae5a2c906",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99c5737b_b94c7f92",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Reviewers.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-04-08T19:42:21Z",
+      "side": 1,
+      "message": "Use _account_id() instead of name().",
+      "range": {
+        "startLine": 151,
+        "startChar": 22,
+        "endLine": 151,
+        "endChar": 56
+      },
+      "revId": "93184db6b067b48d4828760320db15eae5a2c906",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9b1ab0e_7b47ff6d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Reviewers.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-04-08T19:42:21Z",
+      "side": 1,
+      "message": "This is now unnecessary. The user always has their own user ID.",
+      "revId": "93184db6b067b48d4828760320db15eae5a2c906",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

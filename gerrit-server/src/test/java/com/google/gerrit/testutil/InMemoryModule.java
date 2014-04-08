@@ -37,8 +37,10 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.config.TrackingFootersProvider;
+import com.google.gerrit.server.git.EmailReviewCommentsExecutor;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.PerThreadRequestScope;
+import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.index.ChangeSchemas;
 import com.google.gerrit.server.index.IndexModule.IndexType;
 import com.google.gerrit.server.index.NoIndexModule;
@@ -83,6 +85,7 @@ public class InMemoryModule extends FactoryModule {
     cfg.setString("user", null, "email", "gerrit@localhost");
     cfg.setBoolean("sendemail", null, "enable", false);
     cfg.setString("cache", null, "directory", null);
+
     return cfg;
   }
 
@@ -175,6 +178,15 @@ public class InMemoryModule extends FactoryModule {
               "index type unsupported in tests: " + indexType);
       }
     }
+  }
+
+  @Provides
+  @Singleton
+  @EmailReviewCommentsExecutor
+  public WorkQueue.Executor createEmailReviewCommentsExecutor(
+      @GerritServerConfig Config config, WorkQueue queues) {
+    int poolSize = config.getInt("sendemail", null, "threadPoolSize", 1);
+    return queues.createQueue(poolSize, "EmailReviewComments");
   }
 
   @Provides

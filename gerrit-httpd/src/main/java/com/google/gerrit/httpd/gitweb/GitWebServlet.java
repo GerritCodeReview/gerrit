@@ -34,6 +34,7 @@ import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.httpd.GitWebConfig;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.AnonymousUser;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.LocalDiskRepositoryManager;
@@ -85,18 +86,21 @@ class GitWebServlet extends HttpServlet {
   private final LocalDiskRepositoryManager repoManager;
   private final ProjectControl.Factory projectControl;
   private final Provider<AnonymousUser> anonymousUserProvider;
+  private final CurrentUser currentUser;
   private final EnvList _env;
 
   @Inject
   GitWebServlet(final LocalDiskRepositoryManager repoManager,
       final ProjectControl.Factory projectControl,
       final Provider<AnonymousUser> anonymousUserProvider,
+      CurrentUser currentUser,
       final SitePaths site,
       final GerritConfig gerritConfig, final GitWebConfig gitWebConfig)
       throws IOException {
     this.repoManager = repoManager;
     this.projectControl = projectControl;
     this.anonymousUserProvider = anonymousUserProvider;
+    this.currentUser = currentUser;
     this.gitwebCgi = gitWebConfig.getGitwebCGI();
     this.deniedActions = new HashSet<>();
 
@@ -377,7 +381,14 @@ class GitWebServlet extends HttpServlet {
         throw new NoSuchProjectException(nameKey);
       }
     } catch (NoSuchProjectException e) {
-      rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
+      if (currentUser.isIdentifiedUser()) {
+        rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
+      } else {
+        // Allow anonymous users a chance to login.
+        // Avoid leaking information by not distinguishing between
+        // project not existing and no access rights.
+        rsp.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+      }
       return;
     }
 

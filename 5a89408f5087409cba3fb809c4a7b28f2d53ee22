@@ -202,6 +202,30 @@
     },
     {
       "key": {
+        "uuid": "b90eb7b3_ea00c722",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-04-08T21:12:39Z",
+      "side": 1,
+      "message": "I also had this (crazy) idea of build property, but hosting separate build artifacts only for this small change doesn\u0027t feel right for me.\n\nAlso isn\u0027t it the same vulnerability as currently we have with HostPageData javascript map? This map contains Gerrit configuration options and \u0027xGerritAuth\u0027 key, this means that it also can be \u0027overridden\u0027 by attacker with custom HTML file.",
+      "parentUuid": "99c5737b_f952f72e",
+      "range": {
+        "startLine": 440,
+        "startChar": 40,
+        "endLine": 440,
+        "endChar": 59
+      },
+      "revId": "5a89408f5087409cba3fb809c4a7b28f2d53ee22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d9b1ab0e_3b0f374c",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/HostPageServlet.java",
         "patchSetId": 1

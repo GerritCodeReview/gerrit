@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b90eb7b3_cadce38a",
+        "filename": "gerrit-vhost/src/main/java/com/google/gerrit/server/vhost/GlobalCachePool.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-04-08T06:28:17Z",
+      "side": 1,
+      "message": "at this point m is an empty map, it makes no point in removing empty key set from names.",
+      "range": {
+        "startLine": 99,
+        "startChar": 4,
+        "endLine": 99,
+        "endChar": 32
+      },
+      "revId": "be954d7d000ae2e6389b04c0394530e2f364ab53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b90eb7b3_aae1af40",
+        "filename": "gerrit-vhost/src/main/java/com/google/gerrit/server/vhost/SiteCacheFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-04-08T06:28:17Z",
+      "side": 1,
+      "message": "where this property is read? i can see that it is set in line 152 and 169, but don\u0027t see any read operations",
+      "range": {
+        "startLine": 63,
+        "startChar": 6,
+        "endLine": 63,
+        "endChar": 17
+      },
+      "revId": "be954d7d000ae2e6389b04c0394530e2f364ab53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

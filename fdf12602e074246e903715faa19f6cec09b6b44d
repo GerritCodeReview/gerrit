@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d9b1ab0e_1b97db79",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/gitweb/GitWebServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-04-08T23:56:32Z",
+      "side": 1,
+      "message": "nit: space between if and (",
+      "range": {
+        "startLine": 380,
+        "startChar": 6,
+        "endLine": 380,
+        "endChar": 10
+      },
+      "revId": "fdf12602e074246e903715faa19f6cec09b6b44d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99c5737b_399aafa1",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/gitweb/GitWebServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-04-08T23:56:32Z",
+      "side": 1,
+      "message": "nit: space after //",
+      "range": {
+        "startLine": 383,
+        "startChar": 8,
+        "endLine": 383,
+        "endChar": 11
+      },
+      "revId": "fdf12602e074246e903715faa19f6cec09b6b44d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9b1ab0e_fb642ffa",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/gitweb/GitWebServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-04-08T23:56:32Z",
+      "side": 1,
+      "message": "nit: line wrap this at ~72 columns. its a long line.",
+      "revId": "fdf12602e074246e903715faa19f6cec09b6b44d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -7,10 +7,15 @@ Gerrit 2.9 is now available:
 link:https://gerrit-releases.storage.googleapis.com/gerrit-2.9.war[
 https://gerrit-releases.storage.googleapis.com/gerrit-2.9.war]
 
-
 *WARNING:* Support for Java 1.6 has been discontinued.
 As of Gerrit 2.9, Java 1.7 is required.
 
+Gerrit 2.9 includes the bug fixes done with
+link:ReleaseNotes-2.8.1.html[Gerrit 2.8.1],
+link:ReleaseNotes-2.8.2.html[Gerrit 2.8.2],
+link:ReleaseNotes-2.8.3.html[Gerrit 2.8.3], and
+link:ReleaseNotes-2.8.4.html[Gerrit 2.8.4].
+These bug fixes are *not* listed in these release notes.
 
 Schema Change
 -------------

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d9b1ab0e_db80533a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/EmailReviewComments.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-04-08T19:56:57Z",
+      "side": 1,
+      "message": "Not sure why but the tests are failing with this binding missing:\n\n  No implementation for com.google.gerrit.server.git.WorkQueue$Executor\n  annotated with @com.google.gerrit.server.git.EmailReviewCommentsExecutor()\n  was bound.",
+      "range": {
+        "startLine": 75,
+        "startChar": 6,
+        "endLine": 75,
+        "endChar": 59
+      },
+      "revId": "e33a9ee9f813703012865a138f36f66ec1ebc4d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

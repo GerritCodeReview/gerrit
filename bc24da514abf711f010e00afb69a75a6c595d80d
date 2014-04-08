@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b90eb7b3_8ae6eb54",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2504,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-04-08T08:04:04Z",
+      "side": 1,
+      "message": "Is this correct? Shouldn\u0027t it rather be\n\n  [[execution]]\n  \u003d\u003d\u003d Section execution\n\n  [[execution.defaultThreadPoolSize]]execution.defaultThreadPoolSize::\n  +\n  The default size of the background execution thread pool in\n  which miscellaneous tasks are handled.\n  +\n  Default is 1.\n\n  [[sendemail]]\n  \u003d\u003d\u003d Section sendemail\n\n?",
+      "range": {
+        "startLine": 2493,
+        "startChar": 0,
+        "endLine": 2504,
+        "endChar": 13
+      },
+      "revId": "bc24da514abf711f010e00afb69a75a6c595d80d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

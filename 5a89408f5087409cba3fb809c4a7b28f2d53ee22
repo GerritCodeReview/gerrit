@@ -178,6 +178,30 @@
     },
     {
       "key": {
+        "uuid": "99c5737b_f952f72e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-04-08T19:18:41Z",
+      "side": 1,
+      "message": "DNS/routing table style of attacks are nearly impossible to prevent without DNSSEC and SSL. We can\u0027t do anything there.\n\nLast night I considered having a different build target in the BUCK file to create an optimized build of the UI without the iframe busting code. Users who really want to embed in frames could (rebuild?) Gerrit to use that permutation instead, but it wouldn\u0027t be in the stock release builds. \n\nCollabNet who wants to iframe embed would use that build, while those of us who really do not want iframe embedding would use the classical build.",
+      "parentUuid": "d9dfeb54_ebd7b165",
+      "range": {
+        "startLine": 440,
+        "startChar": 40,
+        "endLine": 440,
+        "endChar": 59
+      },
+      "revId": "5a89408f5087409cba3fb809c4a7b28f2d53ee22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d9b1ab0e_3b0f374c",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/HostPageServlet.java",
         "patchSetId": 1

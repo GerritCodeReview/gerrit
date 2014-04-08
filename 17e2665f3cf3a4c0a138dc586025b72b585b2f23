@@ -1,0 +1,146 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "99c5737b_59444367",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-04-08T19:58:17Z",
+      "side": 1,
+      "message": "Add",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 3
+      },
+      "revId": "17e2665f3cf3a4c0a138dc586025b72b585b2f23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9b1ab0e_fb7b0f9d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-04-08T19:58:17Z",
+      "side": 1,
+      "message": "This sentence is redundant with the subject. Perhaps a more detailed description of the feature.",
+      "revId": "17e2665f3cf3a4c0a138dc586025b72b585b2f23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7908bfab_a8e1bb40",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/LabelType.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-04-08T19:58:17Z",
+      "side": 1,
+      "message": "\"No Score\" is not guaranteed to be the description specified for 0 in valueList. If defaultValue must be a LabelValue, then you would need to scan the list. But I\u0027m pretty sure it doesn\u0027t, you can just make it a Short.",
+      "revId": "17e2665f3cf3a4c0a138dc586025b72b585b2f23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9b1ab0e_1b3ebbc7",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ReplyBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-04-08T19:58:17Z",
+      "side": 1,
+      "message": "You need to add a default field LabelInfo in both:\n\n gerrit-server/src/main/jcg/gerrit/server/change/ChangeJson.java\n gerrit-gwtui/src/main/jcg/gerrit/client/changes/ChangeInfo.java\n\n(and also the relevant REST API docs).\n\nModify ChangeJson to populate the value, then you will have it here as lv.info.default.",
+      "revId": "17e2665f3cf3a4c0a138dc586025b72b585b2f23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9b1ab0e_9b51ab2a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 671,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-04-08T19:58:17Z",
+      "side": 1,
+      "message": "You can rewrite this with a single scan:\n\n boolean isInRange(int value, List\u003cLabelValue\u003e values) {\n   boolean aboveMin, belowMax;\n   for (LabelValue lv : values) {\n     if (value \u003e\u003d lv.getValue()) {\n       aboveMin \u003d true;\n     } else if (value \u003c\u003d lv.getValue()) {\n       belowMax \u003d true;\n     }\n   }\n   return aboveMin \u0026\u0026 belowMax;\n }",
+      "revId": "17e2665f3cf3a4c0a138dc586025b72b585b2f23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9913b3db_29f6ed01",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 672,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-04-08T19:58:17Z",
+      "side": 1,
+      "message": "Unnecessary if you make defaultValue a Short in LabelType.",
+      "revId": "17e2665f3cf3a4c0a138dc586025b72b585b2f23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7908bfab_88e6f754",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 697,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-04-08T19:58:17Z",
+      "side": 1,
+      "message": "Nit: spacing",
+      "revId": "17e2665f3cf3a4c0a138dc586025b72b585b2f23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99c5737b_7947076e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/AllProjectsCreator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-04-08T19:58:17Z",
+      "side": 1,
+      "message": "Not necessary; the default default is 0.",
+      "revId": "17e2665f3cf3a4c0a138dc586025b72b585b2f23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

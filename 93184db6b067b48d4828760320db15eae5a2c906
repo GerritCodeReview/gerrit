@@ -16,6 +16,24 @@
       "revId": "93184db6b067b48d4828760320db15eae5a2c906",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9913b3db_69ece533",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Reviewers.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-04-08T16:34:33Z",
+      "side": 1,
+      "message": "yes, i can do that.  We do lots of reviewing and may want to subscribe to lots changes so it\u0027s a bit of a hassle to have to repeatedly type our name, this quick add feature helps with that.  Also some people have rather long names, multiple accounts, or similar name to others which makes it worse to deal with that dialog.",
+      "parentUuid": "d9b1ab0e_9be64b55",
+      "revId": "93184db6b067b48d4828760320db15eae5a2c906",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

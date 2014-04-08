@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d9b1ab0e_9bff6bcf",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-04-08T05:11:49Z",
+      "side": 1,
+      "message": "Missing negation?",
+      "revId": "5a89408f5087409cba3fb809c4a7b28f2d53ee22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99c5737b_f900b722",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 439,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-04-08T05:11:49Z",
+      "side": 1,
+      "message": "var s \u003d scripts[i].src",
+      "range": {
+        "startLine": 439,
+        "startChar": 12,
+        "endLine": 439,
+        "endChar": 26
+      },
+      "revId": "5a89408f5087409cba3fb809c4a7b28f2d53ee22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9b1ab0e_1b0c7b53",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-04-08T05:11:49Z",
+      "side": 1,
+      "message": "Are we opening ourselves to a security attack where the attacker writes their own HTML page and loads us with a script tag, e.g.:\n\n  \u003cscript src\u003d\"https://gerrit-review.googlesource.com/gerrit_ui/gerrit_ui.nocache.js?loadInIFrame\u003dtrue\"/\u003e",
+      "range": {
+        "startLine": 440,
+        "startChar": 40,
+        "endLine": 440,
+        "endChar": 59
+      },
+      "revId": "5a89408f5087409cba3fb809c4a7b28f2d53ee22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99c5737b_19f36b12",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-04-08T05:11:49Z",
+      "side": 1,
+      "message": "s",
+      "range": {
+        "startLine": 440,
+        "startChar": 17,
+        "endLine": 440,
+        "endChar": 31
+      },
+      "revId": "5a89408f5087409cba3fb809c4a7b28f2d53ee22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9b1ab0e_3b0f374c",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/HostPageServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-04-08T05:11:49Z",
+      "side": 1,
+      "message": "else src +\u003d \"\u0026\".\n\nOtherwise you run the risk of shoving this into the content parameter and break the content parameter etag caching thing we were trying to do above.",
+      "range": {
+        "startLine": 148,
+        "startChar": 6,
+        "endLine": 150,
+        "endChar": 7
+      },
+      "revId": "5a89408f5087409cba3fb809c4a7b28f2d53ee22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

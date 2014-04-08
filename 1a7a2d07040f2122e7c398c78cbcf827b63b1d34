@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9913b3db_e9d7b565",
+        "filename": "ReleaseNotes/ReleaseNotes-2.8.4.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-04-08T13:07:02Z",
+      "side": 1,
+      "message": "nit:extra space",
+      "range": {
+        "startLine": 25,
+        "startChar": 29,
+        "endLine": 25,
+        "endChar": 30
+      },
+      "revId": "1a7a2d07040f2122e7c398c78cbcf827b63b1d34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9913b3db_c9dcf18a",
+        "filename": "ReleaseNotes/ReleaseNotes-2.8.4.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-04-08T13:07:02Z",
+      "side": 1,
+      "message": "nit: extra space",
+      "range": {
+        "startLine": 71,
+        "startChar": 42,
+        "endLine": 71,
+        "endChar": 43
+      },
+      "revId": "1a7a2d07040f2122e7c398c78cbcf827b63b1d34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

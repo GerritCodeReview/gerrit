@@ -78,6 +78,30 @@
     },
     {
       "key": {
+        "uuid": "7908bfab_68ece333",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Reviewers.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-04-08T22:04:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "99c5737b_b94c7f92",
+      "range": {
+        "startLine": 151,
+        "startChar": 22,
+        "endLine": 151,
+        "endChar": 56
+      },
+      "revId": "93184db6b067b48d4828760320db15eae5a2c906",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d9b1ab0e_7b47ff6d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Reviewers.java",
         "patchSetId": 1
@@ -89,6 +113,24 @@
       "writtenOn": "2014-04-08T19:42:21Z",
       "side": 1,
       "message": "This is now unnecessary. The user always has their own user ID.",
+      "revId": "93184db6b067b48d4828760320db15eae5a2c906",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9913b3db_09f32912",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Reviewers.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-04-08T22:04:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d9b1ab0e_7b47ff6d",
       "revId": "93184db6b067b48d4828760320db15eae5a2c906",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

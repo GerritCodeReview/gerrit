@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d9b1ab0e_7bab7f9d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-04-09T12:48:53Z",
+      "side": 1,
+      "message": "Change this to \"allow adding multiple reviewers\"?\n\nWith the existing subject I assumed the change was to ask the user to confirm while running the ssh command.",
+      "range": {
+        "startLine": 7,
+        "startChar": 7,
+        "endLine": 7,
+        "endChar": 21
+      },
+      "revId": "57ea43d61f532999538c3827d67e8cbf11fc64ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

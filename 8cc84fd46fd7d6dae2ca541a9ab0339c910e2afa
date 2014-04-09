@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d9b1ab0e_3b73b7bb",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/gitweb/GitWebServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-04-09T01:23:56Z",
+      "side": 1,
+      "message": "error: variable project might not have been initialized",
+      "revId": "8cc84fd46fd7d6dae2ca541a9ab0339c910e2afa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

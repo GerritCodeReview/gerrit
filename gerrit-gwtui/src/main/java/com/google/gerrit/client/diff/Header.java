@@ -178,11 +178,13 @@ class Header extends Composite {
     return p.toString();
   }
 
-  private void setupNav(InlineHyperlink link, int key, String help, FileInfo info) {
+  private void setupNav(InlineHyperlink link, char key, String help, FileInfo info) {
     if (info != null) {
       final String url = url(info);
       link.setTargetHistoryToken(url);
-      link.setTitle(FileInfo.getFileName(info.path()));
+      link.setTitle(PatchUtil.M.fileNameWithShortcutKey(
+          FileInfo.getFileName(info.path()),
+          Character.toString(key)));
       keys.add(new KeyCommand(0, key, help) {
         @Override
         public void onKeyPress(KeyPressEvent event) {

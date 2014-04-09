@@ -22,6 +22,30 @@
       "revId": "e33a9ee9f813703012865a138f36f66ec1ebc4d2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99c5737b_d9bbb3ec",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/EmailReviewComments.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-04-09T10:33:10Z",
+      "side": 1,
+      "message": "This was fixed on stable-2.8 by Bruce.  The fix is not included in this merge because I didn\u0027t want to start again and fix all the conflicts again.",
+      "parentUuid": "d9b1ab0e_db80533a",
+      "range": {
+        "startLine": 75,
+        "startChar": 6,
+        "endLine": 75,
+        "endChar": 59
+      },
+      "revId": "e33a9ee9f813703012865a138f36f66ec1ebc4d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

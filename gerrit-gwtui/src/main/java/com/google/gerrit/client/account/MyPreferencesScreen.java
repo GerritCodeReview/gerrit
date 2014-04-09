@@ -20,6 +20,7 @@ import static com.google.gerrit.reviewdb.client.AccountGeneralPreferences.PAGESI
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.StringListPanel;
+import com.google.gerrit.client.config.ConfigServerApi;
 import com.google.gerrit.client.extensions.TopMenuItem;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.Natives;
@@ -27,6 +28,7 @@ import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.OnEditEnabler;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.CommentVisibilityStrategy;
+import com.google.gwt.core.client.JsArray;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
@@ -208,10 +210,7 @@ public class MyPreferencesScreen extends SettingsScreen {
       }
     });
 
-    myMenus = new StringListPanel(Util.C.myMenu(),
-        Arrays.asList(Util.C.myMenuName(), Util.C.myMenuUrl()),
-        save, false);
-    myMenus.setInfo(Util.C.myMenuInfo());
+    myMenus = new MyMenuPanel(save);
     add(myMenus);
 
     add(save);
@@ -282,9 +281,12 @@ public class MyPreferencesScreen extends SettingsScreen {
     setListBox(diffView,
         AccountGeneralPreferences.DiffView.SIDE_BY_SIDE,
         p.diffView());
+    display(p.my());
+  }
 
+  private void display(JsArray<TopMenuItem> items) {
     List<List<String>> values = new ArrayList<>();
-    for (TopMenuItem item : Natives.asList(p.my())) {
+    for (TopMenuItem item : Natives.asList(items)) {
       values.add(Arrays.asList(item.getName(), item.getUrl()));
     }
     myMenus.display(values);
@@ -407,6 +409,30 @@ public class MyPreferencesScreen extends SettingsScreen {
         return Util.C.changeScreenNewUi();
       default:
         return ui.name();
+    }
+  }
+
+  private class MyMenuPanel extends StringListPanel {
+    MyMenuPanel(Button save) {
+      super(Util.C.myMenu(), Arrays.asList(Util.C.myMenuName(),
+          Util.C.myMenuUrl()), save, false);
+
+      setInfo(Util.C.myMenuInfo());
+
+      Button resetButton = new Button(Util.C.myMenuReset());
+      resetButton.addClickHandler(new ClickHandler() {
+        @Override
+        public void onClick(ClickEvent event) {
+          ConfigServerApi.defaultPreferences(new GerritCallback<Preferences>() {
+            @Override
+            public void onSuccess(Preferences p) {
+              MyPreferencesScreen.this.display(p.my());
+              widget.setEnabled(true);
+            }
+          });
+        }
+      });
+      buttonPanel.add(resetButton);
     }
   }
 }

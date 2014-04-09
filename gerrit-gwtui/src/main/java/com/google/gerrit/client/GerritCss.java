@@ -232,6 +232,7 @@ public interface GerritCss extends CssResource {
   String sshHostKeyPanelKnownHostEntry();
   String sshKeyPanelEncodedKey();
   String sshKeyPanelInvalid();
+  String stringListPanelButtons();
   String topMostCell();
   String topmenu();
   String topmenuMenuLeft();

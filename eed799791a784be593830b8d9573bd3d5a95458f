@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "59905b99_4fecad33",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ReplyBox.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-04-09T22:26:18Z",
+      "side": 1,
+      "message": "I must be missing something because the call \u0027lv.info.defaultValue()\u0027 doesn\u0027t work.",
+      "revId": "eed799791a784be593830b8d9573bd3d5a95458f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "798b5f70_70e95022",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 640,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-04-09T22:26:18Z",
+      "side": 1,
+      "message": "this seems like the right place to set the defaultValue but not real sure.",
+      "revId": "eed799791a784be593830b8d9573bd3d5a95458f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "798b5f70_10f6c401",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 674,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-04-09T22:26:18Z",
+      "side": 1,
+      "message": "Reply to: What happens when the default value is outside the range permitted for a user, e.g. default is -2 but the user can only vote [-1, +1]?\n\nUser cannot set a default value outside of the range.   The push to set the value is aborted and setting is not saved.",
+      "revId": "eed799791a784be593830b8d9573bd3d5a95458f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

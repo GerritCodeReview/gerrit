@@ -70,6 +70,30 @@
       "revId": "b8356193b0a0850f6823013fb27faf6f18909727",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99c5737b_79ab879d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/gitweb/GitWebServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-04-09T12:45:30Z",
+      "side": 1,
+      "message": "Thanks for the explanation.  I\u0027ve removed it in the next patch set.",
+      "parentUuid": "d9dfeb54_6b1e2178",
+      "range": {
+        "startLine": 97,
+        "startChar": 6,
+        "endLine": 97,
+        "endChar": 16
+      },
+      "revId": "b8356193b0a0850f6823013fb27faf6f18909727",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

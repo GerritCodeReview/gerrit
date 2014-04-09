@@ -250,11 +250,13 @@ class Header extends Composite {
       : Dispatcher.toSideBySide(base, patchSetId, info.path());
   }
 
-  private KeyCommand setupNav(InlineHyperlink link, int key, String help, FileInfo info) {
+  private KeyCommand setupNav(InlineHyperlink link, char key, String help, FileInfo info) {
     if (info != null) {
       final String url = url(info);
       link.setTargetHistoryToken(url);
-      link.setTitle(FileInfo.getFileName(info.path()));
+      link.setTitle(PatchUtil.M.fileNameWithShortcutKey(
+          FileInfo.getFileName(info.path()),
+          Character.toString(key)));
       KeyCommand k = new KeyCommand(0, key, help) {
         @Override
         public void onKeyPress(KeyPressEvent event) {

@@ -118,6 +118,30 @@
       "revId": "a5ce0f895de8ae44d4dd23aa7c49556e1495e5f4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b90eb7b3_8a382be8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/History.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-04-09T10:55:40Z",
+      "side": 0,
+      "message": "Ok, let\u0027s leave it like this then.",
+      "parentUuid": "d9b1ab0e_3bccd7a4",
+      "range": {
+        "startLine": 60,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 84
+      },
+      "revId": "a5ce0f895de8ae44d4dd23aa7c49556e1495e5f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

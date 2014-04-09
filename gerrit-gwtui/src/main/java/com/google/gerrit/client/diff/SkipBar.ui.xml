@@ -44,9 +44,7 @@ limitations under the License.
   <div class='{style.text}'>
     <ui:msg>
       <g:Anchor ui:field='upArrow' addStyleNames='{style.arrow} {style.anchor}' />
-      <span><ui:msg>... skipped </ui:msg></span>
       <g:Anchor ui:field='skipNum' addStyleNames='{style.anchor}' />
-      <span><ui:msg> common lines ...</ui:msg></span>
       <g:Anchor ui:field='downArrow' addStyleNames=' {style.arrow} {style.anchor}' />
     </ui:msg>
   </div>

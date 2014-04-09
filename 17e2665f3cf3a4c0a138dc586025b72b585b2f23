@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "798b5f70_d0d7dc65",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-04-09T22:19:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "99c5737b_59444367",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 3
+      },
+      "revId": "17e2665f3cf3a4c0a138dc586025b72b585b2f23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d9b1ab0e_fb7b0f9d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2014-04-08T19:58:17Z",
       "side": 1,
       "message": "This sentence is redundant with the subject. Perhaps a more detailed description of the feature.",
+      "revId": "17e2665f3cf3a4c0a138dc586025b72b585b2f23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "798b5f70_f0dc608a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-04-09T22:19:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d9b1ab0e_fb7b0f9d",
       "revId": "17e2665f3cf3a4c0a138dc586025b72b585b2f23",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "798b5f70_90e15441",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/LabelType.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-04-09T22:19:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7908bfab_a8e1bb40",
+      "revId": "17e2665f3cf3a4c0a138dc586025b72b585b2f23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d9b1ab0e_1b3ebbc7",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ReplyBox.java",
         "patchSetId": 1
@@ -70,6 +130,24 @@
       "writtenOn": "2014-04-08T19:58:17Z",
       "side": 1,
       "message": "You need to add a default field LabelInfo in both:\n\n gerrit-server/src/main/jcg/gerrit/server/change/ChangeJson.java\n gerrit-gwtui/src/main/jcg/gerrit/client/changes/ChangeInfo.java\n\n(and also the relevant REST API docs).\n\nModify ChangeJson to populate the value, then you will have it here as lv.info.default.",
+      "revId": "17e2665f3cf3a4c0a138dc586025b72b585b2f23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "59905b99_cfd73d66",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ReplyBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-04-09T22:19:03Z",
+      "side": 1,
+      "message": "I\u0027m missing something because i think i\u0027ve done what you suggested but still cannot get the defaultValue in this context.",
+      "parentUuid": "d9b1ab0e_1b3ebbc7",
       "revId": "17e2665f3cf3a4c0a138dc586025b72b585b2f23",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -93,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "59905b99_efdc818a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 671,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-04-09T22:19:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d9b1ab0e_9b51ab2a",
+      "revId": "17e2665f3cf3a4c0a138dc586025b72b585b2f23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9913b3db_29f6ed01",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
         "patchSetId": 1
@@ -104,6 +200,24 @@
       "writtenOn": "2014-04-08T19:58:17Z",
       "side": 1,
       "message": "Unnecessary if you make defaultValue a Short in LabelType.",
+      "revId": "17e2665f3cf3a4c0a138dc586025b72b585b2f23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "798b5f70_b0e6d854",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 672,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-04-09T22:19:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9913b3db_29f6ed01",
       "revId": "17e2665f3cf3a4c0a138dc586025b72b585b2f23",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -127,6 +241,24 @@
     },
     {
       "key": {
+        "uuid": "59905b99_8fe13541",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 697,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-04-09T22:19:03Z",
+      "side": 1,
+      "message": "replaced this with isInRange() method",
+      "parentUuid": "7908bfab_88e6f754",
+      "revId": "17e2665f3cf3a4c0a138dc586025b72b585b2f23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "99c5737b_7947076e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/AllProjectsCreator.java",
         "patchSetId": 1
@@ -138,6 +270,24 @@
       "writtenOn": "2014-04-08T19:58:17Z",
       "side": 1,
       "message": "Not necessary; the default default is 0.",
+      "revId": "17e2665f3cf3a4c0a138dc586025b72b585b2f23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "798b5f70_50ec4c33",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/AllProjectsCreator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-04-09T22:19:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "99c5737b_7947076e",
       "revId": "17e2665f3cf3a4c0a138dc586025b72b585b2f23",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

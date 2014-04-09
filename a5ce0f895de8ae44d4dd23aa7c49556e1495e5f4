@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d9dfeb54_4b124574",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/History.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-04-09T10:25:22Z",
+      "side": 0,
+      "message": "Why are we reverting \n  https://gerrit-review.googlesource.com/55081\n? Is this intentional? If yes, it should maybe be mentioned in the commit message.",
+      "range": {
+        "startLine": 60,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 84
+      },
+      "revId": "a5ce0f895de8ae44d4dd23aa7c49556e1495e5f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

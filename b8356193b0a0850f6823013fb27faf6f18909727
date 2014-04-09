@@ -22,6 +22,30 @@
       "revId": "b8356193b0a0850f6823013fb27faf6f18909727",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9b1ab0e_fbb66f06",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/gitweb/GitWebServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-04-09T12:34:14Z",
+      "side": 1,
+      "message": "Because it was like that in ProjectControl where I copied it from.",
+      "parentUuid": "b90eb7b3_2a281f95",
+      "range": {
+        "startLine": 97,
+        "startChar": 6,
+        "endLine": 97,
+        "endChar": 16
+      },
+      "revId": "b8356193b0a0850f6823013fb27faf6f18909727",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

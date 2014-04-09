@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.config;
 
+import com.google.gerrit.client.account.Preferences;
 import com.google.gerrit.client.extensions.TopMenuList;
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.RestApi;
@@ -31,5 +32,9 @@ public class ConfigServerApi {
 
   public static void topMenus(AsyncCallback<TopMenuList> cb) {
     new RestApi("/config/server/top-menus").get(cb);
+  }
+
+  public static void defaultPreferences(AsyncCallback<Preferences> cb) {
+    new RestApi("/config/server/preferences").get(cb);
   }
 }

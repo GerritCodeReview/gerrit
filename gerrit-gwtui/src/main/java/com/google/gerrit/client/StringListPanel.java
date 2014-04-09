@@ -40,10 +40,11 @@ import java.util.List;
 
 public class StringListPanel extends FlowPanel {
   private final StringListTable t;
-  private final Button deleteButton;
   private final HorizontalPanel titlePanel;
+  protected final HorizontalPanel buttonPanel;
+  private final Button deleteButton;
   private Image info;
-  private FocusWidget widget;
+  protected FocusWidget widget;
 
   public StringListPanel(String title, List<String> fieldNames, FocusWidget w,
       boolean autoSort) {
@@ -56,9 +57,10 @@ public class StringListPanel extends FlowPanel {
     t = new StringListTable(fieldNames, autoSort);
     add(t);
 
+    buttonPanel = new HorizontalPanel();
+    buttonPanel.setStyleName(Gerrit.RESOURCES.css().stringListPanelButtons());
     deleteButton = new Button(Gerrit.C.stringListPanelDelete());
     deleteButton.setEnabled(false);
-    add(deleteButton);
     deleteButton.addClickHandler(new ClickHandler() {
       @Override
       public void onClick(ClickEvent event) {
@@ -66,6 +68,8 @@ public class StringListPanel extends FlowPanel {
         t.deleteChecked();
       }
     });
+    buttonPanel.add(deleteButton);
+    add(buttonPanel);
   }
 
   public void display(List<List<String>> values) {

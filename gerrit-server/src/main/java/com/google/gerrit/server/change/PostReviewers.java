@@ -77,7 +77,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, Input> {
   public static class Input {
     @DefaultInput
     public String reviewer;
-    Boolean confirmed;
+    public Boolean confirmed;
 
     boolean confirmed() {
       return Objects.firstNonNull(confirmed, false);

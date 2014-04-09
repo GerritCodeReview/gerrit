@@ -46,6 +46,30 @@
       "revId": "b8356193b0a0850f6823013fb27faf6f18909727",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9dfeb54_6b1e2178",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/gitweb/GitWebServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-04-09T12:43:01Z",
+      "side": 1,
+      "message": "Ok, but it\u0027s wrong to have it here.\n\n@Assisted means that this parameter is not injected into the constructor but that there is a factory that instantiates this class. The factory method to instantiate the class has this parameter and it is handed over to the constructor.\n\nE.g. ProjectControl has\n\n  interface AssistedFactory {\n    ProjectControl create(CurrentUser who, ProjectState ps);\n  }\n\nand\n\n  @Inject\n  ProjectControl(@GitUploadPackGroups Set\u003cAccountGroup.UUID\u003e uploadGroups,\n      @GitReceivePackGroups Set\u003cAccountGroup.UUID\u003e receiveGroups,\n      final ProjectCache pc, final PermissionCollection.Factory permissionFilter,\n      final GitRepositoryManager repoManager,\n      @CanonicalWebUrl @Nullable final String canonicalWebUrl,\n      @Assisted CurrentUser who, @Assisted ProjectState ps) {\n    ...\n  }\n\nThis means when AssistedFactory.create(who, ps) is invoked it creates a ProjectControl instance by using the constructor above where all parameter are injected except those annotated with @Assisted, they are just forwarded from the AssistedFactory.create(who, ps) call to the constructor (in this case who and ps).",
+      "parentUuid": "d9b1ab0e_fbb66f06",
+      "range": {
+        "startLine": 97,
+        "startChar": 6,
+        "endLine": 97,
+        "endChar": 16
+      },
+      "revId": "b8356193b0a0850f6823013fb27faf6f18909727",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

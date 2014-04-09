@@ -2888,7 +2888,7 @@ The `CommitInfo` entity contains information about a commit.
 |==========================
 |Field Name    |Description
 |`commit`      |The commit ID.
-|`parent`      |
+|`parents`     |
 The parent commits of this commit as a list of
 link:#commit-info[CommitInfo] entities. In parent
 only `commit` and `subject` fields are populated.

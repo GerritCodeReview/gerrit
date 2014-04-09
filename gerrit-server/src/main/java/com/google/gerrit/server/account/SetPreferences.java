@@ -53,23 +53,23 @@ import java.util.Collections;
 import java.util.List;
 
 public class SetPreferences implements RestModifyView<AccountResource, Input> {
-  static class Input {
-    Short changesPerPage;
-    Boolean showSiteHeader;
-    Boolean useFlashClipboard;
-    DownloadScheme downloadScheme;
-    DownloadCommand downloadCommand;
-    Boolean copySelfOnEmail;
-    DateFormat dateFormat;
-    TimeFormat timeFormat;
-    Boolean reversePatchSetOrder;
-    Boolean showUsernameInReviewCategory;
-    Boolean relativeDateInChangeTable;
-    Boolean sizeBarInChangeTable;
-    CommentVisibilityStrategy commentVisibilityStrategy;
-    DiffView diffView;
-    ChangeScreen changeScreen;
-    List<TopMenu.MenuItem> my;
+  public static class Input {
+    public Short changesPerPage;
+    public Boolean showSiteHeader;
+    public Boolean useFlashClipboard;
+    public DownloadScheme downloadScheme;
+    public DownloadCommand downloadCommand;
+    public Boolean copySelfOnEmail;
+    public DateFormat dateFormat;
+    public TimeFormat timeFormat;
+    public Boolean reversePatchSetOrder;
+    public Boolean showUsernameInReviewCategory;
+    public Boolean relativeDateInChangeTable;
+    public Boolean sizeBarInChangeTable;
+    public CommentVisibilityStrategy commentVisibilityStrategy;
+    public DiffView diffView;
+    public ChangeScreen changeScreen;
+    public List<TopMenu.MenuItem> my;
   }
 
   private final Provider<CurrentUser> self;
@@ -173,9 +173,13 @@ public class SetPreferences implements RestModifyView<AccountResource, Input> {
 
   private void storeMyMenus(Account.Id accountId, List<TopMenu.MenuItem> my)
       throws IOException {
+    storeMyMenus(RefNames.refsUsers(accountId), my);
+  }
+
+  public void storeMyMenus(String ref, List<TopMenu.MenuItem> my)
+      throws IOException {
     ProjectLevelConfig prefsCfg =
-        allUsers.getConfig(PREFERENCES,
-            RefNames.refsUsers(accountId));
+        allUsers.getConfig(PREFERENCES, ref);
     Config cfg = prefsCfg.get();
     if (my != null) {
       unsetSection(cfg, MY);

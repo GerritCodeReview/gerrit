@@ -76,10 +76,10 @@ public class GetPreferences implements RestReadView<AccountResource> {
         rsrc.getUser().getAccountId(), allUsers);
   }
 
-  static class PreferenceInfo {
+  public static class PreferenceInfo {
     final String kind = "gerritcodereview#preferences";
 
-    short changesPerPage;
+    Short changesPerPage;
     Boolean showSiteHeader;
     Boolean useFlashClipboard;
     DownloadScheme downloadScheme;
@@ -96,29 +96,36 @@ public class GetPreferences implements RestReadView<AccountResource> {
     ChangeScreen changeScreen;
     List<TopMenu.MenuItem> my;
 
-    PreferenceInfo(AccountGeneralPreferences p, Account.Id accountId,
+    public PreferenceInfo(AccountGeneralPreferences p, Account.Id accountId,
         ProjectState allUsers) {
-      changesPerPage = p.getMaximumPageSize();
-      showSiteHeader = p.isShowSiteHeader() ? true : null;
-      useFlashClipboard = p.isUseFlashClipboard() ? true : null;
-      downloadScheme = p.getDownloadUrl();
-      downloadCommand = p.getDownloadCommand();
-      copySelfOnEmail = p.isCopySelfOnEmails() ? true : null;
-      dateFormat = p.getDateFormat();
-      timeFormat = p.getTimeFormat();
-      reversePatchSetOrder = p.isReversePatchSetOrder() ? true : null;
-      showUsernameInReviewCategory = p.isShowUsernameInReviewCategory() ? true : null;
-      relativeDateInChangeTable = p.isRelativeDateInChangeTable() ? true : null;
-      sizeBarInChangeTable = p.isSizeBarInChangeTable() ? true : null;
-      commentVisibilityStrategy = p.getCommentVisibilityStrategy();
-      diffView = p.getDiffView();
-      changeScreen = p.getChangeScreen();
-      my = my(accountId, allUsers);
+      this(p, RefNames.refsUsers(accountId), allUsers);
     }
 
-    private List<TopMenu.MenuItem> my(Account.Id accountId, ProjectState allUsers) {
-      List<TopMenu.MenuItem> my = my(allUsers, RefNames.refsUsers(accountId));
-      if (my.isEmpty()) {
+    public PreferenceInfo(AccountGeneralPreferences p, String ref,
+        ProjectState allUsers) {
+      if (p != null) {
+        changesPerPage = p.getMaximumPageSize();
+        showSiteHeader = p.isShowSiteHeader() ? true : null;
+        useFlashClipboard = p.isUseFlashClipboard() ? true : null;
+        downloadScheme = p.getDownloadUrl();
+        downloadCommand = p.getDownloadCommand();
+        copySelfOnEmail = p.isCopySelfOnEmails() ? true : null;
+        dateFormat = p.getDateFormat();
+        timeFormat = p.getTimeFormat();
+        reversePatchSetOrder = p.isReversePatchSetOrder() ? true : null;
+        showUsernameInReviewCategory = p.isShowUsernameInReviewCategory() ? true : null;
+        relativeDateInChangeTable = p.isRelativeDateInChangeTable() ? true : null;
+        sizeBarInChangeTable = p.isSizeBarInChangeTable() ? true : null;
+        commentVisibilityStrategy = p.getCommentVisibilityStrategy();
+        diffView = p.getDiffView();
+        changeScreen = p.getChangeScreen();
+      }
+      my = my(ref, allUsers);
+    }
+
+    private List<TopMenu.MenuItem> my(String ref, ProjectState allUsers) {
+      List<TopMenu.MenuItem> my = my(allUsers, ref);
+      if (my.isEmpty() && !ref.equals(RefNames.REFS_USER + "default")) {
         my = my(allUsers, RefNames.REFS_USER + "default");
       }
       if (my.isEmpty()) {

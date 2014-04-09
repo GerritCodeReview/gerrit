@@ -22,6 +22,30 @@
       "revId": "57ea43d61f532999538c3827d67e8cbf11fc64ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9dfeb54_4b1b6586",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-04-09T12:51:59Z",
+      "side": 1,
+      "message": "Hmm, adding multiple reviewers is working even without this patch. There is only a problem if it\u0027s more reviewers than can be added without confirmation.\n\nWould\n  \"Always auto confirm adding reviewers for set-reviewers SSH command\"\nbe better?",
+      "parentUuid": "d9b1ab0e_7bab7f9d",
+      "range": {
+        "startLine": 7,
+        "startChar": 7,
+        "endLine": 7,
+        "endChar": 21
+      },
+      "revId": "57ea43d61f532999538c3827d67e8cbf11fc64ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

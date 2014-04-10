@@ -34,7 +34,7 @@ import com.google.gwtexpui.globalkey.client.NpTextBox;
 public class GroupListScreen extends AccountScreen implements FilteredUserInterface {
   private GroupTable groups;
   private NpTextBox filterTxt;
-  private String subname;
+  private String subname = "";
 
   public GroupListScreen() {
   }
@@ -104,8 +104,12 @@ public class GroupListScreen extends AccountScreen implements FilteredUserInterf
     filterTxt.addKeyUpHandler(new KeyUpHandler() {
       @Override
       public void onKeyUp(KeyUpEvent event) {
-        subname = filterTxt.getValue();
-        refresh(event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER);
+        boolean enterPressed =
+            event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER;
+        if (enterPressed || !filterTxt.getValue().equals(subname)) {
+          subname = filterTxt.getValue();
+          refresh(enterPressed);
+        }
       }
     });
     hp.add(filterTxt);

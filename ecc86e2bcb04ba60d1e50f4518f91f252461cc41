@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "990d73ec_f9fab7df",
+        "filename": "plugins/cookbook-plugin",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-04-10T09:35:17Z",
+      "side": 1,
+      "message": "Is it correct that this file is included here?",
+      "revId": "ecc86e2bcb04ba60d1e50f4518f91f252461cc41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

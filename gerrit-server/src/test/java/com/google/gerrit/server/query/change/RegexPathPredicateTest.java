@@ -84,7 +84,7 @@ public class RegexPathPredicateTest {
 
   private static ChangeData change(String... files) throws OrmException {
     Arrays.sort(files);
-    ChangeData cd = ChangeData.createForTest(new Change.Id(1));
+    ChangeData cd = ChangeData.createForTest(new Change.Id(1), 1);
     cd.setCurrentFilePaths(Arrays.asList(files));
     return cd;
   }

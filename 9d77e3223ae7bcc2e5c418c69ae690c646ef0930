@@ -93,6 +93,30 @@
       "revId": "9d77e3223ae7bcc2e5c418c69ae690c646ef0930",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b90877da_3a1ee176",
+        "filename": "ReleaseNotes/ReleaseNotes-2.8.4.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-04-10T13:30:13Z",
+      "side": 1,
+      "message": "I don\u0027t mind to leave it here, but I believe most readers of the release notes don\u0027t care about such details which means for them it\u0027s just a loss of time reading it.",
+      "parentUuid": "f9574fb2_8433660d",
+      "range": {
+        "startLine": 167,
+        "startChar": 0,
+        "endLine": 167,
+        "endChar": 53
+      },
+      "revId": "9d77e3223ae7bcc2e5c418c69ae690c646ef0930",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -165,6 +165,24 @@ returned.
   }
 ----
 
+[[group-limit]]
+==== Group Limit
+The `/groups/` URL also accepts a limit integer in the `n` parameter.
+This limits the results to show `n` groups.
+
+Query the first 25 groups in group list.
+----
+  GET /groups/?n=25 HTTP/1.0
+----
+
+The `/groups/` URL also accepts a start integer in the `S` parameter.
+The results will skip `S` groups from group list.
+
+Query 25 groups starting from index 50.
+----
+  GET /groups/?n=25&S=50 HTTP/1.0
+----
+
 [[get-group]]
 Get Group
 ~~~~~~~~~

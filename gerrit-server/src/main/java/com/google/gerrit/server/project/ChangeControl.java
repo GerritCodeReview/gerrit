@@ -29,7 +29,6 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -189,29 +188,25 @@ public class ChangeControl {
     }
   }
 
-  private final ApprovalsUtil approvalsUtil;
   private final ChangeData.Factory changeDataFactory;
   private final RefControl refControl;
   private final ChangeNotes notes;
 
   @AssistedInject
   ChangeControl(
-      ApprovalsUtil approvalsUtil,
       ChangeData.Factory changeDataFactory,
       ChangeNotes.Factory notesFactory,
       @Assisted RefControl refControl,
       @Assisted Change change) {
-    this(approvalsUtil, changeDataFactory, refControl,
+    this(changeDataFactory, refControl,
         notesFactory.create(change));
   }
 
   @AssistedInject
   ChangeControl(
-      ApprovalsUtil approvalsUtil,
       ChangeData.Factory changeDataFactory,
       @Assisted RefControl refControl,
       @Assisted ChangeNotes notes) {
-    this.approvalsUtil = approvalsUtil;
     this.changeDataFactory = changeDataFactory;
     this.refControl = refControl;
     this.notes = notes;
@@ -221,7 +216,7 @@ public class ChangeControl {
     if (getCurrentUser().equals(who)) {
       return this;
     }
-    return new ChangeControl(approvalsUtil, changeDataFactory,
+    return new ChangeControl(changeDataFactory,
         getRefControl().forUser(who), notes);
   }
 

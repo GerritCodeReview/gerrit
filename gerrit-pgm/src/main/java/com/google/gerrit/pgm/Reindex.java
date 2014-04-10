@@ -63,6 +63,7 @@ import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.ChangeSchemas;
 import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.index.IndexModule;
+import com.google.gerrit.server.index.IndexModule.IndexType;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
 import com.google.gerrit.server.notedb.NoteDbModule;
 import com.google.gerrit.server.patch.PatchListCacheImpl;
@@ -133,6 +134,7 @@ public class Reindex extends SiteProgram {
     mustHaveValidSite();
     dbInjector = createDbInjector(MULTI_USER);
     limitThreads();
+    disableLuceneAutomaticCommit();
     if (version == null) {
       version = ChangeSchemas.getLatest().getVersion();
     }
@@ -231,6 +233,15 @@ public class Reindex extends SiteProgram {
     });
 
     return dbInjector.createChildInjector(modules);
+  }
+
+  private void disableLuceneAutomaticCommit() {
+    Config cfg =
+        dbInjector.getInstance(Key.get(Config.class, GerritServerConfig.class));
+    if (IndexModule.getIndexType(dbInjector) == IndexType.LUCENE) {
+      cfg.setLong("index", "changes_open", "commitWithin", -1);
+      cfg.setLong("index", "changes_closed", "commitWithin", -1);
+    }
   }
 
   private class ReviewDbModule extends LifecycleModule {

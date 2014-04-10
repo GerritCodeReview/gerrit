@@ -16,7 +16,9 @@ package com.google.gerrit.server.project;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Joiner;
+import com.google.common.base.Objects;
 import com.google.common.base.Strings;
+import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.extensions.api.projects.ProjectInput.ConfigValue;
 import com.google.gerrit.extensions.common.InheritableBoolean;
 import com.google.gerrit.extensions.common.SubmitType;
@@ -26,12 +28,15 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.RestView;
+import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
 import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.config.ProjectConfigEntry;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
@@ -42,6 +47,7 @@ import com.google.inject.Provider;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -75,6 +81,7 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
   private final AllProjectsNameProvider allProjects;
   private final DynamicMap<RestView<ProjectResource>> views;
   private final Provider<CurrentUser> currentUser;
+  private final ChangeHooks hooks;
 
   @Inject
   PutConfig(MetaDataUpdate.User metaDataUpdateFactory,
@@ -86,6 +93,7 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
       PluginConfigFactory cfgFactory,
       AllProjectsNameProvider allProjects,
       DynamicMap<RestView<ProjectResource>> views,
+      ChangeHooks hooks,
       Provider<CurrentUser> currentUser) {
     this.metaDataUpdateFactory = metaDataUpdateFactory;
     this.projectCache = projectCache;
@@ -96,6 +104,7 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
     this.cfgFactory = cfgFactory;
     this.allProjects = allProjects;
     this.views = views;
+    this.hooks = hooks;
     this.currentUser = currentUser;
   }
 
@@ -158,7 +167,15 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
 
       md.setMessage("Modified project settings\n");
       try {
-        projectConfig.commit(md);
+        ObjectId baseRev = projectConfig.getRevision();
+        ObjectId commitRev = projectConfig.commit(md);
+        // Only fire hook if project was actually changed.
+        if (!Objects.equal(baseRev, commitRev)) {
+          IdentifiedUser user = (IdentifiedUser) currentUser.get();
+          hooks.doRefUpdatedHook(
+            new Branch.NameKey(projectName, RefNames.REFS_CONFIG),
+            baseRev, commitRev, user.getAccount());
+        };
         projectCache.evict(projectConfig.getProject());
         gitMgr.setProjectDescription(projectName, p.getDescription());
       } catch (IOException e) {

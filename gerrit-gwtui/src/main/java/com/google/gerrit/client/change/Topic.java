@@ -18,6 +18,8 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.ChangeInfo;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.ui.BranchLink;
+import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
@@ -31,10 +33,8 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwtexpui.globalkey.client.NpTextBox;
 
@@ -46,8 +46,8 @@ class Topic extends Composite {
   private PatchSet.Id psId;
   private boolean canEdit;
 
-  @UiField FlowPanel show;
-  @UiField InlineLabel text;
+  @UiField Element show;
+  @UiField InlineHyperlink text;
   @UiField Image editIcon;
 
   @UiField Element form;
@@ -57,7 +57,7 @@ class Topic extends Composite {
 
   Topic() {
     initWidget(uiBinder.createAndBindUi(this));
-    show.addDomHandler(
+    editIcon.addDomHandler(
       new ClickHandler() {
         @Override
         public void onClick(ClickEvent event) {
@@ -76,11 +76,22 @@ class Topic extends Composite {
         info.legacy_id(),
         info.revisions().get(revision)._number());
 
-    text.setText(info.topic());
+    initTopicLink(info);
     editIcon.setVisible(canEdit);
     if (!canEdit) {
       show.setTitle(null);
     }
+  }
+
+  private void initTopicLink(ChangeInfo info) {
+    text.setText(info.topic());
+    text.setTargetHistoryToken(
+        PageLinks.toChangeQuery(
+            BranchLink.query(
+                info.project_name_key(),
+                info.status(),
+                info.branch(),
+                info.topic())));
   }
 
   boolean canEdit() {
@@ -89,7 +100,6 @@ class Topic extends Composite {
 
   void onEdit() {
     if (canEdit) {
-      show.setVisible(false);
       UIObject.setVisible(form, true);
 
       input.setText(text.getText());
@@ -100,7 +110,6 @@ class Topic extends Composite {
   @UiHandler("cancel")
   void onCancel(ClickEvent e) {
     input.setFocus(false);
-    show.setVisible(true);
     UIObject.setVisible(form, false);
   }
 

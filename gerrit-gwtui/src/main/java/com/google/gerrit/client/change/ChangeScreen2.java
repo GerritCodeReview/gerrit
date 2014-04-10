@@ -138,7 +138,7 @@ public class ChangeScreen2 extends Screen {
   @UiField Reviewers reviewers;
   @UiField InlineHyperlink ownerLink;
   @UiField Element statusText;
-  @UiField Image projectQuery;
+  @UiField Image projectSettings;
   @UiField InlineHyperlink projectLink;
   @UiField InlineHyperlink branchLink;
   @UiField Element strategy;
@@ -356,16 +356,16 @@ public class ChangeScreen2 extends Screen {
   }
 
   private void initProjectLinks(final ChangeInfo info) {
-    projectQuery.addDomHandler(new ClickHandler() {
+    projectSettings.addDomHandler(new ClickHandler() {
       @Override
       public void onClick(ClickEvent event) {
         Gerrit.display(
-            PageLinks.toProjectDefaultDashboard(info.project_name_key()));
+            PageLinks.toProject(info.project_name_key()));
       }
     }, ClickEvent.getType());
     projectLink.setText(info.project());
     projectLink.setTargetHistoryToken(
-        PageLinks.toProject(info.project_name_key()));
+        PageLinks.toProjectDefaultDashboard(info.project_name_key()));
   }
 
   private void initBranchLink(ChangeInfo info) {
@@ -376,7 +376,7 @@ public class ChangeScreen2 extends Screen {
                 info.project_name_key(),
                 info.status(),
                 info.branch(),
-                info.topic())));
+                null)));
   }
 
   private void initEditMessageAction(ChangeInfo info, String revision) {

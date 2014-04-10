@@ -17,7 +17,8 @@ limitations under the License.
 <ui:UiBinder
     xmlns:ui='urn:ui:com.google.gwt.uibinder'
     xmlns:c='urn:import:com.google.gwtexpui.globalkey.client'
-    xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+    xmlns:g='urn:import:com.google.gwt.user.client.ui'
+    xmlns:x='urn:import:com.google.gerrit.client.ui'>
   <ui:with field='ico' type='com.google.gerrit.client.GerritResources'/>
   <ui:with field='res' type='com.google.gerrit.client.change.Resources'/>
   <ui:style>
@@ -25,15 +26,14 @@ limitations under the License.
     .edit, .cancel { float: right; }
   </ui:style>
   <g:HTMLPanel>
-    <g:FlowPanel ui:field='show'
-        styleName='{style.show}'
-        title='Click to edit topic (Shortcut: t)'>
-      <ui:attribute name='title'/>
-      <g:InlineLabel ui:field='text'/>
+    <div ui:field='show' styleName='{style.show}'>
+      <x:InlineHyperlink ui:field='text'
+          title='Search for changes on this topic'/>
       <g:Image ui:field='editIcon'
           resource='{ico.edit}'
-          styleName='{style.edit}'/>
-    </g:FlowPanel>
+          styleName='{style.edit}'
+          title='Click to edit topic (Shortcut: t)'/>
+    </div>
 
     <div ui:field='form' style='display: none' aria-hidden='true'>
       <div>

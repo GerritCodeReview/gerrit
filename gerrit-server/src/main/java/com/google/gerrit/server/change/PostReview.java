@@ -469,7 +469,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     Map<String, PatchSetApproval> current = Maps.newHashMap();
 
     for (PatchSetApproval a : approvalsUtil.byPatchSetUser(
-        db.get(), rsrc.getNotes(), rsrc.getPatchSet().getId(),
+        db.get(), rsrc.getControl(), rsrc.getPatchSet().getId(),
         rsrc.getAccountId())) {
       if (a.isSubmit()) {
         continue;

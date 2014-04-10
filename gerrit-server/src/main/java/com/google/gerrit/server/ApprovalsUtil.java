@@ -43,6 +43,7 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.notedb.ReviewerState;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -90,11 +91,14 @@ public class ApprovalsUtil {
   }
 
   private final NotesMigration migration;
+  private final ApprovalCopier copier;
 
   @VisibleForTesting
   @Inject
-  public ApprovalsUtil(NotesMigration migration) {
+  public ApprovalsUtil(NotesMigration migration,
+      ApprovalCopier copier) {
     this.migration = migration;
+    this.copier = copier;
   }
 
   /**
@@ -225,23 +229,22 @@ public class ApprovalsUtil {
     return notes.load().getApprovals();
   }
 
-  public List<PatchSetApproval> byPatchSet(ReviewDb db, ChangeNotes notes,
+  public Iterable<PatchSetApproval> byPatchSet(ReviewDb db, ChangeControl ctl,
       PatchSet.Id psId) throws OrmException {
     if (!migration.readPatchSetApprovals()) {
       return sortApprovals(db.patchSetApprovals().byPatchSet(psId));
     }
-    return notes.load().getApprovals().get(psId);
+    return copier.getForPatchSet(db, ctl, psId);
   }
 
-  public List<PatchSetApproval> byPatchSetUser(ReviewDb db,
-      ChangeNotes notes, PatchSet.Id psId, Account.Id accountId)
+  public Iterable<PatchSetApproval> byPatchSetUser(ReviewDb db,
+      ChangeControl ctl, PatchSet.Id psId, Account.Id accountId)
       throws OrmException {
     if (!migration.readPatchSetApprovals()) {
       return sortApprovals(
           db.patchSetApprovals().byPatchSetUser(psId, accountId));
     }
-    return ImmutableList.copyOf(
-        filterApprovals(byPatchSet(db, notes, psId), accountId));
+    return filterApprovals(byPatchSet(db, ctl, psId), accountId);
   }
 
   public PatchSetApproval getSubmitter(ReviewDb db, ChangeNotes notes,
@@ -250,7 +253,8 @@ public class ApprovalsUtil {
       return null;
     }
     try {
-      return getSubmitter(c, byPatchSet(db, notes, c));
+      // Submit approval is never copied, so bypass expensive byPatchSet call.
+      return getSubmitter(c, byChange(db, notes).get(c));
     } catch (OrmException e) {
       return null;
     }

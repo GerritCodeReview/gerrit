@@ -29,7 +29,6 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.account.AccountInfo;
-import com.google.gerrit.server.git.LabelNormalizer;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -46,19 +45,16 @@ public class ReviewerJson {
   private final Provider<ReviewDb> db;
   private final ChangeData.Factory changeDataFactory;
   private final ApprovalsUtil approvalsUtil;
-  private final LabelNormalizer labelNormalizer;
   private final AccountInfo.Loader.Factory accountLoaderFactory;
 
   @Inject
   ReviewerJson(Provider<ReviewDb> db,
       ChangeData.Factory changeDataFactory,
       ApprovalsUtil approvalsUtil,
-      LabelNormalizer labelNormalizer,
       AccountInfo.Loader.Factory accountLoaderFactory) {
     this.db = db;
     this.changeDataFactory = changeDataFactory;
     this.approvalsUtil = approvalsUtil;
-    this.labelNormalizer = labelNormalizer;
     this.accountLoaderFactory = accountLoaderFactory;
   }
 
@@ -86,17 +82,16 @@ public class ReviewerJson {
       ChangeNotes changeNotes) throws OrmException {
     PatchSet.Id psId = ctl.getChange().currentPatchSetId();
     return format(out, ctl,
-        approvalsUtil.byPatchSetUser(db.get(), changeNotes, psId, out._id));
+        approvalsUtil.byPatchSetUser(db.get(), ctl, psId, out._id));
   }
 
   public ReviewerInfo format(ReviewerInfo out, ChangeControl ctl,
-      List<PatchSetApproval> approvals) throws OrmException {
+      Iterable<PatchSetApproval> approvals) throws OrmException {
     LabelTypes labelTypes = ctl.getLabelTypes();
 
     // Don't use Maps.newTreeMap(Comparator) due to OpenJDK bug 100167.
     out.approvals = new TreeMap<String,String>(labelTypes.nameComparator());
-    for (PatchSetApproval ca :
-        labelNormalizer.normalize(ctl, approvals).getNormalized()) {
+    for (PatchSetApproval ca : approvals) {
       for (PermissionRange pr : ctl.getLabelRanges()) {
         if (!pr.isEmpty()) {
           LabelType at = labelTypes.byLabel(ca.getLabelId());

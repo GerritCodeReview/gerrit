@@ -81,6 +81,11 @@ public class ApprovalCopier {
     db.patchSetApprovals().insert(getForPatchSet(db, ctl, ps));
   }
 
+  Iterable<PatchSetApproval> getForPatchSet(ReviewDb db,
+      ChangeControl ctl, PatchSet.Id psId) throws OrmException {
+    return getForPatchSet(db, ctl, db.patchSets().get(psId));
+  }
+
   private Iterable<PatchSetApproval> getForPatchSet(ReviewDb db,
       ChangeControl ctl, PatchSet ps) throws OrmException {
     ChangeData cd = changeDataFactory.create(db, ctl);

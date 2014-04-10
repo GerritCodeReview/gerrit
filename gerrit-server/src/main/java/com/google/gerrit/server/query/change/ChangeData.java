@@ -343,12 +343,15 @@ public class ChangeData {
     return changeControl != null;
   }
 
-  public ChangeControl changeControl() throws NoSuchChangeException,
-      OrmException {
+  public ChangeControl changeControl() throws OrmException {
     if (changeControl == null) {
       Change c = change();
-      changeControl =
-          changeControlFactory.controlFor(c, userFactory.create(c.getOwner()));
+      try {
+        changeControl =
+            changeControlFactory.controlFor(c, userFactory.create(c.getOwner()));
+      } catch (NoSuchChangeException e) {
+        throw new OrmException(e);
+      }
     }
     return changeControl;
   }
@@ -397,8 +400,8 @@ public class ChangeData {
       } else if (allApprovals != null) {
         return allApprovals.get(c.currentPatchSetId());
       } else {
-        currentApprovals = approvalsUtil.byPatchSet(
-            db, notes(), c.currentPatchSetId());
+        currentApprovals = ImmutableList.copyOf(approvalsUtil.byPatchSet(
+            db, changeControl(), c.currentPatchSetId()));
       }
     }
     return currentApprovals;

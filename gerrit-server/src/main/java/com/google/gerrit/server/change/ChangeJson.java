@@ -88,7 +88,6 @@ import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
-import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -370,7 +369,7 @@ public class ChangeJson {
         ctrl = projectControls.get(cd.change().getProject())
             .controlFor(cd.change());
       }
-    } catch (NoSuchChangeException | ExecutionException e) {
+    } catch (ExecutionException e) {
       throw new OrmException(e);
     }
     lastControl = ctrl;

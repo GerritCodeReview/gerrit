@@ -257,12 +257,9 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
       ChangeUpdate update, IdentifiedUser caller, Timestamp timestamp)
       throws OrmException {
     PatchSet.Id psId = rsrc.getPatchSet().getId();
-    List<PatchSetApproval> approvals =
-        approvalsUtil.byPatchSet(dbProvider.get(), rsrc.getNotes(), psId);
-
-    Map<PatchSetApproval.Key, PatchSetApproval> byKey =
-        Maps.newHashMapWithExpectedSize(approvals.size());
-    for (PatchSetApproval psa : approvals) {
+    Map<PatchSetApproval.Key, PatchSetApproval> byKey = Maps.newHashMap();
+    for (PatchSetApproval psa :
+        approvalsUtil.byPatchSet(dbProvider.get(), rsrc.getControl(), psId)) {
       if (!byKey.containsKey(psa.getKey())) {
         byKey.put(psa.getKey(), psa);
       }

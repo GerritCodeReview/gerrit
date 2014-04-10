@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "19198330_95dc248a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeKindCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-04-10T20:45:07Z",
+      "side": 1,
+      "message": "IIRC we use these in our private cache code. You may need to make the type public so we can reference it.",
+      "revId": "db312e53a3193ffd93922b82e58cd44848c74caf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -87,6 +87,12 @@ public class ListGroups implements RestReadView<TopLevelResource> {
     groupsToInspect.add(id);
   }
 
+  @Option(name = "--limit", aliases = {"-n"}, metaVar = "CNT", usage = "maximum number of projects to list")
+  private int limit;
+
+  @Option(name = "-S", metaVar = "CNT", usage = "number of projects to skip")
+  private int start;
+
   @Option(name = "-m", metaVar = "MATCH", usage = "match group substring")
   private String matchSubstring;
 
@@ -168,7 +174,15 @@ public class ListGroups implements RestReadView<TopLevelResource> {
           groupList = filterGroups(groupCache.all());
         }
         groupInfos = Lists.newArrayListWithCapacity(groupList.size());
+        int found = 0;
+        int foundIndex = 0;
         for (AccountGroup group : groupList) {
+          if (foundIndex++ < start) {
+            continue;
+          }
+          if (limit > 0 && ++found > limit) {
+            break;
+          }
           groupInfos.add(json.addOptions(options).format(
               GroupDescriptions.forAccountGroup(group)));
         }
@@ -180,11 +194,19 @@ public class ListGroups implements RestReadView<TopLevelResource> {
   private List<GroupInfo> getGroupsOwnedBy(IdentifiedUser user)
       throws OrmException {
     List<GroupInfo> groups = Lists.newArrayList();
+    int found = 0;
+    int foundIndex = 0;
     for (AccountGroup g : filterGroups(groupCache.all())) {
       GroupControl ctl = groupControlFactory.controlFor(g);
       try {
         if (genericGroupControlFactory.controlFor(user, g.getGroupUUID())
             .isOwner()) {
+          if (foundIndex++ < start) {
+            continue;
+          }
+          if (limit > 0 && ++found > limit) {
+            break;
+          }
           groups.add(json.addOptions(options).format(ctl.getGroup()));
         }
       } catch (NoSuchGroupException e) {

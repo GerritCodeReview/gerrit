@@ -54,6 +54,41 @@
     },
     {
       "key": {
+        "uuid": "391c871e_16e93c23",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ReplyBox.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-04-10T17:47:22Z",
+      "side": 1,
+      "message": "It\u0027s \u0027default_value\u0027 in the json.  I was expecting it to be \u0027defaultValue\u0027 instead.  I\u0027m not sure what sets it to that because there is no reference to \u0027default_value\u0027 in the code.",
+      "parentUuid": "391c871e_96dc2c8a",
+      "revId": "eed799791a784be593830b8d9573bd3d5a95458f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "391c871e_76f6b002",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-04-10T17:47:22Z",
+      "side": 1,
+      "message": "needs to be \u0027this.default_value\u0027 instead since that\u0027s what\u0027s in the json",
+      "revId": "eed799791a784be593830b8d9573bd3d5a95458f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "798b5f70_70e95022",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 3
@@ -118,6 +153,24 @@
       "side": 1,
       "message": "Well, not exactly, the behavior of passing a vote outside the permitted range to PostReview depends on the value of strict_labels:\n\nhttps://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#review-input\n\nBut I was actually asking about what the behavior should be wrt the radio buttons, since the whole point of having a default value is to preselect the radio button.\n\nIn my example, there would only be three radio buttons, none of which match the configured default value for the label. Which, if any, of these should be preselected?",
       "parentUuid": "798b5f70_10f6c401",
+      "revId": "eed799791a784be593830b8d9573bd3d5a95458f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "59077bcb_17e93423",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 674,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-04-10T17:47:22Z",
+      "side": 1,
+      "message": "ahh ok.  So I see 3 options:\nA. ignore default and set it to 0\nB. don\u0027t set any defaults and let user pick.\nC. set the default to the next closest value that\u0027s within the allowable range for that user.\n\nSince my use case for this feature is to enforce workflow I think option C makes the most sense.",
+      "parentUuid": "391c871e_b6d7a866",
       "revId": "eed799791a784be593830b8d9573bd3d5a95458f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

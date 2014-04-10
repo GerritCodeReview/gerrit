@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "990d73ec_b9295fa2",
+        "filename": "ReleaseNotes/ReleaseNotes-2.8.4.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-04-10T13:12:55Z",
+      "side": 1,
+      "message": "Isn\u0027t this \u0027401 Unauthorized\u0027?\n\n[1] http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.2",
+      "range": {
+        "startLine": 143,
+        "startChar": 25,
+        "endLine": 143,
+        "endChar": 39
+      },
+      "revId": "9d77e3223ae7bcc2e5c418c69ae690c646ef0930",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b90877da_fa33c90b",
+        "filename": "ReleaseNotes/ReleaseNotes-2.8.4.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-04-10T13:12:55Z",
+      "side": 1,
+      "message": "Not sure if such minor things need to be mentioned in the release notes...",
+      "range": {
+        "startLine": 167,
+        "startChar": 0,
+        "endLine": 167,
+        "endChar": 53
+      },
+      "revId": "9d77e3223ae7bcc2e5c418c69ae690c646ef0930",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

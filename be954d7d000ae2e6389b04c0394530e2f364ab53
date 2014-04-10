@@ -145,6 +145,24 @@
       "revId": "be954d7d000ae2e6389b04c0394530e2f364ab53",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b90877da_ba52f12d",
+        "filename": "gerrit-vhost/src/main/java/com/google/gerrit/server/vhost/SiteSelectorModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-04-10T15:26:30Z",
+      "side": 1,
+      "message": "Ah.. I see. Sorry.",
+      "parentUuid": "f9574fb2_441ece77",
+      "revId": "be954d7d000ae2e6389b04c0394530e2f364ab53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

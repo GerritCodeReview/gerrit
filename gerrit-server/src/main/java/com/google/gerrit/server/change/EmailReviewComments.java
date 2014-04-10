@@ -43,7 +43,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-class EmailReviewComments implements Runnable, RequestContext {
+public class EmailReviewComments implements Runnable, RequestContext {
   private static final Logger log = LoggerFactory.getLogger(EmailReviewComments.class);
 
   interface Factory {

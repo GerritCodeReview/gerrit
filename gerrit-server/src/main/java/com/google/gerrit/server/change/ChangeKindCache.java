@@ -15,10 +15,13 @@
 package com.google.gerrit.server.change;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static org.eclipse.jgit.lib.ObjectIdSerialization.readNotNull;
+import static org.eclipse.jgit.lib.ObjectIdSerialization.writeNotNull;
 
 import com.google.common.base.Objects;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import com.google.common.cache.Weigher;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.MergeUtil;
@@ -38,6 +41,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.concurrent.ExecutionException;
 
@@ -57,11 +62,10 @@ public class ChangeKindCache {
     return new CacheModule() {
       @Override
       protected void configure() {
-        cache(ID_CACHE,
-            Key.class,
-            ChangeKind.class)
-          .maximumWeight(0)
-          .loader(Loader.class);
+        persist(ID_CACHE, Key.class, ChangeKind.class)
+            .maximumWeight(2 << 20)
+            .weigher(ChangeKindWeigher.class)
+            .loader(Loader.class);
       }
     };
   }
@@ -69,10 +73,11 @@ public class ChangeKindCache {
   public static class Key implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private final ObjectId prior;
-    private final ObjectId next;
-    private final String strategyName;
-    private transient Repository repo;
+    private transient ObjectId prior;
+    private transient ObjectId next;
+    private transient String strategyName;
+
+    private transient Repository repo; // Passed through to loader on miss.
 
     private Key(ObjectId prior, ObjectId next, String strategyName,
         Repository repo) {
@@ -108,6 +113,18 @@ public class ChangeKindCache {
     @Override
     public int hashCode() {
       return Objects.hashCode(prior, next, strategyName);
+    }
+
+    private void writeObject(ObjectOutputStream out) throws IOException {
+      writeNotNull(out, prior);
+      writeNotNull(out, next);
+      out.writeUTF(strategyName);
+    }
+
+    private void readObject(ObjectInputStream in) throws IOException {
+      prior = readNotNull(in);
+      next = readNotNull(in);
+      strategyName = in.readUTF();
     }
   }
 
@@ -165,6 +182,14 @@ public class ChangeKindCache {
         return true;
       }
       return prior.getParent(0).equals(next.getParent(0));
+    }
+  }
+
+  private static class ChangeKindWeigher implements Weigher<Key, ChangeKind> {
+    @Override
+    public int weigh(Key key, ChangeKind changeKind) {
+      return 16 + 2*36 + 2*key.strategyName.length() // Size of Key, 64 bit JVM
+          + 2*changeKind.name().length(); // Size of ChangeKind, 64 bit JVM
     }
   }
 

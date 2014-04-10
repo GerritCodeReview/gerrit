@@ -175,7 +175,7 @@ public class CherryPickChange {
           // The change key exists on the destination branch. The cherry pick
           // will be added as a new patch set.
           return insertPatchSet(git, revWalk, destChanges.get(0), patchSetId,
-              cherryPickCommit, refControl);
+              cherryPickCommit, refControl, currentUser);
         } else {
           // Change key not found on destination branch. We can create a new
           // change.
@@ -192,8 +192,9 @@ public class CherryPickChange {
 
   private Change.Id insertPatchSet(Repository git, RevWalk revWalk, Change change,
       PatchSet.Id patchSetId, RevCommit cherryPickCommit,
-      RefControl refControl) throws InvalidChangeOperationException,
-      IOException, OrmException, NoSuchChangeException {
+      RefControl refControl, IdentifiedUser uploader)
+      throws InvalidChangeOperationException, IOException, OrmException,
+      NoSuchChangeException {
     final PatchSetInserter inserter = patchSetInserterFactory
         .create(git, revWalk, refControl, currentUser, change, cherryPickCommit);
     final PatchSet.Id newPatchSetId = inserter.getPatchSetId();
@@ -201,6 +202,7 @@ public class CherryPickChange {
     inserter
       .setMessage("Uploaded patch set " + newPatchSetId.get() + ".")
       .setDraft(current.isDraft())
+      .setUploader(uploader.getAccountId())
       .insert();
     return change.getId();
   }

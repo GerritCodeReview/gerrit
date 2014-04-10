@@ -62,6 +62,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -172,7 +173,7 @@ public class ChangeData {
   private Collection<PatchSet> patches;
   private ListMultimap<PatchSet.Id, PatchSetApproval> allApprovals;
   private List<PatchSetApproval> currentApprovals;
-  private List<String> currentFiles;
+  private Map<Integer, List<String>> files = new HashMap<>();
   private Collection<PatchLineComment> comments;
   private CurrentUser visibleTo;
   private ChangeControl changeControl;
@@ -258,18 +259,26 @@ public class ChangeData {
     returnedBySource = s;
   }
 
-  public void setCurrentFilePaths(List<String> filePaths) {
-    currentFiles = ImmutableList.copyOf(filePaths);
+  public void setCurrentFilePaths(List<String> filePaths) throws OrmException {
+    PatchSet ps = currentPatchSet();
+    if (ps != null) {
+      files.put(Integer.valueOf(ps.getPatchSetId()),
+          ImmutableList.copyOf(filePaths));
+    }
   }
 
   public List<String> currentFilePaths() throws OrmException {
-    if (currentFiles == null) {
+    PatchSet ps = currentPatchSet();
+    if (ps == null) {
+      return null;
+    }
+    return filePaths(currentPatchSet);
+  }
+
+  public List<String> filePaths(PatchSet ps) throws OrmException {
+    if (!files.containsKey(Integer.valueOf(ps.getPatchSetId()))) {
       Change c = change();
       if (c == null) {
-        return null;
-      }
-      PatchSet ps = currentPatchSet();
-      if (ps == null) {
         return null;
       }
 
@@ -277,8 +286,9 @@ public class ChangeData {
       try {
         p = patchListCache.get(c, ps);
       } catch (PatchListNotAvailableException e) {
-        currentFiles = Collections.emptyList();
-        return currentFiles;
+        List<String> emptyFileList = Collections.emptyList();
+        files.put(Integer.valueOf(ps.getPatchSetId()), emptyFileList);
+        return emptyFileList;
       }
 
       List<String> r = new ArrayList<String>(p.getPatches().size());
@@ -302,9 +312,10 @@ public class ChangeData {
         }
       }
       Collections.sort(r);
-      currentFiles = Collections.unmodifiableList(r);
+      files.put(Integer.valueOf(ps.getPatchSetId()),
+          Collections.unmodifiableList(r));
     }
-    return currentFiles;
+    return files.get(Integer.valueOf(ps.getPatchSetId()));
   }
 
   public ChangedLines changedLines() throws OrmException {

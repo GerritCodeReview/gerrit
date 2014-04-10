@@ -51,6 +51,7 @@ import com.google.gerrit.server.account.AccountsCollection;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.OrmException;
@@ -76,6 +77,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
 
   private final Provider<ReviewDb> db;
   private final ChangesCollection changes;
+  private final ChangeData.Factory changeDataFactory;
   private final ChangeUpdate.Factory updateFactory;
   private final ApprovalsUtil approvalsUtil;
   private final ChangeIndexer indexer;
@@ -93,6 +95,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   @Inject
   PostReview(Provider<ReviewDb> db,
       ChangesCollection changes,
+      ChangeData.Factory changeDataFactory,
       ChangeUpdate.Factory updateFactory,
       ApprovalsUtil approvalsUtil,
       ChangeIndexer indexer,
@@ -101,6 +104,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       ChangeHooks hooks) {
     this.db = db;
     this.changes = changes;
+    this.changeDataFactory = changeDataFactory;
     this.updateFactory = updateFactory;
     this.approvalsUtil = approvalsUtil;
     this.indexer = indexer;
@@ -120,7 +124,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       checkLabels(revision, input.strictLabels, input.labels);
     }
     if (input.comments != null) {
-      checkComments(input.comments);
+      checkComments(revision, input.comments);
     }
     if (input.notify == null) {
       log.warn("notify = null; assuming notify = NONE");
@@ -266,13 +270,22 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     }
   }
 
-  private void checkComments(Map<String, List<Comment>> in)
-      throws BadRequestException {
+  private void checkComments(RevisionResource revision, Map<String, List<Comment>> in)
+      throws BadRequestException, OrmException {
     Iterator<Map.Entry<String, List<Comment>>> mapItr =
         in.entrySet().iterator();
+    List<String> filePaths =
+        changeDataFactory.create(db.get(), revision.getChange()).filePaths(
+            revision.getPatchSet());
     while (mapItr.hasNext()) {
       Map.Entry<String, List<Comment>> ent = mapItr.next();
       String path = ent.getKey();
+      if (!filePaths.contains(path) && !Patch.COMMIT_MSG.equals(path)) {
+        throw new BadRequestException(String.format(
+            "file %s not found in patch set %s",
+            path, change.currentPatchSetId()));
+      }
+
       List<Comment> list = ent.getValue();
       if (list == null) {
         mapItr.remove();

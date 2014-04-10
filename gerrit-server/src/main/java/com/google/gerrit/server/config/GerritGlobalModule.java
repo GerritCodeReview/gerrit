@@ -68,7 +68,7 @@ import com.google.gerrit.server.auth.AuthBackend;
 import com.google.gerrit.server.auth.UniversalAuthBackend;
 import com.google.gerrit.server.avatar.AvatarProvider;
 import com.google.gerrit.server.cache.CacheRemovalListener;
-import com.google.gerrit.server.change.ChangeKindCache;
+import com.google.gerrit.server.change.ChangeKindCacheImpl;
 import com.google.gerrit.server.change.MergeabilityChecker;
 import com.google.gerrit.server.events.EventFactory;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
@@ -155,7 +155,7 @@ public class GerritGlobalModule extends FactoryModule {
     install(AccountByEmailCacheImpl.module());
     install(AccountCacheImpl.module());
     install(ChangeCache.module());
-    install(ChangeKindCache.module());
+    install(ChangeKindCacheImpl.module());
     install(ConflictsCacheImpl.module());
     install(GroupCacheImpl.module());
     install(GroupIncludeCacheImpl.module());

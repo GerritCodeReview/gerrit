@@ -139,6 +139,7 @@ public class SetReviewersCommand extends SshCommand {
     for (String reviewer : toAdd) {
       PostReviewers.Input input = new PostReviewers.Input();
       input.reviewer = reviewer;
+      input.confirmed = true;
       String error;
       try {
         error = post.apply(changeRsrc, input).error;

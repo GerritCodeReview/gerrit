@@ -93,6 +93,23 @@
       "revId": "be954d7d000ae2e6389b04c0394530e2f364ab53",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b90877da_5a2595bc",
+        "filename": "gerrit-vhost/src/main/java/com/google/gerrit/server/vhost/SiteSelectorModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-04-10T14:56:45Z",
+      "side": 1,
+      "message": "will this cause ever growing thread name? the name will now be \"oldName [siteA]\"\n\nnext time the oldName is \"oldName [siteA]\" and here the (new) name will be set to \"oldName [siteA] [siteB]\"\n\netc...",
+      "revId": "be954d7d000ae2e6389b04c0394530e2f364ab53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

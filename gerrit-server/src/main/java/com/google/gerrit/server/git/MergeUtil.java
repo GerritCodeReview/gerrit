@@ -311,9 +311,9 @@ public class MergeUtil {
     return "Verified".equalsIgnoreCase(id.get());
   }
 
-  private List<PatchSetApproval> safeGetApprovals(CodeReviewCommit n) {
+  private Iterable<PatchSetApproval> safeGetApprovals(CodeReviewCommit n) {
     try {
-      return approvalsUtil.byPatchSet(db.get(), n.notes(), n.getPatchsetId());
+      return approvalsUtil.byPatchSet(db.get(), n.getControl(), n.getPatchsetId());
     } catch (OrmException e) {
       log.error("Can't read approval records for " + n.getPatchsetId(), e);
       return Collections.emptyList();

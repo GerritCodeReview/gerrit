@@ -38,6 +38,8 @@ import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.account.ListGroupMembership;
+import com.google.gerrit.server.change.ChangeKindCache;
+import com.google.gerrit.server.change.ChangeKindCacheImpl;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.AnonymousCowardNameProvider;
@@ -222,6 +224,7 @@ public class Util {
             .toProvider(CanonicalWebUrlProvider.class);
         bind(String.class).annotatedWith(AnonymousCowardName.class)
             .toProvider(AnonymousCowardNameProvider.class);
+        bind(ChangeKindCache.class).to(ChangeKindCacheImpl.NoCache.class);
       }
     });
 

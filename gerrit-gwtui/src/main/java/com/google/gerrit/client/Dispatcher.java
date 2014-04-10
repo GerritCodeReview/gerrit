@@ -585,7 +585,7 @@ public class Dispatcher {
     }
   }
 
-  private static boolean isChangeScreen2() {
+  public static boolean isChangeScreen2() {
     if (!Gerrit.getConfig().getNewFeatures()) {
       return false;
     } else if (changeScreen2) {
@@ -650,7 +650,20 @@ public class Dispatcher {
             panel = 0 <= c ? token.substring(c + 1) : "";
           }
 
-          if ("unified".equals(panel)) {
+          if ("".equals(panel)) {
+            if (isChangeScreen2()) {
+              return new SideBySide2(baseId, id.getParentKey(), id.get(),
+                  side, line);
+            }
+            return new PatchScreen.SideBySide( //
+                id, //
+                patchIndex, //
+                patchSetDetail, //
+                patchTable, //
+                top, //
+                baseId //
+            );
+          } else if ("unified".equals(panel)) {
             return new PatchScreen.Unified( //
                 id, //
                 patchIndex, //

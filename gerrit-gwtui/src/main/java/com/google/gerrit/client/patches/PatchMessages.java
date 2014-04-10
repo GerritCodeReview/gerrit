@@ -23,4 +23,5 @@ public interface PatchMessages extends Messages {
   String expandAfter(int cnt);
   String draftSaved(Date when);
   String patchSkipRegion(String lineNumber);
+  String fileNameWithShortcutKey(String file, String key);
 }

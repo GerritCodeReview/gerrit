@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "19198330_b564c0f9",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/DefaultLabelValuelIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-04-11T21:36:22Z",
+      "side": 1,
+      "message": "This test should fail with a ValidationError in ProjectConfig.java (line 674).  I\u0027m not sure how to verify that error in this test.",
+      "revId": "623865f8f3820391975a9ac5df934f284584d4d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

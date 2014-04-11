@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f9158ff4_341ef076",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/DataSourceModule.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-04-11T14:06:18Z",
+      "side": 1,
+      "message": "Is it OK to have space in the name?",
+      "range": {
+        "startLine": 30,
+        "startChar": 58,
+        "endLine": 30,
+        "endChar": 64
+      },
+      "revId": "9baf68b79906ec392aafd5620ebeea30e7d265d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

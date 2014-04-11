@@ -19,9 +19,11 @@ import static com.google.gerrit.common.PageLinks.ADMIN_PROJECTS;
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.GitwebLink;
+import com.google.gerrit.client.WebLinkInfo;
 import com.google.gerrit.client.projects.ProjectInfo;
 import com.google.gerrit.client.projects.ProjectMap;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.ui.FilteredUserInterface;
 import com.google.gerrit.client.ui.HighlightingInlineHyperlink;
 import com.google.gerrit.client.ui.Hyperlink;
@@ -42,6 +44,8 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwtexpui.globalkey.client.NpTextBox;
+
+import java.util.List;
 
 public class ProjectListScreen extends Screen implements FilteredUserInterface {
   private Hyperlink prev;
@@ -167,13 +171,11 @@ public class ProjectListScreen extends Screen implements FilteredUserInterface {
       @Override
       protected void initColumnHeaders() {
         super.initColumnHeaders();
-        if (Gerrit.getGitwebLink() != null) {
-          table.setText(0, ProjectsTable.C_REPO_BROWSER,
-              Util.C.projectRepoBrowser());
-          table.getFlexCellFormatter().
-            addStyleName(0, ProjectsTable.C_REPO_BROWSER,
-                Gerrit.RESOURCES.css().dataHeader());
-        }
+        table.setText(0, ProjectsTable.C_REPO_BROWSER,
+            Util.C.projectRepoBrowser());
+        table.getFlexCellFormatter().
+          addStyleName(0, ProjectsTable.C_REPO_BROWSER,
+              Gerrit.RESOURCES.css().dataHeader());
       }
 
       @Override
@@ -188,11 +190,8 @@ public class ProjectListScreen extends Screen implements FilteredUserInterface {
       @Override
       protected void insert(int row, ProjectInfo k) {
         super.insert(row, k);
-        if (Gerrit.getGitwebLink() != null) {
-          table.getFlexCellFormatter().
-            addStyleName(row, ProjectsTable.C_REPO_BROWSER,
-                Gerrit.RESOURCES.css().dataCell());
-        }
+        table.getFlexCellFormatter().addStyleName(row,
+            ProjectsTable.C_REPO_BROWSER, Gerrit.RESOURCES.css().dataCell());
       }
 
       @Override
@@ -219,14 +218,32 @@ public class ProjectListScreen extends Screen implements FilteredUserInterface {
         fp.add(new HighlightingInlineHyperlink(k.name(), link(k), subname));
         table.setWidget(row, ProjectsTable.C_NAME, fp);
         table.setText(row, ProjectsTable.C_DESCRIPTION, k.description());
-        GitwebLink l = Gerrit.getGitwebLink();
-        if (l != null) {
-          table.setWidget(row, ProjectsTable.C_REPO_BROWSER,
-              new Anchor(l.getLinkName(), false, l.toProject(k
-              .name_key())));
-        }
+        addWebLinks(row, k);
 
         setRowItem(row, k);
+      }
+
+      private void addWebLinks(int row, ProjectInfo k) {
+        GitwebLink gitWebLink = Gerrit.getGitwebLink();
+        List<WebLinkInfo> webLinks = Natives.asList(k.web_links());
+        if (gitWebLink != null || (webLinks != null && !webLinks.isEmpty())) {
+          FlowPanel p = new FlowPanel();
+          table.setWidget(row, ProjectsTable.C_REPO_BROWSER, p);
+
+          if (gitWebLink != null) {
+            Anchor a = new Anchor();
+            a.setText(gitWebLink.getLinkName());
+            a.setHref(gitWebLink.toProject(k.name_key()));
+            p.add(a);
+          }
+
+          for (WebLinkInfo weblink : webLinks) {
+            Anchor a = new Anchor();
+            a.setText("(" + weblink.name() + ")");
+            a.setHref(weblink.url());
+            p.add(a);
+          }
+        }
       }
     };
     projects.setSavePointerId(PageLinks.ADMIN_PROJECTS);

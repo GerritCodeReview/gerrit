@@ -1501,6 +1501,9 @@ The name of the parent project. +
 is increased for each non-visible project).
 |`description` |optional|The description of the project.
 |`branches`    |optional|Map of branch names to HEAD revisions.
+|'web_links'   |optional|
+Links to the project in external tools as a list of
+link:rest-api-changes.html#web-link-info[WebLinkInfo] entries.
 |===========================
 
 [[project-input]]

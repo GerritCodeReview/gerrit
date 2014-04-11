@@ -12,19 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.extensions.common;
+package com.google.gerrit.client;
 
-import java.util.List;
-import java.util.Map;
+import com.google.gwt.core.client.JavaScriptObject;
 
-public class RevisionInfo {
-  public transient boolean isCurrent;
-  public Boolean draft;
-  public Boolean hasDraftComments;
-  public int _number;
-  public Map<String, FetchInfo> fetch;
-  public CommitInfo commit;
-  public Map<String, FileInfo> files;
-  public Map<String, ActionInfo> actions;
-  public List<WebLinkInfo> webLinks;
+public class WebLinkInfo extends JavaScriptObject {
+
+  public final native String name() /*-{ return this.name; }-*/;
+  public final native String url() /*-{ return this.url; }-*/;
+
+  protected WebLinkInfo() {
+  }
 }

@@ -90,10 +90,14 @@ public class WorkQueue {
   private final CopyOnWriteArrayList<Executor> queues;
 
   @Inject
-  WorkQueue(final IdGenerator idGenerator, @GerritServerConfig final Config cfg) {
+  WorkQueue(IdGenerator idGenerator, @GerritServerConfig Config cfg) {
+    this(idGenerator, cfg.getInt("execution", "defaultThreadPoolSize", 1));
+  }
+
+  public WorkQueue(IdGenerator idGenerator, int defaultThreadPoolSize) {
     this.idGenerator = idGenerator;
     this.queues = new CopyOnWriteArrayList<Executor>();
-    defaultQueueSize = cfg.getInt("execution", "defaultThreadPoolSize", 1);
+    this.defaultQueueSize = defaultThreadPoolSize;
   }
 
   /** Get the default work queue, for miscellaneous tasks. */

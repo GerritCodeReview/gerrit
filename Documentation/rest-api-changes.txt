@@ -3249,7 +3249,8 @@ Actions the caller might be able to perform on this revision. The
 information is a map of view name to link:#action-info[ActionInfo]
 entities.
 |'web_links'   |optional|
-Links to patch set in external tools as a list.
+Links to the patch set in external sites as a list of
+link:#web-link-info[WebLinkInfo] entities.
 |===========================
 
 [[rule-input]]
@@ -3378,6 +3379,17 @@ Each branch is listed without the 'refs/head/' prefix.
 |`tags`     | The list of tags this change was tagged with.
 Each tag is listed without the 'refs/tags/' prefix.
 |==========================
+
+[[web-link-info]]
+=== WebLinkInfo
+The `WebLinkInfo` entity describes a link to an external site.
+
+[options="header",width="50%",cols="1,6"]
+|======================
+|Field Name|Description
+|`name`    |The link name.
+|`url`     |The link URL.
+|======================
 
 
 GERRIT

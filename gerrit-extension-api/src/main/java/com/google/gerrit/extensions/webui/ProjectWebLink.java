@@ -12,19 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.extensions.common;
+package com.google.gerrit.extensions.webui;
 
-import java.util.List;
-import java.util.Map;
+import com.google.gerrit.extensions.annotations.ExtensionPoint;
 
-public class RevisionInfo {
-  public transient boolean isCurrent;
-  public Boolean draft;
-  public Boolean hasDraftComments;
-  public int _number;
-  public Map<String, FetchInfo> fetch;
-  public CommitInfo commit;
-  public Map<String, FileInfo> files;
-  public Map<String, ActionInfo> actions;
-  public List<WebLinkInfo> webLinks;
+@ExtensionPoint
+public interface ProjectWebLink extends WebLink {
+
+  /**
+   * URL to project in external service.
+   *
+   * @param projectName Name of the project
+   * @return url to project in external service.
+   */
+  String getProjectUrl(String projectName);
 }

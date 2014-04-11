@@ -14,17 +14,12 @@
 
 package com.google.gerrit.extensions.common;
 
-import java.util.List;
-import java.util.Map;
+public class WebLinkInfo {
+  public String name;
+  public String url;
 
-public class RevisionInfo {
-  public transient boolean isCurrent;
-  public Boolean draft;
-  public Boolean hasDraftComments;
-  public int _number;
-  public Map<String, FetchInfo> fetch;
-  public CommitInfo commit;
-  public Map<String, FileInfo> files;
-  public Map<String, ActionInfo> actions;
-  public List<WebLinkInfo> webLinks;
+  public WebLinkInfo(String name, String url) {
+    this.name = name;
+    this.url = url;
+  }
 }

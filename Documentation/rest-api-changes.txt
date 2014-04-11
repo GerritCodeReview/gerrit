@@ -244,7 +244,7 @@ default. Optional fields are:
 
 [[patch-set-links]]
 --
-* `PATCHSET_LINKS`: include the webLinks field.
+* `PATCHSET_LINKS`: include the `web_links` field.
 --
 
 .Request
@@ -3248,7 +3248,7 @@ link:#file-info[FileInfo] entities.
 Actions the caller might be able to perform on this revision. The
 information is a map of view name to link:#action-info[ActionInfo]
 entities.
-|'webLinks'    |optional|
+|'web_links'   |optional|
 Links to patch set in external tools as a list.
 |===========================
 

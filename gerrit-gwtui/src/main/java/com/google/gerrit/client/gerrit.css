@@ -1628,3 +1628,13 @@ a:hover.downloadLink {
   padding-top: 5px;
   padding-left: 5px;
 }
+
+/* StringListPanel */
+.stringListPanelButtons {
+  margin-left: 0.5em;
+}
+.stringListPanelButtons .gwt-Button {
+  margin-right: 2em;
+  font-size: 7pt;
+  padding: 1px;
+}

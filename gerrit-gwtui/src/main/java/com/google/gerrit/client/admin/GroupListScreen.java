@@ -21,8 +21,10 @@ import com.google.gerrit.client.groups.GroupMap;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.AccountScreen;
 import com.google.gerrit.client.ui.FilteredUserInterface;
+import com.google.gerrit.client.ui.Hyperlink;
 import com.google.gerrit.client.ui.IgnoreOutdatedFilterResultsCallbackWrapper;
 import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
@@ -32,11 +34,16 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwtexpui.globalkey.client.NpTextBox;
 
 public class GroupListScreen extends AccountScreen implements FilteredUserInterface {
+  private Hyperlink prev;
+  private Hyperlink next;
   private GroupTable groups;
   private NpTextBox filterTxt;
   private String subname = "";
+  private int startPosition;
+  private int pageSize;
 
   public GroupListScreen() {
+    configurePageSize();
   }
 
   public GroupListScreen(String params) {
@@ -49,6 +56,22 @@ public class GroupListScreen extends AccountScreen implements FilteredUserInterf
       if ("filter".equals(kv[0])) {
         subname = URL.decodeQueryString(kv[1]);
       }
+
+      if ("skip".equals(kv[0]) && URL.decodeQueryString(kv[1]).matches("^[\\d]+")) {
+        startPosition = Integer.parseInt(URL.decodeQueryString(kv[1]));
+      }
+    }
+    configurePageSize();
+  }
+
+  private void configurePageSize() {
+    if (Gerrit.isSignedIn()) {
+      final AccountGeneralPreferences p =
+          Gerrit.getUserAccount().getGeneralPreferences();
+      final short m = p.getMaximumPageSize();
+      pageSize = 0 < m ? m : AccountGeneralPreferences.DEFAULT_PAGESIZE;
+    } else {
+      pageSize = AccountGeneralPreferences.DEFAULT_PAGESIZE;
     }
   }
 
@@ -56,13 +79,17 @@ public class GroupListScreen extends AccountScreen implements FilteredUserInterf
   protected void onLoad() {
     super.onLoad();
     display();
-    refresh(false);
+    refresh(false, false);
   }
 
-  private void refresh(final boolean open) {
-    setToken(subname == null || "".equals(subname) ? ADMIN_GROUPS
-        : ADMIN_GROUPS + "?filter=" + URL.encodeQueryString(subname));
-    GroupMap.match(subname,
+  private void refresh(final boolean open, final boolean filterModified) {
+    if (filterModified){
+      startPosition = 0;
+    }
+    setToken(getTokenForScreen(subname, startPosition));
+    // Retrieve one more group than page size to determine if there are more
+    // groups to display
+    GroupMap.match(subname, pageSize + 1, startPosition,
         new IgnoreOutdatedFilterResultsCallbackWrapper<GroupMap>(this,
             new GerritCallback<GroupMap>() {
               @Override
@@ -71,11 +98,43 @@ public class GroupListScreen extends AccountScreen implements FilteredUserInterf
                   Gerrit.display(PageLinks.toGroup(
                       result.values().get(0).getGroupUUID()));
                 } else {
-                  groups.display(result, subname);
+                  if (result.size() <= pageSize) {
+                    groups.display(result, subname);
+                    next.setVisible(false);
+                  } else {
+                    groups.displaySubset(result, 0, result.size() - 1, subname);
+                    setupNavigationLink(next, subname, startPosition + pageSize);
+                  }
+                  if (startPosition > 0) {
+                    setupNavigationLink(prev, subname, startPosition - pageSize);
+                  } else {
+                    prev.setVisible(false);
+                  }
                   groups.finishDisplay();
                 }
               }
             }));
+  }
+
+  private void setupNavigationLink(Hyperlink link, String filter, int skip) {
+    link.setTargetHistoryToken(getTokenForScreen(filter, skip));
+    link.setVisible(true);
+  }
+
+  private String getTokenForScreen(String filter, int skip) {
+    String token = ADMIN_GROUPS;
+    if (filter != null && !filter.isEmpty()) {
+      token += "?filter=" + URL.encodeQueryString(filter);
+    }
+    if (skip > 0) {
+      if (token.contains("?filter=")) {
+        token += ",";
+      } else {
+        token += "?";
+      }
+      token += "skip=" + skip;
+    }
+    return token;
   }
 
   @Override
@@ -89,8 +148,20 @@ public class GroupListScreen extends AccountScreen implements FilteredUserInterf
     setPageTitle(Util.C.groupListTitle());
     initPageHeader();
 
+    prev = new Hyperlink(Util.C.pagedGroupListPrev(), true, "");
+    prev.setVisible(false);
+
+    next = new Hyperlink(Util.C.pagedGroupListNext(), true, "");
+    next.setVisible(false);
+
     groups = new GroupTable(PageLinks.ADMIN_GROUPS);
     add(groups);
+
+    final HorizontalPanel buttons = new HorizontalPanel();
+    buttons.setStyleName(Gerrit.RESOURCES.css().changeTablePrevNextLinks());
+    buttons.add(prev);
+    buttons.add(next);
+    add(buttons);
   }
 
   private void initPageHeader() {
@@ -106,9 +177,10 @@ public class GroupListScreen extends AccountScreen implements FilteredUserInterf
       public void onKeyUp(KeyUpEvent event) {
         boolean enterPressed =
             event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER;
-        if (enterPressed || !filterTxt.getValue().equals(subname)) {
+        boolean filterModified = !filterTxt.getValue().equals(subname);
+        if (enterPressed || filterModified) {
           subname = filterTxt.getValue();
-          refresh(enterPressed);
+          refresh(enterPressed, filterModified);
         }
       }
     });

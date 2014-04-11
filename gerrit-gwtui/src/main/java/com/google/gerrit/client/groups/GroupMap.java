@@ -24,12 +24,18 @@ public class GroupMap extends NativeMap<GroupInfo> {
     groups().get(NativeMap.copyKeysIntoChildren(callback));
   }
 
-  public static void match(String match, AsyncCallback<GroupMap> cb) {
-    if (match == null || "".equals(match)) {
-      all(cb);
-    } else {
-      groups().addParameter("m", match).get(NativeMap.copyKeysIntoChildren(cb));
+  public static void match(String match, int limit, int start, AsyncCallback<GroupMap> cb) {
+    RestApi call = new RestApi("/groups/");
+    if (match != null) {
+      call.addParameter("m", match);
     }
+    if (limit > 0) {
+      call.addParameter("n", limit);
+    }
+    if (start > 0) {
+      call.addParameter("S", start);
+    }
+    call.get(NativeMap.copyKeysIntoChildren(cb));
   }
 
   public static void myOwned(AsyncCallback<GroupMap> cb) {

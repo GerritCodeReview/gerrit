@@ -22,6 +22,24 @@
       "revId": "9baf68b79906ec392aafd5620ebeea30e7d265d2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "199ee3d0_6d28b596",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/DataSourceModule.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2014-04-11T14:39:54Z",
+      "side": 1,
+      "message": "My understanding is as follows:\n\nThe name is used in two contexts:\n\n1) If you are configuring the database explictly in the gerrit.config to have Gerrit create a DataSource for you, you may need to use the name \"maxdb\".\n\n2) If you are using the DataSource \"java:comp/env/reviewDb\" then the database type is determined automatically using Connection.getMetaData().getDatabaseProductName(). Here SAP MaxDB returns \"sap db\". (Historically, \"MaxDB\" was named \"SAP DB\" for a while).\n\nThe second mapping name \"sap db\" is used to support the automatic db type detection.\n\nI\u0027ll add a comment.",
+      "parentUuid": "f9158ff4_341ef076",
+      "revId": "9baf68b79906ec392aafd5620ebeea30e7d265d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

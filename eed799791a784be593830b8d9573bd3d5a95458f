@@ -210,6 +210,24 @@
       "revId": "eed799791a784be593830b8d9573bd3d5a95458f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f9158ff4_148db46a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 674,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-04-11T21:47:36Z",
+      "side": 1,
+      "message": "I wasn\u0027t sure how to do it on the server side so i only normalized it for the Reply box.  Also I think it would be preferable _not_ to do on the server side because I think the REST api should return the default value that is set in the project config, not the normalized one that you would get in the Reply box.  In another words i think we should normalize only for the Reply box.",
+      "parentUuid": "19198330_d5e69c55",
+      "revId": "eed799791a784be593830b8d9573bd3d5a95458f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "199ee3d0_6df6f502",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-04-11T11:29:49Z",
+      "side": 1,
+      "message": "This would be a cool feature :)",
+      "parentUuid": "19198330_b5d7a066",
+      "revId": "e1387628c6d0cbc9535ae74f2346091ccf998ec2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f9158ff4_740fc84a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2014-04-11T01:25:45Z",
       "side": 1,
       "message": "Switch to a Set\u003cString\u003e here as you do contains within a loop below. So wrap the RHS of the assignment in Sets.newHashSet(...).",
+      "range": {
+        "startLine": 277,
+        "startChar": 4,
+        "endLine": 277,
+        "endChar": 26
+      },
+      "revId": "e1387628c6d0cbc9535ae74f2346091ccf998ec2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f9aaefea_6cf6fb02",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-04-11T11:29:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f9158ff4_740fc84a",
       "range": {
         "startLine": 277,
         "startChar": 4,
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "199ee3d0_4df33911",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-04-11T11:29:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19198330_1512d472",
+      "range": {
+        "startLine": 285,
+        "startChar": 34,
+        "endLine": 285,
+        "endChar": 43
+      },
+      "revId": "e1387628c6d0cbc9535ae74f2346091ccf998ec2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "19198330_f5fab8df",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
         "patchSetId": 1
@@ -76,6 +142,30 @@
       "writtenOn": "2014-04-11T01:25:45Z",
       "side": 1,
       "message": "This is redundant, auto-boxing will work just fine and IIRC unlike JGit we don\u0027t warn on auto-boxing in Gerrit.",
+      "range": {
+        "startLine": 265,
+        "startChar": 16,
+        "endLine": 265,
+        "endChar": 31
+      },
+      "revId": "e1387628c6d0cbc9535ae74f2346091ccf998ec2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f9aaefea_cce60f56",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-04-11T11:29:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19198330_f5fab8df",
       "range": {
         "startLine": 265,
         "startChar": 16,
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "f9aaefea_2cecf332",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-04-11T11:29:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f9158ff4_d4ffbccd",
+      "range": {
+        "startLine": 279,
+        "startChar": 27,
+        "endLine": 279,
+        "endChar": 42
+      },
+      "revId": "e1387628c6d0cbc9535ae74f2346091ccf998ec2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f9158ff4_3415505b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
         "patchSetId": 1
@@ -122,6 +236,30 @@
       "writtenOn": "2014-04-11T01:25:45Z",
       "side": 1,
       "message": "Rely on auto-boxing",
+      "range": {
+        "startLine": 290,
+        "startChar": 18,
+        "endLine": 290,
+        "endChar": 33
+      },
+      "revId": "e1387628c6d0cbc9535ae74f2346091ccf998ec2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f9aaefea_0ce93723",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-04-11T11:29:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f9158ff4_3415505b",
       "range": {
         "startLine": 290,
         "startChar": 18,
@@ -157,6 +295,30 @@
     },
     {
       "key": {
+        "uuid": "199ee3d0_ad00dd21",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-04-11T11:29:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19198330_d5ffbccd",
+      "range": {
+        "startLine": 315,
+        "startChar": 16,
+        "endLine": 315,
+        "endChar": 31
+      },
+      "revId": "e1387628c6d0cbc9535ae74f2346091ccf998ec2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "19198330_3515505b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
         "patchSetId": 1
@@ -168,6 +330,30 @@
       "writtenOn": "2014-04-11T01:25:45Z",
       "side": 1,
       "message": "Rely on auto-boxing",
+      "range": {
+        "startLine": 318,
+        "startChar": 21,
+        "endLine": 318,
+        "endChar": 36
+      },
+      "revId": "e1387628c6d0cbc9535ae74f2346091ccf998ec2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "199ee3d0_8d052132",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-04-11T11:29:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19198330_3515505b",
       "range": {
         "startLine": 318,
         "startChar": 21,

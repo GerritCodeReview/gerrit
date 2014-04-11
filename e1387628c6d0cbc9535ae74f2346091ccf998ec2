@@ -1,0 +1,182 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "19198330_b5d7a066",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-04-11T01:25:45Z",
+      "side": 1,
+      "message": "This was partly intentional and partly a bug. I want to allow posting comments on files not part of the patch set and thus drag them into the review, e.g. to allow a reviewer to say \"no don\u0027t fix it here, go fix it in Frobinator.java see my comment there\".\n\nI agree we should tighten the input checking now, and then relax it later if we allow \"adding\" unmodified files to a revision for the purpose of a reviewer commenting on the unmodified file to alert the owner/author to something in that file.",
+      "revId": "e1387628c6d0cbc9535ae74f2346091ccf998ec2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f9158ff4_740fc84a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-04-11T01:25:45Z",
+      "side": 1,
+      "message": "Switch to a Set\u003cString\u003e here as you do contains within a loop below. So wrap the RHS of the assignment in Sets.newHashSet(...).",
+      "range": {
+        "startLine": 277,
+        "startChar": 4,
+        "endLine": 277,
+        "endChar": 26
+      },
+      "revId": "e1387628c6d0cbc9535ae74f2346091ccf998ec2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19198330_1512d472",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-04-11T01:25:45Z",
+      "side": 1,
+      "message": "revision",
+      "range": {
+        "startLine": 285,
+        "startChar": 34,
+        "endLine": 285,
+        "endChar": 43
+      },
+      "revId": "e1387628c6d0cbc9535ae74f2346091ccf998ec2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19198330_f5fab8df",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-04-11T01:25:45Z",
+      "side": 1,
+      "message": "This is redundant, auto-boxing will work just fine and IIRC unlike JGit we don\u0027t warn on auto-boxing in Gerrit.",
+      "range": {
+        "startLine": 265,
+        "startChar": 16,
+        "endLine": 265,
+        "endChar": 31
+      },
+      "revId": "e1387628c6d0cbc9535ae74f2346091ccf998ec2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f9158ff4_d4ffbccd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-04-11T01:25:45Z",
+      "side": 1,
+      "message": "Rely on auto-boxing instead.",
+      "range": {
+        "startLine": 279,
+        "startChar": 27,
+        "endLine": 279,
+        "endChar": 42
+      },
+      "revId": "e1387628c6d0cbc9535ae74f2346091ccf998ec2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f9158ff4_3415505b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-04-11T01:25:45Z",
+      "side": 1,
+      "message": "Rely on auto-boxing",
+      "range": {
+        "startLine": 290,
+        "startChar": 18,
+        "endLine": 290,
+        "endChar": 33
+      },
+      "revId": "e1387628c6d0cbc9535ae74f2346091ccf998ec2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19198330_d5ffbccd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-04-11T01:25:45Z",
+      "side": 1,
+      "message": "Rely on auto-boxing",
+      "range": {
+        "startLine": 315,
+        "startChar": 16,
+        "endLine": 315,
+        "endChar": 31
+      },
+      "revId": "e1387628c6d0cbc9535ae74f2346091ccf998ec2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19198330_3515505b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-04-11T01:25:45Z",
+      "side": 1,
+      "message": "Rely on auto-boxing",
+      "range": {
+        "startLine": 318,
+        "startChar": 21,
+        "endLine": 318,
+        "endChar": 36
+      },
+      "revId": "e1387628c6d0cbc9535ae74f2346091ccf998ec2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

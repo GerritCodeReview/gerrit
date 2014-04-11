@@ -137,4 +137,7 @@ public interface AdminConstants extends Constants {
 
   String pagedProjectListPrev();
   String pagedProjectListNext();
+
+  String pagedGroupListPrev();
+  String pagedGroupListNext();
 }

@@ -15,6 +15,7 @@
 package com.google.gerrit.client.admin;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.StringListPanel;
 import com.google.gerrit.client.access.AccessMap;
 import com.google.gerrit.client.access.ProjectAccessInfo;
 import com.google.gerrit.client.actions.ActionButton;
@@ -47,7 +48,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.FocusWidget;
+import com.google.gwt.user.client.ui.HasEnabled;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -59,7 +60,10 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.globalkey.client.NpTextArea;
 import com.google.gwtexpui.globalkey.client.NpTextBox;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -77,7 +81,7 @@ public class ProjectInfoScreen extends ProjectScreen {
   private ListBox contentMerge;
   private NpTextBox maxObjectSizeLimit;
   private Label effectiveMaxObjectSizeLimit;
-  private Map<String, Map<String, FocusWidget>> pluginConfigWidgets;
+  private Map<String, Map<String, HasEnabled>> pluginConfigWidgets;
 
   // Section: Contributor Agreements
   private ListBox contributorAgreements;
@@ -160,8 +164,8 @@ public class ProjectInfoScreen extends ProjectScreen {
     maxObjectSizeLimit.setEnabled(isOwner);
 
     if (pluginConfigWidgets != null) {
-      for (Map<String, FocusWidget> widgetMap : pluginConfigWidgets.values()) {
-        for (FocusWidget widget : widgetMap.values()) {
+      for (Map<String, HasEnabled> widgetMap : pluginConfigWidgets.values()) {
+        for (HasEnabled widget : widgetMap.values()) {
           widget.setEnabled(isOwner);
         }
       }
@@ -358,7 +362,7 @@ public class ProjectInfoScreen extends ProjectScreen {
     pluginConfigWidgets = new HashMap<>();
 
     for (String pluginName : info.pluginConfig().keySet()) {
-      Map<String, FocusWidget> widgetMap = new HashMap<>();
+      Map<String, HasEnabled> widgetMap = new HashMap<>();
       pluginConfigWidgets.put(pluginName, widgetMap);
       LabeledWidgetsGrid g = new LabeledWidgetsGrid();
       g.addHeader(new SmallHeading(Util.M.pluginProjectOptionsTitle(pluginName)));
@@ -367,7 +371,7 @@ public class ProjectInfoScreen extends ProjectScreen {
           info.pluginConfig(pluginName);
       pluginConfig.copyKeysIntoChildren("name");
       for (ConfigParameterInfo param : Natives.asList(pluginConfig.values())) {
-        FocusWidget w;
+        HasEnabled w;
         switch (param.type()) {
           case "STRING":
           case "INT":
@@ -381,7 +385,7 @@ public class ProjectInfoScreen extends ProjectScreen {
             w = renderListBox(g, param);
             break;
           case "ARRAY":
-            w = renderTextArea(g, param);
+            w = renderStringListPanel(g, param);
             break;
           default:
             throw new UnsupportedOperationException("unsupported widget type");
@@ -498,24 +502,21 @@ public class ProjectInfoScreen extends ProjectScreen {
     return listBox;
   }
 
-  private NpTextArea renderTextArea(LabeledWidgetsGrid g,
+  private StringListPanel renderStringListPanel(LabeledWidgetsGrid g,
       ConfigParameterInfo param) {
-    NpTextArea txtArea = new NpTextArea();
-    txtArea.setVisibleLines(4);
-    txtArea.setCharacterWidth(40);
-    StringBuilder sb = new StringBuilder();
-    for (int i = 0; i < param.values().length(); i++) {
-      String v = param.values().get(i);
-      sb.append(v).append("\n");
+    StringListPanel p =
+        new StringListPanel(null, Arrays.asList(getDisplayName(param)),
+            saveProject, true);
+    List<List<String>> values = new ArrayList<>();
+    for (String v : Natives.asList(param.values())) {
+      values.add(Arrays.asList(v));
     }
-    txtArea.setText(sb.toString());
-    if (param.editable()) {
-      saveEnabler.listenTo(txtArea);
-    } else {
-      txtArea.setEnabled(false);
+    p.display(values);
+    if (!param.editable()) {
+      p.setEnabled(false);
     }
-    addWidget(g, txtArea, param);
-    return txtArea;
+    addWidget(g, p, param);
+    return p;
   }
 
   private void addWidget(LabeledWidgetsGrid g, Widget w, ConfigParameterInfo param) {
@@ -590,11 +591,11 @@ public class ProjectInfoScreen extends ProjectScreen {
   private Map<String, Map<String, ConfigParameterValue>> getPluginConfigValues() {
     Map<String, Map<String, ConfigParameterValue>> pluginConfigValues =
         new HashMap<>(pluginConfigWidgets.size());
-    for (Entry<String, Map<String, FocusWidget>> e : pluginConfigWidgets.entrySet()) {
+    for (Entry<String, Map<String, HasEnabled>> e : pluginConfigWidgets.entrySet()) {
       Map<String, ConfigParameterValue> values = new HashMap<>(e.getValue().size());
       pluginConfigValues.put(e.getKey(), values);
-      for (Entry<String, FocusWidget> e2 : e.getValue().entrySet()) {
-        FocusWidget widget = e2.getValue();
+      for (Entry<String, HasEnabled> e2 : e.getValue().entrySet()) {
+        HasEnabled widget = e2.getValue();
         if (widget instanceof TextBox) {
           values.put(e2.getKey(), ConfigParameterValue.create()
               .value(((TextBox) widget).getValue().trim()));
@@ -609,10 +610,11 @@ public class ProjectInfoScreen extends ProjectScreen {
               ? listBox.getValue(listBox.getSelectedIndex()) : null;
           values.put(e2.getKey(), ConfigParameterValue.create()
               .value(value));
-        } else if (widget instanceof NpTextArea) {
-          String text = ((NpTextArea) widget).getText().trim();
-          values.put(e2.getKey(), ConfigParameterValue.create()
-              .values(text.split("\n")));
+        } else if (widget instanceof StringListPanel) {
+          values.put(e2.getKey(),
+              ConfigParameterValue.create().values(
+                  ((StringListPanel) widget).getValues(0)
+                      .toArray(new String[] {})));
         } else {
           throw new UnsupportedOperationException("unsupported widget type");
         }

@@ -39,8 +39,8 @@ import com.google.gerrit.client.ui.LinkMenuBar;
 import com.google.gerrit.client.ui.LinkMenuItem;
 import com.google.gerrit.client.ui.MorphingTabPanel;
 import com.google.gerrit.client.ui.PatchLink;
+import com.google.gerrit.client.ui.ProjectLinkMenuItem;
 import com.google.gerrit.client.ui.Screen;
-import com.google.gerrit.client.ui.ScreenLoadEvent;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.GerritConfig;
 import com.google.gerrit.common.data.GitwebConfig;
@@ -51,7 +51,6 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.client.AuthType;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.aria.client.Roles;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -214,6 +213,10 @@ public class Gerrit implements EntryPoint {
       patchScreen = null;
       menuLeft.setVisible(diffBar, false);
     }
+  }
+
+  public static void selectMenu(LinkMenuBar bar) {
+    menuLeft.selectTab(menuLeft.getWidgetIndex(bar));
   }
 
   /**
@@ -629,22 +632,21 @@ public class Gerrit implements EntryPoint {
     addDiffLink(diffBar, C.menuDiffPatchSets(), PatchScreen.TopView.PATCH_SETS);
     addDiffLink(diffBar, C.menuDiffFiles(), PatchScreen.TopView.FILES);
 
-    final LinkMenuBar projectsBar = new LinkMenuBar() {
-      @Override
-      public void onScreenLoad(ScreenLoadEvent event) {
-        if (event.getScreen() instanceof ProjectScreen) {
-          menuLeft.selectTab(menuLeft.getWidgetIndex(this));
-        }
-      }
-    };
+    final LinkMenuBar projectsBar = new LinkMenuBar();
     menuBars.put(GerritTopMenu.PROJECTS.menuName, projectsBar);
     addLink(projectsBar, C.menuProjectsList(), PageLinks.ADMIN_PROJECTS);
-    addProjectLink(projectsBar, C.menuProjectsInfo(), ProjectScreen.INFO);
-    addProjectLink(projectsBar, C.menuProjectsBranches(), ProjectScreen.BRANCH);
-    addProjectLink(projectsBar, C.menuProjectsAccess(), ProjectScreen.ACCESS);
+    projectsBar.addItem(new ProjectLinkMenuItem(C.menuProjectsInfo(), ProjectScreen.INFO));
+    projectsBar.addItem(new ProjectLinkMenuItem(C.menuProjectsBranches(), ProjectScreen.BRANCH));
+    projectsBar.addItem(new ProjectLinkMenuItem(C.menuProjectsAccess(), ProjectScreen.ACCESS));
     final LinkMenuItem dashboardsMenuItem =
-        addProjectLink(projectsBar, C.menuProjectsDashboards(),
-            ProjectScreen.DASHBOARDS);
+        new ProjectLinkMenuItem(C.menuProjectsDashboards(),
+            ProjectScreen.DASHBOARDS) {
+      protected boolean match(String token) {
+        return super.match(token) ||
+            (!getTargetHistoryToken().isEmpty() && ("/admin" + token).startsWith(getTargetHistoryToken()));
+      }
+    };
+    projectsBar.addItem(dashboardsMenuItem);
     menuLeft.add(projectsBar, C.menuProjects());
 
     if (signedIn) {
@@ -879,32 +881,6 @@ public class Gerrit implements EntryPoint {
       });
   }
 
-  private static LinkMenuItem addProjectLink(final LinkMenuBar m, final String text,
-      final String panel) {
-    LinkMenuItem i = new LinkMenuItem(text, "") {
-        @Override
-        public void onScreenLoad(ScreenLoadEvent event) {
-          Screen screen = event.getScreen();
-          Project.NameKey projectKey;
-          if (screen instanceof ProjectScreen) {
-            projectKey = ((ProjectScreen)screen).getProjectKey();
-          } else {
-            projectKey = ProjectScreen.getSavedKey();
-          }
-
-          if (projectKey != null) {
-            setVisible(true);
-            setTargetHistoryToken(Dispatcher.toProjectAdmin(projectKey, panel));
-          } else {
-            setVisible(false);
-          }
-          super.onScreenLoad(event);
-        }
-      };
-    m.addItem(i);
-    return i;
-  }
-
   private static void addDiffLink(final LinkMenuBar m, final String text,
       final PatchScreen.Type type) {
     m.addItem(new LinkMenuItem(text, "") {
@@ -937,7 +913,7 @@ public class Gerrit implements EntryPoint {
       if (item.getId() != null) {
         a.getElement().setAttribute("id", item.getId());
       }
-      m.add(a);
+      m.addItem(a);
     } else {
       Anchor atag = anchor(item.getName(), isAbsolute(item.getUrl())
           ? item.getUrl()

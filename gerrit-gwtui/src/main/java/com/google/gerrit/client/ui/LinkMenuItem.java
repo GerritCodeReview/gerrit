@@ -19,6 +19,8 @@ import com.google.gwt.aria.client.Roles;
 import com.google.gwt.dom.client.AnchorElement;
 
 public class LinkMenuItem extends InlineHyperlink implements ScreenLoadHandler {
+  private LinkMenuBar bar;
+
   public LinkMenuItem(final String text, final String targetHistoryToken) {
     super(text, targetHistoryToken);
     setStyleName(Gerrit.RESOURCES.css().menuItem());
@@ -32,11 +34,20 @@ public class LinkMenuItem extends InlineHyperlink implements ScreenLoadHandler {
     AnchorElement.as(getElement()).blur();
   }
 
+  public void setMenuBar(LinkMenuBar bar) {
+    this.bar = bar;
+  }
+
   public void onScreenLoad(ScreenLoadEvent event) {
-    if (event.getScreen().getToken().equals(getTargetHistoryToken())){
+    if (match(event.getScreen().getToken())) {
+      Gerrit.selectMenu(bar);
       addStyleName(Gerrit.RESOURCES.css().activeRow());
     } else {
       removeStyleName(Gerrit.RESOURCES.css().activeRow());
     }
+  }
+
+  protected boolean match(String token) {
+    return token.equals(getTargetHistoryToken());
   }
 }

@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "f9158ff4_f45e3827",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 3096,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-04-12T11:55:03Z",
+      "side": 1,
+      "message": "This comes out as default_value, right?",
+      "revId": "623865f8f3820391975a9ac5df934f284584d4d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "19198330_b564c0f9",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/DefaultLabelValuelIT.java",
         "patchSetId": 5
@@ -13,6 +30,109 @@
       "writtenOn": "2014-04-11T21:36:22Z",
       "side": 1,
       "message": "This test should fail with a ValidationError in ProjectConfig.java (line 674).  I\u0027m not sure how to verify that error in this test.",
+      "revId": "623865f8f3820391975a9ac5df934f284584d4d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f9158ff4_9469c4d1",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/DefaultLabelValuelIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-04-12T11:55:03Z",
+      "side": 1,
+      "message": "That is in the load codepath, not the save codepath, so you\u0027d have to load it again, see e.g. ProjectConfigTest.read for an example.\n\nThe pattern in ProjectConfig is to do all validation on load rather than save. (A new project.config is validated during ReceiveCommits using load.)",
+      "parentUuid": "19198330_b564c0f9",
+      "revId": "623865f8f3820391975a9ac5df934f284584d4d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f9158ff4_3479d09a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ReplyBox.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-04-12T11:55:03Z",
+      "side": 1,
+      "message": "I don\u0027t think these are used?",
+      "revId": "623865f8f3820391975a9ac5df934f284584d4d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19198330_157654aa",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ReplyBox.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-04-12T11:55:03Z",
+      "side": 1,
+      "message": "aka Collections.min(values)",
+      "revId": "623865f8f3820391975a9ac5df934f284584d4d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f9158ff4_d4633ced",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ReplyBox.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-04-12T11:55:03Z",
+      "side": 1,
+      "message": "aka Collections.max(values)",
+      "revId": "623865f8f3820391975a9ac5df934f284584d4d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19198330_757348ba",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ReplyBox.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 555,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-04-12T11:55:03Z",
+      "side": 1,
+      "message": "Unnecessary blank line",
+      "revId": "623865f8f3820391975a9ac5df934f284584d4d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19198330_5570ccab",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 696,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-04-12T11:55:03Z",
+      "side": 1,
+      "message": "What I was trying to get at before is that the values list might be missing some entries. But I checked, and LabelType.sortValues actually fills these in at construction time. So you can assume that values contains all the intermediate values.\n\nIn other words, this can just be:\n\n for (LabelValue lv : values) {\n   if (lv.getValue() \u003d\u003d v) {\n     return true;\n   }\n }\n return false;",
       "revId": "623865f8f3820391975a9ac5df934f284584d4d1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

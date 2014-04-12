@@ -252,7 +252,15 @@ public class MergeabilityChecker implements GitReferenceUpdatedListener {
     if (ref.startsWith(Constants.R_HEADS) || ref.equals(RefNames.REFS_CONFIG)) {
       Branch.NameKey branch = new Branch.NameKey(
           new Project.NameKey(event.getProjectName()), ref);
-      newCheck().addBranch(branch).runAsync();
+      try {
+        newCheck().addBranch(branch).runAsync().checkedGet();
+      } catch (IOException e) {
+        String msg =
+            "Failed to update mergeability flags for project "
+                + event.getProjectName() + " on update of " + ref;
+        log.error(msg, e);
+        throw new RuntimeException(msg, e);
+      }
     }
     if (ref.equals(RefNames.REFS_CONFIG)) {
       Project.NameKey p = new Project.NameKey(event.getProjectName());

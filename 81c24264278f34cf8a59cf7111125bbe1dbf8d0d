@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f9158ff4_747348ba",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/AccountConstants.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-04-12T13:04:28Z",
+      "side": 1,
+      "message": "Nit: all the other lines that are split across 2 or more lines are in the format\n\n identifier \u003d \\\n   line 1 \\\n   line 2",
+      "revId": "81c24264278f34cf8a59cf7111125bbe1dbf8d0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

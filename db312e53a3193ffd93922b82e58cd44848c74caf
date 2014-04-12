@@ -16,6 +16,24 @@
       "revId": "db312e53a3193ffd93922b82e58cd44848c74caf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f9158ff4_34ec3033",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeKindCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-04-12T12:15:31Z",
+      "side": 1,
+      "message": "Aha, I was wondering why the other ones were public. Done.",
+      "parentUuid": "19198330_95dc248a",
+      "revId": "db312e53a3193ffd93922b82e58cd44848c74caf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

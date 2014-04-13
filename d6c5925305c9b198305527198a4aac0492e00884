@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f9158ff4_b4b68005",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 866,
+      "author": {
+        "id": 1010817
+      },
+      "writtenOn": "2014-04-13T19:40:44Z",
+      "side": 1,
+      "message": "publicly",
+      "range": {
+        "startLine": 866,
+        "startChar": 0,
+        "endLine": 866,
+        "endChar": 10
+      },
+      "revId": "d6c5925305c9b198305527198a4aac0492e00884",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

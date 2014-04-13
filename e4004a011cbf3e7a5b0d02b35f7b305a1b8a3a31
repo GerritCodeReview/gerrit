@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "19198330_35c27076",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-04-13T01:50:36Z",
+      "side": 1,
+      "message": "I don\u0027t think this is the right fix, this defeats the whole purpose of trunning these in a separate executor",
+      "revId": "e4004a011cbf3e7a5b0d02b35f7b305a1b8a3a31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

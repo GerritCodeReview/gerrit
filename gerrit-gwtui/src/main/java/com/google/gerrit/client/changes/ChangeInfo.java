@@ -299,8 +299,8 @@ public class ChangeInfo extends JavaScriptObject {
   }
 
   public static class WebLinkInfo extends JavaScriptObject {
-    public final native String link_name() /*-{ return this.link_name; }-*/;
-    public final native String link_url() /*-{ return this.link_url; }-*/;
+    public final native String name() /*-{ return this.name; }-*/;
+    public final native String url() /*-{ return this.url; }-*/;
     protected WebLinkInfo() {
     }
   }

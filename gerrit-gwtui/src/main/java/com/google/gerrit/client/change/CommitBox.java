@@ -117,7 +117,7 @@ class CommitBox extends Composite {
     JsArray<WebLinkInfo> links = revInfo.web_links();
     if (links != null) {
       for (WebLinkInfo link : Natives.asList(links)) {
-        addWebLink(link.link_url(), parenthesize(link.link_name()));
+        addWebLink(link.url(), parenthesize(link.name()));
       }
     }
   }

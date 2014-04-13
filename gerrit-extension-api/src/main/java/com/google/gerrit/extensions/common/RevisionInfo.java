@@ -29,12 +29,12 @@ public class RevisionInfo {
   public List<WebLinkInfo> webLinks;
 
   public static class WebLinkInfo {
-    public String linkName;
-    public String linkUrl;
+    public String name;
+    public String url;
 
     public WebLinkInfo(String name, String url) {
-      linkName = name;
-      linkUrl = url;
+      this.name = name;
+      this.url = url;
     }
   }
 }

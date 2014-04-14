@@ -14,12 +14,7 @@
 
 package com.google.gerrit.server.index;
 
-import com.google.gerrit.server.query.Predicate;
-import com.google.gerrit.server.query.QueryParseException;
-import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gerrit.server.query.change.ChangeDataSource;
-
-public interface ChangeIndex extends Index<ChangeData> {
-  ChangeDataSource getSource(Predicate<ChangeData> pred, int start, int limit)
-      throws QueryParseException;
+public enum IndexKind {
+  CHANGES,
+  ACCOUNTS;
 }

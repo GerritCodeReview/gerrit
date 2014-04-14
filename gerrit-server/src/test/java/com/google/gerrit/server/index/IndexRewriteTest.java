@@ -43,14 +43,14 @@ import java.util.Set;
 
 public class IndexRewriteTest {
   private FakeIndex index;
-  private IndexCollection indexes;
+  private ChangeIndexes indexes;
   private ChangeQueryBuilder queryBuilder;
   private IndexRewriteImpl rewrite;
 
   @Before
   public void setUp() throws Exception {
     index = new FakeIndex(FakeIndex.V2);
-    indexes = new IndexCollection();
+    indexes = new ChangeIndexes();
     indexes.setSearchIndex(index);
     queryBuilder = new FakeQueryBuilder(indexes);
     rewrite = new IndexRewriteImpl(

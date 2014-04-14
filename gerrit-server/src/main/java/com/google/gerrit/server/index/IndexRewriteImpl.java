@@ -120,11 +120,11 @@ public class IndexRewriteImpl implements ChangeQueryRewriter {
     return null;
   }
 
-  private final IndexCollection indexes;
+  private final ChangeIndexes indexes;
   private final BasicChangeRewrites basicRewrites;
 
   @Inject
-  IndexRewriteImpl(IndexCollection indexes,
+  IndexRewriteImpl(ChangeIndexes indexes,
       BasicChangeRewrites basicRewrites) {
     this.indexes = indexes;
     this.basicRewrites = basicRewrites;
@@ -205,7 +205,7 @@ public class IndexRewriteImpl implements ChangeQueryRewriter {
     return partitionChildren(in, newChildren, isIndexed, index, limit);
   }
 
-  private boolean isIndexPredicate(Predicate<ChangeData> in, ChangeIndex index) {
+  private boolean isIndexPredicate(Predicate<ChangeData> in, Index<ChangeData> index) {
     if (!(in instanceof IndexPredicate)) {
       return false;
     }

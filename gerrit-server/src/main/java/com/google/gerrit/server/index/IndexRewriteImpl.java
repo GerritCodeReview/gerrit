@@ -28,6 +28,7 @@ import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.AndSource;
 import com.google.gerrit.server.query.change.BasicChangeRewrites;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.ChangeDataSource;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeQueryRewriter;
 import com.google.gerrit.server.query.change.ChangeStatusPredicate;
@@ -120,11 +121,11 @@ public class IndexRewriteImpl implements ChangeQueryRewriter {
     return null;
   }
 
-  private final IndexCollection indexes;
+  private final IndexCollection<ChangeData, ChangeDataSource> indexes;
   private final BasicChangeRewrites basicRewrites;
 
   @Inject
-  IndexRewriteImpl(IndexCollection indexes,
+  IndexRewriteImpl(IndexCollection<ChangeData, ChangeDataSource> indexes,
       BasicChangeRewrites basicRewrites) {
     this.indexes = indexes;
     this.basicRewrites = basicRewrites;
@@ -133,7 +134,7 @@ public class IndexRewriteImpl implements ChangeQueryRewriter {
   @Override
   public Predicate<ChangeData> rewrite(Predicate<ChangeData> in, int start)
       throws QueryParseException {
-    ChangeIndex index = indexes.getSearchIndex();
+    Index<ChangeData, ChangeDataSource> index = indexes.getSearchIndex();
     in = basicRewrites.rewrite(in);
     int limit =
         Objects.firstNonNull(ChangeQueryBuilder.getLimit(in), MAX_LIMIT);
@@ -168,7 +169,7 @@ public class IndexRewriteImpl implements ChangeQueryRewriter {
    *     support this predicate.
    */
   private Predicate<ChangeData> rewriteImpl(Predicate<ChangeData> in,
-      ChangeIndex index, int limit) throws QueryParseException {
+      Index<ChangeData, ChangeDataSource> index, int limit) throws QueryParseException {
     if (isIndexPredicate(in, index)) {
       return in;
     } else if (!isRewritePossible(in)) {
@@ -205,7 +206,7 @@ public class IndexRewriteImpl implements ChangeQueryRewriter {
     return partitionChildren(in, newChildren, isIndexed, index, limit);
   }
 
-  private boolean isIndexPredicate(Predicate<ChangeData> in, ChangeIndex index) {
+  private boolean isIndexPredicate(Predicate<ChangeData> in, Index<ChangeData, ChangeDataSource> index) {
     if (!(in instanceof IndexPredicate)) {
       return false;
     }
@@ -217,7 +218,7 @@ public class IndexRewriteImpl implements ChangeQueryRewriter {
       Predicate<ChangeData> in,
       List<Predicate<ChangeData>> newChildren,
       BitSet isIndexed,
-      ChangeIndex index,
+      Index<ChangeData, ChangeDataSource> index,
       int limit) throws QueryParseException {
     if (isIndexed.cardinality() == 1) {
       int i = isIndexed.nextSetBit(0);

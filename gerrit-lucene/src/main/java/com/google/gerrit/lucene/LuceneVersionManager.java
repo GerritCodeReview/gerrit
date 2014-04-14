@@ -25,6 +25,7 @@ import com.google.gerrit.server.index.ChangeSchemas;
 import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.ChangeDataSource;
 import com.google.inject.Inject;
 import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
@@ -88,14 +89,14 @@ class LuceneVersionManager implements LifecycleListener {
 
   private final SitePaths sitePaths;
   private final LuceneChangeIndex.Factory indexFactory;
-  private final IndexCollection indexes;
+  private final IndexCollection<ChangeData, ChangeDataSource> indexes;
   private final OnlineReindexer.Factory reindexerFactory;
 
   @Inject
   LuceneVersionManager(
       SitePaths sitePaths,
       LuceneChangeIndex.Factory indexFactory,
-      IndexCollection indexes,
+      IndexCollection<ChangeData, ChangeDataSource> indexes,
       OnlineReindexer.Factory reindexerFactory) {
     this.sitePaths = sitePaths;
     this.indexFactory = indexFactory;

@@ -78,13 +78,13 @@ public class IndexedChangeQuery extends Predicate<ChangeData>
     }
   }
 
-  private final ChangeIndex index;
+  private final Index<ChangeData, ChangeDataSource> index;
   private final int limit;
 
   private Predicate<ChangeData> pred;
   private ChangeDataSource source;
 
-  public IndexedChangeQuery(ChangeIndex index, Predicate<ChangeData> pred,
+  public IndexedChangeQuery(Index<ChangeData, ChangeDataSource> index, Predicate<ChangeData> pred,
       int limit) throws QueryParseException {
     this.index = index;
     this.limit = limit;

@@ -37,6 +37,7 @@ import com.google.gerrit.server.git.MultiProgressMonitor;
 import com.google.gerrit.server.git.MultiProgressMonitor.Task;
 import com.google.gerrit.server.patch.PatchListLoader;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.ChangeDataSource;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 
@@ -128,7 +129,7 @@ public class ChangeBatchIndexer {
     this.mergeabilityChecker = mergeabilityChecker;
   }
 
-  public Result indexAll(ChangeIndex index, Iterable<Project.NameKey> projects,
+  public Result indexAll(Index<ChangeData, ChangeDataSource> index, Iterable<Project.NameKey> projects,
       int numProjects, int numChanges, OutputStream progressOut,
       OutputStream verboseOut) {
     if (progressOut == null) {

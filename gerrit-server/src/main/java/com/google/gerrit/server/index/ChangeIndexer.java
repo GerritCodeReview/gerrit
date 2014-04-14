@@ -23,6 +23,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.ChangeDataSource;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.gwtorm.server.OrmException;
@@ -55,8 +56,8 @@ public class ChangeIndexer {
       LoggerFactory.getLogger(ChangeIndexer.class);
 
   public interface Factory {
-    ChangeIndexer create(ChangeIndex index);
-    ChangeIndexer create(IndexCollection indexes);
+    ChangeIndexer create(Index<ChangeData, ChangeDataSource> index);
+    ChangeIndexer create(IndexCollection<ChangeData, ChangeDataSource>  indexes);
   }
 
   private static final Function<Exception, IOException> MAPPER =
@@ -74,8 +75,8 @@ public class ChangeIndexer {
     }
   };
 
-  private final IndexCollection indexes;
-  private final ChangeIndex index;
+  private final IndexCollection<ChangeData, ChangeDataSource>  indexes;
+  private final Index<ChangeData, ChangeDataSource> index;
   private final SchemaFactory<ReviewDb> schemaFactory;
   private final ChangeData.Factory changeDataFactory;
   private final ThreadLocalRequestContext context;
@@ -86,7 +87,7 @@ public class ChangeIndexer {
       SchemaFactory<ReviewDb> schemaFactory,
       ChangeData.Factory changeDataFactory,
       ThreadLocalRequestContext context,
-      @Assisted ChangeIndex index) {
+      @Assisted Index<ChangeData, ChangeDataSource> index) {
     this.executor = executor;
     this.schemaFactory = schemaFactory;
     this.changeDataFactory = changeDataFactory;
@@ -100,7 +101,7 @@ public class ChangeIndexer {
       SchemaFactory<ReviewDb> schemaFactory,
       ChangeData.Factory changeDataFactory,
       ThreadLocalRequestContext context,
-      @Assisted IndexCollection indexes) {
+      @Assisted IndexCollection<ChangeData, ChangeDataSource>  indexes) {
     this.executor = executor;
     this.schemaFactory = schemaFactory;
     this.changeDataFactory = changeDataFactory;
@@ -127,7 +128,7 @@ public class ChangeIndexer {
    * @param cd change to index.
    */
   public void index(ChangeData cd) throws IOException {
-    for (ChangeIndex i : getWriteIndexes()) {
+    for (Index<ChangeData, ChangeDataSource> i : getWriteIndexes()) {
       i.replace(cd);
     }
   }
@@ -160,7 +161,7 @@ public class ChangeIndexer {
    * @param cd change to delete.
    */
   public void delete(ChangeData cd) throws IOException {
-    for (ChangeIndex i : getWriteIndexes()) {
+    for (Index<ChangeData, ChangeDataSource> i : getWriteIndexes()) {
       i.delete(cd);
     }
   }
@@ -175,7 +176,7 @@ public class ChangeIndexer {
     delete(changeDataFactory.create(db, change));
   }
 
-  private Collection<ChangeIndex> getWriteIndexes() {
+  private Collection<Index<ChangeData, ChangeDataSource>> getWriteIndexes() {
     return indexes != null
         ? indexes.getWriteIndexes()
         : Collections.singleton(index);
@@ -227,11 +228,11 @@ public class ChangeIndexer {
           ChangeData cd = changeDataFactory.create(
               newCtx.getReviewDbProvider().get(), id);
           if (delete) {
-            for (ChangeIndex i : getWriteIndexes()) {
+            for (Index<ChangeData, ChangeDataSource> i : getWriteIndexes()) {
               i.delete(cd);
             }
           } else {
-            for (ChangeIndex i : getWriteIndexes()) {
+            for (Index<ChangeData, ChangeDataSource> i : getWriteIndexes()) {
               i.replace(cd);
             }
           }

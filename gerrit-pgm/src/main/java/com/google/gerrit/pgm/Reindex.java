@@ -59,8 +59,8 @@ import com.google.gerrit.server.git.validators.CommitValidationListener;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.group.GroupModule;
 import com.google.gerrit.server.index.ChangeBatchIndexer;
-import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.ChangeSchemas;
+import com.google.gerrit.server.index.Index;
 import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.IndexModule.IndexType;
@@ -74,6 +74,7 @@ import com.google.gerrit.server.project.ProjectCacheImpl;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.SectionSortCache;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.ChangeDataSource;
 import com.google.gerrit.server.schema.DataSourceProvider;
 import com.google.gerrit.server.schema.DataSourceType;
 import com.google.gerrit.solr.SolrIndexModule;
@@ -127,7 +128,7 @@ public class Reindex extends SiteProgram {
 
   private Injector dbInjector;
   private Injector sysInjector;
-  private ChangeIndex index;
+  private Index<ChangeData, ChangeDataSource> index;
 
   @Override
   public int run() throws Exception {
@@ -147,6 +148,7 @@ public class Reindex extends SiteProgram {
     sysManager.add(sysInjector);
     sysManager.start();
 
+    // TODO(dpursehouse) fix the raw types warning here
     index = sysInjector.getInstance(IndexCollection.class).getSearchIndex();
     int result = 0;
     try {

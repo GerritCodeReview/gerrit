@@ -35,7 +35,7 @@ import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.strategy.SubmitStrategyFactory;
 import com.google.gerrit.server.index.ChangeField;
-import com.google.gerrit.server.index.ChangeIndex;
+import com.google.gerrit.server.index.Index;
 import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.patch.PatchListCache;
@@ -150,7 +150,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     final GitRepositoryManager repoManager;
     final ProjectCache projectCache;
     final Provider<ListChildProjects> listChildProjects;
-    final IndexCollection indexes;
+    final IndexCollection<ChangeData> indexes;
     final SubmitStrategyFactory submitStrategyFactory;
     final ConflictsCache conflictsCache;
     final TrackingFooters trackingFooters;
@@ -172,7 +172,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         GitRepositoryManager repoManager,
         ProjectCache projectCache,
         Provider<ListChildProjects> listChildProjects,
-        IndexCollection indexes,
+        IndexCollection<ChangeData> indexes,
         SubmitStrategyFactory submitStrategyFactory,
         ConflictsCache conflictsCache,
         TrackingFooters trackingFooters,
@@ -263,7 +263,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   @Operator
   public Predicate<ChangeData> comment(String value) throws QueryParseException {
-    ChangeIndex index = args.indexes.getSearchIndex();
+    Index<ChangeData> index = args.indexes.getSearchIndex();
     return new CommentPredicate(args, index, value);
   }
 
@@ -482,7 +482,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   @Operator
   public Predicate<ChangeData> message(String text) throws QueryParseException {
-    ChangeIndex index = args.indexes.getSearchIndex();
+    Index<ChangeData> index = args.indexes.getSearchIndex();
     return new MessagePredicate(args, index, text);
   }
 
@@ -784,8 +784,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     throw new IllegalArgumentException();
   }
 
-  private static Schema<ChangeData> schema(@Nullable IndexCollection indexes) {
-    ChangeIndex index = indexes != null ? indexes.getSearchIndex() : null;
+  private static Schema<ChangeData> schema(@Nullable IndexCollection<ChangeData> indexes) {
+    Index<ChangeData> index = indexes != null ? indexes.getSearchIndex() : null;
     return index != null ? index.getSchema() : null;
   }
 }

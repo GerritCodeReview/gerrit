@@ -18,9 +18,9 @@ import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.ChangeSchemas;
 import com.google.gerrit.server.index.FieldDef.FillArgs;
+import com.google.gerrit.server.index.Index;
 import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -50,7 +50,7 @@ public class SolrIndexModule extends LifecycleModule {
   @Override
   protected void configure() {
     install(new IndexModule(threads));
-    bind(ChangeIndex.class).to(SolrChangeIndex.class);
+    bind(Index.class).to(SolrChangeIndex.class);
     listener().to(SolrChangeIndex.class);
     if (checkVersion) {
       listener().to(IndexVersionCheck.class);
@@ -63,7 +63,7 @@ public class SolrIndexModule extends LifecycleModule {
       Provider<ReviewDb> db,
       ChangeData.Factory changeDataFactory,
       SitePaths sitePaths,
-      IndexCollection indexes,
+      IndexCollection<ChangeData> indexes,
       FillArgs fillArgs) throws IOException {
     return new SolrChangeIndex(cfg, db, changeDataFactory, fillArgs, sitePaths,
         indexes, ChangeSchemas.getLatest(), base);

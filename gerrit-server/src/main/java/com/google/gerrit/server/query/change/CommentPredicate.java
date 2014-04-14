@@ -15,7 +15,7 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.server.index.ChangeField;
-import com.google.gerrit.server.index.ChangeIndex;
+import com.google.gerrit.server.index.Index;
 import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
@@ -24,9 +24,9 @@ import com.google.gwtorm.server.OrmException;
 
 class CommentPredicate extends IndexPredicate<ChangeData> {
   private final Arguments args;
-  private final ChangeIndex index;
+  private final Index<ChangeData> index;
 
-  CommentPredicate(Arguments args, ChangeIndex index, String value) {
+  CommentPredicate(Arguments args, Index<ChangeData> index, String value) {
     super(ChangeField.COMMENT, value);
     this.args = args;
     this.index = index;

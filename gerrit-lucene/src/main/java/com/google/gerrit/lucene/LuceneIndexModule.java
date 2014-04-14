@@ -80,11 +80,11 @@ public class LuceneIndexModule extends LifecycleModule {
 
   @Singleton
   static class SingleVersionListener implements LifecycleListener {
-    private final IndexCollection indexes;
+    private final IndexCollection<ChangeData> indexes;
     private final LuceneChangeIndex index;
 
     @Inject
-    SingleVersionListener(IndexCollection indexes,
+    SingleVersionListener(IndexCollection<ChangeData> indexes,
         LuceneChangeIndex index) {
       this.indexes = indexes;
       this.index = index;

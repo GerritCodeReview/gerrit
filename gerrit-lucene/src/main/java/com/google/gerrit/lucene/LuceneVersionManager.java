@@ -88,14 +88,14 @@ class LuceneVersionManager implements LifecycleListener {
 
   private final SitePaths sitePaths;
   private final LuceneChangeIndex.Factory indexFactory;
-  private final IndexCollection indexes;
+  private final IndexCollection<ChangeData> indexes;
   private final OnlineReindexer.Factory reindexerFactory;
 
   @Inject
   LuceneVersionManager(
       SitePaths sitePaths,
       LuceneChangeIndex.Factory indexFactory,
-      IndexCollection indexes,
+      IndexCollection<ChangeData> indexes,
       OnlineReindexer.Factory reindexerFactory) {
     this.sitePaths = sitePaths;
     this.indexFactory = indexFactory;

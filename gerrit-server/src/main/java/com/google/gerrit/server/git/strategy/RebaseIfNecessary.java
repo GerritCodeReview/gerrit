@@ -96,7 +96,7 @@ public class RebaseIfNecessary extends SubmitStrategy {
 
             List<PatchSetApproval> approvals = Lists.newArrayList();
             for (PatchSetApproval a : args.approvalsUtil.byPatchSet(
-                args.db, n.notes(), n.getPatchsetId())) {
+                args.db, n.getControl(), n.getPatchsetId())) {
               approvals.add(new PatchSetApproval(newPatchSet.getId(), a));
             }
             // rebaseChange.rebase() may already have copied some approvals,

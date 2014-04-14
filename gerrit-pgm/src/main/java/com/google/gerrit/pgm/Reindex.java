@@ -43,7 +43,7 @@ import com.google.gerrit.server.account.GroupCacheImpl;
 import com.google.gerrit.server.account.GroupIncludeCacheImpl;
 import com.google.gerrit.server.cache.CacheRemovalListener;
 import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
-import com.google.gerrit.server.change.ChangeKindCache;
+import com.google.gerrit.server.change.ChangeKindCacheImpl;
 import com.google.gerrit.server.change.MergeabilityChecker;
 import com.google.gerrit.server.change.MergeabilityChecksExecutor;
 import com.google.gerrit.server.change.MergeabilityChecksExecutor.Priority;
@@ -298,7 +298,7 @@ public class Reindex extends SiteProgram {
       DynamicSet.setOf(binder(), CommitValidationListener.class);
       factory(CommitValidators.Factory.class);
 
-      install(ChangeKindCache.module());
+      install(ChangeKindCacheImpl.module());
 
       install(new GitModule());
       install(new NoteDbModule());

@@ -239,6 +239,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
         indexer.indexAsync(rsrc.getChange().getId());
     result.reviewers = Lists.newArrayListWithCapacity(added.size());
     for (PatchSetApproval psa : added) {
+      // New reviewers have value 0, don't bother normalizing.
       result.reviewers.add(json.format(
           new ReviewerInfo(psa.getAccountId()),
           reviewers.get(psa.getAccountId()),

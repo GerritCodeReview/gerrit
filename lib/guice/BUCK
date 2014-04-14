@@ -49,6 +49,21 @@ maven_jar(
 )
 
 maven_jar(
+  name = 'guice-multibindings',
+  id = 'com.google.inject.extensions:guice-multibindings:' + VERSION,
+  sha1 = '558a3dcfd203db33a5a96a70a18076c866723ee4',
+  license = 'Apache2.0',
+  exclude_java_sources = True,
+  exclude = [
+    'META-INF/DEPENDENCIES',
+    'META-INF/LICENSE',
+    'META-INF/NOTICE',
+    'META-INF/maven/com.google.guava/guava/pom.properties',
+    'META-INF/maven/com.google.guava/guava/pom.xml',
+  ],
+)
+
+maven_jar(
   name = 'aopalliance',
   id = 'aopalliance:aopalliance:1.0',
   sha1 = '0235ba8b489512805ac13a8f9ea77a1ca5ebe3e8',

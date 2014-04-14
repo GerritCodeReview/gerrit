@@ -26,6 +26,8 @@ import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
+import com.google.inject.TypeLiteral;
+import com.google.inject.multibindings.Multibinder;
 
 import org.eclipse.jgit.lib.Config;
 
@@ -64,8 +66,8 @@ public class IndexModule extends LifecycleModule {
   protected void configure() {
     bind(ChangeQueryRewriter.class).to(IndexRewriteImpl.class);
     bind(BasicChangeRewrites.class);
-    bind(IndexCollection.class);
-    listener().to(IndexCollection.class);
+    bind(ChangeIndexes.class);
+    listener().to(ChangeIndexes.class);
     factory(ChangeIndexer.Factory.class);
 
     if (indexExecutor != null) {
@@ -75,12 +77,16 @@ public class IndexModule extends LifecycleModule {
     } else {
       install(new IndexExecutorModule(threads));
     }
+
+    Multibinder<IndexCollection<?>> indexBinder = Multibinder
+        .newSetBinder(binder(), new TypeLiteral<IndexCollection<?>>() {});
+    indexBinder.addBinding().to(ChangeIndexes.class);
   }
 
   @Provides
   ChangeIndexer getChangeIndexer(
       ChangeIndexer.Factory factory,
-      IndexCollection indexes) {
+      ChangeIndexes indexes) {
     return factory.create(indexes);
   }
 

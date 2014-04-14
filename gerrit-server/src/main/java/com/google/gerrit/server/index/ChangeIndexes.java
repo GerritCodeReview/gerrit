@@ -1,4 +1,4 @@
-// Copyright (C) 2014 The Android Open Source Project
+// Copyright (C) 2013 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,12 +14,18 @@
 
 package com.google.gerrit.server.index;
 
-import com.google.gerrit.server.query.Predicate;
-import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gerrit.server.query.change.ChangeDataSource;
+import com.google.inject.Singleton;
 
-public interface ChangeIndex extends Index<ChangeData> {
-  ChangeDataSource getSource(Predicate<ChangeData> pred, int start, int limit)
-      throws QueryParseException;
+@Singleton
+public class ChangeIndexes extends IndexCollection<ChangeData> {
+  @Override
+  public IndexKind getIndexKind() {
+    return IndexKind.CHANGES;
+  }
+
+  @Override
+  public ChangeIndex getSearchIndex() {
+    return (ChangeIndex)super.getSearchIndex();
+  }
 }

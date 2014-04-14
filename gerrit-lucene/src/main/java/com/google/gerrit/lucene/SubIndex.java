@@ -133,6 +133,20 @@ class SubIndex {
 
   void close() {
     reopenThread.close();
+
+    // Closing the reopen thread sets its generation to Long.MAX_VALUE, but we
+    // still need to refresh the searcher manager to let pending NrtFutures
+    // know.
+    //
+    // Any futures created after this method (which may happen due to undefined
+    // shutdown ordering behavior) will finish immediately, even though they may
+    // not have flushed.
+    try {
+      searcherManager.maybeRefreshBlocking();
+    } catch (IOException e) {
+      log.warn("error finishing pending Lucene writes", e);
+    }
+
     try {
       writer.getIndexWriter().commit();
       writer.getIndexWriter().close(true);
@@ -213,7 +227,9 @@ class SubIndex {
 
     @Override
     public void addListener(Runnable listener, Executor executor) {
-      if (!isDone()) {
+      if (isGenAvailableNowForCurrentSearcher() && !isCancelled()) {
+        set(null);
+      } else if (!isDone()) {
         notDoneNrtFutures.add(this);
       }
       super.addListener(listener, executor);

@@ -15,22 +15,38 @@
 package com.google.gerrit.server.config;
 
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.account.GetPreferences.PreferenceInfo;
-import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.account.VersionedAccountPreferences;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
 
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.Repository;
+
+import java.io.IOException;
+
 public class GetPreferences implements RestReadView<ConfigResource> {
-  private final ProjectState allUsers;
+  private final AllUsersName allUsersName;
+  private final GitRepositoryManager gitMgr;
 
   @Inject
-  public GetPreferences(ProjectCache projectCache) {
-    this.allUsers = projectCache.getAllUsers();
+  public GetPreferences(AllUsersName allUsersName,
+      GitRepositoryManager gitMgr) {
+    this.allUsersName = allUsersName;
+    this.gitMgr = gitMgr;
   }
 
   @Override
-  public PreferenceInfo apply(ConfigResource rsrc) {
-    return new PreferenceInfo(null, RefNames.REFS_USER + "default", allUsers);
+  public PreferenceInfo apply(ConfigResource rsrc)
+      throws IOException, ConfigInvalidException {
+    Repository git = gitMgr.openRepository(allUsersName);
+    try {
+      VersionedAccountPreferences p =
+          VersionedAccountPreferences.forDefault();
+      p.load(git);
+      return new PreferenceInfo(null, p, git);
+    } finally {
+      git.close();
+    }
   }
 }

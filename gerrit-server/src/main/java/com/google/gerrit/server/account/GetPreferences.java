@@ -28,22 +28,27 @@ import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DiffView;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadCommand;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadScheme;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.TimeFormat;
-import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.Repository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class GetPreferences implements RestReadView<AccountResource> {
-  public static final String PREFERENCES = "preferences.config";
+  private static final Logger log = LoggerFactory.getLogger(GetPreferences.class);
+
   public static final String MY = "my";
   public static final String KEY_URL = "url";
   public static final String KEY_TARGET = "target";
@@ -51,19 +56,26 @@ public class GetPreferences implements RestReadView<AccountResource> {
 
   private final Provider<CurrentUser> self;
   private final Provider<ReviewDb> db;
-  private final ProjectState allUsers;
+  private final AllUsersName allUsersName;
+  private final GitRepositoryManager gitMgr;
 
   @Inject
   GetPreferences(Provider<CurrentUser> self, Provider<ReviewDb> db,
-      ProjectCache projectCache) {
+      AllUsersName allUsersName,
+      GitRepositoryManager gitMgr) {
     this.self = self;
     this.db = db;
-    this.allUsers = projectCache.getAllUsers();
+    this.allUsersName = allUsersName;
+    this.gitMgr = gitMgr;
   }
 
   @Override
   public PreferenceInfo apply(AccountResource rsrc)
-      throws AuthException, ResourceNotFoundException, OrmException {
+      throws AuthException,
+      ResourceNotFoundException,
+      OrmException,
+      IOException,
+      ConfigInvalidException {
     if (self.get() != rsrc.getUser()
         && !self.get().getCapabilities().canAdministrateServer()) {
       throw new AuthException("restricted to administrator");
@@ -72,8 +84,16 @@ public class GetPreferences implements RestReadView<AccountResource> {
     if (a == null) {
       throw new ResourceNotFoundException();
     }
-    return new PreferenceInfo(a.getGeneralPreferences(),
-        rsrc.getUser().getAccountId(), allUsers);
+
+    Repository git = gitMgr.openRepository(allUsersName);
+    try {
+      VersionedAccountPreferences p =
+          VersionedAccountPreferences.forUser(rsrc.getUser().getAccountId());
+      p.load(git);
+      return new PreferenceInfo(a.getGeneralPreferences(), p, git);
+    } finally {
+      git.close();
+    }
   }
 
   public static class PreferenceInfo {
@@ -96,13 +116,8 @@ public class GetPreferences implements RestReadView<AccountResource> {
     ChangeScreen changeScreen;
     List<TopMenu.MenuItem> my;
 
-    public PreferenceInfo(AccountGeneralPreferences p, Account.Id accountId,
-        ProjectState allUsers) {
-      this(p, RefNames.refsUsers(accountId), allUsers);
-    }
-
-    public PreferenceInfo(AccountGeneralPreferences p, String ref,
-        ProjectState allUsers) {
+    public PreferenceInfo(AccountGeneralPreferences p,
+        VersionedAccountPreferences v, Repository allUsers) {
       if (p != null) {
         changesPerPage = p.getMaximumPageSize();
         showSiteHeader = p.isShowSiteHeader() ? true : null;
@@ -120,13 +135,20 @@ public class GetPreferences implements RestReadView<AccountResource> {
         diffView = p.getDiffView();
         changeScreen = p.getChangeScreen();
       }
-      my = my(ref, allUsers);
+      my = my(v, allUsers);
     }
 
-    private List<TopMenu.MenuItem> my(String ref, ProjectState allUsers) {
-      List<TopMenu.MenuItem> my = my(allUsers, ref);
-      if (my.isEmpty() && !ref.equals(RefNames.REFS_USER + "default")) {
-        my = my(allUsers, RefNames.REFS_USER + "default");
+    private List<TopMenu.MenuItem> my(VersionedAccountPreferences v,
+        Repository allUsers) {
+      List<TopMenu.MenuItem> my = my(v);
+      if (my.isEmpty() && !v.isDefaults()) {
+        try {
+          VersionedAccountPreferences d = VersionedAccountPreferences.forDefault();
+          d.load(allUsers);
+          my = my(d);
+        } catch (ConfigInvalidException | IOException e) {
+          log.warn("cannot read default preferences", e);
+        }
       }
       if (my.isEmpty()) {
         my.add(new TopMenu.MenuItem("Changes", "#/dashboard/self", null));
@@ -138,9 +160,9 @@ public class GetPreferences implements RestReadView<AccountResource> {
       return my;
     }
 
-    private List<TopMenu.MenuItem> my(ProjectState allUsers, String ref) {
+    private List<TopMenu.MenuItem> my(VersionedAccountPreferences v) {
       List<TopMenu.MenuItem> my = new ArrayList<>();
-      Config cfg = allUsers.getConfig(PREFERENCES, ref).get();
+      Config cfg = v.getConfig();
       for (String subsection : cfg.getSubsections(MY)) {
         String url = my(cfg, subsection, KEY_URL, "#/");
         String target = my(cfg, subsection, KEY_TARGET,

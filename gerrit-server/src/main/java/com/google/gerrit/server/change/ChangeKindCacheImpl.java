@@ -90,7 +90,7 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
     }
   }
 
-  private static class Key implements Serializable {
+  public static class Key implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private transient ObjectId prior;
@@ -108,6 +108,24 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
       this.next = next.copy();
       this.strategyName = strategyName;
       this.repo = repo;
+    }
+
+    public Key(ObjectId prior, ObjectId next, String strategyName) {
+      this.prior = prior;
+      this.next = next;
+      this.strategyName = strategyName;
+    }
+
+    public ObjectId getPrior() {
+      return prior;
+    }
+
+    public ObjectId getNext() {
+      return next;
+    }
+
+    public String getStrategyName() {
+      return strategyName;
     }
 
     @Override

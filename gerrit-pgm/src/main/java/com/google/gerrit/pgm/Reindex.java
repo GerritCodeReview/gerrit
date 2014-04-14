@@ -59,9 +59,9 @@ import com.google.gerrit.server.git.validators.CommitValidationListener;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.group.GroupModule;
 import com.google.gerrit.server.index.ChangeBatchIndexer;
-import com.google.gerrit.server.index.ChangeIndex;
+import com.google.gerrit.server.index.ChangeIndexes;
 import com.google.gerrit.server.index.ChangeSchemas;
-import com.google.gerrit.server.index.IndexCollection;
+import com.google.gerrit.server.index.Index;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.IndexModule.IndexType;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
@@ -127,7 +127,7 @@ public class Reindex extends SiteProgram {
 
   private Injector dbInjector;
   private Injector sysInjector;
-  private ChangeIndex index;
+  private Index<ChangeData> index;
 
   @Override
   public int run() throws Exception {
@@ -147,7 +147,7 @@ public class Reindex extends SiteProgram {
     sysManager.add(sysInjector);
     sysManager.start();
 
-    index = sysInjector.getInstance(IndexCollection.class).getSearchIndex();
+    index = sysInjector.getInstance(ChangeIndexes.class).getSearchIndex();
     int result = 0;
     try {
       index.markReady(false);

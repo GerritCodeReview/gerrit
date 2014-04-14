@@ -18,7 +18,6 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.inject.Inject;
-import com.google.inject.Singleton;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -26,35 +25,36 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicReference;
 
 /** Dynamic pointers to the index versions used for searching and writing. */
-@Singleton
-public class IndexCollection implements LifecycleListener {
-  private final CopyOnWriteArrayList<ChangeIndex> writeIndexes;
-  private final AtomicReference<ChangeIndex> searchIndex;
+public abstract class IndexCollection<T> implements LifecycleListener {
+  private final CopyOnWriteArrayList<Index<T>> writeIndexes;
+  private final AtomicReference<Index<T>> searchIndex;
 
   @Inject
   @VisibleForTesting
   public IndexCollection() {
     this.writeIndexes = Lists.newCopyOnWriteArrayList();
-    this.searchIndex = new AtomicReference<>();
+    this.searchIndex = new AtomicReference<Index<T>>();
   }
 
+  public abstract IndexKind getIndexKind();
+
   /** @return the current search index version. */
-  public ChangeIndex getSearchIndex() {
+  public Index<T> getSearchIndex() {
     return searchIndex.get();
   }
 
-  public void setSearchIndex(ChangeIndex index) {
-    ChangeIndex old = searchIndex.getAndSet(index);
+  public void setSearchIndex(Index<T> index) {
+    Index<T> old = searchIndex.getAndSet(index);
     if (old != null && old != index && !writeIndexes.contains(old)) {
       old.close();
     }
   }
 
-  public Collection<ChangeIndex> getWriteIndexes() {
+  public Collection<Index<T>> getWriteIndexes() {
     return Collections.unmodifiableCollection(writeIndexes);
   }
 
-  public synchronized ChangeIndex addWriteIndex(ChangeIndex index) {
+  public synchronized Index<T> addWriteIndex(Index<T> index) {
     int version = index.getSchema().getVersion();
     for (int i = 0; i < writeIndexes.size(); i++) {
       if (writeIndexes.get(i).getSchema().getVersion() == version) {
@@ -82,8 +82,8 @@ public class IndexCollection implements LifecycleListener {
     }
   }
 
-  public ChangeIndex getWriteIndex(int version) {
-    for (ChangeIndex i : writeIndexes) {
+  public Index<T> getWriteIndex(int version) {
+    for (Index<T> i : writeIndexes) {
       if (i.getSchema().getVersion() == version) {
         return i;
       }
@@ -97,11 +97,11 @@ public class IndexCollection implements LifecycleListener {
 
   @Override
   public void stop() {
-    ChangeIndex read = searchIndex.get();
+    Index<T> read = searchIndex.get();
     if (read != null) {
       read.close();
     }
-    for (ChangeIndex write : writeIndexes) {
+    for (Index<T> write : writeIndexes) {
       if (write != read) {
         write.close();
       }

@@ -128,7 +128,7 @@ public class ChangeBatchIndexer {
     this.mergeabilityChecker = mergeabilityChecker;
   }
 
-  public Result indexAll(ChangeIndex index, Iterable<Project.NameKey> projects,
+  public Result indexAll(Index<ChangeData> index, Iterable<Project.NameKey> projects,
       int numProjects, int numChanges, OutputStream progressOut,
       OutputStream verboseOut) {
     if (progressOut == null) {

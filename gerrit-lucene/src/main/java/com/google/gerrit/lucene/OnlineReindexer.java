@@ -18,9 +18,11 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.collect.Lists;
 import com.google.gerrit.server.index.ChangeBatchIndexer;
-import com.google.gerrit.server.index.ChangeIndex;
+import com.google.gerrit.server.index.ChangeIndexes;
+import com.google.gerrit.server.index.Index;
 import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -38,14 +40,14 @@ public class OnlineReindexer {
     OnlineReindexer create(int version);
   }
 
-  private final IndexCollection indexes;
+  private final IndexCollection<ChangeData> indexes;
   private final ChangeBatchIndexer batchIndexer;
   private final ProjectCache projectCache;
   private final int version;
 
   @Inject
   OnlineReindexer(
-      IndexCollection indexes,
+      ChangeIndexes indexes,
       ChangeBatchIndexer batchIndexer,
       ProjectCache projectCache,
       @Assisted int version) {
@@ -67,12 +69,12 @@ public class OnlineReindexer {
     t.start();
   }
 
-  private static int version(ChangeIndex i) {
+  private static int version(Index<ChangeData> i) {
     return i.getSchema().getVersion();
   }
 
   private void reindex() {
-    ChangeIndex index = checkNotNull(indexes.getWriteIndex(version),
+    Index<ChangeData> index = checkNotNull(indexes.getWriteIndex(version),
         "not an active write schema version: %s", version);
     log.info("Starting online reindex from schema version {} to {}",
         version(indexes.getSearchIndex()), version(index));
@@ -91,13 +93,13 @@ public class OnlineReindexer {
       log.warn("Error activating new schema version {}", version(index));
     }
 
-    List<ChangeIndex> toRemove = Lists.newArrayListWithExpectedSize(1);
-    for (ChangeIndex i : indexes.getWriteIndexes()) {
+    List<Index<ChangeData>> toRemove = Lists.newArrayListWithExpectedSize(1);
+    for (Index<ChangeData> i : indexes.getWriteIndexes()) {
       if (version(i) != version(index)) {
         toRemove.add(i);
       }
     }
-    for (ChangeIndex i : toRemove) {
+    for (Index<ChangeData> i : toRemove) {
       try {
         i.markReady(false);
         indexes.removeWriteIndex(version(i));

@@ -22,6 +22,30 @@
       "revId": "d6c5925305c9b198305527198a4aac0492e00884",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19198330_b5b68005",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 866,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-04-14T00:36:43Z",
+      "side": 1,
+      "message": "Fredrik and I discussed this, and decided to leave it as it is based on [1].\n\n[1] http://english.stackexchange.com/questions/45136/difference-between-publicly-and-publically",
+      "parentUuid": "f9158ff4_b4b68005",
+      "range": {
+        "startLine": 866,
+        "startChar": 0,
+        "endLine": 866,
+        "endChar": 10
+      },
+      "revId": "d6c5925305c9b198305527198a4aac0492e00884",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

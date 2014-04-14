@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f9158ff4_d4dcdc58",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 3096,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-04-14T05:05:22Z",
+      "side": 1,
+      "message": "yes, have changed it according.",
+      "parentUuid": "f9158ff4_f45e3827",
+      "revId": "623865f8f3820391975a9ac5df934f284584d4d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "19198330_b564c0f9",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/DefaultLabelValuelIT.java",
         "patchSetId": 5
@@ -54,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "19198330_d5b5fcf8",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/DefaultLabelValuelIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-04-14T05:05:22Z",
+      "side": 1,
+      "message": "thanks.  i just added the tests to ProjectConfigTests.java",
+      "parentUuid": "f9158ff4_9469c4d1",
+      "revId": "623865f8f3820391975a9ac5df934f284584d4d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f9158ff4_3479d09a",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ReplyBox.java",
         "patchSetId": 5
@@ -65,6 +101,24 @@
       "writtenOn": "2014-04-12T11:55:03Z",
       "side": 1,
       "message": "I don\u0027t think these are used?",
+      "revId": "623865f8f3820391975a9ac5df934f284584d4d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f9158ff4_34c27076",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ReplyBox.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-04-14T05:05:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f9158ff4_3479d09a",
       "revId": "623865f8f3820391975a9ac5df934f284584d4d1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -88,6 +142,24 @@
     },
     {
       "key": {
+        "uuid": "f9158ff4_14bf74de",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ReplyBox.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-04-14T05:05:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19198330_157654aa",
+      "revId": "623865f8f3820391975a9ac5df934f284584d4d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f9158ff4_d4633ced",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ReplyBox.java",
         "patchSetId": 5
@@ -99,6 +171,24 @@
       "writtenOn": "2014-04-12T11:55:03Z",
       "side": 1,
       "message": "aka Collections.max(values)",
+      "revId": "623865f8f3820391975a9ac5df934f284584d4d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f9158ff4_74cce8a5",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ReplyBox.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-04-14T05:05:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f9158ff4_d4633ced",
       "revId": "623865f8f3820391975a9ac5df934f284584d4d1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -133,6 +223,24 @@
       "writtenOn": "2014-04-12T11:55:03Z",
       "side": 1,
       "message": "What I was trying to get at before is that the values list might be missing some entries. But I checked, and LabelType.sortValues actually fills these in at construction time. So you can assume that values contains all the intermediate values.\n\nIn other words, this can just be:\n\n for (LabelValue lv : values) {\n   if (lv.getValue() \u003d\u003d v) {\n     return true;\n   }\n }\n return false;",
+      "revId": "623865f8f3820391975a9ac5df934f284584d4d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19198330_15bf74de",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 696,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-04-14T05:05:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19198330_5570ccab",
       "revId": "623865f8f3820391975a9ac5df934f284584d4d1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -140,6 +140,7 @@ public class ChangeScreen2 extends Screen {
   @UiField InlineHyperlink ownerLink;
   @UiField Element statusText;
   @UiField Image projectSettings;
+  @UiField Image projectDashboard;
   @UiField InlineHyperlink projectLink;
   @UiField InlineHyperlink branchLink;
   @UiField Element strategy;
@@ -356,6 +357,13 @@ public class ChangeScreen2 extends Screen {
   }
 
   private void initProjectLinks(final ChangeInfo info) {
+    projectDashboard.addDomHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent event) {
+        Gerrit.display(
+            PageLinks.toProjectDefaultDashboard(info.project_name_key()));
+      }
+    }, ClickEvent.getType());
     projectSettings.addDomHandler(new ClickHandler() {
       @Override
       public void onClick(ClickEvent event) {
@@ -365,7 +373,10 @@ public class ChangeScreen2 extends Screen {
     }, ClickEvent.getType());
     projectLink.setText(info.project());
     projectLink.setTargetHistoryToken(
-        PageLinks.toProjectDefaultDashboard(info.project_name_key()));
+        PageLinks.toChangeQuery(
+            PageLinks.projectQuery(
+                info.project_name_key(),
+                info.status())));
   }
 
   private void initBranchLink(ChangeInfo info) {

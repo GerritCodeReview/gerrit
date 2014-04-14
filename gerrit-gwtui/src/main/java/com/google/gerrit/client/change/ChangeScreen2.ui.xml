@@ -166,6 +166,11 @@ limitations under the License.
       cursor: pointer;
     }
 
+    .projectDashboard {
+      float: right;
+      cursor: pointer;
+    }
+
     .infoColumn {
       width: 440px;
       padding-left: 17px;
@@ -390,7 +395,14 @@ limitations under the License.
                      ui:field='projectSettings'
                      resource='{ico.gear}'
                      styleName='{style.projectSettings}'
-                     title='Go to project'>
+                     title='Go to project settings'>
+                    <ui:attribute name='title'/>
+                  </g:Image>
+                  <g:Image
+                     ui:field='projectDashboard'
+                     resource='{ico.dashboard}'
+                     styleName='{style.projectDashboard}'
+                     title='Go to project dashboard'>
                     <ui:attribute name='title'/>
                   </g:Image>
               </td>

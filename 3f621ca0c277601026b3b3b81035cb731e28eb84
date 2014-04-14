@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f9158ff4_94e6e406",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/VersionedAccountPreferences.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-04-14T19:45:25Z",
+      "side": 1,
+      "message": "ProjectConfig.onLoad does a significant amount of validation in this step; is it worth doing that at this point?",
+      "revId": "3f621ca0c277601026b3b3b81035cb731e28eb84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -100,7 +100,7 @@ public class ProjectApiImpl implements ProjectApi {
         throw new ResourceConflictException("Project already exists");
       }
       if (in.name != null && !name.equals(in.name)) {
-        throw new RestApiException("name must match input.name");
+        throw new BadRequestException("name must match input.name");
       }
       createProjectFactory.get().create(name)
           .apply(TopLevelResource.INSTANCE, in);

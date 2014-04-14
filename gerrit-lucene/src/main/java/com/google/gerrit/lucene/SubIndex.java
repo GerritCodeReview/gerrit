@@ -107,6 +107,23 @@ class SubIndex {
         writer.getIndexWriter(), true, new SearcherFactory());
 
     notDoneNrtFutures = Sets.newConcurrentHashSet();
+
+    reopenThread = new ControlledRealTimeReopenThread<IndexSearcher>(
+        writer, searcherManager,
+        0.500 /* maximum stale age (seconds) */,
+        0.010 /* minimum stale age (seconds) */);
+    reopenThread.setName("NRT " + dirName);
+    reopenThread.setPriority(Math.min(
+        Thread.currentThread().getPriority() + 2,
+        Thread.MAX_PRIORITY));
+    reopenThread.setDaemon(true);
+
+    // This must be added after the reopen thread is created. The reopen thread
+    // adds its own listener which copies its internally last-refreshed
+    // generation to the searching generation. removeIfDone() depends on the
+    // searching generation being up to date when calling
+    // reopenThread.waitForGeneration(gen, 0), therefore the reopen thread's
+    // internal listener needs to be called first.
     searcherManager.addListener(new RefreshListener() {
       @Override
       public void beforeRefresh() throws IOException {
@@ -120,20 +137,25 @@ class SubIndex {
       }
     });
 
-    reopenThread = new ControlledRealTimeReopenThread<IndexSearcher>(
-        writer, searcherManager,
-        0.500 /* maximum stale age (seconds) */,
-        0.010 /* minimum stale age (seconds) */);
-    reopenThread.setName("NRT " + dirName);
-    reopenThread.setPriority(Math.min(
-        Thread.currentThread().getPriority() + 2,
-        Thread.MAX_PRIORITY));
-    reopenThread.setDaemon(true);
     reopenThread.start();
   }
 
   void close() {
     reopenThread.close();
+
+    // Closing the reopen thread sets its generation to Long.MAX_VALUE, but we
+    // still need to refresh the searcher manager to let pending NrtFutures
+    // know.
+    //
+    // Any futures created after this method (which may happen due to undefined
+    // shutdown ordering behavior) will finish immediately, even though they may
+    // not have flushed.
+    try {
+      searcherManager.maybeRefreshBlocking();
+    } catch (IOException e) {
+      log.warn("error finishing pending Lucene writes", e);
+    }
+
     try {
       writer.getIndexWriter().commit();
       try {
@@ -180,6 +202,9 @@ class SubIndex {
 
     NrtFuture(long gen) {
       this.gen = gen;
+      // Tell the reopen thread we are waiting on this generation so it uses the
+      // min stale time when refreshing.
+      isGenAvailableNowForCurrentSearcher();
     }
 
     @Override
@@ -218,7 +243,9 @@ class SubIndex {
 
     @Override
     public void addListener(Runnable listener, Executor executor) {
-      if (!isDone()) {
+      if (isGenAvailableNowForCurrentSearcher() && !isCancelled()) {
+        set(null);
+      } else if (!isDone()) {
         notDoneNrtFutures.add(this);
       }
       super.addListener(listener, executor);

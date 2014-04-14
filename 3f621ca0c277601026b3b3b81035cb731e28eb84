@@ -16,6 +16,24 @@
       "revId": "3f621ca0c277601026b3b3b81035cb731e28eb84",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19198330_d5f05cba",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/VersionedAccountPreferences.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-04-14T19:48:11Z",
+      "side": 1,
+      "message": "No, I don\u0027t think its as necessary with user preferences. And even if we later decide to do that extra validation, its not worth shoving into this commit. This commit is just about fixing the internal API used. I am trying to avoid any significant behavior changes.",
+      "parentUuid": "f9158ff4_94e6e406",
+      "revId": "3f621ca0c277601026b3b3b81035cb731e28eb84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

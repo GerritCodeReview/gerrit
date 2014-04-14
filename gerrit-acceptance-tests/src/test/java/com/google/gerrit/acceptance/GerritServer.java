@@ -131,6 +131,7 @@ public class GerritServer {
     cfg.setString("httpd", null, "listenUrl", url);
     cfg.setString("sshd", null, "listenAddress", format(sshd));
     cfg.setString("cache", null, "directory", null);
+    cfg.setString("gerrit", null, "basePath", "git");
     cfg.setBoolean("sendemail", null, "enable", false);
     cfg.setInt("cache", "projects", "checkFrequency", 0);
     cfg.setInt("plugins", null, "checkFrequency", 0);

@@ -37,11 +37,11 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.ChangeField;
 import com.google.gerrit.server.index.ChangeField.ChangeProtoField;
 import com.google.gerrit.server.index.ChangeField.PatchSetApprovalProtoField;
-import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.ChangeSchemas;
 import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.FieldDef.FillArgs;
 import com.google.gerrit.server.index.FieldType;
+import com.google.gerrit.server.index.Index;
 import com.google.gerrit.server.index.IndexExecutor;
 import com.google.gerrit.server.index.IndexRewriteImpl;
 import com.google.gerrit.server.index.Schema;
@@ -107,7 +107,7 @@ import java.util.concurrent.ExecutionException;
  * though there may be some lag between a committed write and it showing up to
  * other threads' searchers.
  */
-public class LuceneChangeIndex implements ChangeIndex {
+public class LuceneChangeIndex implements Index<ChangeData> {
   private static final Logger log =
       LoggerFactory.getLogger(LuceneChangeIndex.class);
 

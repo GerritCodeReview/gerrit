@@ -31,6 +31,7 @@ import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.AndSource;
 import com.google.gerrit.server.query.change.BasicChangeRewrites;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.ChangeDataSource;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.OrSource;
 
@@ -43,14 +44,14 @@ import java.util.Set;
 
 public class IndexRewriteTest {
   private FakeIndex index;
-  private IndexCollection indexes;
+  private IndexCollection<ChangeData, ChangeDataSource> indexes;
   private ChangeQueryBuilder queryBuilder;
   private IndexRewriteImpl rewrite;
 
   @Before
   public void setUp() throws Exception {
     index = new FakeIndex(FakeIndex.V2);
-    indexes = new IndexCollection();
+    indexes = new IndexCollection<ChangeData, ChangeDataSource>();
     indexes.setSearchIndex(index);
     queryBuilder = new FakeQueryBuilder(indexes);
     rewrite = new IndexRewriteImpl(

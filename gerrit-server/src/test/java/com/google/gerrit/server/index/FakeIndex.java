@@ -22,8 +22,8 @@ import com.google.gerrit.server.query.change.ChangeDataSource;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 
-class FakeIndex implements ChangeIndex {
-  static Schema<ChangeData> V1 = new Schema<>(1, false,
+class FakeIndex implements Index<ChangeData, ChangeDataSource> {
+  static Schema<ChangeData> V1 = new Schema<ChangeData>(1, false,
     ImmutableList.<FieldDef<ChangeData, ?>> of(
       ChangeField.STATUS));
 

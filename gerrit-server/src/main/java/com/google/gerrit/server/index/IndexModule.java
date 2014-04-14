@@ -20,6 +20,8 @@ import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.query.change.BasicChangeRewrites;
+import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.ChangeDataSource;
 import com.google.gerrit.server.query.change.ChangeQueryRewriter;
 import com.google.inject.AbstractModule;
 import com.google.inject.Injector;
@@ -80,7 +82,7 @@ public class IndexModule extends LifecycleModule {
   @Provides
   ChangeIndexer getChangeIndexer(
       ChangeIndexer.Factory factory,
-      IndexCollection indexes) {
+      IndexCollection<ChangeData, ChangeDataSource> indexes) {
     return factory.create(indexes);
   }
 

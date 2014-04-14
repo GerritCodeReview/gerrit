@@ -30,9 +30,9 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.ChangeField;
-import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.FieldDef.FillArgs;
 import com.google.gerrit.server.index.FieldType;
+import com.google.gerrit.server.index.Index;
 import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.index.IndexRewriteImpl;
 import com.google.gerrit.server.index.Schema;
@@ -72,7 +72,7 @@ import java.util.Map;
 import java.util.Set;
 
 /** Secondary index implementation using a remote Solr instance. */
-class SolrChangeIndex implements ChangeIndex, LifecycleListener {
+class SolrChangeIndex implements Index<ChangeData, ChangeDataSource>, LifecycleListener {
   public static final String CHANGES_OPEN = "changes_open";
   public static final String CHANGES_CLOSED = "changes_closed";
   private static final String ID_FIELD = ChangeField.LEGACY_ID.getName();
@@ -81,7 +81,7 @@ class SolrChangeIndex implements ChangeIndex, LifecycleListener {
   private final ChangeData.Factory changeDataFactory;
   private final FillArgs fillArgs;
   private final SitePaths sitePaths;
-  private final IndexCollection indexes;
+  private final IndexCollection<ChangeData, ChangeDataSource> indexes;
   private final CloudSolrServer openIndex;
   private final CloudSolrServer closedIndex;
   private final Schema<ChangeData> schema;
@@ -93,7 +93,7 @@ class SolrChangeIndex implements ChangeIndex, LifecycleListener {
       ChangeData.Factory changeDataFactory,
       FillArgs fillArgs,
       SitePaths sitePaths,
-      IndexCollection indexes,
+      IndexCollection<ChangeData, ChangeDataSource> indexes,
       Schema<ChangeData> schema,
       String base) throws IOException {
     this.db = db;

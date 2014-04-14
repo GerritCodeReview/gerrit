@@ -17,11 +17,12 @@ package com.google.gerrit.server.index;
 import com.google.gerrit.server.query.OperatorPredicate;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.ChangeDataSource;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gwtorm.server.OrmException;
 
 public class FakeQueryBuilder extends ChangeQueryBuilder {
-  FakeQueryBuilder(IndexCollection indexes) {
+  FakeQueryBuilder(IndexCollection<ChangeData, ChangeDataSource> indexes) {
     super(
         new FakeQueryBuilder.Definition<>(
           FakeQueryBuilder.class),

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "19198330_15213484",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-04-14T17:50:28Z",
+      "side": 1,
+      "message": "What test was broken by this?",
+      "revId": "29fa5d7f3eff2170ca06be0e0021524b051a9550",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19198330_752ea873",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-04-14T17:50:28Z",
+      "side": 1,
+      "message": "There is supposed to be a reasonable default when this is missing. If code is breaking in tests from that, it will break in production.",
+      "revId": "29fa5d7f3eff2170ca06be0e0021524b051a9550",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

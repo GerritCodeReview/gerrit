@@ -129,7 +129,7 @@ public class GetPreferences implements RestReadView<AccountResource> {
         my = my(allUsers, RefNames.REFS_USER + "default");
       }
       if (my.isEmpty()) {
-        my.add(new TopMenu.MenuItem("Changes", "#/", null));
+        my.add(new TopMenu.MenuItem("Changes", "#/dashboard/self", null));
         my.add(new TopMenu.MenuItem("Drafts", "#/q/is:draft", null));
         my.add(new TopMenu.MenuItem("Draft Comments", "#/q/has:draft", null));
         my.add(new TopMenu.MenuItem("Watched Changes", "#/q/is:watched+is:open", null));

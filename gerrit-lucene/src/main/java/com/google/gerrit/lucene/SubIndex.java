@@ -106,6 +106,23 @@ class SubIndex {
         writer.getIndexWriter(), true, new SearcherFactory());
 
     notDoneNrtFutures = Sets.newConcurrentHashSet();
+
+    reopenThread = new ControlledRealTimeReopenThread<IndexSearcher>(
+        writer, searcherManager,
+        0.500 /* maximum stale age (seconds) */,
+        0.010 /* minimum stale age (seconds) */);
+    reopenThread.setName("NRT " + dirName);
+    reopenThread.setPriority(Math.min(
+        Thread.currentThread().getPriority() + 2,
+        Thread.MAX_PRIORITY));
+    reopenThread.setDaemon(true);
+
+    // This must be added after the reopen thread is created. The reopen thread
+    // adds its own listener which copies its internally last-refreshed
+    // generation to the searching generation. removeIfDone() depends on the
+    // searching generation being up to date when calling
+    // reopenThread.waitForGeneration(gen, 0), therefore the reopen thread's
+    // internal listener needs to be called first.
     searcherManager.addListener(new RefreshListener() {
       @Override
       public void beforeRefresh() throws IOException {
@@ -119,15 +136,6 @@ class SubIndex {
       }
     });
 
-    reopenThread = new ControlledRealTimeReopenThread<IndexSearcher>(
-        writer, searcherManager,
-        0.500 /* maximum stale age (seconds) */,
-        0.010 /* minimum stale age (seconds) */);
-    reopenThread.setName("NRT " + dirName);
-    reopenThread.setPriority(Math.min(
-        Thread.currentThread().getPriority() + 2,
-        Thread.MAX_PRIORITY));
-    reopenThread.setDaemon(true);
     reopenThread.start();
   }
 
@@ -189,6 +197,9 @@ class SubIndex {
 
     NrtFuture(long gen) {
       this.gen = gen;
+      // Tell the reopen thread we are waiting on this generation so it uses the
+      // min stale time when refreshing.
+      isGenAvailableNowForCurrentSearcher();
     }
 
     @Override

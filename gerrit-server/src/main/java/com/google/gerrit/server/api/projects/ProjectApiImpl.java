@@ -108,7 +108,7 @@ public class ProjectApiImpl implements ProjectApi {
     } catch (BadRequestException | UnprocessableEntityException
         | ResourceNotFoundException | ProjectCreationFailedException
         | IOException e) {
-      throw new RestApiException("Cannot create project", e);
+      throw new RestApiException("Cannot create project: " + e.getMessage(), e);
     }
   }
 

@@ -78,18 +78,18 @@ public class IndexedChangeQuery extends Predicate<ChangeData>
     }
   }
 
-  private final ChangeIndex index;
+  private final Index<ChangeData> index;
   private final int limit;
 
   private Predicate<ChangeData> pred;
   private ChangeDataSource source;
 
-  public IndexedChangeQuery(ChangeIndex index, Predicate<ChangeData> pred,
+  public IndexedChangeQuery(Index<ChangeData> index, Predicate<ChangeData> pred,
       int limit) throws QueryParseException {
     this.index = index;
     this.limit = limit;
     this.pred = pred;
-    this.source = index.getSource(pred, 0, limit);
+    this.source = (ChangeDataSource)index.getSource(pred, 0, limit);
   }
 
   @Override
@@ -166,7 +166,7 @@ public class IndexedChangeQuery extends Predicate<ChangeData>
   public ResultSet<ChangeData> restart(ChangeData last) throws OrmException {
     pred = replaceSortKeyPredicates(pred, last.change().getSortKey());
     try {
-      source = index.getSource(pred, 0, limit);
+      source = (ChangeDataSource)index.getSource(pred, 0, limit);
     } catch (QueryParseException e) {
       // Don't need to show this exception to the user; the only thing that
       // changed about pred was its SortKeyPredicates, and any other QPEs
@@ -179,7 +179,7 @@ public class IndexedChangeQuery extends Predicate<ChangeData>
   @Override
   public ResultSet<ChangeData> restart(int start) throws OrmException {
     try {
-      source = index.getSource(pred, start, limit);
+      source = (ChangeDataSource)index.getSource(pred, start, limit);
     } catch (QueryParseException e) {
       // Don't need to show this exception to the user; the only thing that
       // changed about pred was its SortKeyPredicates, and any other QPEs

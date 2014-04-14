@@ -17,6 +17,7 @@ package com.google.gerrit.lucene;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.index.ChangeIndexes;
 import com.google.gerrit.server.index.ChangeSchemas;
 import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.index.IndexModule;
@@ -80,11 +81,11 @@ public class LuceneIndexModule extends LifecycleModule {
 
   @Singleton
   static class SingleVersionListener implements LifecycleListener {
-    private final IndexCollection indexes;
+    private final IndexCollection<ChangeData> indexes;
     private final LuceneChangeIndex index;
 
     @Inject
-    SingleVersionListener(IndexCollection indexes,
+    SingleVersionListener(ChangeIndexes indexes,
         LuceneChangeIndex index) {
       this.indexes = indexes;
       this.index = index;

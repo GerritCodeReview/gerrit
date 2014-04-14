@@ -14,63 +14,62 @@
 
 package com.google.gerrit.server.index;
 
+import com.google.gerrit.server.query.DataSource;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
-import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gerrit.server.query.change.ChangeDataSource;
 
 import java.io.IOException;
 
 /**
- * Secondary index implementation for change documents.
+ * Secondary index implementation.
  * <p>
- * {@link ChangeData} objects are inserted into the index and are queried by
+ * Documents are inserted into the index and are queried by
  * converting special {@link com.google.gerrit.server.query.Predicate} instances
  * into index-aware predicates that use the index search results as a source.
  * <p>
  * Implementations must be thread-safe and should batch inserts/updates where
  * appropriate.
  */
-public interface ChangeIndex {
+public interface Index<T> {
   /** @return the schema version used by this index. */
-  public Schema<ChangeData> getSchema();
+  public Schema<T> getSchema();
 
   /** Close this index. */
   public void close();
 
   /**
-   * Insert a change document into the index.
+   * Insert a document into the index.
    * <p>
    * Results may not be immediately visible to searchers, but should be visible
    * within a reasonable amount of time.
    *
-   * @param cd change document
+   * @param document document
    *
-   * @throws IOException if the change could not be inserted.
+   * @throws IOException if the document could not be inserted.
    */
-  public void insert(ChangeData cd) throws IOException;
+  public void insert(T document) throws IOException;
 
   /**
-   * Update a change document in the index.
+   * Update a document in the index.
    * <p>
    * Semantically equivalent to deleting the document and reinserting it with
    * new field values. Results may not be immediately visible to searchers, but
    * should be visible within a reasonable amount of time.
    *
-   * @param cd change document
+   * @param document document
    *
    * @throws IOException
    */
-  public void replace(ChangeData cd) throws IOException;
+  public void replace(T document) throws IOException;
 
   /**
    * Delete a change document from the index.
    *
-   * @param cd change document
+   * @param document document
    *
    * @throws IOException
    */
-  public void delete(ChangeData cd) throws IOException;
+  public void delete(T document) throws IOException;
 
   /**
    * Delete all change documents from the index.
@@ -102,7 +101,7 @@ public interface ChangeIndex {
    * @throws QueryParseException if the predicate could not be converted to an
    *     indexed data source.
    */
-  public ChangeDataSource getSource(Predicate<ChangeData> p, int start,
+  public DataSource<T> getSource(Predicate<T> p, int start,
       int limit) throws QueryParseException;
 
   /**

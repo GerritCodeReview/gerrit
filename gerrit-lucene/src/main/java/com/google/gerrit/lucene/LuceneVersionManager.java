@@ -21,8 +21,10 @@ import com.google.common.collect.Maps;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.index.ChangeIndexes;
 import com.google.gerrit.server.index.ChangeSchemas;
 import com.google.gerrit.server.index.IndexCollection;
+import com.google.gerrit.server.index.IndexKind;
 import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
@@ -88,14 +90,14 @@ class LuceneVersionManager implements LifecycleListener {
 
   private final SitePaths sitePaths;
   private final LuceneChangeIndex.Factory indexFactory;
-  private final IndexCollection indexes;
+  private final List<IndexCollection<?>> indexes;
   private final OnlineReindexer.Factory reindexerFactory;
 
   @Inject
   LuceneVersionManager(
       SitePaths sitePaths,
       LuceneChangeIndex.Factory indexFactory,
-      IndexCollection indexes,
+      List<IndexCollection<?>> indexes,
       OnlineReindexer.Factory reindexerFactory) {
     this.sitePaths = sitePaths;
     this.indexFactory = indexFactory;
@@ -146,15 +148,28 @@ class LuceneVersionManager implements LifecycleListener {
     }
 
     markNotReady(cfg, versions.values(), write);
-    LuceneChangeIndex searchIndex = indexFactory.create(search.schema, null);
-    indexes.setSearchIndex(searchIndex);
-    for (Version v : write) {
-      if (v.schema != null) {
-        if (v.version != search.version) {
-          indexes.addWriteIndex(indexFactory.create(v.schema, null));
-        } else {
-          indexes.addWriteIndex(searchIndex);
-        }
+    for (IndexCollection<?> index : indexes) {
+      IndexKind kind = index.getIndexKind();
+      log.info("Initializing index: {}", kind.name());
+      switch (kind) {
+        case CHANGES:
+          LuceneChangeIndex searchIndex = indexFactory.create(search.schema, null);
+          ChangeIndexes ind = (ChangeIndexes)index;
+          ind.setSearchIndex(searchIndex);
+          for (Version v : write) {
+            if (v.schema != null) {
+              if (v.version != search.version) {
+                ind.addWriteIndex(indexFactory.create(v.schema, null));
+              } else {
+                ind.addWriteIndex(searchIndex);
+              }
+            }
+          }
+          break;
+        case ACCOUNTS:
+          throw new IllegalStateException("Not yet implemented");
+        default:
+          throw new IllegalStateException("Unknown index kind: " + kind);
       }
     }
 

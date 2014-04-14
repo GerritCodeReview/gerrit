@@ -137,7 +137,7 @@ public class MetaDataUpdate {
     return projectName;
   }
 
-  Repository getRepository() {
+  public Repository getRepository() {
     return db;
   }
 

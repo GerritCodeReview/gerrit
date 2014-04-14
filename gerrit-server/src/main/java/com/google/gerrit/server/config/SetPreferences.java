@@ -18,29 +18,31 @@ import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
-import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.account.GetPreferences.PreferenceInfo;
 import com.google.gerrit.server.account.SetPreferences.Input;
+import com.google.gerrit.server.account.VersionedAccountPreferences;
+import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
+
+import org.eclipse.jgit.errors.ConfigInvalidException;
 
 import java.io.IOException;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
 public class SetPreferences implements RestModifyView<ConfigResource, Input> {
-  private final Provider<com.google.gerrit.server.account.SetPreferences> setPreferences;
-  private final Provider<GetPreferences> getDefaultPreferences;
+  private final MetaDataUpdate.User metaDataUpdateFactory;
+  private final AllUsersName allUsersName;
 
   @Inject
-  SetPreferences(
-      Provider<com.google.gerrit.server.account.SetPreferences> setPreferences,
-      Provider<GetPreferences> getDefaultPreferences) {
-    this.setPreferences = setPreferences;
-    this.getDefaultPreferences = getDefaultPreferences;
+  SetPreferences(MetaDataUpdate.User metaDataUpdateFactory,
+      AllUsersName allUsersName) {
+    this.metaDataUpdateFactory = metaDataUpdateFactory;
+    this.allUsersName = allUsersName;
   }
 
   @Override
   public Object apply(ConfigResource rsrc, Input i) throws BadRequestException,
-      IOException {
+      IOException, ConfigInvalidException {
     if (i.changesPerPage != null || i.showSiteHeader != null
         || i.useFlashClipboard != null || i.downloadScheme != null
         || i.downloadCommand != null || i.copySelfOnEmail != null
@@ -53,9 +55,17 @@ public class SetPreferences implements RestModifyView<ConfigResource, Input> {
         || i.changeScreen != null) {
       throw new BadRequestException("unsupported option");
     }
-    if (i.my != null) {
-      setPreferences.get().storeMyMenus(RefNames.REFS_USER + "default", i.my);
+
+    VersionedAccountPreferences p;
+    MetaDataUpdate md = metaDataUpdateFactory.create(allUsersName);
+    try {
+      p = VersionedAccountPreferences.forDefault();
+      p.load(md);
+      com.google.gerrit.server.account.SetPreferences.storeMyMenus(p, i.my);
+      p.commit(md);
+      return new PreferenceInfo(null, p, md.getRepository());
+    } finally {
+      md.close();
     }
-    return getDefaultPreferences.get().apply(rsrc);
   }
 }

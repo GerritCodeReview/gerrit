@@ -18,7 +18,6 @@ import static com.google.gerrit.server.account.GetPreferences.KEY_ID;
 import static com.google.gerrit.server.account.GetPreferences.KEY_TARGET;
 import static com.google.gerrit.server.account.GetPreferences.KEY_URL;
 import static com.google.gerrit.server.account.GetPreferences.MY;
-import static com.google.gerrit.server.account.GetPreferences.PREFERENCES;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -34,18 +33,16 @@ import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DiffView;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadCommand;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadScheme;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.TimeFormat;
-import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.SetPreferences.Input;
+import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.MetaDataUpdate;
-import com.google.gerrit.server.git.ProjectLevelConfig;
-import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 
 import java.io.IOException;
@@ -76,22 +73,22 @@ public class SetPreferences implements RestModifyView<AccountResource, Input> {
   private final AccountCache cache;
   private final ReviewDb db;
   private final MetaDataUpdate.User metaDataUpdateFactory;
-  private final ProjectState allUsers;
+  private final AllUsersName allUsersName;
 
   @Inject
   SetPreferences(Provider<CurrentUser> self, AccountCache cache, ReviewDb db,
-      MetaDataUpdate.User metaDataUpdateFactory, ProjectCache projectCache) {
+      MetaDataUpdate.User metaDataUpdateFactory, AllUsersName allUsersName) {
     this.self = self;
     this.cache = cache;
     this.db = db;
     this.metaDataUpdateFactory = metaDataUpdateFactory;
-    this.allUsers = projectCache.getAllUsers();
+    this.allUsersName = allUsersName;
   }
 
   @Override
   public GetPreferences.PreferenceInfo apply(AccountResource rsrc, Input i)
       throws AuthException, ResourceNotFoundException, OrmException,
-      IOException {
+      IOException, ConfigInvalidException {
     if (self.get() != rsrc.getUser()
         && !self.get().getCapabilities().canAdministrateServer()) {
       throw new AuthException("restricted to administrator");
@@ -102,12 +99,17 @@ public class SetPreferences implements RestModifyView<AccountResource, Input> {
 
     Account.Id accountId = rsrc.getUser().getAccountId();
     AccountGeneralPreferences p;
+    VersionedAccountPreferences versionedPrefs;
+    MetaDataUpdate md = metaDataUpdateFactory.create(allUsersName);
     db.accounts().beginTransaction(accountId);
     try {
       Account a = db.accounts().get(accountId);
       if (a == null) {
         throw new ResourceNotFoundException();
       }
+
+      versionedPrefs = VersionedAccountPreferences.forUser(accountId);
+      versionedPrefs.load(md);
 
       p = a.getGeneralPreferences();
       if (p == null) {
@@ -163,24 +165,21 @@ public class SetPreferences implements RestModifyView<AccountResource, Input> {
 
       db.accounts().update(Collections.singleton(a));
       db.commit();
-      storeMyMenus(accountId, i.my);
+      storeMyMenus(versionedPrefs, i.my);
+      versionedPrefs.commit(md);
       cache.evict(accountId);
+      return new GetPreferences.PreferenceInfo(
+          p, versionedPrefs,
+          md.getRepository());
     } finally {
+      md.close();
       db.rollback();
     }
-    return new GetPreferences.PreferenceInfo(p, accountId, allUsers);
   }
 
-  private void storeMyMenus(Account.Id accountId, List<TopMenu.MenuItem> my)
-      throws IOException {
-    storeMyMenus(RefNames.refsUsers(accountId), my);
-  }
-
-  public void storeMyMenus(String ref, List<TopMenu.MenuItem> my)
-      throws IOException {
-    ProjectLevelConfig prefsCfg =
-        allUsers.getConfig(PREFERENCES, ref);
-    Config cfg = prefsCfg.get();
+  public static void storeMyMenus(VersionedAccountPreferences prefs,
+      List<TopMenu.MenuItem> my) {
+    Config cfg = prefs.getConfig();
     if (my != null) {
       unsetSection(cfg, MY);
       for (TopMenu.MenuItem item : my) {
@@ -189,10 +188,6 @@ public class SetPreferences implements RestModifyView<AccountResource, Input> {
         set(cfg, item.name, KEY_ID, item.id);
       }
     }
-    MetaDataUpdate md =
-        metaDataUpdateFactory.create(allUsers.getProject().getNameKey());
-    md.setMessage("Updated preferences\n");
-    prefsCfg.commit(md);
   }
 
   private static void set(Config cfg, String section, String key, String val) {

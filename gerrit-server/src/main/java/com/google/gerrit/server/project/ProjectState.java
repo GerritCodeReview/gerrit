@@ -87,7 +87,7 @@ public class ProjectState {
   private final List<CommentLinkInfo> commentLinks;
 
   private final ProjectConfig config;
-  private final Map<ConfigKey, ProjectLevelConfig> configs;
+  private final Map<String, ProjectLevelConfig> configs;
   private final Set<AccountGroup.UUID> localOwners;
 
   /** Prolog rule state. */
@@ -223,16 +223,11 @@ public class ProjectState {
   }
 
   public ProjectLevelConfig getConfig(String fileName) {
-    return getConfig(fileName, RefNames.REFS_CONFIG);
-  }
-
-  public ProjectLevelConfig getConfig(String fileName, String ref) {
-    ConfigKey cfgKey = new ConfigKey(fileName, ref);
-    if (configs.containsKey(cfgKey)) {
-      return configs.get(cfgKey);
+    if (configs.containsKey(fileName)) {
+      return configs.get(fileName);
     }
 
-    ProjectLevelConfig cfg = new ProjectLevelConfig(fileName, ref, this);
+    ProjectLevelConfig cfg = new ProjectLevelConfig(fileName, this);
     try {
       Repository git = gitMgr.openRepository(getProject().getNameKey());
       try {
@@ -246,7 +241,7 @@ public class ProjectState {
       log.warn("Failed to load " + fileName + " for " + getProject().getName(), e);
     }
 
-    configs.put(cfgKey, cfg);
+    configs.put(fileName, cfg);
     return cfg;
   }
 
@@ -504,27 +499,5 @@ public class ProjectState {
       }
     }
     return false;
-  }
-
-  private static class ConfigKey {
-    final String file;
-    final String ref;
-
-    ConfigKey(String file, String ref) {
-      this.file = file;
-      this.ref = ref;
-    }
-
-    @Override
-    public boolean equals(Object other) {
-      return other instanceof ConfigKey
-          && file.equals(((ConfigKey) other).file)
-          && ref.equals(((ConfigKey) other).ref);
-    }
-
-    @Override
-    public int hashCode() {
-      return file.hashCode() * 31 + ref.hashCode();
-    }
   }
 }

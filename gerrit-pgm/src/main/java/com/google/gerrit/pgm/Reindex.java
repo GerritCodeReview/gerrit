@@ -219,6 +219,7 @@ public class Reindex extends SiteProgram {
         install(GroupIncludeCacheImpl.module());
         install(ProjectCacheImpl.module());
         install(SectionSortCache.module());
+        install(ChangeKindCacheImpl.module());
         factory(CapabilityControl.Factory.class);
         factory(ChangeData.Factory.class);
         factory(ProjectState.Factory.class);
@@ -297,9 +298,6 @@ public class Reindex extends SiteProgram {
       DynamicSet.setOf(binder(), GitReferenceUpdatedListener.class);
       DynamicSet.setOf(binder(), CommitValidationListener.class);
       factory(CommitValidators.Factory.class);
-
-      install(ChangeKindCacheImpl.module());
-
       install(new GitModule());
       install(new NoteDbModule());
     }

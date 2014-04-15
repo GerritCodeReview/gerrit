@@ -150,7 +150,8 @@ public class Submit implements RestModifyView<RevisionResource, Input>,
       .setTitle(String.format(
           "Submit revision %d",
           resource.getPatchSet().getPatchSetId()))
-      .setVisible(resource.getChange().getStatus().isOpen()
+      .setVisible(!resource.getPatchSet().isDraft()
+          && resource.getChange().getStatus().isOpen()
           && resource.getPatchSet().getId().equals(current)
           && resource.getControl().canSubmit());
   }

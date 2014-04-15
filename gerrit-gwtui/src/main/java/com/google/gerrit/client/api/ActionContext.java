@@ -37,6 +37,7 @@ public class ActionContext extends JavaScriptObject {
     Gerrit.ActionContext.prototype = {
       go: Gerrit.go,
       refresh: Gerrit.refresh,
+      refreshMenuBar: Gerrit.refreshMenuBar,
       showError: Gerrit.showError,
 
       br: function(){return doc.createElement('br')},

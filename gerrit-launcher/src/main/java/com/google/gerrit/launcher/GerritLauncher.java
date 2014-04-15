@@ -50,7 +50,7 @@ public final class GerritLauncher {
     System.exit(mainImpl(argv));
   }
 
-  private static int mainImpl(final String argv[]) throws Exception {
+  public static int mainImpl(final String argv[]) throws Exception {
     if (argv.length == 0) {
       File me;
       try {

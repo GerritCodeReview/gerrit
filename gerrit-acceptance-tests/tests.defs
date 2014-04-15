@@ -1,6 +1,7 @@
 def acceptance_tests(
     srcs,
     deps = [],
+    source_under_test = [],
     vm_args = ['-Xmx256m']):
   for j in srcs:
     java_test(
@@ -11,7 +12,7 @@ def acceptance_tests(
         '//gerrit-httpd:httpd',
         '//gerrit-sshd:sshd',
         '//gerrit-server:server',
-      ],
+      ] + source_under_test,
       labels = [
         'acceptance',
         'slow',

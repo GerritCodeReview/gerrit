@@ -260,11 +260,8 @@ public class StringListPanel extends FlowPanel {
     void add() {
       List<String> values = new ArrayList<>();
       for (NpTextBox input : inputs) {
-        String v = input.getValue().trim();
-        if (!v.isEmpty()) {
-          input.setValue("");
-          values.add(v);
-        }
+        values.add(input.getValue().trim());
+        input.setValue("");
       }
       insert(values);
     }

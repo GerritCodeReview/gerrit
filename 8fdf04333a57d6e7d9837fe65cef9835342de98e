@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f9aaefea_0c7657aa",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/SubIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-04-15T05:12:16Z",
+      "side": 1,
+      "message": "I think the root reason is related to line 145 above\nas without the change here,  it still works.",
+      "revId": "8fdf04333a57d6e7d9837fe65cef9835342de98e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

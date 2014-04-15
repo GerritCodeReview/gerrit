@@ -550,7 +550,7 @@ public class ReceiveCommits {
       if (c.getResult() == OK) {
         switch (c.getType()) {
           case CREATE:
-            if (isHead(c)) {
+            if (isHead(c) || isConfig(c)) {
               autoCloseChanges(c);
             }
             break;
@@ -560,13 +560,13 @@ public class ReceiveCommits {
                 c.getRefName(),
                 c.getOldId(),
                 c.getNewId());
-            if (isHead(c)) {
+            if (isHead(c) || isConfig(c)) {
               autoCloseChanges(c);
             }
             break;
 
           case UPDATE_NONFASTFORWARD:
-            if (isHead(c)) {
+            if (isHead(c) || isConfig(c)) {
               autoCloseChanges(c);
             }
             break;

@@ -69,6 +69,24 @@
       "revId": "29fa5d7f3eff2170ca06be0e0021524b051a9550",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b949574f_72f35811",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-04-16T03:51:01Z",
+      "side": 1,
+      "message": "In the site init (InitGitManager), it defaults to \"git\":\n\n File d \u003d gerrit.path(\"Location of Git repositories\", \"basePath\", \"git\");\n\nBut then in LocalDiskRepositoryManager it does this:\n\n basePath \u003d site.resolve(cfg.getString(\"gerrit\", null, \"basePath\"));\n if (basePath \u003d\u003d null) {\n  throw new IllegalStateException(\"gerrit.basePath must be configured\");\n }\n\nSo are the tests being run without the site being initialised?  Given that the config is being manually set in GerritServer.java (the next file in this changeset), it would appear so.",
+      "parentUuid": "19198330_752ea873",
+      "revId": "29fa5d7f3eff2170ca06be0e0021524b051a9550",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

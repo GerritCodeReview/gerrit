@@ -1,0 +1,227 @@
+= Project Owner Guide
+
+This is a Gerrit guide that is dedicated to project owners. It
+explains the many possibilities that Gerrit provides to customize the
+workflows for a project.
+
+[[project-owner]]
+== What is a project owner?
+
+Being project owner means that you own a project in Gerrit.
+Technically this is expressed by having the
+link:access-control.html#category_owner[Owner] access right on
+`refs/*` on that project. As project owner you have the permission to
+edit the access control list and the project settings of the project.
+It also means that you should get familiar with these settings so that
+you can adapt them to the needs of your project.
+
+Being project owner means being responsible for the administration of
+a project. This requires having a deeper knowledge of Gerrit than the
+average user. Normally per team there should be 2 to 3 persons, who
+have a certain level of Git/Gerrit knowledge, assigned as project
+owners. It normally doesn't make sense that everyone in a team is
+project owner. For normal team members it is sufficient to be committer
+or contributor.
+
+[[access-rights]]
+== Access Rights
+
+As a project owner you can edit the access control list of your
+project. This allows you to grant permissions on the project to
+different groups.
+
+Gerrit comes with a rich set of permissions which allow a very
+fine-grained control over who can do what on a project. Access
+control is one of the most powerful Gerrit features but it is also a
+rather complex topic. This guide will only highlight the most
+important aspects of access control, but the link:access-control.html[
+Access Control] chapter explains all the details.
+
+[[edit-access-rights]]
+=== Editing Access Rights
+
+To see the access rights of your project
+
+- go to the Gerrit WebUI
+- click on the `Projects` > `List` menu entry
+- find your project in the project list and click on it
+- click on the `Access` menu entry
+
+By clicking on the `Edit` button the access rights become editable and
+you may save any changes by clicking on the `Save Changes` button.
+Optionally you can provide a `Commit Message` to explain the reasons
+for changing the access rights.
+
+The access rights are stored in the project's Git repository in a
+special branch called `refs/meta/config`. On this branch there is a
+`project.config` file which contains the access rights. More
+information about this storage format can be found in the
+link:config-project-config.html[Project Configuration File Format]
+chapter. What is important to know is that by looking at the history
+of the `project.config` file on the `refs/meta/config` branch you can
+always see how the access rights were changed and by whom. If a good
+commit message is provided you can also see from the history why the
+access rights were modified.
+
+If a Git browser such as GitWeb is configured for the Gerrit server you
+can find a link to the history of the `project.config` file in the
+WebUI. Otherwise you may inspect the history locally. If you have
+cloned the repository you can do this by executing the following
+commands:
+
+====
+  $ git fetch origin refs/meta/config:config
+  $ git checkout config
+  $ git log project.config
+====
+
+Non project owners may still edit the access rights and propose the
+modifications to the project owners by clicking on the `Save for
+Review` button. This creates a new change with the access rights
+modifications that can be approved by a project owner. The project
+owners are automatically added as reviewer on this change so that they
+get informed about it by email.
+
+[[inheritance]]
+=== Inheritance
+
+Normally when a new project is created in Gerrit it already has some
+access rights which are inherited from the parent projects.
+Projects in Gerrit are organized hierarchically as a tree with the
+`All-Projects' project as root from which all projects inherit. Each
+project can have only a single parent project, multi-inheritance is
+not supported.
+
+Looking at the access rights of your project in the Gerrit WebUI, you
+only see the access rights which are defined on that project. To see
+the inherited access rights you must follow the link to the parent
+project under `Rights Inherit From`.
+
+Inherited access rights can be overwritten unless they are defined as
+link:access-control.html#block[BLOCK rule]. BLOCK rules are used to
+limit the possibilities of the project owners on the inheriting
+projects. With this, global policies can be enforced on all projects.
+Please note that Gerrit doesn't prevent you from assigning access
+rights that contradict an inherited BLOCK rule, but these access rights
+will simply have no effect.
+
+If you are responsible for several projects which require the same
+permissions, it makes sense to have a common parent for them and to
+maintain the access rights on that common parent. Changing the parent
+of a project is only allowed for Gerrit administrators. This means you
+need to contact the administrator of your Gerrit server if you want to
+reparent your project. One way to do this is to change the parent
+project in the WebUI, save the modifications for review and get the
+change approved and merged by a Gerrit administrator.
+
+[[refs]]
+=== References
+
+Access rights in Gerrit are assigned on references (aka refs). Refs in
+Git exist in different namespaces, e.g. all branches normally exist
+under `refs/heads/` and all tags under `refs/tags/`. In addition there
+are a number of link:access-control.html#references_special[special refs]
+and link:access-control.html#references_magic[magic refs].
+
+Access rights can be assigned on a concrete ref, e.g.
+`refs/heads/master` but also on ref patterns and regular expressions
+for ref names.
+
+A ref pattern ends with `/*` and describes a complete ref name
+namespace, e.g. access rights assigned on `refs/heads/*` apply to all
+branches.
+
+Regular expressions must start with `^`, e.g. access rights assigned
+on `^refs/heads/rel-.*` would apply to all `rel-*` branches.
+
+[[groups]]
+=== Groups
+
+Access rights are granted to groups. It is useful to know that Gerrit
+maintains its own groups internally but also supports different external
+group backends.
+
+The Gerrit internal groups can be seen in the Gerrit WebUI by clicking
+on the `Groups` > `List` menu entry. By clicking on a group you can
+edit the group members (`Members` tab) and the group options
+(`General` tab).
+
+Gerrit internal groups contain users as members, but can also include
+other groups, even external groups.
+
+Every group is owned by an owner group. Only members of the owner
+group can administrate the owned group (assign members, edit the group
+options). A group can own itself; in this case members of the group
+can, for example, add further members to the group. When you create new
+groups for your project to assign access rights to committer or other
+roles, make sure that they are owned by the project owner group.
+
+An important setting on a group is the option
+`Make group visible to all registered users.`, which defines whether
+non-members can see who is member of the group.
+
+New internal Gerrit groups can be created under `Groups` >
+`Create New Group`. This menu is only available if you have the global
+capability link:access-control.html#capability_createGroup[Create Group]
+assigned.
+
+Gerrit also has a set of special
+link:access-control.html#system_groups[system groups] that you might
+find useful.
+
+External groups need to be prefixed when assigning access rights to
+them, e.g. link:access-control.html#ldap_groups[LDAP group names] need
+to be prefixed with `ldap/`.
+
+If the link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/singleusergroup[
+singleusergroup] plugin is installed you can also directly assign
+access rights to users, by prefixing the username with `user/` or the
+user's account ID by `userid/`.
+
+[[common-access-rights]]
+=== Common Access Rights
+
+Different roles in a project, such as developer (committer) or
+contributor, need different access rights. Examples for which access
+rights are typically assigned for which role are described in the
+link:access-control.html#example_roles[Access Control] chapter.
+
+[[code-review]]
+=== Code Review
+
+Gerrit's main functionality is code review, however using code review
+is optional and you may decide to only use Gerrit as a Git server with
+access control. Whether you allow only pushes for review or also
+direct pushes depends on the project's access rights.
+
+To push a commit for review it must be pushed to
+link:access-control.html#refs_for[refs/for/<branch-name>]. This means
+the link:access-control.html#category_push_review[Push] access right
+must be assigned on `refs/for/<branch-name>`.
+
+To allow direct pushes and bypass code review, the
+link:access-control.html#category_push_direct[Push] access right is
+required on `refs/heads/<branch-name>`.
+
+By pushing for review you are not only enabling the review workflow,
+but you can also get automatic verifications from a build server
+before changes are merged. In addition you can benefit from Gerrit's
+merge strategies that can automatically merge/rebase commits on server
+side if necessary. You can control the merge strategy by configuring
+the link:project-setup.html#submit_type[submit type] on the project.
+If you bypass code review you always need to merge/rebase manually if
+the tip of the destination branch has moved. Please keep this in mind
+if you choose to not work with code review because you think it's
+easier to avoid the additional complexity of the review workflow; it
+might actually not be easier.
+
+You may also enable link:user-upload.html#auto_merge[auto-merge on
+push] to benefit from the automatic merge/rebase on server side while
+pushing directly into the repository.
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

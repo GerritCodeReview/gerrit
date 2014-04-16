@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "3926479d_e6ff7ecd",
+        "filename": "Documentation/intro-project-owner.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-04-16T15:17:30Z",
+      "side": 1,
+      "message": "add: \"on that project\" before the \".\"",
+      "revId": "347881130a377b9451b9972eced8dd8e6fb6a772",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d96e0bb0_93529c2e",
         "filename": "Documentation/intro-project-owner.txt",
         "patchSetId": 1
@@ -48,6 +65,29 @@
     },
     {
       "key": {
+        "uuid": "1923438f_05ec9232",
+        "filename": "Documentation/intro-project-owner.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-04-16T15:17:30Z",
+      "side": 1,
+      "message": "looks like something is wrong this but I cannot tell exactly what :-)",
+      "range": {
+        "startLine": 23,
+        "startChar": 53,
+        "endLine": 24,
+        "endChar": 13
+      },
+      "revId": "347881130a377b9451b9972eced8dd8e6fb6a772",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b949574f_723ef8c8",
         "filename": "Documentation/intro-project-owner.txt",
         "patchSetId": 1
@@ -65,6 +105,46 @@
         "endLine": 58,
         "endChar": 38
       },
+      "revId": "347881130a377b9451b9972eced8dd8e6fb6a772",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1923438f_25e98e23",
+        "filename": "Documentation/intro-project-owner.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-04-16T15:17:30Z",
+      "side": 1,
+      "message": "shoudl \u0027]\u0027 be moved in fron of \"chapter\"?",
+      "range": {
+        "startLine": 63,
+        "startChar": 0,
+        "endLine": 63,
+        "endChar": 8
+      },
+      "revId": "347881130a377b9451b9972eced8dd8e6fb6a772",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1923438f_45f68a02",
+        "filename": "Documentation/intro-project-owner.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-04-16T15:17:30Z",
+      "side": 1,
+      "message": "Provide an example like:\n\n  $ git fetch origin refs/meta/config:config\n  $ git checkout config\n  $ git log",
       "revId": "347881130a377b9451b9972eced8dd8e6fb6a772",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -140,6 +220,29 @@
     },
     {
       "key": {
+        "uuid": "1923438f_65f38611",
+        "filename": "Documentation/intro-project-owner.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-04-16T15:17:30Z",
+      "side": 1,
+      "message": "multiple",
+      "range": {
+        "startLine": 83,
+        "startChar": 47,
+        "endLine": 83,
+        "endChar": 52
+      },
+      "revId": "347881130a377b9451b9972eced8dd8e6fb6a772",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b949574f_b2806039",
         "filename": "Documentation/intro-project-owner.txt",
         "patchSetId": 1
@@ -179,6 +282,29 @@
         "startChar": 9,
         "endLine": 87,
         "endChar": 14
+      },
+      "revId": "347881130a377b9451b9972eced8dd8e6fb6a772",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1923438f_85008222",
+        "filename": "Documentation/intro-project-owner.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-04-16T15:17:30Z",
+      "side": 1,
+      "message": "unless they are",
+      "range": {
+        "startLine": 91,
+        "startChar": 43,
+        "endLine": 91,
+        "endChar": 58
       },
       "revId": "347881130a377b9451b9972eced8dd8e6fb6a772",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
@@ -265,6 +391,29 @@
         "startChar": 10,
         "endLine": 132,
         "endChar": 20
+      },
+      "revId": "347881130a377b9451b9972eced8dd8e6fb6a772",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1923438f_a5057e31",
+        "filename": "Documentation/intro-project-owner.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-04-16T15:17:30Z",
+      "side": 1,
+      "message": "owned group",
+      "range": {
+        "startLine": 144,
+        "startChar": 27,
+        "endLine": 144,
+        "endChar": 32
       },
       "revId": "347881130a377b9451b9972eced8dd8e6fb6a772",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

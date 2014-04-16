@@ -6,6 +6,7 @@ to those groups.  Access rights cannot be granted to individual
 users.
 
 
+[[system_groups]]
 == System Groups
 
 Gerrit comes with following system groups:
@@ -375,6 +376,7 @@ review is made.  This functionality is provided by the review-notes plugin.
 These are references with added functionality to them compared to a regular
 git push operation.
 
+[[refs_for]]
 ==== refs/for/<branch ref>
 
 Most prominent is the `refs/for/<branch ref>` reference which is the reference
@@ -818,6 +820,7 @@ by the 'Force Edit' flag. If this flag is not set the topic can only be
 edited on open changes.
 
 
+[[example_roles]]
 == Examples of typical roles in a project
 
 Below follows a set of typical roles on a server and which access

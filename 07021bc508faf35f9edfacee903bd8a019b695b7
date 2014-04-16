@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1923438f_e5ff76cd",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1823,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-04-16T15:23:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b949574f_d24c0494",
+      "range": {
+        "startLine": 1823,
+        "startChar": 5,
+        "endLine": 1823,
+        "endChar": 9
+      },
+      "revId": "07021bc508faf35f9edfacee903bd8a019b695b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b949574f_f2510829",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 1
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "1923438f_0515725a",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1826,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-04-16T15:23:26Z",
+      "side": 1,
+      "message": "Yes... because I started describing that attribute here, then moved the description under the #submit-type-ext  and didn\u0027t cleanup here properly.\n\nDone.",
+      "parentUuid": "b949574f_f2510829",
+      "revId": "07021bc508faf35f9edfacee903bd8a019b695b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b949574f_12476c6e",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 1
@@ -53,6 +95,24 @@
       "writtenOn": "2014-04-16T14:56:08Z",
       "side": 1,
       "message": "In other examples the json is formatted with line breaks.",
+      "revId": "07021bc508faf35f9edfacee903bd8a019b695b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1923438f_25126e73",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1842,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-04-16T15:23:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b949574f_12476c6e",
       "revId": "07021bc508faf35f9edfacee903bd8a019b695b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d96e0bb0_9300dc22",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-04-16T04:11:15Z",
+      "side": 1,
+      "message": "Thought you might like :)",
+      "parentUuid": "d96e0bb0_b3dcf889",
+      "revId": "864bac6d04441e1a8732ddef43e241abfeffa61d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d96e0bb0_d3e17440",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 7
@@ -30,6 +48,24 @@
       "writtenOn": "2014-04-16T00:10:53Z",
       "side": 1,
       "message": "Document here that it may be outside the range specified in permitted_labels.",
+      "revId": "864bac6d04441e1a8732ddef43e241abfeffa61d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b949574f_9200bc22",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 3096,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-04-16T04:11:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d96e0bb0_d3e17440",
       "revId": "864bac6d04441e1a8732ddef43e241abfeffa61d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "b949574f_b205c031",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ReplyBox.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 533,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-04-16T04:11:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b949574f_92d7dc66",
+      "revId": "864bac6d04441e1a8732ddef43e241abfeffa61d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d96e0bb0_93d7fc66",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/ProjectConfigTest.java",
         "patchSetId": 7
@@ -64,6 +118,24 @@
       "writtenOn": "2014-04-16T00:10:53Z",
       "side": 1,
       "message": "I\u0027m a bit surprised by this; looking at ProjectConfig I would expect it to throw a validation error.",
+      "revId": "864bac6d04441e1a8732ddef43e241abfeffa61d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b949574f_d2fa44e0",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/ProjectConfigTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-04-16T04:11:15Z",
+      "side": 1,
+      "message": "i was expecting that as well.",
+      "parentUuid": "d96e0bb0_93d7fc66",
       "revId": "864bac6d04441e1a8732ddef43e241abfeffa61d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -430,6 +430,9 @@ API. If set to false then Gerrit will authenticate through DIGEST
 authentication and the randomly generated HTTP password in the Gerrit
 database.
 +
+For LDAP service users which only exist in the Gerrit database are
+still authenticated by their HTTP passwords.
++
 By default this is set to false.
 
 [[auth.userNameToLowerCase]]auth.userNameToLowerCase::

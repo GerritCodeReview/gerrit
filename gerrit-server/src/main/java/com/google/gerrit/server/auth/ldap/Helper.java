@@ -20,6 +20,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.data.ParameterizedString;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.AccountException;
+import com.google.gerrit.server.auth.NoSuchUserException;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.util.ssl.BlindSSLSocketFactory;
@@ -178,7 +179,7 @@ import javax.security.auth.login.LoginException;
 
     switch (res.size()) {
       case 0:
-        throw new AccountException("No such user:" + username);
+        throw new NoSuchUserException(username);
 
       case 1:
         return res.get(0);

@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b949574f_d24c0494",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1823,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-04-16T14:56:08Z",
+      "side": 1,
+      "message": "as",
+      "range": {
+        "startLine": 1823,
+        "startChar": 5,
+        "endLine": 1823,
+        "endChar": 9
+      },
+      "revId": "07021bc508faf35f9edfacee903bd8a019b695b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b949574f_f2510829",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1826,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-04-16T14:56:08Z",
+      "side": 1,
+      "message": "Looks like the next sentence is missing?",
+      "revId": "07021bc508faf35f9edfacee903bd8a019b695b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b949574f_12476c6e",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1842,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-04-16T14:56:08Z",
+      "side": 1,
+      "message": "In other examples the json is formatted with line breaks.",
+      "revId": "07021bc508faf35f9edfacee903bd8a019b695b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

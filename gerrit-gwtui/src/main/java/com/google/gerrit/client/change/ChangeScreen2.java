@@ -28,6 +28,7 @@ import com.google.gerrit.client.changes.ChangeList;
 import com.google.gerrit.client.changes.CommentInfo;
 import com.google.gerrit.client.changes.RevisionInfoCache;
 import com.google.gerrit.client.changes.StarredChanges;
+import com.google.gerrit.client.changes.SubmitTypeExt;
 import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.diff.DiffApi;
 import com.google.gerrit.client.diff.FileInfo;
@@ -36,7 +37,6 @@ import com.google.gerrit.client.projects.ConfigInfoCache.Entry;
 import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.NativeMap;
-import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
@@ -52,6 +52,7 @@ import com.google.gerrit.extensions.common.SubmitType;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.SubmitTypeExt.ContentMerge;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.JsArrayString;
@@ -680,10 +681,10 @@ public class ChangeScreen2 extends Screen {
       }
     }
     ChangeApi.revision(changeId.get(), revision)
-      .view("submit_type")
-      .get(new AsyncCallback<NativeString>() {
+      .view("submit_type_ext")
+      .get(new AsyncCallback<SubmitTypeExt>() {
         @Override
-        public void onSuccess(NativeString result) {
+        public void onSuccess(SubmitTypeExt result) {
           if (canSubmit) {
             if (status == Change.Status.NEW) {
               statusText.setInnerText(changeInfo.mergeable()
@@ -693,7 +694,7 @@ public class ChangeScreen2 extends Screen {
           }
           setVisible(notMergeable, !changeInfo.mergeable());
 
-          renderSubmitType(result.asString());
+          renderSubmitType(result);
         }
 
         @Override
@@ -838,13 +839,27 @@ public class ChangeScreen2 extends Screen {
         : String.valueOf(info.owner()._account_id()), Change.Status.NEW));
   }
 
-  private void renderSubmitType(String action) {
+  private void renderSubmitType(SubmitTypeExt result) {
     try {
-      SubmitType type = SubmitType.valueOf(action);
+      SubmitType type = SubmitType.valueOf(result.getSubmitType());
+      ContentMerge contentMerge = ContentMerge.valueOf(result.getContentMerge());
       submitActionText.setInnerText(
-          com.google.gerrit.client.admin.Util.toLongString(type));
+          com.google.gerrit.client.admin.Util.toLongString(type)
+              + contentMergeFlag(contentMerge));
     } catch (IllegalArgumentException e) {
-      submitActionText.setInnerText(action);
+      submitActionText.setInnerText(result.getSubmitType()); // TODO
+    }
+  }
+
+  private String contentMergeFlag(ContentMerge contentMerge) {
+    if (contentMerge == ContentMerge.DEFAULT) {
+      return "";
+    } else {
+      if (contentMerge == ContentMerge.TRUE) {
+        return " - " + Util.C.changeInfoBlockContentMerge();
+      } else {
+        return " - " + Util.C.changeInfoBlockNoContentMerge();
+      }
     }
   }
 

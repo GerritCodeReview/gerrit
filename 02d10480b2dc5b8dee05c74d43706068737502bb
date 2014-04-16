@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d96e0bb0_1315ac5a",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-04-16T09:54:24Z",
+      "side": 1,
+      "message": "\"When `auth.type`is `LDAP`,\"",
+      "range": {
+        "startLine": 433,
+        "startChar": 0,
+        "endLine": 433,
+        "endChar": 8
+      },
+      "revId": "02d10480b2dc5b8dee05c74d43706068737502bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b949574f_720c3855",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-04-16T09:54:24Z",
+      "side": 1,
+      "message": "that",
+      "range": {
+        "startLine": 433,
+        "startChar": 23,
+        "endLine": 433,
+        "endChar": 28
+      },
+      "revId": "02d10480b2dc5b8dee05c74d43706068737502bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -4,6 +4,7 @@
 . Getting started
 .. link:intro-quick.html[A Quick Introduction to Gerrit]
 .. link:intro-change-screen.html[A Quick Introduction to the New Change Screen]
+.. link:intro-project-owner.html[Project Owner Guide]
 .. link:http://source.android.com/submit-patches/workflow[Default Android Workflow] (external)
 . Web
 .. Registering a new Gerrit account

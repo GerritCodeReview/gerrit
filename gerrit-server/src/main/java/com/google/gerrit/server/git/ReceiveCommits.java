@@ -236,14 +236,17 @@ public class ReceiveCommits {
     }
   }
 
-  private static final Function<Exception, OrmException> ORM_EXCEPTION =
-      new Function<Exception, OrmException>() {
+  private static final Function<Exception, InsertException> INSERT_EXCEPTION =
+      new Function<Exception, InsertException>() {
         @Override
-        public OrmException apply(Exception input) {
+        public InsertException apply(Exception input) {
           if (input instanceof OrmException) {
-            return (OrmException) input;
+            return new InsertException("ORM error", input);
           }
-          return new OrmException("Error updating database", input);
+          if (input instanceof IOException) {
+            return new InsertException("IO error", input);
+          }
+          return new InsertException("Error inserting change/patchset", input);
         }
       };
 
@@ -647,7 +650,7 @@ public class ReceiveCommits {
           log.error(String.format(
               "Cannot add patch set to %d of %s",
               e.getKey().get(), project.getName()), err);
-        } catch (OrmException err) {
+        } catch (InsertException err) {
           reject(replace.inputCommand, "internal server error");
           log.error(String.format(
               "Cannot add patch set to %d of %s",
@@ -681,7 +684,7 @@ public class ReceiveCommits {
     }
 
     try {
-      List<CheckedFuture<?, OrmException>> futures = Lists.newArrayList();
+      List<CheckedFuture<?, InsertException>> futures = Lists.newArrayList();
       for (ReplaceRequest replace : replaceByChange.values()) {
         if (magicBranch != null && replace.inputCommand == magicBranch.cmd) {
           futures.add(replace.insertPatchSet());
@@ -692,12 +695,12 @@ public class ReceiveCommits {
         futures.add(create.insertChange());
       }
 
-      for (CheckedFuture<?, OrmException> f : futures) {
+      for (CheckedFuture<?, InsertException> f : futures) {
         f.checkedGet();
       }
       magicBranch.cmd.setResult(OK);
-    } catch (OrmException err) {
-      log.error("Can't insert changes for " + project.getName(), err);
+    } catch (InsertException err) {
+      log.error("Can't insert change/patchset for " + project.getName(), err);
       reject(magicBranch.cmd, "internal server error");
     } catch (IOException err) {
       log.error("Can't read commits for " + project.getName(), err);
@@ -1462,7 +1465,7 @@ public class ReceiveCommits {
           ins.getPatchSet().getRefName());
     }
 
-    CheckedFuture<Void, OrmException> insertChange() throws IOException {
+    CheckedFuture<Void, InsertException> insertChange() throws IOException {
       rp.getRevWalk().parseBody(commit);
 
       final Thread caller = Thread.currentThread();
@@ -1486,7 +1489,7 @@ public class ReceiveCommits {
           return null;
         }
       }));
-      return Futures.makeChecked(future, ORM_EXCEPTION);
+      return Futures.makeChecked(future, INSERT_EXCEPTION);
     }
 
     private void insertChange(ReviewDb db) throws OrmException, IOException {
@@ -1790,7 +1793,7 @@ public class ReceiveCommits {
       return true;
     }
 
-    CheckedFuture<PatchSet.Id, OrmException> insertPatchSet()
+    CheckedFuture<PatchSet.Id, InsertException> insertPatchSet()
         throws IOException {
       rp.getRevWalk().parseBody(newCommit);
 
@@ -1817,7 +1820,7 @@ public class ReceiveCommits {
           }
         }
       }));
-      return Futures.makeChecked(future, ORM_EXCEPTION);
+      return Futures.makeChecked(future, INSERT_EXCEPTION);
     }
 
     PatchSet.Id insertPatchSet(ReviewDb db) throws OrmException, IOException {
@@ -2183,6 +2186,8 @@ public class ReceiveCommits {
               codeReviewCommit, rw, repo, project, new ArrayList<Change>(),
               new HashMap<Change.Id, CodeReviewCommit>());
       subOp.update();
+    } catch (InsertException e) {
+      log.error("Can't insert patchset", e);
     } catch (IOException e) {
       log.error("Can't scan for changes to close", e);
     } catch (OrmException e) {

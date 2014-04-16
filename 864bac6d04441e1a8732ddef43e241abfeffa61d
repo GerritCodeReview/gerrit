@@ -157,6 +157,24 @@
       "revId": "864bac6d04441e1a8732ddef43e241abfeffa61d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d96e0bb0_338d486b",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/ProjectConfigTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-04-16T16:51:23Z",
+      "side": 1,
+      "message": "Good. So figure out why it doesn\u0027t in the test.",
+      "parentUuid": "d96e0bb0_f38af054",
+      "revId": "864bac6d04441e1a8732ddef43e241abfeffa61d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

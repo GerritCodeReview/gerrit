@@ -139,6 +139,24 @@
       "revId": "864bac6d04441e1a8732ddef43e241abfeffa61d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d96e0bb0_f38af054",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/ProjectConfigTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-04-16T16:49:26Z",
+      "side": 1,
+      "message": "Just to let you know, setting a defaultValue outside of the range will result in a failure to save the configuration.  From my test..\n\nCounting objects: 23, done.\nDelta compression using up to 4 threads.\nCompressing objects: 100% (3/3), done.\nWriting objects: 100% (3/3), 305 bytes | 0 bytes/s, done.\nTotal 3 (delta 1), reused 0 (delta 0)\nremote: Resolving deltas: 100% (1/1)\nremote: Processing changes: refs: 1, done\nremote: error: Invalid project configuration:\nremote: error:   project.config: Invalid defaultValue \"4\" for label \"Snarky-Review\"\nTo ssh://zaro0508@localhost:29418/All-Projects\n ! [remote rejected] HEAD -\u003e refs/meta/config (invalid project configuration)\nerror: failed to push some refs to \u0027ssh://zaro0508@localhost:29418/All-Projects\u0027",
+      "parentUuid": "b949574f_d2fa44e0",
+      "revId": "864bac6d04441e1a8732ddef43e241abfeffa61d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

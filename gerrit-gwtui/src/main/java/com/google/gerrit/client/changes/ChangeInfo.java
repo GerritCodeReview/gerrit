@@ -284,6 +284,7 @@ public class ChangeInfo extends JavaScriptObject {
 
   public static class MergeableInfo extends JavaScriptObject {
     public final native String submit_type() /*-{ return this.submit_type }-*/;
+    public final native String content_merge() /*-{ return this.content_merge }-*/;
     public final native boolean mergeable() /*-{ return this.mergeable }-*/;
 
     protected MergeableInfo() {

@@ -178,6 +178,29 @@
     },
     {
       "key": {
+        "uuid": "c5045f04_dc0e8d52",
+        "filename": "Documentation/intro-project-owner.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-04-17T07:57:11Z",
+      "side": 1,
+      "message": "I didn\u0027t spot this before, but yes, it could be improved.\n\n\"Normally per team there should be 2 to 3 persons, who have a certain level of Git/Gerrit knowledge, assigned as project owners.\"",
+      "range": {
+        "startLine": 22,
+        "startChar": 14,
+        "endLine": 24,
+        "endChar": 14
+      },
+      "revId": "347881130a377b9451b9972eced8dd8e6fb6a772",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b949574f_723ef8c8",
         "filename": "Documentation/intro-project-owner.txt",
         "patchSetId": 1

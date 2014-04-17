@@ -95,6 +95,14 @@ public class GroupTable extends NavigationTable<GroupInfo> {
   }
 
   public void display(List<GroupInfo> list, String toHighlight) {
+    displaySubset(list, toHighlight, 0, list.size());
+  }
+
+  public void displaySubset(GroupMap groups, int fromIndex, int toIndex, String toHighlight) {
+    displaySubset(Natives.asList(groups.values()), toHighlight, fromIndex, toIndex);
+  }
+
+  public void displaySubset(List<GroupInfo> list, String toHighlight, int fromIndex, int toIndex) {
     while (1 < table.getRowCount())
       table.removeRow(table.getRowCount() - 1);
 
@@ -104,7 +112,7 @@ public class GroupTable extends NavigationTable<GroupInfo> {
         return a.name().compareTo(b.name());
       }
     });
-    for(GroupInfo group : list) {
+    for(GroupInfo group : list.subList(fromIndex, toIndex)) {
       final int row = table.getRowCount();
       table.insertRow(row);
       applyDataRowStyle(row);

@@ -19,6 +19,8 @@ import com.google.gerrit.server.git.ChangeCache;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.git.VisibleRefFilter;
+import com.google.gerrit.server.git.validators.UploadValidationException;
+import com.google.gerrit.server.git.validators.UploadValidators;
 import com.google.gerrit.sshd.AbstractGitCommand;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -41,6 +43,9 @@ final class Upload extends AbstractGitCommand {
   @Inject
   private ChangeCache changeCache;
 
+  @Inject
+  private UploadValidators.Factory uploadValidatorsFactory;
+
   @Override
   protected void runImpl() throws IOException, Failure {
     if (!projectControl.canRunUploadPack()) {
@@ -54,6 +59,14 @@ final class Upload extends AbstractGitCommand {
     }
     up.setPackConfig(config.getPackConfig());
     up.setTimeout(config.getTimeout());
-    up.upload(in, out, err);
+    up.setPreUploadHook(uploadValidatorsFactory.create(project, repo));
+    try {
+      up.upload(in, out, err);
+    } catch (UploadValidationException e) {
+      // UploadValidationException is used by the UploadValidationListener to
+      // stop the uploadPack. We do not want this exception to go beyond this
+      // point otherwise it would print a stacktrace in the logs and return an
+      // internal server error to the client.
+    }
   }
 }

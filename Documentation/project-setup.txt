@@ -45,7 +45,7 @@ Either restart the server, or flush the `project_list` cache:
 ====
 
 [[submit_type]]
-== Change Submit Action
+== Submit Type
 
 The method Gerrit uses to submit a change to a project can be
 modified by any project owner through the project console, `Projects` >

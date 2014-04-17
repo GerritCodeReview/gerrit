@@ -44,8 +44,11 @@ Either restart the server, or flush the `project_list` cache:
   ssh -p 29418 localhost gerrit flush-caches --cache project_list
 ====
 
+[[project_options]]
+== Project Options
+
 [[submit_type]]
-== Submit Type
+=== Submit Type
 
 The method Gerrit uses to submit a change to a project can be
 modified by any project owner through the project console, `Projects` >
@@ -108,6 +111,81 @@ the same file has also been changed on the other side of the merge.
 If `Automatically resolve conflicts` is enabled, Gerrit will try
 to do a content merge when a path conflict occurs.
 
+=== State
+
+This setting defines the state of the project. A project can have the
+following states:
+
+- `Active`:
++
+The project is active and users can see and modify the project according
+to their access rights on the project.
+
+- `Read Only`:
++
+The project is read only and all modifying operations on it are
+disabled. E.g. this means that pushing to this project fails for all
+users even if they have push permissions assigned on it.
++
+Setting a project to this state is an easy way to temporary close a
+project, as you can keep all write access rights in place and they will
+become active again as soon as the project state is set back to
+`Active`.
++
+This state also makes sense if a project was moved to another location.
+In this case all new development should happen in the new project and
+you want to prevent that somebody accidentally works on the old
+project, while keeping the old project around for old references.
+
+- `Hidden`:
++
+If a project is hidden then it is only visible to the project owners.
+Other users are not able to see the project even if they have read
+permissions granted on that project.
+
+=== Require Change-Id
+
+The `Require Change-Id in commit message` option defines whether a
+link:user-changeid.html[Change-Id] in the commit message is required
+for pushing a commit for review. If this option is set, trying to push
+a commit for review that doesn't contain a Change-Id in the commit
+message fails with link:error-missing-changeid.html[missing Change-Id
+in commit message footer].
+
+It is recommended to set this option and use a
+link:user-changeid.html#create[commit-msg hook] (or other client side
+tooling like EGit) to automatically generate Change-Id's for new
+commits. This way the Change-Id is automatically in place when changes
+are reworked or rebased and uploading new patch sets gets easy.
+
+If this option is not set, commits can be uploaded without Change-Id,
+but then users have to remember to copy the assigned Change-Id from the
+change screen and insert it manually into the commit message when they
+want to upload a second patch set.
+
+=== Maximum Git Object Size Limit
+
+This option defines the maximum allowed Git object size that
+receive-pack will accept. If an object is larger than the given size
+the pack-parsing will abort and the push operation will fail.
+
+With this option users can be prevented from uploading commits that
+contain too large files.
+
+Normally the link:config-gerrit.html#receive.maxObjectSizeLimit[maximum
+Git object size limit] is configured globally for a Gerrit server. On
+project level the maximum Git object size limit can be further reduced,
+but not extended. The displayed effective limit shows the maximum
+Git object size limit that is actually used on the project.
+
+=== Require Signed-off-by
+
+The `Require Signed-off-by in commit message` option defines whether a
+link:user-signedoffby.html[Signed-off-by] line in the commit message is
+required for pushing a commit. If this option is set, trying to push a
+commit that doesn't contain a Signed-off-by line in the commit message
+fails with link:error-not-signed-off-by.html[not Signed-off-by
+author/committer/uploader in commit message footer].
 
 == Registering Additional Branches
 

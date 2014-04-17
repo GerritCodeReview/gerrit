@@ -873,6 +873,10 @@ Gerrit.screen(pattern, callback);
 === Gerrit.refresh()
 Redisplays the current web UI view, refreshing all information.
 
+[[Gerrit_refreshMenuBar]]
+=== Gerrit.refreshMenuBar()
+Refreshes Gerrit's menu bar.
+
 [[Gerrit_url]]
 === Gerrit.url()
 Returns the URL of the Gerrit Code Review server. If invoked with

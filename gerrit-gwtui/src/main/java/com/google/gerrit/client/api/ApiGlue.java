@@ -63,6 +63,7 @@ public class ApiGlue {
 
       go: @com.google.gerrit.client.api.ApiGlue::go(Ljava/lang/String;),
       refresh: @com.google.gerrit.client.api.ApiGlue::refresh(),
+      refreshMenuBar: @com.google.gerrit.client.api.ApiGlue::refreshMenuBar(),
       showError: @com.google.gerrit.client.api.ApiGlue::showError(Ljava/lang/String;),
 
       on: function (e,f){(this.events[e] || (this.events[e]=[])).push(f)},
@@ -189,6 +190,10 @@ public class ApiGlue {
 
   private static final void refresh() {
     Gerrit.display(History.getToken());
+  }
+
+  private static final void refreshMenuBar() {
+    Gerrit.refreshMenuBar();
   }
 
   private static final void showError(String message) {

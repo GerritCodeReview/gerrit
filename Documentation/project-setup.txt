@@ -54,6 +54,7 @@ The method Gerrit uses to submit a change to a project can be
 modified by any project owner through the project console, `Projects` >
 `List` > my/project.  The following methods are supported:
 
+[[fast_forward_only]]
 * Fast Forward Only
 +
 This method produces a strictly linear history.  All merges must
@@ -63,6 +64,7 @@ To submit a change, the change must be a strict superset of the
 destination branch.  That is, the change must already contain the
 tip of the destination branch at submit time.
 
+[[merge_if_necessary]]
 * Merge If Necessary
 +
 This is the default for a new project.
@@ -72,6 +74,7 @@ branch, then the branch is fast-forwarded to the change.  If not,
 then a merge commit is automatically created.  This is identical
 to the classical `git merge` behavior, or `git merge --ff`.
 
+[[always_merge]]
 * Always Merge
 +
 Always produce a merge commit, even if the change is a strict
@@ -79,6 +82,7 @@ superset of the destination branch.  This is identical to the
 behavior of `git merge --no-ff`, and may be useful if the
 project needs to follow submits with `git log --first-parent`.
 
+[[cherry_pick]]
 * Cherry Pick
 +
 Always cherry pick the patch set, ignoring the parent lineage
@@ -108,6 +112,7 @@ When Gerrit tries to do a merge, by default the merge will only
 succeed if there is no path conflict.  A path conflict occurs when
 the same file has also been changed on the other side of the merge.
 
+[[content_merge]]
 If `Automatically resolve conflicts` is enabled, Gerrit will try
 to do a content merge when a path conflict occurs.
 

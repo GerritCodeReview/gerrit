@@ -40,7 +40,7 @@ import java.util.jar.Attributes;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 
-class JarPlugin extends Plugin {
+class ServerPlugin extends Plugin {
 
   /** Unique key that changes whenever a plugin reloads. */
   public static final class CacheKey {
@@ -72,7 +72,7 @@ class JarPlugin extends Plugin {
   private LifecycleManager manager;
   private List<ReloadableRegistrationHandle<?>> reloadableHandles;
 
-  public JarPlugin(String name,
+  public ServerPlugin(String name,
       String pluginCanonicalWebUrl,
       PluginUser pluginUser,
       File srcJar,

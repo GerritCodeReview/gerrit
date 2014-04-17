@@ -4,6 +4,7 @@ CORE = [
   'download-commands',
   'replication',
   'reviewnotes',
+  'singleusergroup'
 ]
 
 # buck audit parses and resolves all deps even if not reachable

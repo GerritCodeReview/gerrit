@@ -89,6 +89,8 @@ import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.git.validators.MergeValidationListener;
 import com.google.gerrit.server.git.validators.MergeValidators;
 import com.google.gerrit.server.git.validators.MergeValidators.ProjectConfigValidator;
+import com.google.gerrit.server.git.validators.UploadValidationListener;
+import com.google.gerrit.server.git.validators.UploadValidators;
 import com.google.gerrit.server.group.GroupModule;
 import com.google.gerrit.server.mail.AddReviewerSender;
 import com.google.gerrit.server.mail.CreateChangeSender;
@@ -273,6 +275,9 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicMap.mapOf(binder(), ProjectConfigEntry.class);
     DynamicSet.setOf(binder(), PatchSetWebLink.class);
     DynamicSet.setOf(binder(), ProjectWebLink.class);
+
+    factory(UploadValidators.Factory.class);
+    DynamicSet.setOf(binder(), UploadValidationListener.class);
 
     bind(AnonymousUser.class);
 

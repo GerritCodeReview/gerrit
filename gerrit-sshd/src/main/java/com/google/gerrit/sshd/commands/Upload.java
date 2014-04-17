@@ -21,7 +21,10 @@ import com.google.gerrit.server.git.ChangeCache;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.git.VisibleRefFilter;
+import com.google.gerrit.server.git.validators.UploadValidationException;
+import com.google.gerrit.server.git.validators.UploadValidators;
 import com.google.gerrit.sshd.AbstractGitCommand;
+import com.google.gerrit.sshd.SshSession;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -30,6 +33,7 @@ import org.eclipse.jgit.transport.PreUploadHookChain;
 import org.eclipse.jgit.transport.UploadPack;
 
 import java.io.IOException;
+import java.util.List;
 
 /** Publishes Git repositories over SSH using the Git upload-pack protocol. */
 final class Upload extends AbstractGitCommand {
@@ -48,6 +52,12 @@ final class Upload extends AbstractGitCommand {
   @Inject
   private DynamicSet<PreUploadHook> preUploadHooks;
 
+  @Inject
+  private UploadValidators.Factory uploadValidatorsFactory;
+
+  @Inject
+  private SshSession session;
+
   @Override
   protected void runImpl() throws IOException, Failure {
     if (!projectControl.canRunUploadPack()) {
@@ -61,8 +71,22 @@ final class Upload extends AbstractGitCommand {
     }
     up.setPackConfig(config.getPackConfig());
     up.setTimeout(config.getTimeout());
+
+    List<PreUploadHook> allPreUploadHooks = Lists.newArrayList(preUploadHooks);
+    allPreUploadHooks.add(uploadValidatorsFactory.create(project, repo,
+        session.getRemoteAddressAsString()));
     up.setPreUploadHook(PreUploadHookChain.newChain(
-        Lists.newArrayList(preUploadHooks)));
-    up.upload(in, out, err);
+        Lists.newArrayList(allPreUploadHooks)));
+    try {
+      up.upload(in, out, err);
+    } catch (UploadValidationException e) {
+      // UploadValidationException is used by the UploadValidators to
+      // stop the uploadPack. We do not want this exception to go beyond this
+      // point otherwise it would print a stacktrace in the logs and return an
+      // internal server error to the client.
+      if (!e.isOutput()) {
+        up.sendMessage(e.getMessage());
+      }
+    }
   }
 }

@@ -25,6 +25,7 @@ import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
+import com.google.gerrit.server.auth.NoSuchUserException;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -147,6 +148,18 @@ class ProjectBasicAuthFilter implements Filter {
       ws.setAccessPathOk(AccessPath.GIT, true);
       ws.setAccessPathOk(AccessPath.REST_API, true);
       return true;
+    } catch (NoSuchUserException e) {
+      if (password.equals(who.getPassword(who.getUserName()))) {
+        WebSession ws = session.get();
+        ws.setUserAccountId(who.getAccount().getId());
+        ws.setAccessPathOk(AccessPath.GIT, true);
+        ws.setAccessPathOk(AccessPath.REST_API, true);
+        return true;
+      } else {
+        log.warn("Authentication failed for " + username, e);
+        rsp.sendError(SC_UNAUTHORIZED);
+        return false;
+      }
     } catch (AccountException e) {
       log.warn("Authentication failed for " + username, e);
       rsp.sendError(SC_UNAUTHORIZED);

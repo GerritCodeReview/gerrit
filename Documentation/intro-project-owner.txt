@@ -219,6 +219,67 @@ You may also enable link:user-upload.html#auto_merge[auto-merge on
 push] to benefit from the automatic merge/rebase on server side while
 pushing directly into the repository.
 
+[[project-options]]
+== Project Options
+
+As project owner you can control several options on your project.
+The different options are described in the
+link:project-setup.html#project_options[Project Options] section.
+
+To see the options of your project
+
+- go to the Gerrit WebUI
+- click on the `Projects` > `List` menu entry
+- find your project in the project list and click on it
+- click on the `General` menu entry
+
+[[submit-type]]
+=== Submit Type
+
+An important decision for a project is the choice of the submit type
+and the content merge setting (aka `Automatically resolve conflicts`).
+The link:project-setup.html#submit_type[submit type] is the method
+Gerrit uses to submit a change to the project. For example it defines
+what Gerrit should do on submit of a change if the destination has
+moved while the change was in review. The
+link:project-setup.html#content_merge[content merge] setting applies
+if the same files have been modified concurrently and tells Gerrit
+whether it should attempt a content merge for these files.
+
+When choosing the submit type and the content merge setting one must
+weigh development comfort against the safety of not breaking the
+destination branch.
+
+The most restrictive submit type is
+link:project-setup.html#fast_forward_only[Fast Forward Only]. Using
+this submit type means that after submitting one change all other open
+changes for the same destination branch must be rebased manually. This
+is quite some overhead and in practice only feasible for branches with
+a very low frequency of changes. On the other hand, if changes are
+verified before submit, e.g. automatically by a CI integration, with
+this submit type, you can be sure that the destination branch never
+gets broken.
+
+Choosing link:project-setup.html#merge_if_necessary[Merge If Necessary]
+as submit type makes the life for developers more comfortable,
+especially if content merge is enabled. If this submit strategy is used
+developers only need to rebase manually if the same files have been
+modified concurrently or if the content merge on such a file fails. The
+drawback with this submit type is that there is a risk of breaking
+the destination branch, e.g. if one change moves a class into another
+package and another change imports this class from the old location.
+Experience shows that in practice `Merge If Necessary` with content
+merge enabled works pretty well and breaking the destination branch
+happens only very seldom. This is why this setting is recommended at
+least for development branches. You likely want to start with
+`Merge If Necessary` with content merge enabled and only switch to a
+more restrictive policy if you are facing any issues with the build
+and test stability of the destination branches.
+
+Please note that there are other submit types available; they are
+described in the link:project-setup.html#submit_type[Submit Type]
+section.
+
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

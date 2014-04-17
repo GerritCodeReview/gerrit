@@ -32,6 +32,19 @@ are merged to the git repository.
 If the commit fails the validation, the plugin can throw an exception
 which will cause the merge to fail.
 
+[[pre-upload-validation]]
+== Pre-upload validation
+
+
+Plugins implementing the `UploadValidationListener` interface can
+perform additional validation checks before any upload operations
+(clone, fetch, pull). The validation is executed right before Gerrit
+begins to send a pack back to the git client.
+
+If upload fails the validation, the plugin can throw an exception
+which will cause the upload to fail and the exception's message text
+will be reported to the git client.
+
 [[new-project-validation]]
 == New project validation
 

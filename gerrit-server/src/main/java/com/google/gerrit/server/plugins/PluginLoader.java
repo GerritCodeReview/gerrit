@@ -586,7 +586,7 @@ public class PluginLoader implements LifecycleListener {
           CharMatcher.is('/').trimTrailingFrom(urlProvider.get()),
           name);
 
-      Plugin plugin = new JarPlugin(name, url,
+      Plugin plugin = new ServerPlugin(name, url,
           pluginUserFactory.create(name),
           srcJar, snapshot,
           jarFile, manifest,

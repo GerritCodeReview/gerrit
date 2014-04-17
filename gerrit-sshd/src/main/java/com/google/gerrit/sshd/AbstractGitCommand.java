@@ -16,6 +16,7 @@ package com.google.gerrit.sshd;
 
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.AccessPath;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.ProjectControl;
@@ -28,6 +29,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.kohsuke.args4j.Argument;
 
 import java.io.IOException;
+import java.net.SocketAddress;
 
 public abstract class AbstractGitCommand extends BaseCommand {
   @Argument(index = 0, metaVar = "PROJECT.git", required = true, usage = "project name")

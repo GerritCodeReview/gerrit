@@ -14,19 +14,18 @@
 
 package com.google.gerrit.sshd.commands;
 
-import com.google.common.collect.Lists;
-import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.git.ChangeCache;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.git.VisibleRefFilter;
+import com.google.gerrit.server.git.validators.UploadValidationException;
+import com.google.gerrit.server.git.validators.UploadValidators;
 import com.google.gerrit.sshd.AbstractGitCommand;
+import com.google.gerrit.sshd.SshSession;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-import org.eclipse.jgit.transport.PreUploadHook;
-import org.eclipse.jgit.transport.PreUploadHookChain;
 import org.eclipse.jgit.transport.UploadPack;
 
 import java.io.IOException;
@@ -46,7 +45,10 @@ final class Upload extends AbstractGitCommand {
   private ChangeCache changeCache;
 
   @Inject
-  private DynamicSet<PreUploadHook> preUploadHooks;
+  private UploadValidators.Factory uploadValidatorsFactory;
+
+  @Inject
+  private SshSession session;
 
   @Override
   protected void runImpl() throws IOException, Failure {
@@ -55,14 +57,21 @@ final class Upload extends AbstractGitCommand {
     }
 
     final UploadPack up = new UploadPack(repo);
-    up.setPreUploadHook(PreUploadHookChain.newChain(
-        Lists.newArrayList(preUploadHooks)));
     if (!projectControl.allRefsAreVisible()) {
       up.setAdvertiseRefsHook(new VisibleRefFilter(tagCache, changeCache, repo,
           projectControl, db.get(), true));
     }
     up.setPackConfig(config.getPackConfig());
     up.setTimeout(config.getTimeout());
-    up.upload(in, out, err);
+    up.setPreUploadHook(uploadValidatorsFactory.create(project, repo,
+        session.getRemoteAddress().toString()));
+    try {
+      up.upload(in, out, err);
+    } catch (UploadValidationException e) {
+      // UploadValidationException is used by the UploadValidationListener to
+      // stop the uploadPack. We do not want this exception to go beyond this
+      // point otherwise it would print a stacktrace in the logs and return an
+      // internal server error to the client.
+    }
   }
 }

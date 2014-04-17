@@ -94,11 +94,11 @@ public class SshSession {
     return authError != null;
   }
 
-  SocketAddress getRemoteAddress() {
+  public SocketAddress getRemoteAddress() {
     return remoteAddress;
   }
 
-  String getRemoteAddressAsString() {
+  public String getRemoteAddressAsString() {
     return remoteAsString;
   }
 

@@ -60,12 +60,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Queue;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.TimeUnit;
 import java.util.jar.Attributes;
@@ -383,7 +386,7 @@ public class PluginLoader implements LifecycleListener {
     syncDisabledPlugins(pluginsFiles);
 
     Map<String, File> activePlugins = filterDisabled(pluginsFiles);
-    for (Map.Entry<String, File> entry : activePlugins.entrySet()) {
+    for (Map.Entry<String, File> entry : jarsFirstSortedPluginsSet(activePlugins)) {
       String name = entry.getKey();
       File file = entry.getValue();
       String fileName = file.getName();
@@ -419,6 +422,27 @@ public class PluginLoader implements LifecycleListener {
     }
 
     cleanInBackground();
+  }
+
+  private TreeSet<Entry<String, File>> jarsFirstSortedPluginsSet(
+      Map<String, File> activePlugins) {
+    TreeSet<Entry<String, File>> sortedPlugins =
+        Sets.newTreeSet(new Comparator<Entry<String, File>>() {
+          @Override
+          public int compare(Entry<String, File> entry1,
+              Entry<String, File> entry2) {
+            String file1 = entry1.getValue().getName();
+            String file2 = entry2.getValue().getName();
+            int cmp = file1.compareTo(file2);
+            if (file1.endsWith(".jar")) {
+              return (file2.endsWith(".jar") ? cmp : -1);
+            } else {
+              return (file2.endsWith(".jar") ? +1 : cmp);
+            }
+          }
+        });
+    sortedPlugins.addAll(activePlugins.entrySet());
+    return sortedPlugins;
   }
 
   private void syncDisabledPlugins(Multimap<String, File> jars) {

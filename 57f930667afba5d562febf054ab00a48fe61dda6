@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c5045f04_3ccb3187",
+        "filename": "Documentation/intro-project-owner.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2014-04-18T00:24:29Z",
+      "side": 1,
+      "message": "I think you can drop \"For example\" here and just start with \"The Submit Type defines...\"",
+      "range": {
+        "startLine": 242,
+        "startChar": 47,
+        "endLine": 242,
+        "endChar": 50
+      },
+      "revId": "57f930667afba5d562febf054ab00a48fe61dda6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5045f04_1cd0752f",
+        "filename": "Documentation/intro-project-owner.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2014-04-18T00:24:29Z",
+      "side": 1,
+      "message": "^ branch",
+      "range": {
+        "startLine": 243,
+        "startChar": 51,
+        "endLine": 243,
+        "endChar": 62
+      },
+      "revId": "57f930667afba5d562febf054ab00a48fe61dda6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5045f04_fcb4a911",
+        "filename": "Documentation/intro-project-owner.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2014-04-18T00:24:29Z",
+      "side": 1,
+      "message": "Maybe s/some overhead/burdensome/",
+      "range": {
+        "startLine": 257,
+        "startChar": 9,
+        "endLine": 257,
+        "endChar": 13
+      },
+      "revId": "57f930667afba5d562febf054ab00a48fe61dda6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a5012bf5_7bc1bf64",
+        "filename": "Documentation/intro-project-owner.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2014-04-18T00:24:29Z",
+      "side": 1,
+      "message": "Maybe s/low frequency of/few/",
+      "revId": "57f930667afba5d562febf054ab00a48fe61dda6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5045f04_dcb1ed1f",
+        "filename": "Documentation/intro-project-owner.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2014-04-18T00:24:29Z",
+      "side": 1,
+      "message": "s/only very seldom/seldomly/",
+      "range": {
+        "startLine": 273,
+        "startChar": 18,
+        "endLine": 273,
+        "endChar": 24
+      },
+      "revId": "57f930667afba5d562febf054ab00a48fe61dda6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a5012bf5_5bc6037f",
+        "filename": "Documentation/intro-project-owner.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2014-04-18T00:24:29Z",
+      "side": 1,
+      "message": "I would drop \"any\" here.",
+      "range": {
+        "startLine": 276,
+        "startChar": 42,
+        "endLine": 276,
+        "endChar": 45
+      },
+      "revId": "57f930667afba5d562febf054ab00a48fe61dda6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

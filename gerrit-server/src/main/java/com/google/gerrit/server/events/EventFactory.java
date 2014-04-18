@@ -235,6 +235,12 @@ public class EventFactory {
         for (PatchSet p :
             db.patchSets().byRevision(a.getAncestorRevision())) {
           Change c = db.changes().get(p.getId().getParentKey());
+          if (c == null) {
+            log.error("Error while generating the ancestor change for"
+                + " revision " + a.getAncestorRevision() + ": Cannot find"
+                + " Change entry in database for " + p.getId().getParentKey());
+            continue;
+          }
           ca.dependsOn.add(newDependsOn(c, p));
         }
       }

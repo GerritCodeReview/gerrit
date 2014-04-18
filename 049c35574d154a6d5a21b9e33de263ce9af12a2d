@@ -16,6 +16,24 @@
       "revId": "049c35574d154a6d5a21b9e33de263ce9af12a2d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a52f6b8b_8b8d4d6e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-04-18T20:07:33Z",
+      "side": 1,
+      "message": "It may want to change the menu, see\n https://gerrit-review.googlesource.com/56002\n\nMaybe the plugin has a functionality that if enabled appears in the menu and if disabled the menu disappears again.",
+      "parentUuid": "c5045f04_9cac858d",
+      "revId": "049c35574d154a6d5a21b9e33de263ce9af12a2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

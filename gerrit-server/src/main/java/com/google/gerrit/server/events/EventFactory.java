@@ -261,6 +261,12 @@ public class EventFactory {
             continue;
           }
           final Change c = db.changes().get(p.getId().getParentKey());
+          if (c == null) {
+            log.error("Error while generating the list of descendants for"
+                + " revision " + revId.get() + ": Cannot find Change entry in"
+                + " database for " + p.getId().getParentKey());
+            continue;
+          }
           ca.neededBy.add(newNeededBy(c, p));
         }
       }

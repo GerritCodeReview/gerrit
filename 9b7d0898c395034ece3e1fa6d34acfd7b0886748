@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a52f6b8b_cb3c75e2",
+        "filename": "Documentation/project-setup.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-04-18T06:33:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a5012bf5_bb6747f0",
+      "revId": "9b7d0898c395034ece3e1fa6d34acfd7b0886748",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c5045f04_7cc1b964",
         "filename": "Documentation/project-setup.txt",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "a52f6b8b_ab3929f0",
+        "filename": "Documentation/project-setup.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-04-18T06:33:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c5045f04_7cc1b964",
+      "revId": "9b7d0898c395034ece3e1fa6d34acfd7b0886748",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a5012bf5_db6a13ba",
         "filename": "Documentation/project-setup.txt",
         "patchSetId": 2
@@ -47,6 +83,30 @@
       "writtenOn": "2014-04-18T00:12:04Z",
       "side": 1,
       "message": "^a",
+      "range": {
+        "startLine": 161,
+        "startChar": 58,
+        "endLine": 161,
+        "endChar": 59
+      },
+      "revId": "9b7d0898c395034ece3e1fa6d34acfd7b0886748",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5329ff0_6c735bc5",
+        "filename": "Documentation/project-setup.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-04-18T06:33:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a5012bf5_db6a13ba",
       "range": {
         "startLine": 161,
         "startChar": 58,
@@ -82,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "c5329ff0_4c789f9f",
+        "filename": "Documentation/project-setup.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-04-18T06:33:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a5012bf5_1b599b35",
+      "range": {
+        "startLine": 173,
+        "startChar": 18,
+        "endLine": 173,
+        "endChar": 23
+      },
+      "revId": "9b7d0898c395034ece3e1fa6d34acfd7b0886748",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a5012bf5_9b648bec",
         "filename": "Documentation/project-setup.txt",
         "patchSetId": 2
@@ -93,6 +177,30 @@
       "writtenOn": "2014-04-18T00:12:04Z",
       "side": 1,
       "message": "s/On/At the/   s/level/level,/",
+      "range": {
+        "startLine": 176,
+        "startChar": 67,
+        "endLine": 176,
+        "endChar": 69
+      },
+      "revId": "9b7d0898c395034ece3e1fa6d34acfd7b0886748",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5329ff0_2c7d538f",
+        "filename": "Documentation/project-setup.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-04-18T06:33:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a5012bf5_9b648bec",
       "range": {
         "startLine": 176,
         "startChar": 67,

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c5045f04_9cac858d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-04-18T20:00:55Z",
+      "side": 1,
+      "message": "Why? What can a plugin do that would require this?",
+      "revId": "049c35574d154a6d5a21b9e33de263ce9af12a2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

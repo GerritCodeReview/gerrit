@@ -1,45 +1,45 @@
 = Gerrit Code Review - Project Configuration
 
-== Create Through SSH
+== Project Creation
 
-Creating a new repository over SSH is perhaps the easiest way to
-configure a new project:
+There are several ways to create a new project in Gerrit:
 
-====
-  ssh -p 29418 review.example.com gerrit create-project --name new/project
-====
+- in the Web UI under 'Projects' > 'Create Project'
+- via the link:rest-api-projects.html#create-project[Create Project]
+  REST endpoint
+- via the link:cmd-create-project.html[create-project] SSH command
 
-See link:cmd-create-project.html[gerrit create-project] for more
-details.
+To be able to create new projects the global capability
+link:access-control.html#capability_createProject[Create Project] must
+be granted.
 
+In addition, projects can be created link:#manual_project_creation[
+manually].
 
-== Manual Creation
+[[manual_project_creation]]
+=== Manual Project Creation
 
-Projects may also be manually created.
-
-=== Create Git Repository
-
-Create a Git repository under gerrit.basePath:
-
+. Create a Git repository under `gerrit.basePath`:
++
 ====
   git --git-dir=$base_path/new/project.git init
 ====
-
++
 [TIP]
 By tradition the repository directory name should have a `.git`
 suffix.
-
++
 To also make this repository available over the anonymous git://
 protocol, don't forget to create a `git-daemon-export-ok` file:
-
++
 ====
   touch $base_path/new/project.git/git-daemon-export-ok
 ====
 
-=== Register Project
-
+. Register Project
++
 Either restart the server, or flush the `project_list` cache:
-
++
 ====
   ssh -p 29418 localhost gerrit flush-caches --cache project_list
 ====

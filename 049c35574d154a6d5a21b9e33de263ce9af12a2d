@@ -34,6 +34,24 @@
       "revId": "049c35574d154a6d5a21b9e33de263ce9af12a2d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a5012bf5_bb8627ff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-04-18T20:29:13Z",
+      "side": 1,
+      "message": "Haha, ok that change is a good example. :-)",
+      "parentUuid": "a52f6b8b_8b8d4d6e",
+      "revId": "049c35574d154a6d5a21b9e33de263ce9af12a2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

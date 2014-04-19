@@ -34,6 +34,10 @@ java_library(
     '//lib/jgit:jgit',
     '//lib/jgit:junit',
     '//lib/mina:sshd',
+
+    # these need as workaround for the 'verify: false' bug in Jcraft SSH library
+    '//lib/bouncycastle:bcpkix',
+    '//lib/bouncycastle:bcpg',
   ],
   visibility = [
     '//tools/eclipse:classpath',

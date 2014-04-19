@@ -1,8 +1,17 @@
+# these need as workaround for the 'verify: false' bug in Jcraft SSH library
+BOUNCYCASTLE = [
+  '//lib/bouncycastle:bcpkix',
+  '//lib/bouncycastle:bcpg',
+]
+
 def acceptance_tests(
     srcs,
     deps = [],
     source_under_test = [],
     vm_args = ['-Xmx256m']):
+  from os import environ
+  if not environ.get('NO_BOUNCYCASTLE'):
+    deps = BOUNCYCASTLE + deps
   for j in srcs:
     java_test(
       name = j[:-len('.java')],

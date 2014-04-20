@@ -193,6 +193,24 @@
       "revId": "864bac6d04441e1a8732ddef43e241abfeffa61d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "256b7bde_37e6d850",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/ProjectConfigTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-20T20:51:05Z",
+      "side": 1,
+      "message": "ProjectConfig\u0027s error() method doesn\u0027t throw exceptions, but gathers all validation errors in validationErrors list, that is get evaluated in CommitValidators. So just add these lines to your test, to validate that wrong default value was correctly recognized:\n\n  ProjectConfig cfg \u003d read(rev);\n  assertEquals(1, cfg.getValidationErrors().size());\n  assertEquals(\"project.config: Invalid defaultValue \\\"-2\\\" \"\n      + \"for label \\\"CustomLabel\\\"\",\n      Iterables.getOnlyElement(cfg.getValidationErrors()).getMessage());",
+      "parentUuid": "05975703_deea2513",
+      "revId": "864bac6d04441e1a8732ddef43e241abfeffa61d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

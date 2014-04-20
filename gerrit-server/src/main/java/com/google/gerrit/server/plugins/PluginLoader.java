@@ -18,7 +18,6 @@ import com.google.common.base.CharMatcher;
 import com.google.common.base.Joiner;
 import com.google.common.base.Objects;
 import com.google.common.base.Predicate;
-import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Lists;
@@ -37,7 +36,6 @@ import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
-import com.google.inject.Module;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
@@ -71,7 +69,6 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.TimeUnit;
-import java.util.jar.Attributes;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 
@@ -586,16 +583,6 @@ public class PluginLoader implements LifecycleListener {
     try {
       Manifest manifest = jarFile.getManifest();
       Plugin.ApiType type = Plugin.getApiType(manifest);
-      Attributes main = manifest.getMainAttributes();
-      String sysName = main.getValue("Gerrit-Module");
-      String sshName = main.getValue("Gerrit-SshModule");
-      String httpName = main.getValue("Gerrit-HttpModule");
-
-      if (!Strings.isNullOrEmpty(sshName) && type != Plugin.ApiType.PLUGIN) {
-        throw new InvalidPluginException(String.format(
-            "Using Gerrit-SshModule requires Gerrit-ApiType: %s",
-            Plugin.ApiType.PLUGIN));
-      }
 
       List<URL> urls = new ArrayList<>(2);
       String overlay = System.getProperty("gerrit.plugin-classes");
@@ -613,9 +600,6 @@ public class PluginLoader implements LifecycleListener {
       ClassLoader pluginLoader = new URLClassLoader(
           urls.toArray(new URL[urls.size()]),
           parentFor(type));
-      Class<? extends Module> sysModule = load(sysName, pluginLoader);
-      Class<? extends Module> sshModule = load(sshName, pluginLoader);
-      Class<? extends Module> httpModule = load(httpName, pluginLoader);
 
       String url = String.format("%s/plugins/%s/",
           CharMatcher.is('/').trimTrailingFrom(urlProvider.get()),
@@ -625,8 +609,7 @@ public class PluginLoader implements LifecycleListener {
           pluginUserFactory.create(name),
           srcJar, snapshot, new JarFile(srcJar),
           new JarScanner(srcJar),
-          new File(dataDir, name), type, pluginLoader,
-          sysModule, sshModule, httpModule);
+          new File(dataDir, name), pluginLoader);
       cleanupHandles.put(plugin, new CleanupHandle(tmp, jarFile));
       keep = true;
       return plugin;
@@ -664,23 +647,6 @@ public class PluginLoader implements LifecycleListener {
   private static String tempNameFor(String name) {
     SimpleDateFormat fmt = new SimpleDateFormat("yyMMdd_HHmm");
     return PLUGIN_TMP_PREFIX + name + "_" + fmt.format(new Date()) + "_";
-  }
-
-  private static Class<? extends Module> load(String name, ClassLoader pluginLoader)
-      throws ClassNotFoundException {
-    if (Strings.isNullOrEmpty(name)) {
-      return null;
-    }
-
-    @SuppressWarnings("unchecked")
-    Class<? extends Module> clazz =
-        (Class<? extends Module>) Class.forName(name, false, pluginLoader);
-    if (!Module.class.isAssignableFrom(clazz)) {
-      throw new ClassCastException(String.format(
-          "Class %s does not implement %s",
-          name, Module.class.getName()));
-    }
-    return clazz;
   }
 
   // Only one active plugin per plugin name can exist for each plugin name.

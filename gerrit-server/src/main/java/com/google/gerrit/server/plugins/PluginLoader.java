@@ -625,7 +625,7 @@ public class PluginLoader implements LifecycleListener {
   }
 
   private ServerPlugin loadExternalPlugin(String name, File scriptFile,
-      FileSnapshot snapshot) {
+      FileSnapshot snapshot) throws InvalidPluginException {
     return externalPluginFactory.get(name, scriptFile,
         pluginUserFactory.create(name), snapshot);
   }

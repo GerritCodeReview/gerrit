@@ -52,7 +52,8 @@ public interface ServerPluginProvider {
    * @param pluginUser Gerrit user for interacting with plugins
    * @param snapshot snapshot of the external file
    * @return the Server Plugin
+   * @throws InvalidPluginException if plugin cannot be loaded
    */
   ServerPlugin get(String name, File srcFile, PluginUser pluginUser,
-      FileSnapshot snapshot);
+      FileSnapshot snapshot) throws InvalidPluginException;
 }

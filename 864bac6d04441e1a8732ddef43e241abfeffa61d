@@ -175,6 +175,24 @@
       "revId": "864bac6d04441e1a8732ddef43e241abfeffa61d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "05975703_deea2513",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/ProjectConfigTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-04-20T13:54:13Z",
+      "side": 1,
+      "message": "It does look like the system throws a ConfigInvalidException.  I believe the reason why it\u0027s not detected in this tests is because the exception is thrown by the CommitValidators and not by the class under test (ProjectConfig).  I\u0027m not sure whether your looking for more than just an explanation here but I think this is a valid test.  \n\nHere is the exception from the gerrit log:\n\n[2014-04-20 05:45:38,761] ERROR com.google.gerrit.server.git.validators.CommitValidators : User zaro0508 tried to push invalid project configuration d04ea8746c5790ef6e76cec87ff9cf26f8b9278b for All-Projects\norg.eclipse.jgit.errors.ConfigInvalidException: Invalid defaultValue \"-4\" for label \"Snarky-Review\"\n\tat com.google.gerrit.server.git.ProjectConfig.loadLabelSections(ProjectConfig.java:674)\n\tat com.google.gerrit.server.git.ProjectConfig.onLoad(ProjectConfig.java:419)\n\tat com.google.gerrit.server.git.VersionedMetaData.load(VersionedMetaData.java:118)\n\tat com.google.gerrit.server.git.validators.CommitValidators$ConfigValidator.onCommitReceived(CommitValidators.java:330)\n\tat com.google.gerrit.server.git.validators.CommitValidators.validateForReceiveCommits(CommitValidators.java:118)\n\tat com.google.gerrit.server.git.ReceiveCommits.validCommit(ReceiveCommits.java:2198)\n\tat com.google.gerrit.server.git.ReceiveCommits.validateNewCommits(ReceiveCommits.java:2158)\n\tat com.google.gerrit.server.git.ReceiveCommits.parseUpdate(ReceiveCommits.java:972)\n\tat com.google.gerrit.server.git.ReceiveCommits.parseCommands(ReceiveCommits.java:823)\n\tat com.google.gerrit.server.git.ReceiveCommits.processCommands(ReceiveCommits.java:539)\n\tat com.google.gerrit.server.git.AsyncReceiveCommits$Worker.run(AsyncReceiveCommits.java:90)\n\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:471)\n\tat com.google.gerrit.server.util.RequestScopePropagator$5.call(RequestScopePropagator.java:222)\n\tat com.google.gerrit.server.util.RequestScopePropagator$4.call(RequestScopePropagator.java:201)\n\tat com.google.gerrit.server.util.ThreadLocalRequestScopePropagator$1.call(ThreadLocalRequestScopePropagator.java:55)\n\tat com.google.gerrit.server.util.RequestScopePropagator$1.call(RequestScopePropagator.java:98)\n\tat com.google.gerrit.server.util.RequestScopePropagator$2.run(RequestScopePropagator.java:131)\n\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:471)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:262)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:178)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:292)\n\tat com.google.gerrit.server.git.WorkQueue$Task.run(WorkQueue.java:368)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)\n\tat java.lang.Thread.run(Thread.java:724)",
+      "parentUuid": "d96e0bb0_338d486b",
+      "revId": "864bac6d04441e1a8732ddef43e241abfeffa61d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

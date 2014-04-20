@@ -82,29 +82,60 @@ public class ServerPlugin extends Plugin {
       JarFile jarFile,
       PluginContentScanner scanner,
       File dataDir,
-      ApiType apiType,
-      ClassLoader classLoader,
-      @Nullable Class<? extends Module> sysModule,
-      @Nullable Class<? extends Module> sshModule,
-      @Nullable Class<? extends Module> httpModule)
-      throws InvalidPluginException {
-    super(name, srcJar, pluginUser, snapshot, apiType);
+      ClassLoader classLoader) throws InvalidPluginException {
+    super(name, srcJar, pluginUser, snapshot, Plugin.getApiType(getPluginManifest(scanner)));
     this.pluginCanonicalWebUrl = pluginCanonicalWebUrl;
     this.jarFile = jarFile;
     this.scanner = scanner;
     this.dataDir = dataDir;
     this.classLoader = classLoader;
-    this.sysModule = sysModule;
-    this.sshModule = sshModule;
-    this.httpModule = httpModule;
     this.manifest = getPluginManifest(scanner);
+    loadGuiceModules(manifest, classLoader);
+  }
+
+  private void loadGuiceModules(Manifest manifest, ClassLoader classLoader) throws InvalidPluginException {
+    Attributes main = manifest.getMainAttributes();
+    String sysName = main.getValue("Gerrit-Module");
+    String sshName = main.getValue("Gerrit-SshModule");
+    String httpName = main.getValue("Gerrit-HttpModule");
+
+    if (!Strings.isNullOrEmpty(sshName) && getApiType() != Plugin.ApiType.PLUGIN) {
+      throw new InvalidPluginException(String.format(
+          "Using Gerrit-SshModule requires Gerrit-ApiType: %s",
+          Plugin.ApiType.PLUGIN));
+    }
+
+    try {
+      this.sysModule = load(sysName, classLoader);
+      this.sshModule = load(sshName, classLoader);
+      this.httpModule = load(httpName, classLoader);
+    } catch(ClassNotFoundException e) {
+      throw new InvalidPluginException("Unable to load plugin Guice Modules", e);
+    }
+  }
+
+  private static Class<? extends Module> load(String name, ClassLoader pluginLoader)
+      throws ClassNotFoundException {
+    if (Strings.isNullOrEmpty(name)) {
+      return null;
+    }
+
+    @SuppressWarnings("unchecked")
+    Class<? extends Module> clazz =
+        (Class<? extends Module>) Class.forName(name, false, pluginLoader);
+    if (!Module.class.isAssignableFrom(clazz)) {
+      throw new ClassCastException(String.format(
+          "Class %s does not implement %s",
+          name, Module.class.getName()));
+    }
+    return clazz;
   }
 
   File getSrcJar() {
     return getSrcFile();
   }
 
-  private Manifest getPluginManifest(PluginContentScanner scanner)
+  private static Manifest getPluginManifest(PluginContentScanner scanner)
       throws InvalidPluginException {
     try {
        return scanner.getManifest();

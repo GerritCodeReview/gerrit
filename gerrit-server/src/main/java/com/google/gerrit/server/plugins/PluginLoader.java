@@ -601,15 +601,11 @@ public class PluginLoader implements LifecycleListener {
           urls.toArray(new URL[urls.size()]),
           parentFor(type));
 
-      String url = String.format("%s/plugins/%s/",
-          CharMatcher.is('/').trimTrailingFrom(urlProvider.get()),
-          name);
-
-      Plugin plugin = new ServerPlugin(name, url,
+      Plugin plugin = new ServerPlugin(name, getPluginCanonicalWebUrl(name),
           pluginUserFactory.create(name),
           srcJar, snapshot, new JarFile(srcJar),
           new JarScanner(srcJar),
-          new File(dataDir, name), pluginLoader);
+          getPluginDataDir(name), pluginLoader);
       cleanupHandles.put(plugin, new CleanupHandle(tmp, jarFile));
       keep = true;
       return plugin;
@@ -620,14 +616,26 @@ public class PluginLoader implements LifecycleListener {
     }
   }
 
+  private File getPluginDataDir(String name) {
+    return new File(dataDir, name);
+  }
+
+  private String getPluginCanonicalWebUrl(String name) {
+    String url = String.format("%s/plugins/%s/",
+        CharMatcher.is('/').trimTrailingFrom(urlProvider.get()),
+        name);
+    return url;
+  }
+
   private Plugin loadJsPlugin(String name, File srcJar, FileSnapshot snapshot) {
     return new JsPlugin(name, srcJar, pluginUserFactory.create(name), snapshot);
   }
 
   private ServerPlugin loadExternalPlugin(String name, File scriptFile,
       FileSnapshot snapshot) throws InvalidPluginException {
-    return externalPluginFactory.get(name, scriptFile,
-        pluginUserFactory.create(name), snapshot);
+    return externalPluginFactory.get(scriptFile,
+        pluginUserFactory.create(name), snapshot,
+        getPluginCanonicalWebUrl(name), getPluginDataDir(name));
   }
 
   private static ClassLoader parentFor(Plugin.ApiType type)

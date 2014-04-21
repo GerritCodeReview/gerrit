@@ -10,16 +10,12 @@ OTHER_TESTS = glob(['*IT.java'], excludes = SUBMIT_TESTS + SUBMIT_UTIL_SRCS)
 
 acceptance_tests(
   srcs = OTHER_TESTS,
-  deps = [
-    '//gerrit-acceptance-tests:lib',
-  ],
 )
 
 acceptance_tests(
   srcs = SUBMIT_TESTS,
   deps = [
     ':submit_util',
-    '//gerrit-acceptance-tests:lib',
   ],
 )
 

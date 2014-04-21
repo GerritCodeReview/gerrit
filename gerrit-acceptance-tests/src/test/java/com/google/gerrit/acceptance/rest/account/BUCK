@@ -2,10 +2,7 @@ include_defs('//gerrit-acceptance-tests/tests.defs')
 
 acceptance_tests(
   srcs = glob(['*IT.java']),
-  deps = [
-    ':util',
-    '//gerrit-acceptance-tests:lib',
-  ],
+  deps = [':util'],
 )
 
 java_library(

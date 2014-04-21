@@ -5,7 +5,6 @@ acceptance_tests(
   deps = [
     ':branch',
     ':project',
-    '//gerrit-acceptance-tests:lib',
   ],
 )
 

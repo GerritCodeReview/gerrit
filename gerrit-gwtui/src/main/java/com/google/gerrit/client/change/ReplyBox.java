@@ -199,6 +199,15 @@ class ReplyBox extends Composite {
 
   @UiHandler("post")
   void onPost(ClickEvent e) {
+    postReview();
+  }
+
+  void quickApprove(ReviewInput quickApproveInput) {
+    in.mergeLabels(quickApproveInput);
+    postReview();
+  }
+
+  private void postReview() {
     in.message(getMessage());
     in.prePost();
     ChangeApi.revision(psId.getParentKey().get(), revision)

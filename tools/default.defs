@@ -166,7 +166,7 @@ def gerrit_plugin(
   gwt_deps = []
   static_jars = []
   if gwt_module:
-    gwt_deps = GWT_PLUGIN_DEPS
+    gwt_deps = GWT_PLUGIN_DEPS + ['//gerrit-gwtui-common:client']
     static_jars = [':%s-static-jar' % name]
   java_library2(
     name = name + '__plugin',

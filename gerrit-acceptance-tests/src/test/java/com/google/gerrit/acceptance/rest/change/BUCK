@@ -10,6 +10,7 @@ OTHER_TESTS = glob(['*IT.java'], excludes = SUBMIT_TESTS + SUBMIT_UTIL_SRCS)
 
 acceptance_tests(
   srcs = OTHER_TESTS,
+  labels = ['rest'],
 )
 
 acceptance_tests(
@@ -17,6 +18,7 @@ acceptance_tests(
   deps = [
     ':submit_util',
   ],
+  labels = ['rest'],
 )
 
 java_library(

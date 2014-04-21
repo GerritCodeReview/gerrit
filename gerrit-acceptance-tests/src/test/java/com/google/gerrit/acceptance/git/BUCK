@@ -2,11 +2,13 @@ include_defs('//gerrit-acceptance-tests/tests.defs')
 
 acceptance_tests(
   srcs = ['DraftChangeBlockedIT.java', 'SubmitOnPushIT.java'],
+  labels = ['git'],
 )
 
 acceptance_tests(
   srcs = ['HttpPushForReviewIT.java', 'SshPushForReviewIT.java'],
   deps = [':push_for_review'],
+  labels = ['git'],
 )
 
 java_library(

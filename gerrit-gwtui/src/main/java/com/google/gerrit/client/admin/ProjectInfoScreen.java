@@ -185,6 +185,13 @@ public class ProjectInfoScreen extends ProjectScreen {
   private void initProjectOptions() {
     grid.addHeader(new SmallHeading(Util.C.headingProjectOptions()));
 
+    state = new ListBox();
+    for (ProjectState stateValue : ProjectState.values()) {
+      state.addItem(Util.toLongString(stateValue), stateValue.name());
+    }
+    saveEnabler.listenTo(state);
+    grid.add(Util.C.headingProjectState(), state);
+
     submitType = new ListBox();
     for (final SubmitType type : SubmitType.values()) {
       submitType.addItem(Util.toLongString(type), type.name());
@@ -197,13 +204,6 @@ public class ProjectInfoScreen extends ProjectScreen {
     });
     saveEnabler.listenTo(submitType);
     grid.add(Util.C.headingProjectSubmitType(), submitType);
-
-    state = new ListBox();
-    for (final ProjectState stateValue : ProjectState.values()) {
-      state.addItem(Util.toLongString(stateValue), stateValue.name());
-    }
-    saveEnabler.listenTo(state);
-    grid.add(Util.C.headingProjectState(), state);
 
     contentMerge = newInheritedBooleanBox();
     saveEnabler.listenTo(contentMerge);

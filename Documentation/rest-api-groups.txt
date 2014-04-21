@@ -1086,7 +1086,7 @@ body as a link:#groups-input[GroupsInput] entity.
   Content-Type: application/json;charset=UTF-8
 
   {
-    "members": [
+    "groups": [
       "MyGroup",
       "MyOtherGroup"
     ]

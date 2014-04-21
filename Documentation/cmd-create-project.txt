@@ -113,7 +113,7 @@ Defaults to MERGE_IF_NECESSARY unless
 link:config-gerrit.html#repository.name.defaultSubmitType[
 repository.<name>.defaultSubmitType] is set to a different value.
 For more details see link:project-setup.html#submit_type[
-Change Submit Actions].
+Submit Types].
 
 --use-content-merge::
 	If enabled, Gerrit will try to perform a 3-way merge of text

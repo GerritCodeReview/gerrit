@@ -47,13 +47,15 @@ public interface ServerPluginProvider {
   /**
    * Loads an external file or directory into a Server plugin.
    *
-   * @param name plugin name
    * @param srcFile external file or directory
    * @param pluginUser Gerrit user for interacting with plugins
    * @param snapshot snapshot of the external file
+   * @param pluginCanonicalWebUrl plugin root Web URL
+   * @param pluginDataDir directory for plugin data
    * @return the Server Plugin
    * @throws InvalidPluginException if plugin cannot be loaded
    */
-  ServerPlugin get(String name, File srcFile, PluginUser pluginUser,
-      FileSnapshot snapshot) throws InvalidPluginException;
+  ServerPlugin get(File srcFile, PluginUser pluginUser,
+      FileSnapshot snapshot, String pluginCanonicalWebUrl, File pluginDataDir)
+      throws InvalidPluginException;
 }

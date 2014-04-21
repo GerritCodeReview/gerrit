@@ -36,7 +36,6 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
-import java.net.ServerSocket;
 import java.net.URI;
 import java.net.UnknownHostException;
 import java.util.concurrent.BrokenBarrierException;
@@ -123,21 +122,16 @@ public class GerritServer {
 
   private static void mergeTestConfig(Config cfg)
       throws IOException {
-    InetSocketAddress http = newPort();
-    InetSocketAddress sshd = newPort();
-    String url = "http://" + format(http) + "/";
-
+    String forceEphemeralPort = String.format("%s:0",
+        getLocalHost().getHostName());
+    String url = "http://" + forceEphemeralPort + "/";
     cfg.setString("gerrit", null, "canonicalWebUrl", url);
     cfg.setString("httpd", null, "listenUrl", url);
-    cfg.setString("sshd", null, "listenAddress", format(sshd));
+    cfg.setString("sshd", null, "listenAddress", forceEphemeralPort);
     cfg.setString("cache", null, "directory", null);
     cfg.setBoolean("sendemail", null, "enable", false);
     cfg.setInt("cache", "projects", "checkFrequency", 0);
     cfg.setInt("plugins", null, "checkFrequency", 0);
-  }
-
-  private static String format(InetSocketAddress s) {
-    return String.format("%s:%d", s.getAddress().getHostAddress(), s.getPort());
   }
 
   private static Injector createTestInjector(Daemon daemon) throws Exception {
@@ -158,15 +152,6 @@ public class GerritServer {
     Field f = obj.getClass().getDeclaredField(field);
     f.setAccessible(true);
     return (T) f.get(obj);
-  }
-
-  private static final InetSocketAddress newPort() throws IOException {
-    ServerSocket s = new ServerSocket(0, 0, getLocalHost());
-    try {
-      return (InetSocketAddress) s.getLocalSocketAddress();
-    } finally {
-      s.close();
-    }
   }
 
   private static InetAddress getLocalHost() throws UnknownHostException {

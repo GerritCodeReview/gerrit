@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "25929b12_3f4b076e",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-04-21T17:42:56Z",
+      "side": 1,
+      "message": "I think this is more clear, \"To include a specific group of acceptance tests:\"\n\n\u0027slow\u0027 is already mentioned in group definitions below.",
+      "revId": "2b4cd28ff7f8d20dcbb3c64027bf56c77612a682",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "25929b12_df3f7bd4",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-04-21T17:42:56Z",
+      "side": 1,
+      "message": "\u0027--all\u0027 seems redundant in this command,  we need it?",
+      "revId": "2b4cd28ff7f8d20dcbb3c64027bf56c77612a682",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

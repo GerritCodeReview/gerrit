@@ -7,6 +7,7 @@ GWT_COMPILER_OPTS = [
 ]
 
 GWT_PLUGIN_DEPS = [
+  '//gerrit-gwtui-common:client',
   '//gerrit-plugin-gwtui:gwtui-api-lib',
   '//lib/gwt:user',
 ]

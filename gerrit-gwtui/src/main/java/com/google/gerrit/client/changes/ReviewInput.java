@@ -69,6 +69,14 @@ public class ReviewInput extends JavaScriptObject {
     }
   }-*/;
 
+  public final native void mergeLabels(ReviewInput o) /*-{
+    var l=o.labels;
+    if (l) {
+      for (var n in l)
+        this.labels[n]=l[n];
+    }
+  }-*/;
+
   protected ReviewInput() {
   }
 }

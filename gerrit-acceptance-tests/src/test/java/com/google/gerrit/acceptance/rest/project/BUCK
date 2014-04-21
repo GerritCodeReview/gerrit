@@ -6,6 +6,7 @@ acceptance_tests(
     ':branch',
     ':project',
   ],
+  labels = ['rest']
 )
 
 java_library(

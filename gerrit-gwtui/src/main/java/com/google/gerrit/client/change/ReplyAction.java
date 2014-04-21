@@ -17,6 +17,7 @@ package com.google.gerrit.client.change;
 import com.google.gerrit.client.changes.ChangeInfo;
 import com.google.gerrit.client.changes.ChangeInfo.LabelInfo;
 import com.google.gerrit.client.changes.ChangeInfo.MessageInfo;
+import com.google.gerrit.client.changes.ReviewInput;
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -63,8 +64,12 @@ class ReplyAction {
         : NativeMap.<JsArrayString> create();
   }
 
-  String getMessage() {
-    return replyBox != null ? replyBox.getMessage() : null;
+  boolean isVisible() {
+    return popup != null;
+  }
+
+  void quickApprove(ReviewInput input) {
+    replyBox.quickApprove(input);
   }
 
   void hide() {

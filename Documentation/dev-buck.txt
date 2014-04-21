@@ -478,34 +478,17 @@ heap size:
   EOF
 ----
 
-== Sporadic failures of unit tests
+== Rerun unit tests
 
-Due to implementation of ephemeral port assignment for HTTP and SSH daemons,
-(the reason is explained in depth in this thread:
-https://groups.google.com/forum/#!topic/repo-discuss/db14RJ59ubs),
-unit tests can randomly fail with "BindException: Address already in use".
-In this case, failed tests need to be repeated:
-
-----
-FAIL  32,0s  7 Passed   1 Failed   com.google.gerrit.acceptance.rest.group.AddRemoveGroupMembersIT
-FAILURE includeRemoveGroup: Cannot bind to localhost:40955
-        at com.google.gerrit.sshd.SshDaemon.start(SshDaemon.java:281)
-        at com.google.gerrit.lifecycle.LifecycleManager.start(LifecycleManager.java:74)
-        at com.google.gerrit.pgm.Daemon.start(Daemon.java:288)
-        at com.google.gerrit.acceptance.GerritServer.start(GerritServer.java:81)
-[...]
-Caused by: java.net.BindException: Address already in use
-        at sun.nio.ch.Net.bind0(Native Method)
-----
-
-Because the test execution results are cached by Buck, they must be removed
-before retrying:
+If for some reasons tests, that were already run must be repeated, unit test
+cache must be removed fist. That's because the test execution results are
+cached by Buck:
 
 ----
   $ rm -rf buck-out/bin/gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/group/.AddRemoveGroupMembersIT/
 ----
 
-After clearing the cache and repeating of the failed tests, they are successful:
+After clearing the cache test can be rerun again:
 
 ----
   $ buck test //gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/group:AddRemoveGroupMembersIT

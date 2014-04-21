@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "256b7bde_b708a844",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-21T20:00:36Z",
+      "side": 1,
+      "message": "What about gerrit review SSH command? Would it make sense to exend it to set a label to its default value? What about Plugin\u0027s API Revision.review() method?",
+      "range": {
+        "startLine": 14,
+        "startChar": 15,
+        "endLine": 14,
+        "endChar": 27
+      },
+      "revId": "b077d617f6402409160cddd1c296f4f1c702e355",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "256b7bde_970b2441",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-21T20:00:36Z",
+      "side": 1,
+      "message": "That\u0027s great! Any chance for providing unit test for it?",
+      "range": {
+        "startLine": 335,
+        "startChar": 0,
+        "endLine": 338,
+        "endChar": 84
+      },
+      "revId": "b077d617f6402409160cddd1c296f4f1c702e355",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4566af13_f815b157",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/ChangeInfoMapper.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-21T20:00:36Z",
+      "side": 1,
+      "message": "Can we unit test this? Extend LabelTypeIT.java?",
+      "range": {
+        "startLine": 119,
+        "startChar": 6,
+        "endLine": 119,
+        "endChar": 40
+      },
+      "revId": "b077d617f6402409160cddd1c296f4f1c702e355",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4566af13_d818ed92",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1046,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-21T20:00:36Z",
+      "side": 1,
+      "message": "Why not just:\n\n  rc.setInt(LABEL, name, KEY_DEFAULT_VALUE, label.getDefaultValue());",
+      "range": {
+        "startLine": 1041,
+        "startChar": 6,
+        "endLine": 1046,
+        "endChar": 7
+      },
+      "revId": "b077d617f6402409160cddd1c296f4f1c702e355",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

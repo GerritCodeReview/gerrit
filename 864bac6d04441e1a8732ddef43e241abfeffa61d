@@ -211,6 +211,24 @@
       "revId": "864bac6d04441e1a8732ddef43e241abfeffa61d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "25929b12_3ffd47d6",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/ProjectConfigTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-04-21T14:48:22Z",
+      "side": 1,
+      "message": "Done. Thanks David.",
+      "parentUuid": "256b7bde_37e6d850",
+      "revId": "864bac6d04441e1a8732ddef43e241abfeffa61d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

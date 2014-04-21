@@ -18,7 +18,6 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.ChangeInfo;
 import com.google.gerrit.client.rpc.GerritCallback;
-import com.google.gerrit.client.ui.BranchLink;
 import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -84,14 +83,12 @@ class Topic extends Composite {
   }
 
   private void initTopicLink(ChangeInfo info) {
-    text.setText(info.topic());
-    text.setTargetHistoryToken(
-        PageLinks.toChangeQuery(
-            BranchLink.query(
-                info.project_name_key(),
-                info.status(),
-                info.branch(),
-                info.topic())));
+    if (info.topic() != null && !info.topic().isEmpty()) {
+      text.setText(info.topic());
+      text.setTargetHistoryToken(
+          PageLinks.toChangeQuery(
+              PageLinks.op("topic", info.topic())));
+    }
   }
 
   boolean canEdit() {

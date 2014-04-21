@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "25929b12_ff0eff51",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/ProjectConfigTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-04-21T14:48:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4566af13_f8e7f147",
+      "revId": "6cce9035bbc1b846e12734b284ae636fdf1489a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4566af13_98f4b5f7",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/ProjectConfigTest.java",
         "patchSetId": 9
@@ -30,6 +48,24 @@
       "writtenOn": "2014-04-21T06:05:35Z",
       "side": 1,
       "message": "the same",
+      "revId": "6cce9035bbc1b846e12734b284ae636fdf1489a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "05975703_5e25b5cc",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/ProjectConfigTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-04-21T14:48:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4566af13_98f4b5f7",
       "revId": "6cce9035bbc1b846e12734b284ae636fdf1489a1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

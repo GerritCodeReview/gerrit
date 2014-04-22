@@ -14,7 +14,6 @@
 
 # Rule definitions loaded by default into every BUCK file.
 
-include_defs('//tools/buck.defs')
 include_defs('//tools/gwt-constants.defs')
 
 def genantlr(

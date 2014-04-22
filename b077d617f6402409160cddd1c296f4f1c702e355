@@ -143,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "45522f52_38d7895e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/ChangeInfoMapper.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-04-22T20:50:37Z",
+      "side": 1,
+      "message": "I\u0027ve added something to LabelTypeIT.java.  Let me know what you think.",
+      "parentUuid": "85ba679a_ca180393",
+      "range": {
+        "startLine": 119,
+        "startChar": 6,
+        "endLine": 119,
+        "endChar": 40
+      },
+      "revId": "b077d617f6402409160cddd1c296f4f1c702e355",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4566af13_d818ed92",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
         "patchSetId": 10
@@ -178,6 +202,30 @@
       "side": 1,
       "message": "I was just following the pattern, but I see that this should work.  Will do.",
       "parentUuid": "4566af13_d818ed92",
+      "range": {
+        "startLine": 1041,
+        "startChar": 6,
+        "endLine": 1046,
+        "endChar": 7
+      },
+      "revId": "b077d617f6402409160cddd1c296f4f1c702e355",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "655d735f_19dc4b7f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1046,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-04-22T20:50:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65bf338d_a91fdd75",
       "range": {
         "startLine": 1041,
         "startChar": 6,

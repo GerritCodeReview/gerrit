@@ -349,6 +349,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
           final ReviewDb db) throws OrmException {
         final PatchSetCreatedEvent event = new PatchSetCreatedEvent();
         final AccountState uploader = accountCache.get(patchSet.getUploader());
+        final AccountState owner = accountCache.get(change.getOwner());
 
         event.change = eventFactory.asChangeAttribute(change);
         event.patchSet = eventFactory.asPatchSetAttribute(patchSet);
@@ -359,6 +360,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
         addArg(args, "--change", event.change.id);
         addArg(args, "--is-draft", patchSet.isDraft() ? "true" : "false");
         addArg(args, "--change-url", event.change.url);
+        addArg(args, "--change-owner", getDisplayName(owner.getAccount()));
         addArg(args, "--project", event.change.project);
         addArg(args, "--branch", event.change.branch);
         addArg(args, "--topic", event.change.topic);
@@ -373,6 +375,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
           final ReviewDb db) throws OrmException {
         final DraftPublishedEvent event = new DraftPublishedEvent();
         final AccountState uploader = accountCache.get(patchSet.getUploader());
+        final AccountState owner = accountCache.get(change.getOwner());
 
         event.change = eventFactory.asChangeAttribute(change);
         event.patchSet = eventFactory.asPatchSetAttribute(patchSet);
@@ -382,6 +385,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
         final List<String> args = new ArrayList<String>();
         addArg(args, "--change", event.change.id);
         addArg(args, "--change-url", event.change.url);
+        addArg(args, "--change-owner", getDisplayName(owner.getAccount()));
         addArg(args, "--project", event.change.project);
         addArg(args, "--branch", event.change.branch);
         addArg(args, "--topic", event.change.topic);
@@ -396,6 +400,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
           final PatchSet patchSet, final String comment, final Map<String, Short> approvals,
           final ReviewDb db) throws OrmException {
         final CommentAddedEvent event = new CommentAddedEvent();
+        final AccountState owner = accountCache.get(change.getOwner());
 
         event.change = eventFactory.asChangeAttribute(change);
         event.author =  eventFactory.asAccountAttribute(account);
@@ -417,6 +422,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
         addArg(args, "--change", event.change.id);
         addArg(args, "--is-draft", patchSet.isDraft() ? "true" : "false");
         addArg(args, "--change-url", event.change.url);
+        addArg(args, "--change-owner", getDisplayName(owner.getAccount()));
         addArg(args, "--project", event.change.project);
         addArg(args, "--branch", event.change.branch);
         addArg(args, "--topic", event.change.topic);
@@ -436,6 +442,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
     public void doChangeMergedHook(final Change change, final Account account,
           final PatchSet patchSet, final ReviewDb db) throws OrmException {
         final ChangeMergedEvent event = new ChangeMergedEvent();
+        final AccountState owner = accountCache.get(change.getOwner());
 
         event.change = eventFactory.asChangeAttribute(change);
         event.submitter = eventFactory.asAccountAttribute(account);
@@ -445,6 +452,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
         final List<String> args = new ArrayList<String>();
         addArg(args, "--change", event.change.id);
         addArg(args, "--change-url", event.change.url);
+        addArg(args, "--change-owner", getDisplayName(owner.getAccount()));
         addArg(args, "--project", event.change.project);
         addArg(args, "--branch", event.change.branch);
         addArg(args, "--topic", event.change.topic);
@@ -458,6 +466,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
           final PatchSet patchSet, final String reason,
           final ReviewDb db) throws OrmException {
         final MergeFailedEvent event = new MergeFailedEvent();
+        final AccountState owner = accountCache.get(change.getOwner());
 
         event.change = eventFactory.asChangeAttribute(change);
         event.submitter = eventFactory.asAccountAttribute(account);
@@ -468,6 +477,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
         final List<String> args = new ArrayList<String>();
         addArg(args, "--change", event.change.id);
         addArg(args, "--change-url", event.change.url);
+        addArg(args, "--change-owner", getDisplayName(owner.getAccount()));
         addArg(args, "--project", event.change.project);
         addArg(args, "--branch", event.change.branch);
         addArg(args, "--topic", event.change.topic);
@@ -482,6 +492,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
           final PatchSet patchSet, final String reason, final ReviewDb db)
           throws OrmException {
         final ChangeAbandonedEvent event = new ChangeAbandonedEvent();
+        final AccountState owner = accountCache.get(change.getOwner());
 
         event.change = eventFactory.asChangeAttribute(change);
         event.abandoner = eventFactory.asAccountAttribute(account);
@@ -492,6 +503,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
         final List<String> args = new ArrayList<String>();
         addArg(args, "--change", event.change.id);
         addArg(args, "--change-url", event.change.url);
+        addArg(args, "--change-owner", getDisplayName(owner.getAccount()));
         addArg(args, "--project", event.change.project);
         addArg(args, "--branch", event.change.branch);
         addArg(args, "--topic", event.change.topic);
@@ -506,6 +518,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
           final PatchSet patchSet, final String reason, final ReviewDb db)
           throws OrmException {
         final ChangeRestoredEvent event = new ChangeRestoredEvent();
+        final AccountState owner = accountCache.get(change.getOwner());
 
         event.change = eventFactory.asChangeAttribute(change);
         event.restorer = eventFactory.asAccountAttribute(account);
@@ -516,6 +529,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
         final List<String> args = new ArrayList<String>();
         addArg(args, "--change", event.change.id);
         addArg(args, "--change-url", event.change.url);
+        addArg(args, "--change-owner", getDisplayName(owner.getAccount()));
         addArg(args, "--project", event.change.project);
         addArg(args, "--branch", event.change.branch);
         addArg(args, "--topic", event.change.topic);
@@ -554,6 +568,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
     public void doReviewerAddedHook(final Change change, final Account account,
         final PatchSet patchSet, final ReviewDb db) throws OrmException {
       final ReviewerAddedEvent event = new ReviewerAddedEvent();
+      final AccountState owner = accountCache.get(change.getOwner());
 
       event.change = eventFactory.asChangeAttribute(change);
       event.patchSet = eventFactory.asPatchSetAttribute(patchSet);
@@ -563,6 +578,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
       final List<String> args = new ArrayList<String>();
       addArg(args, "--change", event.change.id);
       addArg(args, "--change-url", event.change.url);
+      addArg(args, "--change-owner", getDisplayName(owner.getAccount()));
       addArg(args, "--project", event.change.project);
       addArg(args, "--branch", event.change.branch);
       addArg(args, "--reviewer", getDisplayName(account));
@@ -574,6 +590,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
         final String oldTopic, final ReviewDb db)
             throws OrmException {
       final TopicChangedEvent event = new TopicChangedEvent();
+      final AccountState owner = accountCache.get(change.getOwner());
 
       event.change = eventFactory.asChangeAttribute(change);
       event.changer = eventFactory.asAccountAttribute(account);
@@ -582,6 +599,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
 
       final List<String> args = new ArrayList<String>();
       addArg(args, "--change", event.change.id);
+      addArg(args, "--change-owner", getDisplayName(owner.getAccount()));
       addArg(args, "--project", event.change.project);
       addArg(args, "--branch", event.change.branch);
       addArg(args, "--changer", getDisplayName(account));

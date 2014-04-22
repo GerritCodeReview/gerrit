@@ -195,20 +195,65 @@ commit that doesn't contain a Signed-off-by line in the commit message
 fails with link:error-not-signed-off-by.html[not Signed-off-by
 author/committer/uploader in commit message footer].
 
-== Registering Additional Branches
+[[branch-admin]]
+== Branch Administration
 
-Branches can be created over the SSH port by any `git push` client,
-if the user has been granted the `Create Reference` access right.
+[[branch-creation]]
+=== Branch Creation
 
-Additional branches can also be created through the web UI, assuming
-at least one commit already exists in the project repository.
-A project owner can create additional branches under `Projects` >
-`List` > my/project > `Branches`.  Enter the new branch name, and the
-starting Git revision.  Branch names that don't start with `refs/`
-will automatically have `refs/heads/` prefixed to ensure they are
-a standard Git branch name.  Almost any valid SHA-1 expression can
-be used to specify the starting revision, so long as it resolves
-to a commit object.  Abbreviated SHA-1s are not supported.
+There are several ways to create a new branch in a project:
+
+- in the Web UI under 'Projects' > 'List' > <project> > 'Branches'
+- via the link:rest-api-projects.html#create-branch[Create Branch]
+  REST endpoint
+- via the link:cmd-create-branch.html[create-branch] SSH command
+- by using a git client to push a commit to a non-existing branch
+
+To be able to create new branches the user must have the
+link:access-control.html#category_create[Create Reference] access
+right. In addition project owners and Gerrit administrators can create
+new branches from the Web UI or via REST even without having the
+`Create Reference` access right.
+
+By using the WebUI, the REST endpoint or the SSH command it is only
+possible to create branches on commits that already exist in the
+repository.
+
+If a branch name does not start with `refs/` it is automatically
+prefixed by `refs/heads/`.
+
+The starting revision for a new branch can be almost any valid SHA-1
+expression, as long as it resolves to a commit. Abbreviated SHA-1s
+are not supported.
+
+[[branch-deletion]]
+=== Branch Deletion
+
+There are several ways to delete a branch:
+
+- in the Web UI under 'Projects' > 'List' > <project> > 'Branches'
+- via the link:rest-api-projects.html#delete-branch[Delete Branch]
+  REST endpoint
+- by using a git client to force push nothing to an existing branch
+
+To be able to delete branches the user must have the
+link:access-control.html#category_push[Push] access right with the
+`force` option. In addition project owners and Gerrit administrators
+can delete branches from the Web UI or via REST even without having the
+`Force Push` access right.
+
+[[default-branch]]
+=== Default Branch
+
+The default branch of a remote repository is defined by its `HEAD`.
+For convenience reasons, when the repository is cloned Git creates a
+local branch for this default branch and checks it out.
+
+Project owners can set `HEAD`
+
+- in the Web UI under 'Projects' > 'List' > <project> > 'Branches' or
+- via the link:rest-api-projects.html#set-head[Set HEAD] REST endpoint
+
 
 GERRIT
 ------

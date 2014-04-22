@@ -275,9 +275,81 @@ development branches. You likely want to start with
 more restrictive policy if you are facing issues with the build and
 test stability of the destination branches.
 
+It is also possible to define the submit type dynamically via
+link:#prolog-submit-type[Prolog]. This way you can use different submit
+types for different branches.
+
 Please note that there are other submit types available; they are
 described in the link:project-setup.html#submit_type[Submit Type]
 section.
+
+[[labels]]
+== Labels
+
+The code review process includes that reviewers formally express their
+opinion about a change by voting on different link:config-labels.html[
+labels]. By default Gerrit comes with the
+link:config-labels.html#label_Code-Review[Code-Review] label and many
+Gerrit servers have the link:config-labels.html#label_Verified[Verified]
+label configured globally. However projects can also define their own
+link:config-labels.html#label_custom[custom labels] to formalize
+project specific workflows. For example if a project requires an IP
+approval from a special IP-team, it can define an `IP-Review` label
+and grant permissions to the IP-team to vote on this label.
+
+The behavior of a label can be controlled by its
+link:config-labels.html#label_function[function], e.g. it can be
+configured whether a max positive voting on the label is required for
+submit or if the voting on the label is optional.
+
+By using a custom link:#submit-rules[submit rule] it can be controlled
+per change whether a label is required for submit or not.
+
+A useful feature on labels is the possibility to automatically copy
+scores forward to new patch sets if it was a
+link:config-labels.html#label_copyAllScoresOnTrivialRebase[trivial
+rebase] or if link:config-labels.html#label_copyAllScoresIfNoCodeChange[
+there was no code change (e.g. only the commit message was edited)].
+
+[[submit-rules]]
+== Submit Rules
+
+A link:prolog-cookbook#SubmitRule[submit rule] in Gerrit is logic that
+defines when a change is submittable. By default, a change is
+submittable when it gets at least one highest vote on each label and
+has no lowest vote (aka veto vote) on any label.
+
+The submit rules in Gerrit are implemented in link:prolog-cookbook.html[
+Prolog] and projects that need more flexibility can define own submit
+rules to decide when a change should be submittable. A good
+link:prolog-cookbook.html#NonAuthorCodeReview[example] from the Prolog
+cookbook shows how to allow submit only if a change has a
+`Code-Review+2` vote from a person that is not the change author. This
+way a four-eyes principle for the reviews can be enforced.
+
+A Prolog submit rule has access to link:prolog-change-facts.html[
+information] about the change for which it is testing the
+submittability. Amongst others the list of the modified files can be
+accessed which allows special logic if certain files are touched. For
+example, a common practice is to require a vote on an additional label,
+like `Library-Compliance`, if the dependencies of the project are
+changed.
+
+[[prolog-submit-type]]
+It is also possible to control the link:prolog-cookbook.html#SubmitType[
+submit type] from Prolog. For example this can be used to define a more
+restrictive submit type such as `Fast Forward Only` for stable branches
+while using a more liberal submit type, e.g. `Merge If Necessary` with
+content merge, for development branches. How this can be done can be
+seen from an link:prolog-cookbook.html#SubmitTypePerBranch[example] in
+the Prolog cookbook.
+
+Submit rules are maintained in the link:prolog-cookbook.html#RulesFile[
+rules.pl] file in the `refs/meta/config` branch of the project. How to
+write submit rules is explained in the
+link:prolog-cookbook.html#HowToWriteSubmitRules[Prolog cookbook]. There
+is also good support for link:prolog-cookbook.html#TestingSubmitRules[
+testing submit rules] while developing them.
 
 GERRIT
 ------

@@ -1,5 +1,6 @@
 = Gerrit Code Review - Prolog Submit Rules Cookbook
 
+[[SubmitRule]]
 == Submit Rule
 A 'Submit Rule' in Gerrit is logic that defines when a change is submittable.
 By default, a change is submittable when it gets at least one
@@ -26,6 +27,7 @@ project specific submit rules.
 link:http://gerrit-documentation.googlecode.com/svn/ReleaseNotes/ReleaseNotes-2.2.2.html[Gerrit
 2.2.2 ReleaseNotes] introduces Prolog support in Gerrit.
 
+[[SubmitType]]
 == Submit Type
 A 'Submit Type' is a strategy that is used on submit to integrate the
 change into the destination branch. Supported submit types are:
@@ -71,6 +73,7 @@ Instead of using the link:pgm-prolog-shell.html[prolog-shell] program one can
 also use the link:http://www.swi-prolog.org/[SWI-Prolog] environment. It
 provides a better shell interface and a graphical source-level debugger.
 
+[[RulesFile]]
 == The rules.pl file
 This section explains how to create and edit project specific submit rules. How
 to actually write the submit rules is explained in the next section.
@@ -644,6 +647,7 @@ logic. The following pattern illustrates this technique:
 
 In the following examples both styles will be shown.
 
+[[NonAuthorCodeReview]]
 === Example 8: Make change submittable only if `Code-Review+2` is given by a non author
 In this example we introduce a new label `Non-Author-Code-Review` and make it
 satisfied if there is at least one `Code-Review+2` from a non author. All other
@@ -977,6 +981,7 @@ rules.pl
 ====
 
 
+[[SubmitTypePerBranch]]
 === Example 2: `Fast Forward Only` for all `refs/heads/stable*` branches
 For all `refs/heads/stable.*` branches we would like to enforce the `Fast
 Forward Only` submit type. A reason for this decision may be a need to never

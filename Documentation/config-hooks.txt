@@ -41,7 +41,7 @@ This is called whenever a patchset is created (this includes new
 changes and drafts).
 
 ====
-  patchset-created --change <change id> --is-draft <boolean> --change-url <change url> --project <project name> --branch <branch> --topic <topic> --uploader <uploader> --commit <sha1> --patchset <patchset id>
+  patchset-created --change <change id> --is-draft <boolean> --change-url <change url> --change-owner <change owner> --project <project name> --branch <branch> --topic <topic> --uploader <uploader> --commit <sha1> --patchset <patchset id>
 ====
 
 === draft-published
@@ -49,7 +49,7 @@ changes and drafts).
 This is called whenever a draft change is published.
 
 ====
-  draft-published --change <change id> --change-url <change url> --project <project name> --branch <branch> --topic <topic> --uploader <uploader> --commit <sha1> --patchset <patchset id>
+  draft-published --change <change id> --change-url <change url> --change-owner <change owner> --project <project name> --branch <branch> --topic <topic> --uploader <uploader> --commit <sha1> --patchset <patchset id>
 ====
 
 === comment-added
@@ -57,7 +57,7 @@ This is called whenever a draft change is published.
 This is called whenever a comment is added to a change.
 
 ====
-  comment-added --change <change id> --is-draft <boolean> --change-url <change url> --project <project name> --branch <branch> --topic <topic> --author <comment author> --commit <commit> --comment <comment> [--<approval category id> <score> --<approval category id> <score> ...]
+  comment-added --change <change id> --is-draft <boolean> --change-url <change url> --change-owner <change owner> --project <project name> --branch <branch> --topic <topic> --author <comment author> --commit <commit> --comment <comment> [--<approval category id> <score> --<approval category id> <score> ...]
 ====
 
 === change-merged
@@ -65,7 +65,7 @@ This is called whenever a comment is added to a change.
 Called whenever a change has been merged.
 
 ====
-  change-merged --change <change id> --change-url <change url> --project <project name> --branch <branch> --topic <topic> --submitter <submitter> --commit <sha1>
+  change-merged --change <change id> --change-url <change url> --change-owner <change owner> --project <project name> --branch <branch> --topic <topic> --submitter <submitter> --commit <sha1>
 ====
 
 === merge-failed
@@ -73,7 +73,7 @@ Called whenever a change has been merged.
 Called whenever a change has failed to merge.
 
 ====
-  merge-failed --change <change id> --change-url <change url> --project <project name> --branch <branch> --topic <topic> --submitter <submitter> --commit <sha1> --reason <reason>
+  merge-failed --change <change id> --change-url <change url> --change-owner <change owner> --project <project name> --branch <branch> --topic <topic> --submitter <submitter> --commit <sha1> --reason <reason>
 ====
 
 === change-abandoned
@@ -81,7 +81,7 @@ Called whenever a change has failed to merge.
 Called whenever a change has been abandoned.
 
 ====
-  change-abandoned --change <change id> --change-url <change url> --project <project name> --branch <branch> --topic <topic> --abandoner <abandoner> --commit <sha1> --reason <reason>
+  change-abandoned --change <change id> --change-url <change url> --change-owner <change owner> --project <project name> --branch <branch> --topic <topic> --abandoner <abandoner> --commit <sha1> --reason <reason>
 ====
 
 === change-restored
@@ -89,7 +89,7 @@ Called whenever a change has been abandoned.
 Called whenever a change has been restored.
 
 ====
-  change-restored --change <change id> --change-url <change url> --project <project name> --branch <branch> --topic <topic> --restorer <restorer> --commit <sha1> --reason <reason>
+  change-restored --change <change id> --change-url <change url> --change-owner <change owner> --project <project name> --branch <branch> --topic <topic> --restorer <restorer> --commit <sha1> --reason <reason>
 ====
 
 === ref-updated
@@ -105,7 +105,7 @@ Called whenever a ref has been updated.
 Called whenever a reviewer is added to a change.
 
 ====
-  reviewer-added --change <change id> --change-url <change url> --project <project name> --branch <branch> --reviewer <reviewer>
+  reviewer-added --change <change id> --change-url <change url> --change-owner <change owner> --project <project name> --branch <branch> --reviewer <reviewer>
 ====
 
 === topic-changed
@@ -113,7 +113,7 @@ Called whenever a reviewer is added to a change.
 Called whenever a change's topic is changed from the Web UI or via the REST API.
 
 ====
-  topic-changed --change <change id> --project <project name> --branch <branch> --changer <changer> --old-topic <old topic> --new-topic <new topic>
+  topic-changed --change <change id> --change-owner <change owner> --project <project name> --branch <branch> --changer <changer> --old-topic <old topic> --new-topic <new topic>
 ====
 
 === cla-signed

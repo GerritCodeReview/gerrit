@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8558a770_9a0e8d51",
+        "filename": "Documentation/intro-project-owner.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-04-22T09:54:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "85ba679a_ca3fa3d4",
+      "range": {
+        "startLine": 296,
+        "startChar": 0,
+        "endLine": 296,
+        "endChar": 16
+      },
+      "revId": "3ea7aa09f426c9197cda488b5ae46fca6d69eb4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "65bf338d_e93cf5e1",
         "filename": "Documentation/intro-project-owner.txt",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2014-04-22T09:50:25Z",
       "side": 1,
       "message": "it would be better to put this part outside the hyperlink",
+      "range": {
+        "startLine": 312,
+        "startChar": 25,
+        "endLine": 312,
+        "endChar": 66
+      },
+      "revId": "3ea7aa09f426c9197cda488b5ae46fca6d69eb4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a5492ba6_bb11c775",
+        "filename": "Documentation/intro-project-owner.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-04-22T09:54:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65bf338d_e93cf5e1",
       "range": {
         "startLine": 312,
         "startChar": 25,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "a5492ba6_9b0e8b51",
+        "filename": "Documentation/intro-project-owner.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-04-22T09:54:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "85ba679a_ea3ce7e1",
+      "range": {
+        "startLine": 323,
+        "startChar": 59,
+        "endLine": 323,
+        "endChar": 62
+      },
+      "revId": "3ea7aa09f426c9197cda488b5ae46fca6d69eb4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "85ba679a_8a39abf0",
         "filename": "Documentation/intro-project-owner.txt",
         "patchSetId": 1
@@ -82,6 +154,30 @@
       "writtenOn": "2014-04-22T09:50:25Z",
       "side": 1,
       "message": "add a comma after \u0027accessed\u0027",
+      "range": {
+        "startLine": 333,
+        "startChar": 0,
+        "endLine": 333,
+        "endChar": 8
+      },
+      "revId": "3ea7aa09f426c9197cda488b5ae46fca6d69eb4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a5492ba6_fb0b4f3f",
+        "filename": "Documentation/intro-project-owner.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-04-22T09:54:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "85ba679a_8a39abf0",
       "range": {
         "startLine": 333,
         "startChar": 0,

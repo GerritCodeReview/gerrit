@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a5cbeb3b_4bfe65d7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/UploadValidationListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-04-22T12:25:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65bf338d_c911f174",
+      "range": {
+        "startLine": 28,
+        "startChar": 3,
+        "endLine": 28,
+        "endChar": 9
+      },
+      "revId": "37de864d41fb5ed1c9cee88c6d98cbda6bd0a3d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "65bf338d_e90e3552",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/UploadValidationListener.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2014-04-22T00:44:04Z",
       "side": 1,
       "message": "an",
+      "range": {
+        "startLine": 30,
+        "startChar": 59,
+        "endLine": 30,
+        "endChar": 60
+      },
+      "revId": "37de864d41fb5ed1c9cee88c6d98cbda6bd0a3d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a5cbeb3b_6b03212e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/UploadValidationListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-04-22T12:25:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65bf338d_e90e3552",
       "range": {
         "startLine": 30,
         "startChar": 59,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "c5ce1f4b_acf12306",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/UploadValidationListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-04-22T12:25:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65bf338d_890bf940",
+      "range": {
+        "startLine": 43,
+        "startChar": 29,
+        "endLine": 43,
+        "endChar": 38
+      },
+      "revId": "37de864d41fb5ed1c9cee88c6d98cbda6bd0a3d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "85ba679a_2afd1fd6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/UploadValidationListener.java",
         "patchSetId": 1
@@ -82,6 +154,30 @@
       "writtenOn": "2014-04-22T00:44:04Z",
       "side": 1,
       "message": "processor?",
+      "range": {
+        "startLine": 46,
+        "startChar": 55,
+        "endLine": 46,
+        "endChar": 64
+      },
+      "revId": "37de864d41fb5ed1c9cee88c6d98cbda6bd0a3d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5ce1f4b_4cfe7fd7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/UploadValidationListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-04-22T12:25:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "85ba679a_2afd1fd6",
       "range": {
         "startLine": 46,
         "startChar": 55,

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "85ba679a_0a7dbb8e",
+        "filename": "Documentation/intro-project-owner.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-04-22T09:53:18Z",
+      "side": 1,
+      "message": "of",
+      "range": {
+        "startLine": 378,
+        "startChar": 0,
+        "endLine": 378,
+        "endChar": 4
+      },
+      "revId": "a07b69c19969d1ae3b7f24e30907a1927012f84b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "85ba679a_2a82ff3f",
+        "filename": "Documentation/intro-project-owner.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-04-22T09:53:18Z",
+      "side": 1,
+      "message": "of",
+      "range": {
+        "startLine": 383,
+        "startChar": 22,
+        "endLine": 383,
+        "endChar": 26
+      },
+      "revId": "a07b69c19969d1ae3b7f24e30907a1927012f84b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

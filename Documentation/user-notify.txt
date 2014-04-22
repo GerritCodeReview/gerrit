@@ -6,6 +6,7 @@ Gerrit can automatically notify users by email when new changes are
 uploaded for review, after comments have been posted on a change,
 or after the change has been submitted to a branch.
 
+[[user]]
 == User Level Settings
 
 Individual users can configure email subscriptions by editing
@@ -27,6 +28,7 @@ who added the comment unless the user has enabled the 'CC Me On Comments I
 Write' option in the user preferences.
 
 
+[[project]]
 == Project Level Settings
 
 Project owners and site administrators can configure project level

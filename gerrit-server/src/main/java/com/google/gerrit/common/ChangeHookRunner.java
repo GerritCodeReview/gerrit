@@ -359,6 +359,8 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
         addArg(args, "--change", event.change.id);
         addArg(args, "--is-draft", patchSet.isDraft() ? "true" : "false");
         addArg(args, "--change-url", event.change.url);
+        addArg(args, "--change-owner", event.change.owner.name+" ("
+            +event.change.owner.email+")");
         addArg(args, "--project", event.change.project);
         addArg(args, "--branch", event.change.branch);
         addArg(args, "--topic", event.change.topic);
@@ -382,6 +384,8 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
         final List<String> args = new ArrayList<String>();
         addArg(args, "--change", event.change.id);
         addArg(args, "--change-url", event.change.url);
+        addArg(args, "--change-owner", event.change.owner.name+" ("
+            +event.change.owner.email+")");
         addArg(args, "--project", event.change.project);
         addArg(args, "--branch", event.change.branch);
         addArg(args, "--topic", event.change.topic);
@@ -417,6 +421,8 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
         addArg(args, "--change", event.change.id);
         addArg(args, "--is-draft", patchSet.isDraft() ? "true" : "false");
         addArg(args, "--change-url", event.change.url);
+        addArg(args, "--change-owner", event.change.owner.name+" ("
+            +event.change.owner.email+")");
         addArg(args, "--project", event.change.project);
         addArg(args, "--branch", event.change.branch);
         addArg(args, "--topic", event.change.topic);
@@ -445,6 +451,8 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
         final List<String> args = new ArrayList<String>();
         addArg(args, "--change", event.change.id);
         addArg(args, "--change-url", event.change.url);
+        addArg(args, "--change-owner", event.change.owner.name+" ("
+            +event.change.owner.email+")");
         addArg(args, "--project", event.change.project);
         addArg(args, "--branch", event.change.branch);
         addArg(args, "--topic", event.change.topic);
@@ -468,6 +476,8 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
         final List<String> args = new ArrayList<String>();
         addArg(args, "--change", event.change.id);
         addArg(args, "--change-url", event.change.url);
+        addArg(args, "--change-owner", event.change.owner.name+" ("
+            +event.change.owner.email+")");
         addArg(args, "--project", event.change.project);
         addArg(args, "--branch", event.change.branch);
         addArg(args, "--topic", event.change.topic);
@@ -492,6 +502,8 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
         final List<String> args = new ArrayList<String>();
         addArg(args, "--change", event.change.id);
         addArg(args, "--change-url", event.change.url);
+        addArg(args, "--change-owner", event.change.owner.name+" ("
+            +event.change.owner.email+")");
         addArg(args, "--project", event.change.project);
         addArg(args, "--branch", event.change.branch);
         addArg(args, "--topic", event.change.topic);
@@ -516,6 +528,8 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
         final List<String> args = new ArrayList<String>();
         addArg(args, "--change", event.change.id);
         addArg(args, "--change-url", event.change.url);
+        addArg(args, "--change-owner", event.change.owner.name+" ("
+            +event.change.owner.email+")");
         addArg(args, "--project", event.change.project);
         addArg(args, "--branch", event.change.branch);
         addArg(args, "--topic", event.change.topic);
@@ -563,6 +577,8 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
       final List<String> args = new ArrayList<String>();
       addArg(args, "--change", event.change.id);
       addArg(args, "--change-url", event.change.url);
+      addArg(args, "--change-owner", event.change.owner.name+" ("
+          +event.change.owner.email+")");
       addArg(args, "--project", event.change.project);
       addArg(args, "--branch", event.change.branch);
       addArg(args, "--reviewer", getDisplayName(account));
@@ -582,6 +598,8 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
 
       final List<String> args = new ArrayList<String>();
       addArg(args, "--change", event.change.id);
+      addArg(args, "--change-owner", event.change.owner.name+" ("
+          +event.change.owner.email+")");
       addArg(args, "--project", event.change.project);
       addArg(args, "--branch", event.change.branch);
       addArg(args, "--changer", getDisplayName(account));

@@ -8,8 +8,8 @@ EXCLUDE = [
 
 maven_jar(
   name = 'sshd',
-  id = 'org.apache.sshd:sshd-core:0.10.1',
-  sha1 = '0081c09917f35565d762c886758dfbdfa1069679',
+  id = 'org.apache.sshd:sshd-core:0.11.0',
+  sha1 = '450da44553c98805ca6bb5709cad54df4acb802a',
   license = 'Apache2.0',
   deps = [':core'],
   exclude = EXCLUDE,

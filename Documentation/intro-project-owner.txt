@@ -351,6 +351,21 @@ link:prolog-cookbook.html#HowToWriteSubmitRules[Prolog cookbook]. There
 is also good support for link:prolog-cookbook.html#TestingSubmitRules[
 testing submit rules] while developing them.
 
+[[branch-administration]]
+== Branch Administration
+
+As project owner you can administrate the branches of your project in
+the Gerrit WebUI under `Projects` > `List` > <your project> >
+`Branches`. In the WebUI both link:project-setup.html#branch-creation[
+branch creation] and link:project-setup.html#branch-deletion[branch
+deletion] are allowed for project owners without requiring any
+additional access rights.
+
+By setting `HEAD` on the project you can define its
+link:project-setup.html#default-branch[default branch]. For convenience
+reasons, when the repository is cloned Git creates a local branch for
+this default branch and checks it out.
+
 [[notifications]]
 == Email Notifications
 

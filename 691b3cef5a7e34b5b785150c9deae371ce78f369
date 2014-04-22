@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "85ba679a_6a03172e",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 535,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-04-22T00:39:31Z",
+      "side": 1,
+      "message": "Is it worth adding this if it\u0027s just going to be removed in the follow-up change?",
+      "range": {
+        "startLine": 483,
+        "startChar": 0,
+        "endLine": 535,
+        "endChar": 33
+      },
+      "revId": "691b3cef5a7e34b5b785150c9deae371ce78f369",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

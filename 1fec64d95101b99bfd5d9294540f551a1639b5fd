@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a5492ba6_bbea6711",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 509,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-22T06:16:17Z",
+      "side": 1,
+      "message": "Does it mean it is going to be auto sorted? If yes, i would rather prefer to preserve original order of config parameters.",
+      "range": {
+        "startLine": 509,
+        "startChar": 25,
+        "endLine": 509,
+        "endChar": 29
+      },
+      "revId": "1fec64d95101b99bfd5d9294540f551a1639b5fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

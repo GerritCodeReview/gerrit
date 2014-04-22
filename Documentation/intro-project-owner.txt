@@ -351,6 +351,26 @@ link:prolog-cookbook.html#HowToWriteSubmitRules[Prolog cookbook]. There
 is also good support for link:prolog-cookbook.html#TestingSubmitRules[
 testing submit rules] while developing them.
 
+[[notifications]]
+== Email Notifications
+
+With Gerrit individual users control their own email subscriptions. By
+editing the link:user-notify.html#user[watched projects] in the WebUI
+under `Settings` > `Watched Projects` users can decide about which
+events they want to be informed by email. The change notifications can
+be filtered by link:user-search.html[change search expressions].
+
+This means as a project owner you normally don't need to do anything
+about email notifications, except maybe telling your project team where
+to configure the watches.
+
+However Gerrit also supports link:user-notify.html#project[notifications
+on project level] that allow project owners to setup email notifications
+for team mailing lists or groups of users. This configuration is done
+in the `project.config` file in the `refs/meta/config` branch as
+explained in the section about link:user-notify.html#project[project
+level notifications].
+
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

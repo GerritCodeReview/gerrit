@@ -22,6 +22,30 @@
       "revId": "1fec64d95101b99bfd5d9294540f551a1639b5fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a5492ba6_dbf13306",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 509,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-04-22T08:09:04Z",
+      "side": 1,
+      "message": "Yes, this was auto-sorting this list, but you are right that it\u0027s better to preserve the original ordering and allow the user to sort as he wants.\n\nDone.",
+      "parentUuid": "a5492ba6_bbea6711",
+      "range": {
+        "startLine": 509,
+        "startChar": 25,
+        "endLine": 509,
+        "endChar": 29
+      },
+      "revId": "1fec64d95101b99bfd5d9294540f551a1639b5fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

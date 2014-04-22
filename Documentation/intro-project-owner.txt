@@ -371,6 +371,20 @@ in the `project.config` file in the `refs/meta/config` branch as
 explained in the section about link:user-notify.html#project[project
 level notifications].
 
+[[dashboards]]
+== Dashboards
+
+Gerrit comes with a pre-defined user dashboard that provides a view
+onto the changes that are relevant for a user. Users can also define
+their own link:user-dashboards.html[custom dashboards] where the
+dashboard sections can be freely configured. As a project owner you can
+configure such custom dashboards on
+link:user-dashboards.html#project-dashboards[project level]. This way
+you can define a view onto the changes that are relevant for your
+project and share this dashboard with all users. The project dashboards
+can be seen in the WebUI under `Projects` > `List` > <your project> >
+`Dashboards`.
+
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

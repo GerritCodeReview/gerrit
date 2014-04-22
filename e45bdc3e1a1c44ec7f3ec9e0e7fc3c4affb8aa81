@@ -22,6 +22,30 @@
       "revId": "e45bdc3e1a1c44ec7f3ec9e0e7fc3c4affb8aa81",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8558a770_1adc3d7f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/AccountConstants.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-22T05:37:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "85ba679a_4a4c1387",
+      "range": {
+        "startLine": 14,
+        "startChar": 45,
+        "endLine": 14,
+        "endChar": 62
+      },
+      "revId": "e45bdc3e1a1c44ec7f3ec9e0e7fc3c4affb8aa81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

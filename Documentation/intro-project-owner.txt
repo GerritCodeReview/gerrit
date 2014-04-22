@@ -385,6 +385,64 @@ project and share this dashboard with all users. The project dashboards
 can be seen in the WebUI under `Projects` > `List` > <your project> >
 `Dashboards`.
 
+[[issue-tracker-integration]]
+== Issue Tracker Integration
+
+There are several possibilities to integrate issue trackers with
+Gerrit.
+
+- Comment Links
++
+As described in the link#comment-links[Comment Links] section, comment
+links can be used to link IDs from commit message footers to issues in
+an issue tracker system.
+
+- Tracking IDs
++
+Gerrit can be configured to index IDs from commit message footers so
+that the link:user-search.html#tr[tr/bug] search operators can be used
+to query for changes with a certain ID. The
+link:config-gerrit.html#trackingid[configuration of tracking IDs] can
+only be done globally by a Gerrit administrator.
+
+- Issue Tracker System Plugins
++
+There are Gerrit plugins for a tight integration with
+link:https://gerrit-review.googlesource.com/\#/admin/projects/plugins/its-jira[Jira],
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/its-bugzilla[Bugzilla] and
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/its-rtc[IBM Rational Team Concert].
+If installed, these plugins can e.g. be used to automatically add links
+to Gerrit changes to the issues in the issue tracker system or to
+automatically close an issue if the corresponding change is merged.
+If installed, project owners may enable/disable the issue tracker
+integration from the Gerrit WebUI under `Projects` > `Lists` >
+<your project> > `General`.
+
+[[comment-links]]
+== Comment Links
+
+Gerrit can linkify strings in commit messages, summary comments and
+inline comments. A string that matches a defined regular expression is
+then displayed as hyperlink to a configured backend system.
+
+So called comment links can be configured globally by a Gerrit
+administrator, but also per project by the project owner. Comment links
+on project level are defined in the `project.config` file in the
+`refs/meta/config` branch of the project as described in the
+documentation of the link:config-gerrit.html#commentlink[commentlink]
+configuration parameter.
+
+Often comment links are used to link an ID in a commit message footer
+to an issue in an issue tracker system. For example, to link the ID
+from the `Bug` footer to Jira the following configuration can be used:
+
+====
+  [commentlink "myjira"]
+    match = ([Bb][Uu][Gg]:\\s+)(\\S+)
+    link =  https://myjira/browse/$2
+====
+
+
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

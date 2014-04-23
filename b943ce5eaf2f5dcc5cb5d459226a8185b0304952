@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "25253bef_2725bace",
+        "filename": "Documentation/project-setup.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-04-23T08:23:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45522f52_78462166",
+      "range": {
+        "startLine": 214,
+        "startChar": 10,
+        "endLine": 214,
+        "endChar": 18
+      },
+      "revId": "b943ce5eaf2f5dcc5cb5d459226a8185b0304952",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "45522f52_584b5d6c",
         "filename": "Documentation/project-setup.txt",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2014-04-23T07:36:18Z",
       "side": 1,
       "message": "When",
+      "range": {
+        "startLine": 218,
+        "startChar": 0,
+        "endLine": 218,
+        "endChar": 2
+      },
+      "revId": "b943ce5eaf2f5dcc5cb5d459226a8185b0304952",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "25253bef_072a369e",
+        "filename": "Documentation/project-setup.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-04-23T08:23:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45522f52_584b5d6c",
       "range": {
         "startLine": 218,
         "startChar": 0,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "051af7b3_860e2a51",
+        "filename": "Documentation/project-setup.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-04-23T08:23:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "655d735f_394caf86",
+      "range": {
+        "startLine": 223,
+        "startChar": 9,
+        "endLine": 223,
+        "endChar": 11
+      },
+      "revId": "b943ce5eaf2f5dcc5cb5d459226a8185b0304952",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "45522f52_b83f19d5",
         "filename": "Documentation/project-setup.txt",
         "patchSetId": 2
@@ -82,6 +154,30 @@
       "writtenOn": "2014-04-23T07:36:18Z",
       "side": 1,
       "message": "What does \"almost any\" mean here?  I would understand it to mean that certain SHA-1s are not allowed.",
+      "range": {
+        "startLine": 225,
+        "startChar": 46,
+        "endLine": 225,
+        "endChar": 56
+      },
+      "revId": "b943ce5eaf2f5dcc5cb5d459226a8185b0304952",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "051af7b3_e60b9e3f",
+        "filename": "Documentation/project-setup.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-04-23T08:23:15Z",
+      "side": 1,
+      "message": "Don\u0027t really know. I took it over from the old text. I guess It\u0027s because abbreviated SHA-1s are not supported?\n\nI\u0027ll remove this.\n\nDone.",
+      "parentUuid": "45522f52_b83f19d5",
       "range": {
         "startLine": 225,
         "startChar": 46,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "25253bef_a7188a91",
+        "filename": "Documentation/project-setup.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-04-23T08:23:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45522f52_983cd5e1",
+      "range": {
+        "startLine": 237,
+        "startChar": 27,
+        "endLine": 237,
+        "endChar": 67
+      },
+      "revId": "b943ce5eaf2f5dcc5cb5d459226a8185b0304952",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "45522f52_f83991ef",
         "filename": "Documentation/project-setup.txt",
         "patchSetId": 2
@@ -140,6 +260,30 @@
     },
     {
       "key": {
+        "uuid": "25253bef_672fb2ae",
+        "filename": "Documentation/project-setup.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-04-23T08:23:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45522f52_f83991ef",
+      "range": {
+        "startLine": 239,
+        "startChar": 21,
+        "endLine": 239,
+        "endChar": 29
+      },
+      "revId": "b943ce5eaf2f5dcc5cb5d459226a8185b0304952",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "655d735f_1951eb1e",
         "filename": "Documentation/project-setup.txt",
         "patchSetId": 2
@@ -151,6 +295,30 @@
       "writtenOn": "2014-04-23T07:36:18Z",
       "side": 1,
       "message": "Add a comma after.",
+      "range": {
+        "startLine": 241,
+        "startChar": 19,
+        "endLine": 241,
+        "endChar": 27
+      },
+      "revId": "b943ce5eaf2f5dcc5cb5d459226a8185b0304952",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "25253bef_47342e01",
+        "filename": "Documentation/project-setup.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-04-23T08:23:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "655d735f_1951eb1e",
       "range": {
         "startLine": 241,
         "startChar": 19,

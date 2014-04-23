@@ -457,6 +457,52 @@ from the `Bug` footer to Jira the following configuration can be used:
     link =  https://myjira/browse/$2
 ====
 
+[[download-commands]]
+== Download Commands
+
+On the change screen in the `Downloads` drop-down panel Gerrit offers
+commands for downloading the currently viewed patch set.
+
+The download commands are implemented by Gerrit plugins. This means
+that the available download commands depend on the installed Gerrit
+plugins:
+
+- link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/download-commands[
+  download-commands] plugin:
++
+The `download-commands` plugin provides the default download commands
+(`Checkout`, `Cherry Pick`, `Format Patch` and `Pull`).
++
+Gerrit administrators may configure which of the commands are shown on
+the change screen.
+
+- link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/egit[
+  egit] plugin:
++
+The `egit` plugin provides the change ref as download command which is
+needed for downloading a change from within
+link:https://www.eclipse.org/egit/[EGit].
+
+- link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/project-download-commands[
+  project-download-commands] plugin:
++
+The `project-download-commands` plugin enables project owners to
+configure project-specific download commands. For example, a
+project-specific download command may update submodules, trigger a
+build, execute the tests or even do a deployment.
++
+The project-specific download commands must be configured in the
+`project.config` file in the `refs/meta/config` branch of the project:
++
+====
+  [plugin "project-download-commands"]
+    Build = git fetch ${url} ${ref} && git checkout FETCH_HEAD && buck build ${project}
+    Update = git fetch ${url} ${ref} && git checkout FETCH_HEAD && git submodule update
+====
++
+Project-specific download commands that are defined on a parent project
+are inherited by the child projects. A child project can overwrite an
+inherited download command, or remove it by assigning no value to it.
 
 GERRIT
 ------

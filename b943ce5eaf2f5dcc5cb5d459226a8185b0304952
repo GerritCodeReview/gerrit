@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "45522f52_78462166",
+        "filename": "Documentation/project-setup.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-04-23T07:36:18Z",
+      "side": 1,
+      "message": "Add a comma after \"addition\"",
+      "range": {
+        "startLine": 214,
+        "startChar": 10,
+        "endLine": 214,
+        "endChar": 18
+      },
+      "revId": "b943ce5eaf2f5dcc5cb5d459226a8185b0304952",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45522f52_584b5d6c",
+        "filename": "Documentation/project-setup.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-04-23T07:36:18Z",
+      "side": 1,
+      "message": "When",
+      "range": {
+        "startLine": 218,
+        "startChar": 0,
+        "endLine": 218,
+        "endChar": 2
+      },
+      "revId": "b943ce5eaf2f5dcc5cb5d459226a8185b0304952",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "655d735f_394caf86",
+        "filename": "Documentation/project-setup.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-04-23T07:36:18Z",
+      "side": 1,
+      "message": "with",
+      "range": {
+        "startLine": 223,
+        "startChar": 9,
+        "endLine": 223,
+        "endChar": 11
+      },
+      "revId": "b943ce5eaf2f5dcc5cb5d459226a8185b0304952",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45522f52_b83f19d5",
+        "filename": "Documentation/project-setup.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-04-23T07:36:18Z",
+      "side": 1,
+      "message": "What does \"almost any\" mean here?  I would understand it to mean that certain SHA-1s are not allowed.",
+      "range": {
+        "startLine": 225,
+        "startChar": 46,
+        "endLine": 225,
+        "endChar": 56
+      },
+      "revId": "b943ce5eaf2f5dcc5cb5d459226a8185b0304952",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45522f52_983cd5e1",
+        "filename": "Documentation/project-setup.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-04-23T07:36:18Z",
+      "side": 1,
+      "message": "It might be clearer to give an example here.",
+      "range": {
+        "startLine": 237,
+        "startChar": 27,
+        "endLine": 237,
+        "endChar": 67
+      },
+      "revId": "b943ce5eaf2f5dcc5cb5d459226a8185b0304952",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45522f52_f83991ef",
+        "filename": "Documentation/project-setup.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-04-23T07:36:18Z",
+      "side": 1,
+      "message": "Add a comma after \"branches\"",
+      "range": {
+        "startLine": 239,
+        "startChar": 21,
+        "endLine": 239,
+        "endChar": 29
+      },
+      "revId": "b943ce5eaf2f5dcc5cb5d459226a8185b0304952",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "655d735f_1951eb1e",
+        "filename": "Documentation/project-setup.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-04-23T07:36:18Z",
+      "side": 1,
+      "message": "Add a comma after.",
+      "range": {
+        "startLine": 241,
+        "startChar": 19,
+        "endLine": 241,
+        "endChar": 27
+      },
+      "revId": "b943ce5eaf2f5dcc5cb5d459226a8185b0304952",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

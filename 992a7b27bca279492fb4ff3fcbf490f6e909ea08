@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "051af7b3_26fe56d6",
+        "filename": "Documentation/intro-project-owner.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-04-23T06:22:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45522f52_58fd1dd5",
+      "range": {
+        "startLine": 366,
+        "startChar": 21,
+        "endLine": 366,
+        "endChar": 22
+      },
+      "revId": "992a7b27bca279492fb4ff3fcbf490f6e909ea08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "655d735f_39fe6fd6",
         "filename": "Documentation/project-setup.txt",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2014-04-22T23:22:48Z",
       "side": 1,
       "message": "Same comment as other one...",
+      "range": {
+        "startLine": 249,
+        "startChar": 31,
+        "endLine": 249,
+        "endChar": 34
+      },
+      "revId": "992a7b27bca279492fb4ff3fcbf490f6e909ea08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "25253bef_87e74649",
+        "filename": "Documentation/project-setup.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-04-23T06:22:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "655d735f_39fe6fd6",
       "range": {
         "startLine": 249,
         "startChar": 31,

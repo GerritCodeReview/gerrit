@@ -268,7 +268,6 @@ The entries in the map are sorted by project name.
     "MyProject": {
       "revision": "61157ed63e14d261b6dca40650472a9b0bd88474",
       "inherits_from": {
-        "kind": "gerritcodereview#project",
         "id": "All-Projects",
         "name": "All-Projects",
         "description": "Access inherited by all other projects."

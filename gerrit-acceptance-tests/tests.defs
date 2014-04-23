@@ -1,4 +1,4 @@
-# these need as workaround for the 'verify: false' bug in Jcraft SSH library
+# These are need as workaround for the 'verify: false' bug in Jcraft SSH library
 BOUNCYCASTLE = [
   '//lib/bouncycastle:bcpkix',
   '//lib/bouncycastle:bcpg',

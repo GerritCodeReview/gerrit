@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "655d735f_b99b9f94",
+        "filename": "Documentation/intro-project-owner.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 482,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2014-04-23T19:18:45Z",
+      "side": 1,
+      "message": "...as \"a\" download...",
+      "range": {
+        "startLine": 482,
+        "startChar": 44,
+        "endLine": 482,
+        "endChar": 45
+      },
+      "revId": "eccde0ffe81d3169c25a615782f2570d02ed4d38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

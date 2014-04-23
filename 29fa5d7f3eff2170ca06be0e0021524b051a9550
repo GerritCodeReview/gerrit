@@ -87,6 +87,24 @@
       "revId": "29fa5d7f3eff2170ca06be0e0021524b051a9550",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "051af7b3_26d7765e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-04-23T03:19:06Z",
+      "side": 1,
+      "message": "\u003eThere is supposed to be a reasonable default when this is missing. If code is breaking in tests from that, it will break in production.\n\n\u003eSo are the tests being run without the site being initialised?\n\nthis configuration now blocking those test cases whose objective is not checking this configuration is missing or not.\n \n jusat as bellow configuration, I think we need not to check each of them  is missing or not one by one. \n\n    cfg.setString(\"gerrit\", null, \"canonicalWebUrl\", url);\n    cfg.setString(\"httpd\", null, \"listenUrl\", url);\n    cfg.setString(\"sshd\", null, \"listenAddress\", format(sshd));\n    cfg.setString(\"cache\", null, \"directory\", null);\n    cfg.setBoolean(\"sendemail\", null, \"enable\", false);\n    cfg.setInt(\"cache\", \"projects\", \"checkFrequency\", 0);\n    cfg.setInt(\"plugins\", null, \"checkFrequency\", 0);",
+      "parentUuid": "b949574f_72f35811",
+      "revId": "29fa5d7f3eff2170ca06be0e0021524b051a9550",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

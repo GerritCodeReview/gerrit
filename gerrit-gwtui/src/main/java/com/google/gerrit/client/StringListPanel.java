@@ -30,6 +30,7 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FocusWidget;
+import com.google.gwt.user.client.ui.HasEnabled;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.ImageResourceRenderer;
@@ -38,9 +39,9 @@ import com.google.gwtexpui.globalkey.client.NpTextBox;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StringListPanel extends FlowPanel {
+public class StringListPanel extends FlowPanel implements HasEnabled {
   private final StringListTable t;
-  private final HorizontalPanel titlePanel;
+  private HorizontalPanel titlePanel;
   protected final HorizontalPanel buttonPanel;
   private final Button deleteButton;
   private Image info;
@@ -49,10 +50,12 @@ public class StringListPanel extends FlowPanel {
   public StringListPanel(String title, List<String> fieldNames, FocusWidget w,
       boolean autoSort) {
     widget = w;
-    titlePanel = new HorizontalPanel();
-    SmallHeading titleLabel = new SmallHeading(title);
-    titlePanel.add(titleLabel);
-    add(titlePanel);
+    if (title != null) {
+      titlePanel = new HorizontalPanel();
+      SmallHeading titleLabel = new SmallHeading(title);
+      titlePanel.add(titleLabel);
+      add(titlePanel);
+    }
 
     t = new StringListTable(fieldNames, autoSort);
     add(t);
@@ -77,7 +80,7 @@ public class StringListPanel extends FlowPanel {
   }
 
   public void setInfo(String msg) {
-    if (info == null) {
+    if (info == null && titlePanel != null) {
       info = new Image(Gerrit.RESOURCES.info());
       titlePanel.add(info);
     }
@@ -88,14 +91,24 @@ public class StringListPanel extends FlowPanel {
     return t.getValues();
   }
 
+  public List<String> getValues(int i) {
+    List<List<String>> allValuesList = getValues();
+    List<String> singleValueList = new ArrayList<>(allValuesList.size());
+    for (List<String> values : allValuesList) {
+      singleValueList.add(values.get(i));
+    }
+    return singleValueList;
+  }
+
   private class StringListTable extends NavigationTable<List<String>> {
+    private final Button addButton;
     private final List<NpTextBox> inputs;
     private final boolean autoSort;
 
     StringListTable(List<String> names, boolean autoSort) {
       this.autoSort = autoSort;
 
-      Button addButton =
+      addButton =
           new Button(new ImageResourceRenderer().render(Gerrit.RESOURCES.listAdd()));
       addButton.setTitle(Gerrit.C.stringListPanelAdd());
       OnEditEnabler e = new OnEditEnabler(addButton);
@@ -312,5 +325,30 @@ public class StringListPanel extends FlowPanel {
     protected Object getRowItemKey(List<String> item) {
       return item.get(0);
     }
+
+    void setEnabled(boolean enabled) {
+      addButton.setVisible(enabled);
+      for (int row = 2; row < table.getRowCount(); row++) {
+        table.getWidget(row, 0).setVisible(enabled);
+        if (!autoSort) {
+          table.getWidget(row, inputs.size() + 1).setVisible(enabled);
+          table.getWidget(row, inputs.size() + 2).setVisible(enabled);
+        }
+      }
+      if (enabled) {
+        updateNavigationLinks();
+      }
+    }
+  }
+
+  @Override
+  public boolean isEnabled() {
+    return deleteButton.isVisible();
+  }
+
+  @Override
+  public void setEnabled(boolean enabled) {
+    t.setEnabled(enabled);
+    deleteButton.setVisible(enabled);
   }
 }

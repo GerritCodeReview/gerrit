@@ -22,6 +22,30 @@
       "revId": "51dda2e9ae9557eddce5b30639d5769a1e463c75",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45522f52_782f41ae",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-04-23T04:20:42Z",
+      "side": 1,
+      "message": "thanks, not sure why i didn\u0027t notice that.  Done",
+      "parentUuid": "45522f52_d8080d46",
+      "range": {
+        "startLine": 362,
+        "startChar": 39,
+        "endLine": 363,
+        "endChar": 41
+      },
+      "revId": "51dda2e9ae9557eddce5b30639d5769a1e463c75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

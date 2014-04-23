@@ -351,6 +351,48 @@ link:prolog-cookbook.html#HowToWriteSubmitRules[Prolog cookbook]. There
 is also good support for link:prolog-cookbook.html#TestingSubmitRules[
 testing submit rules] while developing them.
 
+[[continuous-integration]]
+== Continuous Integration
+
+With Gerrit you can have continuous integration builds not only for
+updates of central branches but also whenever a new change/patch set is
+uploaded for review. This way you get automatic verification of all
+changes *before* they are merged and any build and test issues are
+detected early. To indicate the build and test status the continuous
+integration system normally votes with the
+link:config-labels.html#label_Verified[Verified] label on the change.
+
+There are several solutions for integrating continuous integration
+systems. The most commonly used are:
+
+- link:https://wiki.jenkins-ci.org/display/JENKINS/Gerrit+Trigger[
+  Gerrit Trigger] plugin for link:http://jenkins-ci.org/[Jenkins]
+
+- link:http://www.mediawiki.org/wiki/Continuous_integration/Zuul[
+  Zuul] for link:http://jenkins-ci.org/[Jenkins]
+
+For the integration with the continuous integration system you must
+have a service user that is able to access Gerrit. To create a service
+user in Gerrit you can use the link:cmd-create-account.html[create-account]
+SSH command if the link:access-control.html#capability_createAccount[
+Create Account] global capability is granted. If not, you need to ask
+a Gerrit administrator to create the service user.
+
+If the link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/serviceuser[
+serviceuser] plugin is installed you can also create new service users
+in the Gerrit WebUI under `People` > `Create Service User`.
+
+The service user must have link:access-control.html#category_read[read]
+access to your project. In addition, if automatic change verification
+is enabled, the service user must be allowed to vote on the
+link:config-labels.html#label_Verified[Verified] label.
+
+Continuous integration systems usually integrate with Gerrit by
+listening to the Gerrit link:cmd-stream-events.html#events[stream
+events]. For this the service user must have the
+link:access-control.html#capability_streamEvents[Stream Events] global
+capability assigned.
+
 [[branch-administration]]
 == Branch Administration
 

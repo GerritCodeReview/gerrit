@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "25253bef_a7ea4a11",
+        "filename": "Documentation/intro-project-owner.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-04-23T06:20:04Z",
+      "side": 1,
+      "message": "Maybe yes. What would you suggest then?\n\nComment Links are the most common way to integrate issue trackers, but they are not limited to that and can be used for other purposes as well. This is why I made an extra section to describe comment links and link to it from issue tracker integration section here.",
+      "parentUuid": "655d735f_f9f4f7f7",
+      "range": {
+        "startLine": 395,
+        "startChar": 0,
+        "endLine": 395,
+        "endChar": 1
+      },
+      "revId": "00707c8372f4db572a17f9ef5f97022ec2bebe33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "45522f52_98e7b549",
         "filename": "Documentation/intro-project-owner.txt",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2014-04-22T23:17:35Z",
       "side": 1,
       "message": "Why the backslash here?",
+      "range": {
+        "startLine": 411,
+        "startChar": 44,
+        "endLine": 411,
+        "endChar": 46
+      },
+      "revId": "00707c8372f4db572a17f9ef5f97022ec2bebe33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "051af7b3_e6f43ef8",
+        "filename": "Documentation/intro-project-owner.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-04-23T06:20:04Z",
+      "side": 1,
+      "message": "Yes, this is some weird asciidoc issue. \u0027#\u0027 is interpreted by asciidoc in some way and if this is not escaped here then \u0027#\u0027 is removed for the first two links in this line. Escaping all \u0027#\u0027 does not work either since then the second two links have \u0027\\#\u0027 in their URL instead of just \u0027#\u0027. So the only way to get the correct links seems to be to only escape the first \u0027#\u0027 in a line...",
+      "parentUuid": "45522f52_98e7b549",
       "range": {
         "startLine": 411,
         "startChar": 44,

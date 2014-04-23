@@ -546,6 +546,41 @@ Project-specific download commands that are defined on a parent project
 are inherited by the child projects. A child project can overwrite an
 inherited download command, or remove it by assigning no value to it.
 
+[[tool-integration]]
+== Integration with other tools
+
+Gerrit provides many possibilities for the integration with other
+tools:
+
+- Stream Events:
++
+The link:cmd-stream-events.html[stream-events] SSH command allows to
+listen to Gerrit link:cmd-stream-events.html#events[events]. Other
+tools can use this to react on actions done in Gerrit.
++
+The link:access-control.html#capability_streamEvents[Stream Events]
+global capability is required for using the `stream-events` command.
+
+- REST API:
++
+Gerrit provides a rich link:rest-api.html[REST API] that other tools
+can use to query information from Gerrit and and to trigger actions in
+Gerrit.
+
+- Gerrit Plugins:
++
+The Gerrit functionality can be extended by plugins and there are many
+extension points, e.g. plugins can
++
+** link:dev-plugins.html#top-menu-extensions[add new menu entries]
+** link:dev-plugins.html#ui_extension[extend existing screens] and link:dev-plugins.html#screen[add new screens]
+** link:config-validation.html[do validation], e.g. of new commits
+** add new REST endpoints and link:dev-plugins.html#ssh[SSH commands]
+
++
+How to develop a Gerrit plugin is described in the link:dev-plugins.html[
+Plugin Development] section.
+
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

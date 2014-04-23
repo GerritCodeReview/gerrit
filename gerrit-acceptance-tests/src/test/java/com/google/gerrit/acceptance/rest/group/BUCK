@@ -6,6 +6,7 @@ acceptance_tests(
     ':util',
     '//gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account:util',
   ],
+  labels = ['rest']
 )
 
 java_library(

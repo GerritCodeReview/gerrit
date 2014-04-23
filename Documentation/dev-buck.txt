@@ -283,6 +283,21 @@ To exclude slow tests:
   buck test --all --exclude slow
 ----
 
+To include a specific group of acceptance tests:
+
+----
+  buck test --all --include api
+----
+
+The following groups of tests are currently supported:
+
+* api
+* git
+* pgm
+* rest
+* server
+* ssh
+
 To run a specific test, e.g. the acceptance test
 `com.google.gerrit.acceptance.git.HttpPushForReviewIT`:
 

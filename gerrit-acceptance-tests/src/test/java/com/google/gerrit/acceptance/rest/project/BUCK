@@ -5,8 +5,8 @@ acceptance_tests(
   deps = [
     ':branch',
     ':project',
-    '//gerrit-acceptance-tests:lib',
   ],
+  labels = ['rest']
 )
 
 java_library(

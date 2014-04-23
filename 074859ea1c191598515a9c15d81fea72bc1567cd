@@ -46,6 +46,30 @@
       "revId": "074859ea1c191598515a9c15d81fea72bc1567cd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "655d735f_59824340",
+        "filename": "gerrit-acceptance-tests/tests.defs",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-04-23T12:05:50Z",
+      "side": 1,
+      "message": "Forgot about these before merging :(\n\nFixed in https://gerrit-review.googlesource.com/56284",
+      "parentUuid": "655d735f_b918bf91",
+      "range": {
+        "startLine": 1,
+        "startChar": 8,
+        "endLine": 1,
+        "endChar": 12
+      },
+      "revId": "074859ea1c191598515a9c15d81fea72bc1567cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

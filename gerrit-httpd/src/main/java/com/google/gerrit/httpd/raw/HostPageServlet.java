@@ -330,7 +330,7 @@ public class HostPageServlet extends HttpServlet {
       nocache.setAttribute("src", noCacheName);
       opt = new Content(hostDoc);
 
-      nocache.setAttribute("src", "gerrit_ui/gerrit_dbg.nocache.js");
+      nocache.setAttribute("src", "gerrit_ui/dbg_gerrit_ui.nocache.js");
       debug = new Content(hostDoc);
     }
 

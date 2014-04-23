@@ -7,7 +7,7 @@ genrule(
     'unzip -q $SRCDIR/ui_dbg.zip;' +
     'mv' +
     ' gerrit_ui/gerrit_ui.nocache.js' +
-    ' gerrit_ui/gerrit_dbg.nocache.js;' +
+    ' gerrit_ui/dbg_gerrit_ui.nocache.js;' +
     'unzip -qo $SRCDIR/ui_opt.zip;' +
     'mkdir -p $(dirname $OUT);' +
     'zip -qr $OUT .',

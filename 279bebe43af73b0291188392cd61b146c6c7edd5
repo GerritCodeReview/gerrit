@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "051af7b3_062a3a9e",
+        "filename": "Documentation/intro-project-owner.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 467,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-04-23T12:01:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "655d735f_993cdbe1",
+      "range": {
+        "startLine": 466,
+        "startChar": 57,
+        "endLine": 467,
+        "endChar": 45
+      },
+      "revId": "279bebe43af73b0291188392cd61b146c6c7edd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "655d735f_f93997ef",
         "filename": "Documentation/intro-project-owner.txt",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2014-04-23T11:53:39Z",
       "side": 1,
       "message": "Gerrit administrators may configure which of the commands are shown on the change screen.",
+      "range": {
+        "startLine": 476,
+        "startChar": 0,
+        "endLine": 477,
+        "endChar": 37
+      },
+      "revId": "279bebe43af73b0291188392cd61b146c6c7edd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "25253bef_0751961e",
+        "filename": "Documentation/intro-project-owner.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-04-23T12:01:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "655d735f_f93997ef",
       "range": {
         "startLine": 476,
         "startChar": 0,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "051af7b3_662faeae",
+        "filename": "Documentation/intro-project-owner.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-04-23T12:01:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45522f52_1878c59e",
+      "range": {
+        "startLine": 483,
+        "startChar": 44,
+        "endLine": 483,
+        "endChar": 48
+      },
+      "revId": "279bebe43af73b0291188392cd61b146c6c7edd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "655d735f_d93653fd",
         "filename": "Documentation/intro-project-owner.txt",
         "patchSetId": 1
@@ -82,6 +154,24 @@
       "writtenOn": "2014-04-23T11:53:39Z",
       "side": 1,
       "message": "Does the setting get inherited by child projects?  If so, it would be useful to mention here.",
+      "revId": "279bebe43af73b0291188392cd61b146c6c7edd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "051af7b3_46343201",
+        "filename": "Documentation/intro-project-owner.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-04-23T12:01:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "655d735f_d93653fd",
       "revId": "279bebe43af73b0291188392cd61b146c6c7edd5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

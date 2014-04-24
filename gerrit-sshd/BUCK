@@ -27,7 +27,8 @@ java_library2(
     '//lib/jgit:jgit',
   ],
   compile_deps = [
-    '//lib/bouncycastle:bcprov',
+    '//lib/bouncycastle:bcpg',
+    '//lib/bouncycastle:bcpkix',
   ],
   visibility = ['PUBLIC'],
 )

@@ -469,6 +469,45 @@ heap size:
   EOF
 ----
 
+== Rerun unit tests
+
+If for some reasons tests, that were already run must be repeated, unit test
+cache must be removed fist. That's because the test execution results are
+cached by Buck:
+
+----
+  $ rm -rf buck-out/bin/gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/group/.AddRemoveGroupMembersIT/
+----
+
+After clearing the cache test can be rerun again:
+
+----
+  $ buck test //gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/group:AddRemoveGroupMembersIT
+  TESTING //gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/group:AddRemoveGroupMembersIT
+  PASS  14,9s  8 Passed   0 Failed   com.google.gerrit.acceptance.rest.group.AddRemoveGroupMembersIT
+  TESTS PASSED
+----
+
+An alternative approach is to use a Buck feature:
+--test-selectors (-filters, -f) option:
+
+----
+  buck test --all -f 'com.google.gerrit.acceptance.rest.change.SubmitByMergeAlwaysIT'
+  TESTING SELECTED TESTS
+  PASS  14,5s  6 Passed   0 Failed   com.google.gerrit.acceptance.rest.change.SubmitByMergeAlwaysIT
+  TESTS PASSED
+----
+
+When this option is used, cache is disabled per design and doesn't need to be deleted.
+Note: when -f option is used, the whole unit test cache is dropped. As a consequence,
+repeating the
+
+----
+buck test --all
+----
+
+would re-execute all tests again.
+
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

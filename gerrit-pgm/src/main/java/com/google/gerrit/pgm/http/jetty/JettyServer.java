@@ -19,6 +19,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.base.Charsets;
 import com.google.common.base.Objects;
+import com.google.common.base.Strings;
 import com.google.common.escape.Escaper;
 import com.google.common.html.HtmlEscapers;
 import com.google.common.io.ByteStreams;
@@ -103,16 +104,33 @@ public class JettyServer {
 
   static class Lifecycle implements LifecycleListener {
     private final JettyServer server;
+    private final Config cfg;
 
     @Inject
-    Lifecycle(final JettyServer server) {
+    Lifecycle(final JettyServer server, @GerritServerConfig final Config cfg) {
       this.server = server;
+      this.cfg = cfg;
     }
 
     @Override
     public void start() {
       try {
+        String origUrl = cfg.getString("httpd", null, "listenUrl");
+        boolean rewrite = !Strings.isNullOrEmpty(origUrl)
+            && origUrl.endsWith(":0/");
         server.httpd.start();
+        if (rewrite) {
+          Connector con = server.httpd.getConnectors()[0];
+          if (con instanceof ServerConnector) {
+            @SuppressWarnings("resource")
+            ServerConnector serverCon = (ServerConnector)con;
+            String host = serverCon.getHost();
+            int port = serverCon.getLocalPort();
+            String url = String.format("http://%s:%d", host, port);
+            cfg.setString("gerrit", null, "canonicalWebUrl", url);
+            cfg.setString("httpd", null, "listenUrl", url);
+          }
+        }
       } catch (Exception e) {
         throw new IllegalStateException("Cannot start HTTP daemon", e);
       }
@@ -259,7 +277,7 @@ public class JettyServer {
         } else {
           final URI r = u.parseServerAuthority();
           c.setHost(r.getHost());
-          c.setPort(0 < r.getPort() ? r.getPort() : defaultPort);
+          c.setPort(0 <= r.getPort() ? r.getPort() : defaultPort);
         }
       } catch (URISyntaxException e) {
         throw new IllegalArgumentException("Invalid httpd.listenurl " + u, e);

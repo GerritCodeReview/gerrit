@@ -18,6 +18,8 @@ import static com.google.gerrit.server.ssh.SshAddressesModule.IANA_SSH_PORT;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
+import com.google.common.base.Strings;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.Version;
 import com.google.gerrit.extensions.events.LifecycleListener;
@@ -51,11 +53,11 @@ import org.apache.sshd.common.cipher.AES128CTR;
 import org.apache.sshd.common.cipher.AES192CBC;
 import org.apache.sshd.common.cipher.AES256CBC;
 import org.apache.sshd.common.cipher.AES256CTR;
+import org.apache.sshd.common.cipher.ARCFOUR128;
+import org.apache.sshd.common.cipher.ARCFOUR256;
 import org.apache.sshd.common.cipher.BlowfishCBC;
 import org.apache.sshd.common.cipher.CipherNone;
 import org.apache.sshd.common.cipher.TripleDESCBC;
-import org.apache.sshd.common.cipher.ARCFOUR128;
-import org.apache.sshd.common.cipher.ARCFOUR256;
 import org.apache.sshd.common.compression.CompressionNone;
 import org.apache.sshd.common.file.FileSystemFactory;
 import org.apache.sshd.common.file.FileSystemView;
@@ -100,6 +102,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 import java.net.UnknownHostException;
 import java.security.InvalidKeyException;
@@ -144,6 +147,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   private final boolean keepAlive;
   private final List<HostKey> hostKeys;
   private volatile IoAcceptor acceptor;
+  private final Config cfg;
 
   @Inject
   SshDaemon(final CommandFactory commandFactory, final NoShell noShell,
@@ -155,6 +159,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
       @SshAdvertisedAddresses final List<String> advertised) {
     setPort(IANA_SSH_PORT /* never used */);
 
+    this.cfg = cfg;
     this.listen = listen;
     this.advertised = advertised;
     keepAlive = cfg.getBoolean("sshd", "tcpkeepalive", true);
@@ -276,7 +281,14 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
       acceptor = createAcceptor();
 
       try {
+        String listenAddress = cfg.getString("sshd", null, "listenAddress");
+        boolean rewrite = !Strings.isNullOrEmpty(listenAddress)
+            && listenAddress.endsWith(":0");
         acceptor.bind(listen);
+        if (rewrite) {
+          SocketAddress bound = Iterables.getOnlyElement(acceptor.getBoundAddresses());
+          cfg.setString("sshd", null, "listenAddress", format((InetSocketAddress)bound));
+        }
       } catch (IOException e) {
         throw new IllegalStateException("Cannot bind to " + addressList(), e);
       }
@@ -284,6 +296,10 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
       log.info(String.format("Started Gerrit %s on %s",
           version, addressList()));
     }
+  }
+
+  private static String format(InetSocketAddress s) {
+    return String.format("%s:%d", s.getAddress().getHostAddress(), s.getPort());
   }
 
   @Override

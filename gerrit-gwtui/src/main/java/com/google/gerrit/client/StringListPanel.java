@@ -84,7 +84,9 @@ public class StringListPanel extends FlowPanel implements HasEnabled {
       info = new Image(Gerrit.RESOURCES.info());
       titlePanel.add(info);
     }
-    info.setTitle(msg);
+    if (info != null) {
+      info.setTitle(msg);
+    }
   }
 
   public List<List<String>> getValues() {

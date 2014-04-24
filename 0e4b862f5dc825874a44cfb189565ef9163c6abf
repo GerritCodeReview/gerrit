@@ -22,6 +22,30 @@
       "revId": "0e4b862f5dc825874a44cfb189565ef9163c6abf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "25a8db8f_0ffee5d5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-04-24T16:46:22Z",
+      "side": 1,
+      "message": "you are correct. fixed.",
+      "parentUuid": "45d5cffe_60cbf285",
+      "range": {
+        "startLine": 9,
+        "startChar": 12,
+        "endLine": 9,
+        "endChar": 24
+      },
+      "revId": "0e4b862f5dc825874a44cfb189565ef9163c6abf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

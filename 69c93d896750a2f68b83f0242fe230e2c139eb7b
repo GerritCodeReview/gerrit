@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "45d5cffe_607db28e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/UniversalServerPluginProvider.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-04-24T09:56:03Z",
+      "side": 1,
+      "message": "this approach impose one limitation. only homogeneous plugins are supported.\n\nEither you will use scala or js? What about having a plugin with server side in scala, but also providing web UI in JS?\n\nMaybe this not fit inot \u0027ServerPlugin\u0027 concept but still it is IMO a valid use case",
+      "range": {
+        "startLine": 48,
+        "startChar": 6,
+        "endLine": 50,
+        "endChar": 7
+      },
+      "revId": "69c93d896750a2f68b83f0242fe230e2c139eb7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

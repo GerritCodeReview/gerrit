@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e5db2337_fd1fa774",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ServerPluginProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-04-24T09:45:05Z",
+      "side": 1,
+      "message": "six parameters? maybe you can rearrange them in one or two objects? maybe PluginFileMeta and PluginEnv?",
+      "range": {
+        "startLine": 59,
+        "startChar": 19,
+        "endLine": 60,
+        "endChar": 77
+      },
+      "revId": "865fb6cd9174a0ed82b18f3fe59cd812ef8fa6fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

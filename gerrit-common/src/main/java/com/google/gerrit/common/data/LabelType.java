@@ -27,6 +27,10 @@ import java.util.Map;
 public class LabelType {
   public static LabelType withDefaultValues(String name) {
     checkName(name);
+    return withDefaultValuesDoNotCheckName(name);
+  }
+
+  public static LabelType withDefaultValuesDoNotCheckName(String name) {
     List<LabelValue> values = new ArrayList<>(2);
     values.add(new LabelValue((short) 0, "Rejected"));
     values.add(new LabelValue((short) 1, "Approved"));

@@ -330,6 +330,9 @@ public class StringListPanel extends FlowPanel implements HasEnabled {
 
     void setEnabled(boolean enabled) {
       addButton.setVisible(enabled);
+      for (NpTextBox input : inputs) {
+        input.setEnabled(enabled);
+      }
       for (int row = 2; row < table.getRowCount(); row++) {
         table.getWidget(row, 0).setVisible(enabled);
         if (!autoSort) {

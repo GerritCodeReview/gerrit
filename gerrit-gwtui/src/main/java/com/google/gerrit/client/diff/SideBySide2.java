@@ -471,11 +471,11 @@ public class SideBySide2 extends Screen {
     }
 
     removeKeyHandlerRegistrations();
+    handlers.add(GlobalKey.add(this, keysAction));
     handlers.add(GlobalKey.add(this, keysNavigation));
     if (keysComment != null) {
       handlers.add(GlobalKey.add(this, keysComment));
     }
-    handlers.add(GlobalKey.add(this, keysAction));
     handlers.add(ShowHelpCommand.addFocusHandler(new FocusHandler() {
       @Override
       public void onFocus(FocusEvent event) {

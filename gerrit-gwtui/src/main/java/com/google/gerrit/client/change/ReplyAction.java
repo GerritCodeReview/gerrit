@@ -17,6 +17,7 @@ package com.google.gerrit.client.change;
 import com.google.gerrit.client.changes.ChangeInfo;
 import com.google.gerrit.client.changes.ChangeInfo.LabelInfo;
 import com.google.gerrit.client.changes.ChangeInfo.MessageInfo;
+import com.google.gerrit.client.changes.ReviewInput;
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -35,6 +36,7 @@ class ReplyAction {
   private final ChangeScreen2.Style style;
   private final CommentLinkProcessor clp;
   private final Widget replyButton;
+  private final Widget quickApproveButton;
 
   private NativeMap<LabelInfo> allLabels;
   private NativeMap<JsArrayString> permittedLabels;
@@ -47,7 +49,8 @@ class ReplyAction {
       String revision,
       ChangeScreen2.Style style,
       CommentLinkProcessor clp,
-      Widget replyButton) {
+      Widget replyButton,
+      Widget quickApproveButton) {
     this.psId = new PatchSet.Id(
         info.legacy_id(),
         info.revisions().get(revision)._number());
@@ -55,6 +58,7 @@ class ReplyAction {
     this.style = style;
     this.clp = clp;
     this.replyButton = replyButton;
+    this.quickApproveButton = quickApproveButton;
 
     boolean current = revision.equals(info.current_revision());
     allLabels = info.all_labels();
@@ -63,8 +67,12 @@ class ReplyAction {
         : NativeMap.<JsArrayString> create();
   }
 
-  String getMessage() {
-    return replyBox != null ? replyBox.getMessage() : null;
+  boolean isVisible() {
+    return popup != null;
+  }
+
+  void quickApprove(ReviewInput input) {
+    replyBox.quickApprove(input);
   }
 
   void hide() {
@@ -96,9 +104,8 @@ class ReplyAction {
 
     final PluginSafePopupPanel p = new PluginSafePopupPanel(true, false);
     p.setStyleName(style.replyBox());
-    p.setGlassEnabled(true);
-    p.setGlassStyleName("");
     p.addAutoHidePartner(replyButton.getElement());
+    p.addAutoHidePartner(quickApproveButton.getElement());
     p.addCloseHandler(new CloseHandler<PopupPanel>() {
       @Override
       public void onClose(CloseEvent<PopupPanel> event) {

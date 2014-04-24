@@ -109,16 +109,17 @@ class QuickApprove extends Button implements ClickHandler {
 
   @Override
   public void onClick(ClickEvent event) {
-    if (replyAction != null) {
-      input.message(replyAction.getMessage());
+    if (replyAction != null && replyAction.isVisible()) {
+      replyAction.quickApprove(input);
+    } else {
+      ChangeApi.revision(changeId.get(), revision)
+        .view("review")
+        .post(input, new GerritCallback<ReviewInput>() {
+          @Override
+          public void onSuccess(ReviewInput result) {
+            Gerrit.display(PageLinks.toChange(changeId));
+          }
+        });
     }
-    ChangeApi.revision(changeId.get(), revision)
-      .view("review")
-      .post(input, new GerritCallback<ReviewInput>() {
-        @Override
-        public void onSuccess(ReviewInput result) {
-          Gerrit.display(PageLinks.toChange(changeId));
-        }
-      });
   }
 }

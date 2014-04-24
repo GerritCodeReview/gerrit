@@ -104,7 +104,7 @@ class EqualsLabelPredicate extends IndexPredicate<ChangeData> {
       }
     }
 
-    return LabelType.withDefaultValues(toFind);
+    return LabelType.withDefaultValuesDoNotCheckName(toFind);
   }
 
   private boolean match(Change change, int value, Account.Id approver,

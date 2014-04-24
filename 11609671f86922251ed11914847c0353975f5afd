@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "051af7b3_2673f6c5",
+        "filename": "gerrit-server/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-24T06:24:19Z",
+      "side": 1,
+      "message": "That\u0027s wrong. Moving bouncycastle from compile_deps to deps, effectively means that the artifacts are included in gerrit.war. Unconditionally.",
+      "range": {
+        "startLine": 51,
+        "startChar": 4,
+        "endLine": 52,
+        "endChar": 32
+      },
+      "revId": "11609671f86922251ed11914847c0353975f5afd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "051af7b3_06787a9e",
+        "filename": "lib/bouncycastle/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-24T06:24:19Z",
+      "side": 1,
+      "message": "You forgot to update the new SHA-1 in library download toolchain.",
+      "range": {
+        "startLine": 10,
+        "startChar": 10,
+        "endLine": 10,
+        "endChar": 50
+      },
+      "revId": "11609671f86922251ed11914847c0353975f5afd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "051af7b3_667dee8e",
+        "filename": "lib/bouncycastle/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-24T06:24:19Z",
+      "side": 1,
+      "message": "This new artifact needs to be installed during bouncycastle site installation procedure. Check the implementation in [1]:\n\n* [1] https://gerrit-review.googlesource.com/52440",
+      "range": {
+        "startLine": 15,
+        "startChar": 10,
+        "endLine": 15,
+        "endChar": 16
+      },
+      "revId": "11609671f86922251ed11914847c0353975f5afd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e5db2337_7de63751",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JarScanner.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-04-24T07:49:58Z",
+      "side": 1,
+      "message": "IMO this should be injectable so that DynamicSet can be used to obtain list of all plugin scanners dynamically.",
+      "range": {
+        "startLine": 69,
+        "startChar": 9,
+        "endLine": 69,
+        "endChar": 33
+      },
+      "revId": "3128b3cf02af06f8cd2b80fd3b940f5e7f04f6f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45d5cffe_e0f462f8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JarScanner.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-04-24T07:49:58Z",
+      "side": 1,
+      "message": "Why not be more explicit about \"nullable result\" and use Optional class here?",
+      "range": {
+        "startLine": 263,
+        "startChar": 2,
+        "endLine": 263,
+        "endChar": 11
+      },
+      "revId": "3128b3cf02af06f8cd2b80fd3b940f5e7f04f6f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45d5cffe_40034e2d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JarScanner.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-04-24T07:49:58Z",
+      "side": 1,
+      "message": "IMO ternary operator is useful when whole expression fits in single line, when it it is splited into two lines then it is less readable. Personally would use simple if/else here",
+      "range": {
+        "startLine": 265,
+        "startChar": 11,
+        "endLine": 266,
+        "endChar": 14
+      },
+      "revId": "3128b3cf02af06f8cd2b80fd3b940f5e7f04f6f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45d5cffe_60f852e7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JarScanner.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-04-24T07:49:58Z",
+      "side": 1,
+      "message": "same as above... why not use simple if/else here?",
+      "range": {
+        "startLine": 276,
+        "startChar": 11,
+        "endLine": 277,
+        "endChar": 78
+      },
+      "revId": "3128b3cf02af06f8cd2b80fd3b940f5e7f04f6f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e5db2337_ddf4abf8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JsPlugin.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-04-24T07:49:58Z",
+      "side": 1,
+      "message": "you are mixing responsibilities here. Plugin should be decoupled from SluginScanner. PluginScanner should produce instances of Plugin object and then this object should be processed by Gerrit.",
+      "range": {
+        "startLine": 40,
+        "startChar": 23,
+        "endLine": 40,
+        "endChar": 54
+      },
+      "revId": "3128b3cf02af06f8cd2b80fd3b940f5e7f04f6f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45d5cffe_a0117a75",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JsPlugin.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-04-24T07:49:58Z",
+      "side": 1,
+      "message": "It is indended to provide only \"stub\" implemnetaion here?\n\nIf yes then IMO you should be mention in commit message that JsPluginScanner is not working.",
+      "range": {
+        "startLine": 124,
+        "startChar": 11,
+        "endLine": 124,
+        "endChar": 28
+      },
+      "revId": "3128b3cf02af06f8cd2b80fd3b940f5e7f04f6f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45d5cffe_c00e7e52",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginScanner.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-04-24T07:49:58Z",
+      "side": 1,
+      "message": "Then I would rather name this class as PluginConentScanner since it only scans content of a plugin, not  files/dirs within $gerrit_site/plugins directory.\n\nIn other words responsibility of this interface its to discover contents of a plugin not plugins within plugins/ dir. At leas for me current name suggest second thing.",
+      "range": {
+        "startLine": 26,
+        "startChar": 2,
+        "endLine": 28,
+        "endChar": 52
+      },
+      "revId": "3128b3cf02af06f8cd2b80fd3b940f5e7f04f6f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

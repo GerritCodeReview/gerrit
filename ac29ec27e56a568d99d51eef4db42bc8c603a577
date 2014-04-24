@@ -429,6 +429,30 @@
       "revId": "ac29ec27e56a568d99d51eef4db42bc8c603a577",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e5db2337_9dea2312",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RevisionEdit.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2014-04-24T07:18:59Z",
+      "side": 1,
+      "message": "Actually a hex-based solitting might be even more efficient, as the limit are normally some power of two. See e.g. the mozilla caches.",
+      "parentUuid": "7c026dbc_b8d959c5",
+      "range": {
+        "startLine": 89,
+        "startChar": 38,
+        "endLine": 89,
+        "endChar": 41
+      },
+      "revId": "ac29ec27e56a568d99d51eef4db42bc8c603a577",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

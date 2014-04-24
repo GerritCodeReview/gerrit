@@ -204,16 +204,17 @@ link:access-control.html#category_push_direct[Push] access right is
 required on `refs/heads/<branch-name>`.
 
 By pushing for review you are not only enabling the review workflow,
-but you can also get automatic verifications from a build server
-before changes are merged. In addition you can benefit from Gerrit's
-merge strategies that can automatically merge/rebase commits on server
-side if necessary. You can control the merge strategy by configuring
-the link:project-setup.html#submit_type[submit type] on the project.
-If you bypass code review you always need to merge/rebase manually if
-the tip of the destination branch has moved. Please keep this in mind
-if you choose to not work with code review because you think it's
-easier to avoid the additional complexity of the review workflow; it
-might actually not be easier.
+but you can also get link:#continuous-integration[automatic
+verifications from a build server] before changes are merged. In
+addition you can benefit from Gerrit's merge strategies that can
+automatically merge/rebase commits on server side if necessary. You can
+control the merge strategy by configuring the
+link:project-setup.html#submit_type[submit type] on the project. If you
+bypass code review you always need to merge/rebase manually if the tip
+of the destination branch has moved. Please keep this in mind if you
+choose to not work with code review because you think it's easier to
+avoid the additional complexity of the review workflow; it might
+actually not be easier.
 
 You may also enable link:user-upload.html#auto_merge[auto-merge on
 push] to benefit from the automatic merge/rebase on server side while

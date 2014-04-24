@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "e5db2337_3ddcaf7f",
+        "filename": "gerrit-server/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-04-24T08:06:17Z",
+      "side": 1,
+      "message": "yes your idea is the best way in my mind, so hope  52440 can be cherry pick back to stable-2.8.\n\nthe way this commit used to resolve the ClassNotFound issue is to add these 2 jar to gerrit.war.",
+      "parentUuid": "051af7b3_2673f6c5",
+      "revId": "11609671f86922251ed11914847c0353975f5afd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "051af7b3_06787a9e",
         "filename": "lib/bouncycastle/BUCK",
         "patchSetId": 1
@@ -48,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "45d5cffe_00094647",
+        "filename": "lib/bouncycastle/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-04-24T08:06:17Z",
+      "side": 1,
+      "message": "yes if address this bug by requiring user to install these 2 jars in init step.",
+      "parentUuid": "051af7b3_06787a9e",
+      "revId": "11609671f86922251ed11914847c0353975f5afd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "051af7b3_667dee8e",
         "filename": "lib/bouncycastle/BUCK",
         "patchSetId": 1
@@ -65,6 +101,24 @@
         "endLine": 15,
         "endChar": 16
       },
+      "revId": "11609671f86922251ed11914847c0353975f5afd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45d5cffe_c0e75e48",
+        "filename": "lib/bouncycastle/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-04-24T08:06:17Z",
+      "side": 1,
+      "message": "regret 52440 is on master branch.",
+      "parentUuid": "051af7b3_667dee8e",
       "revId": "11609671f86922251ed11914847c0353975f5afd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

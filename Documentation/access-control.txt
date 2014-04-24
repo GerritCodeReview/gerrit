@@ -9,7 +9,7 @@ users.
 [[system_groups]]
 == System Groups
 
-Gerrit comes with following system groups:
+Gerrit comes with the following system groups:
 
 * Administrators
 * Anonymous Users

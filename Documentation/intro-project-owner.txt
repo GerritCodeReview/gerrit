@@ -275,9 +275,312 @@ development branches. You likely want to start with
 more restrictive policy if you are facing issues with the build and
 test stability of the destination branches.
 
+It is also possible to define the submit type dynamically via
+link:#prolog-submit-type[Prolog]. This way you can use different submit
+types for different branches.
+
 Please note that there are other submit types available; they are
 described in the link:project-setup.html#submit_type[Submit Type]
 section.
+
+[[labels]]
+== Labels
+
+The code review process includes that reviewers formally express their
+opinion about a change by voting on different link:config-labels.html[
+labels]. By default Gerrit comes with the
+link:config-labels.html#label_Code-Review[Code-Review] label and many
+Gerrit servers have the link:config-labels.html#label_Verified[Verified]
+label configured globally. However projects can also define their own
+link:config-labels.html#label_custom[custom labels] to formalize
+project-specific workflows. For example if a project requires an IP
+approval from a special IP-team, it can define an `IP-Review` label
+and grant permissions to the IP-team to vote on this label.
+
+The behavior of a label can be controlled by its
+link:config-labels.html#label_function[function], e.g. it can be
+configured whether a max positive voting on the label is required for
+submit or if the voting on the label is optional.
+
+By using a custom link:#submit-rules[submit rule] it can be controlled
+per change whether a label is required for submit or not.
+
+A useful feature on labels is the possibility to automatically copy
+scores forward to new patch sets if it was a
+link:config-labels.html#label_copyAllScoresOnTrivialRebase[trivial
+rebase] or if link:config-labels.html#label_copyAllScoresIfNoCodeChange[
+there was no code change] (e.g. only the commit message was edited).
+
+[[submit-rules]]
+== Submit Rules
+
+A link:prolog-cookbook.html#SubmitRule[submit rule] in Gerrit is logic
+that defines when a change is submittable. By default, a change is
+submittable when it gets at least one highest vote on each label and
+has no lowest vote (aka veto vote) on any label.
+
+The submit rules in Gerrit are implemented in link:prolog-cookbook.html[
+Prolog] and projects that need more flexibility can define their own
+submit rules to decide when a change should be submittable. A good
+link:prolog-cookbook.html#NonAuthorCodeReview[example] from the Prolog
+cookbook shows how to allow submit only if a change has a
+`Code-Review+2` vote from a person that is not the change author. This
+way a four-eyes principle for the reviews can be enforced.
+
+A Prolog submit rule has access to link:prolog-change-facts.html[
+information] about the change for which it is testing the
+submittability. Amongst others the list of the modified files can be
+accessed, which allows special logic if certain files are touched. For
+example, a common practice is to require a vote on an additional label,
+like `Library-Compliance`, if the dependencies of the project are
+changed.
+
+[[prolog-submit-type]]
+It is also possible to control the link:prolog-cookbook.html#SubmitType[
+submit type] from Prolog. For example this can be used to define a more
+restrictive submit type such as `Fast Forward Only` for stable branches
+while using a more liberal submit type, e.g. `Merge If Necessary` with
+content merge, for development branches. How this can be done can be
+seen from an link:prolog-cookbook.html#SubmitTypePerBranch[example] in
+the Prolog cookbook.
+
+Submit rules are maintained in the link:prolog-cookbook.html#RulesFile[
+rules.pl] file in the `refs/meta/config` branch of the project. How to
+write submit rules is explained in the
+link:prolog-cookbook.html#HowToWriteSubmitRules[Prolog cookbook]. There
+is also good support for link:prolog-cookbook.html#TestingSubmitRules[
+testing submit rules] while developing them.
+
+[[continuous-integration]]
+== Continuous Integration
+
+With Gerrit you can have continuous integration builds not only for
+updates of central branches but also whenever a new change/patch set is
+uploaded for review. This way you get automatic verification of all
+changes *before* they are merged and any build and test issues are
+detected early. To indicate the build and test status the continuous
+integration system normally votes with the
+link:config-labels.html#label_Verified[Verified] label on the change.
+
+There are several solutions for integrating continuous integration
+systems. The most commonly used are:
+
+- link:https://wiki.jenkins-ci.org/display/JENKINS/Gerrit+Trigger[
+  Gerrit Trigger] plugin for link:http://jenkins-ci.org/[Jenkins]
+
+- link:http://www.mediawiki.org/wiki/Continuous_integration/Zuul[
+  Zuul] for link:http://jenkins-ci.org/[Jenkins]
+
+For the integration with the continuous integration system you must
+have a service user that is able to access Gerrit. To create a service
+user in Gerrit you can use the link:cmd-create-account.html[create-account]
+SSH command if the link:access-control.html#capability_createAccount[
+Create Account] global capability is granted. If not, you need to ask
+a Gerrit administrator to create the service user.
+
+If the link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/serviceuser[
+serviceuser] plugin is installed you can also create new service users
+in the Gerrit WebUI under `People` > `Create Service User`.
+
+The service user must have link:access-control.html#category_read[read]
+access to your project. In addition, if automatic change verification
+is enabled, the service user must be allowed to vote on the
+link:config-labels.html#label_Verified[Verified] label.
+
+Continuous integration systems usually integrate with Gerrit by
+listening to the Gerrit link:cmd-stream-events.html#events[stream
+events]. For this the service user must have the
+link:access-control.html#capability_streamEvents[Stream Events] global
+capability assigned.
+
+[[branch-administration]]
+== Branch Administration
+
+As project owner you can administrate the branches of your project in
+the Gerrit WebUI under `Projects` > `List` > <your project> >
+`Branches`. In the WebUI both link:project-setup.html#branch-creation[
+branch creation] and link:project-setup.html#branch-deletion[branch
+deletion] are allowed for project owners without requiring any
+additional access rights.
+
+By setting `HEAD` on the project you can define its
+link:project-setup.html#default-branch[default branch]. For convenience
+reasons, when the repository is cloned Git creates a local branch for
+this default branch and checks it out.
+
+[[notifications]]
+== Email Notifications
+
+With Gerrit individual users control their own email subscriptions. By
+editing the link:user-notify.html#user[watched projects] in the WebUI
+under `Settings` > `Watched Projects` users can decide which events to
+be informed about by email. The change notifications can be filtered by
+link:user-search.html[change search expressions].
+
+This means as a project owner you normally don't need to do anything
+about email notifications, except maybe telling your project team where
+to configure the watches.
+
+Gerrit also supports link:user-notify.html#project[notifications on
+project level] that allow project owners to set up email notifications
+for team mailing lists or groups of users. This configuration is done
+in the `project.config` file in the `refs/meta/config` branch as
+explained in the section about link:user-notify.html#project[project
+level notifications].
+
+[[dashboards]]
+== Dashboards
+
+Gerrit comes with a pre-defined user dashboard that provides a view
+of the changes that are relevant for a user. Users can also define
+their own link:user-dashboards.html[custom dashboards] where the
+dashboard sections can be freely configured. As a project owner you can
+configure such custom dashboards on
+link:user-dashboards.html#project-dashboards[project level]. This way
+you can define a view of the changes that are relevant for your
+project and share this dashboard with all users. The project dashboards
+can be seen in the WebUI under `Projects` > `List` > <your project> >
+`Dashboards`.
+
+[[issue-tracker-integration]]
+== Issue Tracker Integration
+
+There are several possibilities to integrate issue trackers with
+Gerrit.
+
+- Comment Links
++
+As described in the link#comment-links[Comment Links] section, comment
+links can be used to link IDs from commit message footers to issues in
+an issue tracker system.
+
+- Tracking IDs
++
+Gerrit can be configured to index IDs from commit message footers so
+that the link:user-search.html#tr[tr/bug] search operators can be used
+to query for changes with a certain ID. The
+link:config-gerrit.html#trackingid[configuration of tracking IDs] can
+only be done globally by a Gerrit administrator.
+
+- Issue Tracker System Plugins
++
+There are Gerrit plugins for a tight integration with
+link:https://gerrit-review.googlesource.com/\#/admin/projects/plugins/its-jira[Jira],
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/its-bugzilla[Bugzilla] and
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/its-rtc[IBM Rational Team Concert].
+If installed, these plugins can e.g. be used to automatically add links
+to Gerrit changes to the issues in the issue tracker system or to
+automatically close an issue if the corresponding change is merged.
+If installed, project owners may enable/disable the issue tracker
+integration from the Gerrit WebUI under `Projects` > `Lists` >
+<your project> > `General`.
+
+[[comment-links]]
+== Comment Links
+
+Gerrit can linkify strings in commit messages, summary comments and
+inline comments. A string that matches a defined regular expression is
+then displayed as hyperlink to a configured backend system.
+
+So called comment links can be configured globally by a Gerrit
+administrator, but also per project by the project owner. Comment links
+on project level are defined in the `project.config` file in the
+`refs/meta/config` branch of the project as described in the
+documentation of the link:config-gerrit.html#commentlink[commentlink]
+configuration parameter.
+
+Often comment links are used to link an ID in a commit message footer
+to an issue in an issue tracker system. For example, to link the ID
+from the `Bug` footer to Jira the following configuration can be used:
+
+====
+  [commentlink "myjira"]
+    match = ([Bb][Uu][Gg]:\\s+)(\\S+)
+    link =  https://myjira/browse/$2
+====
+
+[[download-commands]]
+== Download Commands
+
+On the change screen in the `Downloads` drop-down panel Gerrit offers
+commands for downloading the currently viewed patch set.
+
+The download commands are implemented by Gerrit plugins. This means
+that the available download commands depend on the installed Gerrit
+plugins:
+
+- link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/download-commands[
+  download-commands] plugin:
++
+The `download-commands` plugin provides the default download commands
+(`Checkout`, `Cherry Pick`, `Format Patch` and `Pull`).
++
+Gerrit administrators may configure which of the commands are shown on
+the change screen.
+
+- link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/egit[
+  egit] plugin:
++
+The `egit` plugin provides the change ref as a download command, which is
+needed for downloading a change from within
+link:https://www.eclipse.org/egit/[EGit].
+
+- link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/project-download-commands[
+  project-download-commands] plugin:
++
+The `project-download-commands` plugin enables project owners to
+configure project-specific download commands. For example, a
+project-specific download command may update submodules, trigger a
+build, execute the tests or even do a deployment.
++
+The project-specific download commands must be configured in the
+`project.config` file in the `refs/meta/config` branch of the project:
++
+====
+  [plugin "project-download-commands"]
+    Build = git fetch ${url} ${ref} && git checkout FETCH_HEAD && buck build ${project}
+    Update = git fetch ${url} ${ref} && git checkout FETCH_HEAD && git submodule update
+====
++
+Project-specific download commands that are defined on a parent project
+are inherited by the child projects. A child project can overwrite an
+inherited download command, or remove it by assigning no value to it.
+
+[[tool-integration]]
+== Integration with other tools
+
+Gerrit provides many possibilities for the integration with other
+tools:
+
+- Stream Events:
++
+The link:cmd-stream-events.html[stream-events] SSH command allows to
+listen to Gerrit link:cmd-stream-events.html#events[events]. Other
+tools can use this to react on actions done in Gerrit.
++
+The link:access-control.html#capability_streamEvents[Stream Events]
+global capability is required for using the `stream-events` command.
+
+- REST API:
++
+Gerrit provides a rich link:rest-api.html[REST API] that other tools
+can use to query information from Gerrit and and to trigger actions in
+Gerrit.
+
+- Gerrit Plugins:
++
+The Gerrit functionality can be extended by plugins and there are many
+extension points, e.g. plugins can
++
+** link:dev-plugins.html#top-menu-extensions[add new menu entries]
+** link:dev-plugins.html#ui_extension[extend existing screens] and
+   link:dev-plugins.html#screen[add new screens]
+** link:config-validation.html[do validation], e.g. of new commits
+** add new REST endpoints and link:dev-plugins.html#ssh[SSH commands]
+
++
+How to develop a Gerrit plugin is described in the link:dev-plugins.html[
+Plugin Development] section.
 
 GERRIT
 ------

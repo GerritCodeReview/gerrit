@@ -22,8 +22,8 @@ import net.codemirror.lib.LineCharacter;
 class EditIterator {
   private final JsArrayString lines;
   private final int startLine;
-  private int currLineIndex;
-  private int currLineOffset;
+  private int line;
+  private int pos;
 
   EditIterator(JsArrayString lineArray, int start) {
     lines = lineArray;
@@ -31,27 +31,44 @@ class EditIterator {
   }
 
   LineCharacter advance(int numOfChar) {
-    while (currLineIndex < lines.length()) {
-      int lengthWithNewline =
-          lines.get(currLineIndex).length() - currLineOffset + 1;
-      if (numOfChar < lengthWithNewline) {
+    numOfChar = adjustForNegativeDelta(numOfChar);
+
+    while (line < lines.length()) {
+      int len = lines.get(line).length() - pos + 1; // + 1 for LF
+      if (numOfChar < len) {
         LineCharacter at = LineCharacter.create(
-            startLine + currLineIndex,
-            numOfChar + currLineOffset);
-        currLineOffset += numOfChar;
+            startLine + line,
+            numOfChar + pos);
+        pos += numOfChar;
         return at;
       }
-      numOfChar -= lengthWithNewline;
-      advanceLine();
+
+      numOfChar -= len;
+      line++;
+      pos = 0;
+
       if (numOfChar == 0) {
-        return LineCharacter.create(startLine + currLineIndex, 0);
+        return LineCharacter.create(startLine + line, 0);
       }
     }
-    throw new IllegalStateException("EditIterator index out of bound");
+
+    throw new IllegalStateException("EditIterator index out of bounds");
   }
 
-  private void advanceLine() {
-    currLineIndex++;
-    currLineOffset = 0;
+  private int adjustForNegativeDelta(int n) {
+    while (n < 0) {
+      if (-n <= pos) {
+        pos += n;
+        return 0;
+      }
+
+      n += pos;
+      line--;
+      if (line < 0) {
+        throw new IllegalStateException("EditIterator index out of bounds");
+      }
+      pos = lines.get(line).length() + 1;
+    }
+    return n;
   }
 }

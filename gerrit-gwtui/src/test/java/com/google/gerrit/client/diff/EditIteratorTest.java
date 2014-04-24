@@ -45,6 +45,13 @@ public class EditIteratorTest extends GwtTest {
   }
 
   @Test
+  public void testNegativeAdvance() {
+    EditIterator i = new EditIterator(lines, 0);
+    assertLineChsEqual(LineCharacter.create(1, 1), i.advance(5));
+    assertLineChsEqual(LineCharacter.create(0, 3), i.advance(-2));
+  }
+
+  @Test
   public void testNoAdvance() {
     EditIterator iter = new EditIterator(lines, 0);
     assertLineChsEqual(LineCharacter.create(0), iter.advance(0));

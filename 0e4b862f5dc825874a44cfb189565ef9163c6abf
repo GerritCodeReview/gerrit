@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "45d5cffe_60cbf285",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-04-24T14:32:23Z",
+      "side": 1,
+      "message": "Is this really a per user setting? Since this is persisted in the project.config file I assume it\u0027s rather only project owners who can configure this?",
+      "range": {
+        "startLine": 9,
+        "startChar": 12,
+        "endLine": 9,
+        "endChar": 24
+      },
+      "revId": "0e4b862f5dc825874a44cfb189565ef9163c6abf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

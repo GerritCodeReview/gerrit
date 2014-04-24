@@ -22,6 +22,30 @@
       "revId": "69c93d896750a2f68b83f0242fe230e2c139eb7b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "058d9744_2e03a72e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/UniversalServerPluginProvider.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-04-24T22:05:14Z",
+      "side": 1,
+      "message": "You mean two ServerPlugin providers trying to load the same source file ? That would be an error condition IMHO.\nA single file is either a Scala or Groovy script ... cannot be both !\n\nYour example is more a composite case: a directory containing both JS files and Scala scripts. Valid case and could be supported with the concept of \"composite Server side plugin\" ... but another change IMHO.\n\nIt could be resolved as well from the provider side, by combining the Scala provider with something else.\n\nGood idea, but just not this change. The code highlighted does not forbid that \"composite provider\" to be developed anyway in the future.",
+      "parentUuid": "45d5cffe_607db28e",
+      "range": {
+        "startLine": 48,
+        "startChar": 6,
+        "endLine": 50,
+        "endChar": 7
+      },
+      "revId": "69c93d896750a2f68b83f0242fe230e2c139eb7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "45d5cffe_a086da50",
+        "filename": "Documentation/intro-project-owner.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 533,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-04-24T12:21:45Z",
+      "side": 1,
+      "message": "This part depends on\n  https://gerrit-review.googlesource.com/56346",
+      "range": {
+        "startLine": 530,
+        "startChar": 44,
+        "endLine": 533,
+        "endChar": 36
+      },
+      "revId": "7228b873d02d1ed34abb3aa0061e3c5ce10af60e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

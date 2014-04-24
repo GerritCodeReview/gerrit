@@ -46,6 +46,30 @@
       "revId": "0045f45bdb713c2cbfc151c8473c8b382eb90a3b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e5db2337_dd390bf0",
+        "filename": "Documentation/intro-project-owner.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 673,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-24T13:08:07Z",
+      "side": 1,
+      "message": "Thanks, much better now.",
+      "parentUuid": "45d5cffe_6054d2fe",
+      "range": {
+        "startLine": 672,
+        "startChar": 27,
+        "endLine": 673,
+        "endChar": 48
+      },
+      "revId": "0045f45bdb713c2cbfc151c8473c8b382eb90a3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

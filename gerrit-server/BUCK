@@ -48,9 +48,10 @@ java_library2(
     '//lib/joda:joda-time',
     '//lib/log:api',
     '//lib/prolog:prolog-cafe',
+    '//lib/bouncycastle:bcprov',
+    '//lib/bouncycastle:bcpkix',
   ],
   compile_deps = [
-    '//lib/bouncycastle:bcprov',
     '//lib/bouncycastle:bcpg',
   ],
   visibility = ['PUBLIC'],

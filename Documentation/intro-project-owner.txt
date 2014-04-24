@@ -583,6 +583,111 @@ extension points, e.g. plugins can
 How to develop a Gerrit plugin is described in the link:dev-plugins.html[
 Plugin Development] section.
 
+[[prject-lifecycle]]
+== Project Lifecycle
+
+[[project-creation]]
+=== Project Creation
+
+New projects can be created in the Gerrit WebUI under `Projects` >
+`Create Project`. The `Create Project` menu entry is only available if
+you are having the link:access-control.html#capability_createProject[
+Create Project] global capability assigned.
+
+Projects can also be created via REST or SSH as described in the
+link:project-setup.html#project-creation[Project Setup] section.
+
+Creating the project with an initial empty commit is genrally
+recommended because some tools have issues with cloning repositories
+that are completely empty. However, if you plan to link:#import-history[
+import an existing history] into the new project, it is better to
+create the project without initial empty commit.
+
+[[import-history]]
+=== Import Existing History
+
+If you are having an existing history you can import it into a Gerrit
+project. To do this you need to have a local Git repository that
+contains this history. If your existing codebase is in another VCS you
+must migrate it to Git first. For Subversion you can use the
+link:http://git-scm.com/book/en/Git-and-Other-Systems-Git-and-Subversion[
+git svn] command as described in the
+link:http://git-scm.com/book/en/Git-and-Other-Systems-Migrating-to-Git#Subversion[
+Subversion migration guide]. An importer for Perforce is available in
+the `contrib` section of the Git source code; how to use
+link:http://git-scm.com/docs/git-p4[git p4] to do the import from
+Perforce is described in the
+link:http://git-scm.com/book/en/Git-and-Other-Systems-Migrating-to-Git#Perforce[
+Perforce migration guide].
+
+To import an existing history into a Gerrit project you bypass code
+review and push it directly to `refs/heads/<branch>`. For this you must
+have the corresponding link:access-control.html#category_push_direct[
+Push] access right assigned. If the destination branch in the Gerrit
+repository contains already a history (e.g. an initial empty commit),
+you can overwrite it by doing a force push. In this case force push
+must be allowed in the access controls of the project.
+
+Some Gerrit servers may disallow to forge committers by blocking the
+link:access-control.html#category_forge_committer[Forge Committer]
+access right globally. In this case you must use the
+link:https://www.kernel.org/pub/software/scm/git/docs/git-filter-branch.html[
+git filter-branch] command to rewrite the committer information for all
+commits (the author information that records who was writing the code
+stays intact; signed tags will loose their signature):
+
+====
+  $ git filter-branch --tag-name-filter cat --env-filter 'GIT_COMMITTER_NAME="John Doe"; GIT_COMMITTER_EMAIL="john.doe@example.com";' -- --all
+====
+
+If a link:config-gerrit.html#receive.maxObjectSizeLimit[max object size
+limit] is configured on the server you may need to remove large objects
+from the history before you are able to push. To find large objects in
+the history of your project you can use the
+link:https://gerrit.googlesource.com/gerrit/+/master/contrib/reposize.sh[
+reposize.sh] script from Gerrit's `contrib` folder. You can then use the
+link:https://www.kernel.org/pub/software/scm/git/docs/git-filter-branch.html[
+git filter-branch] command to remove the large objects from the history
+of all branches:
+
+====
+  $ git filter-branch -f --index-filter 'git rm --cached --ignore-unmatch path/to/large-file.jar' -- --all
+====
+
+Since this command rewrites all commits in the repository it's a good
+idea to create a fresh clone from this rewritten repository before
+pushing to Gerrit, this will ensure that the original objects which all
+have been rewritten are removed.
+
+[[project-deletion]]
+=== Project Deletion
+
+Gerrit core does not support the deletion of projects.
+
+If the link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/delete-project[
+delete-project] plugin is installed, projects can be deleted from the
+Gerrit WebUI under `Projects` > `List` > <project> > `General` by
+clicking under `Project Commands` on the `Delete` command. The `Delete`
+command is only available for users that have the `Delete Projects`
+global capability assigned. Likely this capability is not granted to
+everyone so that you may need to contact a Gerrit administrator to
+request the deletion of your project.
+
+Instead of deleting a project you may set the
+link:project-setup.html#project-state[project state] to `ReadOnly` or
+`Hidden`.
+
+[[project-rename]]
+=== Project Rename
+
+Gerrit core does not support the renaming of projects.
+
+As workaround you may
+
+. link:#project-creation[create a new project] with the new name
+. link:#import-history[import the history of the old project]
+. link:#project-deletion[delete the old project]
+
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

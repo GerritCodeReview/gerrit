@@ -1,5 +1,6 @@
 = Gerrit Code Review - Project Configuration
 
+[[project-creation]]
 == Project Creation
 
 There are several ways to create a new project in Gerrit:
@@ -116,6 +117,7 @@ the same file has also been changed on the other side of the merge.
 If `Automatically resolve conflicts` is enabled, Gerrit will try
 to do a content merge when a path conflict occurs.
 
+[[project-state]]
 === State
 
 This setting defines the state of the project. A project can have the

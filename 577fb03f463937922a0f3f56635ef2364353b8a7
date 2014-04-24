@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "45522f52_b8e0b9e2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-04-24T00:04:54Z",
+      "side": 1,
+      "message": "Mention that the message box is now cleared when cancel is pressed?",
+      "revId": "577fb03f463937922a0f3f56635ef2364353b8a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

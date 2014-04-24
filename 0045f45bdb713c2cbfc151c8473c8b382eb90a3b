@@ -22,6 +22,30 @@
       "revId": "0045f45bdb713c2cbfc151c8473c8b382eb90a3b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45d5cffe_6054d2fe",
+        "filename": "Documentation/intro-project-owner.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 673,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-04-24T12:50:15Z",
+      "side": 1,
+      "message": "I\u0027ve tried to improve it with the new patch set.",
+      "parentUuid": "e5db2337_9d3f83d5",
+      "range": {
+        "startLine": 672,
+        "startChar": 27,
+        "endLine": 673,
+        "endChar": 48
+      },
+      "revId": "0045f45bdb713c2cbfc151c8473c8b382eb90a3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

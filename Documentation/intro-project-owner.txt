@@ -500,6 +500,38 @@ from the `Bug` footer to Jira the following configuration can be used:
     link =  https://myjira/browse/$2
 ====
 
+[[reviewers]]
+== Reviewers
+
+Normally it is not needed to explicitely assign reviewers to every
+change since the project members either link:user-notify.html#user[
+watch the project] and get notified by email or regularly check the
+list of open changes in the Gerrit WebUI. The project members then
+pick the changes themselves that are interesting to them for review.
+
+If authors of changes want to have a review of a particular person
+(e.g. someone who is known to be expert in the touched code area, or a
+stakeholder for the implemented feature), they can request the review
+by adding this person in the Gerrit WebUI as a reviewer on the change.
+Gerrit will then notify this person by email about the review request.
+
+With the link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/reviewers[
+reviewers] plugin it is possible to configure default reviewers which
+will be automatically added to each change. The default reviewers can
+be configured in the Gerrit WebUI under `Projects` > `List` >
+<your project> > `General` in the `reviewers Plugin` section.
+
+The link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/reviewers-by-blame[
+reviewers-by-blame] plugin can automatically add reviewers to changes
+based on the link:https://www.kernel.org/pub/software/scm/git/docs/git-blame.html[
+git blame] computation on the changed files. This means that the plugin
+will add those users as reviewer that authored most of the lines
+touched by the change, since these users should be familiar with the
+code and can most likely review the change. How many reviewers the
+plugin will add to a change at most can be configured in the Gerrit
+WebUI under `Projects` > `List` > <your project> > `General` in the
+`reviewers-by-blame Plugin` section.
+
 [[download-commands]]
 == Download Commands
 

@@ -669,9 +669,10 @@ delete-project] plugin is installed, projects can be deleted from the
 Gerrit WebUI under `Projects` > `List` > <project> > `General` by
 clicking under `Project Commands` on the `Delete` command. The `Delete`
 command is only available for users that have the `Delete Projects`
-global capability assigned. Likely this capability is not granted to
-everyone so that you may need to contact a Gerrit administrator to
-request the deletion of your project.
+global capability assigned and for project owners that have the
+`Delete Own Projects` global capability assigned. If these capabilities
+are not granted you need to contact a Gerrit administrator to request
+the deletion of your project.
 
 Instead of deleting a project you may set the
 link:project-setup.html#project-state[project state] to `ReadOnly` or

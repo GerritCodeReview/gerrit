@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "45d5cffe_80e6364e",
+        "filename": "lib/bouncycastle/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-04-24T06:57:34Z",
+      "side": 1,
+      "message": "not depends on bcprov , please see http://central.maven.org/maven2/org/bouncycastle/bcprov-ext-jdk15on/1.49/bcprov-ext-jdk15on-1.49.pom",
+      "revId": "c34d3607badd7626b37ce65d8e8d808b81cd0d58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

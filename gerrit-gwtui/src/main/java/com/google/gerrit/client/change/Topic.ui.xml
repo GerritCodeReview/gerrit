@@ -32,7 +32,7 @@ limitations under the License.
       <g:Image ui:field='editIcon'
           resource='{ico.edit}'
           styleName='{style.edit}'
-          title='Click to edit topic (Shortcut: t)'/>
+          title='Edit topic (Shortcut: t)'/>
     </div>
 
     <div ui:field='form' style='display: none' aria-hidden='true'>

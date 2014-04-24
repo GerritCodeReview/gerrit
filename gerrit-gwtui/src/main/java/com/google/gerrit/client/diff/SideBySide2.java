@@ -404,6 +404,9 @@ public class SideBySide2 extends Screen {
 
     keysNavigation.add(new UpToChangeCommand2(revision, 0, 'u'));
     keysNavigation.add(
+        new NoOpKeyCommand(KeyCommand.M_SHIFT, KeyCodes.KEY_LEFT, PatchUtil.C.focusSideA()),
+        new NoOpKeyCommand(KeyCommand.M_SHIFT, KeyCodes.KEY_RIGHT, PatchUtil.C.focusSideB()));
+    keysNavigation.add(
         new NoOpKeyCommand(0, 'j', PatchUtil.C.lineNext()),
         new NoOpKeyCommand(0, 'k', PatchUtil.C.linePrev()));
     keysNavigation.add(

@@ -22,6 +22,30 @@
       "revId": "865fb6cd9174a0ed82b18f3fe59cd812ef8fa6fe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45d5cffe_60293278",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ServerPluginProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-04-24T22:08:02Z",
+      "side": 1,
+      "message": "Honestly some of them are redundant and could be avoided (i.e. the name parameter: as you have the srcFile the plugin provider can easily get the name back).\n\nBear in mind that this \u0027get\u0027 is like a Provider.get() in Guice and it is not unusual to have to inject multiple objects into a provider. (Gerrit has many of them with lots of objects injected)",
+      "parentUuid": "e5db2337_fd1fa774",
+      "range": {
+        "startLine": 59,
+        "startChar": 19,
+        "endLine": 60,
+        "endChar": 77
+      },
+      "revId": "865fb6cd9174a0ed82b18f3fe59cd812ef8fa6fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

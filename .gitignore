@@ -16,3 +16,9 @@
 /local.properties
 *.pyc
 /gwt-unitCache
+target
+*.class
+.classpath
+*.prefs
+.project
+*.swp

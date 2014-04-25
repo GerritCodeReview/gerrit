@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "05abd79e_1e37cdfa",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ReplyBox.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-04-25T15:55:04Z",
+      "side": 1,
+      "message": "Do not compare Short vs Short with \u003d\u003d. The old code reads ambiguous but I think it was implemented as unboxing the Short before comparing as primitives. Short is a reference type and might not be equal.",
+      "range": {
+        "startLine": 355,
+        "startChar": 68,
+        "endLine": 355,
+        "endChar": 75
+      },
+      "revId": "66a8e0df93ef078f2334ae7a03be8d45cc9c82e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

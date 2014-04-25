@@ -62,7 +62,7 @@ import java.io.UnsupportedEncodingException;
 /**
  * Utility functions to manipulate revision edits.
  * <p>
- * This class contains methods to retrieve and publish edits.
+ * This class contains methods to retrieve, publish and delete edits.
  */
 @Singleton
 public class RevisionEditUtil {
@@ -157,6 +157,26 @@ public class RevisionEditUtil {
         rw.release();
       }
 
+      deleteRef(repo, edit);
+    } finally {
+      repo.close();
+    }
+  }
+
+  /**
+   * Delete revision edit.
+   * <p>
+   * @param edit revision edit to delete
+   * @throws AuthException
+   * @throws NoSuchChangeException
+   * @throws IOException
+   * @throws OrmException
+   */
+  public void delete(RevisionEdit edit)
+      throws AuthException, NoSuchChangeException, IOException, OrmException {
+    Change change = edit.getChange();
+    Repository repo = gitManager.openRepository(change.getProject());
+    try {
       deleteRef(repo, edit);
     } finally {
       repo.close();

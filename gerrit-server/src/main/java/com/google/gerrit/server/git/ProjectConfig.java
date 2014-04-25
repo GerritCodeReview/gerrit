@@ -43,9 +43,9 @@ import com.google.gerrit.extensions.api.projects.ProjectState;
 import com.google.gerrit.extensions.common.InheritableBoolean;
 import com.google.gerrit.extensions.common.SubmitType;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.PluginConfig;
@@ -155,6 +155,7 @@ public class ProjectConfig extends VersionedMetaData {
   private Map<String, ContributorAgreement> contributorAgreements;
   private Map<String, NotifyConfig> notifySections;
   private Map<String, LabelType> labelSections;
+  private ConfiguredMimeTypes mimeTypes;
   private List<CommentLinkInfo> commentLinkSections;
   private List<ValidationError> validationErrors;
   private ObjectId rulesId;
@@ -301,6 +302,10 @@ public class ProjectConfig extends VersionedMetaData {
     return commentLinkSections;
   }
 
+  public ConfiguredMimeTypes getMimeTypes() {
+    return mimeTypes;
+  }
+
   public GroupReference resolve(AccountGroup group) {
     return resolve(GroupReference.forGroup(group));
   }
@@ -418,6 +423,7 @@ public class ProjectConfig extends VersionedMetaData {
     loadNotifySections(rc, groupsByName);
     loadLabelSections(rc);
     loadCommentLinkSections(rc);
+    mimeTypes = new ConfiguredMimeTypes(projectName.get(), rc);
     loadPluginSections(rc);
     loadReceiveSection(rc);
   }

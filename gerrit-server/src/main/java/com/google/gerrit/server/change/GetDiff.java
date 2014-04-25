@@ -33,9 +33,11 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.reviewdb.client.Patch.ChangeType;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.server.git.LargeObjectException;
 import com.google.gerrit.server.patch.PatchScriptFactory;
 import com.google.gerrit.server.project.NoSuchChangeException;
-import com.google.gerrit.server.git.LargeObjectException;
+import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -55,6 +57,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class GetDiff implements RestReadView<FileResource> {
+  private final ProjectCache projectCache;
   private final PatchScriptFactory.Factory patchScriptFactoryFactory;
   private final Provider<Revisions> revisions;
 
@@ -71,8 +74,10 @@ public class GetDiff implements RestReadView<FileResource> {
   boolean intraline;
 
   @Inject
-  GetDiff(PatchScriptFactory.Factory patchScriptFactoryFactory,
+  GetDiff(ProjectCache projectCache,
+      PatchScriptFactory.Factory patchScriptFactoryFactory,
       Provider<Revisions> revisions) {
+    this.projectCache = projectCache;
     this.patchScriptFactoryFactory = patchScriptFactoryFactory;
     this.revisions = revisions;
   }
@@ -127,18 +132,21 @@ public class GetDiff implements RestReadView<FileResource> {
       }
       content.addCommon(ps.getA().size());
 
+      ProjectState state =
+          projectCache.get(resource.getRevision().getChange().getProject());
+
       Result result = new Result();
       if (ps.getDisplayMethodA() != DisplayMethod.NONE) {
         result.metaA = new FileMeta();
         result.metaA.name = Objects.firstNonNull(ps.getOldName(), ps.getNewName());
-        result.metaA.setContentType(ps.getFileModeA(), ps.getMimeTypeA());
+        setContentType(result.metaA, state, ps.getFileModeA(), ps.getMimeTypeA());
         result.metaA.lines = ps.getA().size();
       }
 
       if (ps.getDisplayMethodB() != DisplayMethod.NONE) {
         result.metaB = new FileMeta();
         result.metaB.name = ps.getNewName();
-        result.metaB.setContentType(ps.getFileModeB(), ps.getMimeTypeB());
+        setContentType(result.metaB, state, ps.getFileModeB(), ps.getMimeTypeB());
         result.metaB.lines = ps.getB().size();
       }
 
@@ -182,21 +190,31 @@ public class GetDiff implements RestReadView<FileResource> {
     String name;
     String contentType;
     Integer lines;
+  }
 
-    void setContentType(FileMode fileMode, String mimeType) {
-      switch (fileMode) {
-        case FILE:
-          contentType = mimeType;
-          break;
-        case GITLINK:
-          contentType = "x-git/gitlink";
-          break;
-        case SYMLINK:
-          contentType = "x-git/symlink";
-          break;
-        default:
-          throw new IllegalStateException("file mode: " + fileMode);
-      }
+  private void setContentType(FileMeta meta, ProjectState project,
+      FileMode fileMode, String mimeType) {
+    switch (fileMode) {
+      case FILE:
+        if (project != null) {
+          for (ProjectState p : project.tree()) {
+            String t = p.getConfig().getMimeTypes().getMimeType(meta.name);
+            if (t != null) {
+              mimeType = t;
+              break;
+            }
+          }
+        }
+        meta.contentType = mimeType;
+        break;
+      case GITLINK:
+        meta.contentType = "x-git/gitlink";
+        break;
+      case SYMLINK:
+        meta.contentType = "x-git/symlink";
+        break;
+      default:
+        throw new IllegalStateException("file mode: " + fileMode);
     }
   }
 

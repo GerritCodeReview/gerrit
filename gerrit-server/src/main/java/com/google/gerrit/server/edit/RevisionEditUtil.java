@@ -63,7 +63,7 @@ import java.io.UnsupportedEncodingException;
 /**
  * Utility functions to manipulate revision edits.
  * <p>
- * This class contains methods to retrieve and publish edits.
+ * This class contains methods to retrieve, publish and delete edits.
  */
 @Singleton
 public class RevisionEditUtil {
@@ -191,6 +191,44 @@ public class RevisionEditUtil {
       for (ReceiveCommand cmd : ru.getCommands()) {
         if (cmd.getResult() != ReceiveCommand.Result.OK) {
           throw new IOException("failed to update: " + cmd);
+        }
+      }
+    } finally {
+      repo.close();
+    }
+  }
+
+  /**
+   * Delete revision edit.
+   * <p>
+   * @param edit revision edit to delete
+   * @throws AuthException
+   * @throws NoSuchChangeException
+   * @throws IOException
+   * @throws OrmException
+   */
+  public void delete(RevisionEdit edit)
+      throws AuthException, NoSuchChangeException, IOException, OrmException {
+    Change change = edit.getChange();
+    Repository repo = gitManager.openRepository(change.getProject());
+    try {
+      RevWalk rw = new RevWalk(repo);
+      BatchRefUpdate ru = repo.getRefDatabase().newBatchUpdate();
+      try {
+        RevCommit commit = rw.parseCommit(edit.getRef().getObjectId());
+        if (commit == null) {
+          throw new NoSuchChangeException(change.getId());
+        }
+
+        ru.addCommand(new ReceiveCommand(commit, ObjectId.zeroId(),
+            edit.getRefName()));
+        ru.execute(rw, NullProgressMonitor.INSTANCE);
+      } finally {
+        rw.release();
+      }
+      for (ReceiveCommand cmd : ru.getCommands()) {
+        if (cmd.getResult() != ReceiveCommand.Result.OK) {
+          throw new IOException("failed to delete: " + cmd);
         }
       }
     } finally {

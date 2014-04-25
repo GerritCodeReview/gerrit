@@ -41,16 +41,16 @@ public class DeleteBranch implements RestModifyView<BranchResource, Input>{
   static class Input {
   }
 
-  private final IdentifiedUser identifiedUser;
+  private final Provider<IdentifiedUser> identifiedUser;
   private final GitRepositoryManager repoManager;
   private final Provider<ReviewDb> dbProvider;
   private final GitReferenceUpdated referenceUpdated;
   private final ChangeHooks hooks;
 
   @Inject
-  DeleteBranch(IdentifiedUser identifiedUser, GitRepositoryManager repoManager,
-      Provider<ReviewDb> dbProvider, GitReferenceUpdated referenceUpdated,
-      ChangeHooks hooks) {
+  DeleteBranch(Provider<IdentifiedUser> identifiedUser,
+      GitRepositoryManager repoManager, Provider<ReviewDb> dbProvider,
+      GitReferenceUpdated referenceUpdated, ChangeHooks hooks) {
     this.identifiedUser = identifiedUser;
     this.repoManager = repoManager;
     this.dbProvider = dbProvider;
@@ -89,7 +89,7 @@ public class DeleteBranch implements RestModifyView<BranchResource, Input>{
         case FAST_FORWARD:
         case FORCED:
           referenceUpdated.fire(rsrc.getNameKey(), u);
-          hooks.doRefUpdatedHook(rsrc.getBranchKey(), u, identifiedUser.getAccount());
+          hooks.doRefUpdatedHook(rsrc.getBranchKey(), u, identifiedUser.get().getAccount());
           break;
 
         case REJECTED_CURRENT_BRANCH:

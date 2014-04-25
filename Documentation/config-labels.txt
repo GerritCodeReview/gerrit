@@ -169,6 +169,20 @@ text"`. The `<#>` may be any positive or negative number with an
 optional leading `+`.
 
 
+[[label_defaultValue]]
+=== `label.Label-Name.defaultValue`
+
+The default value (or score) for the label.  The defaultValue must be
+within the range of valid label values.  It is an optional label setting,
+if not defined the defaultValue for the label will be 0.  When a
+defaultValue is defined, that value will get set in the Reply dialog
+by default.
+
+A defaultValue can be set to a score that is outside of the permissible
+range for a user.  In that case the score that will get set in the Reply
+box will be either the lowest or highest score in the permissible range.
+
+
 [[label_abbreviation]]
 === `label.Label-Name.abbreviation`
 
@@ -296,6 +310,32 @@ but has different names/labels:
 The new column will appear at the end of the table, and `-1 Do not have
 copyright` will block submit, while `+1 Copyright clear` is required to
 enable submit.
+
+=== Default Value Example
+
+This example attempts to describe how a label default value works with the
+user permissions.  Assume the configuration below.
+
+====
+  [access "refs/heads/*"]
+      label-Snarky-Review = -3..+3 group Administrators
+      label-Snarky-Review = -2..+2 group Project Owners
+      label-Snarky-Review = -1..+1 group Registered Users
+  [label "Snarky-Review"]
+      value = -3 Ohh, hell no!
+      value = -2 Hmm, I'm not a fan
+      value = -1 I'm not sure I like this
+      value =  0 No score
+      value = +1 I like, but need another to like it as well
+      value = +2 Hmm, this is pretty nice
+      value = +3 Ohh, hell yes!
+      defaultValue = -3
+====
+
+Upon clicking the Reply button:
+* Administrators have all scores (-3..+3) available, -3 is set as the default.
+* Project Owners have limited scores (-2..+2) available, -2 is set as the default.
+* Registered Users have limited scores (-1..+1) available, -1 is set as the default.
 
 GERRIT
 ------

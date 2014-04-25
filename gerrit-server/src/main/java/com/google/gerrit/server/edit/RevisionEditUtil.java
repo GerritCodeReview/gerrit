@@ -17,36 +17,76 @@ package com.google.gerrit.server.edit;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.reviewdb.client.RevId;
+import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.MergeUtil;
+import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.InvalidChangeOperationException;
+import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.util.TimeUtil;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.BatchRefUpdate;
+import org.eclipse.jgit.lib.CommitBuilder;
+import org.eclipse.jgit.lib.NullProgressMonitor;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.merge.MergeStrategy;
+import org.eclipse.jgit.merge.ThreeWayMerger;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.transport.ReceiveCommand;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 /**
  * Utility functions to manipulate revision edits.
  * <p>
- * This class contains method to retrieve edits.
+ * This class contains methods to retrieve and publish edits.
  */
 @Singleton
 public class RevisionEditUtil {
 
   private final GitRepositoryManager gitManager;
+  private final PatchSetInserter.Factory patchSetInserterFactory;
+  private final ChangeControl.GenericFactory changeControlFactory;
+  private final PersonIdent myIdent;
+  private final Provider<ReviewDb> db;
   private final Provider<IdentifiedUser> user;
 
   @Inject
   public RevisionEditUtil(GitRepositoryManager gitManager,
+      PatchSetInserter.Factory patchSetInserterFactory,
+      ChangeControl.GenericFactory changeControlFactory,
+      @GerritPersonIdent PersonIdent myIdent,
+      Provider<ReviewDb> db,
       Provider<IdentifiedUser> user) {
     this.gitManager = gitManager;
+    this.patchSetInserterFactory = patchSetInserterFactory;
+    this.changeControlFactory = changeControlFactory;
+    this.myIdent = myIdent;
+    this.db = db;
     this.user = user;
   }
 
@@ -80,6 +120,85 @@ public class RevisionEditUtil {
   }
 
   /**
+   * Promote revision edit to patch set, by squashing the edit into
+   * its parent.
+   * <p>
+   * @param edit revision edit to publish
+   * @throws AuthException
+   * @throws NoSuchChangeException
+   * @throws IOException
+   * @throws InvalidChangeOperationException
+   * @throws OrmException
+   * @throws ResourceConflictException
+   */
+  public void publish(RevisionEdit edit) throws AuthException,
+      NoSuchChangeException, IOException, InvalidChangeOperationException,
+      OrmException, ResourceConflictException {
+    Change change = edit.getChange();
+    Repository repo = gitManager.openRepository(change.getProject());
+    try {
+      RevWalk rw = new RevWalk(repo);
+      ObjectInserter inserter = repo.newObjectInserter();
+      BatchRefUpdate ru = repo.getRefDatabase().newBatchUpdate();
+      try {
+        RevCommit editCommit = rw.parseCommit(edit.getRef().getObjectId());
+        if (editCommit == null) {
+          throw new NoSuchChangeException(change.getId());
+        }
+
+        PatchSet basePatchSet = getBasePatchSet(edit, editCommit);
+        if (!basePatchSet.getId().equals(change.currentPatchSetId())) {
+          throw new ResourceConflictException(
+              "only edit for current patch set can be published");
+        }
+
+        ObjectId p = ObjectId.fromString(basePatchSet.getRevision().get());
+        RevCommit mergeTip = rw.parseCommit(p);
+        // Use MergeUtil to retrieve MergeStrategy from gerrit.config?
+        ThreeWayMerger m = MergeUtil.newThreeWayMerger(repo, inserter,
+            MergeStrategy.RECURSIVE.getName());
+        RevCommit squashed;
+        if (m.merge(new AnyObjectId[] {mergeTip, editCommit})) {
+          squashed = writeMergeCommit(myIdent, rw, inserter,
+              mergeTip, m.getResultTreeId(), editCommit);
+        } else {
+          throw new ResourceConflictException("cannot squash edit");
+        }
+
+        PatchSet ps = new PatchSet(new PatchSet.Id(change.getId(),
+            change.currentPatchSetId().get() + 1));
+        ps.setRevision(new RevId(ObjectId.toString(squashed)));
+        ps.setUploader(edit.getUser().getAccountId());
+        ps.setCreatedOn(TimeUtil.nowTs());
+
+        PatchSetInserter insr =
+            patchSetInserterFactory.create(repo, rw,
+                changeControlFactory.controlFor(change, edit.getUser()),
+                squashed);
+        insr.setPatchSet(ps)
+            .setMessage(
+                String.format("Patch Set %d: New edit was published",
+                    basePatchSet.getPatchSetId()))
+            .insert();
+
+        ru.addCommand(new ReceiveCommand(editCommit,
+            ObjectId.zeroId(), edit.getRefName()));
+        ru.execute(rw, NullProgressMonitor.INSTANCE);
+      } finally {
+        inserter.release();
+        rw.release();
+      }
+      for (ReceiveCommand cmd : ru.getCommands()) {
+        if (cmd.getResult() != ReceiveCommand.Result.OK) {
+          throw new IOException("failed to update: " + cmd);
+        }
+      }
+    } finally {
+      repo.close();
+    }
+  }
+
+  /**
    * Returns reference for this revision edit with sharded user and change number:
    * refs/users/UU/UUUU/edit-CCCC.
    * <p>
@@ -95,5 +214,44 @@ public class RevisionEditUtil {
     return String.format("%s/edit-%d",
         RefNames.refsUsers(accountId),
         changeId.get());
+  }
+
+  /**
+   * Retrieve base patch set the edit was created on.
+   * <p>
+   * @param edit revision edit to retrieve base patch set for
+   * @param commit revision edit commit
+   * @return parent patch set of the edit
+   * @throws OrmException
+   */
+  public PatchSet getBasePatchSet(RevisionEdit edit, RevCommit commit)
+      throws OrmException {
+      Preconditions.checkState(commit.getParentCount() == 1);
+      RevCommit parentCommit = commit.getParent(0);
+      RevId parentRev = new RevId(ObjectId.toString(parentCommit.getId()));
+      return Iterables.getOnlyElement(
+          db.get().patchSets().byRevision(parentRev).toList());
+  }
+
+  private RevCommit writeMergeCommit(PersonIdent myIdent2, RevWalk rw,
+      ObjectInserter inserter, RevCommit mergeTip, ObjectId treeId,
+      RevCommit editCommit) throws IOException,
+      MissingObjectException, IncorrectObjectTypeException {
+    CommitBuilder mergeCommit = new CommitBuilder();
+    mergeCommit.setTreeId(treeId);
+    mergeCommit.setParentIds(mergeTip.getParent(0));
+    mergeCommit.setAuthor(mergeTip.getAuthorIdent());
+    mergeCommit.setCommitter(myIdent);
+    mergeCommit.setMessage(mergeTip.getFullMessage());
+
+    return rw.parseCommit(commit(inserter, mergeCommit));
+  }
+
+  private ObjectId commit(final ObjectInserter inserter,
+      final CommitBuilder mergeCommit) throws IOException,
+      UnsupportedEncodingException {
+    ObjectId id = inserter.insert(mergeCommit);
+    inserter.flush();
+    return id;
   }
 }

@@ -52,7 +52,7 @@ import java.util.List;
 /**
  * Utility functions to manipulate change edits.
  * <p>
- * This class contains methods to retrieve and publish edits.
+ * This class contains methods to retrieve, publish and delete edits.
  */
 @Singleton
 public class ChangeEditUtil {
@@ -143,6 +143,23 @@ public class ChangeEditUtil {
       }
 
       // TODO(davido): This should happen in the same BatchRefUpdate.
+      deleteRef(repo, edit);
+    } finally {
+      repo.close();
+    }
+  }
+
+  /**
+   * Delete change edit.
+   *
+   * @param edit change edit to delete
+   * @throws IOException
+   */
+  public void delete(ChangeEdit edit)
+      throws IOException {
+    Change change = edit.getChange();
+    Repository repo = gitManager.openRepository(change.getProject());
+    try {
       deleteRef(repo, edit);
     } finally {
       repo.close();

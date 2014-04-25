@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e5a7a3cf_5d6b1bbf",
+        "filename": ".gitignore",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-04-25T17:25:26Z",
+      "side": 1,
+      "message": "Why do we need to ignore a Maven output directory name? We don\u0027t use Maven anymore.",
+      "revId": "11c029c6d90e41cd734ef37d37e086e8c266a31f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e5a7a3cf_3d684fc0",
+        "filename": ".gitignore",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-04-25T17:25:26Z",
+      "side": 1,
+      "message": "Where are there .class files outside of /buck-out?",
+      "revId": "11c029c6d90e41cd734ef37d37e086e8c266a31f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a5b12b0f_fbfd4fd9",
+        "filename": ".gitignore",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-04-25T17:25:26Z",
+      "side": 1,
+      "message": "Why is line 1 /.classpath not sufficient?",
+      "revId": "11c029c6d90e41cd734ef37d37e086e8c266a31f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "05abd79e_de7725ae",
+        "filename": ".gitignore",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-04-25T17:25:26Z",
+      "side": 1,
+      "message": "Why is line 2 /.project not sufficient?\n\nThe lines you are adding cover .classpath and .project any directory in the tree. I dont think we should have Eclipse metadata everywhere.",
+      "revId": "11c029c6d90e41cd734ef37d37e086e8c266a31f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "05abd79e_be7c5993",
+        "filename": ".gitignore",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-04-25T17:25:26Z",
+      "side": 1,
+      "message": "This is fine. I am surprised it took us this long to add it.",
+      "revId": "11c029c6d90e41cd734ef37d37e086e8c266a31f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

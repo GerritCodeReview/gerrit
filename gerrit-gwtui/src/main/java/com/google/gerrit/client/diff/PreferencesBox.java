@@ -114,6 +114,16 @@ class PreferencesBox extends Composite {
         if (prefs.context() == WHOLE_FILE_CONTEXT) {
           contextEntireFile.setValue(true);
         }
+        if (view.canEnableRenderEntireFile(prefs)) {
+          renderEntireFile.setEnabled(true);
+        } else {
+          if (prefs.renderEntireFile()) {
+            prefs.renderEntireFile(false);
+            renderEntireFile.setValue(false);
+            view.updateRenderEntireFile();
+          }
+          renderEntireFile.setEnabled(false);
+        }
         view.setContext(prefs.context());
       }
     };
@@ -133,6 +143,7 @@ class PreferencesBox extends Composite {
     manualReview.setValue(prefs.manualReview());
     expandAllComments.setValue(prefs.expandAllComments());
     renderEntireFile.setValue(prefs.renderEntireFile());
+    renderEntireFile.setEnabled(view.canEnableRenderEntireFile(prefs));
     setTheme(prefs.theme());
 
     switch (view.getIntraLineStatus()) {

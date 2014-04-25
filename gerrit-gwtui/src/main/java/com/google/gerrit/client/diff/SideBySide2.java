@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.diff;
 
+import static com.google.gerrit.reviewdb.client.AccountDiffPreference.WHOLE_FILE_CONTEXT;
 import static java.lang.Double.POSITIVE_INFINITY;
 
 import com.google.gerrit.client.Gerrit;
@@ -24,6 +25,7 @@ import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.ChangeInfo;
 import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
 import com.google.gerrit.client.changes.ChangeList;
+import com.google.gerrit.client.diff.DiffInfo.FileMeta;
 import com.google.gerrit.client.diff.LineMapper.LineOnOtherInfo;
 import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.projects.ConfigInfoCache;
@@ -83,6 +85,18 @@ public class SideBySide2 extends Screen {
   interface Binder extends UiBinder<FlowPanel, SideBySide2> {}
   private static final Binder uiBinder = GWT.create(Binder.class);
 
+  enum FileSize {
+    SMALL(0),
+    LARGE(500),
+    HUGE(4000);
+
+    final int lines;
+
+    FileSize(int n) {
+      this.lines = n;
+    }
+  }
+
   @UiField(provided = true)
   Header header;
 
@@ -103,7 +117,7 @@ public class SideBySide2 extends Screen {
   private Element columnMarginB;
   private HandlerRegistration resizeHandler;
   private DiffInfo diff;
-  private boolean largeFile;
+  private FileSize fileSize;
   private ChunkManager chunkManager;
   private CommentManager commentManager;
   private SkipManager skipManager;
@@ -163,8 +177,8 @@ public class SideBySide2 extends Screen {
         public void onSuccess(DiffInfo diffInfo) {
           diff = diffInfo;
           if (prefs.syntaxHighlighting()) {
-            largeFile = isLargeFile(diffInfo);
-            if (largeFile) {
+            fileSize = bucketFileSize(diffInfo);
+            if (fileSize.compareTo(FileSize.SMALL) > 0) {
               modeInjectorCb.onSuccess(null);
             } else {
               injectMode(diffInfo, modeInjectorCb);
@@ -505,6 +519,11 @@ public class SideBySide2 extends Screen {
     cmA.getMoverElement().appendChild(columnMarginA);
     cmB.getMoverElement().appendChild(columnMarginB);
 
+    if (prefs.renderEntireFile() && !canEnableRenderEntireFile(prefs)) {
+      // CodeMirror is too slow to layout an entire huge file.
+      prefs.renderEntireFile(false);
+    }
+
     operation(new Runnable() {
       public void run() {
         // Estimate initial CM3 height, fixed up in onShowView.
@@ -526,7 +545,7 @@ public class SideBySide2 extends Screen {
     prefsAction = new PreferencesAction(this, prefs);
     header.init(prefsAction);
 
-    if (largeFile && prefs.syntaxHighlighting()) {
+    if (prefs.syntaxHighlighting() && fileSize.compareTo(FileSize.SMALL) > 0) {
       Scheduler.get().scheduleFixedDelay(new RepeatingCommand() {
         @Override
         public boolean execute() {
@@ -544,13 +563,16 @@ public class SideBySide2 extends Screen {
       String contents,
       DisplaySide side,
       Element parent) {
+    String mode = fileSize == FileSize.SMALL
+        ? getContentType(meta)
+        : null;
     return CodeMirror.create(side, parent, Configuration.create()
       .set("readOnly", true)
       .set("cursorBlinkRate", 0)
       .set("cursorHeight", 0.85)
       .set("lineNumbers", prefs.showLineNumbers())
       .set("tabSize", prefs.tabSize())
-      .set("mode", largeFile ? null : getContentType(meta))
+      .set("mode", mode)
       .set("lineWrapping", false)
       .set("styleSelectedText", true)
       .set("showTrailingSpace", prefs.showWhitespaceErrors())
@@ -562,6 +584,11 @@ public class SideBySide2 extends Screen {
 
   DiffInfo.IntraLineStatus getIntraLineStatus() {
     return diff.intraline_status();
+  }
+
+  boolean canEnableRenderEntireFile(DiffPreferences prefs) {
+    return fileSize.compareTo(FileSize.HUGE) < 0
+        || (prefs.context() != WHOLE_FILE_CONTEXT && prefs.context() < 100);
   }
 
   void setThemeStyles(boolean d) {
@@ -934,8 +961,17 @@ public class SideBySide2 extends Screen {
       });
   }
 
-  private static boolean isLargeFile(DiffInfo diffInfo) {
-    return (diffInfo.meta_a() != null && diffInfo.meta_a().lines() > 500)
-        || (diffInfo.meta_b() != null && diffInfo.meta_b().lines() > 500);
+  private static FileSize bucketFileSize(DiffInfo diff) {
+    FileMeta a = diff.meta_a();
+    FileMeta b = diff.meta_b();
+    FileSize[] sizes = FileSize.values();
+    for (int i = sizes.length - 1; 0 <= i; i--) {
+      FileSize s = sizes[i];
+      if ((a != null && s.lines <= a.lines())
+          || (b != null && s.lines <= b.lines())) {
+        return s;
+      }
+    }
+    return FileSize.SMALL;
   }
 }

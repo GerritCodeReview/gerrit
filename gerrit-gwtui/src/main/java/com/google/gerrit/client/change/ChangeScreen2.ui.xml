@@ -166,11 +166,6 @@ limitations under the License.
       cursor: pointer;
     }
 
-    .projectDashboard {
-      float: right;
-      cursor: pointer;
-    }
-
     .infoColumn {
       width: 440px;
       padding-left: 17px;
@@ -387,8 +382,8 @@ limitations under the License.
             </tr>
             <tr>
               <th><ui:msg>Project</ui:msg></th>
-              <td><x:InlineHyperlink ui:field='projectLink'
-                     title='Search for changes on this project'>
+              <td><x:InlineHyperlink ui:field='projectDashboard'
+                     title='Go to project dashboard'>
                      <ui:attribute name='title'/>
                   </x:InlineHyperlink>
                   <g:Image
@@ -396,13 +391,6 @@ limitations under the License.
                      resource='{ico.gear}'
                      styleName='{style.projectSettings}'
                      title='Go to project settings'>
-                    <ui:attribute name='title'/>
-                  </g:Image>
-                  <g:Image
-                     ui:field='projectDashboard'
-                     resource='{ico.dashboard}'
-                     styleName='{style.projectDashboard}'
-                     title='Go to project dashboard'>
                     <ui:attribute name='title'/>
                   </g:Image>
               </td>

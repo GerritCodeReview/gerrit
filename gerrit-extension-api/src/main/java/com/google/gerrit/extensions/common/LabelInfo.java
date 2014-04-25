@@ -27,4 +27,5 @@ public class LabelInfo {
   public Short value;
   public Boolean optional;
   public Boolean blocking;
+  public String abbreviation;
 }

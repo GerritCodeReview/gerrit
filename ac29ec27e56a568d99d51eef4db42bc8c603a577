@@ -131,6 +131,24 @@
     },
     {
       "key": {
+        "uuid": "85c0a769_9afc0ddb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RevisionEditCommands.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-25T05:58:35Z",
+      "side": 1,
+      "message": "Restored the original version. It cannot be done, because this object is going to be injected into UiActions, that get instantiated for anonymous users too. IdentifiedUser is not injected at that point.",
+      "parentUuid": "45d5cffe_20a80aae",
+      "revId": "ac29ec27e56a568d99d51eef4db42bc8c603a577",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c0769cb_772cf0c2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RevisionEditCommands.java",
         "patchSetId": 33

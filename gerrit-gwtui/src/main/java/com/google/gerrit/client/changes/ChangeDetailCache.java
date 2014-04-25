@@ -84,7 +84,7 @@ public class ChangeDetailCache extends ListenableValue<ChangeDetail> {
     r.setCanRebase(can(rev.actions(), "rebase"));
     r.setCanRestore(can(info.actions(), "restore"));
     r.setCanRevert(can(info.actions(), "revert"));
-    r.setCanDeleteDraft(can(rev.actions(), "/"));
+    r.setCanDeleteDraft(can(info.actions(), "/"));
     r.setCanEditTopicName(can(info.actions(), "topic"));
     r.setCanSubmit(can(rev.actions(), "submit"));
     r.setCanEdit(true);

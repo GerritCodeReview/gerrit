@@ -117,6 +117,7 @@ class ChangeInfoMapper {
       lo.disliked = fromAcountInfo(li.disliked);
       lo.value = li.value;
       lo.defaultValue = li.defaultValue;
+      lo.abbreviation = li.abbreviation;
       lo.optional = li.optional;
       lo.blocking = li.blocking;
       lo.values = li.values;

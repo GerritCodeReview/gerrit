@@ -433,6 +433,7 @@ public class ChangeJson {
       }
       if (detailed) {
         setLabelValues(type, e.getValue());
+        setLabelAbbreviation(type, e.getValue());
       }
     }
     return labels;
@@ -577,6 +578,7 @@ public class ChangeJson {
       LabelInfo li = new LabelInfo();
       if (detailed) {
         setLabelValues(type, li);
+        setLabelAbbreviation(type, li);
       }
       labels.put(type.getName(), li);
     }
@@ -637,6 +639,10 @@ public class ChangeJson {
     if (isOnlyZero(label.values.keySet())) {
       label.values = null;
     }
+  }
+
+  private void setLabelAbbreviation(LabelType type, LabelInfo label) {
+    label.abbreviation = type.getAbbreviation();
   }
 
   private Map<String, Collection<String>> permittedLabels(ChangeData cd)
@@ -1007,6 +1013,7 @@ public class ChangeJson {
 
     public Short value;
     public Short defaultValue;
+    public String abbreviation;
     public Boolean optional;
     public Boolean blocking;
 

@@ -184,6 +184,8 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
       int col = baseColumns + i;
 
       StringBuilder abbrev = new StringBuilder();
+      // TODO: don't need to generate abbreviation from label name, it is already in
+      // LabelInfo.abbreviation() so just need to append it to abbrev
       for (String t : name.split("-")) {
         abbrev.append(t.substring(0, 1).toUpperCase());
       }

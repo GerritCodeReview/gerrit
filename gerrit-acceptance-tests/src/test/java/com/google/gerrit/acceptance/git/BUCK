@@ -1,7 +1,10 @@
 include_defs('//gerrit-acceptance-tests/tests.defs')
 
 acceptance_tests(
-  srcs = ['DraftChangeBlockedIT.java', 'SubmitOnPushIT.java'],
+  srcs = [
+    'DraftChangeBlockedIT.java',
+    'SubmitOnPushIT.java'
+  ],
   labels = ['git'],
 )
 

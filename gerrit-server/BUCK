@@ -186,6 +186,7 @@ java_test(
 
 java_test(
   name = 'server_tests',
+  labels = ['server'],
   srcs = glob(
     ['src/test/java/**/*.java'],
     excludes = TESTUTIL + PROLOG_TESTS + PROLOG_TEST_CASE + QUERY_TESTS

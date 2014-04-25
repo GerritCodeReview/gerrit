@@ -378,6 +378,30 @@
     },
     {
       "key": {
+        "uuid": "05abd79e_be2e99af",
+        "filename": "Documentation/intro-project-owner.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 651,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-04-25T05:29:40Z",
+      "side": 1,
+      "message": "I think it should still be mentioned that the limit can be increased, if necessary, by whoever has permissions to do so.\n\nIn some cases it might not be appropriate to remove objects and rewrite the history.  For example if you are mirroring a public repository on an internal Gerrit, and the mirror must be exactly the same as the public one.",
+      "parentUuid": "85c0a769_5ae8b519",
+      "range": {
+        "startLine": 648,
+        "startChar": 52,
+        "endLine": 651,
+        "endChar": 16
+      },
+      "revId": "9829f8cd2cab6184a0547075aad9a846d213acb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e5a7a3cf_7deb7718",
         "filename": "Documentation/intro-project-owner.txt",
         "patchSetId": 1

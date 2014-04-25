@@ -63,13 +63,19 @@ class EqualsLabelPredicate extends IndexPredicate<ChangeData> {
       //
       return false;
     }
+
     ProjectState project = projectCache.get(c.getDest().getParentKey());
     if (project == null) {
       // The project has disappeared.
       //
       return false;
     }
+
     LabelType labelType = type(project.getLabelTypes(), label);
+    if (labelType == null) {
+      return false; // Label is not defined by this project.
+    }
+
     boolean hasVote = false;
     for (PatchSetApproval p : object.currentApprovals()) {
       if (labelType.matches(p)) {
@@ -103,8 +109,7 @@ class EqualsLabelPredicate extends IndexPredicate<ChangeData> {
         return lt;
       }
     }
-
-    return LabelType.withDefaultValuesDoNotCheckName(toFind);
+    return null;
   }
 
   private boolean match(Change change, int value, Account.Id approver,

@@ -82,6 +82,11 @@ class EditMessage implements RestModifyView<RevisionResource, Input>,
       OrmException, ResourceNotFoundException, IOException {
     if (Strings.isNullOrEmpty(input.message)) {
       throw new BadRequestException("message must be non-empty");
+    } else if (!rsrc.getPatchSet().getId()
+        .equals(rsrc.getChange().currentPatchSetId())) {
+      throw new ResourceConflictException(String.format(
+          "revision %s is not current revision",
+          rsrc.getPatchSet().getRevision().get()));
     }
 
     final Repository git;

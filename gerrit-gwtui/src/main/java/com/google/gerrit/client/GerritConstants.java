@@ -91,6 +91,7 @@ public interface GerritConstants extends Constants {
   String menuDocumentationUpload();
   String menuDocumentationAccess();
   String menuDocumentationAPI();
+  String menuDocumentationProjectOwnerGuide();
 
   String searchHint();
   String searchButton();

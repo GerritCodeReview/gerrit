@@ -32,6 +32,7 @@ import com.google.gerrit.server.project.CreateBranch.Input;
 import com.google.gerrit.server.project.ListBranches.BranchInfo;
 import com.google.gerrit.server.util.MagicBranch;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
@@ -64,14 +65,15 @@ public class CreateBranch implements RestModifyView<ProjectResource, Input> {
     CreateBranch create(String ref);
   }
 
-  private final IdentifiedUser identifiedUser;
+  private final Provider<IdentifiedUser>  identifiedUser;
   private final GitRepositoryManager repoManager;
   private final GitReferenceUpdated referenceUpdated;
   private final ChangeHooks hooks;
   private String ref;
 
   @Inject
-  CreateBranch(IdentifiedUser identifiedUser, GitRepositoryManager repoManager,
+  CreateBranch(Provider<IdentifiedUser> identifiedUser,
+      GitRepositoryManager repoManager,
       GitReferenceUpdated referenceUpdated, ChangeHooks hooks,
       @Assisted String ref) {
     this.identifiedUser = identifiedUser;
@@ -135,7 +137,7 @@ public class CreateBranch implements RestModifyView<ProjectResource, Input> {
         final RefUpdate u = repo.updateRef(ref);
         u.setExpectedOldObjectId(ObjectId.zeroId());
         u.setNewObjectId(object.copy());
-        u.setRefLogIdent(identifiedUser.newRefLogIdent());
+        u.setRefLogIdent(identifiedUser.get().newRefLogIdent());
         u.setRefLogMessage("created via REST from " + input.revision, false);
         final RefUpdate.Result result = u.update(rw);
         switch (result) {
@@ -143,7 +145,7 @@ public class CreateBranch implements RestModifyView<ProjectResource, Input> {
           case NEW:
           case NO_CHANGE:
             referenceUpdated.fire(name.getParentKey(), u);
-            hooks.doRefUpdatedHook(name, u, identifiedUser.getAccount());
+            hooks.doRefUpdatedHook(name, u, identifiedUser.get().getAccount());
             break;
           case LOCK_FAILURE:
             if (repo.getRef(ref) != null) {

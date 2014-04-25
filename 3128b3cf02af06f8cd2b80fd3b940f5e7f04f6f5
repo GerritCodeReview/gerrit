@@ -284,6 +284,30 @@
     },
     {
       "key": {
+        "uuid": "85c0a769_5a0f954e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JsPlugin.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-04-25T07:24:04Z",
+      "side": 1,
+      "message": "Renamed to NullPluginScanner in the next upcoming patch-set: the JsPlugin doesn\u0027t provide yet any server-side classes or resources.",
+      "parentUuid": "45d5cffe_e022a2bf",
+      "range": {
+        "startLine": 124,
+        "startChar": 11,
+        "endLine": 124,
+        "endChar": 28
+      },
+      "revId": "3128b3cf02af06f8cd2b80fd3b940f5e7f04f6f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "45d5cffe_c00e7e52",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginScanner.java",
         "patchSetId": 6

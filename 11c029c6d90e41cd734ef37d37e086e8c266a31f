@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "05abd79e_7e87f14e",
+        "filename": ".gitignore",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-04-25T17:36:35Z",
+      "side": 1,
+      "message": "Run this on your system then:\n\n  echo target \u003e\u003e.git/info/exclude",
+      "parentUuid": "85c0a769_3a23c1c6",
+      "revId": "11c029c6d90e41cd734ef37d37e086e8c266a31f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e5a7a3cf_3d684fc0",
         "filename": ".gitignore",
         "patchSetId": 2
@@ -136,6 +154,24 @@
       "side": 1,
       "message": "I see .classpath and .project in the subdirectories as well (gerrit-*): is it just me ? Can it be because of my switching back and forth to older releases ?",
       "parentUuid": "05abd79e_de7725ae",
+      "revId": "11c029c6d90e41cd734ef37d37e086e8c266a31f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e5a7a3cf_1d6593e6",
+        "filename": ".gitignore",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-04-25T17:36:35Z",
+      "side": 1,
+      "message": "This is caused by Maven. Add them to your .git/info/exclude.",
+      "parentUuid": "45ba2fef_984ad567",
       "revId": "11c029c6d90e41cd734ef37d37e086e8c266a31f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

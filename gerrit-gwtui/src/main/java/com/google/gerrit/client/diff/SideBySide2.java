@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.diff;
 
+import static com.google.gerrit.reviewdb.client.AccountDiffPreference.WHOLE_FILE_CONTEXT;
 import static java.lang.Double.POSITIVE_INFINITY;
 
 import com.google.gerrit.client.Gerrit;
@@ -84,9 +85,10 @@ public class SideBySide2 extends Screen {
   interface Binder extends UiBinder<FlowPanel, SideBySide2> {}
   private static final Binder uiBinder = GWT.create(Binder.class);
 
-  private enum FileSize {
+  enum FileSize {
     SMALL(0),
-    LARGE(500);
+    LARGE(500),
+    HUGE(4000);
 
     final int lines;
 
@@ -517,6 +519,11 @@ public class SideBySide2 extends Screen {
     cmA.getMoverElement().appendChild(columnMarginA);
     cmB.getMoverElement().appendChild(columnMarginB);
 
+    if (prefs.renderEntireFile() && !canEnableRenderEntireFile(prefs)) {
+      // CodeMirror is too slow to layout an entire huge file.
+      prefs.renderEntireFile(false);
+    }
+
     operation(new Runnable() {
       public void run() {
         // Estimate initial CM3 height, fixed up in onShowView.
@@ -577,6 +584,11 @@ public class SideBySide2 extends Screen {
 
   DiffInfo.IntraLineStatus getIntraLineStatus() {
     return diff.intraline_status();
+  }
+
+  boolean canEnableRenderEntireFile(DiffPreferences prefs) {
+    return fileSize.compareTo(FileSize.HUGE) < 0
+        || (prefs.context() != WHOLE_FILE_CONTEXT && prefs.context() < 100);
   }
 
   void setThemeStyles(boolean d) {

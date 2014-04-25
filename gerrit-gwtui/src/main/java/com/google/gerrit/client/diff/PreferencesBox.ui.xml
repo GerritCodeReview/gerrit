@@ -204,6 +204,10 @@ limitations under the License.
         </g:ToggleButton></td>
       </tr>
       <tr>
+        <th><ui:msg>Language</ui:msg></th>
+        <td><g:ListBox ui:field='mode'/></td>
+      </tr>
+      <tr>
         <th><ui:msg>Whitespace Errors</ui:msg></th>
         <td><g:ToggleButton ui:field='whitespaceErrors'>
           <g:upFace><ui:msg>Hide</ui:msg></g:upFace>

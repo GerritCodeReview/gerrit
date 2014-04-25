@@ -21,6 +21,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import net.codemirror.mode.Modes;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -92,6 +93,10 @@ public class ModeInjector {
   public static String getContentType(String mode) {
     String real = mode != null ? mimeAlias.get(mode) : null;
     return real != null ? real : mode;
+  }
+
+  public static Collection<String> getKnownMimeTypes() {
+    return mimeModes.keySet();
   }
 
   private static native boolean isModeLoaded(String n)

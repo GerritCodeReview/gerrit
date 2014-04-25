@@ -591,6 +591,10 @@ public class SideBySide2 extends Screen {
         || (prefs.context() != WHOLE_FILE_CONTEXT && prefs.context() < 100);
   }
 
+  String getContentType() {
+    return getContentType(diff.meta_b());
+  }
+
   void setThemeStyles(boolean d) {
     if (d) {
       diffTable.addStyleName(DiffTable.style.dark());

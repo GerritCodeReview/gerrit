@@ -46,6 +46,30 @@
       "revId": "5736eba1aaf2e49fd5c9a0696f2d42dbeb095e07",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e5a7a3cf_3dbf2fed",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide2.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 962,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2014-04-25T19:24:11Z",
+      "side": 1,
+      "message": "Yes, but that requires the enum being declared in order. Generally people won\u0027t declare an enum randomly, so this is trivial and OK.",
+      "parentUuid": "e5a7a3cf_7db5b70a",
+      "range": {
+        "startLine": 956,
+        "startChar": 4,
+        "endLine": 962,
+        "endChar": 5
+      },
+      "revId": "5736eba1aaf2e49fd5c9a0696f2d42dbeb095e07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

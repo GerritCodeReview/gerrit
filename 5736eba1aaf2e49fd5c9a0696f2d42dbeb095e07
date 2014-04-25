@@ -22,6 +22,30 @@
       "revId": "5736eba1aaf2e49fd5c9a0696f2d42dbeb095e07",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e5a7a3cf_7db5b70a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide2.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 962,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-04-25T19:18:36Z",
+      "side": 1,
+      "message": "values() always returns the enums in declaration order.",
+      "parentUuid": "05abd79e_fe59c139",
+      "range": {
+        "startLine": 956,
+        "startChar": 4,
+        "endLine": 962,
+        "endChar": 5
+      },
+      "revId": "5736eba1aaf2e49fd5c9a0696f2d42dbeb095e07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

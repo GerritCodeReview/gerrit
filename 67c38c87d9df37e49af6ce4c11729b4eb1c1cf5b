@@ -16,6 +16,24 @@
       "revId": "67c38c87d9df37e49af6ce4c11729b4eb1c1cf5b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45ba2fef_7812617a",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-04-25T06:43:35Z",
+      "side": 1,
+      "message": "This is how it was handled before 0.10.0\nhttps://github.com/apache/mina-sshd/blob/sshd-0.9.0/sshd-core/src/main/java/org/apache/sshd/server/session/ServerSession.java line 653.\n\nPlease do check, but my firm beleif that this patch only restores functionallity from before we upgraded to 0.10.x. I beleive this is a backwards compatabillity issue in mina-sshd. The default SshServer constructor doesn\u0027t give you a SshServer in the same state as it did in versions before 0.10.0.",
+      "parentUuid": "e5a7a3cf_fd2427d3",
+      "revId": "67c38c87d9df37e49af6ce4c11729b4eb1c1cf5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

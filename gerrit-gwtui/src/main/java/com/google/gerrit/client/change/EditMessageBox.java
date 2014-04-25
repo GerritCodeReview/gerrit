@@ -55,6 +55,7 @@ class EditMessageBox extends Composite {
     this.revision = revision;
     this.originalMessage = msg.trim();
     initWidget(uiBinder.createAndBindUi(this));
+    message.setText("");
     new TextBoxChangeListener(message) {
       public void onTextChanged(String newText) {
         save.setEnabled(!newText.trim()
@@ -65,8 +66,10 @@ class EditMessageBox extends Composite {
 
   @Override
   protected void onLoad() {
-    message.setText(originalMessage);
-    save.setEnabled(false);
+    if (message.getText().isEmpty()) {
+      message.setText(originalMessage);
+      save.setEnabled(false);
+    }
     Scheduler.get().scheduleDeferred(new ScheduledCommand() {
       @Override
       public void execute() {
@@ -89,6 +92,7 @@ class EditMessageBox extends Composite {
 
   @UiHandler("cancel")
   void onCancel(ClickEvent e) {
+    message.setText("");
     hide();
   }
 

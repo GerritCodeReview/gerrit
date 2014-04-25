@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e5a7a3cf_1d8eb368",
+        "filename": "Documentation/intro-project-owner.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-04-25T12:03:54Z",
+      "side": 1,
+      "message": "add \"(provided by the plugin)\"?",
+      "range": {
+        "startLine": 385,
+        "startChar": 25,
+        "endLine": 385,
+        "endChar": 26
+      },
+      "revId": "5d6b9f167bcb547799028adbc01c7825583873e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

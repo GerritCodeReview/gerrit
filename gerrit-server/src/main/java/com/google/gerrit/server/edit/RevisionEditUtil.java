@@ -63,6 +63,7 @@ import java.io.UnsupportedEncodingException;
  * Utility functions to manipulate revision edits.
  * <p>
  * This class contains methods to retrieve, publish and delete edits.
+ * For changing edits see {@link RevisionEditModifier}.
  */
 @Singleton
 public class RevisionEditUtil {

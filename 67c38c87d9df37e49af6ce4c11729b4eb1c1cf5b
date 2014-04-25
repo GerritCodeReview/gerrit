@@ -34,6 +34,24 @@
       "revId": "67c38c87d9df37e49af6ce4c11729b4eb1c1cf5b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e5a7a3cf_dd5e0b20",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-04-25T15:51:11Z",
+      "side": 1,
+      "message": "Thanks, I read the relevant parts of SSHD and agree this is just restoring the old behavior.",
+      "parentUuid": "45ba2fef_7812617a",
+      "revId": "67c38c87d9df37e49af6ce4c11729b4eb1c1cf5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

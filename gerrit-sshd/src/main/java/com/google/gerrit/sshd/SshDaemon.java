@@ -45,6 +45,7 @@ import org.apache.sshd.common.ForwardingFilter;
 import org.apache.sshd.common.KeyExchange;
 import org.apache.sshd.common.KeyPairProvider;
 import org.apache.sshd.common.NamedFactory;
+import org.apache.sshd.common.RequestHandler;
 import org.apache.sshd.common.Session;
 import org.apache.sshd.common.Signature;
 import org.apache.sshd.common.SshdSocketAddress;
@@ -80,6 +81,7 @@ import org.apache.sshd.common.random.BouncyCastleRandom;
 import org.apache.sshd.common.random.JceRandom;
 import org.apache.sshd.common.random.SingletonRandomFactory;
 import org.apache.sshd.common.session.AbstractSession;
+import org.apache.sshd.common.session.ConnectionService;
 import org.apache.sshd.common.signature.SignatureDSA;
 import org.apache.sshd.common.signature.SignatureRSA;
 import org.apache.sshd.common.util.Buffer;
@@ -92,6 +94,10 @@ import org.apache.sshd.server.auth.UserAuthPublicKey;
 import org.apache.sshd.server.auth.gss.GSSAuthenticator;
 import org.apache.sshd.server.auth.gss.UserAuthGSS;
 import org.apache.sshd.server.channel.ChannelSession;
+import org.apache.sshd.server.global.CancelTcpipForwardHandler;
+import org.apache.sshd.server.global.KeepAliveHandler;
+import org.apache.sshd.server.global.NoMoreSessionsHandler;
+import org.apache.sshd.server.global.TcpipForwardHandler;
 import org.apache.sshd.server.kex.DHG1;
 import org.apache.sshd.server.kex.DHG14;
 import org.apache.sshd.server.session.SessionFactory;
@@ -149,6 +155,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   private volatile IoAcceptor acceptor;
   private final Config cfg;
 
+  @SuppressWarnings("unchecked")
   @Inject
   SshDaemon(final CommandFactory commandFactory, final NoShell noShell,
       final PublickeyAuthenticator userAuth,
@@ -257,6 +264,12 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
         return new GerritServerSession(server, ioSession);
       }
     });
+    setGlobalRequestHandlers(Arrays.<RequestHandler<ConnectionService>> asList(
+          new KeepAliveHandler(),
+          new NoMoreSessionsHandler(),
+          new TcpipForwardHandler(),
+          new CancelTcpipForwardHandler()
+        ));
 
     hostKeys = computeHostKeys();
   }

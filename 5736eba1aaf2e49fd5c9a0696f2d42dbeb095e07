@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "05abd79e_fe59c139",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide2.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 962,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2014-04-25T18:53:59Z",
+      "side": 1,
+      "message": "This implementation requires the FileSize enum being pre-sorted, I\u0027m not sure if Java enum will guarantee that. How about something like:\n\nFileSize ret \u003d FileSize.SMALL;\nfor (FileSize s : FileSize.values()) {\n  if ((ret.lines \u003c s.lines) \u0026\u0026 ((a !\u003d null \u0026\u0026 s.lines \u003c\u003d a.lines()) || (b !\u003d null \u0026\u0026 s.lines \u003c\u003d b.lines()))) {\n    ret \u003d s;\n  }\n}\nreturn ret;",
+      "range": {
+        "startLine": 956,
+        "startChar": 4,
+        "endLine": 962,
+        "endChar": 5
+      },
+      "revId": "5736eba1aaf2e49fd5c9a0696f2d42dbeb095e07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

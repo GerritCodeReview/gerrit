@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "05abd79e_fed6615f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-04-25T00:21:05Z",
+      "side": 1,
+      "message": "\"that\" is repeated.",
+      "range": {
+        "startLine": 12,
+        "startChar": 65,
+        "endLine": 13,
+        "endChar": 4
+      },
+      "revId": "fb4e59033f4265a0fe8dfd5102c527c7943a8a91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e5a7a3cf_fdd6675f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-04-25T00:21:05Z",
+      "side": 1,
+      "message": "or, so that the limit can be increased?",
+      "range": {
+        "startLine": 12,
+        "startChar": 62,
+        "endLine": 14,
+        "endChar": 23
+      },
+      "revId": "fb4e59033f4265a0fe8dfd5102c527c7943a8a91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

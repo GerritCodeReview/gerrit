@@ -77,7 +77,7 @@ def cache_entry(args):
   if args.v:
     h = args.v
   else:
-    h = sha1(args.u).hexdigest()
+    h = sha1(args.u.encode('utf-8')).hexdigest()
   name = '%s-%s' % (path.basename(args.o), h)
   return path.join(CACHE_DIR, name)
 

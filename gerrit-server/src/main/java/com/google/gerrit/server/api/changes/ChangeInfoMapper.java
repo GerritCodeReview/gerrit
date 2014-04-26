@@ -89,6 +89,7 @@ class ChangeInfoMapper {
     o.deletions = i.deletions;
     o.owner = fromAcountInfo(i.owner);
     o.currentRevision = i.currentRevision;
+    o._number = i._number;
   }
 
   private void mapMessages(ChangeJson.ChangeInfo i, ChangeInfo o) {

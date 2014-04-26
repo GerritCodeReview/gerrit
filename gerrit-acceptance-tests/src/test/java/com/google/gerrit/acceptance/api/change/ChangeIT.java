@@ -48,6 +48,7 @@ public class ChangeIT extends AbstractDaemonTest {
     assertEquals(true, c.mergeable);
     assertEquals(r.getChangeId(), c.changeId);
     assertEquals(c.created, c.updated);
+    assertEquals(1, c._number);
   }
 
   @Test

@@ -171,6 +171,21 @@ link:access-control.html#access_categories[Access Categories]
 documentation for a full list of available access rights.
 
 
+[[mimetype-section]]
+=== MIME Types section
+
+The +mimetype+ section may be configured to force the web code
+reviewer to return certain MIME types by file path. MIME types
+may be used to activate syntax highlighting.
+
+----
+[mimetype "text/x-c"]
+  path = *.pkt
+[mimetype "text/x-java"]
+  path = api/current.txt
+----
+
+
 [[capability-section]]
 === Capability section
 

@@ -32,6 +32,8 @@ import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference.Theme;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.RepeatingCommand;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.KeyDownEvent;
@@ -51,6 +53,12 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.ToggleButton;
+
+import net.codemirror.lib.ModeInjector;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
 
 /** Displays current diff preferences. */
 class PreferencesBox extends Composite {
@@ -83,6 +91,7 @@ class PreferencesBox extends Composite {
   @UiField ToggleButton expandAllComments;
   @UiField ToggleButton renderEntireFile;
   @UiField ListBox theme;
+  @UiField ListBox mode;
   @UiField Button apply;
   @UiField Button save;
 
@@ -92,6 +101,7 @@ class PreferencesBox extends Composite {
     initWidget(uiBinder.createAndBindUi(this));
     initIgnoreWhitespace();
     initTheme();
+    initMode();
   }
 
   @Override
@@ -145,6 +155,11 @@ class PreferencesBox extends Composite {
     renderEntireFile.setValue(prefs.renderEntireFile());
     renderEntireFile.setEnabled(view.canEnableRenderEntireFile(prefs));
     setTheme(prefs.theme());
+
+    mode.setEnabled(prefs.syntaxHighlighting());
+    if (prefs.syntaxHighlighting()) {
+      setMode(view.getContentType());
+    }
 
     switch (view.getIntraLineStatus()) {
       case OFF:
@@ -288,7 +303,33 @@ class PreferencesBox extends Composite {
   @UiHandler("syntaxHighlighting")
   void onSyntaxHighlighting(ValueChangeEvent<Boolean> e) {
     prefs.syntaxHighlighting(e.getValue());
+    mode.setEnabled(prefs.syntaxHighlighting());
+    if (prefs.syntaxHighlighting()) {
+      setMode(view.getContentType());
+    }
     view.setSyntaxHighlighting(prefs.syntaxHighlighting());
+  }
+
+  @UiHandler("mode")
+  void onMode(ChangeEvent e) {
+    final String m = mode.getValue(mode.getSelectedIndex());
+    prefs.syntaxHighlighting(true);
+    syntaxHighlighting.setValue(true, false);
+    Scheduler.get().scheduleFixedDelay(new RepeatingCommand() {
+      @Override
+      public boolean execute() {
+        if (prefs.syntaxHighlighting() && view.isAttached()) {
+          view.operation(new Runnable() {
+            @Override
+            public void run() {
+              view.getCmFromSide(DisplaySide.A).setOption("mode", m);
+              view.getCmFromSide(DisplaySide.B).setOption("mode", m);
+            }
+          });
+        }
+        return false;
+      }
+    }, 50);
   }
 
   @UiHandler("whitespaceErrors")
@@ -383,6 +424,51 @@ class PreferencesBox extends Composite {
     ignoreWhitespace.addItem(
         PatchUtil.C.whitespaceIGNORE_ALL_SPACE(),
         IGNORE_ALL_SPACE.name());
+  }
+
+  private static final Map<String, String> NAME_TO_MODE;
+  private static final Map<String, String> NORMALIZED_MODES;
+  static {
+    NAME_TO_MODE = new TreeMap<String, String>();
+    NORMALIZED_MODES = new HashMap<String, String>();
+    for (String type : ModeInjector.getKnownMimeTypes()) {
+      String name = type;
+      if (name.startsWith("text/x-")) {
+        name = name.substring("text/x-".length());
+      } else if (name.startsWith("text/")) {
+        name = name.substring("text/".length());
+      } else if (name.startsWith("application/")) {
+        name = name.substring("application/".length());
+      }
+
+      String normalized = NAME_TO_MODE.get(name);
+      if (normalized == null) {
+        normalized = type;
+        NAME_TO_MODE.put(name, normalized);
+      }
+      NORMALIZED_MODES.put(type, normalized);
+    }
+  }
+
+  private void initMode() {
+    for (Map.Entry<String, String> e : NAME_TO_MODE.entrySet()) {
+      mode.addItem(e.getKey(), e.getValue());
+    }
+  }
+
+  private void setMode(String modeType) {
+    if (modeType != null && !modeType.isEmpty()) {
+      if (NORMALIZED_MODES.containsKey(modeType)) {
+        modeType =NORMALIZED_MODES.get(modeType);
+      }
+      for (int i = 0; i < mode.getItemCount(); i++) {
+        if (mode.getValue(i).equals(modeType)) {
+          mode.setSelectedIndex(i);
+          return;
+        }
+      }
+    }
+    mode.setSelectedIndex(0);
   }
 
   private void setTheme(Theme v) {

@@ -61,6 +61,7 @@ class CommentGroup extends Composite {
 
     padding = DOM.createDiv();
     padding.setClassName(DiffTable.style.padding());
+    ChunkManager.focusOnClick(padding, cm.side());
     getElement().appendChild(padding);
   }
 

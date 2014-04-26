@@ -69,7 +69,7 @@ public class RenameGroupOp extends DefaultQueueOp {
     this.uuid = uuid;
     this.oldName = oldName;
     this.newName = newName;
-    this.retryOn = new ArrayList<Project.NameKey>();
+    this.retryOn = new ArrayList<>();
   }
 
   @Override

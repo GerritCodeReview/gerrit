@@ -360,7 +360,7 @@ public class MergeUtil {
     if (submitter != null) {
       IdentifiedUser who =
           identifiedUserFactory.create(submitter.getAccountId());
-      Set<String> emails = new HashSet<String>();
+      Set<String> emails = new HashSet<>();
       for (RevCommit c : codeReviewCommits) {
         try {
           rw.parseBody(c);
@@ -551,7 +551,7 @@ public class MergeUtil {
       final CodeReviewCommit mergeTip, final ObjectId treeId,
       final CodeReviewCommit n) throws IOException,
       MissingObjectException, IncorrectObjectTypeException {
-    final List<CodeReviewCommit> merged = new ArrayList<CodeReviewCommit>();
+    final List<CodeReviewCommit> merged = new ArrayList<>();
     rw.resetRetain(canMergeFlag);
     rw.markStart(n);
     rw.markUninteresting(mergeTip);

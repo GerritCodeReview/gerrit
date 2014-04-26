@@ -101,7 +101,7 @@ public class PermissionRuleEditor extends Composite implements
       Permission permission,
       PermissionRange.WithDefaults validRange) {
     this.groupInfo = groupInfo;
-    action = new ValueListBox<PermissionRule.Action>(actionRenderer);
+    action = new ValueListBox<>(actionRenderer);
 
     if (validRange != null && 10 < validRange.getRangeSize()) {
         min = new RangeBox.Box();

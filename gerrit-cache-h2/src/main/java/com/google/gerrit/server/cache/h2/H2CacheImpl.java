@@ -115,7 +115,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> {
 
   @Override
   public void put(final K key, V val) {
-    final ValueHolder<V> h = new ValueHolder<V>(val);
+    final ValueHolder<V> h = new ValueHolder<>(val);
     h.created = TimeUtil.nowMs();
     mem.put(key, h);
     executor.execute(new Runnable() {
@@ -246,7 +246,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> {
         }
       }
 
-      final ValueHolder<V> h = new ValueHolder<V>(loader.load(key));
+      final ValueHolder<V> h = new ValueHolder<>(loader.load(key));
       h.created = TimeUtil.nowMs();
       executor.execute(new Runnable() {
         @Override
@@ -302,7 +302,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> {
       return (KeyType<K>) OTHER;
     }
 
-    static final KeyType<?> OTHER = new KeyType<Object>();
+    static final KeyType<?> OTHER = new KeyType<>();
     static final KeyType<String> STRING = new KeyType<String>() {
       @Override
       String columnType() {
@@ -346,7 +346,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> {
 
       int cores = Runtime.getRuntime().availableProcessors();
       int keep = Math.min(cores, 16);
-      this.handles = new ArrayBlockingQueue<SqlHandle>(keep);
+      this.handles = new ArrayBlockingQueue<>(keep);
     }
 
     synchronized void open() {
@@ -440,7 +440,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> {
 
           @SuppressWarnings("unchecked")
           V val = (V) r.getObject(1);
-          ValueHolder<V> h = new ValueHolder<V>(val);
+          ValueHolder<V> h = new ValueHolder<>(val);
           h.clean = true;
           hitCount.incrementAndGet();
           touch(c, key);

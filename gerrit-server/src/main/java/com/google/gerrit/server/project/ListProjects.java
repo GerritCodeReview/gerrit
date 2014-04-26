@@ -241,10 +241,9 @@ public class ListProjects implements RestReadView<TopLevelResource> {
     int found = 0;
     Map<String, ProjectInfo> output = Maps.newTreeMap();
     Map<String, String> hiddenNames = Maps.newHashMap();
-    Set<String> rejected = new HashSet<String>();
+    Set<String> rejected = new HashSet<>();
 
-    final TreeMap<Project.NameKey, ProjectNode> treeMap =
-        new TreeMap<Project.NameKey, ProjectNode>();
+    final TreeMap<Project.NameKey, ProjectNode> treeMap = new TreeMap<>();
     try {
       for (final Project.NameKey projectName : scan()) {
         final ProjectState e = projectCache.get(projectName);
@@ -442,7 +441,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
 
   private void printProjectTree(final PrintWriter stdout,
       final TreeMap<Project.NameKey, ProjectNode> treeMap) {
-    final SortedSet<ProjectNode> sortedNodes = new TreeSet<ProjectNode>();
+    final SortedSet<ProjectNode> sortedNodes = new TreeSet<>();
 
     // Builds the inheritance tree using a list.
     //

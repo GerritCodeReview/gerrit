@@ -206,8 +206,8 @@ public class MergeOp {
     this.approvalsUtil = approvalsUtil;
     destBranch = branch;
     toMerge = ArrayListMultimap.create();
-    potentiallyStillSubmittable = new ArrayList<CodeReviewCommit>();
-    commits = new HashMap<Change.Id, CodeReviewCommit>();
+    potentiallyStillSubmittable = new ArrayList<>();
+    commits = new HashMap<>();
     toUpdate = Lists.newArrayList();
   }
 
@@ -238,11 +238,11 @@ public class MergeOp {
       final ListMultimap<SubmitType, CodeReviewCommit> toMergeNextTurn =
           ArrayListMultimap.create();
       final List<CodeReviewCommit> potentiallyStillSubmittableOnNextRun =
-          new ArrayList<CodeReviewCommit>();
+          new ArrayList<>();
       while (!toMerge.isEmpty()) {
         toMergeNextTurn.clear();
         final Set<SubmitType> submitTypes =
-            new HashSet<SubmitType>(toMerge.keySet());
+            new HashSet<>(toMerge.keySet());
         for (final SubmitType submitType : submitTypes) {
           if (reopen) {
             branchUpdate = openBranch();
@@ -418,7 +418,7 @@ public class MergeOp {
 
   private Set<RevCommit> getAlreadyAccepted(final CodeReviewCommit branchTip)
       throws MergeException {
-    final Set<RevCommit> alreadyAccepted = new HashSet<RevCommit>();
+    final Set<RevCommit> alreadyAccepted = new HashSet<>();
 
     if (branchTip != null) {
       alreadyAccepted.add(branchTip);
@@ -453,7 +453,7 @@ public class MergeOp {
       throw new MergeException(e.getMessage(), e);
     }
 
-    final Set<ObjectId> tips = new HashSet<ObjectId>();
+    final Set<ObjectId> tips = new HashSet<>();
     for (final Ref r : allRefs.values()) {
       tips.add(r.getObjectId());
     }

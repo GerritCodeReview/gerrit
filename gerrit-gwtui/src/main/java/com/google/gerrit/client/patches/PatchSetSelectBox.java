@@ -90,7 +90,7 @@ public class PatchSetSelectBox extends Composite {
     this.idSideA = idSideA;
     this.idSideB = idSideB;
     this.idActive = (side == Side.A) ? idSideA : idSideB;
-    this.links = new HashMap<Integer, Anchor>();
+    this.links = new HashMap<>();
 
     linkPanel.clear();
 

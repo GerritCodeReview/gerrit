@@ -86,7 +86,7 @@ final class ShowConnections extends SshCommand {
     }
 
     final List<IoSession> list =
-        new ArrayList<IoSession>(acceptor.getManagedSessions().values());
+        new ArrayList<>(acceptor.getManagedSessions().values());
     Collections.sort(list, new Comparator<IoSession>() {
       @Override
       public int compare(IoSession arg0, IoSession arg1) {

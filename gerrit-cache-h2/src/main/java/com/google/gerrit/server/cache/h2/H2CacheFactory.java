@@ -212,6 +212,6 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
       long maxSize) {
     File db = new File(cacheDir, name).getAbsoluteFile();
     String url = "jdbc:h2:" + db.toURI().toString();
-    return new SqlStore<K, V>(url, keyType, maxSize);
+    return new SqlStore<>(url, keyType, maxSize);
   }
 }

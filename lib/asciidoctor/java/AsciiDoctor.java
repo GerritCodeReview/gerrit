@@ -58,10 +58,10 @@ public class AsciiDoctor {
 
   @Option(name = "-a", usage =
       "a list of attributes, in the form key or key=value pair")
-  private List<String> attributes = new ArrayList<String>();
+  private List<String> attributes = new ArrayList<>();
 
   @Argument(usage = "input files")
-  private List<String> inputFiles = new ArrayList<String>();
+  private List<String> inputFiles = new ArrayList<>();
 
   public static String mapInFileToOutFile(
       String inFile, String inExt, String outExt) {
@@ -97,7 +97,7 @@ public class AsciiDoctor {
   }
 
   private Map<String, Object> getAttributes() {
-    Map<String, Object> attributeValues = new HashMap<String, Object>();
+    Map<String, Object> attributeValues = new HashMap<>();
 
     for (String attribute : attributes) {
       int equalsIndex = attribute.indexOf('=');

@@ -147,7 +147,7 @@ public class ChangeUtil {
   public static void insertAncestors(ReviewDb db, PatchSet.Id id, RevCommit src)
       throws OrmException {
     int cnt = src.getParentCount();
-    List<PatchSetAncestor> toInsert = new ArrayList<PatchSetAncestor>(cnt);
+    List<PatchSetAncestor> toInsert = new ArrayList<>(cnt);
     for (int p = 0; p < cnt; p++) {
       PatchSetAncestor a =
           new PatchSetAncestor(new PatchSetAncestor.Id(id, p + 1));

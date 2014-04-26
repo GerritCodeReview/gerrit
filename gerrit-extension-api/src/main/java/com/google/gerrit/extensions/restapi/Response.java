@@ -21,12 +21,12 @@ public abstract class Response<T> {
 
   /** HTTP 200 OK: pointless wrapper for type safety. */
   public static <T> Response<T> ok(T value) {
-    return new Impl<T>(200, value);
+    return new Impl<>(200, value);
   }
 
   /** HTTP 201 Created: typically used when a new resource is made. */
   public static <T> Response<T> created(T value) {
-    return new Impl<T>(201, value);
+    return new Impl<>(201, value);
   }
 
   /** HTTP 204 No Content: typically used when the resource is deleted. */

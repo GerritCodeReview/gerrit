@@ -123,7 +123,7 @@ class Schema_53 extends SchemaVersion {
   }
 
   private void assignGroupUUIDs(ReviewDb db) throws OrmException {
-    groupMap = new HashMap<AccountGroup.Id, GroupReference>();
+    groupMap = new HashMap<>();
     List<AccountGroup> groups = db.accountGroups().all().toList();
     for (AccountGroup g : groups) {
       if (g.getId().equals(systemConfig.ownerGroupId)) {
@@ -244,7 +244,7 @@ class Schema_53 extends SchemaVersion {
   }
 
   private void readOldRefRights(ReviewDb db) throws SQLException {
-    rightsByProject = new HashMap<Project.NameKey, List<OldRefRight>>();
+    rightsByProject = new HashMap<>();
 
     Statement stmt = ((JdbcSchema) db).getConnection().createStatement();
     ResultSet rs = stmt.executeQuery("SELECT * FROM ref_rights");
@@ -258,7 +258,7 @@ class Schema_53 extends SchemaVersion {
 
       list = rightsByProject.get(right.project);
       if (list == null) {
-        list = new ArrayList<OldRefRight>();
+        list = new ArrayList<>();
         rightsByProject.put(right.project, list);
       }
       list.add(right);
@@ -268,7 +268,7 @@ class Schema_53 extends SchemaVersion {
   }
 
   private void readProjectParents(ReviewDb db) throws SQLException {
-    parentsByProject = new HashMap<Project.NameKey, Project.NameKey>();
+    parentsByProject = new HashMap<>();
     Statement stmt = ((JdbcSchema) db).getConnection().createStatement();
     ResultSet rs = stmt.executeQuery("SELECT * FROM projects");
     while (rs.next()) {

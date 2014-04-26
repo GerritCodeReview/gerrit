@@ -60,8 +60,7 @@ public class SubmoduleSectionParser {
   }
 
   public List<SubmoduleSubscription> parseAllSections() {
-    List<SubmoduleSubscription> parsedSubscriptions =
-        new ArrayList<SubmoduleSubscription>();
+    List<SubmoduleSubscription> parsedSubscriptions = new ArrayList<>();
     for (final String id : bbc.getSubsections("submodule")) {
       final SubmoduleSubscription subscription = parse(id);
       if (subscription != null) {

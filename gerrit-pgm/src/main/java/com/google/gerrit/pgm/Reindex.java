@@ -252,7 +252,7 @@ public class Reindex extends SiteProgram {
           Key.get(new TypeLiteral<SchemaFactory<ReviewDb>>() {}));
       final List<ReviewDb> dbs = Collections.synchronizedList(
           Lists.<ReviewDb> newArrayListWithCapacity(threads + 1));
-      final ThreadLocal<ReviewDb> localDb = new ThreadLocal<ReviewDb>();
+      final ThreadLocal<ReviewDb> localDb = new ThreadLocal<>();
 
       bind(ReviewDb.class).toProvider(new Provider<ReviewDb>() {
         @Override

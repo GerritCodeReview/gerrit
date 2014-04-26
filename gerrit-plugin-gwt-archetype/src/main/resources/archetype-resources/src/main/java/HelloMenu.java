@@ -27,7 +27,7 @@ public class HelloMenu implements TopMenu {
 
   @Inject
   public HelloMenu(@PluginName String pluginName) {
-    menuEntries = new ArrayList<TopMenu.MenuEntry>();
+    menuEntries = new ArrayList<>();
     menuEntries.add(new MenuEntry("Hello", Collections
         .singletonList(new MenuItem("Hello Screen", "#/x/" + pluginName, ""))));
   }

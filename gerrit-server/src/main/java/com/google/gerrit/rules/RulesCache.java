@@ -80,11 +80,10 @@ public class RulesCache {
   private static final List<String> PACKAGE_LIST = ImmutableList.of(
       Prolog.BUILTIN, "gerrit");
 
-  private final Map<ObjectId, MachineRef> machineCache =
-      new HashMap<ObjectId, MachineRef>();
+  private final Map<ObjectId, MachineRef> machineCache = new HashMap<>();
 
   private final ReferenceQueue<PrologMachineCopy> dead =
-      new ReferenceQueue<PrologMachineCopy>();
+      new ReferenceQueue<>();
 
   private static final class MachineRef extends WeakReference<PrologMachineCopy> {
     final ObjectId key;

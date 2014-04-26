@@ -127,7 +127,7 @@ public class PatchList implements Serializable {
    *        how the cache is keyed versus how the database is keyed.
    */
   public List<Patch> toPatchList(final PatchSet.Id setId) {
-    final ArrayList<Patch> r = new ArrayList<Patch>(patches.length);
+    final ArrayList<Patch> r = new ArrayList<>(patches.length);
     for (final PatchListEntry e : patches) {
       r.add(e.toPatch(setId));
     }

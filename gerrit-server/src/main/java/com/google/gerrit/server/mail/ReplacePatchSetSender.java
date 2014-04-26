@@ -33,8 +33,8 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
     public ReplacePatchSetSender create(Change change);
   }
 
-  private final Set<Account.Id> reviewers = new HashSet<Account.Id>();
-  private final Set<Account.Id> extraCC = new HashSet<Account.Id>();
+  private final Set<Account.Id> reviewers = new HashSet<>();
+  private final Set<Account.Id> extraCC = new HashSet<>();
 
   @Inject
   public ReplacePatchSetSender(EmailArguments ea, @Assisted Change c) {
@@ -74,7 +74,7 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
     if (reviewers.isEmpty()) {
       return null;
     }
-    List<String> names = new ArrayList<String>();
+    List<String> names = new ArrayList<>();
     for (Account.Id id : reviewers) {
       names.add(getNameFor(id));
     }

@@ -56,7 +56,7 @@ public class CherryPick extends SubmitStrategy {
 
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.gitRefUpdated = gitRefUpdated;
-    this.newCommits = new HashMap<Change.Id, CodeReviewCommit>();
+    this.newCommits = new HashMap<>();
   }
 
   @Override
@@ -212,7 +212,7 @@ public class CherryPick extends SubmitStrategy {
   private static void insertAncestors(ReviewDb db, PatchSet.Id id, RevCommit src)
       throws OrmException {
     final int cnt = src.getParentCount();
-    List<PatchSetAncestor> toInsert = new ArrayList<PatchSetAncestor>(cnt);
+    List<PatchSetAncestor> toInsert = new ArrayList<>(cnt);
     for (int p = 0; p < cnt; p++) {
       PatchSetAncestor a;
 

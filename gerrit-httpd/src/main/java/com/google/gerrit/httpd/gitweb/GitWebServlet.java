@@ -98,7 +98,7 @@ class GitWebServlet extends HttpServlet {
     this.projectControl = projectControl;
     this.anonymousUserProvider = anonymousUserProvider;
     this.gitwebCgi = gitWebConfig.getGitwebCGI();
-    this.deniedActions = new HashSet<String>();
+    this.deniedActions = new HashSet<>();
 
     final String url = gitWebConfig.getUrl();
     if ((url != null) && (!url.equals("gitweb"))) {
@@ -398,7 +398,7 @@ class GitWebServlet extends HttpServlet {
   }
 
   private static Map<String, String> getParameters(HttpServletRequest req) {
-    final Map<String, String> params = new HashMap<String, String>();
+    final Map<String, String> params = new HashMap<>();
     for (final String pair : req.getQueryString().split("[&;]")) {
       final int eq = pair.indexOf('=');
       if (0 < eq) {
@@ -669,11 +669,11 @@ class GitWebServlet extends HttpServlet {
     private Map<String, String> envMap;
 
     EnvList() {
-      envMap = new HashMap<String, String>();
+      envMap = new HashMap<>();
     }
 
     EnvList(final EnvList l) {
-      envMap = new HashMap<String, String>(l.envMap);
+      envMap = new HashMap<>(l.envMap);
     }
 
     /** Set a name/value pair, null values will be treated as an empty String */

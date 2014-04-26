@@ -40,13 +40,13 @@ public class DownloadConfig {
         ConfigUtil.getEnumList(cfg, "download", null, "scheme",
             DownloadScheme.DEFAULT_DOWNLOADS);
     downloadSchemes =
-        Collections.unmodifiableSet(new HashSet<DownloadScheme>(allSchemes));
+        Collections.unmodifiableSet(new HashSet<>(allSchemes));
 
     List<DownloadCommand> allCommands =
         ConfigUtil.getEnumList(cfg, "download", null, "command",
             DownloadCommand.DEFAULT_DOWNLOADS);
     downloadCommands =
-        Collections.unmodifiableSet(new HashSet<DownloadCommand>(allCommands));
+        Collections.unmodifiableSet(new HashSet<>(allCommands));
   }
 
   /** Scheme used to download. */

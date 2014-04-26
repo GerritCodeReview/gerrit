@@ -169,10 +169,10 @@ import javax.security.auth.login.LoginException;
   LdapQuery.Result findAccount(final Helper.LdapSchema schema,
       final DirContext ctx, final String username) throws NamingException,
       AccountException {
-    final HashMap<String, String> params = new HashMap<String, String>();
+    final HashMap<String, String> params = new HashMap<>();
     params.put(LdapRealm.USERNAME, username);
 
-    final List<LdapQuery.Result> res = new ArrayList<LdapQuery.Result>();
+    final List<LdapQuery.Result> res = new ArrayList<>();
     for (LdapQuery accountQuery : schema.accountQueryList) {
       res.addAll(accountQuery.query(ctx, params));
     }
@@ -193,10 +193,10 @@ import javax.security.auth.login.LoginException;
       final String username, LdapQuery.Result account)
       throws NamingException, AccountException {
     final LdapSchema schema = getSchema(ctx);
-    final Set<String> groupDNs = new HashSet<String>();
+    final Set<String> groupDNs = new HashSet<>();
 
     if (!schema.groupMemberQueryList.isEmpty()) {
-      final HashMap<String, String> params = new HashMap<String, String>();
+      final HashMap<String, String> params = new HashMap<>();
 
       if (account == null) {
         try {
@@ -244,7 +244,7 @@ import javax.security.auth.login.LoginException;
       }
     }
 
-    final Set<AccountGroup.UUID> actual = new HashSet<AccountGroup.UUID>();
+    final Set<AccountGroup.UUID> actual = new HashSet<>();
     for (String dn : groupDNs) {
       actual.add(new AccountGroup.UUID(LDAP_UUID + dn));
     }
@@ -305,10 +305,10 @@ import javax.security.auth.login.LoginException;
 
     LdapSchema(final DirContext ctx) {
       type = discoverLdapType(ctx);
-      groupMemberQueryList = new ArrayList<LdapQuery>();
-      accountQueryList = new ArrayList<LdapQuery>();
+      groupMemberQueryList = new ArrayList<>();
+      accountQueryList = new ArrayList<>();
 
-      final Set<String> accountAtts = new HashSet<String>();
+      final Set<String> accountAtts = new HashSet<>();
 
       // Group query
       //

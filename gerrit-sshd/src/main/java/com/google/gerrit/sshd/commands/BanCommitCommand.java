@@ -47,7 +47,7 @@ public class BanCommitCommand extends SshCommand {
 
   @Argument(index = 1, required = true, multiValued = true, metaVar = "COMMIT",
       usage = "commit(s) that should be banned")
-  private List<ObjectId> commitsToBan = new ArrayList<ObjectId>();
+  private List<ObjectId> commitsToBan = new ArrayList<>();
 
   @Inject
   private BanCommit.Factory banCommitFactory;

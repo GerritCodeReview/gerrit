@@ -25,12 +25,12 @@ import com.googlecode.prolog_cafe.lang.SystemException;
 public class StoredValue<T> {
   /** Construct a new unique key that does not match any other key. */
   public static <T> StoredValue<T> create() {
-    return new StoredValue<T>();
+    return new StoredValue<>();
   }
 
   /** Construct a key based on a Java Class object, useful for singletons. */
   public static <T> StoredValue<T> create(Class<T> clazz) {
-    return new StoredValue<T>(clazz);
+    return new StoredValue<>(clazz);
   }
 
   private final Object key;

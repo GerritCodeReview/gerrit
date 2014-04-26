@@ -31,7 +31,7 @@ import java.util.Map;
 /** <b>DO NOT USE</b> */
 public class PrivateInternals_DynamicTypes {
   public static Map<TypeLiteral<?>, DynamicItem<?>> dynamicItemsOf(Injector src) {
-    Map<TypeLiteral<?>, DynamicItem<?>> m = newHashMap();
+    Map<TypeLiteral<?>, DynamicItem<?>> m = new HashMap<>();
     for (Map.Entry<Key<?>, Binding<?>> e : src.getBindings().entrySet()) {
       TypeLiteral<?> type = e.getKey().getTypeLiteral();
       if (type.getRawType() == DynamicItem.class) {
@@ -47,7 +47,7 @@ public class PrivateInternals_DynamicTypes {
   }
 
   public static Map<TypeLiteral<?>, DynamicSet<?>> dynamicSetsOf(Injector src) {
-    Map<TypeLiteral<?>, DynamicSet<?>> m = newHashMap();
+    Map<TypeLiteral<?>, DynamicSet<?>> m = new HashMap<>();
     for (Map.Entry<Key<?>, Binding<?>> e : src.getBindings().entrySet()) {
       TypeLiteral<?> type = e.getKey().getTypeLiteral();
       if (type.getRawType() == DynamicSet.class) {
@@ -63,7 +63,7 @@ public class PrivateInternals_DynamicTypes {
   }
 
   public static Map<TypeLiteral<?>, DynamicMap<?>> dynamicMapsOf(Injector src) {
-    Map<TypeLiteral<?>, DynamicMap<?>> m = newHashMap();
+    Map<TypeLiteral<?>, DynamicMap<?>> m = new HashMap<>();
     for (Map.Entry<Key<?>, Binding<?>> e : src.getBindings().entrySet()) {
       TypeLiteral<?> type = e.getKey().getTypeLiteral();
       if (type.getRawType() == DynamicMap.class) {
@@ -85,7 +85,7 @@ public class PrivateInternals_DynamicTypes {
       return Collections.emptyList();
     }
 
-    List<RegistrationHandle> handles = new ArrayList<RegistrationHandle>(4);
+    List<RegistrationHandle> handles = new ArrayList<>(4);
     try {
       for (Map.Entry<TypeLiteral<?>, DynamicItem<?>> e : items.entrySet()) {
         @SuppressWarnings("unchecked")
@@ -115,7 +115,7 @@ public class PrivateInternals_DynamicTypes {
       return Collections.emptyList();
     }
 
-    List<RegistrationHandle> handles = new ArrayList<RegistrationHandle>(4);
+    List<RegistrationHandle> handles = new ArrayList<>(4);
     try {
       for (Map.Entry<TypeLiteral<?>, DynamicSet<?>> e : sets.entrySet()) {
         @SuppressWarnings("unchecked")
@@ -148,7 +148,7 @@ public class PrivateInternals_DynamicTypes {
       return Collections.emptyList();
     }
 
-    List<RegistrationHandle> handles = new ArrayList<RegistrationHandle>(4);
+    List<RegistrationHandle> handles = new ArrayList<>(4);
     try {
       for (Map.Entry<TypeLiteral<?>, DynamicMap<?>> e : maps.entrySet()) {
         @SuppressWarnings("unchecked")
@@ -183,7 +183,7 @@ public class PrivateInternals_DynamicTypes {
 
       @Override
       public void start() {
-        handles = new ArrayList<RegistrationHandle>(4);
+        handles = new ArrayList<>(4);
         Injector parent = self.getParent();
         while (parent != null) {
           handles.addAll(attachSets(self, dynamicSetsOf(parent)));
@@ -209,10 +209,6 @@ public class PrivateInternals_DynamicTypes {
         handle.remove();
       }
     }
-  }
-
-  private static <K,V> Map<K, V> newHashMap() {
-    return new HashMap<K,V>();
   }
 
   private static <T> List<Binding<T>> bindings(Injector src, TypeLiteral<T> type) {

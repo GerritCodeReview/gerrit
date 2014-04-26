@@ -67,7 +67,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
 
   @Option(name = "--project", aliases = {"-p"},
       usage = "projects for which the groups should be listed")
-  private final List<ProjectControl> projects = new ArrayList<ProjectControl>();
+  private final List<ProjectControl> projects = new ArrayList<>();
 
   @Option(name = "--visible-to-all", usage = "to list only groups that are visible to all registered users")
   private boolean visibleToAll;

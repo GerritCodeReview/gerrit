@@ -131,7 +131,7 @@ public class CmdLineParser {
     out.write(name);
 
     char next = '?';
-    List<NamedOptionDef> booleans = new ArrayList<NamedOptionDef>();
+    List<NamedOptionDef> booleans = new ArrayList<>();
     for (@SuppressWarnings("rawtypes") OptionHandler handler : parser.options) {
       if (handler.option instanceof NamedOptionDef) {
         NamedOptionDef n = (NamedOptionDef) handler.option;

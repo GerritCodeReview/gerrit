@@ -306,7 +306,7 @@ public class QueryShell {
     try {
       ResultSet rs = meta.getIndexInfo(null, null, tableName, false, true);
       try {
-        Map<String, IndexInfo> indexes = new TreeMap<String, IndexInfo>();
+        Map<String, IndexInfo> indexes = new TreeMap<>();
         while (rs.next()) {
           final String indexName = rs.getString("INDEX_NAME");
           IndexInfo def = indexes.get(indexName);
@@ -550,7 +550,7 @@ public class QueryShell {
       widths[c] = columnMap[c].name.length();
     }
 
-    final List<String[]> rows = new ArrayList<String[]>();
+    final List<String[]> rows = new ArrayList<>();
     while (alreadyOnRow || rs.next()) {
       final String[] row = new String[columnMap.length];
       for (int c = 0; c < colCnt; c++) {
@@ -759,7 +759,7 @@ public class QueryShell {
   private static class IndexInfo {
     String name;
     boolean unique;
-    final Map<Integer, String> columns = new TreeMap<Integer, String>();
+    final Map<Integer, String> columns = new TreeMap<>();
     final StringBuilder filter = new StringBuilder();
 
     void addColumn(int pos, String column) {

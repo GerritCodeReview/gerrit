@@ -86,14 +86,14 @@ public class MailUtil {
     private final Set<Account.Id> cc;
 
     public MailRecipients() {
-      this.reviewers = new HashSet<Account.Id>();
-      this.cc = new HashSet<Account.Id>();
+      this.reviewers = new HashSet<>();
+      this.cc = new HashSet<>();
     }
 
     public MailRecipients(final Set<Account.Id> reviewers,
         final Set<Account.Id> cc) {
-      this.reviewers = new HashSet<Account.Id>(reviewers);
-      this.cc = new HashSet<Account.Id>(cc);
+      this.reviewers = new HashSet<>(reviewers);
+      this.cc = new HashSet<>(cc);
     }
 
     public void add(final MailRecipients recipients) {
@@ -111,14 +111,13 @@ public class MailUtil {
     }
 
     public Set<Account.Id> getCcOnly() {
-      final Set<Account.Id> cc = new HashSet<Account.Id>(this.cc);
+      final Set<Account.Id> cc = new HashSet<>(this.cc);
       cc.removeAll(reviewers);
       return Collections.unmodifiableSet(cc);
     }
 
     public Set<Account.Id> getAll() {
-      final Set<Account.Id> all =
-          new HashSet<Account.Id>(reviewers.size() + cc.size());
+      final Set<Account.Id> all = new HashSet<>(reviewers.size() + cc.size());
       all.addAll(reviewers);
       all.addAll(cc);
       return Collections.unmodifiableSet(all);

@@ -45,8 +45,7 @@ public class SuggestParentCandidates {
   public List<Project.NameKey> getNameKeys() throws OrmException,
       NoSuchProjectException {
     List<Project> pList = getProjects();
-    final List<Project.NameKey> nameKeys =
-        new ArrayList<Project.NameKey>(pList.size());
+    final List<Project.NameKey> nameKeys = new ArrayList<>(pList.size());
     for (Project p : pList) {
       nameKeys.add(p.getNameKey());
     }
@@ -55,7 +54,7 @@ public class SuggestParentCandidates {
 
   public List<Project> getProjects() throws OrmException,
       NoSuchProjectException {
-    Set<Project> projects = new TreeSet<Project>(new Comparator<Project>() {
+    Set<Project> projects = new TreeSet<>(new Comparator<Project>() {
       @Override
       public int compare(Project o1, Project o2) {
         return o1.getName().compareTo(o2.getName());
@@ -76,6 +75,6 @@ public class SuggestParentCandidates {
       }
     }
     projects.add(projectControlFactory.controlFor(allProject).getProject());
-    return new ArrayList<Project>(projects);
+    return new ArrayList<>(projects);
   }
 }

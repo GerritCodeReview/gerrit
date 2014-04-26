@@ -50,8 +50,7 @@ public abstract class CherryPickDialog extends ActionDialog {
     newBranch = new SuggestBox(new HighlightSuggestOracle() {
       @Override
       protected void onRequestSuggestions(Request request, Callback done) {
-        LinkedList<BranchSuggestion> suggestions =
-            new LinkedList<BranchSuggestion>();
+        LinkedList<BranchSuggestion> suggestions = new LinkedList<>();
         for (final BranchInfo b : branches) {
           if (b.ref().contains(request.getQuery())) {
             suggestions.add(new BranchSuggestion(b));

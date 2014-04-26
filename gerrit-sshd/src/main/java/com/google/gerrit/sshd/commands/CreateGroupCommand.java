@@ -53,7 +53,7 @@ final class CreateGroupCommand extends SshCommand {
   @Argument(index = 0, required = true, metaVar = "GROUP", usage = "name of group to be created")
   private String groupName;
 
-  private final Set<Account.Id> initialMembers = new HashSet<Account.Id>();
+  private final Set<Account.Id> initialMembers = new HashSet<>();
 
   @Option(name = "--member", aliases = {"-m"}, metaVar = "USERNAME", usage = "initial set of users to become members of the group")
   void addMember(final Account.Id id) {
@@ -63,7 +63,7 @@ final class CreateGroupCommand extends SshCommand {
   @Option(name = "--visible-to-all", usage = "to make the group visible to all registered users")
   private boolean visibleToAll;
 
-  private final Set<AccountGroup.UUID> initialGroups = new HashSet<AccountGroup.UUID>();
+  private final Set<AccountGroup.UUID> initialGroups = new HashSet<>();
 
   @Option(name = "--group", aliases = "-g", metaVar = "GROUP", usage = "initial set of groups to be included in the group")
   void addGroup(final AccountGroup.UUID id) {

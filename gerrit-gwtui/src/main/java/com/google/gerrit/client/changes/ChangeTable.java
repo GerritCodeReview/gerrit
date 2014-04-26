@@ -59,7 +59,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
       keysAction.add(new StarKeyCommand(0, 's', Util.C.changeTableStar()));
     }
 
-    sections = new ArrayList<Section>();
+    sections = new ArrayList<>();
     table.setText(0, C_STAR, "");
     table.setText(0, C_SUBJECT, Util.C.changeTableColumnSubject());
     table.setText(0, C_OWNER, Util.C.changeTableColumnOwner());
@@ -308,7 +308,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
           parent.insertNoneRow(dataBegin);
         }
       } else {
-        Set<Change.Id> cids = new HashSet<Change.Id>();
+        Set<Change.Id> cids = new HashSet<>();
 
         if (!hadData) {
           parent.removeRow(dataBegin);

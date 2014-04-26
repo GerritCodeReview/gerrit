@@ -193,7 +193,7 @@ public class ProjectControl {
 
   public RefControl controlForRef(String refName) {
     if (refControls == null) {
-      refControls = new HashMap<String, RefControl>();
+      refControls = new HashMap<>();
     }
     RefControl ctl = refControls.get(refName);
     if (ctl == null) {
@@ -313,7 +313,7 @@ public class ProjectControl {
 
   private static Set<GroupReference> getGroups(
       final List<SectionMatcher> sectionMatcherList) {
-    final Set<GroupReference> all = new HashSet<GroupReference>();
+    final Set<GroupReference> all = new HashSet<>();
     for (final SectionMatcher matcher : sectionMatcherList) {
       final AccessSection section = matcher.section;
       for (final Permission permission : section.getPermissions()) {
@@ -448,7 +448,7 @@ public class ProjectControl {
   }
 
   private Set<String> allRefPatterns(String permissionName) {
-    Set<String> all = new HashSet<String>();
+    Set<String> all = new HashSet<>();
     for (SectionMatcher matcher : access()) {
       AccessSection section = matcher.section;
       Permission permission = section.getPermission(permissionName);

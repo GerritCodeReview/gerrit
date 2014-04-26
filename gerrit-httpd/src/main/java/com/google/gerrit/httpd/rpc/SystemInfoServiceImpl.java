@@ -72,7 +72,7 @@ class SystemInfoServiceImpl implements SystemInfoService {
   }
 
   public void daemonHostKeys(final AsyncCallback<List<SshHostKey>> callback) {
-    final ArrayList<SshHostKey> r = new ArrayList<SshHostKey>(hostKeys.size());
+    final ArrayList<SshHostKey> r = new ArrayList<>(hostKeys.size());
     for (final HostKey hk : hostKeys) {
       String host = hk.getHost();
       if (host.startsWith("*:")) {

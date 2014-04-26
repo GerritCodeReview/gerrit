@@ -40,8 +40,8 @@ public class MergeSorter {
 
   Collection<CodeReviewCommit> sort(final Collection<CodeReviewCommit> incoming)
       throws IOException {
-    final Set<CodeReviewCommit> heads = new HashSet<CodeReviewCommit>();
-    final Set<CodeReviewCommit> sort = new HashSet<CodeReviewCommit>(incoming);
+    final Set<CodeReviewCommit> heads = new HashSet<>();
+    final Set<CodeReviewCommit> sort = new HashSet<>(incoming);
     while (!sort.isEmpty()) {
       final CodeReviewCommit n = removeOne(sort);
 
@@ -52,7 +52,7 @@ public class MergeSorter {
       }
 
       RevCommit c;
-      final RevCommitList<RevCommit> contents = new RevCommitList<RevCommit>();
+      final RevCommitList<RevCommit> contents = new RevCommitList<>();
       while ((c = rw.next()) != null) {
         if (!c.has(canMergeFlag) || !incoming.contains(c)) {
           // We cannot merge n as it would bring something we
@@ -60,7 +60,7 @@ public class MergeSorter {
           //
           if (n.missing == null) {
             n.setStatusCode(CommitMergeStatus.MISSING_DEPENDENCY);
-            n.missing = new ArrayList<CodeReviewCommit>();
+            n.missing = new ArrayList<>();
           }
           n.missing.add((CodeReviewCommit) c);
         } else {

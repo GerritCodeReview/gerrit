@@ -192,7 +192,7 @@ public final class GerritLauncher {
       throw e;
     }
 
-    final SortedMap<String, URL> jars = new TreeMap<String, URL>();
+    final SortedMap<String, URL> jars = new TreeMap<>();
     try {
       final ZipFile zf = new ZipFile(path);
       try {
@@ -220,7 +220,7 @@ public final class GerritLauncher {
 
     // The extension API needs to be its own ClassLoader, along
     // with a few of its dependencies. Try to construct this first.
-    List<URL> extapi = new ArrayList<URL>();
+    List<URL> extapi = new ArrayList<>();
     move(jars, "gerrit-extension-api-", extapi);
     move(jars, "guice-", extapi);
     move(jars, "javax.inject-1.jar", extapi);
@@ -592,7 +592,7 @@ public final class GerritLauncher {
   private static ClassLoader useDevClasspath()
       throws MalformedURLException, FileNotFoundException {
     File out = getDeveloperBuckOut();
-    List<URL> dirs = new ArrayList<URL>();
+    List<URL> dirs = new ArrayList<>();
     dirs.add(new File(new File(out, "eclipse"), "classes").toURI().toURL());
     ClassLoader cl = GerritLauncher.class.getClassLoader();
     for (URL u : ((URLClassLoader) cl).getURLs()) {

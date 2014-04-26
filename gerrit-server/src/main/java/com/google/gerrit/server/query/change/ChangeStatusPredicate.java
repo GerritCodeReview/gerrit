@@ -49,7 +49,7 @@ public final class ChangeStatusPredicate extends IndexPredicate<ChangeData> {
   }
 
   public static Predicate<ChangeData> open(Provider<ReviewDb> dbProvider) {
-    List<Predicate<ChangeData>> r = new ArrayList<Predicate<ChangeData>>(4);
+    List<Predicate<ChangeData>> r = new ArrayList<>(4);
     for (final Change.Status e : Change.Status.values()) {
       if (e.isOpen()) {
         r.add(new ChangeStatusPredicate(e));
@@ -59,7 +59,7 @@ public final class ChangeStatusPredicate extends IndexPredicate<ChangeData> {
   }
 
   public static Predicate<ChangeData> closed(Provider<ReviewDb> dbProvider) {
-    List<Predicate<ChangeData>> r = new ArrayList<Predicate<ChangeData>>(4);
+    List<Predicate<ChangeData>> r = new ArrayList<>(4);
     for (final Change.Status e : Change.Status.values()) {
       if (e.isClosed()) {
         r.add(new ChangeStatusPredicate(e));

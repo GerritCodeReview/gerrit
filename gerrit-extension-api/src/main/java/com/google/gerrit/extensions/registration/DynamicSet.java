@@ -72,7 +72,7 @@ public class DynamicSet<T> implements Iterable<T> {
     Key<DynamicSet<T>> key = (Key<DynamicSet<T>>) Key.get(
         Types.newParameterizedType(DynamicSet.class, member.getType()));
     binder.bind(key)
-      .toProvider(new DynamicSetProvider<T>(member))
+      .toProvider(new DynamicSetProvider<>(member))
       .in(Scopes.SINGLETON);
   }
 
@@ -136,7 +136,7 @@ public class DynamicSet<T> implements Iterable<T> {
   private final CopyOnWriteArrayList<AtomicReference<Provider<T>>> items;
 
   DynamicSet(Collection<AtomicReference<Provider<T>>> base) {
-    items = new CopyOnWriteArrayList<AtomicReference<Provider<T>>>(base);
+    items = new CopyOnWriteArrayList<>(base);
   }
 
   @Override
@@ -194,8 +194,7 @@ public class DynamicSet<T> implements Iterable<T> {
    * @return handle to remove the item at a later point in time.
    */
   public RegistrationHandle add(final Provider<T> item) {
-    final AtomicReference<Provider<T>> ref =
-        new AtomicReference<Provider<T>>(item);
+    final AtomicReference<Provider<T>> ref = new AtomicReference<>(item);
     items.add(ref);
     return new RegistrationHandle() {
       @Override
@@ -218,7 +217,7 @@ public class DynamicSet<T> implements Iterable<T> {
    *         without it ever leaving the collection.
    */
   public ReloadableRegistrationHandle<T> add(Key<T> key, Provider<T> item) {
-    AtomicReference<Provider<T>> ref = new AtomicReference<Provider<T>>(item);
+    AtomicReference<Provider<T>> ref = new AtomicReference<>(item);
     items.add(ref);
     return new ReloadableHandle(ref, key, item);
   }

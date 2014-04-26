@@ -94,7 +94,7 @@ public class MimeUtilFileTypeRegistry implements FileTypeRegistry {
 
   @SuppressWarnings("unchecked")
   public MimeType getMimeType(final String path, final byte[] content) {
-    Set<MimeType> mimeTypes = new HashSet<MimeType>();
+    Set<MimeType> mimeTypes = new HashSet<>();
     if (content != null && content.length > 0) {
       try {
         mimeTypes.addAll(mimeUtil.getMimeTypes(content));
@@ -112,7 +112,7 @@ public class MimeUtilFileTypeRegistry implements FileTypeRegistry {
       return MimeUtil2.UNKNOWN_MIME_TYPE;
     }
 
-    final List<MimeType> types = new ArrayList<MimeType>(mimeTypes);
+    final List<MimeType> types = new ArrayList<>(mimeTypes);
     Collections.sort(types, new Comparator<MimeType>() {
       @Override
       public int compare(MimeType a, MimeType b) {

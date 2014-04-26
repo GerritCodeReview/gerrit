@@ -83,8 +83,7 @@ public abstract class CacheModule extends AbstractModule {
     @SuppressWarnings("unchecked")
     Key<Cache<K, V>> key = (Key<Cache<K, V>>) Key.get(type, Names.named(name));
 
-    CacheProvider<K, V> m =
-        new CacheProvider<K, V>(this, name, keyType, valType);
+    CacheProvider<K, V> m = new CacheProvider<>(this, name, keyType, valType);
     bind(key).toProvider(m).asEagerSingleton();
     bind(ANY_CACHE).annotatedWith(Exports.named(name)).to(key);
     return m.maximumWeight(1024);

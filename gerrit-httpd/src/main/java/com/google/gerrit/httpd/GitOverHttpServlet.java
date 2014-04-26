@@ -356,7 +356,7 @@ public class GitOverHttpServlet extends GitServlet {
 
       if (isGet) {
         cache.put(cacheKey, Collections.unmodifiableSet(
-            new HashSet<ObjectId>(rp.getAdvertisedObjects())));
+            new HashSet<>(rp.getAdvertisedObjects())));
       }
     }
 

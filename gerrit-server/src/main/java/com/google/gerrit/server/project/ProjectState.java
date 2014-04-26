@@ -134,7 +134,7 @@ public class ProjectState {
     if (isAllProjects && !Permission.canBeOnAllProjects(AccessSection.ALL, Permission.OWNER)) {
       localOwners = Collections.emptySet();
     } else {
-      HashSet<AccountGroup.UUID> groups = new HashSet<AccountGroup.UUID>();
+      HashSet<AccountGroup.UUID> groups = new HashSet<>();
       AccessSection all = config.getAccessSection(AccessSection.ALL);
       if (all != null) {
         Permission owner = all.getPermission(Permission.OWNER);
@@ -254,7 +254,7 @@ public class ProjectState {
     List<SectionMatcher> sm = localAccessSections;
     if (sm == null) {
       Collection<AccessSection> fromConfig = config.getAccessSections();
-      sm = new ArrayList<SectionMatcher>(fromConfig.size());
+      sm = new ArrayList<>(fromConfig.size());
       for (AccessSection section : fromConfig) {
         if (isAllProjects) {
           List<Permission> copy =

@@ -70,7 +70,7 @@ public class LocalUsernamesToLowerCase extends SiteProgram {
       db.close();
     }
 
-    final List<Worker> workers = new ArrayList<Worker>(threads);
+    final List<Worker> workers = new ArrayList<>(threads);
     for (int tid = 0; tid < threads; tid++) {
       Worker t = new Worker();
       t.start();

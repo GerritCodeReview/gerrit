@@ -36,7 +36,7 @@ public class AccountInfoCacheFactory {
   @Inject
   AccountInfoCacheFactory(final AccountCache accountCache) {
     this.accountCache = accountCache;
-    this.out = new HashMap<Account.Id, Account>();
+    this.out = new HashMap<>();
   }
 
   /**
@@ -66,7 +66,7 @@ public class AccountInfoCacheFactory {
    * Create an AccountInfoCache with the currently loaded Account entities.
    * */
   public AccountInfoCache create() {
-    final List<AccountInfo> r = new ArrayList<AccountInfo>(out.size());
+    final List<AccountInfo> r = new ArrayList<>(out.size());
     for (final Account a : out.values()) {
       r.add(new AccountInfo(a));
     }

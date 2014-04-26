@@ -114,7 +114,7 @@ public abstract class EmailHeader {
   }
 
   public static class AddressList extends EmailHeader {
-    private final List<Address> list = new ArrayList<Address>();
+    private final List<Address> list = new ArrayList<>();
 
     public AddressList() {
     }

@@ -437,7 +437,7 @@ public class ProjectConfig extends VersionedMetaData {
 
   private void loadContributorAgreements(
       Config rc, Map<String, GroupReference> groupsByName) {
-    contributorAgreements = new HashMap<String, ContributorAgreement>();
+    contributorAgreements = new HashMap<>();
     for (String name : rc.getSubsections(CONTRIBUTOR_AGREEMENT)) {
       ContributorAgreement ca = getContributorAgreement(name, true);
       ca.setDescription(rc.getString(CONTRIBUTOR_AGREEMENT, name, KEY_DESCRIPTION));
@@ -535,7 +535,7 @@ public class ProjectConfig extends VersionedMetaData {
 
   private void loadAccessSections(
       Config rc, Map<String, GroupReference> groupsByName) {
-    accessSections = new HashMap<String, AccessSection>();
+    accessSections = new HashMap<>();
     for (String refName : rc.getSubsections(ACCESS)) {
       if (RefConfigSection.isValid(refName)) {
         AccessSection as = getAccessSection(refName, true);
@@ -757,9 +757,8 @@ public class ProjectConfig extends VersionedMetaData {
   }
 
   private Map<String, GroupReference> readGroupList() throws IOException {
-    groupsByUUID = new HashMap<AccountGroup.UUID, GroupReference>();
-    Map<String, GroupReference> groupsByName =
-        new HashMap<String, GroupReference>();
+    groupsByUUID = new HashMap<>();
+    Map<String, GroupReference> groupsByName = new HashMap<>();
 
     BufferedReader br = new BufferedReader(new StringReader(readUTF8(GROUP_LIST)));
     String s;
@@ -814,7 +813,7 @@ public class ProjectConfig extends VersionedMetaData {
     set(rc, DASHBOARD, null, KEY_DEFAULT, p.getDefaultDashboard());
     set(rc, DASHBOARD, null, KEY_LOCAL_DEFAULT, p.getLocalDefaultDashboard());
 
-    Set<AccountGroup.UUID> keepGroups = new HashSet<AccountGroup.UUID>();
+    Set<AccountGroup.UUID> keepGroups = new HashSet<>();
     saveAccountsSection(rc, keepGroups);
     saveContributorAgreements(rc, keepGroups);
     saveAccessSections(rc, keepGroups);
@@ -931,7 +930,7 @@ public class ProjectConfig extends VersionedMetaData {
 
   private List<String> ruleToStringList(
       List<PermissionRule> list, Set<AccountGroup.UUID> keepGroups) {
-    List<String> rules = new ArrayList<String>();
+    List<String> rules = new ArrayList<>();
     for (PermissionRule rule : sort(list)) {
       if (rule.getGroup().getUUID() != null) {
         keepGroups.add(rule.getGroup().getUUID());
@@ -945,12 +944,12 @@ public class ProjectConfig extends VersionedMetaData {
       Config rc, Set<AccountGroup.UUID> keepGroups) {
     AccessSection capability = accessSections.get(AccessSection.GLOBAL_CAPABILITIES);
     if (capability != null) {
-      Set<String> have = new HashSet<String>();
+      Set<String> have = new HashSet<>();
       for (Permission permission : sort(capability.getPermissions())) {
         have.add(permission.getName().toLowerCase());
 
         boolean needRange = GlobalCapability.hasRange(permission.getName());
-        List<String> rules = new ArrayList<String>();
+        List<String> rules = new ArrayList<>();
         for (PermissionRule rule : sort(permission.getRules())) {
           GroupReference group = rule.getGroup();
           if (group.getUUID() != null) {
@@ -990,12 +989,12 @@ public class ProjectConfig extends VersionedMetaData {
         rc.unset(ACCESS, refName, KEY_GROUP_PERMISSIONS);
       }
 
-      Set<String> have = new HashSet<String>();
+      Set<String> have = new HashSet<>();
       for (Permission permission : sort(as.getPermissions())) {
         have.add(permission.getName().toLowerCase());
 
         boolean needRange = Permission.hasRange(permission.getName());
-        List<String> rules = new ArrayList<String>();
+        List<String> rules = new ArrayList<>();
         for (PermissionRule rule : sort(permission.getRules())) {
           GroupReference group = rule.getGroup();
           if (group.getUUID() != null) {
@@ -1139,7 +1138,7 @@ public class ProjectConfig extends VersionedMetaData {
 
   private void error(ValidationError error) {
     if (validationErrors == null) {
-      validationErrors = new ArrayList<ValidationError>(4);
+      validationErrors = new ArrayList<>(4);
     }
     validationErrors.add(error);
   }
@@ -1158,7 +1157,7 @@ public class ProjectConfig extends VersionedMetaData {
   }
 
   private static <T extends Comparable<? super T>> List<T> sort(Collection<T> m) {
-    ArrayList<T> r = new ArrayList<T>(m);
+    ArrayList<T> r = new ArrayList<>(m);
     Collections.sort(r);
     return r;
   }

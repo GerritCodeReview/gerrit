@@ -240,11 +240,10 @@ public class PerformCreateProject {
 
     if (createProjectArgs.ownerIds == null
         || createProjectArgs.ownerIds.isEmpty()) {
-      createProjectArgs.ownerIds =
-          new ArrayList<AccountGroup.UUID>(projectOwnerGroups);
+      createProjectArgs.ownerIds = new ArrayList<>(projectOwnerGroups);
     }
 
-    List<String> transformedBranches = new ArrayList<String>();
+    List<String> transformedBranches = new ArrayList<>();
     if (createProjectArgs.branch == null ||
         createProjectArgs.branch.isEmpty()) {
       createProjectArgs.branch = Collections.singletonList(Constants.MASTER);

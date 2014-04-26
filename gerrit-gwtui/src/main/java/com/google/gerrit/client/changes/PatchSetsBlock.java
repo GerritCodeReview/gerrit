@@ -44,7 +44,7 @@ import java.util.Map;
  */
 public class PatchSetsBlock extends Composite {
   private final Map<PatchSet.Id, PatchSetComplexDisclosurePanel> patchSetPanels =
-      new HashMap<PatchSet.Id, PatchSetComplexDisclosurePanel>();
+      new HashMap<>();
 
   private final FlowPanel body;
   private HandlerRegistration regNavigation;
@@ -84,7 +84,7 @@ public class PatchSetsBlock extends Composite {
       }
     }
 
-    patchSetPanelsList = new ArrayList<PatchSetComplexDisclosurePanel>();
+    patchSetPanelsList = new ArrayList<>();
 
     for (final PatchSet ps : patchSets) {
       final PatchSetComplexDisclosurePanel p =

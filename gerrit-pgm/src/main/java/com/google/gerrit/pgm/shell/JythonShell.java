@@ -85,7 +85,7 @@ public class JythonShell {
     } catch (IllegalAccessException e) {
       throw noInterpreter(e);
     }
-    injectedVariables = new ArrayList<String>();
+    injectedVariables = new ArrayList<>();
     set("Shell", this);
   }
 

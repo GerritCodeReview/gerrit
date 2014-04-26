@@ -123,8 +123,7 @@ public class PatchSetInfoFactory {
 
   private List<PatchSetInfo.ParentInfo> toParentInfos(final RevCommit[] parents,
       final RevWalk walk) throws IOException, MissingObjectException {
-    List<PatchSetInfo.ParentInfo> pInfos =
-      new ArrayList<PatchSetInfo.ParentInfo>(parents.length);
+    List<PatchSetInfo.ParentInfo> pInfos = new ArrayList<>(parents.length);
     for (RevCommit parent : parents) {
       walk.parseBody(parent);
       RevId rev = new RevId(parent.getId().name());

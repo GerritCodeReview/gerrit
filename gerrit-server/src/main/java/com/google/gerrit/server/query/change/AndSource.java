@@ -68,8 +68,7 @@ public class AndSource extends AndPredicate<ChangeData>
 
   private static List<Predicate<ChangeData>> sort(
       Collection<? extends Predicate<ChangeData>> that) {
-    ArrayList<Predicate<ChangeData>> r =
-        new ArrayList<Predicate<ChangeData>>(that);
+    List<Predicate<ChangeData>> r = new ArrayList<>(that);
     Collections.sort(r, CMP);
     return r;
   }
@@ -158,7 +157,7 @@ public class AndSource extends AndPredicate<ChangeData>
     } else if (start > 0) {
       r = ImmutableList.copyOf(r.subList(start, r.size()));
     }
-    return new ListResultSet<ChangeData>(r);
+    return new ListResultSet<>(r);
   }
 
   private Iterable<ChangeData> buffer(

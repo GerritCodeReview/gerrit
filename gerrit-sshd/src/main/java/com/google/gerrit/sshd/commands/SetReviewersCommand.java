@@ -56,7 +56,7 @@ public class SetReviewersCommand extends SshCommand {
   private ProjectControl projectControl;
 
   @Option(name = "--add", aliases = {"-a"}, metaVar = "REVIEWER", usage = "user or group that should be added as reviewer")
-  private List<String> toAdd = new ArrayList<String>();
+  private List<String> toAdd = new ArrayList<>();
 
   @Option(name = "--remove", aliases = {"-r"}, metaVar = "REVIEWER", usage = "user that should be removed from the reviewer list")
   void optionRemove(Account.Id who) {
@@ -92,8 +92,8 @@ public class SetReviewersCommand extends SshCommand {
   @Inject
   private ChangesCollection changesCollection;
 
-  private Set<Account.Id> toRemove = new HashSet<Account.Id>();
-  private Set<Change.Id> changes = new HashSet<Change.Id>();
+  private Set<Account.Id> toRemove = new HashSet<>();
+  private Set<Change.Id> changes = new HashSet<>();
 
   @Override
   protected void run() throws UnloggedFailure {
@@ -161,7 +161,7 @@ public class SetReviewersCommand extends SshCommand {
 
   private Set<Change.Id> parseChangeId(String idstr)
       throws UnloggedFailure, OrmException {
-    Set<Change.Id> matched = new HashSet<Change.Id>(4);
+    Set<Change.Id> matched = new HashSet<>(4);
     boolean isCommit = idstr.matches("^([0-9a-fA-F]{4," + RevId.LEN + "})$");
 
     // By newer style changeKey?

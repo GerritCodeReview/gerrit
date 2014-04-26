@@ -158,7 +158,7 @@ public class CommentsTest {
     return new IAnswer<ResultSet<PatchLineComment>>() {
       @Override
       public ResultSet<PatchLineComment> answer() throws Throwable {
-        return new ListResultSet<PatchLineComment>(Lists.newArrayList(comments));
+        return new ListResultSet<>(Lists.newArrayList(comments));
       }};
   }
 

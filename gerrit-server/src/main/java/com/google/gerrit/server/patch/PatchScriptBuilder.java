@@ -136,7 +136,7 @@ class PatchScriptBuilder {
     a.resolve(null, aId);
     b.resolve(a, bId);
 
-    edits = new ArrayList<Edit>(content.getEdits());
+    edits = new ArrayList<>(content.getEdits());
 
     if (!isModify(content)) {
       intralineDifferenceIsPossible = false;
@@ -148,7 +148,7 @@ class PatchScriptBuilder {
       if (d != null) {
         switch (d.getStatus()) {
           case EDIT_LIST:
-            edits = new ArrayList<Edit>(d.getEdits());
+            edits = new ArrayList<>(d.getEdits());
             break;
 
           case DISABLED:
@@ -185,7 +185,7 @@ class PatchScriptBuilder {
       for (int i = 0; i < a.size(); i++) {
         a.addLine(i);
       }
-      edits = new ArrayList<Edit>(1);
+      edits = new ArrayList<>(1);
       edits.add(new Edit(a.size(), a.size()));
 
     } else {
@@ -269,7 +269,7 @@ class PatchScriptBuilder {
     // correct hunks from this, but because the Edit is empty they will not
     // style it specially.
     //
-    final List<Edit> empty = new ArrayList<Edit>();
+    final List<Edit> empty = new ArrayList<>();
     int lastLine;
 
     lastLine = -1;

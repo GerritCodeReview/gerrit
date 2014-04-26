@@ -40,7 +40,7 @@ public class Schema_60 extends SchemaVersion {
     Pattern patternA = Pattern.compile("Patch Set ([0-9]+):.*", Pattern.DOTALL);
     Pattern patternB = Pattern.compile("Uploaded patch set ([0-9]+).");
     ResultSet<ChangeMessage> results = db.changeMessages().all();
-    List<ChangeMessage> updates = new LinkedList<ChangeMessage>();
+    List<ChangeMessage> updates = new LinkedList<>();
     for (ChangeMessage cm : results) {
       Change.Id id = cm.getKey().getParentKey();
       String msg = cm.getMessage();

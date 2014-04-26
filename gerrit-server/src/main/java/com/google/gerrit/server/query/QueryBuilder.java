@@ -84,7 +84,7 @@ public abstract class QueryBuilder<T> {
    */
   public static class Definition<T, Q extends QueryBuilder<T>> {
     private final Map<String, OperatorFactory<T, Q>> opFactories =
-        new HashMap<String, OperatorFactory<T, Q>>();
+        new HashMap<>();
 
     public Definition(Class<Q> clazz) {
       // Guess at the supported operators by scanning methods.
@@ -204,11 +204,11 @@ public abstract class QueryBuilder<T> {
           final Tree val = onlyChildOf(opTree);
           if (val.getType() == SINGLE_WORD && "*".equals(val.getText())) {
             final String op = opTree.getText();
-            final WildPatternPredicate<T> pat = new WildPatternPredicate<T>(op);
-            return new VariablePredicate<T>(var, pat);
+            final WildPatternPredicate<T> pat = new WildPatternPredicate<>(op);
+            return new VariablePredicate<>(var, pat);
           }
         }
-        return new VariablePredicate<T>(var, toPredicate(opTree));
+        return new VariablePredicate<>(var, toPredicate(opTree));
       }
 
       default:
@@ -224,7 +224,7 @@ public abstract class QueryBuilder<T> {
       //
       case AND:
       case OR: {
-        List<Predicate<T>> p = new ArrayList<Predicate<T>>(val.getChildCount());
+        List<Predicate<T>> p = new ArrayList<>(val.getChildCount());
         for (int i = 0; i < val.getChildCount(); i++) {
           final Tree c = val.getChild(i);
           if (c.getType() != DEFAULT_FIELD) {

@@ -163,7 +163,7 @@ public class AccountCacheImpl implements AccountCache {
           Collections.unmodifiableCollection(db.accountExternalIds().byAccount(
               who).toList());
 
-      Set<AccountGroup.UUID> internalGroups = new HashSet<AccountGroup.UUID>();
+      Set<AccountGroup.UUID> internalGroups = new HashSet<>();
       for (AccountGroupMember g : db.accountGroupMembers().byAccount(who)) {
         final AccountGroup.Id groupId = g.getAccountGroupId();
         final AccountGroup group = groupCache.get(groupId);

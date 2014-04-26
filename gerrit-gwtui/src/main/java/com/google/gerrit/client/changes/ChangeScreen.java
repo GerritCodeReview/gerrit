@@ -300,7 +300,7 @@ public class ChangeScreen extends Screen
       CallbackGroup cbs1 = new CallbackGroup();
       final CallbackGroup cbs2 = new CallbackGroup();
       final PatchSet.Id psId = event.getValue().getCurrentPatchSet().getId();
-      final Map<String, Patch> patches = new HashMap<String, Patch>();
+      final Map<String, Patch> patches = new HashMap<>();
       String revId =
           event.getValue().getCurrentPatchSetDetail().getInfo().getRevId();
 
@@ -330,7 +330,7 @@ public class ChangeScreen extends Screen
 
               private void dependsOn(RelatedChanges.RelatedInfo info) {
                 ChangeAndCommit self = null;
-                Map<String, ChangeAndCommit> m = new HashMap<String, ChangeAndCommit>();
+                Map<String, ChangeAndCommit> m = new HashMap<>();
                 for (int i = 0; i < info.changes().length(); i++) {
                   ChangeAndCommit c = info.changes().get(i);
                   if (changeId.equals(c.legacy_id())) {
@@ -342,7 +342,7 @@ public class ChangeScreen extends Screen
                 }
                 if (self != null && self.commit() != null
                     && self.commit().parents() != null) {
-                  List<ChangeInfo> d = new ArrayList<ChangeInfo>();
+                  List<ChangeInfo> d = new ArrayList<>();
                   for (CommitInfo p : Natives.asList(self.commit().parents())) {
                     ChangeAndCommit pc = m.get(p.commit());
                     if (pc != null && pc.has_change_number()) {
@@ -356,12 +356,12 @@ public class ChangeScreen extends Screen
               }
 
               private void neededBy(RelatedChanges.RelatedInfo info) {
-                Set<String> mine = new HashSet<String>();
+                Set<String> mine = new HashSet<>();
                 for (PatchSet ps : event.getValue().getPatchSets()) {
                   mine.add(ps.getRevision().get());
                 }
 
-                List<ChangeInfo> n = new ArrayList<ChangeInfo>();
+                List<ChangeInfo> n = new ArrayList<>();
                 for (int i = 0; i < info.changes().length(); i++) {
                   ChangeAndCommit c = info.changes().get(i);
                   if (c.has_change_number()
@@ -418,7 +418,7 @@ public class ChangeScreen extends Screen
               }
               public void onFailure(Throwable caught) {}
             }));
-        final Set<PatchSet.Id> withDrafts = new HashSet<PatchSet.Id>();
+        final Set<PatchSet.Id> withDrafts = new HashSet<>();
         event.getValue().setPatchSetsWithDraftComments(withDrafts);
         for (PatchSet ps : event.getValue().getPatchSets()) {
           if (!ps.getId().equals(psId)) {
@@ -478,7 +478,7 @@ public class ChangeScreen extends Screen
             public void onSuccess(NativeMap<FileInfo> result) {
               JsArray<FileInfo> fileInfos = result.values();
               FileInfo.sortFileInfoByPath(fileInfos);
-              List<Patch> list = new ArrayList<Patch>(fileInfos.length());
+              List<Patch> list = new ArrayList<>(fileInfos.length());
               for (FileInfo f : Natives.asList(fileInfos)) {
                 Patch p = patches.get(f.path());
                 if (p == null) {

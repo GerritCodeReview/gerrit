@@ -33,7 +33,7 @@ public class ProjectNode implements TreeNode, Comparable<ProjectNode> {
   private final Project project;
   private final boolean isVisible;
 
-  private final SortedSet<ProjectNode> children = new TreeSet<ProjectNode>();
+  private final SortedSet<ProjectNode> children = new TreeSet<>();
 
   @Inject
   protected ProjectNode(final AllProjectsName allProjectsName,

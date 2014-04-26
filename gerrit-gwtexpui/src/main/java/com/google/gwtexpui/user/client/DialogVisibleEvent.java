@@ -22,7 +22,7 @@ public class DialogVisibleEvent extends GwtEvent<DialogVisibleHandler> {
 
   public static Type<DialogVisibleHandler> getType() {
     if (TYPE == null) {
-      TYPE = new Type<DialogVisibleHandler>();
+      TYPE = new Type<>();
     }
     return TYPE;
   }

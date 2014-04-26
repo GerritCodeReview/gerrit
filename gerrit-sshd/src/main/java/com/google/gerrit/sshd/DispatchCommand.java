@@ -52,7 +52,7 @@ final class DispatchCommand extends BaseCommand {
   private String commandName;
 
   @Argument(index = 1, multiValued = true, metaVar = "ARG")
-  private List<String> args = new ArrayList<String>();
+  private List<String> args = new ArrayList<>();
 
   @Inject
   DispatchCommand(final Provider<CurrentUser> cu,

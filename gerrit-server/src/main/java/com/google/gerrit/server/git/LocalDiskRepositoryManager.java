@@ -234,7 +234,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
   private void onCreateProject(final Project.NameKey newProjectName) {
     namesUpdateLock.lock();
     try {
-      SortedSet<Project.NameKey> n = new TreeSet<Project.NameKey>(names);
+      SortedSet<Project.NameKey> n = new TreeSet<>(names);
       n.add(newProjectName);
       names = Collections.unmodifiableSortedSet(n);
     } finally {
@@ -345,7 +345,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     // scanning the filesystem. Don't rely on the cached names collection.
     namesUpdateLock.lock();
     try {
-      SortedSet<Project.NameKey> n = new TreeSet<Project.NameKey>();
+      SortedSet<Project.NameKey> n = new TreeSet<>();
       scanProjects(basePath, "", n);
       names = Collections.unmodifiableSortedSet(n);
       return n;

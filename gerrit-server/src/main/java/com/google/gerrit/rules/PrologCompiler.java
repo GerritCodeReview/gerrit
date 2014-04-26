@@ -154,13 +154,13 @@ public class PrologCompiler implements Callable<PrologCompiler.Status> {
     }
 
     DiagnosticCollector<JavaFileObject> diagnostics =
-        new DiagnosticCollector<JavaFileObject>();
+        new DiagnosticCollector<>();
     StandardJavaFileManager fileManager =
         compiler.getStandardFileManager(diagnostics, null, null);
     try {
       Iterable<? extends JavaFileObject> compilationUnits = fileManager
         .getJavaFileObjectsFromFiles(getAllFiles(tempDir, ".java"));
-      ArrayList<String> options = new ArrayList<String>();
+      ArrayList<String> options = new ArrayList<>();
       String classpath = getMyClasspath();
       if (classpath != null) {
         options.add("-classpath");
@@ -270,7 +270,7 @@ public class PrologCompiler implements Callable<PrologCompiler.Status> {
   }
 
   private List<File> getAllFiles(File dir, String extension) {
-    ArrayList<File> fileList = new ArrayList<File>();
+    ArrayList<File> fileList = new ArrayList<>();
     getAllFiles(dir, extension, fileList);
     return fileList;
   }
@@ -287,7 +287,7 @@ public class PrologCompiler implements Callable<PrologCompiler.Status> {
   }
 
   private List<String> getRelativePaths(File dir, String extension) {
-    ArrayList<String> pathList = new ArrayList<String>();
+    ArrayList<String> pathList = new ArrayList<>();
     getRelativePaths(dir, extension, "", pathList);
     return pathList;
   }

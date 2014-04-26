@@ -77,7 +77,7 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
   }
 
   private static Set<PublicKey> myHostKeys(KeyPairProvider p) {
-    final Set<PublicKey> keys = new HashSet<PublicKey>(2);
+    final Set<PublicKey> keys = new HashSet<>(2);
     addPublicKey(keys, p, KeyPairProvider.SSH_RSA);
     addPublicKey(keys, p, KeyPairProvider.SSH_DSS);
     return keys;
@@ -183,7 +183,7 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
       try {
         final BufferedReader br = new BufferedReader(new FileReader(path));
         try {
-          final Set<PublicKey> keys = new HashSet<PublicKey>();
+          final Set<PublicKey> keys = new HashSet<>();
           String line;
           while ((line = br.readLine()) != null) {
             line = line.trim();

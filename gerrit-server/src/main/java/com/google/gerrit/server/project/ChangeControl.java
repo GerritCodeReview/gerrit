@@ -505,7 +505,7 @@ public class ChangeControl {
    * the out collection is reversed to restore it to the original ordering.
    */
   public List<SubmitRecord> resultsToSubmitRecord(Term submitRule, List<Term> results) {
-    List<SubmitRecord> out = new ArrayList<SubmitRecord>(results.size());
+    List<SubmitRecord> out = new ArrayList<>(results.size());
     for (int resultIdx = results.size() - 1; 0 <= resultIdx; resultIdx--) {
       Term submitRecord = results.get(resultIdx);
       SubmitRecord rec = new SubmitRecord();
@@ -534,7 +534,7 @@ public class ChangeControl {
         return logInvalidResult(submitRule, submitRecord);
       }
 
-      rec.labels = new ArrayList<SubmitRecord.Label> (submitRecord.arity());
+      rec.labels = new ArrayList<>(submitRecord.arity());
 
       for (Term state : ((StructureTerm) submitRecord).args()) {
         if (!state.isStructure() || 2 != state.arity() || !"label".equals(state.name())) {

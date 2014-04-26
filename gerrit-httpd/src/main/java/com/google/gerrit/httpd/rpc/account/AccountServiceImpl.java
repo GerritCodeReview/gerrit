@@ -113,8 +113,7 @@ class AccountServiceImpl extends BaseServiceImplementation implements
       final AsyncCallback<List<AccountProjectWatchInfo>> callback) {
     run(callback, new Action<List<AccountProjectWatchInfo>>() {
       public List<AccountProjectWatchInfo> run(ReviewDb db) throws OrmException {
-        final List<AccountProjectWatchInfo> r =
-            new ArrayList<AccountProjectWatchInfo>();
+        List<AccountProjectWatchInfo> r = new ArrayList<>();
 
         for (final AccountProjectWatch w : db.accountProjectWatches()
             .byAccount(getAccountId()).toList()) {

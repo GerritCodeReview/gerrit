@@ -130,8 +130,7 @@ public class AcceptanceTestRequestScope {
     }
   }
 
-  private static final ThreadLocal<Context> current =
-      new ThreadLocal<Context>();
+  private static final ThreadLocal<Context> current = new ThreadLocal<>();
 
   private static Context requireContext() {
     final Context ctx = current.get();

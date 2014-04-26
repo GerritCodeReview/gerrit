@@ -44,8 +44,7 @@ public class CssLinker extends AbstractLinker {
     final ArtifactSet returnTo = new ArtifactSet();
     int index = 0;
 
-    final HashMap<String, PublicResource> css =
-        new HashMap<String, PublicResource>();
+    final HashMap<String, PublicResource> css = new HashMap<>();
 
     for (final StandardStylesheetReference ssr : artifacts
         .<StandardStylesheetReference> find(StandardStylesheetReference.class)) {

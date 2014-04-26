@@ -57,7 +57,7 @@ public abstract class PrologTestCase {
 
   protected void load(String pkg, String prologResource, Module... modules)
       throws CompileException, IOException {
-    ArrayList<Module> moduleList = new ArrayList<Module>();
+    ArrayList<Module> moduleList = new ArrayList<>();
     moduleList.add(new PrologModule.EnvironmentModule());
     moduleList.addAll(Arrays.asList(modules));
 
@@ -74,7 +74,7 @@ public abstract class PrologTestCase {
         SymbolTerm.intern(pkg),
         new StructureTerm(test_1, new VariableTerm()));
 
-    tests = new ArrayList<Term>();
+    tests = new ArrayList<>();
     for (Term[] pair : env.all(Prolog.BUILTIN, "clause", head, new VariableTerm())) {
       tests.add(pair[0]);
     }

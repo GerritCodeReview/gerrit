@@ -90,7 +90,7 @@ public class ReviewerJson {
     LabelTypes labelTypes = ctl.getLabelTypes();
 
     // Don't use Maps.newTreeMap(Comparator) due to OpenJDK bug 100167.
-    out.approvals = new TreeMap<String,String>(labelTypes.nameComparator());
+    out.approvals = new TreeMap<>(labelTypes.nameComparator());
     for (PatchSetApproval ca : approvals) {
       for (PermissionRange pr : ctl.getLabelRanges()) {
         if (!pr.isEmpty()) {

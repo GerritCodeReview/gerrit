@@ -29,7 +29,7 @@ public class SparseFileContent {
   private transient int currentRangeIdx;
 
   public SparseFileContent() {
-    ranges = new ArrayList<Range>();
+    ranges = new ArrayList<>();
   }
 
   public int size() {
@@ -222,7 +222,7 @@ public class SparseFileContent {
 
   public SparseFileContent apply(SparseFileContent a, List<Edit> edits) {
     EditList list = new EditList(edits, size, a.size(), size);
-    ArrayList<String> lines = new ArrayList<String>(size);
+    ArrayList<String> lines = new ArrayList<>(size);
     for (final EditList.Hunk hunk : list.getHunks()) {
       while (hunk.next()) {
         if (hunk.isContextLine()) {
@@ -277,7 +277,7 @@ public class SparseFileContent {
 
     private Range(final int b) {
       base = b;
-      lines = new ArrayList<String>();
+      lines = new ArrayList<>();
     }
 
     protected Range() {

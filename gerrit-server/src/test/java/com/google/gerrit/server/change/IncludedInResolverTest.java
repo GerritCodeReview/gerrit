@@ -58,8 +58,8 @@ public class IncludedInResolverTest extends RepositoryTestCase {
   private RevCommit commit_v1_3;
   private RevCommit commit_v2_5;
 
-  private List<String> expTags = new ArrayList<String>();
-  private List<String> expBranches = new ArrayList<String>();
+  private List<String> expTags = new ArrayList<>();
+  private List<String> expBranches = new ArrayList<>();
 
   private RevWalk revWalk;
 

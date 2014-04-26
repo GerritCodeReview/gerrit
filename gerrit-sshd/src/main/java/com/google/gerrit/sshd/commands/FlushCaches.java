@@ -39,7 +39,7 @@ final class FlushCaches extends CacheCommand {
   private static final String WEB_SESSIONS = "web_sessions";
 
   @Option(name = "--cache", usage = "flush named cache", metaVar = "NAME")
-  private List<String> caches = new ArrayList<String>();
+  private List<String> caches = new ArrayList<>();
 
   @Option(name = "--all", usage = "flush all caches")
   private boolean all;

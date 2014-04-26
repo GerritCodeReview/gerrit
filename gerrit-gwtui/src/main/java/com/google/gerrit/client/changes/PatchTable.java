@@ -105,7 +105,7 @@ public class PatchTable extends Composite {
 
   private Map<Key, Integer> patchMap() {
     if (patchMap == null) {
-      patchMap = new HashMap<Patch.Key, Integer>();
+      patchMap = new HashMap<>();
       for (int i = 0; i < patchList.size(); i++) {
         patchMap.put(patchList.get(i).getKey(), i);
       }
@@ -154,7 +154,7 @@ public class PatchTable extends Composite {
       myTable.addClickHandler(clickHandler);
     } else {
       if (clickHandlers == null) {
-        clickHandlers = new ArrayList<ClickHandler>(2);
+        clickHandlers = new ArrayList<>(2);
       }
       clickHandlers.add(clickHandler);
     }

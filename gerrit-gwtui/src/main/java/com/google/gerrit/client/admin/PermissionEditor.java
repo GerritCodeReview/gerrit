@@ -124,8 +124,8 @@ public class PermissionEditor extends Composite implements Editor<Permission>,
 
     PermissionNameRenderer nameRenderer =
         new PermissionNameRenderer(projectAccess.getCapabilities());
-    normalName = new ValueLabel<String>(nameRenderer);
-    deletedName = new ValueLabel<String>(nameRenderer);
+    normalName = new ValueLabel<>(nameRenderer);
+    deletedName = new ValueLabel<>(nameRenderer);
 
     initWidget(uiBinder.createAndBindUi(this));
     groupToAdd.setProject(projectName);

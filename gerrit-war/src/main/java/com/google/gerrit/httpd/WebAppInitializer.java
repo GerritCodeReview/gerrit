@@ -201,7 +201,7 @@ public class WebAppInitializer extends GuiceServletContextListener
   }
 
   private Injector createDbInjector() {
-    final List<Module> modules = new ArrayList<Module>();
+    final List<Module> modules = new ArrayList<>();
     if (sitePath != null) {
       Module sitePathModule = new AbstractModule() {
         @Override
@@ -249,7 +249,7 @@ public class WebAppInitializer extends GuiceServletContextListener
   }
 
   private Injector createCfgInjector() {
-    final List<Module> modules = new ArrayList<Module>();
+    final List<Module> modules = new ArrayList<>();
     if (sitePath == null) {
       // If we didn't get the site path from the system property
       // we need to get it from the database, as that's our old
@@ -272,7 +272,7 @@ public class WebAppInitializer extends GuiceServletContextListener
   }
 
   private Injector createSysInjector() {
-    final List<Module> modules = new ArrayList<Module>();
+    final List<Module> modules = new ArrayList<>();
     modules.add(new WorkQueue.Module());
     modules.add(new ChangeHookRunner.Module());
     modules.add(new ReceiveCommitsExecutorModule());
@@ -314,7 +314,7 @@ public class WebAppInitializer extends GuiceServletContextListener
   }
 
   private Injector createSshInjector() {
-    final List<Module> modules = new ArrayList<Module>();
+    final List<Module> modules = new ArrayList<>();
     modules.add(sysInjector.getInstance(SshModule.class));
     modules.add(new SshHostKeyModule());
     modules.add(new DefaultCommandModule(false));
@@ -322,7 +322,7 @@ public class WebAppInitializer extends GuiceServletContextListener
   }
 
   private Injector createWebInjector() {
-    final List<Module> modules = new ArrayList<Module>();
+    final List<Module> modules = new ArrayList<>();
     modules.add(RequestContextFilter.module());
     modules.add(AllRequestFilter.module());
     modules.add(sysInjector.getInstance(GitOverHttpModule.class));

@@ -107,7 +107,7 @@ public class SmtpEmailSender implements EmailSender {
     smtpUser = cfg.getString("sendemail", null, "smtpuser");
     smtpPass = cfg.getString("sendemail", null, "smtppass");
 
-    Set<String> rcpt = new HashSet<String>();
+    Set<String> rcpt = new HashSet<>();
     for (String addr : cfg.getStringList("sendemail", null, "allowrcpt")) {
       rcpt.add(addr);
     }
@@ -152,7 +152,7 @@ public class SmtpEmailSender implements EmailSender {
     }
 
     final Map<String, EmailHeader> hdrs =
-        new LinkedHashMap<String, EmailHeader>(callerHeaders);
+        new LinkedHashMap<>(callerHeaders);
     setMissingHeader(hdrs, "MIME-Version", "1.0");
     setMissingHeader(hdrs, "Content-Type", "text/plain; charset=UTF-8");
     setMissingHeader(hdrs, "Content-Transfer-Encoding", "8bit");

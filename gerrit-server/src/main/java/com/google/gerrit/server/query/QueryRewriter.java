@@ -76,7 +76,7 @@ public abstract class QueryRewriter<T> {
           if ((m.getModifiers() & Modifier.ABSTRACT) != Modifier.ABSTRACT
               && (m.getModifiers() & Modifier.PUBLIC) == Modifier.PUBLIC
               && rp != null) {
-            rewriteRules.add(new MethodRewrite<T>(qb, rp.value(), m));
+            rewriteRules.add(new MethodRewrite<>(qb, rp.value(), m));
           }
         }
         c = c.getSuperclass();
@@ -138,7 +138,7 @@ public abstract class QueryRewriter<T> {
       in = rewriteOne(in);
 
       if (old.equals(in) && in.getChildCount() > 0) {
-        List<Predicate<T>> n = new ArrayList<Predicate<T>>(in.getChildCount());
+        List<Predicate<T>> n = new ArrayList<>(in.getChildCount());
         for (Predicate<T> p : in.getChildren()) {
           n.add(rewriteImpl(p));
         }
@@ -159,14 +159,14 @@ public abstract class QueryRewriter<T> {
       return not(replaceGenericNodes(in.getChild(0)));
 
     } else if (in instanceof AndPredicate) {
-      List<Predicate<T>> n = new ArrayList<Predicate<T>>(in.getChildCount());
+      List<Predicate<T>> n = new ArrayList<>(in.getChildCount());
       for (Predicate<T> c : in.getChildren()) {
         n.add(replaceGenericNodes(c));
       }
       return and(n);
 
     } else if (in instanceof OrPredicate) {
-      List<Predicate<T>> n = new ArrayList<Predicate<T>>(in.getChildCount());
+      List<Predicate<T>> n = new ArrayList<>(in.getChildCount());
       for (Predicate<T> c : in.getChildren()) {
         n.add(replaceGenericNodes(c));
       }
@@ -198,8 +198,8 @@ public abstract class QueryRewriter<T> {
   }
 
   private static class MatchResult<T> {
-    private static final MatchResult<?> FAIL = new MatchResult<Object>(null);
-    private static final MatchResult<?> OK = new MatchResult<Object>(null);
+    private static final MatchResult<?> FAIL = new MatchResult<>(null);
+    private static final MatchResult<?> OK = new MatchResult<>(null);
 
     @SuppressWarnings("unchecked")
     static <T> MatchResult<T> fail() {
@@ -251,7 +251,7 @@ public abstract class QueryRewriter<T> {
       // but in any order.
       //
       final LinkedList<Predicate<T>> have = dup(actual);
-      final LinkedList<Predicate<T>> extra = new LinkedList<Predicate<T>>();
+      final LinkedList<Predicate<T>> extra = new LinkedList<>();
       for (final Predicate<T> pat : pattern.getChildren()) {
         boolean found = false;
         for (final Iterator<Predicate<T>> i = have.iterator(); i.hasNext();) {
@@ -275,11 +275,11 @@ public abstract class QueryRewriter<T> {
           return MatchResult.ok();
         case 1:
           if (isNOT(actual)) {
-            return new MatchResult<T>(actual.copy(have));
+            return new MatchResult<>(actual.copy(have));
           }
-          return new MatchResult<T>(have.get(0));
+          return new MatchResult<>(have.get(0));
         default:
-          return new MatchResult<T>(actual.copy(have));
+          return new MatchResult<>(actual.copy(have));
       }
 
     } else if (pattern.equals(actual)) {
@@ -297,7 +297,7 @@ public abstract class QueryRewriter<T> {
   }
 
   private static <T> LinkedList<Predicate<T>> dup(final Predicate<T> actual) {
-    return new LinkedList<Predicate<T>>(actual.getChildren());
+    return new LinkedList<>(actual.getChildren());
   }
 
   /**
@@ -412,8 +412,7 @@ public abstract class QueryRewriter<T> {
     @Override
     public Predicate<T> rewrite(QueryRewriter<T> rewriter,
         final Predicate<T> input) {
-      final HashMap<String, Predicate<T>> args =
-          new HashMap<String, Predicate<T>>();
+      final HashMap<String, Predicate<T>> args = new HashMap<>();
       final MatchResult<T> res = rewriter.match(args, pattern, input);
       if (!res.success()) {
         return null;
@@ -483,7 +482,7 @@ public abstract class QueryRewriter<T> {
   }
 
   private static <T> List<Predicate<T>> removeDuplicates(List<Predicate<T>> n) {
-    List<Predicate<T>> r = new ArrayList<Predicate<T>>();
+    List<Predicate<T>> r = new ArrayList<>();
     for (Predicate<T> p : n) {
       if (!r.contains(p)) {
         r.add(p);

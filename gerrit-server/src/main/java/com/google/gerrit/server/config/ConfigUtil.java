@@ -165,7 +165,7 @@ public class ConfigUtil {
   public static <T extends Enum<?>> List<T> getEnumList(final Config config,
       final String section, final String subsection, final String setting,
       final T[] all, final T defaultValue) {
-    final List<T> list = new ArrayList<T>();
+    final List<T> list = new ArrayList<>();
     final String[] values = config.getStringList(section, subsection, setting);
     if (values.length == 0) {
       list.add(defaultValue);

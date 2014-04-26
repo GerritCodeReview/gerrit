@@ -32,7 +32,7 @@ public class RequestCleanup implements Runnable {
   private static final Logger log =
       LoggerFactory.getLogger(RequestCleanup.class);
 
-  private final List<Runnable> cleanup = new LinkedList<Runnable>();
+  private final List<Runnable> cleanup = new LinkedList<>();
   private boolean ran;
 
   /** Register a task to be completed after the request ends. */

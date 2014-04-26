@@ -59,7 +59,7 @@ public class LogUtil {
       this.additive = logger.getAdditivity();
 
       Enumeration<?> appenders = logger.getAllAppenders();
-      this.appenders = new ArrayList<Appender>();
+      this.appenders = new ArrayList<>();
       while (appenders.hasMoreElements()) {
         Object appender = appenders.nextElement();
         if (appender instanceof Appender) {

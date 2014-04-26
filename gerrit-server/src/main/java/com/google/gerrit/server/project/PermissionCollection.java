@@ -109,12 +109,11 @@ public class PermissionCollection {
       List<AccessSection> sections = Lists.newArrayList(sectionToProject.keySet());
       sorter.sort(ref, sections);
 
-      Set<SeenRule> seen = new HashSet<SeenRule>();
-      Set<SeenRule> seenBlockingRules = new HashSet<SeenRule>();
-      Set<String> exclusiveGroupPermissions = new HashSet<String>();
+      Set<SeenRule> seen = new HashSet<>();
+      Set<SeenRule> seenBlockingRules = new HashSet<>();
+      Set<String> exclusiveGroupPermissions = new HashSet<>();
 
-      HashMap<String, List<PermissionRule>> permissions =
-          new HashMap<String, List<PermissionRule>>();
+      HashMap<String, List<PermissionRule>> permissions = new HashMap<>();
       Map<PermissionRule, ProjectRef> ruleProps = Maps.newIdentityHashMap();
       for (AccessSection section : sections) {
         Project.NameKey project = sectionToProject.get(section);
@@ -133,7 +132,7 @@ public class PermissionCollection {
             if (addRule) {
               List<PermissionRule> r = permissions.get(permission.getName());
               if (r == null) {
-                r = new ArrayList<PermissionRule>(2);
+                r = new ArrayList<>(2);
                 permissions.put(permission.getName(), r);
               }
               r.add(rule);

@@ -83,7 +83,7 @@ public class GroupDetailFactory implements Callable<GroupDetail> {
   }
 
   private List<AccountGroupMember> loadMembers() throws OrmException {
-    List<AccountGroupMember> members = new ArrayList<AccountGroupMember>();
+    List<AccountGroupMember> members = new ArrayList<>();
     for (final AccountGroupMember m : db.accountGroupMembers().byGroup(groupId)) {
       if (control.canSeeMember(m.getAccountId())) {
         aic.want(m.getAccountId());
@@ -117,7 +117,7 @@ public class GroupDetailFactory implements Callable<GroupDetail> {
   }
 
   private List<AccountGroupById> loadIncludes() throws OrmException {
-    List<AccountGroupById> groups = new ArrayList<AccountGroupById>();
+    List<AccountGroupById> groups = new ArrayList<>();
 
     for (final AccountGroupById m : db.accountGroupById().byGroup(groupId)) {
       if (control.canSeeGroup(m.getIncludeUUID())) {

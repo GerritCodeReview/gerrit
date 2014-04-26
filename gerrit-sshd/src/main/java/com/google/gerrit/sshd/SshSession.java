@@ -26,8 +26,7 @@ import java.net.SocketAddress;
 /** Global data related to an active SSH connection. */
 public class SshSession {
   /** ServerSession attribute key for this object instance. */
-  public static final AttributeKey<SshSession> KEY =
-      new AttributeKey<SshSession>();
+  public static final AttributeKey<SshSession> KEY = new AttributeKey<>();
 
   private final int sessionId;
   private final SocketAddress remoteAddress;

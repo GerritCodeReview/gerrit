@@ -42,7 +42,7 @@ import java.util.List;
 @CommandMetaData(name = "create-account", description = "Create a new batch/role account")
 final class CreateAccountCommand extends SshCommand {
   @Option(name = "--group", aliases = {"-g"}, metaVar = "GROUP", usage = "groups to add account to")
-  private List<AccountGroup.Id> groups = new ArrayList<AccountGroup.Id>();
+  private List<AccountGroup.Id> groups = new ArrayList<>();
 
   @Option(name = "--full-name", metaVar = "NAME", usage = "display name of the account")
   private String fullName;

@@ -304,10 +304,10 @@ public class ReceiveCommits {
 
   private List<CreateRequest> newChanges = Collections.emptyList();
   private final Map<Change.Id, ReplaceRequest> replaceByChange =
-      new HashMap<Change.Id, ReplaceRequest>();
+      new HashMap<>();
   private final Map<RevCommit, ReplaceRequest> replaceByCommit =
-      new HashMap<RevCommit, ReplaceRequest>();
-  private final Set<RevCommit> validCommits = new HashSet<RevCommit>();
+      new HashMap<>();
+  private final Set<RevCommit> validCommits = new HashSet<>();
 
   private ListMultimap<Change.Id, Ref> refsByChange;
   private SetMultimap<ObjectId, Ref> refsById;
@@ -318,7 +318,7 @@ public class ReceiveCommits {
   private final MergeQueue mergeQueue;
   private final DynamicMap<ProjectConfigEntry> pluginConfigEntries;
 
-  private final List<CommitValidationMessage> messages = new ArrayList<CommitValidationMessage>();
+  private final List<CommitValidationMessage> messages = new ArrayList<>();
   private ListMultimap<Error, String> errors = LinkedListMultimap.create();
   private Task newProgress;
   private Task replaceProgress;
@@ -437,7 +437,7 @@ public class ReceiveCommits {
       rp.setCheckReferencedObjectsAreReachable(config.checkReferencedObjectsAreReachable);
       rp.setAdvertiseRefsHook(new VisibleRefFilter(tagCache, changeCache, repo, projectControl, db, false));
     }
-    List<AdvertiseRefsHook> advHooks = new ArrayList<AdvertiseRefsHook>(3);
+    List<AdvertiseRefsHook> advHooks = new ArrayList<>(3);
     advHooks.add(new AdvertiseRefsHook() {
       @Override
       public void advertiseRefs(BaseReceivePack rp)
@@ -1392,7 +1392,7 @@ public class ReceiveCommits {
       }
 
       List<ChangeLookup> pending = Lists.newArrayList();
-      final Set<Change.Key> newChangeIds = new HashSet<Change.Key>();
+      final Set<Change.Key> newChangeIds = new HashSet<>();
       for (;;) {
         final RevCommit c = walk.next();
         if (c == null) {
@@ -2220,7 +2220,7 @@ public class ReceiveCommits {
       final SetMultimap<ObjectId, Ref> byCommit = changeRefsById();
       final Map<Change.Key, Change.Id> byKey = openChangesByKey(
           new Branch.NameKey(project.getNameKey(), cmd.getRefName()));
-      final List<ReplaceRequest> toClose = new ArrayList<ReplaceRequest>();
+      final List<ReplaceRequest> toClose = new ArrayList<>();
       RevCommit c;
       while ((c = rw.next()) != null) {
         final Set<Ref> refs = byCommit.get(c.copy());
@@ -2328,7 +2328,7 @@ public class ReceiveCommits {
 
   private Map<Change.Key, Change.Id> openChangesByKey(Branch.NameKey branch)
       throws OrmException {
-    final Map<Change.Key, Change.Id> r = new HashMap<Change.Key, Change.Id>();
+    final Map<Change.Key, Change.Id> r = new HashMap<>();
     for (Change c : db.changes().byBranchOpenAll(branch)) {
       r.put(c.getKey(), c.getId());
     }

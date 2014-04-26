@@ -24,7 +24,7 @@ public class AccountsSection {
 
   public List<PermissionRule> getSameGroupVisibility() {
     if (sameGroupVisibility == null) {
-      sameGroupVisibility = new ArrayList<PermissionRule>();
+      sameGroupVisibility = new ArrayList<>();
     }
     return sameGroupVisibility;
   }

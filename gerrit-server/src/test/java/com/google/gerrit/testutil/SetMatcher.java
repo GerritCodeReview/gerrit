@@ -29,7 +29,7 @@ import java.util.Set;
  */
 public class SetMatcher<T> implements IArgumentMatcher {
   public static <S extends Iterable<T>,T> S setEq(S expected) {
-    EasyMock.reportMatcher(new SetMatcher<T>(expected));
+    EasyMock.reportMatcher(new SetMatcher<>(expected));
     return null;
   }
 

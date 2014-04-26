@@ -132,7 +132,7 @@ public class MultiProgressMonitor {
 
   private final OutputStream out;
   private final String taskName;
-  private final List<Task> tasks = new CopyOnWriteArrayList<Task>();
+  private final List<Task> tasks = new CopyOnWriteArrayList<>();
   private int spinnerIndex;
   private char spinnerState = NO_SPINNER;
   private boolean done;

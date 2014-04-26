@@ -63,7 +63,7 @@ class DeleteExternalIds extends Handler<Set<AccountExternalId.Key>> {
   public Set<AccountExternalId.Key> call() throws OrmException {
     final Map<AccountExternalId.Key, AccountExternalId> have = have();
 
-    List<AccountExternalId> toDelete = new ArrayList<AccountExternalId>();
+    List<AccountExternalId> toDelete = new ArrayList<>();
     for (AccountExternalId.Key k : keys) {
       final AccountExternalId id = have.get(k);
       if (id != null && id.canDelete()) {
@@ -86,7 +86,7 @@ class DeleteExternalIds extends Handler<Set<AccountExternalId.Key>> {
       throws OrmException {
     Map<AccountExternalId.Key, AccountExternalId> r;
 
-    r = new HashMap<AccountExternalId.Key, AccountExternalId>();
+    r = new HashMap<>();
     for (AccountExternalId i : detailFactory.call()) {
       r.put(i.getKey(), i);
     }
@@ -94,7 +94,7 @@ class DeleteExternalIds extends Handler<Set<AccountExternalId.Key>> {
   }
 
   private Set<AccountExternalId.Key> toKeySet(List<AccountExternalId> toDelete) {
-    Set<AccountExternalId.Key> r = new HashSet<AccountExternalId.Key>();
+    Set<AccountExternalId.Key> r = new HashSet<>();
     for (AccountExternalId i : toDelete) {
       r.add(i.getKey());
     }

@@ -113,9 +113,9 @@ public class Schema<T> {
             if (v == null) {
               return null;
             } else if (f.isRepeatable()) {
-              return new Values<T>(f, (Iterable<?>) v);
+              return new Values<>(f, (Iterable<?>) v);
             } else {
-              return new Values<T>(f, Collections.singleton(v));
+              return new Values<>(f, Collections.singleton(v));
             }
           }
         }).filter(Predicates.notNull());

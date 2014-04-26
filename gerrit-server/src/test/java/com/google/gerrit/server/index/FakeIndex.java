@@ -23,11 +23,11 @@ import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 
 class FakeIndex implements ChangeIndex {
-  static Schema<ChangeData> V1 = new Schema<ChangeData>(1, false,
+  static Schema<ChangeData> V1 = new Schema<>(1, false,
     ImmutableList.<FieldDef<ChangeData, ?>> of(
       ChangeField.STATUS));
 
-  static Schema<ChangeData> V2 = new Schema<ChangeData>(2, false,
+  static Schema<ChangeData> V2 = new Schema<>(2, false,
     ImmutableList.of(
       ChangeField.STATUS,
       ChangeField.PATH,

@@ -327,7 +327,7 @@ public class RestApi {
 
   private <T extends JavaScriptObject> void send(
       Method method, AsyncCallback<T> cb) {
-    HttpCallback<T> httpCallback = new HttpCallback<T>(background, cb);
+    HttpCallback<T> httpCallback = new HttpCallback<>(background, cb);
     try {
       if (!background) {
         RpcStatus.INSTANCE.onRpcStart();
@@ -367,7 +367,7 @@ public class RestApi {
   private <T extends JavaScriptObject> void sendJSON(
       Method method, JavaScriptObject content,
       AsyncCallback<T> cb) {
-    HttpCallback<T> httpCallback = new HttpCallback<T>(background, cb);
+    HttpCallback<T> httpCallback = new HttpCallback<>(background, cb);
     try {
       if (!background) {
         RpcStatus.INSTANCE.onRpcStart();
@@ -384,7 +384,7 @@ public class RestApi {
 
   private <T extends JavaScriptObject> void sendRaw(Method method, String body,
       AsyncCallback<T> cb) {
-    HttpCallback<T> httpCallback = new HttpCallback<T>(background, cb);
+    HttpCallback<T> httpCallback = new HttpCallback<>(background, cb);
     try {
       if (!background) {
         RpcStatus.INSTANCE.onRpcStart();

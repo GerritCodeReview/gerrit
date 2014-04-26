@@ -33,7 +33,7 @@ import java.util.List;
 
 public class PrologShell extends AbstractProgram {
   @Option(name = "-s", metaVar = "FILE.pl", usage = "file to load")
-  private List<String> fileName = new ArrayList<String>();
+  private List<String> fileName = new ArrayList<>();
 
   @Override
   public int run() {

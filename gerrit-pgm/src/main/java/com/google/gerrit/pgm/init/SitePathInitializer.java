@@ -125,7 +125,7 @@ public class SitePathInitializer {
   }
 
   private static List<InitStep> stepsOf(final Injector injector) {
-    final ArrayList<InitStep> r = new ArrayList<InitStep>();
+    final ArrayList<InitStep> r = new ArrayList<>();
     for (Binding<InitStep> b : all(injector)) {
       r.add(b.getProvider().get());
     }

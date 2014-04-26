@@ -73,8 +73,8 @@ public class PrologEnvironment extends BufferingPrologControl {
     setMaxArity(MAX_ARITY);
     setEnabled(EnumSet.allOf(Prolog.Feature.class), false);
     args = a;
-    storedValues = new HashMap<StoredValue<Object>, Object>();
-    cleanup = new LinkedList<Runnable>();
+    storedValues = new HashMap<>();
+    cleanup = new LinkedList<>();
   }
 
   public Args getArgs() {

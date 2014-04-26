@@ -35,7 +35,7 @@ public class IndexCollection implements LifecycleListener {
   @VisibleForTesting
   public IndexCollection() {
     this.writeIndexes = Lists.newCopyOnWriteArrayList();
-    this.searchIndex = new AtomicReference<ChangeIndex>();
+    this.searchIndex = new AtomicReference<>();
   }
 
   /** @return the current search index version. */

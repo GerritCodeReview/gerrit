@@ -88,7 +88,7 @@ public class LdapRealm implements Realm {
     this.membershipCache = membershipCache;
     this.config = config;
 
-    this.readOnlyAccountFields = new HashSet<Account.FieldName>();
+    this.readOnlyAccountFields = new HashSet<>();
 
     if (optdef(config, "accountFullName", "DEFAULT") != null) {
       readOnlyAccountFields.add(Account.FieldName.FULL_NAME);
@@ -174,7 +174,7 @@ public class LdapRealm implements Realm {
       return null;
     }
 
-    final Map<String, String> values = new HashMap<String, String>();
+    final Map<String, String> values = new HashMap<>();
     for (final String name : m.attributes()) {
       values.put(name, m.get(name));
     }

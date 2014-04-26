@@ -441,8 +441,7 @@ public class ChangeJson {
   private Map<String, LabelInfo> initLabels(ChangeData cd,
       LabelTypes labelTypes, boolean standard) throws OrmException {
     // Don't use Maps.newTreeMap(Comparator) due to OpenJDK bug 100167.
-    Map<String, LabelInfo> labels =
-        new TreeMap<String, LabelInfo>(labelTypes.nameComparator());
+    Map<String, LabelInfo> labels = new TreeMap<>(labelTypes.nameComparator());
     for (SubmitRecord rec : submitRecords(cd)) {
       if (rec.labels == null) {
         continue;
@@ -572,8 +571,7 @@ public class ChangeJson {
     // would have done. These should really come from a stored submit record.
     //
     // Don't use Maps.newTreeMap(Comparator) due to OpenJDK bug 100167.
-    Map<String, LabelInfo> labels =
-        new TreeMap<String, LabelInfo>(labelTypes.nameComparator());
+    Map<String, LabelInfo> labels = new TreeMap<>(labelTypes.nameComparator());
     for (String name : labelNames) {
       LabelType type = labelTypes.byLabel(name);
       LabelInfo li = new LabelInfo();

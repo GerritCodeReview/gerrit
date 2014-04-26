@@ -76,7 +76,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
   private Grid infoTable;
   private Panel actionsPanel;
   private PatchTable patchTable;
-  private final Set<ClickHandler> registeredClickHandler =  new HashSet<ClickHandler>();
+  private final Set<ClickHandler> registeredClickHandler =  new HashSet<>();
 
   private PatchSet.Id diffBaseId;
 

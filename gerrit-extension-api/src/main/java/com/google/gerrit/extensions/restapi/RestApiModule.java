@@ -31,47 +31,47 @@ public abstract class RestApiModule extends AbstractModule {
 
   protected <R extends RestResource>
   ReadViewBinder<R> get(TypeLiteral<RestView<R>> viewType) {
-    return new ReadViewBinder<R>(view(viewType, GET, "/"));
+    return new ReadViewBinder<>(view(viewType, GET, "/"));
   }
 
   protected <R extends RestResource>
   ModifyViewBinder<R> put(TypeLiteral<RestView<R>> viewType) {
-    return new ModifyViewBinder<R>(view(viewType, PUT, "/"));
+    return new ModifyViewBinder<>(view(viewType, PUT, "/"));
   }
 
   protected <R extends RestResource>
   ModifyViewBinder<R> post(TypeLiteral<RestView<R>> viewType) {
-    return new ModifyViewBinder<R>(view(viewType, POST, "/"));
+    return new ModifyViewBinder<>(view(viewType, POST, "/"));
   }
 
   protected <R extends RestResource>
   ModifyViewBinder<R> delete(TypeLiteral<RestView<R>> viewType) {
-    return new ModifyViewBinder<R>(view(viewType, DELETE, "/"));
+    return new ModifyViewBinder<>(view(viewType, DELETE, "/"));
   }
 
   protected <R extends RestResource>
   ReadViewBinder<R> get(TypeLiteral<RestView<R>> viewType, String name) {
-    return new ReadViewBinder<R>(view(viewType, GET, name));
+    return new ReadViewBinder<>(view(viewType, GET, name));
   }
 
   protected <R extends RestResource>
   ModifyViewBinder<R> put(TypeLiteral<RestView<R>> viewType, String name) {
-    return new ModifyViewBinder<R>(view(viewType, PUT, name));
+    return new ModifyViewBinder<>(view(viewType, PUT, name));
   }
 
   protected <R extends RestResource>
   ModifyViewBinder<R> post(TypeLiteral<RestView<R>> viewType, String name) {
-    return new ModifyViewBinder<R>(view(viewType, POST, name));
+    return new ModifyViewBinder<>(view(viewType, POST, name));
   }
 
   protected <R extends RestResource>
   ModifyViewBinder<R> delete(TypeLiteral<RestView<R>> viewType, String name) {
-    return new ModifyViewBinder<R>(view(viewType, DELETE, name));
+    return new ModifyViewBinder<>(view(viewType, DELETE, name));
   }
 
   protected <P extends RestResource>
   ChildCollectionBinder<P> child(TypeLiteral<RestView<P>> type, String name) {
-    return new ChildCollectionBinder<P>(view(type, GET, name));
+    return new ChildCollectionBinder<>(view(type, GET, name));
   }
 
   protected <R extends RestResource>

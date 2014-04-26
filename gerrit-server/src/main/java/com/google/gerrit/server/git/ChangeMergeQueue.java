@@ -55,10 +55,8 @@ public class ChangeMergeQueue implements MergeQueue {
   private static final Logger log =
       LoggerFactory.getLogger(ChangeMergeQueue.class);
 
-  private final Map<Branch.NameKey, MergeEntry> active =
-      new HashMap<Branch.NameKey, MergeEntry>();
-  private final Map<Branch.NameKey, RecheckJob> recheck =
-      new HashMap<Branch.NameKey, RecheckJob>();
+  private final Map<Branch.NameKey, MergeEntry> active = new HashMap<>();
+  private final Map<Branch.NameKey, RecheckJob> recheck = new HashMap<>();
 
   private final WorkQueue workQueue;
   private final Provider<MergeOp.Factory> bgFactory;

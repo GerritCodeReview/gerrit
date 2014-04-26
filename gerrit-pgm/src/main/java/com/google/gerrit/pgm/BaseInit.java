@@ -185,7 +185,7 @@ public class BaseInit extends SiteProgram {
   private SiteInit createSiteInit() {
     final ConsoleUI ui = getConsoleUI();
     final File sitePath = getSitePath();
-    final List<Module> m = new ArrayList<Module>();
+    final List<Module> m = new ArrayList<>();
 
     m.add(new InitModule(standalone, initDb));
     m.add(new AbstractModule() {
@@ -250,7 +250,7 @@ public class BaseInit extends SiteProgram {
     }
 
     void upgradeSchema() throws OrmException {
-      final List<String> pruneList = new ArrayList<String>();
+      final List<String> pruneList = new ArrayList<>();
       schemaUpdater.update(new UpdateUI() {
         @Override
         public void message(String msg) {
@@ -316,7 +316,7 @@ public class BaseInit extends SiteProgram {
   }
 
   private Injector createSysInjector(final SiteInit init) {
-    final List<Module> modules = new ArrayList<Module>();
+    final List<Module> modules = new ArrayList<>();
     modules.add(new AbstractModule() {
       @Override
       protected void configure() {

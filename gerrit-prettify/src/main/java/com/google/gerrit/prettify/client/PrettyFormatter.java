@@ -125,7 +125,7 @@ public abstract class PrettyFormatter implements SparseHtmlFile {
   public void format(SparseFileContent src) {
     content = new SparseFileContent();
     content.setSize(src.size());
-    trailingEdits = new HashSet<Integer>();
+    trailingEdits = new HashSet<>();
 
     String html = toHTML(src);
 
@@ -365,7 +365,7 @@ public abstract class PrettyFormatter implements SparseHtmlFile {
     // in the source. That simplifies our loop below because we'll never
     // run off the end of the edit list.
     //
-    List<Edit> edits = new ArrayList<Edit>(this.edits.size() + 1);
+    List<Edit> edits = new ArrayList<>(this.edits.size() + 1);
     edits.addAll(this.edits);
     edits.add(new Edit(src.size(), src.size()));
 

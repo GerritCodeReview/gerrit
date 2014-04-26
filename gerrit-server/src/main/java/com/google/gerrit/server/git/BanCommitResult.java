@@ -21,9 +21,9 @@ import java.util.List;
 
 public class BanCommitResult {
 
-  private final List<ObjectId> newlyBannedCommits = new LinkedList<ObjectId>();
-  private final List<ObjectId> alreadyBannedCommits = new LinkedList<ObjectId>();
-  private final List<ObjectId> ignoredObjectIds = new LinkedList<ObjectId>();
+  private final List<ObjectId> newlyBannedCommits = new LinkedList<>();
+  private final List<ObjectId> alreadyBannedCommits = new LinkedList<>();
+  private final List<ObjectId> ignoredObjectIds = new LinkedList<>();
 
   public BanCommitResult() {
   }

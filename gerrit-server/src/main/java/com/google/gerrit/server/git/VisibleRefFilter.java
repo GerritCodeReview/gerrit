@@ -77,8 +77,8 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
     }
 
     final Set<Change.Id> visibleChanges = visibleChanges();
-    final Map<String, Ref> result = new HashMap<String, Ref>();
-    final List<Ref> deferredTags = new ArrayList<Ref>();
+    final Map<String, Ref> result = new HashMap<>();
+    final List<Ref> deferredTags = new ArrayList<>();
 
     for (Ref ref : refs.values()) {
       if (ref.getName().startsWith(RefNames.REFS_CACHE_AUTOMERGE)) {
@@ -149,7 +149,7 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
 
     final Project project = projectCtl.getProject();
     try {
-      final Set<Change.Id> visibleChanges = new HashSet<Change.Id>();
+      final Set<Change.Id> visibleChanges = new HashSet<>();
       for (Change change : changeCache.get(project.getNameKey())) {
         if (projectCtl.controlFor(change).isVisible(reviewDb)) {
           visibleChanges.add(change.getId());

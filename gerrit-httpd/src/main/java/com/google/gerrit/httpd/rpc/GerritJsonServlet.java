@@ -51,9 +51,9 @@ import javax.servlet.http.HttpServletResponse;
 final class GerritJsonServlet extends JsonServlet<GerritJsonServlet.GerritCall> {
   private static final Logger log = LoggerFactory.getLogger(GerritJsonServlet.class);
   private static final ThreadLocal<GerritCall> currentCall =
-      new ThreadLocal<GerritCall>();
+      new ThreadLocal<>();
   private static final ThreadLocal<MethodHandle> currentMethod =
-      new ThreadLocal<MethodHandle>();
+      new ThreadLocal<>();
   private final Provider<WebSession> session;
   private final RemoteJsonService service;
   private final AuditService audit;

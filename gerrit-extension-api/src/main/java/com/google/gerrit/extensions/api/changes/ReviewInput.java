@@ -97,7 +97,7 @@ public class ReviewInput {
       throw new IllegalArgumentException();
     }
     if (labels == null) {
-      labels = new LinkedHashMap<String, Short>(4);
+      labels = new LinkedHashMap<>(4);
     }
     labels.put(name, value);
     return this;

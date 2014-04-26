@@ -35,7 +35,7 @@ final class KillCommand extends SshCommand {
   @Inject
   private WorkQueue workQueue;
 
-  private final Set<Integer> taskIds = new HashSet<Integer>();
+  private final Set<Integer> taskIds = new HashSet<>();
 
   @Argument(index = 0, multiValued = true, required = true, metaVar = "ID")
   void addTaskId(final String taskId) {

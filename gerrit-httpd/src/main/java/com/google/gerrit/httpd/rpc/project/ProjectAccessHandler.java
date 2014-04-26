@@ -185,7 +185,7 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
   }
 
   private static Set<String> scanSectionNames(ProjectConfig config) {
-    Set<String> names = new HashSet<String>();
+    Set<String> names = new HashSet<>();
     for (AccessSection section : config.getAccessSections()) {
       names.add(section.getName());
     }

@@ -27,8 +27,8 @@ import java.util.List;
 
 class TagMatcher {
   final BitSet mask = new BitSet();
-  final List<Ref> newRefs = new ArrayList<Ref>();
-  final List<LostRef> lostRefs = new ArrayList<LostRef>();
+  final List<Ref> newRefs = new ArrayList<>();
+  final List<LostRef> lostRefs = new ArrayList<>();
   final TagSetHolder holder;
   final TagCache cache;
   final Repository db;

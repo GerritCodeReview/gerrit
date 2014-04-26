@@ -78,7 +78,7 @@ class ScriptRunner {
     BufferedReader br = new BufferedReader(new InputStreamReader(in, "UTF-8"));
     try {
       String delimiter = ";";
-      List<String> commands = new ArrayList<String>();
+      List<String> commands = new ArrayList<>();
       StringBuilder buffer = new StringBuilder();
       String line;
       while ((line = br.readLine()) != null) {

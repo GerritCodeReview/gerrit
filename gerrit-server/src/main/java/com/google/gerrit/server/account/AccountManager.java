@@ -200,8 +200,8 @@ public class AccountManager {
     if (authConfig.isAllowGoogleAccountUpgrade()
         && who.isScheme(OpenIdUrls.URL_GOOGLE + "?")
         && who.getEmailAddress() != null) {
-      final List<AccountExternalId> openId = new ArrayList<AccountExternalId>();
-      final List<AccountExternalId> v1 = new ArrayList<AccountExternalId>();
+      final List<AccountExternalId> openId = new ArrayList<>();
+      final List<AccountExternalId> v1 = new ArrayList<>();
 
       for (final AccountExternalId extId : db.accountExternalIds()
           .byEmailAddress(who.getEmailAddress())) {

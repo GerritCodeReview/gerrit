@@ -140,7 +140,7 @@ public class Util {
   private final ProjectConfig parent = new ProjectConfig(allProjectsName);
 
   public Util() {
-    all = new HashMap<Project.NameKey, ProjectState>();
+    all = new HashMap<>();
     repoManager = new InMemoryRepositoryManager();
     try {
       Repository repo = repoManager.createRepository(allProjectsName);

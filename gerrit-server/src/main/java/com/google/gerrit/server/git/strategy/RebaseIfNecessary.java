@@ -52,7 +52,7 @@ public class RebaseIfNecessary extends SubmitStrategy {
     super(args);
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.rebaseChange = rebaseChange;
-    this.newCommits = new HashMap<Change.Id, CodeReviewCommit>();
+    this.newCommits = new HashMap<>();
     this.committerIdent = committerIdent;
   }
 

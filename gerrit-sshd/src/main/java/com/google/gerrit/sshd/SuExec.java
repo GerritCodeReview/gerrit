@@ -59,7 +59,7 @@ public final class SuExec extends BaseCommand {
   private SocketAddress peerAddress;
 
   @Argument(index = 0, multiValued = true, metaVar = "COMMAND")
-  private List<String> args = new ArrayList<String>();
+  private List<String> args = new ArrayList<>();
 
   private final AtomicReference<Command> atomicCmd;
 

@@ -281,7 +281,7 @@ public class ChangeData {
         return currentFiles;
       }
 
-      List<String> r = new ArrayList<String>(p.getPatches().size());
+      List<String> r = new ArrayList<>(p.getPatches().size());
       for (PatchListEntry e : p.getPatches()) {
         if (Patch.COMMIT_MSG.equals(e.getNewName())) {
           continue;

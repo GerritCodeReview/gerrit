@@ -59,7 +59,7 @@ final class StreamEvents extends BaseCommand {
 
   /** Queue of events to stream to the connected user. */
   private final LinkedBlockingQueue<ChangeEvent> queue =
-      new LinkedBlockingQueue<ChangeEvent>(MAX_EVENTS);
+      new LinkedBlockingQueue<>(MAX_EVENTS);
 
   private final Gson gson = new Gson();
 

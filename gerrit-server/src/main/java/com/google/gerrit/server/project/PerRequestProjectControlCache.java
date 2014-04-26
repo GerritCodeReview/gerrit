@@ -34,7 +34,7 @@ public class PerRequestProjectControlCache {
       CurrentUser userProvider) {
     this.projectCache = projectCache;
     this.user = userProvider;
-    this.controls = new HashMap<Project.NameKey, ProjectControl>();
+    this.controls = new HashMap<>();
   }
 
   ProjectControl get(Project.NameKey nameKey) throws NoSuchProjectException {

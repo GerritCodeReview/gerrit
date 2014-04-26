@@ -44,10 +44,10 @@ class LegacyChangeIdPredicate extends IndexPredicate<ChangeData> implements
   public ResultSet<ChangeData> read() throws OrmException {
     Change c = args.db.get().changes().get(id);
     if (c != null) {
-      return new ListResultSet<ChangeData>(Collections.singletonList(
+      return new ListResultSet<>(Collections.singletonList(
           args.changeDataFactory.create(args.db.get(), c)));
     } else {
-      return new ListResultSet<ChangeData>(Collections.<ChangeData> emptyList());
+      return new ListResultSet<>(Collections.<ChangeData> emptyList());
     }
   }
 

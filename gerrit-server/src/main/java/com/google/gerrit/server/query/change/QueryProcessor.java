@@ -551,7 +551,7 @@ public class QueryProcessor {
   }
 
   private List<Field> fieldsOf(Class<?> type) {
-    List<Field> r = new ArrayList<Field>();
+    List<Field> r = new ArrayList<>();
     if (type.getSuperclass() != null) {
       r.addAll(fieldsOf(type.getSuperclass()));
     }

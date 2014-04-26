@@ -133,8 +133,7 @@ public class KeyHelpPopup extends PluginSafePopupPanel implements
    *         the same name, so that each set name appears at most once.
    */
   private static Collection<KeyCommandSet> combinedSetsByName() {
-    final LinkedHashMap<String, KeyCommandSet> byName =
-        new LinkedHashMap<String, KeyCommandSet>();
+    LinkedHashMap<String, KeyCommandSet> byName = new LinkedHashMap<>();
     for (final KeyCommandSet set : GlobalKey.active.all.getSets()) {
       KeyCommandSet v = byName.get(set.getName());
       if (v == null) {
@@ -171,7 +170,7 @@ public class KeyHelpPopup extends PluginSafePopupPanel implements
       lists.resizeRows(row + keys.size());
     }
 
-    Map<KeyCommand, Integer> rows = new HashMap<KeyCommand, Integer>();
+    Map<KeyCommand, Integer> rows = new HashMap<>();
     FORMAT_KEYS: for (int i = 0; i < keys.size(); i++) {
       final KeyCommand k = keys.get(i);
       if (rows.containsKey(k)) {
@@ -234,7 +233,7 @@ public class KeyHelpPopup extends PluginSafePopupPanel implements
   }
 
   private List<KeyCommand> sort(final KeyCommandSet set) {
-    final List<KeyCommand> keys = new ArrayList<KeyCommand>(set.getKeys());
+    final List<KeyCommand> keys = new ArrayList<>(set.getKeys());
     Collections.sort(keys, new Comparator<KeyCommand>() {
       @Override
       public int compare(KeyCommand arg0, KeyCommand arg1) {

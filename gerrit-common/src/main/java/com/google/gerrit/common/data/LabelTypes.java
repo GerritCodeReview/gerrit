@@ -33,7 +33,7 @@ public class LabelTypes {
 
   public LabelTypes(final List<? extends LabelType> approvals) {
     labelTypes =
-        Collections.unmodifiableList(new ArrayList<LabelType>(approvals));
+        Collections.unmodifiableList(new ArrayList<>(approvals));
   }
 
   public List<LabelType> getLabelTypes() {

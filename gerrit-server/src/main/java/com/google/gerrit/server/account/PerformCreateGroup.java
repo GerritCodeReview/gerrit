@@ -126,10 +126,8 @@ public class PerformCreateGroup {
 
   private void addMembers(final AccountGroup.Id groupId,
       final Collection<? extends Account.Id> members) throws OrmException {
-    final List<AccountGroupMember> memberships =
-        new ArrayList<AccountGroupMember>();
-    final List<AccountGroupMemberAudit> membershipsAudit =
-        new ArrayList<AccountGroupMemberAudit>();
+    List<AccountGroupMember> memberships = new ArrayList<>();
+    List<AccountGroupMemberAudit> membershipsAudit = new ArrayList<>();
     for (Account.Id accountId : members) {
       final AccountGroupMember membership =
           new AccountGroupMember(new AccountGroupMember.Key(accountId, groupId));
@@ -149,10 +147,8 @@ public class PerformCreateGroup {
 
   private void addGroups(final AccountGroup.Id groupId,
       final Collection<? extends AccountGroup.UUID> groups) throws OrmException {
-    final List<AccountGroupById> includeList =
-      new ArrayList<AccountGroupById>();
-    final List<AccountGroupByIdAud> includesAudit =
-      new ArrayList<AccountGroupByIdAud>();
+    List<AccountGroupById> includeList = new ArrayList<>();
+    List<AccountGroupByIdAud> includesAudit = new ArrayList<>();
     for (AccountGroup.UUID includeUUID : groups) {
       final AccountGroupById groupInclude =
         new AccountGroupById(new AccountGroupById.Key(groupId, includeUUID));

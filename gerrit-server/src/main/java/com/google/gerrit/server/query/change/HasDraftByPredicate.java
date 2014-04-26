@@ -25,6 +25,8 @@ import com.google.gwtorm.server.ResultSet;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 class HasDraftByPredicate extends OperatorPredicate<ChangeData> implements
     ChangeDataSource {
@@ -50,17 +52,17 @@ class HasDraftByPredicate extends OperatorPredicate<ChangeData> implements
 
   @Override
   public ResultSet<ChangeData> read() throws OrmException {
-    HashSet<Change.Id> ids = new HashSet<Change.Id>();
+    Set<Change.Id> ids = new HashSet<>();
     for (PatchLineComment sc : args.db.get().patchComments()
         .draftByAuthor(accountId)) {
       ids.add(sc.getKey().getParentKey().getParentKey().getParentKey());
     }
 
-    ArrayList<ChangeData> r = new ArrayList<ChangeData>(ids.size());
+    List<ChangeData> r = new ArrayList<>(ids.size());
     for (Change.Id id : ids) {
       r.add(args.changeDataFactory.create(args.db.get(), id));
     }
-    return new ListResultSet<ChangeData>(r);
+    return new ListResultSet<>(r);
   }
 
   @Override

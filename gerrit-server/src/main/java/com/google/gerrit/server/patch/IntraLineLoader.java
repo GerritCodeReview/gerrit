@@ -78,7 +78,7 @@ class IntraLineLoader extends CacheLoader<IntraLineDiffKey, IntraLineDiff> {
   }
 
   static IntraLineDiff compute(IntraLineDiffKey key) throws Exception {
-    List<Edit> edits = new ArrayList<Edit>(key.getEdits());
+    List<Edit> edits = new ArrayList<>(key.getEdits());
     Text aContent = key.getTextA();
     Text bContent = key.getTextB();
     combineLineEdits(edits, aContent, bContent);

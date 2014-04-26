@@ -65,7 +65,7 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
   public void setUp() throws Exception {
     super.setUp();
     db = createBareRepository();
-    util = new TestRepository<Repository>(db);
+    util = new TestRepository<>(db);
   }
 
   @Test

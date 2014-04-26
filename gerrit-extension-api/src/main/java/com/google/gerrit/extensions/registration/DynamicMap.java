@@ -81,14 +81,14 @@ public abstract class DynamicMap<T> implements Iterable<DynamicMap.Entry<T>> {
     Key<DynamicMap<T>> key = (Key<DynamicMap<T>>) Key.get(
         Types.newParameterizedType(DynamicMap.class, member.getType()));
     binder.bind(key)
-        .toProvider(new DynamicMapProvider<T>(member))
+        .toProvider(new DynamicMapProvider<>(member))
         .in(Scopes.SINGLETON);
   }
 
   final ConcurrentMap<NamePair, Provider<T>> items;
 
   DynamicMap() {
-    items = new ConcurrentHashMap<NamePair, Provider<T>>(
+    items = new ConcurrentHashMap<>(
         16 /* initial size */,
         0.75f /* load factor */,
         1 /* concurrency level of 1, load/unload is single threaded */);
@@ -115,7 +115,7 @@ public abstract class DynamicMap<T> implements Iterable<DynamicMap.Entry<T>> {
    * @return sorted set of active plugins that supply at least one item.
    */
   public SortedSet<String> plugins() {
-    SortedSet<String> r = new TreeSet<String>();
+    SortedSet<String> r = new TreeSet<>();
     for (NamePair p : items.keySet()) {
       r.add(p.pluginName);
     }
@@ -129,7 +129,7 @@ public abstract class DynamicMap<T> implements Iterable<DynamicMap.Entry<T>> {
    * @return items exported by a plugin, keyed by the export name.
    */
   public SortedMap<String, Provider<T>> byPlugin(String pluginName) {
-    SortedMap<String, Provider<T>> r = new TreeMap<String, Provider<T>>();
+    SortedMap<String, Provider<T>> r = new TreeMap<>();
     for (Map.Entry<NamePair, Provider<T>> e : items.entrySet()) {
       if (e.getKey().pluginName.equals(pluginName)) {
         r.put(e.getKey().exportName, e.getValue());

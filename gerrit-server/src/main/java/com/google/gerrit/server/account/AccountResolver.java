@@ -179,7 +179,7 @@ public class AccountResolver {
     // At this point we have no clue. Just perform a whole bunch of suggestions
     // and pray we come up with a reasonable result list.
     //
-    Set<Account.Id> result = new HashSet<Account.Id>();
+    Set<Account.Id> result = new HashSet<>();
     String a = nameOrEmail;
     String b = nameOrEmail + "\u9fa5";
     for (Account act : schema.get().accounts().suggestByFullName(a, b, 10)) {

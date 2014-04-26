@@ -97,7 +97,7 @@ public class PublishCommentScreen extends AccountScreen implements
     super.onInitUI();
     addStyleName(Gerrit.RESOURCES.css().publishCommentsScreen());
 
-    approvalButtons = new ArrayList<ValueRadioButton>();
+    approvalButtons = new ArrayList<>();
     descBlock = new ChangeDescriptionBlock(null);
     add(descBlock);
 
@@ -289,7 +289,7 @@ public class PublishCommentScreen extends AccountScreen implements
     if (nativeValues == null || nativeValues.length() == 0) {
       return;
     }
-    List<String> values = new ArrayList<String>(nativeValues.length());
+    List<String> values = new ArrayList<>(nativeValues.length());
     for (int i = 0; i < nativeValues.length(); i++) {
       values.add(nativeValues.get(i));
     }
@@ -350,7 +350,7 @@ public class PublishCommentScreen extends AccountScreen implements
     }
 
     draftsPanel.clear();
-    commentEditors = new ArrayList<CommentEditorPanel>();
+    commentEditors = new ArrayList<>();
 
     if (!drafts.isEmpty()) {
       draftsPanel.add(new SmallHeading(Util.C.headingPatchComments()));
@@ -468,8 +468,8 @@ public class PublishCommentScreen extends AccountScreen implements
   }
 
   private List<PatchLineComment> draftList() {
-    List<PatchLineComment> d = new ArrayList<PatchLineComment>();
-    List<String> paths = new ArrayList<String>(drafts.keySet());
+    List<PatchLineComment> d = new ArrayList<>();
+    List<String> paths = new ArrayList<>(drafts.keySet());
     Collections.sort(paths);
     for (String path : paths) {
       JsArray<CommentInfo> comments = drafts.get(path);
@@ -512,7 +512,7 @@ public class PublishCommentScreen extends AccountScreen implements
     SavedState(final PublishCommentScreen p) {
       patchSetId = p.patchSetId;
       message = p.message.getText();
-      approvals = new HashMap<String, String>();
+      approvals = new HashMap<>();
       for (final ValueRadioButton b : p.approvalButtons) {
         if (b.getValue()) {
           approvals.put(b.label.name(), b.value);

@@ -92,8 +92,7 @@ public class CommitValidators {
   public List<CommitValidationMessage> validateForReceiveCommits(
       CommitReceivedEvent receiveEvent) throws CommitValidationException {
 
-    List<CommitValidationListener> validators =
-        new LinkedList<CommitValidationListener>();
+    List<CommitValidationListener> validators = new LinkedList<>();
 
     validators.add(new UploadMergesPermissionValidator(refControl));
     validators.add(new AmendedGerritMergeCommitValidationListener(
@@ -110,8 +109,7 @@ public class CommitValidators {
     validators.add(new ConfigValidator(refControl, repo));
     validators.add(new PluginCommitValidationListener(commitValidationListeners));
 
-    List<CommitValidationMessage> messages =
-        new LinkedList<CommitValidationMessage>();
+    List<CommitValidationMessage> messages = new LinkedList<>();
 
     try {
       for (CommitValidationListener commitValidator : validators) {
@@ -128,8 +126,7 @@ public class CommitValidators {
   public List<CommitValidationMessage> validateForGerritCommits(
       CommitReceivedEvent receiveEvent) throws CommitValidationException {
 
-    List<CommitValidationListener> validators =
-        new LinkedList<CommitValidationListener>();
+    List<CommitValidationListener> validators = new LinkedList<>();
 
     validators.add(new UploadMergesPermissionValidator(refControl));
     validators.add(new AmendedGerritMergeCommitValidationListener(
@@ -145,8 +142,7 @@ public class CommitValidators {
     validators.add(new ConfigValidator(refControl, repo));
     validators.add(new PluginCommitValidationListener(commitValidationListeners));
 
-    List<CommitValidationMessage> messages =
-        new LinkedList<CommitValidationMessage>();
+    List<CommitValidationMessage> messages = new LinkedList<>();
 
     try {
       for (CommitValidationListener commitValidator : validators) {
@@ -181,8 +177,7 @@ public class CommitValidators {
         CommitReceivedEvent receiveEvent) throws CommitValidationException {
       final List<String> idList = receiveEvent.commit.getFooterLines(CHANGE_ID);
 
-      List<CommitValidationMessage> messages =
-          new LinkedList<CommitValidationMessage>();
+      List<CommitValidationMessage> messages = new LinkedList<>();
 
       if (idList.isEmpty()) {
         if (projectControl.getProjectState().isRequireChangeID()) {
@@ -321,8 +316,7 @@ public class CommitValidators {
       IdentifiedUser currentUser = (IdentifiedUser) refControl.getCurrentUser();
 
       if (RefNames.REFS_CONFIG.equals(refControl.getRefName())) {
-        List<CommitValidationMessage> messages =
-            new LinkedList<CommitValidationMessage>();
+        List<CommitValidationMessage> messages = new LinkedList<>();
 
         try {
           ProjectConfig cfg =
@@ -381,8 +375,7 @@ public class CommitValidators {
     @Override
     public List<CommitValidationMessage> onCommitReceived(
         CommitReceivedEvent receiveEvent) throws CommitValidationException {
-      List<CommitValidationMessage> messages =
-          new LinkedList<CommitValidationMessage>();
+      List<CommitValidationMessage> messages = new LinkedList<>();
 
       for (CommitValidationListener validator : commitValidationListeners) {
         try {
@@ -452,8 +445,7 @@ public class CommitValidators {
 
       if (!currentUser.getEmailAddresses().contains(author.getEmailAddress())
           && !refControl.canForgeAuthor()) {
-        List<CommitValidationMessage> messages =
-            new LinkedList<CommitValidationMessage>();
+        List<CommitValidationMessage> messages = new LinkedList<>();
 
         messages.add(getInvalidEmailError(receiveEvent.commit, "author", author,
             currentUser, canonicalWebUrl));
@@ -483,8 +475,7 @@ public class CommitValidators {
       if (!currentUser.getEmailAddresses()
           .contains(committer.getEmailAddress())
           && !refControl.canForgeCommitter()) {
-        List<CommitValidationMessage> messages =
-            new LinkedList<CommitValidationMessage>();
+        List<CommitValidationMessage> messages = new LinkedList<>();
         messages.add(getInvalidEmailError(receiveEvent.commit, "committer", committer,
             currentUser, canonicalWebUrl));
         throw new CommitValidationException("invalid committer", messages);

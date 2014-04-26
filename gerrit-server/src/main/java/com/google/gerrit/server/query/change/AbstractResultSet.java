@@ -22,7 +22,7 @@ import java.util.List;
 abstract class AbstractResultSet<T> implements ResultSet<T> {
   @Override
   public List<T> toList() {
-    ArrayList<T> r = new ArrayList<T>();
+    ArrayList<T> r = new ArrayList<>();
     for (T t : this) {
       r.add(t);
     }

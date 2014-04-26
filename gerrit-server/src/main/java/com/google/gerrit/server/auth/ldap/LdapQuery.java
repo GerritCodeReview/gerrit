@@ -69,7 +69,7 @@ class LdapQuery {
     sc.setReturningAttributes(returnAttributes);
     res = ctx.search(base, pattern.getRawPattern(), pattern.bind(params), sc);
     try {
-      final List<Result> r = new ArrayList<Result>();
+      final List<Result> r = new ArrayList<>();
       try {
         while (res.hasMore()) {
           r.add(new Result(res.next()));
@@ -83,7 +83,7 @@ class LdapQuery {
   }
 
   class Result {
-    private final Map<String, Attribute> atts = new HashMap<String, Attribute>();
+    private final Map<String, Attribute> atts = new HashMap<>();
 
     Result(final SearchResult sr) {
       if (returnAttributes != null) {

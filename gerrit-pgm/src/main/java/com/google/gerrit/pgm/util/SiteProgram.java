@@ -90,7 +90,7 @@ public abstract class SiteProgram extends AbstractProgram {
   /** @return provides database connectivity and site path. */
   protected Injector createDbInjector(final DataSourceProvider.Context context) {
     final File sitePath = getSitePath();
-    final List<Module> modules = new ArrayList<Module>();
+    final List<Module> modules = new ArrayList<>();
 
     Module sitePathModule = new AbstractModule() {
       @Override

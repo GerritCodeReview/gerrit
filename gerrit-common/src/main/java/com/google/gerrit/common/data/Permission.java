@@ -48,7 +48,7 @@ public class Permission implements Comparable<Permission> {
   private static final int labelAsIndex;
 
   static {
-    NAMES_LC = new ArrayList<String>();
+    NAMES_LC = new ArrayList<>();
     NAMES_LC.add(OWNER.toLowerCase());
     NAMES_LC.add(READ.toLowerCase());
     NAMES_LC.add(ABANDON.toLowerCase());
@@ -229,7 +229,7 @@ public class Permission implements Comparable<Permission> {
 
   private void initRules() {
     if (rules == null) {
-      rules = new ArrayList<PermissionRule>(4);
+      rules = new ArrayList<>(4);
     }
   }
 

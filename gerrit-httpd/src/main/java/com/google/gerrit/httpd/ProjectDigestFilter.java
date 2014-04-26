@@ -231,7 +231,7 @@ class ProjectDigestFilter implements Filter {
   }
 
   private Map<String, String> parseAuthorization(String auth) {
-    Map<String, String> p = new HashMap<String, String>();
+    Map<String, String> p = new HashMap<>();
     int next = "Digest ".length();
     while (next < auth.length()) {
       if (next < auth.length() && auth.charAt(next) == ',') {

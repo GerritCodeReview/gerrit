@@ -108,10 +108,10 @@ public class PluginGuiceEnvironment {
     this.copyConfigModule = ccm;
     this.copyConfigKeys = Guice.createInjector(ccm).getAllBindings().keySet();
 
-    onStart = new CopyOnWriteArrayList<StartPluginListener>();
+    onStart = new CopyOnWriteArrayList<>();
     onStart.addAll(listeners(sysInjector, StartPluginListener.class));
 
-    onReload = new CopyOnWriteArrayList<ReloadPluginListener>();
+    onReload = new CopyOnWriteArrayList<>();
     onReload.addAll(listeners(sysInjector, ReloadPluginListener.class));
 
     sysItems = dynamicItemsOf(sysInjector);

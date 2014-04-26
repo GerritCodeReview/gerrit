@@ -42,7 +42,7 @@ class HostKeyProvider implements Provider<KeyPairProvider> {
     final File rsaKey = site.ssh_rsa;
     final File dsaKey = site.ssh_dsa;
 
-    final List<String> stdKeys = new ArrayList<String>(2);
+    final List<String> stdKeys = new ArrayList<>(2);
     if (rsaKey.exists()) {
       stdKeys.add(rsaKey.getAbsolutePath());
     }

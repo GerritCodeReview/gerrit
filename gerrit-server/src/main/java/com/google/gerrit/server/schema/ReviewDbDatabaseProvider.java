@@ -36,7 +36,7 @@ final class ReviewDbDatabaseProvider implements Provider<Database<ReviewDb>> {
   @Override
   public Database<ReviewDb> get() {
     try {
-      return new Database<ReviewDb>(datasource, ReviewDb.class);
+      return new Database<>(datasource, ReviewDb.class);
     } catch (OrmException e) {
       throw new ProvisionException("Cannot create ReviewDb", e);
     }

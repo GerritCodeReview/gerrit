@@ -343,7 +343,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
     }
 
     final List<PublicKey> keys = myHostKeys();
-    final ArrayList<HostKey> r = new ArrayList<HostKey>();
+    final List<HostKey> r = new ArrayList<>();
     for (final PublicKey pub : keys) {
       final Buffer buf = new Buffer();
       buf.putRawPublicKey(pub);
@@ -362,7 +362,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
 
   private List<PublicKey> myHostKeys() {
     final KeyPairProvider p = getKeyPairProvider();
-    final List<PublicKey> keys = new ArrayList<PublicKey>(2);
+    final List<PublicKey> keys = new ArrayList<>(2);
     addPublicKey(keys, p, KeyPairProvider.SSH_RSA);
     addPublicKey(keys, p, KeyPairProvider.SSH_DSS);
     return keys;
@@ -402,7 +402,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
 
   @SuppressWarnings("unchecked")
   private void initCiphers(final Config cfg) {
-    final List<NamedFactory<Cipher>> a = new LinkedList<NamedFactory<Cipher>>();
+    final List<NamedFactory<Cipher>> a = new LinkedList<>();
     a.add(new AES128CBC.Factory());
     a.add(new TripleDESCBC.Factory());
     a.add(new BlowfishCBC.Factory());
@@ -445,7 +445,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   @SafeVarargs
   private static <T> List<NamedFactory<T>> filter(final Config cfg,
       final String key, final NamedFactory<T>... avail) {
-    final ArrayList<NamedFactory<T>> def = new ArrayList<NamedFactory<T>>();
+    final ArrayList<NamedFactory<T>> def = new ArrayList<>();
     for (final NamedFactory<T> n : avail) {
       if (n == null) {
         break;

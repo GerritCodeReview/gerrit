@@ -24,7 +24,7 @@ import static org.junit.Assert.assertTrue;
 public class IdGeneratorTest {
   @Test
   public void test1234() {
-    final HashSet<Integer> seen = new HashSet<Integer>();
+    final HashSet<Integer> seen = new HashSet<>();
     for (int i = 0; i < 1 << 16; i++) {
       final int e = IdGenerator.mix(i);
       assertTrue("no duplicates", seen.add(e));

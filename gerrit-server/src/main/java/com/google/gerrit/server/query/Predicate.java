@@ -55,7 +55,7 @@ public abstract class Predicate<T> {
     if (that.length == 1) {
       return that[0];
     }
-    return new AndPredicate<T>(that);
+    return new AndPredicate<>(that);
   }
 
   /** Combine the passed predicates into a single AND node. */
@@ -64,7 +64,7 @@ public abstract class Predicate<T> {
     if (that.size() == 1) {
       return Iterables.getOnlyElement(that);
     }
-    return new AndPredicate<T>(that);
+    return new AndPredicate<>(that);
   }
 
   /** Combine the passed predicates into a single OR node. */
@@ -73,7 +73,7 @@ public abstract class Predicate<T> {
     if (that.length == 1) {
       return that[0];
     }
-    return new OrPredicate<T>(that);
+    return new OrPredicate<>(that);
   }
 
   /** Combine the passed predicates into a single OR node. */
@@ -82,7 +82,7 @@ public abstract class Predicate<T> {
     if (that.size() == 1) {
       return Iterables.getOnlyElement(that);
     }
-    return new OrPredicate<T>(that);
+    return new OrPredicate<>(that);
   }
 
   /** Invert the passed node. */
@@ -130,7 +130,7 @@ public abstract class Predicate<T> {
   public abstract boolean equals(Object other);
 
   private static class Any<T> extends Predicate<T> {
-    private static final Any<Object> INSTANCE = new Any<Object>();
+    private static final Any<Object> INSTANCE = new Any<>();
 
     private Any() {
     }

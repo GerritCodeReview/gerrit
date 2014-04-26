@@ -157,8 +157,7 @@ public class ListAccess implements RestReadView<TopLevelResource> {
           pc.controlForRef(RefNames.REFS_CONFIG);
       local = Maps.newHashMap();
       ownerOf = Sets.newHashSet();
-      Map<AccountGroup.UUID, Boolean> visibleGroups =
-          new HashMap<AccountGroup.UUID, Boolean>();
+      Map<AccountGroup.UUID, Boolean> visibleGroups = new HashMap<>();
 
       for (AccessSection section : config.getAccessSections()) {
         String name = section.getName();

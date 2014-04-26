@@ -64,8 +64,7 @@ public class SubmoduleSectionParserTest extends LocalDiskRepositoryTestCase {
 
   @Test
   public void testSubmodulesParseWithCorrectSections() throws Exception {
-    final Map<String, SubmoduleSection> sectionsToReturn =
-        new TreeMap<String, SubmoduleSection>();
+    final Map<String, SubmoduleSection> sectionsToReturn = new TreeMap<>();
     sectionsToReturn.put("a", new SubmoduleSection("ssh://localhost/a", "a",
         "."));
     sectionsToReturn.put("b", new SubmoduleSection("ssh://localhost/b", "b",
@@ -77,7 +76,7 @@ public class SubmoduleSectionParserTest extends LocalDiskRepositoryTestCase {
     sectionsToReturn.put("e", new SubmoduleSection("ssh://localhost/e.git", "e",
         "."));
 
-    final Map<String, String> reposToBeFound = new HashMap<String, String>();
+    Map<String, String> reposToBeFound = new HashMap<>();
     reposToBeFound.put("a", "a");
     reposToBeFound.put("b", "b");
     reposToBeFound.put("c", "test/c");
@@ -88,8 +87,7 @@ public class SubmoduleSectionParserTest extends LocalDiskRepositoryTestCase {
         new Branch.NameKey(new Project.NameKey("super-project"),
             "refs/heads/master");
 
-    final List<SubmoduleSubscription> expectedSubscriptions =
-        new ArrayList<SubmoduleSubscription>();
+    List<SubmoduleSubscription> expectedSubscriptions = new ArrayList<>();
     expectedSubscriptions
         .add(new SubmoduleSubscription(superBranchNameKey, new Branch.NameKey(
             new Project.NameKey("a"), "refs/heads/master"), "a"));
@@ -112,8 +110,7 @@ public class SubmoduleSectionParserTest extends LocalDiskRepositoryTestCase {
 
   @Test
   public void testSubmodulesParseWithAnInvalidSection() throws Exception {
-    final Map<String, SubmoduleSection> sectionsToReturn =
-        new TreeMap<String, SubmoduleSection>();
+    final Map<String, SubmoduleSection> sectionsToReturn = new TreeMap<>();
     sectionsToReturn.put("a", new SubmoduleSection("ssh://localhost/a", "a",
         "."));
     // This one is invalid since "b" is not a recognized project
@@ -127,7 +124,7 @@ public class SubmoduleSectionParserTest extends LocalDiskRepositoryTestCase {
         "."));
 
     // "b" will not be in this list
-    final Map<String, String> reposToBeFound = new HashMap<String, String>();
+    Map<String, String> reposToBeFound = new HashMap<>();
     reposToBeFound.put("a", "a");
     reposToBeFound.put("c", "test/c");
     reposToBeFound.put("d", "d");
@@ -137,8 +134,7 @@ public class SubmoduleSectionParserTest extends LocalDiskRepositoryTestCase {
         new Branch.NameKey(new Project.NameKey("super-project"),
             "refs/heads/master");
 
-    final List<SubmoduleSubscription> expectedSubscriptions =
-        new ArrayList<SubmoduleSubscription>();
+    List<SubmoduleSubscription> expectedSubscriptions = new ArrayList<>();
     expectedSubscriptions
         .add(new SubmoduleSubscription(superBranchNameKey, new Branch.NameKey(
             new Project.NameKey("a"), "refs/heads/master"), "a"));
@@ -158,8 +154,7 @@ public class SubmoduleSectionParserTest extends LocalDiskRepositoryTestCase {
 
   @Test
   public void testSubmoduleSectionToOtherServer() throws Exception {
-    Map<String, SubmoduleSection> sectionsToReturn =
-        new HashMap<String, SubmoduleSection>();
+    Map<String, SubmoduleSection> sectionsToReturn = new HashMap<>();
     // The url is not to this server.
     sectionsToReturn.put("a", new SubmoduleSection("ssh://review.source.com/a",
         "a", "."));
@@ -171,8 +166,7 @@ public class SubmoduleSectionParserTest extends LocalDiskRepositoryTestCase {
 
   @Test
   public void testProjectNotFound() throws Exception {
-    Map<String, SubmoduleSection> sectionsToReturn =
-        new HashMap<String, SubmoduleSection>();
+    Map<String, SubmoduleSection> sectionsToReturn = new HashMap<>();
     sectionsToReturn.put("a", new SubmoduleSection("ssh://localhost/a", "a",
         "."));
 
@@ -183,8 +177,7 @@ public class SubmoduleSectionParserTest extends LocalDiskRepositoryTestCase {
 
   @Test
   public void testProjectWithSlashesNotFound() throws Exception {
-    Map<String, SubmoduleSection> sectionsToReturn =
-        new HashMap<String, SubmoduleSection>();
+    Map<String, SubmoduleSection> sectionsToReturn = new HashMap<>();
     sectionsToReturn.put("project", new SubmoduleSection(
         "ssh://localhost/company/tools/project", "project", "."));
 
@@ -222,12 +215,12 @@ public class SubmoduleSectionParserTest extends LocalDiskRepositoryTestCase {
           }
           if (projectNameCandidate.equals(reposToBeFound.get(id))) {
             expect(repoManager.list()).andReturn(
-                new TreeSet<Project.NameKey>(Collections
-                    .singletonList(new Project.NameKey(projectNameCandidate))));
+                new TreeSet<>(Collections.singletonList(
+                    new Project.NameKey(projectNameCandidate))));
             break;
           } else {
             expect(repoManager.list()).andReturn(
-                new TreeSet<Project.NameKey>(Collections.<Project.NameKey> emptyList()));
+                new TreeSet<>(Collections.<Project.NameKey> emptyList()));
           }
         }
       }

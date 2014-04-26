@@ -220,7 +220,7 @@ public class ChangeSchemas {
 
 
   private static Schema<ChangeData> release(Collection<FieldDef<ChangeData, ?>> fields) {
-    return new Schema<ChangeData>(true, fields);
+    return new Schema<>(true, fields);
   }
 
   @SafeVarargs
@@ -231,7 +231,7 @@ public class ChangeSchemas {
   @SafeVarargs
   @SuppressWarnings("unused")
   private static Schema<ChangeData> developer(FieldDef<ChangeData, ?>... fields) {
-    return new Schema<ChangeData>(false, Arrays.asList(fields));
+    return new Schema<>(false, Arrays.asList(fields));
   }
 
   public static final ImmutableMap<Integer, Schema<ChangeData>> ALL;

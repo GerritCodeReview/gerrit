@@ -212,10 +212,10 @@ public class PatchScriptFactory implements Callable<PatchScript> {
 
   private void loadCommentsAndHistory(final ChangeType changeType,
       final String oldName, final String newName) throws OrmException {
-    history = new ArrayList<Patch>();
+    history = new ArrayList<>();
     comments = new CommentDetail(psa, psb);
 
-    final Map<Patch.Key, Patch> byKey = new HashMap<Patch.Key, Patch>();
+    final Map<Patch.Key, Patch> byKey = new HashMap<>();
     final AccountInfoCacheFactory aic = aicFactory.create();
 
     // This seems like a cheap trick. It doesn't properly account for a

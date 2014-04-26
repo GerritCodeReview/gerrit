@@ -23,7 +23,7 @@ import com.google.gwtorm.server.OrmException;
 public class FakeQueryBuilder extends ChangeQueryBuilder {
   FakeQueryBuilder(IndexCollection indexes) {
     super(
-        new FakeQueryBuilder.Definition<ChangeData, FakeQueryBuilder>(
+        new FakeQueryBuilder.Definition<>(
           FakeQueryBuilder.class),
         new ChangeQueryBuilder.Arguments(null, null, null, null, null, null,
           null, null, null, null, null, null, null, null, indexes, null, null,

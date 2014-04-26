@@ -33,7 +33,7 @@ public class OrPredicate<T> extends Predicate<T> {
   }
 
   protected OrPredicate(final Collection<? extends Predicate<T>> that) {
-    final ArrayList<Predicate<T>> t = new ArrayList<Predicate<T>>(that.size());
+    List<Predicate<T>> t = new ArrayList<>(that.size());
     int c = 0;
     for (Predicate<T> p : that) {
       if (getClass() == p.getClass()) {
@@ -67,7 +67,7 @@ public class OrPredicate<T> extends Predicate<T> {
 
   @Override
   public Predicate<T> copy(final Collection<? extends Predicate<T>> children) {
-    return new OrPredicate<T>(children);
+    return new OrPredicate<>(children);
   }
 
   @Override

@@ -54,7 +54,7 @@ public class NotPredicate<T> extends Predicate<T> {
     if (children.size() != 1) {
       throw new IllegalArgumentException("Expected exactly one child");
     }
-    return new NotPredicate<T>(children.iterator().next());
+    return new NotPredicate<>(children.iterator().next());
   }
 
   @Override

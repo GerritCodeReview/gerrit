@@ -91,7 +91,7 @@ public class InMemoryDatabase implements SchemaFactory<ReviewDb> {
 
       // Build the access layer around the connection factory.
       //
-      database = new Database<ReviewDb>(dataSource, ReviewDb.class);
+      database = new Database<>(dataSource, ReviewDb.class);
 
     } catch (SQLException e) {
       throw new OrmException(e);

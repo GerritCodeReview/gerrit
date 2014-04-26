@@ -112,7 +112,7 @@ public class AuthConfig {
       s = new String[] {"http://", "https://"};
     }
 
-    List<OpenIdProviderPattern> r = new ArrayList<OpenIdProviderPattern>();
+    List<OpenIdProviderPattern> r = new ArrayList<>();
     for (String pattern : s) {
       r.add(OpenIdProviderPattern.create(pattern));
     }

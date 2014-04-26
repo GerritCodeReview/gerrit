@@ -151,7 +151,7 @@ public class PluginLoader implements LifecycleListener {
     if (!all) {
       return running.values();
     } else {
-      ArrayList<Plugin> plugins = new ArrayList<Plugin>(running.values());
+      List<Plugin> plugins = new ArrayList<>(running.values());
       plugins.addAll(disabled.values());
       return plugins;
     }

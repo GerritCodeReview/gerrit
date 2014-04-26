@@ -24,7 +24,7 @@ public class ScreenLoadEvent extends GwtEvent<ScreenLoadHandler> {
     this.screen = screen;
   }
 
-  public static final Type<ScreenLoadHandler> TYPE = new Type<ScreenLoadHandler>();
+  public static final Type<ScreenLoadHandler> TYPE = new Type<>();
 
   @Override
   protected void dispatch(ScreenLoadHandler handler) {

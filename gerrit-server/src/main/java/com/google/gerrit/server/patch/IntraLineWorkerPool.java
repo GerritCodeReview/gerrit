@@ -45,7 +45,7 @@ public class IntraLineWorkerPool {
     int workers = cfg.getInt(
         "cache", PatchListCacheImpl.INTRA_NAME, "maxIdleWorkers",
         Runtime.getRuntime().availableProcessors() * 3 / 2);
-    workerPool = new ArrayBlockingQueue<Worker>(workers, true /* fair */);
+    workerPool = new ArrayBlockingQueue<>(workers, true /* fair */);
   }
 
   Worker acquire() {
@@ -73,8 +73,8 @@ public class IntraLineWorkerPool {
     private final ArrayBlockingQueue<Result> result;
 
     Worker() {
-      input = new ArrayBlockingQueue<Input>(1);
-      result = new ArrayBlockingQueue<Result>(1);
+      input = new ArrayBlockingQueue<>(1);
+      result = new ArrayBlockingQueue<>(1);
 
       setName("IntraLineDiff-" + count.getAndIncrement());
       setDaemon(true);

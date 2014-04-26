@@ -36,7 +36,7 @@ class DynamicSetProvider<T> implements Provider<DynamicSet<T>> {
   }
 
   public DynamicSet<T> get() {
-    return new DynamicSet<T>(find(injector, type));
+    return new DynamicSet<>(find(injector, type));
   }
 
   private static <T> List<AtomicReference<Provider<T>>> find(
@@ -47,16 +47,12 @@ class DynamicSetProvider<T> implements Provider<DynamicSet<T>> {
     if (cnt == 0) {
       return Collections.emptyList();
     }
-    List<AtomicReference<Provider<T>>> r = newList(cnt);
+    List<AtomicReference<Provider<T>>> r = new ArrayList<>(cnt);
     for (Binding<T> b : bindings) {
       if (b.getKey().getAnnotation() != null) {
-        r.add(new AtomicReference<Provider<T>>(b.getProvider()));
+        r.add(new AtomicReference<>(b.getProvider()));
       }
     }
     return r;
-  }
-
-  private static <T> List<AtomicReference<Provider<T>>> newList(int cnt) {
-    return new ArrayList<AtomicReference<Provider<T>>>(cnt);
   }
 }

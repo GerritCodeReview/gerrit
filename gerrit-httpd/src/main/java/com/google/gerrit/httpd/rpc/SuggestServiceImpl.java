@@ -137,8 +137,7 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
     final int max = 10;
     final int n = limit <= 0 ? max : Math.min(limit, max);
 
-    final LinkedHashMap<Account.Id, AccountInfo> r =
-        new LinkedHashMap<Account.Id, AccountInfo>();
+    LinkedHashMap<Account.Id, AccountInfo> r = new LinkedHashMap<>();
     for (final Account p : db.accounts().suggestByFullName(a, b, n)) {
       addSuggestion(r, p, new AccountInfo(p), active, visibilityControl);
     }
@@ -159,7 +158,7 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
         }
       }
     }
-    return new ArrayList<AccountInfo>(r.values());
+    return new ArrayList<>(r.values());
   }
 
   private void addSuggestion(Map<Account.Id, AccountInfo> map, Account account,
@@ -251,7 +250,7 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
         final List<AccountInfo> suggestedAccounts =
             suggestAccount(db, query, Boolean.TRUE, limit, visibilityControl);
         final List<ReviewerInfo> reviewer =
-            new ArrayList<ReviewerInfo>(suggestedAccounts.size());
+            new ArrayList<>(suggestedAccounts.size());
         for (final AccountInfo a : suggestedAccounts) {
           reviewer.add(new ReviewerInfo(a));
         }

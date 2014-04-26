@@ -141,7 +141,7 @@ public class ChangeUserName implements Callable<VoidResult> {
   }
 
   private Collection<AccountExternalId> old() throws OrmException {
-    final Collection<AccountExternalId> r = new ArrayList<AccountExternalId>(1);
+    final Collection<AccountExternalId> r = new ArrayList<>(1);
     for (AccountExternalId i : db.accountExternalIds().byAccount(
         user.getAccountId())) {
       if (i.isScheme(SCHEME_USERNAME)) {

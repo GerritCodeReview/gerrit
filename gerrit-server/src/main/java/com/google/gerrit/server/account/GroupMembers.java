@@ -91,7 +91,7 @@ public class GroupMembers {
         projectControl.controlFor(project, currentUser).getProjectState()
             .getOwners();
 
-    final HashSet<Account> projectOwners = new HashSet<Account>();
+    final HashSet<Account> projectOwners = new HashSet<>();
     for (final AccountGroup.UUID ownerGroup : ownerGroups) {
       if (!seen.contains(ownerGroup)) {
         projectOwners.addAll(listAccounts(ownerGroup, project, seen));
@@ -107,7 +107,7 @@ public class GroupMembers {
     final GroupDetail groupDetail =
         groupDetailFactory.create(group.getId()).call();
 
-    final Set<Account> members = new HashSet<Account>();
+    final Set<Account> members = new HashSet<>();
     if (groupDetail.members != null) {
       for (final AccountGroupMember member : groupDetail.members) {
         members.add(accountCache.get(member.getAccountId()).getAccount());

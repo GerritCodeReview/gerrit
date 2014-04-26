@@ -303,13 +303,13 @@ public class Daemon extends SiteProgram {
   }
 
   private Injector createCfgInjector() {
-    final List<Module> modules = new ArrayList<Module>();
+    final List<Module> modules = new ArrayList<>();
     modules.add(new AuthConfigModule());
     return dbInjector.createChildInjector(modules);
   }
 
   private Injector createSysInjector() {
-    final List<Module> modules = new ArrayList<Module>();
+    final List<Module> modules = new ArrayList<>();
     modules.add(SchemaVersionCheck.module());
     modules.add(new LogFileCompressor.Module());
     modules.add(new WorkQueue.Module());
@@ -376,7 +376,7 @@ public class Daemon extends SiteProgram {
   }
 
   private Injector createSshInjector() {
-    final List<Module> modules = new ArrayList<Module>();
+    final List<Module> modules = new ArrayList<>();
     modules.add(sysInjector.getInstance(SshModule.class));
     if (!test) {
       modules.add(new SshHostKeyModule());
@@ -401,7 +401,7 @@ public class Daemon extends SiteProgram {
   }
 
   private Injector createWebInjector() {
-    final List<Module> modules = new ArrayList<Module>();
+    final List<Module> modules = new ArrayList<>();
     if (sshd) {
       modules.add(new ProjectQoSFilter.Module());
     }
@@ -429,7 +429,7 @@ public class Daemon extends SiteProgram {
   }
 
   private Injector createHttpdInjector() {
-    final List<Module> modules = new ArrayList<Module>();
+    final List<Module> modules = new ArrayList<>();
     modules.add(new JettyModule(new JettyEnv(webInjector)));
     return webInjector.createChildInjector(modules);
   }

@@ -68,7 +68,7 @@ public class RefControl {
     this.projectControl = projectControl;
     this.refName = ref;
     this.relevant = relevant;
-    this.effective = new HashMap<String, List<PermissionRule>>();
+    this.effective = new HashMap<>();
   }
 
   public String getRefName() {
@@ -387,7 +387,7 @@ public class RefControl {
 
   /** All value ranges of any allowed label permission. */
   public List<PermissionRange> getLabelRanges(boolean isChangeOwner) {
-    List<PermissionRange> r = new ArrayList<PermissionRange>();
+    List<PermissionRange> r = new ArrayList<>();
     for (Map.Entry<String, List<PermissionRule>> e : relevant.getDeclaredPermissions()) {
       if (Permission.isLabel(e.getKey())) {
         int min = 0;
@@ -565,7 +565,7 @@ public class RefControl {
       return rules;
     }
 
-    List<PermissionRule> mine = new ArrayList<PermissionRule>(rules.size());
+    List<PermissionRule> mine = new ArrayList<>(rules.size());
     for (PermissionRule rule : rules) {
       if (projectControl.match(rule, isChangeOwner)) {
         mine.add(rule);

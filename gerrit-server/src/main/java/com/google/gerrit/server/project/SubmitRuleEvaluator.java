@@ -134,7 +134,7 @@ public class SubmitRuleEvaluator {
         env.once("gerrit", "assume_range_from_label");
       }
 
-      List<Term> results = new ArrayList<Term>();
+      List<Term> results = new ArrayList<>();
       try {
         for (Term[] template : env.all("gerrit", userRuleWrapperName,
             submitRule, new VariableTerm())) {

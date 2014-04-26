@@ -42,8 +42,8 @@ public class RebaseSorter {
 
   public List<CodeReviewCommit> sort(Collection<CodeReviewCommit> incoming)
       throws IOException {
-    final List<CodeReviewCommit> sorted = new ArrayList<CodeReviewCommit>();
-    final Set<CodeReviewCommit> sort = new HashSet<CodeReviewCommit>(incoming);
+    final List<CodeReviewCommit> sorted = new ArrayList<>();
+    final Set<CodeReviewCommit> sort = new HashSet<>(incoming);
     while (!sort.isEmpty()) {
       final CodeReviewCommit n = removeOne(sort);
 
@@ -54,7 +54,7 @@ public class RebaseSorter {
       }
 
       CodeReviewCommit c;
-      final List<CodeReviewCommit> contents = new ArrayList<CodeReviewCommit>();
+      final List<CodeReviewCommit> contents = new ArrayList<>();
       while ((c = (CodeReviewCommit) rw.next()) != null) {
         if (!c.has(canMergeFlag) || !incoming.contains(c)) {
           // We cannot merge n as it would bring something we
@@ -62,7 +62,7 @@ public class RebaseSorter {
           //
           if (n.missing == null) {
             n.setStatusCode(CommitMergeStatus.MISSING_DEPENDENCY);
-            n.missing = new ArrayList<CodeReviewCommit>();
+            n.missing = new ArrayList<>();
           }
           n.missing.add(c);
         } else {

@@ -46,7 +46,7 @@ public class RuntimeShutdown {
     private static final Logger log =
         LoggerFactory.getLogger(ShutdownCallback.class);
 
-    private final List<Runnable> tasks = new ArrayList<Runnable>();
+    private final List<Runnable> tasks = new ArrayList<>();
     private boolean shutdownStarted;
     private boolean shutdownComplete;
 

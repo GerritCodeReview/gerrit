@@ -23,6 +23,7 @@ import com.google.inject.Provider;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.Set;
 
 abstract class ChangeDataResultSet<T> extends AbstractResultSet<ChangeData> {
   static ResultSet<ChangeData> change(final ChangeData.Factory factory,
@@ -78,7 +79,7 @@ abstract class ChangeDataResultSet<T> extends AbstractResultSet<ChangeData> {
     } else {
       return new Iterator<ChangeData>() {
         private final Iterator<T> itr = source.iterator();
-        private final HashSet<Change.Id> seen = new HashSet<Change.Id>();
+        private final Set<Change.Id> seen = new HashSet<>();
         private ChangeData next;
 
         @Override

@@ -35,7 +35,7 @@ public class KeyCommandSet implements KeyPressHandler {
   }
 
   public KeyCommandSet(final String setName) {
-    map = new HashMap<Integer, KeyCommand>();
+    map = new HashMap<>();
     name = setName;
   }
 
@@ -79,7 +79,7 @@ public class KeyCommandSet implements KeyPressHandler {
 
   public void add(final KeyCommandSet set) {
     if (sets == null) {
-      sets = new ArrayList<KeyCommandSet>();
+      sets = new ArrayList<>();
     }
     assert !sets.contains(set);
     sets.add(set);

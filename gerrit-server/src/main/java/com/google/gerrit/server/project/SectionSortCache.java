@@ -77,8 +77,7 @@ public class SectionSortCache {
 
     } else {
       boolean poison = false;
-      IdentityHashMap<AccessSection, Integer> srcMap =
-          new IdentityHashMap<AccessSection, Integer>();
+      IdentityHashMap<AccessSection, Integer> srcMap = new IdentityHashMap<>();
       for (int i = 0; i < cnt; i++) {
         poison |= srcMap.put(sections.get(i), i) != null;
       }

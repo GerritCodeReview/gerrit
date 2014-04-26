@@ -29,7 +29,7 @@ public class CollectionAppender extends AppenderSkeleton {
   private Collection<LoggingEvent> events;
 
   public CollectionAppender() {
-    events = new LinkedList<LoggingEvent>();
+    events = new LinkedList<>();
   }
 
   public CollectionAppender(Collection<LoggingEvent> events) {

@@ -371,7 +371,7 @@ public class JettyServer {
 
   private Handler makeContext(final JettyEnv env, final Config cfg)
       throws MalformedURLException, IOException {
-    final Set<String> paths = new HashSet<String>();
+    final Set<String> paths = new HashSet<>();
     for (URI u : listenURLs(cfg)) {
       String p = u.getPath();
       if (p == null || p.isEmpty()) {
@@ -383,7 +383,7 @@ public class JettyServer {
       paths.add(p);
     }
 
-    final List<ContextHandler> all = new ArrayList<ContextHandler>();
+    final List<ContextHandler> all = new ArrayList<>();
     for (String path : paths) {
       all.add(makeContext(path, env, cfg));
     }

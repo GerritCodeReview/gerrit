@@ -50,7 +50,7 @@ class DirectChangeByCommit extends HttpServlet {
   protected void doGet(final HttpServletRequest req,
       final HttpServletResponse rsp) throws IOException {
     String query = CharMatcher.is('/').trimTrailingFrom(req.getPathInfo());
-    HashSet<Change.Id> ids = new HashSet<Change.Id>();
+    HashSet<Change.Id> ids = new HashSet<>();
     try {
       ChangeQueryBuilder builder = queryBuilder.create(currentUser.get());
       Predicate<ChangeData> visibleToMe = builder.is_visible();

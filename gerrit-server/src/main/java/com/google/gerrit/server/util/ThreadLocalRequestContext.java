@@ -72,8 +72,7 @@ public class ThreadLocalRequestContext {
     };
   }
 
-  private static final ThreadLocal<RequestContext> local =
-      new ThreadLocal<RequestContext>();
+  private static final ThreadLocal<RequestContext> local = new ThreadLocal<>();
 
   @Inject
   ThreadLocalRequestContext() {

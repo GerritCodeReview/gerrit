@@ -227,7 +227,7 @@ public class LdapGroupBackend implements GroupBackend {
         ParameterizedString filter = ParameterizedString.asis(
             schema.groupPattern.replace(GROUPNAME, name).toString());
         Set<String> returnAttrs =
-            new HashSet<String>(schema.groupName.getParameterNames());
+            new HashSet<>(schema.groupName.getParameterNames());
         Map<String, String> params = Collections.emptyMap();
         for (String groupBase : schema.groupBases) {
           LdapQuery query = new LdapQuery(

@@ -98,7 +98,7 @@ public abstract class ChangeEmail extends NotificationEmail {
     formatChange();
     appendText(velocifyFile("ChangeFooter.vm"));
     try {
-      TreeSet<String> names = new TreeSet<String>();
+      TreeSet<String> names = new TreeSet<>();
       for (Account.Id who : changeData.reviewers().values()) {
         names.add(getNameEmailFor(who));
       }
@@ -338,7 +338,7 @@ public abstract class ChangeEmail extends NotificationEmail {
 
   /** Find all users who are authors of any part of this change. */
   protected Set<Account.Id> getAuthors() {
-    Set<Account.Id> authors = new HashSet<Account.Id>();
+    Set<Account.Id> authors = new HashSet<>();
 
     authors.add(change.getOwner());
     if (patchSet != null) {

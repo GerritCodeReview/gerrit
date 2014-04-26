@@ -37,7 +37,7 @@ class DynamicItemProvider<T> implements Provider<DynamicItem<T>> {
   }
 
   public DynamicItem<T> get() {
-    return new DynamicItem<T>(key, find(injector, type), "gerrit");
+    return new DynamicItem<>(key, find(injector, type), "gerrit");
   }
 
   private static <T> Provider<T> find(Injector src, TypeLiteral<T> type) {

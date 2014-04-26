@@ -47,7 +47,7 @@ public class Rulec extends SiteProgram {
   private boolean quiet;
 
   @Argument(index = 0, multiValued = true, metaVar = "PROJECT", usage = "project to compile rules for")
-  private List<String> projectNames = new ArrayList<String>();
+  private List<String> projectNames = new ArrayList<>();
 
   private Injector dbInjector;
 
@@ -71,7 +71,7 @@ public class Rulec extends SiteProgram {
       }
     }).injectMembers(this);
 
-    LinkedHashSet<Project.NameKey> names = new LinkedHashSet<Project.NameKey>();
+    LinkedHashSet<Project.NameKey> names = new LinkedHashSet<>();
     for (String name : projectNames) {
       names.add(new Project.NameKey(name));
     }

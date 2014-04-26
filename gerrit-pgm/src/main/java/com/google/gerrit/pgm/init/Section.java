@@ -55,7 +55,7 @@ public class Section {
   }
 
   public void set(final String name, final String value) {
-    final ArrayList<String> all = new ArrayList<String>();
+    final ArrayList<String> all = new ArrayList<>();
     all.addAll(Arrays.asList(flags.cfg.getStringList(section, subsection, name)));
 
     if (value != null) {

@@ -70,8 +70,8 @@ final class Receive extends AbstractGitCommand {
   @Inject
   private DynamicSet<PostReceiveHook> postReceiveHooks;
 
-  private final Set<Account.Id> reviewerId = new HashSet<Account.Id>();
-  private final Set<Account.Id> ccId = new HashSet<Account.Id>();
+  private final Set<Account.Id> reviewerId = new HashSet<>();
+  private final Set<Account.Id> ccId = new HashSet<>();
 
   @Option(name = "--reviewer", aliases = {"--re"}, metaVar = "EMAIL", usage = "request reviewer for change(s)")
   void addReviewer(final Account.Id id) {
@@ -158,7 +158,7 @@ final class Receive extends AbstractGitCommand {
 
         Map<String, Ref> allRefs =
             rp.getRepository().getRefDatabase().getRefs(RefDatabase.ALL);
-        List<Ref> hidden = new ArrayList<Ref>();
+        List<Ref> hidden = new ArrayList<>();
         for (Ref ref : allRefs.values()) {
           if (!adv.containsKey(ref.getName())) {
             hidden.add(ref);

@@ -43,18 +43,15 @@ public class Schema_74 extends SchemaVersion {
   protected void migrateData(final ReviewDb db, final UpdateUI ui)
       throws SQLException, OrmException {
     // Grab all the groups since we don't have the cache available
-    HashMap<AccountGroup.Id, AccountGroup.UUID> allGroups =
-        new HashMap<AccountGroup.Id, AccountGroup.UUID>();
+    HashMap<AccountGroup.Id, AccountGroup.UUID> allGroups = new HashMap<>();
     for (AccountGroup ag : db.accountGroups().all()) {
       allGroups.put(ag.getId(), ag.getGroupUUID());
     }
 
     // Initialize some variables
     Connection conn = ((JdbcSchema) db).getConnection();
-    ArrayList<AccountGroupById> newIncludes =
-        new ArrayList<AccountGroupById>();
-    ArrayList<AccountGroupByIdAud> newIncludeAudits =
-        new ArrayList<AccountGroupByIdAud>();
+    ArrayList<AccountGroupById> newIncludes = new ArrayList<>();
+    ArrayList<AccountGroupByIdAud> newIncludeAudits = new ArrayList<>();
 
     // Iterate over all entries in account_group_includes
     Statement oldGroupIncludesStmt = conn.createStatement();

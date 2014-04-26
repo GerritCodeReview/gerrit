@@ -138,7 +138,7 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
     }
 
     final List<Patch> patches = list.toPatchList(patchSet.getId());
-    final Map<Patch.Key, Patch> byKey = new HashMap<Patch.Key, Patch>();
+    final Map<Patch.Key, Patch> byKey = new HashMap<>();
     for (final Patch p : patches) {
       byKey.put(p.getKey(), p);
     }

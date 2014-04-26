@@ -429,8 +429,8 @@ class PreferencesBox extends Composite {
   private static final Map<String, String> NAME_TO_MODE;
   private static final Map<String, String> NORMALIZED_MODES;
   static {
-    NAME_TO_MODE = new TreeMap<String, String>();
-    NORMALIZED_MODES = new HashMap<String, String>();
+    NAME_TO_MODE = new TreeMap<>();
+    NORMALIZED_MODES = new HashMap<>();
     for (String type : ModeInjector.getKnownMimeTypes()) {
       String name = type;
       if (name.startsWith("text/x-")) {
@@ -459,7 +459,7 @@ class PreferencesBox extends Composite {
   private void setMode(String modeType) {
     if (modeType != null && !modeType.isEmpty()) {
       if (NORMALIZED_MODES.containsKey(modeType)) {
-        modeType =NORMALIZED_MODES.get(modeType);
+        modeType = NORMALIZED_MODES.get(modeType);
       }
       for (int i = 0; i < mode.getItemCount(); i++) {
         if (mode.getValue(i).equals(modeType)) {

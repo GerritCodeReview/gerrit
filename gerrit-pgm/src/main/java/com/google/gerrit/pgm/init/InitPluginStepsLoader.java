@@ -54,7 +54,7 @@ public class InitPluginStepsLoader {
 
   public Collection<InitStep> getInitSteps() {
     List<File> jars = scanJarsInPluginsDirectory();
-    ArrayList<InitStep> pluginsInitSteps = new ArrayList<InitStep>();
+    ArrayList<InitStep> pluginsInitSteps = new ArrayList<>();
 
     for (File jar : jars) {
       InitStep init = loadInitStep(jar);

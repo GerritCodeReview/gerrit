@@ -61,7 +61,7 @@ public class VariablePredicate<T> extends Predicate<T> {
     if (children.size() != 1) {
       throw new IllegalArgumentException("Expected exactly one child");
     }
-    return new VariablePredicate<T>(getName(), children.iterator().next());
+    return new VariablePredicate<>(getName(), children.iterator().next());
   }
 
   @Override

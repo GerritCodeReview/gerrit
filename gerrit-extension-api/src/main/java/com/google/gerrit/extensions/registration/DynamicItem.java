@@ -78,7 +78,7 @@ public class DynamicItem<T> {
     Key<DynamicItem<T>> key = (Key<DynamicItem<T>>) Key.get(
         Types.newParameterizedType(DynamicItem.class, member.getType()));
     binder.bind(key)
-      .toProvider(new DynamicItemProvider<T>(member, key))
+      .toProvider(new DynamicItemProvider<>(member, key))
       .in(Scopes.SINGLETON);
   }
 
@@ -111,10 +111,10 @@ public class DynamicItem<T> {
   DynamicItem(Key<DynamicItem<T>> key, Provider<T> provider, String pluginName) {
     NamedProvider<T> in = null;
     if (provider != null) {
-      in = new NamedProvider<T>(provider, pluginName);
+      in = new NamedProvider<>(provider, pluginName);
     }
     this.key = key;
-    this.ref = new AtomicReference<NamedProvider<T>>(in);
+    this.ref = new AtomicReference<>(in);
   }
 
   /**
@@ -148,7 +148,7 @@ public class DynamicItem<T> {
    * @return handle to remove the item at a later point in time.
    */
   public RegistrationHandle set(Provider<T> impl, String pluginName) {
-    final NamedProvider<T> item = new NamedProvider<T>(impl, pluginName);
+    final NamedProvider<T> item = new NamedProvider<>(impl, pluginName);
     NamedProvider<T> old = null;
     while (!ref.compareAndSet(old, item)) {
       old = ref.get();
@@ -180,7 +180,7 @@ public class DynamicItem<T> {
    */
   public ReloadableRegistrationHandle<T> set(Key<T> key, Provider<T> impl,
       String pluginName) {
-    final NamedProvider<T> item = new NamedProvider<T>(impl, pluginName);
+    final NamedProvider<T> item = new NamedProvider<>(impl, pluginName);
     NamedProvider<T> old = null;
     while (!ref.compareAndSet(old, item)) {
       old = ref.get();
@@ -216,7 +216,7 @@ public class DynamicItem<T> {
 
     @Override
     public ReloadableHandle replace(Key<T> newKey, Provider<T> newItem) {
-      NamedProvider<T> n = new NamedProvider<T>(newItem, item.pluginName);
+      NamedProvider<T> n = new NamedProvider<>(newItem, item.pluginName);
       if (ref.compareAndSet(item, n)) {
         return new ReloadableHandle(newKey, n, defaultItem);
       }

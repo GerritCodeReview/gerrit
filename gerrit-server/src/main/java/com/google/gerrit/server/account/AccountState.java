@@ -74,7 +74,7 @@ public class AccountState {
    * validated by Gerrit directly.
    */
   public Set<String> getEmailAddresses() {
-    final Set<String> emails = new HashSet<String>();
+    final Set<String> emails = new HashSet<>();
     for (final AccountExternalId e : externalIds) {
       if (e.getEmailAddress() != null && !e.getEmailAddress().isEmpty()) {
         emails.add(e.getEmailAddress());

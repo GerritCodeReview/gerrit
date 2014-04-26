@@ -34,8 +34,7 @@ public class TrackingFootersProvider implements Provider<TrackingFooters> {
   private static String FOOTER_TAG = "footer";
   private static String SYSTEM_TAG = "system";
   private static String REGEX_TAG = "match";
-  private final List<TrackingFooter> trackingFooters =
-      new ArrayList<TrackingFooter>();
+  private final List<TrackingFooter> trackingFooters = new ArrayList<>();
   private static final Logger log =
       LoggerFactory.getLogger(TrackingFootersProvider.class);
 

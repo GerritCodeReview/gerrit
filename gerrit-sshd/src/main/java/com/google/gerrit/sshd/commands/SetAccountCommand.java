@@ -71,16 +71,16 @@ final class SetAccountCommand extends BaseCommand {
   private boolean inactive;
 
   @Option(name = "--add-email", metaVar = "EMAIL", usage = "email addresses to add to the account")
-  private List<String> addEmails = new ArrayList<String>();
+  private List<String> addEmails = new ArrayList<>();
 
   @Option(name = "--delete-email", metaVar = "EMAIL", usage = "email addresses to delete from the account")
-  private List<String> deleteEmails = new ArrayList<String>();
+  private List<String> deleteEmails = new ArrayList<>();
 
   @Option(name = "--add-ssh-key", metaVar = "-|KEY", usage = "public keys to add to the account")
-  private List<String> addSshKeys = new ArrayList<String>();
+  private List<String> addSshKeys = new ArrayList<>();
 
   @Option(name = "--delete-ssh-key", metaVar = "-|KEY", usage = "public keys to delete from the account")
-  private List<String> deleteSshKeys = new ArrayList<String>();
+  private List<String> deleteSshKeys = new ArrayList<>();
 
   @Option(name = "--http-password", metaVar = "PASSWORD", usage = "password for HTTP authentication for the account")
   private String httpPassword;

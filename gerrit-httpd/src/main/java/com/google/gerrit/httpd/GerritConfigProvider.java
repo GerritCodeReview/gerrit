@@ -152,7 +152,7 @@ class GerritConfigProvider implements Provider<GerritConfig> {
         reportBugUrl : "http://code.google.com/p/gerrit/issues/list");
     config.setReportBugText(cfg.getString("gerrit", null, "reportBugText"));
 
-    final Set<Account.FieldName> fields = new HashSet<Account.FieldName>();
+    final Set<Account.FieldName> fields = new HashSet<>();
     for (final Account.FieldName n : Account.FieldName.values()) {
       if (realm.allowsEdit(n)) {
         fields.add(n);

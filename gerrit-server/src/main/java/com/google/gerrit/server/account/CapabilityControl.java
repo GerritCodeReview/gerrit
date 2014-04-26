@@ -54,7 +54,7 @@ public class CapabilityControl {
   CapabilityControl(ProjectCache projectCache, @Assisted CurrentUser currentUser) {
     capabilities = projectCache.getAllProjects().getCapabilityCollection();
     user = currentUser;
-    effective = new HashMap<String, List<PermissionRule>>();
+    effective = new HashMap<>();
   }
 
   /** Identity of the user the control will compute for. */
@@ -268,7 +268,7 @@ public class CapabilityControl {
       return rules;
     }
 
-    List<PermissionRule> mine = new ArrayList<PermissionRule>(rules.size());
+    List<PermissionRule> mine = new ArrayList<>(rules.size());
     for (PermissionRule rule : rules) {
       if (match(groups, rule)) {
         mine.add(rule);

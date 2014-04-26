@@ -45,7 +45,7 @@ public abstract class HighlightSuggestOracle extends SuggestOracle {
           final Response response) {
         final String qpat = getQueryPattern(request.getQuery());
         final boolean html = isHTML();
-        final ArrayList<Suggestion> r = new ArrayList<Suggestion>();
+        final ArrayList<Suggestion> r = new ArrayList<>();
         for (final Suggestion s : response.getSuggestions()) {
           r.add(new BoldSuggestion(qpat, s, html));
         }

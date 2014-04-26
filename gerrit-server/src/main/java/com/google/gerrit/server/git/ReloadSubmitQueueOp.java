@@ -46,7 +46,7 @@ public class ReloadSubmitQueueOp extends DefaultQueueOp {
   }
 
   public void run() {
-    final HashSet<Branch.NameKey> pending = new HashSet<Branch.NameKey>();
+    final HashSet<Branch.NameKey> pending = new HashSet<>();
     try {
       final ReviewDb c = schema.open();
       try {

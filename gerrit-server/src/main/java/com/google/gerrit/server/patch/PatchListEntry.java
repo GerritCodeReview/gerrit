@@ -168,7 +168,7 @@ public class PatchListEntry {
 
   public List<String> getHeaderLines() {
     final IntList m = RawParseUtils.lineMap(header, 0, header.length);
-    final List<String> headerLines = new ArrayList<String>(m.size() - 1);
+    final List<String> headerLines = new ArrayList<>(m.size() - 1);
     for (int i = 1; i < m.size() - 1; i++) {
       final int b = m.get(i);
       int e = m.get(i + 1);

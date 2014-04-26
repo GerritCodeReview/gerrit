@@ -26,8 +26,8 @@ import java.util.Set;
 
 /** Sends an email alerting a user to a new change for them to review. */
 public abstract class NewChangeSender extends ChangeEmail {
-  private final Set<Account.Id> reviewers = new HashSet<Account.Id>();
-  private final Set<Account.Id> extraCC = new HashSet<Account.Id>();
+  private final Set<Account.Id> reviewers = new HashSet<>();
+  private final Set<Account.Id> extraCC = new HashSet<>();
 
   protected NewChangeSender(EmailArguments ea, Change c) {
     super(ea, c, "newchange");
@@ -61,7 +61,7 @@ public abstract class NewChangeSender extends ChangeEmail {
     if (reviewers.isEmpty()) {
       return null;
     }
-    List<String> names = new ArrayList<String>();
+    List<String> names = new ArrayList<>();
     for (Account.Id id : reviewers) {
       names.add(getNameFor(id));
     }

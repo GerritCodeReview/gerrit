@@ -49,7 +49,7 @@ abstract class RangeBox extends Composite implements
     final ValueListBox<Integer> list;
 
     List() {
-      list = new ValueListBox<Integer>(rangeRenderer);
+      list = new ValueListBox<>(rangeRenderer);
       initWidget(list);
     }
 

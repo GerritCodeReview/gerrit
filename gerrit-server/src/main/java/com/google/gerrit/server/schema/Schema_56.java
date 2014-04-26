@@ -42,8 +42,8 @@ public class Schema_56 extends SchemaVersion {
     super(prior);
     this.mgr = mgr;
 
-    keysOne = new HashSet<String>();
-    keysTwo = new HashSet<String>();
+    keysOne = new HashSet<>();
+    keysTwo = new HashSet<>();
 
     keysOne.add(RefNames.REFS_CONFIG);
     keysTwo.add(RefNames.REFS_CONFIG);

@@ -51,8 +51,8 @@ class TagSet {
 
   TagSet(Project.NameKey projectName) {
     this.projectName = projectName;
-    this.refs = new HashMap<String, CachedRef>();
-    this.tags = new ObjectIdOwnerMap<Tag>();
+    this.refs = new HashMap<>();
+    this.tags = new ObjectIdOwnerMap<>();
   }
 
   Tag lookupTag(AnyObjectId id) {
@@ -238,7 +238,7 @@ class TagSet {
     // Gerrit Code Review server, perhaps about 50% of new references.
     // Since a complete rebuild is so costly, try this approach first.
 
-    Map<ObjectId, Integer> byObj = new HashMap<ObjectId, Integer>();
+    Map<ObjectId, Integer> byObj = new HashMap<>();
     for (CachedRef r : old.refs.values()) {
       ObjectId id = r.get();
       if (!byObj.containsKey(id)) {

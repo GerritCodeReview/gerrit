@@ -182,7 +182,7 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
   private void insertAncestors(PatchSet.Id id, RevCommit src)
       throws OrmException {
     final int cnt = src.getParentCount();
-    List<PatchSetAncestor> toInsert = new ArrayList<PatchSetAncestor>(cnt);
+    List<PatchSetAncestor> toInsert = new ArrayList<>(cnt);
     for (int p = 0; p < cnt; p++) {
       PatchSetAncestor a;
 

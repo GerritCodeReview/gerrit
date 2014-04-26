@@ -73,7 +73,7 @@ public class ReviewCommand extends SshCommand {
     return parser;
   }
 
-  private final Set<PatchSet> patchSets = new HashSet<PatchSet>();
+  private final Set<PatchSet> patchSets = new HashSet<>();
 
   @Argument(index = 0, required = true, multiValued = true, metaVar = "{COMMIT | CHANGE,PATCHSET}", usage = "list of commits or patch sets to review")
   void addPatchSetId(final String token) {
@@ -282,7 +282,7 @@ public class ReviewCommand extends SshCommand {
         patches = db.patchSets().byRevisionRange(id, id.max());
       }
 
-      final Set<PatchSet> matches = new HashSet<PatchSet>();
+      final Set<PatchSet> matches = new HashSet<>();
       for (final PatchSet ps : patches) {
         final Change change = db.changes().get(ps.getId().getParentKey());
         if (inProject(change) && inBranch(change)) {
@@ -348,7 +348,7 @@ public class ReviewCommand extends SshCommand {
 
   @Override
   protected void parseCommandLine() throws UnloggedFailure {
-    optionList = new ArrayList<ApproveOption>();
+    optionList = new ArrayList<>();
     customLabels = Maps.newHashMap();
 
     ProjectControl allProjectsControl;

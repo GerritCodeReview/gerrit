@@ -96,7 +96,7 @@ public class WorkQueue {
 
   public WorkQueue(IdGenerator idGenerator, int defaultThreadPoolSize) {
     this.idGenerator = idGenerator;
-    this.queues = new CopyOnWriteArrayList<Executor>();
+    this.queues = new CopyOnWriteArrayList<>();
     this.defaultQueueSize = defaultThreadPoolSize;
   }
 
@@ -119,7 +119,7 @@ public class WorkQueue {
 
   /** Get all of the tasks currently scheduled in any work queue. */
   public List<Task<?>> getTasks() {
-    final List<Task<?>> r = new ArrayList<Task<?>>();
+    final List<Task<?>> r = new ArrayList<>();
     for (final Executor e : queues) {
       e.addAllTo(r);
     }
@@ -186,7 +186,7 @@ public class WorkQueue {
         }
       });
 
-      all = new ConcurrentHashMap<Integer, Task<?>>( //
+      all = new ConcurrentHashMap<>( //
           corePoolSize << 1, // table size
           0.75f, // load factor
           corePoolSize + 4 // concurrency level
@@ -207,9 +207,9 @@ public class WorkQueue {
         Task<V> task;
 
         if (runnable instanceof ProjectRunnable) {
-          task = new ProjectTask<V>((ProjectRunnable) runnable, r, this, id);
+          task = new ProjectTask<>((ProjectRunnable) runnable, r, this, id);
         } else {
-          task = new Task<V>(runnable, r, this, id);
+          task = new Task<>(runnable, r, this, id);
         }
 
         if (all.putIfAbsent(task.getTaskId(), task) == null) {

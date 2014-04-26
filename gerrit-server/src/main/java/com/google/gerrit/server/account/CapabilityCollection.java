@@ -43,8 +43,7 @@ public class CapabilityCollection {
       section = new AccessSection(AccessSection.GLOBAL_CAPABILITIES);
     }
 
-    Map<String, List<PermissionRule>> tmp =
-        new HashMap<String, List<PermissionRule>>();
+    Map<String, List<PermissionRule>> tmp = new HashMap<>();
     for (Permission permission : section.getPermissions()) {
       for (PermissionRule rule : permission.getRules()) {
         if (!permission.getName().equals(GlobalCapability.EMAIL_REVIEWERS)
@@ -54,7 +53,7 @@ public class CapabilityCollection {
 
         List<PermissionRule> r = tmp.get(permission.getName());
         if (r == null) {
-          r = new ArrayList<PermissionRule>(2);
+          r = new ArrayList<>(2);
           tmp.put(permission.getName(), r);
         }
         r.add(rule);
@@ -62,8 +61,7 @@ public class CapabilityCollection {
     }
     configureDefaults(tmp, section);
 
-    Map<String, List<PermissionRule>> res =
-        new HashMap<String, List<PermissionRule>>();
+    Map<String, List<PermissionRule>> res = new HashMap<>();
     for (Map.Entry<String, List<PermissionRule>> e : tmp.entrySet()) {
       List<PermissionRule> rules = e.getValue();
       if (rules.size() == 1) {

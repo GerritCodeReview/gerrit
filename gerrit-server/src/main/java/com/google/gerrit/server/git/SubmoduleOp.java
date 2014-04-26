@@ -110,7 +110,7 @@ public class SubmoduleOp {
     this.repoManager = repoManager;
     this.gitRefUpdated = gitRefUpdated;
 
-    updatedSubscribers = new HashSet<Branch.NameKey>();
+    updatedSubscribers = new HashSet<>();
   }
 
   public void update() throws SubmoduleException {
@@ -151,14 +151,13 @@ public class SubmoduleOp {
                 destBranch.get());
 
         final Set<SubmoduleSubscription> oldSubscriptions =
-            new HashSet<SubmoduleSubscription>(schema.submoduleSubscriptions()
+            new HashSet<>(schema.submoduleSubscriptions()
                 .bySuperProject(destBranch).toList());
         final List<SubmoduleSubscription> newSubscriptions =
             new SubmoduleSectionParser(bbc, thisServer, target, repoManager)
                 .parseAllSections();
 
-        final Set<SubmoduleSubscription> alreadySubscribeds =
-            new HashSet<SubmoduleSubscription>();
+        final Set<SubmoduleSubscription> alreadySubscribeds = new HashSet<>();
         for (SubmoduleSubscription s : newSubscriptions) {
           if (oldSubscriptions.contains(s)) {
             alreadySubscribeds.add(s);
@@ -232,12 +231,10 @@ public class SubmoduleOp {
                 + s.toString());
           } else {
 
-            Map<Branch.NameKey, ObjectId> modules =
-                new HashMap<Branch.NameKey, ObjectId>(1);
+            Map<Branch.NameKey, ObjectId> modules = new HashMap<>(1);
             modules.put(updatedBranch, mergedCommit);
 
-            Map<Branch.NameKey, String> paths =
-                new HashMap<Branch.NameKey, String>(1);
+            Map<Branch.NameKey, String> paths = new HashMap<>(1);
             paths.put(updatedBranch, s.getPath());
 
             try {

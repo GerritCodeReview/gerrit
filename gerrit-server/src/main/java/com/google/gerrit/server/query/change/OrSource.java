@@ -24,6 +24,8 @@ import com.google.gwtorm.server.ResultSet;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class OrSource extends OrPredicate<ChangeData> implements ChangeDataSource {
   private int cardinality = -1;
@@ -36,8 +38,8 @@ public class OrSource extends OrPredicate<ChangeData> implements ChangeDataSourc
   public ResultSet<ChangeData> read() throws OrmException {
     // TODO(spearce) This probably should be more lazy.
     //
-    ArrayList<ChangeData> r = new ArrayList<ChangeData>();
-    HashSet<Change.Id> have = new HashSet<Change.Id>();
+    List<ChangeData> r = new ArrayList<>();
+    Set<Change.Id> have = new HashSet<>();
     for (Predicate<ChangeData> p : getChildren()) {
       if (p instanceof ChangeDataSource) {
         for (ChangeData cd : ((ChangeDataSource) p).read()) {
@@ -49,7 +51,7 @@ public class OrSource extends OrPredicate<ChangeData> implements ChangeDataSourc
         throw new OrmException("No ChangeDataSource: " + p);
       }
     }
-    return new ListResultSet<ChangeData>(r);
+    return new ListResultSet<>(r);
   }
 
   @Override

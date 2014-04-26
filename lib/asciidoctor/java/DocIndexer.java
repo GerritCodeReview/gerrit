@@ -67,7 +67,7 @@ public class DocIndexer {
   private String outExt = ".html";
 
   @Argument(usage = "input files")
-  private List<String> inputFiles = new ArrayList<String>();
+  private List<String> inputFiles = new ArrayList<>();
 
   private void invoke(String... parameters) throws IOException {
     CmdLineParser parser = new CmdLineParser(this);

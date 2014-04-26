@@ -51,7 +51,7 @@ public class GarbageCollectionCommand extends BaseCommand {
 
   @Argument(index = 0, required = false, multiValued = true, metaVar = "NAME",
       usage = "projects for which the Git garbage collection should be run")
-  private List<ProjectControl> projects = new ArrayList<ProjectControl>();
+  private List<ProjectControl> projects = new ArrayList<>();
 
   @Inject
   private ProjectCache projectCache;

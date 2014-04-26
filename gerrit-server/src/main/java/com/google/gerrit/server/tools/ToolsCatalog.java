@@ -69,7 +69,7 @@ public class ToolsCatalog {
   }
 
   private static SortedMap<String, Entry> readToc() throws IOException {
-    SortedMap<String, Entry> toc = new TreeMap<String, Entry>();
+    SortedMap<String, Entry> toc = new TreeMap<>();
     final BufferedReader br =
         new BufferedReader(new InputStreamReader(new ByteArrayInputStream(
             read("TOC")), "UTF-8"));
@@ -81,7 +81,7 @@ public class ToolsCatalog {
       }
     }
 
-    final List<Entry> all = new ArrayList<Entry>(toc.values());
+    final List<Entry> all = new ArrayList<>(toc.values());
     for (Entry e : all) {
       String path = dirOf(e.getPath());
       while (path != null) {
@@ -159,7 +159,7 @@ public class ToolsCatalog {
       if (type == Type.FILE) {
         this.children = Collections.emptyList();
       } else {
-        this.children = new ArrayList<Entry>();
+        this.children = new ArrayList<>();
       }
     }
 
@@ -167,7 +167,7 @@ public class ToolsCatalog {
       this.type = type;
       this.mode = mode;
       this.path = path;
-      this.children = new ArrayList<Entry>();
+      this.children = new ArrayList<>();
     }
 
     public Type getType() {

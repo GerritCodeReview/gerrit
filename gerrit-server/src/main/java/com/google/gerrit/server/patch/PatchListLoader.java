@@ -311,7 +311,7 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
 
         MergeFormatter fmt = new MergeFormatter();
         Map<String, MergeResult<? extends Sequence>> r = m.getMergeResults();
-        Map<String, ObjectId> resolved = new HashMap<String, ObjectId>();
+        Map<String, ObjectId> resolved = new HashMap<>();
         for (Map.Entry<String, MergeResult<? extends Sequence>> entry : r.entrySet()) {
           MergeResult<? extends Sequence> p = entry.getValue();
           TemporaryBuffer buf = new TemporaryBuffer.LocalFile(10 * 1024 * 1024);

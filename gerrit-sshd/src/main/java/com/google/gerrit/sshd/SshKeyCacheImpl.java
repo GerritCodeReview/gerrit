@@ -135,7 +135,7 @@ public class SshKeyCacheImpl implements SshKeyCache {
           return NO_SUCH_USER;
         }
 
-        final List<SshKeyCacheEntry> kl = new ArrayList<SshKeyCacheEntry>(4);
+        final List<SshKeyCacheEntry> kl = new ArrayList<>(4);
         for (AccountSshKey k : db.accountSshKeys().byAccount(
             user.getAccountId())) {
           if (k.isValid()) {

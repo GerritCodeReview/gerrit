@@ -26,12 +26,7 @@ public class CustomDashboardScreen extends Screen implements ChangeListScreen {
 
   @Override
   protected void onInitUI() {
-    table = new DashboardTable(params) {
-      @Override
-      protected void onLoad() {
-        super.onLoad();
-      }
-
+    table = new DashboardTable(this, params) {
       @Override
       public void finishDisplay() {
         super.finishDisplay();

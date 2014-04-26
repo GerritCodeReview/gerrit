@@ -18,10 +18,13 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.ui.InlineHyperlink;
+import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.extensions.common.ListChangesOption;
 import com.google.gwt.core.client.JsArray;
+import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.http.client.URL;
+import com.google.gwtexpui.globalkey.client.KeyCommand;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
@@ -34,7 +37,7 @@ public class DashboardTable extends ChangeTable2 {
   private List<String> titles;
   private List<String> queries;
 
-  public DashboardTable(String params) {
+  public DashboardTable(final Screen screen, String params) {
     titles = new ArrayList<>();
     queries = new ArrayList<>();
     String foreach = null;
@@ -72,6 +75,13 @@ public class DashboardTable extends ChangeTable2 {
       addSection(s);
       sections.add(s);
     }
+
+    keysNavigation.add(new KeyCommand(0, 'R', Util.C.keyReloadSearch()) {
+      @Override
+      public void onKeyPress(KeyPressEvent event) {
+        Gerrit.display(screen.getToken());
+      }
+    });
   }
 
   private String removeLimit(String query) {

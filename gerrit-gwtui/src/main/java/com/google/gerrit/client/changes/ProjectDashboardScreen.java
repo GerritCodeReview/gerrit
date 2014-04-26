@@ -32,12 +32,7 @@ public class ProjectDashboardScreen extends ProjectScreen implements ChangeListS
 
   @Override
   protected void onInitUI() {
-    table = new DashboardTable(params) {
-      @Override
-      protected void onLoad() {
-        super.onLoad();
-      }
-
+    table = new DashboardTable(this, params) {
       @Override
       public void finishDisplay() {
         super.finishDisplay();

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e5716354_ed024529",
+        "filename": "gerrit-pgm/src/test/java/com/google/gerrit/pgm/init/UpgradeFrom2_0_xTest.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-27T16:09:56Z",
+      "side": 1,
+      "message": "Something went wrong? It doesn\u0027t compile, when i fix it by moving \u0027//gerrit-extension-api:api\u0027 to exported_deps from deps in init-api rule:\n\n  +  exported_deps \u003d [\u0027//gerrit-extension-api:api\u0027],\n\nTests are failing with:\n\n  1 error\ncom.google.inject.CreationException: Guice creation errors:\n\n1) Could not find a suitable constructor in com.google.gerrit.extensions.registration.DynamicItem. Classes must have either one (and only one) constructor annotated with @Inject or a zero-argument constructor that is not private.\n  at com.google.gerrit.extensions.registration.DynamicItem.class(DynamicItem.java:37)\n  while locating com.google.gerrit.extensions.registration.DynamicItem\u003ccom.google.gerrit.server.securestore.SecureStore\u003e\n    for parameter 1 at com.google.gerrit.server.config.AuthConfig.\u003cinit\u003e(AuthConfig.java:63)\n  at com.google.gerrit.server.config.AuthConfigModule.configure(AuthConfigModule.java:25)\n\n1 error",
+      "revId": "faacb29b3fd019dcb438a482c14ce43105569379",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

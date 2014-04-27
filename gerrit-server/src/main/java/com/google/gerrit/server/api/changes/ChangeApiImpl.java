@@ -41,7 +41,7 @@ import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.EnumSet;
 
-class ChangeApiImpl implements ChangeApi {
+class ChangeApiImpl extends ChangeApi.NotImplementedChangeApi implements ChangeApi {
   interface Factory {
     ChangeApiImpl create(ChangeResource change);
   }

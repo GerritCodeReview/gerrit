@@ -23,7 +23,7 @@ import com.google.inject.Inject;
 
 import java.io.IOException;
 
-class ProjectsImpl implements Projects {
+class ProjectsImpl extends Projects.NotImplementedProjects implements Projects {
   private final ProjectsCollection projects;
   private final ProjectApiImpl.Factory api;
 

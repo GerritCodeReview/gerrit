@@ -26,7 +26,7 @@ import com.google.gerrit.server.change.ChangesCollection;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
-class ChangesImpl implements Changes {
+class ChangesImpl extends Changes.NotImplementedChanges implements Changes {
   private final ChangesCollection changes;
   private final ChangeApiImpl.Factory api;
 

@@ -37,7 +37,7 @@ import com.google.inject.assistedinject.Assisted;
 
 import java.io.IOException;
 
-class RevisionApiImpl implements RevisionApi {
+class RevisionApiImpl extends RevisionApi.NotImplementedRevisionApi implements RevisionApi {
   interface Factory {
     RevisionApiImpl create(RevisionResource r);
   }

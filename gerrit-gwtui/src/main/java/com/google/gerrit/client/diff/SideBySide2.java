@@ -324,6 +324,7 @@ public class SideBySide2 extends Screen {
         .on("C", commentManager.insertNewDraft(cm))
         .on("N", maybeNextVimSearch(cm))
         .on("P", chunkManager.diffChunkNav(cm, Direction.PREV))
+        .on("Shift-A", diffTable.toggleA())
         .on("Shift-M", header.reviewedAndNext())
         .on("Shift-N", maybePrevVimSearch(cm))
         .on("Shift-P", commentManager.commentNav(cm, Direction.PREV))
@@ -455,6 +456,13 @@ public class SideBySide2 extends Screen {
       @Override
       public void onKeyPress(KeyPressEvent event) {
         upToChange(true).run();
+      }
+    });
+    keysAction.add(new KeyCommand(
+        KeyCommand.M_SHIFT, 'a', PatchUtil.C.toggleSideA()) {
+      @Override
+      public void onKeyPress(KeyPressEvent event) {
+        diffTable.toggleA().run();
       }
     });
     keysAction.add(new KeyCommand(0, ',', PatchUtil.C.showPreferences()) {

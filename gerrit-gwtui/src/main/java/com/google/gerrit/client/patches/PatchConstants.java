@@ -54,6 +54,7 @@ public interface PatchConstants extends Constants {
   String fileList();
   String expandComment();
   String expandAllCommentsOnCurrentLine();
+  String toggleSideA();
   String toggleIntraline();
   String showPreferences();
 

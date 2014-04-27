@@ -52,6 +52,11 @@ limitations under the License.
       padding-bottom: 1px;
     }
 
+    .hideA .psNavA,
+    .hideA .a {
+      display: none;
+    }
+
     .table {
       width: 100%;
       table-layout: fixed;
@@ -156,7 +161,7 @@ limitations under the License.
   <g:HTMLPanel styleName='{style.difftable}'>
     <table class='{style.table}'>
       <tr ui:field='patchSetNavRow' class='{style.patchSetNav}'>
-        <td ui:field='patchSetNavCellA'>
+        <td ui:field='patchSetNavCellA' class='{style.psNavA}'>
           <d:PatchSetSelectBox2 ui:field='patchSetSelectBoxA' />
         </td>
         <td ui:field='patchSetNavCellB'>

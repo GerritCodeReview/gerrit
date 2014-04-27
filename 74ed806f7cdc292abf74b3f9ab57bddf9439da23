@@ -22,6 +22,30 @@
       "revId": "74ed806f7cdc292abf74b3f9ab57bddf9439da23",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "656f3377_8945b959",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-04-27T19:01:24Z",
+      "side": 1,
+      "message": "Yes we could default to hideA for new files. I think that is better done by another commit. I also think if that should be a preference. Some users like myself tend to read the right side when reviewing many files. Jumping to the left on an add because hideA is enabled means I have to stop focusing on the right side and move my gaze to the left, then maybe back right for the next file.\n\nIf the edit series is built on sbs2 code you just need to use the setVisibleA(false) method to enable hideA.",
+      "parentUuid": "e5716354_4d191994",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 70
+      },
+      "revId": "74ed806f7cdc292abf74b3f9ab57bddf9439da23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

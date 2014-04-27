@@ -73,6 +73,7 @@ public abstract class Plugin {
   private final CacheKey cacheKey;
   private final PluginUser pluginUser;
   private final FileSnapshot snapshot;
+  private CleanupHandle cleanupHandle;
 
   protected LifecycleManager manager;
 
@@ -90,6 +91,14 @@ public abstract class Plugin {
     this.pluginUser = pluginUser;
     this.cacheKey = new Plugin.CacheKey(name);
     this.disabled = srcFile.getName().endsWith(".disabled");
+  }
+
+  public CleanupHandle getCleanupHandle() {
+    return cleanupHandle;
+  }
+
+  public void setCleanupHandle(CleanupHandle cleanupHandle) {
+    this.cleanupHandle = cleanupHandle;
   }
 
   PluginUser getPluginUser() {

@@ -46,20 +46,14 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileFilter;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -69,8 +63,6 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.TimeUnit;
-import java.util.jar.JarFile;
-import java.util.jar.Manifest;
 
 @Singleton
 public class PluginLoader implements LifecycleListener {
@@ -83,7 +75,6 @@ public class PluginLoader implements LifecycleListener {
 
   private final File pluginsDir;
   private final File dataDir;
-  private final File tmpDir;
   private final PluginGuiceEnvironment env;
   private final ServerInformationImpl srvInfoImpl;
   private final PluginUser.Factory pluginUserFactory;
@@ -97,7 +88,7 @@ public class PluginLoader implements LifecycleListener {
   private final Provider<String> urlProvider;
   private final PersistentCacheFactory persistentCacheFactory;
   private final boolean remoteAdmin;
-  private final UniversalServerPluginProvider externalPluginFactory;
+  private final UniversalServerPluginProvider serverPluginFactory;
 
   @Inject
   public PluginLoader(SitePaths sitePaths,
@@ -108,10 +99,9 @@ public class PluginLoader implements LifecycleListener {
       @GerritServerConfig Config cfg,
       @CanonicalWebUrl Provider<String> provider,
       PersistentCacheFactory cacheFactory,
-      UniversalServerPluginProvider extPluginFactory) {
+      UniversalServerPluginProvider pluginFactory) {
     pluginsDir = sitePaths.plugins_dir;
     dataDir = sitePaths.data_dir;
-    tmpDir = sitePaths.tmp_dir;
     env = pe;
     srvInfoImpl = sii;
     pluginUserFactory = puf;
@@ -123,7 +113,7 @@ public class PluginLoader implements LifecycleListener {
     cleaner = pct;
     urlProvider = provider;
     persistentCacheFactory = cacheFactory;
-    externalPluginFactory = extPluginFactory;
+    serverPluginFactory = pluginFactory;
 
     remoteAdmin =
         cfg.getBoolean("plugins", null, "allowRemoteAdmin", false);
@@ -200,14 +190,6 @@ public class PluginLoader implements LifecycleListener {
 
       cleanInBackground();
     }
-  }
-
-  public static File storeInTemp(String pluginName, InputStream in,
-      SitePaths sitePaths) throws IOException {
-    if (!sitePaths.tmp_dir.exists()) {
-      sitePaths.tmp_dir.mkdirs();
-    }
-    return asTemp(in, tempNameFor(pluginName), ".jar", sitePaths.tmp_dir);
   }
 
   private static File asTemp(InputStream in,
@@ -387,7 +369,7 @@ public class PluginLoader implements LifecycleListener {
       String name = entry.getKey();
       File file = entry.getValue();
       String fileName = file.getName();
-      if(!isJarPlugin(fileName) && !isJsPlugin(fileName) && !externalPluginFactory.handles(file)) {
+      if(!isJsPlugin(fileName) && !serverPluginFactory.handles(file)) {
         log.warn("Skipping non-plugin file " + fileName);
         continue;
       }
@@ -452,6 +434,9 @@ public class PluginLoader implements LifecycleListener {
     FileSnapshot snapshot = FileSnapshot.save(plugin);
     try {
       Plugin newPlugin = loadPlugin(name, plugin, snapshot);
+      if (newPlugin.getCleanupHandle() != null) {
+        cleanupHandles.put(newPlugin, newPlugin.getCleanupHandle());
+      }
       name = newPlugin.getName();
       boolean reload = oldPlugin != null
           && oldPlugin.canReload()
@@ -542,10 +527,6 @@ public class PluginLoader implements LifecycleListener {
     return 0 < ext ? name.substring(0, ext) : name;
   }
 
-  private static String getExtension(File file) {
-    return getExtension(file.getName());
-  }
-
   private static String getExtension(String name) {
     int ext = name.lastIndexOf('.');
     return 0 < ext ? name.substring(ext) : "";
@@ -554,65 +535,14 @@ public class PluginLoader implements LifecycleListener {
   private Plugin loadPlugin(String name, File srcPlugin, FileSnapshot snapshot)
       throws IOException, ClassNotFoundException, InvalidPluginException {
     String pluginName = srcPlugin.getName();
-    if (isJarPlugin(pluginName)) {
-      File tmp;
-      FileInputStream in = new FileInputStream(srcPlugin);
-      String extension = getExtension(srcPlugin);
-      try {
-        tmp = asTemp(in, tempNameFor(name), extension, tmpDir);
-      } finally {
-        in.close();
-      }
-      return loadJarPlugin(name, srcPlugin, snapshot, tmp);
-    } else if (isJsPlugin(pluginName)) {
+    if (isJsPlugin(pluginName)) {
       return loadJsPlugin(name, srcPlugin, snapshot);
-    } else if (externalPluginFactory.handles(srcPlugin)) {
-      name = externalPluginFactory.getPluginName(srcPlugin);
-      return loadExternalPlugin(name, srcPlugin, snapshot);
+    } else if (serverPluginFactory.handles(srcPlugin)) {
+      name = serverPluginFactory.getPluginName(srcPlugin);
+      return loadServerPlugin(name, srcPlugin, snapshot);
     } else {
       throw new InvalidPluginException(String.format(
           "Unsupported plugin type: %s", srcPlugin.getName()));
-    }
-  }
-
-  private Plugin loadJarPlugin(String name, File srcJar, FileSnapshot snapshot,
-      File tmp) throws IOException, InvalidPluginException,
-      MalformedURLException, ClassNotFoundException {
-    JarFile jarFile = new JarFile(tmp);
-    boolean keep = false;
-    try {
-      Manifest manifest = jarFile.getManifest();
-      Plugin.ApiType type = Plugin.getApiType(manifest);
-
-      List<URL> urls = new ArrayList<>(2);
-      String overlay = System.getProperty("gerrit.plugin-classes");
-      if (overlay != null) {
-        File classes = new File(new File(new File(overlay), name), "main");
-        if (classes.isDirectory()) {
-          log.info(String.format(
-              "plugin %s: including %s",
-              name, classes.getPath()));
-          urls.add(classes.toURI().toURL());
-        }
-      }
-      urls.add(tmp.toURI().toURL());
-
-      ClassLoader pluginLoader = new URLClassLoader(
-          urls.toArray(new URL[urls.size()]),
-          parentFor(type));
-
-      Plugin plugin = new ServerPlugin(name, getPluginCanonicalWebUrl(name),
-          pluginUserFactory.create(name),
-          srcJar, snapshot, new JarFile(srcJar),
-          new JarScanner(srcJar),
-          getPluginDataDir(name), pluginLoader);
-      cleanupHandles.put(plugin, new CleanupHandle(tmp, jarFile));
-      keep = true;
-      return plugin;
-    } finally {
-      if (!keep) {
-        jarFile.close();
-      }
     }
   }
 
@@ -631,14 +561,14 @@ public class PluginLoader implements LifecycleListener {
     return new JsPlugin(name, srcJar, pluginUserFactory.create(name), snapshot);
   }
 
-  private ServerPlugin loadExternalPlugin(String name, File scriptFile,
+  private ServerPlugin loadServerPlugin(String name, File scriptFile,
       FileSnapshot snapshot) throws InvalidPluginException {
-    return externalPluginFactory.get(scriptFile,
+    return serverPluginFactory.get(scriptFile,
         pluginUserFactory.create(name), snapshot,
         getPluginCanonicalWebUrl(name), getPluginDataDir(name));
   }
 
-  private static ClassLoader parentFor(Plugin.ApiType type)
+  static ClassLoader parentFor(Plugin.ApiType type)
       throws InvalidPluginException {
     switch (type) {
       case EXTENSION:
@@ -652,22 +582,17 @@ public class PluginLoader implements LifecycleListener {
     }
   }
 
-  private static String tempNameFor(String name) {
-    SimpleDateFormat fmt = new SimpleDateFormat("yyMMdd_HHmm");
-    return PLUGIN_TMP_PREFIX + name + "_" + fmt.format(new Date()) + "_";
-  }
-
   // Only one active plugin per plugin name can exist for each plugin name.
   // Filter out disabled plugins and transform the multimap to a map
   private static Map<String, File> filterDisabled(
-      Multimap<String, File> jars) {
+      Multimap<String, File> pluginFiles) {
     Map<String, File> activePlugins = Maps.newHashMapWithExpectedSize(
-        jars.keys().size());
-    for (String name : jars.keys()) {
-      for (File jar : jars.asMap().get(name)) {
-        if (!jar.getName().endsWith(".disabled")) {
+        pluginFiles.keys().size());
+    for (String name : pluginFiles.keys()) {
+      for (File pluginFile : pluginFiles.asMap().get(name)) {
+        if (!pluginFile.getName().endsWith(".disabled")) {
           assert(!activePlugins.containsKey(name));
-          activePlugins.put(name, jar);
+          activePlugins.put(name, pluginFile);
         }
       }
     }
@@ -753,26 +678,13 @@ public class PluginLoader implements LifecycleListener {
     });
   }
 
-  public static String getGerritJarPluginName(File srcFile) throws IOException {
-    JarFile jarFile = new JarFile(srcFile);
-    try {
-      return jarFile.getManifest().getMainAttributes()
-          .getValue("Gerrit-PluginName");
-    } finally {
-      jarFile.close();
-    }
-  }
-
   public String getGerritPluginName(File srcFile) throws IOException {
     String fileName = srcFile.getName();
-    if (isJarPlugin(fileName)) {
-      return getGerritJarPluginName(srcFile);
-    }
     if (isJsPlugin(fileName)) {
       return fileName.substring(0, fileName.length() - 3);
     }
-    if (externalPluginFactory.handles(srcFile)) {
-      return externalPluginFactory.getPluginName(srcFile);
+    if (serverPluginFactory.handles(srcFile)) {
+      return serverPluginFactory.getPluginName(srcFile);
     }
     return null;
   }
@@ -784,10 +696,6 @@ public class PluginLoader implements LifecycleListener {
       map.put(getPluginName(srcFile), srcFile);
     }
     return map;
-  }
-
-  private static boolean isJarPlugin(String name) {
-    return isPlugin(name, "jar");
   }
 
   private static boolean isJsPlugin(String name) {

@@ -206,7 +206,7 @@ public class RestApiServlet extends HttpServlet {
       RestResource rsrc = TopLevelResource.INSTANCE;
       ViewData viewData = new ViewData(null, null);
       if (path.isEmpty()) {
-        if ("GET".equals(req.getMethod())) {
+        if (isGetOrHead(req)) {
           viewData = new ViewData(null, rc.list());
         } else if (rc instanceof AcceptsPost && "POST".equals(req.getMethod())) {
           @SuppressWarnings("unchecked")
@@ -247,7 +247,7 @@ public class RestApiServlet extends HttpServlet {
             (RestCollection<RestResource, RestResource>) viewData.view;
 
         if (path.isEmpty()) {
-          if ("GET".equals(req.getMethod())) {
+          if (isGetOrHead(req)) {
             viewData = new ViewData(null, c.list());
           } else if (c instanceof AcceptsPost && "POST".equals(req.getMethod())) {
             @SuppressWarnings("unchecked")
@@ -363,7 +363,7 @@ public class RestApiServlet extends HttpServlet {
   }
 
   private static boolean notModified(HttpServletRequest req, RestResource rsrc) {
-    if (!"GET".equals(req.getMethod())) {
+    if (!isGetOrHead(req)) {
       return false;
     }
 
@@ -386,7 +386,7 @@ public class RestApiServlet extends HttpServlet {
 
   private static <T> void configureCaching(HttpServletRequest req,
       HttpServletResponse res, RestResource rsrc, CacheControl c) {
-    if ("GET".equals(req.getMethod())) {
+    if (isGetOrHead(req)) {
       switch (c.getType()) {
         case NONE:
         default:
@@ -716,11 +716,13 @@ public class RestApiServlet extends HttpServlet {
         res.setHeader("Content-Length", Long.toString(len));
       }
 
-      OutputStream dst = res.getOutputStream();
-      try {
-        bin.writeTo(dst);
-      } finally {
-        dst.close();
+      if (!"HEAD".equals(req.getMethod())) {
+        OutputStream dst = res.getOutputStream();
+        try {
+          bin.writeTo(dst);
+        } finally {
+          dst.close();
+        }
       }
     } finally {
       appResult.close();
@@ -786,6 +788,8 @@ public class RestApiServlet extends HttpServlet {
       // If there are path components still remaining after this projection
       // is chosen, look for the projection based upon GET as the method as
       // the client thinks it is a nested collection.
+      method = "GET";
+    } else if ("HEAD".equals(method)) {
       method = "GET";
     }
 
@@ -879,9 +883,12 @@ public class RestApiServlet extends HttpServlet {
     user.setAccessPath(AccessPath.REST_API);
   }
 
+  private static boolean isGetOrHead(HttpServletRequest req) {
+    return "GET".equals(req.getMethod()) || "HEAD".equals(req.getMethod());
+  }
+
   private static boolean isStateChange(HttpServletRequest req) {
-    String method = req.getMethod();
-    return !("GET".equals(method) || "HEAD".equals(method));
+    return !isGetOrHead(req);
   }
 
   private void checkRequiresCapability(ViewData viewData) throws AuthException {
@@ -918,7 +925,7 @@ public class RestApiServlet extends HttpServlet {
 
   static void replyText(@Nullable HttpServletRequest req,
       HttpServletResponse res, String text) throws IOException {
-    if ((req == null || "GET".equals(req.getMethod())) && isMaybeHTML(text)) {
+    if ((req == null || isGetOrHead(req)) && isMaybeHTML(text)) {
       replyJson(req, res, ImmutableMultimap.of("pp", "0"), new JsonPrimitive(text));
     } else {
       if (!text.endsWith("\n")) {

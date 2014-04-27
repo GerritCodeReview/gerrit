@@ -1,4 +1,4 @@
-// Copyright (C) 2013 The Android Open Source Project
+// Copyright (C) 2014 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,35 +12,27 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.extensions.api;
+package com.google.gerrit.extensions.api.accounts;
 
-import com.google.gerrit.extensions.api.accounts.Accounts;
-import com.google.gerrit.extensions.api.changes.Changes;
-import com.google.gerrit.extensions.api.projects.Projects;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 
-public interface GerritApi {
-  public Accounts accounts();
-  public Changes changes();
-  public Projects projects();
+public interface Accounts {
+  AccountApi id(String id) throws RestApiException;
+  AccountApi self() throws RestApiException;
 
   /**
    * A default implementation which allows source compatibility
    * when adding new methods to the interface.
    **/
-  public class NotImplemented implements GerritApi {
+  public class NotImplemented implements Accounts {
     @Override
-    public Accounts accounts() {
+    public AccountApi id(String id) throws RestApiException {
       throw new NotImplementedException();
     }
 
     @Override
-    public Changes changes() {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public Projects projects() {
+    public AccountApi self() throws RestApiException {
       throw new NotImplementedException();
     }
   }

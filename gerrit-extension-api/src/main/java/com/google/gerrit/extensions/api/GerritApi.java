@@ -16,8 +16,22 @@ package com.google.gerrit.extensions.api;
 
 import com.google.gerrit.extensions.api.changes.Changes;
 import com.google.gerrit.extensions.api.projects.Projects;
+import com.google.gerrit.extensions.restapi.NotImplementedException;
 
 public interface GerritApi {
   public Changes changes();
   public Projects projects();
+
+  /** A default implementation which allows source compatibility when adding new methods to the interface. */
+  public class NotImplementedGerritApi implements GerritApi {
+    @Override
+    public Changes changes() {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public Projects projects() {
+      throw new NotImplementedException();
+    }
+  }
 }

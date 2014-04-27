@@ -20,7 +20,7 @@ import com.google.gerrit.extensions.api.projects.Projects;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-class GerritApiImpl implements GerritApi {
+class GerritApiImpl extends GerritApi.NotImplementedGerritApi implements GerritApi {
   private final Provider<Changes> changes;
   private final Provider<Projects> projects;
 

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.extensions.api.changes;
 
+import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 
 public interface Changes {
@@ -21,4 +22,25 @@ public interface Changes {
   ChangeApi id(String triplet) throws RestApiException;
   ChangeApi id(String project, String branch, String id)
       throws RestApiException;
+
+  /**
+   * A default implementation which allows source compatibility
+   * when adding new methods to the interface.
+   **/
+  public class NotImplemented implements Changes {
+    @Override
+    public ChangeApi id(int id) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public ChangeApi id(String triplet) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public ChangeApi id(String project, String branch, String id) throws RestApiException {
+      throw new NotImplementedException();
+    }
+  }
 }

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "656f3377_e950f51c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-04-27T20:49:42Z",
+      "side": 1,
+      "message": "It should not be induced from label names if an \u0027abbreviation\u0027 is specified for that label.",
+      "parentUuid": "e5716354_6d0f354f",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 18
+      },
+      "revId": "60c92d60dd3e0b39290eda9f22829fe8bce7e364",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c57e1f25_8cf707f6",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "856a6764_2a203fb6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-04-27T20:49:42Z",
+      "side": 1,
+      "message": "Yes abbreviation is there, but it\u0027s only the default abbreviation, _not_ the one specified from \u0027abbreviation\u0027 of label configuration in project.config\n\nIf an admin overwrites the default abbreviation with something completely different (using the \u0027abbreviation\u0027 label setting) then the label should be set to the value that the admin sets in project.config.  This use case is described the bug referenced by this change.\n\nExample:\n\n[label \"My-Favorite-Score\"]\n   abbreviation \u003d M\n\n\nIf above is set for a the label then only \u0027M\u0027 should appear in the dashboards, not \u0027MFS\u0027.",
+      "parentUuid": "c57e1f25_8cf707f6",
+      "range": {
+        "startLine": 12,
+        "startChar": 21,
+        "endLine": 12,
+        "endChar": 59
+      },
+      "revId": "60c92d60dd3e0b39290eda9f22829fe8bce7e364",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c57e1f25_ec024b29",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/LabelInfo.java",
         "patchSetId": 2
@@ -59,6 +107,30 @@
       "writtenOn": "2014-04-27T17:38:30Z",
       "side": 1,
       "message": "Cou forgot to extend documentation:\n\n rest-api-changes.txt:The `LabelInfo`\n entity contains information about a label on a change.\n\nIt should ale be mentioned, why which options LABELS, or DETAILED_LABELS the abbreviation should be filled.",
+      "range": {
+        "startLine": 31,
+        "startChar": 2,
+        "endLine": 31,
+        "endChar": 28
+      },
+      "revId": "60c92d60dd3e0b39290eda9f22829fe8bce7e364",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "656f3377_a94afd66",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/LabelInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-04-27T20:49:42Z",
+      "side": 1,
+      "message": "didn\u0027t do it on this patch because it\u0027s still a draft, but will do on following patch.",
+      "parentUuid": "c57e1f25_ec024b29",
       "range": {
         "startLine": 31,
         "startChar": 2,
@@ -100,6 +172,24 @@
       "side": 1,
       "message": "You can\u0027t, because you havn\u0027t put it there. But even i you would see my comment in ChangeJson.java, I don\u0027t think we want it. Because this would unnecessary bloat the response. Note, that you would send the abbreviation for each and every label in response: a no go: [1].\n\nHowever, i think we could replace Label name with abbreviation. Do we need it on change list screen?\n\n[1] http://paste.openstack.org/show/77263/",
       "parentUuid": "856a6764_6ae8771a",
+      "revId": "60c92d60dd3e0b39290eda9f22829fe8bce7e364",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "856a6764_8a45ab59",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-04-27T20:49:42Z",
+      "side": 1,
+      "message": "Yeah, i see your point about bloating the response.  I added it to the REST endpoint because I wanted to use it down the line, like in this situation where I want to display the abbreviation in the dashboard column.  The only REST endpoint that shows labels was change detail so i just added abbreviation it to that because it\u0027s the only endpoint that made sense to add it to.\n\nI think your suggestion about replacing the label name with the abbreviation might work.  I wanted to avoid that because I was thinking that it might be risky, bad side affects to other things that depend on label name being (\u0027Code-Review\u0027 and not \u0027CR\u0027).  Now that you\u0027ve suggested it I\u0027ll give it a try :)",
+      "parentUuid": "e5716354_adfc3dda",
       "revId": "60c92d60dd3e0b39290eda9f22829fe8bce7e364",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

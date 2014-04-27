@@ -16,6 +16,24 @@
       "revId": "b7834cf01664794f2aea8e2779cc1c295134cf6a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c57e1f25_0c0c7757",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/GerritApi.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-27T18:45:40Z",
+      "side": 1,
+      "message": "Upps, Sorry.\n\nDone",
+      "parentUuid": "856a6764_aa33cf18",
+      "revId": "b7834cf01664794f2aea8e2779cc1c295134cf6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

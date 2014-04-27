@@ -1117,6 +1117,56 @@ requests.
   HTTP/1.1 204 No Content
 ----
 
+[[create-change]]
+=== Create Change
+--
+'PUT /projects/link:#project-name[\{project-name\}]/change'
+--
+
+The commit message and destination branch must be provided in the request
+body inside a link:#create-change-input[CreateChangeInput] entity.
+
+.Request
+----
+  PUT /projects/myProject/change HTTP/1.0
+  Content-Type: application/json;charset=UTF-8
+
+  {
+    "message" : "Let's support 100% Gerrit workflow direct in browser",
+    "destination" : "master"
+  }
+----
+
+As response a link:rest-api-changes.html#change-info[ChangeInfo] entity is
+returned that describes the resulting change.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "kind": "gerritcodereview#change",
+    "id": "myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9941",
+    "project": "myProject",
+    "branch": "master",
+    "change_id": "I8473b95934b5732ac55d26311a706c9c2bde9941",
+    "subject": "Let's support 100% Gerrit workflow direct in browser",
+    "status": "NEW",
+    "created":"2014-04-28 22:29:55.494000000",
+    "updated":"2014-04-28 22:29:55.494000000",
+    "mergeable":true,
+    "insertions":0,
+    "deletions":0,
+    "_sortkey":"002cbc25000004e5",
+    "_number":1253,
+    "owner": {
+      "name": "John Doe"
+    }
+  }
+----
 
 [[ids]]
 == IDs
@@ -1589,6 +1639,18 @@ The path to the `GerritSiteHeader.html` file.
 |`footer`        |optional|
 The path to the `GerritSiteFooter.html` file.
 |=============================
+
+[[create-change-input]]
+=== CreateChangeInput
+The `CreateChangeInput` entity contains information required for creating
+an empty change.
+
+[options="header",width="50%",cols="1,6"]
+|===========================
+|Field Name    |Description
+|`message`     |Commit message for the new change
+|`destination` |Destination branch. The prefix `refs/heads/` is optional.
+|===========================
 
 
 GERRIT

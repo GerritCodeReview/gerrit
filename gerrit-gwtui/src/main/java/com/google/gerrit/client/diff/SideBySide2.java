@@ -201,7 +201,7 @@ public class SideBySide2 extends Screen {
         info.revisions().copyKeysIntoChildren("name");
         JsArray<RevisionInfo> list = info.revisions().values();
         RevisionInfo.sortRevisionInfoByNumber(list);
-        diffTable.setUpPatchSetNav(list, diff);
+        diffTable.set(list, diff);
         header.setChangeInfo(info);
       }}));
 
@@ -245,7 +245,7 @@ public class SideBySide2 extends Screen {
       }
     });
     setLineLength(prefs.lineLength());
-    diffTable.overview.refresh();
+    diffTable.refresh();
 
     if (startLine == 0 && diff.meta_b() != null) {
       DiffChunkInfo d = chunkManager.getFirst();

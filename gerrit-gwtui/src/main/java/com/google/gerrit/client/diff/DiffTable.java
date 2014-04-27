@@ -18,7 +18,9 @@ import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
+import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -27,6 +29,8 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
+
+import net.codemirror.lib.CodeMirror;
 
 /**
  * A table with one row and two columns to hold the two CodeMirrors displaying
@@ -57,6 +61,8 @@ class DiffTable extends Composite {
   @UiField Element patchSetNavRow;
   @UiField Element patchSetNavCellA;
   @UiField Element patchSetNavCellB;
+  @UiField Element diffHeaderRow;
+  @UiField Element diffHeaderText;
   @UiField FlowPanel widgets;
   @UiField static DiffTableStyle style;
 
@@ -67,6 +73,7 @@ class DiffTable extends Composite {
   PatchSetSelectBox2 patchSetSelectBoxB;
 
   private SideBySide2 parent;
+  private boolean header;
   private boolean headerVisible;
 
   DiffTable(SideBySide2 parent, PatchSet.Id base, PatchSet.Id revision,
@@ -89,6 +96,7 @@ class DiffTable extends Composite {
   void setHeaderVisible(boolean show) {
     headerVisible = show;
     UIObject.setVisible(patchSetNavRow, show);
+    UIObject.setVisible(diffHeaderRow, show && header);
     if (show) {
       parent.header.removeStyleName(style.fullscreen());
     } else {
@@ -98,12 +106,42 @@ class DiffTable extends Composite {
   }
 
   int getHeaderHeight() {
-    return patchSetSelectBoxA.getOffsetHeight();
+    int h = patchSetSelectBoxA.getOffsetHeight();
+    if (header) {
+      h += diffHeaderRow.getOffsetHeight();
+    }
+    return h;
   }
 
-  void setUpPatchSetNav(JsArray<RevisionInfo> list, DiffInfo info) {
+  void set(JsArray<RevisionInfo> list, DiffInfo info) {
     patchSetSelectBoxA.setUpPatchSetNav(list, info.meta_a());
     patchSetSelectBoxB.setUpPatchSetNav(list, info.meta_b());
+
+    JsArrayString hdr = info.diff_header();
+    StringBuilder b = new StringBuilder();
+    for (int i = 1; i < hdr.length(); i++) {
+      String s = hdr.get(i);
+      if (s.startsWith("diff --git ")
+          || s.startsWith("index ")
+          || s.startsWith("+++ ")
+          || s.startsWith("--- ")) {
+        continue;
+      }
+      b.append(s).append('\n');
+    }
+    header = b.length() > 0;
+    diffHeaderText.setInnerText(b.toString().trim());
+    UIObject.setVisible(diffHeaderRow, header);
+  }
+
+  void refresh() {
+    overview.refresh();
+    if (header) {
+      CodeMirror cm = parent.getCmFromSide(DisplaySide.A);
+      diffHeaderText.getStyle().setMarginLeft(
+          cm.getGutterElement().getOffsetWidth(),
+          Unit.PX);
+    }
   }
 
   void add(Widget widget) {

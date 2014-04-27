@@ -152,6 +152,12 @@ limitations under the License.
       z-index: 2;
       cursor: text;
     }
+    .diff_header {
+      margin: 0 0 3px 0;
+      font-size: 12px;
+      font-weight: bold;
+      color: #5252ad;
+    }
   </ui:style>
   <g:HTMLPanel styleName='{style.difftable}'>
     <table class='{style.table}'>
@@ -162,6 +168,12 @@ limitations under the License.
         <td ui:field='patchSetNavCellB'>
           <d:PatchSetSelectBox2 ui:field='patchSetSelectBoxB' />
         </td>
+        <td class='{style.overview}' />
+      </tr>
+      <tr ui:field='diffHeaderRow' class='{style.patchSetNav}'>
+        <td colspan='2'><pre
+            ui:field='diffHeaderText'
+            class='{style.diff_header}' /></td>
         <td class='{style.overview}' />
       </tr>
       <tr>

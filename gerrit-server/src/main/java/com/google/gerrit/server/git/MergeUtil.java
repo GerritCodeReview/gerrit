@@ -78,6 +78,7 @@ import java.util.Set;
 import java.util.TimeZone;
 
 public class MergeUtil {
+  public static final FooterKey CHANGE_ID = new FooterKey("Change-Id");
   private static final Logger log = LoggerFactory.getLogger(MergeUtil.class);
 
   public static boolean useRecursiveMerge(Config cfg) {
@@ -93,7 +94,6 @@ public class MergeUtil {
       Constants.R_HEADS + Constants.MASTER;
 
   private static final FooterKey REVIEWED_ON = new FooterKey("Reviewed-on");
-  private static final FooterKey CHANGE_ID = new FooterKey("Change-Id");
 
   private final Provider<ReviewDb> db;
   private final IdentifiedUser.GenericFactory identifiedUserFactory;

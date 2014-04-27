@@ -386,13 +386,15 @@ limitations under the License.
                      title='Go to project dashboard'>
                      <ui:attribute name='title'/>
                   </x:InlineHyperlink>
-                  <g:Image
-                     ui:field='projectSettings'
-                     resource='{ico.gear}'
-                     styleName='{style.projectSettings}'
-                     title='Go to project settings'>
-                    <ui:attribute name='title'/>
-                  </g:Image>
+                  <a ui:field='projectSettingsLink'
+                     class='{style.projectSettings}'>
+                    <g:Image
+                       ui:field='projectSettings'
+                       resource='{ico.gear}'
+                       title='Go to project settings'>
+                      <ui:attribute name='title'/>
+                    </g:Image>
+                  </a>
               </td>
             </tr>
             <tr>

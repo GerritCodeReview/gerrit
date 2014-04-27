@@ -16,7 +16,10 @@ package com.google.gerrit.server.api.projects;
 
 import com.google.common.base.Preconditions;
 import com.google.gerrit.common.errors.ProjectCreationFailedException;
+import com.google.gerrit.extensions.api.changes.ChangeApi;
+import com.google.gerrit.extensions.api.changes.Changes;
 import com.google.gerrit.extensions.api.projects.BranchApi;
+import com.google.gerrit.extensions.api.projects.CreateChangeInput;
 import com.google.gerrit.extensions.api.projects.ProjectApi;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.common.ProjectInfo;
@@ -27,9 +30,12 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.project.CreateProject;
+import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.ProjectJson;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.ProjectsCollection;
+import com.google.gerrit.server.project.PutChange;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
@@ -49,6 +55,8 @@ public class ProjectApiImpl implements ProjectApi {
   private final ProjectJson projectJson;
   private final String name;
   private final BranchApiImpl.Factory branchApi;
+  private final Changes changes;
+  private final Provider<PutChange> putChange;
 
   @AssistedInject
   ProjectApiImpl(Provider<CreateProject.Factory> createProjectFactory,
@@ -56,9 +64,11 @@ public class ProjectApiImpl implements ProjectApi {
       ProjectsCollection projects,
       ProjectJson projectJson,
       BranchApiImpl.Factory branchApiFactory,
+      Changes changes,
+      Provider<PutChange> putChange,
       @Assisted ProjectResource project) {
     this(createProjectFactory, projectApi, projects, projectJson,
-        branchApiFactory, project, null);
+        branchApiFactory, changes, putChange, project, null);
   }
 
   @AssistedInject
@@ -67,9 +77,11 @@ public class ProjectApiImpl implements ProjectApi {
       ProjectsCollection projects,
       ProjectJson projectJson,
       BranchApiImpl.Factory branchApiFactory,
+      Changes changes,
+      Provider<PutChange> putChange,
       @Assisted String name) {
     this(createProjectFactory, projectApi, projects, projectJson,
-        branchApiFactory, null, name);
+        branchApiFactory, changes, putChange, null, name);
   }
 
   private ProjectApiImpl(Provider<CreateProject.Factory> createProjectFactory,
@@ -77,6 +89,8 @@ public class ProjectApiImpl implements ProjectApi {
       ProjectsCollection projects,
       ProjectJson projectJson,
       BranchApiImpl.Factory branchApiFactory,
+      Changes changes,
+      Provider<PutChange> putChange,
       ProjectResource project,
       String name) {
     this.createProjectFactory = createProjectFactory;
@@ -84,6 +98,8 @@ public class ProjectApiImpl implements ProjectApi {
     this.projects = projects;
     this.projectJson = projectJson;
     this.project = project;
+    this.changes = changes;
+    this.putChange = putChange;
     this.name = name;
     this.branchApi = branchApiFactory;
   }
@@ -121,5 +137,14 @@ public class ProjectApiImpl implements ProjectApi {
   @Override
   public BranchApi branch(String ref) {
     return branchApi.create(project, ref);
+  }
+
+  @Override
+  public ChangeApi createChange(CreateChangeInput in) throws RestApiException {
+    try {
+      return changes.id(putChange.get().apply(project, in).value());
+    } catch (InvalidChangeOperationException | OrmException | IOException e) {
+      throw new RestApiException("Cannot create change", e);
+    }
   }
 }

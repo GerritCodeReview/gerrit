@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e5716354_cd72e9c0",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/project/ProjectIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-04-27T22:51:39Z",
+      "side": 1,
+      "message": "Would be more consistent to use:\n.change(\"abcd0182201\").create(in)\n\nChange ID is the String Key of change() and create() gets the full CreateChangeInput object.",
+      "range": {
+        "startLine": 84,
+        "startChar": 9,
+        "endLine": 84,
+        "endChar": 25
+      },
+      "revId": "3ac7a50e528e69833549040bc2b1854eff27bbb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c57e1f25_ac4a0367",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/projects/ProjectApi.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-04-27T22:51:39Z",
+      "side": 1,
+      "message": "ChangeApi change(String changeId) \n\n... and then put the create() method in ChangeApi",
+      "range": {
+        "startLine": 27,
+        "startChar": 12,
+        "endLine": 27,
+        "endChar": 24
+      },
+      "revId": "3ac7a50e528e69833549040bc2b1854eff27bbb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

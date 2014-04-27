@@ -32,13 +32,14 @@ import com.google.gwtexpui.safehtml.client.HighlightSuggestOracle;
 import java.util.LinkedList;
 import java.util.List;
 
-public abstract class CherryPickDialog extends ActionDialog {
+public abstract class NewChangeDialog extends ActionDialog {
   private SuggestBox newBranch;
   private List<BranchInfo> branches;
 
-  public CherryPickDialog(final FocusWidget enableOnFailure, Project.NameKey project) {
-    super(enableOnFailure, true, Util.C.cherryPickTitle(), Util.C
-        .cherryPickCommitMessage());
+  public NewChangeDialog(final FocusWidget enableOnFailure,
+      Project.NameKey project, String title, String action) {
+    super(enableOnFailure, true, title,
+        action + " " + Util.C.headingNewChangeCommitMessage());
     ProjectApi.getBranches(project,
         new GerritCallback<JsArray<BranchInfo>>() {
           @Override
@@ -70,7 +71,9 @@ public abstract class CherryPickDialog extends ActionDialog {
     mwrap.add(newBranch);
 
     panel.insert(mwrap, 0);
-    panel.insert(new SmallHeading(Util.C.headingCherryPickBranch()), 0);
+    panel.insert(new SmallHeading(action
+        + " " + Util.C.headingNewChangeBranch()),
+        0);
   }
 
   @Override

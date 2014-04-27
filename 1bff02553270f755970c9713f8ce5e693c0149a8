@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e5716354_ad4afd66",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/accounts/AccountApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-27T19:55:00Z",
+      "side": 1,
+      "message": "Well this list is of course not complete. E. g. see Documentation/rest-api-accounts.txt. But we could add the stuff later.",
+      "revId": "1bff02553270f755970c9713f8ce5e693c0149a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e5716354_8d45c159",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/accounts/Accounts.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-27T19:55:00Z",
+      "side": 1,
+      "message": "I think we shouldn\u0027t use name(String name) here, but instead \n \n  id(String id)\n\nBecause we would like to accept o ony name bu also:\n\n  @Override\n  public AccountApi id(String id) throws RestApiException {\n    try {\n      return api.create(accounts.parse(TopLevelResource.INSTANCE,\n          IdString.fromDecoded(id)));\n    } catch (OrmException e) {\n      throw new RestApiException(\"Cannot parse change\", e);\n    }\n  }\n\nNote that the method AccountsCollection.parse(TopLevelResource root, IdString id): Use in the end parseId() that is defined as follow:\n\n   /**\n   * Parses an account ID and returns the user without making any permission\n   * check whether the current user can see the account.\n   *\n   * @param id ID of the account, can be a string of the format\n   *        \"Full Name \u003cemail@example.com\u003e\", just the email address, a full name\n   *        if it is unique, an account ID, a user name or \u0027self\u0027 for the\n   *        calling user\n   * @return the user, null if no user is found for the given account ID\n   * @throws AuthException thrown if \u0027self\u0027 is used as account ID and the\n   *         current user is not authenticated\n   * @throws OrmException\n   */\n  public IdentifiedUser parseId(String id) throws AuthException, OrmException {",
+      "range": {
+        "startLine": 30,
+        "startChar": 27,
+        "endLine": 30,
+        "endChar": 38
+      },
+      "revId": "1bff02553270f755970c9713f8ce5e693c0149a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

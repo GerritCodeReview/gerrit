@@ -17,7 +17,7 @@ package com.google.gerrit.pgm.init;
 import com.google.common.collect.Lists;
 import com.google.gerrit.pgm.util.ConsoleUI;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.plugins.PluginLoader;
+import com.google.gerrit.server.plugins.JarPluginProvider;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -63,7 +63,7 @@ public class InitPlugins implements InitStep {
     pluginsDistribution.foreach(new PluginsDistribution.Processor() {
       @Override
       public void process(String pluginName, InputStream in) throws IOException {
-        File tmpPlugin = PluginLoader.storeInTemp(pluginName, in, site);
+        File tmpPlugin = JarPluginProvider.storeInTemp(pluginName, in, site);
         String pluginVersion = getVersion(tmpPlugin);
         if (deleteTempPluginFile) {
           tmpPlugin.delete();

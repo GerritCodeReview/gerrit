@@ -50,6 +50,13 @@ For details on how to configure the Eclipse workspace with Buck,
 refer to: link:dev-buck.html#eclipse[Eclipse integration with Buck].
 
 
+== Configuring IntelliJ IDEA
+
+To use IntelliJ IDEA for development, the easiest way is to follow
+Eclipse integration and then open it as Eclipse project in IDEA.
+You need the Eclipse plugin activated in IntelliJ IDEA.
+
+
 == Mac OS X
 
 On Mac OS X ensure "Java For Mac OS X 10.5 Update 4" (or later) has

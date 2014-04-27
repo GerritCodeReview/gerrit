@@ -7,6 +7,58 @@ link:rest-api.html[REST API].
 [[change-endpoints]]
 == Change Endpoints
 
+[[create-change]]
+=== Create Change
+--
+'PUT /changes/new'
+--
+
+The poject name, destination branch and commit message must be provided in the
+request body inside a link:#create-change-input[CreateChangeInput] entity.
+
+.Request
+----
+  PUT /changes/new HTTP/1.0
+  Content-Type: application/json;charset=UTF-8
+
+  {
+    "project" : "myProject",
+    "message" : "Let's support 100% Gerrit workflow direct in browser",
+    "destination" : "master"
+  }
+----
+
+As response a link:#change-info[ChangeInfo] entity is returned that describes
+the resulting change.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "kind": "gerritcodereview#change",
+    "id": "myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9941",
+    "project": "myProject",
+    "branch": "master",
+    "change_id": "I8473b95934b5732ac55d26311a706c9c2bde9941",
+    "subject": "Let's support 100% Gerrit workflow direct in browser",
+    "status": "NEW",
+    "created": "2014-04-28 22:29:55.494000000",
+    "updated": "2014-04-28 22:29:55.494000000",
+    "mergeable": true,
+    "insertions": 0,
+    "deletions": 0,
+    "_sortkey": "002cbc25000004e5",
+    "_number": 1253,
+    "owner": {
+      "name": "John Doe"
+    }
+  }
+----
+
 [[list-changes]]
 === Query Changes
 --
@@ -3393,6 +3445,18 @@ The `WebLinkInfo` entity describes a link to an external site.
 |`url`     |The link URL.
 |======================
 
+[[create-change-input]]
+=== CreateChangeInput
+The `CreateChangeInput` entity contains information required for creating
+an empty change.
+
+[options="header",width="50%",cols="1,6"]
+|===========================
+|Field Name    |Description
+|`project`     |Project name.
+|`destination` |Destination branch. The prefix `refs/heads/` is optional.
+|`message`     |Commit message for the new change.
+|===========================
 
 GERRIT
 ------

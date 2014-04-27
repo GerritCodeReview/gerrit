@@ -16,8 +16,10 @@ package com.google.gerrit.server.change;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.restapi.AcceptsCreate;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestCollection;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
@@ -35,12 +37,14 @@ import java.util.Collections;
 import java.util.List;
 
 public class ChangesCollection implements
-    RestCollection<TopLevelResource, ChangeResource> {
+    RestCollection<TopLevelResource, ChangeResource>,
+    AcceptsCreate<TopLevelResource> {
   private final Provider<ReviewDb> db;
   private final Provider<CurrentUser> user;
   private final ChangeControl.GenericFactory changeControlFactory;
   private final Provider<QueryChanges> queryFactory;
   private final DynamicMap<RestView<ChangeResource>> views;
+  private final CreateChange.Factory createChangeFactory;
 
   @Inject
   ChangesCollection(
@@ -48,12 +52,14 @@ public class ChangesCollection implements
       Provider<CurrentUser> user,
       ChangeControl.GenericFactory changeControlFactory,
       Provider<QueryChanges> queryFactory,
-      DynamicMap<RestView<ChangeResource>> views) {
+      DynamicMap<RestView<ChangeResource>> views,
+      CreateChange.Factory createChangeFactory) {
     this.db = dbProvider;
     this.user = user;
     this.changeControlFactory = changeControlFactory;
     this.queryFactory = queryFactory;
     this.views = views;
+    this.createChangeFactory = createChangeFactory;
   }
 
   @Override
@@ -124,5 +130,15 @@ public class ChangesCollection implements
     return db.get().changes().byBranchKey(
         triplet.getBranchNameKey(),
         triplet.getChangeKey()).toList();
+  }
+
+  @SuppressWarnings("unchecked")
+  @Override
+  public CreateChange create(
+      TopLevelResource parent, IdString id) throws RestApiException {
+    if (!id.equals("new")) {
+      throw new ResourceNotFoundException(id);
+    }
+    return createChangeFactory.create();
   }
 }

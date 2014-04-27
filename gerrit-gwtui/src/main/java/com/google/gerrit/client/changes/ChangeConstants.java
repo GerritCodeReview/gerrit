@@ -164,6 +164,9 @@ public interface ChangeConstants extends Constants {
   String headingNewChangeBranch();
   String headingNewChangeCommitMessage();
 
+  String createNewChangeAction();
+  String createNewChangeTitle();
+
   String buttonAbandonChangeBegin();
   String buttonAbandonChangeSend();
   String headingAbandonMessage();

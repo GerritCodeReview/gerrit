@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "656f3377_c9fdf1d9",
+        "filename": "Documentation/intro-project-owner.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 604,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-04-27T16:37:10Z",
+      "side": 1,
+      "message": "I think this would be more clear..\n\nCreating the project with an initial empty commit is generally\nrecommended. However, if you plan to link:#import-history[\nimport an existing history] into the new project, it is better to\ncreate the project without an initial empty commit because \nsome tools have issues with cloning repositories that are \ncompletely empty.",
+      "range": {
+        "startLine": 600,
+        "startChar": 0,
+        "endLine": 604,
+        "endChar": 50
+      },
+      "revId": "f2b47e22e1240bbb1650a4c6d97b53625a85d99f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "05abd79e_9e33dd19",
         "filename": "Documentation/intro-project-owner.txt",
         "patchSetId": 2

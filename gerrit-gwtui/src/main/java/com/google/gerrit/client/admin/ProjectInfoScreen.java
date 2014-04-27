@@ -559,8 +559,10 @@ public class ProjectInfoScreen extends ProjectScreen {
     actionsPanel.setVisible(true);
     actionsGrid.add(Util.C.headingCommands(), actionsPanel);
     for (String id : actions.keySet()) {
-      actionsPanel.add(new ActionButton(getProjectKey(),
-          actions.get(id)));
+      ActionButton b = id.equals("changes")
+          ? new CreateChangeButton(getProjectKey(), actions.get(id))
+          : new ActionButton(getProjectKey(), actions.get(id));
+      actionsPanel.add(b);
     }
   }
 
@@ -690,6 +692,18 @@ public class ProjectInfoScreen extends ProjectScreen {
       insertRow(row);
       setWidget(row, 0, label);
       setWidget(row, 1, widget);
+    }
+  }
+
+  private class CreateChangeButton extends ActionButton {
+
+    CreateChangeButton(Project.NameKey project, ActionInfo action) {
+      super(project, action);
+    }
+
+    @Override
+    public void onClick(ClickEvent event) {
+      CreateChangeAction.call(this, project);
     }
   }
 }

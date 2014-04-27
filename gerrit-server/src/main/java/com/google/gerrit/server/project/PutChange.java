@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
+import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -62,7 +63,8 @@ import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 public class PutChange implements
-    RestModifyView<ProjectResource, CreateChangeInput> {
+    RestModifyView<ProjectResource, CreateChangeInput>,
+    UiAction<ProjectResource> {
 
   private final ReviewDb db;
   private final GitRepositoryManager gitManager;
@@ -168,6 +170,14 @@ public class PutChange implements
     } finally {
       git.close();
     }
+  }
+
+  @Override
+  public UiAction.Description getDescription(ProjectResource rsrc) {
+    return new UiAction.Description()
+        .setLabel("Create a change...")
+        .setVisible(userProvider.get().isIdentifiedUser())
+        .setTitle("Create an empty change for a destination branch");
   }
 
   private Change.Id createNewChange(Repository git, RevWalk revWalk,

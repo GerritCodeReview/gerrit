@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "856a6764_cafde3d9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 546,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-04-27T17:02:19Z",
+      "side": 1,
+      "message": "should we change method name to loadServerPlugin for consistency?",
+      "revId": "01890cac170592078693da1612c967302765c39c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "856a6764_ea022729",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 769,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-04-27T17:02:19Z",
+      "side": 1,
+      "message": "should we change method name to isServerPlugin for consistency?",
+      "revId": "01890cac170592078693da1612c967302765c39c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

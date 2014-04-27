@@ -28,7 +28,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
 public class ActionButton extends Button implements ClickHandler {
-  private final Project.NameKey project;
+  protected final Project.NameKey project;
   private final BranchInfo branch;
   private final ChangeInfo change;
   private final RevisionInfo revision;

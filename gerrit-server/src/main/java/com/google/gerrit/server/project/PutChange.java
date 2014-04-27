@@ -62,7 +62,8 @@ import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 public class PutChange implements
-    RestModifyView<ProjectResource, CreateChangeInput> {
+    RestModifyView<ProjectResource, CreateChangeInput>,
+    UiAction<ProjectResource> {
 
   private final ReviewDb db;
   private final GitRepositoryManager gitManager;
@@ -178,6 +179,14 @@ public class PutChange implements
     } finally {
       git.close();
     }
+  }
+
+  @Override
+  public UiAction.Description getDescription(ProjectResource rsrc) {
+    return new UiAction.Description()
+        .setLabel("Create a change...")
+        .setVisible(userProvider.get().isIdentifiedUser())
+        .setTitle("Create an empty change for a destination branch");
   }
 
   private Change.Id createNewChange(Repository git, RevWalk revWalk,

@@ -19,7 +19,9 @@ import static org.junit.Assert.assertEquals;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.extensions.api.projects.BranchInput;
+import com.google.gerrit.extensions.api.projects.CreateChangeInput;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
+import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 
@@ -70,5 +72,18 @@ public class ProjectIT extends AbstractDaemonTest  {
         .name(project.get())
         .branch("foo")
         .create(new BranchInput());
+  }
+
+  @Test
+  public void createEmptyChange() throws RestApiException {
+    CreateChangeInput in = new CreateChangeInput();
+    in.destination = "master";
+    in.message = "Empty change";
+    ChangeInfo info = gApi.projects()
+        .name(project.get())
+        .createChange(in)
+        .get();
+    assertEquals(info.branch, "master");
+    assertEquals(info.subject, "Empty change");
   }
 }

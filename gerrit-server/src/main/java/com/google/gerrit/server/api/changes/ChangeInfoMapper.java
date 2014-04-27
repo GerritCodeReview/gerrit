@@ -21,7 +21,7 @@ import static com.google.gerrit.extensions.common.ListChangesOption.DETAILED_LAB
 import static com.google.gerrit.extensions.common.ListChangesOption.LABELS;
 import static com.google.gerrit.extensions.common.ListChangesOption.MESSAGES;
 
-import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.EnumBiMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gerrit.extensions.common.ApprovalInfo;
@@ -39,14 +39,16 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 
-class ChangeInfoMapper {
-  private final static ImmutableMap<Change.Status, ChangeStatus> MAP =
-      Maps.immutableEnumMap(ImmutableMap.of(
-          Status.DRAFT, ChangeStatus.DRAFT,
-          Status.NEW, ChangeStatus.NEW,
-          Status.SUBMITTED, ChangeStatus.SUBMITTED,
-          Status.MERGED, ChangeStatus.MERGED,
-          Status.ABANDONED, ChangeStatus.ABANDONED));
+public class ChangeInfoMapper {
+  private final static EnumBiMap<Change.Status, ChangeStatus> MAP =
+      EnumBiMap.create(Change.Status.class, ChangeStatus.class);
+  static {
+    MAP.put(Status.DRAFT, ChangeStatus.DRAFT);
+    MAP.put(Status.NEW, ChangeStatus.NEW);
+    MAP.put(Status.SUBMITTED, ChangeStatus.SUBMITTED);
+    MAP.put(Status.MERGED, ChangeStatus.MERGED);
+    MAP.put(Status.ABANDONED, ChangeStatus.ABANDONED);
+  }
 
   private final EnumSet<ListChangesOption> s;
 
@@ -134,6 +136,13 @@ class ChangeInfoMapper {
 
   private boolean has(ListChangesOption o) {
     return s.contains(o);
+  }
+
+  public static Status changeStatus2Status(ChangeStatus status) {
+    if (status != null) {
+      return MAP.inverse().get(status);
+    }
+    return Change.Status.NEW;
   }
 
   private static ApprovalInfo fromApprovalInfo(ChangeJson.ApprovalInfo ai) {

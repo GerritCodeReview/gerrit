@@ -265,7 +265,7 @@ is:reviewer::
 True on any change where the current user is a reviewer.
 Same as `reviewer:self`.
 
-is:open::
+is:open, is:pending::
 +
 True if the change is either open or submitted, merge pending.
 
@@ -287,7 +287,7 @@ True if the change has no merge conflicts and could be merged into its
 destination branch.
 
 [[status]]
-status:open::
+status:open, status:pending::
 +
 True if the change state is either 'review in progress' or 'submitted,
 merge pending'.

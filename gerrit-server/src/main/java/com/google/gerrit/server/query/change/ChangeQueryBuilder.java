@@ -269,7 +269,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   @Operator
   public Predicate<ChangeData> status(String statusName) {
-    if ("open".equals(statusName)) {
+    if ("open".equals(statusName) || "pending".equals(statusName)) {
       return status_open();
 
     } else if ("closed".equals(statusName)) {

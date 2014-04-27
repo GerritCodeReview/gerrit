@@ -450,7 +450,9 @@ class PatchScriptBuilder {
 
           id = tw != null ? tw.getObjectId(0) : ObjectId.zeroId();
           mode = tw != null ? tw.getFileMode(0) : FileMode.MISSING;
-          reuse = other != null && other.id.equals(id) && other.mode == mode;
+          reuse = other != null
+              && other.id.equals(id)
+              && (other.mode == mode || isBothFile(other.mode, mode));
 
           if (reuse) {
             srcContent = other.srcContent;
@@ -513,5 +515,10 @@ class PatchScriptBuilder {
       final RevTree tree = rw.parseTree(within);
       return TreeWalk.forPath(reader, path, tree);
     }
+  }
+
+  private static boolean isBothFile(FileMode a, FileMode b) {
+    return (a.getBits() & FileMode.TYPE_FILE) == FileMode.TYPE_FILE
+        && (b.getBits() & FileMode.TYPE_FILE) == FileMode.TYPE_FILE;
   }
 }

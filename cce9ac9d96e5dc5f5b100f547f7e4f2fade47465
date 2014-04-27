@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "856a6764_2af27f0a",
+        "filename": "Documentation/intro-project-owner.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 512,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-04-27T16:43:42Z",
+      "side": 1,
+      "message": "I think this is more clear. \".. to have his change reviewed by a particular person\"",
+      "range": {
+        "startLine": 512,
+        "startChar": 0,
+        "endLine": 512,
+        "endChar": 66
+      },
+      "revId": "cce9ac9d96e5dc5f5b100f547f7e4f2fade47465",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -25,7 +25,7 @@ import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.client.ui.AccountLinkPanel;
 import com.google.gerrit.client.ui.ActionDialog;
-import com.google.gerrit.client.ui.CherryPickDialog;
+import com.google.gerrit.client.ui.NewChangeDialog;
 import com.google.gerrit.client.ui.ComplexDisclosurePanel;
 import com.google.gerrit.client.ui.ListenableAccountDiffPreference;
 import com.google.gerrit.common.PageLinks;
@@ -391,7 +391,8 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
         @Override
         public void onClick(final ClickEvent event) {
           b.setEnabled(false);
-          new CherryPickDialog(b, changeDetail.getChange().getProject()) {
+          new NewChangeDialog(b, changeDetail.getChange().getProject(),
+              Util.C.cherryPickTitle(), Util.C.cherryPickChangAction()) {
             {
               sendButton.setText(Util.C.buttonCherryPickChangeSend());
               if (changeDetail.getChange().getStatus().isClosed()) {

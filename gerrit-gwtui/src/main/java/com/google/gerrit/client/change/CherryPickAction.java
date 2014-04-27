@@ -19,7 +19,7 @@ import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.ChangeInfo;
 import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.rpc.GerritCallback;
-import com.google.gerrit.client.ui.CherryPickDialog;
+import com.google.gerrit.client.ui.NewChangeDialog;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
@@ -30,7 +30,8 @@ class CherryPickAction {
       String project, final String commitMessage) {
     // TODO Replace CherryPickDialog with a nicer looking display.
     b.setEnabled(false);
-    new CherryPickDialog(b, new Project.NameKey(project)) {
+    new NewChangeDialog(b, new Project.NameKey(project),
+        Util.C.cherryPickTitle(), Util.C.cherryPickChangAction()) {
       {
         sendButton.setText(Util.C.buttonCherryPickChangeSend());
         if (info.status() == Change.Status.MERGED) {

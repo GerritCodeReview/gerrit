@@ -58,7 +58,6 @@ public class ServerPlugin extends Plugin {
     }
   }
 
-  private final JarFile jarFile;
   private final Manifest manifest;
   private final PluginContentScanner scanner;
   private final File dataDir;
@@ -79,13 +78,11 @@ public class ServerPlugin extends Plugin {
       PluginUser pluginUser,
       File srcJar,
       FileSnapshot snapshot,
-      JarFile jarFile,
       PluginContentScanner scanner,
       File dataDir,
       ClassLoader classLoader) throws InvalidPluginException {
     super(name, srcJar, pluginUser, snapshot, Plugin.getApiType(getPluginManifest(scanner)));
     this.pluginCanonicalWebUrl = pluginCanonicalWebUrl;
-    this.jarFile = jarFile;
     this.scanner = scanner;
     this.dataDir = dataDir;
     this.classLoader = classLoader;
@@ -283,10 +280,6 @@ public class ServerPlugin extends Plugin {
       sshInjector = null;
       httpInjector = null;
     }
-  }
-
-  public JarFile getJarFile() {
-    return jarFile;
   }
 
   public Injector getSysInjector() {

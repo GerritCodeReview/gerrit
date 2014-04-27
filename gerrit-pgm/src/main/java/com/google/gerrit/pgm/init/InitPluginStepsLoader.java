@@ -18,6 +18,7 @@ import com.google.common.base.Objects;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.pgm.util.ConsoleUI;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.plugins.JarPluginProvider;
 import com.google.gerrit.server.plugins.PluginLoader;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
@@ -97,7 +98,7 @@ public class InitPluginStepsLoader {
 
   private Injector getPluginInjector(File jarFile) throws IOException {
     final String pluginName =
-        Objects.firstNonNull(PluginLoader.getGerritJarPluginName(jarFile),
+        Objects.firstNonNull(JarPluginProvider.getGerritJarPluginName(jarFile),
             PluginLoader.nameOf(jarFile));
     return initInjector.createChildInjector(new AbstractModule() {
       @Override

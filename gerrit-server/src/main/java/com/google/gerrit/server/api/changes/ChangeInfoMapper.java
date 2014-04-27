@@ -24,7 +24,6 @@ import static com.google.gerrit.extensions.common.ListChangesOption.MESSAGES;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
@@ -33,6 +32,7 @@ import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.ListChangesOption;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
+import com.google.gerrit.server.api.accounts.AccountInfoMapper;
 import com.google.gerrit.server.change.ChangeJson;
 
 import java.util.EnumSet;
@@ -87,7 +87,7 @@ class ChangeInfoMapper {
     o.mergeable = i.mergeable;
     o.insertions = i.insertions;
     o.deletions = i.deletions;
-    o.owner = fromAcountInfo(i.owner);
+    o.owner = AccountInfoMapper.fromAcountInfo(i.owner);
     o.currentRevision = i.currentRevision;
     o._number = i._number;
   }
@@ -98,7 +98,7 @@ class ChangeInfoMapper {
     for (ChangeJson.ChangeMessageInfo m : i.messages) {
       ChangeMessageInfo cmi = new ChangeMessageInfo();
       cmi.id = m.id;
-      cmi.author = fromAcountInfo(m.author);
+      cmi.author = AccountInfoMapper.fromAcountInfo(m.author);
       cmi.date = m.date;
       cmi.message = m.message;
       cmi._revisionNumber = m._revisionNumber;
@@ -112,10 +112,10 @@ class ChangeInfoMapper {
     for (Map.Entry<String, ChangeJson.LabelInfo> e : i.labels.entrySet()) {
       ChangeJson.LabelInfo li = e.getValue();
       LabelInfo lo = new LabelInfo();
-      lo.approved = fromAcountInfo(li.approved);
-      lo.rejected = fromAcountInfo(li.rejected);
-      lo.recommended = fromAcountInfo(li.recommended);
-      lo.disliked = fromAcountInfo(li.disliked);
+      lo.approved = AccountInfoMapper.fromAcountInfo(li.approved);
+      lo.rejected = AccountInfoMapper.fromAcountInfo(li.rejected);
+      lo.recommended = AccountInfoMapper.fromAcountInfo(li.recommended);
+      lo.disliked = AccountInfoMapper.fromAcountInfo(li.disliked);
       lo.value = li.value;
       lo.defaultValue = li.defaultValue;
       lo.optional = li.optional;
@@ -140,25 +140,7 @@ class ChangeInfoMapper {
     ApprovalInfo ao = new ApprovalInfo();
     ao.value = ai.value;
     ao.date = ai.date;
-    fromAccount(ai, ao);
+    AccountInfoMapper.fromAccount(ai, ao);
     return ao;
-  }
-
-  private static AccountInfo fromAcountInfo(
-      com.google.gerrit.server.account.AccountInfo i) {
-    if (i == null) {
-      return null;
-    }
-    AccountInfo ai = new AccountInfo();
-    fromAccount(i, ai);
-    return ai;
-  }
-
-  private static void fromAccount(
-      com.google.gerrit.server.account.AccountInfo i, AccountInfo ai) {
-    ai._accountId = i._accountId;
-    ai.email = i.email;
-    ai.name = i.name;
-    ai.username = i.username;
   }
 }

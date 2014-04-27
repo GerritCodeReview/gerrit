@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e5716354_ed29e5aa",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/GerritApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-27T18:35:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "856a6764_0a0c5b57",
+      "revId": "691df9dfbf7486de4dd25e853f6118b1e168184b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "656f3377_c92411d4",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/GerritApi.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2014-04-27T17:30:47Z",
       "side": 1,
       "message": "Shouldn\u0027t this implementation class be public?",
+      "revId": "691df9dfbf7486de4dd25e853f6118b1e168184b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c57e1f25_4c127f7a",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/GerritApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-27T18:35:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "656f3377_c92411d4",
       "revId": "691df9dfbf7486de4dd25e853f6118b1e168184b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "c57e1f25_acfc43da",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-27T18:35:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "856a6764_2a091f48",
+      "revId": "691df9dfbf7486de4dd25e853f6118b1e168184b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "856a6764_ca2403d4",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
         "patchSetId": 1
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "e5716354_cd2429d4",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-27T18:35:00Z",
+      "side": 1,
+      "message": "Nested class in interface is always public.\n\nDone",
+      "parentUuid": "856a6764_ca2403d4",
+      "revId": "691df9dfbf7486de4dd25e853f6118b1e168184b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "856a6764_ea29c7aa",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/Changes.java",
         "patchSetId": 1
@@ -81,6 +153,24 @@
       "writtenOn": "2014-04-27T17:30:47Z",
       "side": 1,
       "message": "Given that we can say \"extends Changes.NotImplemented\" I don\u0027t think we need to include the name of the interface at the end of the NotImplemented inner class name.",
+      "revId": "691df9dfbf7486de4dd25e853f6118b1e168184b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e5716354_2d092d48",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/Changes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-27T18:35:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "856a6764_ea29c7aa",
       "revId": "691df9dfbf7486de4dd25e853f6118b1e168184b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

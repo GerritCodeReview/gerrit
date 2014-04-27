@@ -44,7 +44,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Collections;
 
-class StarredChanges implements
+public class StarredChanges implements
     ChildCollection<AccountResource, AccountResource.StarredChange>,
     AcceptsCreate<AccountResource> {
   private static final Logger log = LoggerFactory.getLogger(StarredChanges.class);
@@ -112,7 +112,7 @@ class StarredChanges implements
     }
   }
 
-  static class Create implements RestModifyView<AccountResource, EmptyInput> {
+  public static class Create implements RestModifyView<AccountResource, EmptyInput> {
     private final Provider<CurrentUser> self;
     private final Provider<ReviewDb> dbProvider;
     private ChangeResource change;
@@ -123,7 +123,7 @@ class StarredChanges implements
       this.dbProvider = dbProvider;
     }
 
-    Create setChange(ChangeResource change) {
+    public Create setChange(ChangeResource change) {
       this.change = change;
       return this;
     }
@@ -165,7 +165,7 @@ class StarredChanges implements
     }
   }
 
-  static class Delete implements
+  public static class Delete implements
       RestModifyView<AccountResource.StarredChange, EmptyInput> {
     private final Provider<CurrentUser> self;
     private final Provider<ReviewDb> dbProvider;
@@ -190,6 +190,6 @@ class StarredChanges implements
     }
   }
 
-  static class EmptyInput {
+  public static class EmptyInput {
   }
 }

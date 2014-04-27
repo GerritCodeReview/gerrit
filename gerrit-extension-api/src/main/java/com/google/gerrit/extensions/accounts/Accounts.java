@@ -18,7 +18,7 @@ import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 
 public interface Accounts {
-  AccountApi name(String name) throws RestApiException;
+  AccountApi id(String id) throws RestApiException;
   AccountApi self() throws RestApiException;
 
   /**
@@ -27,7 +27,7 @@ public interface Accounts {
    **/
   public class NotImplemented implements Accounts {
     @Override
-    public AccountApi name(String name) throws RestApiException {
+    public AccountApi id(String id) throws RestApiException {
       throw new NotImplementedException();
     }
 

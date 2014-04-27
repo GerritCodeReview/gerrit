@@ -21,8 +21,8 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 public interface AccountApi {
   AccountInfo get() throws RestApiException;
 
-  void starChange(String changeId) throws RestApiException;
-  void unstarChange(String changeId) throws RestApiException;
+  void starChange(String id) throws RestApiException;
+  void unstarChange(String id) throws RestApiException;
 
   /**
    * A default implementation which allows source compatibility
@@ -35,12 +35,12 @@ public interface AccountApi {
     }
 
     @Override
-    public void starChange(String changeId) throws RestApiException {
+    public void starChange(String id) throws RestApiException {
       throw new NotImplementedException();
     }
 
     @Override
-    public void unstarChange(String changeId) throws RestApiException {
+    public void unstarChange(String id) throws RestApiException {
       throw new NotImplementedException();
     }
   }

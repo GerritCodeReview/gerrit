@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "c57e1f25_ec500b1d",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/accounts/AccountApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-27T21:04:50Z",
+      "side": 1,
+      "message": "Just call this \"id\" (and on line 43). For the same reasons. The parsing method try (in this order: legacy id, isolated changeId, change triplet.",
+      "range": {
+        "startLine": 38,
+        "startChar": 27,
+        "endLine": 38,
+        "endChar": 42
+      },
+      "revId": "1bff02553270f755970c9713f8ce5e693c0149a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e5716354_ad4afd66",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/accounts/AccountApi.java",
         "patchSetId": 1

@@ -109,6 +109,21 @@ Under Jetty, restarting the web application (e.g. after modifying
 `system_config`) is as simple as touching the context config file:
 `'$JETTY_HOME'/contexts/gerrit.xml`
 
+== Tomcat 7.x
+
+[TIP]
+If reverse proxy is used in front of Tomcat then see the configuration
+instructions for encoding slashes link:config-reverseproxy.html. Otherwise
+Tomcat must be configured to encode slashes, by adding
+-Dorg.apache.tomcat.util.buf.UDecoder.ALLOW_ENCODED_SLASH=true to
+CATALINA_OPTS environment variable. Excerpt from the documentation
+https://tomcat.apache.org/tomcat-7.0-doc/config/systemprops.html:
+
+----
+Property org.apache.tomcat.util.buf.UDecoder.ALLOW_ENCODED_SLASH:
+If this is true '%2F' and '%5C' will be permitted as path delimiters.
+If not specified, the default value of false will be used.
+----
 
 GERRIT
 ------

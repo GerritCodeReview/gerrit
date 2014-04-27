@@ -47,6 +47,7 @@ class DiffTable extends Composite {
     String rangeHighlight();
     String showTabs();
     String showLineNumbers();
+    String hideA();
     String columnMargin();
     String padding();
   }
@@ -68,6 +69,7 @@ class DiffTable extends Composite {
 
   private SideBySide2 parent;
   private boolean headerVisible;
+  private boolean aVisible;
 
   DiffTable(SideBySide2 parent, PatchSet.Id base, PatchSet.Id revision,
       String path) {
@@ -80,6 +82,29 @@ class DiffTable extends Composite {
     initWidget(uiBinder.createAndBindUi(this));
     this.parent = parent;
     this.headerVisible = true;
+    this.aVisible = true;
+  }
+
+  boolean isVisibleA() {
+    return aVisible;
+  }
+
+  void setVisibleA(boolean show) {
+    aVisible = show;
+    if (show) {
+      removeStyleName(style.hideA());
+    } else {
+      addStyleName(style.hideA());
+    }
+  }
+
+  Runnable toggleA() {
+    return new Runnable() {
+      @Override
+      public void run() {
+        setVisibleA(!isVisibleA());
+      }
+    };
   }
 
   boolean isHeaderVisible() {

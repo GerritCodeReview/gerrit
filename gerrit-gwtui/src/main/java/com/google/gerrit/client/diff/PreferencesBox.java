@@ -86,6 +86,7 @@ class PreferencesBox extends Composite {
   @UiField ToggleButton whitespaceErrors;
   @UiField ToggleButton showTabs;
   @UiField ToggleButton lineNumbers;
+  @UiField ToggleButton leftSide;
   @UiField ToggleButton topMenu;
   @UiField ToggleButton manualReview;
   @UiField ToggleButton expandAllComments;
@@ -149,6 +150,7 @@ class PreferencesBox extends Composite {
     whitespaceErrors.setValue(prefs.showWhitespaceErrors());
     showTabs.setValue(prefs.showTabs());
     lineNumbers.setValue(prefs.showLineNumbers());
+    leftSide.setValue(view.diffTable.isVisibleA());
     topMenu.setValue(!prefs.hideTopMenu());
     manualReview.setValue(prefs.manualReview());
     expandAllComments.setValue(prefs.expandAllComments());
@@ -286,6 +288,11 @@ class PreferencesBox extends Composite {
   void onLineNumbers(ValueChangeEvent<Boolean> e) {
     prefs.showLineNumbers(e.getValue());
     view.setShowLineNumbers(prefs.showLineNumbers());
+  }
+
+  @UiHandler("leftSide")
+  void onLeftSide(ValueChangeEvent<Boolean> e) {
+    view.diffTable.setVisibleA(e.getValue());
   }
 
   @UiHandler("topMenu")

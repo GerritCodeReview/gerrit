@@ -70,5 +70,7 @@ public class Module extends RestApiModule {
 
     get(PROJECT_KIND, "config").to(GetConfig.class);
     put(PROJECT_KIND, "config").to(PutConfig.class);
+
+    put(PROJECT_KIND, "change").to(PutChange.class);
   }
 }

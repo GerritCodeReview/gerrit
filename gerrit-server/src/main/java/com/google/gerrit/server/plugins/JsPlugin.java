@@ -67,11 +67,6 @@ class JsPlugin extends Plugin {
   }
 
   @Override
-  public JarFile getJarFile() {
-    return null;
-  }
-
-  @Override
   public Injector getSysInjector() {
     return null;
   }

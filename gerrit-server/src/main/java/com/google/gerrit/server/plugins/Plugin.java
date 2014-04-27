@@ -29,7 +29,6 @@ import java.io.File;
 import java.util.Collections;
 import java.util.List;
 import java.util.jar.Attributes;
-import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 
 public abstract class Plugin {
@@ -74,6 +73,7 @@ public abstract class Plugin {
   private final CacheKey cacheKey;
   private final PluginUser pluginUser;
   private final FileSnapshot snapshot;
+  private CleanupHandle cleanupHandle;
 
   protected LifecycleManager manager;
 
@@ -91,6 +91,14 @@ public abstract class Plugin {
     this.pluginUser = pluginUser;
     this.cacheKey = new Plugin.CacheKey(name);
     this.disabled = srcFile.getName().endsWith(".disabled");
+  }
+
+  public CleanupHandle getCleanupHandle() {
+    return cleanupHandle;
+  }
+
+  public void setCleanupHandle(CleanupHandle cleanupHandle) {
+    this.cleanupHandle = cleanupHandle;
   }
 
   PluginUser getPluginUser() {

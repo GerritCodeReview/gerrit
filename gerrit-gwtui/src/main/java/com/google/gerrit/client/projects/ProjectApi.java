@@ -14,6 +14,7 @@
 package com.google.gerrit.client.projects;
 
 import com.google.gerrit.client.VoidResult;
+import com.google.gerrit.client.changes.ChangeInfo;
 import com.google.gerrit.client.projects.ConfigInfo.ConfigParameterValue;
 import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.NativeMap;
@@ -153,6 +154,15 @@ public class ProjectApi {
     call.put(input, cb);
   }
 
+  public static void createChange(Project.NameKey name, String destination, String message,
+      AsyncCallback<ChangeInfo> cb) {
+    RestApi call = project(name).view("change");
+    CreateChangeInput createChangeInput = CreateChangeInput.create();
+    createChangeInput.setMessage(message);
+    createChangeInput.setDestination(destination);
+    call.put(createChangeInput, cb);
+  }
+
   public static RestApi project(Project.NameKey name) {
     return new RestApi("/projects/").id(name.get());
   }
@@ -283,5 +293,16 @@ public class ProjectApi {
     }
 
     final native void setRef(String r) /*-{ if(r)this.ref=r; }-*/;
+  }
+
+  private static class CreateChangeInput extends JavaScriptObject {
+    static CreateChangeInput create() {
+      return (CreateChangeInput) createObject();
+    }
+    final native void setDestination(String d) /*-{ this.destination = d; }-*/;
+    final native void setMessage(String m) /*-{ this.message = m; }-*/;
+
+    protected CreateChangeInput() {
+    }
   }
 }

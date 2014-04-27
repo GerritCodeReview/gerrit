@@ -73,7 +73,7 @@
 .message p,
 .message ul,
 .message blockquote {
-  -webkit-margin-before: 0;
+  -webkit-margin-before: 0.2em;
   -webkit-margin-after: 0.3em;
 }
 .commentBox button {

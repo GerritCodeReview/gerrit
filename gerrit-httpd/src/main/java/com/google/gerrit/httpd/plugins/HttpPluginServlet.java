@@ -14,7 +14,11 @@
 
 package com.google.gerrit.httpd.plugins;
 
+import static com.google.gerrit.server.plugins.PluginEntry.ATTR_CHARACTER_ENCODING;
+import static com.google.gerrit.server.plugins.PluginEntry.ATTR_CONTENT_TYPE;
+
 import com.google.common.base.CharMatcher;
+import com.google.common.base.Optional;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.cache.Cache;
@@ -27,9 +31,11 @@ import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.documentation.MarkdownFormatter;
 import com.google.gerrit.server.plugins.Plugin;
+import com.google.gerrit.server.plugins.Plugin.ApiType;
+import com.google.gerrit.server.plugins.PluginContentScanner;
+import com.google.gerrit.server.plugins.PluginEntry;
 import com.google.gerrit.server.plugins.PluginsCollection;
 import com.google.gerrit.server.plugins.ReloadPluginListener;
-import com.google.gerrit.server.plugins.ServerPlugin;
 import com.google.gerrit.server.plugins.StartPluginListener;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gwtexpui.server.CacheHeaders;
@@ -61,8 +67,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
 import java.util.jar.Attributes;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -269,17 +273,17 @@ class HttpPluginServlet extends HttpServlet
     }
 
     if (file.startsWith(holder.staticPrefix)) {
-      JarFile jar = jarFileOf(holder.plugin);
-      if (jar != null) {
-        JarEntry entry = jar.getJarEntry(file);
-        if (exists(entry)) {
-          sendResource(jar, entry, key, res);
+      if (holder.plugin.getApiType() == ApiType.JS) {
+        sendJsPlugin(holder.plugin, key, req, res);
+      } else {
+        PluginContentScanner scanner = holder.plugin.getContentScanner();
+        Optional<PluginEntry> entry = scanner.getEntry(file);
+        if (entry.isPresent()) {
+          sendResource(scanner, entry.get(), key, res);
         } else {
           resourceCache.put(key, Resource.NOT_FOUND);
           Resource.NOT_FOUND.send(req, res);
         }
-      } else {
-        sendJsPlugin(holder.plugin, key, req, res);
       }
     } else if (file.equals(
         holder.docPrefix.substring(0, holder.docPrefix.length() - 1))) {
@@ -287,19 +291,19 @@ class HttpPluginServlet extends HttpServlet
     } else if (file.startsWith(holder.docPrefix) && file.endsWith("/")) {
       res.sendRedirect(uri + "index.html");
     } else if (file.startsWith(holder.docPrefix)) {
-      JarFile jar = jarFileOf(holder.plugin);
-      JarEntry entry = jar.getJarEntry(file);
-      if (!exists(entry)) {
-        entry = findSource(jar, file);
+      PluginContentScanner scanner = holder.plugin.getContentScanner();
+      Optional<PluginEntry> entry = scanner.getEntry(file);
+      if (!entry.isPresent()) {
+        entry = findSource(scanner, file);
       }
-      if (!exists(entry) && file.endsWith("/index.html")) {
+      if (!entry.isPresent() && file.endsWith("/index.html")) {
         String pfx = file.substring(0, file.length() - "index.html".length());
-        sendAutoIndex(jar, pfx, holder.plugin.getName(), key, res,
+        sendAutoIndex(scanner, pfx, holder.plugin.getName(), key, res,
             holder.plugin.getSrcFile().lastModified());
-      } else if (exists(entry) && entry.getName().endsWith(".md")) {
-        sendMarkdownAsHtml(jar, entry, holder.plugin.getName(), key, res);
-      } else if (exists(entry)) {
-        sendResource(jar, entry, key, res);
+      } else if (entry.isPresent() && entry.get().getName().endsWith(".md")) {
+        sendMarkdownAsHtml(scanner, entry.get(), holder.plugin.getName(), key, res);
+      } else if (entry.isPresent()) {
+        sendResource(scanner, entry.get(), key, res);
       } else {
         resourceCache.put(key, Resource.NOT_FOUND);
         Resource.NOT_FOUND.send(req, res);
@@ -310,18 +314,18 @@ class HttpPluginServlet extends HttpServlet
     }
   }
 
-  private void appendEntriesSection(JarFile jar, List<JarEntry> entries,
+  private void appendEntriesSection(PluginContentScanner scanner, List<PluginEntry> entries,
       String sectionTitle, StringBuilder md, String prefix,
       int nameOffset) throws IOException {
     if (!entries.isEmpty()) {
       md.append("## ").append(sectionTitle).append(" ##\n");
-      for(JarEntry entry : entries) {
+      for(PluginEntry entry : entries) {
         String rsrc = entry.getName().substring(prefix.length());
         String entryTitle;
         if (rsrc.endsWith(".html")) {
           entryTitle = rsrc.substring(nameOffset, rsrc.length() - 5).replace('-', ' ');
         } else if (rsrc.endsWith(".md")) {
-          entryTitle = extractTitleFromMarkdown(jar, entry);
+          entryTitle = extractTitleFromMarkdown(scanner, entry);
           if (Strings.isNullOrEmpty(entryTitle)) {
             entryTitle = rsrc.substring(nameOffset, rsrc.length() - 3).replace('-', ' ');
           }
@@ -335,24 +339,25 @@ class HttpPluginServlet extends HttpServlet
     }
   }
 
-  private void sendAutoIndex(JarFile jar,
+  private void sendAutoIndex(PluginContentScanner scanner,
       String prefix, String pluginName,
-      ResourceKey cacheKey, HttpServletResponse res, long lastModifiedTime)
+      ResourceKey cacheKey, HttpServletResponse res,long lastModifiedTime)
       throws IOException {
-    List<JarEntry> cmds = Lists.newArrayList();
-    List<JarEntry> servlets = Lists.newArrayList();
-    List<JarEntry> restApis = Lists.newArrayList();
-    List<JarEntry> docs = Lists.newArrayList();
-    JarEntry about = null;
-    Enumeration<JarEntry> entries = jar.entries();
+    List<PluginEntry> cmds = Lists.newArrayList();
+    List<PluginEntry> servlets = Lists.newArrayList();
+    List<PluginEntry> restApis = Lists.newArrayList();
+    List<PluginEntry> docs = Lists.newArrayList();
+    PluginEntry about = null;
+    Enumeration<PluginEntry> entries = scanner.entries();
     while (entries.hasMoreElements()) {
-      JarEntry entry = entries.nextElement();
+      PluginEntry entry = entries.nextElement();
       String name = entry.getName();
-      long size = entry.getSize();
+      Optional<Long> size = entry.getSize();
       if (name.startsWith(prefix)
           && (name.endsWith(".md")
               || name.endsWith(".html"))
-          && 0 < size && size <= SMALL_RESOURCE) {
+              && size.isPresent()
+          && 0 < size.get() && size.get() <= SMALL_RESOURCE) {
         name = name.substring(prefix.length());
         if (name.startsWith("cmd-")) {
           cmds.add(entry);
@@ -369,15 +374,15 @@ class HttpPluginServlet extends HttpServlet
         }
       }
     }
-    Collections.sort(cmds, new Comparator<JarEntry>() {
+    Collections.sort(cmds, new Comparator<PluginEntry>() {
       @Override
-      public int compare(JarEntry a, JarEntry b) {
+      public int compare(PluginEntry a, PluginEntry b) {
         return a.getName().compareTo(b.getName());
       }
     });
-    Collections.sort(docs, new Comparator<JarEntry>() {
+    Collections.sort(docs, new Comparator<PluginEntry>() {
       @Override
-      public int compare(JarEntry a, JarEntry b) {
+      public int compare(PluginEntry a, PluginEntry b) {
         return a.getName().compareTo(b.getName());
       }
     });
@@ -385,10 +390,10 @@ class HttpPluginServlet extends HttpServlet
     StringBuilder md = new StringBuilder();
     md.append(String.format("# Plugin %s #\n", pluginName));
     md.append("\n");
-    appendPluginInfoTable(md, jar.getManifest().getMainAttributes());
+    appendPluginInfoTable(md, scanner.getManifest().getMainAttributes());
 
     if (about != null) {
-      InputStreamReader isr = new InputStreamReader(jar.getInputStream(about));
+      InputStreamReader isr = new InputStreamReader(scanner.getInputStream(about));
       BufferedReader reader = new BufferedReader(isr);
       StringBuilder aboutContent = new StringBuilder();
       String line;
@@ -409,10 +414,10 @@ class HttpPluginServlet extends HttpServlet
       }
     }
 
-    appendEntriesSection(jar, docs, "Documentation", md, prefix, 0);
-    appendEntriesSection(jar, servlets, "Servlets", md, prefix, "servlet-".length());
-    appendEntriesSection(jar, restApis, "REST APIs", md, prefix, "rest-api-".length());
-    appendEntriesSection(jar, cmds, "Commands", md, prefix, "cmd-".length());
+    appendEntriesSection(scanner, docs, "Documentation", md, prefix, 0);
+    appendEntriesSection(scanner, servlets, "Servlets", md, prefix, "servlet-".length());
+    appendEntriesSection(scanner, restApis, "REST APIs", md, prefix, "rest-api-".length());
+    appendEntriesSection(scanner, cmds, "Commands", md, prefix, "cmd-".length());
 
     sendMarkdownAsHtml(md.toString(), pluginName, cacheKey, res, lastModifiedTime);
   }
@@ -495,41 +500,38 @@ class HttpPluginServlet extends HttpServlet
     }
   }
 
-  private static String extractTitleFromMarkdown(JarFile jar, JarEntry entry)
+  private static String extractTitleFromMarkdown(PluginContentScanner scanner, PluginEntry entry)
         throws IOException {
     String charEnc = null;
-    Attributes atts = entry.getAttributes();
+    Map<Object, String> atts = entry.getAttrs();
     if (atts != null) {
-      charEnc = Strings.emptyToNull(atts.getValue("Character-Encoding"));
+      charEnc = Strings.emptyToNull(atts.get(ATTR_CHARACTER_ENCODING));
     }
     if (charEnc == null) {
       charEnc = "UTF-8";
     }
     return new MarkdownFormatter().extractTitleFromMarkdown(
-          readWholeEntry(jar, entry),
+          readWholeEntry(scanner, entry),
           charEnc);
   }
 
-  private static JarEntry findSource(JarFile jar, String file) {
+  private static Optional<PluginEntry> findSource(
+      PluginContentScanner scanner, String file) throws IOException {
     if (file.endsWith(".html")) {
       int d = file.lastIndexOf('.');
-      return jar.getJarEntry(file.substring(0, d) + ".md");
+      return scanner.getEntry(file.substring(0, d) + ".md");
     }
-    return null;
+    return Optional.absent();
   }
 
-  private static boolean exists(JarEntry entry) {
-    return entry != null && entry.getSize() > 0;
-  }
-
-  private void sendMarkdownAsHtml(JarFile jar, JarEntry entry,
+  private void sendMarkdownAsHtml(PluginContentScanner scanner, PluginEntry entry,
       String pluginName, ResourceKey key, HttpServletResponse res)
       throws IOException {
-    byte[] rawmd = readWholeEntry(jar, entry);
+    byte[] rawmd = readWholeEntry(scanner, entry);
     String encoding = null;
-    Attributes atts = entry.getAttributes();
+    Map<Object, String> atts = entry.getAttrs();
     if (atts != null) {
-      encoding = Strings.emptyToNull(atts.getValue("Character-Encoding"));
+      encoding = Strings.emptyToNull(atts.get(ATTR_CHARACTER_ENCODING));
     }
 
     String txtmd = RawParseUtils.decode(
@@ -542,20 +544,21 @@ class HttpPluginServlet extends HttpServlet
     sendMarkdownAsHtml(txtmd, pluginName, key, res, time);
   }
 
-  private void sendResource(JarFile jar, JarEntry entry,
+  private void sendResource(PluginContentScanner scanner, PluginEntry entry,
       ResourceKey key, HttpServletResponse res)
       throws IOException {
     byte[] data = null;
-    if (entry.getSize() <= SMALL_RESOURCE) {
-      data = readWholeEntry(jar, entry);
+    Optional<Long> size = entry.getSize();
+    if (size.isPresent() && size.get() <= SMALL_RESOURCE) {
+      data = readWholeEntry(scanner, entry);
     }
 
     String contentType = null;
     String charEnc = null;
-    Attributes atts = entry.getAttributes();
+    Map<Object, String> atts = entry.getAttrs();
     if (atts != null) {
-      contentType = Strings.emptyToNull(atts.getValue("Content-Type"));
-      charEnc = Strings.emptyToNull(atts.getValue("Character-Encoding"));
+      contentType = Strings.emptyToNull(atts.get(ATTR_CONTENT_TYPE));
+      charEnc = Strings.emptyToNull(atts.get(ATTR_CHARACTER_ENCODING));
     }
     if (contentType == null) {
       contentType = mimeUtil.getMimeType(entry.getName(), data).toString();
@@ -569,7 +572,9 @@ class HttpPluginServlet extends HttpServlet
     if (0 < time) {
       res.setDateHeader("Last-Modified", time);
     }
-    res.setHeader("Content-Length", Long.toString(entry.getSize()));
+    if (size.isPresent()) {
+      res.setHeader("Content-Length", size.get().toString());
+    }
     res.setContentType(contentType);
     if (charEnc != null) {
       res.setCharacterEncoding(charEnc);
@@ -581,7 +586,7 @@ class HttpPluginServlet extends HttpServlet
           .setLastModified(time));
       res.getOutputStream().write(data);
     } else {
-      writeToResponse(res, jar.getInputStream(entry));
+      writeToResponse(res, scanner.getInputStream(entry));
     }
   }
 
@@ -621,24 +626,16 @@ class HttpPluginServlet extends HttpServlet
     }
   }
 
-  private static byte[] readWholeEntry(JarFile jar, JarEntry entry)
+  private static byte[] readWholeEntry(PluginContentScanner scanner, PluginEntry entry)
       throws IOException {
-    byte[] data = new byte[(int) entry.getSize()];
-    InputStream in = jar.getInputStream(entry);
+    byte[] data = new byte[entry.getSize().get().intValue()];
+    InputStream in = scanner.getInputStream(entry);
     try {
       IO.readFully(in, data, 0, data.length);
     } finally {
       in.close();
     }
     return data;
-  }
-
-  private static JarFile jarFileOf(Plugin plugin) {
-    if(plugin instanceof ServerPlugin) {
-      return ((ServerPlugin) plugin).getJarFile();
-    } else {
-      return null;
-    }
   }
 
   private static class PluginHolder {
@@ -657,13 +654,14 @@ class HttpPluginServlet extends HttpServlet
     }
 
     private static String getPrefix(Plugin plugin, String attr, String def) {
-      JarFile jarFile = jarFileOf(plugin);
-      if (jarFile == null) {
+      File srcFile = plugin.getSrcFile();
+      PluginContentScanner scanner = plugin.getContentScanner();
+      if (srcFile == null || scanner == PluginContentScanner.EMPTY) {
         return def;
       }
       try {
-        String prefix = jarFile.getManifest().getMainAttributes()
-            .getValue(attr);
+        String prefix =
+            scanner.getManifest().getMainAttributes().getValue(attr);
         if (prefix != null) {
           return CharMatcher.is('/').trimFrom(prefix) + "/";
         } else {

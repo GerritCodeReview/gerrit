@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c57e1f25_ec5ecb1f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/project/ProjectIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-28T09:59:20Z",
+      "side": 1,
+      "message": "Yes, this is a valid point. Thought about it, but didn\u0027t want to move the responsibility for creating change id to the plugin API implementation and other implementations (e. g. REST client).\n\nMay be we could put a place holder as change-id to indicate that it should be generated during commit creation on the server side? How about:\n\n  gApi.projects()\n      .name(project.get())\n      .change(\"generate-changed-id\")\n      .create();\n\nOr just skip the change id entirely for generation:\n\n  gApi.projects()\n      .name(project.get())\n      .change()\n      .create();\n\nOr call it emptyChange() instead:\n\n  gApi.projects()\n      .name(project.get())\n      .emptyChange()\n      .create();",
+      "parentUuid": "e5716354_cd72e9c0",
+      "range": {
+        "startLine": 84,
+        "startChar": 9,
+        "endLine": 84,
+        "endChar": 25
+      },
+      "revId": "3ac7a50e528e69833549040bc2b1854eff27bbb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c57e1f25_ac4a0367",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/projects/ProjectApi.java",
         "patchSetId": 5

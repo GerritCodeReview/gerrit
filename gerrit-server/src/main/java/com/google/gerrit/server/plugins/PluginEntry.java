@@ -13,7 +13,10 @@
 // limitations under the License.
 package com.google.gerrit.server.plugins;
 
+import com.google.common.base.Optional;
+
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Map;
 
 /**
@@ -26,15 +29,23 @@ import java.util.Map;
 public class PluginEntry {
   public static final String ATTR_CHARACTER_ENCODING = "Character-Encoding";
   public static final String ATTR_CONTENT_TYPE = "Content-Type";
+  public static final Comparator<PluginEntry> COMPARATOR_BY_NAME =
+      new Comparator<PluginEntry>() {
+        @Override
+        public int compare(PluginEntry a, PluginEntry b) {
+          return a.getName().compareTo(b.getName());
+        }
+      };
 
-  private static final Map<Object,String> EMPTY_ATTRS = Collections.emptyMap();
+  private static final Map<Object, String> EMPTY_ATTRS = Collections.emptyMap();
+  private static final Optional<Long> NO_SIZE = Optional.absent();
 
   private final String name;
   private final long time;
-  private final long size;
+  private final Optional<Long> size;
   private final Map<Object, String> attrs;
 
-  public PluginEntry(String name, long time, long size,
+  public PluginEntry(String name, long time, Optional<Long> size,
       Map<Object, String> attrs) {
     this.name = name;
     this.time = time;
@@ -42,8 +53,12 @@ public class PluginEntry {
     this.attrs = attrs;
   }
 
-  public PluginEntry(String name, long time, long size) {
+  public PluginEntry(String name, long time, Optional<Long> size) {
     this(name, time, size, EMPTY_ATTRS);
+  }
+
+  public PluginEntry(String name, long time) {
+    this(name, time, NO_SIZE, EMPTY_ATTRS);
   }
 
   public String getName() {
@@ -54,7 +69,7 @@ public class PluginEntry {
     return time;
   }
 
-  public long getSize() {
+  public Optional<Long> getSize() {
     return size;
   }
 

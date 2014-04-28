@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "65e49351_01f8cae5",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 1126,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-28T21:33:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "656f3377_6999659b",
+      "revId": "83455ac41418a9df400dc28be1bfe346f62107a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e5716354_2d65ade6",
         "filename": "Documentation/rest-api-projects.txt",
         "patchSetId": 5
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "65e49351_e1fcc6db",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 1152,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-28T21:33:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e5716354_2d65ade6",
+      "range": {
+        "startLine": 1152,
+        "startChar": 11,
+        "endLine": 1152,
+        "endChar": 20
+      },
+      "revId": "83455ac41418a9df400dc28be1bfe346f62107a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c57e1f25_ac58c332",
         "filename": "Documentation/rest-api-projects.txt",
         "patchSetId": 5
@@ -53,6 +95,30 @@
       "writtenOn": "2014-04-28T11:24:39Z",
       "side": 1,
       "message": "This doesn\u0027t match the request. In the request URL it is \u0027MyProject\u0027 and not \u0027myProject\u0027. The case must match since project names are case sensitive.",
+      "range": {
+        "startLine": 1153,
+        "startChar": 15,
+        "endLine": 1153,
+        "endChar": 27
+      },
+      "revId": "83455ac41418a9df400dc28be1bfe346f62107a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45e94f2a_c0fd3eda",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 1153,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-28T21:33:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c57e1f25_ac58c332",
       "range": {
         "startLine": 1153,
         "startChar": 15,
@@ -128,6 +194,30 @@
     },
     {
       "key": {
+        "uuid": "45e94f2a_e0fcc2db",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 1645,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-28T21:33:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "656f3377_29936d7b",
+      "range": {
+        "startLine": 1645,
+        "startChar": 52,
+        "endLine": 1645,
+        "endChar": 62
+      },
+      "revId": "83455ac41418a9df400dc28be1bfe346f62107a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e5716354_cdc0a964",
         "filename": "Documentation/rest-api-projects.txt",
         "patchSetId": 5
@@ -174,6 +264,77 @@
     },
     {
       "key": {
+        "uuid": "45e94f2a_00f8c6e5",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 1651,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-28T21:33:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e5716354_cdc0a964",
+      "range": {
+        "startLine": 1651,
+        "startChar": 16,
+        "endLine": 1651,
+        "endChar": 34
+      },
+      "revId": "83455ac41418a9df400dc28be1bfe346f62107a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45e94f2a_a002ba27",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 1651,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-28T21:33:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "856a6764_caa723dd",
+      "range": {
+        "startLine": 1651,
+        "startChar": 28,
+        "endLine": 1651,
+        "endChar": 29
+      },
+      "revId": "83455ac41418a9df400dc28be1bfe346f62107a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45e94f2a_60f2720b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-28T21:33:14Z",
+      "side": 1,
+      "message": "Moved this too.",
+      "range": {
+        "startLine": 93,
+        "startChar": 2,
+        "endLine": 94,
+        "endChar": 43
+      },
+      "revId": "83455ac41418a9df400dc28be1bfe346f62107a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "656f3377_c91e5151",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeUtil.java",
         "patchSetId": 5
@@ -185,6 +346,24 @@
       "writtenOn": "2014-04-28T12:34:14Z",
       "side": 1,
       "message": "Move this up to line 82?",
+      "revId": "83455ac41418a9df400dc28be1bfe346f62107a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45e94f2a_80f5f6f3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-28T21:33:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "656f3377_c91e5151",
       "revId": "83455ac41418a9df400dc28be1bfe346f62107a1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -208,6 +387,24 @@
     },
     {
       "key": {
+        "uuid": "65e49351_41ebf217",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutChange.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-28T21:33:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e5716354_0dbf91ec",
+      "revId": "83455ac41418a9df400dc28be1bfe346f62107a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e5716354_4db5990a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutChange.java",
         "patchSetId": 5
@@ -219,6 +416,30 @@
       "writtenOn": "2014-04-28T11:24:39Z",
       "side": 1,
       "message": "Id classes should not be imported. We just have too many of them. Instead use \u0027Change.Id\u0027 as type in the code below.",
+      "range": {
+        "startLine": 27,
+        "startChar": 41,
+        "endLine": 27,
+        "endChar": 50
+      },
+      "revId": "83455ac41418a9df400dc28be1bfe346f62107a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45e94f2a_00e1e637",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutChange.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-28T21:33:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e5716354_4db5990a",
       "range": {
         "startLine": 27,
         "startChar": 41,
@@ -254,6 +475,30 @@
     },
     {
       "key": {
+        "uuid": "65e49351_21e86e19",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutChange.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-28T21:33:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e5716354_adcf5d8f",
+      "range": {
+        "startLine": 105,
+        "startChar": 28,
+        "endLine": 105,
+        "endChar": 35
+      },
+      "revId": "83455ac41418a9df400dc28be1bfe346f62107a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e5716354_8dcaa180",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutChange.java",
         "patchSetId": 5
@@ -265,6 +510,30 @@
       "writtenOn": "2014-04-28T11:24:39Z",
       "side": 1,
       "message": "Use Constants.R_HEADS",
+      "range": {
+        "startLine": 106,
+        "startChar": 16,
+        "endLine": 106,
+        "endChar": 29
+      },
+      "revId": "83455ac41418a9df400dc28be1bfe346f62107a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45e94f2a_e0e5e243",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutChange.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-28T21:33:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e5716354_8dcaa180",
       "range": {
         "startLine": 106,
         "startChar": 16,
@@ -300,6 +569,30 @@
     },
     {
       "key": {
+        "uuid": "65e49351_81f5faf3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutChange.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-28T21:33:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c57e1f25_0c68f7bf",
+      "range": {
+        "startLine": 110,
+        "startChar": 31,
+        "endLine": 110,
+        "endChar": 76
+      },
+      "revId": "83455ac41418a9df400dc28be1bfe346f62107a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c57e1f25_2c65b3e6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutChange.java",
         "patchSetId": 5
@@ -311,6 +604,30 @@
       "writtenOn": "2014-04-28T11:24:39Z",
       "side": 1,
       "message": "Why to wrap this exception and not just throw RepositoryNotFoundException? In both cases the result will be \u0027500 internal server error\u0027.",
+      "range": {
+        "startLine": 123,
+        "startChar": 4,
+        "endLine": 125,
+        "endChar": 5
+      },
+      "revId": "83455ac41418a9df400dc28be1bfe346f62107a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65e49351_61f2760b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutChange.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-28T21:33:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c57e1f25_2c65b3e6",
       "range": {
         "startLine": 123,
         "startChar": 4,
@@ -346,6 +663,30 @@
     },
     {
       "key": {
+        "uuid": "65e49351_c1fd42da",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutChange.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-28T21:33:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c57e1f25_ccc0af64",
+      "range": {
+        "startLine": 132,
+        "startChar": 20,
+        "endLine": 132,
+        "endChar": 51
+      },
+      "revId": "83455ac41418a9df400dc28be1bfe346f62107a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c57e1f25_ecc56b71",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutChange.java",
         "patchSetId": 5
@@ -357,6 +698,30 @@
       "writtenOn": "2014-04-28T11:24:39Z",
       "side": 1,
       "message": "Change.Id",
+      "range": {
+        "startLine": 172,
+        "startChar": 8,
+        "endLine": 172,
+        "endChar": 10
+      },
+      "revId": "83455ac41418a9df400dc28be1bfe346f62107a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65e49351_a102be27",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutChange.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-28T21:33:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c57e1f25_ecc56b71",
       "range": {
         "startLine": 172,
         "startChar": 8,
@@ -392,6 +757,30 @@
     },
     {
       "key": {
+        "uuid": "45e94f2a_20e86a19",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutChange.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-28T21:33:14Z",
+      "side": 1,
+      "message": "Just copied it from CherryPick action.",
+      "parentUuid": "c57e1f25_8ccaa780",
+      "range": {
+        "startLine": 196,
+        "startChar": 4,
+        "endLine": 224,
+        "endChar": 17
+      },
+      "revId": "83455ac41418a9df400dc28be1bfe346f62107a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e5716354_2dbccdf4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutChange.java",
         "patchSetId": 5
@@ -403,6 +792,30 @@
       "writtenOn": "2014-04-28T11:24:39Z",
       "side": 1,
       "message": "Why \u0027mergeCommit\u0027?",
+      "range": {
+        "startLine": 229,
+        "startChar": 20,
+        "endLine": 229,
+        "endChar": 31
+      },
+      "revId": "83455ac41418a9df400dc28be1bfe346f62107a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45e94f2a_40ebee17",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutChange.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-28T21:33:14Z",
+      "side": 1,
+      "message": "Because copy/paste ;-)\n\nDone",
+      "parentUuid": "e5716354_2dbccdf4",
       "range": {
         "startLine": 229,
         "startChar": 20,

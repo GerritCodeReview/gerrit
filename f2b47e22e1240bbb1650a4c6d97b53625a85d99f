@@ -69,6 +69,30 @@
       "revId": "f2b47e22e1240bbb1650a4c6d97b53625a85d99f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e5716354_4d6ef9d0",
+        "filename": "Documentation/intro-project-owner.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 651,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-04-28T09:11:44Z",
+      "side": 1,
+      "message": "Let\u0027s do this in a seperate change, if at all. After thinking about it again I really would prefer not to mention this here. At SAP we already now have people asking us Gerrit administrators every second day if the limit can be increased for their project. If it would be mentioned here as a choice of course every project owner would like to go for the easier way of just increasing the limit and I\u0027m afraid we would get even more questions about this... The max object size limit is really a server global configuration and projects wanting to be hosted on the server must follow the server\u0027s rules and policies. So it\u0027s really not a choice for the project owners to increase this limit. Especially since increasing the limit would affect all projects. It\u0027s currently not possible to have a global max object size limit and make exceptions for certain projects. I guess it makes sense to implement this, but at the moment this is not really possible (at least not without making own project hierarchies).",
+      "parentUuid": "05abd79e_9e33dd19",
+      "range": {
+        "startLine": 650,
+        "startChar": 30,
+        "endLine": 651,
+        "endChar": 16
+      },
+      "revId": "f2b47e22e1240bbb1650a4c6d97b53625a85d99f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

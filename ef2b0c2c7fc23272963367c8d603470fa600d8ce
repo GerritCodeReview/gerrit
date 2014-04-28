@@ -70,6 +70,24 @@
       "revId": "ef2b0c2c7fc23272963367c8d603470fa600d8ce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e5716354_ad819d3c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1933,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2014-04-28T04:59:51Z",
+      "side": 1,
+      "message": "I guess you refer to 3fe08856. Can this patch be accepted now, or is there still work to do?",
+      "parentUuid": "0f23f18e_e5013621",
+      "revId": "ef2b0c2c7fc23272963367c8d603470fa600d8ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

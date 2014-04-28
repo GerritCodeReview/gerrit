@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "65b2d35d_f1f768f4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchScriptFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-04-28T23:15:18Z",
+      "side": 1,
+      "message": "So this is still used with loadHistory \u003d true by PatchDetailServiceImpl, and the idea is it would be excised completely when ChangeScreen1 goes away?",
+      "revId": "8dd89462b525d86574dc5aafb48c95de4c3ef667",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

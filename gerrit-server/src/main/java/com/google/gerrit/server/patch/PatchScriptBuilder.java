@@ -171,7 +171,9 @@ class PatchScriptBuilder {
       }
     }
 
-    ensureCommentsVisible(comments);
+    if (comments != null) {
+      ensureCommentsVisible(comments);
+    }
 
     boolean hugeFile = false;
     if (a.mode == FileMode.GITLINK || b.mode == FileMode.GITLINK) {

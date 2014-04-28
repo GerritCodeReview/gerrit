@@ -104,6 +104,7 @@ public class GetDiff implements RestReadView<FileResource> {
           resource.getPatchKey().getParentKey(),
           prefs);
       psf.setLoadHistory(false);
+      psf.setLoadComments(context != AccountDiffPreference.WHOLE_FILE_CONTEXT);
       PatchScript ps = psf.call();
       Content content = new Content(ps);
       for (Edit edit : ps.getEdits()) {

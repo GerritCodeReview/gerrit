@@ -80,6 +80,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
 
   private final Change.Id changeId;
   private boolean loadHistory = true;
+  private boolean loadComments = true;
 
   private Change change;
   private Project.NameKey projectKey;
@@ -116,6 +117,10 @@ public class PatchScriptFactory implements Callable<PatchScript> {
 
   public void setLoadHistory(boolean load) {
     loadHistory = load;
+  }
+
+  public void setLoadComments(boolean load) {
+    loadComments = load;
   }
 
   @Override
@@ -217,10 +222,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
 
   private void loadCommentsAndHistory(final ChangeType changeType,
       final String oldName, final String newName) throws OrmException {
-    comments = new CommentDetail(psa, psb);
-
     final Map<Patch.Key, Patch> byKey = new HashMap<>();
-    final AccountInfoCacheFactory aic = aicFactory.create();
 
     if (loadHistory) {
       // This seems like a cheap trick. It doesn't properly account for a
@@ -257,55 +259,59 @@ public class PatchScriptFactory implements Callable<PatchScript> {
       }
     }
 
-    switch (changeType) {
-      case ADDED:
-      case MODIFIED:
-        loadPublished(byKey, aic, newName);
-        break;
-
-      case DELETED:
-        loadPublished(byKey, aic, newName);
-        break;
-
-      case COPIED:
-      case RENAMED:
-        if (psa != null) {
-          loadPublished(byKey, aic, oldName);
-        }
-        loadPublished(byKey, aic, newName);
-        break;
-
-      case REWRITE:
-        break;
-    }
-
-    final CurrentUser user = control.getCurrentUser();
-    if (user.isIdentifiedUser()) {
-      final Account.Id me = ((IdentifiedUser) user).getAccountId();
+    if (loadComments) {
+      final AccountInfoCacheFactory aic = aicFactory.create();
+      comments = new CommentDetail(psa, psb);
       switch (changeType) {
         case ADDED:
         case MODIFIED:
-          loadDrafts(byKey, aic, me, newName);
+          loadPublished(byKey, aic, newName);
           break;
 
         case DELETED:
-          loadDrafts(byKey, aic, me, newName);
+          loadPublished(byKey, aic, newName);
           break;
 
         case COPIED:
         case RENAMED:
           if (psa != null) {
-            loadDrafts(byKey, aic, me, oldName);
+            loadPublished(byKey, aic, oldName);
           }
-          loadDrafts(byKey, aic, me, newName);
+          loadPublished(byKey, aic, newName);
           break;
 
         case REWRITE:
           break;
       }
-    }
 
-    comments.setAccountInfoCache(aic.create());
+      final CurrentUser user = control.getCurrentUser();
+      if (user.isIdentifiedUser()) {
+        final Account.Id me = ((IdentifiedUser) user).getAccountId();
+        switch (changeType) {
+          case ADDED:
+          case MODIFIED:
+            loadDrafts(byKey, aic, me, newName);
+            break;
+
+          case DELETED:
+            loadDrafts(byKey, aic, me, newName);
+            break;
+
+          case COPIED:
+          case RENAMED:
+            if (psa != null) {
+              loadDrafts(byKey, aic, me, oldName);
+            }
+            loadDrafts(byKey, aic, me, newName);
+            break;
+
+          case REWRITE:
+            break;
+        }
+      }
+
+      comments.setAccountInfoCache(aic.create());
+    }
   }
 
   private void loadPublished(final Map<Patch.Key, Patch> byKey,

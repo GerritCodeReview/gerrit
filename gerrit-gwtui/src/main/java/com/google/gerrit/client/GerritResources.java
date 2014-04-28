@@ -78,7 +78,4 @@ public interface GerritResources extends ClientBundle {
 
   @Source("listAdd.png")
   public ImageResource listAdd();
-
-  @Source("dashboard.png")
-  public ImageResource dashboard();
 }

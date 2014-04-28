@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c57e1f25_ec77abad",
+        "filename": "Documentation/intro-project-owner.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 604,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-04-28T08:55:56Z",
+      "side": 1,
+      "message": "Why? \n\nIt doesn\u0027t make sense to me to attach \u0027because some tools have issues with cloning repositories that are completely empty\u0027 to the second sentence. This is the reason why it is recommended to normally create new projects without initial commit. So it should be attached to the first sentence. It doesn\u0027t make sense in combination with the second sentence that says that an initial commit should not be created if an existing history should be imported.",
+      "parentUuid": "656f3377_c9fdf1d9",
+      "range": {
+        "startLine": 600,
+        "startChar": 0,
+        "endLine": 604,
+        "endChar": 50
+      },
+      "revId": "f2b47e22e1240bbb1650a4c6d97b53625a85d99f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "05abd79e_9e33dd19",
         "filename": "Documentation/intro-project-owner.txt",
         "patchSetId": 2

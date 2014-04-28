@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "e5716354_2d8e0d69",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-04-28T07:48:05Z",
+      "side": 1,
+      "message": "Can you add some more insights on your change ?\nPossibly describing why you want to add an extension Api for accounts and what\u0027s the value provided.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 31
+      },
+      "revId": "1bff02553270f755970c9713f8ce5e693c0149a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c57e1f25_ec500b1d",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/accounts/AccountApi.java",
         "patchSetId": 1

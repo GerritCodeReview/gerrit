@@ -143,20 +143,27 @@ class DiffTable extends Composite {
     patchSetSelectBoxB.setUpPatchSetNav(list, info.meta_b());
 
     JsArrayString hdr = info.diff_header();
-    StringBuilder b = new StringBuilder();
-    for (int i = 1; i < hdr.length(); i++) {
-      String s = hdr.get(i);
-      if (s.startsWith("diff --git ")
-          || s.startsWith("index ")
-          || s.startsWith("+++ ")
-          || s.startsWith("--- ")) {
-        continue;
+    if (hdr != null) {
+      StringBuilder b = new StringBuilder();
+      for (int i = 1; i < hdr.length(); i++) {
+        String s = hdr.get(i);
+        if (s.startsWith("diff --git ")
+            || s.startsWith("index ")
+            || s.startsWith("+++ ")
+            || s.startsWith("--- ")) {
+          continue;
+        }
+        b.append(s).append('\n');
       }
-      b.append(s).append('\n');
+
+      String hdrTxt = b.toString().trim();
+      header = !hdrTxt.isEmpty();
+      diffHeaderText.setInnerText(hdrTxt);
+      UIObject.setVisible(diffHeaderRow, header);
+    } else {
+      header = false;
+      UIObject.setVisible(diffHeaderRow, false);
     }
-    header = b.length() > 0;
-    diffHeaderText.setInnerText(b.toString().trim());
-    UIObject.setVisible(diffHeaderRow, header);
   }
 
   void refresh() {

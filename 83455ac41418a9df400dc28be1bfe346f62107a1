@@ -1,0 +1,320 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e5716354_2d65ade6",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 1152,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-04-28T11:24:39Z",
+      "side": 1,
+      "message": "MyProject? Or change the project name in the request URL to \u0027myProject\u0027.",
+      "range": {
+        "startLine": 1152,
+        "startChar": 11,
+        "endLine": 1152,
+        "endChar": 20
+      },
+      "revId": "83455ac41418a9df400dc28be1bfe346f62107a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c57e1f25_ac58c332",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 1153,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-04-28T11:24:39Z",
+      "side": 1,
+      "message": "This doesn\u0027t match the request. In the request URL it is \u0027MyProject\u0027 and not \u0027myProject\u0027. The case must match since project names are case sensitive.",
+      "range": {
+        "startLine": 1153,
+        "startChar": 15,
+        "endLine": 1153,
+        "endChar": 27
+      },
+      "revId": "83455ac41418a9df400dc28be1bfe346f62107a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c57e1f25_8c538716",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 1162,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-04-28T11:24:39Z",
+      "side": 1,
+      "message": "How can it have insertions and deletions if the change is empty?",
+      "range": {
+        "startLine": 1161,
+        "startChar": 4,
+        "endLine": 1162,
+        "endChar": 20
+      },
+      "revId": "83455ac41418a9df400dc28be1bfe346f62107a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e5716354_cdc0a964",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 1651,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-04-28T11:24:39Z",
+      "side": 1,
+      "message": "Mention that the \u0027refs/heads/\u0027 prefix is optional?",
+      "range": {
+        "startLine": 1651,
+        "startChar": 16,
+        "endLine": 1651,
+        "endChar": 34
+      },
+      "revId": "83455ac41418a9df400dc28be1bfe346f62107a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e5716354_0dbf91ec",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutChange.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-04-28T11:24:39Z",
+      "side": 1,
+      "message": "unused import",
+      "revId": "83455ac41418a9df400dc28be1bfe346f62107a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e5716354_4db5990a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutChange.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-04-28T11:24:39Z",
+      "side": 1,
+      "message": "Id classes should not be imported. We just have too many of them. Instead use \u0027Change.Id\u0027 as type in the code below.",
+      "range": {
+        "startLine": 27,
+        "startChar": 41,
+        "endLine": 27,
+        "endChar": 50
+      },
+      "revId": "83455ac41418a9df400dc28be1bfe346f62107a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e5716354_adcf5d8f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutChange.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-04-28T11:24:39Z",
+      "side": 1,
+      "message": "Use Constants.R_REFS",
+      "range": {
+        "startLine": 105,
+        "startChar": 28,
+        "endLine": 105,
+        "endChar": 35
+      },
+      "revId": "83455ac41418a9df400dc28be1bfe346f62107a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e5716354_8dcaa180",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutChange.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-04-28T11:24:39Z",
+      "side": 1,
+      "message": "Use Constants.R_HEADS",
+      "range": {
+        "startLine": 106,
+        "startChar": 16,
+        "endLine": 106,
+        "endChar": 29
+      },
+      "revId": "83455ac41418a9df400dc28be1bfe346f62107a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c57e1f25_0c68f7bf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutChange.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-04-28T11:24:39Z",
+      "side": 1,
+      "message": "This should be just \u0027Authentication required\u0027 to make the message consistent with other REST endpoints. E.g. see throwing of AuthException in AccountsCollection and GroupsCollection.",
+      "range": {
+        "startLine": 110,
+        "startChar": 31,
+        "endLine": 110,
+        "endChar": 76
+      },
+      "revId": "83455ac41418a9df400dc28be1bfe346f62107a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c57e1f25_2c65b3e6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutChange.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-04-28T11:24:39Z",
+      "side": 1,
+      "message": "Why to wrap this exception and not just throw RepositoryNotFoundException? In both cases the result will be \u0027500 internal server error\u0027.",
+      "range": {
+        "startLine": 123,
+        "startChar": 4,
+        "endLine": 125,
+        "endChar": 5
+      },
+      "revId": "83455ac41418a9df400dc28be1bfe346f62107a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c57e1f25_ccc0af64",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutChange.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-04-28T11:24:39Z",
+      "side": 1,
+      "message": "This should rather be a UnprocessableEntityException. \u0027422 Unprocessable Entity\u0027 should be used if in the request body a resource is specified that does not exist, see [1]. Like this the request would fail with \u0027500 Internal Server Error\u0027 which is bad, if it is just wrong user input.\n\n[1] https://gerrit-review.googlesource.com/Documentation/rest-api.html#response-codes",
+      "range": {
+        "startLine": 132,
+        "startChar": 20,
+        "endLine": 132,
+        "endChar": 51
+      },
+      "revId": "83455ac41418a9df400dc28be1bfe346f62107a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c57e1f25_ecc56b71",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutChange.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-04-28T11:24:39Z",
+      "side": 1,
+      "message": "Change.Id",
+      "range": {
+        "startLine": 172,
+        "startChar": 8,
+        "endLine": 172,
+        "endChar": 10
+      },
+      "revId": "83455ac41418a9df400dc28be1bfe346f62107a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c57e1f25_8ccaa780",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutChange.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-04-28T11:24:39Z",
+      "side": 1,
+      "message": "Why not to use PatchSetInserter for this? E.g. you forgot to update the secondary index here.",
+      "range": {
+        "startLine": 196,
+        "startChar": 4,
+        "endLine": 224,
+        "endChar": 17
+      },
+      "revId": "83455ac41418a9df400dc28be1bfe346f62107a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e5716354_2dbccdf4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutChange.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-04-28T11:24:39Z",
+      "side": 1,
+      "message": "Why \u0027mergeCommit\u0027?",
+      "range": {
+        "startLine": 229,
+        "startChar": 20,
+        "endLine": 229,
+        "endChar": 31
+      },
+      "revId": "83455ac41418a9df400dc28be1bfe346f62107a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

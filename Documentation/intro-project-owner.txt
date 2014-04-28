@@ -381,7 +381,8 @@ a Gerrit administrator to create the service user.
 
 If the link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/serviceuser[
 serviceuser] plugin is installed you can also create new service users
-in the Gerrit WebUI under `People` > `Create Service User`.
+in the Gerrit WebUI under `People` > `Create Service User`. For this
+the `Create Service User` global capability must be assigned.
 
 The service user must have link:access-control.html#category_read[read]
 access to your project. In addition, if automatic change verification

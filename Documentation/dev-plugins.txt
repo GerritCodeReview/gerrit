@@ -25,29 +25,7 @@ Most of this documentation refers to either type as a plugin.
 [[getting-started]]
 == Getting started
 
-To get started with the development of a plugin there are two
-recommended ways:
-
-. use the Gerrit Plugin Maven archetype to create a new plugin project:
-+
-With the Gerrit Plugin Maven archetype you can create a skeleton for a
-plugin project.
-+
-----
-mvn archetype:generate -DarchetypeGroupId=com.google.gerrit \
-    -DarchetypeArtifactId=gerrit-plugin-archetype \
-    -DarchetypeVersion=2.10-SNAPSHOT \
-    -DgroupId=com.googlesource.gerrit.plugins.testplugin \
-    -DartifactId=testplugin
-----
-+
-Maven will ask for additional properties and then create the plugin in
-the current directory. To change the default property values answer 'n'
-when Maven asks to confirm the properties configuration. It will then
-ask again for all properties including those with predefined default
-values.
-
-. clone the sample plugin:
+To get started with the development of a plugin clone the sample plugin:
 +
 This is a project that demonstrates the various features of the
 plugin API. It can be taken as an example to develop an own plugin.
@@ -1327,25 +1305,8 @@ public class MyTopMenuExtension implements TopMenu {
 == GWT UI Extension
 Plugins can extend the Gerrit UI with own GWT code.
 
-The Maven archetype 'gerrit-plugin-gwt-archetype' can be used to
-generate a GWT plugin skeleton. How to use the Maven plugin archetypes
-is described in the link:#getting-started[Getting started] section.
-
-The generated GWT plugin has a link:#top-menu-extensions[top menu] that
-opens a GWT dialog box when the user clicks on it.
-
-In addition to the Gerrit-Plugin API a GWT plugin depends on
-`gerrit-plugin-gwtui`. This dependency must be specified in the
-`pom.xml`:
-
-[source,xml]
-----
-<dependency>
-  <groupId>com.google.gerrit</groupId>
-  <artifactId>gerrit-plugin-gwtui</artifactId>
-  <version>${Gerrit-ApiVersion}</version>
-</dependency>
-----
+cookbook example project demonstrates the GWT features of the
+plugin API.
 
 A GWT plugin must contain a GWT module file, e.g. `HelloPlugin.gwt.xml`,
 that bundles together all the configuration settings of the GWT plugin:

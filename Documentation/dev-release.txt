@@ -283,8 +283,7 @@ To read more about the bug fixes:
 
 All new development that is done in the `master` branch will be
 included in the next Gerrit release. Update the Gerrit version in the
-`VERSION` file, and plugin archetypes' `pom.xml` files. Push the change
-for review and get it merged.
+`VERSION` file. Push the change for review and get it merged.
 
 
 [[merge-stable]]

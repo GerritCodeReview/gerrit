@@ -22,6 +22,30 @@
       "revId": "cce9ac9d96e5dc5f5b100f547f7e4f2fade47465",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c57e1f25_2c37f3fa",
+        "filename": "Documentation/intro-project-owner.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 512,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-04-28T08:43:03Z",
+      "side": 1,
+      "message": "I\u0027m trying to avoid \u0027his\u0027 to be gender-neutral... but I changed \u0027of a particular person\u0027 to \u0027by a particular person\u0027.",
+      "parentUuid": "856a6764_2af27f0a",
+      "range": {
+        "startLine": 512,
+        "startChar": 0,
+        "endLine": 512,
+        "endChar": 66
+      },
+      "revId": "cce9ac9d96e5dc5f5b100f547f7e4f2fade47465",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

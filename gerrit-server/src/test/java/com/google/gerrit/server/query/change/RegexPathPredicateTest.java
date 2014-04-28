@@ -82,7 +82,7 @@ public class RegexPathPredicateTest {
     return new RegexPathPredicate(ChangeQueryBuilder.FIELD_PATH, pattern);
   }
 
-  private static ChangeData change(String... files) {
+  private static ChangeData change(String... files) throws OrmException {
     Arrays.sort(files);
     ChangeData cd = ChangeData.createForTest(new Change.Id(1));
     cd.setCurrentFilePaths(Arrays.asList(files));

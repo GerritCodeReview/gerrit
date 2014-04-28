@@ -716,7 +716,7 @@ public class RestApiServlet extends HttpServlet {
         res.setHeader("Content-Length", Long.toString(len));
       }
 
-      if (!"HEAD".equals(req.getMethod())) {
+      if (req == null || !"HEAD".equals(req.getMethod())) {
         OutputStream dst = res.getOutputStream();
         try {
           bin.writeTo(dst);
@@ -920,7 +920,7 @@ public class RestApiServlet extends HttpServlet {
       CacheControl c) throws IOException {
     res.setStatus(statusCode);
     configureCaching(req, res, null, c);
-    replyText(null, res, msg);
+    replyText(req, res, msg);
   }
 
   static void replyText(@Nullable HttpServletRequest req,

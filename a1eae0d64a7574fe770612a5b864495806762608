@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "65e49351_01e1ea37",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-28T19:35:39Z",
+      "side": 1,
+      "message": "This breaks compilation in tests:\n\n /home/davido/projects/gerrit/gerrit-server/src/test/java/com/google/gerrit/server/query/change/RegexPathPredicateTest.java:88:\n error: unreported exception com.google.gwtorm.server.OrmException; must be caught or declared to be thrown\n    cd.setCurrentFilePaths(Arrays.asList(files));",
+      "range": {
+        "startLine": 262,
+        "startChar": 58,
+        "endLine": 262,
+        "endChar": 77
+      },
+      "revId": "a1eae0d64a7574fe770612a5b864495806762608",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

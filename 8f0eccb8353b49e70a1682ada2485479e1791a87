@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "65b2d35d_b1d6805e",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 1123,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-04-28T22:17:43Z",
+      "side": 1,
+      "message": "I have to ask why this isn\u0027t \"PUT /changes/\"",
+      "revId": "8f0eccb8353b49e70a1682ada2485479e1791a87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "051cb71d_160f7c4f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutChange.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-04-28T22:17:43Z",
+      "side": 1,
+      "message": "FWIW this is already enforced in RestApiServlet for any state changing HTTP methods (aka not HEAD, not GET).",
+      "range": {
+        "startLine": 109,
+        "startChar": 4,
+        "endLine": 111,
+        "endChar": 5
+      },
+      "revId": "8f0eccb8353b49e70a1682ada2485479e1791a87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "051cb71d_760cf058",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutChange.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-04-28T22:17:43Z",
+      "side": 1,
+      "message": "You can do this in one line",
+      "range": {
+        "startLine": 120,
+        "startChar": 4,
+        "endLine": 121,
+        "endChar": 45
+      },
+      "revId": "8f0eccb8353b49e70a1682ada2485479e1791a87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65b2d35d_91db7c88",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutChange.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-04-28T22:17:43Z",
+      "side": 1,
+      "message": "authorIdent?",
+      "range": {
+        "startLine": 140,
+        "startChar": 42,
+        "endLine": 140,
+        "endChar": 67
+      },
+      "revId": "8f0eccb8353b49e70a1682ada2485479e1791a87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "051cb71d_5609f446",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutChange.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-04-28T22:17:43Z",
+      "side": 1,
+      "message": "authorIdent?",
+      "range": {
+        "startLine": 141,
+        "startChar": 12,
+        "endLine": 141,
+        "endChar": 19
+      },
+      "revId": "8f0eccb8353b49e70a1682ada2485479e1791a87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

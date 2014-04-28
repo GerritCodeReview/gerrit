@@ -93,6 +93,30 @@
       "revId": "f2b47e22e1240bbb1650a4c6d97b53625a85d99f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "656f3377_29bccdf4",
+        "filename": "Documentation/intro-project-owner.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 651,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-04-28T09:17:55Z",
+      "side": 1,
+      "message": "OK.",
+      "parentUuid": "e5716354_4d6ef9d0",
+      "range": {
+        "startLine": 650,
+        "startChar": 30,
+        "endLine": 651,
+        "endChar": 16
+      },
+      "revId": "f2b47e22e1240bbb1650a4c6d97b53625a85d99f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

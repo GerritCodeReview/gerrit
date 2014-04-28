@@ -149,7 +149,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
           content.getOldName(), //
           content.getNewName());
 
-        return b.toPatchScript(content, comments, history);
+      return b.toPatchScript(content, comments, history);
     } catch (PatchListNotAvailableException e) {
       throw new NoSuchChangeException(changeId, e);
     } catch (IOException e) {

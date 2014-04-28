@@ -79,6 +79,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
   private final AccountDiffPreference diffPrefs;
 
   private final Change.Id changeId;
+  private boolean loadHistory = true;
 
   private Change change;
   private Project.NameKey projectKey;
@@ -111,6 +112,10 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     this.diffPrefs = diffPrefs;
 
     changeId = patchSetB.getParentKey();
+  }
+
+  public void setLoadHistory(boolean load) {
+    loadHistory = load;
   }
 
   @Override
@@ -212,42 +217,44 @@ public class PatchScriptFactory implements Callable<PatchScript> {
 
   private void loadCommentsAndHistory(final ChangeType changeType,
       final String oldName, final String newName) throws OrmException {
-    history = new ArrayList<>();
     comments = new CommentDetail(psa, psb);
 
     final Map<Patch.Key, Patch> byKey = new HashMap<>();
     final AccountInfoCacheFactory aic = aicFactory.create();
 
-    // This seems like a cheap trick. It doesn't properly account for a
-    // file that gets renamed between patch set 1 and patch set 2. We
-    // will wind up packing the wrong Patch object because we didn't do
-    // proper rename detection between the patch sets.
-    //
-    for (final PatchSet ps : db.patchSets().byChange(changeId)) {
-      if (!control.isPatchVisible(ps, db)) {
-        continue;
-      }
-      String name = fileName;
-      if (psa != null) {
-        switch (changeType) {
-          case COPIED:
-          case RENAMED:
-            if (ps.getId().equals(psa)) {
-              name = oldName;
-            }
-            break;
-
-          case MODIFIED:
-          case DELETED:
-          case ADDED:
-          case REWRITE:
-            break;
+    if (loadHistory) {
+      // This seems like a cheap trick. It doesn't properly account for a
+      // file that gets renamed between patch set 1 and patch set 2. We
+      // will wind up packing the wrong Patch object because we didn't do
+      // proper rename detection between the patch sets.
+      //
+      history = new ArrayList<>();
+      for (final PatchSet ps : db.patchSets().byChange(changeId)) {
+        if (!control.isPatchVisible(ps, db)) {
+          continue;
         }
-      }
+        String name = fileName;
+        if (psa != null) {
+          switch (changeType) {
+            case COPIED:
+            case RENAMED:
+              if (ps.getId().equals(psa)) {
+                name = oldName;
+              }
+              break;
 
-      final Patch p = new Patch(new Patch.Key(ps.getId(), name));
-      history.add(p);
-      byKey.put(p.getKey(), p);
+            case MODIFIED:
+            case DELETED:
+            case ADDED:
+            case REWRITE:
+              break;
+          }
+        }
+
+        final Patch p = new Patch(new Patch.Key(ps.getId(), name));
+        history.add(p);
+        byKey.put(p.getKey(), p);
+      }
     }
 
     switch (changeType) {

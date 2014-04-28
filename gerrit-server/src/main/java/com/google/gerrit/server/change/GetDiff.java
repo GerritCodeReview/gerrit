@@ -97,14 +97,14 @@ public class GetDiff implements RestReadView<FileResource> {
     prefs.setIntralineDifference(intraline);
 
     try {
-      PatchScript ps = patchScriptFactoryFactory.create(
+      PatchScriptFactory psf = patchScriptFactoryFactory.create(
           resource.getRevision().getControl(),
           resource.getPatchKey().getFileName(),
           basePatchSet,
           resource.getPatchKey().getParentKey(),
-          prefs)
-            .call();
-
+          prefs);
+      psf.setLoadHistory(false);
+      PatchScript ps = psf.call();
       Content content = new Content(ps);
       for (Edit edit : ps.getEdits()) {
         if (edit.getType() == Edit.Type.EMPTY) {

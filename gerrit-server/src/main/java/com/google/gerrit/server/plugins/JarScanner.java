@@ -299,7 +299,7 @@ public class JarScanner implements PluginContentScanner {
 
   private PluginEntry resourceOf(JarEntry jarEntry) throws IOException {
     return new PluginEntry(jarEntry.getName(), jarEntry.getTime(),
-        jarEntry.getSize(), attributesOf(jarEntry));
+        Optional.of(jarEntry.getSize()), attributesOf(jarEntry));
   }
 
   private Map<Object, String> attributesOf(JarEntry jarEntry)

@@ -2809,7 +2809,7 @@ The `CherryPickInput` entity contains information for cherry-picking a change to
 |===========================
 |Field Name    |Description
 |`message`     |Commit message for the cherry-picked change
-|`destination` |Destination Branch
+|`destination` |Destination branch
 |===========================
 
 [[comment-info]]

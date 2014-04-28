@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c57e1f25_ecac8bc3",
+        "filename": "gerrit-pgm/BUCK",
+        "patchSetId": 33
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-28T14:33:41Z",
+      "side": 1,
+      "message": "This should be removed here. It\u0027s already included on line 28.",
+      "range": {
+        "startLine": 18,
+        "startChar": 4,
+        "endLine": 18,
+        "endChar": 33
+      },
+      "revId": "5afcb76ecd9965708263f88c653fcf8c8c6e2514",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

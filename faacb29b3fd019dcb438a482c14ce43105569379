@@ -16,6 +16,24 @@
       "revId": "faacb29b3fd019dcb438a482c14ce43105569379",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e5716354_8da141ca",
+        "filename": "gerrit-pgm/src/test/java/com/google/gerrit/pgm/init/UpgradeFrom2_0_xTest.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-04-28T11:40:09Z",
+      "side": 1,
+      "message": "itests are fixed in next patch set",
+      "parentUuid": "e5716354_ed024529",
+      "revId": "faacb29b3fd019dcb438a482c14ce43105569379",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

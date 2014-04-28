@@ -247,11 +247,16 @@ public class SideBySide2 extends Screen {
     setLineLength(prefs.lineLength());
     diffTable.refresh();
 
-    if (startLine == 0 && diff.meta_b() != null) {
+    if (startLine == 0) {
       DiffChunkInfo d = chunkManager.getFirst();
       if (d != null) {
-        startSide = d.getSide();
-        startLine = d.getStart() + 1;
+        if (d.isEdit() && d.getSide() == DisplaySide.A) {
+          startSide = DisplaySide.B;
+          startLine = lineOnOther(d.getSide(), d.getStart()).getLine() + 1;
+        } else {
+          startSide = d.getSide();
+          startLine = d.getStart() + 1;
+        }
       }
     }
     if (startSide != null && startLine > 0) {

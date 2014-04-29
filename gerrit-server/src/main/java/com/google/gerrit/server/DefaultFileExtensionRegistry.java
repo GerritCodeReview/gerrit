@@ -16,60 +16,44 @@ package com.google.gerrit.server;
 
 import com.google.common.collect.ImmutableMap;
 
+import eu.medsea.mimeutil.MimeException;
 import eu.medsea.mimeutil.MimeType;
 import eu.medsea.mimeutil.MimeUtil;
 import eu.medsea.mimeutil.detector.MimeDetector;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Map;
+import java.util.Properties;
 
+/** Loads mime types from {@code mime-types.properties} at specificity of 2. */
 public class DefaultFileExtensionRegistry extends MimeDetector {
-  private static final MimeType INI = newMimeType("text/x-ini", 2);
-  private static final MimeType PYTHON = newMimeType("text/x-python", 2);
-  private static final MimeType PERL = newMimeType("text/x-perl", 2);
-  private static final MimeType LISP = newMimeType("text/x-common-lisp", 2);
-
-  private static final ImmutableMap<String, MimeType> TYPES =
-    ImmutableMap.<String,MimeType>builder()
-      .put(".gitmodules", INI)
-      .put("project.config", INI)
-      .put("BUCK", PYTHON)
-      .put("bucklet", newMimeType(PYTHON.toString(), 1))
-      .put("defs", newMimeType(PYTHON.toString(), 1))
-      .put("py", newMimeType(PYTHON.toString(), 1))
-      .put("go", newMimeType("text/x-go", 1))
-      .put("cxx", newMimeType("text/x-c++src", 1))
-      .put("hxx", newMimeType("text/x-c++hdr", 1))
-      .put("scala", newMimeType("text/x-scala", 1))
-      .put("pl", PERL)
-      .put("pm", PERL)
-      .put("rb", newMimeType("text/x-ruby", 2))
-      .put("cl", LISP)
-      .put("el", LISP)
-      .put("lisp", LISP)
-      .put("lsp", LISP)
-      .put("clj", newMimeType("text/x-clojure", 2))
-      .put("groovy", newMimeType("text/x-groovy", 2))
-      .build();
-
-  private static MimeType newMimeType(String type, final int specificity) {
-    return new MimeType(type) {
-      private static final long serialVersionUID = 1L;
-
-      @Override
-      public int getSpecificity() {
-        return specificity;
-      }
-    };
-  }
+  private static final Logger log = LoggerFactory.getLogger(DefaultFileExtensionRegistry.class);
+  private static final ImmutableMap<String, MimeType> TYPES;
 
   static {
-    for (MimeType type : TYPES.values()) {
+    Properties prop = new Properties();
+    try (InputStream in = DefaultFileExtensionRegistry.class
+        .getResourceAsStream("mime-types.properties")) {
+      prop.load(in);
+    } catch (IOException e) {
+      log.warn("Cannot load mime-types.properties", e);
+    }
+
+    ImmutableMap.Builder<String, MimeType> b = ImmutableMap.builder();
+    for (Map.Entry<Object, Object> e : prop.entrySet()) {
+      MimeType type = new FileExtensionMimeType((String) e.getValue());
+      b.put((String) e.getKey(), type);
       MimeUtil.addKnownMimeType(type);
     }
+    TYPES = b.build();
   }
 
   @Override
@@ -118,5 +102,18 @@ public class DefaultFileExtensionRegistry extends MimeDetector {
   @Override
   protected Collection<MimeType> getMimeTypesByteArray(byte[] arg0) {
     return Collections.emptyList();
+  }
+
+  private static final class FileExtensionMimeType extends MimeType {
+    private static final long serialVersionUID = 1L;
+
+    FileExtensionMimeType(String mimeType) throws MimeException {
+      super(mimeType);
+    }
+
+    @Override
+    public int getSpecificity() {
+      return 2;
+    }
   }
 }

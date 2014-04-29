@@ -22,6 +22,30 @@
       "revId": "0c8df7aa28a7b296eaa5155d05cbfba529830197",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "258a9b9d_ff58ff33",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-29T13:24:16Z",
+      "side": 1,
+      "message": "It doesn\u0027t have SNAPSHOT in the artifact name. That why it was stripped in the if statement.\n\nIs gwtjsonrpc also wrong? No idea.",
+      "parentUuid": "c598dff7_9cd6255f",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 56
+      },
+      "revId": "0c8df7aa28a7b296eaa5155d05cbfba529830197",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

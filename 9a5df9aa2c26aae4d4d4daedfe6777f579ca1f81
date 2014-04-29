@@ -1,0 +1,257 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "258a9b9d_ff4abf67",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RevisionEditModifier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-29T08:24:53Z",
+      "side": 1,
+      "message": "2014",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "9a5df9aa2c26aae4d4d4daedfe6777f579ca1f81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "058f57ae_1e404d45",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RevisionEditModifier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-29T08:24:53Z",
+      "side": 1,
+      "message": "not thrown?",
+      "range": {
+        "startLine": 101,
+        "startChar": 57,
+        "endLine": 101,
+        "endChar": 78
+      },
+      "revId": "9a5df9aa2c26aae4d4d4daedfe6777f579ca1f81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "058f57ae_3e16e963",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RevisionEditModifier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-29T08:24:53Z",
+      "side": 1,
+      "message": "This should be just \u0027Authentication required\u0027 to make the message consistent with other REST endpoints.",
+      "range": {
+        "startLine": 105,
+        "startChar": 30,
+        "endLine": 105,
+        "endChar": 75
+      },
+      "revId": "9a5df9aa2c26aae4d4d4daedfe6777f579ca1f81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "058f57ae_5e23b5c4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RevisionEditModifier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-29T08:24:53Z",
+      "side": 1,
+      "message": "Why to wrap it in NoSuchChangeException?",
+      "range": {
+        "startLine": 108,
+        "startChar": 4,
+        "endLine": 113,
+        "endChar": 5
+      },
+      "revId": "9a5df9aa2c26aae4d4d4daedfe6777f579ca1f81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "058f57ae_fe4ac167",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RevisionEditModifier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-29T08:24:53Z",
+      "side": 1,
+      "message": "static?",
+      "range": {
+        "startLine": 192,
+        "startChar": 2,
+        "endLine": 192,
+        "endChar": 9
+      },
+      "revId": "9a5df9aa2c26aae4d4d4daedfe6777f579ca1f81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "258a9b9d_df45fb58",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RevisionEditModifier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-29T08:24:53Z",
+      "side": 1,
+      "message": "static?",
+      "range": {
+        "startLine": 209,
+        "startChar": 2,
+        "endLine": 209,
+        "endChar": 9
+      },
+      "revId": "9a5df9aa2c26aae4d4d4daedfe6777f579ca1f81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "058f57ae_9e4b7d6f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RevisionEditModifier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-29T08:24:53Z",
+      "side": 1,
+      "message": "ins, like in previous method",
+      "range": {
+        "startLine": 210,
+        "startChar": 21,
+        "endLine": 210,
+        "endChar": 22
+      },
+      "revId": "9a5df9aa2c26aae4d4d4daedfe6777f579ca1f81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "058f57ae_be50391c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RevisionEditModifier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-29T08:24:53Z",
+      "side": 1,
+      "message": "content",
+      "range": {
+        "startLine": 210,
+        "startChar": 31,
+        "endLine": 210,
+        "endChar": 32
+      },
+      "revId": "9a5df9aa2c26aae4d4d4daedfe6777f579ca1f81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "258a9b9d_bf50371c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RevisionEditModifier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-29T08:24:53Z",
+      "side": 1,
+      "message": "static?",
+      "range": {
+        "startLine": 224,
+        "startChar": 2,
+        "endLine": 224,
+        "endChar": 9
+      },
+      "revId": "9a5df9aa2c26aae4d4d4daedfe6777f579ca1f81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "058f57ae_de450559",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RevisionEditModifier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-29T08:24:53Z",
+      "side": 1,
+      "message": "path",
+      "range": {
+        "startLine": 225,
+        "startChar": 29,
+        "endLine": 225,
+        "endChar": 30
+      },
+      "revId": "9a5df9aa2c26aae4d4d4daedfe6777f579ca1f81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "258a9b9d_9f4b736f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RevisionEditModifier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-29T08:24:53Z",
+      "side": 1,
+      "message": "space",
+      "range": {
+        "startLine": 231,
+        "startChar": 9,
+        "endLine": 231,
+        "endChar": 10
+      },
+      "revId": "9a5df9aa2c26aae4d4d4daedfe6777f579ca1f81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

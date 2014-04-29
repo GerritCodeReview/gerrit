@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "058f57ae_bedbd987",
+        "filename": "contrib/reposize.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-04-29T05:50:45Z",
+      "side": 1,
+      "message": "why we use  \u0027-k3\u0027 here, why not \u0027-k4\u0027",
+      "revId": "2d1c219aa3c28b8288f2f2b9506387939f631a01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

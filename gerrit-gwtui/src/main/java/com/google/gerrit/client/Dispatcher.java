@@ -21,6 +21,7 @@ import static com.google.gerrit.common.PageLinks.ADMIN_PLUGINS;
 import static com.google.gerrit.common.PageLinks.ADMIN_PROJECTS;
 import static com.google.gerrit.common.PageLinks.DASHBOARDS;
 import static com.google.gerrit.common.PageLinks.MINE;
+import static com.google.gerrit.common.PageLinks.MY_GROUPS;
 import static com.google.gerrit.common.PageLinks.PROJECTS;
 import static com.google.gerrit.common.PageLinks.QUERY;
 import static com.google.gerrit.common.PageLinks.REGISTER;
@@ -55,6 +56,7 @@ import com.google.gerrit.client.admin.AccountGroupScreen;
 import com.google.gerrit.client.admin.CreateGroupScreen;
 import com.google.gerrit.client.admin.CreateProjectScreen;
 import com.google.gerrit.client.admin.GroupListScreen;
+import com.google.gerrit.client.admin.MyGroupsListScreen;
 import com.google.gerrit.client.admin.PluginListScreen;
 import com.google.gerrit.client.admin.ProjectAccessScreen;
 import com.google.gerrit.client.admin.ProjectBranchesScreen;
@@ -257,6 +259,9 @@ public class Dispatcher {
 
     } else if (matchPrefix("/admin/", token)) {
       admin(token);
+
+    } else if (matchExact(MY_GROUPS, token)) {
+      Gerrit.display(token, new MyGroupsListScreen());
 
     } else if (/* DEPRECATED URL */matchPrefix("/c2/", token)) {
       changeScreen2 = true;

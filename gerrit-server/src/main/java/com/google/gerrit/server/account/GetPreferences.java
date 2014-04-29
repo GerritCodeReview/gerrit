@@ -156,6 +156,7 @@ public class GetPreferences implements RestReadView<AccountResource> {
         my.add(new TopMenu.MenuItem("Draft Comments", "#/q/has:draft", null));
         my.add(new TopMenu.MenuItem("Watched Changes", "#/q/is:watched+is:open", null));
         my.add(new TopMenu.MenuItem("Starred Changes", "#/q/is:starred", null));
+        my.add(new TopMenu.MenuItem("Groups", "#/groups/self", null));
       }
       return my;
     }

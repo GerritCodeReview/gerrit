@@ -155,7 +155,6 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   private volatile IoAcceptor acceptor;
   private final Config cfg;
 
-  @SuppressWarnings("unchecked")
   @Inject
   SshDaemon(final CommandFactory commandFactory, final NoShell noShell,
       final PublickeyAuthenticator userAuth,

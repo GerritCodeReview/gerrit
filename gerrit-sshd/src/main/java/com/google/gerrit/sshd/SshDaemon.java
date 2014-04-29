@@ -147,7 +147,6 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   private final List<HostKey> hostKeys;
   private volatile IoAcceptor acceptor;
 
-  @SuppressWarnings("unchecked")
   @Inject
   SshDaemon(final CommandFactory commandFactory, final NoShell noShell,
       final PublickeyAuthenticator userAuth,

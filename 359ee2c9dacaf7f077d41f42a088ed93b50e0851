@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c598dff7_dce0ad36",
+        "filename": "lib/asciidoctor/java/DocIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-04-29T12:13:07Z",
+      "side": 1,
+      "message": "Wouldn\u0027t it be better to put a check for the file being empty, earlier in this block, and then skip indexing it?",
+      "revId": "359ee2c9dacaf7f077d41f42a088ed93b50e0851",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

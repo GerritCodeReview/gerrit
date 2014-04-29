@@ -114,9 +114,13 @@ public class DocIndexer {
         title = titleReader.readLine();
       }
       titleReader.close();
-      Matcher matcher = SECTION_HEADER.matcher(title);
-      if (matcher.matches()) {
-        title = matcher.group(1);
+      if (title != null) {
+        Matcher matcher = SECTION_HEADER.matcher(title);
+        if (matcher.matches()) {
+          title = matcher.group(1);
+        }
+      } else {
+        title = "";
       }
 
       String outputFile = AsciiDoctor.mapInFileToOutFile(

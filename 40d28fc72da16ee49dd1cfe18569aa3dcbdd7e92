@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "258a9b9d_5f680bc1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RevisionEditReader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-29T19:16:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "058f57ae_5e0c9558",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 31
+      },
+      "revId": "40d28fc72da16ee49dd1cfe18569aa3dcbdd7e92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "258a9b9d_3f0fc74f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RevisionEditReader.java",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2014-04-29T08:09:28Z",
       "side": 1,
       "message": "Never thrown?",
+      "range": {
+        "startLine": 51,
+        "startChar": 28,
+        "endLine": 51,
+        "endChar": 59
+      },
+      "revId": "40d28fc72da16ee49dd1cfe18569aa3dcbdd7e92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "058f57ae_9ea7fddd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RevisionEditReader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-29T19:16:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "258a9b9d_3f0fc74f",
       "range": {
         "startLine": 51,
         "startChar": 28,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "058f57ae_dea185c9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RevisionEditReader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-29T19:16:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "058f57ae_1e120d79",
+      "range": {
+        "startLine": 54,
+        "startChar": 30,
+        "endLine": 54,
+        "endChar": 75
+      },
+      "revId": "40d28fc72da16ee49dd1cfe18569aa3dcbdd7e92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "058f57ae_fefc81db",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RevisionEditReader.java",
         "patchSetId": 2
@@ -82,6 +154,30 @@
       "writtenOn": "2014-04-29T08:09:28Z",
       "side": 1,
       "message": "final is not needed here.",
+      "range": {
+        "startLine": 57,
+        "startChar": 4,
+        "endLine": 57,
+        "endChar": 9
+      },
+      "revId": "40d28fc72da16ee49dd1cfe18569aa3dcbdd7e92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "258a9b9d_7f65cfe5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RevisionEditReader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-29T19:16:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "058f57ae_fefc81db",
       "range": {
         "startLine": 57,
         "startChar": 4,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "258a9b9d_9fc0d363",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RevisionEditReader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-29T19:16:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "258a9b9d_1f120379",
+      "range": {
+        "startLine": 58,
+        "startChar": 4,
+        "endLine": 62,
+        "endChar": 5
+      },
+      "revId": "40d28fc72da16ee49dd1cfe18569aa3dcbdd7e92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "258a9b9d_5f0c8b58",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RevisionEditReader.java",
         "patchSetId": 2
@@ -128,6 +248,30 @@
       "writtenOn": "2014-04-29T08:09:28Z",
       "side": 1,
       "message": "Provide a convenient method in RevisionEdit, a lá getRefs():\n\n  public static Map\u003cString, Ref\u003e RevisionEdit.getRefsFor(\n    IdentifiedUser u, Change.Id i);",
+      "range": {
+        "startLine": 67,
+        "startChar": 10,
+        "endLine": 68,
+        "endChar": 77
+      },
+      "revId": "40d28fc72da16ee49dd1cfe18569aa3dcbdd7e92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "058f57ae_beacb9c2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RevisionEditReader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-29T19:16:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "258a9b9d_5f0c8b58",
       "range": {
         "startLine": 67,
         "startChar": 10,

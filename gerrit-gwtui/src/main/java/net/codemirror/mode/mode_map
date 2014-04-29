@@ -11,6 +11,9 @@ text/x-scala
 clojure:
 text/x-clojure
 
+coffeescript:
+text/x-coffeescript
+
 commonlisp:
 text/x-common-lisp
 
@@ -18,11 +21,32 @@ css:
 text/css
 text/x-scss
 
+d:
+text/x-d
+
+diff:
+text/x-diff
+
+dtd:
+application/xml-dtd
+
+erlang:
+text/x-erlang
+
+gas:
+text/x-gas
+
+gfm:
+text/x-github-markdown
+
 go:
 text/x-go
 
 groovy:
 text/x-groovy
+
+haskell:
+text/x-haskell
 
 htmlmixed:
 text/html
@@ -37,6 +61,12 @@ application/x-json
 text/typescript
 application/typescript
 
+lua:
+text/x-lua
+
+markdown:
+text/x-markdown
+
 perl:
 text/x-perl
 
@@ -47,15 +77,32 @@ text/x-properties
 perl:
 text/x-perl
 
+php:
+application/x-httpd-php
+application/x-httpd-php-open
+text/x-php
+
+pig:
+text/x-pig
+
 python:
 text/x-python
+
+r:
+text/r-src
 
 ruby:
 text/x-ruby
 
+scheme:
+text/x-scheme
+
 shell:
 text/x-sh
 application/x-shellscript
+
+smalltalk:
+text/x-stsrc
 
 sql:
 text/x-sql
@@ -63,14 +110,25 @@ text/x-mariadb
 text/x-mysql
 text/x-plsql
 
+tcl:
+text/x-tcl
+
 velocity:
 text/velocity
+
+verilog:
+text/x-verilog
 
 xml:
 text/xml
 application/xml
 
+yaml:
+text/x-yaml
+
 application/x-javascript = application/javascript
 application/x-shellscript = text/x-sh
+application/x-tcl = text/x-tcl
 text/x-h = text/x-c++hdr
 text/x-java-source = text/x-java
+text/x-scripttcl = text/x-tcl

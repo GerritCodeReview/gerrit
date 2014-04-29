@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "058f57ae_1eebed18",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/mode/mode_map",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-29T06:47:09Z",
+      "side": 1,
+      "message": "Shouln\u0027t DefaultFileExtensionRegistry.ava be extended for this and othe new languages, e. g.:\n\n  private static final MimeType MD \u003d newMimeType(\"text/x-markdown\", 2);\n  private static final ImmutableMap\u003cString, MimeType\u003e TYPES \u003d\n    ImmutableMap.\u003cString,MimeType\u003ebuilder()\n      .put(\"md\", MD)",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 68,
+        "endChar": 15
+      },
+      "revId": "8ae999c700ad7d7210d5b3775a0d0a2f8fe02c5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

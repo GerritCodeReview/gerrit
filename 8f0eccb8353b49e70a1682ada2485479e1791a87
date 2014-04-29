@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "058f57ae_9ed61d5f",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 1123,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-29T06:07:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65b2d35d_b1d6805e",
+      "revId": "8f0eccb8353b49e70a1682ada2485479e1791a87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "051cb71d_160f7c4f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutChange.java",
         "patchSetId": 6
@@ -30,6 +48,30 @@
       "writtenOn": "2014-04-28T22:17:43Z",
       "side": 1,
       "message": "FWIW this is already enforced in RestApiServlet for any state changing HTTP methods (aka not HEAD, not GET).",
+      "range": {
+        "startLine": 109,
+        "startChar": 4,
+        "endLine": 111,
+        "endChar": 5
+      },
+      "revId": "8f0eccb8353b49e70a1682ada2485479e1791a87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "058f57ae_fee56143",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutChange.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-29T06:07:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "051cb71d_160f7c4f",
       "range": {
         "startLine": 109,
         "startChar": 4,
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "258a9b9d_bfdbd787",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutChange.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-29T06:07:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "051cb71d_760cf058",
+      "range": {
+        "startLine": 120,
+        "startChar": 4,
+        "endLine": 121,
+        "endChar": 45
+      },
+      "revId": "8f0eccb8353b49e70a1682ada2485479e1791a87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "65b2d35d_91db7c88",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutChange.java",
         "patchSetId": 6
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "258a9b9d_dfe09b36",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutChange.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-29T06:07:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65b2d35d_91db7c88",
+      "range": {
+        "startLine": 140,
+        "startChar": 42,
+        "endLine": 140,
+        "endChar": 67
+      },
+      "revId": "8f0eccb8353b49e70a1682ada2485479e1791a87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "051cb71d_5609f446",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutChange.java",
         "patchSetId": 6
@@ -99,6 +189,30 @@
       "writtenOn": "2014-04-28T22:17:43Z",
       "side": 1,
       "message": "authorIdent?",
+      "range": {
+        "startLine": 141,
+        "startChar": 12,
+        "endLine": 141,
+        "endChar": 19
+      },
+      "revId": "8f0eccb8353b49e70a1682ada2485479e1791a87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "258a9b9d_ffe55f43",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutChange.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-29T06:07:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "051cb71d_5609f446",
       "range": {
         "startLine": 141,
         "startChar": 12,

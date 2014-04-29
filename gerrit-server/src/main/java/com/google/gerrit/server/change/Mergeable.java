@@ -46,12 +46,15 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.kohsuke.args4j.Option;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -61,7 +64,12 @@ public class Mergeable implements RestReadView<RevisionResource> {
   public static class MergeableInfo {
     public SubmitType submitType;
     public boolean mergeable;
+    public List<String> mergeableInto;
   }
+
+  @Option(name = "--other-branches", aliases = {"-o"},
+      usage = "test mergeability for other branches too")
+  private boolean otherBranches;
 
   private final TestSubmitType.Get submitType;
   private final GitRepositoryManager gitManager;
@@ -113,6 +121,18 @@ public class Mergeable implements RestReadView<RevisionResource> {
         result.mergeable =
             refresh(change, ps, result.submitType, git, refs, ref);
       }
+
+      if (otherBranches) {
+        result.mergeableInto = new ArrayList<>();
+        for (Ref r : refs.values()) {
+          if (r.getName().startsWith(Constants.R_HEADS)
+              && !r.getName().equals(ref.getName())) {
+            if (isMergeable(change, ps, SubmitType.CHERRY_PICK, git, refs, r)) {
+              result.mergeableInto.add(r.getName());
+            }
+          }
+        }
+      }
     } finally {
       git.close();
     }
@@ -131,6 +151,36 @@ public class Mergeable implements RestReadView<RevisionResource> {
   }
 
   private boolean refresh(Change change,
+      final PatchSet ps,
+      SubmitType type,
+      Repository git,
+      Map<String, Ref> refs,
+      final Ref ref) throws IOException, OrmException {
+
+    final boolean mergeable = isMergeable(change, ps, type, git, refs, ref);
+
+    Change c = db.get().changes().atomicUpdate(
+        change.getId(),
+        new AtomicUpdate<Change>() {
+          @Override
+          public Change update(Change c) {
+            if (c.getStatus().isOpen()
+                && ps.getId().equals(c.currentPatchSetId())) {
+              c.setMergeable(mergeable);
+              c.setLastSha1MergeTested(toRevId(ref));
+              return c;
+            } else {
+              return null;
+            }
+          }
+        });
+    if (c != null) {
+      indexer.index(db.get(), c);
+    }
+    return mergeable;
+  }
+
+  private boolean isMergeable(Change change,
       final PatchSet ps,
       SubmitType type,
       Repository git,
@@ -175,25 +225,6 @@ public class Mergeable implements RestReadView<RevisionResource> {
             canMerge,
             accepted,
             change.getDest()).dryRun(tip, rev);
-      }
-
-      Change c = db.get().changes().atomicUpdate(
-        change.getId(),
-        new AtomicUpdate<Change>() {
-          @Override
-          public Change update(Change c) {
-            if (c.getStatus().isOpen()
-                && ps.getId().equals(c.currentPatchSetId())) {
-              c.setMergeable(mergeable);
-              c.setLastSha1MergeTested(toRevId(ref));
-              return c;
-            } else {
-              return null;
-            }
-          }
-        });
-      if (c != null) {
-        indexer.index(db.get(), c);
       }
       return mergeable;
     } catch (MergeException | IOException | NoSuchProjectException e) {

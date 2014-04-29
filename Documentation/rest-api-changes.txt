@@ -1793,6 +1793,34 @@ As response a link:#mergeable-info[MergeableInfo] entity is returned.
   }
 ----
 
+If the `other-branches` parameter is specified, the mergeability will also be
+checked for all other branches.
+
+.Request
+----
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/current/mergeable?other-branches HTTP/1.0
+----
+
+The response will then contain a list of all other branches where this changes
+could merge cleanly.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    submit_type: "MERGE_IF_NECESSARY",
+    mergeable: true,
+    mergeable_into: [
+        "refs/heads/stable-2.7",
+        "refs/heads/stable-2.8",
+    ]
+  }
+----
+
 [[get-submit-type]]
 === Get Submit Type
 --

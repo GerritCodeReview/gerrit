@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "058f57ae_be7759ae",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreProvider.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-29T09:23:14Z",
+      "side": 1,
+      "message": "I think we should put a Logger in this class and report in this method (with debug or info level) which secure store implementation was picked up.",
+      "range": {
+        "startLine": 86,
+        "startChar": 2,
+        "endLine": 86,
+        "endChar": 39
+      },
+      "revId": "624d112f15d61f4eb63c0be1e0249baf493024ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "058f57ae_9e729dbf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreProvider.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-29T09:23:14Z",
+      "side": 1,
+      "message": "This condition is never true and can be removed? You are checking for existence of this plugin key on line 121?",
+      "range": {
+        "startLine": 125,
+        "startChar": 4,
+        "endLine": 125,
+        "endChar": 25
+      },
+      "revId": "624d112f15d61f4eb63c0be1e0249baf493024ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "258a9b9d_3f3d07dc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreProvider.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-29T09:23:14Z",
+      "side": 1,
+      "message": "I think this change predated Java 7 usage in Gerrit project, but now you could use Java 7 exceptions chaining feature.",
+      "range": {
+        "startLine": 129,
+        "startChar": 4,
+        "endLine": 137,
+        "endChar": 5
+      },
+      "revId": "624d112f15d61f4eb63c0be1e0249baf493024ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "258a9b9d_5f3acbe4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreProvider.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-29T09:23:14Z",
+      "side": 1,
+      "message": "Put this inline?",
+      "range": {
+        "startLine": 141,
+        "startChar": 2,
+        "endLine": 145,
+        "endChar": 3
+      },
+      "revId": "624d112f15d61f4eb63c0be1e0249baf493024ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "258a9b9d_7f378ff9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreProvider.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-29T09:23:14Z",
+      "side": 1,
+      "message": "Put this inline?",
+      "range": {
+        "startLine": 147,
+        "startChar": 2,
+        "endLine": 150,
+        "endChar": 3
+      },
+      "revId": "624d112f15d61f4eb63c0be1e0249baf493024ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "258a9b9d_9f7293bf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreProvider.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-29T09:23:14Z",
+      "side": 1,
+      "message": "Could you put a comment why this wrapper is actually needed?",
+      "range": {
+        "startLine": 152,
+        "startChar": 2,
+        "endLine": 152,
+        "endChar": 66
+      },
+      "revId": "624d112f15d61f4eb63c0be1e0249baf493024ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "258a9b9d_dff7bbf4",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 1123,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-29T07:46:50Z",
+      "side": 1,
+      "message": "I think you are wrong. Compare to create branch:\n\n  PUT /projects/link:#project-name[\\{project-name\\}]/branches/stable\n\nWhy should put change be handled completely differently? What you are saying, would effectively mean to create an new top level REST API endpoint.",
+      "parentUuid": "058f57ae_9efd3ddb",
+      "revId": "8f0eccb8353b49e70a1682ada2485479e1791a87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "051cb71d_160f7c4f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutChange.java",
         "patchSetId": 6

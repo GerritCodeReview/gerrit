@@ -70,6 +70,30 @@
       "revId": "0c8df7aa28a7b296eaa5155d05cbfba529830197",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "058f57ae_fe44812c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-29T20:28:50Z",
+      "side": 1,
+      "message": "Just checked: Yes, gwtjsonrpc is broken too:\n\n  \u003cContents\u003e\n \u003cKey\u003e\n gwtjsonrpc/gwtjsonrpc/1.4-SNAPSHOT/gwtjsonrpc-1.4- 20131206.020141-1.jar\n \u003c/Key\u003e\n \u003cGeneration\u003e1386295309803000\u003c/Generation\u003e\n \u003cMetaGeneration\u003e1\u003c/MetaGeneration\u003e\n \u003cLastModified\u003e2013-12-06T02:01:49.631Z\u003c/LastModified\u003e\n \u003cETag\u003e\"96596c51cd1aa5960b58a75ae3da5860\"\u003c/ETag\u003e\n \u003cSize\u003e125320\u003c/Size\u003e\n \u003cOwner\u003e\n \u003cID\u003e\n 00b4903a97117e22408010f1e926433dac708f2f94cd73a0bde2adbb65b423f0\n \u003c/ID\u003e\n \u003cDisplayName\u003eDavid Pursehouse\u003c/DisplayName\u003e\n \u003c/Owner\u003e\n  \u003c/Contents\u003e",
+      "parentUuid": "c598dff7_9cd6255f",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 56
+      },
+      "revId": "0c8df7aa28a7b296eaa5155d05cbfba529830197",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

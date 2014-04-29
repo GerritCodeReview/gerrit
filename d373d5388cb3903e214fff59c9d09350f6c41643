@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "258a9b9d_3fe8a719",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-04-29T07:08:55Z",
+      "side": 1,
+      "message": "With [1] the tests are now running successfully.\n\n[1] https://gerrit-review.googlesource.com/56590",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 65
+      },
+      "revId": "d373d5388cb3903e214fff59c9d09350f6c41643",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

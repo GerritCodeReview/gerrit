@@ -16,6 +16,24 @@
       "revId": "359ee2c9dacaf7f077d41f42a088ed93b50e0851",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "258a9b9d_bf5e771e",
+        "filename": "lib/asciidoctor/java/DocIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-04-29T12:42:19Z",
+      "side": 1,
+      "message": "Yes, this sounds like a better idea.\n\nDone.",
+      "parentUuid": "c598dff7_dce0ad36",
+      "revId": "359ee2c9dacaf7f077d41f42a088ed93b50e0851",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

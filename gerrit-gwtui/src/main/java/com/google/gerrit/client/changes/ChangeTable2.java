@@ -224,8 +224,7 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
       table.setText(row, C_OWNER, "");
     }
 
-    table.setWidget(
-        row, C_PROJECT, new ProjectLink(c.project_name_key(), c.status()));
+    table.setWidget(row, C_PROJECT, new ProjectLink(c.project_name_key()));
     table.setWidget(row, C_BRANCH, new BranchLink(c.project_name_key(), c
         .status(), c.branch(), c.topic()));
     if (Gerrit.isSignedIn()

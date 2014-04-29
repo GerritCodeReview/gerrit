@@ -20,7 +20,6 @@ import com.google.gerrit.client.ui.FancyFlexTable;
 import com.google.gerrit.client.ui.ProjectLink;
 import com.google.gerrit.common.data.AccountProjectWatchInfo;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch;
-import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.CheckBox;
@@ -126,7 +125,7 @@ public class MyWatchesTable extends FancyFlexTable<AccountProjectWatchInfo> {
 
   protected void populate(final int row, final AccountProjectWatchInfo info) {
     final FlowPanel fp = new FlowPanel();
-    fp.add(new ProjectLink(info.getProject().getNameKey(), Status.NEW));
+    fp.add(new ProjectLink(info.getProject().getNameKey()));
     if (info.getWatch().getFilter() != null) {
       Label filter = new Label(info.getWatch().getFilter());
       filter.setStyleName(Gerrit.RESOURCES.css().watchedProjectFilter());

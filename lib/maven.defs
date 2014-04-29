@@ -48,7 +48,7 @@ def maven_jar(
     raise NameError('expected id="groupId:artifactId:version"')
   group, artifact, version = parts
 
-  if 'SNAPSHOT' in version:
+  if 'SNAPSHOT' in version and repository.startswith(GERRIT):
     file_version = version.replace('-SNAPSHOT', '')
     version = version.split('-SNAPSHOT')[0] + '-SNAPSHOT'
   else:

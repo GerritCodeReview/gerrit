@@ -46,6 +46,30 @@
       "revId": "0c8df7aa28a7b296eaa5155d05cbfba529830197",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "258a9b9d_1f6e83cf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-29T16:49:45Z",
+      "side": 1,
+      "message": "Here we go: Under http://gerrit-maven.storage.googleapis.com/\n\n \u003cContents\u003e\n  \u003cKey\u003e\n  gwtorm/gwtorm/1.10-SNAPSHOT/gwtorm-1.10-20140310.015132-1.jar\n  \u003c/Key\u003e\n  \u003cGeneration\u003e1394416299103000\u003c/Generation\u003e\n  MetaGeneration\u003e1\u003c/MetaGeneration\u003e\n  \u003cLastModified\u003e2014-03-10T01:51:39.097Z\u003c/LastModified\u003e\n  \u003cETag\u003e\"83745965c49c47d320a484ecd7440c23\"\u003c/ETag\u003e\n  \u003cSize\u003e252008\u003c/Size\u003e\n  \u003cOwner\u003e\n  \u003cID\u003e\n  00b4903a97117e22408010f1e926433dac708f2f94cd73a0bde2adbb65b423f0\n  \u003c/ID\u003e\n  \u003cDisplayName\u003eDavid Pursehouse\u003c/DisplayName\u003e\n  \u003c/Owner\u003e\n \u003c/Contents\u003e\n\nThe artifact: \"gwtorm\", the version is: \"1.10-SNAPSHOT\". The JAR must be named: \u003cartifact-name\u003e-\u003cversion.jar\u003e: gwtorm-1.10-SNAPSHOT.jar\n\nLike it is the case for the version without SNAPSHOT:\n\n \u003cContents\u003e\n  \u003cKey\u003egwtorm/gwtorm/1.10/gwtorm-1.10.jar\u003c/Key\u003e\n  \u003cGeneration\u003e1395685357863000\u003c/Generation\u003e\n  [...]",
+      "parentUuid": "c598dff7_9cd6255f",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 56
+      },
+      "revId": "0c8df7aa28a7b296eaa5155d05cbfba529830197",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

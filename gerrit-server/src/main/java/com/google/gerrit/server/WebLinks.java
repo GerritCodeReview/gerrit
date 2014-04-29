@@ -11,30 +11,43 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
 package com.google.gerrit.server;
 
 import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.webui.PatchSetWebLink;
+import com.google.gerrit.extensions.webui.ProjectWebLink;
 import com.google.inject.Inject;
 
 import java.util.List;
 
 public class WebLinks {
 
-  private DynamicSet<PatchSetWebLink> patchSetLinks;
+  private final DynamicSet<PatchSetWebLink> patchSetLinks;
+  private final DynamicSet<ProjectWebLink> projectLinks;
 
   @Inject
-  public WebLinks(final DynamicSet<PatchSetWebLink> patchSetLinks) {
+  public WebLinks(DynamicSet<PatchSetWebLink> patchSetLinks,
+      DynamicSet<ProjectWebLink> projectLinks) {
     this.patchSetLinks = patchSetLinks;
+    this.projectLinks = projectLinks;
   }
 
-  public Iterable<Link> getPatchSetLinks(final String project,
-      final String commit) {
+  public Iterable<Link> getPatchSetLinks(String project, String commit) {
     List<Link> links = Lists.newArrayList();
     for (PatchSetWebLink webLink : patchSetLinks) {
       links.add(new Link(webLink.getLinkName(),
           webLink.getPatchSetUrl(project, commit)));
+    }
+    return links;
+  }
+
+  public Iterable<Link> getProjectLinks(String project) {
+    List<Link> links = Lists.newArrayList();
+    for (ProjectWebLink webLink : projectLinks) {
+      links.add(new Link(webLink.getLinkName(),
+          webLink.getProjectUrl(project)));
     }
     return links;
   }

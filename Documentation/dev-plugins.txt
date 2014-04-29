@@ -1740,6 +1740,9 @@ public class MyWeblinkPlugin implements PatchSetWebLink {
 }
 ----
 
+ProjectWebLinks will appear in the project list in the
+`Repository Browser` column.
+
 [[documentation]]
 == Documentation
 

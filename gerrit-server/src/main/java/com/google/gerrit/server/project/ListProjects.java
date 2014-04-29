@@ -22,6 +22,7 @@ import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.common.ProjectInfo;
+import com.google.gerrit.extensions.common.WebLinkInfo;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
@@ -32,12 +33,14 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.StringUtil;
+import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.util.TreeFormatter;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Constants;
@@ -106,6 +109,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
   private final GroupControl.Factory groupControlFactory;
   private final GitRepositoryManager repoManager;
   private final ProjectNode.Factory projectNodeFactory;
+  private final Provider<WebLinks> webLinks;
 
   @Deprecated
   @Option(name = "--format", usage = "(deprecated) output format")
@@ -179,13 +183,15 @@ public class ListProjects implements RestReadView<TopLevelResource> {
   @Inject
   protected ListProjects(CurrentUser currentUser, ProjectCache projectCache,
       GroupCache groupCache, GroupControl.Factory groupControlFactory,
-      GitRepositoryManager repoManager, ProjectNode.Factory projectNodeFactory) {
+      GitRepositoryManager repoManager, ProjectNode.Factory projectNodeFactory,
+      Provider<WebLinks> webLinks) {
     this.currentUser = currentUser;
     this.projectCache = projectCache;
     this.groupCache = groupCache;
     this.groupControlFactory = groupControlFactory;
     this.repoManager = repoManager;
     this.projectNodeFactory = projectNodeFactory;
+    this.webLinks = webLinks;
   }
 
   public List<String> getShowBranch() {
@@ -366,6 +372,13 @@ public class ListProjects implements RestReadView<TopLevelResource> {
           } catch (IOException err) {
             log.warn("Unexpected error reading " + projectName, err);
             continue;
+          }
+
+          info.webLinks = Lists.newArrayList();
+          for (WebLinks.Link link : webLinks.get().getProjectLinks(projectName.get())) {
+            if (!Strings.isNullOrEmpty(link.name) && !Strings.isNullOrEmpty(link.url)) {
+              info.webLinks.add(new WebLinkInfo(link.name, link.url));
+            }
           }
         }
 

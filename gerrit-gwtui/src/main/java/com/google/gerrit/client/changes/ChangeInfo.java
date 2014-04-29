@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.changes;
 
+import com.google.gerrit.client.WebLinkInfo;
 import com.google.gerrit.client.account.AccountInfo;
 import com.google.gerrit.client.actions.ActionInfo;
 import com.google.gerrit.client.diff.FileInfo;
@@ -296,13 +297,6 @@ public class ChangeInfo extends JavaScriptObject {
     public final native JsArrayString tags() /*-{ return this.tags; }-*/;
 
     protected IncludedInInfo() {
-    }
-  }
-
-  public static class WebLinkInfo extends JavaScriptObject {
-    public final native String name() /*-{ return this.name; }-*/;
-    public final native String url() /*-{ return this.url; }-*/;
-    protected WebLinkInfo() {
     }
   }
 }

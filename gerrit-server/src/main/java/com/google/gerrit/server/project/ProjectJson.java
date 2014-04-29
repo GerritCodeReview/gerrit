@@ -15,19 +15,25 @@
 package com.google.gerrit.server.project;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.common.ProjectInfo;
+import com.google.gerrit.extensions.common.WebLinkInfo;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 public class ProjectJson {
 
   private final AllProjectsName allProjects;
+  private final Provider<WebLinks> webLinks;
 
   @Inject
-  ProjectJson(AllProjectsName allProjects) {
+  ProjectJson(AllProjectsName allProjects, Provider<WebLinks> webLinks) {
     this.allProjects = allProjects;
+    this.webLinks = webLinks;
   }
 
   public ProjectInfo format(ProjectResource rsrc) {
@@ -42,6 +48,14 @@ public class ProjectJson {
     info.description = Strings.emptyToNull(p.getDescription());
     info.state = p.getState();
     info.id = Url.encode(info.name);
+
+    info.webLinks = Lists.newArrayList();
+    for (WebLinks.Link link : webLinks.get().getProjectLinks(p.getName())) {
+      if (!Strings.isNullOrEmpty(link.name) && !Strings.isNullOrEmpty(link.url)) {
+        info.webLinks.add(new WebLinkInfo(link.name, link.url));
+      }
+    }
+
     return info;
   }
 }

@@ -16,6 +16,7 @@ package com.google.gerrit.extensions.common;
 
 import com.google.gerrit.extensions.api.projects.ProjectState;
 
+import java.util.List;
 import java.util.Map;
 
 public class ProjectInfo {
@@ -25,4 +26,5 @@ public class ProjectInfo {
   public String description;
   public ProjectState state;
   public Map<String, String> branches;
+  public List<WebLinkInfo> webLinks;
 }

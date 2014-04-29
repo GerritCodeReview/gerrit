@@ -59,6 +59,7 @@ import com.google.gerrit.extensions.common.FetchInfo;
 import com.google.gerrit.extensions.common.GitPerson;
 import com.google.gerrit.extensions.common.ListChangesOption;
 import com.google.gerrit.extensions.common.RevisionInfo;
+import com.google.gerrit.extensions.common.WebLinkInfo;
 import com.google.gerrit.extensions.config.DownloadCommand;
 import com.google.gerrit.extensions.config.DownloadScheme;
 import com.google.gerrit.extensions.registration.DynamicMap;
@@ -875,7 +876,7 @@ public class ChangeJson {
       out.webLinks = Lists.newArrayList();
       for (WebLinks.Link link : webLinks.get().getPatchSetLinks(
           project, in.getRevision().get())) {
-        out.webLinks.add(new RevisionInfo.WebLinkInfo(link.name, link.url));
+        out.webLinks.add(new WebLinkInfo(link.name, link.url));
       }
     }
     return out;

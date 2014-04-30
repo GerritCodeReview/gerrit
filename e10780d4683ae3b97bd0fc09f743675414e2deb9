@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "258a9b9d_bf23d798",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-30T04:45:13Z",
+      "side": 1,
+      "message": "Context is missing here, something like:\nExtension database for mime type for CM3 syntax highlighting.",
+      "revId": "e10780d4683ae3b97bd0fc09f743675414e2deb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

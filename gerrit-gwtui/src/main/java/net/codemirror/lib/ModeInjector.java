@@ -51,6 +51,7 @@ public class ModeInjector {
       Modes.I.dtd(),
       Modes.I.erlang(),
       Modes.I.gas(),
+      Modes.I.gerrit_commit(),
       Modes.I.gfm(),
       Modes.I.go(),
       Modes.I.groovy(),

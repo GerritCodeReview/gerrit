@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "25637bc5_f733c017",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-04-30T16:07:56Z",
+      "side": 1,
+      "message": "done: https://gerrit-review.googlesource.com/#/c/56670",
+      "parentUuid": "a543eb32_6b09a147",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 17
+      },
+      "revId": "e2161206a7d252ea81149645dd86ab4da667dca4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a543eb32_4b0ce558",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "a56e8bae_73098047",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-04-30T16:07:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a543eb32_4b0ce558",
+      "range": {
+        "startLine": 22,
+        "startChar": 59,
+        "endLine": 22,
+        "endChar": 60
+      },
+      "revId": "e2161206a7d252ea81149645dd86ab4da667dca4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a543eb32_8b240dd3",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Upload.java",
         "patchSetId": 4
@@ -59,6 +107,30 @@
       "writtenOn": "2014-04-30T14:42:28Z",
       "side": 1,
       "message": "How the client would be notified that upload was rejected? Should Failure exception be thrown like on the line 52?",
+      "range": {
+        "startLine": 66,
+        "startChar": 6,
+        "endLine": 67,
+        "endChar": 29
+      },
+      "revId": "e2161206a7d252ea81149645dd86ab4da667dca4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a56e8bae_530c8458",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Upload.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-04-30T16:07:56Z",
+      "side": 1,
+      "message": "The client is already notified at that point. that is why the exception is swallowed.\n\nUploadValidationExeption extends JGit ServiceMayNotContinueException so actually JGit is taking care of sending the message back to the client when such an exception is thrown by the preUploadHook but we need to swallow it here to prevent printing a stack trace in the logs.",
+      "parentUuid": "a543eb32_8b240dd3",
       "range": {
         "startLine": 66,
         "startChar": 6,

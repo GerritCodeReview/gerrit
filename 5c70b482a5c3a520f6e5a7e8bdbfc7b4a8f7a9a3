@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a543eb32_cbe0d536",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JarScanner.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-04-30T07:41:40Z",
+      "side": 1,
+      "message": "move private methods after public",
+      "range": {
+        "startLine": 272,
+        "startChar": 2,
+        "endLine": 272,
+        "endChar": 9
+      },
+      "revId": "5c70b482a5c3a520f6e5a7e8bdbfc7b4a8f7a9a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a543eb32_abdb8987",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ServerPlugin.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-04-30T07:41:40Z",
+      "side": 1,
+      "message": "this method name feels to generic for me, why not getContentScanner?",
+      "range": {
+        "startLine": 288,
+        "startChar": 30,
+        "endLine": 288,
+        "endChar": 40
+      },
+      "revId": "5c70b482a5c3a520f6e5a7e8bdbfc7b4a8f7a9a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

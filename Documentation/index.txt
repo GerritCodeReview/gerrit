@@ -8,6 +8,7 @@
 .. link:http://source.android.com/submit-patches/workflow[Default Android Workflow] (external)
 . Web
 .. Registering a new Gerrit account
+.. link:user-review-ui.html[Reviewing Changes]
 .. link:user-search.html[Searching Changes]
 .. link:user-notify.html[Subscribing to Email Notifications]
 . SSH

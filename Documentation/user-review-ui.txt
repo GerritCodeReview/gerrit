@@ -1,0 +1,114 @@
+= Review UI
+
+Reviewing changes is an important task and the Gerrit Web UI provides
+many functionalities to make the review process comfortable and
+efficient. This is a guide through the review UI that explains the
+different functions and UI elements.
+
+[[change-screen]]
+== Change Screen
+
+The change screen shows the details of a single change and provides
+various actions on it.
+
+image::images/user-review-ui-change-screen.png[width=800, link="images/user-review-ui-change-screen.png"]
+
+[[commit-message]]
+=== Commit Message Block
+
+The focus of the change screen is on the commit message since this is
+the most important information about a change. The numeric change ID
+and the change status are displayed right above the commit message.
+
+image::images/user-review-ui-change-screen-commit-message.png[width=800, link="images/user-review-ui-change-screen-commit-message.png"]
+
+The commit message can be edited directly in the Web UI by clicking on
+the `Edit Message` button in the change header. This opens a drop-down
+editor box in which the commit message can be edited. Saving
+modifications of the commit message automatically creates a new patch
+set for the change. The commit message may only be edited on the
+current patch set.
+
+image::images/user-review-ui-change-screen-edit-commit-message.png[width=800, link="images/user-review-ui-change-screen-edit-commit-message.png"]
+
+The numeric change ID is a link to the change and clicking on it
+refreshes the change screen. By copying the link location you can get
+the permalink of the change.
+
+image::images/user-review-ui-change-screen-permalink.png[width=800, link="images/user-review-ui-change-screen-permalink.png"]
+
+The change status shows the state of the change:
+
+- `Needs <label>`:
++
+The change is in review and an approval on the shown label is still
+required to make the change submittable.
+
+- `Not <label>`:
++
+The change is in review and a veto vote on the shown label is
+preventing the submit.
+
+- `Not Current`:
++
+The currently viewed patch set is outdated.
++
+Please note that some operations, like voting, are not available on
+outdated patch sets, but only on the current patch set.
+
+- `Ready to Submit`:
++
+The change has all necessary approvals and may be submitted.
+
+- `Submitted, Merge Pending`:
++
+The change was submitted and was added to the merge queue.
++
+The change stays in the merge queue if it depends on a change that is
+still in review. In this case it will get automatically merged when all
+predecessor changes have been merged.
++
+This status can also mean that the change depends on an abandoned
+change or on an outdated patch set of another change. In this case you
+may want to rebase the change.
+
+- `Merged`:
++
+The change was successfully merged into the destination branch.
+
+- `Abandoned`:
++
+The change was abandoned.
+
+- `Draft`:
++
+The change is a draft that is only visible to the change owner, the
+reviewers that were explicitly added to the change and users who have
+the link:access-control.html#category_view_drafts[View Drafts] global
+capability assigned.
+
+[[commit-info]]
+=== Commit Info Block
+
+The commit info block shows information about the commit of the
+currently viewed patch set.
+
+It displays the author and the committer as links to a list of this
+person's changes that have the same status as the currently viewed
+change.
+
+The commit ID and the link:user-changeid.html[Change-Id] are both
+displayed with a copy-to-clipboard icon that allows the ID to be copied
+into the clipboard.
+
+If a Git web browser, such as GitWeb or Gitiles, is configured, there
+is also a link to the commit in the Git web browser.
+
+image::images/user-review-ui-change-screen-commit-info.png[width=800, link="images/user-review-ui-change-screen-commit-info.png"]
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

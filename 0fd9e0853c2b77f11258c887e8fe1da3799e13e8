@@ -22,6 +22,30 @@
       "revId": "0fd9e0853c2b77f11258c887e8fe1da3799e13e8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a543eb32_eb33d117",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Init.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-04-30T15:31:43Z",
+      "side": 1,
+      "message": "Will rebase this patch series on top of Iee6665cd4643ad9251e8feadc31894212bd5ee4c",
+      "parentUuid": "258a9b9d_df3fbba5",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 43
+      },
+      "revId": "0fd9e0853c2b77f11258c887e8fe1da3799e13e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

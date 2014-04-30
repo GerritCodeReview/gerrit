@@ -104,6 +104,20 @@ is also a link to the commit in the Git web browser.
 
 image::images/user-review-ui-change-screen-commit-info.png[width=800, link="images/user-review-ui-change-screen-commit-info.png"]
 
+[[old-change-screen]]
+=== Old Change Screen
+
+In addition to the normal change screen, this Gerrit version still
+includes the old change screen that was used in earlier Gerrit
+versions. Users that want to continue using the old change screen can
+configure it in their preferences under
+`Settings` > `Preferences` > `Change View`:
+
+image::images/user-review-ui-change-view-preference.png[width=800, link="images/user-review-ui-change-view-preference.png"]
+
+[WARNING]
+The old change screen will be removed with the next Gerrit version.
+
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

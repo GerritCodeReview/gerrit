@@ -142,13 +142,13 @@ The output JAR files will be placed in:
   buck-out/gen/{extension,plugin}-api.jar
 ----
 
-Install {extension,plugin}-api to the local maven repository:
+Install {extension,plugin}-api and gerrit.war to the local maven repository:
 
 ----
   buck build api_install
 ----
 
-Deploy {extension,plugin}-api to the remote maven repository
+Deploy {extension,plugin}-api and gerrit.war to the remote maven repository
 
 ----
   buck build api_deploy

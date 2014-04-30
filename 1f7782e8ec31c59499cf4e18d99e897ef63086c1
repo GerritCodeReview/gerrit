@@ -16,6 +16,24 @@
       "revId": "1f7782e8ec31c59499cf4e18d99e897ef63086c1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "258a9b9d_dff6dbb1",
+        "filename": "lib/asciidoctor/java/DocIndexer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-04-30T06:47:18Z",
+      "side": 1,
+      "message": "I just tested this. If there is at least one whitespace the exception is not hit and it just runs through.",
+      "parentUuid": "25637bc5_b7022828",
+      "revId": "1f7782e8ec31c59499cf4e18d99e897ef63086c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

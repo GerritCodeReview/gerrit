@@ -63,6 +63,30 @@
       "revId": "e10780d4683ae3b97bd0fc09f743675414e2deb9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "058f57ae_3e0509dd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/DefaultFileExtensionRegistry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-04-30T07:03:03Z",
+      "side": 1,
+      "message": "Yes, this could be an own change.",
+      "parentUuid": "a56e8bae_d3f7b4f4",
+      "range": {
+        "startLine": 43,
+        "startChar": 26,
+        "endLine": 44,
+        "endChar": 53
+      },
+      "revId": "e10780d4683ae3b97bd0fc09f743675414e2deb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

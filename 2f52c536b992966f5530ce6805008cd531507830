@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a56e8bae_d37c1495",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 713,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-04-30T22:40:55Z",
+      "side": 1,
+      "message": "This is going to be null. I think we may still have some older messages with no PatchSet.Id stored, etc. Lets not fail hard and instead just auto-include them.\n\n  if (ps \u003d\u003d null || ctl.isPatchVisible(ps, db.get())",
+      "revId": "2f52c536b992966f5530ce6805008cd531507830",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

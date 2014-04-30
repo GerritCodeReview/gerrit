@@ -46,6 +46,30 @@
       "revId": "0fd9e0853c2b77f11258c887e8fe1da3799e13e8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "853267d1_8afdebda",
+        "filename": "gerrit-server/BUCK",
+        "patchSetId": 34
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-30T15:27:40Z",
+      "side": 0,
+      "message": "I am confused. I put the comment on different file and for different rule: \u0027init-api\u0027 rule in gerrit-pgm/BUCK and you are removing in \u0027:server\u0027 rule in gerrit-server/BUCK:\n\n  java_library(\n    name \u003d \u0027init-api\u0027,\n    srcs \u003d INIT_API_SRCS,\n    deps \u003d [\n      \u0027//gerrit-extension-api:api\u0027,\n      \u0027//gerrit-common:annotations\u0027,\n      \u0027//gerrit-common:server\u0027,\n      \u0027//gerrit-reviewdb:server\u0027,\n      \u0027//gerrit-server:server\u0027,\n      \u0027//lib:guava\u0027,\n      \u0027//lib/guice:guice\u0027,\n      \u0027//lib/guice:guice-assistedinject\u0027,\n      \u0027//lib/jgit:jgit\u0027,\n    ],\n    exported_deps \u003d [\u0027//gerrit-extension-api:api\u0027],\n    visibility \u003d [\u0027PUBLIC\u0027],\n  )",
+      "parentUuid": "a543eb32_ab29c9ab",
+      "range": {
+        "startLine": 28,
+        "startChar": 4,
+        "endLine": 28,
+        "endChar": 32
+      },
+      "revId": "0fd9e0853c2b77f11258c887e8fe1da3799e13e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

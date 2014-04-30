@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "25637bc5_b7022828",
+        "filename": "lib/asciidoctor/java/DocIndexer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-04-30T06:40:06Z",
+      "side": 1,
+      "message": "What if the file is not empty, but only contains whitespace?\n\nPerhaps that\u0027s quite an unlikely edge case that we don\u0027t need to consider here?",
+      "revId": "1f7782e8ec31c59499cf4e18d99e897ef63086c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

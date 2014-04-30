@@ -452,7 +452,7 @@ Gerrit.
 
 - Comment Links
 +
-As described in the link#comment-links[Comment Links] section, comment
+As described in the link:#comment-links[Comment Links] section, comment
 links can be used to link IDs from commit message footers to issues in
 an issue tracker system.
 

@@ -16,6 +16,29 @@
       "revId": "e10780d4683ae3b97bd0fc09f743675414e2deb9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "058f57ae_9e137d30",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/DefaultFileExtensionRegistry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-04-30T06:31:06Z",
+      "side": 1,
+      "message": "Maybe we could first look for this file somewhere in the review site (e.g. in the etc folder) and only fall-back to  the properties file in this package if this file doesn\u0027t exist in the review site. This way administrators could easily extend and adapt the mappings by configuration.",
+      "range": {
+        "startLine": 43,
+        "startChar": 26,
+        "endLine": 44,
+        "endChar": 53
+      },
+      "revId": "e10780d4683ae3b97bd0fc09f743675414e2deb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

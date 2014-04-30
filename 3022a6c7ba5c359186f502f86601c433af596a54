@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a56e8bae_13ebec18",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/SubmitAction.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-04-30T06:17:41Z",
+      "side": 1,
+      "message": "This block is the same as 65-83\n\nIt would be better to move this into a utility function, rather than having the same code in two places.",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 58,
+        "endChar": 17
+      },
+      "revId": "3022a6c7ba5c359186f502f86601c433af596a54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a56e8bae_f3e59043",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchSetInfoFactory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-04-30T06:17:41Z",
+      "side": 1,
+      "message": "Wouldn\u0027t it be better to return a boolean?",
+      "range": {
+        "startLine": 143,
+        "startChar": 10,
+        "endLine": 143,
+        "endChar": 16
+      },
+      "revId": "3022a6c7ba5c359186f502f86601c433af596a54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

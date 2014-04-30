@@ -1,0 +1,135 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a56e8bae_738ee069",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-04-30T22:53:25Z",
+      "side": 1,
+      "message": "Apparently this is the change number in search results? Can I suggest:\n\n  Display change number in search results UI",
+      "revId": "7eb063daff0fbae29172c1bb1df4b35e6549916a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a56e8bae_9359bc3b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/AccountConstants.properties",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-04-30T22:53:25Z",
+      "side": 1,
+      "message": "CIDs makes no sense to users.",
+      "revId": "7eb063daff0fbae29172c1bb1df4b35e6549916a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a56e8bae_b35eb81e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-04-30T22:53:25Z",
+      "side": 1,
+      "message": "This should be in an external constant. But the name is misleading. We usually say \"Change-Id\" now next to the Ic0ffee... style strings and this has no real name. And \"Change ID\" is 9 characters long. That forces the column wider than is necessary on most servers. Most teams have the sequential number only out to 6 digits (or less).",
+      "range": {
+        "startLine": 78,
+        "startChar": 27,
+        "endLine": 78,
+        "endChar": 38
+      },
+      "revId": "7eb063daff0fbae29172c1bb1df4b35e6549916a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a56e8bae_d3533415",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-04-30T22:53:25Z",
+      "side": 1,
+      "message": "Is String.valueOf(c.legacy_id()) too short?",
+      "range": {
+        "startLine": 224,
+        "startChar": 51,
+        "endLine": 224,
+        "endChar": 87
+      },
+      "revId": "7eb063daff0fbae29172c1bb1df4b35e6549916a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "25637bc5_7765f0e5",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/gerrit.css",
+        "patchSetId": 4
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-04-30T22:53:25Z",
+      "side": 1,
+      "message": "nit: space after :",
+      "revId": "7eb063daff0fbae29172c1bb1df4b35e6549916a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a56e8bae_f3583034",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/gerrit.css",
+        "patchSetId": 4
+      },
+      "lineNbr": 640,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-04-30T22:53:25Z",
+      "side": 1,
+      "message": "nit: space after : in CSS",
+      "revId": "7eb063daff0fbae29172c1bb1df4b35e6549916a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a56e8bae_136e8ccf",
+        "filename": "plugins/cookbook-plugin",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-04-30T22:53:25Z",
+      "side": 1,
+      "message": "Unexpected change of cookbook-plugin?",
+      "revId": "7eb063daff0fbae29172c1bb1df4b35e6549916a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

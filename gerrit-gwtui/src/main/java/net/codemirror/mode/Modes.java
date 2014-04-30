@@ -27,19 +27,38 @@ public interface Modes extends ClientBundle {
   @Source("clike/clike.js") @DoNotEmbed DataResource clike();
   @Source("clojure/clojure.js") @DoNotEmbed DataResource clojure();
   @Source("commonlisp/commonlisp.js") @DoNotEmbed DataResource commonlisp();
+  @Source("coffeescript/coffeescript.js") @DoNotEmbed DataResource coffeescript();
   @Source("css/css.js") @DoNotEmbed DataResource css();
+  @Source("d/d.js") @DoNotEmbed DataResource d();
+  @Source("diff/diff.js") @DoNotEmbed DataResource diff();
+  @Source("dtd/dtd.js") @DoNotEmbed DataResource dtd();
+  @Source("erlang/erlang.js") @DoNotEmbed DataResource erlang();
+  @Source("gas/gas.js") @DoNotEmbed DataResource gas();
+  @Source("gerrit/commit.js") @DoNotEmbed DataResource gerrit_commit();
+  @Source("gfm/gfm.js") @DoNotEmbed DataResource gfm();
   @Source("go/go.js") @DoNotEmbed DataResource go();
   @Source("groovy/groovy.js") @DoNotEmbed DataResource groovy();
+  @Source("haskell/haskell.js") @DoNotEmbed DataResource haskell();
   @Source("htmlmixed/htmlmixed.js") @DoNotEmbed DataResource htmlmixed();
   @Source("javascript/javascript.js") @DoNotEmbed DataResource javascript();
+  @Source("lua/lua.js") @DoNotEmbed DataResource lua();
+  @Source("markdown/markdown.js") @DoNotEmbed DataResource markdown();
   @Source("perl/perl.js") @DoNotEmbed DataResource perl();
+  @Source("php/php.js") @DoNotEmbed DataResource php();
+  @Source("pig/pig.js") @DoNotEmbed DataResource pig();
   @Source("properties/properties.js") @DoNotEmbed DataResource properties();
   @Source("python/python.js") @DoNotEmbed DataResource python();
+  @Source("r/r.js") @DoNotEmbed DataResource r();
   @Source("ruby/ruby.js") @DoNotEmbed DataResource ruby();
+  @Source("scheme/scheme.js") @DoNotEmbed DataResource scheme();
   @Source("shell/shell.js") @DoNotEmbed DataResource shell();
+  @Source("smalltalk/smalltalk.js") @DoNotEmbed DataResource smalltalk();
   @Source("sql/sql.js") @DoNotEmbed DataResource sql();
+  @Source("tcl/tcl.js") @DoNotEmbed DataResource tcl();
   @Source("velocity/velocity.js") @DoNotEmbed DataResource velocity();
+  @Source("verilog/verilog.js") @DoNotEmbed DataResource verilog();
   @Source("xml/xml.js") @DoNotEmbed DataResource xml();
+  @Source("yaml/yaml.js") @DoNotEmbed DataResource yaml();
 
   // When adding a resource, update static initializer in ModeInjector.
 }

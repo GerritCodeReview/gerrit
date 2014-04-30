@@ -17,6 +17,7 @@ maven_package(
     'gerrit-plugin-api': '//:plugin-api-src',
     'gerrit-plugin-gwtui': '//:plugin-gwtui-src',
   },
+  war = {'gerrit-war': '//:release'},
 )
 
 python_binary(

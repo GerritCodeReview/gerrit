@@ -57,6 +57,7 @@ public class CodeMirror extends JavaScriptObject {
     this.setOption(option, val);
   }-*/;
 
+  public final native String getStringOption(String o) /*-{ return this.getOption(o) }-*/;
   public final native void setValue(String v) /*-{ this.setValue(v); }-*/;
 
   public final native void setWidth(double w) /*-{ this.setSize(w, null); }-*/;

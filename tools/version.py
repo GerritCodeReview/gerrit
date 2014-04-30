@@ -30,8 +30,9 @@ elif len(args) > 1:
 new_version = args[0]
 pattern = re.compile(r'(\s*)<version>[-.\w]+</version>')
 
-for project in ['gerrit-plugin-archetype', 'gerrit-plugin-gwt-archetype',
-                'gerrit-plugin-gwtui', 'gerrit-plugin-js-archetype']:
+for project in ['gerrit-plugin-archetype',
+                'gerrit-plugin-gwt-archetype',
+                'gerrit-plugin-js-archetype']:
   pom = os.path.join(project, 'pom.xml')
   try:
     outxml = ""

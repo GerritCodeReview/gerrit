@@ -31,6 +31,7 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.prettify.common.SparseFileContent;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
+import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.Patch.ChangeType;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.git.LargeObjectException;
@@ -197,7 +198,9 @@ public class GetDiff implements RestReadView<FileResource> {
       FileMode fileMode, String mimeType) {
     switch (fileMode) {
       case FILE:
-        if (project != null) {
+        if (Patch.COMMIT_MSG.equals(meta.name)) {
+          mimeType = "text/x-gerrit-commit-message";
+        } else if (project != null) {
           for (ProjectState p : project.tree()) {
             String t = p.getConfig().getMimeTypes().getMimeType(meta.name);
             if (t != null) {

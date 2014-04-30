@@ -36,6 +36,9 @@ text/x-erlang
 gas:
 text/x-gas
 
+gerrit_commit:
+text/x-gerrit-commit-message
+
 gfm:
 text/x-github-markdown
 

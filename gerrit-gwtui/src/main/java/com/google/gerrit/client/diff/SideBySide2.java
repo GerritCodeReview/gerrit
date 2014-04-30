@@ -176,8 +176,8 @@ public class SideBySide2 extends Screen {
         @Override
         public void onSuccess(DiffInfo diffInfo) {
           diff = diffInfo;
+          fileSize = bucketFileSize(diffInfo);
           if (prefs.syntaxHighlighting()) {
-            fileSize = bucketFileSize(diffInfo);
             if (fileSize.compareTo(FileSize.SMALL) > 0) {
               modeInjectorCb.onSuccess(null);
             } else {

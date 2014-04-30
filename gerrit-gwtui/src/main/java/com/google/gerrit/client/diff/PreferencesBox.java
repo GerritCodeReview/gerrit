@@ -54,6 +54,7 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.ToggleButton;
 
+import net.codemirror.lib.CodeMirror;
 import net.codemirror.lib.ModeInjector;
 
 import java.util.HashMap;
@@ -160,7 +161,7 @@ class PreferencesBox extends Composite {
 
     mode.setEnabled(prefs.syntaxHighlighting());
     if (prefs.syntaxHighlighting()) {
-      setMode(view.getContentType());
+      setMode(view.getCmFromSide(DisplaySide.B).getStringOption("mode"));
     }
 
     switch (view.getIntraLineStatus()) {
@@ -329,8 +330,9 @@ class PreferencesBox extends Composite {
           view.operation(new Runnable() {
             @Override
             public void run() {
-              view.getCmFromSide(DisplaySide.A).setOption("mode", m);
-              view.getCmFromSide(DisplaySide.B).setOption("mode", m);
+              String mode = m != null && !m.isEmpty() ? m : null;
+              view.getCmFromSide(DisplaySide.A).setOption("mode", mode);
+              view.getCmFromSide(DisplaySide.B).setOption("mode", mode);
             }
           });
         }
@@ -458,6 +460,7 @@ class PreferencesBox extends Composite {
   }
 
   private void initMode() {
+    mode.addItem("", "");
     for (Map.Entry<String, String> e : NAME_TO_MODE.entrySet()) {
       mode.addItem(e.getKey(), e.getValue());
     }

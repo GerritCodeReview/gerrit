@@ -87,6 +87,30 @@
       "revId": "e10780d4683ae3b97bd0fc09f743675414e2deb9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "25637bc5_b750681c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/DefaultFileExtensionRegistry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-04-30T18:57:36Z",
+      "side": 1,
+      "message": "We already have this. Should I should revert the project specific and inheritable change Ia8d11441208833dff3dd180cd5467747d934f145 and the documentation that is https://gerrit-review.googlesource.com/Documentation/config-project-config.html#mimetype-section in favor of a single static site wide file configured by the administrator?",
+      "parentUuid": "058f57ae_3e0509dd",
+      "range": {
+        "startLine": 43,
+        "startChar": 26,
+        "endLine": 44,
+        "endChar": 53
+      },
+      "revId": "e10780d4683ae3b97bd0fc09f743675414e2deb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

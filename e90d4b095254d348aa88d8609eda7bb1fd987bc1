@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a56e8bae_13404c45",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/mode/Modes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-04-30T21:48:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "853267d1_8a240bd3",
+      "range": {
+        "startLine": 37,
+        "startChar": 11,
+        "endLine": 37,
+        "endChar": 27
+      },
+      "revId": "e90d4b095254d348aa88d8609eda7bb1fd987bc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "853267d1_4a23f3c4",
         "filename": "gerrit-gwtui/src/main/java/net/codemirror/mode/gerrit_commit.js",
         "patchSetId": 1
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "a56e8bae_333d48dc",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/mode/gerrit_commit.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-04-30T21:48:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "853267d1_4a23f3c4",
+      "revId": "e90d4b095254d348aa88d8609eda7bb1fd987bc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "853267d1_6a20b7b7",
         "filename": "gerrit-gwtui/src/main/java/net/codemirror/mode/gerrit_commit.js",
         "patchSetId": 1
@@ -53,6 +95,30 @@
       "writtenOn": "2014-04-30T20:44:06Z",
       "side": 1,
       "message": "This reponses not only to footers but also to the text in the middle of commit message:\n\n  http://imgur.com/guzXeRq",
+      "range": {
+        "startLine": 12,
+        "startChar": 6,
+        "endLine": 13,
+        "endChar": 25
+      },
+      "revId": "e90d4b095254d348aa88d8609eda7bb1fd987bc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "25637bc5_1787544f",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/mode/gerrit_commit.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-04-30T21:48:18Z",
+      "side": 1,
+      "message": "This may not be fixable. CodeMirror modes operate on only one line of text a time. I don\u0027t seem to be able to scan ahead to the end to see if this is the last paragraph, then back up and issue token annotations for the word.",
+      "parentUuid": "853267d1_6a20b7b7",
       "range": {
         "startLine": 12,
         "startChar": 6,

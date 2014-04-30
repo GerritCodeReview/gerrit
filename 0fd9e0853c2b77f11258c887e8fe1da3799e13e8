@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "258a9b9d_df3fbba5",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Init.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-04-30T05:55:56Z",
+      "side": 1,
+      "message": "Why you are switching com.google.gerrit.pgm.init.InitPlugins.PluginData to com.google.gerrit.common.PluginData in this chane? PluginData was added in this change:\n\n  176b801295fbe616689390f8ff4c11b18d1884fc\n\nExtract this switch into its own change.",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 43
+      },
+      "revId": "0fd9e0853c2b77f11258c887e8fe1da3799e13e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

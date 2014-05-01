@@ -1,0 +1,146 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ca4b8c72_04e5d643",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffTable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-01T22:23:52Z",
+      "side": 1,
+      "message": "Since only the change type is required, maybe only store the change type?",
+      "revId": "37b45e40940228eb7a87e04a78621212240eafb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea4e9081_25f9eee9",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffTable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-01T22:23:52Z",
+      "side": 1,
+      "message": "Also this:\n\n  parent.syncScroll(DisplaySide.A); // match A\u0027s viewport",
+      "revId": "37b45e40940228eb7a87e04a78621212240eafb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea4e9081_05fef2d1",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffTable.ui.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-01T22:23:52Z",
+      "side": 1,
+      "message": ".hideB .psNavB is missing",
+      "revId": "37b45e40940228eb7a87e04a78621212240eafb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea4e9081_e512b678",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffTable.ui.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-01T22:23:52Z",
+      "side": 1,
+      "message": "class\u003d\u0027{style.psNavB}\u0027",
+      "revId": "37b45e40940228eb7a87e04a78621212240eafb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca4b8c72_e4e99a1e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PreferencesBox.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-01T22:23:52Z",
+      "side": 1,
+      "message": "I would have grouped this with the leftSide.setValue above on line 154.",
+      "revId": "37b45e40940228eb7a87e04a78621212240eafb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca4b8c72_c4e69e4e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PreferencesBox.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-01T22:23:52Z",
+      "side": 1,
+      "message": "If auto hide empty pane is true and this is an add, the left side will hide. But the Left Side control is still set to Show. Should we set it to Hide? Should we disable it? I think we should be doing both.\n\nThe left side control needs to be coordinated with the auto hide empty pane on added files.",
+      "revId": "37b45e40940228eb7a87e04a78621212240eafb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea4e9081_c50fba4c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PreferencesBox.ui.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-01T22:23:52Z",
+      "side": 1,
+      "message": "Haha. So we have an Automatic-\u003eManual here and a Manual-\u003eAutomatic for hide empty pane.\n\nI\u0027d like to get the idea that Auto is on the left and Manual is on the right for these controls, much like Hide is on left and Show is on right.\n\nSo you may need to negate the value in the UI widget glue code to get the button to draw consistently with its neighbors, even though the underlying value in the pref is default false manual, true auto.",
+      "range": {
+        "startLine": 248,
+        "startChar": 10,
+        "endLine": 249,
+        "endChar": 58
+      },
+      "revId": "37b45e40940228eb7a87e04a78621212240eafb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca4b8c72_a4f3a20e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PreferencesBox.ui.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-01T22:23:52Z",
+      "side": 1,
+      "message": "Cluster near the Left Side control, either before or after it. I\u0027m thinking before, matching the way syntax highlighting button is above the menu list of modes.",
+      "revId": "37b45e40940228eb7a87e04a78621212240eafb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

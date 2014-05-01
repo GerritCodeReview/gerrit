@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8a3514d4_124cec81",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2014-05-01T19:22:37Z",
+      "side": 1,
+      "message": "allows +one+ to type",
+      "range": {
+        "startLine": 208,
+        "startChar": 54,
+        "endLine": 208,
+        "endChar": 56
+      },
+      "revId": "45465de0d4d898396b87d4cdcc30f908ca73426e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8a3514d4_f2404848",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2014-05-01T19:22:37Z",
+      "side": 1,
+      "message": "is +being+ abandoned.",
+      "revId": "45465de0d4d898396b87d4cdcc30f908ca73426e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a3aa0c6_f185e847",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2014-05-01T19:22:37Z",
+      "side": 1,
+      "message": "+one+",
+      "revId": "45465de0d4d898396b87d4cdcc30f908ca73426e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8a3514d4_d23d44dc",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2014-05-01T19:22:37Z",
+      "side": 1,
+      "message": "+being+",
+      "revId": "45465de0d4d898396b87d4cdcc30f908ca73426e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

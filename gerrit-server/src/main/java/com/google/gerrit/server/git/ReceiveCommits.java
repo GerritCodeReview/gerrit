@@ -50,6 +50,7 @@ import com.google.gerrit.common.ChangeHookRunner.HookResult;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.Capable;
+import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
@@ -102,6 +103,7 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.ssh.SshInfo;
+import com.google.gerrit.server.util.LabelVote;
 import com.google.gerrit.server.util.MagicBranch;
 import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.gerrit.server.util.TimeUtil;
@@ -1070,7 +1072,9 @@ public class ReceiveCommits {
     RefControl ctl;
     Set<Account.Id> reviewer = Sets.newLinkedHashSet();
     Set<Account.Id> cc = Sets.newLinkedHashSet();
+    Map<String, Short> labels = new HashMap<>();
     List<RevCommit> baseCommit;
+    LabelTypes labelTypes;
 
     @Option(name = "--base", metaVar = "BASE", usage = "merge base of changes")
     List<ObjectId> base;
@@ -1099,9 +1103,19 @@ public class ReceiveCommits {
       draft = !publish;
     }
 
-    MagicBranchInput(ReceiveCommand cmd) {
+    @Option(name = "-l", metaVar = "LABEL+VALUE",
+        usage = "label(s) to assign (defaults to +1 if no value provided")
+    void addLabel(final String token) {
+      LabelVote v = LabelVote.parse(token);
+      LabelType.checkName(v.getLabel());
+      ApprovalsUtil.checkLabel(labelTypes, v.getLabel(), v.getValue());
+      labels.put(v.getLabel(), v.getValue());
+    }
+
+    MagicBranchInput(ReceiveCommand cmd, LabelTypes labelTypes) {
       this.cmd = cmd;
       this.draft = cmd.getRefName().startsWith(MagicBranch.NEW_DRAFT_CHANGE);
+      this.labelTypes = labelTypes;
     }
 
     boolean isDraft() {
@@ -1114,6 +1128,10 @@ public class ReceiveCommits {
 
     MailRecipients getMailRecipients() {
       return new MailRecipients(reviewer, cc);
+    }
+
+    Map<String, Short> getLabels() {
+      return labels;
     }
 
     String parse(CmdLineParser clp, Repository repo, Set<String> refs)
@@ -1167,7 +1185,7 @@ public class ReceiveCommits {
       return;
     }
 
-    magicBranch = new MagicBranchInput(cmd);
+    magicBranch = new MagicBranchInput(cmd, labelTypes);
     magicBranch.reviewer.addAll(reviewersFromCommandLine);
     magicBranch.cc.addAll(ccFromCommandLine);
 
@@ -1593,8 +1611,10 @@ public class ReceiveCommits {
       final Account.Id me = currentUser.getAccountId();
       final List<FooterLine> footerLines = commit.getFooterLines();
       final MailRecipients recipients = new MailRecipients();
+      Map<String, Short> approvals = new HashMap<>();
       if (magicBranch != null) {
         recipients.add(magicBranch.getMailRecipients());
+        approvals = magicBranch.getLabels();
       }
       recipients.add(getRecipientsFromFooters(accountResolver, ps, footerLines));
       recipients.remove(me);
@@ -1606,6 +1626,7 @@ public class ReceiveCommits {
 
       ins
         .setReviewers(recipients.getReviewers())
+        .setApprovals(approvals)
         .setMessage(msg)
         .setSendMail(false)
         .insert();
@@ -1923,8 +1944,10 @@ public class ReceiveCommits {
       final Account.Id me = currentUser.getAccountId();
       final List<FooterLine> footerLines = newCommit.getFooterLines();
       final MailRecipients recipients = new MailRecipients();
+      Map<String, Short> approvals = new HashMap<>();
       if (magicBranch != null) {
         recipients.add(magicBranch.getMailRecipients());
+        approvals = magicBranch.getLabels();
       }
       recipients.add(getRecipientsFromFooters(accountResolver, newPatchSet, footerLines));
       recipients.remove(me);
@@ -1952,6 +1975,8 @@ public class ReceiveCommits {
         approvalCopier.copy(db, changeCtl, newPatchSet);
         approvalsUtil.addReviewers(db, update, labelTypes, change, newPatchSet,
             info, recipients.getReviewers(), oldRecipients.getAll());
+        approvalsUtil.addApprovals(db, update, labelTypes, newPatchSet, info,
+            change, changeCtl, approvals);
         recipients.add(oldRecipients);
 
         msg =

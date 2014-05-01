@@ -32,6 +32,7 @@ import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.RefControl;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -45,6 +46,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.Map;
 import java.util.Set;
 
 public class ChangeInserter {
@@ -72,6 +74,7 @@ public class ChangeInserter {
   private ChangeMessage changeMessage;
   private Set<Account.Id> reviewers;
   private Set<Account.Id> extraCC;
+  private Map<String, Short> approvals;
   private boolean runHooks;
   private boolean sendMail;
 
@@ -100,6 +103,7 @@ public class ChangeInserter {
     this.commit = commit;
     this.reviewers = Collections.emptySet();
     this.extraCC = Collections.emptySet();
+    this.approvals = Collections.emptyMap();
     this.runHooks = true;
     this.sendMail = true;
 
@@ -152,14 +156,20 @@ public class ChangeInserter {
     return patchSet;
   }
 
+  public ChangeInserter setApprovals(Map<String, Short> approvals) {
+    this.approvals = approvals;
+    return this;
+  }
+
   public PatchSetInfo getPatchSetInfo() {
     return patchSetInfo;
   }
 
   public Change insert() throws OrmException, IOException {
     ReviewDb db = dbProvider.get();
+    ChangeControl ctl = refControl.getProjectControl().controlFor(change);
     ChangeUpdate update = updateFactory.create(
-        refControl.getProjectControl().controlFor(change),
+        ctl,
         change.getCreatedOn());
     db.changes().beginTransaction(change.getId());
     try {
@@ -169,6 +179,8 @@ public class ChangeInserter {
       LabelTypes labelTypes = refControl.getProjectControl().getLabelTypes();
       approvalsUtil.addReviewers(db, update, labelTypes, change,
           patchSet, patchSetInfo, reviewers, Collections.<Account.Id> emptySet());
+      approvalsUtil.addApprovals(db, update, labelTypes, patchSet, patchSetInfo,
+          change, ctl, approvals);
       if (messageIsForChange()) {
         insertMessage(db);
       }

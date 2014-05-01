@@ -57,6 +57,11 @@ limitations under the License.
       display: none;
     }
 
+    .hideB .psNavB,
+    .hideB .b {
+      display: none;
+    }
+
     .table {
       width: 100%;
       table-layout: fixed;
@@ -65,6 +70,7 @@ limitations under the License.
     .table td { padding: 0 }
     .a, .b { width: 50% }
     .hideA .psNavB, .hideA .b { width: 100% }
+    .hideB .psNavA, .hideB .a { width: 100% }
 
     .overview {
       width: 10px;

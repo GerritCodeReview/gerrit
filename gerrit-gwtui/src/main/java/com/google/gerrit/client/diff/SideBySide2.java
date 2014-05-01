@@ -202,7 +202,7 @@ public class SideBySide2 extends Screen {
         info.revisions().copyKeysIntoChildren("name");
         JsArray<RevisionInfo> list = info.revisions().values();
         RevisionInfo.sortRevisionInfoByNumber(list);
-        diffTable.set(list, diff);
+        diffTable.set(prefs, list, diff);
         header.setChangeInfo(info);
       }}));
 
@@ -884,7 +884,9 @@ public class SideBySide2 extends Screen {
   }
 
   void syncScroll(DisplaySide masterSide) {
-    scrollSynchronizer.syncScroll(masterSide);
+    if (scrollSynchronizer != null) {
+      scrollSynchronizer.syncScroll(masterSide);
+    }
   }
 
   private String getContentType(DiffInfo.FileMeta meta) {

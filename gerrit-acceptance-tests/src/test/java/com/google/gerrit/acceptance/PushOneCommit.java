@@ -175,6 +175,14 @@ public class PushOneCommit {
       this.subject = subject;
     }
 
+    public String getRef() {
+      return ref;
+    }
+
+    public PushResult getResult() {
+      return result;
+    }
+
     public PatchSet.Id getPatchSetId() throws OrmException {
       return Iterables.getOnlyElement(
           db.changes().byKey(new Change.Key(commit.getChangeId()))).currentPatchSetId();

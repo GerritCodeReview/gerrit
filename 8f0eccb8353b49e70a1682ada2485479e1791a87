@@ -91,6 +91,24 @@
     },
     {
       "key": {
+        "uuid": "8a3514d4_72c0d862",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 1123,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-01T21:09:24Z",
+      "side": 1,
+      "message": "Branches are conceptually in a REST collection nested under the project. So creating a new branch by PUT /projects/name/branches/stable makes a lot of sense, you are creating the branch in the branches collection of that project, exactly where it will be accessible over the API.\n\nChanges are not available under the project. We have no /projects/name/changes collection at this time. Changes are in /changes/. So creating a new change in the changes collection should be PUT /changes/.\n\nThis is how plugins works, PUT /plugins/ makes a new plugin on the server. You can register an AcceptsCreate\u003cTopLevelResource\u003e interface on the ChangesCollection to capture put for a non-existing change, like with a plugin.",
+      "parentUuid": "258a9b9d_dff7bbf4",
+      "revId": "8f0eccb8353b49e70a1682ada2485479e1791a87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "051cb71d_160f7c4f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutChange.java",
         "patchSetId": 6

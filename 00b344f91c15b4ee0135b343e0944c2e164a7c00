@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6a3aa0c6_d114245e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1011417
+      },
+      "writtenOn": "2014-05-01T16:23:48Z",
+      "side": 1,
+      "message": "You probably wanted\n\n !\"\".equals(msg)",
+      "revId": "00b344f91c15b4ee0135b343e0944c2e164a7c00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

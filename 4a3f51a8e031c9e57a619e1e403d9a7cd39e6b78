@@ -34,6 +34,24 @@
       "revId": "4a3f51a8e031c9e57a619e1e403d9a7cd39e6b78",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8a3514d4_b26880c0",
+        "filename": "lib/maven.defs",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2014-05-01T20:16:42Z",
+      "side": 1,
+      "message": "Hmm. Fun.  I was looking at the Apache snapshots repository (http://repository.apache.org/snapshots/) which does the same thing as the GERRIT repo.\n\nI guess yet another fun thing we have Maven to thank for. ;)",
+      "parentUuid": "6a6380f2_c914715e",
+      "revId": "4a3f51a8e031c9e57a619e1e403d9a7cd39e6b78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

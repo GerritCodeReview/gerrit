@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6a6380f2_09e5e943",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/registration/DynamicItem.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-05-01T07:04:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6a3aa0c6_11e50c44",
+      "revId": "607f79ae66505a3715ad08ed3332845a3d104f5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6a3aa0c6_f1e9681e",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/registration/DynamicItem.java",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2014-05-01T00:01:22Z",
       "side": 1,
       "message": "Missing @param provider",
+      "revId": "607f79ae66505a3715ad08ed3332845a3d104f5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a6380f2_29e0ad33",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/registration/DynamicItem.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-05-01T07:04:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6a3aa0c6_f1e9681e",
       "revId": "607f79ae66505a3715ad08ed3332845a3d104f5e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -64,6 +100,24 @@
       "writtenOn": "2014-05-01T00:05:57Z",
       "side": 1,
       "message": "My problems with the change are primarily around the documentation issues in the other comments I left. This is just speculation on how we could have done things differently.",
+      "parentUuid": "6a3aa0c6_b1f3e00e",
+      "revId": "607f79ae66505a3715ad08ed3332845a3d104f5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a6380f2_49dbe187",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/registration/DynamicItem.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-05-01T07:04:51Z",
+      "side": 1,
+      "message": "Yes in case of SecureStore, \u0027DynamicItem\u003cT\u003e with provider\u0027 feels like hidden Provider\u003cT\u003e implementation.\n\nTo make it different, provider should have list of current bindings in \u0027get\u0027 method so that it can choose one. Currently SecureStoreProvider is calculating that list on his own.\n\nBut this idea is only for making \u0027DynamicItem\u003cT\u003e with provider\u0027 lest Provider\u003cT\u003e-ich.",
       "parentUuid": "6a3aa0c6_b1f3e00e",
       "revId": "607f79ae66505a3715ad08ed3332845a3d104f5e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

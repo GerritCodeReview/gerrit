@@ -138,7 +138,8 @@ public class Schema_77 extends SchemaVersion {
   private void migratePatchSetApprovals(ReviewDb db,
       LegacyLabelTypes labelTypes) throws SQLException {
     PreparedStatement stmt = ((JdbcSchema) db).getConnection().prepareStatement(
-        "UPDATE patch_set_approvals SET category_id = ? WHERE category_id = ?");
+        "UPDATE patch_set_approvals SET category_id = ?, granted=granted"
+        + " WHERE category_id = ?");
     try {
       for (LegacyLabelType type : labelTypes.getLegacyLabelTypes()) {
         stmt.setString(1, type.getName());

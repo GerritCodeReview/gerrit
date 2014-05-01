@@ -16,23 +16,28 @@ package com.google.gerrit.server.change;
 
 import static com.google.gerrit.reviewdb.client.Change.INITIAL_PATCH_SET_ID;
 
+import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.CheckedFuture;
 import com.google.gerrit.common.ChangeHooks;
+import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.RefControl;
+import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -45,6 +50,8 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class ChangeInserter {
@@ -72,6 +79,7 @@ public class ChangeInserter {
   private ChangeMessage changeMessage;
   private Set<Account.Id> reviewers;
   private Set<Account.Id> extraCC;
+  private Map<String, Short> approvals;
   private boolean runHooks;
   private boolean sendMail;
 
@@ -100,6 +108,7 @@ public class ChangeInserter {
     this.commit = commit;
     this.reviewers = Collections.emptySet();
     this.extraCC = Collections.emptySet();
+    this.approvals = Collections.emptyMap();
     this.runHooks = true;
     this.sendMail = true;
 
@@ -152,6 +161,11 @@ public class ChangeInserter {
     return patchSet;
   }
 
+  public ChangeInserter setApprovals(Map<String, Short> approvals) {
+    this.approvals = approvals;
+    return this;
+  }
+
   public PatchSetInfo getPatchSetInfo() {
     return patchSetInfo;
   }
@@ -171,6 +185,19 @@ public class ChangeInserter {
           patchSet, patchSetInfo, reviewers, Collections.<Account.Id> emptySet());
       if (messageIsForChange()) {
         insertMessage(db);
+      }
+      // TODO(davido): handle NotesDB case
+      if (!approvals.isEmpty()) {
+        List<PatchSetApproval> ups = Lists.newArrayList();
+        for (Map.Entry<String, Short> vote : approvals.entrySet()) {
+          LabelType lt = labelTypes.byLabel(vote.getKey());
+          ups.add(new PatchSetApproval(new PatchSetApproval.Key(
+              patchSet.getId(),
+              ((IdentifiedUser)refControl.getCurrentUser()).getAccountId(),
+              lt.getLabelId()),
+              vote.getValue(), TimeUtil.nowTs()));
+        }
+        db.patchSetApprovals().insert(ups);
       }
       db.commit();
     } finally {

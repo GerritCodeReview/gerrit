@@ -50,8 +50,10 @@ import com.google.gerrit.common.ChangeHookRunner.HookResult;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.Capable;
+import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicMap.Entry;
@@ -61,6 +63,7 @@ import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -102,6 +105,7 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.ssh.SshInfo;
+import com.google.gerrit.server.util.LabelVote;
 import com.google.gerrit.server.util.MagicBranch;
 import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.gerrit.server.util.TimeUtil;
@@ -1057,6 +1061,7 @@ public class ReceiveCommits {
     RefControl ctl;
     Set<Account.Id> reviewer = Sets.newLinkedHashSet();
     Set<Account.Id> cc = Sets.newLinkedHashSet();
+    Map<String, Short> labels = Maps.newHashMap();
     List<RevCommit> baseCommit;
 
     @Option(name = "--base", metaVar = "BASE", usage = "merge base of changes")
@@ -1086,6 +1091,14 @@ public class ReceiveCommits {
       draft = !publish;
     }
 
+    @Option(name = "-l", metaVar = "LABEL+VALUE",
+        usage = "label(s) to assign (defaults to +1 if no value provided")
+    void addLabel(final String token) {
+      LabelVote v = LabelVote.parse(token);
+      LabelType.checkName(v.getLabel());
+      labels.put(v.getLabel(), v.getValue());
+    }
+
     MagicBranchInput(ReceiveCommand cmd) {
       this.cmd = cmd;
       this.draft = cmd.getRefName().startsWith(MagicBranch.NEW_DRAFT_CHANGE);
@@ -1101,6 +1114,10 @@ public class ReceiveCommits {
 
     MailRecipients getMailRecipients() {
       return new MailRecipients(reviewer, cc);
+    }
+
+    Map<String, Short> getLabels() {
+      return labels;
     }
 
     String parse(CmdLineParser clp, Repository repo, Set<String> refs)
@@ -1580,6 +1597,8 @@ public class ReceiveCommits {
       final Account.Id me = currentUser.getAccountId();
       final List<FooterLine> footerLines = commit.getFooterLines();
       final MailRecipients recipients = new MailRecipients();
+      Map<String, Short> approvals = checkLabels(change,
+          projectControl.controlFor(change));
       if (magicBranch != null) {
         recipients.add(magicBranch.getMailRecipients());
       }
@@ -1593,6 +1612,7 @@ public class ReceiveCommits {
 
       ins
         .setReviewers(recipients.getReviewers())
+        .setApprovals(approvals)
         .setMessage(msg)
         .setSendMail(false)
         .insert();
@@ -1726,6 +1746,35 @@ public class ReceiveCommits {
         replaceByChange.get(c.getId()).change = c;
       }
     }
+  }
+
+  private Map<String, Short> checkLabels(Change change,
+      ChangeControl changeCtl) {
+    if (magicBranch != null && !magicBranch.getLabels().isEmpty()) {
+      for (Map.Entry<String, Short> vote : magicBranch.getLabels().entrySet()) {
+        String name = vote.getKey();
+        LabelType label = labelTypes.byLabel(name);
+        if (label == null) {
+          throw new IllegalArgumentException(String.format(
+              "label \"%s\" is not a configured label", name));
+        }
+        Short value = vote.getValue();
+        if (label.getValue(value) == null) {
+            throw new IllegalArgumentException(String.format(
+                "label \"%s\": %d is not a valid value",
+                name, value));
+        }
+        PermissionRange range = changeCtl.getRange(Permission
+            .forLabel(name));
+        if (range == null || !range.contains(value)) {
+            throw new IllegalArgumentException(String.format(
+                "applying label \"%s\": %d is restricted",
+                name, value));
+        }
+      }
+      return magicBranch.getLabels();
+    }
+    return Collections.emptyMap();
   }
 
   private class ReplaceRequest {
@@ -1910,6 +1959,7 @@ public class ReceiveCommits {
       final Account.Id me = currentUser.getAccountId();
       final List<FooterLine> footerLines = newCommit.getFooterLines();
       final MailRecipients recipients = new MailRecipients();
+      Map<String, Short> approvals = checkLabels(change, changeCtl);
       if (magicBranch != null) {
         recipients.add(magicBranch.getMailRecipients());
       }
@@ -1946,7 +1996,19 @@ public class ReceiveCommits {
                 .messageUUID(db)), me, newPatchSet.getCreatedOn(), newPatchSet.getId());
         msg.setMessage("Uploaded patch set " + newPatchSet.getPatchSetId() + ".");
         db.changeMessages().insert(Collections.singleton(msg));
-
+        // TODO(davido): handle NotesDB case
+        if (!approvals.isEmpty()) {
+          List<PatchSetApproval> ups = Lists.newArrayList();
+          for (Map.Entry<String, Short> vote : approvals.entrySet()) {
+            LabelType lt = labelTypes.byLabel(vote.getKey());
+            ups.add(new PatchSetApproval(new PatchSetApproval.Key(
+                newPatchSet.getId(),
+                currentUser.getAccountId(),
+                lt.getLabelId()),
+                vote.getValue(), TimeUtil.nowTs()));
+          }
+          db.patchSetApprovals().insert(ups);
+        }
         if (mergedIntoRef == null) {
           // Change should be new, so it can go through review again.
           //

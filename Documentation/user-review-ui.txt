@@ -1025,6 +1025,11 @@ Controls whether tabs are highlighted.
 +
 Controls whether line numbers are shown.
 
+- `Empty Pane`:
++
+Controls whether empty pane is shown or not. Left pane is empty when a file
+was added. Right pane is empty when a file was deleted.
+
 - `Left Side`:
 +
 Controls whether the left side is shown.

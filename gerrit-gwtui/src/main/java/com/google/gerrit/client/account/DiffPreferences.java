@@ -40,6 +40,7 @@ public class DiffPreferences extends JavaScriptObject {
     p.manualReview(in.isManualReview());
     p.renderEntireFile(in.isRenderEntireFile());
     p.theme(in.getTheme());
+    p.hideEmptyPane(in.isHideEmptyPane());
     return p;
   }
 
@@ -59,6 +60,7 @@ public class DiffPreferences extends JavaScriptObject {
     p.setManualReview(manualReview());
     p.setRenderEntireFile(renderEntireFile());
     p.setTheme(theme());
+    p.setHideEmptyPane(hideEmptyPane());
   }
 
   public final void ignoreWhitespace(Whitespace i) {
@@ -84,6 +86,7 @@ public class DiffPreferences extends JavaScriptObject {
   public final native void expandAllComments(boolean e) /*-{ this.expand_all_comments = e }-*/;
   public final native void manualReview(boolean r) /*-{ this.manual_review = r }-*/;
   public final native void renderEntireFile(boolean r) /*-{ this.render_entire_file = r }-*/;
+  public final native void hideEmptyPane(boolean s) /*-{ this.hide_empty_pane = s }-*/;
   public final void showLineNumbers(boolean s) { hideLineNumbers(!s); }
 
   public final Whitespace ignoreWhitespace() {
@@ -111,6 +114,7 @@ public class DiffPreferences extends JavaScriptObject {
   public final native boolean expandAllComments() /*-{ return this.expand_all_comments || false }-*/;
   public final native boolean manualReview() /*-{ return this.manual_review || false }-*/;
   public final native boolean renderEntireFile() /*-{ return this.render_entire_file || false }-*/;
+  public final native boolean hideEmptyPane() /*-{ return this.hide_empty_pane || false }-*/;
   public final boolean showLineNumbers() { return !hideLineNumbers(); }
   public final boolean autoReview() { return !manualReview(); }
 

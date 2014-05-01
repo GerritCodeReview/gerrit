@@ -83,6 +83,30 @@
     },
     {
       "key": {
+        "uuid": "ea4e9081_c5e69a4e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-01T21:57:46Z",
+      "side": 1,
+      "message": "In version 2.5 and earlier we had this column and it was called \"ID\".\n\nApparently I deleted it in change I80fdb260f4fc700fb0f4284bd6985931a25486d8 :-)",
+      "parentUuid": "ca1d4c5e_94f0e402",
+      "range": {
+        "startLine": 78,
+        "startChar": 27,
+        "endLine": 78,
+        "endChar": 38
+      },
+      "revId": "7eb063daff0fbae29172c1bb1df4b35e6549916a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a56e8bae_d3533415",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
         "patchSetId": 4

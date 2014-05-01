@@ -59,6 +59,30 @@
     },
     {
       "key": {
+        "uuid": "ca1d4c5e_94f0e402",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1011917
+      },
+      "writtenOn": "2014-05-01T07:40:57Z",
+      "side": 1,
+      "message": "Agree, I really don\u0027t know what to call the field in order to avoid confusion. I had thought of just making the title \"Change\" which is how it is used in the change screen but I\u0027m not sure if that is appropriate or if it will confuse people. The other alternative is to give this value a proper name such as Legacy ID or LID that it can be referred to everywhere.\n\nIn open to suggestions for names.",
+      "parentUuid": "a56e8bae_b35eb81e",
+      "range": {
+        "startLine": 78,
+        "startChar": 27,
+        "endLine": 78,
+        "endChar": 38
+      },
+      "revId": "7eb063daff0fbae29172c1bb1df4b35e6549916a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a56e8bae_d3533415",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
         "patchSetId": 4

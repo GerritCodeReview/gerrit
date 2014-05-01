@@ -22,6 +22,30 @@
       "revId": "3649202de7b020968686a7d00e65fd435a1ad277",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a3aa0c6_9137bcfa",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-01T19:14:38Z",
+      "side": 1,
+      "message": "I agree, this needs to be a user preference. Some people would prefer to auto hide A, but I am not among that group. :-)",
+      "parentUuid": "6a3aa0c6_114cec81",
+      "range": {
+        "startLine": 169,
+        "startChar": 0,
+        "endLine": 170,
+        "endChar": 62
+      },
+      "revId": "3649202de7b020968686a7d00e65fd435a1ad277",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6a3aa0c6_11e50c44",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/registration/DynamicItem.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-01T00:01:22Z",
+      "side": 1,
+      "message": "Here you give a code sample of itemOf() that does not take a Provider\u003cT\u003e, yet the method signature you are documenting requires a Provider\u003cT\u003e. Confused.",
+      "revId": "607f79ae66505a3715ad08ed3332845a3d104f5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a3aa0c6_f1e9681e",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/registration/DynamicItem.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-01T00:01:22Z",
+      "side": 1,
+      "message": "Missing @param provider",
+      "revId": "607f79ae66505a3715ad08ed3332845a3d104f5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a3aa0c6_b1f3e00e",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/registration/DynamicItem.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-01T00:01:22Z",
+      "side": 1,
+      "message": "Maybe instead DynamicItem\u003cT\u003e should implement Provider\u003cT\u003e as the get() method is the same signature? Then we don\u0027t need this wrapper. Someone that needs to accept either could just take Provider\u003cT\u003e, assuming it wasn\u0027t being supplied by Guice.\n\nThis of course leaves the question, why did we add DynamicItem\u003cT\u003e and not just use Provider\u003cT\u003e with the Provider implementation looking like DynamicItem? I don\u0027t know. This was maybe a mistake.",
+      "revId": "607f79ae66505a3715ad08ed3332845a3d104f5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

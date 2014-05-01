@@ -46,6 +46,30 @@
       "revId": "3649202de7b020968686a7d00e65fd435a1ad277",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca1d4c5e_742428d3",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-01T19:19:23Z",
+      "side": 1,
+      "message": "I see ;-) ... i would even go further and can think about further useful auto hide cases:\n\n* auto hide A on added file\n* auto hide side A on modified file and only added content\n* auto hide side B on deleted file\n\nShould i introduce dedicated properties or enum?",
+      "parentUuid": "6a3aa0c6_9137bcfa",
+      "range": {
+        "startLine": 169,
+        "startChar": 0,
+        "endLine": 170,
+        "endChar": 62
+      },
+      "revId": "3649202de7b020968686a7d00e65fd435a1ad277",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

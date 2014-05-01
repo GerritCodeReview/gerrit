@@ -274,8 +274,13 @@ public class SubmoduleOp {
         msgbuf.append(me.getKey().getParentKey().get());
         msgbuf.append("  ").append(me.getValue().getName());
         msgbuf.append("\n");
-        if (modules.size() == 1 && msg != null) {
-          msgbuf.append(msg);
+        if (modules.size() == 1) {
+          if (msg != null && msg != "") {
+            msgbuf.append(msg);
+          } else {
+            msgbuf.append("\n");
+            msgbuf.append(c.getFullMessage());
+          }
         } else {
           msgbuf.append(c.getShortMessage());
         }

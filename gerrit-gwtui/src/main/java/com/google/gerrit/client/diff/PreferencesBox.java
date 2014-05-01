@@ -54,7 +54,6 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.ToggleButton;
 
-import net.codemirror.lib.CodeMirror;
 import net.codemirror.lib.ModeInjector;
 
 import java.util.HashMap;

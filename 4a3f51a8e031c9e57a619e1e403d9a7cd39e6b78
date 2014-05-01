@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6a3aa0c6_115aac29",
+        "filename": "lib/maven.defs",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2014-05-01T20:02:08Z",
+      "side": 1,
+      "message": "Alternative to this, since it appears that published snapshots include a date/timestamp, and not SNAPSHOT... Would it make sense to instead do:\n\n  if \u0027SNAPSHOT\u0027 in version and not repository.startswith(MAVEN_LOCAL):\n\nAny other comments?",
+      "revId": "4a3f51a8e031c9e57a619e1e403d9a7cd39e6b78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

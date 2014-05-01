@@ -324,15 +324,17 @@ public class ChangeJson {
       }
       out.removableReviewers = removableReviewers(cd, out.labels.values());
     }
+
+    Map<PatchSet.Id, PatchSet> src = loadPatchSets(cd, limitToPsId);
     if (has(MESSAGES)) {
-      out.messages = messages(cd);
+      out.messages = messages(cd, src);
     }
     out.finish();
 
     if (has(ALL_REVISIONS)
         || has(CURRENT_REVISION)
         || limitToPsId.isPresent()) {
-      out.revisions = revisions(cd, limitToPsId, out.project);
+      out.revisions = revisions(cd, limitToPsId, out.project, src);
       if (out.revisions != null) {
         for (Map.Entry<String, RevisionInfo> entry : out.revisions.entrySet()) {
           if (entry.getValue().isCurrent) {
@@ -680,8 +682,14 @@ public class ChangeJson {
     return permitted.asMap();
   }
 
-  private Collection<ChangeMessageInfo> messages(ChangeData cd)
+  private Collection<ChangeMessageInfo> messages(ChangeData cd,
+      Map<PatchSet.Id, PatchSet> map)
       throws OrmException {
+    ChangeControl ctl = control(cd);
+    if (ctl == null) {
+      return null;
+    }
+
     List<ChangeMessage> messages =
         db.get().changeMessages().byChange(cd.getId()).toList();
     if (messages.isEmpty()) {
@@ -700,14 +708,16 @@ public class ChangeJson {
         Lists.newArrayListWithCapacity(messages.size());
     for (ChangeMessage message : messages) {
       PatchSet.Id patchNum = message.getPatchSetId();
-
-      ChangeMessageInfo cmi = new ChangeMessageInfo();
-      cmi.id = message.getKey().get();
-      cmi.author = accountLoader.get(message.getAuthor());
-      cmi.date = message.getWrittenOn();
-      cmi.message = message.getMessage();
-      cmi._revisionNumber = patchNum != null ? patchNum.get() : null;
-      result.add(cmi);
+      PatchSet ps = patchNum != null ? map.get(patchNum) : null;
+      if (patchNum == null || ctl.isPatchVisible(ps, db.get())) {
+        ChangeMessageInfo cmi = new ChangeMessageInfo();
+        cmi.id = message.getKey().get();
+        cmi.author = accountLoader.get(message.getAuthor());
+        cmi.date = message.getWrittenOn();
+        cmi.message = message.getMessage();
+        cmi._revisionNumber = patchNum != null ? patchNum.get() : null;
+        result.add(cmi);
+      }
     }
     return result;
   }
@@ -789,14 +799,26 @@ public class ChangeJson {
   }
 
   private Map<String, RevisionInfo> revisions(ChangeData cd,
-      Optional<PatchSet.Id> limitToPsId, String project) throws OrmException {
+      Optional<PatchSet.Id> limitToPsId, String project,
+      Map<PatchSet.Id, PatchSet> map) throws OrmException {
     ChangeControl ctl = control(cd);
     if (ctl == null) {
       return null;
     }
 
+    Map<String, RevisionInfo> res = Maps.newLinkedHashMap();
+    for (PatchSet in : map.values()) {
+      if (ctl.isPatchVisible(in, db.get())) {
+        res.put(in.getRevision().get(), toRevisionInfo(cd, in, project));
+      }
+    }
+    return res;
+  }
+
+  private Map<PatchSet.Id, PatchSet> loadPatchSets(ChangeData cd,
+      Optional<PatchSet.Id> limitToPsId) throws OrmException {
     Collection<PatchSet> src;
-    if (has(ALL_REVISIONS)) {
+    if (has(ALL_REVISIONS) || has(MESSAGES)) {
       src = cd.patches();
     } else {
       PatchSet ps;
@@ -814,14 +836,11 @@ public class ChangeJson {
       }
       src = Collections.singletonList(ps);
     }
-
-    Map<String, RevisionInfo> res = Maps.newLinkedHashMap();
-    for (PatchSet in : src) {
-      if (ctl.isPatchVisible(in, db.get())) {
-        res.put(in.getRevision().get(), toRevisionInfo(cd, in, project));
-      }
+    Map<PatchSet.Id, PatchSet> map = Maps.newHashMapWithExpectedSize(src.size());
+    for (PatchSet patchSet : src) {
+      map.put(patchSet.getId(), patchSet);
     }
-    return res;
+    return map;
   }
 
   private RevisionInfo toRevisionInfo(ChangeData cd, PatchSet in, String project)

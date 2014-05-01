@@ -104,6 +104,9 @@ public class DocIndexer {
     IndexWriter iwriter = new IndexWriter(directory, config);
     for (String inputFile : inputFiles) {
       File file = new File(inputFile);
+      if (file.length() == 0) {
+        continue;
+      }
 
       BufferedReader titleReader = new BufferedReader(
           new InputStreamReader(new FileInputStream(file), "UTF-8"));

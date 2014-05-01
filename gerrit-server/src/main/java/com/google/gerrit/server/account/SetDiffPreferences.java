@@ -50,6 +50,7 @@ public class SetDiffPreferences implements RestModifyView<AccountResource, Input
     Boolean renderEntireFile;
     Integer tabSize;
     Theme theme;
+    Boolean autoHideEmptyPane;
   }
 
   private final Provider<CurrentUser> self;
@@ -135,6 +136,9 @@ public class SetDiffPreferences implements RestModifyView<AccountResource, Input
       }
       if (input.theme != null) {
         p.setTheme(input.theme);
+      }
+      if (input.autoHideEmptyPane != null) {
+        p.setAutoHideEmptyPane(input.autoHideEmptyPane);
       }
 
       db.accountDiffPreferences().upsert(Collections.singleton(p));

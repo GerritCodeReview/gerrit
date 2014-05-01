@@ -14,7 +14,9 @@
 
 package com.google.gerrit.client.diff;
 
+import com.google.gerrit.client.account.DiffPreferences;
 import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
+import com.google.gerrit.reviewdb.client.Patch.ChangeType;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
@@ -52,6 +54,7 @@ class DiffTable extends Composite {
     String showTabs();
     String showLineNumbers();
     String hideA();
+    String hideB();
     String columnMargin();
     String padding();
   }
@@ -77,6 +80,7 @@ class DiffTable extends Composite {
   private boolean header;
   private boolean headerVisible;
   private boolean visibleA;
+  private DiffInfo info;
 
   DiffTable(SideBySide2 parent, PatchSet.Id base, PatchSet.Id revision,
       String path) {
@@ -115,6 +119,14 @@ class DiffTable extends Composite {
     };
   }
 
+  void setVisibleB(boolean show) {
+    if (show) {
+      removeStyleName(style.hideB());
+    } else {
+      addStyleName(style.hideB());
+    }
+  }
+
   boolean isHeaderVisible() {
     return headerVisible;
   }
@@ -139,7 +151,8 @@ class DiffTable extends Composite {
     return h;
   }
 
-  void set(JsArray<RevisionInfo> list, DiffInfo info) {
+  void set(DiffPreferences prefs, JsArray<RevisionInfo> list, DiffInfo info) {
+    this.info = info;
     patchSetSelectBoxA.setUpPatchSetNav(list, info.meta_a());
     patchSetSelectBoxB.setUpPatchSetNav(list, info.meta_b());
 
@@ -164,6 +177,21 @@ class DiffTable extends Composite {
     } else {
       header = false;
       UIObject.setVisible(diffHeaderRow, false);
+    }
+    if (prefs.autoHideEmptyPane()) {
+      if (info.change_type() == ChangeType.ADDED) {
+        setVisibleA(false);
+      } else if (info.change_type() == ChangeType.DELETED) {
+        setVisibleB(false);
+      }
+    }
+  }
+
+  void setAutoHideEmptyPane(boolean hide) {
+    if (info.change_type() == ChangeType.ADDED) {
+      setVisibleA(!hide);
+    } else if (info.change_type() == ChangeType.DELETED) {
+      setVisibleB(!hide);
     }
   }
 

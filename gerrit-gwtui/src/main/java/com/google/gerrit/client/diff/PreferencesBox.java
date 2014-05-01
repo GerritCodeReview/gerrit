@@ -91,6 +91,7 @@ class PreferencesBox extends Composite {
   @UiField ToggleButton manualReview;
   @UiField ToggleButton expandAllComments;
   @UiField ToggleButton renderEntireFile;
+  @UiField ToggleButton autoHideEmptyPane;
   @UiField ListBox theme;
   @UiField ListBox mode;
   @UiField Button apply;
@@ -157,6 +158,7 @@ class PreferencesBox extends Composite {
     renderEntireFile.setValue(prefs.renderEntireFile());
     renderEntireFile.setEnabled(view.canEnableRenderEntireFile(prefs));
     setTheme(prefs.theme());
+    autoHideEmptyPane.setValue(prefs.autoHideEmptyPane());
 
     mode.setEnabled(prefs.syntaxHighlighting());
     if (prefs.syntaxHighlighting()) {
@@ -357,6 +359,12 @@ class PreferencesBox extends Composite {
   void onRenderEntireFile(ValueChangeEvent<Boolean> e) {
     prefs.renderEntireFile(e.getValue());
     view.updateRenderEntireFile();
+  }
+
+  @UiHandler("autoHideEmptyPane")
+  void onAutoHideEmptyPane(ValueChangeEvent<Boolean> e) {
+    prefs.autoHideEmptyPane(e.getValue());
+    view.diffTable.setAutoHideEmptyPane(e.getValue());
   }
 
   @UiHandler("theme")

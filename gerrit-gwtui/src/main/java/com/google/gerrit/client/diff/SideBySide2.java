@@ -202,7 +202,7 @@ public class SideBySide2 extends Screen {
         info.revisions().copyKeysIntoChildren("name");
         JsArray<RevisionInfo> list = info.revisions().values();
         RevisionInfo.sortRevisionInfoByNumber(list);
-        diffTable.set(list, diff);
+        diffTable.set(prefs, list, diff);
         header.setChangeInfo(info);
       }}));
 

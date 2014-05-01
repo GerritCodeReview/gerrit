@@ -34,6 +34,7 @@ import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
@@ -721,7 +722,7 @@ public abstract class AbstractQueryChangesTest {
     comment.line = 1;
     comment.message = "inline";
     input.comments = ImmutableMap.<String, List<ReviewInput.Comment>> of(
-        "Foo.java", ImmutableList.<ReviewInput.Comment> of(comment));
+        Patch.COMMIT_MSG, ImmutableList.<ReviewInput.Comment> of(comment));
     postReview.apply(new RevisionResource(
         changes.parse(change.getId()), ins.getPatchSet()), input);
 

@@ -62,7 +62,8 @@ public class CommentSender extends ReplyToChangeSender {
     this.notify = notify;
   }
 
-  public void setPatchLineComments(final List<PatchLineComment> plc) {
+  public void setPatchLineComments(final List<PatchLineComment> plc)
+      throws OrmException {
     inlineComments = plc;
 
     Set<String> paths = new HashSet<>();

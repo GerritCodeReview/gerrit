@@ -70,6 +70,30 @@
       "revId": "3649202de7b020968686a7d00e65fd435a1ad277",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8a3514d4_b23ac0e0",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-01T19:22:04Z",
+      "side": 1,
+      "message": "I think auto-hide A on add, auto-hide B on deleted is the same preference. You are hiding an empty pane that has nothing in it.\n\nActually, auto-hide B on delete is something I might be OK with. It doesn\u0027t mess up the alignment between files. My issue with auto-hide A on add is the new content goes on the left side, but my eyes are mostly on the right side during a code review. Moving between files with auto-hide A on add messes that up for me.\n\nauto-hide A on modified with only added content is a little bit disconcerting. I wouldn\u0027t bundle it with auto-hide A on file add. It probably would confuse a lot of users who want auto-hide A on add, but don\u0027t see many edits of files that only insert new lines to an existing file.",
+      "parentUuid": "ca1d4c5e_742428d3",
+      "range": {
+        "startLine": 169,
+        "startChar": 0,
+        "endLine": 170,
+        "endChar": 62
+      },
+      "revId": "3649202de7b020968686a7d00e65fd435a1ad277",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -136,13 +136,13 @@ project directories in `buck-out/gen`, here as example for plugin API:
   buck-out/gen/gerrit-plugin-api/plugin-api-javadoc.jar
 ----
 
-Install {extension,plugin,gwt}-api to the local maven repository:
+Install {extension,plugin,gwt}-api and gerrit.war to the local maven repository:
 
 ----
   buck build api_install
 ----
 
-Deploy {extension,plugin,gwt}-api to the remote maven repository:
+Deploy {extension,plugin,gwt}-api and gerrit.war to the remote maven repository:
 
 ----
   buck build api_deploy

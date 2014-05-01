@@ -78,7 +78,7 @@ def war(
     visibility = visibility,
   )
 
-def gerrit_war(name, ui = 'ui_optdbg', context = [], docs = False):
+def gerrit_war(name, ui = 'ui_optdbg', context = [], docs = False, visibility = []):
   war(
     name = name,
     libs = LIBS + ['//gerrit-war:version'],
@@ -89,4 +89,5 @@ def gerrit_war(name, ui = 'ui_optdbg', context = [], docs = False):
       '//gerrit-gwtui:' + ui + '.zip',
     ] + context,
     docs = docs,
+    visibility = visibility,
   )

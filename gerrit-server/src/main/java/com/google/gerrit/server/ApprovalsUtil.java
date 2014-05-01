@@ -32,6 +32,8 @@ import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
+import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -49,9 +51,11 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -213,6 +217,49 @@ public class ApprovalsUtil {
     }
     db.patchSetApprovals().insert(cells);
     return Collections.unmodifiableList(cells);
+  }
+
+  public void addApprovals(ReviewDb db, ChangeUpdate update, LabelTypes labelTypes,
+      PatchSet ps, PatchSetInfo info, Change change, ChangeControl changeCtl,
+      Map<String, Short> approvals) throws OrmException {
+    if (!approvals.isEmpty()) {
+      checkApprovals(approvals, labelTypes, change, changeCtl);
+      List<PatchSetApproval> cells = new ArrayList<>(approvals.size());
+      Timestamp ts = TimeUtil.nowTs();
+      for (Map.Entry<String, Short> vote : approvals.entrySet()) {
+        LabelType lt = labelTypes.byLabel(vote.getKey());
+        cells.add(new PatchSetApproval(new PatchSetApproval.Key(
+            ps.getId(),
+            info.getCommitter().getAccount(),
+            lt.getLabelId()),
+            vote.getValue(),
+            ts));
+        update.putApproval(vote.getKey(), vote.getValue());
+      }
+      db.patchSetApprovals().insert(cells);
+    }
+  }
+
+  private static void checkApprovals(Map<String, Short> approvals, LabelTypes labelTypes,
+      Change change, ChangeControl changeCtl) {
+    for (Map.Entry<String, Short> vote : approvals.entrySet()) {
+      String name = vote.getKey();
+      LabelType label = labelTypes.byLabel(name);
+      if (label == null) {
+        throw new IllegalArgumentException(String.format(
+            "label \"%s\" is not a configured label", name));
+      }
+      Short value = vote.getValue();
+      if (label.getValue(value) == null) {
+        throw new IllegalArgumentException(String.format(
+            "label \"%s\": %d is not a valid value", name, value));
+      }
+      PermissionRange range = changeCtl.getRange(Permission.forLabel(name));
+      if (range == null || !range.contains(value)) {
+        throw new IllegalArgumentException(String.format(
+            "applying label \"%s\": %d is restricted", name, value));
+      }
+    }
   }
 
   public ListMultimap<PatchSet.Id, PatchSetApproval> byChange(ReviewDb db,

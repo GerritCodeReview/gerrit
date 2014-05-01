@@ -15,6 +15,7 @@
 package com.google.gerrit.client.diff;
 
 import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
+import com.google.gerrit.reviewdb.client.Patch.ChangeType;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
@@ -163,6 +164,11 @@ class DiffTable extends Composite {
     } else {
       header = false;
       UIObject.setVisible(diffHeaderRow, false);
+    }
+    if (info.change_type() == ChangeType.ADDED) {
+      // TODO(davido): Add user preference to control it,
+      // as not all users would probably like this per default
+      setVisibleA(false);
     }
   }
 

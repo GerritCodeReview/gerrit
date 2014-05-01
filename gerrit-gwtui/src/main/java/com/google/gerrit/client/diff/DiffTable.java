@@ -100,6 +100,7 @@ class DiffTable extends Composite {
     visibleA = show;
     if (show) {
       removeStyleName(style.hideA());
+      parent.syncScroll(DisplaySide.B); // match B's viewport
     } else {
       addStyleName(style.hideA());
     }

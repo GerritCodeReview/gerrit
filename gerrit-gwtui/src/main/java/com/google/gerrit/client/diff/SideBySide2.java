@@ -116,6 +116,7 @@ public class SideBySide2 extends Screen {
   private Element columnMarginA;
   private Element columnMarginB;
   private HandlerRegistration resizeHandler;
+  private ScrollSynchronizer scrollSynchronizer;
   private DiffInfo diff;
   private FileSize fileSize;
   private ChunkManager chunkManager;
@@ -553,7 +554,8 @@ public class SideBySide2 extends Screen {
 
     registerCmEvents(cmA);
     registerCmEvents(cmB);
-    new ScrollSynchronizer(diffTable, cmA, cmB, chunkManager.getLineMapper());
+    scrollSynchronizer = new ScrollSynchronizer(diffTable, cmA, cmB,
+            chunkManager.getLineMapper());
 
     prefsAction = new PreferencesAction(this, prefs);
     header.init(prefsAction);
@@ -879,6 +881,10 @@ public class SideBySide2 extends Screen {
         + diffTable.getHeaderHeight()
         + 5; // Estimate
     return Window.getClientHeight() - rest;
+  }
+
+  void syncScroll(DisplaySide masterSide) {
+    scrollSynchronizer.syncScroll(masterSide);
   }
 
   private String getContentType(DiffInfo.FileMeta meta) {

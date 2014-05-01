@@ -24,6 +24,8 @@ class ScrollSynchronizer {
   private LineMapper mapper;
   private OverviewBar overview;
   private ScrollCallback active;
+  private ScrollCallback callbackA;
+  private ScrollCallback callbackB;
 
   ScrollSynchronizer(DiffTable diffTable,
       CodeMirror cmA, CodeMirror cmB,
@@ -32,8 +34,14 @@ class ScrollSynchronizer {
     this.mapper = mapper;
     this.overview = diffTable.overview;
 
-    cmA.on("scroll", new ScrollCallback(cmA, cmB, DisplaySide.A));
-    cmB.on("scroll", new ScrollCallback(cmB, cmA, DisplaySide.B));
+    callbackA = new ScrollCallback(cmA, cmB, DisplaySide.A);
+    callbackB = new ScrollCallback(cmB, cmA, DisplaySide.B);
+    cmA.on("scroll", callbackA);
+    cmB.on("scroll", callbackB);
+  }
+
+  void syncScroll(DisplaySide masterSide) {
+    (masterSide == DisplaySide.A ? callbackA : callbackB).sync();
   }
 
   private void updateScreenHeader(ScrollInfo si) {
@@ -64,6 +72,10 @@ class ScrollSynchronizer {
           }
         }
       };
+    }
+
+    void sync() {
+      dst.scrollToY(align(src.getScrollInfo().getTop()));
     }
 
     @Override

@@ -229,6 +229,13 @@ limitations under the License.
         </g:ToggleButton></td>
       </tr>
       <tr>
+        <th><ui:msg>Empty Pane</ui:msg></th>
+        <td><g:ToggleButton ui:field='emptyPane'>
+          <g:upFace><ui:msg>Hide</ui:msg></g:upFace>
+          <g:downFace><ui:msg>Show</ui:msg></g:downFace>
+        </g:ToggleButton></td>
+      </tr>
+      <tr>
         <th><ui:msg>Left Side</ui:msg></th>
         <td><g:ToggleButton ui:field='leftSide'>
           <g:upFace><ui:msg>Hide</ui:msg></g:upFace>

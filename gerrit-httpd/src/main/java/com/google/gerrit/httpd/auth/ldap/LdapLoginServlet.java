@@ -18,6 +18,7 @@ import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.httpd.CanonicalWebUrl;
 import com.google.gerrit.httpd.HtmlDomUtil;
 import com.google.gerrit.httpd.WebSession;
@@ -30,7 +31,6 @@ import com.google.gerrit.server.account.AuthResult;
 import com.google.gerrit.server.auth.AuthenticationUnavailableException;
 import com.google.gwtexpui.server.CacheHeaders;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import org.slf4j.Logger;
@@ -54,13 +54,13 @@ class LdapLoginServlet extends HttpServlet {
       .getLogger(LdapLoginServlet.class);
 
   private final AccountManager accountManager;
-  private final Provider<WebSession> webSession;
+  private final DynamicItem<WebSession> webSession;
   private final CanonicalWebUrl urlProvider;
   private final SiteHeaderFooter headers;
 
   @Inject
   LdapLoginServlet(AccountManager accountManager,
-      Provider<WebSession> webSession,
+      DynamicItem<WebSession> webSession,
       CanonicalWebUrl urlProvider,
       SiteHeaderFooter headers) {
     this.accountManager = accountManager;

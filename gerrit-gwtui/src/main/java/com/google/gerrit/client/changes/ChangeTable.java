@@ -160,8 +160,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
 
     table.setWidget(row, C_SUBJECT, new TableChangeLink(s, c));
     table.setWidget(row, C_OWNER, link(c.getOwner()));
-    table.setWidget(row, C_PROJECT, new ProjectLink(c.getProject().getKey(), c
-        .getStatus()));
+    table.setWidget(row, C_PROJECT, new ProjectLink(c.getProject().getKey()));
     table.setWidget(row, C_BRANCH, new BranchLink(c.getProject().getKey(), c
         .getStatus(), c.getBranch(), c.getTopic()));
     table.setText(row, C_LAST_UPDATE, shortFormat(c.getLastUpdatedOn()));

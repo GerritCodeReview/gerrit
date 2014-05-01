@@ -50,17 +50,22 @@ with HTTP 412 Precondition Failed.
 
 [[output]]
 === Output Format
-Most APIs return pretty printed JSON by default. Compact JSON can be
-requested by setting the `Accept` HTTP request header to include
-`application/json`, for example:
+JSON responses are encoded using UTF-8 and use content type
+`application/json`.
+
+By default most APIs return pretty-printed JSON, which uses extra
+whitespace to make the output more readable for humans.
+
+Compact JSON can be requested by setting the `pp=0` query parameter,
+or by setting the `Accept` HTTP request header to include `application/json`:
 
 ----
   GET /projects/ HTTP/1.0
   Accept: application/json
 ----
 
-JSON responses are encoded using UTF-8 and use content type
-`application/json`.
+Producing (and parsing) the non-pretty compact format is more efficient,
+so tools should request it whenever possible.
 
 To prevent against Cross Site Script Inclusion (XSSI) attacks, the JSON
 response body starts with a magic prefix line that must be stripped before
@@ -71,12 +76,6 @@ feeding the rest of the response body to a JSON parser:
   [ ... valid JSON ... ]
 ----
 
-The default JSON format is pretty, which uses extra whitespace to make
-the output more readable for a human. Producing (and parsing) the
-non-pretty compact format is more efficient so tools should request it
-by using the `Accept: application/json` header or `pp=0` query
-parameter whenever possible.
-
 Responses will be gzip compressed by the server if the HTTP
 `Accept-Encoding` request header is set to `gzip`. This may
 save on network transfer time for larger responses.
@@ -84,7 +83,7 @@ save on network transfer time for larger responses.
 [[timestamp]]
 === Timestamp
 Timestamps are given in UTC and have the format
-"'yyyy-mm-dd hh:mm:ss.fffffffff'" where "'ffffffffff'" indicates the
+"'yyyy-mm-dd hh:mm:ss.fffffffff'" where "'ffffffffff'" represents
 nanoseconds.
 
 [[encoding]]
@@ -133,7 +132,7 @@ cannot be found if the URL contains a non-existing ID or view.
 support the operation.
 
 E.g. some of the `/groups/` endpoints are only supported for Gerrit
-internal groups, if they are invoked for an external group the response
+internal groups; if they are invoked for an external group the response
 is `405 Method Not Allowed`.
 
 ==== 409 Conflict
@@ -144,7 +143,7 @@ E.g. if you try to submit a change that is abandoned, this fails with
 `409 Conflict` because the state of the change doesn't allow the submit
 operation.
 
-`409 Conflict` is also used if you try to create a resource but the
+`409 Conflict` is also returned if you try to create a resource but the
 name is already occupied by an existing resource.
 
 ==== 412 Precondition Failed

@@ -31,6 +31,7 @@ import com.google.gerrit.client.ui.NpIntTextBox;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference.Theme;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
+import com.google.gerrit.reviewdb.client.Patch.ChangeType;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.RepeatingCommand;
@@ -87,6 +88,7 @@ class PreferencesBox extends Composite {
   @UiField ToggleButton showTabs;
   @UiField ToggleButton lineNumbers;
   @UiField ToggleButton leftSide;
+  @UiField ToggleButton emptyPane;
   @UiField ToggleButton topMenu;
   @UiField ToggleButton manualReview;
   @UiField ToggleButton expandAllComments;
@@ -151,6 +153,9 @@ class PreferencesBox extends Composite {
     showTabs.setValue(prefs.showTabs());
     lineNumbers.setValue(prefs.showLineNumbers());
     leftSide.setValue(view.diffTable.isVisibleA());
+    emptyPane.setValue(!prefs.hideEmptyPane());
+    leftSide.setEnabled(!(prefs.hideEmptyPane()
+        && view.diffTable.getChangeType() == ChangeType.ADDED));
     topMenu.setValue(!prefs.hideTopMenu());
     manualReview.setValue(prefs.manualReview());
     expandAllComments.setValue(prefs.expandAllComments());
@@ -293,6 +298,21 @@ class PreferencesBox extends Composite {
   @UiHandler("leftSide")
   void onLeftSide(ValueChangeEvent<Boolean> e) {
     view.diffTable.setVisibleA(e.getValue());
+  }
+
+  @UiHandler("emptyPane")
+  void onHideEmptyPane(ValueChangeEvent<Boolean> e) {
+    prefs.hideEmptyPane(!e.getValue());
+    view.diffTable.setHideEmptyPane(prefs.hideEmptyPane());
+    if (prefs.hideEmptyPane()) {
+      if (view.diffTable.getChangeType() == ChangeType.ADDED) {
+        leftSide.setValue(false);
+        leftSide.setEnabled(false);
+      }
+    } else {
+      leftSide.setValue(view.diffTable.isVisibleA());
+      leftSide.setEnabled(true);
+    }
   }
 
   @UiHandler("topMenu")

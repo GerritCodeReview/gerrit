@@ -14,7 +14,9 @@
 
 package com.google.gerrit.client.diff;
 
+import com.google.gerrit.client.account.DiffPreferences;
 import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
+import com.google.gerrit.reviewdb.client.Patch.ChangeType;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
@@ -52,6 +54,7 @@ class DiffTable extends Composite {
     String showTabs();
     String showLineNumbers();
     String hideA();
+    String hideB();
     String columnMargin();
     String padding();
   }
@@ -77,6 +80,7 @@ class DiffTable extends Composite {
   private boolean header;
   private boolean headerVisible;
   private boolean visibleA;
+  private ChangeType changeType;
 
   DiffTable(SideBySide2 parent, PatchSet.Id base, PatchSet.Id revision,
       String path) {
@@ -115,6 +119,15 @@ class DiffTable extends Composite {
     };
   }
 
+  void setVisibleB(boolean show) {
+    if (show) {
+      removeStyleName(style.hideB());
+      parent.syncScroll(DisplaySide.A); // match A's viewport
+    } else {
+      addStyleName(style.hideB());
+    }
+  }
+
   boolean isHeaderVisible() {
     return headerVisible;
   }
@@ -139,7 +152,12 @@ class DiffTable extends Composite {
     return h;
   }
 
-  void set(JsArray<RevisionInfo> list, DiffInfo info) {
+  ChangeType getChangeType() {
+    return changeType;
+  }
+
+  void set(DiffPreferences prefs, JsArray<RevisionInfo> list, DiffInfo info) {
+    this.changeType = info.change_type();
     patchSetSelectBoxA.setUpPatchSetNav(list, info.meta_a());
     patchSetSelectBoxB.setUpPatchSetNav(list, info.meta_b());
 
@@ -164,6 +182,15 @@ class DiffTable extends Composite {
     } else {
       header = false;
       UIObject.setVisible(diffHeaderRow, false);
+    }
+    setHideEmptyPane(prefs.hideEmptyPane());
+  }
+
+  void setHideEmptyPane(boolean hide) {
+    if (changeType == ChangeType.ADDED) {
+      setVisibleA(!hide);
+    } else if (changeType == ChangeType.DELETED) {
+      setVisibleB(!hide);
     }
   }
 

@@ -91,6 +91,7 @@ public class AccountDiffPreference {
     p.setShowTabs(true);
     p.setContext(DEFAULT_CONTEXT);
     p.setManualReview(false);
+    p.setHideEmptyPane(false);
     return p;
   }
 
@@ -152,6 +153,9 @@ public class AccountDiffPreference {
   @Column(id = 19, length = 20, notNull = false)
   protected String theme;
 
+  @Column(id = 20)
+  protected boolean hideEmptyPane;
+
   protected AccountDiffPreference() {
   }
 
@@ -178,6 +182,7 @@ public class AccountDiffPreference {
     this.hideTopMenu = p.hideTopMenu;
     this.hideLineNumbers = p.hideLineNumbers;
     this.renderEntireFile = p.renderEntireFile;
+    this.hideEmptyPane = p.hideEmptyPane;
   }
 
   public Account.Id getAccountId() {
@@ -329,5 +334,13 @@ public class AccountDiffPreference {
 
   public void setTheme(Theme theme) {
     this.theme = theme != null ? theme.name() : null;
+  }
+
+  public boolean isHideEmptyPane() {
+    return hideEmptyPane;
+  }
+
+  public void setHideEmptyPane(boolean hideEmptyPane) {
+    this.hideEmptyPane = hideEmptyPane;
   }
 }

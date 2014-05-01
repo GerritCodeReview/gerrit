@@ -16,6 +16,24 @@
       "revId": "4a3f51a8e031c9e57a619e1e403d9a7cd39e6b78",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a6380f2_c914715e",
+        "filename": "lib/maven.defs",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-01T20:13:12Z",
+      "side": 1,
+      "message": "Nope. This would still break consuming of artifacts from other repositories: gerritforge, Maven central, etc.\n\nFor example, try to fetch this artifact from GERRIT_FORGE repo with change you are suggesting:\n\n  maven_jar(\n    name \u003d \u0027gitblit-jar\u0027,\n    id \u003d \u0027com.gitblit:gitblit:1.4.0-SNAPSHOT\u0027,\n    sha1 \u003d \u00275d1a6df0ed4ee0517e1f61cdf92b7fb47b4b1119\u0027,\n    license \u003d \u0027Apache2.0\u0027,\n    repository \u003d GERRIT_FORGE,\n  )\n\nOr check this change to see the whole story: [1].\n\n [1] https://gerrit-review.googlesource.com/51700",
+      "parentUuid": "6a3aa0c6_115aac29",
+      "revId": "4a3f51a8e031c9e57a619e1e403d9a7cd39e6b78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

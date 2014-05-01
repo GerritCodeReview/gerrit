@@ -15,10 +15,14 @@
 package com.google.gerrit.acceptance.git;
 
 import static com.google.gerrit.acceptance.GitUtil.cloneProject;
+import static org.junit.Assert.assertEquals;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.LabelInfo;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwtorm.server.OrmException;
 
@@ -141,6 +145,43 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     r = pushTo("refs/for/master%draft");
     r.assertOkStatus();
     r.assertChange(Change.Status.DRAFT, null);
+  }
+
+  @Test
+  public void testPushForMasterWithApprovals() throws GitAPIException,
+      IOException, RestApiException {
+    PushOneCommit.Result r = pushTo("refs/for/master/%l=Code-Review");
+    r.assertOkStatus();
+    ChangeInfo ci = get(r.getChangeId());
+    LabelInfo cr = ci.labels.get("Code-Review");
+    assertEquals(1, cr.all.size());
+    assertEquals("Administrator", cr.all.get(0).name);
+    assertEquals(1, cr.all.get(0).value.intValue());
+
+    PushOneCommit push =
+        pushFactory.create(db, admin.getIdent(), PushOneCommit.SUBJECT,
+            "b.txt", "anotherContent", r.getChangeId());
+    r = push.to(git, "refs/for/master/%l=Code-Review+2");
+
+    ci = get(r.getChangeId());
+    cr = ci.labels.get("Code-Review");
+    assertEquals(1, cr.all.size());
+    assertEquals("Administrator", cr.all.get(0).name);
+    assertEquals(2, cr.all.get(0).value.intValue());
+  }
+
+  @Test
+  public void testPushForMasterWithApprovals_MissingLabel() throws GitAPIException,
+      IOException {
+      PushOneCommit.Result r = pushTo("refs/for/master/%l=Verify");
+      r.assertErrorStatus("label \"Verify\" is not a configured label");
+  }
+
+  @Test
+  public void testPushForMasterWithApprovals_ValueOutOfRange() throws GitAPIException,
+      IOException, RestApiException {
+    PushOneCommit.Result r = pushTo("refs/for/master/%l=Code-Review-3");
+    r.assertErrorStatus("label \"Code-Review\": -3 is not a valid value");
   }
 
   @Test

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.git;
 
+import com.google.common.base.Strings;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
@@ -274,8 +275,13 @@ public class SubmoduleOp {
         msgbuf.append(me.getKey().getParentKey().get());
         msgbuf.append("  ").append(me.getValue().getName());
         msgbuf.append("\n");
-        if (modules.size() == 1 && msg != null) {
-          msgbuf.append(msg);
+        if (modules.size() == 1) {
+          if (!Strings.isNullOrEmpty(msg)) {
+            msgbuf.append(msg);
+          } else {
+            msgbuf.append("\n");
+            msgbuf.append(c.getFullMessage());
+          }
         } else {
           msgbuf.append(c.getShortMessage());
         }

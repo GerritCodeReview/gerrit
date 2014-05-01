@@ -32,11 +32,14 @@ By default all REST endpoints assume anonymous access and filter
 results to correspond to what anonymous users can read (which may
 be nothing at all).
 
-Users (and programs) may authenticate using HTTP authentication by
-supplying the HTTP password from the user's account settings page.
-Gerrit by default uses HTTP digest authentication. To authenticate,
-prefix the endpoint URL with `/a/`. For example to authenticate to
-`/projects/` request URL `/a/projects/`.
+Users (and programs) may authenticate by prefixing the endpoint URL with
+`/a/`. For example to authenticate to `/projects/`, request the URL
+`/a/projects/`.
+
+By default Gerrit uses HTTP digest authentication with the HTTP password
+from the user's account settings page. HTTP basic authentication is used
+if link:config-gerrit.html#auth.gitBasicAuth[`auth.gitBasicAuth`] is set
+to true in the Gerrit configuration.
 
 [[preconditions]]
 === Preconditions
@@ -91,32 +94,33 @@ must be URL encoded.
 
 [[response-codes]]
 === Response Codes
-HTTP status codes are well defined and the Gerrit REST endpoints use
-them as described in the HTTP spec.
+The Gerrit REST endpoints use HTTP status codes as described
+in the link:http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html[
+HTTP specification].
 
-Here are examples for some HTTP status codes that show how they are
-used in the context of the Gerrit REST API.
+Here are examples that show how HTTP status codes are used in the
+context of the Gerrit REST API.
 
 ==== 400 Bad Request
-`400 Bad Request` is used if the request is not understood by the
+`400 Bad Request` is returned if the request is not understood by the
 server due to malformed syntax.
 
 E.g. `400 Bad Request` is returned if JSON input is expected but the
 'Content-Type' of the request is not 'application/json' or the request
 body doesn't contain valid JSON.
 
-`400 Bad Request` is also used if required input fields are not set or
+`400 Bad Request` is also returned if required input fields are not set or
 if options are set which cannot be used together.
 
 ==== 403 Forbidden
-`403 Forbidden` is used if the operation is not allowed because the
-calling user has no sufficient permissions.
+`403 Forbidden` is returned if the operation is not allowed because the
+calling user does not have sufficient permissions.
 
 E.g. some REST endpoints require that the calling user has certain
 link:access-control.html#global_capabilities[global capabilities]
 assigned.
 
-`403 Forbidden` is also used if `self` is used as account ID and the
+`403 Forbidden` is also returned if `self` is used as account ID and the
 REST call was done without authentication.
 
 ==== 404 Not Found
@@ -125,7 +129,7 @@ URL is not found or is not visible to the calling user. A resource
 cannot be found if the URL contains a non-existing ID or view.
 
 ==== 405 Method Not Allowed
-`405 Method Not Allowed` is used if the resource exists but doesn't
+`405 Method Not Allowed` is returned if the resource exists but doesn't
 support the operation.
 
 E.g. some of the `/groups/` endpoints are only supported for Gerrit
@@ -133,7 +137,7 @@ internal groups, if they are invoked for an external group the response
 is `405 Method Not Allowed`.
 
 ==== 409 Conflict
-`409 Conflict` is used if the request cannot be completed because the
+`409 Conflict` is returned if the request cannot be completed because the
 current state of the resource doesn't allow the operation.
 
 E.g. if you try to submit a change that is abandoned, this fails with
@@ -144,8 +148,8 @@ operation.
 name is already occupied by an existing resource.
 
 ==== 412 Precondition Failed
-`412 Precondition Failed` is used if a precondition from the request
-header fields is not fulfilled as described in the link:#preconditions[
+`412 Precondition Failed` is returned if a precondition from the request
+header fields is not fulfilled, as described in the link:#preconditions[
 Preconditions] section.
 
 ==== 422 Unprocessable Entity

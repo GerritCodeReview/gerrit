@@ -1,6 +1,6 @@
 SRCS = glob(['src/main/java/**/*.java'])
 
-java_library2(
+java_library(
   name = 'sshd',
   srcs = SRCS,
   deps = [
@@ -27,7 +27,7 @@ java_library2(
     '//lib/mina:sshd',
     '//lib/jgit:jgit',
   ],
-  compile_deps = [
+  provided_deps = [
     '//lib/bouncycastle:bcprov',
   ],
   visibility = ['PUBLIC'],

@@ -51,6 +51,24 @@
       "revId": "7462c4b01c7a7066a029757ca8aca712324089ea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea93f015_3dcf8f91",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-02T12:50:25Z",
+      "side": 1,
+      "message": "Yes, but what about custom label with NoOp function with say range (-1, …, +1).\nIf we have red and green in this case, we should probably say \"min score\" and \"max score\" and not approve and veto vote? Or extra mention no op and not block votes?",
+      "parentUuid": "ea93f015_5dc05b62",
+      "revId": "7462c4b01c7a7066a029757ca8aca712324089ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

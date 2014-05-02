@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6ad620dd_11e08c33",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-05-02T23:22:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea4e9081_a5b03ee3",
+      "revId": "502c135d1ab2628148998d65129f67cd207b4c1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea4e9081_85ad4289",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "6ad620dd_31e59044",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-05-02T23:22:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea4e9081_85ad4289",
+      "revId": "502c135d1ab2628148998d65129f67cd207b4c1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea4e9081_65880612",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2014-05-02T19:43:08Z",
       "side": 1,
       "message": "nit: unnecessary blank line",
+      "revId": "502c135d1ab2628148998d65129f67cd207b4c1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ad620dd_d1e9a41e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-05-02T23:22:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea4e9081_65880612",
       "revId": "502c135d1ab2628148998d65129f67cd207b4c1c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -76,6 +130,30 @@
     },
     {
       "key": {
+        "uuid": "ea93f015_fd99279b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 721,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-05-02T23:22:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca4b8c72_e45aba07",
+      "range": {
+        "startLine": 719,
+        "startChar": 8,
+        "endLine": 721,
+        "endChar": 62
+      },
+      "revId": "502c135d1ab2628148998d65129f67cd207b4c1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca4b8c72_c457bedf",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 1
@@ -93,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "ea93f015_9d96e36a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 723,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-05-02T23:22:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca4b8c72_c457bedf",
+      "revId": "502c135d1ab2628148998d65129f67cd207b4c1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca4b8c72_a454c2db",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 1
@@ -104,6 +200,30 @@
       "writtenOn": "2014-05-02T19:43:08Z",
       "side": 1,
       "message": "Joiner.on(\u0027 \u0027).join(lastCreateChangeErrors)",
+      "range": {
+        "startLine": 731,
+        "startChar": 61,
+        "endLine": 731,
+        "endChar": 83
+      },
+      "revId": "502c135d1ab2628148998d65129f67cd207b4c1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea93f015_bd939f79",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 731,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-05-02T23:22:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca4b8c72_a454c2db",
       "range": {
         "startLine": 731,
         "startChar": 61,

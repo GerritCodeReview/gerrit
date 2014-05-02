@@ -87,6 +87,24 @@
       "revId": "7462c4b01c7a7066a029757ca8aca712324089ea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a976403_3ea8e9a9",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-02T13:00:10Z",
+      "side": 1,
+      "message": "Ah, I believe you are right, they are reported with dislike() and like() instead of with approve() and reject().",
+      "parentUuid": "0a976403_7eae71bb",
+      "revId": "7462c4b01c7a7066a029757ca8aca712324089ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

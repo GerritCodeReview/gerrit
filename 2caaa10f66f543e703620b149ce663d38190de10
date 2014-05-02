@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ea93f015_5d729bc2",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-02T10:56:32Z",
+      "side": 1,
+      "message": "Hmm, I don\u0027t want this to be a comparison with the old change screen, but only describe the new screen as it is. To me this screen is still representing a change as a whole and is not just displaying a single revision.\n\nHow to access different patch sets and how to navigate between them will be explained in on own section.\n\nSo I would just keep the sentence here as it is.",
+      "parentUuid": "0a976403_5e7295c2",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 54
+      },
+      "revId": "2caaa10f66f543e703620b149ce663d38190de10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea93f015_bd371ffa",
         "filename": "Documentation/user-review-ui.txt",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2014-05-02T08:54:01Z",
       "side": 1,
       "message": "The change owner and any explicitly added reviewers can see draft changes. In addition all other users that are member of a group that was granted View Draft ACL (link to the access-page): [1].\n\n[1] https://gerrit-review.googlesource.com/Documentation/access-control.html#category_view_drafts",
+      "range": {
+        "startLine": 85,
+        "startChar": 0,
+        "endLine": 86,
+        "endChar": 10
+      },
+      "revId": "2caaa10f66f543e703620b149ce663d38190de10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea93f015_7d7757b1",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-02T10:56:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea93f015_bd371ffa",
       "range": {
         "startLine": 85,
         "startChar": 0,

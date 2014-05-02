@@ -14,14 +14,84 @@
 
 package com.google.gerrit.extensions.api.changes;
 
+import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.ListChangesOption;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+
+import java.util.Arrays;
+import java.util.EnumSet;
+import java.util.List;
 
 public interface Changes {
   ChangeApi id(int id) throws RestApiException;
   ChangeApi id(String triplet) throws RestApiException;
   ChangeApi id(String project, String branch, String id)
       throws RestApiException;
+
+  /**
+   * Shorthand for {@link #query(QueryParameter)} without any conditions (i.e. lists all changes).
+   */
+  List<ChangeInfo> query() throws RestApiException;
+  List<ChangeInfo> query(QueryParameter queryParameter) throws RestApiException;
+
+  public class QueryParameter {
+    private String query;
+    private int limit;
+    private int start;
+    private EnumSet<ListChangesOption> options = EnumSet.noneOf(ListChangesOption.class);
+
+    public QueryParameter() {}
+
+    public QueryParameter(String query) {
+      this.query = query;
+    }
+
+    public QueryParameter withQuery(String query) {
+      this.query = query;
+      return this;
+    }
+
+    public QueryParameter withLimit(int limit) {
+      this.limit = limit;
+      return this;
+    }
+
+    public QueryParameter withStart(int start) {
+      this.start = start;
+      return this;
+    }
+
+    public QueryParameter withOption(ListChangesOption options) {
+      this.options.add(options);
+      return this;
+    }
+    public QueryParameter withOptions(ListChangesOption... options) {
+      this.options.addAll(Arrays.asList(options));
+      return this;
+    }
+
+    public QueryParameter withOptions(EnumSet<ListChangesOption> options) {
+      this.options = options;
+      return this;
+    }
+
+    public String getQuery() {
+      return query;
+    }
+
+    public int getLimit() {
+      return limit;
+    }
+
+    public int getStart() {
+      return start;
+    }
+
+    public EnumSet<ListChangesOption> getOptions() {
+      return options;
+    }
+  }
 
   /**
    * A default implementation which allows source compatibility
@@ -40,6 +110,16 @@ public interface Changes {
 
     @Override
     public ChangeApi id(String project, String branch, String id) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public List<ChangeInfo> query() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public List<ChangeInfo> query(QueryParameter queryParameter) throws RestApiException {
       throw new NotImplementedException();
     }
   }

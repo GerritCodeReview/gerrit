@@ -711,16 +711,29 @@ public class ReceiveCommits {
       return;
     }
 
+    List<String> lastCreateChangeErrors = Lists.newArrayList();
     for (CreateRequest create : newChanges) {
       if (create.cmd.getResult() == OK) {
         okToInsert++;
+      } else {
+        String createChangeResult =
+            String.format("%s %s",
+                create.cmd.getResult(),
+                Strings.nullToEmpty(create.cmd.getMessage())).trim();
+        lastCreateChangeErrors.add(createChangeResult);
+        log.error(String.format("Command %s on %s:%s not completed: %s",
+            create.cmd.getType(),
+            project.getName(),
+            create.cmd.getRefName(),
+            createChangeResult));
       }
     }
 
     if (okToInsert != replaceCount + newChanges.size()) {
       // One or more new references failed to create. Assume the
       // system isn't working correctly anymore and abort.
-      reject(magicBranch.cmd, "internal server error");
+      reject(magicBranch.cmd, "Unable to create changes: "
+          + Joiner.on(' ').join(lastCreateChangeErrors));
       log.error(String.format(
           "Only %d of %d new change refs created in %s; aborting",
           okToInsert, replaceCount + newChanges.size(), project.getName()));

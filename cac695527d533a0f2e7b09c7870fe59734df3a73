@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ea93f015_1da3b3d2",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/Changes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2014-05-02T15:00:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea4e9081_65d6c663",
+      "revId": "cac695527d533a0f2e7b09c7870fe59734df3a73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea4e9081_45dbca87",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/Changes.java",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2014-05-01T21:43:32Z",
       "side": 1,
       "message": "This is going away. We are now using pagination to skip rows, see -S option in QueryChanges.",
+      "range": {
+        "startLine": 67,
+        "startChar": 4,
+        "endLine": 70,
+        "endChar": 5
+      },
+      "revId": "cac695527d533a0f2e7b09c7870fe59734df3a73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a976403_7e23d19a",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/Changes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2014-05-02T15:00:40Z",
+      "side": 1,
+      "message": "Done: removed, but added start option.",
+      "parentUuid": "ea4e9081_45dbca87",
       "range": {
         "startLine": 67,
         "startChar": 4,

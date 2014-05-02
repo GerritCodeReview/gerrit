@@ -545,6 +545,10 @@ a:hover {
   height: 20px;
 }
 
+.changeTable .dataCellHidden {
+  display: none;
+}
+
 .changeTable a.gwt-InlineHyperlink,
 .changeTable a.gwt-Anchor {
   color: #222 !important;
@@ -630,6 +634,10 @@ a:hover {
   font-style: italic;
   white-space: nowrap;
   color: textColor;
+}
+
+.changeTable .dataHeaderHidden {
+  display: none;
 }
 
 .changeTable .sectionHeader {

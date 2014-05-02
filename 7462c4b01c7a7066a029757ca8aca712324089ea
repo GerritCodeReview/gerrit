@@ -69,6 +69,24 @@
       "revId": "7462c4b01c7a7066a029757ca8aca712324089ea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a976403_7eae71bb",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-02T12:54:52Z",
+      "side": 1,
+      "message": "Don\u0027t know how labels with NoOp function are handled. I would expect that they are not colored since they do not approve or veto. I guess it\u0027s worth to try this out...",
+      "parentUuid": "ea93f015_3dcf8f91",
+      "revId": "7462c4b01c7a7066a029757ca8aca712324089ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

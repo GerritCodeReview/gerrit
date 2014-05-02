@@ -1,0 +1,158 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ea4e9081_250fae02",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2014-05-02T18:09:29Z",
+      "side": 1,
+      "message": "Maybe \"allow files to be marked as reviewed.\"",
+      "revId": "53a16fc7d7c74fe9b19b0810ad1096d14ede1b97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca4b8c72_e4319ae1",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2014-05-02T18:09:29Z",
+      "side": 1,
+      "message": "Here you use gray with an \"a\" and on line 332 with a \"e\", one is English, the other is American.  Do we want to pick one specifically?",
+      "range": {
+        "startLine": 336,
+        "startChar": 15,
+        "endLine": 336,
+        "endChar": 23
+      },
+      "revId": "53a16fc7d7c74fe9b19b0810ad1096d14ede1b97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea4e9081_0514b214",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2014-05-02T18:09:29Z",
+      "side": 1,
+      "message": "s/show/shown/\n\nThe user does the visualizing, not the bar.  Maybe use \"displays\", \"graphs\" or \"indicates\", or \"visually indicates\"...",
+      "range": {
+        "startLine": 356,
+        "startChar": 3,
+        "endLine": 356,
+        "endChar": 7
+      },
+      "revId": "53a16fc7d7c74fe9b19b0810ad1096d14ede1b97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea4e9081_c5057adf",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2014-05-02T18:09:29Z",
+      "side": 1,
+      "message": "s/show/shows/",
+      "range": {
+        "startLine": 357,
+        "startChar": 40,
+        "endLine": 357,
+        "endChar": 44
+      },
+      "revId": "53a16fc7d7c74fe9b19b0810ad1096d14ede1b97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea4e9081_e50876f7",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2014-05-02T18:09:29Z",
+      "side": 1,
+      "message": "Comma after \"lines\".",
+      "revId": "53a16fc7d7c74fe9b19b0810ad1096d14ede1b97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea4e9081_a5027ed3",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2014-05-02T18:09:29Z",
+      "side": 1,
+      "message": "\"allows +one+ to\"\n\n\"size gives an estimate of how\"",
+      "revId": "53a16fc7d7c74fe9b19b0810ad1096d14ede1b97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea4e9081_85ff8279",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2014-05-02T18:09:29Z",
+      "side": 1,
+      "message": "\"allows +one+\"",
+      "revId": "53a16fc7d7c74fe9b19b0810ad1096d14ede1b97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca4b8c72_c42e9e7d",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2014-05-02T18:09:29Z",
+      "side": 1,
+      "message": "\"the base +of the current patchset+ or against\"",
+      "revId": "53a16fc7d7c74fe9b19b0810ad1096d14ede1b97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

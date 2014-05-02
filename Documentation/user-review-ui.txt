@@ -290,6 +290,89 @@ Approving votes are colored green; veto votes are colored red.
 +
 image::images/user-review-ui-change-screen-change-info-labels.png[width=800, link="images/user-review-ui-change-screen-change-info-labels.png"]
 
+[[files]]
+=== File List
+
+The file list shows the files that are modified in the currently viewed
+patch set.
+
+image::images/user-review-ui-change-screen-file-list.png[width=800, link="images/user-review-ui-change-screen-file-list.png"]
+
+The checkboxes in front of the file names allow files to be marked as reviewed.
+
+image::images/user-review-ui-change-screen-file-list-mark-as-reviewed.png[width=800, link="images/user-review-ui-change-screen-file-list-mark-as-reviewed.png"]
+
+The type of a file modification is indicated by the character in front
+of the file name:
+
+- 'no character' (Modified):
++
+The file existed before this change and is modified.
+
+- `A` (Added):
++
+The file is newly added.
+
+- `D` (Deleted):
++
+The file is deleted.
+
+- `R` (Renamed):
++
+The file is renamed.
+
+- `C` (Copied):
++
+The file is new and is copied from an existing file.
+
+image::images/user-review-ui-change-screen-file-list-modification-type.png[width=800, link="images/user-review-ui-change-screen-file-list-modification-type.png"]
+
+If a file is renamed or copied, the name of the original file is
+displayed in gray below the file name.
+
+image::images/user-review-ui-change-screen-file-list-rename.png[width=800, link="images/user-review-ui-change-screen-file-list-rename.png"]
+
+Repeating path segments are grayed out.
+
+image::images/user-review-ui-change-screen-file-list-repeating-paths.png[width=800, link="images/user-review-ui-change-screen-file-list-repeating-paths.png"]
+
+Inline comments on a file are shown in the `Comments` column.
+
+Draft comments, i.e. comments that have been written by the current
+user but not yet published, are highlighted in red.
+
+New comments from other users, that were published after the current
+user last reviewed this change, are highlighted in bold.
+
+image::images/user-review-ui-change-screen-file-list-comments.png[width=800, link="images/user-review-ui-change-screen-file-list-comments.png"]
+
+The size of the modifications in the files can be seen in the `Size`
+column. The footer row shows the total size of the change.
+
+For files, the `Size` column shows the sum of inserted and deleted
+lines as one number. For the total size, inserted and deleted lines are
+shown separately. In addition, the number of insertions and deletions
+is shown as a bar. The size of the bar indicates the amount of changed
+lines, and its coloring in green and red shows the proportion of
+insertions to deletions.
+
+The size information is useful to easily spot the files that contain
+the most modifications; these files are likely to be the most relevant
+files for this change. The total change size gives an estimate of how
+long a review of this change may take.
+
+image::images/user-review-ui-change-screen-file-list-size.png[width=800, link="images/user-review-ui-change-screen-file-list-size.png"]
+
+In the header of the file list, the `Diff Against` selection can be
+changed. This selection allows one to choose if the currently viewed
+patch set should be compared against its base or against another patch
+set of this change. The file list is updated accordingly.
+
+The file list header also provides an `Open All` button that opens the
+diff views for all files in the file list.
+
+image::images/user-review-ui-change-screen-file-list-header.png[width=800, link="images/user-review-ui-change-screen-file-list-header.png"]
+
 [[old-change-screen]]
 === Old Change Screen
 

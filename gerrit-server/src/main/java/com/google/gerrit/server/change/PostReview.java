@@ -29,10 +29,10 @@ import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
-import com.google.gerrit.extensions.api.changes.ReviewInput.Comment;
+import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
 import com.google.gerrit.extensions.api.changes.ReviewInput.NotifyHandling;
-import com.google.gerrit.extensions.api.changes.ReviewInput.Side;
+import com.google.gerrit.extensions.common.Comment.Side;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
@@ -272,16 +272,16 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     }
   }
 
-  private void checkComments(RevisionResource revision, Map<String, List<Comment>> in)
+  private void checkComments(RevisionResource revision, Map<String, List<CommentInput>> in)
       throws BadRequestException, OrmException {
-    Iterator<Map.Entry<String, List<Comment>>> mapItr =
+    Iterator<Map.Entry<String, List<CommentInput>>> mapItr =
         in.entrySet().iterator();
     Set<String> filePaths =
         Sets.newHashSet(changeDataFactory.create(
             db.get(), revision.getChange()).filePaths(
                 revision.getPatchSet()));
     while (mapItr.hasNext()) {
-      Map.Entry<String, List<Comment>> ent = mapItr.next();
+      Map.Entry<String, List<CommentInput>> ent = mapItr.next();
       String path = ent.getKey();
       if (!filePaths.contains(path) && !Patch.COMMIT_MSG.equals(path)) {
         throw new BadRequestException(String.format(
@@ -289,15 +289,15 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
             path, revision.getChange().currentPatchSetId()));
       }
 
-      List<Comment> list = ent.getValue();
+      List<CommentInput> list = ent.getValue();
       if (list == null) {
         mapItr.remove();
         continue;
       }
 
-      Iterator<Comment> listItr = list.iterator();
+      Iterator<CommentInput> listItr = list.iterator();
       while (listItr.hasNext()) {
-        Comment c = listItr.next();
+        CommentInput c = listItr.next();
         if (c.line < 0) {
           throw new BadRequestException(String.format(
               "negative line number %d not allowed on %s",
@@ -315,7 +315,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   }
 
   private boolean insertComments(RevisionResource rsrc,
-      Map<String, List<Comment>> in, DraftHandling draftsHandling)
+      Map<String, List<CommentInput>> in, DraftHandling draftsHandling)
       throws OrmException {
     if (in == null) {
       in = Collections.emptyMap();
@@ -329,9 +329,9 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     List<PatchLineComment> del = Lists.newArrayList();
     List<PatchLineComment> ups = Lists.newArrayList();
 
-    for (Map.Entry<String, List<Comment>> ent : in.entrySet()) {
+    for (Map.Entry<String, List<CommentInput>> ent : in.entrySet()) {
       String path = ent.getKey();
-      for (Comment c : ent.getValue()) {
+      for (CommentInput c : ent.getValue()) {
         String parent = Url.decode(c.inReplyTo);
         PatchLineComment e = drafts.remove(Url.decode(c.id));
         if (e == null) {

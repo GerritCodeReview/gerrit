@@ -718,11 +718,11 @@ public abstract class AbstractQueryChangesTest {
 
     ReviewInput input = new ReviewInput();
     input.message = "toplevel";
-    ReviewInput.Comment comment = new ReviewInput.Comment();
+    ReviewInput.CommentInput comment = new ReviewInput.CommentInput();
     comment.line = 1;
     comment.message = "inline";
-    input.comments = ImmutableMap.<String, List<ReviewInput.Comment>> of(
-        Patch.COMMIT_MSG, ImmutableList.<ReviewInput.Comment> of(comment));
+    input.comments = ImmutableMap.<String, List<ReviewInput.CommentInput>> of(
+        Patch.COMMIT_MSG, ImmutableList.<ReviewInput.CommentInput> of(comment));
     postReview.apply(new RevisionResource(
         changes.parse(change.getId()), ins.getPatchSet()), input);
 

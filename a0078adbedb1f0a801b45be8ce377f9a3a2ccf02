@@ -71,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "ea4e9081_e5b3d627",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangesCollection.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-02T04:28:11Z",
+      "side": 1,
+      "message": "I think that\u0027s why we have AcceptsPost on collections...",
+      "parentUuid": "ca4b8c72_843786fa",
+      "revId": "a0078adbedb1f0a801b45be8ce377f9a3a2ccf02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea4e9081_a53a7ee0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
         "patchSetId": 11

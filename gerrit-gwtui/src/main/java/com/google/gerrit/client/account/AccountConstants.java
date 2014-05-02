@@ -39,6 +39,7 @@ public interface AccountConstants extends Constants {
   String buttonSaveChanges();
   String showRelativeDateInChangeTable();
   String showSizeBarInChangeTable();
+  String showLegacycidInChangeTable();
   String myMenu();
   String myMenuInfo();
   String myMenuName();

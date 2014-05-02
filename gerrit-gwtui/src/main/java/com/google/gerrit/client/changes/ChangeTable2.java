@@ -48,14 +48,16 @@ import java.util.List;
 
 public class ChangeTable2 extends NavigationTable<ChangeInfo> {
   private static final int C_STAR = 1;
-  private static final int C_SUBJECT = 2;
-  private static final int C_STATUS = 3;
-  private static final int C_OWNER = 4;
-  private static final int C_PROJECT = 5;
-  private static final int C_BRANCH = 6;
-  private static final int C_LAST_UPDATE = 7;
-  private static final int C_SIZE = 8;
-  private static final int BASE_COLUMNS = 9;
+  private static final int C_ID = 2;
+  private static final int C_SUBJECT = 3;
+  private static final int C_STATUS = 4;
+  private static final int C_OWNER = 5;
+  private static final int C_PROJECT = 6;
+  private static final int C_BRANCH = 7;
+  private static final int C_LAST_UPDATE = 8;
+  private static final int C_SIZE = 9;
+  private static final int BASE_COLUMNS = 10;
+
 
   private final boolean useNewFeatures = Gerrit.getConfig().getNewFeatures();
   private final List<Section> sections;
@@ -73,6 +75,7 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
 
     sections = new ArrayList<>();
     table.setText(0, C_STAR, "");
+    table.setText(0, C_ID, Util.C.changeTableColumnID());
     table.setText(0, C_SUBJECT, Util.C.changeTableColumnSubject());
     table.setText(0, C_STATUS, Util.C.changeTableColumnStatus());
     table.setText(0, C_OWNER, Util.C.changeTableColumnOwner());
@@ -85,8 +88,14 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
 
     final FlexCellFormatter fmt = table.getFlexCellFormatter();
     fmt.addStyleName(0, C_STAR, Gerrit.RESOURCES.css().iconHeader());
-    for (int i = C_SUBJECT; i < columns; i++) {
+    for (int i = C_ID; i < columns; i++) {
       fmt.addStyleName(0, i, Gerrit.RESOURCES.css().dataHeader());
+    }
+
+    if (!Gerrit.isSignedIn() ||
+       (!Gerrit.getUserAccount().getGeneralPreferences()
+         .isLegacycidInChangeTable())) {
+      fmt.addStyleName(0, C_ID, Gerrit.RESOURCES.css().dataHeaderHidden());
     }
 
     table.addClickHandler(new ClickHandler() {
@@ -139,13 +148,19 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
     super.applyDataRowStyle(row);
     final CellFormatter fmt = table.getCellFormatter();
     fmt.addStyleName(row, C_STAR, Gerrit.RESOURCES.css().iconCell());
-    for (int i = C_SUBJECT; i < columns; i++) {
+    for (int i = C_ID; i < columns; i++) {
       fmt.addStyleName(row, i, Gerrit.RESOURCES.css().dataCell());
     }
     fmt.addStyleName(row, C_SUBJECT, Gerrit.RESOURCES.css().cSUBJECT());
     fmt.addStyleName(row, C_STATUS, Gerrit.RESOURCES.css().cSTATUS());
     fmt.addStyleName(row, C_OWNER, Gerrit.RESOURCES.css().cOWNER());
     fmt.addStyleName(row, C_LAST_UPDATE, Gerrit.RESOURCES.css().cLastUpdate());
+
+    if (!Gerrit.isSignedIn() ||
+       (!Gerrit.getUserAccount().getGeneralPreferences()
+         .isLegacycidInChangeTable())) {
+      fmt.addStyleName(row, C_ID, Gerrit.RESOURCES.css().dataCellHidden());
+    }
 
     int i = C_SIZE;
     if (useNewFeatures) {
@@ -207,6 +222,7 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
           c.legacy_id(),
           c.starred()));
     }
+    table.setWidget(row, C_ID, new TableChangeLink(String.valueOf(c.legacy_id()), c));
 
     String subject = Util.cropSubject(c.subject());
     table.setWidget(row, C_SUBJECT, new TableChangeLink(subject, c));

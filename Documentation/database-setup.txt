@@ -111,6 +111,49 @@ Sample database section in $site_path/etc/secure.config:
         password = secret_pasword
 ----
 
+[[createdb_maxdb]]
+=== SAP MaxDB
+
+SAP MaxDB is a supported database for running Gerrit Code Review. However it is
+recommended only for environments where you intend to run Gerrit on an existing
+MaxDB installation to reduce administrative overhead.
+
+In the MaxDB studio or using the SQLCLI command line interface create a user
+'gerrit2' with the user class 'RESOURCE' and a password <secret password>. This
+will also create an associated schema on the database.
+
+To run Gerrit on MaxDB, you need to obtain the MaxDB JDBC driver. It can be
+found in your MaxDB installation at the following location:
+
+- on Windows 64bit at "C:\Program Files\sdb\MaxDB\runtime\jar\sapdbc.jar"
+- on Linux at "/opt/sdb/MaxDB/runtime/jar/sapdbc.jar"
+
+It needs to be stored in the 'lib' folder of the review site.
+
+In the following sample database section it is assumed that the database name is
+'reviewdb' and the database is installed on localhost:
+
+In $site_path/etc/gerrit.config:
+
+----
+[database]
+        type = maxdb
+        database = reviewdb
+        hostname = localhost
+        username = gerrit2
+
+----
+
+In $site_path/etc/secure.config:
+
+----
+[database]
+        password = <secret password>
+----
+
+Visit SAP MaxDB's link:http://maxdb.sap.com/documentation/[documentation] for further
+information regarding using SAP MaxDB.
+
 
 GERRIT
 ------

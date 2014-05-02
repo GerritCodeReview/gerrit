@@ -22,6 +22,29 @@
       "revId": "2caaa10f66f543e703620b149ce663d38190de10",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea93f015_bd371ffa",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-02T08:54:01Z",
+      "side": 1,
+      "message": "The change owner and any explicitly added reviewers can see draft changes. In addition all other users that are member of a group that was granted View Draft ACL (link to the access-page): [1].\n\n[1] https://gerrit-review.googlesource.com/Documentation/access-control.html#category_view_drafts",
+      "range": {
+        "startLine": 85,
+        "startChar": 0,
+        "endLine": 86,
+        "endChar": 10
+      },
+      "revId": "2caaa10f66f543e703620b149ce663d38190de10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

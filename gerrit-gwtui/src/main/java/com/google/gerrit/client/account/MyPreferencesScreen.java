@@ -52,6 +52,7 @@ public class MyPreferencesScreen extends SettingsScreen {
   private CheckBox showUsernameInReviewCategory;
   private CheckBox relativeDateInChangeTable;
   private CheckBox sizeBarInChangeTable;
+  private CheckBox legacycidInChangeTable;
   private ListBox maximumPageSize;
   private ListBox dateFormat;
   private ListBox timeFormat;
@@ -145,8 +146,9 @@ public class MyPreferencesScreen extends SettingsScreen {
 
     relativeDateInChangeTable = new CheckBox(Util.C.showRelativeDateInChangeTable());
     sizeBarInChangeTable = new CheckBox(Util.C.showSizeBarInChangeTable());
+    legacycidInChangeTable = new CheckBox(Util.C.showLegacycidInChangeTable());
 
-    final Grid formGrid = new Grid(12, 2);
+    final Grid formGrid = new Grid(13, 2);
 
     int row = 0;
     formGrid.setText(row, labelIdx, "");
@@ -184,6 +186,10 @@ public class MyPreferencesScreen extends SettingsScreen {
 
       formGrid.setText(row, labelIdx, "");
       formGrid.setWidget(row, fieldIdx, sizeBarInChangeTable);
+      row++;
+
+      formGrid.setText(row, labelIdx, "");
+      formGrid.setWidget(row, fieldIdx, legacycidInChangeTable);
       row++;
     }
 
@@ -226,6 +232,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     e.listenTo(timeFormat);
     e.listenTo(relativeDateInChangeTable);
     e.listenTo(sizeBarInChangeTable);
+    e.listenTo(legacycidInChangeTable);
     e.listenTo(commentVisibilityStrategy);
     e.listenTo(changeScreen);
     e.listenTo(diffView);
@@ -254,6 +261,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     timeFormat.setEnabled(on);
     relativeDateInChangeTable.setEnabled(on);
     sizeBarInChangeTable.setEnabled(on);
+    legacycidInChangeTable.setEnabled(on);
     commentVisibilityStrategy.setEnabled(on);
     changeScreen.setEnabled(on);
     diffView.setEnabled(on);
@@ -272,6 +280,7 @@ public class MyPreferencesScreen extends SettingsScreen {
         p.timeFormat());
     relativeDateInChangeTable.setValue(p.relativeDateInChangeTable());
     sizeBarInChangeTable.setValue(p.sizeBarInChangeTable());
+    legacycidInChangeTable.setValue(p.legacycidInChangeTable());
     setListBox(commentVisibilityStrategy,
         AccountGeneralPreferences.CommentVisibilityStrategy.EXPAND_RECENT,
         p.commentVisibilityStrategy());
@@ -359,6 +368,7 @@ public class MyPreferencesScreen extends SettingsScreen {
         AccountGeneralPreferences.TimeFormat.values()));
     p.setRelativeDateInChangeTable(relativeDateInChangeTable.getValue());
     p.setSizeBarInChangeTable(sizeBarInChangeTable.getValue());
+    p.setLegacycidInChangeTable(legacycidInChangeTable.getValue());
     p.setCommentVisibilityStrategy(getListBox(commentVisibilityStrategy,
         CommentVisibilityStrategy.EXPAND_RECENT,
         CommentVisibilityStrategy.values()));

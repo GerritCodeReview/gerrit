@@ -46,6 +46,7 @@ public class Preferences extends JavaScriptObject {
     p.showUsernameInReviewCategory(in.isShowUsernameInReviewCategory());
     p.relativeDateInChangeTable(in.isRelativeDateInChangeTable());
     p.sizeBarInChangeTable(in.isSizeBarInChangeTable());
+    p.legacycidInChangeTable(in.isLegacycidInChangeTable());
     p.commentVisibilityStrategy(in.getCommentVisibilityStrategy());
     p.diffView(in.getDiffView());
     p.changeScreen(in.getChangeScreen());
@@ -107,6 +108,9 @@ public class Preferences extends JavaScriptObject {
 
   public final native boolean sizeBarInChangeTable()
   /*-{ return this.size_bar_in_change_table || false }-*/;
+
+  public final native boolean legacycidInChangeTable()
+  /*-{ return this.legacycid_in_change_table || false }-*/;
 
   public final CommentVisibilityStrategy commentVisibilityStrategy() {
     String s = commentVisibilityStrategyRaw();
@@ -179,6 +183,9 @@ public class Preferences extends JavaScriptObject {
 
   public final native void sizeBarInChangeTable(boolean s)
   /*-{ this.size_bar_in_change_table = s }-*/;
+
+  public final native void legacycidInChangeTable(boolean s)
+  /*-{ this.legacycid_in_change_table = s }-*/;
 
   public final void commentVisibilityStrategy(CommentVisibilityStrategy s) {
     commentVisibilityStrategyRaw(s != null ? s.toString() : null);

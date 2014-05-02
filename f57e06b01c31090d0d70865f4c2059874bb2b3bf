@@ -2,6 +2,270 @@
   "comments": [
     {
       "key": {
+        "uuid": "ea4e9081_45ae2abb",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-02T10:38:20Z",
+      "side": 1,
+      "message": "\"that are modified in the currently viewed patch set\"",
+      "range": {
+        "startLine": 283,
+        "startChar": 30,
+        "endLine": 284,
+        "endChar": 39
+      },
+      "revId": "f57e06b01c31090d0d70865f4c2059874bb2b3bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea4e9081_651ec652",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-02T10:38:20Z",
+      "side": 1,
+      "message": "is indicated by the",
+      "range": {
+        "startLine": 288,
+        "startChar": 32,
+        "endLine": 288,
+        "endChar": 52
+      },
+      "revId": "f57e06b01c31090d0d70865f4c2059874bb2b3bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca4b8c72_c4821e3e",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-02T10:38:20Z",
+      "side": 1,
+      "message": "Add a comma after",
+      "range": {
+        "startLine": 313,
+        "startChar": 24,
+        "endLine": 313,
+        "endChar": 30
+      },
+      "revId": "f57e06b01c31090d0d70865f4c2059874bb2b3bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea4e9081_25a32ed3",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-02T10:38:20Z",
+      "side": 1,
+      "message": "Might be enough to just say \"Repeating path segments are greyed out.\"\n\nAnd I\u0027m not sure if we should used \"grayed\" instead of \"greyed\"?  I think the former is more commonly used in US English.",
+      "revId": "f57e06b01c31090d0d70865f4c2059874bb2b3bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca4b8c72_a48f2264",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-02T10:38:20Z",
+      "side": 1,
+      "message": "\"Draft comments, i.e. comments that have been written by the current user but not yet published,\"",
+      "range": {
+        "startLine": 324,
+        "startChar": 0,
+        "endLine": 325,
+        "endChar": 22
+      },
+      "revId": "f57e06b01c31090d0d70865f4c2059874bb2b3bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca4b8c72_848c2670",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-02T10:38:20Z",
+      "side": 1,
+      "message": "in bold",
+      "range": {
+        "startLine": 328,
+        "startChar": 38,
+        "endLine": 328,
+        "endChar": 50
+      },
+      "revId": "f57e06b01c31090d0d70865f4c2059874bb2b3bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea4e9081_05a832a9",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-02T10:38:20Z",
+      "side": 1,
+      "message": "\"New comments from other users, that were published after the current user last reviewed this change,\"",
+      "range": {
+        "startLine": 327,
+        "startChar": 0,
+        "endLine": 328,
+        "endChar": 22
+      },
+      "revId": "f57e06b01c31090d0d70865f4c2059874bb2b3bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea4e9081_e59cf68d",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-02T10:38:20Z",
+      "side": 1,
+      "message": "in",
+      "range": {
+        "startLine": 332,
+        "startChar": 55,
+        "endLine": 332,
+        "endChar": 59
+      },
+      "revId": "f57e06b01c31090d0d70865f4c2059874bb2b3bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca4b8c72_645b6a31",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-02T10:38:20Z",
+      "side": 1,
+      "message": "\"For files, the\"",
+      "range": {
+        "startLine": 335,
+        "startChar": 0,
+        "endLine": 335,
+        "endChar": 17
+      },
+      "revId": "f57e06b01c31090d0d70865f4c2059874bb2b3bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea4e9081_c599fa9b",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-02T10:38:20Z",
+      "side": 1,
+      "message": "add a comma after",
+      "range": {
+        "startLine": 336,
+        "startChar": 35,
+        "endLine": 336,
+        "endChar": 39
+      },
+      "revId": "f57e06b01c31090d0d70865f4c2059874bb2b3bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea4e9081_a596fe69",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-02T10:38:20Z",
+      "side": 1,
+      "message": "Mention that the bar is colored with green showing insertions, and red showing removals?",
+      "revId": "f57e06b01c31090d0d70865f4c2059874bb2b3bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca4b8c72_44606edd",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-02T10:38:20Z",
+      "side": 1,
+      "message": "these files are likely to be the most",
+      "range": {
+        "startLine": 341,
+        "startChar": 24,
+        "endLine": 341,
+        "endChar": 55
+      },
+      "revId": "f57e06b01c31090d0d70865f4c2059874bb2b3bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0a976403_fe82813d",
         "filename": "Documentation/user-review-ui.txt",
         "patchSetId": 1
@@ -18,6 +282,75 @@
         "startChar": 0,
         "endLine": 347,
         "endChar": 74
+      },
+      "revId": "f57e06b01c31090d0d70865f4c2059874bb2b3bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca4b8c72_245572fb",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-02T10:38:20Z",
+      "side": 1,
+      "message": "add a comma after",
+      "range": {
+        "startLine": 351,
+        "startChar": 26,
+        "endLine": 351,
+        "endChar": 30
+      },
+      "revId": "f57e06b01c31090d0d70865f4c2059874bb2b3bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea4e9081_8593027a",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-02T10:38:20Z",
+      "side": 1,
+      "message": "allows",
+      "range": {
+        "startLine": 352,
+        "startChar": 24,
+        "endLine": 352,
+        "endChar": 29
+      },
+      "revId": "f57e06b01c31090d0d70865f4c2059874bb2b3bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca4b8c72_045a7629",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-02T10:38:20Z",
+      "side": 1,
+      "message": "It would be worth mentioning that the list of files also changes to include files that were changed in other changes, if the current change was rebased between patch sets.",
+      "range": {
+        "startLine": 354,
+        "startChar": 13,
+        "endLine": 354,
+        "endChar": 50
       },
       "revId": "f57e06b01c31090d0d70865f4c2059874bb2b3bf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

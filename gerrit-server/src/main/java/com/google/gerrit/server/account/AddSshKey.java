@@ -16,6 +16,7 @@ package com.google.gerrit.server.account;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.common.collect.Iterables;
 import com.google.common.io.ByteSource;
 import com.google.gerrit.common.errors.InvalidSshKeyException;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -31,6 +32,7 @@ import com.google.gerrit.server.account.AddSshKey.Input;
 import com.google.gerrit.server.account.GetSshKeys.SshKeyInfo;
 import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -74,11 +76,10 @@ public class AddSshKey implements RestModifyView<AccountResource, Input> {
       throw new BadRequestException("SSH public key missing");
     }
 
-    int max = 0;
-    for (AccountSshKey k : dbProvider.get().accountSshKeys()
-        .byAccount(user.getAccountId())) {
-      max = Math.max(max, k.getKey().get());
-    }
+    ResultSet<AccountSshKey> byAccountLast =
+        dbProvider.get().accountSshKeys().byAccountLast(user.getAccountId());
+    AccountSshKey last = Iterables.getOnlyElement(byAccountLast, null);
+    int max = last == null ? 0 : last.getKey().get();
 
     final RawInput rawKey = input.raw;
     String sshPublicKey = new ByteSource() {

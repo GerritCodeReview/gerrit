@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ca4b8c72_a4bde2f3",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/Changes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-02T16:52:48Z",
+      "side": 1,
+      "message": "This is awkward to call, its cleaner to use the ... array and convert in the method for the caller:\n\n  public QueryParameter withOption(ListChangesOption o) {\n    options.add(o);\n    return this;\n  }\n\n  public QueryParameter withOptions(ListChangesOption... o) {\n    options.addAll(Arrays.asList(o));\n    return this;\n  }\n\n  public QueryParameter withOptions(EnumSet\u003cListChangesOption\u003e o) {\n    options \u003d o;\n    return this;\n  }",
+      "revId": "ab6cd2b5033a72a7c2d2c64cd60ff3958364545f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

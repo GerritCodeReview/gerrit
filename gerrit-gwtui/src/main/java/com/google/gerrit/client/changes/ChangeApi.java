@@ -85,6 +85,11 @@ public class ChangeApi {
     return change(cn).view("revisions").id(id.get());
   }
 
+  public static RestApi mergeable(int id) {
+    return call(id, "current", "mergeable")
+        .addParameter("other-branches", true);
+  }
+
   public static RestApi reviewers(int id) {
     return change(id).view("reviewers");
   }

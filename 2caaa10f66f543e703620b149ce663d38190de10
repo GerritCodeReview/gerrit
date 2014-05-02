@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0a976403_5e7295c2",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-02T08:21:53Z",
+      "side": 1,
+      "message": "\"and single revision\".\n\n The major different between old and new change screen (and all potential reader of the document know old change screen and new to CS2) is presenting only one revision at the time, comparing to disclose panel on the old change screen with scrolling down to the next patch set on the same screen.",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 54
+      },
+      "revId": "2caaa10f66f543e703620b149ce663d38190de10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

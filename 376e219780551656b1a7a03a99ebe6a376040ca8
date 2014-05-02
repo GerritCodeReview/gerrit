@@ -2,6 +2,46 @@
   "comments": [
     {
       "key": {
+        "uuid": "0a976403_3e4c6982",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-02T08:16:06Z",
+      "side": 1,
+      "message": "Below you always mentioned which right must be granted for the action to be available. Mention here who can remove reviewers. Mention, And that if reviewers with negative vote was removed, his vote is going to be entered as change message.",
+      "revId": "376e219780551656b1a7a03a99ebe6a376040ca8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea93f015_1d473363",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-02T08:16:06Z",
+      "side": 1,
+      "message": "and installed plugins, as plugin may contribute change and revisions actions that are placed in this action panel.",
+      "range": {
+        "startLine": 181,
+        "startChar": 0,
+        "endLine": 181,
+        "endChar": 61
+      },
+      "revId": "376e219780551656b1a7a03a99ebe6a376040ca8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea4e9081_85bae2f7",
         "filename": "Documentation/user-review-ui.txt",
         "patchSetId": 3

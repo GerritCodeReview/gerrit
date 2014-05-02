@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "ca4b8c72_843786fa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangesCollection.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2014-05-02T04:10:07Z",
+      "side": 1,
+      "message": "I think the idiomatic thing would be to take POST of something like a ChangeInfo. See http://en.wikipedia.org/wiki/Representational_state_transfer#Applied_to_web_services.",
+      "parentUuid": "ea4e9081_c53d7adc",
+      "revId": "a0078adbedb1f0a801b45be8ce377f9a3a2ccf02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea4e9081_a53a7ee0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
         "patchSetId": 11

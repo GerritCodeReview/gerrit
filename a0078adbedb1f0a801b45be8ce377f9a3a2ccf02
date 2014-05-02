@@ -1,0 +1,192 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ea4e9081_257c4e91",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/CreateChangeInput.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-02T00:45:35Z",
+      "side": 1,
+      "message": "We should include topic too, maybe status so the caller can request status: DRAFT vs. NEW? Maybe we should always create DRAFT since its an incomplete change?",
+      "revId": "a0078adbedb1f0a801b45be8ce377f9a3a2ccf02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea4e9081_45774ab1",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/CreateChangeInput.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-02T00:45:35Z",
+      "side": 1,
+      "message": "branch",
+      "revId": "a0078adbedb1f0a801b45be8ce377f9a3a2ccf02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea4e9081_c53d7adc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangesCollection.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-02T00:45:35Z",
+      "side": 1,
+      "message": "I would rather not use /new here, I would prefer to PUT to /changes/. Unfortunately I think that means we have to make some changes to RestApiServlet ~ line 215 to permit AcceptsCreate when path is empty and method is PUT. This is like the AcceptsPost on line 211.\n\nOf course this is exactly what the AcceptsPost interface was created to handle. POST /changes/ to make a change not PUT /changes/{id}\n\nI hate that we keep kicking this simple change around, but its part of our public API and will become hard to change once its in. So I am really trying to \"get it right\" when the feature lands.",
+      "revId": "a0078adbedb1f0a801b45be8ce377f9a3a2ccf02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea4e9081_a53a7ee0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-02T00:45:35Z",
+      "side": 1,
+      "message": "ChangeInfo calls this branch.",
+      "range": {
+        "startLine": 111,
+        "startChar": 30,
+        "endLine": 111,
+        "endChar": 47
+      },
+      "revId": "a0078adbedb1f0a801b45be8ce377f9a3a2ccf02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea4e9081_853782fa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-02T00:45:35Z",
+      "side": 1,
+      "message": "Given that we are doing a PUT into the collection we really want something ChangeInfo like. The message is buried, maybe:\n\n  {\n    \"revisions\": {\n      \"\": {\n       \"commit\": {\n         \"message\": \"...\",\n       },\n    }\n  }\n\nwhere the empty revision name is expected as input, asking the server to compute the commit and fill it all in.",
+      "revId": "a0078adbedb1f0a801b45be8ce377f9a3a2ccf02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca4b8c72_64248ad3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-02T00:45:35Z",
+      "side": 1,
+      "message": "You are missing canRead() too. ReceiveCommits forces canRead() at the project level way higher before we test canUpload(), causing the operation to fail fast if the user can\u0027t even see the Git repository.\n\nIIRC it might also be checking canRead() on the destination branch in addition to canUpload(), otherwise you can make a change you cannot see in the web UI.\n\nWe are also missing the CLA check that ReceiveCommits does with its projectControl.canPushToAtLeastOneRef() method call.",
+      "revId": "a0078adbedb1f0a801b45be8ce377f9a3a2ccf02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca4b8c72_44298ea7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-02T00:45:35Z",
+      "side": 1,
+      "message": "git push says \"cannot upload review\". We should mirror error messages as much as possible.",
+      "range": {
+        "startLine": 128,
+        "startChar": 10,
+        "endLine": 128,
+        "endChar": 58
+      },
+      "revId": "a0078adbedb1f0a801b45be8ce377f9a3a2ccf02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea4e9081_657246c3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-02T00:45:35Z",
+      "side": 1,
+      "message": "IIRC we allow a branch to create if HEAD points at the missing branch.\n\nConceptually a lot of the creation logic in ReceiveCommits should be mirrored here, as we should be able to make a change through either interface with essentially the same rules.",
+      "range": {
+        "startLine": 138,
+        "startChar": 8,
+        "endLine": 141,
+        "endChar": 9
+      },
+      "revId": "a0078adbedb1f0a801b45be8ce377f9a3a2ccf02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca4b8c72_242e92b1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-02T00:45:35Z",
+      "side": 1,
+      "message": "Never happen. parseCommit never returns null.",
+      "revId": "a0078adbedb1f0a801b45be8ce377f9a3a2ccf02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca4b8c72_0433961b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-02T00:45:35Z",
+      "side": 1,
+      "message": "Consider always making the change in DRAFT status since it has no files modified yet?",
+      "revId": "a0078adbedb1f0a801b45be8ce377f9a3a2ccf02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -49,6 +49,7 @@ required to make the change submittable.
 The change is in review and a veto vote on the shown label is
 preventing the submit.
 
+[[not-current]]
 - `Not Current`:
 +
 The currently viewed patch set is outdated.
@@ -373,6 +374,32 @@ The file list header also provides an `Open All` button that opens the
 diff views for all files in the file list.
 
 image::images/user-review-ui-change-screen-file-list-header.png[width=800, link="images/user-review-ui-change-screen-file-list-header.png"]
+
+[[patch-sets]]
+=== Patch Sets
+
+At a time the change screen is always presenting one patch set of the
+change. Which patch set is currently viewed can be seen from the
+`Patch Sets` drop-down panel in the change header. It shows the number
+of the currently viewed patch set and the total number of patch sets in
+the form: "current patch set/number of patch sets".
+
+If a non-current patch set is viewed this is indicated by the
+link:#not-current[Not Current] change state. Please note that some
+operations are only available on the current patch set.
+
+image::images/user-review-ui-change-screen-patch-sets.png[width=800, link="images/user-review-ui-change-screen-patch-sets.png"]
+
+The patch set drop-down list shows the list of patch sets and allows to
+switch between them. The patch sets are sorted in descending order so
+that the current patch set is always on top.
+
+Patch sets that have unpublished draft comments are marked by a comment
+icon.
+
+Draft patch sets are marked with `DRAFT`.
+
+image::images/user-review-ui-change-screen-patch-set-list.png[width=800, link="images/user-review-ui-change-screen-patch-set-list.png"]
 
 [[old-change-screen]]
 === Old Change Screen

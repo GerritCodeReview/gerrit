@@ -38,8 +38,7 @@ def parse_graph():
     if not m:
       continue
     target, dep = m.group(1), m.group(2)
-    if not target.endswith('__compile'):
-      graph[target].append(dep)
+    graph[target].append(dep)
   r = p.wait()
   if r != 0:
     exit(r)

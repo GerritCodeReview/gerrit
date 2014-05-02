@@ -52,6 +52,7 @@ public class MyPreferencesScreen extends SettingsScreen {
   private CheckBox showUsernameInReviewCategory;
   private CheckBox relativeDateInChangeTable;
   private CheckBox sizeBarInChangeTable;
+  private CheckBox legacyCIDInChangeTable;
   private ListBox maximumPageSize;
   private ListBox dateFormat;
   private ListBox timeFormat;
@@ -145,6 +146,7 @@ public class MyPreferencesScreen extends SettingsScreen {
 
     relativeDateInChangeTable = new CheckBox(Util.C.showRelativeDateInChangeTable());
     sizeBarInChangeTable = new CheckBox(Util.C.showSizeBarInChangeTable());
+    legacyCIDInChangeTable = new CheckBox(Util.C.showLegacyCIDInChangeTable());
 
     final Grid formGrid = new Grid(12, 2);
 
@@ -184,6 +186,10 @@ public class MyPreferencesScreen extends SettingsScreen {
 
       formGrid.setText(row, labelIdx, "");
       formGrid.setWidget(row, fieldIdx, sizeBarInChangeTable);
+      row++;
+
+      formGrid.setText(row, labelIdx, "");
+      formGrid.setWidget(row, fieldIdx, legacyCIDInChangeTable);
       row++;
     }
 
@@ -226,6 +232,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     e.listenTo(timeFormat);
     e.listenTo(relativeDateInChangeTable);
     e.listenTo(sizeBarInChangeTable);
+    e.listenTo(legacyCIDInChangeTable);
     e.listenTo(commentVisibilityStrategy);
     e.listenTo(changeScreen);
     e.listenTo(diffView);
@@ -254,6 +261,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     timeFormat.setEnabled(on);
     relativeDateInChangeTable.setEnabled(on);
     sizeBarInChangeTable.setEnabled(on);
+    legacyCIDInChangeTable.setEnabled(on);
     commentVisibilityStrategy.setEnabled(on);
     changeScreen.setEnabled(on);
     diffView.setEnabled(on);
@@ -272,6 +280,7 @@ public class MyPreferencesScreen extends SettingsScreen {
         p.timeFormat());
     relativeDateInChangeTable.setValue(p.relativeDateInChangeTable());
     sizeBarInChangeTable.setValue(p.sizeBarInChangeTable());
+    legacyCIDInChangeTable.setValue(p.legacyCIDInChangeTable());
     setListBox(commentVisibilityStrategy,
         AccountGeneralPreferences.CommentVisibilityStrategy.EXPAND_RECENT,
         p.commentVisibilityStrategy());

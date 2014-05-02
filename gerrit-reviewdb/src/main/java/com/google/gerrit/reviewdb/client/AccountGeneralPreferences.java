@@ -164,6 +164,9 @@ public final class AccountGeneralPreferences {
   @Column(id = 16)
   protected boolean sizeBarInChangeTable;
 
+  @Column(id = 17)
+  protected boolean legacyCIDInChangeTable;
+
   public AccountGeneralPreferences() {
   }
 
@@ -314,6 +317,14 @@ public final class AccountGeneralPreferences {
     this.sizeBarInChangeTable = sizeBarInChangeTable;
   }
 
+  public boolean isLegacyCIDInChangeTable() {
+    return legacyCIDInChangeTable;
+  }
+
+  public void setLegacyCIDInChangeTable(boolean legacyCIDInChangeTable) {
+    this.legacyCIDInChangeTable = legacyCIDInChangeTable;
+  }
+
   public void resetToDefaults() {
     maximumPageSize = DEFAULT_PAGESIZE;
     showSiteHeader = true;
@@ -330,5 +341,6 @@ public final class AccountGeneralPreferences {
     diffView = null;
     changeScreen = null;
     sizeBarInChangeTable = true;
+    legacyCIDInChangeTable = false;
   }
 }

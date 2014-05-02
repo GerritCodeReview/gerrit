@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "0a976403_deb30528",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-05-02T12:12:22Z",
+      "side": 1,
+      "message": "not related to this change but it is strange that the same tooltip on a reviewer in the votes section will NOT show this information",
+      "revId": "7462c4b01c7a7066a029757ca8aca712324089ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea93f015_1d55f3fa",
         "filename": "Documentation/user-review-ui.txt",
         "patchSetId": 5

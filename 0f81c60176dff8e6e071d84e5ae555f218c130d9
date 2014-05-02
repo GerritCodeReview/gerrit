@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ea4e9081_65ec86e2",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-02T16:46:26Z",
+      "side": 1,
+      "message": "This creates an odd set of default behavior.\n\n- Anonymous users: See ID.\n- New user: ID is hidden.\n- Existing user: ID is hidden.\n\nGoing from anonymous to new user shouldn\u0027t change the UI. And in general for a new preference the default we offer to anonymous and new users should try to be the default we offer to existing users too.",
+      "range": {
+        "startLine": 95,
+        "startChar": 4,
+        "endLine": 99,
+        "endChar": 5
+      },
+      "revId": "0f81c60176dff8e6e071d84e5ae555f218c130d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca4b8c72_e4b3da27",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AccountGeneralPreferences.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-02T16:46:26Z",
+      "side": 1,
+      "message": "One way to make the default more sensible is invert this:\n\n  protected boolean hideIdNumberInChangeTable;\n\nThe default will be false, which disables the hiding. Users can opt to set this to true to hide the column if they don\u0027t want to see it.\n\nThe other approach is to change the UI code to hide the column by default, but allow signed in users to set this option to see the ID.",
+      "revId": "0f81c60176dff8e6e071d84e5ae555f218c130d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

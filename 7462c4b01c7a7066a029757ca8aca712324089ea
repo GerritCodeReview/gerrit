@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ea93f015_1d55f3fa",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-02T11:57:59Z",
+      "side": 1,
+      "message": "Add, that non approving and non veto votes are colored grey (e. g. Code-Review +1/-1)?",
+      "revId": "7462c4b01c7a7066a029757ca8aca712324089ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

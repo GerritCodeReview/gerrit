@@ -85,7 +85,9 @@ public interface GerritCss extends CssResource {
   String createGroupLink();
   String createProjectPanel();
   String dataCell();
+  String dataCellHidden();
   String dataHeader();
+  String dataHeaderHidden();
   String diffLinkCell();
   String diffText();
   String diffTextCONTEXT();

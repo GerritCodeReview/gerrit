@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ca4b8c72_64ec8ae2",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ReviewInput.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-02T19:53:25Z",
+      "side": 1,
+      "message": "nit: blank line between types",
+      "revId": "bb52a7754730ff2bc0f8c95663ea7cf1e9984807",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

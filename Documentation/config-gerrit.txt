@@ -53,7 +53,7 @@ as reviewer.
 +
 Default is 10.
 +
-This setting only applies for adding reviewers in the Gerrit WebUI,
+This setting only applies for adding reviewers in the Gerrit Web UI,
 but is ignored when adding reviewers with the
 link:cmd-set-reviewers.html[set-reviewers] command.
 
@@ -776,7 +776,7 @@ Number of changed lines from which on a change is considered as a large
 change. The number of changed lines of a change is the sum of the lines
 that were inserted and deleted in the change.
 +
-The specified value is used to visualize the change sizes in the web UI
+The specified value is used to visualize the change sizes in the Web UI
 in change tables and user dashboards.
 +
 By default 500.
@@ -2225,8 +2225,8 @@ Default is `cn`.
 [[ldap.localUsernameToLowerCase]]ldap.localUsernameToLowerCase::
 +
 Converts the local username, that is used to login into the Gerrit
-WebUI, to lower case before doing the LDAP authentication. By setting
-this parameter to true, a case insensitive login to the Gerrit WebUI
+Web UI, to lower case before doing the LDAP authentication. By setting
+this parameter to true, a case insensitive login to the Gerrit Web UI
 can be achieved.
 +
 If set, it must be ensured that the local usernames for all existing
@@ -3132,7 +3132,7 @@ By default, not set, generating the value at startup.
 
 [[user.anonymousCoward]]user.anonymousCoward::
 +
-Username that is displayed in the Gerrit WebUI and in e-mail
+Username that is displayed in the Gerrit Web UI and in e-mail
 notifications if the full name of the user is not set.
 +
 By default "Anonymous Coward" is used.

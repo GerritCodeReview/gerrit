@@ -33,7 +33,7 @@ missing and the Change-Ids will be automatically created and inserted
 into the commit messages. This is explained link:error-push-fails-due-to-commit-message.html#commit_hook[here].
 
 If you want to update an existing change in Gerrit by uploading a new
-patch set you should copy its Change-Id from the Gerrit WebUI and
+patch set you should copy its Change-Id from the Gerrit Web UI and
 insert it into the commit message. How to update the commit message
 is explained link:error-push-fails-due-to-commit-message.html[here].
 

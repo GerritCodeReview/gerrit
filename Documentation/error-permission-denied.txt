@@ -11,9 +11,9 @@ If you are facing this problem, do the following:
 
 . Verify that you are using the correct username for the SSH command
   and that it is typed correctly (case sensitive). You can look up
-  your username in the Gerrit WebUI under 'Settings' -> 'Profile'.
+  your username in the Gerrit Web UI under 'Settings' -> 'Profile'.
 . Verify that you have uploaded your public SSH key for your Gerrit
-  account. To do this go in the Gerrit WebUI to 'Settings' ->
+  account. To do this go in the Gerrit Web UI to 'Settings' ->
   'SSH Public Keys' and check that your public SSH key is there. If
   your public SSH key is not there you have to upload it.
 . Verify that you are using the correct private SSH key. To find out

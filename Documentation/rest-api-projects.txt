@@ -1367,7 +1367,7 @@ The path of the file in which the dashboard is defined.
 Subquery that applies to all sections in the dashboard. +
 Tokens such as `${project}` are not resolved.
 |`url`             ||
-The URL under which the dashboard can be opened in the Gerrit WebUI. +
+The URL under which the dashboard can be opened in the Gerrit Web UI. +
 The URL is relative to the canonical web URL. +
 Tokens in the queries such as `${project}` are resolved.
 |`default`         |not set if `false`|

@@ -217,7 +217,7 @@ right. In addition, project owners and Gerrit administrators can create
 new branches from the Web UI or via REST even without having the
 `Create Reference` access right.
 
-When using the WebUI, the REST endpoint or the SSH command it is only
+When using the Web UI, the REST endpoint or the SSH command it is only
 possible to create branches on commits that already exist in the
 repository.
 

@@ -164,7 +164,7 @@ configuration needed for deployment]
 * create the stable branch `stable-2.5` in the `gerrit` project
 +
 Via the link:https://gerrit-review.googlesource.com/#/admin/projects/gerrit,branches[
-Gerrit WebUI] or by push.
+Gerrit Web UI] or by push.
 
 * Push the commits done on `stable-2.5` to `refs/for/stable-2.5` and
 get them merged

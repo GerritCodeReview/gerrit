@@ -22,6 +22,7 @@ import com.google.gerrit.client.api.ChangeGlue;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.ChangeInfo;
 import com.google.gerrit.client.changes.ChangeInfo.CommitInfo;
+import com.google.gerrit.client.changes.ChangeInfo.MergeableInfo;
 import com.google.gerrit.client.changes.ChangeInfo.MessageInfo;
 import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
 import com.google.gerrit.client.changes.ChangeList;
@@ -153,6 +154,7 @@ public class ChangeScreen2 extends Screen {
   @UiField Element actionDate;
 
   @UiField Actions actions;
+  @UiField Backport backport;
   @UiField Labels labels;
   @UiField CommitBox commit;
   @UiField RelatedChanges related;
@@ -711,6 +713,20 @@ public class ChangeScreen2 extends Screen {
       });
   }
 
+  private void loadMergeableInfo() {
+    RestApi call = ChangeApi.mergeable(changeId.get());
+    call.get(new GerritCallback<MergeableInfo>() {
+      @Override
+      public void onSuccess(MergeableInfo info) {
+        if (info.mergeable_into() != null && info.mergeable_into().length() > 0) {
+          backport.display(changeInfo, info);
+        } else {
+          backport.setVisible(false);
+        }
+      }
+    });
+  }
+
   private RevisionInfo resolveRevisionToDisplay(ChangeInfo info) {
     RevisionInfo rev = resolveRevisionOrPatchSetId(info, revision,
         info.current_revision());
@@ -815,9 +831,11 @@ public class ChangeScreen2 extends Screen {
     if (current) {
       quickApprove.set(info, revision, replyAction);
       loadSubmitType(info.status(), canSubmit);
+      loadMergeableInfo();
     } else {
       quickApprove.setVisible(false);
       setVisible(strategy, false);
+      backport.setVisible(false);
     }
 
     StringBuilder sb = new StringBuilder();

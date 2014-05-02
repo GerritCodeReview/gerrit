@@ -428,6 +428,7 @@ limitations under the License.
               <td ui:field='actionDate'/>
             </tr>
             <tr><td colspan='2'><c:Actions ui:field='actions'/></td></tr>
+            <tr><td colspan='2'><c:Backport ui:field='backport'/></td></tr>
           </table>
           <hr/>
           <c:Labels ui:field='labels' styleName='{style.labels}'/>

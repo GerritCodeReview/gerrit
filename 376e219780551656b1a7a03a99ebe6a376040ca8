@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0a976403_1e55edfa",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-02T11:52:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a976403_3e4c6982",
+      "revId": "376e219780551656b1a7a03a99ebe6a376040ca8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea93f015_1d473363",
         "filename": "Documentation/user-review-ui.txt",
         "patchSetId": 3
@@ -30,6 +48,30 @@
       "writtenOn": "2014-05-02T08:16:06Z",
       "side": 1,
       "message": "and installed plugins, as plugin may contribute change and revisions actions that are placed in this action panel.",
+      "range": {
+        "startLine": 181,
+        "startChar": 0,
+        "endLine": 181,
+        "endChar": 61
+      },
+      "revId": "376e219780551656b1a7a03a99ebe6a376040ca8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a976403_3e5a292a",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-02T11:52:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea93f015_1d473363",
       "range": {
         "startLine": 181,
         "startChar": 0,

@@ -63,6 +63,7 @@ public class SetPreferences implements RestModifyView<AccountResource, Input> {
     public Boolean showUsernameInReviewCategory;
     public Boolean relativeDateInChangeTable;
     public Boolean sizeBarInChangeTable;
+    public Boolean legacycidInChangeTable;
     public CommentVisibilityStrategy commentVisibilityStrategy;
     public DiffView diffView;
     public ChangeScreen changeScreen;
@@ -152,6 +153,9 @@ public class SetPreferences implements RestModifyView<AccountResource, Input> {
       }
       if (i.sizeBarInChangeTable != null) {
         p.setSizeBarInChangeTable(i.sizeBarInChangeTable);
+      }
+      if (i.legacycidInChangeTable != null) {
+        p.setLegacycidInChangeTable(i.legacycidInChangeTable);
       }
       if (i.commentVisibilityStrategy != null) {
         p.setCommentVisibilityStrategy(i.commentVisibilityStrategy);

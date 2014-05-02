@@ -33,7 +33,7 @@ def scan_plugins():
   deps = []
   for n in os.listdir('plugins'):
     if os.path.exists(os.path.join('plugins', n, 'BUCK')):
-      deps.append('//plugins/%s:%s__plugin__compile' % (n, n))
+      deps.append('//plugins/%s:%s__plugin' % (n, n))
   return deps
 
 def war(

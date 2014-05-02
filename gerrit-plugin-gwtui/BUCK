@@ -22,12 +22,12 @@ java_library(
   visibility = ['PUBLIC'],
 )
 
-java_library2(
+java_library(
   name = 'gwtui-api-lib2',
   srcs = SRCS,
   resources = glob(['src/main/**/*']),
   deps = ['//gerrit-gwtui-common:client-lib2'],
-  compile_deps = DEPS,
+  provided_deps = DEPS,
   visibility = ['PUBLIC'],
 )
 

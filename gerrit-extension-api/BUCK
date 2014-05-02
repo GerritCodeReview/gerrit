@@ -31,10 +31,10 @@ java_library(
   visibility = ['PUBLIC'],
 )
 
-java_library2(
+java_library(
   name = 'api',
   srcs = glob([SRC + '**/*.java']),
-  compile_deps = ['//lib/guice:guice'],
+  provided_deps = ['//lib/guice:guice'],
   visibility = ['PUBLIC'],
 )
 

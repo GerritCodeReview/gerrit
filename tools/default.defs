@@ -74,47 +74,11 @@ def gwt_application(
     visibility = visibility,
   )
 
-# Compiles a Java library with additional compile-time dependencies
-# that do not show up as transitive dependencies to java_library()
-# or java_binary() rule that depends on this library.
-def java_library2(
-    name,
-    srcs = [],
-    resources = [],
-    deps = [],
-    compile_deps = [],
-    visibility = []):
-  c = name + '__compile'
-  t = name + '__link'
-  j = 'lib__%s__output/%s.jar' % (c, c)
-  o = 'lib__%s__output/%s.jar' % (name, name)
-  java_library(
-    name = c,
-    srcs = srcs,
-    resources = resources,
-    deps = deps + compile_deps,
-    visibility = ['//tools/eclipse:classpath'],
-  )
-  # Break the dependency chain by passing the newly built
-  # JAR to consumers through a prebuilt_jar().
-  genrule(
-    name = t,
-    cmd = 'mkdir -p $(dirname $OUT);ln -s $SRCS $OUT',
-    srcs = [genfile(j)],
-    deps = [':' + c],
-    out = o,
-  )
-  prebuilt_jar(
-    name = name,
-    binary_jar = genfile(o),
-    deps = deps + [':' + t],
-    visibility = visibility,
-  )
-
 def gerrit_extension(
     name,
     deps = [],
     compile_deps = [],
+    provided_deps = [],
     srcs = [],
     resources = [],
     manifest_file = None,
@@ -124,6 +88,7 @@ def gerrit_extension(
     name = name,
     deps = deps,
     compile_deps = compile_deps,
+    provided_deps = provided_deps,
     srcs = srcs,
     resources = resources,
     manifest_file = manifest_file,
@@ -136,6 +101,7 @@ def gerrit_plugin(
     name,
     deps = [],
     compile_deps = [],
+    provided_deps = [],
     srcs = [],
     resources = [],
     gwt_module = None,
@@ -143,6 +109,8 @@ def gerrit_plugin(
     manifest_entries = [],
     type = 'plugin',
     visibility = ['PUBLIC']):
+  if compile_deps:
+    provided_deps = provided_deps + compile_deps
   mf_cmd = 'v=$(git describe HEAD);'
   if manifest_file:
     mf_src = [manifest_file]
@@ -167,12 +135,12 @@ def gerrit_plugin(
   if gwt_module:
     gwt_deps = GWT_PLUGIN_DEPS
     static_jars = [':%s-static-jar' % name]
-  java_library2(
+  java_library(
     name = name + '__plugin',
     srcs = srcs,
     resources = resources,
     deps = deps,
-    compile_deps = ['//gerrit-%s-api:lib' % type] + compile_deps + gwt_deps,
+    provided_deps = ['//gerrit-%s-api:lib' % type] + provided_deps + gwt_deps,
   )
   if gwt_module:
     prebuilt_jar(

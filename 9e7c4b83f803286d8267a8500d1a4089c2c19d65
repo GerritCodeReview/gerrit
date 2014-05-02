@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ca4b8c72_c4dc5e2d",
+        "filename": "tools/build.defs",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-02T21:37:24Z",
+      "side": 1,
+      "message": "gerrit_plugin() from submodules no longer are accessible via their __compile target. This means their provided_deps, if any, are no longer visible in the Eclipse classpath, and we had to add visibility here to permit their sources to be seen in Eclipse.",
+      "revId": "9e7c4b83f803286d8267a8500d1a4089c2c19d65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca4b8c72_e4df5a1f",
+        "filename": "tools/eclipse/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-02T21:37:24Z",
+      "side": 1,
+      "message": "This may have been a problem caused by Buck updating. Looks like we can\u0027t depend on a java_application() as a library dep anymore.",
+      "revId": "9e7c4b83f803286d8267a8500d1a4089c2c19d65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

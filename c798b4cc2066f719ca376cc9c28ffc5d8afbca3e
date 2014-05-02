@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ca4b8c72_04fb969a",
+        "filename": "tools/eclipse/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-02T21:37:24Z",
+      "side": 0,
+      "message": "We lost the ability to automatically include provided_deps from the server into the Eclipse classpath. This means I had to add the BouncyCastle deps directly.",
+      "revId": "c798b4cc2066f719ca376cc9c28ffc5d8afbca3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

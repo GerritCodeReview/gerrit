@@ -12,12 +12,12 @@ account to lower case
 == DESCRIPTION
 Converts the local username for every account to lower case. The
 local username is the username that is used to login into the Gerrit
-WebUI.
+Web UI.
 
 This task is only intended to be run if the configuration parameter
 link:config-gerrit.html#ldap.localUsernameToLowerCase[ldap.localUsernameToLowerCase]
 was set to true to achieve case insensitive LDAP login to the Gerrit
-WebUI.
+Web UI.
 
 Please be aware that the conversion of the local usernames to lower
 case can't be undone.

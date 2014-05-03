@@ -42,7 +42,7 @@ Access Control] chapter explains all the details.
 
 To see the access rights of your project
 
-- go to the Gerrit WebUI
+- go to the Gerrit Web UI
 - click on the `Projects` > `List` menu entry
 - find your project in the project list and click on it
 - click on the `Access` menu entry
@@ -65,7 +65,7 @@ access rights were modified.
 
 If a Git browser such as GitWeb is configured for the Gerrit server you
 can find a link to the history of the `project.config` file in the
-WebUI. Otherwise you may inspect the history locally. If you have
+Web UI. Otherwise you may inspect the history locally. If you have
 cloned the repository you can do this by executing the following
 commands:
 
@@ -92,7 +92,7 @@ Projects in Gerrit are organized hierarchically as a tree with the
 project can have only a single parent project, multi-inheritance is
 not supported.
 
-Looking at the access rights of your project in the Gerrit WebUI, you
+Looking at the access rights of your project in the Gerrit Web UI, you
 only see the access rights which are defined on that project. To see
 the inherited access rights you must follow the link to the parent
 project under `Rights Inherit From`.
@@ -111,7 +111,7 @@ maintain the access rights on that common parent. Changing the parent
 of a project is only allowed for Gerrit administrators. This means you
 need to contact the administrator of your Gerrit server if you want to
 reparent your project. One way to do this is to change the parent
-project in the WebUI, save the modifications for review and get the
+project in the Web UI, save the modifications for review and get the
 change approved and merged by a Gerrit administrator.
 
 [[refs]]
@@ -141,7 +141,7 @@ Access rights are granted to groups. It is useful to know that Gerrit
 maintains its own groups internally but also supports different external
 group backends.
 
-The Gerrit internal groups can be seen in the Gerrit WebUI by clicking
+The Gerrit internal groups can be seen in the Gerrit Web UI by clicking
 on the `Groups` > `List` menu entry. By clicking on a group you can
 edit the group members (`Members` tab) and the group options
 (`General` tab).
@@ -229,7 +229,7 @@ link:project-setup.html#project_options[Project Options] section.
 
 To see the options of your project
 
-- go to the Gerrit WebUI
+- go to the Gerrit Web UI
 - click on the `Projects` > `List` menu entry
 - find your project in the project list and click on it
 - click on the `General` menu entry
@@ -381,7 +381,7 @@ a Gerrit administrator to create the service user.
 
 If the link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/serviceuser[
 serviceuser] plugin is installed you can also create new service users
-in the Gerrit WebUI under `People` > `Create Service User`. For this
+in the Gerrit Web UI under `People` > `Create Service User`. For this
 the `Create Service User` global capability must be assigned.
 
 The service user must have link:access-control.html#category_read[read]
@@ -399,8 +399,8 @@ capability assigned.
 == Branch Administration
 
 As project owner you can administrate the branches of your project in
-the Gerrit WebUI under `Projects` > `List` > <your project> >
-`Branches`. In the WebUI both link:project-setup.html#branch-creation[
+the Gerrit Web UI under `Projects` > `List` > <your project> >
+`Branches`. In the Web UI both link:project-setup.html#branch-creation[
 branch creation] and link:project-setup.html#branch-deletion[branch
 deletion] are allowed for project owners without requiring any
 additional access rights.
@@ -414,7 +414,7 @@ this default branch and checks it out.
 == Email Notifications
 
 With Gerrit individual users control their own email subscriptions. By
-editing the link:user-notify.html#user[watched projects] in the WebUI
+editing the link:user-notify.html#user[watched projects] in the Web UI
 under `Settings` > `Watched Projects` users can decide which events to
 be informed about by email. The change notifications can be filtered by
 link:user-search.html[change search expressions].
@@ -441,7 +441,7 @@ configure such custom dashboards on
 link:user-dashboards.html#project-dashboards[project level]. This way
 you can define a view of the changes that are relevant for your
 project and share this dashboard with all users. The project dashboards
-can be seen in the WebUI under `Projects` > `List` > <your project> >
+can be seen in the Web UI under `Projects` > `List` > <your project> >
 `Dashboards`.
 
 [[issue-tracker-integration]]
@@ -474,7 +474,7 @@ If installed, these plugins can e.g. be used to automatically add links
 to Gerrit changes to the issues in the issue tracker system or to
 automatically close an issue if the corresponding change is merged.
 If installed, project owners may enable/disable the issue tracker
-integration from the Gerrit WebUI under `Projects` > `Lists` >
+integration from the Gerrit Web UI under `Projects` > `Lists` >
 <your project> > `General`.
 
 [[comment-links]]
@@ -507,19 +507,19 @@ from the `Bug` footer to Jira the following configuration can be used:
 Normally it is not needed to explicitly assign reviewers to every
 change since the project members either link:user-notify.html#user[
 watch the project] and get notified by email or regularly check the
-list of open changes in the Gerrit WebUI. The project members then
+list of open changes in the Gerrit Web UI. The project members then
 pick the changes themselves that are interesting to them for review.
 
 If authors of changes want to have a review by a particular person
 (e.g. someone who is known to be expert in the touched code area, or a
 stakeholder for the implemented feature), they can request the review
-by adding this person in the Gerrit WebUI as a reviewer on the change.
+by adding this person in the Gerrit Web UI as a reviewer on the change.
 Gerrit will then notify this person by email about the review request.
 
 With the link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/reviewers[
 reviewers] plugin it is possible to configure default reviewers who
 will be automatically added to each change. The default reviewers can
-be configured in the Gerrit WebUI under `Projects` > `List` >
+be configured in the Gerrit Web UI under `Projects` > `List` >
 <your project> > `General` in the `reviewers Plugin` section.
 
 The link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/reviewers-by-blame[
@@ -530,7 +530,7 @@ will add those users as reviewer that authored most of the lines
 touched by the change, since these users should be familiar with the
 code and can most likely review the change. How many reviewers the
 plugin will add to a change at most can be configured in the Gerrit
-WebUI under `Projects` > `List` > <your project> > `General` in the
+Web UI under `Projects` > `List` > <your project> > `General` in the
 `reviewers-by-blame Plugin` section.
 
 [[download-commands]]
@@ -634,7 +634,7 @@ Plugin Development] section.
 [[project-creation]]
 === Project Creation
 
-New projects can be created in the Gerrit WebUI under `Projects` >
+New projects can be created in the Gerrit Web UI under `Projects` >
 `Create Project`. The `Create Project` menu entry is only available if
 you have the link:access-control.html#capability_createProject[
 Create Project] global capability assigned.
@@ -711,7 +711,7 @@ Gerrit core does not support the deletion of projects.
 
 If the link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/delete-project[
 delete-project] plugin is installed, projects can be deleted from the
-Gerrit WebUI under `Projects` > `List` > <project> > `General` by
+Gerrit Web UI under `Projects` > `List` > <project> > `General` by
 clicking on the `Delete` command under `Project Commands`. The `Delete`
 command is only available if you have the `Delete Projects` global
 capability assigned, or if you own the project and you have the

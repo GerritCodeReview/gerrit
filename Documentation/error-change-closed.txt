@@ -20,8 +20,8 @@ change. Pushing again should now create a new change in Gerrit.
 
 If the change for which you wanted to upload a new patch set was
 abandoned and your new changes overcome the reasons for abandoning
-this change you may want to restore the change in the Gerrit WebUI
-(browse the abandoned change in the Gerrit WebUI and click on the
+this change you may want to restore the change in the Gerrit Web UI
+(browse the abandoned change in the Gerrit Web UI and click on the
 'Restore Change' button). Afterwards the push should succeed and a
 new patch set for this change will be created.
 

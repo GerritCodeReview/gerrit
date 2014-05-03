@@ -7,7 +7,7 @@ You can see the commit messages for existing commits in the history
 by doing a link:http://www.kernel.org/pub/software/scm/git/docs/git-log.html[git log].
 
 If it was the intention to rework a change and to push a new patch
-set, find the change in the Gerrit WebUI, copy its Change-Id line and
+set, find the change in the Gerrit Web UI, copy its Change-Id line and
 use it to correct the invalid Change-Id line in the commit message of
 the commit for which the push is failing. How to do this is explained
 link:error-push-fails-due-to-commit-message.html#commit_hook[here].

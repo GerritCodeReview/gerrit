@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6ad620dd_b1f0a002",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 821,
+      "author": {
+        "id": 1016062
+      },
+      "writtenOn": "2014-05-03T00:04:56Z",
+      "side": 1,
+      "message": "This was a breaking change for us this morning (fixed now). We used to request CURRENT_REVISIONS and MESSAGES. After this change Gerrit started to return all revisions, but we expected only one.",
+      "range": {
+        "startLine": 821,
+        "startChar": 34,
+        "endLine": 821,
+        "endChar": 42
+      },
+      "revId": "ac60c6e530d3662221e8e1e06521b2216c745924",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

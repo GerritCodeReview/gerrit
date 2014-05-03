@@ -22,6 +22,30 @@
       "revId": "ac60c6e530d3662221e8e1e06521b2216c745924",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ad620dd_51fff4d0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 821,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-03T00:20:48Z",
+      "side": 1,
+      "message": "I think this will be fixed by change I5098704e482cbe8dceb66b9dcdbba2c8547e27d2.",
+      "parentUuid": "6ad620dd_b1f0a002",
+      "range": {
+        "startLine": 821,
+        "startChar": 34,
+        "endLine": 821,
+        "endChar": 42
+      },
+      "revId": "ac60c6e530d3662221e8e1e06521b2216c745924",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

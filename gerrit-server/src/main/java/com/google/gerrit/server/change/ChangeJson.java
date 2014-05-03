@@ -808,7 +808,9 @@ public class ChangeJson {
 
     Map<String, RevisionInfo> res = Maps.newLinkedHashMap();
     for (PatchSet in : map.values()) {
-      if (ctl.isPatchVisible(in, db.get())) {
+      if ((has(ALL_REVISIONS)
+          || in.getId().equals(cd.change().currentPatchSetId()))
+          && ctl.isPatchVisible(in, db.get())) {
         res.put(in.getRevision().get(), toRevisionInfo(cd, in, project));
       }
     }

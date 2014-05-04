@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.gerrit.extensions.common.ListChangesOption.ALL_REVISIONS;
 import static com.google.gerrit.extensions.common.ListChangesOption.CURRENT_REVISION;
+import static com.google.gerrit.extensions.common.ListChangesOption.MESSAGES;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
@@ -67,6 +68,15 @@ public class ListChangesOptionsIT extends AbstractDaemonTest {
   @Test
   public void currentRevision() throws Exception {
     ChangeInfo c = get(changeId, CURRENT_REVISION);
+    assertEquals(commitId(2), c.currentRevision);
+    assertEquals(ImmutableSet.of(commitId(2)), c.revisions.keySet());
+    assertEquals(3, c.revisions.get(commitId(2))._number);
+  }
+
+  @Test
+  public void currentRevisionAndMessages() throws Exception {
+    ChangeInfo c = get(changeId, CURRENT_REVISION, MESSAGES);
+    assertEquals(1, c.revisions.size());
     assertEquals(commitId(2), c.currentRevision);
     assertEquals(ImmutableSet.of(commitId(2)), c.revisions.keySet());
     assertEquals(3, c.revisions.get(commitId(2))._number);

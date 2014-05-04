@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0aae8465_86f3ea0e",
+        "filename": "Documentation/gen_licenses.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-04T09:53:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "caa70c89_24e55244",
+      "range": {
+        "startLine": 41,
+        "startChar": 4,
+        "endLine": 41,
+        "endChar": 29
+      },
+      "revId": "9e7c4b83f803286d8267a8500d1a4089c2c19d65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca4b8c72_c4dc5e2d",
         "filename": "tools/build.defs",
         "patchSetId": 2
@@ -71,6 +95,30 @@
       "writtenOn": "2014-05-04T09:50:05Z",
       "side": 1,
       "message": "I don\u0027t think we have to add provided_deps in addition to compile_deps and not instead of it for backwards compatibility. It\u0027s confusing to have both and hurts more than it helps.",
+      "range": {
+        "startLine": 103,
+        "startChar": 0,
+        "endLine": 104,
+        "endChar": 23
+      },
+      "revId": "9e7c4b83f803286d8267a8500d1a4089c2c19d65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0aae8465_e6e65e4e",
+        "filename": "tools/default.defs",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-04T09:53:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "caa70c89_04e05633",
       "range": {
         "startLine": 103,
         "startChar": 0,

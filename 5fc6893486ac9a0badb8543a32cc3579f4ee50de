@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "caa70c89_e40f3a4c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-04T16:07:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea4e9081_652486d3",
+      "revId": "5fc6893486ac9a0badb8543a32cc3579f4ee50de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea4e9081_252e8eb1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
         "patchSetId": 1
@@ -48,6 +66,30 @@
       "writtenOn": "2014-05-01T22:47:47Z",
       "side": 1,
       "message": "Throwing NPE here this late is very confusing for the user. I think we should be throwing an IAE in the option parser over in ReceiveCommits. We know exactly which project the change is going to, so the labels are available and we should check the user is using a label that is defined and that they are allowed to use.",
+      "range": {
+        "startLine": 194,
+        "startChar": 10,
+        "endLine": 195,
+        "endChar": 29
+      },
+      "revId": "5fc6893486ac9a0badb8543a32cc3579f4ee50de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caa70c89_c4123e79",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-04T16:07:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea4e9081_252e8eb1",
       "range": {
         "startLine": 194,
         "startChar": 10,
@@ -83,6 +125,30 @@
     },
     {
       "key": {
+        "uuid": "caa70c89_04f936e9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1092,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-04T16:07:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea4e9081_45298aa7",
+      "range": {
+        "startLine": 1092,
+        "startChar": 36,
+        "endLine": 1092,
+        "endChar": 47
+      },
+      "revId": "5fc6893486ac9a0badb8543a32cc3579f4ee50de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca4b8c72_64ffead1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 1
@@ -94,6 +160,30 @@
       "writtenOn": "2014-05-01T22:47:47Z",
       "side": 1,
       "message": "I think labels is sufficient. custom is sort of implied by labels being configurable in a project or on a server.",
+      "range": {
+        "startLine": 1116,
+        "startChar": 23,
+        "endLine": 1116,
+        "endChar": 38
+      },
+      "revId": "5fc6893486ac9a0badb8543a32cc3579f4ee50de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caa70c89_24feb2d2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1116,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-04T16:07:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca4b8c72_64ffead1",
       "range": {
         "startLine": 1116,
         "startChar": 23,

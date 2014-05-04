@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "caa70c89_44240ed3",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/CreateChangeInput.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-04T20:16:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea4e9081_257c4e91",
+      "revId": "a0078adbedb1f0a801b45be8ce377f9a3a2ccf02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea4e9081_45774ab1",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/CreateChangeInput.java",
         "patchSetId": 11
@@ -30,6 +48,24 @@
       "writtenOn": "2014-05-02T00:45:35Z",
       "side": 1,
       "message": "branch",
+      "revId": "a0078adbedb1f0a801b45be8ce377f9a3a2ccf02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0aae8465_c6124279",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/CreateChangeInput.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-04T20:16:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea4e9081_45774ab1",
       "revId": "a0078adbedb1f0a801b45be8ce377f9a3a2ccf02",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -89,6 +125,60 @@
     },
     {
       "key": {
+        "uuid": "caa70c89_64290aa8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangesCollection.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-04T20:16:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea4e9081_c53d7adc",
+      "revId": "a0078adbedb1f0a801b45be8ce377f9a3a2ccf02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0aae8465_860c4a59",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangesCollection.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-04T20:16:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea4e9081_e5b3d627",
+      "revId": "a0078adbedb1f0a801b45be8ce377f9a3a2ccf02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0aae8465_e60f3e4c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangesCollection.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-04T20:16:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca4b8c72_843786fa",
+      "revId": "a0078adbedb1f0a801b45be8ce377f9a3a2ccf02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea4e9081_a53a7ee0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
         "patchSetId": 11
@@ -100,6 +190,30 @@
       "writtenOn": "2014-05-02T00:45:35Z",
       "side": 1,
       "message": "ChangeInfo calls this branch.",
+      "range": {
+        "startLine": 111,
+        "startChar": 30,
+        "endLine": 111,
+        "endChar": 47
+      },
+      "revId": "a0078adbedb1f0a801b45be8ce377f9a3a2ccf02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caa70c89_042e16b1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-04T20:16:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea4e9081_a53a7ee0",
       "range": {
         "startLine": 111,
         "startChar": 30,
@@ -129,6 +243,24 @@
     },
     {
       "key": {
+        "uuid": "caa70c89_2433121c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-04T20:16:40Z",
+      "side": 1,
+      "message": "Using ChangeInfo now and subject field there.\n\nDone",
+      "parentUuid": "ea4e9081_853782fa",
+      "revId": "a0078adbedb1f0a801b45be8ce377f9a3a2ccf02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca4b8c72_64248ad3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
         "patchSetId": 11
@@ -146,6 +278,24 @@
     },
     {
       "key": {
+        "uuid": "0aae8465_a6094648",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-04T20:16:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca4b8c72_64248ad3",
+      "revId": "a0078adbedb1f0a801b45be8ce377f9a3a2ccf02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca4b8c72_44298ea7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
         "patchSetId": 11
@@ -157,6 +307,30 @@
       "writtenOn": "2014-05-02T00:45:35Z",
       "side": 1,
       "message": "git push says \"cannot upload review\". We should mirror error messages as much as possible.",
+      "range": {
+        "startLine": 128,
+        "startChar": 10,
+        "endLine": 128,
+        "endChar": 58
+      },
+      "revId": "a0078adbedb1f0a801b45be8ce377f9a3a2ccf02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0aae8465_462412d3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-04T20:16:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca4b8c72_44298ea7",
       "range": {
         "startLine": 128,
         "startChar": 10,
@@ -192,6 +366,30 @@
     },
     {
       "key": {
+        "uuid": "caa70c89_8421a6be",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-04T20:16:40Z",
+      "side": 1,
+      "message": "Handle this in a follow-up change?",
+      "parentUuid": "ea4e9081_657246c3",
+      "range": {
+        "startLine": 138,
+        "startChar": 8,
+        "endLine": 141,
+        "endChar": 9
+      },
+      "revId": "a0078adbedb1f0a801b45be8ce377f9a3a2ccf02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca4b8c72_242e92b1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
         "patchSetId": 11
@@ -209,6 +407,24 @@
     },
     {
       "key": {
+        "uuid": "caa70c89_c4179e60",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-04T20:16:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca4b8c72_242e92b1",
+      "revId": "a0078adbedb1f0a801b45be8ce377f9a3a2ccf02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca4b8c72_0433961b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
         "patchSetId": 11
@@ -220,6 +436,24 @@
       "writtenOn": "2014-05-02T00:45:35Z",
       "side": 1,
       "message": "Consider always making the change in DRAFT status since it has no files modified yet?",
+      "revId": "a0078adbedb1f0a801b45be8ce377f9a3a2ccf02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caa70c89_e4141a5e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-04T20:16:40Z",
+      "side": 1,
+      "message": "We are honoring ChangeInfo.Status now.\n\nDone",
+      "parentUuid": "ca4b8c72_0433961b",
       "revId": "a0078adbedb1f0a801b45be8ce377f9a3a2ccf02",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

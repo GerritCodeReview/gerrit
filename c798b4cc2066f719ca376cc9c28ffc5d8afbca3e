@@ -16,6 +16,24 @@
       "revId": "c798b4cc2066f719ca376cc9c28ffc5d8afbca3e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0aae8465_c6e9e21e",
+        "filename": "tools/eclipse/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-04T09:50:05Z",
+      "side": 0,
+      "message": "Sounds OK to me.",
+      "parentUuid": "ca4b8c72_04fb969a",
+      "revId": "c798b4cc2066f719ca376cc9c28ffc5d8afbca3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "caa70c89_24e55244",
+        "filename": "Documentation/gen_licenses.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-04T09:50:05Z",
+      "side": 1,
+      "message": "DO_NOT_DISTRIBUTE licenses can be easily filtered out here for known targets. I think it\u0027s safe thing to do as we do know that they are not contained in the final artifact. Let\u0027s do that and put a comment here.",
+      "range": {
+        "startLine": 41,
+        "startChar": 4,
+        "endLine": 41,
+        "endChar": 29
+      },
+      "revId": "9e7c4b83f803286d8267a8500d1a4089c2c19d65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca4b8c72_c4dc5e2d",
         "filename": "tools/build.defs",
         "patchSetId": 2
@@ -13,6 +36,47 @@
       "writtenOn": "2014-05-02T21:37:24Z",
       "side": 1,
       "message": "gerrit_plugin() from submodules no longer are accessible via their __compile target. This means their provided_deps, if any, are no longer visible in the Eclipse classpath, and we had to add visibility here to permit their sources to be seen in Eclipse.",
+      "revId": "9e7c4b83f803286d8267a8500d1a4089c2c19d65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0aae8465_26e55644",
+        "filename": "tools/build.defs",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-04T09:50:05Z",
+      "side": 1,
+      "message": "[optional] add a comment here?",
+      "parentUuid": "ca4b8c72_c4dc5e2d",
+      "revId": "9e7c4b83f803286d8267a8500d1a4089c2c19d65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caa70c89_04e05633",
+        "filename": "tools/default.defs",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-04T09:50:05Z",
+      "side": 1,
+      "message": "I don\u0027t think we have to add provided_deps in addition to compile_deps and not instead of it for backwards compatibility. It\u0027s confusing to have both and hurts more than it helps.",
+      "range": {
+        "startLine": 103,
+        "startChar": 0,
+        "endLine": 104,
+        "endChar": 23
+      },
       "revId": "9e7c4b83f803286d8267a8500d1a4089c2c19d65",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

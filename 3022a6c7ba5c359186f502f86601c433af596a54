@@ -92,6 +92,30 @@
       "revId": "3022a6c7ba5c359186f502f86601c433af596a54",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0aae8465_c6856248",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchSetInfoFactory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-05-05T13:52:00Z",
+      "side": 1,
+      "message": "Good point! Any pointer on how we can include this condition in code so as not to wrongly classify \"same branch commit\" as \"different branch commit\"? Thanks.",
+      "parentUuid": "0aae8465_6677ceb1",
+      "range": {
+        "startLine": 164,
+        "startChar": 0,
+        "endLine": 170,
+        "endChar": 9
+      },
+      "revId": "3022a6c7ba5c359186f502f86601c433af596a54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

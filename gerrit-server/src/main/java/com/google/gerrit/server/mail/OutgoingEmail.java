@@ -388,8 +388,6 @@ public abstract class OutgoingEmail {
       StringWriter w = new StringWriter();
       template.merge(velocityContext, w);
       return w.toString();
-    } catch (EmailException e) {
-      throw e;
     } catch (Exception e) {
       throw new EmailException("Cannot format velocity template " + name, e);
     }

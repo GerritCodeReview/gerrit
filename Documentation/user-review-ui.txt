@@ -450,6 +450,20 @@ quickly see in which released versions the bug-fix is contained
 
 image::images/user-review-ui-change-screen-included-in-list.png[width=800, link="images/user-review-ui-change-screen-included-in-list.png"]
 
+[[star]]
+=== Star Change
+
+The star icon in the change header allows to mark the change as a
+favorite. Clicking on the star icon again, unstars the change.
+
+image::images/user-review-ui-change-screen-star.png[width=800, link="images/user-review-ui-change-screen-star.png"]
+
+Starring a change turns on email notifications for this change.
+
+Starred changed are listed under `My` > `Starred Changes`.
+and can be queried by the link:user-search.html#is[is:starred] search
+operator.
+
 [[old-change-screen]]
 === Old Change Screen
 

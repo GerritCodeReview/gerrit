@@ -464,6 +464,105 @@ Starred changed are listed under `My` > `Starred Changes`.
 and can be queried by the link:user-search.html#is[is:starred] search
 operator.
 
+[[related-changes]]
+=== Related Changes
+
+If there are changes that are related to the currently viewed change
+they are displayed in the third column of the change screen.
+
+There are several lists of related changes and a tab control is used to
+display each list of related changes in an own tab.
+
+The following tabs may be displayed:
+
+[[related-changes-tab]]
+- `Related Changes`:
++
+This tab page shows changes on which the current change depends
+(ancestors) and open changes that depend on the current change
+(descendants). For merge commits it shows also the closed changes that
+are going to be merged into the destination branch by accepting the
+merge commit.
++
+The changes are sorted the same way as the output of 'git log'. This
+means the relationship between the changes can be inferred from the
+position of the changes in the list. Changes listed above the current
+change are descendants; changes below the current change are ancestors.
++
+This tab is only available for open changes.
++
+image::images/user-review-ui-change-screen-related-changes.png[width=800, link="images/user-review-ui-change-screen-related-changes.png"]
++
+Related changes may be decorated with an icon to signify dependencies
+on outdated patch sets, or commits that are not associated to changes
+under review:
++
+** Orange Dot:
++
+The selected patch set of the change is outdated; it is not the current
+patch set of the change.
++
+If an ancestor change is marked with an orange dot it means that the
+currently viewed patch set depends on a outdated patch set of the
+ancestor change. This is because a new patch set for the ancestor
+change was uploaded in the meantime and as result the currently viewed
+patch set now needs to be rebased.
++
+If a descendant change is marked with an orange dot it means that an
+old patch set of the descendant change depends on the currently viewed
+patch set. It may be that the descendant was rebased in the meantime
+and with the new patch set this dependency was removed.
+
+** Green Tilde:
++
+The selected patch set of the change is an indirect descendant of the
+currently viewed patch set; it has a dependency to another patch set of
+this change. E.g. this could mean that a new patch set was uploaded for
+this change and the descendant change now needs to be rebased. Please
+note that following the link to an indirect descendant change may
+result in a completely different related changes listing.
+
+** Black Dot:
++
+Indicates a merged ancestor, e.g. the commit was directly pushed into
+the repository bypassing code review.
+
++
+image::images/user-review-ui-change-screen-related-changes-indicators.png[width=800, link="images/user-review-ui-change-screen-related-changes-indicators.png"]
+
+- `Conflicts With`:
++
+This tab page shows changes that are conflicting with the current
+change. Non mergeable changes are filtered out so that only conflicting
+changes that are mergeable are shown.
++
+If this change is merged, its conflicting changes will have merge
+conflicts and must be rebased. The rebase of the other changes with the
+conflict resolution must then be done manually.
++
+image::images/user-review-ui-change-screen-conflicts-with.png[width=800, link="images/user-review-ui-change-screen-conflicts-with.png"]
+
+- `Same Topic`:
++
+This tab page shows changes that have the same topic as the current
+change. Only open changes are included in the list.
++
+image::images/user-review-ui-change-screen-same-topic.png[width=800, link="images/user-review-ui-change-screen-same-topic.png"]
+
+- `Cherry-Picks`:
++
+This tab page shows changes with the same link:user-changeid.html[
+Change-Id] for the current project.
++
+Abandoned changes are filtered out.
++
+For each change in this list the destination branch is shown as a
+prefix in front of the change subject.
++
+image::images/user-review-ui-change-screen-cherry-picks.png[width=800, link="images/user-review-ui-change-screen-cherry-picks.png"]
+
+If there are no related changes for a tab, the tab is not displayed.
+
 [[old-change-screen]]
 === Old Change Screen
 

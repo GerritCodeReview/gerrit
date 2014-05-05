@@ -126,7 +126,7 @@ imported.
 [[project_setup]]
 == Project Setup
 
-See link:project-setup.html[Project Setup] for further details on
+See link:project-configuration.html[Project Configuration] for further details on
 how to register a new project with Gerrit.  This step is necessary
 if existing Git repositories were not imported during 'init'.
 

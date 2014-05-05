@@ -69,6 +69,29 @@
       "revId": "3022a6c7ba5c359186f502f86601c433af596a54",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0aae8465_6677ceb1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchSetInfoFactory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-05-05T13:44:53Z",
+      "side": 1,
+      "message": "Is this the only possibility for the \"same branch commit\"?\nLooks like this will wrongly classify a \"same branch commit\" case into a \"different branch commit\". For example:\n\n    o \u003c pushedCommit (Change 1)\n   /\n  o \u003c targetRef\n  |\n  o\n\nIn the meantime another change (Change 2) is submitted to the targetRef:\n\n  o \u003c targetRef (Change 2)\n  |\n  | o \u003c pushedCommit (Change 1)\n  |/\n  o\n  |\n  o\n\nNow the targetRef will not be reached from the pushedCommit. However, the pushedCommit was really created on top of the targetRef as it was at that point in time.",
+      "range": {
+        "startLine": 164,
+        "startChar": 0,
+        "endLine": 170,
+        "endChar": 9
+      },
+      "revId": "3022a6c7ba5c359186f502f86601c433af596a54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

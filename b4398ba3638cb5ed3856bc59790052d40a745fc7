@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6ad620dd_d140c448",
+        "filename": "Documentation/index.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2014-05-05T21:47:43Z",
+      "side": 1,
+      "message": "Maybe the filename should be changed also?  The doc is internally called Project Configuration.",
+      "revId": "b4398ba3638cb5ed3856bc59790052d40a745fc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0aae8465_c6400249",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-05-05T12:52:34Z",
+      "side": 1,
+      "message": "optional: since Java 7 we can use:\n\n  new ArrayList\u003c\u003e();\n\nwhich should probably be preferable to Lists.newArrayList ?",
+      "revId": "50357f2420762720ef003a533cebe2f8c1a7ecdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0aae8465_a63706fa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-05-05T12:52:34Z",
+      "side": 1,
+      "message": "Would it make sense to use the same timestamp for all approvals inserted here?\nI mean, if I push something and include two approvals in the push command then it would make sense if, in the database, they have identical timestamp?",
+      "revId": "50357f2420762720ef003a533cebe2f8c1a7ecdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caa70c89_a48ce26f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1064,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-05-05T12:52:34Z",
+      "side": 1,
+      "message": "optional: use java 7 style\n\n  new HashMap\u003c\u003e();",
+      "revId": "50357f2420762720ef003a533cebe2f8c1a7ecdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0aae8465_4672d2c2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2001,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-05-05T12:52:34Z",
+      "side": 1,
+      "message": "optional: java 7 style\n\n  new ArrayList\u003c\u003e()",
+      "revId": "50357f2420762720ef003a533cebe2f8c1a7ecdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caa70c89_445bae30",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2008,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-05-05T12:52:34Z",
+      "side": 1,
+      "message": "Use the same timestamp for all approvals?",
+      "revId": "50357f2420762720ef003a533cebe2f8c1a7ecdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

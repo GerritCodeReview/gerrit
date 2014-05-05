@@ -45,6 +45,30 @@
       "revId": "3022a6c7ba5c359186f502f86601c433af596a54",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caa70c89_4472cec2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchSetInfoFactory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-05-05T11:53:26Z",
+      "side": 1,
+      "message": "Yes, it would be however on putting boolean I am getting an umbrella exception saying that boolean otherBranchcommit in ChangeInfo.commitInfo is returning null.\nAny idea on what could be causing it?",
+      "parentUuid": "a56e8bae_f3e59043",
+      "range": {
+        "startLine": 143,
+        "startChar": 10,
+        "endLine": 143,
+        "endChar": 16
+      },
+      "revId": "3022a6c7ba5c359186f502f86601c433af596a54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

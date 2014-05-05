@@ -25,7 +25,7 @@
 .. Patch sets
 
 == Project Management
-. link:project-setup.html[Project Setup]
+. link:project-setup.html[Project Configuration]
 . link:access-control.html[Access Controls]
 .. link:config-labels.html[Review Labels]
 .. link:config-project-config.html[Access Controls Configuration Format]

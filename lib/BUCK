@@ -94,8 +94,8 @@ maven_jar(
 
 maven_jar(
   name = 'velocity',
-  id = 'org.apache.velocity:velocity:1.6.4',
-  sha1 = 'fcc58693dd8fc83d714fba149789be37cc19b66d',
+  id = 'org.apache.velocity:velocity:1.7',
+  sha1 = '2ceb567b8f3f21118ecdec129fe1271dbc09aa7a',
   license = 'Apache2.0',
   deps = [
     '//lib/commons:collections',

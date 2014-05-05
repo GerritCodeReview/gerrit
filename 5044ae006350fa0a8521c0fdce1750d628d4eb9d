@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "caa70c89_843a06e1",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3115,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-05T11:54:22Z",
+      "side": 1,
+      "message": "s/mergeability/the mergeability",
+      "range": {
+        "startLine": 3115,
+        "startChar": 54,
+        "endLine": 3115,
+        "endChar": 66
+      },
+      "revId": "5044ae006350fa0a8521c0fdce1750d628d4eb9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caa70c89_047cd690",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3117,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-05T11:54:22Z",
+      "side": 1,
+      "message": "If all fields are mandatory, you may skip the second column and define the header like this:\n\n  [options\u003d\"header\",width\u003d\"50%\",cols\u003d\"1,6\"]",
+      "range": {
+        "startLine": 3117,
+        "startChar": 0,
+        "endLine": 3117,
+        "endChar": 44
+      },
+      "revId": "5044ae006350fa0a8521c0fdce1750d628d4eb9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caa70c89_a43702fa",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3124,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-05T11:54:22Z",
+      "side": 1,
+      "message": "The separators for the columns should be aligned.",
+      "range": {
+        "startLine": 3119,
+        "startChar": 1,
+        "endLine": 3124,
+        "endChar": 14
+      },
+      "revId": "5044ae006350fa0a8521c0fdce1750d628d4eb9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

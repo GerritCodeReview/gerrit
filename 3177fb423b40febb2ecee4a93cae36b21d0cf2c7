@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "caa70c89_848f6664",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-05T12:45:55Z",
+      "side": 1,
+      "message": "This doesn\u0027t apply to Patch-File and Archive sections.",
+      "range": {
+        "startLine": 411,
+        "startChar": 0,
+        "endLine": 411,
+        "endChar": 71
+      },
+      "revId": "3177fb423b40febb2ecee4a93cae36b21d0cf2c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0aae8465_e63dfedb",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-05T12:45:55Z",
+      "side": 1,
+      "message": "Mention, that it can be disabled or customized, with link to config section?\n\n https://gerrit-review.googlesource.com/Documentation/config-gerrit.html#download",
+      "range": {
+        "startLine": 432,
+        "startChar": 35,
+        "endLine": 433,
+        "endChar": 41
+      },
+      "revId": "3177fb423b40febb2ecee4a93cae36b21d0cf2c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0aae8465_868f6a64",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Mergeable.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-05T14:54:31Z",
+      "side": 1,
+      "message": "What if user knows which interesting branches are? Say a project has dozen of branches but the mergeabilitycheck should be restricted to only two (configured in project.config). I would expect that there would be an additional parameter with list of interesting branches to be able to restrict the mergeability check to only these specific branches.",
+      "range": {
+        "startLine": 72,
+        "startChar": 2,
+        "endLine": 72,
+        "endChar": 31
+      },
+      "revId": "697cab246c78e655541cd467cee8289246b18ae1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

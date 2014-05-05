@@ -209,7 +209,7 @@ verifications from a build server] before changes are merged. In
 addition you can benefit from Gerrit's merge strategies that can
 automatically merge/rebase commits on server side if necessary. You can
 control the merge strategy by configuring the
-link:project-setup.html#submit_type[submit type] on the project. If you
+link:project-configuration.html#submit_type[submit type] on the project. If you
 bypass code review you always need to merge/rebase manually if the tip
 of the destination branch has moved. Please keep this in mind if you
 choose to not work with code review because you think it's easier to
@@ -225,7 +225,7 @@ pushing directly into the repository.
 
 As project owner you can control several options on your project.
 The different options are described in the
-link:project-setup.html#project_options[Project Options] section.
+link:project-configuration.html#project_options[Project Options] section.
 
 To see the options of your project
 
@@ -239,11 +239,11 @@ To see the options of your project
 
 An important decision for a project is the choice of the submit type
 and the content merge setting (aka `Automatically resolve conflicts`).
-The link:project-setup.html#submit_type[submit type] is the method
+The link:project-configuration.html#submit_type[submit type] is the method
 Gerrit uses to submit a change to the project. The submit type defines
 what Gerrit should do on submit of a change if the destination branch
 has moved while the change was in review. The
-link:project-setup.html#content_merge[content merge] setting applies
+link:project-configuration.html#content_merge[content merge] setting applies
 if the same files have been modified concurrently and tells Gerrit
 whether it should attempt a content merge for these files.
 
@@ -252,7 +252,7 @@ weigh development comfort against the safety of not breaking the
 destination branch.
 
 The most restrictive submit type is
-link:project-setup.html#fast_forward_only[Fast Forward Only]. Using
+link:project-configuration.html#fast_forward_only[Fast Forward Only]. Using
 this submit type means that after submitting one change all other open
 changes for the same destination branch must be rebased manually. This
 is quite burdensome and in practice only feasible for branches with
@@ -260,7 +260,7 @@ very few changes. On the other hand, if changes are verified before
 submit, e.g. automatically by a CI integration, with this submit type,
 you can be sure that the destination branch never gets broken.
 
-Choosing link:project-setup.html#merge_if_necessary[Merge If Necessary]
+Choosing link:project-configuration.html#merge_if_necessary[Merge If Necessary]
 as submit type makes the life for developers more comfortable,
 especially if content merge is enabled. If this submit strategy is used
 developers only need to rebase manually if the same files have been
@@ -281,7 +281,7 @@ link:#prolog-submit-type[Prolog]. This way you can use different submit
 types for different branches.
 
 Please note that there are other submit types available; they are
-described in the link:project-setup.html#submit_type[Submit Type]
+described in the link:project-configuration.html#submit_type[Submit Type]
 section.
 
 [[labels]]
@@ -400,13 +400,13 @@ capability assigned.
 
 As project owner you can administrate the branches of your project in
 the Gerrit Web UI under `Projects` > `List` > <your project> >
-`Branches`. In the Web UI both link:project-setup.html#branch-creation[
-branch creation] and link:project-setup.html#branch-deletion[branch
+`Branches`. In the Web UI both link:project-configuration.html#branch-creation[
+branch creation] and link:project-configuration.html#branch-deletion[branch
 deletion] are allowed for project owners without requiring any
 additional access rights.
 
 By setting `HEAD` on the project you can define its
-link:project-setup.html#default-branch[default branch]. For convenience
+link:project-configuration.html#default-branch[default branch]. For convenience
 reasons, when the repository is cloned Git creates a local branch for
 this default branch and checks it out.
 
@@ -640,7 +640,7 @@ you have the link:access-control.html#capability_createProject[
 Create Project] global capability assigned.
 
 Projects can also be created via REST or SSH as described in the
-link:project-setup.html#project-creation[Project Setup] section.
+link:project-configuration.html#project-creation[Project Setup] section.
 
 Creating the project with an initial empty commit is generally
 recommended because some tools have issues with cloning repositories
@@ -720,7 +720,7 @@ capabilities is granted, you need to contact a Gerrit administrator to
 request the deletion of your project.
 
 Instead of deleting a project you may set the
-link:project-setup.html#project-state[project state] to `ReadOnly` or
+link:project-configuration.html#project-state[project state] to `ReadOnly` or
 `Hidden`.
 
 [[project-rename]]

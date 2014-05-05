@@ -1778,6 +1778,8 @@ an indicator if the change is currently mergeable.
   GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/current/mergeable HTTP/1.0
 ----
 
+As response a link:#mergeable-info[MergeableInfo] entity is returned.
+
 .Response
 ----
   HTTP/1.1 200 OK
@@ -3108,6 +3110,19 @@ label. The map maps the values ("`-2`", "`-1`", " `0`", "`+1`", "`+2`")
 to the value descriptions.
 |===========================
 
+[[mergeable-info]]
+=== MergeableInfo
+The `MergeableInfo` entity contains information about mergeability of a change.
+
+[options="header",width="50%",cols="1,^1,5"]
+|============================
+|Field Name     ||Description
+|`submit_type`      ||
+Submit type used for this change, can be `MERGE_IF_NECESSARY`,
+`FAST_FORWARD_ONLY`, `REBASE_IF_NECESSARY`, `MERGE_ALWAYS` or
+`CHERRY_PICK`.
+|`mergeable`||
+`true` if this change is cleanly mergeable, `false` otherwise
 
 [[restore-input]]
 === RestoreInput

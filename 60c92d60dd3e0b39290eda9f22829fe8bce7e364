@@ -196,6 +196,24 @@
     },
     {
       "key": {
+        "uuid": "6ad620dd_7129d8a7",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-05-05T20:45:25Z",
+      "side": 1,
+      "message": "Thinking about this again I don\u0027t think it makes sense to replace labels with abbreviations.  There are times when you want to reference both \u0027Code-Review\u0027 and \u0027CR\u0027.  I think appending the abbreviation from project.config to the \u0027abbrev\u0027 variable is the correct thing to do.  I just don\u0027t know how to plumb the abbreviation so that it can be referenced here.  The way I see that it can be done is from the json, but unfortunately I don\u0027t understand it enough to make it work.",
+      "parentUuid": "856a6764_8a45ab59",
+      "revId": "60c92d60dd3e0b39290eda9f22829fe8bce7e364",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e5716354_4d12797a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 2
@@ -207,6 +225,30 @@
       "writtenOn": "2014-04-27T17:38:30Z",
       "side": 1,
       "message": "You are putting labels here and on line 581 below only if \"detailed\" option was passed:\n\n  ListChangesOption.DETAILED_LABELS\n\nAnd you\u0027ve asked in ChangeTable2 how to get the abbreviation there. You can\u0027t because ChangeList.query only uses: ListChangesOption.LABELS. So the valus you are looking for are never get filled. But see my comments in ChangTable2 why i think we don\u0027t want this anyway.\n\n EnumSet\u003cListChangesOption\u003e o \u003d EnumSet.of(ListChangesOption.LABELS);",
+      "range": {
+        "startLine": 436,
+        "startChar": 8,
+        "endLine": 436,
+        "endChar": 49
+      },
+      "revId": "60c92d60dd3e0b39290eda9f22829fe8bce7e364",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ab4fcaf_880c5759",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-05-05T20:45:25Z",
+      "side": 1,
+      "message": "I added here because I think it is the only place where it fits.\n\nI see your point about maybe not wanting to add it here (bloating the json) but I don\u0027t know how else to plumb the abbreviation thru unless I add it to the json.",
+      "parentUuid": "e5716354_4d12797a",
       "range": {
         "startLine": 436,
         "startChar": 8,

@@ -400,6 +400,40 @@ Draft patch sets are marked with `DRAFT`.
 
 image::images/user-review-ui-change-screen-patch-set-list.png[width=800, link="images/user-review-ui-change-screen-patch-set-list.png"]
 
+[[download-commands]]
+=== Download Commands
+
+The `Download` drop-down panel offers a list of commands for
+downloading the currently viewed patch set.
+
+image::images/user-review-ui-change-screen-download-commands.png[width=800, link="images/user-review-ui-change-screen-download-commands.png"]
+
+The available download commands depend on the installed Gerrit plugins.
+The most popular plugin for download commands, the
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/download-commands[
+download-commands] plugin, provides commands to checkout, pull and
+cherry-pick a patch set.
+
+Each command has a copy-to-clipboard icon that allows the command to be
+copied into the clipboard. E.g. this makes it easy to paste and execute
+the command on a Git command line.
+
+If several download schemes are configured on the server (e.g. SSH and
+HTTP) there is a drop-down list to switch between the download schemes.
+Gerrit automatically remembers the download scheme that was last chosen
+and selects this download scheme when the download commands drop-down
+panel is opened.
+
+The `Patch-File` links provide the Git patch file for the currently
+viewed patch set for download. The patch file can be base64 encoded or
+zipped.
+
+The `Archive` links allow one to download an archive with the contents
+of the currently viewed patch set. The archive is offered in several
+formats (`tar`, `tbz2`, `tgz` and `txz`).
+
+image::images/user-review-ui-change-screen-download-commands-list.png[width=800, link="images/user-review-ui-change-screen-download-commands-list.png"]
+
 [[old-change-screen]]
 === Old Change Screen
 

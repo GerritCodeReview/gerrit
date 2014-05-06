@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4ab4fcaf_28cf6b91",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-06T12:11:14Z",
+      "side": 1,
+      "message": "not necessary",
+      "range": {
+        "startLine": 418,
+        "startChar": 27,
+        "endLine": 418,
+        "endChar": 32
+      },
+      "revId": "ab575f9df31dc1295e5f6a7a958cd817411fc8e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ab4fcaf_c8b32f28",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 424,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-06T12:11:14Z",
+      "side": 1,
+      "message": "the next time the",
+      "range": {
+        "startLine": 424,
+        "startChar": 33,
+        "endLine": 424,
+        "endChar": 41
+      },
+      "revId": "ab575f9df31dc1295e5f6a7a958cd817411fc8e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -2,6 +2,121 @@
   "comments": [
     {
       "key": {
+        "uuid": "6ad620dd_d15a0408",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 572,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-06T12:23:09Z",
+      "side": 1,
+      "message": "I would put this in a separate sentence.\n\n\"Label votes may only be given for the current patch set.\"\n\nOr maybe this is redundant because it\u0027s also mentioned at 581-583?",
+      "range": {
+        "startLine": 571,
+        "startChar": 45,
+        "endLine": 572,
+        "endChar": 10
+      },
+      "revId": "0d4fea86021b1794fe57a617000b97bc9ef0431f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ab4fcaf_e899539b",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 585,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-06T12:23:09Z",
+      "side": 1,
+      "message": "Does lower-case also work?",
+      "range": {
+        "startLine": 585,
+        "startChar": 8,
+        "endLine": 585,
+        "endChar": 12
+      },
+      "revId": "0d4fea86021b1794fe57a617000b97bc9ef0431f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ab4fcaf_8896976a",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 589,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-06T12:23:09Z",
+      "side": 1,
+      "message": "that will be",
+      "range": {
+        "startLine": 589,
+        "startChar": 26,
+        "endLine": 589,
+        "endChar": 46
+      },
+      "revId": "0d4fea86021b1794fe57a617000b97bc9ef0431f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ad620dd_f15708df",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 590,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-06T12:23:09Z",
+      "side": 1,
+      "message": "a separate",
+      "range": {
+        "startLine": 590,
+        "startChar": 3,
+        "endLine": 590,
+        "endChar": 9
+      },
+      "revId": "0d4fea86021b1794fe57a617000b97bc9ef0431f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ad620dd_91547cdc",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 592,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-06T12:23:09Z",
+      "side": 1,
+      "message": "edited",
+      "range": {
+        "startLine": 592,
+        "startChar": 20,
+        "endLine": 592,
+        "endChar": 25
+      },
+      "revId": "0d4fea86021b1794fe57a617000b97bc9ef0431f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0aae8465_a63866c1",
         "filename": "Documentation/user-review-ui.txt",
         "patchSetId": 1

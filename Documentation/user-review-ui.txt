@@ -567,6 +567,60 @@ image::images/user-review-ui-change-screen-cherry-picks.png[width=800, link="ima
 
 If there are no related changes for a tab, the tab is not displayed.
 
+[[reply]]
+=== Reply
+
+The `Reply...` button in the change header allows to reply to the
+currently viewed patch set; one can add a summary comment, publish
+inline draft comments, and vote on the labels.
+
+image::images/user-review-ui-change-screen-reply.png[width=800, link="images/user-review-ui-change-screen-reply.png"]
+
+Clicking on the `Reply...` button opens a popup panel.
+
+A text box allows to type a summary comment for the currently viewed
+patch set.
+
+If the current patch set is viewed, radio buttons are displayed for
+each label on which the user is allowed to vote. Voting on non-current
+patch sets is not possible.
+
+Typing "LGTM" (acronym for 'Looks Good To Me') in the summary comment
+text box automatically selects the highest possible score for the
+'Code-Review' label.
+
+The inline draft comments that will be published are displayed in a
+separate section so that they can be reviewed before publishing. There
+are links to navigate to the inline comments which can be used if a
+comment needs to be edited.
+
+The `Post` button publishes the comments and the votes.
+
+The `send email` checkbox controls whether the reply should trigger
+email notifications for other users. Deselecting the checkbox means
+that there will be no email notification about the change update to the
+change author, the reviewers or any other user.
+
+image::images/user-review-ui-change-screen-replying.png[width=800, link="images/user-review-ui-change-screen-replying.png"]
+
+If a user can approve a label that is still required, a quick approve
+button appears in the change header that allows to add this missing
+approval by a single click. The quick approve button only appears if
+there is a single label that is still required and can be approved by
+the user.
+
+E.g. if a change requires approvals on the 'Code-Review' and the
+'Verified' labels, and there is already a '+1 Verified' vote, then
+if the user is allowed to vote the max score on 'Code-Review', a
+`Code-Review+2` quick approve button appears that approves the
+'Code-Review' label if clicked.
+
+Using the quick approve button also publishes all inline draft
+comments; a summary comment is only added if the reply popup panel is
+open while the quick approve button is being clicked.
+
+image::images/user-review-ui-change-screen-quick-approve.png[width=800, link="images/user-review-ui-change-screen-quick-approve.png"]
+
 [[old-change-screen]]
 === Old Change Screen
 

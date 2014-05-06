@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0aae8465_06f61ab4",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 572,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-06T13:15:49Z",
+      "side": 1,
+      "message": "I\u0027m removing it here since it is mentioned below.\n\nDone",
+      "parentUuid": "6ad620dd_d15a0408",
+      "range": {
+        "startLine": 571,
+        "startChar": 45,
+        "endLine": 572,
+        "endChar": 10
+      },
+      "revId": "0d4fea86021b1794fe57a617000b97bc9ef0431f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4ab4fcaf_e899539b",
         "filename": "Documentation/user-review-ui.txt",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2014-05-06T12:23:09Z",
       "side": 1,
       "message": "Does lower-case also work?",
+      "range": {
+        "startLine": 585,
+        "startChar": 8,
+        "endLine": 585,
+        "endChar": 12
+      },
+      "revId": "0d4fea86021b1794fe57a617000b97bc9ef0431f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caa70c89_c4df9e1f",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 585,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-06T13:15:49Z",
+      "side": 1,
+      "message": "No, it must be all uppercase.",
+      "parentUuid": "4ab4fcaf_e899539b",
       "range": {
         "startLine": 585,
         "startChar": 8,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "0aae8465_26fb169b",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 589,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-06T13:15:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ab4fcaf_8896976a",
+      "range": {
+        "startLine": 589,
+        "startChar": 26,
+        "endLine": 589,
+        "endChar": 46
+      },
+      "revId": "0d4fea86021b1794fe57a617000b97bc9ef0431f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6ad620dd_f15708df",
         "filename": "Documentation/user-review-ui.txt",
         "patchSetId": 1
@@ -82,6 +154,30 @@
       "writtenOn": "2014-05-06T12:23:09Z",
       "side": 1,
       "message": "a separate",
+      "range": {
+        "startLine": 590,
+        "startChar": 3,
+        "endLine": 590,
+        "endChar": 9
+      },
+      "revId": "0d4fea86021b1794fe57a617000b97bc9ef0431f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caa70c89_e4dc1a2d",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 590,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-06T13:15:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6ad620dd_f15708df",
       "range": {
         "startLine": 590,
         "startChar": 3,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "0aae8465_c6dfa21f",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 592,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-06T13:15:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6ad620dd_91547cdc",
+      "range": {
+        "startLine": 592,
+        "startChar": 20,
+        "endLine": 592,
+        "endChar": 25
+      },
+      "revId": "0d4fea86021b1794fe57a617000b97bc9ef0431f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0aae8465_a63866c1",
         "filename": "Documentation/user-review-ui.txt",
         "patchSetId": 1
@@ -128,6 +248,24 @@
       "writtenOn": "2014-05-06T11:32:39Z",
       "side": 1,
       "message": "Mention:\n\n* that pending DRAFT comments are published on Quick-Approve too.\n* Message can be added on quick-approve too, if and only if  Message box is open, see [1].\n\n [1] https://gerrit-review.googlesource.com/#/c/56194",
+      "revId": "0d4fea86021b1794fe57a617000b97bc9ef0431f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caa70c89_84e9a6cd",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 614,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-06T13:15:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0aae8465_a63866c1",
       "revId": "0d4fea86021b1794fe57a617000b97bc9ef0431f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

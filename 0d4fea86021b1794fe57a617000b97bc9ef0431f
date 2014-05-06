@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0aae8465_a63866c1",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 614,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-06T11:32:39Z",
+      "side": 1,
+      "message": "Mention:\n\n* that pending DRAFT comments are published on Quick-Approve too.\n* Message can be added on quick-approve too, if and only if  Message box is open, see [1].\n\n [1] https://gerrit-review.googlesource.com/#/c/56194",
+      "revId": "0d4fea86021b1794fe57a617000b97bc9ef0431f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

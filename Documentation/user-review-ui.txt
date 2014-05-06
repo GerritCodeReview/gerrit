@@ -653,6 +653,19 @@ image::images/user-review-ui-change-screen-inline-comments.png[width=800, link="
 The `Expand All` button expands all messages; the `Collapse All` button
 collapses all messages.
 
+[[update-notification]]
+=== Update Notification
+
+The change screen automatically polls for updates to the currently
+viewed change. If there is an update the user is informed by a popup
+panel in the bottom right corner.
+
+The polling frequency depends on the server configuration; by default
+it is 30 seconds. Polling may also be completely disabled on some
+servers.
+
+image::images/user-review-ui-change-screen-change-update.png[width=800, link="images/user-review-ui-change-screen-change-update.png"]
+
 [[old-change-screen]]
 === Old Change Screen
 

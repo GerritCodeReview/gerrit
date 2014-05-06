@@ -214,6 +214,24 @@
     },
     {
       "key": {
+        "uuid": "6ad620dd_91d79cf7",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-05-06T20:32:15Z",
+      "side": 1,
+      "message": "Agreed we don\u0027t want to replace labels with abbreviations in the output; that would collapse different labels with identical abbreviations, and I\u0027m pretty sure we want to keep those separate as we do today.\n\nRight now there is one column in the change table for each distinct label name. So I guess with this change you would want one column in the change table for each distinct (label, abbreviation) pair, is that right?\n\nI don\u0027t think it bloats the response too much to include abbreviations. Actual increase in server CPU and transfer size is negligible. And including the labels field at all is already protected by the LABELS/DETAILED_LABELS options.\n\nBut, to be honest...I would kind of rather we just kill the abbreviation field entirely. It\u0027s literally unused right now and even with this change would only be used in the change table. But nobody is complaining about its absence.",
+      "parentUuid": "6ad620dd_7129d8a7",
+      "revId": "60c92d60dd3e0b39290eda9f22829fe8bce7e364",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e5716354_4d12797a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 2

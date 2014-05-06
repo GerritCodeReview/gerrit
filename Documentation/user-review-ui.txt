@@ -666,6 +666,15 @@ servers.
 
 image::images/user-review-ui-change-screen-change-update.png[width=800, link="images/user-review-ui-change-screen-change-update.png"]
 
+[[plugin-extensions]]
+=== Plugin Extensions
+
+Gerrit plugins may extend the change screen; they can add buttons for
+additional actions to the change info block and display arbitrary UI
+controls below the change info block.
+
+image::images/user-review-ui-change-screen-plugin-extensions.png[width=800, link="images/user-review-ui-change-screen-plugin-extensions.png"]
+
 [[old-change-screen]]
 === Old Change Screen
 

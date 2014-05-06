@@ -621,6 +621,38 @@ open while the quick approve button is being clicked.
 
 image::images/user-review-ui-change-screen-quick-approve.png[width=800, link="images/user-review-ui-change-screen-quick-approve.png"]
 
+[[history]]
+=== History
+
+The history of the change can be seen in the lower part of the screen.
+
+The history contains messages for all kinds of change updates, e.g. a
+message is added when a new patch set is uploaded or when a review was
+done.
+
+Messages with new comments from other users, that were published after
+the current user last reviewed this change, are automatically expanded.
+
+image::images/user-review-ui-change-screen-history.png[width=800, link="images/user-review-ui-change-screen-history.png"]
+
+It is possible to directly reply to a change message by clicking on the
+reply icon in the right upper corner of a change message. This opens
+the reply popup panel and prefills the text box with the quoted comment.
+Then the reply can be written below the quoted comment or inserted
+inline. Lines starting with " > " will be rendered as a block quote.
+Please note that for a correct rendering it is important to leave a blank
+line between a quoted block and the reply to it.
+
+image::images/user-review-ui-change-screen-reply-to-comment.png[width=800, link="images/user-review-ui-change-screen-reply-to-comment.png"]
+
+Inline comments are directly displayed in the change history and there
+are links to navigate to the inline comments.
+
+image::images/user-review-ui-change-screen-inline-comments.png[width=800, link="images/user-review-ui-change-screen-inline-comments.png"]
+
+The `Expand All` button expands all messages; the `Collapse All` button
+collapses all messages.
+
 [[old-change-screen]]
 === Old Change Screen
 

@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6ad620dd_71aeb8bb",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-06T00:09:20Z",
+      "side": 1,
+      "message": "Add a test for failure handling like testPushForNonExistingBranch below handles an error case and ensures it shows up as a message to the client.",
+      "revId": "3300e2b6f08e0cf3a9467949a63dd4b6973fe9f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ad620dd_91bd5cf4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-06T00:09:20Z",
+      "side": 1,
+      "message": "committer account can be null with forge committer. You should pass in the authenticated client Account.Id and not rely on PatchSetInfo for this value.",
+      "revId": "3300e2b6f08e0cf3a9467949a63dd4b6973fe9f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ab4fcaf_285a0b2a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1097,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-06T00:09:20Z",
+      "side": 1,
+      "message": "If you do all of the validation here, you can throw IAE to have the CLI parser abort with an error message. Otherwise you need to be a lot more careful below on handling the error and getting it back to the user.",
+      "revId": "3300e2b6f08e0cf3a9467949a63dd4b6973fe9f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ab4fcaf_0855c7fa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1962,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-06T00:09:20Z",
+      "side": 1,
+      "message": "This now throws IllegalArgumentException which is not gracefully caught by any caller.",
+      "revId": "3300e2b6f08e0cf3a9467949a63dd4b6973fe9f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -725,6 +725,111 @@ navigate to the corresponding line in the patch.
 
 image::images/user-review-ui-side-by-side-diff-screen-scrollbar.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-scrollbar.png"]
 
+[[inline-comments]]
+=== Inline Comments
+
+Inline comments are displayed directly in the patch file under the code
+that is commented. Inline comments can be placed on lines or on code
+blocks.
+
+If an inline comment relates to a code block, this code block is
+highlighted by a yellow background.
+
+Code blocks with comments may overlap. This means it is possible to
+attach several comments to the same code.
+
+The lines of the patch file are linkable. To link to a certain line in
+the patch file, '@<line-number>' must be appended to the patch link,
+e.g. `http://host:8080/#/c/56857/2/Documentation/user-review-ui.txt@665`.
+To link to a line in the old file version, '@a<line-number>' must be
+appended to the patch link. These links can be used to directly link to
+certain inline comments.
+
+If the diff preference `Expand All Comments` is set to `Expand`, all
+inline comments will be automatically expanded.
+
+image::images/user-review-ui-side-by-side-diff-screen-inline-comments.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-inline-comments.png"]
+
+In the header of the comment box, the name of the comment author and
+the timestamp of the comment are shown. If avatars are configured on
+the server, the avatar image of the comment author is displayed in the
+top left corner. Below the actual comment there are buttons to reply to
+the comment.
+
+image::images/user-review-ui-side-by-side-diff-screen-comment-box.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-comment-box.png"]
+
+Clicking on the `Reply` button opens an editor to type the reply.
+
+Quoting is supported, but only by manually copying & pasting the old
+comment that should be quoted and prefixing every line by " > ". Please
+note that for a correct rendering it is important to leave a blank line
+between a quoted block and the reply to it.
+
+Clicking on the `Save` button saves the comment as a draft. To make it
+visible to other users it must be published from the change screen by
+link:#reply[replying] to the change.
+
+The `Cancel` button cancels the editing and discards any changes to the
+draft comment.
+
+Clicking on the `Discard` button deletes the inline draft comment.
+
+image::images/user-review-ui-side-by-side-diff-screen-comment-reply.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-comment-reply.png"]
+
+Draft comments are marked by the text "Draft" in the header in the
+place of the comment author.
+
+A draft comment can be edited by clicking on the `Edit` button, or
+deleted by clicking on the `Discard` button.
+
+image::images/user-review-ui-side-by-side-diff-screen-comment-edit.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-comment-edit.png"]
+
+Clicking on the `Done` button is a quick way to reply with "Done" to a
+comment. This is used to mark a comment as addressed by a follow-up
+patch set.
+
+image::images/user-review-ui-side-by-side-diff-screen-comment-box.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-comment-box.png"]
+
+[[add-inline-comment]]
+To add a new inline comment there are several possibilities:
+
+- select a code block and press 'c'
+- select a code block and click on the popup comment icon
+- go to a line, by clicking on it or by key navigation, and press 'c'
+- click on a line number
+
+There are many ways to select code for commenting on it. The most
+frequently used methods are:
+
+- by mouse:
+** click and drag with the mouse to select a block
+** double-click on a word to select it
+** double-click and drag with the mouse to select a code block word-wise
+** triple-click on a line to select it
+** triple-click and drag with the mouse to select a code block line-wise
+
+- by keys (the same keys that are used for selection in vi):
+** press 'v' + arrow keys (or 'h', 'j', 'k', 'l') to select a block
+** press 'V' + arrow keys (or 'j', 'k') to select a code block line-wise
+** type 'bvw' to select a word
+
+Please note that double-click does *not* insert a new comment on a line
+as it used to do in the old side-by-side diff screen; but double-click
+is used to select a word for commenting on it.
+
+image::images/user-review-ui-side-by-side-diff-screen-comment.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-comment.png"]
+
+For typing the new comment, a new comment box is shown under the code
+that is commented.
+
+Clicking on the `Save` button saves the new comment as a draft. To make
+it visible to other users it must be published from the change screen
+by link:#reply[replying] to the change.
+
+Clicking on the `Discard` button deletes the new comment.
+
+image::images/user-review-ui-side-by-side-diff-screen-commented.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-commented.png"]
+
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

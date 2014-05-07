@@ -143,6 +143,24 @@
     },
     {
       "key": {
+        "uuid": "caa70c89_a4ee2292",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1097,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-07T19:54:00Z",
+      "side": 1,
+      "message": "Fixed in new patch set:\n\n  ! [remote rejected] HEAD -\u003e refs/for/master%l\u003dCode-Review-7 \n  (label \"Code-Review\": -7 is not a valid value)",
+      "parentUuid": "0aae8465_06fe1a4b",
+      "revId": "3300e2b6f08e0cf3a9467949a63dd4b6973fe9f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4ab4fcaf_0855c7fa",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 5

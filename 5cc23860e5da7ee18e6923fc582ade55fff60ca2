@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4ab4fcaf_a85b5bd8",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 676,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-07T07:35:52Z",
+      "side": 1,
+      "message": "The screenshot has the \"say hello\" button highlighted with a red box, but there is no corresponding bubble with description.  Is that intentional?",
+      "revId": "5cc23860e5da7ee18e6923fc582ade55fff60ca2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

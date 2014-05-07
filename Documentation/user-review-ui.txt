@@ -49,6 +49,7 @@ required to make the change submittable.
 The change is in review and a veto vote on the shown label is
 preventing the submit.
 
+[[not-current]]
 - `Not Current`:
 +
 The currently viewed patch set is outdated.
@@ -372,6 +373,82 @@ The file list header also provides an `Open All` button that opens the
 diff views for all files in the file list.
 
 image::images/user-review-ui-change-screen-file-list-header.png[width=800, link="images/user-review-ui-change-screen-file-list-header.png"]
+
+[[patch-sets]]
+=== Patch Sets
+
+The change screen only presents one patch set at a time. Which patch
+set is currently viewed can be seen from the `Patch Sets` drop-down
+panel in the change header. It shows the number of the currently viewed
+patch set and the total number of patch sets, in the form: "current
+patch set/number of patch sets".
+
+If a non-current patch set is viewed this is indicated by the
+link:#not-current[Not Current] change state. Please note that some
+operations are only available on the current patch set.
+
+image::images/user-review-ui-change-screen-patch-sets.png[width=800, link="images/user-review-ui-change-screen-patch-sets.png"]
+
+The patch set drop-down list shows the list of patch sets and allows to
+switch between them. The patch sets are sorted in descending order so
+that the current patch set is always on top.
+
+Patch sets that have unpublished draft comments are marked by a comment
+icon.
+
+Draft patch sets are marked with `DRAFT`.
+
+image::images/user-review-ui-change-screen-patch-set-list.png[width=800, link="images/user-review-ui-change-screen-patch-set-list.png"]
+
+[[download]]
+=== Download
+
+The `Download` drop-down panel in the change header offers commands and
+links for downloading the currently viewed patch set.
+
+image::images/user-review-ui-change-screen-download-commands.png[width=800, link="images/user-review-ui-change-screen-download-commands.png"]
+
+The available download commands depend on the installed Gerrit plugins.
+The most popular plugin for download commands, the
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/download-commands[
+download-commands] plugin, provides commands to checkout, pull and
+cherry-pick a patch set.
+
+Each command has a copy-to-clipboard icon that allows the command to be
+copied into the clipboard. This makes it easy to paste and execute the
+command on a Git command line.
+
+If several download schemes are configured on the server (e.g. SSH and
+HTTP) there is a drop-down list to switch between the download schemes.
+Gerrit automatically remembers the download scheme that was last chosen
+and selects this download scheme the next time the download commands
+drop-down panel is opened.
+
+The `Patch-File` links provide the Git patch file for the currently
+viewed patch set for download. The patch file can be base64 encoded or
+zipped.
+
+The `Archive` links allow one to download an archive with the contents
+of the currently viewed patch set. The archive is offered in several
+formats (e.g. tar and tbz2); which formats are available depends on the
+configuration of the server.
+
+image::images/user-review-ui-change-screen-download-commands-list.png[width=800, link="images/user-review-ui-change-screen-download-commands-list.png"]
+
+[[included-in]]
+=== Included In
+
+For merged changes the `Included In` drop-down panel is available in
+the change header.
+
+image::images/user-review-ui-change-screen-included-in.png[width=800, link="images/user-review-ui-change-screen-included-in.png"]
+
+The `Included In` drop-down panel shows the branches and tags in which
+the change is included. E.g. if a change fixes a bug, this allows to
+quickly see in which released versions the bug-fix is contained
+(assuming that every release is tagged).
+
+image::images/user-review-ui-change-screen-included-in-list.png[width=800, link="images/user-review-ui-change-screen-included-in-list.png"]
 
 [[old-change-screen]]
 === Old Change Screen

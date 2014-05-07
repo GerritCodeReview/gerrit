@@ -46,6 +46,30 @@
       "revId": "79f8fa2426730d4e4da3c77d39047ae930d1fdb9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ab4fcaf_88dc57f3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-05-07T16:53:13Z",
+      "side": 1,
+      "message": "If you just want to see open changes, those are on the project dashboard page, no?\n\nI don\u0027t think the behavior of every link on the site should be configurable. At the end of the day we just need to pick a behavior that is consistent and predictable and stick with it. Individual users who like customization already have options, like bookmarking a search results page or add a custom dashboard.",
+      "parentUuid": "6ad620dd_71f9d861",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 20
+      },
+      "revId": "79f8fa2426730d4e4da3c77d39047ae930d1fdb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

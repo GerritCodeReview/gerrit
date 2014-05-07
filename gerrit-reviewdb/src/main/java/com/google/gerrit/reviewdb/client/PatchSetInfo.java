@@ -54,6 +54,9 @@ public final class PatchSetInfo {
   /** SHA-1 of commit */
   protected String revId;
 
+  /** Commit and pushed branch are same or different*/
+  private boolean otherBranchCommit;
+
   protected PatchSetInfo() {
   }
 
@@ -116,4 +119,13 @@ public final class PatchSetInfo {
   public String getRevId() {
     return revId;
   }
+
+  public void setOtherBranchCommit(boolean otherBranchCommit) {
+    this.otherBranchCommit = otherBranchCommit;
+  }
+
+  public boolean getOtherBranchCommit() {
+    return otherBranchCommit;
+  }
+
 }

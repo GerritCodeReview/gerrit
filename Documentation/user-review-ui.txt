@@ -450,6 +450,222 @@ quickly see in which released versions the bug-fix is contained
 
 image::images/user-review-ui-change-screen-included-in-list.png[width=800, link="images/user-review-ui-change-screen-included-in-list.png"]
 
+[[star]]
+=== Star Change
+
+The star icon in the change header allows to mark the change as a
+favorite. Clicking on the star icon again, unstars the change.
+
+image::images/user-review-ui-change-screen-star.png[width=800, link="images/user-review-ui-change-screen-star.png"]
+
+Starring a change turns on email notifications for this change.
+
+Starred changed are listed under `My` > `Starred Changes`.
+and can be queried by the link:user-search.html#is[is:starred] search
+operator.
+
+[[related-changes]]
+=== Related Changes
+
+If there are changes that are related to the currently viewed change
+they are displayed in the third column of the change screen.
+
+There are several lists of related changes and a tab control is used to
+display each list of related changes in its own tab.
+
+The following tabs may be displayed:
+
+[[related-changes-tab]]
+- `Related Changes`:
++
+This tab page shows changes on which the current change depends
+(ancestors) and open changes that depend on the current change
+(descendants). For merge commits it also shows the closed changes that
+will be merged into the destination branch by submitting the merge
+commit.
++
+The changes are sorted in the same way as the output of 'git log'. This
+means the relationship between the changes can be inferred from the
+position of the changes in the list. Changes listed above the current
+change are descendants; changes below the current change are ancestors.
++
+This tab is only available for open changes.
++
+image::images/user-review-ui-change-screen-related-changes.png[width=800, link="images/user-review-ui-change-screen-related-changes.png"]
++
+Related changes may be decorated with an icon to signify dependencies
+on outdated patch sets, or commits that are not associated to changes
+under review:
++
+** Orange Dot:
++
+The selected patch set of the change is outdated; it is not the current
+patch set of the change.
++
+If an ancestor change is marked with an orange dot it means that the
+currently viewed patch set depends on a outdated patch set of the
+ancestor change. This is because a new patch set for the ancestor
+change was uploaded in the meantime and as result the currently viewed
+patch set now needs to be rebased.
++
+If a descendant change is marked with an orange dot it means that an
+old patch set of the descendant change depends on the currently viewed
+patch set. It may be that the descendant was rebased in the meantime
+and with the new patch set this dependency was removed.
+
+** Green Tilde:
++
+The selected patch set of the change is an indirect descendant of the
+currently viewed patch set; it has a dependency to another patch set of
+this change. E.g. this could mean that a new patch set was uploaded for
+this change and the descendant change now needs to be rebased. Please
+note that following the link to an indirect descendant change may
+result in a completely different related changes listing.
+
+** Black Dot:
++
+Indicates a merged ancestor, e.g. the commit was directly pushed into
+the repository bypassing code review, or the ancestor change was
+reviewed and submitted on another branch. The latter may indicate that
+the user has accidentally pushed the commit to the wrong branch, e.g.
+the commit was done on `branch-a`, but was then pushed to
+`refs/for/branch-b`.
+
++
+image::images/user-review-ui-change-screen-related-changes-indicators.png[width=800, link="images/user-review-ui-change-screen-related-changes-indicators.png"]
+
+- `Conflicts With`:
++
+This tab page shows changes that conflict with the current change.
+Non-mergeable changes are filtered out; only conflicting changes that
+are mergeable are shown.
++
+If this change is merged, its conflicting changes will have merge
+conflicts and must be rebased. The rebase of the other changes with the
+conflict resolution must then be done manually.
++
+image::images/user-review-ui-change-screen-conflicts-with.png[width=800, link="images/user-review-ui-change-screen-conflicts-with.png"]
+
+- `Same Topic`:
++
+This tab page shows changes that have the same topic as the current
+change. Only open changes are included in the list.
++
+image::images/user-review-ui-change-screen-same-topic.png[width=800, link="images/user-review-ui-change-screen-same-topic.png"]
+
+- `Cherry-Picks`:
++
+This tab page shows changes with the same link:user-changeid.html[
+Change-Id] for the current project.
++
+Abandoned changes are filtered out.
++
+For each change in this list the destination branch is shown as a
+prefix in front of the change subject.
++
+image::images/user-review-ui-change-screen-cherry-picks.png[width=800, link="images/user-review-ui-change-screen-cherry-picks.png"]
+
+If there are no related changes for a tab, the tab is not displayed.
+
+[[reply]]
+=== Reply
+
+The `Reply...` button in the change header allows to reply to the
+currently viewed patch set; one can add a summary comment, publish
+inline draft comments, and vote on the labels.
+
+image::images/user-review-ui-change-screen-reply.png[width=800, link="images/user-review-ui-change-screen-reply.png"]
+
+Clicking on the `Reply...` button opens a popup panel.
+
+A text box allows to type a summary comment for the currently viewed
+patch set.
+
+If the current patch set is viewed, radio buttons are displayed for
+each label on which the user is allowed to vote. Voting on non-current
+patch sets is not possible.
+
+Typing "LGTM" (acronym for 'Looks Good To Me') in the summary comment
+text box automatically selects the highest possible score for the
+'Code-Review' label.
+
+The inline draft comments that will be published are displayed in a
+separate section so that they can be reviewed before publishing. There
+are links to navigate to the inline comments which can be used if a
+comment needs to be edited.
+
+The `Post` button publishes the comments and the votes.
+
+The `send email` checkbox controls whether the reply should trigger
+email notifications for other users. Deselecting the checkbox means
+that there will be no email notification about the change update to the
+change author, the reviewers or any other user.
+
+image::images/user-review-ui-change-screen-replying.png[width=800, link="images/user-review-ui-change-screen-replying.png"]
+
+If a user can approve a label that is still required, a quick approve
+button appears in the change header that allows to add this missing
+approval by a single click. The quick approve button only appears if
+there is a single label that is still required and can be approved by
+the user.
+
+E.g. if a change requires approvals on the 'Code-Review' and the
+'Verified' labels, and there is already a '+1 Verified' vote, then
+if the user is allowed to vote the max score on 'Code-Review', a
+`Code-Review+2` quick approve button appears that approves the
+'Code-Review' label if clicked.
+
+Using the quick approve button also publishes all inline draft
+comments; a summary comment is only added if the reply popup panel is
+open when the quick approve button is clicked.
+
+image::images/user-review-ui-change-screen-quick-approve.png[width=800, link="images/user-review-ui-change-screen-quick-approve.png"]
+
+[[history]]
+=== History
+
+The history of the change can be seen in the lower part of the screen.
+
+The history contains messages for all kinds of change updates, e.g. a
+message is added when a new patch set is uploaded or when a review was
+done.
+
+Messages with new comments from other users, that were published after
+the current user last reviewed this change, are automatically expanded.
+
+image::images/user-review-ui-change-screen-history.png[width=800, link="images/user-review-ui-change-screen-history.png"]
+
+It is possible to directly reply to a change message by clicking on the
+reply icon in the right upper corner of a change message. This opens
+the reply popup panel and prefills the text box with the quoted comment.
+Then the reply can be written below the quoted comment or inserted
+inline. Lines starting with " > " will be rendered as a block quote.
+Please note that for a correct rendering it is important to leave a blank
+line between a quoted block and the reply to it.
+
+image::images/user-review-ui-change-screen-reply-to-comment.png[width=800, link="images/user-review-ui-change-screen-reply-to-comment.png"]
+
+Inline comments are directly displayed in the change history and there
+are links to navigate to the inline comments.
+
+image::images/user-review-ui-change-screen-inline-comments.png[width=800, link="images/user-review-ui-change-screen-inline-comments.png"]
+
+The `Expand All` button expands all messages; the `Collapse All` button
+collapses all messages.
+
+[[update-notification]]
+=== Update Notification
+
+The change screen automatically polls for updates to the currently
+viewed change. If there is an update the user is informed by a popup
+panel in the bottom right corner.
+
+The polling frequency depends on the server configuration; by default
+it is 30 seconds. Polling may also be completely disabled by the
+administrator.
+
+image::images/user-review-ui-change-screen-change-update.png[width=800, link="images/user-review-ui-change-screen-change-update.png"]
+
 [[old-change-screen]]
 === Old Change Screen
 

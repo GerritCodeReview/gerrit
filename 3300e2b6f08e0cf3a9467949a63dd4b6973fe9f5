@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "caa70c89_c4b6bee1",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-07T06:56:43Z",
+      "side": 1,
+      "message": "Added:\n\n testPushForMasterWithApprovals_MissingLabel() and\n testPushForMasterWithApprovals_ValueOutOfRange()\n\nDone",
+      "parentUuid": "6ad620dd_71aeb8bb",
+      "revId": "3300e2b6f08e0cf3a9467949a63dd4b6973fe9f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6ad620dd_91bd5cf4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2014-05-06T00:09:20Z",
       "side": 1,
       "message": "committer account can be null with forge committer. You should pass in the authenticated client Account.Id and not rely on PatchSetInfo for this value.",
+      "revId": "3300e2b6f08e0cf3a9467949a63dd4b6973fe9f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caa70c89_44a3aea3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-07T06:56:43Z",
+      "side": 1,
+      "message": "OK, ChangeUpdate already obtains it with cust from ChangeControl, so getting it from there:\n\n update.getUser().getAccountId()\n\nOf course it could be done also by direct cast from ChangeControl:\n\n ((IdentifiedUser)changeCtl.getCurrentUser()).getAccountId()\n\n\nDone",
+      "parentUuid": "6ad620dd_91bd5cf4",
       "revId": "3300e2b6f08e0cf3a9467949a63dd4b6973fe9f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "0aae8465_26a2369d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1097,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-07T06:56:43Z",
+      "side": 1,
+      "message": "OK, splitting the check between name and value here and range in ApprovalUtils.\n\nIn both cases the right message is return as back to client:\n\n git push gerritd HEAD:refs/for/master%l\u003dVerify-7\n remote: error: internal error while processing changes\n java.lang.IllegalArgumentException:\n label \"Verify\" is not a configured label\n\n git push gerritd HEAD:refs/for/master%l\u003dCode-Review-7\n remote: error: internal error while processing changes \n java.lang.IllegalArgumentException:\n label \"Code-Review\": -7 is not a valid value",
+      "parentUuid": "4ab4fcaf_285a0b2a",
+      "revId": "3300e2b6f08e0cf3a9467949a63dd4b6973fe9f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4ab4fcaf_0855c7fa",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 5
@@ -64,6 +118,24 @@
       "writtenOn": "2014-05-06T00:09:20Z",
       "side": 1,
       "message": "This now throws IllegalArgumentException which is not gracefully caught by any caller.",
+      "revId": "3300e2b6f08e0cf3a9467949a63dd4b6973fe9f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caa70c89_24a2329d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1962,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-07T06:56:43Z",
+      "side": 1,
+      "message": "Seems to work here too, see my comment above.",
+      "parentUuid": "4ab4fcaf_0855c7fa",
       "revId": "3300e2b6f08e0cf3a9467949a63dd4b6973fe9f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

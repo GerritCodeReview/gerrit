@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "caa70c89_6476ea5e",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 673,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-07T08:13:29Z",
+      "side": 1,
+      "message": "| I would prefer not to mention this here.\n\nUsers want to know what they able to do. Basically buttons are very limited in their power. They can only trigger an action. It is fundamentally for the understanding of the whole UiAction concept to understand, that further input data can be provided for custom action with JS API and this is implemented in cookbook-plugin in HelloAction that you are included in the screenshot.\n\nSo, i would add \"… that opening popups dialogs for further data gathering\".\n\nAnd would upload a new screenshot with opened popup dialog for \"Say hello\" button.",
+      "parentUuid": "caa70c89_24979234",
+      "revId": "f78fbf15dcafbec992fb844e56595895801b5244",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "caa70c89_840206d4",
         "filename": "Documentation/user-review-ui.txt",
         "patchSetId": 1

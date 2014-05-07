@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6ad620dd_11fe4c4b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChangesTab.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-07T06:23:07Z",
+      "side": 1,
+      "message": "As far as I can see, this method is only called at line 244, and the return value is not checked.\n\nIf the return value is not used, the method should return void.",
+      "range": {
+        "startLine": 215,
+        "startChar": 4,
+        "endLine": 215,
+        "endChar": 35
+      },
+      "revId": "4879b4e8e7d1ab9374d2fa99a698df806a2033c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

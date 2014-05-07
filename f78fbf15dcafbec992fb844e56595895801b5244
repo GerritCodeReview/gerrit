@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "caa70c89_24979234",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 673,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-07T07:32:20Z",
+      "side": 1,
+      "message": "I would prefer not to mention this here. What plugins can do should be described in the plugin documentation, but this is a user guide. The only reason to have the \u0027Plugin Extensions\u0027 section here at all is to make the user aware that there could be actions and UI elements which are not described here, but which are coming plugins.",
+      "parentUuid": "0aae8465_26147615",
+      "range": {
+        "startLine": 672,
+        "startChar": 58,
+        "endLine": 673,
+        "endChar": 43
+      },
+      "revId": "f78fbf15dcafbec992fb844e56595895801b5244",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "caa70c89_840206d4",
         "filename": "Documentation/user-review-ui.txt",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2014-05-06T15:35:41Z",
       "side": 1,
       "message": "Mention, that plugins can contribute custom Javascript hooks and register them for specific actions (cookbook-plugin has examples for such hooks):\n\n* history\n* showchange\n* submitchange\n\n [1] https://gerrit-review.googlesource.com/Documentation/js-api.html#self_on",
+      "revId": "f78fbf15dcafbec992fb844e56595895801b5244",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caa70c89_c47b1e47",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 675,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-07T07:32:20Z",
+      "side": 1,
+      "message": "same as above",
+      "parentUuid": "caa70c89_840206d4",
       "revId": "f78fbf15dcafbec992fb844e56595895801b5244",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

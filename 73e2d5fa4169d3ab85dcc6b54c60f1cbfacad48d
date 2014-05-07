@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6ad620dd_d1b9a4b8",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 459,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-07T01:34:34Z",
+      "side": 1,
+      "message": "In the screenshot the red text says \"favourite\" instead of \"favorite\".",
+      "range": {
+        "startLine": 459,
+        "startChar": 29,
+        "endLine": 459,
+        "endChar": 52
+      },
+      "revId": "73e2d5fa4169d3ab85dcc6b54c60f1cbfacad48d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

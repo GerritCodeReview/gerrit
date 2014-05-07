@@ -49,6 +49,7 @@ required to make the change submittable.
 The change is in review and a veto vote on the shown label is
 preventing the submit.
 
+[[not-current]]
 - `Not Current`:
 +
 The currently viewed patch set is outdated.
@@ -105,6 +106,574 @@ If a Git web browser, such as GitWeb or Gitiles, is configured, there
 is also a link to the commit in the Git web browser.
 
 image::images/user-review-ui-change-screen-commit-info.png[width=800, link="images/user-review-ui-change-screen-commit-info.png"]
+
+[[change-info]]
+=== Change Info Block
+
+The change info block contains detailed information about the change
+and offers actions on the change.
+
+image::images/user-review-ui-change-screen-change-info.png[width=800, link="images/user-review-ui-change-screen-change-info.png"]
+
+- Change Owner:
++
+The owner of the change is displayed as a link to a list of the owner's
+changes that have the same status as the currently viewed change.
++
+image::images/user-review-ui-change-screen-change-info-owner.png[width=800, link="images/user-review-ui-change-screen-change-info-owner.png"]
+
+- Reviewers:
++
+The reviewers of the change are displayed as chip tokens.
++
+For each reviewer there is a tooltip that shows on which labels the
+reviewer is allowed to vote.
++
+New reviewers can be added by clicking on the `Add...` button. Typing
+into the pop-up text field activates auto completion of user and group
+names.
++
+Reviewers can be removed from the change by clicking on the `x` icon
+in the reviewer's chip token. Removing a reviewer also removes the
+current votes of the reviewer. The removal of votes is recorded as a
+message on the change.
++
+Removing reviewers is protected by permissions:
+
+** Users can always remove themselves.
+** The change owner may remove any zero or positive score.
+** Users with the link:access-control.html#category_remove_reviewer[
+   Remove Reviewer] access right, the branch owner, the project owner
+   and Gerrit administrators may remove anyone.
+
++
+image::images/user-review-ui-change-screen-change-info-reviewers.png[width=800, link="images/user-review-ui-change-screen-change-info-reviewers.png"]
+
+- Project / Branch / Topic:
++
+The name of the project for which the change was done is displayed as a
+link to the link:user-dashboards.html#project-default-dashboard[default
+dashboard] of the project. If no default dashboard is defined, the link
+opens a list of open changes on the project.
++
+Clicking on the settings icon on the right side navigates to the
+project administration screen.
++
+The name of the destination branch is displayed as a link to a list
+with all changes on this branch that have the same status as the
+currently viewed change.
++
+If a topic was assigned to the change it is displayed below the branch.
+By clicking on the edit icon the topic can be set. This requires the
+link:access-control.html#category_edit_topic_name[Edit Topic Name]
+access right. To be able to set a topic on a closed change, the
+`Edit Topic Name` must be assigned with the `force` flag.
++
+image::images/user-review-ui-change-screen-change-info-project-branch-topic.png[width=800, link="images/user-review-ui-change-screen-change-info-project-branch-topic.png"]
+
+- Submit Strategy:
++
+The link:project-setup.html#submit_type[submit strategy] that will be
+used to submit the change. The submit strategy is only displayed for
+open changes.
++
+image::images/user-review-ui-change-screen-change-info-submit-strategy.png[width=800, link="images/user-review-ui-change-screen-change-info-submit-strategy.png"]
++
+If a change cannot be merged due to path conflicts this is highlighted
+by a bold red `Cannot Merge` label.
++
+image::images/user-review-ui-change-screen-change-info-cannot-merge.png[width=800, link="images/user-review-ui-change-screen-change-info-cannot-merge.png"]
+
+- Time of Last Update:
++
+image::images/user-review-ui-change-screen-change-info-last-update.png[width=800, link="images/user-review-ui-change-screen-change-info-last-update.png"]
+
+- Actions:
++
+Depending on the change state and the permissions of the user, different
+actions are available on the change:
+
+** `Merge Change`:
++
+Submits the change and adds it to the merge queue. If possible the
+change is merged into the destination branch.
++
+The `Merge Change` button is available if the change is submittable and
+the link:access-control.html#category_submit[Submit] access right is
+assigned.
++
+It is also possible to submit changes that have merge conflicts. This
+allows to do the conflict resolution for a change series in a single
+merge commit and submit the changes in reverse order.
+
+** `Abandon`:
++
+Abandons the change.
++
+The `Abandon` button is only available if the change is open and the
+link:access-control.html#category_abandon[Abandon] access right is
+assigned.
++
+When a change is abandoned, a panel appears that allows one to type a
+comment message to explain why the change is being abandoned.
+
+** `Restore`:
++
+Restores the change.
++
+The `Restore` button is only available if the change is abandoned and
+the link:access-control.html#category_abandon[Abandon] and the
+link:access-control.html#category_push[Push] access right is
+assigned.
++
+When a change is restored, a panel appears that allows one to type a
+comment message to explain why the change is being restored.
+
+** `Rebase`:
++
+Rebases the change. The rebase is always done with content merge
+enabled. If the rebase is successful a new patch set with the rebased
+commit is created. If the rebase fails, there are conflicts that have
+to be resolved manually.
++
+If the change does not depend on another open change, it is rebased
+onto the tip of the destination branch.
++
+If the change depends on another open change, it is rebased onto the
+current patch set of that other change.
++
+The `Rebase` button is only available if the change can be rebased and
+the link:access-control.html#category_rebase[Rebase] access right is
+assigned. Rebasing merge commits is not supported.
+
+** `Cherry-Pick`:
++
+Allows to cherry-pick the change to another branch. The destination
+branch can be selected from a dialog. Cherry-picking a change creates a
+new open change on the selected destination branch.
++
+It is also possible to cherry-pick a change to the same branch. This is
+effectively the same as rebasing it to the current tip of the
+destination branch. This can be used to remove dependencies on other
+open changes.
++
+Users can only cherry-pick changes to branches for which they are
+allowed to upload changes for review.
+
+** `Publish`:
++
+Publishes the currently viewed draft patch set. If this is the first
+patch set of a change that is published, the change will be published
+as well.
++
+The `Publish` button is only available if a draft patch set is viewed
+and the user is the change owner or has the
+link:access-control.html#category_publish_drafts[Publish Drafts] access
+right assigned.
+
+** `Delete Change` / `Delete Revision`:
++
+Deletes the draft change / the currently viewed draft patch set.
++
+The `Delete Change` / `Delete Revision` buttons are only available if a
+draft patch set is viewed and the user is the change owner or has the
+link:access-control.html#category_delete_drafts[Delete Drafts] access
+right assigned.
+
+** Further actions may be available if plugins are installed.
+
++
+image::images/user-review-ui-change-screen-change-info-actions.png[width=800, link="images/user-review-ui-change-screen-change-info-actions.png"]
+
+- Labels & Votes:
++
+Approving votes are colored green; veto votes are colored red.
++
+image::images/user-review-ui-change-screen-change-info-labels.png[width=800, link="images/user-review-ui-change-screen-change-info-labels.png"]
+
+[[files]]
+=== File List
+
+The file list shows the files that are modified in the currently viewed
+patch set.
+
+image::images/user-review-ui-change-screen-file-list.png[width=800, link="images/user-review-ui-change-screen-file-list.png"]
+
+The checkboxes in front of the file names allow files to be marked as reviewed.
+
+image::images/user-review-ui-change-screen-file-list-mark-as-reviewed.png[width=800, link="images/user-review-ui-change-screen-file-list-mark-as-reviewed.png"]
+
+The type of a file modification is indicated by the character in front
+of the file name:
+
+- 'no character' (Modified):
++
+The file existed before this change and is modified.
+
+- `A` (Added):
++
+The file is newly added.
+
+- `D` (Deleted):
++
+The file is deleted.
+
+- `R` (Renamed):
++
+The file is renamed.
+
+- `C` (Copied):
++
+The file is new and is copied from an existing file.
+
+image::images/user-review-ui-change-screen-file-list-modification-type.png[width=800, link="images/user-review-ui-change-screen-file-list-modification-type.png"]
+
+If a file is renamed or copied, the name of the original file is
+displayed in gray below the file name.
+
+image::images/user-review-ui-change-screen-file-list-rename.png[width=800, link="images/user-review-ui-change-screen-file-list-rename.png"]
+
+Repeating path segments are grayed out.
+
+image::images/user-review-ui-change-screen-file-list-repeating-paths.png[width=800, link="images/user-review-ui-change-screen-file-list-repeating-paths.png"]
+
+Inline comments on a file are shown in the `Comments` column.
+
+Draft comments, i.e. comments that have been written by the current
+user but not yet published, are highlighted in red.
+
+New comments from other users, that were published after the current
+user last reviewed this change, are highlighted in bold.
+
+image::images/user-review-ui-change-screen-file-list-comments.png[width=800, link="images/user-review-ui-change-screen-file-list-comments.png"]
+
+The size of the modifications in the files can be seen in the `Size`
+column. The footer row shows the total size of the change.
+
+For files, the `Size` column shows the sum of inserted and deleted
+lines as one number. For the total size, inserted and deleted lines are
+shown separately. In addition, the number of insertions and deletions
+is shown as a bar. The size of the bar indicates the amount of changed
+lines, and its coloring in green and red shows the proportion of
+insertions to deletions.
+
+The size information is useful to easily spot the files that contain
+the most modifications; these files are likely to be the most relevant
+files for this change. The total change size gives an estimate of how
+long a review of this change may take.
+
+image::images/user-review-ui-change-screen-file-list-size.png[width=800, link="images/user-review-ui-change-screen-file-list-size.png"]
+
+In the header of the file list, the `Diff Against` selection can be
+changed. This selection allows one to choose if the currently viewed
+patch set should be compared against its base or against another patch
+set of this change. The file list is updated accordingly.
+
+The file list header also provides an `Open All` button that opens the
+diff views for all files in the file list.
+
+image::images/user-review-ui-change-screen-file-list-header.png[width=800, link="images/user-review-ui-change-screen-file-list-header.png"]
+
+[[patch-sets]]
+=== Patch Sets
+
+The change screen only presents one patch set at a time. Which patch
+set is currently viewed can be seen from the `Patch Sets` drop-down
+panel in the change header. It shows the number of the currently viewed
+patch set and the total number of patch sets, in the form: "current
+patch set/number of patch sets".
+
+If a non-current patch set is viewed this is indicated by the
+link:#not-current[Not Current] change state. Please note that some
+operations are only available on the current patch set.
+
+image::images/user-review-ui-change-screen-patch-sets.png[width=800, link="images/user-review-ui-change-screen-patch-sets.png"]
+
+The patch set drop-down list shows the list of patch sets and allows to
+switch between them. The patch sets are sorted in descending order so
+that the current patch set is always on top.
+
+Patch sets that have unpublished draft comments are marked by a comment
+icon.
+
+Draft patch sets are marked with `DRAFT`.
+
+image::images/user-review-ui-change-screen-patch-set-list.png[width=800, link="images/user-review-ui-change-screen-patch-set-list.png"]
+
+[[download]]
+=== Download
+
+The `Download` drop-down panel in the change header offers commands and
+links for downloading the currently viewed patch set.
+
+image::images/user-review-ui-change-screen-download-commands.png[width=800, link="images/user-review-ui-change-screen-download-commands.png"]
+
+The available download commands depend on the installed Gerrit plugins.
+The most popular plugin for download commands, the
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/download-commands[
+download-commands] plugin, provides commands to checkout, pull and
+cherry-pick a patch set.
+
+Each command has a copy-to-clipboard icon that allows the command to be
+copied into the clipboard. This makes it easy to paste and execute the
+command on a Git command line.
+
+If several download schemes are configured on the server (e.g. SSH and
+HTTP) there is a drop-down list to switch between the download schemes.
+Gerrit automatically remembers the download scheme that was last chosen
+and selects this download scheme the next time the download commands
+drop-down panel is opened.
+
+The `Patch-File` links provide the Git patch file for the currently
+viewed patch set for download. The patch file can be base64 encoded or
+zipped.
+
+The `Archive` links allow one to download an archive with the contents
+of the currently viewed patch set. The archive is offered in several
+formats (e.g. tar and tbz2); which formats are available depends on the
+configuration of the server.
+
+image::images/user-review-ui-change-screen-download-commands-list.png[width=800, link="images/user-review-ui-change-screen-download-commands-list.png"]
+
+[[included-in]]
+=== Included In
+
+For merged changes the `Included In` drop-down panel is available in
+the change header.
+
+image::images/user-review-ui-change-screen-included-in.png[width=800, link="images/user-review-ui-change-screen-included-in.png"]
+
+The `Included In` drop-down panel shows the branches and tags in which
+the change is included. E.g. if a change fixes a bug, this allows to
+quickly see in which released versions the bug-fix is contained
+(assuming that every release is tagged).
+
+image::images/user-review-ui-change-screen-included-in-list.png[width=800, link="images/user-review-ui-change-screen-included-in-list.png"]
+
+[[star]]
+=== Star Change
+
+The star icon in the change header allows to mark the change as a
+favorite. Clicking on the star icon again, unstars the change.
+
+image::images/user-review-ui-change-screen-star.png[width=800, link="images/user-review-ui-change-screen-star.png"]
+
+Starring a change turns on email notifications for this change.
+
+Starred changed are listed under `My` > `Starred Changes`.
+and can be queried by the link:user-search.html#is[is:starred] search
+operator.
+
+[[related-changes]]
+=== Related Changes
+
+If there are changes that are related to the currently viewed change
+they are displayed in the third column of the change screen.
+
+There are several lists of related changes and a tab control is used to
+display each list of related changes in its own tab.
+
+The following tabs may be displayed:
+
+[[related-changes-tab]]
+- `Related Changes`:
++
+This tab page shows changes on which the current change depends
+(ancestors) and open changes that depend on the current change
+(descendants). For merge commits it also shows the closed changes that
+will be merged into the destination branch by submitting the merge
+commit.
++
+The changes are sorted in the same way as the output of 'git log'. This
+means the relationship between the changes can be inferred from the
+position of the changes in the list. Changes listed above the current
+change are descendants; changes below the current change are ancestors.
++
+This tab is only available for open changes.
++
+image::images/user-review-ui-change-screen-related-changes.png[width=800, link="images/user-review-ui-change-screen-related-changes.png"]
++
+Related changes may be decorated with an icon to signify dependencies
+on outdated patch sets, or commits that are not associated to changes
+under review:
++
+** Orange Dot:
++
+The selected patch set of the change is outdated; it is not the current
+patch set of the change.
++
+If an ancestor change is marked with an orange dot it means that the
+currently viewed patch set depends on a outdated patch set of the
+ancestor change. This is because a new patch set for the ancestor
+change was uploaded in the meantime and as result the currently viewed
+patch set now needs to be rebased.
++
+If a descendant change is marked with an orange dot it means that an
+old patch set of the descendant change depends on the currently viewed
+patch set. It may be that the descendant was rebased in the meantime
+and with the new patch set this dependency was removed.
+
+** Green Tilde:
++
+The selected patch set of the change is an indirect descendant of the
+currently viewed patch set; it has a dependency to another patch set of
+this change. E.g. this could mean that a new patch set was uploaded for
+this change and the descendant change now needs to be rebased. Please
+note that following the link to an indirect descendant change may
+result in a completely different related changes listing.
+
+** Black Dot:
++
+Indicates a merged ancestor, e.g. the commit was directly pushed into
+the repository bypassing code review, or the ancestor change was
+reviewed and submitted on another branch. The latter may indicate that
+the user has accidentally pushed the commit to the wrong branch, e.g.
+the commit was done on `branch-a`, but was then pushed to
+`refs/for/branch-b`.
+
++
+image::images/user-review-ui-change-screen-related-changes-indicators.png[width=800, link="images/user-review-ui-change-screen-related-changes-indicators.png"]
+
+- `Conflicts With`:
++
+This tab page shows changes that conflict with the current change.
+Non-mergeable changes are filtered out; only conflicting changes that
+are mergeable are shown.
++
+If this change is merged, its conflicting changes will have merge
+conflicts and must be rebased. The rebase of the other changes with the
+conflict resolution must then be done manually.
++
+image::images/user-review-ui-change-screen-conflicts-with.png[width=800, link="images/user-review-ui-change-screen-conflicts-with.png"]
+
+- `Same Topic`:
++
+This tab page shows changes that have the same topic as the current
+change. Only open changes are included in the list.
++
+image::images/user-review-ui-change-screen-same-topic.png[width=800, link="images/user-review-ui-change-screen-same-topic.png"]
+
+- `Cherry-Picks`:
++
+This tab page shows changes with the same link:user-changeid.html[
+Change-Id] for the current project.
++
+Abandoned changes are filtered out.
++
+For each change in this list the destination branch is shown as a
+prefix in front of the change subject.
++
+image::images/user-review-ui-change-screen-cherry-picks.png[width=800, link="images/user-review-ui-change-screen-cherry-picks.png"]
+
+If there are no related changes for a tab, the tab is not displayed.
+
+[[reply]]
+=== Reply
+
+The `Reply...` button in the change header allows to reply to the
+currently viewed patch set; one can add a summary comment, publish
+inline draft comments, and vote on the labels.
+
+image::images/user-review-ui-change-screen-reply.png[width=800, link="images/user-review-ui-change-screen-reply.png"]
+
+Clicking on the `Reply...` button opens a popup panel.
+
+A text box allows to type a summary comment for the currently viewed
+patch set.
+
+If the current patch set is viewed, radio buttons are displayed for
+each label on which the user is allowed to vote. Voting on non-current
+patch sets is not possible.
+
+Typing "LGTM" (acronym for 'Looks Good To Me') in the summary comment
+text box automatically selects the highest possible score for the
+'Code-Review' label.
+
+The inline draft comments that will be published are displayed in a
+separate section so that they can be reviewed before publishing. There
+are links to navigate to the inline comments which can be used if a
+comment needs to be edited.
+
+The `Post` button publishes the comments and the votes.
+
+The `send email` checkbox controls whether the reply should trigger
+email notifications for other users. Deselecting the checkbox means
+that there will be no email notification about the change update to the
+change author, the reviewers or any other user.
+
+image::images/user-review-ui-change-screen-replying.png[width=800, link="images/user-review-ui-change-screen-replying.png"]
+
+If a user can approve a label that is still required, a quick approve
+button appears in the change header that allows to add this missing
+approval by a single click. The quick approve button only appears if
+there is a single label that is still required and can be approved by
+the user.
+
+E.g. if a change requires approvals on the 'Code-Review' and the
+'Verified' labels, and there is already a '+1 Verified' vote, then
+if the user is allowed to vote the max score on 'Code-Review', a
+`Code-Review+2` quick approve button appears that approves the
+'Code-Review' label if clicked.
+
+Using the quick approve button also publishes all inline draft
+comments; a summary comment is only added if the reply popup panel is
+open when the quick approve button is clicked.
+
+image::images/user-review-ui-change-screen-quick-approve.png[width=800, link="images/user-review-ui-change-screen-quick-approve.png"]
+
+[[history]]
+=== History
+
+The history of the change can be seen in the lower part of the screen.
+
+The history contains messages for all kinds of change updates, e.g. a
+message is added when a new patch set is uploaded or when a review was
+done.
+
+Messages with new comments from other users, that were published after
+the current user last reviewed this change, are automatically expanded.
+
+image::images/user-review-ui-change-screen-history.png[width=800, link="images/user-review-ui-change-screen-history.png"]
+
+It is possible to directly reply to a change message by clicking on the
+reply icon in the right upper corner of a change message. This opens
+the reply popup panel and prefills the text box with the quoted comment.
+Then the reply can be written below the quoted comment or inserted
+inline. Lines starting with " > " will be rendered as a block quote.
+Please note that for a correct rendering it is important to leave a blank
+line between a quoted block and the reply to it.
+
+image::images/user-review-ui-change-screen-reply-to-comment.png[width=800, link="images/user-review-ui-change-screen-reply-to-comment.png"]
+
+Inline comments are directly displayed in the change history and there
+are links to navigate to the inline comments.
+
+image::images/user-review-ui-change-screen-inline-comments.png[width=800, link="images/user-review-ui-change-screen-inline-comments.png"]
+
+The `Expand All` button expands all messages; the `Collapse All` button
+collapses all messages.
+
+[[update-notification]]
+=== Update Notification
+
+The change screen automatically polls for updates to the currently
+viewed change. If there is an update the user is informed by a popup
+panel in the bottom right corner.
+
+The polling frequency depends on the server configuration; by default
+it is 30 seconds. Polling may also be completely disabled by the
+administrator.
+
+image::images/user-review-ui-change-screen-change-update.png[width=800, link="images/user-review-ui-change-screen-change-update.png"]
+
+[[plugin-extensions]]
+=== Plugin Extensions
+
+Gerrit plugins may extend the change screen; they can add buttons for
+additional actions to the change info block and display arbitrary UI
+controls below the change info block.
+
+image::images/user-review-ui-change-screen-plugin-extensions.png[width=800, link="images/user-review-ui-change-screen-plugin-extensions.png"]
 
 [[old-change-screen]]
 === Old Change Screen

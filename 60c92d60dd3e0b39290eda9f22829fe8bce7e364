@@ -268,6 +268,24 @@
     },
     {
       "key": {
+        "uuid": "4ab4fcaf_6847a3db",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-05-07T17:15:48Z",
+      "side": 1,
+      "message": "I see.  I guess it wouldn\u0027t be terrible if this feature went away but if you decide to keep it then it should work as described.  If the gerrit maintainers do decide to keep it then could you please help complete this change so we can actually use it.",
+      "parentUuid": "4ab4fcaf_88d777f7",
+      "revId": "60c92d60dd3e0b39290eda9f22829fe8bce7e364",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e5716354_4d12797a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 2

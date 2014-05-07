@@ -125,6 +125,24 @@
     },
     {
       "key": {
+        "uuid": "0aae8465_06fe1a4b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1097,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-07T19:52:50Z",
+      "side": 1,
+      "message": "Yes, it\u0027s unrelated to this change, because\n\n LabelType.checkName(v.getLabel());\n\non line 1096 already reports IAE in the same verbose way back to the client:\n\n git push gerritd HEAD:refs/for/master%l\u003dSUBM+1\n remote: error: internal error while processing changes\n java.lang.IllegalArgumentException:\n Reserved label name \"SUBM\"\n\nYes, agreed with you that there is room for improvement here.",
+      "parentUuid": "0aae8465_06b05acd",
+      "revId": "3300e2b6f08e0cf3a9467949a63dd4b6973fe9f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4ab4fcaf_0855c7fa",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 5

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "caa70c89_c4e23eb3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchSetInfoFactory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-05-07T15:03:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "caa70c89_24b552be",
+      "revId": "42d102bedfa05d1b2ee90eb34e6b399564de6d48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "caa70c89_64ab4a62",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchSetInfoFactory.java",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2014-05-07T10:56:37Z",
       "side": 1,
       "message": "this is not used before line 158, move it there.",
+      "revId": "42d102bedfa05d1b2ee90eb34e6b399564de6d48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caa70c89_e4df3ae6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchSetInfoFactory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-05-07T15:03:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "caa70c89_64ab4a62",
       "revId": "42d102bedfa05d1b2ee90eb34e6b399564de6d48",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "0aae8465_66d4aed0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchSetInfoFactory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-05-07T15:03:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "caa70c89_44a64e9d",
+      "revId": "42d102bedfa05d1b2ee90eb34e6b399564de6d48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "caa70c89_a45b82d8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchSetInfoFactory.java",
         "patchSetId": 5
@@ -64,6 +118,24 @@
       "writtenOn": "2014-05-07T10:56:37Z",
       "side": 1,
       "message": "this variable is only used at line 165. Inline this expression at the line 165 or, at least, move this line just just above 165",
+      "revId": "42d102bedfa05d1b2ee90eb34e6b399564de6d48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0aae8465_06c93a33",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchSetInfoFactory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-05-07T15:03:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "caa70c89_a45b82d8",
       "revId": "42d102bedfa05d1b2ee90eb34e6b399564de6d48",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "0aae8465_26ceb63c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchSetInfoFactory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-05-07T15:03:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0aae8465_865e8ac9",
+      "revId": "42d102bedfa05d1b2ee90eb34e6b399564de6d48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0aae8465_2670f65c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchSetInfoFactory.java",
         "patchSetId": 5
@@ -98,6 +188,24 @@
       "writtenOn": "2014-05-07T10:56:37Z",
       "side": 1,
       "message": "What if rw.next() \u003d\u003d null ? The n.equals(mergeBase) in the line 182 will then always be false... why search for something that we already know will not be found? \n\nThis could be modified to:\n\n  if (rw.next() !\u003d null) {\n    mergeBase \u003d rw.next();\n  } else {\n    return true;\n  }",
+      "revId": "42d102bedfa05d1b2ee90eb34e6b399564de6d48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caa70c89_84dc46f3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchSetInfoFactory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-05-07T15:03:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0aae8465_2670f65c",
       "revId": "42d102bedfa05d1b2ee90eb34e6b399564de6d48",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -150,6 +258,54 @@
     },
     {
       "key": {
+        "uuid": "caa70c89_a4d94202",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchSetInfoFactory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-05-07T15:03:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0aae8465_c66482a1",
+      "range": {
+        "startLine": 176,
+        "startChar": 35,
+        "endLine": 176,
+        "endChar": 37
+      },
+      "revId": "42d102bedfa05d1b2ee90eb34e6b399564de6d48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caa70c89_44f40e6d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchSetInfoFactory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-05-07T15:03:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0aae8465_e6617e8e",
+      "range": {
+        "startLine": 176,
+        "startChar": 38,
+        "endLine": 176,
+        "endChar": 61
+      },
+      "revId": "42d102bedfa05d1b2ee90eb34e6b399564de6d48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "caa70c89_04b056cd",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchSetInfoFactory.java",
         "patchSetId": 5
@@ -161,6 +317,24 @@
       "writtenOn": "2014-05-07T10:56:37Z",
       "side": 1,
       "message": "now that the mergeBase is used... this comment is a bit inprecise. Remove the comment?",
+      "revId": "42d102bedfa05d1b2ee90eb34e6b399564de6d48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0aae8465_c6e242b3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchSetInfoFactory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-05-07T15:03:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "caa70c89_04b056cd",
       "revId": "42d102bedfa05d1b2ee90eb34e6b399564de6d48",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -190,6 +364,30 @@
     },
     {
       "key": {
+        "uuid": "0aae8465_e6df3ee6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchSetInfoFactory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-05-07T15:03:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0aae8465_46a6529d",
+      "range": {
+        "startLine": 183,
+        "startChar": 0,
+        "endLine": 185,
+        "endChar": 18
+      },
+      "revId": "42d102bedfa05d1b2ee90eb34e6b399564de6d48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "caa70c89_c4b9deb8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchSetInfoFactory.java",
         "patchSetId": 5
@@ -201,6 +399,24 @@
       "writtenOn": "2014-05-07T10:56:37Z",
       "side": 1,
       "message": "replace with:\n\n  return true;\n\nThis line could also be moved up, between the lines 187-188",
+      "revId": "42d102bedfa05d1b2ee90eb34e6b399564de6d48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0aae8465_86dc4af3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchSetInfoFactory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-05-07T15:03:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "caa70c89_c4b9deb8",
       "revId": "42d102bedfa05d1b2ee90eb34e6b399564de6d48",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

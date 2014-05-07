@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6ad620dd_1173ac2c",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 770,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2014-05-07T21:36:19Z",
+      "side": 1,
+      "message": "s/that just have been done/that have just been made/ (or done)",
+      "revId": "32a9d98910ff409319daddcbacb2368d2f0b14d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ab4fcaf_a85cbba9",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 800,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2014-05-07T21:36:19Z",
+      "side": 1,
+      "message": "Comma needed after \"new comment\".",
+      "revId": "32a9d98910ff409319daddcbacb2368d2f0b14d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

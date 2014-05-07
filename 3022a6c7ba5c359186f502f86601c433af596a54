@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0aae8465_a6d94602",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/SubmitAction.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-05-07T15:04:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a56e8bae_13ebec18",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 58,
+        "endChar": 17
+      },
+      "revId": "3022a6c7ba5c359186f502f86601c433af596a54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a56e8bae_f3e59043",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchSetInfoFactory.java",
         "patchSetId": 4
@@ -83,6 +107,30 @@
       "writtenOn": "2014-05-06T09:07:46Z",
       "side": 1,
       "message": "!equals",
+      "range": {
+        "startLine": 160,
+        "startChar": 35,
+        "endLine": 160,
+        "endChar": 37
+      },
+      "revId": "3022a6c7ba5c359186f502f86601c433af596a54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0aae8465_46f4126d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchSetInfoFactory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-05-07T15:04:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "caa70c89_e42e5a7d",
       "range": {
         "startLine": 160,
         "startChar": 35,
@@ -154,6 +202,30 @@
       "side": 1,
       "message": "Find a mergeBase of the pushedCommit and targetRef and use it instead of the targetRef.getObjectId() in this method.",
       "parentUuid": "0aae8465_c6856248",
+      "range": {
+        "startLine": 164,
+        "startChar": 0,
+        "endLine": 170,
+        "endChar": 9
+      },
+      "revId": "3022a6c7ba5c359186f502f86601c433af596a54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0aae8465_66f90e62",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchSetInfoFactory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-05-07T15:04:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "caa70c89_843be6bd",
       "range": {
         "startLine": 164,
         "startChar": 0,

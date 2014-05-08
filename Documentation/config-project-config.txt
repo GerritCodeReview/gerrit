@@ -198,6 +198,31 @@ link:access-control.html#global_capabilities[Global Capabilities]
 documentation for a full list of available capabilities.
 
 
+[[branchOrder-section]]
+=== branchOrder section
+
+Defines a branch ordering which is used for backporting of changes.
+Backporting will be offered for a change (in the Gerrit UI) for all
+more stable branches where the change can merge cleanly.
+
+[[branchOrder.branch]]branchOrder.branch::
++
+A branch name, typically multiple values will be defined. The order of branch
+names in this section defines the branch order. The topmost is considered to be
+the least stable branch (typically the master branch) and the last one the
+most stable (typically the last maintained release branch).
+
+Example:
+
+----
+[branchOrder]
+  branch = master
+  branch = stable-2.9
+  branch = stable-2.8
+  branch = stable-2.7
+----
+
+
 [[file-groups]]
 == The file +groups+
 

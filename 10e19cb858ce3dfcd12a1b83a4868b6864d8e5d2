@@ -22,6 +22,30 @@
       "revId": "10e19cb858ce3dfcd12a1b83a4868b6864d8e5d2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a2508ef_a7124a77",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2014-05-08T16:23:16Z",
+      "side": 0,
+      "message": "Because they are not special groups that are handled differently at all. The old Administrators and Non-Interactive Users groups have been replaced by the AdministrateServer capability and batch priority capability.\n\nI notice I missed a hyperlink to Non-Interactive Users that should be updated to link to documentation on site initialization. Thanks for noticing.",
+      "parentUuid": "0aae8465_261c76fc",
+      "range": {
+        "startLine": 22,
+        "startChar": 13,
+        "endLine": 24,
+        "endChar": 11
+      },
+      "revId": "10e19cb858ce3dfcd12a1b83a4868b6864d8e5d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

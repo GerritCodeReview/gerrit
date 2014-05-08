@@ -51,6 +51,8 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.PostReceiveHook;
 import org.eclipse.jgit.transport.PostReceiveHookChain;
+import org.eclipse.jgit.transport.PreUploadHook;
+import org.eclipse.jgit.transport.PreUploadHookChain;
 import org.eclipse.jgit.transport.ReceivePack;
 import org.eclipse.jgit.transport.UploadPack;
 import org.eclipse.jgit.transport.resolver.ReceivePackFactory;
@@ -188,15 +190,20 @@ public class GitOverHttpServlet extends GitServlet {
 
   static class UploadFactory implements UploadPackFactory<HttpServletRequest> {
     private final TransferConfig config;
+    private DynamicSet<PreUploadHook> preUploadHooks;
 
     @Inject
-    UploadFactory(TransferConfig tc) {
+    UploadFactory(TransferConfig tc,
+        DynamicSet<PreUploadHook> preUploadHooks) {
       this.config = tc;
+      this.preUploadHooks = preUploadHooks;
     }
 
     @Override
     public UploadPack create(HttpServletRequest req, Repository repo) {
       UploadPack up = new UploadPack(repo);
+      up.setPreUploadHook(PreUploadHookChain.newChain(
+          Lists.newArrayList(preUploadHooks)));
       up.setPackConfig(config.getPackConfig());
       up.setTimeout(config.getTimeout());
       return up;

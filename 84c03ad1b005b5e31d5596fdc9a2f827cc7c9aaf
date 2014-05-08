@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "aa101896_a3e99a1f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-08T22:07:34Z",
+      "side": 1,
+      "message": "This button is now called Submit Change.",
+      "revId": "84c03ad1b005b5e31d5596fdc9a2f827cc7c9aaf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0aae8465_a635c663",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchSetInfoFactory.java",
         "patchSetId": 7

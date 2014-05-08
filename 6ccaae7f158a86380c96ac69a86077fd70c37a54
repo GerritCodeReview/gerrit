@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a2508ef_87e6264d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-08T07:04:26Z",
+      "side": 1,
+      "message": "Would it be worth mentioning issue 2616 here?",
+      "revId": "6ccaae7f158a86380c96ac69a86077fd70c37a54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

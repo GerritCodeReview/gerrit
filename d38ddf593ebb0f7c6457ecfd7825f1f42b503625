@@ -16,6 +16,24 @@
       "revId": "d38ddf593ebb0f7c6457ecfd7825f1f42b503625",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caa70c89_6447cadb",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 713,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-08T06:32:47Z",
+      "side": 1,
+      "message": "Good point. Yes, I will document the diff preferences later. Then I will insert a sentence about this here.",
+      "parentUuid": "0aae8465_0617fadc",
+      "revId": "d38ddf593ebb0f7c6457ecfd7825f1f42b503625",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

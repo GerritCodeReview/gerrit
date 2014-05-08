@@ -411,6 +411,7 @@ public class Daemon extends SiteProgram {
     modules.add(HttpContactStoreConnection.module());
     modules.add(sysInjector.getInstance(GitOverHttpModule.class));
     modules.add(sysInjector.getInstance(WebModule.class));
+    modules.add(sysInjector.getInstance(com.google.gerrit.server.config.Module.class));
     modules.add(new HttpPluginModule());
     if (sshd) {
       modules.add(sshInjector.getInstance(WebSshGlueModule.class));

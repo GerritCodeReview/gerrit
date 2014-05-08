@@ -770,7 +770,9 @@ Server] capability can see all tasks.
 'GET /config/server/top-menus'
 --
 
-Returns the list of additional top menu entries.
+Returns the list of top menu entries.
+When invoked without parameters, only the additional entries provided by
+Gerrit plugins are returned.
 
 .Request
 ----
@@ -800,6 +802,211 @@ link:#top-menu-entry-info[TopMenuEntryInfo] entities is returned.
   ]
 ----
 
+All(a)::
+Returns all entries, including Gerrit default entries
++
+.Request
+----
+  GET /config/server/top-menus?all HTTP/1.0
+----
++
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  [
+    {
+      "name": "All",
+      "items": [
+        {
+          "url": "#/q/status:open",
+          "name": "Open",
+          "target": "_self"
+        },
+        {
+          "url": "#/q/status:merged",
+          "name": "Merged",
+          "target": "_self"
+        },
+        {
+          "url": "#/q/status:abandoned",
+          "name": "Abandoned",
+          "target": "_self"
+        }
+      ]
+    },
+    {
+      "name": "Projects",
+      "items": [
+        {
+          "url": "#/admin/projects/",
+          "name": "List",
+          "target": "_self"
+        }
+      ]
+    },
+    {
+      "name": "Documentation",
+      "items": [
+        {
+          "url": "/Documentation/index.html",
+          "name": "Table of Contents",
+          "target": "_blank"
+        },
+        {
+          "url": "/Documentation/user-search.html",
+          "name": "Searching",
+          "target": "_blank"
+        },
+        {
+          "url": "/Documentation/user-upload.html",
+          "name": "Uploading",
+          "target": "_blank"
+        },
+        {
+          "url": "/Documentation/access-control.html",
+          "name": "Access Controls",
+          "target": "_blank"
+        },
+        {
+          "url": "/Documentation/rest-api.html",
+          "name": "REST API",
+          "target": "_blank"
+        },
+        {
+          "url": "/Documentation/intro-project-owner.html",
+          "name": "Project Owner Guide",
+          "target": "_blank"
+        }
+      ]
+    },
+    {
+      "name": "Top Menu Entry",
+      "items": [
+        {
+          "url": "http://gerrit.googlecode.com/",
+          "name": "Gerrit",
+          "target": "_blank"
+        }
+      ]
+    }
+  ]
+----
+
+Project(p)::
+Set the project focus for the top menu bar. Can only be used in conjunction with -a
++
+.Request
+----
+  GET /config/server/top-menus?all&p=myproject HTTP/1.0
+----
++
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  [
+    {
+      "name": "All",
+      "items": [
+        {
+          "url": "#/q/status:open",
+          "name": "Open",
+          "target": "_self"
+        },
+        {
+          "url": "#/q/status:merged",
+          "name": "Merged",
+          "target": "_self"
+        },
+        {
+          "url": "#/q/status:abandoned",
+          "name": "Abandoned",
+          "target": "_self"
+        }
+      ]
+    },
+    {
+      "name": "Projects",
+      "items": [
+        {
+          "url": "#/admin/projects/",
+          "name": "List",
+          "target": "_self"
+        },
+        {
+          "url": "#/admin/projects/myproject",
+          "name": "General",
+          "target": "_self"
+        },
+        {
+          "url": "#/admin/projects/myproject,branches",
+          "name": "Branches",
+          "target": "_self"
+        },
+        {
+          "url": "#/admin/projects/myproject,access",
+          "name": "Access",
+          "target": "_self"
+        },
+        {
+          "url": "#/admin/projects/myproject,dashboards",
+          "name": "Dashboards",
+          "target": "_self"
+        }
+      ]
+    },
+    {
+      "name": "Documentation",
+      "items": [
+        {
+          "url": "/Documentation/index.html",
+          "name": "Table of Contents",
+          "target": "_blank"
+        },
+        {
+          "url": "/Documentation/user-search.html",
+          "name": "Searching",
+          "target": "_blank"
+        },
+        {
+          "url": "/Documentation/user-upload.html",
+          "name": "Uploading",
+          "target": "_blank"
+        },
+        {
+          "url": "/Documentation/access-control.html",
+          "name": "Access Controls",
+          "target": "_blank"
+        },
+        {
+          "url": "/Documentation/rest-api.html",
+          "name": "REST API",
+          "target": "_blank"
+        },
+        {
+          "url": "/Documentation/intro-project-owner.html",
+          "name": "Project Owner Guide",
+          "target": "_blank"
+        }
+      ]
+    },
+    {
+      "name": "Top Menu Entry",
+      "items": [
+        {
+          "url": "http://gerrit.googlecode.com/",
+          "name": "Gerrit",
+          "target": "_blank"
+        }
+      ]
+    }
+  ]
+----
 
 [[ids]]
 == IDs

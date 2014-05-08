@@ -24,12 +24,14 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.git.BranchOrderSection;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeException;
 import com.google.gerrit.server.git.strategy.SubmitStrategyFactory;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -73,6 +75,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
 
   private final TestSubmitType.Get submitType;
   private final GitRepositoryManager gitManager;
+  private final ProjectCache projectCache;
   private final SubmitStrategyFactory submitStrategyFactory;
   private final Provider<ReviewDb> db;
   private final ChangeIndexer indexer;
@@ -82,11 +85,13 @@ public class Mergeable implements RestReadView<RevisionResource> {
   @Inject
   Mergeable(TestSubmitType.Get submitType,
       GitRepositoryManager gitManager,
+      ProjectCache projectCache,
       SubmitStrategyFactory submitStrategyFactory,
       Provider<ReviewDb> db,
       ChangeIndexer indexer) {
     this.submitType = submitType;
     this.gitManager = gitManager;
+    this.projectCache = projectCache;
     this.submitStrategyFactory = submitStrategyFactory;
     this.db = db;
     this.indexer = indexer;
@@ -124,11 +129,17 @@ public class Mergeable implements RestReadView<RevisionResource> {
 
       if (otherBranches) {
         result.mergeableInto = new ArrayList<>();
-        for (Ref r : refs.values()) {
-          if (r.getName().startsWith(Constants.R_HEADS)
-              && !r.getName().equals(ref.getName())) {
-            if (isMergeable(change, ps, SubmitType.CHERRY_PICK, git, refs, r)) {
-              result.mergeableInto.add(r.getName());
+        BranchOrderSection branchOrder =
+            projectCache.get(change.getProject()).getBranchOrderSection();
+        if (branchOrder != null) {
+          int prefixLen = Constants.R_HEADS.length();
+          for (String n : branchOrder.getMoreStable(ref.getName())) {
+            Ref other = refs.get(n);
+            if (other == null) {
+              continue;
+            }
+            if (isMergeable(change, ps, SubmitType.CHERRY_PICK, git, refs, other)) {
+              result.mergeableInto.add(other.getName().substring(prefixLen));
             }
           }
         }

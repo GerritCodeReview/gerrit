@@ -26,6 +26,7 @@ java_library(
     '//gerrit-common:annotations',
     '//gerrit-common:server',
     '//gerrit-extension-api:api',
+    '//gerrit-gwtui:constants-properties',
     '//gerrit-patch-commonsnet:commons-net',
     '//gerrit-patch-jgit:server',
     '//gerrit-prettify:server',

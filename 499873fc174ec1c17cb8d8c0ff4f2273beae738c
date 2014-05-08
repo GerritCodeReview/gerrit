@@ -16,6 +16,24 @@
       "revId": "499873fc174ec1c17cb8d8c0ff4f2273beae738c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caa70c89_249f920b",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3127,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-05-08T12:30:48Z",
+      "side": 1,
+      "message": "Fixed in:\n\nhttps://gerrit-review.googlesource.com/56879",
+      "parentUuid": "0aae8465_069a9a1a",
+      "revId": "499873fc174ec1c17cb8d8c0ff4f2273beae738c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

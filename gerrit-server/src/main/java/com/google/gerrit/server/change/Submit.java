@@ -185,7 +185,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     PatchSet.Id current = resource.getChange().currentPatchSetId();
     return new UiAction.Description()
       .setTitle(String.format(
-          "Merge patch set %d into %s",
+          "Submit patch set %d into %s",
           resource.getPatchSet().getPatchSetId(),
           resource.getChange().getDest().getShortName()))
       .setVisible(!resource.getPatchSet().isDraft()

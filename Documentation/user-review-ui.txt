@@ -725,6 +725,30 @@ navigate to the corresponding line in the patch.
 
 image::images/user-review-ui-side-by-side-diff-screen-scrollbar.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-scrollbar.png"]
 
+[[patch-set-selection]]
+In the header, on each side, the list of patch sets is shown. Clicking
+on a patch set changes the selection for the patch set comparison and
+the screen is refreshed to show the diff between the selected patch
+sets. The currently selected patch set is highlighted by a light blue
+background.
+
+On the left side `Base` can be selected to compare a patch set against
+its base. For merge commits `Auto Merge` is available instead which
+allows to compare the patch against the result of the auto merge. The
+auto merge version may contain Git conflict markers and is useful for
+reviewing how conflicts are resolved by a patch.
+
+Reviewers that are reviewing a patch for the first time look at its
+diff against its base; reviewers that have reviewed an old patch
+version before, may see what has changed since that version by
+comparing the old patch against the current patch.
+
+image::images/user-review-ui-side-by-side-diff-screen-patch-sets.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-patch-sets.png"]
+
+The download icon next to the patch set list allows to download the
+patch. Unless the mime type of the file is configured as safe, the
+download file is a zip archive that contains the patch file.
+
 [[inline-comments]]
 === Inline Comments
 

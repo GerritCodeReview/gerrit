@@ -6,7 +6,11 @@ SRCS = glob(
   ['src/main/java/**/*.java'],
   excludes = CONSTANTS_SRC,
 )
-RESOURCES =  glob(['src/main/resources/**/*'])
+RESOURCES =  glob([
+    'src/main/resources/**/*',
+    '../gerrit-gwtui/src/main/java/com/google/gerrit/client/GerritConstants.properties'
+  ]
+)
 
 java_library(
   name = 'constants',

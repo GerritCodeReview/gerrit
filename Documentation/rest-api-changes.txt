@@ -3211,6 +3211,7 @@ Submit type used for this change, can be `MERGE_IF_NECESSARY`,
 `true` if this change is cleanly mergeable, `false` otherwise
 |`mergeable_into`|optional|
 A list of other branch names where this change could merge cleanly
+|============================
 
 [[restore-input]]
 === RestoreInput

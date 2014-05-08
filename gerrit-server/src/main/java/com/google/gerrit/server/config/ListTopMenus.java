@@ -16,23 +16,52 @@ package com.google.gerrit.server.config;
 
 import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.webui.TopMenu;
+import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.Project.NameKey;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.kohsuke.args4j.Option;
+
+import java.io.IOException;
 import java.util.List;
 
 class ListTopMenus implements RestReadView<ConfigResource> {
   private final DynamicSet<TopMenu> extensions;
+  private boolean returnAllMenusEnabled;
+  private final GerritTopMenus gerritTopMenus;
+  private NameKey currentProject;
+
+  @Option(name = "-a", usage = "Gets all entries in Gerrit top menubar")
+  public void returnAllTopMenus(boolean returnAllMenusEnabled) {
+    this.returnAllMenusEnabled = returnAllMenusEnabled;
+  }
+
+  @Option(name = "-p", usage = "Current project name in focus for top menubar")
+  public void focusOnProject(String projectName) {
+    this.currentProject = Project.NameKey.parse(projectName);
+  }
 
   @Inject
-  ListTopMenus(DynamicSet<TopMenu> extensions) {
+  ListTopMenus(DynamicSet<TopMenu> extensions, GerritTopMenus gerritTopMenus) {
     this.extensions = extensions;
+    this.gerritTopMenus = gerritTopMenus;
   }
 
   @Override
-  public List<TopMenu.MenuEntry> apply(ConfigResource resource) {
+  public List<TopMenu.MenuEntry> apply(ConfigResource resource)
+      throws AuthException, ResourceNotFoundException, OrmException, IOException, ConfigInvalidException {
     List<TopMenu.MenuEntry> entries = Lists.newArrayList();
+
+    if(returnAllMenusEnabled) {
+      entries.addAll(gerritTopMenus.getTopMenuBar(true, currentProject));
+    }
+
     for (TopMenu extension : extensions) {
       entries.addAll(extension.getEntries());
     }

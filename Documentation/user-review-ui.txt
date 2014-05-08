@@ -749,6 +749,14 @@ The download icon next to the patch set list allows to download the
 patch. Unless the mime type of the file is configured as safe, the
 download file is a zip archive that contains the patch file.
 
+For navigating between the patches in a patch set there are navigation
+buttons on the right side of the screen header. The left arrow button
+navigates to the previous patch; the right arrow button navigates to
+the next patch. The arrow up button leads back to the change screen. In
+all cases the selection for the patch set comparison is kept.
+
+image::images/user-review-ui-side-by-side-diff-screen-navigation.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-navigation.png"]
+
 [[inline-comments]]
 === Inline Comments
 

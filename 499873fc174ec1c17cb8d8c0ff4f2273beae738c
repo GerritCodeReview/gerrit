@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0aae8465_069a9a1a",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3127,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2014-05-08T11:22:10Z",
+      "side": 1,
+      "message": "asciidoctor: ERROR: rest-api-changes.txt.expn: line 3568: table missing leading separator, recovering automatically\n\n\nmissing table end: \n|\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d",
+      "revId": "499873fc174ec1c17cb8d8c0ff4f2273beae738c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aa101896_632e82b2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritGlobalModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-08T22:46:44Z",
+      "side": 0,
+      "message": "REST APIs are supposed to be bound in GerritGlobalModule. If something is breaking because of this binding (GerritGlobalMenu?) you are doing it wrong. Maybe you need an explicit binding for GerritGlobalMenu:\n\n  bind(GerritGlobalMenu.class);\n\nadded to the config.Module configure method.",
+      "revId": "4a3849f55918c97e130fed1edf47fd86f73fd885",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

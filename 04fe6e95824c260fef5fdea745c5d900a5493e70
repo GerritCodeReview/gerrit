@@ -1,0 +1,463 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8acb5465_22ff2ed2",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-08T22:46:44Z",
+      "side": 1,
+      "message": "list of top",
+      "range": {
+        "startLine": 143,
+        "startChar": 12,
+        "endLine": 143,
+        "endChar": 20
+      },
+      "revId": "04fe6e95824c260fef5fdea745c5d900a5493e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa101896_e3f3920d",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-08T22:46:44Z",
+      "side": 1,
+      "message": "just a. We don\u0027t use the - in the HTTP URL even though it shows up in the @Option annotation.",
+      "range": {
+        "startLine": 149,
+        "startChar": 2,
+        "endLine": 149,
+        "endChar": 4
+      },
+      "revId": "04fe6e95824c260fef5fdea745c5d900a5493e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa101896_c3f01604",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-08T22:46:44Z",
+      "side": 1,
+      "message": "Just p, same reason.",
+      "range": {
+        "startLine": 150,
+        "startChar": 2,
+        "endLine": 150,
+        "endChar": 4
+      },
+      "revId": "04fe6e95824c260fef5fdea745c5d900a5493e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8acb5465_02f14a05",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-08T22:46:44Z",
+      "side": 1,
+      "message": "`a`?",
+      "range": {
+        "startLine": 150,
+        "startChar": 86,
+        "endLine": 150,
+        "endChar": 88
+      },
+      "revId": "04fe6e95824c260fef5fdea745c5d900a5493e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8acb5465_42043236",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-08T22:46:44Z",
+      "side": 1,
+      "message": "\u003dtrue is the default if you don\u0027t supply a value. so you can say just \"?a\"",
+      "range": {
+        "startLine": 182,
+        "startChar": 31,
+        "endLine": 182,
+        "endChar": 37
+      },
+      "revId": "04fe6e95824c260fef5fdea745c5d900a5493e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa101896_23ff6ad2",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-08T22:46:44Z",
+      "side": 1,
+      "message": "Why do we need this module injected here now?",
+      "revId": "04fe6e95824c260fef5fdea745c5d900a5493e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa101896_0304ee34",
+        "filename": "gerrit-server/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-08T22:46:44Z",
+      "side": 1,
+      "message": "Put the [ on the prior line, for example:\n\n  glob([",
+      "range": {
+        "startLine": 9,
+        "startChar": 18,
+        "endLine": 10,
+        "endChar": 3
+      },
+      "revId": "04fe6e95824c260fef5fdea745c5d900a5493e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa101896_43fee6d2",
+        "filename": "gerrit-server/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-08T22:46:44Z",
+      "side": 1,
+      "message": "You cannot reference outside of the directory you are in. So this does not work.",
+      "range": {
+        "startLine": 11,
+        "startChar": 4,
+        "endLine": 11,
+        "endChar": 20
+      },
+      "revId": "04fe6e95824c260fef5fdea745c5d900a5493e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa101896_63f962e9",
+        "filename": "gerrit-server/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-08T22:46:44Z",
+      "side": 1,
+      "message": "Put the ] on the next line:\n\n   .properties\u0027,\n ])",
+      "range": {
+        "startLine": 11,
+        "startChar": 86,
+        "endLine": 12,
+        "endChar": 1
+      },
+      "revId": "04fe6e95824c260fef5fdea745c5d900a5493e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa101896_a3123a77",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritConstantsProperties.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-08T22:46:44Z",
+      "side": 1,
+      "message": "nit: blank line before package",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 40
+      },
+      "revId": "04fe6e95824c260fef5fdea745c5d900a5493e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8acb5465_a2125e77",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritConstantsProperties.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-08T22:46:44Z",
+      "side": 1,
+      "message": "I don\u0027t think you need a leading / here",
+      "revId": "04fe6e95824c260fef5fdea745c5d900a5493e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa101896_830f3e4d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritConstantsProperties.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-08T22:46:44Z",
+      "side": 1,
+      "message": "no need to call default super constructor, Java will do this for you automatically",
+      "revId": "04fe6e95824c260fef5fdea745c5d900a5493e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8acb5465_62f936e9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritConstantsProperties.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-08T22:46:44Z",
+      "side": 1,
+      "message": "We prefer:\n\n  if (constantsStream !\u003d null) {\n    load...\n  } else {\n    failure case\n  }",
+      "range": {
+        "startLine": 41,
+        "startChar": 4,
+        "endLine": 46,
+        "endChar": 5
+      },
+      "revId": "04fe6e95824c260fef5fdea745c5d900a5493e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8acb5465_c20f624c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritTopMenus.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-08T22:46:44Z",
+      "side": 1,
+      "message": "nit: blank line before package",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 40
+      },
+      "revId": "04fe6e95824c260fef5fdea745c5d900a5493e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8acb5465_422992a7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritTopMenus.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-08T22:46:44Z",
+      "side": 1,
+      "message": "These don\u0027t have to be public. It looks like they are used exactly once too, so I question the value of making them constants.",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 63
+      },
+      "revId": "04fe6e95824c260fef5fdea745c5d900a5493e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa101896_4333861a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritTopMenus.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-08T22:46:44Z",
+      "side": 1,
+      "message": "I don\u0027t see a database call in here.",
+      "range": {
+        "startLine": 70,
+        "startChar": 33,
+        "endLine": 70,
+        "endChar": 45
+      },
+      "revId": "04fe6e95824c260fef5fdea745c5d900a5493e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa101896_a317da60",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritTopMenus.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-08T22:46:44Z",
+      "side": 1,
+      "message": "Who throws a resource not found?",
+      "range": {
+        "startLine": 70,
+        "startChar": 6,
+        "endLine": 70,
+        "endChar": 31
+      },
+      "revId": "04fe6e95824c260fef5fdea745c5d900a5493e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa101896_e321d2bd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritTopMenus.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-08T22:46:44Z",
+      "side": 1,
+      "message": "documentation",
+      "range": {
+        "startLine": 179,
+        "startChar": 19,
+        "endLine": 179,
+        "endChar": 31
+      },
+      "revId": "04fe6e95824c260fef5fdea745c5d900a5493e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa101896_c3093648",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ListTopMenus.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-08T22:46:44Z",
+      "side": 1,
+      "message": "Elsewhere we say --all in the REST API, so its \"all\" in the query. I think we would prefer that here.",
+      "range": {
+        "startLine": 40,
+        "startChar": 18,
+        "endLine": 40,
+        "endChar": 20
+      },
+      "revId": "04fe6e95824c260fef5fdea745c5d900a5493e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa101896_e30c325a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ListTopMenus.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-08T22:46:44Z",
+      "side": 1,
+      "message": "a method is overkill and unnecessary, just put @Option on the boolean variable",
+      "range": {
+        "startLine": 41,
+        "startChar": 2,
+        "endLine": 43,
+        "endChar": 3
+      },
+      "revId": "04fe6e95824c260fef5fdea745c5d900a5493e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8acb5465_e20c665a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ListTopMenus.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-08T22:46:44Z",
+      "side": 1,
+      "message": "I find it hard to believe GerritTopMenus throws every one of these exceptions.",
+      "revId": "04fe6e95824c260fef5fdea745c5d900a5493e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

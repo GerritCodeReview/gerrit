@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0aae8465_261c76fc",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-08T04:16:25Z",
+      "side": 0,
+      "message": "OK to remove this statement, that was missed to remove in this change [1]. Agreed, that Administrators and Batch-Users group are handled differently as other system groups: they are created as real groups in SchemaCreator.initSystemConfig(), where as other system groups are just constants, that defined in SystemGroupBackend class. But why to remove the description of the 2 system groups that handles differently below? Wouldn\u0027t it be enough to mention, that they are handled differently and preserve the description?\n\n\n [1] https://gerrit-review.googlesource.com/#/c/52433",
+      "range": {
+        "startLine": 22,
+        "startChar": 13,
+        "endLine": 24,
+        "endChar": 11
+      },
+      "revId": "10e19cb858ce3dfcd12a1b83a4868b6864d8e5d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

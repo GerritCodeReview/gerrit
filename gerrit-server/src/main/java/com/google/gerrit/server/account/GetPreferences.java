@@ -177,5 +177,9 @@ public class GetPreferences implements RestReadView<AccountResource> {
       String val = cfg.getString(MY, subsection, key);
       return !Strings.isNullOrEmpty(val) ? val : defaultValue;
     }
+
+    public List<TopMenu.MenuItem> getMyMenu() {
+      return my;
+    }
   }
 }

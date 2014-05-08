@@ -11,35 +11,13 @@ users.
 
 Gerrit comes with the following system groups:
 
-* Administrators
 * Anonymous Users
 * Change Owner
-* Non-Interactive Users
 * Project Owners
 * Registered Users
 
 The system groups are assigned special access and membership management
-privileges.  The identity of these groups is set in the `system_config`
-table within the database, so the groups can be renamed after installation
-if desired.
-
-
-[[administrators]]
-=== Administrators
-
-This is the Gerrit "root" identity.
-
-Users in the 'Administrators' group can perform any action under
-the Admin menu, to any group or project, without further validation
-or any other access controls.  In most installations only those
-users who have direct filesystem and database access would be
-placed into this group.
-
-Membership in the 'Administrators' group does not imply any other
-access rights.  Administrators do not automatically get code review
-approval or submit rights in projects.  This is a feature designed
-to permit administrative users to otherwise access Gerrit as any
-other normal user would, without needing two different accounts.
+privileges.
 
 
 [[anonymous_users]]
@@ -55,21 +33,6 @@ group in order to permit anonymous users to view project changes,
 without requiring sign in first.  Currently it is only worthwhile
 to grant `Read` access to this group as Gerrit requires an account
 identity for all other operations.
-
-
-[[non-interactive_users]]
-=== Non-Interactive Users
-
-This is an internal user group, members of this group are not expected
-to perform interactive operations on the Gerrit web front-end.
-
-However, sometimes such a user may need a separate thread pool in
-order to prevent it from grabbing threads from the interactive users.
-
-These users live in a second thread pool, which separates operations
-made by the non-interactive users from the ones made by the interactive
-users. This ensures that the interactive users can keep working when
-resources are tight.
 
 
 [[project_owners]]
@@ -118,6 +81,59 @@ cause it to become approved or rejected.
 
 Registered users are always permitted to make and publish comments
 on any change in any project they have `Read` access to.
+
+
+== Predefined Groups
+
+Predefined groups differs from system groups by the fact that they
+exist in the ACCOUNT_GROUPS table (like normal groups) but predefined groups
+are created on Gerrit site initialization and unique UUIDs are assigned
+to those groups. These UUIDs are different on different Gerrit sites.
+
+Gerrit comes with two predefined groups:
+
+* Administrators
+* Non-Interactive Users
+
+
+[[administrators]]
+=== Administrators
+
+This is the Gerrit "root" identity. The capability
+link:access-control.html#capability_administrateServer['Administrate Server']
+is assigned to this predefined group on Gerrit site creation.
+
+Users in the 'Administrators' group can perform any action under
+the Admin menu, to any group or project, without further validation
+or any other access controls.  In most installations only those
+users who have direct filesystem and database access would be
+placed into this group.
+
+Membership in the 'Administrators' group does not imply any other
+access rights.  Administrators do not automatically get code review
+approval or submit rights in projects.  This is a feature designed
+to permit administrative users to otherwise access Gerrit as any
+other normal user would, without needing two different accounts.
+
+
+[[non-interactive_users]]
+=== Non-Interactive Users
+
+This is the Gerrit "batch" identity. The capabilities
+link:access-control.html#capability_priority['Priority BATCH'] and
+link:access-control.html#capability_streamEvents['Stream Events']
+are assigned to this predefined group on Gerrit site creation.
+
+The members of this group are not expected to perform interactive
+operations on the Gerrit web front-end.
+
+However, sometimes such a user may need a separate thread pool in
+order to prevent it from grabbing threads from the interactive users.
+
+These users live in a second thread pool, which separates operations
+made by the non-interactive users from the ones made by the interactive
+users. This ensures that the interactive users can keep working when
+resources are tight.
 
 
 == Account Groups

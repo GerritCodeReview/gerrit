@@ -191,5 +191,9 @@ public class GetPreferences implements RestReadView<AccountResource> {
       }
       return !urlAliases.isEmpty() ? urlAliases : null;
     }
+
+    public List<TopMenu.MenuItem> getMyMenu() {
+      return my;
+    }
   }
 }

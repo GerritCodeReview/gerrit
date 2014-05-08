@@ -111,6 +111,12 @@ java_library(
   ],
 )
 
+java_library(
+  name = 'constants-properties',
+  resources = ['src/main/java/com/google/gerrit/client/GerritConstants.properties'],
+  visibility = ['//gerrit-server:server'],
+)
+
 java_test(
   name = 'ui_tests',
   srcs = glob(['src/test/java/**/*.java']),

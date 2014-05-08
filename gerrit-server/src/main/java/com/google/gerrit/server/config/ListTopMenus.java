@@ -18,23 +18,43 @@ import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.webui.TopMenu;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.google.inject.Provider;
+
+import org.kohsuke.args4j.Option;
 
 import java.util.List;
 
 @Singleton
 class ListTopMenus implements RestReadView<ConfigResource> {
   private final DynamicSet<TopMenu> extensions;
+  private final Provider<GerritTopMenus> topMenusProvider;
+
+  private Project.NameKey currentProject;
+  @Option(name = "-p", usage = "Current project name in focus for top menubar")
+  public void setProjectFocus(String projectName) {
+    currentProject = Project.NameKey.parse(projectName);
+  }
+
+  @Option(name = "--all", usage = "Gets all entries in Gerrit top menubar")
+  private boolean returnAllMenusEnabled;
 
   @Inject
-  ListTopMenus(DynamicSet<TopMenu> extensions) {
+  ListTopMenus(DynamicSet<TopMenu> extensions, Provider<GerritTopMenus> gtmp) {
     this.extensions = extensions;
+    this.topMenusProvider = gtmp;
   }
 
   @Override
   public List<TopMenu.MenuEntry> apply(ConfigResource resource) {
     List<TopMenu.MenuEntry> entries = Lists.newArrayList();
+
+    if (returnAllMenusEnabled) {
+      entries.addAll(topMenusProvider.get().getTopMenuBar(currentProject));
+    }
+
     for (TopMenu extension : extensions) {
       entries.addAll(extension.getEntries());
     }

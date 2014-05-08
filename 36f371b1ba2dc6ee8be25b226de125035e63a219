@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aa101896_833d7edd",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffTable.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-08T23:17:03Z",
+      "side": 1,
+      "message": "This is duplicated below. You can just say:\n\n  setHideEmptyPane(prefs.hideEmptyPane())\n\nAt the time set() is called the prefs should be honored and the user has not made temporary changes, as the view is just becoming visible. So if hideEmptyPane() is true we will pass true to setHideEmptyPane() which always does false for the proper setVisibleA/B call.",
+      "range": {
+        "startLine": 186,
+        "startChar": 4,
+        "endLine": 192,
+        "endChar": 5
+      },
+      "revId": "36f371b1ba2dc6ee8be25b226de125035e63a219",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8acb5465_c214c25e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PreferencesBox.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-08T23:17:03Z",
+      "side": 1,
+      "message": "So hideEmptyPane \u003d true and this is a modified file, I am unable to hide the left side?",
+      "revId": "36f371b1ba2dc6ee8be25b226de125035e63a219",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa101896_434c2683",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PreferencesBox.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-08T23:17:03Z",
+      "side": 1,
+      "message": "prefs.hideEmptyPane()\n\nIf you look elsewhere in this code e.g. onLineNumbers at line 292 above you will see we \"wash\" the value through the prefs object and get back the value the prefs object would have used. This is just in case the prefs object is doing normalization of values or something crazy.",
+      "range": {
+        "startLine": 305,
+        "startChar": 36,
+        "endLine": 305,
+        "endChar": 49
+      },
+      "revId": "36f371b1ba2dc6ee8be25b226de125035e63a219",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa101896_a3407a47",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PreferencesBox.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-08T23:17:03Z",
+      "side": 1,
+      "message": "prefs.hideEmptyPane()",
+      "range": {
+        "startLine": 306,
+        "startChar": 8,
+        "endLine": 306,
+        "endChar": 21
+      },
+      "revId": "36f371b1ba2dc6ee8be25b226de125035e63a219",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

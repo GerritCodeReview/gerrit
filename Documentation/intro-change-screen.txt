@@ -11,7 +11,7 @@ optional elements are moved to pop down boxes.
 This is not only a facelift. The main highlights are under the hood:
 
 * Old style RPC calls are replaced by the REST API
-* The prettify syntax highlighting library was replaced by Codemirror
+* The prettify syntax highlighting library was replaced by CodeMirror
 * Automatic refresh of open changes
 * Support to download a patch direct in browser: no local repo is needed
 * JS API integration: it was never so easy to add change/revision actions or
@@ -166,14 +166,14 @@ set is marked on the list in the 'Patch Sets' drop down list. In addition a red
 "draft" prefix appears on the filenames in the file table.
 
 [[codemirror]]
-== Codemirror
+== CodeMirror
 
 On the user preferences page, 'Side By Side' or 'Unified Diff' view can be
 configured.  Use the "/" key to start the CodeMirror search, like in 'vim'.
 
 Key bindings are not customizable at the moment. They may be added in the future.
 
-Range comments are supported on Codemirror's 'Side By Side' screen.  Highlight
+Range comments are supported on CodeMirror's 'Side By Side' screen.  Highlight
 lines with the mouse and then click the bottom-most line number to create a
 range comment for the highlighted lines. It can also be used to select a
 region on one line to emphasize what the comment is related to.
@@ -184,7 +184,7 @@ Key bindings:
 * n / p: next diff chunk / previous diff chunk
 * ] / [: next file / previous file
 * u: up to change
-* c: create a new inline comment (focus has to be in codemirror view)
+* c: create a new inline comment (focus has to be in CodeMirror view)
 * / or <Ctrl> + f: search in the current file
 * <Shift> + o: expand or collapse all comments on current line
 * <Enter> or o: expand or collapse comment
@@ -294,7 +294,7 @@ The user can now manually toggle the 'reviewed' flag per file using the check
 box to the left of the filename.
 
 Key bindings: "j" & "k" to navigate in the file table, "r" to toggle the
-'reviewed' flag, and "o" or "Enter" to open diff in codemirror or unified diff
+'reviewed' flag, and "o" or "Enter" to open diff in CodeMirror or unified diff
 view.
 
 [[diff-against]]

@@ -153,7 +153,7 @@ submit settings:
 - 'mergeContent': Defines whether to automatically merge changes.  Valid values
 are 'true', 'false', or 'INHERIT'.  Default is 'INHERIT'.
 
-- 'action': defines the link:project-setup.html#submit_type[submit type].  Valid
+- 'action': defines the link:project-configuration.html#submit_type[submit type].  Valid
 values are 'fast forward only', 'merge if necessary', 'rebase if necessary',
 'merge always' and 'cherry pick'.  The default is 'merge if necessary'.
 

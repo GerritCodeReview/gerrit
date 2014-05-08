@@ -689,6 +689,42 @@ image::images/user-review-ui-change-view-preference.png[width=800, link="images/
 [WARNING]
 The old change screen will be removed in a later version of Gerrit.
 
+[[side-by-side]]
+== Side-by-Side Diff Screen
+
+The side-by-side diff screen shows a single patch; the old file version
+is displayed on the left side of the screen; the new file version is
+displayed on the right side of the screen.
+
+This screen allows to review a patch and to comment on it.
+
+image::images/user-review-ui-side-by-side-diff-screen.png[width=800, link="images/user-review-ui-side-by-side-diff-screen.png"]
+
+In the screen header the project name and the name of the viewed patch
+file are shown.
+
+If a Git web browser is configured on the server, the project name and
+the file path are displayed as links to the project and the folder in
+the Git web browser.
+
+image::images/user-review-ui-side-by-side-diff-screen-project-and-file.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-project-and-file.png"]
+
+The checkbox in front of the project name and the file name allows the
+patch to be marked as reviewed.
+
+image::images/user-review-ui-side-by-side-diff-screen-reviewed.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-reviewed.png"]
+
+Syntax coloring is supported for many languages and file types.
+
+image::images/user-review-ui-side-by-side-diff-screen-syntax-coloring.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-syntax-coloring.png"]
+
+The scrollbar shows patch diffs and inline comments as annotations.
+This provides a good overview of the lines in the patch that are
+relevant for reviewing. By clicking on an annotation one can quickly
+navigate to the corresponding line in the patch.
+
+image::images/user-review-ui-side-by-side-diff-screen-scrollbar.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-scrollbar.png"]
+
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

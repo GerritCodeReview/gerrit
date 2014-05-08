@@ -18,22 +18,32 @@ import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.Changes;
+import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.Url;
+import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.ChangesCollection;
+import com.google.gerrit.server.change.CreateChange;
+import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+
+import java.io.IOException;
 
 class ChangesImpl extends Changes.NotImplemented implements Changes {
   private final ChangesCollection changes;
   private final ChangeApiImpl.Factory api;
+  private final CreateChange.Factory createChangeFactory;
 
   @Inject
-  ChangesImpl(ChangesCollection changes, ChangeApiImpl.Factory api) {
+  ChangesImpl(ChangesCollection changes,
+      ChangeApiImpl.Factory api,
+      CreateChange.Factory createChangeFactory) {
     this.changes = changes;
     this.api = api;
+    this.createChangeFactory = createChangeFactory;
   }
 
   @Override
@@ -58,6 +68,18 @@ class ChangesImpl extends Changes.NotImplemented implements Changes {
           IdString.fromUrl(id)));
     } catch (OrmException e) {
       throw new RestApiException("Cannot parse change", e);
+    }
+  }
+
+  @Override
+  public ChangeApi create(ChangeInfo in) throws RestApiException {
+    try {
+      ChangeJson.ChangeInfo out = createChangeFactory.create().apply(
+          TopLevelResource.INSTANCE, in).value();
+      return api.create(changes.parse(TopLevelResource.INSTANCE,
+          IdString.fromUrl(out.changeId)));
+    } catch (OrmException | IOException | InvalidChangeOperationException e) {
+      throw new RestApiException("Cannot create change", e);
     }
   }
 }

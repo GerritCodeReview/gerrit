@@ -27,6 +27,7 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.lib.Constants;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -109,5 +110,20 @@ public class ChangeIT extends AbstractDaemonTest {
     gApi.changes()
         .id("p~master~" + r.getChangeId())
         .addReviewer(in);
+  }
+
+  @Test
+  public void createEmptyChange() throws RestApiException {
+    ChangeInfo in = new ChangeInfo();
+    in.branch = Constants.MASTER;
+    in.subject = "Create a change from the API";
+    in.project = project.get();
+    ChangeInfo info = gApi
+        .changes()
+        .create(in)
+        .get();
+    assertEquals(in.project, info.project);
+    assertEquals(in.branch, info.branch);
+    assertEquals(in.subject, info.subject);
   }
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0aae8465_0617fadc",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 713,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-08T00:47:12Z",
+      "side": 1,
+      "message": "Are you going to add documentation of the diff preferences?  It would be good to mention that the mark as reviewed is configurable.",
+      "revId": "d38ddf593ebb0f7c6457ecfd7825f1f42b503625",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

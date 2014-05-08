@@ -28,6 +28,7 @@ public interface Changes {
   ChangeApi id(String triplet) throws RestApiException;
   ChangeApi id(String project, String branch, String id)
       throws RestApiException;
+  ChangeApi create(ChangeInfo in) throws RestApiException;
 
   /**
    * Shorthand for {@link #query(QueryParameter)} without any conditions (i.e. lists all changes).
@@ -110,6 +111,11 @@ public interface Changes {
 
     @Override
     public ChangeApi id(String project, String branch, String id) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public ChangeApi create(ChangeInfo in) throws RestApiException {
       throw new NotImplementedException();
     }
 

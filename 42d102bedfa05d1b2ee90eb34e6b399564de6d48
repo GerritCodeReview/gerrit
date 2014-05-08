@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "caa70c89_44908efc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchSetInfoFactory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-05-08T10:13:19Z",
+      "side": 1,
+      "message": "The variable commitBranchFlag has been removed. Please check PS7. In PS6 plugins files were submitted by mistake.",
+      "parentUuid": "0aae8465_e63bbe55",
+      "revId": "42d102bedfa05d1b2ee90eb34e6b399564de6d48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "caa70c89_64ab4a62",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchSetInfoFactory.java",
         "patchSetId": 5

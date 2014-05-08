@@ -25,6 +25,7 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -39,10 +40,15 @@ class EditMessageBox extends Composite {
   interface Binder extends UiBinder<HTMLPanel, EditMessageBox> {}
   private static final Binder uiBinder = GWT.create(Binder.class);
 
+  interface Style extends CssResource {
+    String dialog();
+  }
+
   private final Change.Id changeId;
   private final String revision;
   private String originalMessage;
 
+  @UiField Style style;
   @UiField NpTextArea message;
   @UiField Button save;
   @UiField Button cancel;
@@ -94,6 +100,11 @@ class EditMessageBox extends Composite {
   void onCancel(ClickEvent e) {
     message.setText("");
     hide();
+  }
+
+  @UiHandler("close")
+  void onClose(ClickEvent e) {
+    onCancel(e);
   }
 
   private void hide() {

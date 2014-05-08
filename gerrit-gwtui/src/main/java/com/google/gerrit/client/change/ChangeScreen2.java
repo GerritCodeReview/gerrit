@@ -396,7 +396,6 @@ public class ChangeScreen2 extends Screen {
           info.legacy_id(),
           revision,
           info.revision(revision).commit().message(),
-          style,
           editMessage,
           reply);
       keysAction.add(new KeyCommand(0, 'e', Util.C.keyEditMessage()) {

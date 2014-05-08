@@ -19,31 +19,123 @@ limitations under the License.
     xmlns:g='urn:import:com.google.gwt.user.client.ui'
     xmlns:c='urn:import:com.google.gwtexpui.globalkey.client'>
   <ui:with field='res' type='com.google.gerrit.client.change.Resources'/>
-  <ui:style>
+  <ui:style type='com.google.gerrit.client.change.EditMessageBox.Style'>
+
+    .dialog {
+      background: rgba(0, 0, 0, 0.85) none repeat scroll 0 50%;
+      color: #ffffff;
+      font-family: arial,sans-serif;
+      font-weight: bold;
+      overflow: hidden;
+      text-align: left;
+      text-shadow: 1px 1px 7px #000000;
+      min-width: 300px;
+      z-index: 200;
+      border-radius: 10px;
+    }
+
+    @if user.agent safari {
+      .dialog {
+        \-webkit-border-radius: 10px;
+      }
+    }
+
+    @if user.agent gecko1_8 {
+      .dialog {
+        \-moz-border-radius: 10px;
+      }
+    }
+
+    .box { margin: 10px; }
+    .box .gwt-TextBox { padding: 0; }
+    .context { vertical-align: bottom; }
+
+    .table tr { min-height: 23px; }
+    .table th,
+    .table td {
+      white-space: nowrap;
+      color: #ffffff;
+    }
+    .table th {
+      padding-right: 8px;
+      text-align: right;
+    }
+
+    .box a,
+    .box a:visited,
+    .box a:hover {
+      color: #dddd00;
+    }
+
+    .box button {
+      margin: 6px 3px 0 0;
+      border-color: rgba(0, 0, 0, 0.1);
+      text-align: center;
+      font-size: 8pt;
+      font-weight: bold;
+      border: 1px solid;
+      cursor: pointer;
+      color: #444;
+      background-color: #f5f5f5;
+      background-image: -webkit-linear-gradient(top, #f5f5f5, #f1f1f1);
+      -webkit-border-radius: 2px;
+      -webkit-box-sizing: content-box;
+    }
+    .box button div {
+      color: #444;
+      height: 10px;
+      min-width: 54px;
+      line-height: 10px;
+      white-space: nowrap;
+    }
+
+    button.save {
+      background-color: #4d90fe;
+      background-image: -webkit-linear-gradient(top, #4d90fe, #4d90fe);
+    }
+    button.save div { color: #fff; }
+
+    button.cancel {
+      margin-left: 10px;
+      color: #d14836;
+      background-color: #d14836;
+      background-image: -webkit-linear-gradient(top, #d14836, #d14836);
+    }
+    button.cancel div { color: #fff; }
     .commitMessage {
       background-color: white;
       font-family: monospace;
+      font-weight: bold;
+      font-size: 11pt;
     }
     .cancel { float: right; }
   </ui:style>
-  <g:HTMLPanel>
-    <div class='{res.style.section}'>
+  <g:HTMLPanel styleName='{style.box}'>
+    <table style='width: 100%'>
+      <tr>
+        <td><ui:msg>Edit Commit Message</ui:msg></td>
+        <td style='text-align: right'>
+          <g:Anchor ui:field='close' href='javascript:;'><ui:msg>Close</ui:msg></g:Anchor>
+        </td>
+      </tr>
+    </table>
+    <hr/>
+    <div>
       <c:NpTextArea
          visibleLines='30'
          characterWidth='78'
          styleName='{style.commitMessage}'
          ui:field='message'/>
     </div>
-    <div class='{res.style.section}'>
+    <div>
       <g:Button ui:field='save'
           title='Create new patch set with updated commit message'
-          styleName='{res.style.button}'>
+          styleName='{style.save}'>
         <ui:attribute name='title'/>
         <div><ui:msg>Save</ui:msg></div>
       </g:Button>
       <g:Button ui:field='cancel'
-          styleName='{res.style.button}'
-          addStyleNames='{style.cancel}'>
+          styleName='{style.cancel}'>
           <div>Cancel</div>
       </g:Button>
     </div>

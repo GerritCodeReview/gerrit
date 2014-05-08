@@ -26,7 +26,6 @@ class EditMessageAction {
   private final Change.Id changeId;
   private final String revision;
   private final String originalMessage;
-  private final ChangeScreen2.Style style;
   private final Widget editMessageButton;
   private final Widget replyButton;
 
@@ -37,13 +36,11 @@ class EditMessageAction {
       Change.Id changeId,
       String revision,
       String originalMessage,
-      ChangeScreen2.Style style,
       Widget editButton,
       Widget replyButton) {
     this.changeId = changeId;
     this.revision = revision;
     this.originalMessage = originalMessage;
-    this.style = style;
     this.editMessageButton = editButton;
     this.replyButton = replyButton;
   }
@@ -62,7 +59,7 @@ class EditMessageAction {
     }
 
     final PluginSafePopupPanel p = new PluginSafePopupPanel(true);
-    p.setStyleName(style.replyBox());
+    p.setStyleName(editBox.style.dialog());
     p.addAutoHidePartner(editMessageButton.getElement());
     p.addCloseHandler(new CloseHandler<PopupPanel>() {
       @Override
@@ -73,7 +70,8 @@ class EditMessageAction {
       }
     });
     p.add(editBox);
-    p.showRelativeTo(replyButton);
+    p.setPopupPosition(replyButton.getAbsoluteLeft(), 260);
+    p.show();
     GlobalKey.dialog(p);
     popup = p;
   }

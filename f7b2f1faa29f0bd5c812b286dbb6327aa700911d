@@ -357,6 +357,30 @@
     },
     {
       "key": {
+        "uuid": "4aaebc94_986eb5cd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRelated.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-05-09T10:26:58Z",
+      "side": 1,
+      "message": "Why the function had to be static?",
+      "parentUuid": "4f3169d0_2748bae8",
+      "range": {
+        "startLine": 66,
+        "startChar": 2,
+        "endLine": 66,
+        "endChar": 51
+      },
+      "revId": "f7b2f1faa29f0bd5c812b286dbb6327aa700911d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c4fb17f_45306a00",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRelated.java",
         "patchSetId": 2

@@ -29,6 +29,9 @@ public interface RevisionApi {
   ChangeApi rebase() throws RestApiException;
   boolean canRebase();
 
+  void setReviewed(String unencodedFilePath) throws RestApiException;
+  void deleteReviewed(String unencodedFilePath) throws RestApiException;
+
   /**
    * A default implementation which allows source compatibility
    * when adding new methods to the interface.
@@ -71,6 +74,16 @@ public interface RevisionApi {
 
     @Override
     public boolean canRebase() {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void setReviewed(String unencodedFilePath) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void deleteReviewed(String unencodedFilePath) throws RestApiException {
       throw new NotImplementedException();
     }
   }

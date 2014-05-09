@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aa101896_63ca0282",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1012,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-09T06:38:10Z",
+      "side": 1,
+      "message": "SideBySide2.java has a constant set to 4000.  What is the difference?",
+      "range": {
+        "startLine": 1012,
+        "startChar": 24,
+        "endLine": 1012,
+        "endChar": 28
+      },
+      "revId": "7bcce979e2232443596caba562eb038f33c94cbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

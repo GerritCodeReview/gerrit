@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aa101896_c38c9671",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 735,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-09T01:28:43Z",
+      "side": 1,
+      "message": "remove this",
+      "range": {
+        "startLine": 735,
+        "startChar": 17,
+        "endLine": 735,
+        "endChar": 21
+      },
+      "revId": "f39b3b035aedc37e55d9fa9237f55c3ddf10100d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8acb5465_627cd692",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 750,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-09T01:28:43Z",
+      "side": 1,
+      "message": "this implies there are other cases where it is not a zip file; these cases should also be mentioned.",
+      "range": {
+        "startLine": 749,
+        "startChar": 28,
+        "endLine": 750,
+        "endChar": 7
+      },
+      "revId": "f39b3b035aedc37e55d9fa9237f55c3ddf10100d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

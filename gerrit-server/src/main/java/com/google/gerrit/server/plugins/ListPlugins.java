@@ -40,7 +40,7 @@ import java.util.List;
 import java.util.Map;
 
 /** List the installed plugins. */
-@RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
+@RequiresCapability(GlobalCapability.VIEW_PLUGINS)
 public class ListPlugins implements RestReadView<TopLevelResource> {
   private final PluginLoader pluginLoader;
 

@@ -16,6 +16,24 @@
       "revId": "4a3849f55918c97e130fed1edf47fd86f73fd885",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a7cfcf0_a8823b3c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritGlobalModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-05-09T08:21:22Z",
+      "side": 0,
+      "message": "Let me check if binding GerritGlobalMenu explicitly would solve the problem. \n\nThe necessity is the access to HTTP resources (ServletContext) needed to inject GerritConfig and discover if documentation link is available.\n\nWill try your suggestions.",
+      "parentUuid": "aa101896_632e82b2",
+      "revId": "4a3849f55918c97e130fed1edf47fd86f73fd885",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

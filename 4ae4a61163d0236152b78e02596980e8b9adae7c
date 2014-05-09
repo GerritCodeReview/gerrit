@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4a7cfcf0_a86b1bbc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRelated.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-05-09T09:06:20Z",
+      "side": 1,
+      "message": "Please see comment of David P. from March 4(on PS2) due to which it was changed from final to static.\nresolveBranches which is a static function is used in line 346 due to which change and gitMgr variables are made static.\nEarlier I made another gitMgr static variable (PS2). But later as per comment from David P. I removed that variable and  changed modifier of current gitMgr variable from final to static and used the same variable in IncludedInDetail function in line 300.",
+      "parentUuid": "4aaebc94_d88f4d63",
+      "revId": "4ae4a61163d0236152b78e02596980e8b9adae7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4a7cfcf0_886e57cd",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRelated.java",
         "patchSetId": 7
@@ -30,6 +48,24 @@
       "writtenOn": "2014-05-09T08:30:31Z",
       "side": 1,
       "message": "static? what should this be good for? What about two threads executing the walk method and each setting a different change into this (static) variable?",
+      "revId": "4ae4a61163d0236152b78e02596980e8b9adae7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4aaebc94_185b8531",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRelated.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-05-09T09:06:20Z",
+      "side": 1,
+      "message": "resolveBranches (which is a static function) is used in line 346 due to which change and gitMgr variables are made static.",
+      "parentUuid": "4a7cfcf0_886e57cd",
       "revId": "4ae4a61163d0236152b78e02596980e8b9adae7c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

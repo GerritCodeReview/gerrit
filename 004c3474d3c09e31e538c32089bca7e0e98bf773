@@ -16,6 +16,24 @@
       "revId": "004c3474d3c09e31e538c32089bca7e0e98bf773",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a7cfcf0_c8f3ef0d",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 791,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-09T05:59:02Z",
+      "side": 1,
+      "message": "Ok, I can do this. Do you mean to replace this screenshot, or to add the new one in addition?",
+      "parentUuid": "aa101896_c365b6e9",
+      "revId": "004c3474d3c09e31e538c32089bca7e0e98bf773",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

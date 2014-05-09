@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aa101896_2372cac1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1091,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-09T00:08:53Z",
+      "side": 1,
+      "message": "unexpected new blank line. standard is 1 line between variables not 2",
+      "revId": "d204708d32f62a1f043f1b6dab5f5922e539c927",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

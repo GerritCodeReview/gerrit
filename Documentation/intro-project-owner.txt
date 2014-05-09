@@ -688,9 +688,16 @@ stays intact; signed tags will lose their signature):
 If a link:config-gerrit.html#receive.maxObjectSizeLimit[max object size
 limit] is configured on the server you may need to remove large objects
 from the history before you are able to push. To find large objects in
-the history of your project you can use the
-link:https://gerrit.googlesource.com/gerrit/+/master/contrib/reposize.sh[
-reposize.sh] script from Gerrit's `contrib` folder. You can then use the
+the history of your project you can use the `reposize.sh` script which
+you can download from Gerrit:
+
+  $ curl -Lo reposize.sh http://review.example.com:8080/tools/scripts/reposize.sh
+
+or
+
+  $ scp -p -P 29418 john.doe@review.example.com:scripts/reposize.sh .
+
+You can then use the
 link:https://www.kernel.org/pub/software/scm/git/docs/git-filter-branch.html[
 git filter-branch] command to remove the large objects from the history
 of all branches:

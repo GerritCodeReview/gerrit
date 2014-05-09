@@ -1040,6 +1040,24 @@ DOM tree, which makes the rendering slow for large files. The advantage
 of this setting is that `Ctrl+F` can be used to search in the complete
 file.
 
+[[keyboard-shortcuts]]
+== Keyboard Shortcuts
+
+The navigation within the review UI can be completely done by keys and
+most actions can be controlled by keyboard shortcuts. Typing `?` opens
+a popup that shows a list with the available keyboard shortcuts:
+
+- Change Screen
++
+image::images/user-review-ui-change-screen-keyboard-shortcuts.png[width=800, link="images/user-review-ui-change-screen-keyboard-shortcuts.png"]
+
+- Side-by-Side Diff Screen
++
+image::images/user-review-ui-side-by-side-diff-screen-keyboard-shortcuts.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-keyboard-shortcuts.png"]
++
+In addition, Vim like commands can be used to link:#key-navigation[
+navigate] and link:#search[search] within a patch file.
+
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

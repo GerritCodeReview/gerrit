@@ -363,6 +363,24 @@
       "revId": "e12f2978d60b84075ba806123720342b5fa3ac12",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8acb5465_0266aaf4",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1010,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-09T06:27:11Z",
+      "side": 1,
+      "message": "I got the value 4000 from SideBySide2.java:\n\n enum FileSize {\n    SMALL(0),\n    LARGE(500),\n    HUGE(4000);\n\n    final int lines;\n\n    FileSize(int n) {\n      this.lines \u003d n;\n    }\n  }\n  \n  ...\n  \n  boolean canEnableRenderEntireFile(DiffPreferences prefs) {\n    return fileSize.compareTo(FileSize.HUGE) \u003c 0\n        || (prefs.context() !\u003d WHOLE_FILE_CONTEXT \u0026\u0026 prefs.context() \u003c 100);\n  }",
+      "parentUuid": "4aaebc94_382929a9",
+      "revId": "e12f2978d60b84075ba806123720342b5fa3ac12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

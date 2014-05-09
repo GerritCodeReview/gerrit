@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4aaebc94_f83891c2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-09T14:15:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8acb5465_22ec8ee1",
+      "range": {
+        "startLine": 7,
+        "startChar": 26,
+        "endLine": 7,
+        "endChar": 38
+      },
+      "revId": "427a80152c241e17ad057b26bee98a0f0967b902",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8acb5465_42f192ba",
         "filename": "Documentation/rest-api-plugins.txt",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2014-05-09T14:08:24Z",
       "side": 1,
       "message": "add a comma after",
+      "range": {
+        "startLine": 26,
+        "startChar": 35,
+        "endLine": 26,
+        "endChar": 42
+      },
+      "revId": "427a80152c241e17ad057b26bee98a0f0967b902",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4aaebc94_d83bcdbc",
+        "filename": "Documentation/rest-api-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-09T14:15:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8acb5465_42f192ba",
       "range": {
         "startLine": 26,
         "startChar": 35,

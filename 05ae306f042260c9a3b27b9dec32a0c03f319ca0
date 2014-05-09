@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4aaebc94_989cf58d",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1065,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-09T14:12:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8acb5465_e23b86bc",
+      "range": {
+        "startLine": 1065,
+        "startChar": 11,
+        "endLine": 1065,
+        "endChar": 13
+      },
+      "revId": "05ae306f042260c9a3b27b9dec32a0c03f319ca0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aa101896_63284274",
         "filename": "Documentation/user-review-ui.txt",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2014-05-09T13:58:26Z",
       "side": 1,
       "message": "add a comma after",
+      "range": {
+        "startLine": 1072,
+        "startChar": 31,
+        "endLine": 1072,
+        "endChar": 37
+      },
+      "revId": "05ae306f042260c9a3b27b9dec32a0c03f319ca0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a7cfcf0_284c8b54",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1072,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-09T14:12:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa101896_63284274",
       "range": {
         "startLine": 1072,
         "startChar": 31,

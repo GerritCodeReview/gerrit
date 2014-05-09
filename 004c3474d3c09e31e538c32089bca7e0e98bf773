@@ -189,6 +189,30 @@
       "revId": "004c3474d3c09e31e538c32089bca7e0e98bf773",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4aaebc94_387769b2",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 817,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-09T08:01:21Z",
+      "side": 1,
+      "message": "| I think this is a special case in that the new double-click behaviour is far more of a noticeable difference for users than the feature you\u0027re mentioning.\n\nI disagree: yes, it could be interesting to mention double-click vs. \u0027c\u0027 and selection difference, if one would use CS2 \u003d\u003e SBS2 \u003d\u003e try to add new comment.\n\nBut because they are already lost by missing 42 patch sets on the CS2 and nobody have told them about the fundamental bird eye perspective difference between the approaches of 1 vs n revisions/patch sets on old/new change screens, they are switching immediately to the old change screen and don\u0027t care about the difference, that you are thinking would be worth to talk about.",
+      "parentUuid": "8acb5465_02bb0afe",
+      "range": {
+        "startLine": 816,
+        "startChar": 0,
+        "endLine": 817,
+        "endChar": 53
+      },
+      "revId": "004c3474d3c09e31e538c32089bca7e0e98bf773",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

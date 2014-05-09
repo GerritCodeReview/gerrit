@@ -16,6 +16,24 @@
       "revId": "690ae3b28b92795a0e43c1ed31237ba471ad3efe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa101896_43a8a6aa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-09T13:51:18Z",
+      "side": 1,
+      "message": "No.  It looks like cherry-pick has been used in an attempt to rebase the change on the latest head.\n\nThe conflicts section should be removed.",
+      "parentUuid": "4aaebc94_78cf2190",
+      "revId": "690ae3b28b92795a0e43c1ed31237ba471ad3efe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

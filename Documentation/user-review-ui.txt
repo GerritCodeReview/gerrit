@@ -1005,6 +1005,27 @@ DOM tree, which makes the rendering slow for large files. The advantage
 of this setting is that `Ctrl+F` can be used to search in the complete
 file.
 
+[[new-vs-old]]
+== New Review UI vs. Old Review UI
+
+There are some important conceptual differences between the old and
+new review UI:
+
+- The old change screen directly shows all patch sets of the change.
+  With the new change screen only a single patch set is displayed;
+  users can switch between the patch sets by choosing another patch
+  set from the link:#patch-sets[Patch Sets] drop down panel in the
+  screen header.
+- On the old side-by-side diff screen new comments are inserted by
+  double-clicking on a line. With the new side-by-side diff screen
+  double-click is used to select a word for commenting on it; there
+  are  link:#add-inline-comment[several ways to insert new comments],
+  e.g. by selecting a code block and clicking on the popup comment
+  icon.
+
+Users preferring the old review UI can link:#old-change-screen[
+configure the change view] in their preferences.
+
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

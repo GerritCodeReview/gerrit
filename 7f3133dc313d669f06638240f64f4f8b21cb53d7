@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aa101896_23a92ab2",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 729,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-09T07:49:48Z",
+      "side": 1,
+      "message": "\"This allows the gap to be distinguished from blank lines in the file.\"",
+      "range": {
+        "startLine": 728,
+        "startChar": 44,
+        "endLine": 729,
+        "endChar": 40
+      },
+      "revId": "7f3133dc313d669f06638240f64f4f8b21cb53d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

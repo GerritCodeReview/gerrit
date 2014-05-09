@@ -69,6 +69,24 @@
       "revId": "4ae4a61163d0236152b78e02596980e8b9adae7c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a7cfcf0_68cf6390",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRelated.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-05-09T10:27:52Z",
+      "side": 1,
+      "message": "This is not answering my question about the concurrency issue.",
+      "parentUuid": "4aaebc94_185b8531",
+      "revId": "4ae4a61163d0236152b78e02596980e8b9adae7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

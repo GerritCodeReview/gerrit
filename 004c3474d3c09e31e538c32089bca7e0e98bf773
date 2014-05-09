@@ -70,6 +70,29 @@
       "revId": "004c3474d3c09e31e538c32089bca7e0e98bf773",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a7cfcf0_084d0782",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 817,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-09T06:52:33Z",
+      "side": 1,
+      "message": "Why? In first change of this series [1], where i asked to mention that in CS2 we are only presenting one revision at time (wich is fundamentally different from the old change screen, where all 42 patch sets are presented in multiple  PatchSetComplexDisclosurePanels). Your answer are: you are describing the current situation and aren\u0027t going to compare old and new change screens.\n\nBe consequent then, and remove all comparison places CS2 \u003c-\u003e old change screen, or alternatively, if you\u0027ve changed your mind, please address my comment in [1].\n\n [1] https://gerrit-review.googlesource.com/#/c/56643/3/Documentation/user-review-ui.txt",
+      "range": {
+        "startLine": 816,
+        "startChar": 0,
+        "endLine": 817,
+        "endChar": 53
+      },
+      "revId": "004c3474d3c09e31e538c32089bca7e0e98bf773",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

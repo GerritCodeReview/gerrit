@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aa6c9848_8312be77",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2014-05-09T18:23:49Z",
+      "side": 1,
+      "message": "Public static methods need to go up top (below static classes).",
+      "revId": "5ada9ad9fb6e536fcf5910b05255366f5af755dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa6c9848_a30fba4c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2014-05-09T18:23:49Z",
+      "side": 1,
+      "message": "No need to pass in the Change if you have the ChangeControl?",
+      "revId": "5ada9ad9fb6e536fcf5910b05255366f5af755dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca6f0c3a_8412c677",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1075,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2014-05-09T18:23:49Z",
+      "side": 1,
+      "message": "Maybe this should store approvals instead?",
+      "revId": "5ada9ad9fb6e536fcf5910b05255366f5af755dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

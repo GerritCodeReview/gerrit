@@ -381,6 +381,24 @@
       "revId": "e12f2978d60b84075ba806123720342b5fa3ac12",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a7cfcf0_c8212fbe",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1010,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-09T06:39:27Z",
+      "side": 1,
+      "message": "I see, but this is not contained in stable-2.9. This constant was only added in master [1]. And the 9000 lines seem to apply only to the old screen.\n\nRemoving this for now. I can readd it in master with 4000 lines later.\n\n[1] https://gerrit-review.googlesource.com/56397",
+      "parentUuid": "8acb5465_0266aaf4",
+      "revId": "e12f2978d60b84075ba806123720342b5fa3ac12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

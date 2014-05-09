@@ -22,6 +22,30 @@
       "revId": "52cda2a797191c869714f07f308e6981274e160b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8a97d45d_02d64a61",
+        "filename": "Documentation/user-changeid.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-09T18:40:35Z",
+      "side": 1,
+      "message": "But 8080 is the default HTTP port for Gerrit [1] and we already use it in quite many places in the documentation.\n\n[1] https://gerrit-review.googlesource.com/Documentation/config-gerrit.html#httpd.listenUrl",
+      "parentUuid": "aa6c9848_03ffaed1",
+      "range": {
+        "startLine": 57,
+        "startChar": 18,
+        "endLine": 57,
+        "endChar": 23
+      },
+      "revId": "52cda2a797191c869714f07f308e6981274e160b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

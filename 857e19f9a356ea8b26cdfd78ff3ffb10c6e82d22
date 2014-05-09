@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0a768412_06d6da61",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-05-09T17:25:06Z",
+      "side": 1,
+      "message": "Really need to move the config Module back here: we do need System and Web injector bindings for accessing the Gerrit config.\n\nOpen for discussion on how to access GerritConfig object from where it was before :-)",
+      "range": {
+        "startLine": 414,
+        "startChar": 4,
+        "endLine": 414,
+        "endChar": 84
+      },
+      "revId": "857e19f9a356ea8b26cdfd78ff3ffb10c6e82d22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea72101f_05d6d261",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritConstantsProperties.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-05-09T17:25:06Z",
+      "side": 1,
+      "message": "If you don\u0027t specify \u0027/\u0027 it will be searched from the current directory (package name in this case) of the GerritTopMenus class.\n\nWithout \u0027/\u0027 the properties file could not be found.",
+      "range": {
+        "startLine": 32,
+        "startChar": 7,
+        "endLine": 32,
+        "endChar": 8
+      },
+      "revId": "857e19f9a356ea8b26cdfd78ff3ffb10c6e82d22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6ab9c0d7_d9f3d30d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/UploadValidationListener.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2014-05-09T14:23:44Z",
+      "side": 1,
+      "message": "Any objections to also collecting the current user and remote IP?",
+      "revId": "e9d66fba48939cae7d4e2353c77bda81dbe91a70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -871,6 +871,27 @@ level comment.
 
 image::images/user-review-ui-side-by-side-diff-screen-file-level-commented.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-file-level-commented.png"]
 
+[[search]]
+=== Search
+
+For searching within a patch file a Vim like search is supported.
+Typing `/` opens the search box. Typing in the search box immediately
+highlights matches in the patch file by yellow background. Using
+JavaScript regular expressions in the search term is supported. The
+search is case insensitive. After confirming the search by `ENTER` one
+can navigate between the matches by `n` / `N` to go to the next /
+previous match. Skipped lines are automatically expanded if they
+contain a match and one navigates to it.
+
+For additional possibilities to search please check the Vim
+documentation. There are other useful ways to search, e.g. being on a
+word `*` / `#` searches for the next / previous occurence of this word.
+
+Searching by `Ctrl-F` finds matches only in the visible area of the
+screen unless the link:#render[Render] diff preference is set to `Slow`.
+
+image::images/user-review-ui-side-by-side-diff-screen-search.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-search.png"]
+
 [[diff-preferences]]
 === Diff Preferences
 

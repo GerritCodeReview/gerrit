@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4a7cfcf0_e8ba73f8",
+        "filename": "Documentation/index.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-09T11:14:03Z",
+      "side": 0,
+      "message": "Replace it with the new documentation?",
+      "range": {
+        "startLine": 6,
+        "startChar": 3,
+        "endLine": 6,
+        "endChar": 79
+      },
+      "revId": "65d2f6f1a273357d077999eb9e5b611b7ccaef0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

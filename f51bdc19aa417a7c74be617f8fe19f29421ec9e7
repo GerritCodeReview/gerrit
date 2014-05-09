@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8acb5465_6241361c",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 899,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-09T14:01:24Z",
+      "side": 1,
+      "message": "Vim-like",
+      "range": {
+        "startLine": 899,
+        "startChar": 0,
+        "endLine": 899,
+        "endChar": 8
+      },
+      "revId": "f51bdc19aa417a7c74be617f8fe19f29421ec9e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa101896_e33b92bc",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 906,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-09T14:01:24Z",
+      "side": 1,
+      "message": "link?",
+      "range": {
+        "startLine": 906,
+        "startChar": 17,
+        "endLine": 906,
+        "endChar": 34
+      },
+      "revId": "f51bdc19aa417a7c74be617f8fe19f29421ec9e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa101896_c33816c3",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 907,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-09T14:01:24Z",
+      "side": 1,
+      "message": "I think it would be enough to just say \"further information\".",
+      "range": {
+        "startLine": 906,
+        "startChar": 39,
+        "endLine": 907,
+        "endChar": 24
+      },
+      "revId": "f51bdc19aa417a7c74be617f8fe19f29421ec9e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

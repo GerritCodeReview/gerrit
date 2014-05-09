@@ -825,7 +825,8 @@ To add a new inline comment there are several possibilities:
 
 - select a code block and press 'c'
 - select a code block and click on the popup comment icon
-- go to a line, by clicking on it or by key navigation, and press 'c'
+- go to a line, by clicking on it or by link:#key-navigation[key
+  navigation], and press 'c'
 - click on a line number
 
 There are many ways to select code for commenting on it. The most
@@ -892,6 +893,19 @@ Searching by `Ctrl-F` finds matches only in the visible area of the
 screen unless the link:#render[Render] diff preference is set to `Slow`.
 
 image::images/user-review-ui-side-by-side-diff-screen-search.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-search.png"]
+
+[[key-navigation]]
+=== Key Navigation
+
+Vim-like commands can be used to navigate within a patch file:
+
+- `h` / `j` / `k` / `l` moves the cursor left / down / up / right
+- `0` / `$` moves the cursor to the start / end of the line
+- `gg` / `G` moves to cursor to the start / end of the file
+- `Ctrl-D` / `Ctrl-U` scolls downwards / upwards
+
+Please check the link:http://www.vim.org/docs.php[Vim documentation]
+for further information.
 
 [[diff-preferences]]
 === Diff Preferences

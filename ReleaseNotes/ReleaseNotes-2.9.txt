@@ -36,6 +36,12 @@ Release Highlights
 ------------------
 
 
+* The new change screen is now the default change screen. There is a
+  link:user-review-ui.html[detailed description] of the new review UI.
+  Users that are accessing the new change screen for the first time are
+  informed about the new change screen by a welcome popup. The welcome
+  popup links to the review UI documentation and allows users to go
+  back to the old change screen.
 * 'Gerrit Inspector' for interactive inspection and troubleshooting of a running
 Gerrit instance.
 

@@ -16,6 +16,24 @@
       "revId": "e9d66fba48939cae7d4e2353c77bda81dbe91a70",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ab9c0d7_19ff0bd2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/UploadValidationListener.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-05-09T14:31:57Z",
+      "side": 1,
+      "message": "Current user can be injected so it does not need to be in the interface. Your class that implement this UploadValidationListener can also get the current user injected if needed.\n\nFor remote IP, I do not think it belongs to the interface. I do not know if you can inject a kind of contextual object that would contains the remote IP.",
+      "parentUuid": "6ab9c0d7_d9f3d30d",
+      "revId": "e9d66fba48939cae7d4e2353c77bda81dbe91a70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

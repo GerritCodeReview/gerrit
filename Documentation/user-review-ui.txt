@@ -843,10 +843,6 @@ frequently used methods are:
 ** press 'V' + arrow keys (or 'j', 'k') to select a code block line-wise
 ** type 'bvw' to select a word
 
-Please note that double-click does *not* insert a new comment on a line
-as it used to do in the old side-by-side diff screen; double-click is
-used to select a word for commenting on it.
-
 image::images/user-review-ui-side-by-side-diff-screen-comment.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-comment.png"]
 
 For typing the new comment, a new comment box is shown under the code

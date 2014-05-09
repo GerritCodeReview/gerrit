@@ -51,6 +51,7 @@ class CommentManager {
   private final SortedMap<Integer, CommentGroup> sideB;
   private final Set<DraftBox> unsavedDrafts;
   private boolean attached;
+  private boolean expandAll;
 
   CommentManager(SideBySide2 host,
       PatchSet.Id base, PatchSet.Id revision,
@@ -73,6 +74,7 @@ class CommentManager {
   }
 
   void setExpandAllComments(boolean b) {
+    expandAll = b;
     for (CommentGroup g : sideA.values()) {
       g.setOpenAll(b);
     }
@@ -210,7 +212,8 @@ class CommentManager {
         group,
         commentLinkProcessor,
         getPatchSetIdFromSide(side),
-        info);
+        info,
+        expandAll);
 
     if (info.in_reply_to() != null) {
       PublishedBox r = published.get(info.in_reply_to());

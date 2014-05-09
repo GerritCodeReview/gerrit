@@ -79,10 +79,6 @@ results.
       "url": "Documentation/config-hooks.html"
     },
     {
-      "title": "Change Screen - Introduction",
-      "url": "Documentation/intro-change-screen.html"
-    },
-    {
       "title": "Gerrit Code Review - /groups/ REST API",
       "url": "Documentation/rest-api-groups.html"
     },

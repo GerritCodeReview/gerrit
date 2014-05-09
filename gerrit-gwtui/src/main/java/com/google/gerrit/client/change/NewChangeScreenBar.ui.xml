@@ -57,7 +57,7 @@ limitations under the License.
     <div><ui:msg><span class='{style.welcome}'>Welcome to the new change screen!</span>
       <a ui:field='docs'
          class='{style.action}'
-         href='Documentation/intro-change-screen.html'
+         href='Documentation/user-review-ui.html'
          target='_blank'>Learn more</a></ui:msg>
     </div>
     <div>

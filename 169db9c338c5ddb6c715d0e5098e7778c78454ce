@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aa101896_a3319ae2",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1046,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-09T13:59:52Z",
+      "side": 1,
+      "message": "Remove this",
+      "range": {
+        "startLine": 1046,
+        "startChar": 0,
+        "endLine": 1046,
+        "endChar": 3
+      },
+      "revId": "169db9c338c5ddb6c715d0e5098e7778c78454ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8acb5465_02394ac4",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1046,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-09T13:59:52Z",
+      "side": 1,
+      "message": "add a comma after.",
+      "range": {
+        "startLine": 1046,
+        "startChar": 62,
+        "endLine": 1046,
+        "endChar": 66
+      },
+      "revId": "169db9c338c5ddb6c715d0e5098e7778c78454ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8acb5465_22472e35",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1048,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-09T13:59:52Z",
+      "side": 1,
+      "message": "of",
+      "range": {
+        "startLine": 1048,
+        "startChar": 26,
+        "endLine": 1048,
+        "endChar": 34
+      },
+      "revId": "169db9c338c5ddb6c715d0e5098e7778c78454ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa101896_832e1e7c",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1058,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-09T13:59:52Z",
+      "side": 1,
+      "message": "Vim-like",
+      "range": {
+        "startLine": 1058,
+        "startChar": 13,
+        "endLine": 1058,
+        "endChar": 21
+      },
+      "revId": "169db9c338c5ddb6c715d0e5098e7778c78454ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

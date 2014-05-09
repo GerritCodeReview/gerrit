@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4aaebc94_58ca5d81",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1072,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-09T11:32:44Z",
+      "side": 1,
+      "message": "Good point.\n\nDone",
+      "parentUuid": "4aaebc94_f865f1e8",
+      "range": {
+        "startLine": 1072,
+        "startChar": 13,
+        "endLine": 1072,
+        "endChar": 25
+      },
+      "revId": "65d2f6f1a273357d077999eb9e5b611b7ccaef0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4aaebc94_d8682dc2",
         "filename": "Documentation/user-review-ui.txt",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "4a7cfcf0_68a843ab",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1075,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-09T11:32:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4aaebc94_d8682dc2",
+      "range": {
+        "startLine": 1075,
+        "startChar": 5,
+        "endLine": 1075,
+        "endChar": 6
+      },
+      "revId": "65d2f6f1a273357d077999eb9e5b611b7ccaef0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4a7cfcf0_88b3b728",
         "filename": "Documentation/user-review-ui.txt",
         "patchSetId": 2
@@ -59,6 +107,24 @@
       "writtenOn": "2014-05-09T11:11:37Z",
       "side": 1,
       "message": "Mention, that JS API wasn\u0027t implemented for the old change screen, i. e. UiActions can not use popups. Change notifications and many other features are not implemented in old change screen.",
+      "revId": "65d2f6f1a273357d077999eb9e5b611b7ccaef0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a7cfcf0_a8995b9c",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1078,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-09T11:32:44Z",
+      "side": 1,
+      "message": "Not sure if we really want to list here all new features that are not supported in the old UI. Maybe... but I\u0027m feeling lazy to do this. Maybe it can be added in another change. I tend to think that it\u0027s enough to list the new features in the release notes.",
+      "parentUuid": "4a7cfcf0_88b3b728",
       "revId": "65d2f6f1a273357d077999eb9e5b611b7ccaef0b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

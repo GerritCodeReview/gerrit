@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8acb5465_028dca6a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/EditMessageBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-09T01:38:56Z",
+      "side": 1,
+      "message": "If it\u0027s likely that we\u0027ll ever want to do something with the event in onCancel, it would be better to pass `e` here rather than null.",
+      "range": {
+        "startLine": 107,
+        "startChar": 13,
+        "endLine": 107,
+        "endChar": 17
+      },
+      "revId": "66779837ff16e026c1e18373740ec71daaced352",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

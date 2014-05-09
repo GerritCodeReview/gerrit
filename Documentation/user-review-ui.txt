@@ -788,7 +788,7 @@ Clicking on the `Done` button is a quick way to reply with "Done" to a
 comment. This is used to mark a comment as addressed by a follow-up
 patch set.
 
-image::images/user-review-ui-side-by-side-diff-screen-comment-box.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-comment-box.png"]
+image::images/user-review-ui-side-by-side-diff-screen-replied-done.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-replied-done.png"]
 
 [[add-inline-comment]]
 To add a new inline comment there are several possibilities:

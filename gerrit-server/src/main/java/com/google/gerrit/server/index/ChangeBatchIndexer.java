@@ -44,7 +44,6 @@ import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ProgressMonitor;
@@ -259,7 +258,7 @@ public class ChangeBatchIndexer {
     };
   }
 
-  public static class ProjectIndexer implements Callable<Void> {
+  private static class ProjectIndexer implements Callable<Void> {
     private final ChangeIndexer indexer;
     private final Multimap<ObjectId, ChangeData> byId;
     private final ProgressMonitor done;
@@ -268,13 +267,7 @@ public class ChangeBatchIndexer {
     private final Repository repo;
     private RevWalk walk;
 
-    public ProjectIndexer(ChangeIndexer indexer,
-        Multimap<ObjectId, ChangeData> changesByCommitId, Repository repo) {
-      this(indexer, changesByCommitId, repo,
-          NullProgressMonitor.INSTANCE, NullProgressMonitor.INSTANCE, null);
-    }
-
-    ProjectIndexer(ChangeIndexer indexer,
+    private ProjectIndexer(ChangeIndexer indexer,
         Multimap<ObjectId, ChangeData> changesByCommitId, Repository repo,
         ProgressMonitor done, ProgressMonitor failed, PrintWriter verboseWriter) {
       this.indexer = indexer;

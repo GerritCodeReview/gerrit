@@ -14,8 +14,6 @@
 
 package com.google.gerrit.sshd.commands;
 
-import com.google.common.collect.Lists;
-import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.git.ChangeCache;
 import com.google.gerrit.server.git.TagCache;
@@ -25,8 +23,6 @@ import com.google.gerrit.sshd.AbstractGitCommand;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-import org.eclipse.jgit.transport.PreUploadHook;
-import org.eclipse.jgit.transport.PreUploadHookChain;
 import org.eclipse.jgit.transport.UploadPack;
 
 import java.io.IOException;
@@ -45,9 +41,6 @@ final class Upload extends AbstractGitCommand {
   @Inject
   private ChangeCache changeCache;
 
-  @Inject
-  private DynamicSet<PreUploadHook> preUploadHooks;
-
   @Override
   protected void runImpl() throws IOException, Failure {
     if (!projectControl.canRunUploadPack()) {
@@ -55,8 +48,6 @@ final class Upload extends AbstractGitCommand {
     }
 
     final UploadPack up = new UploadPack(repo);
-    up.setPreUploadHook(PreUploadHookChain.newChain(
-        Lists.newArrayList(preUploadHooks)));
     if (!projectControl.allRefsAreVisible()) {
       up.setAdvertiseRefsHook(new VisibleRefFilter(tagCache, changeCache, repo,
           projectControl, db.get(), true));

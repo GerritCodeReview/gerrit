@@ -59,6 +59,7 @@ class DraftBox extends CommentBox {
 
   private final CommentLinkProcessor linkProcessor;
   private final PatchSet.Id psId;
+  private final boolean expandAll;
   private CommentInfo comment;
   private PublishedBox replyToBox;
   private Timer expandTimer;
@@ -86,11 +87,13 @@ class DraftBox extends CommentBox {
       CommentGroup group,
       CommentLinkProcessor clp,
       PatchSet.Id id,
-      CommentInfo info) {
+      CommentInfo info,
+      boolean ea) {
     super(group, info.range());
 
     linkProcessor = clp;
     psId = id;
+    expandAll = ea;
     initWidget(uiBinder.createAndBindUi(this));
 
     expandTimer = new Timer() {
@@ -131,7 +134,7 @@ class DraftBox extends CommentBox {
   }
 
   private void set(CommentInfo info) {
-    autoClosed = info.message() != null && info.message().length() < 70;
+    autoClosed = !expandAll && info.message() != null && info.message().length() < 70;
     date.setInnerText(FormatUtil.shortFormatDayTime(info.updated()));
     if (info.message() != null) {
       String msg = info.message().trim();

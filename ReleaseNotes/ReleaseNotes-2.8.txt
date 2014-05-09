@@ -50,7 +50,7 @@ Release Highlights
 ------------------
 
 
-* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/intro-change-screen.html[
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/user-review-ui.html[
 New change screen] with completely redesigned UI and fully using the REST API.
 
 * link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.8/config-gerrit.html#__a_id_index_a_section_index[

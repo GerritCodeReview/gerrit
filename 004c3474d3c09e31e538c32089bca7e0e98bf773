@@ -93,6 +93,30 @@
       "revId": "004c3474d3c09e31e538c32089bca7e0e98bf773",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8acb5465_02bb0afe",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 817,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-09T07:00:43Z",
+      "side": 1,
+      "message": "s/consequent/consistent/\n\nI think this is a special case in that the new double-click behaviour is far more of a noticeable difference for users than the feature you\u0027re mentioning.\n\nBut if you disagree, please upload a change to add the bits that you want.  I will review it.",
+      "parentUuid": "4a7cfcf0_084d0782",
+      "range": {
+        "startLine": 816,
+        "startChar": 0,
+        "endLine": 817,
+        "endChar": 53
+      },
+      "revId": "004c3474d3c09e31e538c32089bca7e0e98bf773",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

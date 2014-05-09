@@ -87,6 +87,24 @@
       "revId": "4ae4a61163d0236152b78e02596980e8b9adae7c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4aaebc94_18c0e561",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRelated.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-05-09T11:13:09Z",
+      "side": 1,
+      "message": "Ok. basically we want change variable to store the value of the current change. I checked and found that only when it walks the first time it stores the value of change however, for rest other walks it is null. Only reason to make it static is to be able to use it in IncludedInDetail function. However, you are right. Can you please suggest an alternative to it?",
+      "parentUuid": "4a7cfcf0_68cf6390",
+      "revId": "4ae4a61163d0236152b78e02596980e8b9adae7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

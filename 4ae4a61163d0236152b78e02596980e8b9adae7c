@@ -105,6 +105,29 @@
       "revId": "4ae4a61163d0236152b78e02596980e8b9adae7c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8acb5465_e296266b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRelated.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-09T13:48:32Z",
+      "side": 1,
+      "message": "Can\u0027t this be changed to:\n\n IncludedInDetail detail \u003d resolveBranches(c);\n\n?",
+      "range": {
+        "startLine": 345,
+        "startChar": 6,
+        "endLine": 346,
+        "endChar": 34
+      },
+      "revId": "4ae4a61163d0236152b78e02596980e8b9adae7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aa6c9848_03ffaed1",
+        "filename": "Documentation/user-changeid.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2014-05-09T18:06:51Z",
+      "side": 1,
+      "message": "I am not sure this is good.  Do most people with real installations really run form port 8080?  I would think that is mostly for devs, and I would think that real installs mostly use port 80 (or 443).  Of course, I now realize I just merged https://gerrit-review.googlesource.com/#/c/57023/2/Documentation/intro-project-owner.txt with 8080. :(",
+      "range": {
+        "startLine": 57,
+        "startChar": 18,
+        "endLine": 57,
+        "endChar": 23
+      },
+      "revId": "52cda2a797191c869714f07f308e6981274e160b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

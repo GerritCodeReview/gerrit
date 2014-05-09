@@ -64,7 +64,7 @@ limitations under the License.
     }
     .table td { padding: 0 }
     .a, .b { width: 50% }
-    .hideA .b { width: 100% }
+    .hideA .psNavB, .hideA .b { width: 100% }
 
     .overview {
       width: 10px;
@@ -171,7 +171,7 @@ limitations under the License.
         <td ui:field='patchSetNavCellA' class='{style.psNavA}'>
           <d:PatchSetSelectBox2 ui:field='patchSetSelectBoxA' />
         </td>
-        <td ui:field='patchSetNavCellB'>
+        <td ui:field='patchSetNavCellB' class='{style.psNavB}'>
           <d:PatchSetSelectBox2 ui:field='patchSetSelectBoxB' />
         </td>
         <td class='{style.overview}' />

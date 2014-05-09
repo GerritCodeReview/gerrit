@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "4a7cfcf0_6814c316",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/HttpPluginServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2014-05-09T15:09:42Z",
+      "side": 0,
+      "message": "We found that the variable file is also missing the first two characters. You might want to fix this in the same change.",
+      "range": {
+        "startLine": 268,
+        "startChar": 11,
+        "endLine": 268,
+        "endChar": 15
+      },
+      "revId": "3947e913c4f03e5fed3005e2945b640115df5d90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4a7cfcf0_e8e6f3fb",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/HttpPluginServlet.java",
         "patchSetId": 1

@@ -193,7 +193,7 @@ image::images/user-review-ui-change-screen-change-info-last-update.png[width=800
 Depending on the change state and the permissions of the user, different
 actions are available on the change:
 
-** `Merge Change`:
+** `Submit`:
 +
 Submits the change and adds it to the merge queue. If possible the
 change is merged into the destination branch.

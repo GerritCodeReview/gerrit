@@ -16,6 +16,24 @@
       "revId": "e0581a36a937a45efd72c26f0c3938315fcc2aaa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2ab348fb_57f94ce8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/UploadValidators.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-05-09T15:25:29Z",
+      "side": 1,
+      "message": "Do you mean sending message without failing the upload?",
+      "parentUuid": "6ab9c0d7_f9097747",
+      "revId": "e0581a36a937a45efd72c26f0c3938315fcc2aaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

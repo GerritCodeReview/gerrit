@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4a7cfcf0_e838b3c2",
+        "filename": "ReleaseNotes/ReleaseNotes-2.9.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-09T14:13:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8acb5465_822d5a85",
+      "range": {
+        "startLine": 39,
+        "startChar": 57,
+        "endLine": 39,
+        "endChar": 58
+      },
+      "revId": "3923686edd777083246310170f920087e5438cc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aa101896_e396f26a",
         "filename": "ReleaseNotes/ReleaseNotes-2.9.txt",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2014-05-09T13:55:36Z",
       "side": 1,
       "message": "detail",
+      "range": {
+        "startLine": 41,
+        "startChar": 21,
+        "endLine": 41,
+        "endChar": 28
+      },
+      "revId": "3923686edd777083246310170f920087e5438cc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4aaebc94_58a33dd1",
+        "filename": "ReleaseNotes/ReleaseNotes-2.9.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-09T14:13:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa101896_e396f26a",
       "range": {
         "startLine": 41,
         "startChar": 21,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "4aaebc94_78a801ab",
+        "filename": "ReleaseNotes/ReleaseNotes-2.9.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-09T14:13:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa101896_c393f678",
+      "range": {
+        "startLine": 42,
+        "startChar": 19,
+        "endLine": 42,
+        "endChar": 20
+      },
+      "revId": "3923686edd777083246310170f920087e5438cc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8acb5465_62285674",
         "filename": "ReleaseNotes/ReleaseNotes-2.9.txt",
         "patchSetId": 2
@@ -82,6 +154,24 @@
       "writtenOn": "2014-05-09T13:55:36Z",
       "side": 1,
       "message": "Add a blank line before the next bullet.  I\u0027m not sure if it will render as expected, otherwise.",
+      "revId": "3923686edd777083246310170f920087e5438cc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a7cfcf0_0847c734",
+        "filename": "ReleaseNotes/ReleaseNotes-2.9.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-09T14:13:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8acb5465_62285674",
       "revId": "3923686edd777083246310170f920087e5438cc7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

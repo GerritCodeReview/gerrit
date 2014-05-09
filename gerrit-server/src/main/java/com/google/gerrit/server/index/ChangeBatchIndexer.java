@@ -161,13 +161,13 @@ public class ChangeBatchIndexer {
         public void run() {
           try {
             future.get();
-          } catch (InterruptedException e) {
-            fail(project, e);
-          } catch (ExecutionException e) {
+          } catch (ExecutionException | InterruptedException e) {
             fail(project, e);
           } catch (RuntimeException e) {
             failAndThrow(project, e);
           } catch (Error e) {
+            // Can't join with RuntimeException because "RuntimeException |
+            // Error" becomes Throwable, which messes with signatures.
             failAndThrow(project, e);
           } finally {
             projTask.update(1);

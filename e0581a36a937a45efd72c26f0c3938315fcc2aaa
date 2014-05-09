@@ -34,6 +34,24 @@
       "revId": "e0581a36a937a45efd72c26f0c3938315fcc2aaa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ab9c0d7_592ee3b1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/UploadValidators.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2014-05-09T15:27:33Z",
+      "side": 1,
+      "message": "Correct.  You can use basically:\n\n up.sendMessage(\"blah\");\n\nto send a message to the output stream, if the transport supports it.  The example I have been working on is something like a MOTD banner.",
+      "parentUuid": "2ab348fb_57f94ce8",
+      "revId": "e0581a36a937a45efd72c26f0c3938315fcc2aaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

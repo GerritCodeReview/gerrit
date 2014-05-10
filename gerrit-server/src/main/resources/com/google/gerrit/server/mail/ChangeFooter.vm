@@ -41,7 +41,7 @@ To view, visit $email.changeUrl
 To unsubscribe, visit $email.settingsUrl
 #set ($notblank = 1)
 #end
-#if ($notblank == 1)
+#if ($notblank)
 
 #end
 Gerrit-MessageType: $messageClass

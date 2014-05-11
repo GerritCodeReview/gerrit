@@ -366,6 +366,30 @@
     },
     {
       "key": {
+        "uuid": "4a8b1c70_b0fd78d6",
+        "filename": "gerrit-server/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-05-11T22:15:03Z",
+      "side": 1,
+      "message": "That sounds a much better compromise :-) Thanks David, it works nicely.",
+      "parentUuid": "4a8b1c70_d0d59c55",
+      "range": {
+        "startLine": 11,
+        "startChar": 4,
+        "endLine": 11,
+        "endChar": 20
+      },
+      "revId": "04fe6e95824c260fef5fdea745c5d900a5493e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aa101896_63f962e9",
         "filename": "gerrit-server/BUCK",
         "patchSetId": 3
@@ -424,6 +448,30 @@
       "writtenOn": "2014-05-11T19:45:43Z",
       "side": 1,
       "message": "Add below this line:\n\n  \u0027//gerrit-gwtui:constants-properties\u0027",
+      "range": {
+        "startLine": 31,
+        "startChar": 4,
+        "endLine": 31,
+        "endChar": 33
+      },
+      "revId": "04fe6e95824c260fef5fdea745c5d900a5493e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a90a898_affd19d6",
+        "filename": "gerrit-server/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-05-11T22:15:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a8b1c70_f0da2083",
       "range": {
         "startLine": 31,
         "startChar": 4,
@@ -693,6 +741,30 @@
     },
     {
       "key": {
+        "uuid": "2a90a898_6f109170",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritTopMenus.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-05-11T22:15:03Z",
+      "side": 1,
+      "message": "Think I found the solution: I can use the same technique I\u0027ve used for the projects.\n\nI will always return the documentation links assuming that documentation is available: it will be then the GWT client responsibility to set the menu items invisible should documentation not be available.\n\nWill avoid then all this mess of chaning injections around modules.",
+      "parentUuid": "2a90a898_cfd5fd55",
+      "range": {
+        "startLine": 61,
+        "startChar": 6,
+        "endLine": 61,
+        "endChar": 31
+      },
+      "revId": "04fe6e95824c260fef5fdea745c5d900a5493e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aa101896_4333861a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritTopMenus.java",
         "patchSetId": 3
@@ -739,6 +811,30 @@
     },
     {
       "key": {
+        "uuid": "2a90a898_4f134d7e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritTopMenus.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-05-11T22:15:03Z",
+      "side": 1,
+      "message": "Both related to leaked exceptions: all removed now.",
+      "parentUuid": "aa101896_a317da60",
+      "range": {
+        "startLine": 70,
+        "startChar": 6,
+        "endLine": 70,
+        "endChar": 31
+      },
+      "revId": "04fe6e95824c260fef5fdea745c5d900a5493e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4a8b1c70_90df1472",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritTopMenus.java",
         "patchSetId": 3
@@ -762,6 +858,30 @@
     },
     {
       "key": {
+        "uuid": "4a8b1c70_5013ec7d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritTopMenus.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-05-11T22:15:03Z",
+      "side": 1,
+      "message": "See above: will delegate the GWT to hide the menu items should documentation not be available.",
+      "parentUuid": "4a8b1c70_90df1472",
+      "range": {
+        "startLine": 147,
+        "startChar": 11,
+        "endLine": 147,
+        "endChar": 59
+      },
+      "revId": "04fe6e95824c260fef5fdea745c5d900a5493e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aa101896_e321d2bd",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritTopMenus.java",
         "patchSetId": 3
@@ -773,6 +893,30 @@
       "writtenOn": "2014-05-08T22:46:44Z",
       "side": 1,
       "message": "documentation",
+      "range": {
+        "startLine": 179,
+        "startChar": 19,
+        "endLine": 179,
+        "endChar": 31
+      },
+      "revId": "04fe6e95824c260fef5fdea745c5d900a5493e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a7cfcf0_685a032b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritTopMenus.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-05-11T22:15:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa101896_e321d2bd",
       "range": {
         "startLine": 179,
         "startChar": 19,

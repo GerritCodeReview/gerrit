@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4a8b1c70_50ea0c14",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/RevisionApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-11T20:55:55Z",
+      "side": 1,
+      "message": "Why to be that verbose? In Account API we added:\n\n AccountApi id(String id)\n\nwith the same semantic. Just name it path (and may be add a comment).",
+      "range": {
+        "startLine": 32,
+        "startChar": 26,
+        "endLine": 32,
+        "endChar": 43
+      },
+      "revId": "8952f37f086d1acf5e62058e27e9382fd6e679b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a8b1c70_70e7104b",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/RevisionApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-11T20:55:55Z",
+      "side": 1,
+      "message": "the same as above.",
+      "range": {
+        "startLine": 33,
+        "startChar": 29,
+        "endLine": 33,
+        "endChar": 46
+      },
+      "revId": "8952f37f086d1acf5e62058e27e9382fd6e679b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a90a898_efda4183",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/RevisionApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-11T20:55:55Z",
+      "side": 1,
+      "message": "Why not to define the method:\n\n List\u003cString\u003e getReviewed() throws RestApiException;\n\ntoo?",
+      "revId": "8952f37f086d1acf5e62058e27e9382fd6e679b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -342,6 +342,30 @@
     },
     {
       "key": {
+        "uuid": "4a8b1c70_d0d59c55",
+        "filename": "gerrit-server/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-11T19:45:43Z",
+      "side": 1,
+      "message": "| How can we get them in both places without copy \u0026 pasting them ?\n\nOne possibility is to define a constant-properties artifact in gerrit-gwtui and link it to the gerrit-server:\n\n1. Revert your change on line 11 above.\n\n2. Add in gerrit-gwtui/BUCK:\n\n  java_library(\n   name \u003d \u0027constants-properties\u0027,\n   resources \u003d  \n     [\u0027src/main/java/com/google/gerrit/client/GerritConstants.properties\u0027],\n   visibility \u003d [\u0027//gerrit-server:server\u0027],\n )\n\n3. Add on line 32 below:\n\n  \u0027//gerrit-gwtui:constants-properties\u0027,",
+      "parentUuid": "4a7cfcf0_087267c1",
+      "range": {
+        "startLine": 11,
+        "startChar": 4,
+        "endLine": 11,
+        "endChar": 20
+      },
+      "revId": "04fe6e95824c260fef5fdea745c5d900a5493e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aa101896_63f962e9",
         "filename": "gerrit-server/BUCK",
         "patchSetId": 3
@@ -382,6 +406,29 @@
         "startChar": 86,
         "endLine": 12,
         "endChar": 1
+      },
+      "revId": "04fe6e95824c260fef5fdea745c5d900a5493e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a8b1c70_f0da2083",
+        "filename": "gerrit-server/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-11T19:45:43Z",
+      "side": 1,
+      "message": "Add below this line:\n\n  \u0027//gerrit-gwtui:constants-properties\u0027",
+      "range": {
+        "startLine": 31,
+        "startChar": 4,
+        "endLine": 31,
+        "endChar": 33
       },
       "revId": "04fe6e95824c260fef5fdea745c5d900a5493e70",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
@@ -623,6 +670,29 @@
     },
     {
       "key": {
+        "uuid": "2a90a898_cfd5fd55",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritTopMenus.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-11T19:45:43Z",
+      "side": 1,
+      "message": "I think is a bad idea to use GerritConfig in server code. This is why you are moving the config Module from gerrit-server to gerrit-pgm. We should find another way to figure out if documentation is available or not (Or assume, it\u0027s always available).",
+      "range": {
+        "startLine": 61,
+        "startChar": 6,
+        "endLine": 61,
+        "endChar": 31
+      },
+      "revId": "04fe6e95824c260fef5fdea745c5d900a5493e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aa101896_4333861a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritTopMenus.java",
         "patchSetId": 3
@@ -662,6 +732,29 @@
         "startChar": 6,
         "endLine": 70,
         "endChar": 31
+      },
+      "revId": "04fe6e95824c260fef5fdea745c5d900a5493e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a8b1c70_90df1472",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritTopMenus.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-11T19:45:43Z",
+      "side": 1,
+      "message": "Find another way to figure it out, e. g. teach QueryDocumentationExecutor to answer this question directly?",
+      "range": {
+        "startLine": 147,
+        "startChar": 11,
+        "endLine": 147,
+        "endChar": 59
       },
       "revId": "04fe6e95824c260fef5fdea745c5d900a5493e70",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

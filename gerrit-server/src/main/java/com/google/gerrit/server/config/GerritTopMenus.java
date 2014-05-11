@@ -131,7 +131,6 @@ class GerritTopMenus {
         subMenuDocumentation("menuDocumentationUpload", "user-upload.html"),
         subMenuDocumentation("menuDocumentationAccess", "access-control.html"),
         subMenuDocumentation("menuDocumentationAPI", "rest-api.html"),
-        subMenuDocumentation("menuDocumentationProjectOwnerGuide", "intro-project-owner.html"),
         subMenuDocumentation("menuDocumentationProjectOwnerGuide",
             "intro-project-owner.html")));
 

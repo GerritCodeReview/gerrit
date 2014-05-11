@@ -14,15 +14,9 @@
 
 package com.google.gerrit.client;
 
-import static com.google.gerrit.common.data.GlobalCapability.CREATE_GROUP;
-import static com.google.gerrit.common.data.GlobalCapability.CREATE_PROJECT;
-import static com.google.gerrit.common.data.GlobalCapability.VIEW_PLUGINS;
-
 import com.google.gerrit.client.account.AccountApi;
-import com.google.gerrit.client.account.AccountCapabilities;
 import com.google.gerrit.client.account.AccountInfo;
 import com.google.gerrit.client.account.Preferences;
-import com.google.gerrit.client.admin.ProjectScreen;
 import com.google.gerrit.client.api.ApiGlue;
 import com.google.gerrit.client.api.PluginLoader;
 import com.google.gerrit.client.changes.ChangeConstants;
@@ -600,98 +594,6 @@ public class Gerrit implements EntryPoint {
 
     final boolean signedIn = isSignedIn();
     final GerritConfig cfg = getConfig();
-    LinkMenuBar m;
-
-    m = new LinkMenuBar();
-    menuBars.put(GerritTopMenu.ALL.menuName, m);
-    addLink(m, C.menuAllOpen(), PageLinks.toChangeQuery("status:open"));
-    addLink(m, C.menuAllMerged(), PageLinks.toChangeQuery("status:merged"));
-    addLink(m, C.menuAllAbandoned(), PageLinks.toChangeQuery("status:abandoned"));
-    menuLeft.add(m, C.menuAll());
-
-    if (signedIn) {
-      LinkMenuBar myBar = new LinkMenuBar();
-      menuBars.put(GerritTopMenu.MY.menuName, myBar);
-      if (populateMyMenu) {
-        AccountApi.self().view("preferences").get(createMyMenuBarCallback());
-      }
-      menuLeft.add(myBar, C.menuMine());
-      menuLeft.selectTab(1);
-    } else {
-      menuLeft.selectTab(0);
-    }
-
-    patchScreen = null;
-    LinkMenuBar diffBar = new LinkMenuBar();
-    menuBars.put(GerritTopMenu.DIFFERENCES.menuName, diffBar);
-    menuLeft.addInvisible(diffBar, C.menuDiff());
-    addDiffLink(diffBar, CC.patchTableDiffSideBySide(), PatchScreen.Type.SIDE_BY_SIDE);
-    addDiffLink(diffBar, CC.patchTableDiffUnified(), PatchScreen.Type.UNIFIED);
-    addDiffLink(diffBar, C.menuDiffCommit(), PatchScreen.TopView.COMMIT);
-    addDiffLink(diffBar, C.menuDiffPreferences(), PatchScreen.TopView.PREFERENCES);
-    addDiffLink(diffBar, C.menuDiffPatchSets(), PatchScreen.TopView.PATCH_SETS);
-    addDiffLink(diffBar, C.menuDiffFiles(), PatchScreen.TopView.FILES);
-
-    final LinkMenuBar projectsBar = new LinkMenuBar();
-    menuBars.put(GerritTopMenu.PROJECTS.menuName, projectsBar);
-    addLink(projectsBar, C.menuProjectsList(), PageLinks.ADMIN_PROJECTS);
-    projectsBar.addItem(new ProjectLinkMenuItem(C.menuProjectsInfo(), ProjectScreen.INFO));
-    projectsBar.addItem(new ProjectLinkMenuItem(C.menuProjectsBranches(), ProjectScreen.BRANCH));
-    projectsBar.addItem(new ProjectLinkMenuItem(C.menuProjectsAccess(), ProjectScreen.ACCESS));
-    final LinkMenuItem dashboardsMenuItem =
-        new ProjectLinkMenuItem(C.menuProjectsDashboards(),
-            ProjectScreen.DASHBOARDS) {
-      protected boolean match(String token) {
-        return super.match(token) ||
-            (!getTargetHistoryToken().isEmpty() && ("/admin" + token).startsWith(getTargetHistoryToken()));
-      }
-    };
-    projectsBar.addItem(dashboardsMenuItem);
-    menuLeft.add(projectsBar, C.menuProjects());
-
-    if (signedIn) {
-      final LinkMenuBar peopleBar = new LinkMenuBar();
-      menuBars.put(GerritTopMenu.PEOPLE.menuName, peopleBar);
-      final LinkMenuItem groupsListMenuItem =
-          addLink(peopleBar, C.menuPeopleGroupsList(), PageLinks.ADMIN_GROUPS);
-      menuLeft.add(peopleBar, C.menuPeople());
-
-      final LinkMenuBar pluginsBar = new LinkMenuBar();
-      menuBars.put(GerritTopMenu.PLUGINS.menuName, pluginsBar);
-      AccountCapabilities.all(new GerritCallback<AccountCapabilities>() {
-        @Override
-        public void onSuccess(AccountCapabilities result) {
-          if (result.canPerform(CREATE_PROJECT)) {
-            insertLink(projectsBar, C.menuProjectsCreate(),
-                PageLinks.ADMIN_CREATE_PROJECT,
-                projectsBar.getWidgetIndex(dashboardsMenuItem) + 1);
-          }
-          if (result.canPerform(CREATE_GROUP)) {
-            insertLink(peopleBar, C.menuPeopleGroupsCreate(),
-                PageLinks.ADMIN_CREATE_GROUP,
-                peopleBar.getWidgetIndex(groupsListMenuItem) + 1);
-          }
-          if (result.canPerform(VIEW_PLUGINS)) {
-            insertLink(pluginsBar, C.menuPluginsInstalled(),
-                PageLinks.ADMIN_PLUGINS, 0);
-            menuLeft.insert(pluginsBar, C.menuPlugins(),
-                menuLeft.getWidgetIndex(peopleBar) + 1);
-          }
-        }
-      }, CREATE_PROJECT, CREATE_GROUP, VIEW_PLUGINS);
-    }
-
-    if (getConfig().isDocumentationAvailable()) {
-      m = new LinkMenuBar();
-      menuBars.put(GerritTopMenu.DOCUMENTATION.menuName, m);
-      addDocLink(m, C.menuDocumentationTOC(), "index.html");
-      addDocLink(m, C.menuDocumentationSearch(), "user-search.html");
-      addDocLink(m, C.menuDocumentationUpload(), "user-upload.html");
-      addDocLink(m, C.menuDocumentationAccess(), "access-control.html");
-      addDocLink(m, C.menuDocumentationAPI(), "rest-api.html");
-      addDocLink(m, C.menuDocumentationProjectOwnerGuide(), "intro-project-owner.html");
-      menuLeft.add(m, C.menuDocumentation());
-    }
 
     if (signedIn) {
       whoAmI(cfg.getAuthType() != AuthType.CLIENT_SSL_CERT_LDAP);
@@ -757,17 +659,36 @@ public class Gerrit implements EntryPoint {
         List<TopMenu> topMenuExtensions = Natives.asList(result);
         for (TopMenu menu : topMenuExtensions) {
           LinkMenuBar existingBar = menuBars.get(menu.getName());
+          if (menu.getName().equals(GerritTopMenu.DOCUMENTATION.menuName)
+              && !getConfig().isDocumentationAvailable()) {
+            continue;
+          }
           LinkMenuBar bar = existingBar != null ? existingBar : new LinkMenuBar();
           for (TopMenuItem item : Natives.asList(menu.getItems())) {
-            addExtensionLink(bar, item);
+            addMenuLink(bar, item);
           }
           if (existingBar == null) {
             menuBars.put(menu.getName(), bar);
             menuLeft.add(bar, menu.getName());
           }
         }
+        addOldChangeScreenDiffBar();
+        menuLeft.selectTab(signedIn ? 1 : 0);
       }
     });
+  }
+
+  private static void addOldChangeScreenDiffBar() {
+    patchScreen = null;
+    LinkMenuBar diffBar = new LinkMenuBar();
+    menuBars.put(GerritTopMenu.DIFFERENCES.menuName, diffBar);
+    menuLeft.addInvisible(2, diffBar, C.menuDiff()); // Inserted at position #2 on the top-menubar
+    addDiffLink(diffBar, CC.patchTableDiffSideBySide(), PatchScreen.Type.SIDE_BY_SIDE);
+    addDiffLink(diffBar, CC.patchTableDiffUnified(), PatchScreen.Type.UNIFIED);
+    addDiffLink(diffBar, C.menuDiffCommit(), PatchScreen.TopView.COMMIT);
+    addDiffLink(diffBar, C.menuDiffPreferences(), PatchScreen.TopView.PREFERENCES);
+    addDiffLink(diffBar, C.menuDiffPatchSets(), PatchScreen.TopView.PATCH_SETS);
+    addDiffLink(diffBar, C.menuDiffFiles(), PatchScreen.TopView.FILES);
   }
 
   private static AsyncCallback<Preferences> createMyMenuBarCallback() {
@@ -783,7 +704,7 @@ public class Gerrit implements EntryPoint {
             url = myMenuItems.get(0).getUrl().substring(1);
           }
           for (TopMenuItem item : myMenuItems) {
-            addExtensionLink(myBar, item);
+            addMenuLink(myBar, item);
           }
         }
         defaultScreenToken = url;
@@ -857,18 +778,6 @@ public class Gerrit implements EntryPoint {
     return a;
   }
 
-  private static LinkMenuItem addLink(final LinkMenuBar m, final String text,
-      final String historyToken) {
-    LinkMenuItem i = new LinkMenuItem(text, historyToken);
-    m.addItem(i);
-    return i;
-  }
-
-  private static void insertLink(final LinkMenuBar m, final String text,
-      final String historyToken, final int beforeIndex) {
-    m.insertItem(new LinkMenuItem(text, historyToken), beforeIndex);
-  }
-
   private static void addDiffLink(final LinkMenuBar m, final String text,
       final PatchScreen.TopView tv) {
     m.addItem(new LinkMenuItem(text, "") {
@@ -899,15 +808,17 @@ public class Gerrit implements EntryPoint {
       });
   }
 
-  private static void addDocLink(final LinkMenuBar m, final String text,
-      final String href) {
-    final Anchor atag = anchor(text, selfRedirect("/Documentation/" + href));
-    atag.setTarget("_blank");
-    m.add(atag);
-  }
-
-  private static void addExtensionLink(LinkMenuBar m, TopMenuItem item) {
-    if (item.getUrl().startsWith("#")
+  private static void addMenuLink(LinkMenuBar m, TopMenuItem item) {
+    String url = item.getUrl();
+    String name = item.getName();
+    if (url.contains(ConfigServerApi.PROJECT_MENU_VAR)) {
+      String projectPanel = url.substring(url.lastIndexOf(',') + 1);
+      LinkMenuItem a = new ProjectLinkMenuItem(name, projectPanel);
+      if (item.getId() != null) {
+        a.getElement().setAttribute("id", item.getId());
+      }
+      m.addItem(a);
+    } else if (url.startsWith("#")
         && (item.getTarget() == null || item.getTarget().isEmpty())) {
       LinkMenuItem a =
           new LinkMenuItem(item.getName(), item.getUrl().substring(1));

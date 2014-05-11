@@ -20,7 +20,7 @@ import com.google.common.collect.Lists;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
-import com.google.gerrit.extensions.webui.GerritTopMenu;
+import com.google.gerrit.extensions.client.GerritTopMenu;
 import com.google.gerrit.extensions.webui.TopMenu;
 import com.google.gerrit.extensions.webui.TopMenu.MenuEntry;
 import com.google.gerrit.extensions.webui.TopMenu.MenuItem;
@@ -132,7 +132,6 @@ class GerritTopMenus {
         subMenuDocumentation("menuDocumentationUpload", "user-upload.html"),
         subMenuDocumentation("menuDocumentationAccess", "access-control.html"),
         subMenuDocumentation("menuDocumentationAPI", "rest-api.html"),
-        subMenuDocumentation("menuDocumentationProjectOwnerGuide", "intro-project-owner.html"),
         subMenuDocumentation("menuDocumentationProjectOwnerGuide",
             "intro-project-owner.html")));
 

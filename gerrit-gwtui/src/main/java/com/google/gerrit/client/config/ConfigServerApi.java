@@ -25,13 +25,18 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  * configuration.
  */
 public class ConfigServerApi {
+  public static final String PROJECT_MENU_VAR = "${projectName}";
+
   /** map of the server wide capabilities (core & plugins). */
   public static void capabilities(AsyncCallback<NativeMap<CapabilityInfo>> cb) {
     new RestApi("/config/server/capabilities/").get(cb);
   }
 
   public static void topMenus(AsyncCallback<TopMenuList> cb) {
-    new RestApi("/config/server/top-menus").get(cb);
+    new RestApi("/config/server/top-menus")
+      .addParameterTrue("all")
+      .addParameter("p", PROJECT_MENU_VAR)
+      .get(cb);
   }
 
   public static void defaultPreferences(AsyncCallback<Preferences> cb) {

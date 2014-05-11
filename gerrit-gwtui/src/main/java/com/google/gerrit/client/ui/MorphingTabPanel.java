@@ -74,6 +74,11 @@ public class MorphingTabPanel extends TabPanel {
     texts.add(tabText);
   }
 
+  public void addInvisible(int position, Widget w, String tabText) {
+    widgets.add(position, w);
+    texts.add(position, tabText);
+  }
+
   public void setVisible(Widget w, boolean visible) {
     if (visible) {
       if (!visibles.contains(w)) {

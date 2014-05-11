@@ -21,12 +21,15 @@ import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
+import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.change.CherryPick;
 import com.google.gerrit.server.change.DeleteDraftPatchSet;
+import com.google.gerrit.server.change.Files;
 import com.google.gerrit.server.change.PostReview;
 import com.google.gerrit.server.change.Publish;
 import com.google.gerrit.server.change.Rebase;
+import com.google.gerrit.server.change.Reviewed;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.Submit;
 import com.google.gerrit.server.changedetail.RebaseChange;
@@ -36,6 +39,7 @@ import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
 import java.io.IOException;
+import java.util.List;
 
 class RevisionApiImpl extends RevisionApi.NotImplemented implements RevisionApi {
   interface Factory {
@@ -50,6 +54,10 @@ class RevisionApiImpl extends RevisionApi.NotImplemented implements RevisionApi 
   private final Provider<PostReview> review;
   private final Provider<Submit> submit;
   private final Provider<Publish> publish;
+  private final Provider<Files> files;
+  private final Provider<Reviewed.PutReviewed> putReviewed;
+  private final Provider<Reviewed.DeleteReviewed> deleteReviewed;
+  private final Provider<Files.ListFiles> listFiles;
   private final RevisionResource revision;
 
   @Inject
@@ -61,6 +69,10 @@ class RevisionApiImpl extends RevisionApi.NotImplemented implements RevisionApi 
       Provider<PostReview> review,
       Provider<Submit> submit,
       Provider<Publish> publish,
+      Provider<Files> files,
+      Provider<Reviewed.PutReviewed> putReviewed,
+      Provider<Reviewed.DeleteReviewed> deleteReviewed,
+      Provider<Files.ListFiles> listFiles,
       @Assisted RevisionResource r) {
     this.changes = changes;
     this.cherryPick = cherryPick;
@@ -70,6 +82,10 @@ class RevisionApiImpl extends RevisionApi.NotImplemented implements RevisionApi 
     this.review = review;
     this.submit = submit;
     this.publish = publish;
+    this.files = files;
+    this.putReviewed = putReviewed;
+    this.deleteReviewed = deleteReviewed;
+    this.listFiles = listFiles;
     this.revision = r;
   }
 
@@ -136,6 +152,39 @@ class RevisionApiImpl extends RevisionApi.NotImplemented implements RevisionApi 
       return changes.id(cherryPick.get().apply(revision, in)._number);
     } catch (OrmException | EmailException | IOException e) {
       throw new RestApiException("Cannot cherry pick", e);
+    }
+  }
+
+  @Override
+  public void setReviewed(String path) throws RestApiException {
+    try {
+      putReviewed.get().apply(
+          files.get().parse(revision, IdString.fromDecoded(path)),
+          new Reviewed.Input());
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot set reviewed flag", e);
+    }
+  }
+
+  @Override
+  public void deleteReviewed(String path) throws RestApiException {
+    try {
+      deleteReviewed.get().apply(
+          files.get().parse(revision, IdString.fromDecoded(path)),
+          new Reviewed.Input());
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot delete reviewed flag", e);
+    }
+  }
+
+  @SuppressWarnings("unchecked")
+  @Override
+  public List<String> getReviewed() throws RestApiException {
+    try {
+      return (List<String>) listFiles.get().setReviewed(true).apply(revision)
+          .value();
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot list reviewed files", e);
     }
   }
 }

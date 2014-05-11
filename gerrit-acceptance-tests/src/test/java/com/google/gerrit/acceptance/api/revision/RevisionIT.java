@@ -14,9 +14,11 @@
 
 package com.google.gerrit.acceptance.api.revision;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -167,6 +169,36 @@ public class RevisionIT extends AbstractDaemonTest {
         .id(r3.getChangeId())
         .revision(r3.getCommit().name())
         .canRebase());
+  }
+
+  @Test
+  public void setUnsetReviewedFlag() throws Exception {
+    PushOneCommit push = pushFactory.create(db, admin.getIdent());
+    PushOneCommit.Result r = push.to(git, "refs/for/master");
+
+    gApi.changes()
+        .id(r.getChangeId())
+        .current()
+        .setReviewed(PushOneCommit.FILE_NAME);
+
+    assertEquals(PushOneCommit.FILE_NAME,
+        Iterables.getOnlyElement(
+            gApi.changes()
+                .id(r.getChangeId())
+                .current()
+                .getReviewed()));
+
+    gApi.changes()
+        .id(r.getChangeId())
+        .current()
+        .deleteReviewed(PushOneCommit.FILE_NAME);
+
+    assertTrue(
+        gApi.changes()
+            .id(r.getChangeId())
+            .current()
+            .getReviewed()
+            .isEmpty());
   }
 
   protected RevisionApi revision(PushOneCommit.Result r) throws Exception {

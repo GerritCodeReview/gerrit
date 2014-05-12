@@ -39,6 +39,24 @@
       "revId": "0f81c60176dff8e6e071d84e5ae555f218c130d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a8b1c70_1069e4c3",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AccountGeneralPreferences.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1011917
+      },
+      "writtenOn": "2014-05-12T08:34:45Z",
+      "side": 1,
+      "message": "I have respun the change with the following behavior:\n\nAnonymous user: Hidden\nNew user: Hidden\nUser that clicks checkbox : Shown\n\nThis leaves the behavior for most users as it currently is.\n\nI am however happy to invert this and display by default if it is prefered,",
+      "parentUuid": "ca4b8c72_e4b3da27",
+      "revId": "0f81c60176dff8e6e071d84e5ae555f218c130d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

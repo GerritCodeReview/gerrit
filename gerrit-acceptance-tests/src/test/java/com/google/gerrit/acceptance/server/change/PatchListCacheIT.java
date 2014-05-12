@@ -149,16 +149,11 @@ public class PatchListCacheIT extends AbstractDaemonTest {
     pushHead(git, "refs/for/master", false);
     ObjectId b = getCurrentRevisionId(c.getChangeId());
 
-    // Compare Change 1,1 with Change 1,2
-    // expected: +FILE_B
-    // actual: +FILE_B, -FILE_C
-    // -FILE_C is wrongly returned, it is not contained in Change 1,2
-    //         but was only added in Change 1,1
+    // Compare Change 1,1 with Change 1,2 (+FILE_B)
     List<PatchListEntry>  entries = getPatches(a, b);
-    assertEquals(3, entries.size());
+    assertEquals(2, entries.size());
     assertModified(Patch.COMMIT_MSG, entries.get(0));
     assertAdded(FILE_B, entries.get(1));
-    assertDeleted(FILE_C, entries.get(2));
   }
 
   @Test
@@ -189,17 +184,11 @@ public class PatchListCacheIT extends AbstractDaemonTest {
     pushHead(git, "refs/for/master", false);
     ObjectId b = getCurrentRevisionId(c.getChangeId());
 
-    // Compare Change 1,1 with Change 1,2
-    // expected: +FILE_C
-    // actual: +FILE_B, +FILE_C
-    // +FILE_B is wrongly returned, it is neither contained in Change 1,1
-    //         nor in Change 1,2, but was only changed due to the rebase
-    //         on Change 2,1
+    // Compare Change 1,1 with Change 1,2 (+FILE_C)
     List<PatchListEntry>  entries = getPatches(a, b);
-    assertEquals(3, entries.size());
+    assertEquals(2, entries.size());
     assertModified(Patch.COMMIT_MSG, entries.get(0));
-    assertAdded(FILE_B, entries.get(1));
-    assertAdded(FILE_C, entries.get(2));
+    assertAdded(FILE_C, entries.get(1));
   }
 
   private static void assertAdded(String expectedNewName, PatchListEntry e) {

@@ -260,7 +260,7 @@ public class ChangeControl {
 
   /** Can this user see the given patchset? */
   public boolean isPatchVisible(PatchSet ps, ReviewDb db) throws OrmException {
-    if (ps.isDraft() && !isDraftVisible(db, null)) {
+    if (ps != null && ps.isDraft() && !isDraftVisible(db, null)) {
       return false;
     }
     return isVisible(db);

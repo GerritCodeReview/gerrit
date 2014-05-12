@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4a8b1c70_300ae83c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritConstantsProperties.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-05-12T03:12:51Z",
+      "side": 1,
+      "message": "remove  \" @Inject\" ?",
+      "revId": "ff708cc139c266543d9747d155593174347b9ff6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a90a898_2f0a893c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritTopMenus.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-05-12T03:12:51Z",
+      "side": 1,
+      "message": "need bind  GerritConstantsProperties explicitly?",
+      "revId": "ff708cc139c266543d9747d155593174347b9ff6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a8b1c70_d0235cca",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ListTopMenus.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-05-12T03:12:51Z",
+      "side": 1,
+      "message": "need bind  GerritTopMenus explicitly?",
+      "revId": "ff708cc139c266543d9747d155593174347b9ff6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

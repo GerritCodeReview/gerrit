@@ -15,7 +15,11 @@
 
 package com.google.gerrit.server.patch;
 
+import com.google.common.base.Function;
 import com.google.common.cache.CacheLoader;
+import com.google.common.collect.FluentIterable;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -58,10 +62,13 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
   static final Logger log = LoggerFactory.getLogger(PatchListLoader.class);
@@ -74,7 +81,7 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
   }
 
   @Override
-  public PatchList load(final PatchListKey key) throws Exception {
+  public PatchList load(final PatchListKey key) throws IOException {
     final Repository repo = repoManager.openRepository(key.projectKey);
     try {
       return readPatchList(key, repo);
@@ -121,18 +128,8 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
       final boolean againstParent =
           b.getParentCount() > 0 && b.getParent(0) == a;
 
-      RevCommit aCommit;
-      RevTree aTree;
-      if (a instanceof RevCommit) {
-        aCommit = (RevCommit) a;
-        aTree = aCommit.getTree();
-      } else if (a instanceof RevTree) {
-        aCommit = null;
-        aTree = (RevTree) a;
-      } else {
-        throw new IOException("Unexpected type: " + a.getClass());
-      }
-
+      RevCommit aCommit = a instanceof RevCommit ? (RevCommit) a : null;
+      RevTree aTree = getTree(a);
       RevTree bTree = b.getTree();
 
       DiffFormatter df = new DiffFormatter(DisabledOutputStream.INSTANCE);
@@ -141,17 +138,92 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
       df.setDetectRenames(true);
       List<DiffEntry> diffEntries = df.scan(aTree, bTree);
 
-      final int cnt = diffEntries.size();
-      final PatchListEntry[] entries = new PatchListEntry[1 + cnt];
-      entries[0] = newCommitMessage(cmp, repo, reader, //
-          againstParent ? null : aCommit, b);
+      Set<String> paths = key.getOldId() != null && !sameParents(aCommit, b)
+          ? getPatchSetPaths(key, repo, rw)
+          : null;
+      int cnt = diffEntries.size();
+      List<PatchListEntry> entries = new ArrayList<>();
+      entries.add(newCommitMessage(cmp, repo, reader, //
+          againstParent ? null : aCommit, b));
       for (int i = 0; i < cnt; i++) {
-        FileHeader fh = df.toFileHeader(diffEntries.get(i));
-        entries[1 + i] = newEntry(aTree, fh);
+        DiffEntry diffEntry = diffEntries.get(i);
+        if (paths != null
+            && (!paths.contains(diffEntry.getNewPath()) &&
+                !paths.contains(diffEntry.getOldPath()))) {
+          continue;
+        }
+        FileHeader fh = df.toFileHeader(diffEntry);
+        entries.add(newEntry(aTree, fh));
       }
-      return new PatchList(a, b, againstParent, entries);
+      return new PatchList(a, b, againstParent,
+          entries.toArray(new PatchListEntry[entries.size()]));
     } finally {
       reader.release();
+    }
+  }
+
+  private boolean sameParents(RevCommit a, RevCommit b) {
+    if (a == null || b == null) {
+      return false;
+    }
+    return Arrays.equals(a.getParents(), b.getParents());
+  }
+
+  /**
+   * Returns all paths that differ between patch set 'a' and patch set 'b'.
+   */
+  private Set<String> getPatchSetPaths(PatchListKey key, Repository repo, RevWalk rw)
+      throws IOException {
+    return Sets.union(
+        getCommitPaths(
+            new PatchListKey(key.projectKey, null, key.getOldId(), key.getWhitespace()),
+            repo, rw),
+            getCommitPaths(
+            new PatchListKey(key.projectKey, null, key.getNewId(), key.getWhitespace()),
+            repo, rw));
+  }
+
+  /**
+   * Returns all paths that differ between commit 'a' and commit 'b'. If commit
+   * 'a' is null, commit 'b' is compared against its parent or in case of a
+   * merge commit against the auto merge.
+   */
+  private Set<String> getCommitPaths(PatchListKey key, Repository repo, RevWalk rw)
+        throws IOException {
+    RawTextComparator cmp = comparatorFor(key.getWhitespace());
+    RevCommit b = rw.parseCommit(key.getNewId());
+    RevObject a = aFor(key, repo, rw, b);
+
+    if (a == null) {
+      // TODO(sop) Remove this case.
+      // This is a merge commit, compared to its ancestor.
+      //
+      return Collections.emptySet();
+    }
+
+    DiffFormatter df = new DiffFormatter(DisabledOutputStream.INSTANCE);
+    df.setRepository(repo);
+    df.setDiffComparator(cmp);
+    df.setDetectRenames(true);
+
+    return FluentIterable.from(
+        Lists.transform(df.scan(getTree(a), b.getTree()),
+            new Function<DiffEntry, String>() {
+              @Override
+              public String apply(DiffEntry diffEntry) {
+                return diffEntry.getNewPath();
+              }
+            })
+        ).toSet();
+  }
+
+  private RevTree getTree(RevObject o) throws IOException {
+    if (o instanceof RevCommit) {
+      return ((RevCommit) o).getTree();
+    } else if (o instanceof RevTree) {
+      return (RevTree) o;
+    } else {
+      throw new IOException("Unexpected type: " + o.getClass());
     }
   }
 

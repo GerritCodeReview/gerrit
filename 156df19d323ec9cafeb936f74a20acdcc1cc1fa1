@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ea713054_4d183990",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-05-12T19:02:29Z",
+      "side": 1,
+      "message": "One might ask why I didn\u0027t change the implementation of all these static methods to do a similar skipping thing as in toChangeInfo below. I looked at them and as it turns out they all just make direct db calls like db.patchSets().byChange(id), which return possibly empty but at least non-error results. And this is corroborated by the fact that the stack traces we\u0027re seeing in production are from toChangeInfo.",
+      "revId": "156df19d323ec9cafeb936f74a20acdcc1cc1fa1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -16,6 +16,24 @@
       "revId": "c2fadebd16802e5c881a47793d306f37803f8398",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a8b1c70_902714a5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileInfoJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-12T17:36:35Z",
+      "side": 1,
+      "message": "Yes, but this change is not trying to fix this.\n\nThis fix only makes sure that only files are listed that are contained in any of the two patch sets.",
+      "parentUuid": "0a75a43d_6e3e4fd9",
+      "revId": "c2fadebd16802e5c881a47793d306f37803f8398",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -15,7 +15,9 @@
 
 package com.google.gerrit.server.patch;
 
+import com.google.common.base.Function;
 import com.google.common.cache.CacheLoader;
+import com.google.common.collect.FluentIterable;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -58,23 +60,28 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
   static final Logger log = LoggerFactory.getLogger(PatchListLoader.class);
 
   private final GitRepositoryManager repoManager;
+  private final PatchListCache patchListCache;
 
   @Inject
-  PatchListLoader(GitRepositoryManager mgr) {
+  PatchListLoader(GitRepositoryManager mgr, PatchListCache plc) {
     repoManager = mgr;
+    patchListCache = plc;
   }
 
   @Override
-  public PatchList load(final PatchListKey key) throws Exception {
+  public PatchList load(final PatchListKey key) throws IOException,
+      PatchListNotAvailableException {
     final Repository repo = repoManager.openRepository(key.projectKey);
     try {
       return readPatchList(key, repo);
@@ -100,8 +107,8 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
     }
   }
 
-  private PatchList readPatchList(final PatchListKey key,
-      final Repository repo) throws IOException {
+  private PatchList readPatchList(final PatchListKey key, final Repository repo)
+      throws IOException, PatchListNotAvailableException {
     final RawTextComparator cmp = comparatorFor(key.getWhitespace());
     final ObjectReader reader = repo.newObjectReader();
     try {
@@ -121,18 +128,8 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
       final boolean againstParent =
           b.getParentCount() > 0 && b.getParent(0) == a;
 
-      RevCommit aCommit;
-      RevTree aTree;
-      if (a instanceof RevCommit) {
-        aCommit = (RevCommit) a;
-        aTree = aCommit.getTree();
-      } else if (a instanceof RevTree) {
-        aCommit = null;
-        aTree = (RevTree) a;
-      } else {
-        throw new IOException("Unexpected type: " + a.getClass());
-      }
-
+      RevCommit aCommit = a instanceof RevCommit ? (RevCommit) a : null;
+      RevTree aTree = rw.parseTree(a);
       RevTree bTree = b.getTree();
 
       DiffFormatter df = new DiffFormatter(DisabledOutputStream.INSTANCE);
@@ -141,15 +138,32 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
       df.setDetectRenames(true);
       List<DiffEntry> diffEntries = df.scan(aTree, bTree);
 
-      final int cnt = diffEntries.size();
-      final PatchListEntry[] entries = new PatchListEntry[1 + cnt];
-      entries[0] = newCommitMessage(cmp, repo, reader, //
-          againstParent ? null : aCommit, b);
+      Set<String> paths = key.getOldId() != null
+          ? FluentIterable.from(patchListCache.get(
+                  new PatchListKey(key.projectKey, null, key.getNewId(),
+                  key.getWhitespace())).getPatches())
+              .transform(new Function<PatchListEntry, String>() {
+                @Override
+                public String apply(PatchListEntry entry) {
+                  return entry.getNewName();
+                }
+              })
+          .toSet()
+          : null;
+      int cnt = diffEntries.size();
+      List<PatchListEntry> entries = new ArrayList<>();
+      entries.add(newCommitMessage(cmp, repo, reader, //
+          againstParent ? null : aCommit, b));
       for (int i = 0; i < cnt; i++) {
-        FileHeader fh = df.toFileHeader(diffEntries.get(i));
-        entries[1 + i] = newEntry(aTree, fh);
+        DiffEntry diffEntry = diffEntries.get(i);
+        if (paths == null || paths.contains(diffEntry.getNewPath())
+            || paths.contains(diffEntry.getOldPath())) {
+          FileHeader fh = df.toFileHeader(diffEntry);
+          entries.add(newEntry(aTree, fh));
+        }
       }
-      return new PatchList(a, b, againstParent, entries);
+      return new PatchList(a, b, againstParent,
+          entries.toArray(new PatchListEntry[entries.size()]));
     } finally {
       reader.release();
     }

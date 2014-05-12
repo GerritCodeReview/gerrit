@@ -16,6 +16,24 @@
       "revId": "0e9cff85b816be8a2ecee779a26872ac752087ca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a8b1c70_b02c9887",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-12T17:40:14Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "0a75a43d_ce7183be",
+      "revId": "0e9cff85b816be8a2ecee779a26872ac752087ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

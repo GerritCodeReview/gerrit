@@ -126,6 +126,11 @@ The entries in the map are sorted by capability ID.
       "id": "viewConnections",
       "name": "View Connections"
     },
+    "viewPlugins": {
+      "kind": "gerritcodereview#capability",
+      "id": "viewPlugins",
+      "name": "View Plugins"
+    },
     "viewQueue": {
       "kind": "gerritcodereview#capability",
       "id": "viewQueue",

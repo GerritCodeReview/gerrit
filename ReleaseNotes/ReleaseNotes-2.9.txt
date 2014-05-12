@@ -13,8 +13,9 @@ As of Gerrit 2.9, Java 1.7 is required.
 Gerrit 2.9 includes the bug fixes done with
 link:ReleaseNotes-2.8.1.html[Gerrit 2.8.1],
 link:ReleaseNotes-2.8.2.html[Gerrit 2.8.2],
-link:ReleaseNotes-2.8.3.html[Gerrit 2.8.3], and
-link:ReleaseNotes-2.8.4.html[Gerrit 2.8.4].
+link:ReleaseNotes-2.8.3.html[Gerrit 2.8.3],
+link:ReleaseNotes-2.8.4.html[Gerrit 2.8.4], and
+link:ReleaseNotes-2.8.5.html[Gerrit 2.8.5].
 These bug fixes are *not* listed in these release notes.
 
 Schema Change
@@ -35,6 +36,18 @@ later, you may ignore this warning and upgrade directly to 2.9.x.
 Release Highlights
 ------------------
 
+
+* The new change screen is now the default change screen.
++
+The
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/user-review-ui.html[
+documentation of the new review UI] describes the new screens in detail
+and highlights the important functionality with screenshots.
++
+Users that are accessing the new change screen for the first time are
+informed about the new change screen by a welcome popup. The welcome
+popup links to the review UI documentation and allows users to go back
+to the old change screen.
 
 * 'Gerrit Inspector' for interactive inspection and troubleshooting of a running
 Gerrit instance.

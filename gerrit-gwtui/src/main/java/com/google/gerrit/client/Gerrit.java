@@ -14,9 +14,9 @@
 
 package com.google.gerrit.client;
 
-import static com.google.gerrit.common.data.GlobalCapability.ADMINISTRATE_SERVER;
 import static com.google.gerrit.common.data.GlobalCapability.CREATE_GROUP;
 import static com.google.gerrit.common.data.GlobalCapability.CREATE_PROJECT;
+import static com.google.gerrit.common.data.GlobalCapability.VIEW_PLUGINS;
 
 import com.google.gerrit.client.account.AccountApi;
 import com.google.gerrit.client.account.AccountCapabilities;
@@ -671,14 +671,14 @@ public class Gerrit implements EntryPoint {
                 PageLinks.ADMIN_CREATE_GROUP,
                 peopleBar.getWidgetIndex(groupsListMenuItem) + 1);
           }
-          if (result.canPerform(ADMINISTRATE_SERVER)) {
+          if (result.canPerform(VIEW_PLUGINS)) {
             insertLink(pluginsBar, C.menuPluginsInstalled(),
                 PageLinks.ADMIN_PLUGINS, 0);
             menuLeft.insert(pluginsBar, C.menuPlugins(),
                 menuLeft.getWidgetIndex(peopleBar) + 1);
           }
         }
-      }, CREATE_PROJECT, CREATE_GROUP, ADMINISTRATE_SERVER);
+      }, CREATE_PROJECT, CREATE_GROUP, VIEW_PLUGINS);
     }
 
     if (getConfig().isDocumentationAvailable()) {

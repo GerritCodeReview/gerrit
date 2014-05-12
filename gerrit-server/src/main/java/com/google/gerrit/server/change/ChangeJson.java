@@ -278,7 +278,12 @@ public class ChangeJson {
     for (ChangeData cd : changes) {
       ChangeInfo i = out.get(cd.getId());
       if (i == null) {
-        i = toChangeInfo(cd, Optional.<PatchSet.Id> absent());
+        try {
+          i = toChangeInfo(cd, Optional.<PatchSet.Id> absent());
+        } catch (OrmException e) {
+          log.warn(
+              "Omitting corrupt change " + cd.getId() + " from results", e);
+        }
         out.put(cd.getId(), i);
       }
       info.add(i);

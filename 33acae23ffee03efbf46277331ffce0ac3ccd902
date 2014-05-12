@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4a8b1c70_90463464",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 662,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-12T07:00:22Z",
+      "side": 1,
+      "message": "Not used below on line 663.",
+      "range": {
+        "startLine": 662,
+        "startChar": 17,
+        "endLine": 662,
+        "endChar": 25
+      },
+      "revId": "33acae23ffee03efbf46277331ffce0ac3ccd902",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a90a898_8f461564",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 664,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-12T07:00:22Z",
+      "side": 1,
+      "message": "Either use menuName var you\u0027ve defined on the line above or remove the var.\n\nSwap the conditions in the if, as it\u0027s faster to evaluate boolean expression then string equals expression?",
+      "range": {
+        "startLine": 663,
+        "startChar": 10,
+        "endLine": 664,
+        "endChar": 57
+      },
+      "revId": "33acae23ffee03efbf46277331ffce0ac3ccd902",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a90a898_0f3b05e8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 676,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-12T07:00:22Z",
+      "side": 1,
+      "message": "This is a confusing condition. It also get called when new change screen is active.\n\nAnd something is generally wrong here with logic, as Differences menu entry appears now when siwtchin between old and new change screen:\n\n Settings \u003d\u003e Preferences \u003d\u003e Change View: Old vs. New \u003d\u003e Save Changes\n\n Broken Diffeences menu entry appears, and sub menues are dead:\n\n  http://imgur.com/KcC7TyW",
+      "range": {
+        "startLine": 674,
+        "startChar": 12,
+        "endLine": 676,
+        "endChar": 13
+      },
+      "revId": "33acae23ffee03efbf46277331ffce0ac3ccd902",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a90a898_ef51e120",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/config/ConfigServerApi.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-12T07:00:22Z",
+      "side": 1,
+      "message": "Wrong indentation:\n\n  new RestApi(\"/config/server/top-menus\")\n    .addParameterTrue(\"all\")\n    .addParameter(\"p\", PROJECT_MENU_VAR)\n    .get(cb);",
+      "range": {
+        "startLine": 36,
+        "startChar": 4,
+        "endLine": 37,
+        "endChar": 48
+      },
+      "revId": "33acae23ffee03efbf46277331ffce0ac3ccd902",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

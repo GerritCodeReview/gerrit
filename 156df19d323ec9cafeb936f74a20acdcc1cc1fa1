@@ -16,6 +16,29 @@
       "revId": "156df19d323ec9cafeb936f74a20acdcc1cc1fa1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a8b1c70_50320ce7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-12T20:06:06Z",
+      "side": 1,
+      "message": "Use String.format() instead?",
+      "range": {
+        "startLine": 285,
+        "startChar": 14,
+        "endLine": 285,
+        "endChar": 75
+      },
+      "revId": "156df19d323ec9cafeb936f74a20acdcc1cc1fa1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -30,6 +30,7 @@ import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.lucene.LuceneIndexModule;
 import com.google.gerrit.pgm.util.SiteProgram;
+import com.google.gerrit.pgm.util.ThreadLimiter;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -74,8 +75,6 @@ import com.google.gerrit.server.project.ProjectCacheImpl;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.SectionSortCache;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gerrit.server.schema.DataSourceProvider;
-import com.google.gerrit.server.schema.DataSourceType;
 import com.google.gerrit.solr.SolrIndexModule;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
@@ -95,8 +94,6 @@ import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.eclipse.jgit.util.io.NullOutputStream;
 import org.kohsuke.args4j.Option;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.Collections;
 import java.util.List;
@@ -104,8 +101,6 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 public class Reindex extends SiteProgram {
-  private static final Logger log = LoggerFactory.getLogger(Reindex.class);
-
   @Option(name = "--threads", usage = "Number of threads to use for indexing")
   private int threads = Runtime.getRuntime().availableProcessors();
 
@@ -133,7 +128,7 @@ public class Reindex extends SiteProgram {
   public int run() throws Exception {
     mustHaveValidSite();
     dbInjector = createDbInjector(MULTI_USER);
-    limitThreads();
+    threads = ThreadLimiter.limitThreads(dbInjector, threads);
     disableLuceneAutomaticCommit();
     if (version == null) {
       version = ChangeSchemas.getLatest().getVersion();
@@ -160,20 +155,6 @@ public class Reindex extends SiteProgram {
     sysManager.stop();
     dbManager.stop();
     return result;
-  }
-
-  private void limitThreads() {
-    Config cfg =
-        dbInjector.getInstance(Key.get(Config.class, GerritServerConfig.class));
-    boolean usePool = cfg.getBoolean("database", "connectionpool",
-        dbInjector.getInstance(DataSourceType.class).usePool());
-    int poolLimit = cfg.getInt("database", "poollimit",
-        DataSourceProvider.DEFAULT_POOL_LIMIT);
-    if (usePool && threads > poolLimit) {
-      log.warn("Limiting reindexing to " + poolLimit
-          + " threads due to database.poolLimit");
-      threads = poolLimit;
-    }
   }
 
   private Injector createSysInjector() {

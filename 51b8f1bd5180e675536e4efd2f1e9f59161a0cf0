@@ -16,6 +16,24 @@
       "revId": "51b8f1bd5180e675536e4efd2f1e9f59161a0cf0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a8b1c70_d0a83cb0",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1095,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-12T12:51:56Z",
+      "side": 1,
+      "message": "With both options you land in the old UI, don\u0027t you?",
+      "parentUuid": "2a90a898_cfa89db0",
+      "revId": "51b8f1bd5180e675536e4efd2f1e9f59161a0cf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

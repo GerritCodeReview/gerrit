@@ -30,7 +30,9 @@ import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.ObjectId;
 
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 public class FileInfoJson {
   private final PatchListCache patchListCache;
@@ -51,11 +53,31 @@ public class FileInfoJson {
         ? null
         : ObjectId.fromString(base.getRevision().get());
     ObjectId b = ObjectId.fromString(patchSet.getRevision().get());
-    PatchList list = patchListCache.get(
-        new PatchListKey(change.getProject(), a, b, Whitespace.IGNORE_NONE));
+    PatchList listB = patchListCache.get(
+        new PatchListKey(change.getProject(), null, b, Whitespace.IGNORE_NONE));
+    PatchList listDiffAB = a != null
+        ? patchListCache.get(new PatchListKey(change.getProject(), a, b, Whitespace.IGNORE_NONE))
+        : listB;
+
+    Set<String> paths = new HashSet<>();
+    if (a != null) {
+      PatchList listA =
+          patchListCache.get(new PatchListKey(change.getProject(), null, a,
+              Whitespace.IGNORE_NONE));
+      for (PatchListEntry e : listA.getPatches()) {
+        paths.add(e.getNewName());
+      }
+    }
+    for (PatchListEntry e : listB.getPatches()) {
+      paths.add(e.getNewName());
+    }
 
     Map<String, FileInfo> files = Maps.newTreeMap();
-    for (PatchListEntry e : list.getPatches()) {
+    for (PatchListEntry e : listDiffAB.getPatches()) {
+      if (!paths.contains(e.getNewName())) {
+        continue;
+      }
+
       FileInfo d = new FileInfo();
       d.status = e.getChangeType() != Patch.ChangeType.MODIFIED
           ? e.getChangeType().getCode() : null;

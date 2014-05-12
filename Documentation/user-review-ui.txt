@@ -1093,6 +1093,12 @@ Limitations of the new review UI:
 
 - The new side-by-side diff screen cannot render images.
 
+- Unified diff view is missing:
++
+By setting `Diff View (New Change Screen)` in the user preferences to
+`Unified Diff` the new change screen can be configured to open the file
+diffs in the old unified diff view.
+
 Users preferring the old review UI can link:#old-change-screen[
 configure the change view] in their preferences.
 

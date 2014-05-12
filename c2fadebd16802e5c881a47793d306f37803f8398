@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0a75a43d_6e3e4fd9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileInfoJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-05-12T15:04:52Z",
+      "side": 1,
+      "message": "IIRC this is not perfect, there are still blocks touched by rebase need to be cleaned up in some file.\n \nhttps://gerrit-review.googlesource.com/#/c/33091/5//COMMIT_MSG",
+      "revId": "c2fadebd16802e5c881a47793d306f37803f8398",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

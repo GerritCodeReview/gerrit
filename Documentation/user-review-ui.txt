@@ -1092,6 +1092,7 @@ new review UIs:
 Limitations of the new review UI:
 
 - The new side-by-side diff screen cannot render images.
+- Unified diff view is missing
 
 Users preferring the old review UI can link:#old-change-screen[
 configure the change view] in their preferences.

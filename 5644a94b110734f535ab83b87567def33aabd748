@@ -22,6 +22,30 @@
       "revId": "5644a94b110734f535ab83b87567def33aabd748",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a6f0077_a9e43d48",
+        "filename": "gerrit-gwtexpui/src/main/java/com/google/gwtexpui/clippy/client/CopyableLabel.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2014-05-12T22:37:56Z",
+      "side": 1,
+      "message": "Or, alternatively, add the onKeyUp handler outside of the scheduleDeferred()?  I think we may need to schedule one event, but probably not both.",
+      "parentUuid": "4a8b1c70_d046fc36",
+      "range": {
+        "startLine": 199,
+        "startChar": 24,
+        "endLine": 203,
+        "endChar": 27
+      },
+      "revId": "5644a94b110734f535ab83b87567def33aabd748",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

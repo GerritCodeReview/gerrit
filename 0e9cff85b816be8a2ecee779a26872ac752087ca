@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0a75a43d_ce7183be",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-12T15:07:18Z",
+      "side": 0,
+      "message": "Instead of removing this, why not extend it to describe the new behaviour?",
+      "revId": "0e9cff85b816be8a2ecee779a26872ac752087ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

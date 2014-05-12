@@ -825,7 +825,8 @@ To add a new inline comment there are several possibilities:
 
 - select a code block and press 'c'
 - select a code block and click on the popup comment icon
-- go to a line, by clicking on it or by key navigation, and press 'c'
+- go to a line, by clicking on it or by link:#key-navigation[key
+  navigation], and press 'c'
 - click on a line number
 
 There are many ways to select code for commenting on it. The most
@@ -870,6 +871,41 @@ Clicking on the comment icon opens a comment box for typing the file
 level comment.
 
 image::images/user-review-ui-side-by-side-diff-screen-file-level-commented.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-file-level-commented.png"]
+
+[[search]]
+=== Search
+
+For searching within a patch file, a Vim-like search is supported.
+Typing `/` opens the search box. Typing in the search box immediately
+highlights matches in the patch file with a yellow background. Using
+JavaScript regular expressions in the search term is supported. The
+search is case insensitive. After confirming the search by `ENTER` one
+can navigate between the matches by `n` / `N` to go to the next /
+previous match. Skipped lines are automatically expanded if they
+contain a match and one navigates to it.
+
+For additional possibilities to search please check the
+link:http://www.vim.org/docs.php[Vim documentation]. There are other
+useful ways to search, e.g. while the cursor is on a word, pressing `*`
+or `#` searches for the next or previous occurrence of the word.
+
+Searching by `Ctrl-F` finds matches only in the visible area of the
+screen unless the link:#render[Render] diff preference is set to `Slow`.
+
+image::images/user-review-ui-side-by-side-diff-screen-search.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-search.png"]
+
+[[key-navigation]]
+=== Key Navigation
+
+Vim-like commands can be used to navigate within a patch file:
+
+- `h` / `j` / `k` / `l` moves the cursor left / down / up / right
+- `0` / `$` moves the cursor to the start / end of the line
+- `gg` / `G` moves to cursor to the start / end of the file
+- `Ctrl-D` / `Ctrl-U` scolls downwards / upwards
+
+Please check the link:http://www.vim.org/docs.php[Vim documentation]
+for further information.
 
 [[diff-preferences]]
 === Diff Preferences
@@ -1004,6 +1040,49 @@ If `Slow` is selected all file contents are attached to the browser's
 DOM tree, which makes the rendering slow for large files. The advantage
 of this setting is that `Ctrl+F` can be used to search in the complete
 file.
+
+[[keyboard-shortcuts]]
+== Keyboard Shortcuts
+
+Navigation within the review UI can be completely done by keys, and
+most actions can be controlled by keyboard shortcuts. Typing `?` opens
+a popup that shows a list of available keyboard shortcuts:
+
+- Change Screen
++
+image::images/user-review-ui-change-screen-keyboard-shortcuts.png[width=800, link="images/user-review-ui-change-screen-keyboard-shortcuts.png"]
+
+- Side-by-Side Diff Screen
++
+image::images/user-review-ui-side-by-side-diff-screen-keyboard-shortcuts.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-keyboard-shortcuts.png"]
++
+In addition, Vim-like commands can be used to link:#key-navigation[
+navigate] and link:#search[search] within a patch file.
+
+[[new-vs-old]]
+== New Review UI vs. Old Review UI
+
+There are some important conceptual differences between the old and
+new review UIs:
+
+- The old change screen directly shows all patch sets of the change.
+  With the new change screen only a single patch set is displayed;
+  users can switch between the patch sets by choosing another patch
+  set from the link:#patch-sets[Patch Sets] drop down panel in the
+  screen header.
+- On the old side-by-side diff screen, new comments are inserted by
+  double-clicking on a line. With the new side-by-side diff screen
+  double-click is used to select a word for commenting on it; there
+  are link:#add-inline-comment[several ways to insert new comments],
+  e.g. by selecting a code block and clicking on the popup comment
+  icon.
+
+Limitations of the new review UI:
+
+- The new side-by-side diff screen cannot render images.
+
+Users preferring the old review UI can link:#old-change-screen[
+configure the change view] in their preferences.
 
 GERRIT
 ------

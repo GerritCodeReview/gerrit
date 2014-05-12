@@ -117,6 +117,24 @@
     },
     {
       "key": {
+        "uuid": "4a8b1c70_b04b386b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritConstantsProperties.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-05-12T06:09:00Z",
+      "side": 1,
+      "message": "this file is not user specific. it should be @Singleton.  right?",
+      "parentUuid": "4a8b1c70_102244c2",
+      "revId": "ff708cc139c266543d9747d155593174347b9ff6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4a8b1c70_300ae83c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritConstantsProperties.java",
         "patchSetId": 10

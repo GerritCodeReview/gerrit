@@ -34,7 +34,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 public class PatchListKey implements Serializable {
-  static final long serialVersionUID = 16L;
+  static final long serialVersionUID = 17L;
 
   private transient ObjectId oldId;
   private transient ObjectId newId;

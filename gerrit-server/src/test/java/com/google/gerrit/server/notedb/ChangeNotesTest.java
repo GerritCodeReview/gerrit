@@ -21,6 +21,8 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.easymock.EasyMock.expect;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import com.google.common.collect.ImmutableList;
@@ -600,6 +602,19 @@ public class ChangeNotesTest {
     assertEquals(submitRecord("OK", null,
           submitLabel("Code-Review", "OK", changeOwner.getAccountId())),
         Iterables.getOnlyElement(notes.getSubmitRecords()));
+  }
+
+  @Test
+  public void emptyExceptSubject() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.commit();
+    assertNull(update.getRevision());
+
+    update = newUpdate(c, changeOwner);
+    update.setSubject("Create change");
+    update.commit();
+    assertNotNull(update.getRevision());
   }
 
   @Test

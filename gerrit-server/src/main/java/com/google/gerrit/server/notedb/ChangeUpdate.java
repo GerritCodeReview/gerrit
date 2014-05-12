@@ -148,6 +148,10 @@ public class ChangeUpdate extends VersionedMetaData {
     return ctl.getChange();
   }
 
+  public PatchSet.Id getPatchSetId() {
+    return psId;
+  }
+
   public IdentifiedUser getUser() {
     return (IdentifiedUser) ctl.getCurrentUser();
   }
@@ -183,7 +187,7 @@ public class ChangeUpdate extends VersionedMetaData {
 
   public void setPatchSetId(PatchSet.Id psId) {
     checkArgument(psId == null
-        || psId.getParentKey().equals(getChange().getKey()));
+        || psId.getParentKey().equals(getChange().getId()));
     this.psId = psId;
   }
 
@@ -361,7 +365,8 @@ public class ChangeUpdate extends VersionedMetaData {
   }
 
   private boolean isEmpty() {
-    return approvals.isEmpty()
+    return subject == null
+        && approvals.isEmpty()
         && reviewers.isEmpty()
         && status == null
         && submitRecords == null

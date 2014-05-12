@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.notedb;
 
-import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -30,8 +29,7 @@ import org.eclipse.jgit.lib.Config;
  */
 @Singleton
 public class NotesMigration {
-  @VisibleForTesting
-  static NotesMigration allEnabled() {
+  public static NotesMigration allEnabled() {
     Config cfg = new Config();
     cfg.setBoolean("notedb", null, "write", true);
     cfg.setBoolean("notedb", "patchSetApprovals", "read", true);

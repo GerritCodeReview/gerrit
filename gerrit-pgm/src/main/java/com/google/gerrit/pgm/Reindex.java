@@ -15,50 +15,26 @@
 package com.google.gerrit.pgm;
 
 import static com.google.gerrit.server.schema.DataSourceProvider.Context.MULTI_USER;
-import static com.google.inject.Scopes.SINGLETON;
 
-import com.google.common.cache.Cache;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import com.google.gerrit.common.ChangeHooks;
-import com.google.gerrit.common.DisabledChangeHooks;
-import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
-import com.google.gerrit.extensions.events.LifecycleListener;
-import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.lifecycle.LifecycleManager;
-import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.lucene.LuceneIndexModule;
+import com.google.gerrit.pgm.util.BatchGitModule;
+import com.google.gerrit.pgm.util.BatchProgramModule;
 import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.pgm.util.ThreadLimiter;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.rules.PrologModule;
-import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.account.AccountByEmailCacheImpl;
-import com.google.gerrit.server.account.AccountCacheImpl;
-import com.google.gerrit.server.account.CapabilityControl;
-import com.google.gerrit.server.account.GroupCacheImpl;
-import com.google.gerrit.server.account.GroupIncludeCacheImpl;
-import com.google.gerrit.server.cache.CacheRemovalListener;
-import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
-import com.google.gerrit.server.change.ChangeKindCacheImpl;
 import com.google.gerrit.server.change.MergeabilityChecker;
 import com.google.gerrit.server.change.MergeabilityChecksExecutor;
 import com.google.gerrit.server.change.MergeabilityChecksExecutor.Priority;
 import com.google.gerrit.server.change.PatchSetInserter;
-import com.google.gerrit.server.config.CanonicalWebUrl;
-import com.google.gerrit.server.config.CanonicalWebUrlProvider;
 import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.git.GitModule;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.WorkQueue;
-import com.google.gerrit.server.git.validators.CommitValidationListener;
-import com.google.gerrit.server.git.validators.CommitValidators;
-import com.google.gerrit.server.group.GroupModule;
 import com.google.gerrit.server.index.ChangeBatchIndexer;
 import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.ChangeSchemas;
@@ -67,26 +43,13 @@ import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.IndexModule.IndexType;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
 import com.google.gerrit.server.notedb.NoteDbModule;
-import com.google.gerrit.server.patch.PatchListCacheImpl;
-import com.google.gerrit.server.project.AccessControlModule;
-import com.google.gerrit.server.project.CommentLinkInfo;
-import com.google.gerrit.server.project.CommentLinkProvider;
-import com.google.gerrit.server.project.ProjectCacheImpl;
-import com.google.gerrit.server.project.ProjectState;
-import com.google.gerrit.server.project.SectionSortCache;
-import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.solr.SolrIndexModule;
-import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.AbstractModule;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Module;
-import com.google.inject.Provider;
 import com.google.inject.Provides;
-import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
-import com.google.inject.TypeLiteral;
 import com.google.inject.util.Providers;
 
 import org.eclipse.jgit.lib.Config;
@@ -95,7 +58,6 @@ import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.eclipse.jgit.util.io.NullOutputStream;
 import org.kohsuke.args4j.Option;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -159,8 +121,7 @@ public class Reindex extends SiteProgram {
 
   private Injector createSysInjector() {
     List<Module> modules = Lists.newArrayList();
-    modules.add(PatchListCacheImpl.module());
-    AbstractModule changeIndexModule;
+    Module changeIndexModule;
     switch (IndexModule.getIndexType(dbInjector)) {
       case LUCENE:
         changeIndexModule = new LuceneIndexModule(version, threads, outputBase);
@@ -172,39 +133,10 @@ public class Reindex extends SiteProgram {
         throw new IllegalStateException("unsupported index.type");
     }
     modules.add(changeIndexModule);
-    modules.add(new ReviewDbModule());
-    modules.add(new FactoryModule() {
-      @SuppressWarnings("rawtypes")
+    modules.add(dbInjector.getInstance(BatchProgramModule.class));
+    modules.add(new AbstractModule() {
       @Override
       protected void configure() {
-        // Plugins are not loaded and we're just running through each change
-        // once, so don't worry about cache removal.
-        bind(new TypeLiteral<DynamicSet<CacheRemovalListener>>() {})
-            .toInstance(DynamicSet.<CacheRemovalListener> emptySet());
-        bind(new TypeLiteral<DynamicMap<Cache<?, ?>>>() {})
-            .toInstance(DynamicMap.<Cache<?, ?>> emptyMap());
-        bind(new TypeLiteral<List<CommentLinkInfo>>() {})
-            .toProvider(CommentLinkProvider.class).in(SINGLETON);
-        bind(String.class).annotatedWith(CanonicalWebUrl.class)
-            .toProvider(CanonicalWebUrlProvider.class);
-        bind(IdentifiedUser.class)
-          .toProvider(Providers. <IdentifiedUser>of(null));
-        bind(CurrentUser.class).to(IdentifiedUser.class);
-        install(new AccessControlModule());
-        install(new DefaultCacheFactory.Module());
-        install(new GroupModule());
-        install(new PrologModule());
-        install(AccountByEmailCacheImpl.module());
-        install(AccountCacheImpl.module());
-        install(GroupCacheImpl.module());
-        install(GroupIncludeCacheImpl.module());
-        install(ProjectCacheImpl.module());
-        install(SectionSortCache.module());
-        install(ChangeKindCacheImpl.module());
-        factory(CapabilityControl.Factory.class);
-        factory(ChangeData.Factory.class);
-        factory(ProjectState.Factory.class);
-
         if (recheckMergeable) {
           install(new MergeabilityModule());
         } else {
@@ -226,61 +158,16 @@ public class Reindex extends SiteProgram {
     }
   }
 
-  private class ReviewDbModule extends LifecycleModule {
-    @Override
-    protected void configure() {
-      final SchemaFactory<ReviewDb> schema = dbInjector.getInstance(
-          Key.get(new TypeLiteral<SchemaFactory<ReviewDb>>() {}));
-      final List<ReviewDb> dbs = Collections.synchronizedList(
-          Lists.<ReviewDb> newArrayListWithCapacity(threads + 1));
-      final ThreadLocal<ReviewDb> localDb = new ThreadLocal<>();
-
-      bind(ReviewDb.class).toProvider(new Provider<ReviewDb>() {
-        @Override
-        public ReviewDb get() {
-          ReviewDb db = localDb.get();
-          if (db == null) {
-            try {
-              db = schema.open();
-              dbs.add(db);
-              localDb.set(db);
-            } catch (OrmException e) {
-              throw new ProvisionException("unable to open ReviewDb", e);
-            }
-          }
-          return db;
-        }
-      });
-      listener().toInstance(new LifecycleListener() {
-        @Override
-        public void start() {
-          // Do nothing.
-        }
-
-        @Override
-        public void stop() {
-          for (ReviewDb db : dbs) {
-            db.close();
-          }
-        }
-      });
-    }
-  }
-
   private static class MergeabilityModule extends FactoryModule {
     @Override
     public void configure() {
       factory(PatchSetInserter.Factory.class);
-      bind(ChangeHooks.class).to(DisabledChangeHooks.class);
       bind(ReplacePatchSetSender.Factory.class).toProvider(
           Providers.<ReplacePatchSetSender.Factory>of(null));
 
       factory(MergeUtil.Factory.class);
-      DynamicSet.setOf(binder(), GitReferenceUpdatedListener.class);
-      DynamicSet.setOf(binder(), CommitValidationListener.class);
-      factory(CommitValidators.Factory.class);
-      install(new GitModule());
       install(new NoteDbModule());
+      install(new BatchGitModule());
     }
 
     @Provides

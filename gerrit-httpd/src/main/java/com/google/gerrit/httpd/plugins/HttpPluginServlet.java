@@ -73,7 +73,6 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
 
 @Singleton
@@ -84,7 +83,7 @@ class HttpPluginServlet extends HttpServlet
   private static final Logger log
       = LoggerFactory.getLogger(HttpPluginServlet.class);
   private static final String PLUGINS_PREFIX = "/plugins/";
-  private static final String AUTHORIZED_PREFIX = "/a" + PLUGINS_PREFIX;
+  static final String AUTHORIZED_PREFIX = "/a" + PLUGINS_PREFIX;
 
   private final MimeUtilFileTypeRegistry mimeUtil;
   private final Provider<String> webUrl;
@@ -94,8 +93,7 @@ class HttpPluginServlet extends HttpServlet
   private final RestApiServlet managerApi;
 
   private List<Plugin> pending = Lists.newArrayList();
-  private String base;
-  private String authorizedBase;
+  private RequestWrapper wrapper;
   private final ConcurrentMap<String, PluginHolder> plugins
       = Maps.newConcurrentMap();
 
@@ -134,9 +132,7 @@ class HttpPluginServlet extends HttpServlet
   public synchronized void init(ServletConfig config) throws ServletException {
     super.init(config);
 
-    String path = config.getServletContext().getContextPath();
-    base = Strings.nullToEmpty(path) + PLUGINS_PREFIX;
-    authorizedBase = Strings.nullToEmpty(path) + AUTHORIZED_PREFIX;
+    wrapper = new RequestWrapper(config.getServletContext().getContextPath());
     for (Plugin plugin : pending) {
       install(plugin);
     }
@@ -182,7 +178,7 @@ class HttpPluginServlet extends HttpServlet
       }
 
       try {
-        ServletContext ctx = PluginServletContext.create(plugin, base + name);
+        ServletContext ctx = PluginServletContext.create(plugin, wrapper.getFullPath(name));
         filter.init(new WrappedFilterConfig(ctx));
       } catch (ServletException e) {
         log.warn(String.format("Plugin %s failed to initialize HTTP", name), e);
@@ -220,8 +216,7 @@ class HttpPluginServlet extends HttpServlet
       return;
     }
 
-    WrappedRequest wr = new WrappedRequest(req,
-        (isAuthorizedCall(req) ? authorizedBase : base) + name);
+    HttpServletRequest wr = wrapper.create(req, name);
     FilterChain chain = new FilterChain() {
       @Override
       public void doFilter(ServletRequest req, ServletResponse res)
@@ -234,11 +229,6 @@ class HttpPluginServlet extends HttpServlet
     } else {
       chain.doFilter(wr, res);
     }
-  }
-
-  private boolean isAuthorizedCall(HttpServletRequest req) {
-    return !Strings.isNullOrEmpty(req.getServletPath())
-        && req.getServletPath().startsWith(AUTHORIZED_PREFIX);
   }
 
   private static boolean isApiCall(HttpServletRequest req, List<String> parts) {
@@ -258,14 +248,12 @@ class HttpPluginServlet extends HttpServlet
       return;
     }
 
-    String uri = req.getRequestURI();
-    String ctx = req.getContextPath();
-    if (uri.length() <= ctx.length()) {
+    String file = req.getPathInfo();
+    if (Strings.isNullOrEmpty(file)) {
       Resource.NOT_FOUND.send(req, res);
       return;
     }
 
-    String file = uri.substring(ctx.length() + 1);
     ResourceKey key = new ResourceKey(holder.plugin, file);
     Resource rsc = resourceCache.getIfPresent(key);
     if (rsc != null) {
@@ -273,6 +261,7 @@ class HttpPluginServlet extends HttpServlet
       return;
     }
 
+    String uri = req.getRequestURI();
     if ("".equals(file)) {
       res.sendRedirect(uri + holder.docPrefix + "index.html");
       return;
@@ -673,34 +662,6 @@ class HttpPluginServlet extends HttpServlet
             attr, plugin.getName()), e);
         return null;
       }
-    }
-  }
-
-  private static class WrappedRequest extends HttpServletRequestWrapper {
-    private final String contextPath;
-
-    WrappedRequest(HttpServletRequest req, String contextPath) {
-      super(req);
-      this.contextPath = contextPath;
-    }
-
-    @Override
-    public String getContextPath() {
-      return contextPath;
-    }
-
-    @Override
-    public String getServletPath() {
-      return getRequestURI().substring(contextPath.length());
-    }
-
-    @Override
-    public String getRequestURI() {
-      String uri = super.getRequestURI();
-      if (uri.startsWith("/a/")) {
-        uri = uri.substring(2);
-      }
-      return uri;
     }
   }
 }

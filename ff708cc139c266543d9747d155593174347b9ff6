@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2a90a898_af80b938",
+        "filename": "gerrit-gwtui/BUCK",
+        "patchSetId": 10
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-05-12T08:05:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a8b1c70_b0325815",
+      "range": {
+        "startLine": 110,
+        "startChar": 0,
+        "endLine": 110,
+        "endChar": 2
+      },
+      "revId": "ff708cc139c266543d9747d155593174347b9ff6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2a90a898_cf23bdca",
         "filename": "gerrit-gwtui/BUCK",
         "patchSetId": 10
@@ -36,6 +60,30 @@
       "writtenOn": "2014-05-12T04:28:20Z",
       "side": 1,
       "message": "two line",
+      "range": {
+        "startLine": 111,
+        "startChar": 0,
+        "endLine": 111,
+        "endChar": 2
+      },
+      "revId": "ff708cc139c266543d9747d155593174347b9ff6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a90a898_4f86ed54",
+        "filename": "gerrit-gwtui/BUCK",
+        "patchSetId": 10
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-05-12T08:05:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a90a898_cf23bdca",
       "range": {
         "startLine": 111,
         "startChar": 0,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "2a90a898_6f83b143",
+        "filename": "gerrit-gwtui/BUCK",
+        "patchSetId": 10
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-05-12T08:05:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a8b1c70_5018cc8f",
+      "range": {
+        "startLine": 112,
+        "startChar": 5,
+        "endLine": 112,
+        "endChar": 75
+      },
+      "revId": "ff708cc139c266543d9747d155593174347b9ff6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2a90a898_ef2801a7",
         "filename": "gerrit-gwtui/BUCK",
         "patchSetId": 10
@@ -82,6 +154,30 @@
       "writtenOn": "2014-05-12T04:28:20Z",
       "side": 1,
       "message": "two line",
+      "range": {
+        "startLine": 113,
+        "startChar": 0,
+        "endLine": 113,
+        "endChar": 2
+      },
+      "revId": "ff708cc139c266543d9747d155593174347b9ff6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a8b1c70_d05a7c2c",
+        "filename": "gerrit-gwtui/BUCK",
+        "patchSetId": 10
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-05-12T08:05:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a90a898_ef2801a7",
       "range": {
         "startLine": 113,
         "startChar": 0,
@@ -153,6 +249,24 @@
     },
     {
       "key": {
+        "uuid": "2a90a898_2f8da96a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritConstantsProperties.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-05-12T08:05:14Z",
+      "side": 1,
+      "message": "Yes, Gerrit constant properties once loaded will be kept as immutable in a singleton, the same for all users.",
+      "parentUuid": "4a8b1c70_b0801839",
+      "revId": "ff708cc139c266543d9747d155593174347b9ff6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4a8b1c70_300ae83c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritConstantsProperties.java",
         "patchSetId": 10
@@ -182,6 +296,24 @@
       "side": 1,
       "message": "Yes, this would work without @Inject. But we prefer to have it for documentation purpose, see also [1]:\n\n\"If your class has no @Inject-annotated constructor, Guice will use a public, no-arguments constructor if it exists. Prefer the annotation, which documents that the type participates in dependency injection.\"\n\n [1] https://code.google.com/p/google-guice/wiki/Injections",
       "parentUuid": "4a8b1c70_300ae83c",
+      "revId": "ff708cc139c266543d9747d155593174347b9ff6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a90a898_0f90e585",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritConstantsProperties.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-05-12T08:05:14Z",
+      "side": 1,
+      "message": "Yes, agreed.",
+      "parentUuid": "2a90a898_0f2225c2",
       "revId": "ff708cc139c266543d9747d155593174347b9ff6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -235,6 +367,30 @@
     },
     {
       "key": {
+        "uuid": "4a8b1c70_506f6cca",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritTopMenus.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-05-12T08:05:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a8b1c70_50868c54",
+      "range": {
+        "startLine": 49,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 10
+      },
+      "revId": "ff708cc139c266543d9747d155593174347b9ff6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2a90a898_2f0a893c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritTopMenus.java",
         "patchSetId": 10
@@ -275,6 +431,48 @@
     },
     {
       "key": {
+        "uuid": "2a90a898_4f6fcdca",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritTopMenus.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-05-12T08:05:14Z",
+      "side": 1,
+      "message": "ListTopMenus isn\u0027t, so I would align with it for consistency.",
+      "parentUuid": "2a90a898_2f0a893c",
+      "revId": "ff708cc139c266543d9747d155593174347b9ff6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a90a898_6f6c11d5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritTopMenus.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-05-12T08:05:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a8b1c70_d04cbc87",
+      "range": {
+        "startLine": 63,
+        "startChar": 37,
+        "endLine": 63,
+        "endChar": 54
+      },
+      "revId": "ff708cc139c266543d9747d155593174347b9ff6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2a90a898_af32f914",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritTopMenus.java",
         "patchSetId": 10
@@ -286,6 +484,30 @@
       "writtenOn": "2014-05-12T04:28:20Z",
       "side": 1,
       "message": "if parts of functionality is used conditionaly, we ususaly use provider for underlying Guice binding. Change getPreferences var to be\n\n Provider\u003cGetPreferences\u003e peferences\n\nand replace the line 147 below.",
+      "range": {
+        "startLine": 81,
+        "startChar": 4,
+        "endLine": 84,
+        "endChar": 5
+      },
+      "revId": "ff708cc139c266543d9747d155593174347b9ff6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a90a898_ef5fa119",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritTopMenus.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-05-12T08:05:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a90a898_af32f914",
       "range": {
         "startLine": 81,
         "startChar": 4,
@@ -321,6 +543,30 @@
     },
     {
       "key": {
+        "uuid": "2a90a898_8f54d5ff",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritTopMenus.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-05-12T08:05:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a8b1c70_7015d056",
+      "range": {
+        "startLine": 147,
+        "startChar": 6,
+        "endLine": 147,
+        "endChar": 50
+      },
+      "revId": "ff708cc139c266543d9747d155593174347b9ff6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2a90a898_6f15f156",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ListTopMenus.java",
         "patchSetId": 10
@@ -332,6 +578,30 @@
       "writtenOn": "2014-05-12T04:28:20Z",
       "side": 1,
       "message": "private final Provider\u003cGerritTopMenus\u003e gerritTopMenus",
+      "range": {
+        "startLine": 30,
+        "startChar": 2,
+        "endLine": 30,
+        "endChar": 45
+      },
+      "revId": "ff708cc139c266543d9747d155593174347b9ff6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a8b1c70_9054f4ff",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ListTopMenus.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-05-12T08:05:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a90a898_6f15f156",
       "range": {
         "startLine": 30,
         "startChar": 2,
@@ -384,6 +654,30 @@
     },
     {
       "key": {
+        "uuid": "4a8b1c70_b059f836",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ListTopMenus.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-05-12T08:05:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a8b1c70_f051c020",
+      "range": {
+        "startLine": 42,
+        "startChar": 47,
+        "endLine": 42,
+        "endChar": 61
+      },
+      "revId": "ff708cc139c266543d9747d155593174347b9ff6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2a90a898_4f182d90",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ListTopMenus.java",
         "patchSetId": 10
@@ -395,6 +689,30 @@
       "writtenOn": "2014-05-12T04:28:20Z",
       "side": 1,
       "message": "Conditional use implies to use Provider.",
+      "range": {
+        "startLine": 51,
+        "startChar": 4,
+        "endLine": 53,
+        "endChar": 5
+      },
+      "revId": "ff708cc139c266543d9747d155593174347b9ff6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a90a898_af599936",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ListTopMenus.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-05-12T08:05:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a90a898_4f182d90",
       "range": {
         "startLine": 51,
         "startChar": 4,

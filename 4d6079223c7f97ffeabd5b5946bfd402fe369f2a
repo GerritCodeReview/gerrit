@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4a8b1c70_1097a468",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/RequestWrapper.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-12T15:18:25Z",
+      "side": 1,
+      "message": "Copyright header is missing.",
+      "revId": "4d6079223c7f97ffeabd5b5946bfd402fe369f2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a8b1c70_30942861",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/RequestWrapper.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-12T15:18:25Z",
+      "side": 1,
+      "message": "Does it need to be public?",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 6
+      },
+      "revId": "4d6079223c7f97ffeabd5b5946bfd402fe369f2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a90a898_cf1dfd54",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/RequestWrapper.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-12T15:18:25Z",
+      "side": 1,
+      "message": "Unnecessary empty line",
+      "revId": "4d6079223c7f97ffeabd5b5946bfd402fe369f2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a90a898_2f94c960",
+        "filename": "gerrit-httpd/src/test/java/com/google/gerrit/httpd/plugins/RequestWrapperTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-12T15:18:25Z",
+      "side": 1,
+      "message": "Copyright header is missing",
+      "revId": "4d6079223c7f97ffeabd5b5946bfd402fe369f2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a8b1c70_709ab091",
+        "filename": "gerrit-httpd/src/test/java/com/google/gerrit/httpd/plugins/RequestWrapperTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-12T15:18:25Z",
+      "side": 1,
+      "message": "Nit: Unnecessary empty line",
+      "revId": "4d6079223c7f97ffeabd5b5946bfd402fe369f2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

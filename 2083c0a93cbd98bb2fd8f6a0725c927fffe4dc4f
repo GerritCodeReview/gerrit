@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a90a898_afce7991",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritConstantsProperties.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-12T09:47:18Z",
+      "side": 1,
+      "message": "Why not use the class GerritConstantsProperties.class or even:\n\n  getClass().getResourceAsStream(GERRIT_CONSTANTS_PROPERTIES)",
+      "range": {
+        "startLine": 39,
+        "startChar": 8,
+        "endLine": 39,
+        "endChar": 28
+      },
+      "revId": "2083c0a93cbd98bb2fd8f6a0725c927fffe4dc4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a8b1c70_b0ced891",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritTopMenus.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-12T09:47:18Z",
+      "side": 1,
+      "message": "@Singleton annotation in previous ps was correct here and shouldn\u0027t be removed.",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 20
+      },
+      "revId": "2083c0a93cbd98bb2fd8f6a0725c927fffe4dc4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a8b1c70_50b44c10",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritTopMenus.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-12T09:47:18Z",
+      "side": 1,
+      "message": "Move this around line 104, where it is used?",
+      "range": {
+        "startLine": 71,
+        "startChar": 4,
+        "endLine": 71,
+        "endChar": 67
+      },
+      "revId": "2083c0a93cbd98bb2fd8f6a0725c927fffe4dc4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

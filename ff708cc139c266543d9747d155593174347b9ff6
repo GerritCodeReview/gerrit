@@ -135,6 +135,24 @@
     },
     {
       "key": {
+        "uuid": "4a8b1c70_b0801839",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritConstantsProperties.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-12T07:20:23Z",
+      "side": 1,
+      "message": "My comment about Singleton annotation here and in GerritTopMenus.java was wrong.",
+      "parentUuid": "4a8b1c70_b04b386b",
+      "revId": "ff708cc139c266543d9747d155593174347b9ff6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4a8b1c70_300ae83c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritConstantsProperties.java",
         "patchSetId": 10
@@ -181,6 +199,30 @@
       "writtenOn": "2014-05-12T04:28:20Z",
       "side": 1,
       "message": "This annotation is useless. That\u0027s because this bean is get injected into ListTopMenus and this one in TopMenuCollection, that are not singleton itself.\n\n(and it cannot be singleton at all, because you are accessing user specific menu preferences).",
+      "range": {
+        "startLine": 49,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 10
+      },
+      "revId": "ff708cc139c266543d9747d155593174347b9ff6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a8b1c70_50868c54",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritTopMenus.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-12T07:20:23Z",
+      "side": 1,
+      "message": "Please ignore this comment. It looks like Guice is smarter then other DI frameworks i am working with. It can correctly inject singleton in request scope beans; user context is solved by using providers (Provider\u003cCurrentUser\u003e).",
+      "parentUuid": "4a8b1c70_301f4877",
       "range": {
         "startLine": 49,
         "startChar": 0,

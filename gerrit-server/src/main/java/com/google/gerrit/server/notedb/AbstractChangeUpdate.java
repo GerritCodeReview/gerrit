@@ -71,6 +71,10 @@ public abstract class AbstractChangeUpdate extends VersionedMetaData {
     return (IdentifiedUser) ctl.getCurrentUser();
   }
 
+  public PatchSet.Id getPatchSetId() {
+    return psId;
+  }
+
   public void setPatchSetId(PatchSet.Id psId) {
     checkArgument(psId == null
         || psId.getParentKey().equals(getChange().getId()));

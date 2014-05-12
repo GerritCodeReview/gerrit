@@ -1052,6 +1052,8 @@ If `Slow` is selected all file contents are attached to the browser's
 DOM tree, which makes the rendering slow for large files. The advantage
 of this setting is that `Ctrl+F` can be used to search in the complete
 file.
++
+Large files that exceed 4000 lines will not be fully rendered.
 
 [[keyboard-shortcuts]]
 == Keyboard Shortcuts

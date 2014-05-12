@@ -60,10 +60,13 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
   static final Logger log = LoggerFactory.getLogger(PatchListLoader.class);
@@ -76,7 +79,7 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
   }
 
   @Override
-  public PatchList load(final PatchListKey key) throws Exception {
+  public PatchList load(final PatchListKey key) throws IOException {
     final Repository repo = repoManager.openRepository(key.projectKey);
     try {
       return readPatchList(key, repo);
@@ -150,18 +153,43 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
       df.setDetectRenames(true);
       List<DiffEntry> diffEntries = df.scan(aTree, bTree);
 
-      final int cnt = diffEntries.size();
-      final PatchListEntry[] entries = new PatchListEntry[1 + cnt];
-      entries[0] = newCommitMessage(cmp, repo, reader, //
-          againstParent ? null : aCommit, b);
+      Set<String> paths = key.getOldId() != null ? getPaths(key) : null;
+      int cnt = diffEntries.size();
+      List<PatchListEntry> entries = new ArrayList<>();
+      entries.add(newCommitMessage(cmp, repo, reader, //
+          againstParent ? null : aCommit, b));
       for (int i = 0; i < cnt; i++) {
-        FileHeader fh = df.toFileHeader(diffEntries.get(i));
-        entries[1 + i] = newEntry(aTree, fh);
+        DiffEntry diffEntry = diffEntries.get(i);
+        if (paths != null
+            && (!paths.contains(diffEntry.getNewPath()) &&
+                !paths.contains(diffEntry.getOldPath()))) {
+          continue;
+        }
+        FileHeader fh = df.toFileHeader(diffEntry);
+        entries.add(newEntry(aTree, fh));
       }
-      return new PatchList(a, b, againstParent, entries);
+      return new PatchList(a, b, againstParent,
+          entries.toArray(new PatchListEntry[entries.size()]));
     } finally {
       reader.release();
     }
+  }
+
+  private Set<String> getPaths(PatchListKey key) throws IOException {
+    Set<String> paths = new HashSet<>();
+    PatchList listA =
+        load(new PatchListKey(key.projectKey, null, key.getOldId(),
+            key.getWhitespace()));
+    for (PatchListEntry e : listA.getPatches()) {
+      paths.add(e.getNewName());
+    }
+    PatchList listB =
+        load(new PatchListKey(key.projectKey, null, key.getNewId(),
+            key.getWhitespace()));
+    for (PatchListEntry e : listB.getPatches()) {
+      paths.add(e.getNewName());
+    }
+    return paths;
   }
 
   private PatchListEntry newCommitMessage(final RawTextComparator cmp,

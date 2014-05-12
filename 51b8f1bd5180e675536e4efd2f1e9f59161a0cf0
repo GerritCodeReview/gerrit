@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a90a898_cfa89db0",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1095,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-12T12:47:29Z",
+      "side": 1,
+      "message": "Point is missing or should be removed on the previous line.\n\nBut this is not quite correct. CM3 can be called with panel suffix:\n\n https://gerrit-review.googlesource.com/#/c/57087/1/Documentation/user-review-ui.txt,unified\n\nAnd Preferences has also this drop down box:\n\n Diff View (New Change Screen): Side By Side | Unified Diff",
+      "revId": "51b8f1bd5180e675536e4efd2f1e9f59161a0cf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

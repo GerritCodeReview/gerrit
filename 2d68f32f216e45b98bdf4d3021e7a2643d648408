@@ -22,6 +22,30 @@
       "revId": "2d68f32f216e45b98bdf4d3021e7a2643d648408",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a8b1c70_7079504e",
+        "filename": "gerrit-gwtexpui/src/main/java/com/google/gwtexpui/clippy/client/CopyableLabel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-13T08:19:09Z",
+      "side": 1,
+      "message": "Sounds good to me.",
+      "parentUuid": "6a6f0077_29f12d06",
+      "range": {
+        "startLine": 197,
+        "startChar": 20,
+        "endLine": 197,
+        "endChar": 66
+      },
+      "revId": "2d68f32f216e45b98bdf4d3021e7a2643d648408",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

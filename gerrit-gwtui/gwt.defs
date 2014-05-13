@@ -12,6 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from multiprocessing import cpu_count
+
 BROWSERS = [
   'chrome',
   'firefox',
@@ -26,20 +28,16 @@ ALIASES = {
 }
 MODULE = 'com.google.gerrit.GerritGwtUI'
 
-DEBUG_OPTS = [
-  '-style', 'PRETTY',
-  '-optimize', '0',
-]
-
-APP_DEPS = [':ui_module']
-
 def gwt_user_agent_permutations(
     name,
     module_name,
-    module_target,
-    compiler_opts = [],
+    modules,
+    style = 'PRETTY',
+    optimize = 0,
+    draft_compile = True,
+    module_deps = [],
     deps = [],
-    browsers = [],
+    browsers = BROWSERS,
     visibility = []):
   for ua in browsers:
     impl = ua
@@ -47,12 +45,12 @@ def gwt_user_agent_permutations(
       impl = ALIASES[ua]
     xml = ''.join([
       "<module rename-to='%s'>" % module_name,
-      "<inherits name='%s'/>" % module_target,
+      "<inherits name='%s'/>" % modules[0],
       "<set-property name='user.agent' value='%s'/>" % impl,
       "<set-property name='locale' value='default'/>",
       "</module>",
     ])
-    gwt = '%s_%s.gwt.xml' % (module_target.replace('.', '/'), ua)
+    gwt = '%s_%s.gwt.xml' % (modules[0].replace('.', '/'), ua)
     jar = '%s_%s.gwtxml.jar' % (name, ua)
     genrule(
       name = '%s_%s_gwtxml_gen' % (name, ua),
@@ -65,13 +63,21 @@ def gwt_user_agent_permutations(
     prebuilt_jar(
       name = '%s_%s_gwtxml_lib' % (name, ua),
       binary_jar = genfile(jar),
+      gwt_jar = genfile(jar),
       deps = [':%s_%s_gwtxml_gen' % (name, ua)],
     )
-    gwt_application(
+    gwt_binary(
       name = '%s_%s' % (name, ua),
-      module_target = module_target + '_' + ua,
-      compiler_opts = compiler_opts,
-      deps = deps + [':%s_%s_gwtxml_lib' % (name, ua)],
+      modules = [modules[0] + '_' + ua],
+      style = style,
+      optimize = optimize,
+      draft_compile = draft_compile,
+      module_deps = module_deps + [':%s_%s_gwtxml_lib' % (name, ua)],
+      deps = deps,
+      local_workers = cpu_count(),
+      strict = True,
+      experimental_args = GWT_COMPILER_ARGS,
+      vm_args = GWT_JVM_ARGS,
       visibility = visibility,
     )
 

@@ -2,6 +2,75 @@
   "comments": [
     {
       "key": {
+        "uuid": "ea5a10dc_85f842e7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-13T14:40:45Z",
+      "side": 1,
+      "message": "Why re you putting this all together in one change? These should be two independent changes:\n\n* REST API extension + documentation + unit test\n* UI extension",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 56
+      },
+      "revId": "0c99ed85f7af8990dbf248ffa981f34687cf5f55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a8b1c70_70e5d0b0",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/CommitInfo.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-13T14:40:45Z",
+      "side": 1,
+      "message": "This should be documented.",
+      "range": {
+        "startLine": 26,
+        "startChar": 17,
+        "endLine": 26,
+        "endChar": 34
+      },
+      "revId": "0c99ed85f7af8990dbf248ffa981f34687cf5f55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea5a10dc_e503362d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfo.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-13T14:40:45Z",
+      "side": 1,
+      "message": "This is wrong. This should be:\n\n  /*-{ return this.other_branch_commit; }-*/;\n\nThat\u0027s because on server we are using CamelNamingConvention and on the client underscore_naming_convention.",
+      "range": {
+        "startLine": 255,
+        "startChar": 64,
+        "endLine": 255,
+        "endChar": 86
+      },
+      "revId": "0c99ed85f7af8990dbf248ffa981f34687cf5f55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0a75a43d_2e3927c5",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchSetInfoFactory.java",
         "patchSetId": 9

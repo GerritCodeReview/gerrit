@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4a8b1c70_f019c04f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileInfoJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-13T05:51:23Z",
+      "side": 1,
+      "message": "Good idea, I will evaluate if I can implement it there :)",
+      "parentUuid": "2a90a898_6fddf125",
+      "revId": "c2fadebd16802e5c881a47793d306f37803f8398",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0a75a43d_6e3e4fd9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileInfoJson.java",
         "patchSetId": 1
@@ -138,6 +156,42 @@
       "side": 1,
       "message": "\u003e\" I never heard that somebody wants to see more files...\"\n\n I like this feature, I dislike to see more files too.\n My concern here is NOT about files, it is about code blocks in\n some file, sometimes there are some code blocks (Add, Delete,  \n Update)  are not created in that 2 patch-sets used for diff, but by  \n other changes of other authors and are shown when diff happens  \n between those rebased patchsets. I care it because users may  \n report these blocks as bug because those blocks are not  \n produced by him. \n yes this can be resolved in other changes and let this change go in firstly.",
       "parentUuid": "4a8b1c70_3052e8ef",
+      "revId": "c2fadebd16802e5c881a47793d306f37803f8398",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a8b1c70_d014bc1a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileInfoJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-13T05:51:23Z",
+      "side": 1,
+      "message": "Did you try it with the old change screen before it was migrated to use the REST API? I believe it was better back then.\n\nI would not like to add a button for this unless I\u0027m sure that there are really many users wanting this feature. The UI is already complicated enough and we should avoid adding more buttons if possible. Let\u0027s only add this button when we are getting this kind of feedback for the new change screen.",
+      "parentUuid": "2a90a898_cfebbdc9",
+      "revId": "c2fadebd16802e5c881a47793d306f37803f8398",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a90a898_0fea25c1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileInfoJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-13T05:51:23Z",
+      "side": 1,
+      "message": "Yes, I would love to have this fixed as well. But I don\u0027t think that this is an easy fix that could be done on a stable branch. This is rather something we should address on master, but I\u0027m also not having time to look into this :(",
+      "parentUuid": "4a8b1c70_f0f0e0b9",
       "revId": "c2fadebd16802e5c881a47793d306f37803f8398",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

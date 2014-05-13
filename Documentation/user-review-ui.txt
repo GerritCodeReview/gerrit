@@ -489,7 +489,8 @@ means the relationship between the changes can be inferred from the
 position of the changes in the list. Changes listed above the current
 change are descendants; changes below the current change are ancestors.
 +
-This tab is only available for open changes.
+For merged changes this tab is only shown if there are open
+descendants.
 +
 image::images/user-review-ui-change-screen-related-changes.png[width=800, link="images/user-review-ui-change-screen-related-changes.png"]
 +
@@ -1099,6 +1100,12 @@ new review UIs:
 Limitations of the new review UI:
 
 - The new side-by-side diff screen cannot render images.
+
+- Unified diff view is missing:
++
+By setting `Diff View (New Change Screen)` in the user preferences to
+`Unified Diff` the new change screen can be configured to open the file
+diffs in the old unified diff view.
 
 Users preferring the old review UI can link:#old-change-screen[
 configure the change view] in their preferences.

@@ -174,6 +174,14 @@ public class RelatedChanges extends TabPanel {
       setForOpenChange(info, revision);
     }
 
+    ChangeApi.revision(info.legacy_id().get(), revision).view("related")
+        .get(new TabCallback<RelatedInfo>(Tab.RELATED_CHANGES, info.project(), revision) {
+              @Override
+              public JsArray<ChangeAndCommit> convert(RelatedInfo result) {
+                return result.changes();
+              }
+            });
+
     StringBuilder cherryPicksQuery = new StringBuilder();
     cherryPicksQuery.append(op("project", info.project()));
     cherryPicksQuery.append(" ").append(op("change", info.change_id()));
@@ -197,14 +205,6 @@ public class RelatedChanges extends TabPanel {
   }
 
   private void setForOpenChange(final ChangeInfo info, final String revision) {
-    ChangeApi.revision(info.legacy_id().get(), revision).view("related")
-        .get(new TabCallback<RelatedInfo>(Tab.RELATED_CHANGES, info.project(), revision) {
-              @Override
-              public JsArray<ChangeAndCommit> convert(RelatedInfo result) {
-                return result.changes();
-              }
-            });
-
     if (info.mergeable()) {
       StringBuilder conflictsQuery = new StringBuilder();
       conflictsQuery.append("status:open");

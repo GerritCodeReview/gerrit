@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0a75a43d_ee223f96",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/LabelTypeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-13T07:22:12Z",
+      "side": 1,
+      "message": "the commit created here needs to have a Change-Id in its commit message.",
+      "range": {
+        "startLine": 240,
+        "startChar": 0,
+        "endLine": 242,
+        "endChar": 62
+      },
+      "revId": "1f8dcfe5f100d66b01d7a0e10dfabef9698a9b07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

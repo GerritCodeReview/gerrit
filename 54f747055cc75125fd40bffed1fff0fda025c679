@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a90a898_2f8369f2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-05-13T08:46:56Z",
+      "side": 1,
+      "message": "for performance concern, should we add checking : \nonly when patchset A and B have not same parent(s), we run getPaths() and do this filter operation here?",
+      "revId": "54f747055cc75125fd40bffed1fff0fda025c679",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -52,6 +52,24 @@
       "revId": "c2fadebd16802e5c881a47793d306f37803f8398",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a90a898_6f58910f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileInfoJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-13T04:43:07Z",
+      "side": 1,
+      "message": "I don\u0027t think that this needs to be a user preference. With this change the file list is now similar to how it was with the old change screen and for this screen I never heard that somebody wants to see more files when comparing patch sets after an rebase. If really needed we can add a user preference later, but doing it on a stable branch would be difficult. Adding a new user preference requires a schema migration, and there have been already schema migrations in master since stable-2.9 was branched off...",
+      "parentUuid": "2a90a898_4f5b4d0d",
+      "revId": "c2fadebd16802e5c881a47793d306f37803f8398",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

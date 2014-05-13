@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ea713054_ad599d36",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChanges.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-13T01:09:08Z",
+      "side": 1,
+      "message": "Just noticed that the indentation is wrong here.  Fixing in a follow-up commit.",
+      "revId": "68cfe47339fce299adf3838650d666149fd9ce70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

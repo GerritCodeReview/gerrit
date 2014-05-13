@@ -29,6 +29,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.Window;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
 import com.google.gwtexpui.globalkey.client.NpTextBox;
 import com.google.gwtjsonrpc.common.VoidResult;
@@ -97,6 +98,10 @@ class UsernameField extends Composite {
     }
     if (newName != null && !newName.matches(Account.USER_NAME_PATTERN)) {
       invalidUserName();
+      return;
+    }
+
+    if (!Window.confirm("Setting the username is permanent. Are you sure?")) {
       return;
     }
 

@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "ea5a10dc_c5239aca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-13T16:06:46Z",
+      "side": 1,
+      "message": "Changes in SubmitAction.java should be in separate change. Moreover you are missing acceptance unit test. For the new functionality we require acceptance unit tests to be provided, e. g. conduct such a case programmatically and ensure that REST endpoint correctly returns otherBranchCommit\u003dtrue. See examples in gerrit-acceptance-tests package.\n\nIn follow up change that would depend on this change you should add your UI changes (in SubmitAction.java).",
+      "parentUuid": "4a8b1c70_10f2447c",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 56
+      },
+      "revId": "0c99ed85f7af8990dbf248ffa981f34687cf5f55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4a8b1c70_70e5d0b0",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/CommitInfo.java",
         "patchSetId": 9

@@ -42,6 +42,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
@@ -56,6 +57,7 @@ class CommitBox extends Composite {
   }
 
   @UiField Style style;
+  @UiField Image mergeCommit;
   @UiField CopyableLabel commitName;
   @UiField TableCellElement webLinkCell;
   @UiField InlineHyperlink authorNameEmail;
@@ -95,6 +97,7 @@ class CommitBox extends Composite {
     RevisionInfo revInfo = change.revision(revision);
     CommitInfo commit = revInfo.commit();
 
+    mergeCommit.setVisible(revInfo.commit().parents().length() > 1);
     commitName.setText(revision);
     idText.setText("Change-Id: " + change.change_id());
     idText.setPreviewText(change.change_id());

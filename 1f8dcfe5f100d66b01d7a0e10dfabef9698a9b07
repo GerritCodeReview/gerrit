@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "0a75a43d_ae2c3787",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/LabelTypeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-13T07:34:16Z",
+      "side": 1,
+      "message": "Ah, yes.  The change has a Change-Id even though it isn\u0027t mentioned in the commit message in ps1.",
+      "parentUuid": "4a8b1c70_70b4f0d7",
+      "range": {
+        "startLine": 240,
+        "startChar": 0,
+        "endLine": 242,
+        "endChar": 62
+      },
+      "revId": "1f8dcfe5f100d66b01d7a0e10dfabef9698a9b07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4a8b1c70_10b1e4e6",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/LabelTypeIT.java",
         "patchSetId": 3
@@ -60,6 +84,30 @@
       "writtenOn": "2014-05-13T07:30:42Z",
       "side": 1,
       "message": "The problem seems to be in change kind in ApprovalCopier line 119, ChangeKind \u003d\u003d REWORK and canCopy() returns false on line 165:\n\n  return (type.isCopyAllScoresOnTrivialRebase() \u0026\u0026 kind \u003d\u003d TRIVIAL_REBASE)\n  || (type.isCopyAllScoresIfNoCodeChange() \u0026\u0026 kind \u003d\u003d NO_CODE_CHANGE);",
+      "range": {
+        "startLine": 255,
+        "startChar": 12,
+        "endLine": 255,
+        "endChar": 27
+      },
+      "revId": "1f8dcfe5f100d66b01d7a0e10dfabef9698a9b07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea713054_6d2f357a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/LabelTypeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-13T07:34:16Z",
+      "side": 1,
+      "message": "Because the commit message was changed?",
+      "parentUuid": "4a8b1c70_10b1e4e6",
       "range": {
         "startLine": 255,
         "startChar": 12,

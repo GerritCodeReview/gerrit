@@ -145,6 +145,30 @@
     },
     {
       "key": {
+        "uuid": "ea5a10dc_05f452f5",
+        "filename": "gerrit-gwtexpui/src/main/java/com/google/gwtexpui/clippy/client/CopyableLabel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-13T13:59:28Z",
+      "side": 1,
+      "message": "As mentioned by Doug and confirmed here, The whole hiding construct is broken on Chrome. That why blur (focus lost part) is there. So on Chrome it would be possible to copy nutlike times, though.",
+      "parentUuid": "4a8b1c70_f0f8e060",
+      "range": {
+        "startLine": 187,
+        "startChar": 6,
+        "endLine": 194,
+        "endChar": 60
+      },
+      "revId": "2d68f32f216e45b98bdf4d3021e7a2643d648408",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6a6f0077_29f12d06",
         "filename": "gerrit-gwtexpui/src/main/java/com/google/gwtexpui/clippy/client/CopyableLabel.java",
         "patchSetId": 1

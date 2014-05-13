@@ -16,21 +16,28 @@ package com.google.gerrit.acceptance.api.change;
 
 import static org.junit.Assert.assertEquals;
 
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Sets;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
+import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeStatus;
+import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.reviewdb.client.Account;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.Constants;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.Set;
 
 @NoHttpd
 public class ChangeIT extends AbstractDaemonTest {
@@ -101,15 +108,25 @@ public class ChangeIT extends AbstractDaemonTest {
         .rebase();
   }
 
+  private static Set<Account.Id> getReviewers(ChangeInfo ci) {
+    Set<Account.Id> result = Sets.newHashSet();
+    for (LabelInfo li : ci.labels.values()) {
+      for (ApprovalInfo ai : li.all) {
+        result.add(new Account.Id(ai._accountId));
+      }
+    }
+    return result;
+  }
+
   @Test
   public void addReviewer() throws GitAPIException,
       IOException, RestApiException {
     PushOneCommit.Result r = createChange();
     AddReviewerInput in = new AddReviewerInput();
     in.reviewer = user.email;
-    gApi.changes()
-        .id("p~master~" + r.getChangeId())
-        .addReviewer(in);
+    ChangeApi cApi = gApi.changes().id("p~master~" + r.getChangeId());
+    cApi.addReviewer(in);
+    assertEquals(ImmutableSet.of(user.id), getReviewers(cApi.get()));
   }
 
   @Test

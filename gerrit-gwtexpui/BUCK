@@ -74,12 +74,12 @@ java_test(
     'src/test/java/com/google/gwtexpui/safehtml/client/**/*.java',
   ]),
   deps = [
-    ':SafeHtml_lib',
+    ':SafeHtml',
     '//lib:junit',
     '//lib/gwt:user',
     '//lib/gwt:dev',
   ],
-  source_under_test = [':SafeHtml_lib'],
+  source_under_test = [':SafeHtml'],
 )
 
 gwt_module(

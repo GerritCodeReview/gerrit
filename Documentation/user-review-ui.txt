@@ -107,7 +107,8 @@ is also a link to the commit in the Git web browser.
 
 image::images/user-review-ui-change-screen-commit-info.png[width=800, link="images/user-review-ui-change-screen-commit-info.png"]
 
-For merge commits also the parent commits are shown.
+If a merge commit is viewed this is highlighted by an icon. In this
+case also the parent commits are shown.
 
 image::images/user-review-ui-change-screen-commit-info-merge-commit.png[width=800, link="images/user-review-ui-change-screen-commit-info-merge-commit.png"]
 

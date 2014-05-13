@@ -213,6 +213,30 @@
       "revId": "1f8dcfe5f100d66b01d7a0e10dfabef9698a9b07",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a8b1c70_90c87431",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/LabelTypeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-13T11:32:29Z",
+      "side": 1,
+      "message": "You pasted a wrong link. In this change [1] Edwin provided a detailed explanation for why TRIVIAL_REBASE + COMMIT_MESSAGE_CHANGE \u003d REWORK and not NO_CODE_CHANGE. That was exactly my question. Moreover i think we can preserve this test to test just that, and add another test where the commit message is the same and where change kind would (hopefully) be TRIVIAL_REBASE.\n\n[1] https://gerrit-review.googlesource.com/#/c/54941/6//COMMIT_MSG",
+      "parentUuid": "2a90a898_afb439c2",
+      "range": {
+        "startLine": 255,
+        "startChar": 12,
+        "endLine": 255,
+        "endChar": 27
+      },
+      "revId": "1f8dcfe5f100d66b01d7a0e10dfabef9698a9b07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

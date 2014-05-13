@@ -21,7 +21,10 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.common.data.LabelType;
+import com.google.gerrit.extensions.api.changes.ChangeApi;
+import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -227,6 +230,34 @@ public class LabelTypeIT extends AbstractDaemonTest {
     assertApproval(r3, 1);
   }
 
+  @Test
+  public void copyAllScoresOnTrivialRebaseAndCherryPick() throws Exception {
+    codeReview.setCopyAllScoresOnTrivialRebase(true);
+    saveLabelConfig();
+
+    PushOneCommit push = pushFactory.create(db, admin.getIdent());
+    PushOneCommit.Result r1 = push.to(git, "refs/for/master");
+
+    git.checkout().setName(r1.getCommit().name()).call();
+
+    push = pushFactory.create(db, admin.getIdent(),
+        "non-conflicting", "b.txt", "other contents");
+    PushOneCommit.Result r2 = push.to(git, "refs/for/master");
+
+    revision(r2).review(ReviewInput.recommend());
+
+    CherryPickInput in = new CherryPickInput();
+    in.destination = "master";
+    in.message = "rebase on master";
+
+    doAssertApproval(1,
+        gApi.changes()
+            .id(r2.getChangeId())
+            .revision(r2.getCommit().name())
+            .cherryPick(in)
+            .get());
+  }
+
   private void saveLabelConfig() throws Exception {
     ProjectConfig cfg = projectCache.checkedGet(allProjects).getConfig();
     cfg.getLabelSections().clear();
@@ -264,6 +295,10 @@ public class LabelTypeIT extends AbstractDaemonTest {
     // Don't use asserts from PushOneCommit so we can test the round-trip
     // through JSON instead of querying the DB directly.
     ChangeInfo c = get(r.getChangeId());
+    doAssertApproval(expected, c);
+  }
+
+  private void doAssertApproval(int expected, ChangeInfo c) {
     LabelInfo cr = c.labels.get("Code-Review");
     assertEquals(-1, (int) cr.defaultValue);
     assertEquals(1, cr.all.size());

@@ -16,6 +16,29 @@
       "revId": "54f747055cc75125fd40bffed1fff0fda025c679",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a90a898_cf709d63",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-13T08:52:18Z",
+      "side": 1,
+      "message": "Implement it in functional way?\n\n return Iterables.transform(Sets.union(loadA(...), loadB(...)),\n    new Function() {...});",
+      "range": {
+        "startLine": 179,
+        "startChar": 0,
+        "endLine": 192,
+        "endChar": 17
+      },
+      "revId": "54f747055cc75125fd40bffed1fff0fda025c679",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

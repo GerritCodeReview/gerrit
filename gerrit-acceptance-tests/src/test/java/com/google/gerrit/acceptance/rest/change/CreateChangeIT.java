@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.rest.change;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
@@ -33,7 +34,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
     ci.project = project.get();
     RestResponse r = adminSession.post("/changes/", ci);
     assertEquals(HttpStatus.SC_BAD_REQUEST, r.getStatusCode());
-    r.getEntityContent().contains("branch must be non-empty");
+    assertTrue(r.getEntityContent().contains("branch must be non-empty"));
   }
 
   @Test
@@ -43,7 +44,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
     ci.branch = "master";
     RestResponse r = adminSession.post("/changes/", ci);
     assertEquals(HttpStatus.SC_BAD_REQUEST, r.getStatusCode());
-    r.getEntityContent().contains("commit message must be non-empty");
+    assertTrue(r.getEntityContent().contains("commit message must be non-empty"));
   }
 
   @Test
@@ -51,7 +52,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
     ChangeInfo ci = newChangeInfo(ChangeStatus.SUBMITTED);
     RestResponse r = adminSession.post("/changes/", ci);
     assertEquals(HttpStatus.SC_BAD_REQUEST, r.getStatusCode());
-    r.getEntityContent().contains("unsupported change status");
+    assertTrue(r.getEntityContent().contains("unsupported change status"));
   }
 
   @Test

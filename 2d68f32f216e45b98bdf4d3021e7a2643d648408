@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "4a8b1c70_906ab46b",
+        "filename": "gerrit-gwtexpui/src/main/java/com/google/gwtexpui/clippy/client/CopyableLabel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-13T08:37:29Z",
+      "side": 1,
+      "message": "This looks weird to me. So we are adding a KeyPressHandler that each time that Ctrl-c/Ctrl-x is pressed is adding a new KeyUpHandler that then hides the text box? Why not simply adding the KeyUpHandler directly to the textBox without having a KeyPressHandler?",
+      "range": {
+        "startLine": 187,
+        "startChar": 6,
+        "endLine": 194,
+        "endChar": 60
+      },
+      "revId": "2d68f32f216e45b98bdf4d3021e7a2643d648408",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6a6f0077_29f12d06",
         "filename": "gerrit-gwtexpui/src/main/java/com/google/gwtexpui/clippy/client/CopyableLabel.java",
         "patchSetId": 1

@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "2a90a898_6fddf125",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileInfoJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-05-13T05:38:43Z",
+      "side": 1,
+      "message": "why not implement this feature from PatchListLoader.java? \nto make sure any diff result between rebased patch-sets will enjoy this feature.",
+      "revId": "c2fadebd16802e5c881a47793d306f37803f8398",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0a75a43d_6e3e4fd9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileInfoJson.java",
         "patchSetId": 1

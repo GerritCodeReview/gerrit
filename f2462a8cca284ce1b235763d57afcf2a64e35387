@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ea713054_0d3c71b4",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-13T12:07:24Z",
+      "side": 1,
+      "message": "I think it would be better to start a new paragraph here.",
+      "range": {
+        "startLine": 279,
+        "startChar": 9,
+        "endLine": 279,
+        "endChar": 10
+      },
+      "revId": "f2462a8cca284ce1b235763d57afcf2a64e35387",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

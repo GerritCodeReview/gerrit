@@ -8,14 +8,16 @@ Will it fit in my work flow and in my organization?
 
 == What is Gerrit?
 
-I assume that if you're reading this then you're already convinced of
-the benefits of code review in general but want some technical support
-to make it easy. Code reviews mean different things to different people.
-To some it's a formal meeting with a projector and an entire team
-going through the code line by line. To others it's getting someone to
-glance over the code before it is committed.
+It is assumed that if you're reading this then you're already convinced
+of the benefits of code review in general but want some technical support
+to make it easy.
 
-Gerrit is intended to provide a light weight framework for reviewing
+Code reviews mean different things to different people. To some it's a
+formal meeting with a projector and an entire team going through the code
+line by line. To others it's getting someone to glance over the code before
+it is committed.
+
+Gerrit is intended to provide a lightweight framework for reviewing
 every commit before it is accepted into the code base. Changes are
 uploaded to Gerrit but don't actually become a part of the project
 until they've been reviewed and accepted. In many ways this is simply
@@ -159,8 +161,7 @@ at the diff of your change, add some comments explaining what you did
 and why, you may even add a list of people that should review the change.
 
 Reviewers can find changes that they want to review in any number of
-ways. Gerrit has a capable
-link:user-search.html[search]
+ways. Gerrit has a capable link:user-search.html[search]
 that allows project leaders (or anyone else) to find changes that need
 to be reviewed. Users can also setup watches on Gerrit projects with a
 search expression, this causes Gerrit to notify them of matching
@@ -304,7 +305,7 @@ a git branch. So all the reviewers need to do is fetch and checkout that
 branch from Gerrit and they will have the change.
 
 We don't even need to think about it that hard, if you look at the
-earlier screen shots of the Gerrit Code Review Screen you'll notice a
+earlier screenshots of the Gerrit Code Review Screen you'll notice a
 _download_ command. All we need to do to get the change is copy
 paste this command and run it in our Gerrit checkout.
 

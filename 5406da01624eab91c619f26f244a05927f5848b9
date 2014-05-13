@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4a8b1c70_b0a1f899",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/LabelTypeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-13T07:19:10Z",
+      "side": 1,
+      "message": "Still broken:\n\n  java.lang.AssertionError: expected:\u003c1\u003e but was:\u003c0\u003e",
+      "range": {
+        "startLine": 252,
+        "startChar": 4,
+        "endLine": 252,
+        "endChar": 23
+      },
+      "revId": "5406da01624eab91c619f26f244a05927f5848b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

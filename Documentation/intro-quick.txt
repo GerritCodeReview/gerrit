@@ -265,14 +265,21 @@ Delta compression using up to 8 threads.
 Compressing objects: 100% (2/2), done.
 Writing objects: 100% (3/3), 546 bytes, done.
 Total 3 (delta 0), reused 0 (delta 0)
+remote: Processing changes: updated: 1, done
+remote:
+remote: Updated Changes:
+remote:   http://gerrithost:8080/68
+remote:
 To ssh://gerrithost:29418/RecipeBook.git
  * [new branch]      HEAD -> refs/for/master
 ----
 
-Note that the output is slightly different this time around. We don't
-get told about a new review because we're adding to an existing
-review. Having uploaded the reworked commit we can go back into the
-Gerrit web interface and look at our change.
+Note that the output is slightly different this time around. Since
+we're adding to an existing review it tells us that the change was
+updated.
+
+Having uploaded the reworked commit we can go back into the Gerrit web
+interface and look at our change.
 
 .Reviewing the Rework
 image::images/intro-quick-review-2-patches.jpg[Reviewing the Rework]

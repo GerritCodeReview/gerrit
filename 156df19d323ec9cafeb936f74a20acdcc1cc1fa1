@@ -39,6 +39,30 @@
       "revId": "156df19d323ec9cafeb936f74a20acdcc1cc1fa1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a75a43d_8e405b1a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-05-13T16:35:27Z",
+      "side": 1,
+      "message": "I\u0027m not opposed to String.format in general but I don\u0027t think it increases readability in this case.",
+      "parentUuid": "4a8b1c70_50320ce7",
+      "range": {
+        "startLine": 285,
+        "startChar": 14,
+        "endLine": 285,
+        "endChar": 75
+      },
+      "revId": "156df19d323ec9cafeb936f74a20acdcc1cc1fa1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

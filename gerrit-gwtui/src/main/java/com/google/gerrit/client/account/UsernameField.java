@@ -14,6 +14,8 @@
 
 package com.google.gerrit.client.account;
 
+import com.google.gerrit.client.ConfirmationCallback;
+import com.google.gerrit.client.ConfirmationDialog;
 import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
@@ -31,6 +33,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
 import com.google.gwtexpui.globalkey.client.NpTextBox;
+import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 import com.google.gwtjsonrpc.common.VoidResult;
 
 class UsernameField extends Composite {
@@ -59,7 +62,7 @@ class UsernameField extends Composite {
         @Override
         public void onKeyPress(KeyPressEvent event) {
           if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
-            doSetUserName();
+            confirmSetUserName();
           }
         }
       });
@@ -70,7 +73,7 @@ class UsernameField extends Composite {
       setUserName.addClickHandler(new ClickHandler() {
         @Override
         public void onClick(final ClickEvent event) {
-          doSetUserName();
+          confirmSetUserName();
         }
       });
       new OnEditEnabler(setUserName, userNameTxt);
@@ -84,6 +87,18 @@ class UsernameField extends Composite {
 
   private boolean canEditUserName() {
     return Gerrit.getConfig().canEdit(Account.FieldName.USER_NAME);
+  }
+
+  private void confirmSetUserName() {
+    new ConfirmationDialog(
+        Util.C.confirmSetUserNameTitle(),
+        new SafeHtmlBuilder().append(Util.C.confirmSetUserName()),
+        new ConfirmationCallback() {
+          @Override
+          public void onOk() {
+            doSetUserName();
+          }
+        }).center();
   }
 
   private void doSetUserName() {

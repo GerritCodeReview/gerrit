@@ -34,6 +34,24 @@
       "revId": "c2fadebd16802e5c881a47793d306f37803f8398",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a90a898_4f5b4d0d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileInfoJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-05-13T01:53:48Z",
+      "side": 1,
+      "message": "It is good first step to resolve the file forest problem after rebase.\nis it better to give user a option on the UI to enjoy this feature than making it implicit? else user may confused with the difference of diff results of Gerrit and Cgit, and some files\u0027s blocks created by rebase.",
+      "parentUuid": "4a8b1c70_902714a5",
+      "revId": "c2fadebd16802e5c881a47793d306f37803f8398",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

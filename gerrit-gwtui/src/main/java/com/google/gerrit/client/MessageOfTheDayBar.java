@@ -52,6 +52,8 @@ class MessageOfTheDayBar extends Composite {
       for (HostPageData.Message m : motd) {
         b.openDiv();
         b.append(SafeHtml.asis(m.html));
+        b.openElement("hr");
+        b.closeSelf();
         b.closeDiv();
       }
     }

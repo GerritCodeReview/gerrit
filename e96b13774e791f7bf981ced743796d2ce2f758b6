@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "0a75a43d_2e94c760",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/LabelTypeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-13T07:19:19Z",
+      "side": 1,
+      "message": "Why not use `createChange` here?",
+      "range": {
+        "startLine": 238,
+        "startChar": 4,
+        "endLine": 239,
+        "endChar": 62
+      },
+      "revId": "e96b13774e791f7bf981ced743796d2ce2f758b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2a90a898_cfa2dd9f",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/LabelTypeIT.java",
         "patchSetId": 1

@@ -106,6 +106,24 @@
       "revId": "c2fadebd16802e5c881a47793d306f37803f8398",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a8b1c70_f0f0e0b9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileInfoJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-05-13T05:32:30Z",
+      "side": 1,
+      "message": "\u003e\" I never heard that somebody wants to see more files...\"\n\n I like this feature, I dislike to see more files too.\n My concern here is NOT about files, it is about code blocks in\n some file, sometimes there are some code blocks (Add, Delete,  \n Update)  are not created in that 2 patch-sets used for diff, but by  \n other changes of other authors and are shown when diff happens  \n between those rebased patchsets. I care it because users may  \n report these blocks as bug because those blocks are not  \n produced by him. \n yes this can be resolved in other changes and let this change go in firstly.",
+      "parentUuid": "4a8b1c70_3052e8ef",
+      "revId": "c2fadebd16802e5c881a47793d306f37803f8398",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

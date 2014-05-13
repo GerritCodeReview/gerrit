@@ -117,6 +117,30 @@
       "revId": "1f8dcfe5f100d66b01d7a0e10dfabef9698a9b07",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a90a898_cf873d02",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/LabelTypeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-13T08:02:08Z",
+      "side": 1,
+      "message": "Ah, yes, could you fix it and upload it to the right branch?",
+      "parentUuid": "ea713054_6d2f357a",
+      "range": {
+        "startLine": 255,
+        "startChar": 12,
+        "endLine": 255,
+        "endChar": 27
+      },
+      "revId": "1f8dcfe5f100d66b01d7a0e10dfabef9698a9b07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

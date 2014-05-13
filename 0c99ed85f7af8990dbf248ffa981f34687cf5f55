@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4a8b1c70_10f2447c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-05-13T15:53:41Z",
+      "side": 1,
+      "message": "Ok. I will add documentation. For separating UI extension from this change can you tell me which files I need to add/remove/modify from this change?",
+      "parentUuid": "ea5a10dc_85f842e7",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 56
+      },
+      "revId": "0c99ed85f7af8990dbf248ffa981f34687cf5f55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4a8b1c70_70e5d0b0",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/CommitInfo.java",
         "patchSetId": 9

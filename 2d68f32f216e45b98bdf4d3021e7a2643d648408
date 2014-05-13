@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "ca7e2c25_ec032b2d",
+        "filename": "gerrit-gwtexpui/src/main/java/com/google/gwtexpui/clippy/client/CopyableLabel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2014-05-13T12:20:30Z",
+      "side": 1,
+      "message": "Likewise. That was the first solution I tried, and it was unsuccessful.\n\nOr, David, are you saying this didn\u0027t work?",
+      "parentUuid": "2a90a898_8f6a956b",
+      "range": {
+        "startLine": 187,
+        "startChar": 6,
+        "endLine": 194,
+        "endChar": 60
+      },
+      "revId": "2d68f32f216e45b98bdf4d3021e7a2643d648408",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6a6f0077_29f12d06",
         "filename": "gerrit-gwtexpui/src/main/java/com/google/gwtexpui/clippy/client/CopyableLabel.java",
         "patchSetId": 1

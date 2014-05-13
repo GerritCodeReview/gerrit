@@ -136,16 +136,23 @@ project directories in `buck-out/gen`, here as example for plugin API:
   buck-out/gen/gerrit-plugin-api/plugin-api-javadoc.jar
 ----
 
-Install {extension,plugin,gwt}-api and gerrit.war to the local maven repository:
+Install {extension,plugin,gwt}-api to the local maven repository:
 
 ----
   buck build api_install
 ----
 
-Deploy {extension,plugin,gwt}-api and gerrit.war to the remote maven repository:
+Deploy {extension,plugin,gwt}-api to the remote maven repository:
 
 ----
   buck build api_deploy
+----
+
+When installation or deployment of gerrit.war in addition is needed,
+additional parameter must be passed to api_{install,deploy} targets:
+
+----
+  API_WITH_GERRIT_WAR=1 buck build api_install
 ----
 
 The type of the repo is induced from the Gerrit version name, i.e.

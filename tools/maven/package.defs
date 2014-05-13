@@ -20,10 +20,15 @@ def maven_package(
     src = {},
     doc = {},
     war = {}):
+  from os import environ
   cmd = ['$(exe //tools/maven:mvn)', '-v', version, '-o', '$OUT']
+  types = [('jar', jar), ('java-source', src), ('javadoc', doc)]
   dep = []
 
-  for type,d in [('jar', jar), ('java-source', src), ('javadoc', doc), ('war', war)]:
+  if environ.get('API_WITH_GERRIT_WAR'):
+    types.extend([('war', war)])
+
+  for type,d in types:
     for a,t in d.iteritems():
       cmd.append('-s %s:%s:$(location %s)' % (a,type,t))
       dep.append(t)

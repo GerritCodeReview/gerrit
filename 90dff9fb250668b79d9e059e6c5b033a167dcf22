@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a90a898_cf141d1b",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1032,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-13T05:53:44Z",
+      "side": 1,
+      "message": "maybe: \"this preference is reset to `Show`\"",
+      "range": {
+        "startLine": 1032,
+        "startChar": 8,
+        "endLine": 1032,
+        "endChar": 31
+      },
+      "revId": "90dff9fb250668b79d9e059e6c5b033a167dcf22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

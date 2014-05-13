@@ -195,6 +195,42 @@
       "revId": "c2fadebd16802e5c881a47793d306f37803f8398",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a8b1c70_700630ec",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileInfoJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-05-13T06:07:27Z",
+      "side": 1,
+      "message": "\u003eDid you try it with the old change screen before it was migrated to use the REST API?\n\nNo. I just did a test today and ever tested it before 2012-11-30. \n\n\u003e Let\u0027s only add this button when we are getting this kind of feedback for the new change screen.\n \nOk.",
+      "parentUuid": "4a8b1c70_d014bc1a",
+      "revId": "c2fadebd16802e5c881a47793d306f37803f8398",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a90a898_ef19e14f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileInfoJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-05-13T06:07:27Z",
+      "side": 1,
+      "message": "Yes. regret to hear you have not enough time to continue it. :(",
+      "parentUuid": "2a90a898_0fea25c1",
+      "revId": "c2fadebd16802e5c881a47793d306f37803f8398",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -122,6 +122,30 @@
       "revId": "54f747055cc75125fd40bffed1fff0fda025c679",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a8b1c70_70b710c5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-13T09:26:25Z",
+      "side": 1,
+      "message": "Use Iterables.concat() in combination with FluentIterable.from.transform.toSet() idiom then:\n\n return FluentIterable.from(Iterables.concat(load(A), load(B)))\n     .transform(new Function\u003cPatchListEntry, String\u003e() {\n           @Override\n           public String apply(PatchListEntry e) {\n              return e.getNewName();\n           }\n     })\n     .toSet();",
+      "parentUuid": "2a90a898_af6f597a",
+      "range": {
+        "startLine": 179,
+        "startChar": 0,
+        "endLine": 192,
+        "endChar": 17
+      },
+      "revId": "54f747055cc75125fd40bffed1fff0fda025c679",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

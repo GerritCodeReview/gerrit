@@ -146,6 +146,30 @@
       "revId": "54f747055cc75125fd40bffed1fff0fda025c679",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a90a898_cfa5fd8f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-13T09:38:53Z",
+      "side": 1,
+      "message": "That\u0027s better :)\n\nDone",
+      "parentUuid": "4a8b1c70_70b710c5",
+      "range": {
+        "startLine": 179,
+        "startChar": 0,
+        "endLine": 192,
+        "endChar": 17
+      },
+      "revId": "54f747055cc75125fd40bffed1fff0fda025c679",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

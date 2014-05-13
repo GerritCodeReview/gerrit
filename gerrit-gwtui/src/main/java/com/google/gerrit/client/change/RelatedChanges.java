@@ -175,12 +175,12 @@ public class RelatedChanges extends TabPanel {
     }
 
     ChangeApi.revision(info.legacy_id().get(), revision).view("related")
-    .get(new TabCallback<RelatedInfo>(Tab.RELATED_CHANGES, info.project(), revision) {
-          @Override
-          public JsArray<ChangeAndCommit> convert(RelatedInfo result) {
-            return result.changes();
-          }
-        });
+        .get(new TabCallback<RelatedInfo>(Tab.RELATED_CHANGES, info.project(), revision) {
+              @Override
+              public JsArray<ChangeAndCommit> convert(RelatedInfo result) {
+                return result.changes();
+              }
+            });
 
     StringBuilder cherryPicksQuery = new StringBuilder();
     cherryPicksQuery.append(op("project", info.project()));

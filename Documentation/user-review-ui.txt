@@ -1027,7 +1027,9 @@ Controls whether line numbers are shown.
 
 - `Left Side`:
 +
-Controls whether the left side is shown.
+Controls whether the left side is shown. This option is not
+persistant and is ignored by `Save` button. Every time patch diffs is
+opened, this option has value `Show`.
 
 - `Top Menu`:
 +

@@ -41,6 +41,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -59,6 +60,7 @@ class CommitBox extends Composite {
   }
 
   @UiField Style style;
+  @UiField Image mergeCommit;
   @UiField CopyableLabel commitName;
   @UiField AnchorElement browserLink;
   @UiField Element parents;
@@ -120,6 +122,7 @@ class CommitBox extends Composite {
     }
 
     if (revInfo.commit().parents().length() > 1) {
+      mergeCommit.setVisible(true);
       setParents(change.project(), revInfo.commit().parents());
     }
   }

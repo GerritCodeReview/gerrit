@@ -5,7 +5,7 @@ gerrit_war(name = 'chrome',   ui = 'ui_chrome')
 gerrit_war(name = 'firefox',  ui = 'ui_firefox')
 gerrit_war(name = 'safari',   ui = 'ui_safari')
 gerrit_war(name = 'withdocs', docs = True)
-gerrit_war(name = 'release',  docs = True, context = ['//plugins:core.zip'],  visibility = ['//tools/maven:'])
+gerrit_war(name = 'release',  docs = True, context = ['//plugins:core'],  visibility = ['//tools/maven:'])
 
 API_DEPS = [
   '//gerrit-extension-api:extension-api',

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8aad14ff_92da5c82",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-13T23:20:27Z",
+      "side": 1,
+      "message": "This should be a different target, not an environment based switch.",
+      "revId": "53e623e3a317261ffaedd3e10895e29eb544bf2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

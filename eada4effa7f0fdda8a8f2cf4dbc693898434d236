@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ea713054_cdbf49ef",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1031,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-13T05:37:25Z",
+      "side": 1,
+      "message": "a patch diff",
+      "range": {
+        "startLine": 1031,
+        "startChar": 55,
+        "endLine": 1031,
+        "endChar": 66
+      },
+      "revId": "eada4effa7f0fdda8a8f2cf4dbc693898434d236",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a75a43d_8ec93b8e",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1031,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-13T05:37:25Z",
+      "side": 1,
+      "message": "persistent",
+      "range": {
+        "startLine": 1031,
+        "startChar": 0,
+        "endLine": 1031,
+        "endChar": 10
+      },
+      "revId": "eada4effa7f0fdda8a8f2cf4dbc693898434d236",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea713054_2d660df5",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1031,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-13T05:37:25Z",
+      "side": 1,
+      "message": "by the",
+      "range": {
+        "startLine": 1031,
+        "startChar": 26,
+        "endLine": 1031,
+        "endChar": 28
+      },
+      "revId": "eada4effa7f0fdda8a8f2cf4dbc693898434d236",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

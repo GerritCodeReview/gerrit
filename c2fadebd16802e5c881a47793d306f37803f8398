@@ -70,6 +70,24 @@
       "revId": "c2fadebd16802e5c881a47793d306f37803f8398",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a90a898_cfebbdc9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileInfoJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-05-13T05:10:28Z",
+      "side": 1,
+      "message": "I did not make it clear, I did not mean to add a user preference option.  I expect to adding a button or something like that, but I can live without it. \n\nThe old change screen does have this feature yet. I just test by dong diff between patchset 10 and 9 of  https://gerrit-review.googlesource.com/#/c/17380 on old Change screen and file forest is found.",
+      "parentUuid": "2a90a898_6f58910f",
+      "revId": "c2fadebd16802e5c881a47793d306f37803f8398",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

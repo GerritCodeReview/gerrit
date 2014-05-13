@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "2a90a898_4f090df9",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1031,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-13T06:16:08Z",
+      "side": 1,
+      "message": "Copied it from the line 925 above:\n\n \"There are several options to control how\n  patch diffs should be rendered.\"\n\nIs it wrong there too?",
+      "parentUuid": "4a8b1c70_b013382e",
+      "range": {
+        "startLine": 1031,
+        "startChar": 67,
+        "endLine": 1031,
+        "endChar": 72
+      },
+      "revId": "90dff9fb250668b79d9e059e6c5b033a167dcf22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2a90a898_cf141d1b",
         "filename": "Documentation/user-review-ui.txt",
         "patchSetId": 4
@@ -81,6 +105,30 @@
         "id": 1011123
       },
       "writtenOn": "2014-05-13T06:14:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a90a898_cf141d1b",
+      "range": {
+        "startLine": 1032,
+        "startChar": 8,
+        "endLine": 1032,
+        "endChar": 31
+      },
+      "revId": "90dff9fb250668b79d9e059e6c5b033a167dcf22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a90a898_6f0651ec",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1032,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-13T06:16:08Z",
       "side": 1,
       "message": "Done",
       "parentUuid": "2a90a898_cf141d1b",

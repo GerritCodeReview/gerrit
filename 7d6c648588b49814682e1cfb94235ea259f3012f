@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ea713054_2dbb6dff",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 1030,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-13T06:19:57Z",
+      "side": 1,
+      "message": "preference",
+      "range": {
+        "startLine": 1030,
+        "startChar": 46,
+        "endLine": 1030,
+        "endChar": 52
+      },
+      "revId": "7d6c648588b49814682e1cfb94235ea259f3012f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

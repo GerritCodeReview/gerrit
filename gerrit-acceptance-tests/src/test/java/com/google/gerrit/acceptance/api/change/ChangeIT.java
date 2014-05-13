@@ -130,6 +130,27 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void addReviewerToClosedChange() throws GitAPIException,
+      IOException, RestApiException {
+    PushOneCommit.Result r = createChange();
+    ChangeApi cApi = gApi.changes().id("p~master~" + r.getChangeId());
+    cApi.revision(r.getCommit().name())
+        .review(ReviewInput.approve());
+    cApi.revision(r.getCommit().name())
+        .submit();
+
+    assertEquals(ImmutableSet.of(admin.getId()), getReviewers(cApi.get()));
+
+    AddReviewerInput in = new AddReviewerInput();
+    in.reviewer = user.email;
+    gApi.changes()
+        .id("p~master~" + r.getChangeId())
+        .addReviewer(in);
+    assertEquals(ImmutableSet.of(admin.getId(), user.id),
+        getReviewers(cApi.get()));
+  }
+
+  @Test
   public void createEmptyChange() throws RestApiException {
     ChangeInfo in = new ChangeInfo();
     in.branch = Constants.MASTER;

@@ -22,6 +22,30 @@
       "revId": "e96b13774e791f7bf981ced743796d2ce2f758b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea713054_cd1d0955",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/LabelTypeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-13T07:10:03Z",
+      "side": 1,
+      "message": "Does the commit message in the test commit have a Change-Id line?",
+      "parentUuid": "2a90a898_cfa2dd9f",
+      "range": {
+        "startLine": 257,
+        "startChar": 12,
+        "endLine": 257,
+        "endChar": 27
+      },
+      "revId": "e96b13774e791f7bf981ced743796d2ce2f758b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

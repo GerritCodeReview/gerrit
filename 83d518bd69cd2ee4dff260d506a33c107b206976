@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4a8b1c70_50652c99",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/HttpPluginServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-05-13T09:38:50Z",
+      "side": 1,
+      "message": "line too long",
+      "revId": "83d518bd69cd2ee4dff260d506a33c107b206976",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a90a898_efaa415d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/HttpPluginServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-05-13T09:38:50Z",
+      "side": 1,
+      "message": "This will produce a different result than before this change. For example:\n\n  getRequestURI() \u003d \"/plugins/myPlugin/a/b\"\n  file \u003d getPathInfo()\n  \u003d \"myPlugin/a/b\"\n  \n  \nand before this change:\n\n  getContextPath() \u003d \"\"\n  file \u003d getRequestURI().substring(getContextPath().length() + 1)\n  \u003d \"plugins/myPlugin/a/b\"\n\nIf this is intended then it should be explained in the commit message.",
+      "revId": "83d518bd69cd2ee4dff260d506a33c107b206976",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a8b1c70_3083c8f2",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/RequestWrapper.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-05-13T09:38:50Z",
+      "side": 1,
+      "message": "missing license header",
+      "revId": "83d518bd69cd2ee4dff260d506a33c107b206976",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a90a898_ef8c8126",
+        "filename": "gerrit-httpd/src/test/java/com/google/gerrit/httpd/plugins/RequestWrapperTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-05-13T09:38:50Z",
+      "side": 1,
+      "message": "2014",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "83d518bd69cd2ee4dff260d506a33c107b206976",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a8b1c70_d0a59c8f",
+        "filename": "gerrit-httpd/src/test/java/com/google/gerrit/httpd/plugins/RequestWrapperTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-05-13T09:38:50Z",
+      "side": 1,
+      "message": "package declaration missing",
+      "revId": "83d518bd69cd2ee4dff260d506a33c107b206976",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a90a898_6f79714e",
+        "filename": "gerrit-httpd/src/test/java/com/google/gerrit/httpd/plugins/RequestWrapperTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-05-13T09:38:50Z",
+      "side": 1,
+      "message": "tho",
+      "range": {
+        "startLine": 29,
+        "startChar": 22,
+        "endLine": 29,
+        "endChar": 24
+      },
+      "revId": "83d518bd69cd2ee4dff260d506a33c107b206976",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

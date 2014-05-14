@@ -306,6 +306,16 @@ Bug Fixes
 ---------
 
 
+Secondary Index
+~~~~~~~~~~~~~~~
+
+* link:https://gerrit-review.googlesource.com/53387[Fix Online
+Reindexing]
+
+* link:https://gerrit-review.googlesource.com/53410[Fix for full-text
+search with Lucene]
+
+
 Upgrades
 --------
 

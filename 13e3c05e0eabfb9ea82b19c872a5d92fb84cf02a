@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4a023cbc_b8fe79d2",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-14T06:08:09Z",
+      "side": 1,
+      "message": "We should at least say something about reviewing the change in this chapter, e.g. that the reviewer looks at the code diff, that he can add comments inline and that there is voting on the change. It doesn\u0027t need to explain the details, but the workflow should be clear from this introduction guide.",
+      "range": {
+        "startLine": 162,
+        "startChar": 0,
+        "endLine": 162,
+        "endChar": 24
+      },
+      "revId": "13e3c05e0eabfb9ea82b19c872a5d92fb84cf02a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

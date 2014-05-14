@@ -65,6 +65,14 @@ reindex] program.
 ssh
 ~~~
 
+* New `--notify` option on the
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/cmd-review.html[
+review] command allowing to control when email notifications should be
+sent.
+
+* New `--branch` option on the
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/cmd-review.html[
+review] command.
 
 * New `--all-reviewers` option on the
 link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/cmd-query.html[
@@ -73,6 +81,9 @@ reviewers added on the change.
 
 * New link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/cmd-apropos.html[
 apropos] command to search the Gerrit documentation.
+
+* New link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/cmd-create-branch.html[
+create-branch] command.
 
 REST API
 ~~~~~~~~

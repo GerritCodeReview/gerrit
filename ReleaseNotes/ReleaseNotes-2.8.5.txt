@@ -1,12 +1,28 @@
 Release notes for Gerrit 2.8.5
 ==============================
 
-There are no schema changes from link:ReleaseNotes-2.8.4.html[2.8.4].
-
 Download:
 link:https://gerrit-releases.storage.googleapis.com/gerrit-2.8.5.war[
 https://gerrit-releases.storage.googleapis.com/gerrit-2.8.5.war]
 
+Schema Changes and Upgrades
+---------------------------
+
+
+* There are no schema changes from link:ReleaseNotes-2.8.4.html[2.8.4].
+
+* SSHD is updated to version 0.11.0.
++
+See the 'ssh' section of 'Bug Fixes' below for details.
+
+* Bouncycastle is updated to version 1.49.
++
+*WARNING:* Gerrit is not shipped with Bouncycastle included. To get the
+updated library files, the site must be updated:
++
+----
+  java -jar gerrit.war init -d site_path
+----
 
 Bug Fixes
 ---------

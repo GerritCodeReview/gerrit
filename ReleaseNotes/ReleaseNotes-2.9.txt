@@ -28,6 +28,9 @@ Schema Change
   java -jar gerrit.war reindex --recheck-mergeable -d site_path
 ----
 
+*WARNING* Support for query via the SQL index is removed. The usage of
+a secondary index is now mandatory.
+
 *WARNING:* Upgrading to 2.9.x requires the server be first upgraded to 2.1.7 (or
 a later 2.1.x version), and then to 2.9.x.  If you are upgrading from 2.2.x.x or
 later, you may ignore this warning and upgrade directly to 2.9.x.
@@ -129,6 +132,44 @@ set to `true`.
 Now if `auth.gitBasicAuth` is set to `true` users that exist only in
 Gerrit but not in LDAP are authenticated with their HTTP password from
 the Gerrit database.
+
+Search
+~~~~~~
+
+* Support for query via the SQL index is removed. The usage of
+a secondary index is now mandatory.
+
+* New link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/user-search.html#mergeable[
+is:mergeable] search operator
++
+Finds changes that have no merge conflicts and can be merged into the
+destination branch.
+
+* New link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/user-search.html#parentproject[
+parentproject] search operator
++
+Finds changes in the specified project or in one of its child projects.
+
+* New link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/user-search.html#conflicts[
+conflicts] search operator
++
+Finds changes that conflict with the specified change.
+
+* New operators for absolute last-updated-on search
+** link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/user-search.html#before_until[
+before / until]
+** link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/user-search.html#after_since[
+after / since]
+
+* Support exact match on file parts in
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/user-search.html#file[
+file] operator
+
+* Query shortcuts
+** `o` = `owner`
+** `r` = `reviewer`
+** `p` = `project`
+** `f` = `file`
 
 Daemon
 ~~~~~~

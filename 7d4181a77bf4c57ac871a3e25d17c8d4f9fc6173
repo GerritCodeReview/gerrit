@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6a0d40e9_d94b736a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013182
+      },
+      "writtenOn": "2014-05-14T14:53:29Z",
+      "side": 1,
+      "message": "My bad.",
+      "parentUuid": "6a0d40e9_39ea6f13",
+      "revId": "7d4181a77bf4c57ac871a3e25d17c8d4f9fc6173",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8aad14ff_12e78c4b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2014-05-14T00:32:14Z",
       "side": 1,
       "message": "Change-Id is not *enforced* on refs/heads/* but it is still checked.  This is why, for example, you can push a commit with Change-Id footer for review at refs/for/* and then later push the same commit to refs/heads/* and Gerrit will close the existing change.",
+      "range": {
+        "startLine": 9,
+        "startChar": 15,
+        "endLine": 9,
+        "endChar": 64
+      },
+      "revId": "7d4181a77bf4c57ac871a3e25d17c8d4f9fc6173",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a0d40e9_3941cf4b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013182
+      },
+      "writtenOn": "2014-05-14T14:53:29Z",
+      "side": 1,
+      "message": "I see. I understood it all differently. Given a project with Change-Ids required in commit message set to TRUE, this requirement *only* applies to magic review branches. Referring to refs/heads/* in the same sentence made me think it was a lapsus as we could push without them.",
+      "parentUuid": "8aad14ff_12e78c4b",
       "range": {
         "startLine": 9,
         "startChar": 15,

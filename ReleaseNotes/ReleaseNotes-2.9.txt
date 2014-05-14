@@ -311,6 +311,21 @@ Bug Fixes
 ---------
 
 
+Secondary Index
+~~~~~~~~~~~~~~~
+
+* Fix Online Reindexing
+
+* Fix for full-text search with Lucene
++
+The full-text search was using a fuzzy query which used the edit
+distance to find terms in the index close to the provided search term.
+This produced bizarre results for queries like "message:1234".
++
+Instead, use Lucene's QueryBuilder with an analyzer to convert a
+full-text search word/phrase into a phrase query.
+
+
 Upgrades
 --------
 

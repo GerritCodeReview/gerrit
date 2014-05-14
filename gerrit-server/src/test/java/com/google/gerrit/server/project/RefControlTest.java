@@ -299,6 +299,15 @@ public class RefControlTest {
   public void testBlockRule_ParentBlocksChild() {
     grant(local, PUSH, DEVS, "refs/tags/*");
     grant(util.getParentConfig(), PUSH, ANONYMOUS_USERS, "refs/tags/*").setBlock();
+    ProjectControl u = util.user(local, DEVS);
+    assertFalse("u can't update tag", u.controlForRef("refs/tags/V10").canUpdate());
+  }
+
+  @Test
+  public void testBlockRule_ParentBlocksChildEvenIfAlreadyBlockedInChild() {
+    grant(local, PUSH, DEVS, "refs/tags/*");
+    grant(local, PUSH, ANONYMOUS_USERS, "refs/tags/*").setBlock();
+    grant(util.getParentConfig(), PUSH, ANONYMOUS_USERS, "refs/tags/*").setBlock();
 
     ProjectControl u = util.user(local, DEVS);
     assertFalse("u can't update tag", u.controlForRef("refs/tags/V10").canUpdate());
@@ -312,6 +321,23 @@ public class RefControlTest {
     ProjectControl u = util.user(local, DEVS);
 
     PermissionRange range = u.controlForRef("refs/heads/master").getRange(LABEL + "Code-Review");
+    assertTrue("u can vote -1", range.contains(-1));
+    assertTrue("u can vote +1", range.contains(1));
+    assertFalse("u can't vote -2", range.contains(-2));
+    assertFalse("u can't vote 2", range.contains(2));
+  }
+
+  @Test
+  public void testBlockLabelRange_ParentBlocksChildEvenIfAlreadyBlockedInChild() {
+    grant(local, LABEL + "Code-Review", -2, +2, DEVS, "refs/heads/*");
+    grant(local, LABEL + "Code-Review", -2, +2, DEVS, "refs/heads/*").setBlock();
+    grant(util.getParentConfig(), LABEL + "Code-Review", -2, +2, DEVS,
+        "refs/heads/*").setBlock();
+
+    ProjectControl u = util.user(local, DEVS);
+
+    PermissionRange range =
+        u.controlForRef("refs/heads/master").getRange(LABEL + "Code-Review");
     assertTrue("u can vote -1", range.contains(-1));
     assertTrue("u can vote +1", range.contains(1));
     assertFalse("u can't vote -2", range.contains(-2));

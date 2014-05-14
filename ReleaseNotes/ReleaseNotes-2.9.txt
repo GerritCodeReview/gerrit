@@ -96,6 +96,21 @@ Documentation
 * link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/rest-api-documentation.html#search-documentation.html[
 Search documentation].
 
+Access Rights
+~~~~~~~~~~~~~
+
+
+* New link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/access-control.html#capability_viewAllAccounts[
+global capability for viewing all accounts]
+
+* New link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/access-control.html#capability_viewPlugins[
+global capability for viewing the list of installed plugins]
+
+* New `Change Owner` group that allows to assign permissions to the change owner.
+
+* Support link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/access-control.html#category_submit_on_behalf_of[
+on behalf of for submit]
+
 Daemon
 ~~~~~~
 

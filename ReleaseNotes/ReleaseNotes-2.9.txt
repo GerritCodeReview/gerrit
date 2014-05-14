@@ -67,6 +67,52 @@ Global
 * Project links by default link to the project dashboard
 
 
+New Change Screen
+^^^^^^^^^^^^^^^^^
+
+
+* The new change screen is now the default change screen.
+
+* The layout was changed so that the focus is now on the commit
+message, the change ID and the change status.
+
+* Draft comments are displayed in the reply box.
+
+* New inline comments from other users, that were published after the
+current user last reviewed this change, are highlighted in bold.
+
+* New summary comments from other users, that were published after the
+current user last reviewed this change, are automatically expanded in
+the change history.
+
+* Inline comments are shown in the change history.
+
+* Add reply button to each change message.
+
+* New link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/user-review-ui.html#related-changes[
+Related Changes] tabs:
+** `Cherry-Picks`
+** `Same Topic`
+** `Conflicts With`
+
+* The currently viewed patch set is displayed in the `Patch Sets` title
+
+* Keyboard shortcuts to navigate to next/previous patch set.
+
+* Support [/] keys to navigate between files in a cycle.
+
+* Show as tooltip on reviewers on which labels they can vote.
+
+* The `Submit` button is enabled even if the change is not mergeable.
++
+This allows to do the conflict resolution for a change series in a
+single merge commit and submit the changes in reverse order.
+
+* New `Open All` button in files header.
+
+* The support for comment visibility strategy discontinued.
+
+
 Change List / Dashboards
 ^^^^^^^^^^^^^^^^^^^^^^^^
 

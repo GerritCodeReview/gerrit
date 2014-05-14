@@ -96,6 +96,40 @@ Documentation
 * link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/rest-api-documentation.html#search-documentation.html[
 Search documentation].
 
+Access Rights
+~~~~~~~~~~~~~
+
+
+* New link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/access-control.html#capability_viewAllAccounts[
+global capability for viewing all accounts]
+
+* New link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/access-control.html#capability_viewPlugins[
+global capability for viewing the list of installed plugins]
+
+* New `Change Owner` group that allows to assign permissions to the change owner.
+
+* Support link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/access-control.html#category_submit_on_behalf_of[
+on behalf of for submit]
+
+* Allow service users to access REST API if `auth.gitBasicAuth = true`
++
+If link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/config-gerrit.html#auth.gitBasicAuth[
+auth.gitBasicAuth] is set to `true` in the `gerrit.config` file all
+HTTP traffic is authenticated using standard `BasicAuth` and the
+credentials are validated using the same auth method as configured for
+the Gerrit Web UI. E.g. for LDAP this means that users must use their
+LDAP password for Git over HTTP and for accessing the REST API.
++
+Service users are technical users that were created by the
+`create-account` SSH command. These users only exist in Gerrit and
+hence they do not have any LDAP password. This is why service users
+were not able to make use of the REST API if `auth.gitBasicAuth` was
+set to `true`.
++
+Now if `auth.gitBasicAuth` is set to `true` users that exist only in
+Gerrit but not in LDAP are authenticated with their HTTP password from
+the Gerrit database.
+
 Daemon
 ~~~~~~
 

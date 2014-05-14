@@ -21,11 +21,13 @@ import com.google.gerrit.client.changes.ChangeInfo;
 import com.google.gerrit.client.changes.ChangeInfo.CommitInfo;
 import com.google.gerrit.client.changes.ChangeInfo.GitPerson;
 import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
+import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.JsArray;
 import com.google.gwt.dom.client.AnchorElement;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -33,12 +35,15 @@ import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.UIObject;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
@@ -49,11 +54,16 @@ class CommitBox extends Composite {
   interface Style extends CssResource {
     String collapsed();
     String expanded();
+    String clippy();
+    String parentWebLink();
   }
 
   @UiField Style style;
   @UiField CopyableLabel commitName;
   @UiField AnchorElement browserLink;
+  @UiField Element parents;
+  @UiField FlowPanel parentCommits;
+  @UiField VerticalPanel parentWebLinks;
   @UiField InlineHyperlink authorNameEmail;
   @UiField Element authorDate;
   @UiField InlineHyperlink committerNameEmail;
@@ -107,6 +117,27 @@ class CommitBox extends Composite {
       browserLink.setHref(gw.toRevision(change.project(), revision));
     } else {
       UIObject.setVisible(browserLink, false);
+    }
+
+    if (revInfo.commit().parents().length() > 1) {
+      setParents(change.project(), revInfo.commit().parents());
+    }
+  }
+
+  private void setParents(String project, JsArray<CommitInfo> commits) {
+    setVisible(parents, true);
+    for (CommitInfo c : Natives.asList(commits)) {
+      CopyableLabel copyLabel = new CopyableLabel(c.commit());
+      copyLabel.setStyleName(style.clippy());
+      parentCommits.add(copyLabel);
+
+      GitwebLink gw = Gerrit.getGitwebLink();
+      if (gw != null) {
+        Anchor a =
+            new Anchor(gw.toRevision(project, c.commit()), gw.getLinkName());
+        a.setStyleName(style.parentWebLink());
+        parentWebLinks.add(a);
+      }
     }
   }
 

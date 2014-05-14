@@ -208,6 +208,19 @@ New Project Owner Guide]
 Newly structured documentation index]
 
 
+Configuration
+~~~~~~~~~~~~~
+
+* New init step for installing the `Verified` label
+* The link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/config-gerrit.html#repository.name.defaultSubmitType[
+default submit type] for newly created projects can be configured.
+* `sshd_log` and `httpd_log` can use log4j configuration
+* The link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/config-gerrit.html#change.allowDrafts[
+draft workflow can be disabled]
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/config-project-config.html#receive.checkReceivedObjects[
+Project configuration for checking of received objects]
+
+
 Bug Fixes
 ---------
 

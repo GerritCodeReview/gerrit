@@ -231,6 +231,17 @@ and can be pushed by their masters only. If you wanted explicitly to overwrite
 all changes on the slaves, you need to add a `push=+refs/*:refs/*` configuration
 entry for each replication target.
 
+* Support replication of HEAD updates
+
+* Stream events for ref replication
+
+* Never replicate automerge-cache commits
+
+* Replications failed due to "failed to lock" errors are retried
+
+* Configuration changes can be detected and replication is
+automatically restarted
+
 Issue Tracker System plugins
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

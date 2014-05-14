@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6a0d40e9_99761bb3",
+        "filename": "ReleaseNotes/ReleaseNotes-2.9.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-14T18:38:58Z",
+      "side": 1,
+      "message": "AFAIK only labels specific permissions are honored.",
+      "range": {
+        "startLine": 109,
+        "startChar": 42,
+        "endLine": 109,
+        "endChar": 60
+      },
+      "revId": "59eb1544aa43f0fe741faf26e7858b03f73066c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

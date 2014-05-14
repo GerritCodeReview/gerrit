@@ -208,44 +208,6 @@ New Project Owner Guide]
 * link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/index.html[
 Newly structured documentation index]
 
-Plugins
-~~~~~~~
-
-
-Issue Tracker System plugins
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-
-*WARNING:* There are new plugins for the integration with Bugzilla,
-Jira and IBM Rational Team Concert:
-
-* link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/its-bugzilla[plugins/its-bugzilla]
-* link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/its-jira[plugins/its-jira]
-* link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/its-rtc[plugins/its-rtc]
-
-The old plugins (`plugins/hooks-bugzilla`, `plugins/hooks-jira` and
-`plugins/hooks-rtc`) are deprecated with Gerrit 2.9.
-
-The new issue tracker system plugins have a common base which is
-link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/its-base[plugins/its-base].
-
-The configuration of the new plugins is slightly different than the
-configuration of the old plugins because they use different section
-names in the Gerrit configuration. For easy migration the new plugins
-have an init step that allows to take over the configuration from the
-old plugins during the Gerrit initialization phase.
-
-New Features:
-
-* The issue tracker integration can be enabled/disabled per project.
-* Parent projects can enforce the issue tracker integration for their
-  child projects.
-* It can be configured for which branches of a project the issue
-  tracker integration is enabled.
-* Whether the issue tracker integration is enabled/disabled for a
-  project can be changed from the ProjectInfoScreen in the Gerrit
-  WebUI.
-
 
 Bug Fixes
 ---------
@@ -269,3 +231,37 @@ should not impact typical replication topologies where the slaves are read-only
 and can be pushed by their masters only. If you wanted explicitly to overwrite
 all changes on the slaves, you need to add a `push=+refs/*:refs/*` configuration
 entry for each replication target.
+
+Issue Tracker System plugins
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+*WARNING:* The `hooks-*` plugins (`plugins/hooks-bugzilla`,
+`plugins/hooks-jira` and `plugins/hooks-rtc`) are deprecated with
+Gerrit 2.9.
+
+There are new plugins for the integration with Bugzilla, Jira and IBM
+Rational Team Concert:
+
+* link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/its-bugzilla[plugins/its-bugzilla]
+* link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/its-jira[plugins/its-jira]
+* link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/its-rtc[plugins/its-rtc]
+
+The new issue tracker system plugins have a common base which is
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/its-base[plugins/its-base].
+
+The configuration of the new plugins is slightly different than the
+configuration of the old plugins because they use different section
+names in the Gerrit configuration. For easy migration the new plugins
+have an init step that allows to take over the configuration from the
+old plugins during the Gerrit initialization phase.
+
+New Features:
+
+* The issue tracker integration can be enabled/disabled per project.
+* Parent projects can enforce the issue tracker integration for their
+  child projects.
+* It can be configured for which branches of a project the issue
+  tracker integration is enabled.
+* Whether the issue tracker integration is enabled/disabled for a
+  project can be changed from the ProjectInfoScreen in the Gerrit
+  WebUI.

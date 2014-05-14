@@ -221,6 +221,20 @@ draft workflow can be disabled]
 Project configuration for checking of received objects]
 
 
+Misc
+~~~~
+
+* The removal of reviewers and their votes is recorded as change
+messages.
+
+* The change URL is returned on push if the change is updated.
+
+* The topic is included into merge commit messages if all merged
+changes have the same topic.
+
+* Stable CSS class names
+
+
 Bug Fixes
 ---------
 

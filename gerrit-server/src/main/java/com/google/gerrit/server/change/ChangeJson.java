@@ -565,19 +565,20 @@ public class ChangeJson {
       allUsers.add(psa.getAccountId());
     }
 
+    // We can only approximately reconstruct what the submit rule evaluator
+    // would have done. These should really come from a stored submit record.
     Set<String> labelNames = Sets.newHashSet();
     Multimap<Account.Id, PatchSetApproval> current = HashMultimap.create();
     for (PatchSetApproval a : cd.currentApprovals()) {
       LabelType type = labelTypes.byLabel(a.getLabelId());
-      if (type != null && a.getValue() != 0) {
+      if (type != null) {
         labelNames.add(type.getName());
+        // Not worth the effort to distinguish between votable/non-votable for 0
+        // values on closed changes, since they can't vote anyway.
         current.put(a.getAccountId(), a);
       }
     }
 
-    // We can only approximately reconstruct what the submit rule evaluator
-    // would have done. These should really come from a stored submit record.
-    //
     // Don't use Maps.newTreeMap(Comparator) due to OpenJDK bug 100167.
     Map<String, LabelInfo> labels = new TreeMap<>(labelTypes.nameComparator());
     for (String name : labelNames) {

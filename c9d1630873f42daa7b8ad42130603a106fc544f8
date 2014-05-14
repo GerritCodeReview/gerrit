@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6a0d40e9_d980933a",
+        "filename": "ReleaseNotes/ReleaseNotes-2.9.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-14T17:39:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a023cbc_78906187",
+      "range": {
+        "startLine": 275,
+        "startChar": 18,
+        "endLine": 275,
+        "endChar": 32
+      },
+      "revId": "c9d1630873f42daa7b8ad42130603a106fc544f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6a0d40e9_793b47e7",
         "filename": "ReleaseNotes/ReleaseNotes-2.9.txt",
         "patchSetId": 4
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "6a0d40e9_3986ef53",
+        "filename": "ReleaseNotes/ReleaseNotes-2.9.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-14T17:39:53Z",
+      "side": 1,
+      "message": "Fixed it above.",
+      "parentUuid": "6a0d40e9_793b47e7",
+      "range": {
+        "startLine": 279,
+        "startChar": 0,
+        "endLine": 279,
+        "endChar": 14
+      },
+      "revId": "c9d1630873f42daa7b8ad42130603a106fc544f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6a0d40e9_593803e9",
         "filename": "ReleaseNotes/ReleaseNotes-2.9.txt",
         "patchSetId": 4
@@ -59,6 +107,24 @@
       "writtenOn": "2014-05-14T16:06:57Z",
       "side": 1,
       "message": "+ to put arbitrary HTML fragments from plugins, or some such?",
+      "revId": "c9d1630873f42daa7b8ad42130603a106fc544f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a023cbc_f8547100",
+        "filename": "ReleaseNotes/ReleaseNotes-2.9.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-14T17:39:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6a0d40e9_593803e9",
       "revId": "c9d1630873f42daa7b8ad42130603a106fc544f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

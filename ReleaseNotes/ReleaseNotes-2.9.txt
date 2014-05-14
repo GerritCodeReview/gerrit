@@ -57,6 +57,64 @@ New Features
 ------------
 
 
+Web UI
+~~~~~~
+
+
+Global
+^^^^^^
+
+* Project links by default link to the project dashboard
+
+
+Change List / Dashboards
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+* The `Status` column in shows `Merge Conflict` for changes that are
+not mergeable.
+
+* A new `Size` column shows the change size as a colored bar.
+** The user preference `Show Change Sizes As Colored Bars In Changes Table`
+can be disabled to get the size information displayed as text.
+** The number of changed lines from which on a change is considered as a large
+change can be
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/config-gerrit.html#change.largeChange[
+configured].
+
+* Support to drill down into dashboard section
++
+Clicking on the section title executes the query of this section
+without the `limit` operator.
+
+
+Project Screens
+^^^^^^^^^^^^^^^
+
+* The general project screen provide a copyable clone command that
+automatically installs the `commit-msg` hook.
+
+* Project owners can change `HEAD` from the project branches screen.
+
+* Administrators can change the parent project from the project access
+screen; other users can save changes to the parent project for review
+and get the change approved by an administrator.
+
+* The project list displays icons for projects that are read only or
+hidden.
+
+* The Git garbage collection can be triggered from the general project
+screen if the user has the
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/access-control.html#capability_runGC[
+Run Garbage Collection] global capability.
+
+
+User Preferences
+^^^^^^^^^^^^^^^^
+
+* Users can choose the UK date format to render dates and timestamps in
+the UI.
+
+
 Secondary Index
 ~~~~~~~~~~~~~~~
 

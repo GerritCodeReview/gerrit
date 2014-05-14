@@ -95,6 +95,25 @@ Gerrit Inspector]: interactive Jython shell.
 New `-s` option is added to the Daemon to start an interactive Jython shell for inspection and
 troubleshooting of live data of the Gerrit instance.
 
+Documentation
+~~~~~~~~~~~~~
+
+* The documentation is now
+https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/rest-api-documentation.html#search-documentation.html[
+searchable]:
++
+On each documentation page there is search box in the right top corner
+that allows to search in the documentation.
+
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/user-review-ui.html[
+Documentation of the new review UI]
+
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/intro-project-owner.html[
+New Project Owner Guide]
+
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/index.html[
+Newly structured documentation index]
+
 Plugins
 ~~~~~~~
 

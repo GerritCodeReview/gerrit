@@ -280,6 +280,7 @@ is:submitted, is:merged, is:abandoned::
 +
 Same as <<status,status:'STATE'>>.
 
+[[mergeable]]
 is:mergeable::
 +
 True if the change has no merge conflicts and could be merged into its

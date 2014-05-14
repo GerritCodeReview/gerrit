@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4a023cbc_189a0590",
+        "filename": "ReleaseNotes/ReleaseNotes-2.9.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-14T18:54:08Z",
+      "side": 1,
+      "message": "But this is only listing the bug fixes here. It\u0027s not explaining how to upgrade index schema versions. Such a documentation should be somewhere in the normal documentation, but I\u0027m afraid it is missing...",
+      "parentUuid": "4a023cbc_98c45577",
+      "revId": "4791cf2d7c309bcfd4b5546397e6a1c0a0856a09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6a0d40e9_b95aff2a",
         "filename": "ReleaseNotes/ReleaseNotes-2.9.txt",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2014-05-14T18:32:46Z",
       "side": 1,
       "message": "+ https://gerrit-review.googlesource.com/54630 ?",
+      "revId": "4791cf2d7c309bcfd4b5546397e6a1c0a0856a09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a0d40e9_f9c9178d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.9.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-14T18:54:08Z",
+      "side": 1,
+      "message": "Why should we link the abandoned change?",
+      "parentUuid": "6a0d40e9_b95aff2a",
       "revId": "4791cf2d7c309bcfd4b5546397e6a1c0a0856a09",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

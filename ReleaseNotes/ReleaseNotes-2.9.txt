@@ -216,8 +216,16 @@ Bug Fixes
 Upgrades
 --------
 
+* Update JGit to 3.4.0.201405051725-m7
 * Update gwtjsonrpc to 1.5
 * Update gwtorm to 1.8
+* Update guava to 16.0
+* Update H2 to 1.3.174
+* Update Jetty to 9.1.0.v20131115
+* Update Servlet API to 3.1
+* Update Lucene to 4.6.0
+* Update GWT to 2.6.0
+
 
 Plugins
 -------

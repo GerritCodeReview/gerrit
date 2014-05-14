@@ -147,103 +147,26 @@ This is a magic branch that creates reviews that target the master
 branch. For every branch Gerrit tracks there is a magic
 +refs/for/<branch_name>+ that you push to to create reviews.
 
-In the output of this command you'll notice that there is a link to
-the HTTP interface of the Gerrit server we just pushed to. This is the
-web interface where we will review this commit. Let's follow that link
-and see what we get.
-
-.Gerrit Code Review Screen
-image::images/intro-quick-new-review.jpg[Gerrit Review Screen]
-
-This is the Gerrit code review screen where someone will come to
-review the change. There isn't too much to see here yet, you can look
-at the diff of your change, add some comments explaining what you did
-and why, you may even add a list of people that should review the change.
-
-Reviewers can find changes that they want to review in any number of
-ways. Gerrit has a capable link:user-search.html[search]
-that allows project leaders (or anyone else) to find changes that need
-to be reviewed. Users can also setup watches on Gerrit projects with a
-search expression, this causes Gerrit to notify them of matching
-changes. So adding a reviewer when creating a review is just a
-recommendation.
-
-At this point the change is available for review and we need to switch
-roles to continue following the change. Now let's pretend we're the
-reviewer.
-
 === Reviewing the Change
 
-The reviewer's life starts at the code review screen shown above. He
-can get here in a number of ways, but for some reason they've decided
-to review this change. Of particular note on this screen are the two
-"Need" lines:
+In the output of the `git push` command you'll notice that there is
+a link to the HTTP interface of the Gerrit server we just pushed to.
+Clicking this link takes you to the Gerrit code review screen where
+the commit can be reviewed.
 
-----
-* Need Verified
-* Need Code-Review
-----
+There isn't too much to see here yet; you can look at the diff of your
+change, add some comments explaining what you did and why, you may even
+add a list of people that should review the change and add scores.
 
-Gerrit's default work-flow requires two checks before a change is
-accepted. Code-Review is someone looking at the code, ensuring it
-meets the project guidelines, intent etc. Verifying is checking that
-the code actually compiles, unit tests pass etc. Verification is
-usually done by an automated build server rather than a person. There
-is even a
-link:https://wiki.jenkins-ci.org/display/JENKINS/Gerrit+Trigger[Gerrit Trigger Jenkins Plugin]
-that will automatically build each uploaded change and update the
-verified score accordingly.
+For more detailed information about the review screen, refer to the
+link:user-review-ui.html[review UI documentation].
 
-It is important to note that Code-Review and Verification are
-different permissions in Gerrit, allowing these tasks to be separated.
-For example, an automated process would have rights to verify but not
-to code-review.
-
-Since we are the code reviewer, we're going to review the code. To do
-this we can view it within the Gerrit web interface as either a
-unified or side-by-side diff by selecting the appropriate option. In
-the example below we've selected the side-by-side view. In either of
-these views you can add inline comments by double clicking on the line
-(or single click the line number) that you want to comment on. Also you
-can add file comment by double clicking anywhere (not just on the
-"Patch Set" words) in the table header or single clicking on the icon
-in the line-number column header. Once published these comments are
-viewable to all, allowing discussion of the change to take place.
-
-.Side By Side Patch View
-image::images/intro-quick-review-line-comment.jpg[Adding a Comment]
-
-Code reviewers end up spending a lot of time navigating these screens,
-looking at and commenting on these changes. To make this as efficient
-as possible Gerrit has keyboard shortcuts for most operations (and
-even some operations that are only accessible via the hot-keys). At
-any time you can hit the +?+ key to see the keyboard shortcuts.
-
-.Gerrit Hot Key Help
-image::images/intro-quick-hot-key-help.jpg[Hot Key Help]
-
-Once we've looked over the changes we need to complete reviewing the
-submission. To do this we click the _Review_ button on the change
-screen where we started. This allows us to enter a Code Review label
-and message.
-
-.Reviewing the Change
-image::images/intro-quick-reviewing-the-change.jpg[Reviewing the Change]
-
-The label that the reviewer selects determines what can happen next.
-The +1 and -1 level are just an opinion where as the +2 and -2 levels
-are allowing or blocking the change. In order for a change to be
-accepted it must have at least one +2 and no -2 votes.
-Although these are numeric values, they in no way accumulate;
-two +1s do not equate to a +2.
-
-Regardless of what label is selected, once the _Publish Comments_
-button has been clicked, the cover message and any comments on the
-files become visible to all users.
-
-In this case the change was not accepted so the creator needs to
-rework it. So let's switch roles back to the creator where we
-started.
+Reviewers can also add themselves as reviewers on a change.  They may find
+changes that they want to review in any number of ways. Gerrit has a capable
+link:user-search.html[search] that allows project leaders (or anyone else) to
+find changes that need to be reviewed. Users can also set up
+link:user-notify.html#user[watches on Gerrit projects] with a search expression,
+which causes Gerrit to notify them by email when matching changes are uploaded.
 
 === Reworking the Change
 
@@ -277,17 +200,6 @@ To ssh://gerrithost:29418/RecipeBook.git
 Note that the output is slightly different this time around. Since
 we're adding to an existing review it tells us that the change was
 updated.
-
-Having uploaded the reworked commit we can go back into the Gerrit web
-interface and look at our change.
-
-.Reviewing the Rework
-image::images/intro-quick-review-2-patches.jpg[Reviewing the Rework]
-
-If you look closely you'll notice that there are now two patch sets
-associated with this change, the initial submission and the rework.
-Rather than repeating ourselves lets assume that this time around the
-patch is given a +2 score by the code reviewer.
 
 === Trying out the Change
 

@@ -16,6 +16,24 @@
       "revId": "21a4dbd0474e08ba978289558ce70843730df313",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa12d80b_53f10405",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/AccountConstants.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-14T02:27:36Z",
+      "side": 1,
+      "message": "Oops.  Not sure how I missed this; the dialog worked when I tested it.",
+      "parentUuid": "6a0d40e9_99da9b82",
+      "revId": "21a4dbd0474e08ba978289558ce70843730df313",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

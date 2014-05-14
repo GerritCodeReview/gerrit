@@ -22,6 +22,30 @@
       "revId": "3f52bd9337cbd4e9088df6a86e1ad90d8fc1f2eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a0d40e9_596643f5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-14T18:42:43Z",
+      "side": 1,
+      "message": "No, I moved ITS down, only Git decided to render the diff strangely...",
+      "parentUuid": "6a0d40e9_796987c3",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 67
+      },
+      "revId": "3f52bd9337cbd4e9088df6a86e1ad90d8fc1f2eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

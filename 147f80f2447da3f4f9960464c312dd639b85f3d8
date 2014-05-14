@@ -25,6 +25,121 @@
     },
     {
       "key": {
+        "uuid": "4a023cbc_b84cb986",
+        "filename": "gerrit-gwtui/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-14T11:27:51Z",
+      "side": 1,
+      "message": "Unnecessary, these are the default values.",
+      "range": {
+        "startLine": 30,
+        "startChar": 2,
+        "endLine": 31,
+        "endChar": 15
+      },
+      "revId": "147f80f2447da3f4f9960464c312dd639b85f3d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a023cbc_f8463164",
+        "filename": "gerrit-gwtui/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-14T11:27:51Z",
+      "side": 1,
+      "message": "I think I see your point here. You want to harmonize the interfaces of gwt_binary() and gwt_user_agent_permutations(). That why you\u0027ve changed the parameter names and accepting list of modules even though we never have more than one. OTOH, we still passing more parameters to gwt_user_agent_permutations(). so think we could pass module \u003d foo, instead modules \u003d [foo]. And always use modules[0] in the implementation.",
+      "range": {
+        "startLine": 49,
+        "startChar": 12,
+        "endLine": 49,
+        "endChar": 20
+      },
+      "revId": "147f80f2447da3f4f9960464c312dd639b85f3d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a0d40e9_3918af8f",
+        "filename": "gerrit-gwtui/gwt.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-14T11:27:51Z",
+      "side": 1,
+      "message": "We always use only one module. I know that gwt_binary() can support multiple modules. But we don\u0027t need to expose this in our code.",
+      "range": {
+        "startLine": 32,
+        "startChar": 4,
+        "endLine": 32,
+        "endChar": 11
+      },
+      "revId": "147f80f2447da3f4f9960464c312dd639b85f3d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a023cbc_581f5d75",
+        "filename": "gerrit-gwtui/gwt.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-14T11:27:51Z",
+      "side": 1,
+      "message": "Why not to pass local_workers \u003d 4|8 or some such? Default seems to be 2 and is not pretty bueno.",
+      "range": {
+        "startLine": 67,
+        "startChar": 4,
+        "endLine": 67,
+        "endChar": 14
+      },
+      "revId": "147f80f2447da3f4f9960464c312dd639b85f3d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a0d40e9_792227c3",
+        "filename": "gerrit-gwtui/gwt.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-14T11:27:51Z",
+      "side": 1,
+      "message": "This is why i suggest to keep one module passing. Like it was in previous revision.",
+      "range": {
+        "startLine": 69,
+        "startChar": 16,
+        "endLine": 69,
+        "endChar": 39
+      },
+      "revId": "147f80f2447da3f4f9960464c312dd639b85f3d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4a023cbc_18e7a54b",
         "filename": "gerrit-gwtui/gwt.defs",
         "patchSetId": 1
@@ -48,6 +163,75 @@
     },
     {
       "key": {
+        "uuid": "4a023cbc_1815e557",
+        "filename": "tools/default.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-14T11:27:51Z",
+      "side": 1,
+      "message": "This can be implemented more generic as suggested by @bolinfest: [1]\n\n import copy\n def gwt_module(\n    gwt_xml\u003dNone,\n    **kwargs\n    ):\n  \"\"\"A GWT library is defined by its .java source code, a .gwt.xml module file, and   \n  resources.\"\"\"\n  java_kwargs \u003d copy.copy(kwargs)\n  if not \u0027resources\u0027 in java_kwargs:\n    java_kwargs[\u0027resources\u0027] \u003d []\n  if gwt_xml:\n    java_kwargs[\u0027resources\u0027] +\u003d [gwt_xml]\n  java_library(**java_kwargs)\n\n\n [1] https://github.com/facebook/buck/commit/2af62f449b4723c505cecbd91ec7b2287ad19f03",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 20
+      },
+      "revId": "147f80f2447da3f4f9960464c312dd639b85f3d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a023cbc_f82d91b4",
+        "filename": "tools/default.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-14T11:27:51Z",
+      "side": 1,
+      "message": "So we compile gwt_mopdules now; mention that significant change in the commit message?",
+      "range": {
+        "startLine": 46,
+        "startChar": 4,
+        "endLine": 46,
+        "endChar": 15
+      },
+      "revId": "147f80f2447da3f4f9960464c312dd639b85f3d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a023cbc_3818a98f",
+        "filename": "tools/default.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-14T11:27:51Z",
+      "side": 1,
+      "message": "This is why the differentiation is unnecessary.",
+      "range": {
+        "startLine": 47,
+        "startChar": 11,
+        "endLine": 47,
+        "endChar": 30
+      },
+      "revId": "147f80f2447da3f4f9960464c312dd639b85f3d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8aad14ff_b2fe80d2",
         "filename": "tools/default.defs",
         "patchSetId": 1
@@ -64,6 +248,29 @@
         "startChar": 0,
         "endLine": 136,
         "endChar": 16
+      },
+      "revId": "147f80f2447da3f4f9960464c312dd639b85f3d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a023cbc_782221c3",
+        "filename": "tools/default.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-14T11:27:51Z",
+      "side": 1,
+      "message": "Unnecessary style \u003d \u0027OBF\u0027, optimize\u003d9 are the default values. Why not to pass local_worker\u003d4|8 too?",
+      "range": {
+        "startLine": 136,
+        "startChar": 3,
+        "endLine": 136,
+        "endChar": 15
       },
       "revId": "147f80f2447da3f4f9960464c312dd639b85f3d8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

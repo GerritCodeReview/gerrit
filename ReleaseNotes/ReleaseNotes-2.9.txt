@@ -207,13 +207,36 @@ New Project Owner Guide]
 * link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/index.html[
 Newly structured documentation index]
 
-Plugins
-~~~~~~~
 
+Bug Fixes
+---------
+
+
+Configuration
+~~~~~~~~~~~~~
+
+
+Upgrades
+--------
+
+* Update gwtjsonrpc to 1.5
+* Update gwtorm to 1.8
+
+Plugins
+-------
+
+Replication
+~~~~~~~~~~~
+
+* The default push refSpec for the replication plugin has changed from `forced`
+to `non-forced` push (was `+refs/*:refs/*` and now is `refs/*:refs/*`). This change
+should not impact typical replication topologies where the slaves are read-only
+and can be pushed by their masters only. If you wanted explicitly to overwrite
+all changes on the slaves, you need to add a `push=+refs/*:refs/*` configuration
+entry for each replication target.
 
 Issue Tracker System plugins
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 *WARNING:* There are new plugins for the integration with Bugzilla,
 Jira and IBM Rational Team Concert:
@@ -244,31 +267,3 @@ New Features:
 * Whether the issue tracker integration is enabled/disabled for a
   project can be changed from the ProjectInfoScreen in the Gerrit
   WebUI.
-
-
-Bug Fixes
----------
-
-
-Configuration
-~~~~~~~~~~~~~
-
-
-Upgrades
---------
-
-* Update gwtjsonrpc to 1.5
-* Update gwtorm to 1.8
-
-Plugins
--------
-
-Replication
-~~~~~~~~~~~
-
-* The default push refSpec for the replication plugin has changed from `forced`
-to `non-forced` push (was `+refs/*:refs/*` and now is `refs/*:refs/*`). This change
-should not impact typical replication topologies where the slaves are read-only
-and can be pushed by their masters only. If you wanted explicitly to overwrite
-all changes on the slaves, you need to add a `push=+refs/*:refs/*` configuration
-entry for each replication target.

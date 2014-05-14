@@ -1062,6 +1062,19 @@ public class SideBySide2 extends Screen {
         Gerrit.display(
           PageLinks.toChange(changeId, rev),
           new ChangeScreen2(changeId, b, rev, openReplyBox));
+        CallbackGroup group = new CallbackGroup();
+        commentManager.saveAllDrafts(group);
+        group.done();
+        group.addListener(new GerritCallback<Void>() {
+          @Override
+          public void onSuccess(Void result) {
+            String b = base != null ? String.valueOf(base.get()) : null;
+            String rev = String.valueOf(revision.get());
+            Gerrit.display(
+              PageLinks.toChange(changeId, b, rev),
+              new ChangeScreen2(changeId, b, rev, openReplyBox, "sd"));
+          }
+        });
       }
     };
   }

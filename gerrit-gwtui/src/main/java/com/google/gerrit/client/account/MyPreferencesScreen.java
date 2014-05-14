@@ -52,6 +52,7 @@ public class MyPreferencesScreen extends SettingsScreen {
   private ListBox changeScreen;
   private ListBox diffView;
   private Button save;
+  private ListBox preselectRevision;
 
   @Override
   protected void onInitUI() {
@@ -101,6 +102,19 @@ public class MyPreferencesScreen extends SettingsScreen {
         com.google.gerrit.client.changes.Util.C.unifiedDiff(),
         AccountGeneralPreferences.DiffView.UNIFIED_DIFF.name());
 
+    preselectRevision = new ListBox();
+    preselectRevision.addItem(
+        com.google.gerrit.client.changes.Util.C.PreselectDiffAgainstBase(),
+        AccountGeneralPreferences.PreselectDiffAgainst.BASE.name());
+    preselectRevision.addItem(com.google.gerrit.client.changes.Util.C
+        .PreselectDiffAgainstPreviousRevision(),
+        AccountGeneralPreferences.PreselectDiffAgainst.PREVIOUS_REVISION
+            .name());
+    preselectRevision.addItem(com.google.gerrit.client.changes.Util.C
+        .PreselectDiffAgainstPriorRevisionMeLastCommented(),
+        AccountGeneralPreferences.PreselectDiffAgainst.PRIOR_REVISION_ME_LAST_COMMENTED_ON
+            .name());
+
     Date now = new Date();
     dateFormat = new ListBox();
     for (AccountGeneralPreferences.DateFormat fmt : AccountGeneralPreferences.DateFormat
@@ -137,7 +151,7 @@ public class MyPreferencesScreen extends SettingsScreen {
 
     relativeDateInChangeTable = new CheckBox(Util.C.showRelativeDateInChangeTable());
 
-    final Grid formGrid = new Grid(11, 2);
+    final Grid formGrid = new Grid(13, 2);
 
     int row = 0;
     formGrid.setText(row, labelIdx, "");
@@ -182,7 +196,12 @@ public class MyPreferencesScreen extends SettingsScreen {
 
     formGrid.setText(row, labelIdx, Util.C.diffViewLabel());
     formGrid.setWidget(row, fieldIdx, diffView);
+    row++;
+    }
 
+    formGrid.setText(row, labelIdx, Util.C.preselectRevision());
+    formGrid.setWidget(row, fieldIdx, preselectRevision);
+    row++;
     add(formGrid);
 
     save = new Button(Util.C.buttonSaveChanges());
@@ -208,6 +227,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     e.listenTo(commentVisibilityStrategy);
     e.listenTo(changeScreen);
     e.listenTo(diffView);
+    e.listenTo(preselectRevision);
   }
 
   @Override
@@ -233,6 +253,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     commentVisibilityStrategy.setEnabled(on);
     changeScreen.setEnabled(on);
     diffView.setEnabled(on);
+    preselectRevision.setEnabled(on);
   }
 
   private void display(final AccountGeneralPreferences p) {
@@ -256,6 +277,9 @@ public class MyPreferencesScreen extends SettingsScreen {
     setListBox(diffView,
         AccountGeneralPreferences.DiffView.SIDE_BY_SIDE,
         p.getDiffView());
+    setListBox(preselectRevision,
+        AccountGeneralPreferences.PreselectDiffAgainst.BASE,
+        p.getPreselectRevision());
   }
 
   private void setListBox(final ListBox f, final short defaultValue,
@@ -333,6 +357,9 @@ public class MyPreferencesScreen extends SettingsScreen {
     p.setChangeScreen(getListBox(changeScreen,
         null,
         AccountGeneralPreferences.ChangeScreen.values()));
+    p.setPreselectRevision(getListBox(preselectRevision,
+        AccountGeneralPreferences.PreselectDiffAgainst.BASE,
+        AccountGeneralPreferences.PreselectDiffAgainst.values()));
 
     enable(false);
     save.setEnabled(false);

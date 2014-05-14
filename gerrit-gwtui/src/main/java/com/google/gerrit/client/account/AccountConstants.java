@@ -38,6 +38,8 @@ public interface AccountConstants extends Constants {
   String showUsernameInReviewCategory();
   String buttonSaveChanges();
   String showRelativeDateInChangeTable();
+  String showSizeBarInChangeTable();
+  String preselectRevision();
 
   String changeScreenOldUi();
   String changeScreenNewUi();

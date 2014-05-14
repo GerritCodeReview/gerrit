@@ -1,5 +1,6 @@
 body {
-  margin: 1em;
+  margin: 1em auto;
+  width: 900px;
 }
 
 #toctitle {

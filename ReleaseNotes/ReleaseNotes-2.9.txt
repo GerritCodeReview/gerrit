@@ -67,6 +67,64 @@ Global
 * Project links by default link to the project dashboard
 
 
+New Change Screen
+^^^^^^^^^^^^^^^^^
+
+
+* The new change screen is now the default change screen.
+
+* The layout was changed so that the focus is now on the commit
+message, the change ID and the change status.
+
+* Draft comments are displayed in the reply box.
++
+There are links to navigate to the inline comments which can be used if
+a comment needs to be edited.
+
+* New inline comments from other users, that were published after the
+current user last reviewed this change, are highlighted in bold.
+
+* New summary comments from other users, that were published after the
+current user last reviewed this change, are automatically expanded in
+the change history.
++
+The support for the old comment visibility strategy is discontinued.
+
+* Inline comments are shown in the change history.
+
+* A reply icon is shown on each change message.
+
+* Quoting is possible when replying to a comment.
+
+* New link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/user-review-ui.html#related-changes[
+Related Changes] tabs:
+** `Cherry-Picks`
+** `Same Topic`
+** `Conflicts With`
+
+* The title of the `Patch Sets` drop-down panel shows the number of the
+currently viewed patch set and the total number of patch sets, in the
+form: "current patch set/number of patch sets".
+
+* The currently viewed patch set is displayed in the `Patch Sets` title
+
+* Keyboard shortcuts to navigate to next/previous patch set.
+
+* Support `[`, `/` and `]` keys to navigate between files in a cycle.
+
+* Show a tooltip on reviewers indicating on which labels they can vote.
+
+* The `Submit` button is enabled even if the change is not mergeable.
++
+This allows to do the conflict resolution for a change series in a
+single merge commit and submit the changes in reverse order.
+
+* New `Open All` button in files header.
+
+* If a merge commit is viewed this is highlighted by an icon. In this
+case the parent commits are also shown.
+
+
 Change List / Dashboards
 ^^^^^^^^^^^^^^^^^^^^^^^^
 

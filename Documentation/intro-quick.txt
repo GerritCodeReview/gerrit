@@ -8,14 +8,16 @@ Will it fit in my work flow and in my organization?
 
 == What is Gerrit?
 
-I assume that if you're reading this then you're already convinced of
-the benefits of code review in general but want some technical support
-to make it easy. Code reviews mean different things to different people.
-To some it's a formal meeting with a projector and an entire team
-going through the code line by line. To others it's getting someone to
-glance over the code before it is committed.
+It is assumed that if you're reading this then you're already convinced
+of the benefits of code review in general but want some technical support
+to make it easy.
 
-Gerrit is intended to provide a light weight framework for reviewing
+Code reviews mean different things to different people. To some it's a
+formal meeting with a projector and an entire team going through the code
+line by line. To others it's getting someone to glance over the code before
+it is committed.
+
+Gerrit is intended to provide a lightweight framework for reviewing
 every commit before it is accepted into the code base. Changes are
 uploaded to Gerrit but don't actually become a part of the project
 until they've been reviewed and accepted. In many ways this is simply
@@ -159,8 +161,7 @@ at the diff of your change, add some comments explaining what you did
 and why, you may even add a list of people that should review the change.
 
 Reviewers can find changes that they want to review in any number of
-ways. Gerrit has a capable
-link:user-search.html[search]
+ways. Gerrit has a capable link:user-search.html[search]
 that allows project leaders (or anyone else) to find changes that need
 to be reviewed. Users can also setup watches on Gerrit projects with a
 search expression, this causes Gerrit to notify them of matching
@@ -264,14 +265,21 @@ Delta compression using up to 8 threads.
 Compressing objects: 100% (2/2), done.
 Writing objects: 100% (3/3), 546 bytes, done.
 Total 3 (delta 0), reused 0 (delta 0)
+remote: Processing changes: updated: 1, done
+remote:
+remote: Updated Changes:
+remote:   http://gerrithost:8080/68
+remote:
 To ssh://gerrithost:29418/RecipeBook.git
  * [new branch]      HEAD -> refs/for/master
 ----
 
-Note that the output is slightly different this time around. We don't
-get told about a new review because we're adding to an existing
-review. Having uploaded the reworked commit we can go back into the
-Gerrit web interface and look at our change.
+Note that the output is slightly different this time around. Since
+we're adding to an existing review it tells us that the change was
+updated.
+
+Having uploaded the reworked commit we can go back into the Gerrit web
+interface and look at our change.
 
 .Reviewing the Rework
 image::images/intro-quick-review-2-patches.jpg[Reviewing the Rework]
@@ -304,7 +312,7 @@ a git branch. So all the reviewers need to do is fetch and checkout that
 branch from Gerrit and they will have the change.
 
 We don't even need to think about it that hard, if you look at the
-earlier screen shots of the Gerrit Code Review Screen you'll notice a
+earlier screenshots of the Gerrit Code Review Screen you'll notice a
 _download_ command. All we need to do to get the change is copy
 paste this command and run it in our Gerrit checkout.
 

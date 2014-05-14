@@ -235,6 +235,73 @@ changes have the same topic.
 * Stable CSS class names
 
 
+Plugins
+~~~~~~~
+
+
+* Plugin API to invoke the REST API
+
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/dev-plugins.html#screen[
+Plugins can add entire screens to Gerrit]
+
+* Plugins can have a
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/dev-plugins.html#settings-screen[
+setting screen] which is linked from plugin list screen
+
+* Support to edit
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/dev-plugins.html#simple-project-specific-configuration[
+project plugin configuration parameters] in UI
+
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/config-gerrit.html#plugins.allowRemoteAdmin[
+Remote Plugin Installation is by default disabled]
+
+
+Extension Points
+^^^^^^^^^^^^^^^^
+
+
+* Extension point to provide a "Message Of The Day"
+
+* Validation for
+** link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/config-validation.html#new-project-validation[
+project creation]
+** link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/config-validation.html#new-group-validation[
+group creation]
+
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/dev-plugins.html#init_step[
+Init steps can do initialization after the site is created]
+** The `All-Projects` `project.config` can be read and edited
+
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/dev-plugins.html#receive-pack[
+Initialization of ReceivePack]
+
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/dev-plugins.html#post-receive-hook[
+Registration of PostReceiveHooks]
+
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/dev-plugins.html#root-level-commands[
+Registration of root level commands]
+
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/dev-plugins.html#multiple-commands[
+Multiple SSH commands can be bound to the same class]
+
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/config-gerrit.html#database.dataSourceInterceptorClass[
+DataSource Interception]
+
+
+JavaScript Plugins
+^^^^^^^^^^^^^^^^^^
+
+
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/js-api.html#self_on[
+JavaScript Callbacks]
+** Gerrit.on(\'history\', f)
+** Gerrit.on(\'submitchange\', f)
+** Gerrit.on(\'showchange\', f)
+
+* `change_plugins` element on new change screen that allows to insert
+arbitrary HTML fragments from plugins
+
+
 Bug Fixes
 ---------
 

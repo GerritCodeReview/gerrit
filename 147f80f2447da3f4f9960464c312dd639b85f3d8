@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aa12d80b_33ea8813",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-14T00:42:28Z",
+      "side": 1,
+      "message": "this gets included in the hyperlink and results in a 404.",
+      "range": {
+        "startLine": 26,
+        "startChar": 47,
+        "endLine": 26,
+        "endChar": 48
+      },
+      "revId": "147f80f2447da3f4f9960464c312dd639b85f3d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8aad14ff_b2fe80d2",
+        "filename": "tools/default.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-14T00:42:28Z",
+      "side": 1,
+      "message": "tabs",
+      "range": {
+        "startLine": 135,
+        "startChar": 0,
+        "endLine": 136,
+        "endChar": 16
+      },
+      "revId": "147f80f2447da3f4f9960464c312dd639b85f3d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

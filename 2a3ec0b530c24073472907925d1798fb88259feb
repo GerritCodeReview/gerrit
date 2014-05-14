@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6a0d40e9_b9715fbf",
+        "filename": "ReleaseNotes/ReleaseNotes-2.9.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-14T16:06:17Z",
+      "side": 1,
+      "message": "It\u0027s is only the case if it is enabled in config. \"is moved\" is correct or is the data still saved in addition in the database?",
+      "revId": "2a3ec0b530c24073472907925d1798fb88259feb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

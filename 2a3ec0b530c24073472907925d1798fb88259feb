@@ -16,6 +16,24 @@
       "revId": "2a3ec0b530c24073472907925d1798fb88259feb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a0d40e9_f97bd798",
+        "filename": "ReleaseNotes/ReleaseNotes-2.9.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-14T17:39:47Z",
+      "side": 1,
+      "message": "Oh, you are right! Then I rather remove this from the release notes.",
+      "parentUuid": "6a0d40e9_b9715fbf",
+      "revId": "2a3ec0b530c24073472907925d1798fb88259feb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

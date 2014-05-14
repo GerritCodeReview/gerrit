@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "4a023cbc_18e7a54b",
+        "filename": "gerrit-gwtui/gwt.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-14T05:56:42Z",
+      "side": 1,
+      "message": "tab",
+      "range": {
+        "startLine": 74,
+        "startChar": 0,
+        "endLine": 74,
+        "endChar": 1
+      },
+      "revId": "147f80f2447da3f4f9960464c312dd639b85f3d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8aad14ff_b2fe80d2",
         "filename": "tools/default.defs",
         "patchSetId": 1

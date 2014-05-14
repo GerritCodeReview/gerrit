@@ -78,7 +78,11 @@ limitations under the License.
       position: absolute;
       top: 0px;
       right: -16px;
-     }
+    }
+    <!-- To make room for the copyableLabel from the adjacent column -->
+    .parentWebLink {
+      margin-left:16px;
+    }
   </ui:style>
   <g:HTMLPanel>
     <g:ScrollPanel styleName='{style.scroll}' ui:field='scroll'>
@@ -115,6 +119,15 @@ limitations under the License.
         <th><ui:msg>Commit</ui:msg></th>
         <td><clippy:CopyableLabel styleName='{style.clippy}' ui:field='commitName'/></td>
         <td><a style="margin-left:16px;" ui:field='browserLink' href=""/></td>
+      </tr>
+      <tr ui:field='parents' style='display: none'>
+        <th><ui:msg>Parents</ui:msg></th>
+        <td>
+          <g:FlowPanel ui:field='parentCommits'/>
+        </td>
+        <td>
+          <g:VerticalPanel ui:field='parentWebLinks'/>
+        </td>
       </tr>
       <tr>
         <th><ui:msg>Change-Id</ui:msg></th>

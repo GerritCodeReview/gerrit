@@ -92,6 +92,13 @@ REST API
 ~~~~~~~~
 
 
+Projects
+^^^^^^^^
+
+
+* New link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/rest-api-projects.html#get-content[
+REST endpoint to get content of a file from HEAD of a branch]
+
 Documentation
 ^^^^^^^^^^^^^
 

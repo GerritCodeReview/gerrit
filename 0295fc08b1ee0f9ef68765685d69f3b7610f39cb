@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "ca1f0c44_e4593a36",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/ContextMapper.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-15T12:43:06Z",
+      "side": 1,
+      "message": "Make this package visible?",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 7
+      },
+      "revId": "0295fc08b1ee0f9ef68765685d69f3b7610f39cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca1f0c44_04865653",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/ContextMapper.java",
         "patchSetId": 4
@@ -64,6 +87,52 @@
         "startChar": 2,
         "endLine": 86,
         "endChar": 64
+      },
+      "revId": "0295fc08b1ee0f9ef68765685d69f3b7610f39cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca1f0c44_a45f421a",
+        "filename": "gerrit-httpd/src/test/java/com/google/gerrit/httpd/plugins/ContextMapperTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-15T12:43:06Z",
+      "side": 1,
+      "message": "Usually we import every single class.",
+      "range": {
+        "startLine": 17,
+        "startChar": 35,
+        "endLine": 17,
+        "endChar": 37
+      },
+      "revId": "0295fc08b1ee0f9ef68765685d69f3b7610f39cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca1f0c44_c4543e01",
+        "filename": "gerrit-httpd/src/test/java/com/google/gerrit/httpd/plugins/ContextMapperTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-15T12:43:06Z",
+      "side": 1,
+      "message": "The same as above.",
+      "range": {
+        "startLine": 22,
+        "startChar": 30,
+        "endLine": 22,
+        "endChar": 32
       },
       "revId": "0295fc08b1ee0f9ef68765685d69f3b7610f39cb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

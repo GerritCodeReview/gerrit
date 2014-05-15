@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a3188d1_279a7a90",
+        "filename": "ReleaseNotes/ReleaseNotes-2.9.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-15T13:03:49Z",
+      "side": 1,
+      "message": "This may be a bit misleading.  The setting is per user, and is not project-specific.",
+      "range": {
+        "startLine": 150,
+        "startChar": 38,
+        "endLine": 150,
+        "endChar": 47
+      },
+      "revId": "d59073ead91e5450f0506f552d2e402ee6c95cc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a26849c_46977267",
+        "filename": "ReleaseNotes/ReleaseNotes-2.9.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-15T13:03:49Z",
+      "side": 1,
+      "message": "\"All diff preferences are honored\"",
+      "range": {
+        "startLine": 155,
+        "startChar": 0,
+        "endLine": 155,
+        "endChar": 26
+      },
+      "revId": "d59073ead91e5450f0506f552d2e402ee6c95cc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a3188d1_47976e67",
+        "filename": "ReleaseNotes/ReleaseNotes-2.9.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-15T13:03:49Z",
+      "side": 1,
+      "message": "a",
+      "range": {
+        "startLine": 499,
+        "startChar": 41,
+        "endLine": 499,
+        "endChar": 43
+      },
+      "revId": "d59073ead91e5450f0506f552d2e402ee6c95cc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

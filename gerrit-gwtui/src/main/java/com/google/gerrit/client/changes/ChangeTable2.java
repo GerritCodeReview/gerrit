@@ -182,12 +182,8 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
     for (int i = 0; i < labelNames.size(); i++) {
       String name = labelNames.get(i);
       int col = baseColumns + i;
-
-      StringBuilder abbrev = new StringBuilder();
-      for (String t : name.split("-")) {
-        abbrev.append(t.substring(0, 1).toUpperCase());
-      }
-      table.setText(0, col, abbrev.toString());
+      String abbrev = getAbbreviation(name,"-");
+      table.setText(0, col, abbrev);
       table.getCellFormatter().getElement(0, col).setTitle(name);
       fmt.addStyleName(0, col, Gerrit.RESOURCES.css().dataHeader());
     }
@@ -252,6 +248,9 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
     boolean displayName = Gerrit.isSignedIn() && Gerrit.getUserAccount()
         .getGeneralPreferences().isShowUsernameInReviewCategory();
 
+    boolean displayAbbrev = Gerrit.isSignedIn() && Gerrit.getUserAccount()
+        .getGeneralPreferences().isShowAbbreviatedUsernameInReviewCategory();
+
     for (int idx = 0; idx < labelNames.size(); idx++, col++) {
       String name = labelNames.get(idx);
 
@@ -268,6 +267,9 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
         if (displayName && user != null) {
           FlowPanel panel = new FlowPanel();
           panel.add(new Image(Gerrit.RESOURCES.redNot()));
+          if (displayAbbrev) {
+            user = getAbbreviation(user," ");
+          }
           panel.add(new InlineLabel(user));
           table.setWidget(row, col, panel);
         } else {
@@ -278,6 +280,9 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
         if (displayName && user != null) {
           FlowPanel panel = new FlowPanel();
           panel.add(new Image(Gerrit.RESOURCES.greenCheck()));
+          if (displayAbbrev) {
+            user = getAbbreviation(user," ");
+          }
           panel.add(new InlineLabel(user));
           table.setWidget(row, col, panel);
         } else {
@@ -287,6 +292,9 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
         user = label.disliked().name();
         String vstr = String.valueOf(label._value());
         if (displayName && user != null) {
+          if (displayAbbrev) {
+            user = getAbbreviation(user," ");
+          }
           vstr = vstr + " " + user;
         }
         fmt.addStyleName(row, col, Gerrit.RESOURCES.css().negscore());
@@ -295,6 +303,9 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
         user = label.recommended().name();
         String vstr = "+" + label._value();
         if (displayName && user != null) {
+          if (displayAbbrev) {
+            user = getAbbreviation(user," ");
+          }
           vstr = vstr + " " + user;
         }
         fmt.addStyleName(row, col, Gerrit.RESOURCES.css().posscore());
@@ -321,6 +332,14 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
         needHighlight);
 
     setRowItem(row, c);
+  }
+
+  private String getAbbreviation(String name, String token) {
+    StringBuilder abbrev = new StringBuilder();
+    for (String t : name.split(token)) {
+      abbrev.append(t.substring(0, 1).toUpperCase());
+    }
+    return abbrev.toString();
   }
 
   private static Widget getSizeWidget(ChangeInfo c) {

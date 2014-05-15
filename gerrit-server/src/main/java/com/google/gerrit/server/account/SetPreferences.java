@@ -61,6 +61,7 @@ public class SetPreferences implements RestModifyView<AccountResource, Input> {
     public TimeFormat timeFormat;
     public Boolean reversePatchSetOrder;
     public Boolean showUsernameInReviewCategory;
+    public Boolean showAbbreviatedUsernameInReviewCategory;
     public Boolean relativeDateInChangeTable;
     public Boolean sizeBarInChangeTable;
     public CommentVisibilityStrategy commentVisibilityStrategy;
@@ -146,6 +147,9 @@ public class SetPreferences implements RestModifyView<AccountResource, Input> {
       }
       if (i.showUsernameInReviewCategory != null) {
         p.setShowUsernameInReviewCategory(i.showUsernameInReviewCategory);
+      }
+      if (i.showAbbreviatedUsernameInReviewCategory != null) {
+        p.setShowAbbreviatedUsernameInReviewCategory(i.showAbbreviatedUsernameInReviewCategory);
       }
       if (i.relativeDateInChangeTable != null) {
         p.setRelativeDateInChangeTable(i.relativeDateInChangeTable);

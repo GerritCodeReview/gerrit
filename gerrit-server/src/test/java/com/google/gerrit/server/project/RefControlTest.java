@@ -301,7 +301,7 @@ public class RefControlTest {
     grant(util.getParentConfig(), PUSH, ANONYMOUS_USERS, "refs/tags/*").setBlock();
 
     ProjectControl u = util.user(local, DEVS);
-    assertFalse("u can't force update tag", u.controlForRef("refs/tags/V10").canForceUpdate());
+    assertFalse("u can't update tag", u.controlForRef("refs/tags/V10").canUpdate());
   }
 
   @Test

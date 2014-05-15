@@ -23,4 +23,6 @@ public class PatchSetCreatedEvent extends ChangeEvent {
     public ChangeAttribute change;
     public PatchSetAttribute patchSet;
     public AccountAttribute uploader;
+    public boolean isTrivialRebase;
+    public boolean noCodeChange;
 }

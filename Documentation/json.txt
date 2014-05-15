@@ -115,6 +115,10 @@ was created.
 
 isDraft:: Whether or not the patch set is a draft patch set.
 
+isTrivialRebase:: Whether or not the patch set is a trivial rebase (same code, different parent) of the previous patch set.
+
+noCodeChange:: Whether or not the patch set is only a commit message change (same code, same parent) of the previous patch set.
+
 approvals:: The <<approval,approval attribute>> granted.
 
 comments:: All comments for this patchset in <<patchsetcomment,patchsetComment attributes>>.

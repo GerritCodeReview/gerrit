@@ -30,6 +30,8 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.change.ChangeKind;
+import com.google.gerrit.server.change.ChangeKindCache;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
@@ -51,6 +53,7 @@ import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -70,6 +73,7 @@ import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -209,6 +213,10 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
 
     private final AccountCache accountCache;
 
+    private final ChangeKindCache changeKindCache;
+
+    private final ChangeData.Factory changeDataFactory;
+
     private final EventFactory eventFactory;
 
     private final SitePaths sitePaths;
@@ -236,6 +244,8 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
       final SitePaths sitePath,
       final ProjectCache projectCache,
       final AccountCache accountCache,
+      final ChangeKindCache changeKindCache,
+      final ChangeData.Factory changeDataFactory,
       final EventFactory eventFactory,
       final SitePaths sitePaths,
       final DynamicSet<ChangeListener> unrestrictedListeners) {
@@ -244,6 +254,8 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
         this.hookQueue = queue.createQueue(1, "hook");
         this.projectCache = projectCache;
         this.accountCache = accountCache;
+        this.changeKindCache = changeKindCache;
+        this.changeDataFactory = changeDataFactory;
         this.eventFactory = eventFactory;
         this.sitePaths = sitePath;
         this.unrestrictedListeners = unrestrictedListeners;
@@ -351,9 +363,50 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
         final AccountState uploader = accountCache.get(patchSet.getUploader());
         final AccountState owner = accountCache.get(change.getOwner());
 
+        boolean isTrivialRebase = false;
+        boolean noCodeChange = false;
+        try {
+          if (patchSet.getId().get() > 1) {
+            ProjectState projectState = projectCache.checkedGet(change.getProject());
+
+            Repository repo = repoManager.openRepository(change.getProject());
+
+            ChangeData cd = changeDataFactory.create(db, change);
+            Collection<PatchSet> patchSetCollection = cd.patches();
+            PatchSet priorPs = patchSet;
+            for (PatchSet ps : patchSetCollection) {
+              if (ps.getId().get() < patchSet.getId().get()) {
+                // We only want the previous patch set, so walk until the last one
+                priorPs = ps;
+              }
+            }
+
+            ChangeKind kind =
+                changeKindCache.getChangeKind(projectState, repo,
+                    ObjectId.fromString(priorPs.getRevision().get()),
+                    ObjectId.fromString(patchSet.getRevision().get()));
+            switch (kind) {
+              case TRIVIAL_REBASE:
+                isTrivialRebase = true;
+                break;
+
+              case NO_CODE_CHANGE:
+                noCodeChange = true;
+                break;
+
+              default:
+              // intentionally left blank
+            }
+          }
+        } catch (IOException e) {
+          // Do nothing; assume we have a complex change
+        }
+
         event.change = eventFactory.asChangeAttribute(change);
         event.patchSet = eventFactory.asPatchSetAttribute(patchSet);
         event.uploader = eventFactory.asAccountAttribute(uploader.getAccount());
+        event.isTrivialRebase = isTrivialRebase;
+        event.noCodeChange = noCodeChange;
         fireEvent(change, event, db);
 
         final List<String> args = new ArrayList<>();
@@ -367,6 +420,8 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
         addArg(args, "--uploader", getDisplayName(uploader.getAccount()));
         addArg(args, "--commit", event.patchSet.revision);
         addArg(args, "--patchset", event.patchSet.number);
+        addArg(args, "--trivial-rebase", isTrivialRebase ? "true" : "false");
+        addArg(args, "--no-code-change", noCodeChange ? "true" : "false");
 
         runHook(change.getProject(), patchsetCreatedHook, args);
     }

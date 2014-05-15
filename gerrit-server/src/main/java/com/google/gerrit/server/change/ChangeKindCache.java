@@ -14,6 +14,9 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.project.ProjectState;
 
 import org.eclipse.jgit.lib.ObjectId;
@@ -28,4 +31,6 @@ import org.eclipse.jgit.lib.Repository;
 public interface ChangeKindCache {
   public ChangeKind getChangeKind(ProjectState project, Repository repo,
       ObjectId prior, ObjectId next);
+
+  public ChangeKind getChangeKind(ReviewDb db, Change change, PatchSet patch);
 }

@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "ca1f0c44_443beee6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-15T11:38:32Z",
+      "side": 1,
+      "message": "Bug: Issue 2646\n\nshould be added too [1].\n\n [1] http://code.google.com/p/gerrit/issues/detail?id\u003d2646",
+      "revId": "0f81c60176dff8e6e071d84e5ae555f218c130d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea4e9081_65ec86e2",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
         "patchSetId": 5

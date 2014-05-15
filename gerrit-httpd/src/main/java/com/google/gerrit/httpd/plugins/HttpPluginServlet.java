@@ -304,7 +304,8 @@ class HttpPluginServlet extends HttpServlet
       }
       if (!exists(entry) && file.endsWith("/index.html")) {
         String pfx = file.substring(0, file.length() - "index.html".length());
-        sendAutoIndex(jar, pfx, holder.plugin.getName(), key, res);
+        sendAutoIndex(jar, pfx, holder.plugin.getName(), key, res,
+            holder.plugin.getSrcFile().lastModified());
       } else if (exists(entry) && entry.getName().endsWith(".md")) {
         sendMarkdownAsHtml(jar, entry, holder.plugin.getName(), key, res);
       } else if (exists(entry)) {
@@ -346,7 +347,8 @@ class HttpPluginServlet extends HttpServlet
 
   private void sendAutoIndex(JarFile jar,
       String prefix, String pluginName,
-      ResourceKey cacheKey, HttpServletResponse res) throws IOException {
+      ResourceKey cacheKey, HttpServletResponse res, long lastModifiedTime)
+      throws IOException {
     List<JarEntry> cmds = Lists.newArrayList();
     List<JarEntry> servlets = Lists.newArrayList();
     List<JarEntry> restApis = Lists.newArrayList();
@@ -422,11 +424,11 @@ class HttpPluginServlet extends HttpServlet
     appendEntriesSection(jar, restApis, "REST APIs", md, prefix, "rest-api-".length());
     appendEntriesSection(jar, cmds, "Commands", md, prefix, "cmd-".length());
 
-    sendMarkdownAsHtml(md.toString(), pluginName, cacheKey, res);
+    sendMarkdownAsHtml(md.toString(), pluginName, cacheKey, res, lastModifiedTime);
   }
 
   private void sendMarkdownAsHtml(String md, String pluginName,
-      ResourceKey cacheKey, HttpServletResponse res)
+      ResourceKey cacheKey, HttpServletResponse res, long lastModifiedTime)
       throws UnsupportedEncodingException, IOException {
     Map<String, String> macros = Maps.newHashMap();
     macros.put("PLUGIN", pluginName);
@@ -457,7 +459,8 @@ class HttpPluginServlet extends HttpServlet
       .markdownToDocHtml(sb.toString(), "UTF-8");
     resourceCache.put(cacheKey, new SmallResource(html)
         .setContentType("text/html")
-        .setCharacterEncoding("UTF-8"));
+        .setCharacterEncoding("UTF-8")
+        .setLastModified(lastModifiedTime));
     res.setContentType("text/html");
     res.setCharacterEncoding("UTF-8");
     res.setContentLength(html.length);
@@ -546,7 +549,7 @@ class HttpPluginServlet extends HttpServlet
     if (0 < time) {
       res.setDateHeader("Last-Modified", time);
     }
-    sendMarkdownAsHtml(txtmd, pluginName, key, res);
+    sendMarkdownAsHtml(txtmd, pluginName, key, res, time);
   }
 
   private void sendResource(JarFile jar, JarEntry entry,

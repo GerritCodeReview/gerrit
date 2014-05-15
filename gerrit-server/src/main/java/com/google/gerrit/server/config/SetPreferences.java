@@ -49,6 +49,7 @@ public class SetPreferences implements RestModifyView<ConfigResource, Input> {
         || i.dateFormat != null || i.timeFormat != null
         || i.reversePatchSetOrder != null
         || i.showUsernameInReviewCategory != null
+        || i.showAbbreviatedUsernameInReviewCategory != null
         || i.relativeDateInChangeTable != null
         || i.sizeBarInChangeTable != null
         || i.legacycidInChangeTable != null

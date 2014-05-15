@@ -109,6 +109,7 @@ public class GetPreferences implements RestReadView<AccountResource> {
     TimeFormat timeFormat;
     Boolean reversePatchSetOrder;
     Boolean showUsernameInReviewCategory;
+    Boolean showAbbreviatedUsernameInReviewCategory;
     Boolean relativeDateInChangeTable;
     Boolean sizeBarInChangeTable;
     Boolean legacycidInChangeTable;
@@ -130,6 +131,7 @@ public class GetPreferences implements RestReadView<AccountResource> {
         timeFormat = p.getTimeFormat();
         reversePatchSetOrder = p.isReversePatchSetOrder() ? true : null;
         showUsernameInReviewCategory = p.isShowUsernameInReviewCategory() ? true : null;
+        showAbbreviatedUsernameInReviewCategory = p.isShowAbbreviatedUsernameInReviewCategory() ? true : null;
         relativeDateInChangeTable = p.isRelativeDateInChangeTable() ? true : null;
         sizeBarInChangeTable = p.isSizeBarInChangeTable() ? true : null;
         legacycidInChangeTable = p.isLegacycidInChangeTable() ? true : null;

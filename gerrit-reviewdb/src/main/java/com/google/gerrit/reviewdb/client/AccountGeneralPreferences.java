@@ -167,6 +167,9 @@ public final class AccountGeneralPreferences {
   @Column(id = 17)
   protected boolean legacycidInChangeTable;
 
+  @Column(id = 18)
+  protected boolean showUserAbbrevInReview;
+
   public AccountGeneralPreferences() {
   }
 
@@ -244,8 +247,16 @@ public final class AccountGeneralPreferences {
     return showUserInReview;
   }
 
+  public boolean isShowAbbreviatedUsernameInReviewCategory() {
+    return showUserAbbrevInReview;
+  }
+
   public void setShowUsernameInReviewCategory(final boolean showUsernameInReviewCategory) {
     this.showUserInReview = showUsernameInReviewCategory;
+  }
+
+  public void setShowAbbreviatedUsernameInReviewCategory(final boolean showAbbreviatedUsernameInReviewCategory) {
+    this.showUserAbbrevInReview = showAbbreviatedUsernameInReviewCategory;
   }
 
   public DateFormat getDateFormat() {
@@ -332,6 +343,7 @@ public final class AccountGeneralPreferences {
     copySelfOnEmail = false;
     reversePatchSetOrder = false;
     showUserInReview = false;
+    showUserAbbrevInReview = false;
     downloadUrl = null;
     downloadCommand = null;
     dateFormat = null;

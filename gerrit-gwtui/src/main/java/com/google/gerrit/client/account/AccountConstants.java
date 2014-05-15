@@ -36,6 +36,7 @@ public interface AccountConstants extends Constants {
   String copySelfOnEmails();
   String reversePatchSetOrder();
   String showUsernameInReviewCategory();
+  String showAbbreviatedUsernameInReviewCategory();
   String buttonSaveChanges();
   String showRelativeDateInChangeTable();
   String showSizeBarInChangeTable();

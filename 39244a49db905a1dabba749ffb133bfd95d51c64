@@ -2,6 +2,103 @@
   "comments": [
     {
       "key": {
+        "uuid": "2a3188d1_e745c228",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-05-15T19:01:27Z",
+      "side": 1,
+      "message": "Perhaps s/in the PatchSetCreatedEvent/to the patchset-created hook/? It\u0027s only on the command line that they\u0027re considered flags; in the JSON form of the event I would call them fields.",
+      "range": {
+        "startLine": 9,
+        "startChar": 27,
+        "endLine": 9,
+        "endChar": 54
+      },
+      "revId": "39244a49db905a1dabba749ffb133bfd95d51c64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a26849c_a64bc63c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-05-15T19:01:27Z",
+      "side": 1,
+      "message": "I don\u0027t especially like the idea of having one new boolean flag per ChangeKind, since they\u0027re mutually exclusive. Why did you choose that over passing --kind TRIVIAL_REBASE or whatever?",
+      "range": {
+        "startLine": 9,
+        "startChar": 11,
+        "endLine": 9,
+        "endChar": 26
+      },
+      "revId": "39244a49db905a1dabba749ffb133bfd95d51c64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a3188d1_075bb60d",
+        "filename": "Documentation/json.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-05-15T19:01:27Z",
+      "side": 1,
+      "message": "If this is going to be a boolean and I didn\u0027t know anything about the internals, I would have to ask: why \"noCodeChange: false\" instead of \"codeChange: true\"?\n\nBut if this were a kind, I would understand why it\u0027s call NO_CODE_CHANGE, so maybe this is a moot point.",
+      "revId": "39244a49db905a1dabba749ffb133bfd95d51c64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a3188d1_2758ba0e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-05-15T19:01:27Z",
+      "side": 1,
+      "message": "Factor this out into a separate method.",
+      "revId": "39244a49db905a1dabba749ffb133bfd95d51c64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a26849c_c640c21b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-05-15T19:01:27Z",
+      "side": 1,
+      "message": "Hm, I feel like we should actually have a NEW_CHANGE ChangeKind and support passing ObjectId.zeroId() and/or null as prior into getChangeKind.\n\nBut that\u0027s beyond the scope of this change, just thinking out loud here.",
+      "revId": "39244a49db905a1dabba749ffb133bfd95d51c64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5fecc079_81d53a54",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
         "patchSetId": 1
@@ -19,6 +116,47 @@
         "endLine": 382,
         "endChar": 13
       },
+      "revId": "39244a49db905a1dabba749ffb133bfd95d51c64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a3188d1_4755aed5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-05-15T19:01:27Z",
+      "side": 1,
+      "message": "The code in ApprovalCopier is the way it is because it always needs to walk the whole sublist in order. That would be overkill here.\n\nThe naive solution is to take patchSet.getId().get() - 1, but I\u0027m glad you didn\u0027t do that, because (draft) patch sets can be deleted.\n\nI don\u0027t think there\u0027s a more straightforward or faster way than what you have. You have to traverse every element because cd.patches() is unordered. So anything else is going to be more boilerplate and no faster.",
+      "parentUuid": "5fecc079_81d53a54",
+      "range": {
+        "startLine": 377,
+        "startChar": 12,
+        "endLine": 382,
+        "endChar": 13
+      },
+      "revId": "39244a49db905a1dabba749ffb133bfd95d51c64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a26849c_e645be28",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-05-15T19:01:27Z",
+      "side": 1,
+      "message": "I know you\u0027re just copying what\u0027s above but this should really be String.valueOf(isTrivialRebase) (which is typo-proof and guaranteed to be interned).",
       "revId": "39244a49db905a1dabba749ffb133bfd95d51c64",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -48,6 +186,30 @@
     },
     {
       "key": {
+        "uuid": "2a3188d1_6752b2f0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 424,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-05-15T19:01:27Z",
+      "side": 1,
+      "message": "Huh, I was not previously aware that we actually guarantee an ordering of the flags we pass. This is just for automated tools so I don\u0027t think it\u0027s really worth worrying about.",
+      "parentUuid": "7fe7c494_42df3272",
+      "range": {
+        "startLine": 423,
+        "startChar": 8,
+        "endLine": 424,
+        "endChar": 74
+      },
+      "revId": "39244a49db905a1dabba749ffb133bfd95d51c64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7fe7c494_22e42e48",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/PatchSetCreatedEvent.java",
         "patchSetId": 1
@@ -59,6 +221,30 @@
       "writtenOn": "2014-05-15T18:43:47Z",
       "side": 1,
       "message": "We could expose the ChangeKind enum directly, I think?  Suggestions welcome, though.",
+      "range": {
+        "startLine": 26,
+        "startChar": 4,
+        "endLine": 27,
+        "endChar": 32
+      },
+      "revId": "39244a49db905a1dabba749ffb133bfd95d51c64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a3188d1_87eb26ca",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/PatchSetCreatedEvent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-05-15T19:01:27Z",
+      "side": 1,
+      "message": "As you can infer from my other comments, +1 to exposing the enum directly, that is more future-proof.",
+      "parentUuid": "7fe7c494_22e42e48",
       "range": {
         "startLine": 26,
         "startChar": 4,

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0a26849c_c62d22b5",
+        "filename": "ReleaseNotes/ReleaseNotes-2.9.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-15T01:34:42Z",
+      "side": 1,
+      "message": "Why link to code reviews?  Usually we either link to the issue in the tracker, or no link at all.",
+      "range": {
+        "startLine": 312,
+        "startChar": 2,
+        "endLine": 316,
+        "endChar": 19
+      },
+      "revId": "7f2581cdd2f59bd20b85548f3c0297ba417c89e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

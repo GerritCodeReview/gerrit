@@ -19,6 +19,7 @@ limitations under the License.
     xmlns:g='urn:import:com.google.gwt.user.client.ui'
     xmlns:x='urn:import:com.google.gerrit.client.ui'
     xmlns:clippy='urn:import:com.google.gwtexpui.clippy.client'>
+  <ui:with field='ico' type='com.google.gerrit.client.GerritResources'/>
   <ui:image field="toggle" src="more_less.png"/>
   <ui:style type='com.google.gerrit.client.change.CommitBox.Style'>
     @eval trimColor com.google.gerrit.client.Gerrit.getTheme().trimColor;
@@ -78,10 +79,18 @@ limitations under the License.
       position: absolute;
       top: 0px;
       right: -16px;
-     }
-     <!-- To make room for the copyableLabel from the adjacent column -->
+    }
+    <!-- To make room for the copyableLabel from the adjacent column -->
     .webLinkCell a:first-child {
       margin-left:16px;
+    }
+    .parentWebLink {
+      margin-left:16px;
+    }
+
+    .mergeCommit {
+      margin-right: 3px;
+      float: left;
     }
   </ui:style>
   <g:HTMLPanel>
@@ -116,9 +125,29 @@ limitations under the License.
         <td ui:field='committerDate' class='{style.date}' colspan="2"/>
       </tr>
       <tr>
-        <th><ui:msg>Commit</ui:msg></th>
+        <th>
+          <div class='{style.mergeCommit}'>
+            <ui:msg>Commit</ui:msg>
+          </div>
+          <g:Image
+              ui:field='mergeCommit'
+              resource='{ico.important}'
+              visible='false'
+              title='Merge Commit'>
+            <ui:attribute name='title'/>
+          </g:Image>
+        </th>
         <td><clippy:CopyableLabel styleName='{style.clippy}' ui:field='commitName'/></td>
         <td ui:field='webLinkCell' class='{style.webLinkCell}'></td>
+      </tr>
+      <tr ui:field='parents' style='display: none'>
+        <th><ui:msg>Parents</ui:msg></th>
+        <td>
+          <g:FlowPanel ui:field='parentCommits'/>
+        </td>
+        <td>
+          <g:VerticalPanel ui:field='parentWebLinks'/>
+        </td>
       </tr>
       <tr>
         <th><ui:msg>Change-Id</ui:msg></th>

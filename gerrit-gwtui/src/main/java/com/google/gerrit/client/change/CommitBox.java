@@ -38,11 +38,15 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
@@ -53,11 +57,17 @@ class CommitBox extends Composite {
   interface Style extends CssResource {
     String collapsed();
     String expanded();
+    String clippy();
+    String parentWebLink();
   }
 
   @UiField Style style;
+  @UiField Image mergeCommit;
   @UiField CopyableLabel commitName;
   @UiField TableCellElement webLinkCell;
+  @UiField Element parents;
+  @UiField FlowPanel parentCommits;
+  @UiField VerticalPanel parentWebLinks;
   @UiField InlineHyperlink authorNameEmail;
   @UiField Element authorDate;
   @UiField InlineHyperlink committerNameEmail;
@@ -105,6 +115,11 @@ class CommitBox extends Composite {
     text.setHTML(commentLinkProcessor.apply(
         new SafeHtmlBuilder().append(commit.message()).linkify()));
     setWebLinks(change, revision, revInfo);
+
+    if (revInfo.commit().parents().length() > 1) {
+      mergeCommit.setVisible(true);
+      setParents(change.project(), revInfo.commit().parents());
+    }
   }
 
   private void setWebLinks(ChangeInfo change, String revision,
@@ -127,6 +142,23 @@ class CommitBox extends Composite {
     a.setHref(href);
     a.setInnerText(name);
     webLinkCell.appendChild(a);
+  }
+
+  private void setParents(String project, JsArray<CommitInfo> commits) {
+    setVisible(parents, true);
+    for (CommitInfo c : Natives.asList(commits)) {
+      CopyableLabel copyLabel = new CopyableLabel(c.commit());
+      copyLabel.setStyleName(style.clippy());
+      parentCommits.add(copyLabel);
+
+      GitwebLink gw = Gerrit.getGitwebLink();
+      if (gw != null) {
+        Anchor a =
+            new Anchor(gw.toRevision(project, c.commit()), gw.getLinkName());
+        a.setStyleName(style.parentWebLink());
+        parentWebLinks.add(a);
+      }
+    }
   }
 
   private static void formatLink(GitPerson person, InlineHyperlink name,

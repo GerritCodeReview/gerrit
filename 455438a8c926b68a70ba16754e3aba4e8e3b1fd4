@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ca1f0c44_c440be1b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-15T22:35:01Z",
+      "side": 1,
+      "message": "not needed, do it in place below?",
+      "range": {
+        "startLine": 360,
+        "startChar": 8,
+        "endLine": 361,
+        "endChar": 37
+      },
+      "revId": "455438a8c926b68a70ba16754e3aba4e8e3b1fd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea221089_453ccab5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-15T22:35:01Z",
+      "side": 1,
+      "message": "Do it in place below?",
+      "range": {
+        "startLine": 364,
+        "startChar": 8,
+        "endLine": 375,
+        "endChar": 9
+      },
+      "revId": "455438a8c926b68a70ba16754e3aba4e8e3b1fd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca1f0c44_a44bc23c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-15T22:35:01Z",
+      "side": 1,
+      "message": "do it in place:\n\n  kind \u003d\u003d TRIVIAL_REBASE ? true : false\n\n?",
+      "range": {
+        "startLine": 386,
+        "startChar": 56,
+        "endLine": 386,
+        "endChar": 71
+      },
+      "revId": "455438a8c926b68a70ba16754e3aba4e8e3b1fd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea221089_6539c6c4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-15T22:35:01Z",
+      "side": 1,
+      "message": "the same as above",
+      "range": {
+        "startLine": 387,
+        "startChar": 62,
+        "endLine": 387,
+        "endChar": 74
+      },
+      "revId": "455438a8c926b68a70ba16754e3aba4e8e3b1fd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

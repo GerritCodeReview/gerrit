@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0a26849c_86eb2aca",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/account/AccountField.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-05-15T19:58:06Z",
+      "side": 1,
+      "message": "The goal here is to split on whitespace? I would use:\n\n private static final Splitter NAME_SPLITTER \u003d\n     Splitter.on(CharMatcher.WHITESPACE).omitEmpty();\n ...\n for (String part : NAME_SPLITTER.split(input.getFullName())) {\n\n(WHITESPACE is Unicode aware but as a Japanese speaker I\u0027m sure you know this is still just an approximation and we should be using proper CJK segmentation ;)",
+      "revId": "a774f524650687e7beaf559341d6ffedd8b1e66c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a26849c_6652aef0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/account/AccountField.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-05-15T19:58:06Z",
+      "side": 1,
+      "message": "Elsewhere we mash together the preferred email address and any email addresses from AccountExternalIds, and don\u0027t distinguish between them.",
+      "revId": "a774f524650687e7beaf559341d6ffedd8b1e66c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a26849c_a6f026b9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/account/AccountSchemas.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-05-15T19:58:06Z",
+      "side": 1,
+      "message": "I don\u0027t think we\u0027ve actually gotten any use out of the release/developer distinction, I\u0027m inclined to kill it even for changes.",
+      "revId": "a774f524650687e7beaf559341d6ffedd8b1e66c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a3188d1_67e712f9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/account/AccountSchemas.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-05-15T19:58:06Z",
+      "side": 1,
+      "message": "Blech, I kind of hated myself for writing this code the first time around, if it\u0027s going to be repeated please at least factor it out.",
+      "revId": "a774f524650687e7beaf559341d6ffedd8b1e66c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a3188d1_8714061a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/account/AccountDataSource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-05-15T19:58:06Z",
+      "side": 1,
+      "message": "This supports my suggestion on your other change to make DataSource\u003cT\u003e an interface with exactly these two methods :)",
+      "revId": "a774f524650687e7beaf559341d6ffedd8b1e66c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

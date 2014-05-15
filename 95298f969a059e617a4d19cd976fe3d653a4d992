@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0a26849c_0641fa4a",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-15T01:53:03Z",
+      "side": 1,
+      "message": "\"the parent commits are also shown\"",
+      "range": {
+        "startLine": 110,
+        "startChar": 18,
+        "endLine": 110,
+        "endChar": 51
+      },
+      "revId": "95298f969a059e617a4d19cd976fe3d653a4d992",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

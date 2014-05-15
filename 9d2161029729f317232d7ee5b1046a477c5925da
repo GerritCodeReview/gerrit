@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0a26849c_0613ba7e",
+        "filename": "ReleaseNotes/ReleaseNotes-2.9.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-15T01:27:57Z",
+      "side": 1,
+      "message": "This was backported to stable-2.8 and was included in 2.8.2\n\nSee `git tag --contains d23c2e6`",
+      "range": {
+        "startLine": 238,
+        "startChar": 2,
+        "endLine": 238,
+        "endChar": 41
+      },
+      "revId": "9d2161029729f317232d7ee5b1046a477c5925da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

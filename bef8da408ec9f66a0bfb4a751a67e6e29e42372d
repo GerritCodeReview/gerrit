@@ -83,6 +83,24 @@
     },
     {
       "key": {
+        "uuid": "ea221089_a5c49e76",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-15T13:25:22Z",
+      "side": 1,
+      "message": "Ah, I thought I saw it somewhere :D",
+      "parentUuid": "ca1f0c44_04b4960f",
+      "revId": "bef8da408ec9f66a0bfb4a751a67e6e29e42372d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca1f0c44_a47662b2",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AccountGeneralPreferences.java",
         "patchSetId": 9

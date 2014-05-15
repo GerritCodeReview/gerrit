@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0a26849c_a603c62d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.9.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-15T01:24:43Z",
+      "side": 1,
+      "message": "I\u0027d make this into a bullet with one sentence header, and then move the details into separate paragraphs under the bullet.",
+      "range": {
+        "startLine": 227,
+        "startChar": 2,
+        "endLine": 232,
+        "endChar": 34
+      },
+      "revId": "7f1013119174d1af2071f7f45d90dac7e7e07c76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a26849c_c6f8c2e8",
+        "filename": "ReleaseNotes/ReleaseNotes-2.9.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-15T01:24:43Z",
+      "side": 1,
+      "message": "It might be better to make this warning say that the hooks-* plugins are deprecated.",
+      "range": {
+        "startLine": 236,
+        "startChar": 0,
+        "endLine": 238,
+        "endChar": 35
+      },
+      "revId": "7f1013119174d1af2071f7f45d90dac7e7e07c76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

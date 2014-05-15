@@ -41,8 +41,17 @@ This is called whenever a patchset is created (this includes new
 changes and drafts).
 
 ====
-  patchset-created --change <change id> --is-draft <boolean> --change-url <change url> --change-owner <change owner> --project <project name> --branch <branch> --topic <topic> --uploader <uploader> --commit <sha1> --patchset <patchset id>
+  patchset-created --change <change id> --is-draft <boolean> --kind <change kind> --change-url <change url> --change-owner <change owner> --project <project name> --branch <branch> --topic <topic> --uploader <uploader> --commit <sha1> --patchset <patchset id>
 ====
+
+kind:: change kind represents the kind of change uploaded, also represented in link:json.html#patchSet[patchSet]
+
+  REWORK;; Nontrivial content changes.
+
+  TRIVIAL_REBASE;; Conflict-free merge between the new parent and the prior patch set.
+
+  NO_CODE_CHANGE;; No code changed; same tree and same parents.
+
 
 === draft-published
 

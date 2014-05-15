@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "0a26849c_c627e2a3",
+        "filename": "gerrit-gwtui/gwt.defs",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-15T16:47:51Z",
+      "side": 1,
+      "message": "Move this into the gwt_user_agent_permutations function so it isn\u0027t exporting everywhere by default.",
+      "revId": "b82e369f256b82fa0a20ed23aea49d16b2f71f99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca1f0c44_c4f8bee8",
         "filename": "gerrit-gwtui/gwt.defs",
         "patchSetId": 6
@@ -19,6 +36,64 @@
         "endLine": 91,
         "endChar": 5
       },
+      "revId": "b82e369f256b82fa0a20ed23aea49d16b2f71f99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a3188d1_c727dea3",
+        "filename": "gerrit-gwtui/gwt.defs",
+        "patchSetId": 6
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-15T16:47:51Z",
+      "side": 1,
+      "message": "We should try not to do this. I think the gerrit_war() or war() rules are broken because they aren\u0027t using $(location) to find the target output.",
+      "parentUuid": "ca1f0c44_c4f8bee8",
+      "range": {
+        "startLine": 86,
+        "startChar": 4,
+        "endLine": 91,
+        "endChar": 5
+      },
+      "revId": "b82e369f256b82fa0a20ed23aea49d16b2f71f99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a3188d1_871de655",
+        "filename": "tools/default.defs",
+        "patchSetId": 6
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-15T16:47:51Z",
+      "side": 1,
+      "message": "relying on this coming in from another defs file is vague. Add an import into the top of the function instead in both places.",
+      "revId": "b82e369f256b82fa0a20ed23aea49d16b2f71f99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a3188d1_a722ea94",
+        "filename": "tools/gwt-constants.defs",
+        "patchSetId": 6
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-15T16:47:51Z",
+      "side": 1,
+      "message": "I asked Buck team to include this flag in Buck itself, see https://github.com/facebook/buck/issues/109",
       "revId": "b82e369f256b82fa0a20ed23aea49d16b2f71f99",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

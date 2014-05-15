@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ca1f0c44_443cceb5",
+        "filename": "gerrit-gwtui/gwt.defs",
+        "patchSetId": 7
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-15T22:22:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea221089_45976a67",
+      "range": {
+        "startLine": 57,
+        "startChar": 34,
+        "endLine": 57,
+        "endChar": 44
+      },
+      "revId": "1f12927636cb3444390058436b8c3db8806cd21a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea221089_65946662",
         "filename": "gerrit-gwtui/gwt.defs",
         "patchSetId": 7
@@ -36,6 +60,30 @@
       "writtenOn": "2014-05-15T22:11:28Z",
       "side": 1,
       "message": "gwt_name",
+      "range": {
+        "startLine": 65,
+        "startChar": 34,
+        "endLine": 65,
+        "endChar": 44
+      },
+      "revId": "1f12927636cb3444390058436b8c3db8806cd21a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea221089_a522de94",
+        "filename": "gerrit-gwtui/gwt.defs",
+        "patchSetId": 7
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-15T22:22:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea221089_65946662",
       "range": {
         "startLine": 65,
         "startChar": 34,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "ea221089_c527daa3",
+        "filename": "gerrit-gwtui/gwt.defs",
+        "patchSetId": 7
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-15T22:22:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea221089_851de255",
+      "range": {
+        "startLine": 68,
+        "startChar": 36,
+        "endLine": 68,
+        "endChar": 46
+      },
+      "revId": "1f12927636cb3444390058436b8c3db8806cd21a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca1f0c44_e42cda88",
         "filename": "gerrit-gwtui/gwt.defs",
         "patchSetId": 7
@@ -82,6 +154,30 @@
       "writtenOn": "2014-05-15T22:11:28Z",
       "side": 1,
       "message": "gwt_name",
+      "range": {
+        "startLine": 76,
+        "startChar": 57,
+        "endLine": 76,
+        "endChar": 67
+      },
+      "revId": "1f12927636cb3444390058436b8c3db8806cd21a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea221089_e52cd688",
+        "filename": "gerrit-gwtui/gwt.defs",
+        "patchSetId": 7
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-15T22:22:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca1f0c44_e42cda88",
       "range": {
         "startLine": 76,
         "startChar": 57,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "ca1f0c44_6439cac4",
+        "filename": "tools/build.defs",
+        "patchSetId": 7
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-15T22:22:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca1f0c44_c427dea3",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 10
+      },
+      "revId": "1f12927636cb3444390058436b8c3db8806cd21a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca1f0c44_0432d6e5",
         "filename": "tools/build.defs",
         "patchSetId": 7
@@ -128,6 +248,30 @@
       "writtenOn": "2014-05-15T22:11:28Z",
       "side": 1,
       "message": "Unrelated change",
+      "range": {
+        "startLine": 55,
+        "startChar": 2,
+        "endLine": 56,
+        "endChar": 10
+      },
+      "revId": "1f12927636cb3444390058436b8c3db8806cd21a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca1f0c44_8446c635",
+        "filename": "tools/build.defs",
+        "patchSetId": 7
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-15T22:22:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca1f0c44_0432d6e5",
       "range": {
         "startLine": 55,
         "startChar": 2,

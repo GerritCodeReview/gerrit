@@ -44,6 +44,7 @@ public class Preferences extends JavaScriptObject {
     p.timeFormat(in.getTimeFormat());
     p.reversePatchSetOrder(in.isReversePatchSetOrder());
     p.showUsernameInReviewCategory(in.isShowUsernameInReviewCategory());
+    p.showAbbreviatedUsernameInReviewCategory(in.isShowAbbreviatedUsernameInReviewCategory());
     p.relativeDateInChangeTable(in.isRelativeDateInChangeTable());
     p.sizeBarInChangeTable(in.isSizeBarInChangeTable());
     p.commentVisibilityStrategy(in.getCommentVisibilityStrategy());
@@ -101,6 +102,9 @@ public class Preferences extends JavaScriptObject {
 
   public final native boolean showUsernameInReviewCategory()
   /*-{ return this.show_username_in_review_category || false }-*/;
+
+  public final native boolean showAbbreviatedUsernameInReviewCategory()
+  /*-{ return this.show_abbreviated_username_in_review_category || false }-*/;
 
   public final native boolean relativeDateInChangeTable()
   /*-{ return this.relative_date_in_change_table || false }-*/;
@@ -173,6 +177,9 @@ public class Preferences extends JavaScriptObject {
 
   public final native void showUsernameInReviewCategory(boolean s)
   /*-{ this.show_username_in_review_category = s }-*/;
+
+  public final native void showAbbreviatedUsernameInReviewCategory(boolean s)
+  /*-{ this.show_abbreviated_username_in_review_category = s }-*/;
 
   public final native void relativeDateInChangeTable(boolean d)
   /*-{ this.relative_date_in_change_table = d }-*/;

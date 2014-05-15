@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0a26849c_66f1ce05",
+        "filename": "ReleaseNotes/ReleaseNotes-2.9.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-15T01:21:36Z",
+      "side": 1,
+      "message": "Formatting of this is not consistent with how it has been done in previous release notes.\n\n * link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/rest-api-projects.html#get-content[\nGet content of a file from HEAD of a branch]",
+      "range": {
+        "startLine": 99,
+        "startChar": 2,
+        "endLine": 100,
+        "endChar": 60
+      },
+      "revId": "df11f49c6f1cd5637fa8af20e82b85b213a1a70b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

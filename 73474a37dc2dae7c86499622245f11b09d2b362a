@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a3188d1_670ab23d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.9.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-15T01:31:16Z",
+      "side": 1,
+      "message": "\"as a change message\"",
+      "range": {
+        "startLine": 227,
+        "startChar": 54,
+        "endLine": 228,
+        "endChar": 8
+      },
+      "revId": "73474a37dc2dae7c86499622245f11b09d2b362a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a3188d1_470dae52",
+        "filename": "ReleaseNotes/ReleaseNotes-2.9.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-15T01:31:16Z",
+      "side": 1,
+      "message": "missing period at end of sentence",
+      "revId": "73474a37dc2dae7c86499622245f11b09d2b362a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

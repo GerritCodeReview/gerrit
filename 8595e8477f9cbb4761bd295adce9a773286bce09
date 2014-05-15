@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2a3188d1_877166bf",
+        "filename": "ReleaseNotes/ReleaseNotes-2.9.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-15T04:51:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a3188d1_e7e4e249",
+      "revId": "8595e8477f9cbb4761bd295adce9a773286bce09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2a3188d1_07ead612",
         "filename": "ReleaseNotes/ReleaseNotes-2.9.txt",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2014-05-15T01:17:53Z",
       "side": 1,
       "message": "missing period on the end of the sentence.",
+      "revId": "8595e8477f9cbb4761bd295adce9a773286bce09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a3188d1_a7766ab2",
+        "filename": "ReleaseNotes/ReleaseNotes-2.9.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-15T04:51:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a3188d1_07ead612",
       "revId": "8595e8477f9cbb4761bd295adce9a773286bce09",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

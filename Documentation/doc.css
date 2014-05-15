@@ -28,9 +28,9 @@ li p {
   border: 2px solid silver;
   background: #ebebeb;
   margin-left: 2em;
-  width: 100em;
   color: darkgreen;
   padding: 2px;
+  overflow: auto;
 }
 
 .listingblock > .content pre {

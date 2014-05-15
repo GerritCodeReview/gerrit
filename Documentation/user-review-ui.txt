@@ -107,6 +107,11 @@ is also a link to the commit in the Git web browser.
 
 image::images/user-review-ui-change-screen-commit-info.png[width=800, link="images/user-review-ui-change-screen-commit-info.png"]
 
+If a merge commit is viewed this is highlighted by an icon. In this
+case the parent commits are also shown.
+
+image::images/user-review-ui-change-screen-commit-info-merge-commit.png[width=800, link="images/user-review-ui-change-screen-commit-info-merge-commit.png"]
+
 [[change-info]]
 === Change Info Block
 

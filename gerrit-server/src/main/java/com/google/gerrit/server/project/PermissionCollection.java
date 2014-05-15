@@ -110,7 +110,6 @@ public class PermissionCollection {
       sorter.sort(ref, sections);
 
       Set<SeenRule> seen = new HashSet<SeenRule>();
-      Set<SeenRule> seenBlockingRules = new HashSet<SeenRule>();
       Set<String> exclusiveGroupPermissions = new HashSet<String>();
 
       HashMap<String, List<PermissionRule>> permissions =
@@ -126,7 +125,7 @@ public class PermissionCollection {
             SeenRule s = new SeenRule(section, permission, rule);
             boolean addRule;
             if (rule.isBlock()) {
-              addRule = seenBlockingRules.add(s);
+              addRule = true;
             } else {
               addRule = seen.add(s) && !rule.isDeny() && !exclusivePermissionExists;
             }

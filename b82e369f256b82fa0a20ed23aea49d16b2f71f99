@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "ca1f0c44_44976e67",
+        "filename": "gerrit-gwtui/gwt.defs",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-15T22:02:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a26849c_c627e2a3",
+      "revId": "b82e369f256b82fa0a20ed23aea49d16b2f71f99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca1f0c44_c4f8bee8",
         "filename": "gerrit-gwtui/gwt.defs",
         "patchSetId": 6
@@ -84,6 +102,30 @@
     },
     {
       "key": {
+        "uuid": "ca1f0c44_64946a62",
+        "filename": "gerrit-gwtui/gwt.defs",
+        "patchSetId": 6
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-15T22:02:02Z",
+      "side": 1,
+      "message": "Well, I had exactly the same idea to refactor/fix war() to call $(location) instead of trying to figure out on its own the file location and making assumption that all artifacts are located under one level directory, what doesn\u0027t hold to be true any more after migrating to gwt_binary() artifact:\n\n  buck-out/gen/gerrit-gwtui/__gwt_binary_ui_safari__/ui_safari.zip\n\nFrom the first glance i thought that it cannot be done, because $(location) is only get expanded for `cmd` var inside genrule(). And currently the parameters were passed in $SRCS. But after your comment, i looked deeper into it and the solution is to move the passing of sources to command als list of $(location) macros invocation. The code is much cleaner now: we don\u0027t need to mess around with suffix of different artifacts any more.\n\nDone",
+      "parentUuid": "2a3188d1_c727dea3",
+      "range": {
+        "startLine": 86,
+        "startChar": 4,
+        "endLine": 91,
+        "endChar": 5
+      },
+      "revId": "b82e369f256b82fa0a20ed23aea49d16b2f71f99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2a3188d1_871de655",
         "filename": "tools/default.defs",
         "patchSetId": 6
@@ -119,6 +161,24 @@
     },
     {
       "key": {
+        "uuid": "ca1f0c44_841de655",
+        "filename": "tools/default.defs",
+        "patchSetId": 6
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-15T22:02:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a3188d1_871de655",
+      "revId": "b82e369f256b82fa0a20ed23aea49d16b2f71f99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2a3188d1_a722ea94",
         "filename": "tools/gwt-constants.defs",
         "patchSetId": 6
@@ -147,6 +207,24 @@
       "writtenOn": "2014-05-15T18:41:16Z",
       "side": 1,
       "message": "Yup, noticed and will change that.",
+      "parentUuid": "2a3188d1_a722ea94",
+      "revId": "b82e369f256b82fa0a20ed23aea49d16b2f71f99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca1f0c44_a422e294",
+        "filename": "tools/gwt-constants.defs",
+        "patchSetId": 6
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-15T22:02:02Z",
+      "side": 1,
+      "message": "Done",
       "parentUuid": "2a3188d1_a722ea94",
       "revId": "b82e369f256b82fa0a20ed23aea49d16b2f71f99",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

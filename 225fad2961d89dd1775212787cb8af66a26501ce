@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7fe7c494_02100a6c",
+        "filename": "Documentation/json.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2014-05-15T21:58:20Z",
+      "side": 1,
+      "message": "Oops.",
+      "range": {
+        "startLine": 121,
+        "startChar": 0,
+        "endLine": 121,
+        "endChar": 2
+      },
+      "revId": "225fad2961d89dd1775212787cb8af66a26501ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

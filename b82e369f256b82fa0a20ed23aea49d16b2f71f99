@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ca1f0c44_c4f8bee8",
+        "filename": "gerrit-gwtui/gwt.defs",
+        "patchSetId": 6
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-15T07:07:24Z",
+      "side": 1,
+      "message": "This is necessary now, because compiler.py was producing ui_agent.zip directly and gwt_binary produces ui_agent.war under subdirectory:\n\n  ./buck-out/gen/gerrit-gwtui/__gwt_binary_ui_safari__/ui_safari.war\n\nAfter this rule we have:\n\n ./buck-out/gen/gerrit-gwtui/ui_safari.zip\n\nAnd gerrit_war() and war () rules assumed to find it there and failed. I think it\u0027s a bug (or at least unexpected) that suffix of GWT binary is war. It should be \".zip\".\n\nNote:\n\n  buck build gerrit\n\nwas working because we have own wrapper target for combined ui_optdbg.zip artifact and it worked. Only single use agent permutation was broken.",
+      "range": {
+        "startLine": 86,
+        "startChar": 4,
+        "endLine": 91,
+        "endChar": 5
+      },
+      "revId": "b82e369f256b82fa0a20ed23aea49d16b2f71f99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

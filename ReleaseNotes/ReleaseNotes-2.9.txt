@@ -49,9 +49,6 @@ informed about the new change screen by a welcome popup. The welcome
 popup links to the review UI documentation and allows users to go back
 to the old change screen.
 
-* 'Gerrit Inspector' for interactive inspection and troubleshooting of a running
-Gerrit instance.
-
 
 New Features
 ------------
@@ -63,20 +60,19 @@ Secondary Index
 
 * New `--recheck-mergeable` option on the
 link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/pgm-reindex.html[
-`reindex` program].
+reindex] program.
 
 ssh
 ~~~
 
 
-* New `--all-reviewers` option on the `query` command allowing query results
-to include information about all reviewers added on the change.
+* New `--all-reviewers` option on the
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/cmd-query.html[
+query] command allowing query results to include information about all
+reviewers added on the change.
 
 * New link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/cmd-apropos.html[
-`apropos` command] to search the Gerrit documentation.
-
-* Deprecated `@CommandMetaData(descr)` has been discontinued. As of Gerrit 2.9
-  `@CommandMetaData(description)` annotation must be used.
+apropos] command to search the Gerrit documentation.
 
 REST API
 ~~~~~~~~
@@ -86,7 +82,7 @@ Documentation
 ^^^^^^^^^^^^^
 
 
-* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/rest-api-documentation#search-documentation.html[
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/rest-api-documentation.html#search-documentation.html[
 Search documentation].
 
 Daemon
@@ -98,6 +94,26 @@ Gerrit Inspector]: interactive Jython shell.
 +
 New `-s` option is added to the Daemon to start an interactive Jython shell for inspection and
 troubleshooting of live data of the Gerrit instance.
+
+Documentation
+~~~~~~~~~~~~~
+
+
+* The documentation is now
+https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/rest-api-documentation.html#search-documentation.html[
+searchable]:
++
+On each documentation page there is search box in the right top corner
+that allows to search in the documentation.
+
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/user-review-ui.html[
+Documentation of the new review UI]
+
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/intro-project-owner.html[
+New Project Owner Guide]
+
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/index.html[
+Newly structured documentation index]
 
 Plugins
 ~~~~~~~
@@ -142,17 +158,10 @@ Bug Fixes
 ---------
 
 
-Configuration
-~~~~~~~~~~~~~
-
-
-* The number of accounts shown on the 'Become Any Account' login
-screen is increased from 5 to 100.
-
 Upgrades
 --------
 
-* Update gwtjsonrpc to 1.4
+* Update gwtjsonrpc to 1.5
 * Update gwtorm to 1.8
 
 Plugins

@@ -48,6 +48,23 @@
     },
     {
       "key": {
+        "uuid": "ca1f0c44_e4ce9a92",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-15T13:17:13Z",
+      "side": 1,
+      "message": "Add\n  Bug: issue 2646\n\nto link to http://code.google.com/p/gerrit/issues/detail?id\u003d2646",
+      "revId": "bef8da408ec9f66a0bfb4a751a67e6e29e42372d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca1f0c44_a47662b2",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AccountGeneralPreferences.java",
         "patchSetId": 9

@@ -202,6 +202,30 @@
     },
     {
       "key": {
+        "uuid": "2a3188d1_47ea0ec2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-05-15T19:46:08Z",
+      "side": 1,
+      "message": "\u003eWe cannot add method to the ChangeKind enum,\n\nHuh? I\u0027m proposing adding a method to ChangeKindCache.\n\n\u003e because we need to expose it to plugin API and move it to extension.\n\nI don\u0027t see what adding a method ChangeKindCache.getChangeKind(PatchSet.Id) or similar is a problem for plugins. Plugins can @Inject ChangeKindCache directly.\n\nIt sounds like you agree with me that the simplest way forward is to add a field to RevisionInfo, which will work from both plugins and extensions.",
+      "parentUuid": "ea221089_c5a27acd",
+      "range": {
+        "startLine": 216,
+        "startChar": 4,
+        "endLine": 218,
+        "endChar": 55
+      },
+      "revId": "39244a49db905a1dabba749ffb133bfd95d51c64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2a3188d1_2758ba0e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
         "patchSetId": 1

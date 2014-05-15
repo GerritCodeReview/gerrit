@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ca1f0c44_641f0a76",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-15T07:35:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a3188d1_47220ec3",
+      "range": {
+        "startLine": 7,
+        "startChar": 13,
+        "endLine": 7,
+        "endChar": 20
+      },
+      "revId": "c616d108a7c27dc092c8fe900e66e0476a0248fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2a3188d1_671f1276",
         "filename": "ReleaseNotes/ReleaseNotes-2.9.txt",
         "patchSetId": 3
@@ -36,6 +60,24 @@
       "writtenOn": "2014-05-15T01:42:16Z",
       "side": 1,
       "message": "and reviewers can edit them",
+      "revId": "c616d108a7c27dc092c8fe900e66e0476a0248fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea221089_c52d1ab5",
+        "filename": "ReleaseNotes/ReleaseNotes-2.9.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-15T07:35:55Z",
+      "side": 1,
+      "message": "Can they? Actually they are not directly editable (like in the old UI) but there are only links to go to the comment in the patch diff and there the comment can be edited.",
+      "parentUuid": "2a3188d1_671f1276",
       "revId": "c616d108a7c27dc092c8fe900e66e0476a0248fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -88,6 +130,54 @@
     },
     {
       "key": {
+        "uuid": "ea221089_e5321616",
+        "filename": "ReleaseNotes/ReleaseNotes-2.9.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-15T07:35:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a3188d1_874c0687",
+      "range": {
+        "startLine": 92,
+        "startChar": 18,
+        "endLine": 92,
+        "endChar": 26
+      },
+      "revId": "c616d108a7c27dc092c8fe900e66e0476a0248fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca1f0c44_844c0687",
+        "filename": "ReleaseNotes/ReleaseNotes-2.9.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-15T07:35:55Z",
+      "side": 1,
+      "message": "This is not a UI text, but an icon.",
+      "parentUuid": "0a26849c_661f0e76",
+      "range": {
+        "startLine": 92,
+        "startChar": 2,
+        "endLine": 92,
+        "endChar": 11
+      },
+      "revId": "c616d108a7c27dc092c8fe900e66e0476a0248fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0a26849c_864c0a87",
         "filename": "ReleaseNotes/ReleaseNotes-2.9.txt",
         "patchSetId": 3
@@ -99,6 +189,24 @@
       "writtenOn": "2014-05-15T01:42:16Z",
       "side": 1,
       "message": "also the total number of patch sets is shown",
+      "revId": "c616d108a7c27dc092c8fe900e66e0476a0248fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea221089_0518128f",
+        "filename": "ReleaseNotes/ReleaseNotes-2.9.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-15T07:35:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a26849c_864c0a87",
       "revId": "c616d108a7c27dc092c8fe900e66e0476a0248fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -128,6 +236,30 @@
     },
     {
       "key": {
+        "uuid": "ea221089_25150e58",
+        "filename": "ReleaseNotes/ReleaseNotes-2.9.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-15T07:35:55Z",
+      "side": 1,
+      "message": "No, these are 3 keys. I fixed the formatting.",
+      "parentUuid": "0a26849c_a6510622",
+      "range": {
+        "startLine": 104,
+        "startChar": 14,
+        "endLine": 104,
+        "endChar": 18
+      },
+      "revId": "c616d108a7c27dc092c8fe900e66e0476a0248fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0a26849c_c6460265",
         "filename": "ReleaseNotes/ReleaseNotes-2.9.txt",
         "patchSetId": 3
@@ -139,6 +271,30 @@
       "writtenOn": "2014-05-15T01:42:16Z",
       "side": 1,
       "message": "\"Show a tooltip on reviewers indicating on which labels they can vote.\"",
+      "range": {
+        "startLine": 106,
+        "startChar": 2,
+        "endLine": 106,
+        "endChar": 61
+      },
+      "revId": "c616d108a7c27dc092c8fe900e66e0476a0248fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea221089_45220ac3",
+        "filename": "ReleaseNotes/ReleaseNotes-2.9.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-15T07:35:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a26849c_c6460265",
       "range": {
         "startLine": 106,
         "startChar": 2,

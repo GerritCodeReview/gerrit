@@ -84,6 +84,24 @@
     },
     {
       "key": {
+        "uuid": "0a26849c_c6a282cd",
+        "filename": "ReleaseNotes/ReleaseNotes-2.9.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-15T07:40:52Z",
+      "side": 1,
+      "message": "That\u0027s what I meant.  Mention that the user can edit the comments by following the link.\n\nLooks good in the new PS.",
+      "parentUuid": "ea221089_c52d1ab5",
+      "revId": "c616d108a7c27dc092c8fe900e66e0476a0248fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2a3188d1_874c0687",
         "filename": "ReleaseNotes/ReleaseNotes-2.9.txt",
         "patchSetId": 3

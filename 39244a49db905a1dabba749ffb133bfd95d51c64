@@ -154,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "2a3188d1_e7fa2295",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-05-15T19:32:29Z",
+      "side": 1,
+      "message": "Don\u0027t like the name ChangeKindRetrieval. Fine with moving logic out of this class though. At this point might as well go ahead with adding another method directly to ChangeKind.\n\nAlso I don\u0027t think we need a REST endpoint for this, it\u0027s just one field we can easily include in /detail or with a ListChangesOption.",
+      "parentUuid": "ca1f0c44_e4a77ada",
+      "range": {
+        "startLine": 216,
+        "startChar": 4,
+        "endLine": 218,
+        "endChar": 55
+      },
+      "revId": "39244a49db905a1dabba749ffb133bfd95d51c64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2a3188d1_2758ba0e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
         "patchSetId": 1

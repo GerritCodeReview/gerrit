@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "7fe7c494_02e92a20",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2014-05-15T19:12:18Z",
+      "side": 1,
+      "message": "Yeah, I did it because it was easier to my brain at the time to pass along a few booleans rather than figuring out how to send an enum through the JSON... although, I think it\u0027s still easier to call the hook with the two mutually exclusive booleans?  Feel free to correct me if I\u0027m wrong!",
+      "parentUuid": "0a26849c_a64bc63c",
+      "range": {
+        "startLine": 9,
+        "startChar": 11,
+        "endLine": 9,
+        "endChar": 26
+      },
+      "revId": "39244a49db905a1dabba749ffb133bfd95d51c64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5fecc079_41df3272",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2014-05-15T19:12:18Z",
+      "side": 1,
+      "message": "Agreed -- probably a good distinction to make here.",
+      "parentUuid": "2a3188d1_e745c228",
+      "range": {
+        "startLine": 9,
+        "startChar": 27,
+        "endLine": 9,
+        "endChar": 54
+      },
+      "revId": "39244a49db905a1dabba749ffb133bfd95d51c64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2a3188d1_075bb60d",
         "filename": "Documentation/json.txt",
         "patchSetId": 1
@@ -59,6 +107,24 @@
       "writtenOn": "2014-05-15T19:01:27Z",
       "side": 1,
       "message": "If this is going to be a boolean and I didn\u0027t know anything about the internals, I would have to ask: why \"noCodeChange: false\" instead of \"codeChange: true\"?\n\nBut if this were a kind, I would understand why it\u0027s call NO_CODE_CHANGE, so maybe this is a moot point.",
+      "revId": "39244a49db905a1dabba749ffb133bfd95d51c64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7fe7c494_e2e52644",
+        "filename": "Documentation/json.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2014-05-15T19:12:18Z",
+      "side": 1,
+      "message": "How about \"message-updated\" on the hook instead? (This can become the enum.)",
+      "parentUuid": "2a3188d1_075bb60d",
       "revId": "39244a49db905a1dabba749ffb133bfd95d51c64",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -146,6 +212,30 @@
     },
     {
       "key": {
+        "uuid": "7fe7c494_c2f22208",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2014-05-15T19:12:18Z",
+      "side": 1,
+      "message": "I originally did that -- and then I realized the exact problem you mentioned.\n\nIf it\u0027s unordered, I think I should check that ps.getId().get() is strictly greater than priorPs.getId().get() as well.",
+      "parentUuid": "2a3188d1_4755aed5",
+      "range": {
+        "startLine": 377,
+        "startChar": 12,
+        "endLine": 382,
+        "endChar": 13
+      },
+      "revId": "39244a49db905a1dabba749ffb133bfd95d51c64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0a26849c_e645be28",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
         "patchSetId": 1
@@ -157,6 +247,24 @@
       "writtenOn": "2014-05-15T19:01:27Z",
       "side": 1,
       "message": "I know you\u0027re just copying what\u0027s above but this should really be String.valueOf(isTrivialRebase) (which is typo-proof and guaranteed to be interned).",
+      "revId": "39244a49db905a1dabba749ffb133bfd95d51c64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7fe7c494_82fc1adc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2014-05-15T19:12:18Z",
+      "side": 1,
+      "message": "Fair enough (should we clean up is-draft here as well -- or just follow up with a one-line commit?)",
+      "parentUuid": "0a26849c_e645be28",
       "revId": "39244a49db905a1dabba749ffb133bfd95d51c64",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -198,6 +306,30 @@
       "side": 1,
       "message": "Huh, I was not previously aware that we actually guarantee an ordering of the flags we pass. This is just for automated tools so I don\u0027t think it\u0027s really worth worrying about.",
       "parentUuid": "7fe7c494_42df3272",
+      "range": {
+        "startLine": 423,
+        "startChar": 8,
+        "endLine": 424,
+        "endChar": 74
+      },
+      "revId": "39244a49db905a1dabba749ffb133bfd95d51c64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7fe7c494_a2ef1e22",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 424,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2014-05-15T19:12:18Z",
+      "side": 1,
+      "message": "I don\u0027t think we guarantee the order -- but I found that they do happen to come out in the order we call addArg(). :)",
+      "parentUuid": "2a3188d1_6752b2f0",
       "range": {
         "startLine": 423,
         "startChar": 8,

@@ -178,6 +178,30 @@
     },
     {
       "key": {
+        "uuid": "ea221089_c5a27acd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-15T19:42:35Z",
+      "side": 1,
+      "message": "| Don\u0027t like the name ChangeKindRetrieval.\n\nChangeKindReader ?\n\nWe cannot add method to the ChangeKind enum, because we need to expose it to plugin API and move it to extension. Agreed, to add another field to RevisionInfo and protect it with new ListChangesOption.",
+      "parentUuid": "2a3188d1_e7fa2295",
+      "range": {
+        "startLine": 216,
+        "startChar": 4,
+        "endLine": 218,
+        "endChar": 55
+      },
+      "revId": "39244a49db905a1dabba749ffb133bfd95d51c64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2a3188d1_2758ba0e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
         "patchSetId": 1

@@ -250,6 +250,30 @@
     },
     {
       "key": {
+        "uuid": "7fe7c494_42f612fa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2014-05-15T21:55:01Z",
+      "side": 1,
+      "message": "For now, I moved fetching the change kind into ChangeKindCache.\n\nI think we can expose this to extensions via RevisionInfo in a separate patch?",
+      "parentUuid": "ca1f0c44_249a7290",
+      "range": {
+        "startLine": 216,
+        "startChar": 4,
+        "endLine": 218,
+        "endChar": 55
+      },
+      "revId": "39244a49db905a1dabba749ffb133bfd95d51c64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2a3188d1_2758ba0e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
         "patchSetId": 1
@@ -261,6 +285,24 @@
       "writtenOn": "2014-05-15T19:01:27Z",
       "side": 1,
       "message": "Factor this out into a separate method.",
+      "revId": "39244a49db905a1dabba749ffb133bfd95d51c64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5fecc079_21e42e48",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2014-05-15T21:55:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a3188d1_2758ba0e",
       "revId": "39244a49db905a1dabba749ffb133bfd95d51c64",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

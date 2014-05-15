@@ -23,10 +23,17 @@ import com.google.common.base.Objects;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.cache.Weigher;
+import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
@@ -45,6 +52,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.concurrent.ExecutionException;
 
 public class ChangeKindCacheImpl implements ChangeKindCache {
@@ -69,11 +77,21 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
   @VisibleForTesting
   public static class NoCache implements ChangeKindCache {
     private final boolean useRecursiveMerge;
+    private final ChangeData.Factory changeDataFactory;
+    private final ProjectCache projectCache;
+    private final GitRepositoryManager repoManager;
+
 
     @Inject
     NoCache(
-        @GerritServerConfig Config serverConfig) {
+        @GerritServerConfig Config serverConfig,
+        ChangeData.Factory changeDataFactory,
+        ProjectCache projectCache,
+        GitRepositoryManager repoManager) {
       this.useRecursiveMerge = MergeUtil.useRecursiveMerge(serverConfig);
+      this.changeDataFactory = changeDataFactory;
+      this.projectCache = projectCache;
+      this.repoManager = repoManager;
     }
 
     @Override
@@ -87,6 +105,12 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
             + " in " + project.getProject().getName(), e);
         return ChangeKind.REWORK;
       }
+    }
+
+    @Override
+    public ChangeKind getChangeKind(ReviewDb db, Change change, PatchSet patch) {
+      return getChangeKindInternal(this, db, change, patch, changeDataFactory,
+          projectCache, repoManager);
     }
   }
 
@@ -224,13 +248,22 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
 
   private final LoadingCache<Key, ChangeKind> cache;
   private final boolean useRecursiveMerge;
+  private final ChangeData.Factory changeDataFactory;
+  private final ProjectCache projectCache;
+  private final GitRepositoryManager repoManager;
 
   @Inject
   ChangeKindCacheImpl(
       @GerritServerConfig Config serverConfig,
-      @Named(ID_CACHE) LoadingCache<Key, ChangeKind> cache) {
+      @Named(ID_CACHE) LoadingCache<Key, ChangeKind> cache,
+      ChangeData.Factory changeDataFactory,
+      ProjectCache projectCache,
+      GitRepositoryManager repoManager) {
     this.cache = cache;
     this.useRecursiveMerge = MergeUtil.useRecursiveMerge(serverConfig);
+    this.changeDataFactory = changeDataFactory;
+    this.projectCache = projectCache;
+    this.repoManager = repoManager;
   }
 
   @Override
@@ -243,5 +276,50 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
           + " in " + project.getProject().getName(), e);
       return ChangeKind.REWORK;
     }
+  }
+
+  @Override
+  public ChangeKind getChangeKind(ReviewDb db, Change change, PatchSet patch) {
+    return getChangeKindInternal(this, db, change, patch, changeDataFactory,
+        projectCache, repoManager);
+  }
+
+  protected static ChangeKind getChangeKindInternal(
+      ChangeKindCache cache,
+      ReviewDb db,
+      Change change,
+      PatchSet patch,
+      ChangeData.Factory changeDataFactory,
+      ProjectCache projectCache,
+      GitRepositoryManager repoManager) {
+    try {
+      if (patch.getId().get() > 1) {
+        ProjectState projectState = projectCache.checkedGet(change.getProject());
+
+        Repository repo = repoManager.openRepository(change.getProject());
+
+        ChangeData cd = changeDataFactory.create(db, change);
+        Collection<PatchSet> patchSetCollection = cd.patches();
+        PatchSet priorPs = patch;
+        for (PatchSet ps : patchSetCollection) {
+          if (ps.getId().get() < patch.getId().get() &&
+              (ps.getId().get() > priorPs.getId().get() ||
+                  priorPs == patch)) {
+            // We only want the previous patch set, so walk until the last one
+            priorPs = ps;
+          }
+        }
+
+        ChangeKind kind =
+            cache.getChangeKind(projectState, repo,
+                ObjectId.fromString(priorPs.getRevision().get()),
+                ObjectId.fromString(patch.getRevision().get()));
+        return kind;
+      }
+    } catch (IOException | OrmException e) {
+      // Do nothing; assume we have a complex change
+    }
+    // Default of REWORK.
+    return ChangeKind.REWORK;
   }
 }

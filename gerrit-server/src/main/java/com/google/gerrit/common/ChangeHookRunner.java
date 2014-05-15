@@ -30,6 +30,8 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.change.ChangeKind;
+import com.google.gerrit.server.change.ChangeKindCache;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
@@ -209,6 +211,8 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
 
     private final AccountCache accountCache;
 
+    private final ChangeKindCache changeKindCache;
+
     private final EventFactory eventFactory;
 
     private final SitePaths sitePaths;
@@ -236,6 +240,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
       final SitePaths sitePath,
       final ProjectCache projectCache,
       final AccountCache accountCache,
+      final ChangeKindCache changeKindCache,
       final EventFactory eventFactory,
       final SitePaths sitePaths,
       final DynamicSet<ChangeListener> unrestrictedListeners) {
@@ -244,6 +249,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
         this.hookQueue = queue.createQueue(1, "hook");
         this.projectCache = projectCache;
         this.accountCache = accountCache;
+        this.changeKindCache = changeKindCache;
         this.eventFactory = eventFactory;
         this.sitePaths = sitePath;
         this.unrestrictedListeners = unrestrictedListeners;
@@ -354,11 +360,13 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
         event.change = eventFactory.asChangeAttribute(change);
         event.patchSet = eventFactory.asPatchSetAttribute(patchSet);
         event.uploader = eventFactory.asAccountAttribute(uploader.getAccount());
+        event.kind = changeKindCache.getChangeKind(db, change, patchSet);
         fireEvent(change, event, db);
 
         final List<String> args = new ArrayList<>();
         addArg(args, "--change", event.change.id);
-        addArg(args, "--is-draft", patchSet.isDraft() ? "true" : "false");
+        addArg(args, "--is-draft", String.valueOf(patchSet.isDraft()));
+        addArg(args, "--kind", String.valueOf(event.kind));
         addArg(args, "--change-url", event.change.url);
         addArg(args, "--change-owner", getDisplayName(owner.getAccount()));
         addArg(args, "--project", event.change.project);

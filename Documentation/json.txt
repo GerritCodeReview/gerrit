@@ -115,6 +115,14 @@ was created.
 
 isDraft:: Whether or not the patch set is a draft patch set.
 
+changeKind:: Kind of change uploaded.
+
+  REWORK;; Nontrivial content changes.
+
+  TRIVIAL_REBASE;; Conflict-free merge between the new parent and the prior patch set.
+
+  NO_CODE_CHANGE;; Commit message updated; same tree and same parents.
+
 approvals:: The <<approval,approval attribute>> granted.
 
 comments:: All comments for this patchset in <<patchsetcomment,patchsetComment attributes>>.

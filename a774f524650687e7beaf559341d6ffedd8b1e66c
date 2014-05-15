@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2a3188d1_a7190a51",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/account/AccountField.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-05-15T19:58:35Z",
+      "side": 1,
+      "message": "After writing this I found that Lucene actually has its own CJK tokenizer. Food for thought.",
+      "parentUuid": "0a26849c_86eb2aca",
+      "revId": "a774f524650687e7beaf559341d6ffedd8b1e66c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0a26849c_6652aef0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/account/AccountField.java",
         "patchSetId": 1

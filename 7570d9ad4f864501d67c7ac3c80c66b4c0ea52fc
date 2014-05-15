@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a3188d1_272fda7a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-05-15T17:15:26Z",
+      "side": 1,
+      "message": "aka Arrays.equal(a.getParents(), b.getParents())",
+      "revId": "7570d9ad4f864501d67c7ac3c80c66b4c0ea52fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a3188d1_473cceb5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-05-15T17:15:26Z",
+      "side": 1,
+      "message": "This code seems similar in spirit, if not implementation, to ChangeData.filePaths. Any way we could combine them?",
+      "revId": "7570d9ad4f864501d67c7ac3c80c66b4c0ea52fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a26849c_262fd67a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-05-15T17:15:26Z",
+      "side": 1,
+      "message": "This is called from load-\u003ereadPatchList-\u003egetPaths, so we\u0027re doing a recursive load. Could this end up recursively loading all the way back to the root? (Performance aside I\u0027d be worried about stack overflows as well.)",
+      "revId": "7570d9ad4f864501d67c7ac3c80c66b4c0ea52fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0a26849c_2658b60e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/Index.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-05-15T19:20:43Z",
+      "side": 1,
+      "message": "It\u0027s possible to only have one type parameter here by extracting some more interfaces.\n\n public interface DataSource\u003cT\u003e {\n   public ResultSet\u003cT\u003e read() throws OrmException;\n }\n\n public interface Index\u003cT\u003e {\n   public Schema\u003cT\u003e getSchema();\n   public void close();\n   public void insert(T doc) throws IOException;\n   public void replace(T doc) throws IOException;\n   public void delete(T doc) throws IOException;\n   public void deleteAll() throws IOException;\n   public DataSource\u003cT\u003e getSource(Predicate\u003cT\u003e p, int start, int limit)\n       throws QueryParseException;\n   public void markReady(boolean ready) throws IOException;\n }\n\n public interface ChangeDataSource extends DataSource\u003cChangeData\u003e {\n   public int getCardinality(); // to DataSource?\n   public boolean hasChange();\n }\n\n public interface ChangeIndex extends Index\u003cChangeData\u003e {\n   public ChangeDataSource getSource(Predicate\u003cChangeData\u003e p, int start,\n       int limit) throws QueryParseException;\n }",
+      "revId": "a2f8427cff68e95b2b58d2b6a0c838ab8e349a00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

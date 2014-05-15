@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "0a26849c_26151658",
+        "filename": "ReleaseNotes/ReleaseNotes-2.9.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-15T01:38:52Z",
+      "side": 1,
+      "message": "Actually \"by which\" is also a bit strange but I can\u0027t think of a better phrasing at the moment.  I\u0027ll come back to this later.",
+      "parentUuid": "2a3188d1_27151a58",
+      "range": {
+        "startLine": 79,
+        "startChar": 31,
+        "endLine": 79,
+        "endChar": 47
+      },
+      "revId": "496ad2fef26a639bc062f6524fd689569457cd0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0a26849c_e6321e16",
         "filename": "ReleaseNotes/ReleaseNotes-2.9.txt",
         "patchSetId": 4

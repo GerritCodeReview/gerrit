@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ca1f0c44_04865653",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/ContextMapper.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-15T12:28:46Z",
+      "side": 1,
+      "message": "Make this private",
+      "range": {
+        "startLine": 24,
+        "startChar": 2,
+        "endLine": 24,
+        "endChar": 39
+      },
+      "revId": "0295fc08b1ee0f9ef68765685d69f3b7610f39cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca1f0c44_24835244",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/ContextMapper.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-15T12:28:46Z",
+      "side": 1,
+      "message": "make this private?",
+      "range": {
+        "startLine": 33,
+        "startChar": 2,
+        "endLine": 33,
+        "endChar": 57
+      },
+      "revId": "0295fc08b1ee0f9ef68765685d69f3b7610f39cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea221089_c57b5a99",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/HttpPluginServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-15T12:28:46Z",
+      "side": 1,
+      "message": "Remove these since they are not used anymore.",
+      "range": {
+        "startLine": 85,
+        "startChar": 2,
+        "endLine": 86,
+        "endChar": 64
+      },
+      "revId": "0295fc08b1ee0f9ef68765685d69f3b7610f39cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea221089_e580563a",
+        "filename": "gerrit-httpd/src/test/java/com/google/gerrit/httpd/plugins/ContextMapperTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-15T12:28:46Z",
+      "side": 1,
+      "message": "unneeded parentheses?",
+      "range": {
+        "startLine": 43,
+        "startChar": 41,
+        "endLine": 43,
+        "endChar": 42
+      },
+      "revId": "0295fc08b1ee0f9ef68765685d69f3b7610f39cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca1f0c44_44904e87",
+        "filename": "gerrit-httpd/src/test/java/com/google/gerrit/httpd/plugins/ContextMapperTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-15T12:28:46Z",
+      "side": 1,
+      "message": "unneeded parentheses?",
+      "range": {
+        "startLine": 61,
+        "startChar": 43,
+        "endLine": 61,
+        "endChar": 44
+      },
+      "revId": "0295fc08b1ee0f9ef68765685d69f3b7610f39cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

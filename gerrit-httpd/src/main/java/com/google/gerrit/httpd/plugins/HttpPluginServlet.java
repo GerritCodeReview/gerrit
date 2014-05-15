@@ -426,7 +426,7 @@ class HttpPluginServlet extends HttpServlet
   }
 
   private void sendMarkdownAsHtml(String md, String pluginName,
-      ResourceKey cacheKey, HttpServletResponse res)
+      ResourceKey cacheKey, HttpServletResponse res, long lastModifiedTime)
       throws UnsupportedEncodingException, IOException {
     Map<String, String> macros = Maps.newHashMap();
     macros.put("PLUGIN", pluginName);
@@ -457,7 +457,8 @@ class HttpPluginServlet extends HttpServlet
       .markdownToDocHtml(sb.toString(), "UTF-8");
     resourceCache.put(cacheKey, new SmallResource(html)
         .setContentType("text/html")
-        .setCharacterEncoding("UTF-8"));
+        .setCharacterEncoding("UTF-8")
+        .setLastModified(lastModifiedTime));
     res.setContentType("text/html");
     res.setCharacterEncoding("UTF-8");
     res.setContentLength(html.length);
@@ -546,7 +547,7 @@ class HttpPluginServlet extends HttpServlet
     if (0 < time) {
       res.setDateHeader("Last-Modified", time);
     }
-    sendMarkdownAsHtml(txtmd, pluginName, key, res);
+    sendMarkdownAsHtml(txtmd, pluginName, key, res, time);
   }
 
   private void sendResource(JarFile jar, JarEntry entry,

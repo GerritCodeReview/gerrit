@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a3188d1_c7f51ea8",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-05-15T19:39:33Z",
+      "side": 1,
+      "message": "This may actually be the cause of your test failure:\n\n Caused by: java.lang.NullPointerException\n         at com.google.gerrit.pgm.Reindex.run(Reindex.java:155)\n         ... 40 more\n\nYou can probably hack this up with TypeLiterals but everything will be much cleaner if you just define\n\n public class ChangeIndexes extends IndexCollection\u003cChangeData, ChangeDataSource\u003e {}",
+      "revId": "df329dc7394a970947493b978b0bed186e86980e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ca1f0c44_64e70af9",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/OtherBranchCommitIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-16T13:38:28Z",
+      "side": 1,
+      "message": "How is this a valid test? What you are doing is more or less the same as:\n\n  PatchSet.Id psId \u003d new PatchSet.Id(new Change.Id(1), 1);\n  PatchSetInfo info \u003d new PatchSetInfo(psId);\n  assertFalse(info.getOtherBranchCommit());\n\nand relaying on the constructor of PatchSetInfo() that initializes instance variable from type boolean with false.\n\nYou want to test your new functionality that was added in this change:\n\nPositive test\n\n* create a change from branch foo\n* push that change to branch bar\n* Execute REST API\n* Fetch result\n* Check that \"other branch commit\" attribute that contained in JSON response is true\n\nNegative test\n\n* …",
+      "range": {
+        "startLine": 68,
+        "startChar": 4,
+        "endLine": 68,
+        "endChar": 76
+      },
+      "revId": "0bbb657bf583120a918221a65e71d75bf531dc18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

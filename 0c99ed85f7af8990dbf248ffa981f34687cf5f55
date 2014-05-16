@@ -121,6 +121,30 @@
     },
     {
       "key": {
+        "uuid": "ea221089_05e012e2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-05-16T11:43:10Z",
+      "side": 1,
+      "message": "REST API extension + documentation + unit test. Done in PS 11.",
+      "parentUuid": "ea5a10dc_85f842e7",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 56
+      },
+      "revId": "0c99ed85f7af8990dbf248ffa981f34687cf5f55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4a8b1c70_70e5d0b0",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/CommitInfo.java",
         "patchSetId": 9
@@ -132,6 +156,30 @@
       "writtenOn": "2014-05-13T14:40:45Z",
       "side": 1,
       "message": "This should be documented.",
+      "range": {
+        "startLine": 26,
+        "startChar": 17,
+        "endLine": 26,
+        "endChar": 34
+      },
+      "revId": "0c99ed85f7af8990dbf248ffa981f34687cf5f55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea221089_25dd0e27",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/CommitInfo.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-05-16T11:43:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a8b1c70_70e5d0b0",
       "range": {
         "startLine": 26,
         "startChar": 17,
@@ -167,6 +215,30 @@
     },
     {
       "key": {
+        "uuid": "ea221089_45ea0ac2",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfo.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-05-16T11:43:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea5a10dc_e503362d",
+      "range": {
+        "startLine": 255,
+        "startChar": 64,
+        "endLine": 255,
+        "endChar": 86
+      },
+      "revId": "0c99ed85f7af8990dbf248ffa981f34687cf5f55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0a75a43d_2e3927c5",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchSetInfoFactory.java",
         "patchSetId": 9
@@ -178,6 +250,30 @@
       "writtenOn": "2014-05-13T13:47:44Z",
       "side": 1,
       "message": "Why are there no catch blocks?\n\nWhat does it return if an exception happens somewhere in here?",
+      "range": {
+        "startLine": 156,
+        "startChar": 6,
+        "endLine": 191,
+        "endChar": 5
+      },
+      "revId": "0c99ed85f7af8990dbf248ffa981f34687cf5f55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea221089_65e706f9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchSetInfoFactory.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-05-16T11:43:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a75a43d_2e3927c5",
       "range": {
         "startLine": 156,
         "startChar": 6,

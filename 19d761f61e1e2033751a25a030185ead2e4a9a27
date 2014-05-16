@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ea221089_25b42ed7",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/PatchListCacheIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-16T21:36:01Z",
+      "side": 1,
+      "message": "I\u0027ve now explained this in the commit message.",
+      "parentUuid": "ea221089_65d546ed",
+      "range": {
+        "startLine": 156,
+        "startChar": 4,
+        "endLine": 161,
+        "endChar": 28
+      },
+      "revId": "19d761f61e1e2033751a25a030185ead2e4a9a27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea221089_85a2429e",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/PatchListCacheIT.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2014-05-16T21:09:57Z",
       "side": 1,
       "message": "These methods could be interesting for other tests as well. May be move them to the base classe as protected methods?",
+      "range": {
+        "startLine": 188,
+        "startChar": 2,
+        "endLine": 199,
+        "endChar": 3
+      },
+      "revId": "19d761f61e1e2033751a25a030185ead2e4a9a27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea221089_45b12ae6",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/PatchListCacheIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-16T21:36:01Z",
+      "side": 1,
+      "message": "Let\u0027s do this when there is another test needing these methods. Or we refactor this later when we see that several tests have similar methods for this purpose.",
+      "parentUuid": "ea221089_85a2429e",
       "range": {
         "startLine": 188,
         "startChar": 2,

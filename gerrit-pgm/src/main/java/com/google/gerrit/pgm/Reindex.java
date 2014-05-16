@@ -155,7 +155,7 @@ public class Reindex extends SiteProgram {
       result = indexAll();
       index.markReady(true);
     } catch (Exception e) {
-      throw die(e.getMessage());
+      throw die(e.getMessage(), e);
     }
     sysManager.stop();
     dbManager.stop();

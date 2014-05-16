@@ -40,7 +40,8 @@ Release Highlights
 ------------------
 
 
-* The new change screen is now the default change screen.
+* link:http://code.google.com/p/gerrit/issues/detail?id=2065[Issue 2065]:
+The new change screen is now the default change screen.
 +
 The
 link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/user-review-ui.html[
@@ -90,11 +91,16 @@ the change history.
 +
 The support for the old comment visibility strategy is discontinued.
 
-* Inline comments are shown in the change history.
+* link:http://code.google.com/p/gerrit/issues/detail?id=93[Issue 93]:
+Inline comments are shown in the change history.
 
-* A reply icon is shown on each change message.
+* link:http://code.google.com/p/gerrit/issues/detail?id=592[Issue 592]:
+A reply icon is shown on each change message.
 
 * Quoting is possible when replying to a comment.
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=2313[Issue 2313]:
+Show whether a related change is merged or old.
 
 * New link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/user-review-ui.html#related-changes[
 Related Changes] tabs:
@@ -112,7 +118,8 @@ form: "current patch set/number of patch sets".
 
 * Support `[`, `/` and `]` keys to navigate between files in a cycle.
 
-* Show a tooltip on reviewers indicating on which labels they can vote.
+* link:http://code.google.com/p/gerrit/issues/detail?id=2078[Issue 2078]:
+Show a tooltip on reviewers indicating on which labels they can vote.
 
 * The `Submit` button is enabled even if the change is not mergeable.
 +
@@ -123,6 +130,32 @@ single merge commit and submit the changes in reverse order.
 
 * If a merge commit is viewed this is highlighted by an icon. In this
 case the parent commits are also shown.
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=2191[Issue 2191]:
+New copy-to-clipboard button for commit ID.
+
+
+New Side-by-Side Diff Screen
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=348[Issue 348]:
+The lines of a patch file are linkable.
++
+These links can be used to directly link to certain inline comments.
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=2395[Issue 2395]:
+The line length preference is used to draw a margin line at that many
+columns of text.
++
+This allows a user to configure their preferred width (e.g. 80 columns
+or 100 columns) and see the margin, making it easier to identify lines
+that run over that width.
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=2530[Issue 2530]:
+All diff preferences are honored.
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=148[Issue 148]:
+The full file path is shown.
 
 
 Change List / Dashboards
@@ -151,9 +184,11 @@ Project Screens
 * The general project screen provides a copyable clone command that
 automatically installs the `commit-msg` hook.
 
-* Project owners can change `HEAD` from the project branches screen.
+* link:http://code.google.com/p/gerrit/issues/detail?id=562[Issue 562]:
+Project owners can change `HEAD` from the project branches screen.
 
-* Administrators can change the parent project from the project access
+* link:http://code.google.com/p/gerrit/issues/detail?id=1298[Issue 1298]:
+Administrators can change the parent project from the project access
 screen; other users can save changes to the parent project for review
 and get the change approved by an administrator.
 
@@ -189,7 +224,8 @@ link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/cmd-r
 review] command allowing to control when email notifications should be
 sent.
 
-* New `--branch` option on the
+* link:http://code.google.com/p/gerrit/issues/detail?id=1752[Issue 1752]:
+New `--branch` option on the
 link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/cmd-review.html[
 review] command.
 
@@ -201,7 +237,8 @@ reviewers added on the change.
 * New link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/cmd-apropos.html[
 apropos] command to search the Gerrit documentation.
 
-* New link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/cmd-create-branch.html[
+* link:http://code.google.com/p/gerrit/issues/detail?id=1156[Issue 1156]:
+New link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/cmd-create-branch.html[
 create-branch] command.
 
 REST API
@@ -232,7 +269,8 @@ global capability for viewing all accounts].
 * New link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/access-control.html#capability_viewPlugins[
 global capability for viewing the list of installed plugins].
 
-* New `Change Owner` group that allows to assign label permissions to the change owner.
+* link:http://code.google.com/p/gerrit/issues/detail?id=1993[Issue 1993]:
+New `Change Owner` group that allows to assign label permissions to the change owner.
 
 * Support link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/access-control.html#category_submit_on_behalf_of[
 on behalf of for submit].
@@ -268,12 +306,14 @@ is:mergeable] search operator
 Finds changes that have no merge conflicts and can be merged into the
 destination branch.
 
-* New link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/user-search.html#parentproject[
+* link:http://code.google.com/p/gerrit/issues/detail?id=2163[Issue 2163]:
+New link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/user-search.html#parentproject[
 parentproject] search operator
 +
 Finds changes in the specified project or in one of its child projects.
 
-* New link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/user-search.html#conflicts[
+* link:http://code.google.com/p/gerrit/issues/detail?id=2162[Issue 2162]:
+New link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/user-search.html#conflicts[
 conflicts] search operator
 +
 Finds changes that conflict with the specified change.
@@ -330,7 +370,8 @@ Configuration
 
 * New init step for installing the `Verified` label.
 
-* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/config-gerrit.html#repository.name.defaultSubmitType[
+* link:http://code.google.com/p/gerrit/issues/detail?id=2257[Issue 2257]:
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/config-gerrit.html#repository.name.defaultSubmitType[
 Default submit type] for newly created projects can be configured.
 
 * `sshd_log` and `httpd_log` can use log4j configuration.
@@ -341,6 +382,9 @@ Draft workflow can be disabled].
 * link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/config-project-config.html#receive.checkReceivedObjects[
 Project configuration for checking of received objects].
 
+* link:http://code.google.com/p/gerrit/issues/detail?id=2318[Issue 2318]:
+Allow the text of the "Report Bug" link to be configured.
+
 
 Misc
 ~~~~
@@ -348,7 +392,8 @@ Misc
 * The removal of reviewers and their votes is recorded as a change
 message.
 
-* The change URL is returned on push if the change is updated.
+* link:http://code.google.com/p/gerrit/issues/detail?id=2229[Issue 2229]:
+The change URL is returned on push if the change is updated.
 
 * The topic is included into merge commit messages if all merged
 changes have the same topic.
@@ -427,6 +472,60 @@ Bug Fixes
 ---------
 
 
+Access Rights
+~~~~~~~~~~~~~
+
+
+* Fix possibility to overcome BLOCK permissions.
+
+
+Web UI
+~~~~~~
+
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=2652[Issue 2652]:
+Copy label approvals when cherry-picking change to same branch.
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=2178[Issue 2178]:
+Fix background of reply box on new change screen getting transparent.
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=2362[Issue 2362]:
+Show quick approve button only for current patch set.
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=2405[Issue 2405]:
+Update `Patch Sets` drop-down panel when draft patch set is deleted.
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=2397[Issue 2397]:
+Fix linkifying of topics that are set to a URL.
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=2151[Issue 2151]:
+Fix overflowing of long lines in commit message block.
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=2401[Issue 2401]:
+Fix truncated long lines in new side-by-side diff screen.
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=2225[Issue 2225]:
+Display larger icons for Prev / Next and Up to Change links on new
+side-by-side diff screen.
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=2340[Issue 2340]:
+Fix selection in new side-by-side diff screen.
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=2417[Issue 2417]:
+Respect base diff revision for files REST call.
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=2654[Issue 2654]:
+Require the user to confirm setting the username.
++
+Once the username has been set, it cannot be edited. This can cause
+problems for users who accidentally set the wrong username. A
+confirmation dialog now warns the user that setting the username is
+permanent and the username is only set when the user confirms.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=2635[Issue 2635]:
+Fix copying from copyable label in Safari.
+
+
 Secondary Index
 ~~~~~~~~~~~~~~~
 
@@ -441,15 +540,68 @@ This produced bizarre results for queries like "message:1234".
 Instead, use Lucene's QueryBuilder with an analyzer to convert a
 full-text search word/phrase into a phrase query.
 
+* link:http://code.google.com/p/gerrit/issues/detail?id=2281[Issue 2281]:
+Reindex change after updating commit message.
+
+
+REST
+~~~~
+
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=2568[Issue 2568]:
+Update description file during `PUT /projects/{name}/config`.
+
+
+SSH
+~~~
+
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=2516[Issue 2516]:
+Fix parsing of label name on `review` command.
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=2440[Issue 2440]:
+Clarify for review command when `--verified` can be used
+
+
+Plugins
+~~~~~~~
+
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=2551[Issue 2551]:
+Handle absolute URLs in the top level menu.
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=2391[Issue 2391]:
+Respect servlet context path in URL for top menu items.
+
+
+Other
+~~~~~
+
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=2382[Issue 2382]:
+Clean left over data migration after removal of TrackingIds table
+
 
 Upgrades
 --------
 
 * Update JGit to 3.4.0.201405051725-m7
++
+This upgrade fixes the MissingObjectExceptions in Gerrit that are
+described in link:http://code.google.com/p/gerrit/issues/detail?id=2025[
+issue 2025].
+
 * Update gwtjsonrpc to 1.5
 * Update gwtorm to 1.8
 * Update guava to 16.0
+
 * Update H2 to 1.3.174
++
+This version includes a fix for an LOB deadlock between reading and
+updating LOB columns. This could lead to a deadlock between web and SSH
+clients as described in
+link:http://code.google.com/p/gerrit/issues/detail?id=2365[issue 2365].
+
 * Update Jetty to 9.1.0.v20131115
 * Update Servlet API to 3.1
 * Update Lucene to 4.6.0

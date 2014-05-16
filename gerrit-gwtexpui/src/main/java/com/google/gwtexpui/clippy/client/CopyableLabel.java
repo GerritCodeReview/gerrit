@@ -22,6 +22,8 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
+import com.google.gwt.event.dom.client.KeyUpEvent;
+import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
@@ -189,9 +191,14 @@ public class CopyableLabel extends Composite implements HasText {
             switch (event.getCharCode()) {
               case 'c':
               case 'x':
-                Scheduler.get().scheduleDeferred(new Command() {
-                  public void execute() {
-                    hideTextBox();
+                textBox.addKeyUpHandler(new KeyUpHandler() {
+                  @Override
+                  public void onKeyUp(final KeyUpEvent event) {
+                    Scheduler.get().scheduleDeferred(new Command() {
+                      public void execute() {
+                        hideTextBox();
+                      }
+                    });
                   }
                 });
                 break;

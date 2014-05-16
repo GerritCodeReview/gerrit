@@ -2,6 +2,74 @@
   "comments": [
     {
       "key": {
+        "uuid": "2a3188d1_67ae3285",
+        "filename": "Documentation/config-hooks.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-05-16T21:14:52Z",
+      "side": 1,
+      "message": "Document the possible values for \u003cchange kind\u003e. A link to the appropriate section of json.html would probably be ok too.",
+      "revId": "7fa9f6220d53bf329171f62e24a9f66dabce19ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a3188d1_a78caa25",
+        "filename": "Documentation/json.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-05-16T21:14:52Z",
+      "side": 1,
+      "message": "I\u0027m not saying you must reword this, but strictly speaking the commit message doesn\u0027t even have to be updated.\n\nGerrit has a commit validator that runs during receive-pack that will reject a change if the commit message, tree, and parents are the same, only the author/committer are different. But it\u0027s perfectly valid to pass ChangeKindCache two SHAs of commits that vary only in author/committer and not commit message, and it\u0027ll return NO_CODE_CHANGE.",
+      "revId": "7fa9f6220d53bf329171f62e24a9f66dabce19ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a26849c_e6c85e59",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeKindCacheImpl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-05-16T21:14:52Z",
+      "side": 1,
+      "message": "Can be private.",
+      "revId": "7fa9f6220d53bf329171f62e24a9f66dabce19ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a26849c_26cb5653",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeKindCacheImpl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-05-16T21:14:52Z",
+      "side": 1,
+      "message": "Can you add a TODO in here (assigning to me is fine) to add a NEW_CHANGE kind?",
+      "revId": "7fa9f6220d53bf329171f62e24a9f66dabce19ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea221089_05ce5262",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeKindCacheImpl.java",
         "patchSetId": 5
@@ -42,6 +110,47 @@
         "endLine": 316,
         "endChar": 64
       },
+      "revId": "7fa9f6220d53bf329171f62e24a9f66dabce19ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a26849c_46d85226",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeKindCacheImpl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-05-16T21:14:52Z",
+      "side": 1,
+      "message": "IMO it should return NEW_CHANGE :)\n\nBut yes, as of right now, this needs to return REWORK. I think hard-coding a check to the top of Loader.load would be sufficient; that will also be the obvious place to change to NEW_CHANGE when that happens.",
+      "parentUuid": "ea221089_25cb4e53",
+      "range": {
+        "startLine": 313,
+        "startChar": 8,
+        "endLine": 316,
+        "endChar": 64
+      },
+      "revId": "7fa9f6220d53bf329171f62e24a9f66dabce19ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a26849c_06ce5a62",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeKindCacheImpl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-05-16T21:14:52Z",
+      "side": 1,
+      "message": "Don\u0027t drop the exception, log it as we do above.\n\n(Looking at this again I\u0027m not sure returning REWORK is preferable to raising this exception, but let\u0027s be consistent.)",
       "revId": "7fa9f6220d53bf329171f62e24a9f66dabce19ea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

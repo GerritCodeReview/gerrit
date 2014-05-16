@@ -22,6 +22,30 @@
       "revId": "5b53308986adaed74ed59b5331265c057e6cc5f1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea221089_e545b628",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/http/jetty/JettyServer.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 601,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-16T07:19:20Z",
+      "side": 1,
+      "message": "Reported that problem to Buck team: [1].\n\n [1] https://github.com/facebook/buck/issues/109#issuecomment-43303784",
+      "parentUuid": "ca1f0c44_6452aaf0",
+      "range": {
+        "startLine": 601,
+        "startChar": 12,
+        "endLine": 601,
+        "endChar": 35
+      },
+      "revId": "5b53308986adaed74ed59b5331265c057e6cc5f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

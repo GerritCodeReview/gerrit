@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "0a26849c_06e01ae2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/account/AccountField.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-16T00:28:25Z",
+      "side": 1,
+      "message": "Good point.  Although we have lots of Japanese and Chinese names in our system, they are all romanized and splitting on whitespace does work.\n\nOf course, that may not be the case for all users, so this should be fixed.",
+      "parentUuid": "2a3188d1_a7190a51",
+      "revId": "a774f524650687e7beaf559341d6ffedd8b1e66c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0a26849c_6652aef0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/account/AccountField.java",
         "patchSetId": 1
@@ -48,6 +66,24 @@
       "writtenOn": "2014-05-15T19:58:06Z",
       "side": 1,
       "message": "Elsewhere we mash together the preferred email address and any email addresses from AccountExternalIds, and don\u0027t distinguish between them.",
+      "revId": "a774f524650687e7beaf559341d6ffedd8b1e66c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a26849c_26dd1627",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/account/AccountField.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-16T00:28:25Z",
+      "side": 1,
+      "message": "I did it on preferred email address because that\u0027s the one visible to users when adding a reviewer.",
+      "parentUuid": "0a26849c_6652aef0",
       "revId": "a774f524650687e7beaf559341d6ffedd8b1e66c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -82,6 +118,24 @@
       "writtenOn": "2014-05-15T19:58:06Z",
       "side": 1,
       "message": "Blech, I kind of hated myself for writing this code the first time around, if it\u0027s going to be repeated please at least factor it out.",
+      "revId": "a774f524650687e7beaf559341d6ffedd8b1e66c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a3188d1_e713022d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/account/AccountSchemas.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-16T00:28:25Z",
+      "side": 1,
+      "message": "Yes, this will be factored out if I rebase this change on top of the other one.",
+      "parentUuid": "2a3188d1_67e712f9",
       "revId": "a774f524650687e7beaf559341d6ffedd8b1e66c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

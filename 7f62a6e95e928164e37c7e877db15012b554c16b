@@ -22,6 +22,30 @@
       "revId": "7f62a6e95e928164e37c7e877db15012b554c16b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7fe7c494_622c76bc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2014-05-16T20:48:23Z",
+      "side": 1,
+      "message": "Absolutely correct! Sorry about that.",
+      "parentUuid": "ea221089_c5c35a3c",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 57
+      },
+      "revId": "7f62a6e95e928164e37c7e877db15012b554c16b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

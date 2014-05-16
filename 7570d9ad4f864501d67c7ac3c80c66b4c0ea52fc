@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ea221089_6552a6f0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-16T14:15:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a3188d1_272fda7a",
+      "revId": "7570d9ad4f864501d67c7ac3c80c66b4c0ea52fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2a3188d1_473cceb5",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
         "patchSetId": 4
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "ea221089_e5fa1695",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-16T14:15:09Z",
+      "side": 1,
+      "message": "ChangeData.filePaths doesn\u0027t exist in stable-2.9.\n\nAlso ChangeData.filePaths is already using PatchListEntry.getPatches() and those patches are exactly the entries computed in readPatchList above.\n\nThe difference is that ChangeData.filePaths needs the paths of one patch set compared against its base, but here we need the union of the paths of two patch sets that are compared with each other. There is also a subtle difference with renamed files. In ChangeData.filePaths we want to include the old path so that the change is included into the search result if a search by the old path is done, but here the old path in case of a rename is not important.\n\nI don\u0027t think that we can gain much from combining both methods further.",
+      "parentUuid": "2a3188d1_473cceb5",
+      "revId": "7570d9ad4f864501d67c7ac3c80c66b4c0ea52fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0a26849c_262fd67a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
         "patchSetId": 4
@@ -47,6 +83,24 @@
       "writtenOn": "2014-05-15T17:15:26Z",
       "side": 1,
       "message": "This is called from load-\u003ereadPatchList-\u003egetPaths, so we\u0027re doing a recursive load. Could this end up recursively loading all the way back to the root? (Performance aside I\u0027d be worried about stack overflows as well.)",
+      "revId": "7570d9ad4f864501d67c7ac3c80c66b4c0ea52fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea221089_85eb22ca",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-16T14:15:09Z",
+      "side": 1,
+      "message": "No, readPatchList only calls getPaths if key.getOldId() !\u003d null, but getPaths calls load only with key.getOldId() \u003d\u003d null. So there is only one level of recursion.\n\nI can avoid the recursion, but then a little code is doublicated. Still this might be better as it makes the code more readable.",
+      "parentUuid": "0a26849c_262fd67a",
       "revId": "7570d9ad4f864501d67c7ac3c80c66b4c0ea52fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

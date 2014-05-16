@@ -1,4 +1,4 @@
-// Copyright (C) 2010 The Android Open Source Project
+// Copyright (C) 2014 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,11 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.query.change;
+package com.google.gerrit.server.query;
 
-import com.google.gerrit.server.query.DataSource;
+import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.ResultSet;
 
-public interface ChangeDataSource extends DataSource<ChangeData> {
-  /** @return true if all returned ChangeData.hasChange() will be true. */
-  public boolean hasChange();
+public interface DataSource<T> {
+  /** @return an estimate of the number of results from {@link #read()}. */
+  public int getCardinality();
+
+  /** @return read from the database and return the results. */
+  public ResultSet<T> read() throws OrmException;
 }

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7fe7c494_82277ad8",
+        "filename": "Documentation/config-hooks.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2014-05-16T04:50:56Z",
+      "side": 1,
+      "message": "In short, no particular reason (booleans were easier).  I could experiment with this, I suppose?\n\nI wonder, should we document the enum values here as well?",
+      "parentUuid": "0a26849c_0609faf9",
+      "range": {
+        "startLine": 44,
+        "startChar": 61,
+        "endLine": 44,
+        "endChar": 119
+      },
+      "revId": "455438a8c926b68a70ba16754e3aba4e8e3b1fd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca1f0c44_c440be1b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
         "patchSetId": 3

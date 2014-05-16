@@ -111,6 +111,23 @@
     },
     {
       "key": {
+        "uuid": "0a26849c_a6a746ad",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeKindCacheImpl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-05-16T21:20:30Z",
+      "side": 1,
+      "message": "I think you want priorPs \u003d null. Actually, better yet, make this an ObjectId and default to zeroId.\n\nThis means when you write the check in Loader, you\u0027ll be returning REWORK (eventually NEW_CHANGE) when comparing (zeroId, id). That makes more sense than returning REWORK for (id, id), which really doesn\u0027t feel like a rework.",
+      "revId": "7fa9f6220d53bf329171f62e24a9f66dabce19ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea221089_25cb4e53",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeKindCacheImpl.java",
         "patchSetId": 5

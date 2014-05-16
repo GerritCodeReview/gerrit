@@ -16,6 +16,24 @@
       "revId": "a2f8427cff68e95b2b58d2b6a0c838ab8e349a00",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a3188d1_27cb5a53",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/Index.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-16T02:43:41Z",
+      "side": 1,
+      "message": "DataSource interface is added with https://gerrit-review.googlesource.com/#/c/57251/1",
+      "parentUuid": "0a26849c_2658b60e",
+      "revId": "a2f8427cff68e95b2b58d2b6a0c838ab8e349a00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ea221089_a5f01eb9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/DataSource.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-16T08:31:08Z",
+      "side": 1,
+      "message": "Put here the description?\n\n /** @return read from the database and return the T. */",
+      "revId": "bba36910d752ad8503f9be3a589c8197b1956164",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ca1f0c44_6452aaf0",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/http/jetty/JettyServer.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 601,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-16T06:56:11Z",
+      "side": 1,
+      "message": "Something is going wrong in error case:\n\n* conduct error in GWT code\n* Buck reports correctly the error\n* Fix the error\n* Even though Buck target is called correctly, the permutation zip isn\u0027t built:\n\n\ncom.google.gerrit.pgm.http.jetty.JettyServer : UPDATED    //gerrit-gwtui:ui_safari in 21,440s\n[2014-05-16 08:50:13,520] INFO  com.google.gerrit.pgm.http.jetty.JettyServer : buck build //gerrit-gwtui:ui_safari\n[2014-05-16 08:50:42,188] INFO  com.google.gerrit.pgm.http.jetty.JettyServer : buck build //gerrit-gwtui:ui_safari\n[2014-05-16 08:50:43,831] INFO  com.google.gerrit.pgm.http.jetty.JettyServer : UPDATED    //gerrit-gwtui:ui_safari in 1,642s\n[2014-05-16 08:50:43,832] WARN  org.eclipse.jetty.servlet.ServletHandler : /\njava.io.FileNotFoundException: /home/davido/projects/gerrit/buck-out/gen/gerrit-gwtui/__gwt_binary_ui_safari__/ui_safari.zip (No such file or directory)",
+      "range": {
+        "startLine": 601,
+        "startChar": 12,
+        "endLine": 601,
+        "endChar": 35
+      },
+      "revId": "5b53308986adaed74ed59b5331265c057e6cc5f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

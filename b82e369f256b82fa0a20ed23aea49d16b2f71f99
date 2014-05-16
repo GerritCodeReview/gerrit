@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "ea221089_a54bbe3c",
+        "filename": "gerrit-gwtui/gwt.defs",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-16T05:24:33Z",
+      "side": 1,
+      "message": "This broke GWT compilation from Eclipse, because the one level subdirectory assumtion appears there too in JettyServer.java\n\n  String pkg \u003d \"gerrit-gwtui\";\n  String target \u003d \"ui_\" + rule.select((HttpServletRequest) request);\n  String rule \u003d \"//\" + pkg + \":\" + target;\n\nOne way would to rectify it, is to retrieve the location of the target dynamically:\n\n $buck targets --show_output //gerrit-gwtui:ui_safari\n\nor even\n\n $buck targets --show_output //gerrit-gwtui:ui_safari | awk \u0027{print $2}\u0027",
+      "parentUuid": "ca1f0c44_44976e67",
+      "revId": "b82e369f256b82fa0a20ed23aea49d16b2f71f99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca1f0c44_c4f8bee8",
         "filename": "gerrit-gwtui/gwt.defs",
         "patchSetId": 6

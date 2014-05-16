@@ -51,8 +51,6 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.treewalk.TreeWalk;
-import org.eclipse.jgit.treewalk.filter.TreeFilter;
 import org.eclipse.jgit.util.TemporaryBuffer;
 import org.eclipse.jgit.util.io.DisabledOutputStream;
 import org.slf4j.Logger;
@@ -136,13 +134,6 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
       }
 
       RevTree bTree = b.getTree();
-
-      final TreeWalk walk = new TreeWalk(reader);
-      walk.reset();
-      walk.setRecursive(true);
-      walk.addTree(aTree);
-      walk.addTree(bTree);
-      walk.setFilter(TreeFilter.ANY_DIFF);
 
       DiffFormatter df = new DiffFormatter(DisabledOutputStream.INSTANCE);
       df.setRepository(repo);

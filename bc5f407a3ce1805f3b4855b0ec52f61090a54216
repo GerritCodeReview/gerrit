@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a3188d1_87b966de",
+        "filename": "ReleaseNotes/ReleaseNotes-2.9.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 581,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-16T00:39:29Z",
+      "side": 1,
+      "message": "Missing \"Issue\"",
+      "range": {
+        "startLine": 581,
+        "startChar": 61,
+        "endLine": 581,
+        "endChar": 65
+      },
+      "revId": "bc5f407a3ce1805f3b4855b0ec52f61090a54216",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

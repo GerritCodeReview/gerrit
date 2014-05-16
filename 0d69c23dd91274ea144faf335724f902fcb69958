@@ -122,6 +122,24 @@
       "revId": "0d69c23dd91274ea144faf335724f902fcb69958",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea221089_c59c3a60",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Publish.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-16T21:12:47Z",
+      "side": 1,
+      "message": "Yes, it should be possible to publish old patch sets. Fixed in\n  https://gerrit-review.googlesource.com/57219",
+      "parentUuid": "ea221089_055bb20d",
+      "revId": "0d69c23dd91274ea144faf335724f902fcb69958",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

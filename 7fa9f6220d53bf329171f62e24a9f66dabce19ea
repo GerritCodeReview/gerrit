@@ -70,6 +70,24 @@
     },
     {
       "key": {
+        "uuid": "ca1f0c44_e4c85a59",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeKindCacheImpl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-16T21:17:22Z",
+      "side": 1,
+      "message": "+1 for adding a NEW_CHANGE kind",
+      "parentUuid": "0a26849c_26cb5653",
+      "revId": "7fa9f6220d53bf329171f62e24a9f66dabce19ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea221089_05ce5262",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeKindCacheImpl.java",
         "patchSetId": 5

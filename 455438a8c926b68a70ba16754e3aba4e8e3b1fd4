@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "0a26849c_0609faf9",
+        "filename": "Documentation/config-hooks.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-16T02:47:11Z",
+      "side": 1,
+      "message": "Why not have `--change-kind \u003cstring\u003e` where the string is one of `REWORK`, `TRIVIAL_REBASE` or `NO_CODE_CHANGE`?",
+      "range": {
+        "startLine": 44,
+        "startChar": 61,
+        "endLine": 44,
+        "endChar": 119
+      },
+      "revId": "455438a8c926b68a70ba16754e3aba4e8e3b1fd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca1f0c44_c440be1b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
         "patchSetId": 3

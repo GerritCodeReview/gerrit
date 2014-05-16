@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a3188d1_67d552ed",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-16T05:56:37Z",
+      "side": 1,
+      "message": "There\u0027s no warning here any more, but it still fails with NPE at line 153.",
+      "revId": "5c16d16b981789ea291e6fa6e1a6fa306c2dfd67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -207,6 +207,7 @@ public class ProjectBranchesScreen extends ProjectScreen {
             nameTxtBox.setText("");
             irevTxtBox.setText("");
             branchTable.insert(branch);
+            delBranch.setVisible(branchTable.hasBranchCanDelete());
           }
 
       @Override
@@ -324,6 +325,7 @@ public class ProjectBranchesScreen extends ProjectScreen {
                 }
               }
               updateDeleteButton();
+              delBranch.setVisible(branchTable.hasBranchCanDelete());
             }
 
             @Override

@@ -17,6 +17,7 @@ package com.google.gerrit.httpd.plugins;
 import com.google.gerrit.common.Nullable;
 
 import java.io.IOException;
+import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -55,7 +56,13 @@ final class SmallResource extends Resource {
   void send(HttpServletRequest req, HttpServletResponse res)
       throws IOException {
     if (0 < lastModified) {
-      res.setDateHeader("Last-Modified", lastModified);
+      Date ifModifiedSince = HttpIfModifiedSinceDate.parse(req);
+      if (ifModifiedSince != null && ifModifiedSince.getTime() == lastModified) {
+        res.setStatus(HttpServletResponse.SC_NOT_MODIFIED);
+        return;
+      } else {
+        res.setDateHeader("Last-Modified", lastModified);
+      }
     }
     res.setContentType(contentType);
     if (characterEncoding != null) {

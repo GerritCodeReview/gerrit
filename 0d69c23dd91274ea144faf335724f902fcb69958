@@ -104,6 +104,24 @@
       "revId": "0d69c23dd91274ea144faf335724f902fcb69958",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea221089_055bb20d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Publish.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-16T08:09:17Z",
+      "side": 1,
+      "message": "I can vaguely remember that this logic was borrowed from Submit action where is correct to restrict the action to the current revision:\n\n  @Override\n  public UiAction.Description getDescription(RevisionResource resource) {\n    PatchSet.Id current \u003d resource.getChange().currentPatchSetId();\n    return new UiAction.Description()\n      .setTitle(String.format(\n          \"Submit revision %d\",\n          resource.getPatchSet().getPatchSetId()))\n      .setVisible(resource.getChange().getStatus().isOpen()\n          \u0026\u0026 resource.getPatchSet().getId().equals(current)\n          \u0026\u0026 resource.getControl().canSubmit());\n  }\n\nAs you pointed out, for publish draft it\u0027s a bug and not a feature and should probably be changed. Does old change screen allows publishing non current draft ps?",
+      "parentUuid": "0a26849c_4603f2d9",
+      "revId": "0d69c23dd91274ea144faf335724f902fcb69958",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

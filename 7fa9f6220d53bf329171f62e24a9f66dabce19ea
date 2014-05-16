@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ea221089_05ce5262",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeKindCacheImpl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-16T21:02:01Z",
+      "side": 1,
+      "message": "repo must be closed in a finally block",
+      "range": {
+        "startLine": 299,
+        "startChar": 19,
+        "endLine": 299,
+        "endChar": 23
+      },
+      "revId": "7fa9f6220d53bf329171f62e24a9f66dabce19ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea221089_25cb4e53",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeKindCacheImpl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-16T21:02:01Z",
+      "side": 1,
+      "message": "I\u0027m wondering, can it happen that priorPs and patch are still equal at this place? Will it then return the correct change kind?\n\nE.g. let\u0027s assume, somebody uploads a draft change, then uploads a second patch set and deletes the first draft patch set. Then the change has only one patch set, which is patch set 2. This means the check in line 296 will not catch it. Would it in this situation return REWORK as expected?",
+      "range": {
+        "startLine": 313,
+        "startChar": 8,
+        "endLine": 316,
+        "endChar": 64
+      },
+      "revId": "7fa9f6220d53bf329171f62e24a9f66dabce19ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

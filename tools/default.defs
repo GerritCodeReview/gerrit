@@ -32,14 +32,14 @@ def genantlr(
   )
 
 def gwt_module(
-    gwtxml=None,
+    gwt_xml=None,
     **kwargs):
   import copy
   java_kwargs = copy.copy(kwargs)
   if not 'resources' in java_kwargs:
     java_kwargs['resources'] = []
-  if gwtxml:
-    java_kwargs['resources'] += [gwtxml]
+  if gwt_xml:
+    java_kwargs['resources'] += [gwt_xml]
   java_library(**java_kwargs)
 
 def gerrit_extension(

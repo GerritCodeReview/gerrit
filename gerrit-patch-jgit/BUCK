@@ -6,7 +6,7 @@ gwt_module(
     SRC + 'diff/Edit_JsonSerializer.java',
     SRC + 'diff/ReplaceEdit.java',
   ],
-  gwtxml = SRC + 'JGit.gwt.xml',
+  gwt_xml = SRC + 'JGit.gwt.xml',
   deps = [
     '//lib:gwtjsonrpc',
     '//lib/gwt:user',

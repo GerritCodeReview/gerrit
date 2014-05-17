@@ -3,7 +3,7 @@ SRC = 'src/main/java/com/google/gerrit/'
 gwt_module(
   name = 'client',
   srcs = glob([SRC + 'client/**/*.java']),
-  gwtxml = SRC + 'GerritGwtUICommon.gwt.xml',
+  gwt_xml = SRC + 'GerritGwtUICommon.gwt.xml',
   deps = ['//lib/gwt:user'],
   visibility = ['PUBLIC'],
 )

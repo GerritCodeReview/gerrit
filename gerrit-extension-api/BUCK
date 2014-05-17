@@ -10,7 +10,7 @@ gwt_module(
     SRC + 'common/SubmitType.java',
     SRC + 'webui/GerritTopMenu.java',
   ]),
-  gwtxml = SRC + 'Extensions.gwt.xml',
+  gwt_xml = SRC + 'Extensions.gwt.xml',
   visibility = ['PUBLIC'],
 )
 

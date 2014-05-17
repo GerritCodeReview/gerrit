@@ -3,7 +3,7 @@ SRC = 'src/main/java/com/google/gwtexpui/'
 gwt_module(
   name = 'Clippy',
   srcs = glob([SRC + 'clippy/client/*.java']),
-  gwtxml = SRC + 'clippy/Clippy.gwt.xml',
+  gwt_xml = SRC + 'clippy/Clippy.gwt.xml',
   resources = [
     SRC + 'clippy/client/clippy.css',
     SRC + 'clippy/client/clippy.swf',
@@ -28,7 +28,7 @@ java_library(
 gwt_module(
   name = 'GlobalKey',
   srcs = glob([SRC + 'globalkey/client/*.java']),
-  gwtxml = SRC + 'globalkey/GlobalKey.gwt.xml',
+  gwt_xml = SRC + 'globalkey/GlobalKey.gwt.xml',
   resources = [
     SRC + 'globalkey/client/KeyConstants.properties',
     SRC + 'globalkey/client/key.css',
@@ -51,7 +51,7 @@ java_library(
 gwt_module(
   name = 'Progress',
   srcs = glob([SRC + 'progress/client/*.java']),
-  gwtxml = SRC + 'progress/Progress.gwt.xml',
+  gwt_xml = SRC + 'progress/Progress.gwt.xml',
   resources = [SRC + 'progress/client/progress.css'],
   deps = ['//lib/gwt:user'],
   visibility = ['PUBLIC'],
@@ -60,7 +60,7 @@ gwt_module(
 gwt_module(
   name = 'SafeHtml',
   srcs = glob([SRC + 'safehtml/client/*.java']),
-  gwtxml = SRC + 'safehtml/SafeHtml.gwt.xml',
+  gwt_xml = SRC + 'safehtml/SafeHtml.gwt.xml',
   resources = [SRC + 'safehtml/client/safehtml.css'],
   deps = ['//lib/gwt:user'],
   visibility = ['PUBLIC'],
@@ -83,7 +83,7 @@ java_test(
 gwt_module(
   name = 'UserAgent',
   srcs = glob([SRC + 'user/client/*.java']),
-  gwtxml = SRC + 'user/User.gwt.xml',
+  gwt_xml = SRC + 'user/User.gwt.xml',
   deps = ['//lib/gwt:user'],
   visibility = ['PUBLIC'],
 )

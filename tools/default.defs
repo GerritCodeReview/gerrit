@@ -32,12 +32,12 @@ def genantlr(
     out = out,
   )
 
-def gwt_module(gwtxml=None, **kwargs):
+def gwt_module(gwt_xml=None, **kwargs):
   kw = copy.deepcopy(kwargs)
   if 'resources' not in kw:
     kw['resources'] = []
-  if gwtxml:
-    kw['resources'] += [gwtxml]
+  if gwt_xml:
+    kw['resources'] += [gwt_xml]
   if 'srcs' in kw:
     kw['resources'] += kw['srcs']
   java_library(**kw)

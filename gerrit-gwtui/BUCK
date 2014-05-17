@@ -28,8 +28,6 @@ genrule(
 gwt_binary(
   name = 'ui_opt',
   modules = [MODULE],
-  style = 'OBF',
-  optimize = 9,
   module_deps = [':ui_module'],
   deps = DEPS + ['//lib/gwt:dev', ':ui_dbg'],
   local_workers = cpu_count(),

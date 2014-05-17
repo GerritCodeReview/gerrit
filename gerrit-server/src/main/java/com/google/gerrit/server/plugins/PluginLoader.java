@@ -78,7 +78,7 @@ public class PluginLoader implements LifecycleListener {
   static final Logger log = LoggerFactory.getLogger(PluginLoader.class);
 
   public static String getPluginName(File srcFile) throws IOException {
-    return Objects.firstNonNull(getGerritPluginName(srcFile), nameOf(srcFile)).toLowerCase();
+    return Objects.firstNonNull(getGerritPluginName(srcFile), nameOf(srcFile));
   }
 
   private final File pluginsDir;

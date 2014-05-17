@@ -16,6 +16,24 @@
       "revId": "5c16d16b981789ea291e6fa6e1a6fa306c2dfd67",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca1f0c44_84a2469e",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-17T11:53:15Z",
+      "side": 1,
+      "message": "It cannot work that way. You have number of problems:\n\n* You are injecting multiple instances of IndexCollection.\n* You are injecting one instance of ChangeIndexes.\n\nSo the NPE is the consequence, that you have different unrelated instances of: IndexCollection \u0026 ChangeIndexes. The right SearchIndex instance was set on IndexCollection instance in LuceneVersionManager, line 150. Note that there, an instance of IndexCollection was used and not ChangeIndexes. That why ChangeIndex instance that is used here has unset search index.\n\nTo fix it in your current design, you could remove ChangeIndexes class entirely and use TypeLiteral to bind to specific generic class, as pointed out by Dave in previous comment, to bind:\n\n  //bind(IndexCollection.class);\n    bind(new TypeLiteral\u003cIndexCollection\u003cChangeData\u003e\u003e(){})\n        .in(Scopes.SINGLETON);\n\nAnd to retrieve on the line 150 above:\n\n   index \u003d sysInjector.getInstance(\n     Key.get(new TypeLiteral\u003cIndexCollection\u003cChangeData\u003e\u003e(){}))\n         .getSearchIndex();\n\nBut even then, for some reasons still two instances of IndexCollection are created.\n\nI think that IndexCollection class should be abstract and that only derived classes should be injected. And probably Collection of different index implementation should be bound for places where all indexes must be handled. One way to achieve it is to use Multibinding, but it\u0027s probably to much overhead for that simple case. Another way would be to use Providers (in class IndexModule), something like:\n\n   @Singleton\n   @Provides\n   @Inject\n   public List\u003cIndexCollection\u003c?\u003e\u003e getIndexCollection(\n       Provider\u003cChangeIndexes\u003e changesIndexes\n  /* Provider\u003cAccountIndexes\u003e accountIndexes */) {\n    return (ImmutableList.\u003cIndexCollection\u003c?\u003e\u003e of(changesIndexes.get()\n    // , accountIndexes.get()\n    ));\n  }\n\nThat way you could inject both worlds: specific indexes, where you need them, and List of all available indexes, for example:\n\n   @Inject\n   LuceneVersionManager(\n       SitePaths sitePaths,\n       LuceneChangeIndex.Factory indexFactory,\n-      IndexCollection\u003cChangeData\u003e indexes,\n+      List\u003cIndexCollection\u003c?\u003e\u003e indexes,\n       OnlineReindexer.Factory reindexerFactory) {\n\nAnd then differentiate per index type or name:\n\n  for (IndexCollection\u003c?\u003e index : indexes) {\n     String name \u003d index.getName();\n     log.info(\"Initializing index: {}\", name);\n     switch (name) {\n       case \"changes\":\n         LuceneChangeIndex searchIndex \u003d indexFactory.create(search.schema, null);\n         ChangeIndexes ind \u003d (ChangeIndexes)index;\n         ind.setSearchIndex(searchIndex);\n         for (Version v : write) {\n           if (v.schema !\u003d null) {\n             if (v.version !\u003d search.version) {\n               ind.addWriteIndex(indexFactory.create(v.schema, null));\n             } else {\n               ind.addWriteIndex(searchIndex);\n             }\n           }\n          }\n          break;\n        case \"accounts\":\n        case \"groups\":\n        case \"projects\":\n          // TODO(davido) to be continued\n          break;\n        default:\n          throw new IllegalStateException(\"Unknown index name: \" + name);\n       }\n\nI created a patch on top of you change that compiles and run all tests, that implement that suggestion above and uploaded it here [1].\n\n [1] http://paste.openstack.org/show/80687",
+      "parentUuid": "2a3188d1_67d552ed",
+      "revId": "5c16d16b981789ea291e6fa6e1a6fa306c2dfd67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

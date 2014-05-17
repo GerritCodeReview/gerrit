@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0a26849c_a68ca625",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-17T13:16:42Z",
+      "side": 1,
+      "message": "Please add a bit more detail about what is changed and why.",
+      "revId": "08153e22b2c89ac717210cfe719e80ae83458457",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a3188d1_c76a7e6c",
+        "filename": "tools/default.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-17T13:16:42Z",
+      "side": 1,
+      "message": "Why import this here rather than at the top of the module?",
+      "revId": "08153e22b2c89ac717210cfe719e80ae83458457",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

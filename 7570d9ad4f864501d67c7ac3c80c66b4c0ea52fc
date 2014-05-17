@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "0a26849c_06b73ade",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-05-17T00:59:25Z",
+      "side": 1,
+      "message": "Thanks for the explanation.",
+      "parentUuid": "ea221089_e5fa1695",
+      "revId": "7570d9ad4f864501d67c7ac3c80c66b4c0ea52fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0a26849c_262fd67a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
         "patchSetId": 4
@@ -101,6 +119,24 @@
       "side": 1,
       "message": "No, readPatchList only calls getPaths if key.getOldId() !\u003d null, but getPaths calls load only with key.getOldId() \u003d\u003d null. So there is only one level of recursion.\n\nI can avoid the recursion, but then a little code is doublicated. Still this might be better as it makes the code more readable.",
       "parentUuid": "0a26849c_262fd67a",
+      "revId": "7570d9ad4f864501d67c7ac3c80c66b4c0ea52fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a26849c_26b436d7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-05-17T00:59:25Z",
+      "side": 1,
+      "message": "Yes, that was subtle. I think the amount of duplicated code is reasonable.",
+      "parentUuid": "ea221089_85eb22ca",
       "revId": "7570d9ad4f864501d67c7ac3c80c66b4c0ea52fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

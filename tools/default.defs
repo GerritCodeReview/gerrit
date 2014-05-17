@@ -15,6 +15,7 @@
 # Rule definitions loaded by default into every BUCK file.
 
 include_defs('//tools/gwt-constants.defs')
+import copy
 
 def genantlr(
     name,
@@ -32,21 +33,14 @@ def genantlr(
   )
 
 def gwt_module(
-    name,
-    srcs,
-    gwtxml = None,
-    resources = [],
-    deps = [],
-    visibility = []):
+    gwtxml=None,
+    **kwargs):
+  java_kwargs = copy.copy(kwargs)
+  if not 'resources' in java_kwargs:
+    java_kwargs['resources'] = []
   if gwtxml:
-    resources = resources + [gwtxml]
-  java_library(
-    name = name,
-    srcs = srcs,
-    deps = deps,
-    resources = srcs + resources,
-    visibility = visibility,
-  )
+    java_kwargs['resources'] += [gwtxml]
+  java_library(**java_kwargs)
 
 def gerrit_extension(
     name,

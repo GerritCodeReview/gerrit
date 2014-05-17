@@ -22,6 +22,30 @@
       "revId": "6c6f343e31e3609d56e8488db07fd97c955afd29",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca1f0c44_04b736de",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/AccountConstants.properties",
+        "patchSetId": 12
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011917
+      },
+      "writtenOn": "2014-05-17T14:04:52Z",
+      "side": 1,
+      "message": "Hi David,\n\nI had difficulty deciding what to call this and changed it a few times. \n\nCalling it change id would seem confusing given the change-id within commit messages.\n\nID was suggested by Shawn on 1st may as it was the name used in previous versions of the change table.\n\nI\u0027m happy to change this though if preferred.\n\nRob",
+      "parentUuid": "ea221089_057c923e",
+      "range": {
+        "startLine": 22,
+        "startChar": 34,
+        "endLine": 22,
+        "endChar": 36
+      },
+      "revId": "6c6f343e31e3609d56e8488db07fd97c955afd29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

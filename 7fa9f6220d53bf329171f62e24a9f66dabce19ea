@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2a3188d1_475f6ec6",
+        "filename": "Documentation/config-hooks.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2014-05-17T20:35:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a3188d1_67ae3285",
+      "revId": "7fa9f6220d53bf329171f62e24a9f66dabce19ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2a3188d1_a78caa25",
         "filename": "Documentation/json.txt",
         "patchSetId": 5
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "2a3188d1_675c72d1",
+        "filename": "Documentation/json.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2014-05-17T20:35:58Z",
+      "side": 1,
+      "message": "Changed to \"No code changed; same tree and same parents.\"",
+      "parentUuid": "2a3188d1_a78caa25",
+      "revId": "7fa9f6220d53bf329171f62e24a9f66dabce19ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0a26849c_e6c85e59",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeKindCacheImpl.java",
         "patchSetId": 5
@@ -47,6 +83,24 @@
       "writtenOn": "2014-05-16T21:14:52Z",
       "side": 1,
       "message": "Can be private.",
+      "revId": "7fa9f6220d53bf329171f62e24a9f66dabce19ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7fe7c494_4231720e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeKindCacheImpl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2014-05-17T20:35:58Z",
+      "side": 1,
+      "message": "All right, missed that one.  Here I thought it\u0027d not be visible to the NoCache implementation.",
+      "parentUuid": "0a26849c_e6c85e59",
       "revId": "7fa9f6220d53bf329171f62e24a9f66dabce19ea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -88,6 +142,24 @@
     },
     {
       "key": {
+        "uuid": "2a3188d1_a7aaea5b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeKindCacheImpl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2014-05-17T20:35:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca1f0c44_e4c85a59",
+      "revId": "7fa9f6220d53bf329171f62e24a9f66dabce19ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea221089_05ce5262",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeKindCacheImpl.java",
         "patchSetId": 5
@@ -111,6 +183,30 @@
     },
     {
       "key": {
+        "uuid": "2a3188d1_87a5e690",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeKindCacheImpl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2014-05-17T20:35:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea221089_05ce5262",
+      "range": {
+        "startLine": 299,
+        "startChar": 19,
+        "endLine": 299,
+        "endChar": 23
+      },
+      "revId": "7fa9f6220d53bf329171f62e24a9f66dabce19ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0a26849c_a6a746ad",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeKindCacheImpl.java",
         "patchSetId": 5
@@ -122,6 +218,24 @@
       "writtenOn": "2014-05-16T21:20:30Z",
       "side": 1,
       "message": "I think you want priorPs \u003d null. Actually, better yet, make this an ObjectId and default to zeroId.\n\nThis means when you write the check in Loader, you\u0027ll be returning REWORK (eventually NEW_CHANGE) when comparing (zeroId, id). That makes more sense than returning REWORK for (id, id), which really doesn\u0027t feel like a rework.",
+      "revId": "7fa9f6220d53bf329171f62e24a9f66dabce19ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a3188d1_e7b4e2c3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeKindCacheImpl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2014-05-17T20:35:58Z",
+      "side": 1,
+      "message": "I looked at using zeroId() here just now, and with the way this is currently written, it makes the code more illegible.  Since ObjectIds obviously aren\u0027t chronological, we need some way to discover what the previous patch is, in addition to using the ObjectIds to determine change kind.  It\u0027d basically result in us having two iterators that we\u0027d have to keep in step.\n\nIf I\u0027m missing another obvious way to accomplish this, please tell me (or feel free to submit it).  Advice is certainly appreciated.",
+      "parentUuid": "0a26849c_a6a746ad",
       "revId": "7fa9f6220d53bf329171f62e24a9f66dabce19ea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -175,6 +289,30 @@
     },
     {
       "key": {
+        "uuid": "2a3188d1_c7afde6a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeKindCacheImpl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2014-05-17T20:35:58Z",
+      "side": 1,
+      "message": "It\u0027s possible.  So, to address this, added a check that we have more than one PatchSet in the PatchSetCollection, and refactored some of this so it works out okay.",
+      "parentUuid": "0a26849c_46d85226",
+      "range": {
+        "startLine": 313,
+        "startChar": 8,
+        "endLine": 316,
+        "endChar": 64
+      },
+      "revId": "7fa9f6220d53bf329171f62e24a9f66dabce19ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0a26849c_06ce5a62",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeKindCacheImpl.java",
         "patchSetId": 5
@@ -186,6 +324,24 @@
       "writtenOn": "2014-05-16T21:14:52Z",
       "side": 1,
       "message": "Don\u0027t drop the exception, log it as we do above.\n\n(Looking at this again I\u0027m not sure returning REWORK is preferable to raising this exception, but let\u0027s be consistent.)",
+      "revId": "7fa9f6220d53bf329171f62e24a9f66dabce19ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a26849c_2679964f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeKindCacheImpl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2014-05-17T20:35:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a26849c_06ce5a62",
       "revId": "7fa9f6220d53bf329171f62e24a9f66dabce19ea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

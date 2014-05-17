@@ -20,7 +20,7 @@ java_library(
 gwt_module(
   name = 'client',
   srcs = glob([SRC + 'common/**/*.java'], excludes = EXCLUDES),
-  gwtxml = SRC + 'Common.gwt.xml',
+  gwt_xml = SRC + 'Common.gwt.xml',
   deps = [
     ':annotations',
     '//gerrit-extension-api:client',

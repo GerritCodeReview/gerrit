@@ -69,6 +69,7 @@ gwt_module(
   gwtxml = 'src/main/java/%s.gwt.xml' % MODULE.replace('.', '/'),
   resources = glob(['src/main/java/**/*'], excludes = DIFFY),
   deps = [
+    ':diffy_logo',
     '//gerrit-gwtexpui:Clippy',
     '//gerrit-gwtexpui:GlobalKey',
     '//gerrit-gwtexpui:Progress',
@@ -80,9 +81,6 @@ gwt_module(
     '//gerrit-patch-jgit:client',
     '//gerrit-prettify:client',
     '//gerrit-reviewdb:client',
-  ],
-  compile_deps = [
-    ':diffy_logo',
     '//gerrit-gwtexpui:CSS',
     '//lib:gwtjsonrpc',
     '//lib:gwtjsonrpc_src',

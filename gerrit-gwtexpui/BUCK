@@ -11,8 +11,6 @@ gwt_module(
   deps = [
     ':SafeHtml',
     ':UserAgent',
-  ],
-  compile_deps = [
     '//lib/gwt:user',
     '//lib:LICENSE-clippy',
   ],
@@ -38,8 +36,8 @@ gwt_module(
   deps = [
     ':SafeHtml',
     ':UserAgent',
+    '//lib/gwt:user',
   ],
-  compile_deps = ['//lib/gwt:user'],
   visibility = ['PUBLIC'],
 )
 
@@ -55,7 +53,7 @@ gwt_module(
   srcs = glob([SRC + 'progress/client/*.java']),
   gwtxml = SRC + 'progress/Progress.gwt.xml',
   resources = [SRC + 'progress/client/progress.css'],
-  compile_deps = ['//lib/gwt:user'],
+  deps = ['//lib/gwt:user'],
   visibility = ['PUBLIC'],
 )
 
@@ -64,7 +62,7 @@ gwt_module(
   srcs = glob([SRC + 'safehtml/client/*.java']),
   gwtxml = SRC + 'safehtml/SafeHtml.gwt.xml',
   resources = [SRC + 'safehtml/client/safehtml.css'],
-  compile_deps = ['//lib/gwt:user'],
+  deps = ['//lib/gwt:user'],
   visibility = ['PUBLIC'],
 )
 
@@ -86,7 +84,7 @@ gwt_module(
   name = 'UserAgent',
   srcs = glob([SRC + 'user/client/*.java']),
   gwtxml = SRC + 'user/User.gwt.xml',
-  compile_deps = ['//lib/gwt:user'],
+  deps = ['//lib/gwt:user'],
   visibility = ['PUBLIC'],
 )
 

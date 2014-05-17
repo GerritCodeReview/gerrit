@@ -22,6 +22,30 @@
       "revId": "176b801295fbe616689390f8ff4c11b18d1884fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca1f0c44_44868e02",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-17T20:50:50Z",
+      "side": 1,
+      "message": "Fixed in [1].\n\n [1] https://gerrit-review.googlesource.com/57276",
+      "parentUuid": "ca1f0c44_e4969a35",
+      "range": {
+        "startLine": 81,
+        "startChar": 78,
+        "endLine": 81,
+        "endChar": 93
+      },
+      "revId": "176b801295fbe616689390f8ff4c11b18d1884fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

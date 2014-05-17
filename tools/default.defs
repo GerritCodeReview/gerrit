@@ -126,8 +126,6 @@ def gerrit_plugin(
     gwt_binary(
       name = name + '__gwt_application',
       modules = [gwt_module],
-      style = 'OBF',
-      optimize = 9,
       deps = [':%s__plugin' % name] + gwt_deps,
       local_workers = cpu_count(),
       strict = True,

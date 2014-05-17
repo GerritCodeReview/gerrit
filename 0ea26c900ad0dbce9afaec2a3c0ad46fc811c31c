@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ca1f0c44_047c963e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 761,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-17T20:48:01Z",
+      "side": 0,
+      "message": "It wasn\u0027t low cased in original code.",
+      "range": {
+        "startLine": 760,
+        "startChar": 14,
+        "endLine": 761,
+        "endChar": 26
+      },
+      "revId": "0ea26c900ad0dbce9afaec2a3c0ad46fc811c31c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

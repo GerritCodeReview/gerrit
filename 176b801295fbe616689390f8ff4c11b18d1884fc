@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ca1f0c44_e4969a35",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-17T20:48:01Z",
+      "side": 1,
+      "message": "Why that change? In original code plugin name wasn\u0027t lower cased. That broke github plugin, as it relies on reconstructing plugin file name from plugin name:\n\n  p.setProperty(VELOCITY_JAR_RESOURCE_LOADER_PATH, \"jar:file:\"\n  + new File(site.plugins_dir, pluginName + \".jar\").getAbsolutePath());\n\nIt fails with:\n\n java.io.FileNotFoundException: /home/davido/projects/gerrit/../test_site_master_95/plugins/github-plugin-2.10-snapshot.jar (No such file or directory)\n\nBecause the right name of the file is:\n\n github-plugin-2.10-SNAPSHOT.jar",
+      "range": {
+        "startLine": 81,
+        "startChar": 78,
+        "endLine": 81,
+        "endChar": 93
+      },
+      "revId": "176b801295fbe616689390f8ff4c11b18d1884fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

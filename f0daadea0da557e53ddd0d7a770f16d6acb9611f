@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0a26849c_46b132e6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-05-17T00:59:16Z",
+      "side": 1,
+      "message": "aka rw.parseTree(a), I believe",
+      "revId": "f0daadea0da557e53ddd0d7a770f16d6acb9611f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a3188d1_27799a4f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-05-17T00:59:16Z",
+      "side": 1,
+      "message": "Skip the non-fluent Lists.transform: just FluentIterable.from(df.scan(...)).transform(new Function ...);",
+      "revId": "f0daadea0da557e53ddd0d7a770f16d6acb9611f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a3188d1_47868e02",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-05-17T00:59:16Z",
+      "side": 1,
+      "message": "getNewPath() is empty for deletes. Wouldn\u0027t you want to include those?",
+      "revId": "f0daadea0da557e53ddd0d7a770f16d6acb9611f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

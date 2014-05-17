@@ -7,7 +7,7 @@ gwt_module(
     SRC + 'diff/ReplaceEdit.java',
   ],
   gwtxml = SRC + 'JGit.gwt.xml',
-  compile_deps = [
+  deps = [
     '//lib:gwtjsonrpc',
     '//lib/gwt:user',
     '//lib/jgit:jgit',

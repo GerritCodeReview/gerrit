@@ -4,7 +4,7 @@ gwt_module(
   name = 'client',
   srcs = glob([SRC + 'client/**/*.java']),
   gwtxml = SRC + 'GerritGwtUICommon.gwt.xml',
-  compile_deps = ['//lib/gwt:user'],
+  deps = ['//lib/gwt:user'],
   visibility = ['PUBLIC'],
 )
 

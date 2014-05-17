@@ -11,12 +11,10 @@ gwt_module(
     'src/main/java/com/google/gerrit/prettify/client/*.properties',
   ]),
   deps = [
+    ':google-code-prettify',
     '//gerrit-patch-jgit:client',
     '//gerrit-reviewdb:client',
     '//gerrit-gwtexpui:SafeHtml',
-  ],
-  compile_deps = [
-    ':google-code-prettify',
     '//lib:guava',
     '//lib:gwtjsonrpc',
     '//lib/gwt:user',

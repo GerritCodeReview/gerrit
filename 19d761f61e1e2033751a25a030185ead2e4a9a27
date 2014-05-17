@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "ea221089_c5919a40",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/PatchListCacheIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-17T07:06:06Z",
+      "side": 1,
+      "message": "In second thought this and other tests are not complete and should respect major file change types:\n\n public static enum ChangeType implements CodedEnum {\n    /** Path is being created/introduced by this patch. */\n    ADDED(\u0027A\u0027),\n\n    /** Path already exists, and has updated content. */\n    MODIFIED(\u0027M\u0027),\n\n    /** Path existed, but is being removed by this patch. */\n    DELETED(\u0027D\u0027),\n\n    /** Path existed at {@link Patch#getSourceFileName()} but was moved. */\n    RENAMED(\u0027R\u0027),\n\n [...]",
+      "range": {
+        "startLine": 57,
+        "startChar": 14,
+        "endLine": 57,
+        "endChar": 36
+      },
+      "revId": "19d761f61e1e2033751a25a030185ead2e4a9a27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea221089_65d546ed",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/PatchListCacheIT.java",
         "patchSetId": 1

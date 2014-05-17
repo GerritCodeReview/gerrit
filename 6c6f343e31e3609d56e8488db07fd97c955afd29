@@ -46,6 +46,30 @@
       "revId": "6c6f343e31e3609d56e8488db07fd97c955afd29",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff23b49a_76d55051",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/AccountConstants.properties",
+        "patchSetId": 12
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-17T19:04:06Z",
+      "side": 1,
+      "message": "I think you misread my suggestion. I didn\u0027t say to change it on Changes Table (in table itself). My suggestion was to change it on preferences page and call it \u0027Change ID\u0027 or may be even \u0027Change number column\u0027 like on the line before we say \u0027Show Change Sizes\u0027 and not just \u0027Show size\u0027. We have numer of IDs in the game there: Account ID, Revision ID, Patch Set ID for the current patch set of the change in the same table. \n\nThat why i think that the current name \"Show ID\" is ambiguous. But i am fine to wait for opinion of other reviewers.",
+      "parentUuid": "ca1f0c44_04b736de",
+      "range": {
+        "startLine": 22,
+        "startChar": 34,
+        "endLine": 22,
+        "endChar": 36
+      },
+      "revId": "6c6f343e31e3609d56e8488db07fd97c955afd29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -64,7 +64,7 @@ DIFFY = glob(['src/main/java/com/google/gerrit/client/diffy*.png'])
 gwt_module(
   name = 'ui_module',
   srcs = glob(['src/main/java/**/*.java']),
-  gwtxml = 'src/main/java/%s.gwt.xml' % MODULE.replace('.', '/'),
+  gwt_xml = 'src/main/java/%s.gwt.xml' % MODULE.replace('.', '/'),
   resources = glob(['src/main/java/**/*'], excludes = DIFFY),
   deps = [
     ':diffy_logo',

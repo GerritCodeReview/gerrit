@@ -2,6 +2,69 @@
   "comments": [
     {
       "key": {
+        "uuid": "0a26849c_e62cde88",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-18T16:21:42Z",
+      "side": 1,
+      "message": "I\u0027m not sure this is the best result for the application.\n\nConsider comparing ps4..ps6.\n\nIf ps4 modified \"Foo.java\" but ps6 no longer modifies it, we don\u0027t want to see Foo in the ps4..ps6 compare.\n\nSo really you want Base..ps6 to determine the files modified by ps6. Then only those files that differ from ps4 should be shown.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 35
+      },
+      "revId": "7570d9ad4f864501d67c7ac3c80c66b4c0ea52fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a26849c_0632dae5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-18T16:21:42Z",
+      "side": 1,
+      "message": "Change the serialVersionUID in PatchListKey to force old server cache records to evict. But that won\u0027t impact browser caches, which need another 7 days after installation of this commit to evict.",
+      "range": {
+        "startLine": 73,
+        "startChar": 49,
+        "endLine": 73,
+        "endChar": 61
+      },
+      "revId": "7570d9ad4f864501d67c7ac3c80c66b4c0ea52fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a3188d1_0732d6e5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-18T16:21:42Z",
+      "side": 1,
+      "message": "nit: method can be static",
+      "revId": "7570d9ad4f864501d67c7ac3c80c66b4c0ea52fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2a3188d1_272fda7a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
         "patchSetId": 4

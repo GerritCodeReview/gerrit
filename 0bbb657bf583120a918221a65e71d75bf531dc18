@@ -22,6 +22,30 @@
       "revId": "0bbb657bf583120a918221a65e71d75bf531dc18",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff23b49a_f6e8401e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/OtherBranchCommitIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-05-18T12:41:44Z",
+      "side": 1,
+      "message": "I am trying to push change to another branch in line 63 however, I keep getting error. Can you please guide on how to create a new branch from a project here, so I can commit push change to it. Thanks!",
+      "parentUuid": "ca1f0c44_64e70af9",
+      "range": {
+        "startLine": 68,
+        "startChar": 4,
+        "endLine": 68,
+        "endChar": 76
+      },
+      "revId": "0bbb657bf583120a918221a65e71d75bf531dc18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

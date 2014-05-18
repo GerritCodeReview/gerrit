@@ -184,6 +184,10 @@ public abstract class CacheBasedWebSession implements WebSession {
   }
 
   private void saveCookie() {
+    if (response == null) {
+      return;
+    }
+
     final String token;
     final int ageSeconds;
 

@@ -17,6 +17,7 @@ package com.google.gerrit.httpd;
 import static java.util.concurrent.TimeUnit.MINUTES;
 
 import com.google.common.cache.Cache;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.httpd.WebSessionManager.Val;
 import com.google.gerrit.server.AnonymousUser;
@@ -56,7 +57,7 @@ public class H2CacheBasedWebSession extends CacheBasedWebSession {
   @Inject
   H2CacheBasedWebSession(
       HttpServletRequest request,
-      HttpServletResponse response,
+      @Nullable HttpServletResponse response,
       WebSessionManagerFactory managerFactory,
       @Named(WebSessionManager.CACHE_NAME) Cache<String, Val> cache,
       AuthConfig authConfig,

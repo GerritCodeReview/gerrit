@@ -68,7 +68,8 @@ public abstract class CacheBasedWebSession implements WebSession {
     this.anonymousProvider = anonymousProvider;
     this.identified = identified;
 
-    if (!GitSmartHttpTools.isGitClient(request)) {
+    if (request.getRequestURI() == null
+        || !GitSmartHttpTools.isGitClient(request)) {
       String cookie = readCookie();
       if (cookie != null) {
         key = new Key(cookie);
@@ -212,7 +213,9 @@ public abstract class CacheBasedWebSession implements WebSession {
     outCookie.setPath(path);
     outCookie.setMaxAge(ageSeconds);
     outCookie.setSecure(authConfig.getCookieSecure());
-    response.addCookie(outCookie);
+    if (response != null) {
+      response.addCookie(outCookie);
+    }
   }
 
   private static boolean isSecure(final HttpServletRequest req) {

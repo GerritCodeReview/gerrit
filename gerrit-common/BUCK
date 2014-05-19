@@ -20,14 +20,13 @@ java_library(
 gwt_module(
   name = 'client',
   srcs = glob([SRC + 'common/**/*.java'], excludes = EXCLUDES),
-  gwtxml = SRC + 'Common.gwt.xml',
+  gwt_xml = SRC + 'Common.gwt.xml',
   deps = [
+    ':annotations',
+    '//gerrit-extension-api:client',
     '//gerrit-patch-jgit:client',
     '//gerrit-prettify:client',
     '//gerrit-reviewdb:client',
-  ],
-  compile_deps = [
-    ':annotations',
     '//lib:gwtjsonrpc',
     '//lib:gwtorm',
     '//lib/jgit:jgit',

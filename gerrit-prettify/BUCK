@@ -6,17 +6,15 @@ gwt_module(
     SRC + 'client/**/*.java',
     SRC + 'common/**/*.java',
   ]),
-  gwtxml = SRC + 'PrettyFormatter.gwt.xml',
+  gwt_xml = SRC + 'PrettyFormatter.gwt.xml',
   resources = glob([
     'src/main/java/com/google/gerrit/prettify/client/*.properties',
   ]),
   deps = [
+    ':google-code-prettify',
     '//gerrit-patch-jgit:client',
     '//gerrit-reviewdb:client',
     '//gerrit-gwtexpui:SafeHtml',
-  ],
-  compile_deps = [
-    ':google-code-prettify',
     '//lib:guava',
     '//lib:gwtjsonrpc',
     '//lib/gwt:user',

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ca1f0c44_84cec63c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/PatchListCacheIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-19T11:52:27Z",
+      "side": 1,
+      "message": "I\u0027ve added checks for the change type and I\u0027ve also added checks for file deletions.\n\nI\u0027m aware that this test is not complete and does not cover all cases. This is why the commit message says that only a \"basic test\" is added. For now I\u0027m only covering the cases that are relevant for the file list bug fix. This fix is only affecting the paths in the file list, but not their change types.",
+      "parentUuid": "ea221089_c5919a40",
+      "range": {
+        "startLine": 57,
+        "startChar": 14,
+        "endLine": 57,
+        "endChar": 36
+      },
+      "revId": "19d761f61e1e2033751a25a030185ead2e4a9a27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea221089_65d546ed",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/PatchListCacheIT.java",
         "patchSetId": 1

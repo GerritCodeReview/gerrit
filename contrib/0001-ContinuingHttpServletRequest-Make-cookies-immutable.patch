@@ -1,0 +1,52 @@
+From e7b9a31d5ece06c8552779aa52b45f8db9678d80 Mon Sep 17 00:00:00 2001
+From: David Ostrovsky <david@ostrovsky.org>
+Date: Tue, 20 May 2014 00:48:35 +0200
+Subject: [PATCH] ContinuingHttpServletRequest: Make cookies immutable
+
+The whole purpose of request propagation is to make a snapshot of the
+request.  To the snapshot belongs all attributes and cookies.
+Cookies are mutable and were erroneously not frozen.  This breaks
+web session management in Gerrit Code review project.
+
+And the answer to that nice comment in the code:
+
+// TODO(dhanji): Cookies themselves are mutable. Is this a problem?
+
+is: yes.
+
+Change-Id: Iabc94e5c0b451e371fd86e144920b0170dc5c5a4
+---
+ .../com/google/inject/servlet/ContinuingHttpServletRequest.java   | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
+
+diff --git a/extensions/servlet/src/com/google/inject/servlet/ContinuingHttpServletRequest.java b/extensions/servlet/src/com/google/inject/servlet/ContinuingHttpServletRequest.java
+index 36c3477..6ebd1b1 100644
+--- a/extensions/servlet/src/com/google/inject/servlet/ContinuingHttpServletRequest.java
++++ b/extensions/servlet/src/com/google/inject/servlet/ContinuingHttpServletRequest.java
+@@ -38,9 +38,11 @@ class ContinuingHttpServletRequest extends HttpServletRequestWrapper {
+ 
+   // We clear out the attributes as they are mutable and not thread-safe.
+   private final Map<String, Object> attributes = Maps.newHashMap();
++  private final Cookie[] cookies;
+ 
+   public ContinuingHttpServletRequest(HttpServletRequest request) {
+     super(request);
++    cookies = super.getCookies().clone();
+   }
+ 
+   @Override public HttpSession getSession() {
+@@ -68,10 +70,6 @@ class ContinuingHttpServletRequest extends HttpServletRequestWrapper {
+   }
+ 
+   @Override public Cookie[] getCookies() {
+-    if (super.getCookies() == null) {
+-      return null;
+-    }
+-    // TODO(dhanji): Cookies themselves are mutable. Is this a problem?
+-    return super.getCookies().clone();
++    return cookies;
+   }
+ }
+-- 
+1.8.4.5
+

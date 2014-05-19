@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "0a26849c_86f32a85",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-05-19T20:08:14Z",
+      "side": 1,
+      "message": "I told Edwin in a previous patch set not to recursively load. In general recursive load on an old history and an empty cache (like the first time this change is pushed to production) will be slow at best and blow the stack at worst.\n\nIt may be the case that we can prove the recursion is bounded after one or two calls, but in that case it is easier to reason about if we just don\u0027t use recursion and factor out the base case logic to be called directly. That is basically what the implementation of setPaths boils down to.",
+      "parentUuid": "2a3188d1_67ef1290",
+      "range": {
+        "startLine": 141,
+        "startChar": 14,
+        "endLine": 141,
+        "endChar": 18
+      },
+      "revId": "6c6adf754a20391b5e50a1e510cc8a17044cccfc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2a3188d1_871c0601",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
         "patchSetId": 8

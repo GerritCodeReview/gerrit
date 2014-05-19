@@ -34,6 +34,24 @@
       "revId": "69263d352009138d1e27d20909d855eb23fdffac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a3188d1_675d52a4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.ui.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-19T21:14:21Z",
+      "side": 1,
+      "message": "The git logo from git-scm.com would be ideal, but tossed into a square box rather than the diamond that it is.\n\nRight now I am inclined to revert this before I deploy the change. Merge commits are scary enough for some of our users. If we start showing them this icon, they will completely freak out and flood my inbox with questions.",
+      "parentUuid": "ca1f0c44_64ef0a90",
+      "revId": "69263d352009138d1e27d20909d855eb23fdffac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

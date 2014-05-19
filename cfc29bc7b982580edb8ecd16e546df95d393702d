@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ca1f0c44_84f32685",
+        "filename": "tools/maven/package.defs",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-19T19:46:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a26849c_665c6ed1",
+      "revId": "cfc29bc7b982580edb8ecd16e546df95d393702d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2a3188d1_27e0baa9",
         "filename": "tools/maven/package.defs",
         "patchSetId": 2
@@ -30,6 +48,30 @@
       "writtenOn": "2014-05-19T18:24:11Z",
       "side": 1,
       "message": "Pull the type \u003d\u003d war case into its own loop and move the (\u0027war\u0027, war) part out of the list into its own list.\n\nThis code is obtuse for no reason other than the author failed to simplify the loop conditional.",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 26
+      },
+      "revId": "cfc29bc7b982580edb8ecd16e546df95d393702d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff23b49a_f684c04d",
+        "filename": "tools/maven/package.defs",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-19T19:46:12Z",
+      "side": 1,
+      "message": "True. I sought that putting things together would produce less code.\n\nDone.",
+      "parentUuid": "2a3188d1_27e0baa9",
       "range": {
         "startLine": 28,
         "startChar": 0,

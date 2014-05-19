@@ -70,6 +70,30 @@
       "revId": "6c6f343e31e3609d56e8488db07fd97c955afd29",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff23b49a_d63e64d6",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/AccountConstants.properties",
+        "patchSetId": 12
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011917
+      },
+      "writtenOn": "2014-05-19T12:19:18Z",
+      "side": 1,
+      "message": "Ah, yes that makes sense. I\u0027ll make the change and upload a new patchset.\nI\u0027m favouring changing it to change number as you suggest so it isn\u0027t confused with the change Id.",
+      "parentUuid": "ff23b49a_76d55051",
+      "range": {
+        "startLine": 22,
+        "startChar": 34,
+        "endLine": 22,
+        "endChar": 36
+      },
+      "revId": "6c6f343e31e3609d56e8488db07fd97c955afd29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

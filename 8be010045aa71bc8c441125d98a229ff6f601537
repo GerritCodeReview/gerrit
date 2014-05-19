@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a3188d1_a7466adc",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneIndexModule.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-05-19T20:04:24Z",
+      "side": 1,
+      "message": "This could just be ChangeIndexes",
+      "revId": "8be010045aa71bc8c441125d98a229ff6f601537",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a26849c_06e3bab8",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneVersionManager.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-05-19T20:04:24Z",
+      "side": 1,
+      "message": "Other than the type of searchIndex and ind, how would this implementation be any different in the ACCOUNTS case? If you can factor out more logic perhaps we can eliminate this ugly type switching.",
+      "revId": "8be010045aa71bc8c441125d98a229ff6f601537",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a26849c_26e0b6a9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeIndexes.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-05-19T20:04:24Z",
+      "side": 1,
+      "message": "Nit: unnecessary blank line.",
+      "revId": "8be010045aa71bc8c441125d98a229ff6f601537",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a26849c_46ddb2ec",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/IndexModule.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-05-19T20:04:24Z",
+      "side": 1,
+      "message": "I believe the idiomatic way to do this is with a multibinding instead of binding the list type directly.",
+      "revId": "8be010045aa71bc8c441125d98a229ff6f601537",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a3188d1_c74b5ee3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/IndexModule.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-05-19T20:04:24Z",
+      "side": 1,
+      "message": "Don\u0027t add these commented out lines in this change, it\u0027s easy enough to see the delta in the followup.",
+      "revId": "8be010045aa71bc8c441125d98a229ff6f601537",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a3188d1_e7506294",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/IndexedChangeQuery.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-05-19T20:04:24Z",
+      "side": 1,
+      "message": "Avoiding this cast is exactly why I suggested making ChangeIndex a subinterface of Index with a more specific return type from getSource:\n\n public interface ChangeIndex extends Index\u003cChangeData\u003e {\n   ChangeDataSource getSource(Predicate\u003cChangeData\u003e pred, int start, int limit);\n }",
+      "revId": "8be010045aa71bc8c441125d98a229ff6f601537",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

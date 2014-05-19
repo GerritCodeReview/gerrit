@@ -16,6 +16,24 @@
       "revId": "69263d352009138d1e27d20909d855eb23fdffac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca1f0c44_64ef0a90",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.ui.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-19T21:08:49Z",
+      "side": 1,
+      "message": "If I would be able to design icons, I would have made exactly such a one... :-( \n\nAnyone able to make a better icon? If not, should we revert this?",
+      "parentUuid": "2a3188d1_27535a9e",
+      "revId": "69263d352009138d1e27d20909d855eb23fdffac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

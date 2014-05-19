@@ -145,6 +145,30 @@
     },
     {
       "key": {
+        "uuid": "0a26849c_66ef0e90",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-19T22:20:31Z",
+      "side": 1,
+      "message": "I don\u0027t see Dave\u0027s concern about the recursive calls.\n\nThe recursive call is exactly 1 deep. Its not some unbounded number. We won\u0027t blow the stack unless we mess up the recursion \"base case\" condition, which is to compare \"Base..N\". Which is the common diff Gerrit does almost all of the time. If you don\u0027t like 1 deep recursion with a clear base case then we should just never, ever use recursion, ever. :)\n\nOn an empty cache with many \"1..2\" types of requests, in the recursive version we first have to compute \"Base..2\" and then \"1..2\". So the cache fills up with many \"Base..2\" entries that aren\u0027t strictly required.\n\nI don\u0027t think that matters. The web UI will probably have already asked for \"Base..2\" before asking for \"1..2\", because that is how most humans interact with it.\n\nEven if you say all \"1..2\" requests are from automated bots that will never ask for \"Base..2\", at some point this is a code review system. A human may ask for \"Base..2\". In fact its likely as that is the default view in ChangeScreen2. So we might as well cache \"Base..2\" as part of the computation to create \"1..2\".\n\nThe cache is pretty big. In every major installation of Gerrit its backed by an even bigger disk cache. The cache entries themselves are fairly small (avg 1719 bytes). I\u0027m not worried about the cache size.\n\nIf index rebuilds use the PatchListLoader cache, they only ask for \"Base..2\" and never (currently) index \"1..2\". So they wouldn\u0027t trip the recursion. And they are already demanding the cache to build and store the thing that the recursion would be able to replay rather than recompute from Git.\n\n\ntl;dr: I\u0027m not sure which is faster. Using the cache or using Git. I suspect using the cache when renames are involved is faster. Using Git may be break-even when there are no adds or deletes to trigger rename/copy detection. But long ago we put the cache in place because Git wasn\u0027t always fast enough to do this on the fly. So in the absence of benchmark data on sufficient number of changes to show that Git is always faster than the immutable cache, I am inclined to recursively fill the immutable cache. My bet is the entry is already in there anyway.\n\nreal tl;dr: Recursively load.",
+      "parentUuid": "ff23b49a_968b4c5a",
+      "range": {
+        "startLine": 141,
+        "startChar": 14,
+        "endLine": 141,
+        "endChar": 18
+      },
+      "revId": "6c6adf754a20391b5e50a1e510cc8a17044cccfc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2a3188d1_871c0601",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
         "patchSetId": 8

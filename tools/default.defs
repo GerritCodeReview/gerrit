@@ -126,12 +126,14 @@ def gerrit_plugin(
     gwt_binary(
       name = name + '__gwt_application',
       modules = [gwt_module],
-      deps = [':%s__plugin' % name] + gwt_deps,
+      deps = gwt_deps,
+      module_deps = [':%s__plugin' % name],
       local_workers = cpu_count(),
       strict = True,
       experimental_args = GWT_COMPILER_ARGS,
       vm_args = GWT_JVM_ARGS,
     )
+
   java_binary(
     name = name,
     manifest_file = genfile('MANIFEST.MF'),

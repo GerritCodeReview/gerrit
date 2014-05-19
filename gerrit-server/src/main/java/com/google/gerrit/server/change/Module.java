@@ -27,10 +27,12 @@ import com.google.gerrit.server.account.AccountInfo;
 import com.google.gerrit.server.change.Reviewed.DeleteReviewed;
 import com.google.gerrit.server.change.Reviewed.PutReviewed;
 import com.google.gerrit.server.config.FactoryModule;
+import com.google.gerrit.server.util.SimplifiedRequestScopePropagator;
 
 public class Module extends RestApiModule {
   @Override
   protected void configure() {
+    bind(SimplifiedRequestScopePropagator.class);
     bind(ChangesCollection.class);
     bind(Revisions.class);
     bind(Reviewers.class);
@@ -68,6 +70,7 @@ public class Module extends RestApiModule {
 
     child(CHANGE_KIND, "revisions").to(Revisions.class);
     post(REVISION_KIND, "cherrypick").to(CherryPick.class);
+    post(REVISION_KIND, "schedule").to(BackgroundAction.class);
     get(REVISION_KIND, "commit").to(GetCommit.class);
     delete(REVISION_KIND).to(DeleteDraftPatchSet.class);
     get(REVISION_KIND, "mergeable").to(Mergeable.class);

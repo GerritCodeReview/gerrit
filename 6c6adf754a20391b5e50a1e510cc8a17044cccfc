@@ -22,6 +22,53 @@
       "revId": "6c6adf754a20391b5e50a1e510cc8a17044cccfc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a3188d1_67ef1290",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-19T19:09:22Z",
+      "side": 1,
+      "message": "The code is correct as written.\n\nWe want paths to be a set of path strings modified between Base and the B side, aka what files you changed in the commit. Passing in null will lookup the ancestor for the path list.\n\nWhat I find odd is why we don\u0027t recursively use the cache to fetch this \"Base..B\" compare. That is probably already computed and already in cache, as it is what we displayed when the user first loaded the change in the UI before being able to change the revision to compare against.\n\nMaybe the recursive lookup causing deadlock because it needed to acquire two bucket locks in the cache? So its not a good idea to reuse the cache from within itself?\n\nI wonder if getIfPresent() is safe to use within the loader. I suspect it would return a hit a very large majority if the time.",
+      "parentUuid": "2a3188d1_a7f82a60",
+      "range": {
+        "startLine": 141,
+        "startChar": 14,
+        "endLine": 141,
+        "endChar": 18
+      },
+      "revId": "6c6adf754a20391b5e50a1e510cc8a17044cccfc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a3188d1_871c0601",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-19T19:09:22Z",
+      "side": 1,
+      "message": "I think this is more clear:\n\n  if (paths \u003d\u003d null || paths.contains(newPath) || paths.contains(oldPath)) {\n    entries.add(...)\n  }\n\nLess negation around the filtering predicate is more readable.",
+      "range": {
+        "startLine": 149,
+        "startChar": 8,
+        "endLine": 153,
+        "endChar": 9
+      },
+      "revId": "6c6adf754a20391b5e50a1e510cc8a17044cccfc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

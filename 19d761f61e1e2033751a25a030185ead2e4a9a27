@@ -96,6 +96,40 @@
     },
     {
       "key": {
+        "uuid": "0a26849c_c69c4260",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/PatchListCacheIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-05-19T18:42:09Z",
+      "side": 1,
+      "message": "This method is only used once, I think you could inline it.",
+      "revId": "19d761f61e1e2033751a25a030185ead2e4a9a27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a26849c_e6a13e99",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/PatchListCacheIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-05-19T18:42:09Z",
+      "side": 1,
+      "message": "Please use the REST API instead of querying the db directly.",
+      "revId": "19d761f61e1e2033751a25a030185ead2e4a9a27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea221089_85a2429e",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/PatchListCacheIT.java",
         "patchSetId": 1

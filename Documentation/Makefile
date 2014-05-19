@@ -15,14 +15,11 @@
 ASCIIDOC       ?= asciidoc
 ASCIIDOC_EXTRA ?=
 ASCIIDOC_VER   ?= 8.6.3
-SVN            ?= svn
-PUB_ROOT       ?= https://gerrit-documentation.googlecode.com/svn/Documentation
 
 all: html
 
 clean:
 	rm -f *.html
-	rm -rf $(LOCAL_ROOT)
 
 ASCIIDOC_EXE := $(shell which $(ASCIIDOC))
 ifeq ($(wildcard $(ASCIIDOC_EXE)),)
@@ -34,52 +31,10 @@ else
   endif
 endif
 
-ifeq ($(origin VERSION), undefined)
-  VERSION := $(shell ./GEN-DOC-VERSION 2>/dev/null)
-endif
-
-DOC_HTML      := $(patsubst %.txt,%.html,$(wildcard *.txt))
-LOCAL_ROOT    := .published
-COMMIT        := $(shell git describe HEAD | sed s/^v//)
-PUB_DIR       := $(PUB_ROOT)/$(VERSION)
-PRIOR          = PRIOR
-
-ifeq ($(VERSION),)
-  REVISION = $(COMMIT)
-else
-  ifeq ($(VERSION),$(COMMIT))
-    REVISION := $(VERSION)
-  else
-    REVISION := $(VERSION) (from v$(COMMIT))
-  endif
-endif
+DOC_HTML := $(patsubst %.txt,%.html,$(wildcard *.txt))
+REVISION := $(shell git describe HEAD | sed s/^v//)
 
 html: $(DOC_HTML)
-
-update: html
-ifeq ($(VERSION),)
-	./GEN-DOC-VERSION
-endif
-	@-rm -rf $(LOCAL_ROOT)
-	@echo "Checking out current $(VERSION)"
-	@if ! $(SVN) checkout $(PUB_DIR) $(LOCAL_ROOT) 2>/dev/null ; then \
-		echo "Copying $(PRIOR) to $(VERSION) ..." && \
-		$(SVN) cp -m "Create $(VERSION) documentation" $(PUB_ROOT)/$(PRIOR) $(PUB_DIR) && \
-		$(SVN) checkout $(PUB_DIR) $(LOCAL_ROOT) ; \
-	fi
-	@rm -f $(LOCAL_ROOT)/*.html
-	@cp *.html $(LOCAL_ROOT)
-	@cd $(LOCAL_ROOT) && \
-	  r=`$(SVN) status | perl -ne 'print if s/^!  *//' ` && \
-	  if [ -n "$$r" ]; then $(SVN) rm $$r; fi && \
-	  a=`$(SVN) status | perl -ne 'print if s/^\?  *//' ` && \
-	  if [ -n "$$a" ]; then \
-	    $(SVN) add $$a && \
-	    $(SVN) propset svn:mime-type text/html $$a ; \
-	    fi && \
-	  echo "Committing $(VERSION) at v$(COMMIT)" && \
-	  $(SVN) commit -m "Updated $(VERSION) documentation to v$(COMMIT)"
-	@-rm -rf $(LOCAL_ROOT)
 
 $(DOC_HTML): %.html : %.txt
 	@echo "FORMAT $@"

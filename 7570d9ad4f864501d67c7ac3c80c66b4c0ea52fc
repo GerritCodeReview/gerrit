@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ff23b49a_d617845c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-19T11:47:19Z",
+      "side": 1,
+      "message": "Well, I guess one can argue about this. If I compare ps4..ps6 it is not really wrong to show that the modifications that were done to Foo in ps4 are not contained in ps6 anymore. But I can also see why excluding Foo makes it simpler, both for the user and for the implementation. Personally I don\u0027t care much about this case, I\u0027m fine with either behaviour. With the ps7 I have now implemented what you propose. And I\u0027ve also covered this case in the tests.\n\nDone.",
+      "parentUuid": "0a26849c_e62cde88",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 35
+      },
+      "revId": "7570d9ad4f864501d67c7ac3c80c66b4c0ea52fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0a26849c_0632dae5",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
         "patchSetId": 4
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "ca1f0c44_c4afde6a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-19T11:47:19Z",
+      "side": 1,
+      "message": "The serialVersionUID was already changed in patch set 5 [1].\n\nI believe we can\u0027t do much about the browser caches, but that\u0027s probably not a big issue. Users can simply wait 7 days or flush their browser cache.\n\n[1] https://gerrit-review.googlesource.com/#/c/57086/4..5/gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java",
+      "parentUuid": "0a26849c_0632dae5",
+      "range": {
+        "startLine": 73,
+        "startChar": 49,
+        "endLine": 73,
+        "endChar": 61
+      },
+      "revId": "7570d9ad4f864501d67c7ac3c80c66b4c0ea52fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2a3188d1_0732d6e5",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
         "patchSetId": 4
@@ -59,6 +107,24 @@
       "writtenOn": "2014-05-18T16:21:42Z",
       "side": 1,
       "message": "nit: method can be static",
+      "revId": "7570d9ad4f864501d67c7ac3c80c66b4c0ea52fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca1f0c44_e4b4dac3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-19T11:47:19Z",
+      "side": 1,
+      "message": "Not applicable anymore.",
+      "parentUuid": "2a3188d1_0732d6e5",
       "revId": "7570d9ad4f864501d67c7ac3c80c66b4c0ea52fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

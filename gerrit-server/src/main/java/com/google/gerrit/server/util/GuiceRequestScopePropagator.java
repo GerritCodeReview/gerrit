@@ -14,39 +14,21 @@
 
 package com.google.gerrit.server.util;
 
-import com.google.common.collect.Maps;
-import com.google.gerrit.common.Nullable;
-import com.google.gerrit.server.RemotePeer;
-import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.RequestScopedReviewDbProvider;
 import com.google.inject.Inject;
-import com.google.inject.Key;
 import com.google.inject.Provider;
 import com.google.inject.servlet.ServletScopes;
-import com.google.inject.util.Providers;
-import com.google.inject.util.Types;
 
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.net.SocketAddress;
-import java.util.Map;
 import java.util.concurrent.Callable;
 
 /** Propagator for Guice's built-in servlet scope. */
 public class GuiceRequestScopePropagator extends RequestScopePropagator {
 
-  private final String url;
-  private final SocketAddress peer;
-
   @Inject
   GuiceRequestScopePropagator(
-      @CanonicalWebUrl @Nullable Provider<String> urlProvider,
-      @RemotePeer Provider<SocketAddress> remotePeerProvider,
       ThreadLocalRequestContext local,
       Provider<RequestScopedReviewDbProvider> dbProviderProvider) {
     super(ServletScopes.REQUEST, local, dbProviderProvider);
-    this.url = urlProvider != null ? urlProvider.get() : null;
-    this.peer = remotePeerProvider.get();
   }
 
   /**
@@ -54,23 +36,6 @@ public class GuiceRequestScopePropagator extends RequestScopePropagator {
    */
   @Override
   protected <T> Callable<T> wrapImpl(Callable<T> callable) {
-    Map<Key<?>, Object> seedMap = Maps.newHashMap();
-
-    // Request scopes appear to use specific keys in their map, instead of only
-    // providers. Add bindings for both the key to the instance directly and the
-    // provider to the instance to be safe.
-    seedMap.put(Key.get(typeOfProvider(String.class), CanonicalWebUrl.class),
-        Providers.of(url));
-    seedMap.put(Key.get(String.class, CanonicalWebUrl.class), url);
-
-    seedMap.put(Key.get(typeOfProvider(SocketAddress.class), RemotePeer.class),
-        Providers.of(peer));
-    seedMap.put(Key.get(SocketAddress.class, RemotePeer.class), peer);
-
-    return ServletScopes.continueRequest(callable, seedMap);
-  }
-
-  private ParameterizedType typeOfProvider(Type type) {
-    return Types.newParameterizedType(Provider.class, type);
+    return ServletScopes.transferRequest(callable);
   }
 }

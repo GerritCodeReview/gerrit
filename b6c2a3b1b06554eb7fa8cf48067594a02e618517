@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0a26849c_46f2127d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.ui.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-19T21:01:19Z",
+      "side": 1,
+      "message": "This is asking for trouble. You use a FlowPanel in one side and a VerticalPanel on the other side of a 2 column layout in order to align these things. It probably won\u0027t align. And why did you use two different vertical stacking types to accomplish this? Its really bad UI coding to mix vertical stacking types, even if it \"works\", its just poor style.\n\nIMHO these should both be FlowPanel with a CSS rule like:\n\n  .parentWebLink a {\n    display: block;\n  }\n\nto force block layout in the 2nd column and thus vertical stacking. VerticalPanel is massive overkill in GWT, it creates a table of one column with a row for each widget. Completely unnecessary for something this simple.",
+      "range": {
+        "startLine": 125,
+        "startChar": 0,
+        "endLine": 130,
+        "endChar": 13
+      },
+      "revId": "b6c2a3b1b06554eb7fa8cf48067594a02e618517",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

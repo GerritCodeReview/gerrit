@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "ff23b49a_b68e486a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-19T20:28:38Z",
+      "side": 1,
+      "message": "Loading it recursively from the cache would work. With the tests it\u0027s always already present in the cache, but even if I forcefully invalidate all cache entries right before I call patchListCache.get(key) here, which enforces a recursive loading, it just works fine. No deadlock. I believe with this approach the performance would be slightly better since it\u0027s using what is already cached. On the other hand, having the code in getPaths() looks cleaner and safer. Just let me know which solution is preferred. I\u0027m fine with both approaches.",
+      "parentUuid": "0a26849c_86f32a85",
+      "range": {
+        "startLine": 141,
+        "startChar": 14,
+        "endLine": 141,
+        "endChar": 18
+      },
+      "revId": "6c6adf754a20391b5e50a1e510cc8a17044cccfc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2a3188d1_871c0601",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
         "patchSetId": 8
@@ -84,6 +108,30 @@
       "writtenOn": "2014-05-19T19:09:22Z",
       "side": 1,
       "message": "I think this is more clear:\n\n  if (paths \u003d\u003d null || paths.contains(newPath) || paths.contains(oldPath)) {\n    entries.add(...)\n  }\n\nLess negation around the filtering predicate is more readable.",
+      "range": {
+        "startLine": 149,
+        "startChar": 8,
+        "endLine": 153,
+        "endChar": 9
+      },
+      "revId": "6c6adf754a20391b5e50a1e510cc8a17044cccfc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca1f0c44_c4fd1e4f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-19T20:28:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a3188d1_871c0601",
       "range": {
         "startLine": 149,
         "startChar": 8,

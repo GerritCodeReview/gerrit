@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ff23b49a_96210cbf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-19T11:48:20Z",
+      "side": 1,
+      "message": "Cool! Done",
+      "parentUuid": "0a26849c_46b132e6",
+      "revId": "f0daadea0da557e53ddd0d7a770f16d6acb9611f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2a3188d1_27799a4f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
         "patchSetId": 5
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "ca1f0c44_44c4ce20",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-19T11:48:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a3188d1_27799a4f",
+      "revId": "f0daadea0da557e53ddd0d7a770f16d6acb9611f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2a3188d1_47868e02",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
         "patchSetId": 5
@@ -47,6 +83,24 @@
       "writtenOn": "2014-05-17T00:59:16Z",
       "side": 1,
       "message": "getNewPath() is empty for deletes. Wouldn\u0027t you want to include those?",
+      "revId": "f0daadea0da557e53ddd0d7a770f16d6acb9611f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca1f0c44_24b7d2c5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-19T11:48:20Z",
+      "side": 1,
+      "message": "Urgh, yes those should be included. I got confused because on PatchListEntry level for deletions we set newName to the old path and use null for oldName... (see constructor of PatchListEntry).\n\nDone. I\u0027ve also added tests to cover the deletion case.",
+      "parentUuid": "2a3188d1_47868e02",
       "revId": "f0daadea0da557e53ddd0d7a770f16d6acb9611f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

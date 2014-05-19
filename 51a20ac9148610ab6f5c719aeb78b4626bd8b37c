@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff23b49a_96efcc22",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-19T06:11:52Z",
+      "side": 1,
+      "message": "I am still seeing NPE in constructor of WebSession: [1]. I just uploaded an alternative approach to fix it: [2].\n\n [1] http://paste.openstack.org/show/80862\n [2] https://gerrit-review.googlesource.com/57280",
+      "range": {
+        "startLine": 10,
+        "startChar": 24,
+        "endLine": 10,
+        "endChar": 53
+      },
+      "revId": "51a20ac9148610ab6f5c719aeb78b4626bd8b37c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

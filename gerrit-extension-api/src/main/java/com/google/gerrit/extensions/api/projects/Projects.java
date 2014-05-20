@@ -23,37 +23,32 @@ import java.util.List;
 public interface Projects {
   ProjectApi name(String name) throws RestApiException;
 
-  List<ProjectInfo> list() throws RestApiException;
-  List<ProjectInfo> list(ListParameter listParameter) throws RestApiException;
+  ListRequest list() throws RestApiException;
 
-  public class ListParameter {
+  public abstract class ListRequest {
     private boolean description;
     private String prefix;
     private int limit;
     private int start;
 
-    public ListParameter() {}
+    public abstract List<ProjectInfo> get() throws RestApiException;
 
-    public ListParameter(String prefix) {
-      this.prefix = prefix;
-    }
-
-    public ListParameter withDescription(boolean description) {
+    public ListRequest withDescription(boolean description) {
       this.description = description;
       return this;
     }
 
-    public ListParameter withPrefix(String prefix) {
+    public ListRequest withPrefix(String prefix) {
       this.prefix = prefix;
       return this;
     }
 
-    public ListParameter withLimit(int limit) {
+    public ListRequest withLimit(int limit) {
       this.limit = limit;
       return this;
     }
 
-    public ListParameter withStart(int start) {
+    public ListRequest withStart(int start) {
       this.start = start;
       return this;
     }
@@ -86,12 +81,7 @@ public interface Projects {
     }
 
     @Override
-    public List<ProjectInfo> list() throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public List<ProjectInfo> list(ListParameter listParameter) throws RestApiException {
+    public ListRequest list() throws RestApiException {
       throw new NotImplementedException();
     }
   }

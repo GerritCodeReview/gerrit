@@ -106,7 +106,7 @@ public class QueryChanges implements RestReadView<TopLevelResource> {
   }
 
   @Override
-  public Object apply(TopLevelResource rsrc)
+  public List<?> apply(TopLevelResource rsrc)
       throws BadRequestException, AuthException, OrmException {
     List<List<ChangeInfo>> out;
     try {

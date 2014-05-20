@@ -34,11 +34,13 @@ import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.ssh.NoSshInfo;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.PersonIdent;
 
 import java.io.IOException;
 
+@Singleton
 public class Revert implements RestModifyView<ChangeResource, RevertInput>,
     UiAction<ChangeResource> {
   private final ChangeJson json;

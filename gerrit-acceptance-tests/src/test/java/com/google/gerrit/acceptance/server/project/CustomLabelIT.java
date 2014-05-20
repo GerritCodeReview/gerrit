@@ -15,8 +15,8 @@
 package com.google.gerrit.acceptance.server.project;
 
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
+import static com.google.gerrit.server.project.Util.allow;
 import static com.google.gerrit.server.project.Util.category;
-import static com.google.gerrit.server.project.Util.grant;
 import static com.google.gerrit.server.project.Util.value;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -64,7 +64,7 @@ public class CustomLabelIT extends AbstractDaemonTest {
     ProjectConfig cfg = projectCache.checkedGet(allProjects).getConfig();
     AccountGroup.UUID anonymousUsers =
         SystemGroupBackend.getGroup(ANONYMOUS_USERS).getUUID();
-    grant(cfg, Permission.forLabel(Q.getName()), -1, 1, anonymousUsers,
+    allow(cfg, Permission.forLabel(Q.getName()), -1, 1, anonymousUsers,
         "refs/heads/*");
     saveProjectConfig(cfg);
   }

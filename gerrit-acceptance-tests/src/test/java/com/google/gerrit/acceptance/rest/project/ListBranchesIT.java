@@ -16,19 +16,18 @@ package com.google.gerrit.acceptance.rest.project;
 
 import static com.google.gerrit.acceptance.GitUtil.createProject;
 import static com.google.gerrit.acceptance.rest.project.BranchAssert.assertBranches;
+import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static com.google.gerrit.server.project.Util.block;
 import static org.junit.Assert.assertEquals;
 
 import com.google.common.collect.Lists;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
-import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.Permission;
-import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
-import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.ListBranches.BranchInfo;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gson.reflect.TypeToken;
@@ -142,17 +141,10 @@ public class ListBranchesIT extends AbstractDaemonTest {
 
   private void blockRead(Project.NameKey project, String ref)
       throws RepositoryNotFoundException, IOException, ConfigInvalidException {
-    MetaDataUpdate md = metaDataUpdateFactory.create(project);
-    md.setMessage("Grant submit on " + ref);
-    ProjectConfig config = ProjectConfig.read(md);
-    AccessSection s = config.getAccessSection(ref, true);
-    Permission p = s.getPermission(Permission.READ, true);
-    PermissionRule rule = new PermissionRule(config.resolve(
-        SystemGroupBackend.getGroup(SystemGroupBackend.REGISTERED_USERS)));
-    rule.setBlock();
-    p.add(rule);
-    config.commit(md);
-    projectCache.evict(config.getProject());
+    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
+    block(cfg, Permission.READ, REGISTERED_USERS, ref);
+    saveProjectConfig(project, cfg);
+    projectCache.evict(cfg.getProject());
   }
 
   private static List<BranchInfo> toBranchInfoList(RestResponse r)
@@ -167,5 +159,14 @@ public class ListBranchesIT extends AbstractDaemonTest {
       IOException {
     PushOneCommit push = pushFactory.create(db, admin.getIdent());
     return push.to(git, ref);
+  }
+
+  private void saveProjectConfig(Project.NameKey p, ProjectConfig cfg) throws IOException {
+    MetaDataUpdate md = metaDataUpdateFactory.create(p);
+    try {
+      cfg.commit(md);
+    } finally {
+      md.close();
+    }
   }
 }

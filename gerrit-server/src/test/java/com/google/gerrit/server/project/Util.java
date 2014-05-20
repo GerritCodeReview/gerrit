@@ -100,7 +100,7 @@ public class Util {
     return new PermissionRule(group);
   }
 
-  static public PermissionRule grant(ProjectConfig project,
+  static public PermissionRule allow(ProjectConfig project,
       String permissionName, int min, int max, AccountGroup.UUID group,
       String ref) {
     PermissionRule rule = newRule(project, group);
@@ -109,9 +109,34 @@ public class Util {
     return grant(project, permissionName, rule, ref);
   }
 
-  static public PermissionRule grant(ProjectConfig project,
+  static public PermissionRule block(ProjectConfig project,
+      String permissionName, int min, int max, AccountGroup.UUID group,
+      String ref) {
+    PermissionRule rule = newRule(project, group);
+    rule.setMin(min);
+    rule.setMax(max);
+    PermissionRule r = grant(project, permissionName, rule, ref);
+    r.setBlock();
+    return r;
+  }
+
+  static public PermissionRule allow(ProjectConfig project,
       String permissionName, AccountGroup.UUID group, String ref) {
     return grant(project, permissionName, newRule(project, group), ref);
+  }
+
+  static public PermissionRule block(ProjectConfig project,
+      String permissionName, AccountGroup.UUID group, String ref) {
+    PermissionRule r = grant(project, permissionName, newRule(project, group), ref);
+    r.setBlock();
+    return r;
+  }
+
+  static public PermissionRule deny(ProjectConfig project,
+      String permissionName, AccountGroup.UUID group, String ref) {
+    PermissionRule r = grant(project, permissionName, newRule(project, group), ref);
+    r.setDeny();
+    return r;
   }
 
   static public void doNotInherit(ProjectConfig project, String permissionName,

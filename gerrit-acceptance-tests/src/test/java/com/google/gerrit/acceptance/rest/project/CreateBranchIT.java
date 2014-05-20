@@ -14,18 +14,20 @@
 
 package com.google.gerrit.acceptance.rest.project;
 
+import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
+import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static com.google.gerrit.server.project.Util.allow;
+import static com.google.gerrit.server.project.Util.block;
 import static org.junit.Assert.assertEquals;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
-import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.Permission;
-import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.reviewdb.client.Branch;
-import com.google.gerrit.server.config.AllProjectsNameProvider;
+import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
-import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
 
@@ -44,7 +46,7 @@ public class CreateBranchIT extends AbstractDaemonTest {
   private ProjectCache projectCache;
 
   @Inject
-  private AllProjectsNameProvider allProjects;
+  private AllProjectsName allProjects;
 
   private Branch.NameKey branch;
 
@@ -130,29 +132,26 @@ public class CreateBranchIT extends AbstractDaemonTest {
   }
 
   private void blockCreateReference() throws IOException, ConfigInvalidException {
-    MetaDataUpdate md = metaDataUpdateFactory.create(allProjects.get());
-    md.setMessage(String.format("Block %s", Permission.CREATE));
-    ProjectConfig config = ProjectConfig.read(md);
-    AccessSection s = config.getAccessSection("refs/*", true);
-    Permission p = s.getPermission(Permission.CREATE, true);
-    PermissionRule rule = new PermissionRule(config.resolve(
-        SystemGroupBackend.getGroup(SystemGroupBackend.ANONYMOUS_USERS)));
-    rule.setBlock();
-    p.add(rule);
-    config.commit(md);
-    projectCache.evict(config.getProject());
+    ProjectConfig cfg = projectCache.checkedGet(allProjects).getConfig();
+    block(cfg, Permission.CREATE, ANONYMOUS_USERS, "refs/*");
+    saveProjectConfig(allProjects, cfg);
+    projectCache.evict(cfg.getProject());
   }
 
   private void grantOwner() throws IOException, ConfigInvalidException {
-    MetaDataUpdate md = metaDataUpdateFactory.create(project);
-    md.setMessage(String.format("Grant %s", Permission.OWNER));
-    ProjectConfig config = ProjectConfig.read(md);
-    AccessSection s = config.getAccessSection("refs/*", true);
-    Permission p = s.getPermission(Permission.OWNER, true);
-    PermissionRule rule = new PermissionRule(config.resolve(
-        SystemGroupBackend.getGroup(SystemGroupBackend.REGISTERED_USERS)));
-    p.add(rule);
-    config.commit(md);
-    projectCache.evict(config.getProject());
+    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
+    allow(cfg, Permission.OWNER, REGISTERED_USERS, "refs/*");
+    saveProjectConfig(project, cfg);
+    projectCache.evict(cfg.getProject());
+  }
+
+  private void saveProjectConfig(Project.NameKey p, ProjectConfig cfg)
+      throws IOException {
+    MetaDataUpdate md = metaDataUpdateFactory.create(p);
+    try {
+      cfg.commit(md);
+    } finally {
+      md.close();
+    }
   }
 }

@@ -30,6 +30,7 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
 import java.util.TreeSet;
 
@@ -113,7 +114,12 @@ class Actions extends Composite {
     if (hasUser) {
       canSubmit = actions.containsKey("submit");
       if (canSubmit) {
-        submit.setTitle(actions.get("submit").title());
+        ActionInfo action = actions.get("submit");
+        submit.setTitle(action.title());
+        submit.setHTML(new SafeHtmlBuilder()
+            .openDiv()
+            .append(action.label())
+            .closeDiv());
       }
       a2b(actions, "/", deleteRevision);
       a2b(actions, "cherrypick", cherrypick);

@@ -22,6 +22,30 @@
       "revId": "b6c2a3b1b06554eb7fa8cf48067594a02e618517",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca1f0c44_c44b5ee3",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.ui.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-20T07:00:25Z",
+      "side": 1,
+      "message": "Fixed in\n  https://gerrit-review.googlesource.com/57287",
+      "parentUuid": "0a26849c_46f2127d",
+      "range": {
+        "startLine": 125,
+        "startChar": 0,
+        "endLine": 130,
+        "endChar": 13
+      },
+      "revId": "b6c2a3b1b06554eb7fa8cf48067594a02e618517",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

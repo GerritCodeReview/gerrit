@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ff23b49a_b63ac8b7",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/Changes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2014-05-20T18:07:52Z",
+      "side": 1,
+      "message": "I fully agree - thanks.\n\nSee change I676e58c5d50c5599908df19f9384cc1e6d2aed8e",
+      "parentUuid": "2a3188d1_a72f4a14",
+      "revId": "596f46e08269b27ee6022b25edfe8361c7ad949d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0a26849c_a621063c",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/Changes.java",
         "patchSetId": 3
@@ -48,6 +66,24 @@
       "side": 1,
       "message": "This is a valid question. Urs Wolfers suggested to extract HTTP based Plugin API library from his IntelliJ Plugin for Gerrit [1]. However interfaces for many useful use cases were (and still are) missing. We decided to start to add interfaces only and throw NotImplementedException in the current implementation classes and add the implementation later.\n\nHaving said that, i would like to prevent having dozen and hundreds open changes pending for review and (unfortunately it took monthes to review one single create project Plugin API change).\n\nCurrently there are two trivial plugin API changes pending for review [2], [3]. When they are reviewed, i would be happy to move forward here.\n\n* [1] https://github.com/uwolfer/gerrit-intellij-plugin\n* [2] https://gerrit-review.googlesource.com/57040\n* [3] https://gerrit-review.googlesource.com/57081",
       "parentUuid": "0a26849c_a621063c",
+      "revId": "596f46e08269b27ee6022b25edfe8361c7ad949d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca1f0c44_64362a70",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/Changes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2014-05-20T18:07:52Z",
+      "side": 1,
+      "message": "Thanks David for the explanation.",
+      "parentUuid": "ff23b49a_b66528ec",
       "revId": "596f46e08269b27ee6022b25edfe8361c7ad949d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

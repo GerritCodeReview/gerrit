@@ -46,7 +46,7 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
@@ -67,7 +67,7 @@ class CommitBox extends Composite {
   @UiField TableCellElement webLinkCell;
   @UiField Element parents;
   @UiField FlowPanel parentCommits;
-  @UiField VerticalPanel parentWebLinks;
+  @UiField FlowPanel parentWebLinks;
   @UiField InlineHyperlink authorNameEmail;
   @UiField Element authorDate;
   @UiField InlineHyperlink committerNameEmail;

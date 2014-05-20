@@ -128,7 +128,7 @@ limitations under the License.
           </div>
           <g:Image
               ui:field='mergeCommit'
-              resource='{ico.important}'
+              resource='{ico.merge}'
               visible='false'
               title='Merge Commit'>
             <ui:attribute name='title'/>

@@ -34,21 +34,24 @@ import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.ssh.NoSshInfo;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.PersonIdent;
 
 import java.io.IOException;
 
+@Singleton
 public class Revert implements RestModifyView<ChangeResource, RevertInput>,
     UiAction<ChangeResource> {
   private final ChangeJson json;
   private final ChangeUtil changeUtil;
-  private final PersonIdent myIdent;
+  private final Provider<PersonIdent> myIdent;
 
   @Inject
   Revert(ChangeJson json,
       ChangeUtil changeUtil,
-      @GerritPersonIdent PersonIdent myIdent) {
+      @GerritPersonIdent Provider<PersonIdent> myIdent) {
     this.json = json;
     this.changeUtil = changeUtil;
     this.myIdent = myIdent;
@@ -70,7 +73,7 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
       Change.Id revertedChangeId =
           changeUtil.revert(control, change.currentPatchSetId(),
               Strings.emptyToNull(input.message),
-              myIdent, new NoSshInfo());
+              myIdent.get(), new NoSshInfo());
 
       return json.format(revertedChangeId);
     } catch (InvalidChangeOperationException e) {

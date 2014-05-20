@@ -3,25 +3,20 @@
 package com.google.gerrit.httpd;
 
 import com.google.common.base.CharMatcher;
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.extensions.api.changes.Changes;
+import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.query.Predicate;
-import com.google.gerrit.server.query.QueryParseException;
-import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gerrit.server.query.change.ChangeDataSource;
-import com.google.gerrit.server.query.change.ChangeQueryBuilder;
-import com.google.gerrit.server.query.change.ChangeQueryRewriter;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.HashSet;
+import java.util.List;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -33,53 +28,30 @@ class DirectChangeByCommit extends HttpServlet {
   private static final Logger log =
       LoggerFactory.getLogger(DirectChangeByCommit.class);
 
-  private final ChangeQueryBuilder.Factory queryBuilder;
-  private final Provider<ChangeQueryRewriter> queryRewriter;
-  private final Provider<CurrentUser> currentUser;
+  private final Changes changes;
 
   @Inject
-  DirectChangeByCommit(ChangeQueryBuilder.Factory queryBuilder,
-      Provider<ChangeQueryRewriter> queryRewriter,
-      Provider<CurrentUser> currentUser) {
-    this.queryBuilder = queryBuilder;
-    this.queryRewriter = queryRewriter;
-    this.currentUser = currentUser;
+  DirectChangeByCommit(Changes changes) {
+    this.changes = changes;
   }
 
   @Override
   protected void doGet(final HttpServletRequest req,
       final HttpServletResponse rsp) throws IOException {
     String query = CharMatcher.is('/').trimTrailingFrom(req.getPathInfo());
-    HashSet<Change.Id> ids = new HashSet<>();
+    List<ChangeInfo> results;
     try {
-      ChangeQueryBuilder builder = queryBuilder.create(currentUser.get());
-      Predicate<ChangeData> visibleToMe = builder.is_visible();
-      Predicate<ChangeData> q = builder.parse(query);
-      q = Predicate.and(q, builder.sortkey_before("z"), builder.limit(2), visibleToMe);
-
-      ChangeQueryRewriter rewriter = queryRewriter.get();
-      Predicate<ChangeData> s = rewriter.rewrite(q, 0);
-      if (!(s instanceof ChangeDataSource)) {
-        s = rewriter.rewrite(Predicate.and(builder.status_open(), q), 0);
-      }
-
-      if (s instanceof ChangeDataSource) {
-        for (ChangeData d : ((ChangeDataSource) s).read()) {
-          ids.add(d.getId());
-        }
-      }
-    } catch (QueryParseException e) {
-      log.info("Received invalid query by URL: /r/" + query);
-    } catch (OrmException e) {
+      results = changes.query(query).withLimit(2).get();
+    } catch (RestApiException e) {
       log.warn("Cannot process query by URL: /r/" + query, e);
+      results = ImmutableList.of();
     }
-
     String token;
-    if (ids.size() == 1) {
+    if (results.size() == 1) {
       // If exactly one change matches, link to that change.
       // TODO Link to a specific patch set, if one matched.
-      token = PageLinks.toChange(ids.iterator().next());
-
+      token = PageLinks.toChange(
+          new Change.Id(results.iterator().next()._number));
     } else {
       // Otherwise, link to the query page.
       token = PageLinks.toChangeQuery(query);

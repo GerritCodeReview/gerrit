@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a3188d1_e79862f3",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/Changes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-05-20T18:47:26Z",
+      "side": 1,
+      "message": "Add \"QueryParameter query(String)\" for convenience? I don\u0027t feel too strongly.",
+      "revId": "f3f4714267b7b18aba0c0a0a4813638b34c29c79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a26849c_86e40a74",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/Changes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-05-20T18:47:26Z",
+      "side": 1,
+      "message": "Maybe change the name to Query? \"Parameter\" makes it sound like a POJO, which it no longer is.",
+      "range": {
+        "startLine": 35,
+        "startChar": 24,
+        "endLine": 35,
+        "endChar": 38
+      },
+      "revId": "f3f4714267b7b18aba0c0a0a4813638b34c29c79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a3188d1_079e56dc",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/projects/Projects.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-05-20T18:47:26Z",
+      "side": 1,
+      "message": "Same comment as in Changes. Although I\u0027m not a big fan of adding new classes named List, so maybe we can come up with an appropriate suffix. ListOp? ListRequest?",
+      "revId": "f3f4714267b7b18aba0c0a0a4813638b34c29c79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

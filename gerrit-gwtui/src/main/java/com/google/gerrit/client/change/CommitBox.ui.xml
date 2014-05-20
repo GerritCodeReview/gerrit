@@ -83,6 +83,7 @@ limitations under the License.
     <!-- To make room for the copyableLabel from the adjacent column -->
     .parentWebLink {
       margin-left:16px;
+      display: block;
     }
 
     .mergeCommit {
@@ -143,7 +144,7 @@ limitations under the License.
           <g:FlowPanel ui:field='parentCommits'/>
         </td>
         <td>
-          <g:VerticalPanel ui:field='parentWebLinks'/>
+          <g:FlowPanel ui:field='parentWebLinks'/>
         </td>
       </tr>
       <tr>

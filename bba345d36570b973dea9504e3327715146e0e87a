@@ -46,6 +46,30 @@
       "revId": "bba345d36570b973dea9504e3327715146e0e87a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a26849c_c6f7e23d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2014-05-20T16:48:44Z",
+      "side": 1,
+      "message": "Ah ok. You modified it so well I couldn\u0027t tell that it started from the important icon anymore :-)",
+      "parentUuid": "ff23b49a_f63040db",
+      "range": {
+        "startLine": 14,
+        "startChar": 18,
+        "endLine": 14,
+        "endChar": 45
+      },
+      "revId": "bba345d36570b973dea9504e3327715146e0e87a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

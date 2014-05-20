@@ -121,6 +121,24 @@
       "revId": "04af321998223d992fd97d7f3c959def2a240c80",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca1f0c44_648b8ac8",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/projects/Projects.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2014-05-20T20:07:50Z",
+      "side": 1,
+      "message": "Done\n\nAlready changed in PS 5.",
+      "parentUuid": "0a26849c_26d6f684",
+      "revId": "04af321998223d992fd97d7f3c959def2a240c80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

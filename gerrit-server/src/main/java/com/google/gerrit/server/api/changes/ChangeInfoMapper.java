@@ -14,13 +14,7 @@
 
 package com.google.gerrit.server.api.changes;
 
-import static com.google.gerrit.extensions.common.ListChangesOption.ALL_REVISIONS;
-import static com.google.gerrit.extensions.common.ListChangesOption.CURRENT_ACTIONS;
-import static com.google.gerrit.extensions.common.ListChangesOption.CURRENT_REVISION;
-import static com.google.gerrit.extensions.common.ListChangesOption.DETAILED_LABELS;
-import static com.google.gerrit.extensions.common.ListChangesOption.LABELS;
-import static com.google.gerrit.extensions.common.ListChangesOption.MESSAGES;
-
+import com.google.common.base.Function;
 import com.google.common.collect.EnumBiMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -29,48 +23,46 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.ChangeStatus;
 import com.google.gerrit.extensions.common.LabelInfo;
-import com.google.gerrit.extensions.common.ListChangesOption;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.server.api.accounts.AccountInfoMapper;
 import com.google.gerrit.server.change.ChangeJson;
 
-import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 
-public class ChangeInfoMapper {
-  private final static EnumBiMap<Change.Status, ChangeStatus> MAP =
+public class ChangeInfoMapper
+    implements Function<ChangeJson.ChangeInfo, ChangeInfo> {
+  public static final ChangeInfoMapper INSTANCE = new ChangeInfoMapper();
+
+  private final static EnumBiMap<Change.Status, ChangeStatus> STATUS_MAP =
       EnumBiMap.create(Change.Status.class, ChangeStatus.class);
   static {
-    MAP.put(Status.DRAFT, ChangeStatus.DRAFT);
-    MAP.put(Status.NEW, ChangeStatus.NEW);
-    MAP.put(Status.SUBMITTED, ChangeStatus.SUBMITTED);
-    MAP.put(Status.MERGED, ChangeStatus.MERGED);
-    MAP.put(Status.ABANDONED, ChangeStatus.ABANDONED);
+    STATUS_MAP.put(Status.DRAFT, ChangeStatus.DRAFT);
+    STATUS_MAP.put(Status.NEW, ChangeStatus.NEW);
+    STATUS_MAP.put(Status.SUBMITTED, ChangeStatus.SUBMITTED);
+    STATUS_MAP.put(Status.MERGED, ChangeStatus.MERGED);
+    STATUS_MAP.put(Status.ABANDONED, ChangeStatus.ABANDONED);
   }
 
-  private final EnumSet<ListChangesOption> s;
-
-  ChangeInfoMapper(EnumSet<ListChangesOption> s) {
-    this.s = s;
+  public static Status changeStatus2Status(ChangeStatus status) {
+    if (status != null) {
+      return STATUS_MAP.inverse().get(status);
+    }
+    return Change.Status.NEW;
   }
 
-  ChangeInfo map(ChangeJson.ChangeInfo i) {
+  private ChangeInfoMapper() {
+  }
+
+  @Override
+  public ChangeInfo apply(ChangeJson.ChangeInfo i) {
     ChangeInfo o = new ChangeInfo();
     mapCommon(i, o);
-    if (has(LABELS) || has(DETAILED_LABELS)) {
-      mapLabels(i, o);
-    }
-    if (has(MESSAGES)) {
-      mapMessages(i, o);
-    }
-    if (has(ALL_REVISIONS) || has(CURRENT_REVISION)) {
-      o.revisions = i.revisions;
-    }
-    if (has(CURRENT_ACTIONS)) {
-      o.actions = i.actions;
-    }
+    mapLabels(i, o);
+    mapMessages(i, o);
+    o.revisions = i.revisions;
+    o.actions = i.actions;
     return o;
   }
 
@@ -81,7 +73,7 @@ public class ChangeInfoMapper {
     o.topic = i.topic;
     o.changeId = i.changeId;
     o.subject = i.subject;
-    o.status = MAP.get(i.status);
+    o.status = STATUS_MAP.get(i.status);
     o.created = i.created;
     o.updated = i.updated;
     o.starred = i.starred;
@@ -95,6 +87,9 @@ public class ChangeInfoMapper {
   }
 
   private void mapMessages(ChangeJson.ChangeInfo i, ChangeInfo o) {
+    if (i.messages == null) {
+      return;
+    }
     List<ChangeMessageInfo> r =
         Lists.newArrayListWithCapacity(i.messages.size());
     for (ChangeJson.ChangeMessageInfo m : i.messages) {
@@ -110,6 +105,9 @@ public class ChangeInfoMapper {
   }
 
   private void mapLabels(ChangeJson.ChangeInfo i, ChangeInfo o) {
+    if (i.labels == null) {
+      return;
+    }
     Map<String, LabelInfo> r = Maps.newLinkedHashMap();
     for (Map.Entry<String, ChangeJson.LabelInfo> e : i.labels.entrySet()) {
       ChangeJson.LabelInfo li = e.getValue();
@@ -132,17 +130,6 @@ public class ChangeInfoMapper {
       r.put(e.getKey(), lo);
     }
     o.labels = r;
-  }
-
-  private boolean has(ListChangesOption o) {
-    return s.contains(o);
-  }
-
-  public static Status changeStatus2Status(ChangeStatus status) {
-    if (status != null) {
-      return MAP.inverse().get(status);
-    }
-    return Change.Status.NEW;
   }
 
   private static ApprovalInfo fromApprovalInfo(ChangeJson.ApprovalInfo ai) {

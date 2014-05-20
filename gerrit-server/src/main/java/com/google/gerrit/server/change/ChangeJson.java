@@ -283,6 +283,7 @@ public class ChangeJson {
         } catch (OrmException e) {
           log.warn(
               "Omitting corrupt change " + cd.getId() + " from results", e);
+          continue;
         }
         out.put(cd.getId(), i);
       }

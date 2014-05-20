@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "2a3188d1_6709d28e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/UploadValidationListener.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-05-20T13:04:40Z",
+      "side": 1,
+      "message": "The reason why I created an UploadValidationException, which extends ServiceMayNotContinueException, is to be able to only catch exception thrown by this extension and return the message to the client without printing a stack trace in the server logs.\n\nIf you change this you will end up swallowing all the possible ServiceMayNotContinueException. I know that currently, only this code register a UploadPack preUploadHook but if later we register another one in the Gerrit code, we will expect an ServiceMayNotContinueException and it will be swallowed.",
+      "parentUuid": "2a3188d1_27b7dac5",
+      "range": {
+        "startLine": 56,
+        "startChar": 13,
+        "endLine": 56,
+        "endChar": 38
+      },
+      "revId": "228cd673ced21a084100fc97453fc2af893961db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea221089_a5be5ec1",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Upload.java",
         "patchSetId": 13

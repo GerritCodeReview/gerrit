@@ -30,23 +30,15 @@ public interface Changes {
       throws RestApiException;
   ChangeApi create(ChangeInfo in) throws RestApiException;
 
-  /**
-   * Shorthand for {@link #query(QueryParameter)} without any conditions (i.e. lists all changes).
-   */
-  List<ChangeInfo> query() throws RestApiException;
-  List<ChangeInfo> query(QueryParameter queryParameter) throws RestApiException;
+  QueryParameter query() throws RestApiException;
 
-  public class QueryParameter {
+  public abstract class QueryParameter {
     private String query;
     private int limit;
     private int start;
     private EnumSet<ListChangesOption> options = EnumSet.noneOf(ListChangesOption.class);
 
-    public QueryParameter() {}
-
-    public QueryParameter(String query) {
-      this.query = query;
-    }
+    public abstract List<ChangeInfo> get() throws RestApiException;
 
     public QueryParameter withQuery(String query) {
       this.query = query;
@@ -120,12 +112,7 @@ public interface Changes {
     }
 
     @Override
-    public List<ChangeInfo> query() throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public List<ChangeInfo> query(QueryParameter queryParameter) throws RestApiException {
+    public QueryParameter query() throws RestApiException {
       throw new NotImplementedException();
     }
   }

@@ -120,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "0a26849c_066d7a41",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/UploadValidationListener.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2014-05-20T13:10:22Z",
+      "side": 1,
+      "message": "Ah, I see that now.  I must have missed what it was inheriting from (I thought it was just a generic ValidationException subclass, as the name implies).  I\u0027m not firmly opposed to either way... I think the only thing that can throw a ServiceMayNotContinueException is the hook (or the chain), though?  In either case, wouldn\u0027t we want the same handling of passing it down to the client and cleaning up the server connection?",
+      "parentUuid": "2a3188d1_6709d28e",
+      "range": {
+        "startLine": 56,
+        "startChar": 13,
+        "endLine": 56,
+        "endChar": 38
+      },
+      "revId": "228cd673ced21a084100fc97453fc2af893961db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea221089_a5be5ec1",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Upload.java",
         "patchSetId": 13

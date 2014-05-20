@@ -52,6 +52,24 @@
       "revId": "69263d352009138d1e27d20909d855eb23fdffac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca1f0c44_440beeb0",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.ui.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-20T06:36:32Z",
+      "side": 1,
+      "message": "\u003e The git logo from git-scm.com would be ideal, but\n \u003e tossed into a square box rather than the diamond that it \n \u003e is.\n\nThe larger version of it looks quite good, but I\u0027m not liking the small favicon too much.\n\nI gave it a try and modified the important icon so that it shows a merge graph rather than !. It\u0027s circle and not square. Not sure if it looks any better:\n\n  https://gerrit-review.googlesource.com/57286\n\nScreenshot:\n\n  http://i.imgur.com/VG8HTVj.png",
+      "parentUuid": "2a3188d1_675d52a4",
+      "revId": "69263d352009138d1e27d20909d855eb23fdffac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

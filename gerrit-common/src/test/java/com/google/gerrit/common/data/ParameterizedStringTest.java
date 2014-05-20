@@ -14,14 +14,16 @@
 
 package com.google.gerrit.common.data;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
+import com.google.common.collect.ImmutableMap;
+
 import org.junit.Test;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 public class ParameterizedStringTest {
   @Test
@@ -393,5 +395,33 @@ public class ParameterizedStringTest {
     assertEquals(1, p.bind(a).length);
     assertEquals("foo@example.com", p.bind(a)[0]);
     assertEquals("foo@example.com", p.replace(a));
+  }
+
+  @Test
+  public void testReplaceSubmitTooltipWithVariables() {
+    ParameterizedString p = new ParameterizedString(
+        "Submit patch set ${patchSetNumber} into ${branch}");
+    assertEquals(2, p.getParameterNames().size());
+    assertTrue(p.getParameterNames().contains("patchSetNumber"));
+
+    Map<String, String> params = ImmutableMap.of(
+        "patchSetNumber", "42",
+        "branch", "foo");
+    assertNotNull(p.bind(params));
+    assertEquals(2, p.bind(params).length);
+    assertEquals("42", p.bind(params)[0]);
+    assertEquals("foo", p.bind(params)[1]);
+    assertEquals("Submit patch set 42 into foo", p.replace(params));
+  }
+
+  @Test
+  public void testReplaceSubmitTooltipWithoutVariables() {
+    ParameterizedString p = new ParameterizedString(
+            "Submit patch set 40 into master");
+    Map<String, String> params = ImmutableMap.of(
+        "patchSetNumber", "42",
+        "branch", "foo");
+    assertEquals(0, p.bind(params).length);
+    assertEquals("Submit patch set 40 into master", p.replace(params));
   }
 }

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ff23b49a_1643bc26",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/Changes.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2014-05-20T19:28:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a3188d1_a7774ae7",
+      "revId": "04af321998223d992fd97d7f3c959def2a240c80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0a26849c_e6e3fe66",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/Changes.java",
         "patchSetId": 4
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "ff23b49a_f65720dd",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/Changes.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2014-05-20T19:28:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a26849c_e6e3fe66",
+      "revId": "04af321998223d992fd97d7f3c959def2a240c80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2a3188d1_c76c3e1a",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/Changes.java",
         "patchSetId": 4
@@ -47,6 +83,24 @@
       "writtenOn": "2014-05-20T19:22:00Z",
       "side": 1,
       "message": "Nit: missing newline after this method.",
+      "revId": "04af321998223d992fd97d7f3c959def2a240c80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca1f0c44_448e8ed9",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/Changes.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2014-05-20T19:28:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a3188d1_c76c3e1a",
       "revId": "04af321998223d992fd97d7f3c959def2a240c80",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

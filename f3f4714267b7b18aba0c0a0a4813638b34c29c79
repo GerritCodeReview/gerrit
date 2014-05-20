@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ca1f0c44_848fa6d9",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/Changes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2014-05-20T19:05:19Z",
+      "side": 1,
+      "message": "Done\n\nI also thought about keeping it, but was not sure since it needs a little more to be implemented.",
+      "parentUuid": "2a3188d1_e79862f3",
+      "revId": "f3f4714267b7b18aba0c0a0a4813638b34c29c79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0a26849c_86e40a74",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/Changes.java",
         "patchSetId": 1
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "ff23b49a_76443030",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/Changes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2014-05-20T19:05:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a26849c_86e40a74",
+      "range": {
+        "startLine": 35,
+        "startChar": 24,
+        "endLine": 35,
+        "endChar": 38
+      },
+      "revId": "f3f4714267b7b18aba0c0a0a4813638b34c29c79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2a3188d1_079e56dc",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/projects/Projects.java",
         "patchSetId": 1
@@ -53,6 +95,24 @@
       "writtenOn": "2014-05-20T18:47:26Z",
       "side": 1,
       "message": "Same comment as in Changes. Although I\u0027m not a big fan of adding new classes named List, so maybe we can come up with an appropriate suffix. ListOp? ListRequest?",
+      "revId": "f3f4714267b7b18aba0c0a0a4813638b34c29c79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca1f0c44_a494a2f0",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/projects/Projects.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2014-05-20T19:05:19Z",
+      "side": 1,
+      "message": "Done\n\nListRequest sounds reasonable.",
+      "parentUuid": "2a3188d1_079e56dc",
       "revId": "f3f4714267b7b18aba0c0a0a4813638b34c29c79",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

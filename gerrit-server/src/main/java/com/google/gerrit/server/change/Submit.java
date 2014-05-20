@@ -16,15 +16,18 @@ package com.google.gerrit.server.change;
 
 import static com.google.gerrit.common.data.SubmitRecord.Status.OK;
 
+import com.google.common.base.Objects;
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.base.Strings;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Table;
+import com.google.gerrit.common.data.ParameterizedString;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -46,6 +49,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ProjectUtil;
 import com.google.gerrit.server.account.AccountsCollection;
 import com.google.gerrit.server.change.ChangeJson.ChangeInfo;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LabelNormalizer;
 import com.google.gerrit.server.git.MergeQueue;
@@ -62,6 +66,7 @@ import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.CommitBuilder;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
 
 import java.io.IOException;
@@ -73,6 +78,9 @@ import java.util.Map;
 @Singleton
 public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     UiAction<RevisionResource> {
+  private static final String DEFAULT_TOOLTIP =
+      "Submit patch set ${patchSet} into ${branch}";
+
   public enum Status {
     SUBMITTED, MERGED
   }
@@ -98,6 +106,8 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
   private final LabelNormalizer labelNormalizer;
   private final AccountsCollection accounts;
   private final ChangesCollection changes;
+  private final String label;
+  private final ParameterizedString titlePattern;
 
   @Inject
   Submit(@GerritPersonIdent PersonIdent serverIdent,
@@ -110,7 +120,8 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
       AccountsCollection accounts,
       ChangesCollection changes,
       ChangeIndexer indexer,
-      LabelNormalizer labelNormalizer) {
+      LabelNormalizer labelNormalizer,
+      @GerritServerConfig Config cfg) {
     this.serverIdent = serverIdent;
     this.dbProvider = dbProvider;
     this.repoManager = repoManager;
@@ -122,6 +133,12 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     this.changes = changes;
     this.indexer = indexer;
     this.labelNormalizer = labelNormalizer;
+    this.label = Objects.firstNonNull(
+        Strings.emptyToNull(cfg.getString("change", null, "submitLabel")),
+        "Submit");
+    this.titlePattern = new ParameterizedString(Objects.firstNonNull(
+        cfg.getString("change", null, "submitTooltip"),
+        DEFAULT_TOOLTIP));
   }
 
   @Override
@@ -185,11 +202,13 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
   @Override
   public UiAction.Description getDescription(RevisionResource resource) {
     PatchSet.Id current = resource.getChange().currentPatchSetId();
+    Map<String, String> params = ImmutableMap.of(
+        "patchSet", String.valueOf(resource.getPatchSet().getPatchSetId()),
+        "branch", resource.getChange().getDest().getShortName());
+
     return new UiAction.Description()
-      .setTitle(String.format(
-          "Submit patch set %d into %s",
-          resource.getPatchSet().getPatchSetId(),
-          resource.getChange().getDest().getShortName()))
+      .setLabel(label)
+      .setTitle(Strings.emptyToNull(titlePattern.replace(params)))
       .setVisible(!resource.getPatchSet().isDraft()
           && resource.getChange().getStatus().isOpen()
           && resource.getPatchSet().getId().equals(current)

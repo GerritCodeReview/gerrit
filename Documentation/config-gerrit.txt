@@ -790,6 +790,18 @@ deleted or published.
 +
 Default is true.
 
+[[change.submitLabel]]change.submitLabel::
++
+Label name for the submit button.
++
+Default is "Submit".
+
+[[change.submitTooltip]]change.submitTooltip::
++
+Tooltip for the submit button.
++
+Default is "Submit patch set ${patchSet} into ${branch}".
+
 [[changeMerge]]
 === Section changeMerge
 

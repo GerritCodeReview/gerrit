@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.change;
 
+import com.google.gerrit.client.AvatarImage;
 import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
@@ -76,6 +77,7 @@ import com.google.gwt.user.client.EventListener;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.ListBox;
@@ -139,6 +141,7 @@ public class ChangeScreen2 extends Screen {
 
   @UiField Element ccText;
   @UiField Reviewers reviewers;
+  @UiField FlowPanel ownerPanel;
   @UiField InlineHyperlink ownerLink;
   @UiField Element statusText;
   @UiField Image projectSettings;
@@ -835,6 +838,7 @@ public class ChangeScreen2 extends Screen {
         ? info.owner().name()
         : Gerrit.getConfig().getAnonymousCowardName();
 
+    ownerPanel.insert(new AvatarImage(info.owner()), 0);
     ownerLink.setText(name);
     ownerLink.setTitle(info.owner().email() != null
         ? info.owner().email()

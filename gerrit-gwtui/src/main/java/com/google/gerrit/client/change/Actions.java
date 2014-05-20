@@ -113,7 +113,9 @@ class Actions extends Composite {
     if (hasUser) {
       canSubmit = actions.containsKey("submit");
       if (canSubmit) {
-        submit.setTitle(actions.get("submit").title());
+        ActionInfo actionInfo = actions.get("submit");
+        submit.setTitle(actionInfo.title());
+        submit.setText(actionInfo.label());
       }
       a2b(actions, "/", deleteRevision);
       a2b(actions, "cherrypick", cherrypick);

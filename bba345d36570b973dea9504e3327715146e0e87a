@@ -22,6 +22,30 @@
       "revId": "bba345d36570b973dea9504e3327715146e0e87a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff23b49a_f63040db",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-20T16:46:27Z",
+      "side": 1,
+      "message": "Well, I took the important icon and modified it, but of course it shows a merge graph similar to the merge graph of the git logo.",
+      "parentUuid": "2a3188d1_87bb2664",
+      "range": {
+        "startLine": 14,
+        "startChar": 18,
+        "endLine": 14,
+        "endChar": 45
+      },
+      "revId": "bba345d36570b973dea9504e3327715146e0e87a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

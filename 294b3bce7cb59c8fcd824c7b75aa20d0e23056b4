@@ -103,6 +103,24 @@
       "revId": "294b3bce7cb59c8fcd824c7b75aa20d0e23056b4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca1f0c44_c4243e3b",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshSession.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-05-20T08:04:59Z",
+      "side": 1,
+      "message": "I see, makes sense.",
+      "parentUuid": "ff23b49a_b6c0885e",
+      "revId": "294b3bce7cb59c8fcd824c7b75aa20d0e23056b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

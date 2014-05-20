@@ -302,6 +302,13 @@ limitations under the License.
     .replyBox {
       background-color: trimColor;
     }
+
+    .ownerPanel img {
+      margin: 0 2px 0 0;
+      width: 16px;
+      height: 16px !important;
+      vertical-align: bottom;
+    }
   </ui:style>
 
   <g:HTMLPanel styleName='{style.cs2}'>
@@ -368,7 +375,11 @@ limitations under the License.
           <table id='change_infoTable'>
             <tr>
               <th><ui:msg>Owner</ui:msg></th>
-              <td><x:InlineHyperlink ui:field='ownerLink'/></td>
+              <td>
+                <g:FlowPanel ui:field='ownerPanel' styleName='{style.ownerPanel}'>
+                  <x:InlineHyperlink ui:field='ownerLink'/>
+                </g:FlowPanel>
+              </td>
             </tr>
             <tr>
               <th><ui:msg>Reviewers</ui:msg></th>

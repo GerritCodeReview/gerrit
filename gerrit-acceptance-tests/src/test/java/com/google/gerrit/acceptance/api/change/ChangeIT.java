@@ -15,8 +15,12 @@
 package com.google.gerrit.acceptance.api.change;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
@@ -28,6 +32,8 @@ import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeStatus;
 import com.google.gerrit.extensions.common.LabelInfo;
+import com.google.gerrit.extensions.common.ListChangesOption;
+import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Account;
@@ -37,6 +43,8 @@ import org.eclipse.jgit.lib.Constants;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.EnumSet;
+import java.util.List;
 import java.util.Set;
 
 @NoHttpd
@@ -163,5 +171,89 @@ public class ChangeIT extends AbstractDaemonTest {
     assertEquals(in.project, info.project);
     assertEquals(in.branch, info.branch);
     assertEquals(in.subject, info.subject);
+  }
+
+  @Test
+  public void queryChangesNoQuery() throws Exception {
+    PushOneCommit.Result r1 = createChange();
+    PushOneCommit.Result r2 = createChange();
+    List<ChangeInfo> results = gApi.changes().query().get();
+    assertEquals(2, results.size());
+    assertEquals(r2.getChangeId(), results.get(0).changeId);
+    assertEquals(r1.getChangeId(), results.get(1).changeId);
+  }
+
+  @Test
+  public void queryChangesNoResults() throws Exception {
+    createChange();
+    List<ChangeInfo> results = gApi.changes().query("status:open").get();
+    assertEquals(1, results.size());
+    results = gApi.changes().query("status:closed").get();
+    assertTrue(results.isEmpty());
+  }
+
+  @Test
+  public void queryChangesOneTerm() throws Exception {
+    PushOneCommit.Result r1 = createChange();
+    PushOneCommit.Result r2 = createChange();
+    List<ChangeInfo> results = gApi.changes().query("status:open").get();
+    assertEquals(2, results.size());
+    assertEquals(r2.getChangeId(), results.get(0).changeId);
+    assertEquals(r1.getChangeId(), results.get(1).changeId);
+  }
+
+  @Test
+  public void queryChangesMultipleTerms() throws Exception {
+    PushOneCommit.Result r1 = createChange();
+    createChange();
+    List<ChangeInfo> results = gApi.changes()
+        .query("status:open " + r1.getChangeId())
+        .get();
+    assertEquals(r1.getChangeId(), Iterables.getOnlyElement(results).changeId);
+  }
+
+  @Test
+  public void queryChangesLimit() throws Exception {
+    createChange();
+    PushOneCommit.Result r2 = createChange();
+    List<ChangeInfo> results = gApi.changes().query().withLimit(1).get();
+    assertEquals(1, results.size());
+    assertEquals(r2.getChangeId(), Iterables.getOnlyElement(results).changeId);
+  }
+
+  @Test
+  public void queryChangesStart() throws Exception {
+    PushOneCommit.Result r1 = createChange();
+    createChange();
+    List<ChangeInfo> results = gApi.changes().query().withStart(1).get();
+    assertEquals(r1.getChangeId(), Iterables.getOnlyElement(results).changeId);
+  }
+
+  @Test
+  public void queryChangesNoOptions() throws Exception {
+    PushOneCommit.Result r = createChange();
+    ChangeInfo result = Iterables.getOnlyElement(
+        gApi.changes().query(r.getChangeId()).get());
+    assertNull(result.labels);
+    assertNull(result.messages);
+    assertNull(result.revisions);
+    assertNull(result.actions);
+  }
+
+  @Test
+  public void queryChangesOptions() throws Exception {
+    PushOneCommit.Result r = createChange();
+    ChangeInfo result = Iterables.getOnlyElement(gApi.changes()
+        .query(r.getChangeId())
+        .withOptions(EnumSet.allOf(ListChangesOption.class))
+        .get());
+    assertEquals("Code-Review",
+        Iterables.getOnlyElement(result.labels.keySet()));
+    assertEquals(1, result.messages.size());
+    assertFalse(result.actions.isEmpty());
+
+    RevisionInfo rev = Iterables.getOnlyElement(result.revisions.values());
+    assertEquals(r.getPatchSetId().get(), rev._number);
+    assertFalse(rev.actions.isEmpty());
   }
 }

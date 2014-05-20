@@ -105,6 +105,24 @@
       "revId": "596f46e08269b27ee6022b25edfe8361c7ad949d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca1f0c44_248192aa",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/Changes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2014-05-20T19:18:02Z",
+      "side": 1,
+      "message": "I have just checked all interfaces and I think at the moment only Changes#query and Projects#list are not implemented.\n\nOnce we get that done, I\u0027ll keep an eye on implementing newly added interfaces.",
+      "parentUuid": "2a3188d1_878966a8",
+      "revId": "596f46e08269b27ee6022b25edfe8361c7ad949d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a3188d1_a72f4a14",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/Changes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-05-20T00:03:51Z",
+      "side": 1,
+      "message": "Is this actually useful?\n\nI would kind of like an even more fluent interface, where query() returns a QueryParameter so you can do:\n\n changes.query()\n   .withQuery(\"foo\")\n   .withLimit(5)\n   .query(); // or get() or something.",
+      "revId": "596f46e08269b27ee6022b25edfe8361c7ad949d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a26849c_a621063c",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/Changes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-05-20T00:03:51Z",
+      "side": 1,
+      "message": "I tried to use this and was startled to find that there is no actual implementation. What\u0027s the point?",
+      "revId": "596f46e08269b27ee6022b25edfe8361c7ad949d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

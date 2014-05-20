@@ -156,6 +156,12 @@ configuration needed for deployment]
 
 * The WAR file to upload is `buck-out/gen/release.war`
 * Upload WAR to the storage bucket via `https://cloud.google.com/console` (manual via web browser)
+* Push the WAR file to the Maven storage bucket:
++
+----
+  buck build war_deploy
+----
+
 
 
 [[push-stable]]

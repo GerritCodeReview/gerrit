@@ -1,7 +1,10 @@
 [alias]
   api = //:api
-  api_deploy = //tools/maven:deploy
-  api_install = //tools/maven:install
+  api_deploy = //tools/maven:api_deploy
+  api_install = //tools/maven:api_install
+  war_deploy = //tools/maven:war_deploy
+  war_install = //tools/maven:war_install
+  chrome = //:chrome
   docs = //Documentation:html
   gerrit = //:gerrit
   release = //:release

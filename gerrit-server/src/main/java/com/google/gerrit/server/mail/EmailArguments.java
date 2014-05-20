@@ -42,7 +42,7 @@ import org.apache.velocity.runtime.RuntimeInstance;
 
 import java.util.List;
 
-class EmailArguments {
+public class EmailArguments {
   final GitRepositoryManager server;
   final ProjectCache projectCache;
   final GroupBackend groupBackend;

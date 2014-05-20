@@ -38,10 +38,12 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.annotation.Annotation;
 import java.util.Collection;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Map;
@@ -57,17 +59,26 @@ public class JarScanner {
         @Override
         public ExtensionMetaData apply(ClassData classData) {
           return new ExtensionMetaData(classData.className,
-              classData.annotationValue);
+              classData.annotationValue, classData.interfaces);
+        }
+      };
+  private static final Function<String, String> TO_JAVA_QUALIFIED_CLASS_NAME =
+      new Function<String, String>() {
+        @Override
+        public String apply(String in) {
+          return in.replace("/", ".");
         }
       };
 
   public static class ExtensionMetaData {
     private final String className;
     private final String annotationValue;
+    private final Iterable<String> interfaces;
 
-    private ExtensionMetaData(String className, String annotationValue) {
+    private ExtensionMetaData(String className, String annotationValue, Iterable<String> interfaces) {
       this.className = className;
       this.annotationValue = annotationValue;
+      this.interfaces = interfaces;
     }
 
     public String getAnnotationValue() {
@@ -77,6 +88,19 @@ public class JarScanner {
     public String getClassName() {
       return className;
     }
+
+    public Iterable<String> getInterfaces() {
+      return interfaces;
+    }
+  }
+
+  public static Iterable<ExtensionMetaData> scan(File file, String pluginName,
+      Class<? extends Annotation> annotation) throws InvalidPluginException,
+      IOException {
+    Map<Class<? extends Annotation>, Iterable<ExtensionMetaData>> result =
+        scan(new JarFile(file), pluginName,
+            Arrays.<Class<? extends Annotation>> asList(annotation));
+    return result.get(annotation);
   }
 
   public static Map<Class<? extends Annotation>, Iterable<ExtensionMetaData>> scan(
@@ -170,6 +194,7 @@ public class JarScanner {
     String className;
     String annotationName;
     String annotationValue;
+    Iterable<String> interfaces;
     Iterable<String> exports;
 
     private ClassData(Iterable<String> exports) {
@@ -185,6 +210,9 @@ public class JarScanner {
     @Override
     public void visit(int version, int access, String name, String signature,
         String superName, String[] interfaces) {
+      this.interfaces =
+          Iterables.transform(Sets.newHashSet(interfaces),
+              TO_JAVA_QUALIFIED_CLASS_NAME);
       this.className = Type.getObjectType(name).getClassName();
       this.access = access;
     }

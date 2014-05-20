@@ -158,6 +158,24 @@
       "revId": "607f79ae66505a3715ad08ed3332845a3d104f5e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff23b49a_56225498",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/registration/DynamicItem.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-05-20T15:24:49Z",
+      "side": 1,
+      "message": "Id did small experiment to make DynamicItem-with-provider less provider-ish.\n\nI\u0027ve created additional interface:\n\n  public interface DynamicItemSelector\u003cT\u003e {\n    public Binding\u003cT\u003e select(List\u003cBinding\u003cT\u003e\u003e bindings);\n  }\n\nWith default implementation to preserve current behavior of DynamicItem:\n\n  public class LastBoundImplSelector\u003cT\u003e implements DynamicItemSelector\u003cT\u003e {\n\n    @Override\n    public Binding\u003cT\u003e select(List\u003cBinding\u003cT\u003e\u003e bindings) {\n      return bindings.get(0);\n    }\n  }\n\nAnd I realize that there is not much values to inspect on Binding\u003c?\u003e class. None of them would be used by SecureStoreItemSelector class with will still use value from gerrit.config and scan given plugin JAR file.\n\nIMO this change is adding additional unnecessary complexity. Personally would rather go with plain Provider\u003cSecureStore\u003e approach. Since it is more elegant and require less boilerplate code. We can revisit DynamicItem\u003cT\u003e later on when it would be really needed.",
+      "parentUuid": "6a3aa0c6_5104b435",
+      "revId": "607f79ae66505a3715ad08ed3332845a3d104f5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

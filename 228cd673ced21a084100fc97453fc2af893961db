@@ -144,6 +144,30 @@
     },
     {
       "key": {
+        "uuid": "2a3188d1_e715c2a2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/UploadValidationListener.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-05-20T13:21:05Z",
+      "side": 1,
+      "message": "With my initial solution (UploadValidationException inheriting ServiceMayNotContinueException), the extension point implementations are throwing UploadValidationException which is handled by JGit (sending message back to client also done by JGit) and on the other side, the Upload command class is swallowing the UploadValidationException to prevent printing a stacktrace in the logs.\n\nLets say that some other code add a hook in the chain which end up throwing a ServiceMayNotContinueException, maybe we want to see the stacktrace in the logs? I do not like the fact that this extension point code take the ownership of handling all the ServiceMayNotContinueException.",
+      "parentUuid": "0a26849c_066d7a41",
+      "range": {
+        "startLine": 56,
+        "startChar": 13,
+        "endLine": 56,
+        "endChar": 38
+      },
+      "revId": "228cd673ced21a084100fc97453fc2af893961db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea221089_a5be5ec1",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Upload.java",
         "patchSetId": 13

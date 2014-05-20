@@ -79,6 +79,6 @@ public interface GerritResources extends ClientBundle {
   @Source("listAdd.png")
   public ImageResource listAdd();
 
-  @Source("important.png")
-  public ImageResource important();
+  @Source("merge.png")
+  public ImageResource merge();
 }

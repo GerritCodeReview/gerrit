@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2a3188d1_8716c6af",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitOverHttpServlet.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2014-05-20T13:04:42Z",
+      "side": 1,
+      "message": "In my specific case, yes, I do want to be able to display messages (and potentially block by subnet), but the point here was that this allows the extension to be valid both for HTTP and SSH requests.  I believe we didn\u0027t need to include the user info because that can be injected directly from the plugin/extension side.\n\nIf there is additional information we would like to convey, it would make sense to either inject it as well, or potentially pass a structure along, knowing full well that not all elements may be available for all requests?  The advantage of this approach is it allows us to pass the remote IP along without requiring the plugin have knowledge of the type of request.  But, there may be other times other parts of the request structure may be handy, too -- I can\u0027t think of any at the moment, but that doesn\u0027t mean they aren\u0027t there.  We can always extend this further if a need arises, though.",
+      "parentUuid": "ca1f0c44_0456568d",
+      "range": {
+        "startLine": 239,
+        "startChar": 10,
+        "endLine": 239,
+        "endChar": 33
+      },
+      "revId": "294b3bce7cb59c8fcd824c7b75aa20d0e23056b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ff23b49a_16d29c37",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/UploadValidationListener.java",
         "patchSetId": 14
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "0a26849c_86788a09",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/UploadValidationListener.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2014-05-20T13:04:42Z",
+      "side": 1,
+      "message": "See earlier comment; this applies to SSH and HTTP requests.",
+      "parentUuid": "ff23b49a_16d29c37",
+      "range": {
+        "startLine": 55,
+        "startChar": 6,
+        "endLine": 55,
+        "endChar": 23
+      },
+      "revId": "294b3bce7cb59c8fcd824c7b75aa20d0e23056b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca1f0c44_2453529e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/UploadValidators.java",
         "patchSetId": 14
@@ -59,6 +107,30 @@
       "writtenOn": "2014-05-20T07:15:52Z",
       "side": 1,
       "message": "HttpServletRequest instead of just the remoteHost",
+      "range": {
+        "startLine": 48,
+        "startChar": 6,
+        "endLine": 48,
+        "endChar": 33
+      },
+      "revId": "294b3bce7cb59c8fcd824c7b75aa20d0e23056b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a26849c_a67d86f8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/UploadValidators.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2014-05-20T13:04:42Z",
+      "side": 1,
+      "message": "Same as before.",
+      "parentUuid": "ca1f0c44_2453529e",
       "range": {
         "startLine": 48,
         "startChar": 6,
@@ -118,6 +190,24 @@
       "side": 1,
       "message": "I see, makes sense.",
       "parentUuid": "ff23b49a_b6c0885e",
+      "revId": "294b3bce7cb59c8fcd824c7b75aa20d0e23056b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a26849c_c6728227",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshSession.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2014-05-20T13:04:42Z",
+      "side": 1,
+      "message": "Correct.  Exposing these so we can pass it along to plugins.",
+      "parentUuid": "ca1f0c44_c4243e3b",
       "revId": "294b3bce7cb59c8fcd824c7b75aa20d0e23056b4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

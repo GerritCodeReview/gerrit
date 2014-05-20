@@ -36,11 +36,13 @@ import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.Config;
 
 import java.io.IOException;
 
+@Singleton
 public class Publish implements RestModifyView<RevisionResource, Input>,
     UiAction<RevisionResource> {
   public static class Input {
@@ -48,7 +50,7 @@ public class Publish implements RestModifyView<RevisionResource, Input>,
 
   private final Provider<ReviewDb> dbProvider;
   private final ChangeUpdate.Factory updateFactory;
-  private final PatchSetNotificationSender sender;
+  private final Provider<PatchSetNotificationSender> sender;
   private final ChangeHooks hooks;
   private final ChangeIndexer indexer;
   private final boolean allowDrafts;
@@ -56,7 +58,7 @@ public class Publish implements RestModifyView<RevisionResource, Input>,
   @Inject
   public Publish(Provider<ReviewDb> dbProvider,
       ChangeUpdate.Factory updateFactory,
-      PatchSetNotificationSender sender,
+      Provider<PatchSetNotificationSender> sender,
       ChangeHooks hooks,
       ChangeIndexer indexer,
       @GerritServerConfig Config cfg) {
@@ -95,7 +97,7 @@ public class Publish implements RestModifyView<RevisionResource, Input>,
         CheckedFuture<?, IOException> indexFuture =
             indexer.indexAsync(updatedChange.getId());
         hooks.doDraftPublishedHook(updatedChange, updatedPatchSet, dbProvider.get());
-        sender.send(rsrc.getNotes(), update,
+        sender.get().send(rsrc.getNotes(), update,
             rsrc.getChange().getStatus() == Change.Status.DRAFT,
             rsrc.getUser(), updatedChange, updatedPatchSet,
             rsrc.getControl().getLabelTypes());

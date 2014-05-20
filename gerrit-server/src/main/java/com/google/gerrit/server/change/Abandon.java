@@ -36,6 +36,7 @@ import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,6 +44,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.Collections;
 
+@Singleton
 public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
     UiAction<ChangeResource> {
   private static final Logger log = LoggerFactory.getLogger(Abandon.class);

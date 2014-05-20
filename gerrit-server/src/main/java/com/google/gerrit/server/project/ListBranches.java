@@ -26,6 +26,7 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.extensions.webui.UiActions;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.google.inject.util.Providers;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
@@ -42,6 +43,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
+@Singleton
 public class ListBranches implements RestReadView<ProjectResource> {
   private final GitRepositoryManager repoManager;
   private final DynamicMap<RestView<BranchResource>> branchViews;

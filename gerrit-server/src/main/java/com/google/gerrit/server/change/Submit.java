@@ -58,6 +58,7 @@ import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.CommitBuilder;
@@ -69,6 +70,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+@Singleton
 public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     UiAction<RevisionResource> {
   public enum Status {

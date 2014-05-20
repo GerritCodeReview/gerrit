@@ -33,9 +33,11 @@ import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
 import java.io.IOException;
 
+@Singleton
 public class Rebase implements RestModifyView<RevisionResource, Input>,
     UiAction<RevisionResource> {
   public static class Input {

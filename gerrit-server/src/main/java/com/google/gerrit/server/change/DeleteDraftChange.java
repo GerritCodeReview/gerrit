@@ -30,11 +30,13 @@ import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.Config;
 
 import java.io.IOException;
 
+@Singleton
 public class DeleteDraftChange implements
     RestModifyView<ChangeResource, Input>, UiAction<ChangeResource> {
   public static class Input {

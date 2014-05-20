@@ -87,6 +87,24 @@
       "revId": "596f46e08269b27ee6022b25edfe8361c7ad949d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a3188d1_878966a8",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/Changes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-05-20T18:11:01Z",
+      "side": 1,
+      "message": "I disagree with the decision to ever add non-implemented interfaces. Given that every method here corresponds 1-to-1 with an existing REST API handler it shouldn\u0027t be too hard to implement them. (And we certainly shouldn\u0027t be adding methods, particularly complex ones, to the extension API if a corresponding REST API handler doesn\u0027t exist yet.)",
+      "parentUuid": "ca1f0c44_64362a70",
+      "revId": "596f46e08269b27ee6022b25edfe8361c7ad949d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

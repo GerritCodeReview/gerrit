@@ -70,6 +70,30 @@
       "revId": "c7ddc2c0d18cfebe84ca9c9bb5187b01392164ba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff51f41e_467632b3",
+        "filename": "gerrit-extension-api/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-21T14:52:38Z",
+      "side": 1,
+      "message": "Oh, I thought so because after api_install I find a pom file with this content in my local Maven repository:\n\n  \u003c?xml version\u003d\"1.0\" encoding\u003d\"UTF-8\"?\u003e\n  \u003cproject xsi:schemaLocation\u003d\"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd\" xmlns\u003d\"http://maven.apache.org/POM/4.0.0\"\n    xmlns:xsi\u003d\"http://www.w3.org/2001/XMLSchema-instance\"\u003e\n    \u003cmodelVersion\u003e4.0.0\u003c/modelVersion\u003e\n    \u003cgroupId\u003ecom.google.gerrit\u003c/groupId\u003e\n    \u003cartifactId\u003egerrit-plugin-api\u003c/artifactId\u003e\n    \u003cversion\u003e2.10-SNAPSHOT\u003c/version\u003e\n    \u003cdescription\u003ePOM was created from install:install-file\u003c/description\u003e\n  \u003c/project\u003e\n\nThe description gave me the idea that we generate it somewhere.",
+      "parentUuid": "ff51f41e_66712eb9",
+      "range": {
+        "startLine": 7,
+        "startChar": 2,
+        "endLine": 8,
+        "endChar": 54
+      },
+      "revId": "c7ddc2c0d18cfebe84ca9c9bb5187b01392164ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

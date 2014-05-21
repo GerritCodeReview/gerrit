@@ -302,6 +302,16 @@ public class ChangeInfo extends JavaScriptObject {
     }
   }
 
+  public static class VerificationInfo extends JavaScriptObject {
+    public final native Short value() /*-{ return this.value; }-*/;
+    public final native String url() /*-{ return this.url; }-*/;
+    public final native String verifier() /*-{ return this.verifier; }-*/;
+    public final native String comment() /*-{ return this.comment; }-*/;
+
+    protected VerificationInfo () {
+    }
+  }
+
   public static class FetchInfo extends JavaScriptObject {
     public final native String url() /*-{ return this.url }-*/;
     public final native String ref() /*-{ return this.ref }-*/;

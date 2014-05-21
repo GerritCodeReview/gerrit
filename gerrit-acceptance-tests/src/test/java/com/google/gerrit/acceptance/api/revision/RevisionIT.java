@@ -17,9 +17,11 @@ package com.google.gerrit.acceptance.api.revision;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Maps;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -28,7 +30,9 @@ import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
+import com.google.gerrit.extensions.api.changes.VerifyInput;
 import com.google.gerrit.extensions.api.projects.BranchInput;
+import com.google.gerrit.extensions.common.VerificationInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 
@@ -37,6 +41,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.Map;
 
 @NoHttpd
 public class RevisionIT extends AbstractDaemonTest {
@@ -64,6 +69,36 @@ public class RevisionIT extends AbstractDaemonTest {
         .id(r.getChangeId())
         .current()
         .review(ReviewInput.approve());
+  }
+
+  @Test
+  public void verifyCurrent() throws GitAPIException,
+      IOException, RestApiException {
+    PushOneCommit.Result r = createChange();
+    VerifyInput in = new VerifyInput();
+    in.verifications = Maps.newHashMap();
+    VerificationInfo v = new VerificationInfo();
+    String job = "pep8";
+    v.url = "https://ci.host.org/1";
+    v.value = -1;
+    v.verifier = "Your friendly bot";
+    v.comment = "Fix that, please";
+    in.verifications.put(job, v);
+    gApi.changes()
+        .id(r.getChangeId())
+        .current()
+        .verify(in);
+    Map<String, VerificationInfo> out = gApi.changes()
+        .id(r.getChangeId())
+        .current()
+        .verifications();
+    assertEquals(1, out.size());
+    VerificationInfo o = out.get(job);
+    assertNotNull(o);
+    assertEquals(v.url, o.url);
+    assertEquals(v.value, o.value);
+    assertEquals(v.verifier, o.verifier);
+    assertEquals(v.comment, o.comment);
   }
 
   @Test

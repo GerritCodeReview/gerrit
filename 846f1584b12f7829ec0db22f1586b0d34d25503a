@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5f63e0f1_c968f1c5",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-21T20:15:59Z",
+      "side": 1,
+      "message": "CommitInfo.otherBranchCommit seems to be always true.",
+      "range": {
+        "startLine": 275,
+        "startChar": 41,
+        "endLine": 277,
+        "endChar": 33
+      },
+      "revId": "846f1584b12f7829ec0db22f1586b0d34d25503a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

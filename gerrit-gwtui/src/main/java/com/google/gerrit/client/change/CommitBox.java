@@ -154,7 +154,7 @@ class CommitBox extends Composite {
       GitwebLink gw = Gerrit.getGitwebLink();
       if (gw != null) {
         Anchor a =
-            new Anchor(gw.toRevision(project, c.commit()), gw.getLinkName());
+            new Anchor(gw.getLinkName(), gw.toRevision(project, c.commit()));
         a.setStyleName(style.parentWebLink());
         parentWebLinks.add(a);
       }

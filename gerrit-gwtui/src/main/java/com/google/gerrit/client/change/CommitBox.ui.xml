@@ -93,6 +93,13 @@ limitations under the License.
       margin-right: 3px;
       float: left;
     }
+
+    .userPanel img {
+      margin: 0 2px 0 0;
+      width: 16px;
+      height: 16px !important;
+      vertical-align: bottom;
+    }
   </ui:style>
   <g:HTMLPanel>
     <g:ScrollPanel styleName='{style.scroll}' ui:field='scroll'>
@@ -109,19 +116,25 @@ limitations under the License.
     <table class='{style.header}'>
       <tr>
         <th><ui:msg>Author</ui:msg></th>
-        <td><x:InlineHyperlink ui:field='authorNameEmail'
+        <td>
+          <g:FlowPanel ui:field='authorPanel' styleName='{style.userPanel}'>
+            <x:InlineHyperlink ui:field='authorNameEmail'
               title='Search for changes by this user'>
               <ui:attribute name='title'/>
             </x:InlineHyperlink>
+          </g:FlowPanel>
         </td>
         <td ui:field='authorDate' class='{style.date}' colspan="2"/>
       </tr>
       <tr>
         <th><ui:msg>Committer</ui:msg></th>
-        <td><x:InlineHyperlink ui:field='committerNameEmail'
+        <td>
+          <g:FlowPanel ui:field='committerPanel' styleName='{style.userPanel}'>
+            <x:InlineHyperlink ui:field='committerNameEmail'
               title='Search for changes by this user'>
               <ui:attribute name='title'/>
             </x:InlineHyperlink>
+          </g:FlowPanel>
         </td>
         <td ui:field='committerDate' class='{style.date}' colspan="2"/>
       </tr>

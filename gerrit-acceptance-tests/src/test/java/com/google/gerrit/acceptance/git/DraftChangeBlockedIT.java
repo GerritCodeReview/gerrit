@@ -15,7 +15,7 @@
 package com.google.gerrit.acceptance.git;
 
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
-import static com.google.gerrit.server.project.Util.grant;
+import static com.google.gerrit.server.project.Util.block;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
@@ -49,8 +49,7 @@ public class DraftChangeBlockedIT extends AbstractDaemonTest {
   @Before
   public void setUp() throws Exception {
     ProjectConfig cfg = projectCache.checkedGet(allProjects).getConfig();
-    grant(cfg, Permission.PUSH, ANONYMOUS_USERS,
-        "refs/drafts/*").setBlock();
+    block(cfg, Permission.PUSH, ANONYMOUS_USERS, "refs/drafts/*");
     saveProjectConfig(cfg);
     projectCache.evict(cfg.getProject());
   }

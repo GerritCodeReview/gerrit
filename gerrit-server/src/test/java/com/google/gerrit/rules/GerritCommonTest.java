@@ -15,8 +15,8 @@
 package com.google.gerrit.rules;
 
 import static com.google.gerrit.common.data.Permission.LABEL;
+import static com.google.gerrit.server.project.Util.allow;
 import static com.google.gerrit.server.project.Util.category;
-import static com.google.gerrit.server.project.Util.grant;
 import static com.google.gerrit.server.project.Util.value;
 
 import com.google.gerrit.common.data.LabelType;
@@ -74,8 +74,8 @@ public class GerritCommonTest extends PrologTestCase {
     local.getLabelSections().put(V.getName(), V);
     local.getLabelSections().put(Q.getName(), Q);
     util.add(local);
-    grant(local, LABEL + V.getName(), -1, +1, SystemGroupBackend.REGISTERED_USERS, "refs/heads/*");
-    grant(local, LABEL + Q.getName(), -1, +1, SystemGroupBackend.REGISTERED_USERS, "refs/heads/master");
+    allow(local, LABEL + V.getName(), -1, +1, SystemGroupBackend.REGISTERED_USERS, "refs/heads/*");
+    allow(local, LABEL + Q.getName(), -1, +1, SystemGroupBackend.REGISTERED_USERS, "refs/heads/master");
   }
 
   @Override

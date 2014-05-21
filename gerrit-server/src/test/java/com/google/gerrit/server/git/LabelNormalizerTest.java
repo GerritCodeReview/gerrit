@@ -16,8 +16,8 @@ package com.google.gerrit.server.git;
 
 import static com.google.gerrit.common.data.Permission.forLabel;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static com.google.gerrit.server.project.Util.allow;
 import static com.google.gerrit.server.project.Util.category;
-import static com.google.gerrit.server.project.Util.grant;
 import static com.google.gerrit.server.project.Util.value;
 import static org.junit.Assert.assertEquals;
 
@@ -133,8 +133,8 @@ public class LabelNormalizerTest {
   @Test
   public void normalizeByPermission() throws Exception {
     ProjectConfig pc = loadAllProjects();
-    grant(pc, forLabel("Code-Review"), -1, 1, REGISTERED_USERS, "refs/heads/*");
-    grant(pc, forLabel("Verified"), -1, 1, REGISTERED_USERS, "refs/heads/*");
+    allow(pc, forLabel("Code-Review"), -1, 1, REGISTERED_USERS, "refs/heads/*");
+    allow(pc, forLabel("Verified"), -1, 1, REGISTERED_USERS, "refs/heads/*");
     save(pc);
 
     PatchSetApproval cr = psa(userId, "Code-Review", 2);
@@ -149,8 +149,8 @@ public class LabelNormalizerTest {
   @Test
   public void normalizeByType() throws Exception {
     ProjectConfig pc = loadAllProjects();
-    grant(pc, forLabel("Code-Review"), -5, 5, REGISTERED_USERS, "refs/heads/*");
-    grant(pc, forLabel("Verified"), -5, 5, REGISTERED_USERS, "refs/heads/*");
+    allow(pc, forLabel("Code-Review"), -5, 5, REGISTERED_USERS, "refs/heads/*");
+    allow(pc, forLabel("Verified"), -5, 5, REGISTERED_USERS, "refs/heads/*");
     save(pc);
 
     PatchSetApproval cr = psa(userId, "Code-Review", 5);
@@ -176,7 +176,7 @@ public class LabelNormalizerTest {
   @Test
   public void explicitZeroVoteOnNonEmptyRangeIsPresent() throws Exception {
     ProjectConfig pc = loadAllProjects();
-    grant(pc, forLabel("Code-Review"), -1, 1, REGISTERED_USERS, "refs/heads/*");
+    allow(pc, forLabel("Code-Review"), -1, 1, REGISTERED_USERS, "refs/heads/*");
     save(pc);
 
     PatchSetApproval cr = psa(userId, "Code-Review", 0);

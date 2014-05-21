@@ -1768,6 +1768,15 @@ for the current patch set.
           "url": "http://gerrit/myProject",
           "ref": "refs/changes/65/3965/2"
         }
+      },
+      "web_links": [],
+      "verifications": {
+        "gate-horizon-pep8": {
+            "comment": "Non Voting",
+            "url": "https://ci.host.com/jobs/pep8/4711",
+            "value": -1
+            "verifier": "Jenkins",
+        }
       }
     }
   }
@@ -3678,6 +3687,9 @@ entities.
 |'web_links'   |optional|
 Links to the patch set in external sites as a list of
 link:#web-link-info[WebLinkInfo] entities.
+|'verifications'   |optional|
+The verifications for a patch set
+link:#web-link-info[VerificationInfo] entities.
 |===========================
 
 [[rule-input]]
@@ -3815,6 +3827,18 @@ The `WebLinkInfo` entity describes a link to an external site.
 |Field Name|Description
 |`name`    |The link name.
 |`url`     |The link URL.
+|======================
+
+=== VerificationInfo
+The `VerificationInfo` entity describes the verifications on a patch set.
+
+[options="header",width="50%",cols="1,6"]
+|======================
+|Field Name|Description
+|`comment`   |A short comment about about this verification.
+|`url`       |The URL for this verification.
+|`value`     |The value for this verification.
+|`verifier`  |The user or bot that ran this verification.
 |======================
 
 [[edit-info]]

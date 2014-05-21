@@ -89,7 +89,7 @@ limitations under the License.
       display: block;
     }
 
-    .mergeCommit {
+    .commit {
       margin-right: 3px;
       float: left;
     }
@@ -127,7 +127,7 @@ limitations under the License.
       </tr>
       <tr>
         <th>
-          <div class='{style.mergeCommit}'>
+          <div class='{style.commit}'>
             <ui:msg>Commit</ui:msg>
           </div>
           <g:Image

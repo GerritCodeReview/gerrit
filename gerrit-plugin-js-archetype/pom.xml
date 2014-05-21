@@ -22,6 +22,8 @@ limitations under the License.
   <artifactId>gerrit-plugin-js-archetype</artifactId>
   <version>2.10-SNAPSHOT</version>
   <name>Gerrit Code Review - Web UI JavaScript Plugin Archetype</name>
+  <description>Maven Archetype for Gerrit Web UI JavaScript Plugins</description>
+  <url>http://code.google.com/p/gerrit/</url>
 
   <properties>
     <defaultGerritApiVersion>${project.version}</defaultGerritApiVersion>
@@ -46,4 +48,52 @@ limitations under the License.
     </resources>
   </build>
 
+  <licenses>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <scm>
+    <url>https://gerrit.googlesource.com/gerrit</url>
+    <connection>https://gerrit.googlesource.com/gerrit</connection>
+  </scm>
+
+  <developers>
+    <developer>
+      <name>Dave Borowitz</name>
+    </developer>
+    <developer>
+      <name>David Pursehouse</name>
+    </developer>
+    <developer>
+      <name>Edwin Kempin</name>
+    </developer>
+    <developer>
+      <name>Martin Fick</name>
+    </developer>
+    <developer>
+      <name>Saša Živkov</name>
+    </developer>
+    <developer>
+      <name>Shawn Pearce</name>
+    </developer>
+  </developers>
+
+  <mailingLists>
+    <mailingList>
+      <name>Repo and Gerrit Discussion</name>
+      <post>repo-discuss@googlegroups.com</post>
+      <subscribe>https://groups.google.com/forum/#!forum/repo-discuss</subscribe>
+      <unsubscribe>https://groups.google.com/forum/#!forum/repo-discuss</unsubscribe>
+      <archive>https://groups.google.com/forum/#!forum/repo-discuss</archive>
+    </mailingList>
+  </mailingLists>
+
+  <issueManagement>
+    <url>http://code.google.com/p/gerrit/issues/list</url>
+    <system>Google Code Issue Tracker</system>
+  </issueManagement>
 </project>

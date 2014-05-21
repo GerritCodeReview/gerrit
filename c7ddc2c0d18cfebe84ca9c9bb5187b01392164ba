@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5f63e0f1_898b195a",
+        "filename": "gerrit-extension-api/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-21T14:41:00Z",
+      "side": 1,
+      "message": "In send thought. everything is duplication in all these files, except this two line. May be we can put only one template file in tools/oss_deploy_template.xml and replace name \u0026 description pro artifact?",
+      "range": {
+        "startLine": 7,
+        "startChar": 2,
+        "endLine": 8,
+        "endChar": 54
+      },
+      "revId": "c7ddc2c0d18cfebe84ca9c9bb5187b01392164ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -46,6 +46,30 @@
       "revId": "cf60c8b65f89666ec0e181906ff5cb7d4b578284",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff51f41e_06fb9ae1",
+        "filename": "gerrit-plugin-archetype/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-21T07:49:35Z",
+      "side": 1,
+      "message": "OK",
+      "parentUuid": "5f63e0f1_4953e125",
+      "range": {
+        "startLine": 65,
+        "startChar": 4,
+        "endLine": 67,
+        "endChar": 16
+      },
+      "revId": "cf60c8b65f89666ec0e181906ff5cb7d4b578284",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

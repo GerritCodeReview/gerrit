@@ -14,10 +14,12 @@
 
 package com.google.gerrit.client.change;
 
+import com.google.gerrit.client.AvatarImage;
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.GitwebLink;
 import com.google.gerrit.client.WebLinkInfo;
+import com.google.gerrit.client.account.AccountInfo;
 import com.google.gerrit.client.changes.ChangeInfo;
 import com.google.gerrit.client.changes.ChangeInfo.CommitInfo;
 import com.google.gerrit.client.changes.ChangeInfo.GitPerson;
@@ -26,7 +28,6 @@ import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.common.PageLinks;
-import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.dom.client.AnchorElement;
@@ -61,6 +62,8 @@ class CommitBox extends Composite {
   }
 
   @UiField Style style;
+  @UiField FlowPanel authorPanel;
+  @UiField FlowPanel committerPanel;
   @UiField Image mergeCommit;
   @UiField CopyableLabel commitName;
   @UiField TableCellElement webLinkCell;
@@ -107,10 +110,11 @@ class CommitBox extends Composite {
     commitName.setText(revision);
     idText.setText("Change-Id: " + change.change_id());
     idText.setPreviewText(change.change_id());
-    formatLink(commit.author(), authorNameEmail,
-        authorDate, change.status());
-    formatLink(commit.committer(), committerNameEmail,
-        committerDate, change.status());
+
+    formatLink(commit.author(), authorPanel, authorNameEmail, authorDate,
+        change);
+    formatLink(commit.committer(), committerPanel, committerNameEmail,
+        committerDate, change);
     text.setHTML(commentLinkProcessor.apply(
         new SafeHtmlBuilder().append(commit.message()).linkify()));
     setWebLinks(change, revision, revInfo);
@@ -160,11 +164,14 @@ class CommitBox extends Composite {
     }
   }
 
-  private static void formatLink(GitPerson person, InlineHyperlink name,
-      Element date, Status status) {
+  private static void formatLink(GitPerson person, FlowPanel p,
+      InlineHyperlink name, Element date, ChangeInfo change) {
+    p.insert(new AvatarImage(
+        AccountInfo.create(0, person.name(), person.email())), 0);
+
     name.setText(renderName(person));
     name.setTargetHistoryToken(PageLinks
-        .toAccountQuery(owner(person), status));
+        .toAccountQuery(owner(person), change.status()));
     date.setInnerText(FormatUtil.mediumFormat(person.date()));
   }
 

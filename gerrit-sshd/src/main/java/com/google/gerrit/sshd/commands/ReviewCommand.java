@@ -27,9 +27,7 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -42,7 +40,6 @@ import com.google.gerrit.sshd.SshCommand;
 import com.google.gerrit.util.cli.CmdLineParser;
 import com.google.gson.JsonSyntaxException;
 import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -79,7 +76,9 @@ public class ReviewCommand extends SshCommand {
   @Argument(index = 0, required = true, multiValued = true, metaVar = "{COMMIT | CHANGE,PATCHSET}", usage = "list of commits or patch sets to review")
   void addPatchSetId(final String token) {
     try {
-      patchSets.add(parsePatchSet(token));
+      PatchSet ps = CommandUtils.parsePatchSet(token, db, projectControl,
+          branch);
+      patchSets.add(ps);
     } catch (UnloggedFailure e) {
       throw new IllegalArgumentException(e.getMessage(), e);
     } catch (OrmException e) {
@@ -326,83 +325,6 @@ public class ReviewCommand extends SshCommand {
 
   private RevisionApi revisionApi(PatchSet patchSet) throws RestApiException {
     return changeApi(patchSet).revision(patchSet.getRevision().get());
-  }
-
-  private PatchSet parsePatchSet(final String patchIdentity)
-      throws UnloggedFailure, OrmException {
-    // By commit?
-    //
-    if (patchIdentity.matches("^([0-9a-fA-F]{4," + RevId.LEN + "})$")) {
-      final RevId id = new RevId(patchIdentity);
-      final ResultSet<PatchSet> patches;
-      if (id.isComplete()) {
-        patches = db.patchSets().byRevision(id);
-      } else {
-        patches = db.patchSets().byRevisionRange(id, id.max());
-      }
-
-      final Set<PatchSet> matches = new HashSet<>();
-      for (final PatchSet ps : patches) {
-        final Change change = db.changes().get(ps.getId().getParentKey());
-        if (inProject(change) && inBranch(change)) {
-          matches.add(ps);
-        }
-      }
-
-      switch (matches.size()) {
-        case 1:
-          return matches.iterator().next();
-        case 0:
-          throw error("\"" + patchIdentity + "\" no such patch set");
-        default:
-          throw error("\"" + patchIdentity + "\" matches multiple patch sets");
-      }
-    }
-
-    // By older style change,patchset?
-    //
-    if (patchIdentity.matches("^[1-9][0-9]*,[1-9][0-9]*$")) {
-      final PatchSet.Id patchSetId;
-      try {
-        patchSetId = PatchSet.Id.parse(patchIdentity);
-      } catch (IllegalArgumentException e) {
-        throw error("\"" + patchIdentity + "\" is not a valid patch set");
-      }
-      final PatchSet patchSet = db.patchSets().get(patchSetId);
-      if (patchSet == null) {
-        throw error("\"" + patchIdentity + "\" no such patch set");
-      }
-      if (projectControl != null || branch != null) {
-        final Change change = db.changes().get(patchSetId.getParentKey());
-        if (!inProject(change)) {
-          throw error("change " + change.getId() + " not in project "
-              + projectControl.getProject().getName());
-        }
-        if (!inBranch(change)) {
-          throw error("change " + change.getId() + " not in branch "
-              + change.getDest().get());
-        }
-      }
-      return patchSet;
-    }
-
-    throw error("\"" + patchIdentity + "\" is not a valid patch set");
-  }
-
-  private boolean inProject(final Change change) {
-    if (projectControl == null) {
-      // No --project option, so they want every project.
-      return true;
-    }
-    return projectControl.getProject().getNameKey().equals(change.getProject());
-  }
-
-  private boolean inBranch(final Change change) {
-    if (branch == null) {
-      // No --branch option, so they want every branch.
-      return true;
-    }
-    return change.getDest().get().equals(branch);
   }
 
   @Override

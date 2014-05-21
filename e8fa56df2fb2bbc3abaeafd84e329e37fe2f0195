@@ -46,6 +46,30 @@
       "revId": "e8fa56df2fb2bbc3abaeafd84e329e37fe2f0195",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df4ef081_25dfae73",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2014-05-21T14:56:33Z",
+      "side": 1,
+      "message": "Ok, sounds like any plugin that didn\u0027t return a default would be \"broken\", so I\u0027m fine with this. Is there a place for an avatar plugin doc that could document this assumption?",
+      "parentUuid": "ff51f41e_c63ea2d6",
+      "range": {
+        "startLine": 171,
+        "startChar": 28,
+        "endLine": 172,
+        "endChar": 36
+      },
+      "revId": "e8fa56df2fb2bbc3abaeafd84e329e37fe2f0195",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

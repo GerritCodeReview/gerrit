@@ -94,6 +94,30 @@
       "revId": "c7ddc2c0d18cfebe84ca9c9bb5187b01392164ba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff51f41e_267b369b",
+        "filename": "gerrit-extension-api/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-21T15:07:16Z",
+      "side": 1,
+      "message": "You are right. mvn does it for us.\n\nI knew that we don\u0027t pass \"-DgeneratePom\u003dtrue\" to mvn install:install-file command [1], and this option was false per default, but it was changed in later Maven version [2].\n\n[1] https://gerrit.googlesource.com/gerrit/+/master/tools/maven/mvn.py\n[2] http://stackoverflow.com/questions/1535729/maven-install-file-wont-generate-pom-xml",
+      "parentUuid": "ff51f41e_467632b3",
+      "range": {
+        "startLine": 7,
+        "startChar": 2,
+        "endLine": 8,
+        "endChar": 54
+      },
+      "revId": "c7ddc2c0d18cfebe84ca9c9bb5187b01392164ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

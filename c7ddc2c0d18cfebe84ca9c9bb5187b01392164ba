@@ -22,6 +22,30 @@
       "revId": "c7ddc2c0d18cfebe84ca9c9bb5187b01392164ba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f63e0f1_2952ed10",
+        "filename": "gerrit-extension-api/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-21T14:47:21Z",
+      "side": 1,
+      "message": "Yes, this is why I initially did not push this, but asked in the mail if this information can be automatically included when we generate the pom files in Buck that we need for publishing to Maven. Having one template pom file for this sounds good to me.",
+      "parentUuid": "5f63e0f1_898b195a",
+      "range": {
+        "startLine": 7,
+        "startChar": 2,
+        "endLine": 8,
+        "endChar": 54
+      },
+      "revId": "c7ddc2c0d18cfebe84ca9c9bb5187b01392164ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

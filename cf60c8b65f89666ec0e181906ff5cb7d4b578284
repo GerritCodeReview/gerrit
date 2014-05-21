@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5f63e0f1_8921d9be",
+        "filename": "gerrit-plugin-archetype/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-21T07:39:42Z",
+      "side": 1,
+      "message": "what about the id and email fields?",
+      "range": {
+        "startLine": 65,
+        "startChar": 4,
+        "endLine": 67,
+        "endChar": 16
+      },
+      "revId": "cf60c8b65f89666ec0e181906ff5cb7d4b578284",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

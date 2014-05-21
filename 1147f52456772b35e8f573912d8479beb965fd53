@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff51f41e_86ef8a22",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-21T06:55:19Z",
+      "side": 1,
+      "message": "what happens if the configured tooltip string does not include the string formatting tokens?",
+      "range": {
+        "startLine": 201,
+        "startChar": 16,
+        "endLine": 202,
+        "endChar": 49
+      },
+      "revId": "1147f52456772b35e8f573912d8479beb965fd53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

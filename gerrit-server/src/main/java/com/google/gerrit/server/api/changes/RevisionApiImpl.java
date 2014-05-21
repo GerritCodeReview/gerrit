@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
+import com.google.gerrit.extensions.api.changes.VerifyInput;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
@@ -30,6 +31,7 @@ import com.google.gerrit.server.change.DeleteDraftPatchSet;
 import com.google.gerrit.server.change.FileResource;
 import com.google.gerrit.server.change.Files;
 import com.google.gerrit.server.change.PostReview;
+import com.google.gerrit.server.change.PostVerification;
 import com.google.gerrit.server.change.Publish;
 import com.google.gerrit.server.change.Rebase;
 import com.google.gerrit.server.change.Reviewed;
@@ -62,6 +64,7 @@ class RevisionApiImpl extends RevisionApi.NotImplemented implements RevisionApi 
   private final Provider<Files> files;
   private final Provider<Files.ListFiles> listFiles;
   private final Provider<PostReview> review;
+  private final Provider<PostVerification> verify;
 
   @Inject
   RevisionApiImpl(Changes changes,
@@ -76,6 +79,7 @@ class RevisionApiImpl extends RevisionApi.NotImplemented implements RevisionApi 
       Provider<Files> files,
       Provider<Files.ListFiles> listFiles,
       Provider<PostReview> review,
+      Provider<PostVerification> verify,
       @Assisted RevisionResource r) {
     this.changes = changes;
     this.cherryPick = cherryPick;
@@ -89,6 +93,7 @@ class RevisionApiImpl extends RevisionApi.NotImplemented implements RevisionApi 
     this.putReviewed = putReviewed;
     this.deleteReviewed = deleteReviewed;
     this.listFiles = listFiles;
+    this.verify = verify;
     this.revision = r;
   }
 
@@ -98,6 +103,15 @@ class RevisionApiImpl extends RevisionApi.NotImplemented implements RevisionApi 
       review.get().apply(revision, in);
     } catch (OrmException | IOException e) {
       throw new RestApiException("Cannot post review", e);
+    }
+  }
+
+  @Override
+  public void verify(VerifyInput in) throws RestApiException {
+    try {
+      verify.get().apply(revision, in);
+    } catch (OrmException | IOException e) {
+      throw new RestApiException("Cannot post verification", e);
     }
   }
 

@@ -14,18 +14,9 @@
 
 package com.google.gerrit.extensions.common;
 
-import java.util.List;
-import java.util.Map;
-
-public class RevisionInfo {
-  public transient boolean isCurrent;
-  public Boolean draft;
-  public Boolean hasDraftComments;
-  public int _number;
-  public Map<String, FetchInfo> fetch;
-  public CommitInfo commit;
-  public Map<String, FileInfo> files;
-  public Map<String, ActionInfo> actions;
-  public List<WebLinkInfo> webLinks;
-  public Map<String, VerificationInfo> verifications;
+public class VerificationInfo {
+  public String url;
+  public Short value;
+  public String verifier;
+  public String comment;
 }

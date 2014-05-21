@@ -1,4 +1,4 @@
-// Copyright (C) 2008 The Android Open Source Project
+// Copyright (C) 2014 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,30 +20,25 @@ import com.google.gwtorm.client.CompoundKey;
 import java.sql.Timestamp;
 import java.util.Objects;
 
-/** An approval (or negative approval) on a patch set. */
-public final class PatchSetApproval {
+/** A verification on a patch set. */
+public class PatchSetVerification {
+
   public static class Key extends CompoundKey<PatchSet.Id> {
     private static final long serialVersionUID = 1L;
 
     @Column(id = 1, name = Column.NONE)
     protected PatchSet.Id patchSetId;
 
-    @Column(id = 2)
-    protected Account.Id accountId;
-
     @Column(id = 3)
     protected LabelId categoryId;
 
     protected Key() {
       patchSetId = new PatchSet.Id();
-      accountId = new Account.Id();
       categoryId = new LabelId();
     }
 
-    public Key(final PatchSet.Id ps, final Account.Id a,
-        final LabelId c) {
+    public Key(PatchSet.Id ps, LabelId c) {
       this.patchSetId = ps;
-      this.accountId = a;
       this.categoryId = c;
     }
 
@@ -52,69 +47,50 @@ public final class PatchSetApproval {
       return patchSetId;
     }
 
-    public Account.Id getAccountId() {
-      return accountId;
-    }
-
     public LabelId getLabelId() {
       return categoryId;
     }
 
     @Override
     public com.google.gwtorm.client.Key<?>[] members() {
-      return new com.google.gwtorm.client.Key<?>[] {accountId, categoryId};
+      return new com.google.gwtorm.client.Key<?>[] {categoryId};
     }
   }
 
   @Column(id = 1, name = Column.NONE)
   protected Key key;
 
-  /**
-   * Value assigned by the user.
-   * <p>
-   * The precise meaning of "value" is up to each category.
-   * <p>
-   * In general:
-   * <ul>
-   * <li><b>&lt; 0:</b> The approval is rejected/revoked.</li>
-   * <li><b>= 0:</b> No indication either way is provided.</li>
-   * <li><b>&gt; 0:</b> The approval is approved/positive.</li>
-   * </ul>
-   * and in the negative and positive direction a magnitude can be assumed.The
-   * further from 0 the more assertive the approval.
-   */
   @Column(id = 2)
   protected short value;
 
   @Column(id = 3)
   protected Timestamp granted;
 
-  protected PatchSetApproval() {
+  @Column(id = 4, notNull = false, length = 255)
+  protected String url;
+
+  @Column(id = 5, notNull = false, length = 255)
+  protected String verifier;
+
+  @Column(id = 6, notNull = false, length = 255)
+  protected String comment;
+
+  protected PatchSetVerification() {
   }
 
-  public PatchSetApproval(PatchSetApproval.Key k, short v, Timestamp ts) {
+  public PatchSetVerification(PatchSetVerification.Key k, short v,
+      Timestamp ts) {
     key = k;
     setValue(v);
     setGranted(ts);
   }
 
-  public PatchSetApproval(final PatchSet.Id psId, final PatchSetApproval src) {
-    key =
-        new PatchSetApproval.Key(psId, src.getAccountId(), src.getLabelId());
-    value = src.getValue();
-    granted = src.granted;
-  }
-
-  public PatchSetApproval.Key getKey() {
+  public PatchSetVerification.Key getKey() {
     return key;
   }
 
   public PatchSet.Id getPatchSetId() {
     return key.patchSetId;
-  }
-
-  public Account.Id getAccountId() {
-    return key.accountId;
   }
 
   public LabelId getLabelId() {
@@ -125,7 +101,7 @@ public final class PatchSetApproval {
     return value;
   }
 
-  public void setValue(final short v) {
+  public void setValue(short v) {
     value = v;
   }
 
@@ -141,8 +117,28 @@ public final class PatchSetApproval {
     return getLabelId().get();
   }
 
-  public boolean isSubmit() {
-    return LabelId.SUBMIT.get().equals(getLabel());
+  public String getUrl() {
+    return url;
+  }
+
+  public void setUrl(String url) {
+    this.url = url;
+  }
+
+  public String getVerifier() {
+    return verifier;
+  }
+
+  public void setVerifier(String reporter) {
+    this.verifier = reporter;
+  }
+
+  public String getComment() {
+    return comment;
+  }
+
+  public void setComment(String comment) {
+    this.comment = comment;
   }
 
   @Override
@@ -153,8 +149,8 @@ public final class PatchSetApproval {
 
   @Override
   public boolean equals(Object o) {
-    if (o instanceof PatchSetApproval) {
-      PatchSetApproval p = (PatchSetApproval) o;
+    if (o instanceof PatchSetVerification) {
+      PatchSetVerification p = (PatchSetVerification) o;
       return Objects.equals(key, p.key)
           && Objects.equals(value, p.value)
           && Objects.equals(granted, p.granted);

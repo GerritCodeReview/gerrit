@@ -28,6 +28,7 @@ import static com.google.gerrit.extensions.common.ListChangesOption.DRAFT_COMMEN
 import static com.google.gerrit.extensions.common.ListChangesOption.LABELS;
 import static com.google.gerrit.extensions.common.ListChangesOption.MESSAGES;
 import static com.google.gerrit.extensions.common.ListChangesOption.REVIEWED;
+import static com.google.gerrit.extensions.common.ListChangesOption.VERIFICATIONS;
 import static com.google.gerrit.extensions.common.ListChangesOption.WEB_LINKS;
 
 import com.google.common.base.Joiner;
@@ -56,6 +57,7 @@ import com.google.gerrit.extensions.common.FetchInfo;
 import com.google.gerrit.extensions.common.GitPerson;
 import com.google.gerrit.extensions.common.ListChangesOption;
 import com.google.gerrit.extensions.common.RevisionInfo;
+import com.google.gerrit.extensions.common.VerificationInfo;
 import com.google.gerrit.extensions.common.WebLinkInfo;
 import com.google.gerrit.extensions.config.DownloadCommand;
 import com.google.gerrit.extensions.config.DownloadScheme;
@@ -72,6 +74,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.PatchSetInfo.ParentInfo;
+import com.google.gerrit.reviewdb.client.PatchSetVerification;
 import com.google.gerrit.reviewdb.client.UserIdentity;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
@@ -847,6 +850,19 @@ public class ChangeJson {
       for (WebLinkInfo link : webLinks.get().getPatchSetLinks(
           project, in.getRevision().get())) {
         out.webLinks.add(link);
+      }
+    }
+
+    if (has(VERIFICATIONS)) {
+      out.verifications = Maps.newTreeMap();
+      for (PatchSetVerification v : db.get().patchSetVerifications()
+          .byPatchSet(in.getId())) {
+        VerificationInfo info = new VerificationInfo();
+        info.value = v.getValue();
+        info.url = v.getUrl();
+        info.verifier = v.getVerifier();
+        info.comment = v.getComment();
+        out.verifications.put(v.getLabelId().get(), info);
       }
     }
     return out;

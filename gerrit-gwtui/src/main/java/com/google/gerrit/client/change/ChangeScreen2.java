@@ -233,7 +233,8 @@ public class ChangeScreen2 extends Screen {
     ChangeList.addOptions(call, EnumSet.of(
       ListChangesOption.CURRENT_ACTIONS,
       ListChangesOption.ALL_REVISIONS,
-      ListChangesOption.WEB_LINKS));
+      ListChangesOption.WEB_LINKS,
+      ListChangesOption.VERIFICATIONS));
     if (!fg) {
       call.background();
     }

@@ -22,6 +22,30 @@
       "revId": "cf60c8b65f89666ec0e181906ff5cb7d4b578284",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f63e0f1_4953e125",
+        "filename": "gerrit-plugin-archetype/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-21T07:47:55Z",
+      "side": 1,
+      "message": "They are not required. We don\u0027t have any ID and I didn\u0027t want to expose the email addresses. I looked at JGit and there also only the names are listed.",
+      "parentUuid": "5f63e0f1_8921d9be",
+      "range": {
+        "startLine": 65,
+        "startChar": 4,
+        "endLine": 67,
+        "endChar": 16
+      },
+      "revId": "cf60c8b65f89666ec0e181906ff5cb7d4b578284",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

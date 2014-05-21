@@ -80,25 +80,31 @@ public class AvatarImage extends Image implements LoadHandler {
         setHeight(info.height() > 0 ? info.height() + "px" : "");
         setUrl(info.url());
         popup(account, addPopup);
+      } else if (account.email() != null) {
+        loadAvatar(account, size, addPopup);
       }
     } else if (account.email() != null) {
-      // TODO Kill /accounts/*/avatar URL.
-      String u = account.email();
-      if (Gerrit.isSignedIn()
-          && u.equals(Gerrit.getUserAccount().getPreferredEmail())) {
-        u = "self";
-      }
-      RestApi api = new RestApi("/accounts/").id(u).view("avatar");
-      if (size > 0) {
-        api.addParameter("s", size);
-        setSize("", size + "px");
-      }
-      setVisible(false);
-      setUrl(api.url());
-      popup(account, addPopup);
+      loadAvatar(account, size, addPopup);
     } else {
       setVisible(false);
     }
+  }
+
+  private void loadAvatar(AccountInfo account, int size, boolean addPopup) {
+     // TODO Kill /accounts/*/avatar URL.
+    String u = account.email();
+    if (Gerrit.isSignedIn()
+        && u.equals(Gerrit.getUserAccount().getPreferredEmail())) {
+      u = "self";
+    }
+    RestApi api = new RestApi("/accounts/").id(u).view("avatar");
+    if (size > 0) {
+      api.addParameter("s", size);
+      setSize("", size + "px");
+    }
+    setVisible(false);
+    setUrl(api.url());
+    popup(account, addPopup);
   }
 
   private void popup(AccountInfo account, boolean addPopup) {

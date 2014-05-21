@@ -15,14 +15,17 @@
 package com.google.gerrit.extensions.api.changes;
 
 import com.google.gerrit.extensions.common.MergeableInfo;
+import com.google.gerrit.extensions.common.VerificationInfo;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 
+import java.util.Map;
 import java.util.Set;
 
 public interface RevisionApi {
   void delete() throws RestApiException;
   void review(ReviewInput in) throws RestApiException;
+  void verify(VerifyInput in) throws RestApiException;
 
   /** {@code submit} with {@link SubmitInput#waitForMerge} set to true. */
   void submit() throws RestApiException;
@@ -38,6 +41,9 @@ public interface RevisionApi {
   MergeableInfo mergeable() throws RestApiException;
   MergeableInfo mergeableOtherBranches() throws RestApiException;
 
+  Map<String, VerificationInfo> verifications() throws RestApiException;
+
+
   /**
    * A default implementation which allows source compatibility
    * when adding new methods to the interface.
@@ -50,6 +56,11 @@ public interface RevisionApi {
 
     @Override
     public void review(ReviewInput in) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void verify(VerifyInput in) throws RestApiException {
       throw new NotImplementedException();
     }
 
@@ -100,6 +111,12 @@ public interface RevisionApi {
 
     @Override
     public MergeableInfo mergeableOtherBranches() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public Map<String, VerificationInfo> verifications()
+        throws RestApiException {
       throw new NotImplementedException();
     }
   }

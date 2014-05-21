@@ -22,6 +22,30 @@
       "revId": "c668f4d46be1c71b63c0ae37f05e0ffae2354865",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff51f41e_8621cabe",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/CreateBranchIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-05-21T13:26:08Z",
+      "side": 1,
+      "message": "This is a bit more complex that it looks. We need a metaDataUpdateFactory instance in this method (line 150) which is not trivial to have in a static method in the Util class. Moving this method to the Util class generally makes sense but is out of scope of this change.",
+      "parentUuid": "ff51f41e_a624c6ce",
+      "range": {
+        "startLine": 148,
+        "startChar": 2,
+        "endLine": 156,
+        "endChar": 3
+      },
+      "revId": "c668f4d46be1c71b63c0ae37f05e0ffae2354865",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -33,6 +33,7 @@ import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.common.InheritableBoolean;
 import com.google.gerrit.extensions.common.SubmitType;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.LabelId;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
@@ -162,7 +163,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
             new PatchSetApproval.Key(
                 c.currentPatchSetId(),
                 admin.id,
-                PatchSetApproval.LabelId.SUBMIT),
+                LabelId.SUBMIT),
             (short) 1,
             new Timestamp(System.currentTimeMillis()))));
   }

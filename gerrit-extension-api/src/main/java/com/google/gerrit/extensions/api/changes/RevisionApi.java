@@ -22,6 +22,7 @@ import java.util.Set;
 public interface RevisionApi {
   void delete() throws RestApiException;
   void review(ReviewInput in) throws RestApiException;
+  void verify(VerifyInput in) throws RestApiException;
 
   /** {@code submit} with {@link SubmitInput#waitForMerge} set to true. */
   void submit() throws RestApiException;
@@ -46,6 +47,11 @@ public interface RevisionApi {
 
     @Override
     public void review(ReviewInput in) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void verify(VerifyInput in) throws RestApiException {
       throw new NotImplementedException();
     }
 

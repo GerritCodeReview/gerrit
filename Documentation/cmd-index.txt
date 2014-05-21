@@ -46,97 +46,100 @@ see link:user-upload.html#test_ssh[Testing Your SSH Connection].
 === [[user_commands]]User Commands
 
 link:cmd-apropos.html[gerrit apropos]::
-	Search Gerrit documentation index.
+  Search Gerrit documentation index.
 
 link:cmd-ban-commit.html[gerrit ban-commit]::
-	Bans a commit from a project's repository.
+  Bans a commit from a project's repository.
 
 link:cmd-ls-groups.html[gerrit ls-groups]::
-	List groups visible to the caller.
+  List groups visible to the caller.
 
 link:cmd-ls-members.html[gerrit ls-members]::
-	List the membership of a group visible to the caller.
+  List the membership of a group visible to the caller.
 
 link:cmd-ls-projects.html[gerrit ls-projects]::
-	List projects visible to the caller.
+  List projects visible to the caller.
 
 link:cmd-rename-group.html[gerrit rename-group]::
-	Rename an account group.
+  Rename an account group.
 
 link:cmd-set-reviewers.html[gerrit set-reviewers]::
         Add or remove reviewers on a change.
 
 link:cmd-query.html[gerrit query]::
-	Query the change database.
+  Query the change database.
 
 'gerrit receive-pack'::
-	'Deprecated alias for `git receive-pack`.'
+  'Deprecated alias for `git receive-pack`.'
 
 link:cmd-review.html[gerrit review]::
-	Verify, approve and/or submit a patch set from the command line.
+  Verify, approve and/or submit a patch set from the command line.
 
 link:cmd-stream-events.html[gerrit stream-events]::
-	Monitor events occurring in real time.
+  Monitor events occurring in real time.
+
+link:cmd-verify.html[gerrit verify]::
+  Verify a patch set from the command line.
 
 link:cmd-version.html[gerrit version]::
-	Show the currently executing version of Gerrit.
+  Show the currently executing version of Gerrit.
 
 git upload-pack::
-	Standard Git server side command for client side `git fetch`.
+  Standard Git server side command for client side `git fetch`.
 
 link:cmd-receive-pack.html[git receive-pack]::
-	Standard Git server side command for client side `git push`.
+  Standard Git server side command for client side `git push`.
 +
 Also implements the magic associated with uploading commits for
 review.  See link:user-upload.html#push_create[Creating Changes].
 
 link:cmd-create-branch.html[gerrit create-branch]::
-	Create a new project branch.
+  Create a new project branch.
 
 [[admin_commands]]Administrator Commands
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 link:cmd-create-account.html[gerrit create-account]::
-	Create a new user account.
+  Create a new user account.
 
 link:cmd-set-account.html[gerrit set-account]::
-	Change an account's settings.
+  Change an account's settings.
 
 link:cmd-create-group.html[gerrit create-group]::
-	Create a new account group.
+  Create a new account group.
 
 link:cmd-create-project.html[gerrit create-project]::
-	Create a new project and associated Git repository.
+  Create a new project and associated Git repository.
 
 link:cmd-set-project.html[gerrit set-project]::
     Change a project's settings.
 
 link:cmd-flush-caches.html[gerrit flush-caches]::
-	Flush some/all server caches from memory.
+  Flush some/all server caches from memory.
 
 link:cmd-gc.html[gerrit gc]::
-	Run the Git garbage collection.
+  Run the Git garbage collection.
 
 link:cmd-gsql.html[gerrit gsql]::
-	Administrative interface to active database.
+  Administrative interface to active database.
 
 link:cmd-set-members.html[gerrit set-members]::
-	Set group members.
+  Set group members.
 
 link:cmd-set-project-parent.html[gerrit set-project-parent]::
-	Change the project permissions are inherited from.
+  Change the project permissions are inherited from.
 
 link:cmd-ls-user-refs.html[gerrit ls-user-refs]::
-	Lists refs visible for a specified user.
+  Lists refs visible for a specified user.
 
 link:cmd-show-caches.html[gerrit show-caches]::
-	Display current cache statistics.
+  Display current cache statistics.
 
 link:cmd-show-connections.html[gerrit show-connections]::
-	Display active client SSH connections.
+  Display active client SSH connections.
 
 link:cmd-show-queue.html[gerrit show-queue]::
-	Display the background work queues, including replication.
+  Display the background work queues, including replication.
 
 link:cmd-logging-ls-level.html[gerrit logging ls-level]::
     List loggers and their logging level.
@@ -166,19 +169,19 @@ link:cmd-plugin-remove.html[gerrit plugin rm]::
     Alias for 'gerrit plugin remove'.
 
 link:cmd-test-submit-rule.html[gerrit test-submit rule]::
-	Test prolog submit rules.
+  Test prolog submit rules.
 
 link:cmd-test-submit-type.html[gerrit test-submit type]::
-	Test prolog submit type.
+  Test prolog submit type.
 
 link:cmd-kill.html[kill]::
-	Kills a scheduled or running task.
+  Kills a scheduled or running task.
 
 link:cmd-show-queue.html[ps]::
-	Alias for 'gerrit show-queue'.
+  Alias for 'gerrit show-queue'.
 
 link:cmd-suexec.html[suexec]::
-	Execute a command as any registered user account.
+  Execute a command as any registered user account.
 
 GERRIT
 ------

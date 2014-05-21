@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5f63e0f1_49dac183",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-21T02:33:27Z",
+      "side": 1,
+      "message": "What happens here if the configured tooltip string does not include the expected `%d` and `%s` formatting tokens?",
+      "range": {
+        "startLine": 201,
+        "startChar": 6,
+        "endLine": 201,
+        "endChar": 38
+      },
+      "revId": "42e4dfbc3b659b87a04bdaed5409a6470b0c49bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

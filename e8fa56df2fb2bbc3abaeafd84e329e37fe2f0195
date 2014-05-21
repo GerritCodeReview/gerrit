@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "df4ef081_45daaa83",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2014-05-21T14:38:53Z",
+      "side": 1,
+      "message": "Does this assumption fail if the owner just doesn\u0027t have an avatar?",
+      "range": {
+        "startLine": 171,
+        "startChar": 28,
+        "endLine": 172,
+        "endChar": 36
+      },
+      "revId": "e8fa56df2fb2bbc3abaeafd84e329e37fe2f0195",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

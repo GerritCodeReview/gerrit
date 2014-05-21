@@ -12,20 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.extensions.common;
+package com.google.gerrit.server.schema;
 
-import java.util.List;
-import java.util.Map;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 
-public class RevisionInfo {
-  public transient boolean isCurrent;
-  public Boolean draft;
-  public Boolean hasDraftComments;
-  public int _number;
-  public Map<String, FetchInfo> fetch;
-  public CommitInfo commit;
-  public Map<String, FileInfo> files;
-  public Map<String, ActionInfo> actions;
-  public List<WebLinkInfo> webLinks;
-  public Map<String, VerificationInfo> verifications;
+public class Schema_99 extends SchemaVersion {
+  @Inject
+  Schema_99(Provider<Schema_98> prior) {
+    super(prior);
+  }
 }

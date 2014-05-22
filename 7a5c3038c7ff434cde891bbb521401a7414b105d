@@ -117,6 +117,30 @@
     },
     {
       "key": {
+        "uuid": "5f63e0f1_a997fd63",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-22T06:33:35Z",
+      "side": 1,
+      "message": "Yes. Let\u0027s do that.",
+      "parentUuid": "ff51f41e_46c8728b",
+      "range": {
+        "startLine": 343,
+        "startChar": 10,
+        "endLine": 343,
+        "endChar": 40
+      },
+      "revId": "7a5c3038c7ff434cde891bbb521401a7414b105d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f63e0f1_c99a318e",
         "filename": "Documentation/dev-release.txt",
         "patchSetId": 1
@@ -128,6 +152,24 @@
       "writtenOn": "2014-05-22T06:14:30Z",
       "side": 1,
       "message": "We should shortly describe the next steps after upload. Basically what is described at [1].\n\n- Go to the Sonatype Nexus [2]\n- Find the staging repository\n- check its content\n- close it to run the Sonatype validations\n- how to drop it\n- announce the staging repository on the mailing list and ask people to verify it\n- how to do the final release of the repository\n\n[1] https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide#SonatypeOSSMavenRepositoryUsageGuide-8a.ReleaseIt\n\n[2] https://oss.sonatype.org/",
+      "revId": "7a5c3038c7ff434cde891bbb521401a7414b105d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f63e0f1_89943960",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-22T06:33:35Z",
+      "side": 1,
+      "message": "how to do the final release of the repository:\n\nYou mean to promote them to Maven Central?",
+      "parentUuid": "5f63e0f1_c99a318e",
       "revId": "7a5c3038c7ff434cde891bbb521401a7414b105d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

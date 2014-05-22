@@ -278,6 +278,24 @@
     },
     {
       "key": {
+        "uuid": "df4ef081_65580633",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeKindCacheImpl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-05-22T21:12:58Z",
+      "side": 1,
+      "message": "load(X, X) must return NO_CODE_CHANGE, it\u0027s unrelated to NEW_CHANGE. We can push this back if you want but it\u0027s like a three-line change to the top of load().\n\nTo the extent that your code here depends on load(X, X) returning anything other than NO_CODE_CHANGE, your code here is broken. Based on Edwin\u0027s comment below it seemed like you were depending on cache.getChangeKind returning REWORK when priorPs \u003d\u003d patch, which would be wrong given what I just said.",
+      "parentUuid": "1f5de831_47c86e8b",
+      "revId": "7fa9f6220d53bf329171f62e24a9f66dabce19ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea221089_25cb4e53",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeKindCacheImpl.java",
         "patchSetId": 5

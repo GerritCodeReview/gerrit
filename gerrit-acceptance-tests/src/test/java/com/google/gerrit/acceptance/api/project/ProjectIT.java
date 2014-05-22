@@ -14,12 +14,16 @@
 
 package com.google.gerrit.acceptance.api.project;
 
+import static com.google.gerrit.acceptance.GitUtil.createProject;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
+import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 
@@ -27,6 +31,7 @@ import org.eclipse.jgit.api.errors.GitAPIException;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.List;
 
 @NoHttpd
 public class ProjectIT extends AbstractDaemonTest  {
@@ -70,5 +75,62 @@ public class ProjectIT extends AbstractDaemonTest  {
         .name(project.get())
         .branch("foo")
         .create(new BranchInput());
+  }
+
+  @Test
+  public void listProjects() throws Exception {
+    List<ProjectInfo> initialProjects = gApi.projects().list().get();
+
+    createProject(sshSession, "foo");
+    createProject(sshSession, "bar");
+
+    List<ProjectInfo> results = gApi.projects().list().get();
+    assertEquals(initialProjects.size() + 2, results.size());
+  }
+
+  @Test
+  public void listProjectsDescription() throws Exception {
+    List<ProjectInfo> projectsWithDescription = gApi.projects().list()
+        .withDescription(true)
+        .get();
+    assertNotNull(projectsWithDescription.get(0).description);
+
+    List<ProjectInfo> projectsWithoutDescription = gApi.projects().list()
+        .withDescription(false)
+        .get();
+    assertNull(projectsWithoutDescription.get(0).description);
+  }
+
+  @Test
+  public void listProjectsNotMatchingPrefix() throws Exception {
+    List<ProjectInfo> initialProjects = gApi.projects().list()
+        .withPrefix("fox")
+        .get();
+    assertEquals(0, initialProjects.size());
+  }
+
+  @Test
+  public void listProjectsMatchingPrefix() throws Exception {
+    createProject(sshSession, "foo");
+    List<ProjectInfo> initialProjects = gApi.projects().list()
+        .withPrefix("fo")
+        .get();
+    assertEquals(1, initialProjects.size());
+  }
+
+  @Test
+  public void listProjectsLimit() throws Exception {
+    List<ProjectInfo> initialProjects = gApi.projects().list()
+        .withLimit(1)
+        .get();
+    assertEquals(1, initialProjects.size());
+  }
+
+  @Test
+  public void listProjectsStart() throws Exception {
+    List<ProjectInfo> initialProjects = gApi.projects().list()
+        .withStart(1)
+        .get();
+    assertEquals(1, initialProjects.size());
   }
 }

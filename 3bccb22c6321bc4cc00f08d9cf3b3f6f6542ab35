@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5f63e0f1_09c84958",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AccountGeneralPreferences.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-22T21:21:54Z",
+      "side": 1,
+      "message": "You are missing Schema upgrade and SchemaVersion. See for example this change [1].\n\n [1] https://gerrit-review.googlesource.com/#/c/56641",
+      "range": {
+        "startLine": 170,
+        "startChar": 2,
+        "endLine": 171,
+        "endChar": 43
+      },
+      "revId": "3bccb22c6321bc4cc00f08d9cf3b3f6f6542ab35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

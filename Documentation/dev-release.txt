@@ -289,9 +289,13 @@ To read more about the bug fixes:
 
 All new development that is done in the `master` branch will be
 included in the next Gerrit release. Update the Gerrit version in the
-`VERSION` file, and plugin archetypes' `pom.xml` files. Push the change
-for review and get it merged.
+`VERSION` file, and plugin archetypes' `pom.xml` files:
 
+----
+  tools/version v2.10
+----
+
+Push the change for review and get it merged.
 
 [[merge-stable]]
 === Merge `stable` into `master`
@@ -307,6 +311,52 @@ none of the changes/fixes ever get lost.
   git merge stable
 ----
 
+[[build-plugin-maven-archetypes]]
+=== Build plugin Maven archetypes with Maven
+
+Plugin Maven archetpes must be built with Maven:
+
+----
+  cd gerrit-plugin-archetype && mvn package
+  cd gerrit-plugin-gwt-archetype && mvn package
+  cd gerrit-plugin-js-archetype && mvn package
+----
+
+[[publish-to-staging-maven-repository]]
+=== Publish plugin artifacts to staging Maven repository
+
+For the following artifacts, upload to the staging Maven repository:
+
+* `gerrit-extension-api`
+* `gerrit-plugin-api`
+* `gerrit-plugin-archetype`
+* `gerrit-plugin-gwt-archetype`
+* `gerrit-plugin-gwtui`
+* `gerrit-plugin-js-archetype`
+
+Upload as example for `gerrit-plugin-api`:
+
+----
+mvn gpg:sign-and-deploy-file \
+-Durl=https://oss.sonatype.org/service/local/staging/deploy/maven2/ \
+-DrepositoryId=sonatype-nexus-staging \
+-DpomFile=gerrit-plugin-api-2.10-rc1.pom \
+-Dfile=gerrit-plugin-api-2.10-rc1.jar
+
+mvn gpg:sign-and-deploy-file \
+-Durl=https://oss.sonatype.org/service/local/staging/deploy/maven2/ \
+-DrepositoryId=sonatype-nexus-staging \
+-DpomFile=gerrit-plugin-api-2.10-rc1.pom \
+-Dfile=gerrit-plugin-api-2.10-rc1-javadoc.jar -Dclassifier=javadoc
+
+mvn gpg:sign-and-deploy-file \
+-Durl=https://oss.sonatype.org/service/local/staging/deploy/maven2/ \
+-DrepositoryId=sonatype-nexus-staging \
+-DpomFile=gerrit-plugin-api-2.10-rc1.pom \
+-Dfile=gerrit-plugin-api-2.10-rc1-sources.jar -Dclassifier=sources
+----
+
+It is important that the pom and jar files follow the correct naming pattern.
 
 GERRIT
 ------

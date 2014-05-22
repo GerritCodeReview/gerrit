@@ -296,6 +296,17 @@ included in the next Gerrit release. Update the Gerrit version in the
 for review and get it merged.
 
 
+[[publish-plugins-archetypes-to-maven-central]]
+=== Publish plugin archetypes to Maven Central
+
+Make sure you have done the
+link:dev-release-deploy-config.html#deploy-configuration-setting-maven-central[
+configuration needed for deployment]
+
+----
+  ./tools/plugin_archetype_deploy.sh
+----
+
 [[merge-stable]]
 === Merge `stable` into `master`
 

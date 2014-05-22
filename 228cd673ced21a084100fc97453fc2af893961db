@@ -216,6 +216,30 @@
     },
     {
       "key": {
+        "uuid": "ff51f41e_e6307edb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/UploadValidationListener.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-22T07:09:36Z",
+      "side": 1,
+      "message": "I\u0027m not sure if I understand the problem. Can\u0027t we throw a normal com.google.gerrit.server.validators.ValidationException here and wrap it into a UploadValidationException that extends ServiceMayNotContinueException in UploadValidators.onSendPack(...). Then you can still catch this specific exception, but the UploadValidationListener interface would be consistent with the other ValidationListener interfaces that all throw com.google.gerrit.server.validators.ValidationException\u0027s.",
+      "parentUuid": "2a3188d1_2728bae8",
+      "range": {
+        "startLine": 56,
+        "startChar": 13,
+        "endLine": 56,
+        "endChar": 38
+      },
+      "revId": "228cd673ced21a084100fc97453fc2af893961db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea221089_a5be5ec1",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Upload.java",
         "patchSetId": 13
@@ -251,6 +275,30 @@
       "side": 1,
       "message": "Actually, if we throw the UploadMayNotContinueException, JGit doesn\u0027t swallow it, but it does tell us if it\u0027s been output to the client... so we should check for this and return the appropriate error to the client if it hasn\u0027t been output.\n\nBut otherwise, no, I don\u0027t think it deserves a warning.  I\u0027d consider this a \"success\" of a plugin, really, although if the plugin needs to output a warning, it probably should inject a logger and log as appropriate.",
       "parentUuid": "ea221089_a5be5ec1",
+      "range": {
+        "startLine": 73,
+        "startChar": 34,
+        "endLine": 73,
+        "endChar": 64
+      },
+      "revId": "228cd673ced21a084100fc97453fc2af893961db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff51f41e_2627b6a8",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Upload.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-22T07:09:36Z",
+      "side": 1,
+      "message": "I agree, returning the message to the client is better. Then we don\u0027t want any log.",
+      "parentUuid": "0a26849c_66838ef1",
       "range": {
         "startLine": 73,
         "startChar": 34,

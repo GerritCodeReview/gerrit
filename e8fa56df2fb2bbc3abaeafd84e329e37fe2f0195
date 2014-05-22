@@ -70,6 +70,30 @@
       "revId": "e8fa56df2fb2bbc3abaeafd84e329e37fe2f0195",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f63e0f1_293e6daa",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-22T08:35:22Z",
+      "side": 1,
+      "message": "I believe it\u0027s better if the the server just tells the client whether an avatar plugin is installed or not. Done in [1].\n\n[1] https://gerrit-review.googlesource.com/57343",
+      "parentUuid": "df4ef081_25dfae73",
+      "range": {
+        "startLine": 171,
+        "startChar": 28,
+        "endLine": 172,
+        "endChar": 36
+      },
+      "revId": "e8fa56df2fb2bbc3abaeafd84e329e37fe2f0195",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

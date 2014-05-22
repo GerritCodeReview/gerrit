@@ -1,11 +1,13 @@
 include_defs('//VERSION')
 include_defs('//tools/maven/package.defs')
 
-TYPE = 'snapshot' if GERRIT_VERSION.endswith('-SNAPSHOT') else 'release'
+URL = 'https://oss.sonatype.org/content/repositories/snapshots' \
+      if GERRIT_VERSION.endswith('-SNAPSHOT') else 'release' \
+        'https://oss.sonatype.org/service/local/staging/deploy/maven2' \
 
 maven_package(
-  repository = 'gerrit-api-repository',
-  url = 'gs://gerrit-api/%s' % TYPE,
+  repository = 'sonatype-nexus-staging',
+  url = URL,
   version = GERRIT_VERSION,
   jar = {
     'gerrit-extension-api': '//gerrit-extension-api:extension-api',

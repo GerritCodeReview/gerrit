@@ -144,24 +144,32 @@ for the Subproject in `/lib/BUCK` to the released version.
 link:dev-release-deploy-config.html#deploy-configuration-settings-xml[
 configuration needed for deployment]
 
-* Push the Jars to the storage bucket:
+* Push the Jars to the Maven Central:
 +
 ----
   buck build api_deploy
 ----
 
+* Make sure you have done the
+link:dev-release-deploy-config.html#deploy-configuration-settings-xml[
+configuration needed for deployment]
+
+
+* Troubleshooting: to see the commands that are execured in Buck build process
+environment variable VERBOSE can be set:
++
+----
+  VERBOSE=1 buck build api_deploy
+----
 
 [[publish-gerrit-war]]
 ==== Publish the Gerrit WAR (with Core Plugins)
 
-* The WAR file to upload is `buck-out/gen/release.war`
-* Upload WAR to the storage bucket via `https://cloud.google.com/console` (manual via web browser)
-* Push the WAR file to the Maven storage bucket:
+* Push the WAR to the Maven Central:
 +
 ----
   buck build war_deploy
 ----
-
 
 
 [[push-stable]]

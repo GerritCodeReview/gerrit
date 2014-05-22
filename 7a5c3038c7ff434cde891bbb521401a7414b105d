@@ -141,6 +141,30 @@
     },
     {
       "key": {
+        "uuid": "ff51f41e_c69a228e",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-22T06:45:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f63e0f1_a997fd63",
+      "range": {
+        "startLine": 343,
+        "startChar": 10,
+        "endLine": 343,
+        "endChar": 40
+      },
+      "revId": "7a5c3038c7ff434cde891bbb521401a7414b105d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f63e0f1_c99a318e",
         "filename": "Documentation/dev-release.txt",
         "patchSetId": 1
@@ -170,6 +194,24 @@
       "side": 1,
       "message": "how to do the final release of the repository:\n\nYou mean to promote them to Maven Central?",
       "parentUuid": "5f63e0f1_c99a318e",
+      "revId": "7a5c3038c7ff434cde891bbb521401a7414b105d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff51f41e_661dae52",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-22T06:45:00Z",
+      "side": 1,
+      "message": "Yes. I named it \u0027release\u0027 because in Nexus the button for this is named \u0027Release\u0027, but promote sounds better to me.",
+      "parentUuid": "5f63e0f1_89943960",
       "revId": "7a5c3038c7ff434cde891bbb521401a7414b105d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

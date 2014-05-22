@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "ff51f41e_a6d606f7",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/project/ProjectIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-22T20:10:24Z",
+      "side": 1,
+      "message": "One disadvantage of acceptance test implementatain is that new Server instance is started for each test. So may be put it all in one method?",
+      "range": {
+        "startLine": 80,
+        "startChar": 2,
+        "endLine": 135,
+        "endChar": 3
+      },
+      "revId": "e14ea06801b03a38536ea0fc7fb5c7806e4b12bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f63e0f1_c9dfd11d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/projects/ProjectsImpl.java",
         "patchSetId": 1

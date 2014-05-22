@@ -32,7 +32,8 @@ pattern = re.compile(r'(\s*)<version>[-.\w]+</version>')
 
 for project in ['gerrit-extension-api', 'gerrit-plugin-api',
                 'gerrit-plugin-archetype', 'gerrit-plugin-gwt-archetype',
-                'gerrit-plugin-gwtui', 'gerrit-plugin-js-archetype']:
+                'gerrit-plugin-gwtui', 'gerrit-plugin-js-archetype',
+                'gerrit-war']:
   pom = os.path.join(project, 'pom.xml')
   try:
     outxml = ""

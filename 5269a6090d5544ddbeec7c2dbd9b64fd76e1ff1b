@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff51f41e_a65166e9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-22T08:24:49Z",
+      "side": 1,
+      "message": "persistent",
+      "range": {
+        "startLine": 23,
+        "startChar": 39,
+        "endLine": 23,
+        "endChar": 49
+      },
+      "revId": "5269a6090d5544ddbeec7c2dbd9b64fd76e1ff1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f63e0f1_893799cf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-22T08:24:49Z",
+      "side": 1,
+      "message": "not really necessary to add this",
+      "revId": "5269a6090d5544ddbeec7c2dbd9b64fd76e1ff1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff51f41e_c65462db",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-22T08:24:49Z",
+      "side": 1,
+      "message": "nit: this should be in the last paragraph, i.e. no blank line between this and change-id.",
+      "revId": "5269a6090d5544ddbeec7c2dbd9b64fd76e1ff1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

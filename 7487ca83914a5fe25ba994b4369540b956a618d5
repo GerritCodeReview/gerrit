@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff51f41e_062cba88",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/UploadValidators.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-22T07:09:48Z",
+      "side": 1,
+      "message": "Can validator.onPreUpload(...) throw a normal com.google.gerrit.server.validators.ValidationException and we then wrap it here into a UploadValidationException that extends ServiceMayNotContinueException? This way the UploadValidationListener interface would be consistent with the other ValidationListener interfaces that all throw com.google.gerrit.server.validators.ValidationException\u0027s.\n\n  @Override\n  public void onSendPack(UploadPack up, Collection\u003c? extends ObjectId\u003e wants,\n      Collection\u003c? extends ObjectId\u003e haves)\n      throws ServiceMayNotContinueException {\n    for (UploadValidationListener validator : uploadValidationListeners) {\n      try {\n        validator.onPreUpload(repository, project, remoteHost, up, wants, haves);\n      } catch (ValidationException e) {\n        throw new UploadValidationException(e);\n      }\n    }\n  }",
+      "range": {
+        "startLine": 54,
+        "startChar": 2,
+        "endLine": 61,
+        "endChar": 3
+      },
+      "revId": "7487ca83914a5fe25ba994b4369540b956a618d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -26,6 +26,7 @@ import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.systemstatus.MessageOfTheDay;
 import com.google.gerrit.extensions.webui.WebUiPlugin;
+import com.google.gerrit.httpd.ConfigTracker;
 import com.google.gerrit.httpd.HtmlDomUtil;
 import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.server.CurrentUser;
@@ -72,7 +73,8 @@ public class HostPageServlet extends HttpServlet {
 
   private final Provider<CurrentUser> currentUser;
   private final DynamicItem<WebSession> session;
-  private final GerritConfig config;
+  private final Provider<GerritConfig> configProvider;
+  private final ConfigTracker configTracker;
   private final DynamicSet<WebUiPlugin> plugins;
   private final DynamicSet<MessageOfTheDay> messages;
   private final HostPageData.Theme signedOutTheme;
@@ -85,17 +87,18 @@ public class HostPageServlet extends HttpServlet {
   private volatile Page page;
 
   @Inject
-  HostPageServlet(final Provider<CurrentUser> cu, final DynamicItem<WebSession> w,
-      final SitePaths sp, final ThemeFactory themeFactory,
-      final GerritConfig gc, final ServletContext servletContext,
+  HostPageServlet(final Provider<CurrentUser> cu,
+      final DynamicItem<WebSession> w, final SitePaths sp,
+      final ThemeFactory themeFactory, final Provider<GerritConfig> cp,
+      final ConfigTracker ct, final ServletContext servletContext,
       final DynamicSet<WebUiPlugin> webUiPlugins,
       final DynamicSet<MessageOfTheDay> motd,
-      @GerritServerConfig final Config cfg,
-      final StaticServlet ss)
+      @GerritServerConfig final Config cfg, final StaticServlet ss)
       throws IOException, ServletException {
     currentUser = cu;
     session = w;
-    config = gc;
+    configProvider = cp;
+    configTracker = ct;
     plugins = webUiPlugins;
     messages = motd;
     signedOutTheme = themeFactory.getSignedOutTheme();
@@ -298,6 +301,7 @@ public class HostPageServlet extends HttpServlet {
   }
 
   private class Page {
+    private final GerritConfig gc;
     private final FileInfo css;
     private final FileInfo header;
     private final FileInfo footer;
@@ -307,13 +311,14 @@ public class HostPageServlet extends HttpServlet {
     Page() throws IOException {
       Document hostDoc = HtmlDomUtil.clone(template);
 
+      gc = configProvider.get();
       css = injectCssFile(hostDoc, "gerrit_sitecss", site.site_css);
       header = injectXmlFile(hostDoc, "gerrit_header", site.site_header);
       footer = injectXmlFile(hostDoc, "gerrit_footer", site.site_footer);
 
       final HostPageData pageData = new HostPageData();
       pageData.version = Version.getVersion();
-      pageData.config = config;
+      pageData.config = gc;
 
       final StringWriter w = new StringWriter();
       w.write("var " + HPD_ID + "=");
@@ -336,7 +341,8 @@ public class HostPageServlet extends HttpServlet {
     }
 
     boolean isStale() {
-      return css.isStale() || header.isStale() || footer.isStale();
+      return css.isStale() || header.isStale() || footer.isStale()
+          || configTracker.isStale(gc);
     }
 
     private void asScript(final Element scriptNode) {

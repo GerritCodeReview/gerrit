@@ -22,6 +22,7 @@ import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadSchem
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.reviewdb.client.Project;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -57,6 +58,15 @@ public class GerritConfig implements Cloneable {
   protected List<String> archiveFormats;
   protected int largeChangeSize;
   protected boolean newFeatures;
+  protected final long creationTime;
+
+  public GerritConfig() {
+    this.creationTime = (new Date()).getTime();
+  }
+
+  public long getCreationTime() {
+    return creationTime;
+  }
 
   public String getLoginUrl() {
     return loginUrl;

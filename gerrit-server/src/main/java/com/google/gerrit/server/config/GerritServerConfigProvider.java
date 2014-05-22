@@ -17,8 +17,10 @@ package com.google.gerrit.server.config;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
+import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.internal.storage.file.FileSnapshot;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
@@ -28,19 +30,29 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 
 /** Provides {@link Config} annotated with {@link GerritServerConfig}. */
+@Singleton
 class GerritServerConfigProvider implements Provider<Config> {
   private static final Logger log =
       LoggerFactory.getLogger(GerritServerConfigProvider.class);
 
   private final SitePaths site;
+  private volatile FileBasedConfig config;
+  private volatile FileSnapshot cfgSnapshot;
 
   @Inject
   GerritServerConfigProvider(final SitePaths site) {
     this.site = site;
+    this.cfgSnapshot = FileSnapshot.save(site.gerrit_config);
   }
 
   @Override
   public Config get() {
+    if (config != null
+        && (!cfgSnapshot.isModified(site.gerrit_config)
+            || !config.getBoolean("site", "refreshConfig", false))) {
+      return config;
+    }
+
     FileBasedConfig cfg = new FileBasedConfig(site.gerrit_config, FS.DETECTED);
 
     if (!cfg.getFile().exists()) {
@@ -50,7 +62,9 @@ class GerritServerConfigProvider implements Provider<Config> {
     }
 
     try {
+      cfgSnapshot = FileSnapshot.save(site.gerrit_config);
       cfg.load();
+      config = cfg;
     } catch (IOException e) {
       throw new ProvisionException(e.getMessage(), e);
     } catch (ConfigInvalidException e) {

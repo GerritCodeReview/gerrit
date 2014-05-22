@@ -25,6 +25,7 @@ import com.google.gwtjsonrpc.common.JavaSqlTimestampHelper;
 import java.sql.Timestamp;
 import java.util.Date;
 
+// TODO: Migrate this to IntegerRangePredicate
 public abstract class TimestampRangePredicate<I> extends IndexPredicate<I> {
   @SuppressWarnings({"deprecation", "unchecked"})
   protected static FieldDef<ChangeData, Timestamp> updatedField(

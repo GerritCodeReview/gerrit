@@ -23,6 +23,10 @@ public class FieldType<T> {
   public static final FieldType<Integer> INTEGER =
       new FieldType<Integer>("INTEGER");
 
+  /** A single-integer-valued field matched using range queries. */
+  public static final FieldType<Integer> INTEGER_RANGE =
+      new FieldType<Integer>("INTEGER_RANGE");
+
   /** A single integer-valued field. */
   public static final FieldType<Long> LONG =
       new FieldType<Long>("LONG");

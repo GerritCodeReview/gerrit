@@ -24,12 +24,12 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.OrPredicate;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.util.LabelVote;
+import com.google.gerrit.server.util.RangeUtil;
+import com.google.gerrit.server.util.RangeUtil.Range;
 import com.google.inject.Provider;
 
 import java.util.List;
 import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class LabelPredicate extends OrPredicate<ChangeData> {
   private static final int MAX_LABEL_VALUE = 4;
@@ -102,43 +102,28 @@ public class LabelPredicate extends OrPredicate<ChangeData> {
       // Try next format.
     }
 
+    Range range;
     if (parsed == null) {
-      Matcher m = Pattern.compile("(>|>=|=|<|<=)([+-]?\\d+)$").matcher(v);
-      if (m.find()) {
-        parsed = new Parsed(v.substring(0, m.start()), m.group(1),
-            value(m.group(2)));
-      } else {
-        parsed = new Parsed(v, "=", 1);
+      range = RangeUtil.getRange(v, -MAX_LABEL_VALUE, MAX_LABEL_VALUE);
+      if (range == null) {
+        range = new Range(v, 1, 1);
       }
+    } else {
+      range = RangeUtil.getRange(
+          parsed.label,
+          parsed.test,
+          parsed.expVal,
+          -MAX_LABEL_VALUE,
+          MAX_LABEL_VALUE);
     }
+    String prefix = range.prefix;
+    int min = range.min;
+    int max = range.max;
 
-    int min, max;
-    switch (parsed.test) {
-      case "=":
-      default:
-        min = max = parsed.expVal;
-        break;
-      case ">":
-        min = parsed.expVal + 1;
-        max = MAX_LABEL_VALUE;
-        break;
-      case ">=":
-        min = parsed.expVal;
-        max = MAX_LABEL_VALUE;
-        break;
-      case "<":
-        min = -MAX_LABEL_VALUE;
-        max = parsed.expVal - 1;
-        break;
-      case "<=":
-        min = -MAX_LABEL_VALUE;
-        max = parsed.expVal;
-        break;
-    }
     List<Predicate<ChangeData>> r =
         Lists.newArrayListWithCapacity(max - min + 1);
     for (int i = min; i <= max; i++) {
-      r.add(onePredicate(args, parsed.label, i));
+      r.add(onePredicate(args, prefix, i));
     }
     return r;
   }
@@ -150,13 +135,6 @@ public class LabelPredicate extends OrPredicate<ChangeData> {
     } else {
       return noLabelQuery(args, label);
     }
-  }
-
-  private static int value(String value) {
-    if (value.startsWith("+")) {
-      value = value.substring(1);
-    }
-    return Integer.parseInt(value);
   }
 
   private static Predicate<ChangeData> noLabelQuery(Args args, String label) {

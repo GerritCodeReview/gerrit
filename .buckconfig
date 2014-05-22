@@ -1,6 +1,7 @@
 [alias]
   api = //:api
   api_deploy = //tools/maven:api_deploy
+  api_deploy_oss = //tools/maven:api_deploy_oss
   api_install = //tools/maven:api_install
   war_deploy = //tools/maven:war_deploy
   war_install = //tools/maven:war_install

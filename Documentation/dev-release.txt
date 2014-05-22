@@ -293,6 +293,54 @@ included in the next Gerrit release. Update the Gerrit version in the
 for review and get it merged.
 
 
+[[publish-plugins-artifacts-to-maven-central]]
+=== Publish plugin artifacts to Maven Central
+
+Prerequisites: Set up the Sonatype account and put Sonatype user and password
+in ~/.m2/settings.xml:
+
+----
+<server>
+  <id>sonatype-nexus-staging</id>
+  <username>USER</username>
+  <password>PASSWORD</password>
+</server>
+----
+
+PGP passphrase can also be put in ~/.m2/settings.xml:
+
+----
+<settings>
+  <profiles>
+    <profile>
+      <id>gpg</id>
+      <properties>
+        <gpg.executable>gpg2</gpg.executable>
+        <gpg.passphrase>mypassphrase</gpg.passphrase>
+      </properties>
+    </profile>
+  </profiles>
+  <activeProfiles>
+    <activeProfile>gpg</activeProfile>
+  </activeProfiles>
+</settings>
+----
+
+It can also be included in the key chain on OS X.
+
+To deploy the artifacts:
+
+----
+  buck build api_deploy_oss
+----
+
+Troubleshooting: to see the commands that are execured in Buck build process
+environment variable VERBOSE can be set:
+
+----
+  VERBOSE=1 buck build api_deploy_oss
+----
+
 [[merge-stable]]
 === Merge `stable` into `master`
 

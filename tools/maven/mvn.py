@@ -15,7 +15,7 @@
 
 from __future__ import print_function
 from optparse import OptionParser
-from os import path
+from os import path, environ
 
 from sys import stderr
 from tools.util import check_output
@@ -42,6 +42,9 @@ common = [
 ]
 
 self = path.dirname(path.abspath(__file__))
+ROOT = path.abspath(__file__)
+for _ in range(0, 3):
+  ROOT = path.dirname(ROOT)
 
 if 'install' == args.a:
   cmd = mvn(args.a) + ['install:install-file'] + common
@@ -51,18 +54,30 @@ elif 'deploy' == args.a:
     '-DrepositoryId=%s' % args.repository,
     '-Durl=%s' % args.url,
   ] + common
+elif 'deploy_oss' == args.a:
+  cmd = ['mvn',
+     'gpg:sign-and-deploy-file',
+     '-DrepositoryId=%s' % args.repository,
+     '-Durl=%s' % args.url,
+  ]
 else:
   print("unknown action -a %s" % args.a, file=stderr)
   exit(1)
 
 for spec in args.s:
   artifact, packaging_type, src = spec.split(':')
-  try:
-    check_output(cmd + [
+  cmd += ['-Dfile=%s' % src]
+  if 'deploy_oss' == args.a:
+    cmd += ['-DpomFile=%s' % path.join(ROOT, '%s/pom.xml' % artifact)]
+  else:
+    cmd += [
       '-DartifactId=%s' % artifact,
       '-Dpackaging=%s' % packaging_type,
-      '-Dfile=%s' % src,
-    ])
+    ]
+  try:
+    if environ.get('VERBOSE'):
+      print(' '.join(cmd), file=stderr)
+    check_output(cmd)
   except Exception as e:
     print('%s command failed: %s' % (args.a, e), file=stderr)
     exit(1)

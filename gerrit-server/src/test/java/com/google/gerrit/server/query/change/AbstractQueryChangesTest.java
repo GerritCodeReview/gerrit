@@ -814,6 +814,44 @@ public abstract class AbstractQueryChangesTest {
   }
 
   @Test
+  public void bySize() throws Exception {
+    TestRepository<InMemoryRepository> repo = createProject("repo");
+
+    // added = 3, deleted = 0, delta = 3
+    RevCommit commit1 = repo.parseBody(
+        repo.commit().add("file1", "foo\n\foo\nfoo").create());
+    // added = 0, deleted = 2, delta = 2
+    RevCommit commit2 = repo.parseBody(
+        repo.commit().parent(commit1).add("file1", "foo").create());
+
+    Change change1 = newChange(repo, commit1, null, null, null).insert();
+    Change change2 = newChange(repo, commit2, null, null, null).insert();
+
+    assertTrue(query("added:>4").isEmpty());
+    assertResultEquals(change1, queryOne("added:3"));
+    assertResultEquals(change1, queryOne("added:>2"));
+    assertResultEquals(change1, queryOne("added:>=3"));
+    assertResultEquals(change2, queryOne("added:<1"));
+    assertResultEquals(change2, queryOne("added:<=0"));
+
+    assertTrue(query("deleted:>3").isEmpty());
+    assertResultEquals(change2, queryOne("deleted:2"));
+    assertResultEquals(change2, queryOne("deleted:>1"));
+    assertResultEquals(change2, queryOne("deleted:>=2"));
+    assertResultEquals(change1, queryOne("deleted:<1"));
+    assertResultEquals(change1, queryOne("deleted:<=0"));
+
+    for (String str : Lists.newArrayList("delta", "size")) {
+      assertTrue(query(str + ":<2").isEmpty());
+      assertResultEquals(change1, queryOne(str + ":3"));
+      assertResultEquals(change1, queryOne(str + ":>2"));
+      assertResultEquals(change1, queryOne(str + ":>=3"));
+      assertResultEquals(change2, queryOne(str + ":<3"));
+      assertResultEquals(change2, queryOne(str + ":<=2"));
+    }
+  }
+
+  @Test
   public void byDefault() throws Exception {
     TestRepository<InMemoryRepository> repo = createProject("repo");
 

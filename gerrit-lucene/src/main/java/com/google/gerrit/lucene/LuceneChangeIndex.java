@@ -127,6 +127,8 @@ public class LuceneChangeIndex implements ChangeIndex {
     Version lucene44 = Version.LUCENE_44;
     @SuppressWarnings("deprecation")
     Version lucene46 = Version.LUCENE_46;
+    @SuppressWarnings("deprecation")
+    Version lucene47 = Version.LUCENE_47;
     for (Map.Entry<Integer, Schema<ChangeData>> e
         : ChangeSchemas.ALL.entrySet()) {
       if (e.getKey() <= 3) {
@@ -135,8 +137,10 @@ public class LuceneChangeIndex implements ChangeIndex {
         versions.put(e.getValue(), lucene44);
       } else if (e.getKey() <= 8) {
         versions.put(e.getValue(), lucene46);
+      } else if (e.getKey() <= 10) {
+        versions.put(e.getValue(), lucene47);
       } else {
-        versions.put(e.getValue(), Version.LUCENE_47);
+        versions.put(e.getValue(), Version.LUCENE_48);
       }
     }
     LUCENE_VERSIONS = versions.build();
@@ -497,7 +501,7 @@ public class LuceneChangeIndex implements ChangeIndex {
     FieldType<?> type = values.getField().getType();
     Store store = store(values.getField());
 
-    if (type == FieldType.INTEGER) {
+    if (type == FieldType.INTEGER || type == FieldType.INTEGER_RANGE) {
       for (Object value : values.getValues()) {
         doc.add(new IntField(name, (Integer) value, store));
       }

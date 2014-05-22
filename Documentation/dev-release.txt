@@ -300,6 +300,12 @@ for review and get it merged.
   buck build api_deploy_oss
 ----
 
+[[publish-plugins-archetypes-to-maven-central]]
+=== Publish plugin archetypes to Maven Central
+
+----
+  ./tools/plugin_archetype_deploy.sh
+----
 
 [[merge-stable]]
 === Merge `stable` into `master`

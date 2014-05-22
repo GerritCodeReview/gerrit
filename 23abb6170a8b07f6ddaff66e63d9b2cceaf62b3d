@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "df4ef081_a524bece",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-05-22T18:53:10Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "5f63e0f1_29278da8",
+      "range": {
+        "startLine": 318,
+        "startChar": 52,
+        "endLine": 318,
+        "endChar": 57
+      },
+      "revId": "23abb6170a8b07f6ddaff66e63d9b2cceaf62b3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ff51f41e_86378acf",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
         "patchSetId": 1
@@ -84,6 +108,30 @@
       "side": 1,
       "message": "I\u0027m not saying that it can\u0027t be an INTEGER field, but only that with the current implementation it cannot work since INTEGER fields are currently mapped to exact queries and you did not modify this code.",
       "parentUuid": "1f5de831_c717be5c",
+      "range": {
+        "startLine": 435,
+        "startChar": 42,
+        "endLine": 435,
+        "endChar": 59
+      },
+      "revId": "23abb6170a8b07f6ddaff66e63d9b2cceaf62b3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f5de831_c781fe3b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-05-22T18:53:10Z",
+      "side": 1,
+      "message": "The point of having FieldType is to avoid having to do instanceof checks. Cf. the difference between EXACT, PREFIX, and FULL_TEXT, which we could have very well chosen to implement with instanceof checks.\n\nThe reason I prefer FieldType is that when writing a new index implementation, you can in theory understand the entire set of types of queries you need to implement just by switching over all values of that class. If using instanceof, you have to actually understand at the entire type hierarchy of Predicates and know which small subset of those types are significant from the perspective of writing queries.\n\nSo my vote is for 3. You don\u0027t have to convert TimestampPredicate right now.",
+      "parentUuid": "5f63e0f1_0943a926",
       "range": {
         "startLine": 435,
         "startChar": 42,
@@ -195,6 +243,30 @@
       "side": 1,
       "message": "Per other comment, I think we could theoretically address this without having to change the INTEGER field type.",
       "parentUuid": "5f63e0f1_e93055db",
+      "range": {
+        "startLine": 51,
+        "startChar": 4,
+        "endLine": 65,
+        "endChar": 5
+      },
+      "revId": "23abb6170a8b07f6ddaff66e63d9b2cceaf62b3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df4ef081_8521c2be",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeSizePredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-05-22T18:53:10Z",
+      "side": 1,
+      "message": "Yes, you could (not that I think you should), but you would still need to change the Lucene implementation to do a range query. It is not working in the current state.",
+      "parentUuid": "1f5de831_a724cace",
       "range": {
         "startLine": 51,
         "startChar": 4,

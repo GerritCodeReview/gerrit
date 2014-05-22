@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "5f63e0f1_0943a926",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-22T08:44:52Z",
+      "side": 1,
+      "message": "I\u0027m not saying that it can\u0027t be an INTEGER field, but only that with the current implementation it cannot work since INTEGER fields are currently mapped to exact queries and you did not modify this code.",
+      "parentUuid": "1f5de831_c717be5c",
+      "range": {
+        "startLine": 435,
+        "startChar": 42,
+        "endLine": 435,
+        "endChar": 59
+      },
+      "revId": "23abb6170a8b07f6ddaff66e63d9b2cceaf62b3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f63e0f1_69aa25ab",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeSizePredicate.java",
         "patchSetId": 1

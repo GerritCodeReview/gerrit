@@ -94,6 +94,30 @@
       "revId": "6c6f343e31e3609d56e8488db07fd97c955afd29",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff51f41e_263e96aa",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/AccountConstants.properties",
+        "patchSetId": 12
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011917
+      },
+      "writtenOn": "2014-05-22T08:00:54Z",
+      "side": 1,
+      "message": "New change uploaded with this fix in, sorry it took so long, it is a slightly hectic week.",
+      "parentUuid": "ff23b49a_d63e64d6",
+      "range": {
+        "startLine": 22,
+        "startChar": 34,
+        "endLine": 22,
+        "endChar": 36
+      },
+      "revId": "6c6f343e31e3609d56e8488db07fd97c955afd29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

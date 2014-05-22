@@ -23,9 +23,6 @@ from tools.util import check_output
 def mvn(action):
   return ['mvn', '--file', path.join(self, 'fake_pom_%s.xml' % action)]
 
-def mvn(action):
-  return ['mvn', '--file', path.join(self, 'fake_pom_%s.xml' % action)]
-
 opts = OptionParser()
 opts.add_option('--repository', help='maven repository id')
 opts.add_option('--url', help='maven repository url')

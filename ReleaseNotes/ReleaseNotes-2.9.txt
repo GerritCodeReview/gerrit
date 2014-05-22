@@ -486,6 +486,17 @@ Web UI
 * link:http://code.google.com/p/gerrit/issues/detail?id=2652[Issue 2652]:
 Copy label approvals when cherry-picking change to same branch.
 
+* link:http://code.google.com/p/gerrit/issues/detail?id=2662[Issue 2662]:
+Limit file list in new change screen to files that were touched in new
+patch set.
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=2308[Issue 2308]:
+Show related changes in new change screen for merged changes if there
+are open descendants.
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=2635[Issue 2635]:
+Fix copying of download commands by 'Cmd-C' in Safari.
+
 * link:http://code.google.com/p/gerrit/issues/detail?id=2178[Issue 2178]:
 Fix background of reply box on new change screen getting transparent.
 
@@ -510,6 +521,14 @@ side-by-side diff screen.
 
 * link:http://code.google.com/p/gerrit/issues/detail?id=2340[Issue 2340]:
 Fix selection in new side-by-side diff screen.
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=2409[Issue 2409]:
+Show in new side-by-side diff screen updates of submodule links.
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=2481[Issue 2481]:
+After showing a binary file in the unified diff screen switch back to
+the side-by-side diff screen when the user navigates to the
+next/previous file.
 
 * link:http://code.google.com/p/gerrit/issues/detail?id=2417[Issue 2417]:
 Respect base diff revision for files REST call.

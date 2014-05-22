@@ -19,6 +19,47 @@
     },
     {
       "key": {
+        "uuid": "ff51f41e_069f1a52",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/project/ProjectIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-22T20:24:23Z",
+      "side": 1,
+      "message": "Why not to use ePlugin API?",
+      "parentUuid": "ff51f41e_e6ccfe6e",
+      "revId": "e14ea06801b03a38536ea0fc7fb5c7806e4b12bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff51f41e_e6b3deec",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/project/ProjectIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-22T20:24:23Z",
+      "side": 1,
+      "message": "You see Plugin API is used here, and it is strange, that another way is used in new unit tests.",
+      "range": {
+        "startLine": 43,
+        "startChar": 8,
+        "endLine": 47,
+        "endChar": 19
+      },
+      "revId": "e14ea06801b03a38536ea0fc7fb5c7806e4b12bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ff51f41e_a6d606f7",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/project/ProjectIT.java",
         "patchSetId": 1
@@ -89,6 +130,30 @@
     },
     {
       "key": {
+        "uuid": "ff51f41e_c6b0e2e2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/projects/ProjectsImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-22T20:24:23Z",
+      "side": 1,
+      "message": "I think List is fine.",
+      "parentUuid": "ff51f41e_86d30a07",
+      "range": {
+        "startLine": 67,
+        "startChar": 10,
+        "endLine": 67,
+        "endChar": 27
+      },
+      "revId": "e14ea06801b03a38536ea0fc7fb5c7806e4b12bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ff51f41e_66a00e98",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/projects/ProjectsImpl.java",
         "patchSetId": 1
@@ -112,6 +177,30 @@
     },
     {
       "key": {
+        "uuid": "5f63e0f1_c906b1eb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/projects/ProjectsImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-22T20:24:23Z",
+      "side": 1,
+      "message": "It\u0027s OK this way.",
+      "parentUuid": "ff51f41e_66a00e98",
+      "range": {
+        "startLine": 69,
+        "startChar": 37,
+        "endLine": 69,
+        "endChar": 48
+      },
+      "revId": "e14ea06801b03a38536ea0fc7fb5c7806e4b12bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f63e0f1_2910ad1e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/projects/ProjectsImpl.java",
         "patchSetId": 1
@@ -123,6 +212,30 @@
       "writtenOn": "2014-05-22T20:12:21Z",
       "side": 1,
       "message": "Should we call it also \"matchPrefix\" in the interface? I\u0027m not sure...",
+      "range": {
+        "startLine": 72,
+        "startChar": 33,
+        "endLine": 72,
+        "endChar": 39
+      },
+      "revId": "e14ea06801b03a38536ea0fc7fb5c7806e4b12bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff51f41e_a6ade68c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/projects/ProjectsImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-22T20:24:23Z",
+      "side": 1,
+      "message": "It\u0027s OK how it\u0027s now.",
+      "parentUuid": "5f63e0f1_2910ad1e",
       "range": {
         "startLine": 72,
         "startChar": 33,
@@ -173,6 +286,29 @@
         "startLine": 74,
         "startChar": 46,
         "endLine": 74,
+        "endChar": 48
+      },
+      "revId": "e14ea06801b03a38536ea0fc7fb5c7806e4b12bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff51f41e_86aaea70",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/projects/ProjectsImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-22T20:24:23Z",
+      "side": 1,
+      "message": "Why not just:\n\n  return ImmutableList.copyOf(lp.apply().values());",
+      "range": {
+        "startLine": 76,
+        "startChar": 11,
+        "endLine": 76,
         "endChar": 48
       },
       "revId": "e14ea06801b03a38536ea0fc7fb5c7806e4b12bb",

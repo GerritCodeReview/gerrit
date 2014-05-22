@@ -1,0 +1,186 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "df4ef081_a565deeb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-05-22T22:10:11Z",
+      "side": 1,
+      "message": "I think added and deleted should be stored; they\u0027re returned with change results by default. We use other stored fields to prepopulate ChangeData values without hitting the database and/or persistent caches. This has been a significant performance win for us on googlesource.com.\n\nThe pre-population of results is beyond the scope of this change. But schema upgrades are annoying so I don\u0027t want to change this value later.",
+      "range": {
+        "startLine": 435,
+        "startChar": 67,
+        "endLine": 435,
+        "endChar": 72
+      },
+      "revId": "016f313d8b5fff6af41495240bb05bc82de15741",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df4ef081_8562e2df",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-05-22T22:10:11Z",
+      "side": 1,
+      "message": "This one can stay un-stored.",
+      "range": {
+        "startLine": 457,
+        "startChar": 67,
+        "endLine": 457,
+        "endChar": 72
+      },
+      "revId": "016f313d8b5fff6af41495240bb05bc82de15741",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df4ef081_e56bd6bf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/FieldType.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-05-22T22:10:11Z",
+      "side": 1,
+      "message": "What do you think about adding a checkArgument(type !\u003d FieldType.INTEGER_RANGE) to the FieldDef.Repeatable constructor? Defining semantics of range queries against repeated fields that are guaranteed to work cross-backend seems like a pain.",
+      "revId": "016f313d8b5fff6af41495240bb05bc82de15741",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f5de831_27a45ad9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/IntegerRangePredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-05-22T22:10:11Z",
+      "side": 1,
+      "message": "This is kind of the same logic as the parser in LabelPredicate. If you see an easy way to combine them please do so, otherwise don\u0027t worry about it.",
+      "revId": "016f313d8b5fff6af41495240bb05bc82de15741",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f5de831_c79a1e8e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/IntegerRangePredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-05-22T22:10:11Z",
+      "side": 1,
+      "message": "Hm, I wonder if people actually mean something other than \u003d\u003d when typing size:500. I can see arguments for both \u003e\u003d500 and \u003c\u003d500 by default...",
+      "revId": "016f313d8b5fff6af41495240bb05bc82de15741",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f5de831_07a956b1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/IntegerRangePredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-05-22T22:10:11Z",
+      "side": 1,
+      "message": "Use Ints.tryParse",
+      "revId": "016f313d8b5fff6af41495240bb05bc82de15741",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df4ef081_c568dac5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/IntegerRangePredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-05-22T22:10:11Z",
+      "side": 1,
+      "message": "Add a javadoc or comment here and below specifying that these endpoints are inclusive.",
+      "revId": "016f313d8b5fff6af41495240bb05bc82de15741",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df4ef081_25520e11",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/IntegerRangePredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-05-22T22:10:11Z",
+      "side": 1,
+      "message": "Or:\n\n return Ints.saturatedCast(queryInt + 1L);",
+      "revId": "016f313d8b5fff6af41495240bb05bc82de15741",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df4ef081_05571201",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/IntegerRangePredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-05-22T22:10:11Z",
+      "side": 1,
+      "message": "Ints.saturatedCast(queryInt - 1L);",
+      "revId": "016f313d8b5fff6af41495240bb05bc82de15741",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f5de831_47af4eb9",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 837,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-05-22T22:10:11Z",
+      "side": 1,
+      "message": "I think you want separate test methods for deleted !\u003d 0 and delta !\u003d added.",
+      "revId": "016f313d8b5fff6af41495240bb05bc82de15741",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

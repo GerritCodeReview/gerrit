@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "1f5de831_c717be5c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 1016223
+      },
+      "writtenOn": "2014-05-22T08:39:57Z",
+      "side": 1,
+      "message": "Yep, understood that timestamps were a special exception and that we\u0027d have to make indexer (Lucene, I take it) changes to actually support these new fields. I just imagined those would be done separately after this got approved.\n\nBut I don\u0027t think that necessarily prevents you from using FieldType.INTEGER, which was my best guess for what we should do given that the type of data you\u0027re storing is, in fact, an integer. It appears to me that you could just modify QueryBuilder#fieldQuery(IndexPredicate) to special case these queries by predicate type as well as field type.\n\nSo I see a few options here:\n\n1. Keep using INTEGER. In Lucene, we\u0027ll modify QueryBuilder#fieldQuery to special case ChangeDataPredicate and do a changeDataQuery in that case (which will be a numeric range query like timestamp does).\n\n2. Like 1, except add a \"NumericRangePredicate\" abstract class between IndexPredicate and ChangeDataPredicate, and special case this instead (so that other ranged fields don\u0027t need further exceptions).\n\n3. Like 2, except rather than reuse INTEGER we define a new INTEGER_RANGE type.\n\nI guess I don\u0027t personally understand the value of 3 over 2 (though I can switch from 2 to 1 if that\u0027s better, just was avoiding premature generalization), but I\u0027m new to this codebase so I\u0027m happy to hear reasons why that\u0027s preferred.",
+      "parentUuid": "ff51f41e_86378acf",
+      "range": {
+        "startLine": 435,
+        "startChar": 42,
+        "endLine": 435,
+        "endChar": 59
+      },
+      "revId": "23abb6170a8b07f6ddaff66e63d9b2cceaf62b3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f63e0f1_69aa25ab",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeSizePredicate.java",
         "patchSetId": 1
@@ -88,6 +112,30 @@
     },
     {
       "key": {
+        "uuid": "df4ef081_a5095e4c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeSizePredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1016223
+      },
+      "writtenOn": "2014-05-22T08:39:57Z",
+      "side": 1,
+      "message": "Per other comment, I think we could theoretically address this without having to change the INTEGER field type.",
+      "parentUuid": "ff51f41e_66448e30",
+      "range": {
+        "startLine": 22,
+        "startChar": 16,
+        "endLine": 22,
+        "endChar": 21
+      },
+      "revId": "23abb6170a8b07f6ddaff66e63d9b2cceaf62b3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f63e0f1_e93055db",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeSizePredicate.java",
         "patchSetId": 1
@@ -99,6 +147,30 @@
       "writtenOn": "2014-05-22T07:45:43Z",
       "side": 1,
       "message": "This filtering here does not work. The match method is invoked only for changes that were returned by the underlying Lucene query, and for INTEGER fields it\u0027s only returning exact matches. You must do the filtering in Lucene by using a range query.",
+      "range": {
+        "startLine": 51,
+        "startChar": 4,
+        "endLine": 65,
+        "endChar": 5
+      },
+      "revId": "23abb6170a8b07f6ddaff66e63d9b2cceaf62b3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f5de831_a724cace",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeSizePredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1016223
+      },
+      "writtenOn": "2014-05-22T08:39:57Z",
+      "side": 1,
+      "message": "Per other comment, I think we could theoretically address this without having to change the INTEGER field type.",
+      "parentUuid": "5f63e0f1_e93055db",
       "range": {
         "startLine": 51,
         "startChar": 4,

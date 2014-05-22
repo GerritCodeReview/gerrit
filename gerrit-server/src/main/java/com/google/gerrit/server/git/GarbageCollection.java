@@ -14,9 +14,11 @@
 
 package com.google.gerrit.server.git;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.GarbageCollectionResult;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.api.GarbageCollectCommand;
@@ -28,6 +30,8 @@ import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.eclipse.jgit.storage.pack.PackConfig;
+import org.quartz.JobExecutionContext;
+import org.quartz.JobExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,6 +41,29 @@ import java.util.Properties;
 import java.util.Set;
 
 public class GarbageCollection {
+
+  /**
+   * Job for scheduling garbage collection for all projects
+   */
+  public static class Job implements org.quartz.Job {
+
+    private GarbageCollection.Factory garbageCollectionFactory;
+    private ProjectCache projectCache;
+
+    @Inject
+    public Job(GarbageCollection.Factory garbageCollectionFactory, ProjectCache projectCache) {
+      this.garbageCollectionFactory = garbageCollectionFactory;
+      this.projectCache = projectCache;
+    }
+
+    @Override
+    public void execute(JobExecutionContext context)
+        throws JobExecutionException {
+      garbageCollectionFactory.create().run(
+          Lists.newArrayList(projectCache.all()));
+    }
+  }
+
   private static final Logger log = LoggerFactory
       .getLogger(GarbageCollection.class);
 

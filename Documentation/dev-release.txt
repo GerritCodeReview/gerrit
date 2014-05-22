@@ -341,6 +341,13 @@ environment variable VERBOSE can be set:
   VERBOSE=1 buck build api_deploy_oss
 ----
 
+[[publish-plugins-archetypes-to-maven-central]]
+=== Publish plugin archetypes to Maven Central
+
+----
+  ./tools/plugin_archetype_deploy.sh
+----
+
 [[merge-stable]]
 === Merge `stable` into `master`
 

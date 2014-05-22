@@ -29,6 +29,7 @@ import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeStatusPredicate;
+import com.google.gerrit.server.query.change.ChangeData.ChangedLines;
 import com.google.gwtorm.protobuf.CodecFactory;
 import com.google.gwtorm.protobuf.ProtobufCodec;
 import com.google.gwtorm.server.OrmException;
@@ -425,6 +426,40 @@ public class ChangeField {
         public String get(ChangeData input, FillArgs args)
             throws OrmException {
           return input.change().isMergeable() ? "1" : null;
+        }
+      };
+
+  /** The number of inserted lines in this change. */
+  public static final FieldDef<ChangeData, Integer> ADDED =
+      new FieldDef.Single<ChangeData, Integer>(
+          ChangeQueryBuilder.FIELD_ADDED, FieldType.INTEGER_RANGE, true) {
+        @Override
+        public Integer get(ChangeData input, FillArgs args)
+            throws OrmException {
+          return input.changedLines().insertions;
+        }
+      };
+
+  /** The number of deleted lines in this change. */
+  public static final FieldDef<ChangeData, Integer> DELETED =
+      new FieldDef.Single<ChangeData, Integer>(
+          ChangeQueryBuilder.FIELD_DELETED, FieldType.INTEGER_RANGE, true) {
+        @Override
+        public Integer get(ChangeData input, FillArgs args)
+            throws OrmException {
+          return input.changedLines().deletions;
+        }
+      };
+
+  /** The total number of modified lines in this change. */
+  public static final FieldDef<ChangeData, Integer> DELTA =
+      new FieldDef.Single<ChangeData, Integer>(
+          ChangeQueryBuilder.FIELD_DELTA, FieldType.INTEGER_RANGE, false) {
+        @Override
+        public Integer get(ChangeData input, FillArgs args)
+            throws OrmException {
+          ChangedLines changedLines = input.changedLines();
+          return changedLines.insertions + changedLines.deletions;
         }
       };
 

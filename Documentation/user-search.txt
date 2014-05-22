@@ -314,6 +314,18 @@ status:abandoned::
 +
 Change has been abandoned.
 
+[[size]]
+added:'RELATION''LINES', deleted:'RELATION''LINES', delta/size:'RELATION''LINES'::
++
+True if the number of lines added/deleted/changed satisfies the given relation
+for the given number of lines.
++
+For example, added:>50 will be true for any change which adds at least 50
+lines.
++
+Valid relations are >=, >, <=, <, or no relation, which will match if the
+number of lines is exactly equal.
+
 
 == Argument Quoting
 

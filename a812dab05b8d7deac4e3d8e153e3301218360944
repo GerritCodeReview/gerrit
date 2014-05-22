@@ -22,6 +22,29 @@
       "revId": "a812dab05b8d7deac4e3d8e153e3301218360944",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff51f41e_0615da0e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_97.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-22T08:56:37Z",
+      "side": 1,
+      "message": "Missed to update SchemaVersion to reflect Schema version upgrade?",
+      "range": {
+        "startLine": 20,
+        "startChar": 13,
+        "endLine": 20,
+        "endChar": 22
+      },
+      "revId": "a812dab05b8d7deac4e3d8e153e3301218360944",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

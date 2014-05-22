@@ -19,6 +19,7 @@ import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GerritConfig;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.webui.WebUiPlugin;
 import com.google.gerrit.httpd.auth.become.BecomeAnyAccountModule;
@@ -35,6 +36,9 @@ import com.google.gerrit.server.config.GerritRequestModule;
 import com.google.gerrit.server.contact.ContactStore;
 import com.google.gerrit.server.contact.ContactStoreProvider;
 import com.google.gerrit.server.git.AsyncReceiveCommits;
+import com.google.gerrit.server.plugins.ReloadPluginListener;
+import com.google.gerrit.server.plugins.StartPluginListener;
+import com.google.gerrit.server.plugins.StopPluginListener;
 import com.google.gerrit.server.util.GuiceRequestScopePropagator;
 import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.inject.AbstractModule;
@@ -124,6 +128,14 @@ public class WebModule extends LifecycleModule {
         SINGLETON);
     bind(GerritConfigProvider.class);
     bind(GerritConfig.class).toProvider(GerritConfigProvider.class);
+
+    DynamicItem.bind(binder(), StartPluginListener.class)
+        .to(AvatarTracker.class);
+    DynamicItem.bind(binder(), StopPluginListener.class)
+        .to(AvatarTracker.class);
+    DynamicItem.bind(binder(), ReloadPluginListener.class)
+        .to(AvatarTracker.class);
+
     DynamicSet.setOf(binder(), WebUiPlugin.class);
 
     install(new AsyncReceiveCommits.Module());

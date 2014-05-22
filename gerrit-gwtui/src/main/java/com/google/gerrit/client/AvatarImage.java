@@ -67,7 +67,7 @@ public class AvatarImage extends Image implements LoadHandler {
   }
 
   public void setAccount(AccountInfo account, int size, boolean addPopup) {
-    if (account == null) {
+    if (!Gerrit.getConfig().getAvatarSupport() || account == null) {
       setVisible(false);
     } else if (isGerritServer(account)) {
       setVisible(true);

@@ -19,9 +19,11 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.GerritConfig;
 import com.google.gerrit.common.data.GitwebConfig;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gerrit.server.account.Realm;
+import com.google.gerrit.server.avatar.AvatarProvider;
 import com.google.gerrit.server.change.ArchiveFormat;
 import com.google.gerrit.server.change.GetArchive;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -60,6 +62,7 @@ class GerritConfigProvider implements Provider<GerritConfig> {
   private final ContactStore contactStore;
   private final ServletContext servletContext;
   private final String anonymousCowardName;
+  private final DynamicItem<AvatarProvider> avatar;
 
   @Inject
   GerritConfigProvider(final Realm r, @GerritServerConfig final Config gsc,
@@ -67,7 +70,8 @@ class GerritConfigProvider implements Provider<GerritConfig> {
       final SshInfo si, final ContactStore cs,
       final ServletContext sc, final DownloadConfig dc,
       final GetArchive.AllowedFormats af,
-      final @AnonymousCowardName String acn) {
+      final @AnonymousCowardName String acn,
+      final DynamicItem<AvatarProvider> ap) {
     realm = r;
     cfg = gsc;
     authConfig = ac;
@@ -79,6 +83,7 @@ class GerritConfigProvider implements Provider<GerritConfig> {
     contactStore = cs;
     servletContext = sc;
     anonymousCowardName = acn;
+    avatar = ap;
   }
 
   @Inject(optional = true)
@@ -146,6 +151,8 @@ class GerritConfigProvider implements Provider<GerritConfig> {
         })));
 
     config.setNewFeatures(cfg.getBoolean("gerrit", "enableNewFeatures", true));
+
+    config.setAvatarSupport(avatar.get() != null);
 
     final String reportBugUrl = cfg.getString("gerrit", null, "reportBugUrl");
     config.setReportBugUrl(reportBugUrl != null ?

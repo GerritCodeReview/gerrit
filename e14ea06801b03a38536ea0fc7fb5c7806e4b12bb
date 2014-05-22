@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "ff51f41e_e6ccfe6e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/project/ProjectIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2014-05-22T20:12:21Z",
+      "side": 1,
+      "message": "okay to use this here?",
+      "revId": "e14ea06801b03a38536ea0fc7fb5c7806e4b12bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ff51f41e_a6d606f7",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/project/ProjectIT.java",
         "patchSetId": 1
@@ -25,6 +42,75 @@
     },
     {
       "key": {
+        "uuid": "ff51f41e_86d30a07",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/projects/ProjectsImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2014-05-22T20:12:21Z",
+      "side": 1,
+      "message": "Here we just return a list instead of a map which is returned in ListProjects. Should we change the interface to also return a map?",
+      "range": {
+        "startLine": 67,
+        "startChar": 10,
+        "endLine": 67,
+        "endChar": 27
+      },
+      "revId": "e14ea06801b03a38536ea0fc7fb5c7806e4b12bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff51f41e_66a00e98",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/projects/ProjectsImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2014-05-22T20:12:21Z",
+      "side": 1,
+      "message": "Should we call it \"showDescription\" in the interface?",
+      "range": {
+        "startLine": 69,
+        "startChar": 37,
+        "endLine": 69,
+        "endChar": 48
+      },
+      "revId": "e14ea06801b03a38536ea0fc7fb5c7806e4b12bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f63e0f1_2910ad1e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/projects/ProjectsImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2014-05-22T20:12:21Z",
+      "side": 1,
+      "message": "Should we call it also \"matchPrefix\" in the interface? I\u0027m not sure...",
+      "range": {
+        "startLine": 72,
+        "startChar": 33,
+        "endLine": 72,
+        "endChar": 39
+      },
+      "revId": "e14ea06801b03a38536ea0fc7fb5c7806e4b12bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f63e0f1_c9dfd11d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/projects/ProjectsImpl.java",
         "patchSetId": 1
@@ -41,6 +127,29 @@
         "startChar": 4,
         "endLine": 74,
         "endChar": 49
+      },
+      "revId": "e14ea06801b03a38536ea0fc7fb5c7806e4b12bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f63e0f1_a9ec9ddf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/projects/ProjectsImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2014-05-22T20:12:21Z",
+      "side": 1,
+      "message": "I use the method without TopLevelResource which is type-safe.",
+      "range": {
+        "startLine": 74,
+        "startChar": 46,
+        "endLine": 74,
+        "endChar": 48
       },
       "revId": "e14ea06801b03a38536ea0fc7fb5c7806e4b12bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

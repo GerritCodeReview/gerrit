@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff51f41e_a6c0465e",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-22T06:14:30Z",
+      "side": 1,
+      "message": "archetypes",
+      "range": {
+        "startLine": 317,
+        "startChar": 13,
+        "endLine": 317,
+        "endChar": 22
+      },
+      "revId": "7a5c3038c7ff434cde891bbb521401a7414b105d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff51f41e_86bd4af2",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-22T06:14:30Z",
+      "side": 1,
+      "message": "The Plugin ...",
+      "range": {
+        "startLine": 317,
+        "startChar": 0,
+        "endLine": 317,
+        "endChar": 6
+      },
+      "revId": "7a5c3038c7ff434cde891bbb521401a7414b105d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff51f41e_66c36e71",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-22T06:14:30Z",
+      "side": 1,
+      "message": "We should explain the preconditions for being able to upload the artifacts, one must have a Sonatype account, one must be allowed to upload to the Gerrit repository at Sonatype, one must have a PGP key that is publicly shared and one must have Maven installed :(\n\nSomewhere we should link to the official Sonatype guide [1] which describes the whole process. The description in this document is actually quite good and helps a lot to understand all the details of the process.\n\n[1] https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide",
+      "range": {
+        "startLine": 328,
+        "startChar": 0,
+        "endLine": 328,
+        "endChar": 68
+      },
+      "revId": "7a5c3038c7ff434cde891bbb521401a7414b105d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff51f41e_c6b34224",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-22T06:14:30Z",
+      "side": 1,
+      "message": "For the archetype projects there is only the jar file and no sources.jar and no javadoc.jar. We should probably mention this. Also we should say where to find these artifacts (in the target folder of each project). Also the pom.xml files of the archetypes need to be renamed to something like \u0027gerrit-plugin-archetype-2.10.pom\u0027.\n\nFor the other projects we should say as well what needs to be done to produce the artifacts (run buck api build), where to find the artifacts and the poms and how they must be (re)named.",
+      "range": {
+        "startLine": 330,
+        "startChar": 2,
+        "endLine": 335,
+        "endChar": 30
+      },
+      "revId": "7a5c3038c7ff434cde891bbb521401a7414b105d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff51f41e_46c8728b",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-22T06:14:30Z",
+      "side": 1,
+      "message": "Should we submit these poms for now [1] and think about making templates for them later?\n\n[1] https://gerrit-review.googlesource.com/57341",
+      "range": {
+        "startLine": 343,
+        "startChar": 10,
+        "endLine": 343,
+        "endChar": 40
+      },
+      "revId": "7a5c3038c7ff434cde891bbb521401a7414b105d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f63e0f1_c99a318e",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-22T06:14:30Z",
+      "side": 1,
+      "message": "We should shortly describe the next steps after upload. Basically what is described at [1].\n\n- Go to the Sonatype Nexus [2]\n- Find the staging repository\n- check its content\n- close it to run the Sonatype validations\n- how to drop it\n- announce the staging repository on the mailing list and ask people to verify it\n- how to do the final release of the repository\n\n[1] https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide#SonatypeOSSMavenRepositoryUsageGuide-8a.ReleaseIt\n\n[2] https://oss.sonatype.org/",
+      "revId": "7a5c3038c7ff434cde891bbb521401a7414b105d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

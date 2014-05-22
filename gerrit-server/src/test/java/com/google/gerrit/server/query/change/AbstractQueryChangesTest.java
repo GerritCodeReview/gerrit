@@ -814,6 +814,34 @@ public abstract class AbstractQueryChangesTest {
   }
 
   @Test
+  public void bySize() throws Exception {
+    TestRepository<InMemoryRepository> repo = createProject("repo");
+
+    RevCommit commit1 = repo.parseBody(
+        repo.commit().add("file1", "foo\n\foo\nfoo").create());
+    RevCommit commit2 = repo.parseBody(
+        repo.commit().add("file2", "foo\nfoo").create());
+
+    Change change1 = newChange(repo, commit1, null, null, null).insert();
+    Change change2 = newChange(repo, commit2, null, null, null).insert();
+
+    for (String str : Lists.newArrayList("added", "delta", "size")) {
+      assertTrue(query(str + ":<2").isEmpty());
+      assertResultEquals(change1, queryOne(str + ":3"));
+      assertResultEquals(change1, queryOne(str + ":>2"));
+      assertResultEquals(change1, queryOne(str + ":>=3"));
+      assertResultEquals(change2, queryOne(str + ":<3"));
+      assertResultEquals(change2, queryOne(str + ":<=2"));
+    }
+
+    assertTrue(query("deleted:>0").isEmpty());
+    assertEquals(2, query("deleted:0").size());
+    assertEquals(2, query("deleted:>=0").size());
+    assertEquals(2, query("deleted:<1").size());
+    assertEquals(2, query("deleted:<=0").size());
+  }
+
+  @Test
   public void byDefault() throws Exception {
     TestRepository<InMemoryRepository> repo = createProject("repo");
 

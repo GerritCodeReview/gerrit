@@ -497,7 +497,7 @@ public class LuceneChangeIndex implements ChangeIndex {
     FieldType<?> type = values.getField().getType();
     Store store = store(values.getField());
 
-    if (type == FieldType.INTEGER) {
+    if (type == FieldType.INTEGER || type == FieldType.INTEGER_RANGE) {
       for (Object value : values.getValues()) {
         doc.add(new IntField(name, (Integer) value, store));
       }

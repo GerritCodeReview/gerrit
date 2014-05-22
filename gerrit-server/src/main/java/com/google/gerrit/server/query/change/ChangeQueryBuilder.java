@@ -75,6 +75,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   // NOTE: As new search operations are added, please keep the
   // SearchSuggestOracle up to date.
 
+  public static final String FIELD_ADDED = "added";
   public static final String FIELD_AFTER = "after";
   public static final String FIELD_AGE = "age";
   public static final String FIELD_BEFORE = "before";
@@ -83,6 +84,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public static final String FIELD_COMMENT = "comment";
   public static final String FIELD_COMMIT = "commit";
   public static final String FIELD_CONFLICTS = "conflicts";
+  public static final String FIELD_DELETED = "deleted";
+  public static final String FIELD_DELTA = "delta";
   public static final String FIELD_DRAFTBY = "draftby";
   public static final String FIELD_FILE = "file";
   public static final String FIELD_IS = "is";
@@ -674,6 +677,30 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   @Operator
   public Predicate<ChangeData> resume_sortkey(String sortKey) {
     return sortkey_before(sortKey);
+  }
+
+  @Operator
+  public Predicate<ChangeData> added(String value)
+      throws QueryParseException {
+    return new AddedPredicate(value);
+  }
+
+  @Operator
+  public Predicate<ChangeData> deleted(String value)
+      throws QueryParseException {
+    return new DeletedPredicate(value);
+  }
+
+  @Operator
+  public Predicate<ChangeData> size(String value)
+      throws QueryParseException {
+    return delta(value);
+  }
+
+  @Operator
+  public Predicate<ChangeData> delta(String value)
+      throws QueryParseException {
+    return new DeltaPredicate(value);
   }
 
   @Override

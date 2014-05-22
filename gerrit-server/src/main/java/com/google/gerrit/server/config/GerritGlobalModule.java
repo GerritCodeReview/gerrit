@@ -37,6 +37,7 @@ import com.google.gerrit.extensions.webui.TopMenu;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.rules.PrologModule;
 import com.google.gerrit.rules.RulesCache;
+import com.google.gerrit.scheduler.JobModule;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.CmdLineParserModule;
@@ -273,6 +274,9 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicMap.mapOf(binder(), ProjectConfigEntry.class);
     DynamicSet.setOf(binder(), PatchSetWebLink.class);
     DynamicSet.setOf(binder(), ProjectWebLink.class);
+
+    DynamicMap.mapOf(binder(), JobModule.ANY_JOB);
+    install(new JobModule());
 
     bind(AnonymousUser.class);
 

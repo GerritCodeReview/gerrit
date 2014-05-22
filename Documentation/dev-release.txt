@@ -293,6 +293,14 @@ included in the next Gerrit release. Update the Gerrit version in the
 for review and get it merged.
 
 
+[[publish-plugins-artifacts-to-maven-central]]
+=== Publish plugin artifacts to Maven Central
+
+----
+  buck build api_deploy_oss
+----
+
+
 [[merge-stable]]
 === Merge `stable` into `master`
 

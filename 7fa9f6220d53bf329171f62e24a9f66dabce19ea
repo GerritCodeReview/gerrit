@@ -242,6 +242,24 @@
     },
     {
       "key": {
+        "uuid": "df4ef081_4553ca25",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeKindCacheImpl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-05-22T18:54:52Z",
+      "side": 1,
+      "message": "Ok, I buy your argument that my specific suggestion for this block doesn\u0027t make the code cleaner, but I still think that load(X, X) should not return REWORK.",
+      "parentUuid": "2a3188d1_e7b4e2c3",
+      "revId": "7fa9f6220d53bf329171f62e24a9f66dabce19ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea221089_25cb4e53",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeKindCacheImpl.java",
         "patchSetId": 5

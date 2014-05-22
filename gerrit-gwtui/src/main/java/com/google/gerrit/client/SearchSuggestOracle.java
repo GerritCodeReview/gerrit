@@ -119,6 +119,11 @@ public class SearchSuggestOracle extends HighlightSuggestOracle {
     suggestions.add("status:merged");
     suggestions.add("status:abandoned");
 
+    suggestions.add("added:");
+    suggestions.add("deleted:");
+    suggestions.add("delta:");
+    suggestions.add("size:");
+
     suggestions.add("AND");
     suggestions.add("OR");
     suggestions.add("NOT");

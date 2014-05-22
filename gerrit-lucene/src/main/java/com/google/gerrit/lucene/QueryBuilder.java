@@ -22,6 +22,7 @@ import com.google.common.collect.Lists;
 import com.google.gerrit.server.index.ChangeField;
 import com.google.gerrit.server.index.FieldType;
 import com.google.gerrit.server.index.IndexPredicate;
+import com.google.gerrit.server.index.IntegerRangePredicate;
 import com.google.gerrit.server.index.RegexPredicate;
 import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.index.TimestampRangePredicate;
@@ -135,6 +136,8 @@ public class QueryBuilder {
       throws QueryParseException {
     if (p.getType() == FieldType.INTEGER) {
       return intQuery(p);
+    } else if (p.getType() == FieldType.INTEGER_RANGE) {
+      return intRangeQuery(p);
     } else if (p.getType() == FieldType.TIMESTAMP) {
       return timestampQuery(p);
     } else if (p.getType() == FieldType.EXACT) {
@@ -167,6 +170,28 @@ public class QueryBuilder {
       throw new QueryParseException("not an integer: " + p.getValue());
     }
     return new TermQuery(intTerm(p.getField().getName(), value));
+  }
+
+  private Query intRangeQuery(IndexPredicate<ChangeData> p)
+      throws QueryParseException {
+    if (p instanceof IntegerRangePredicate) {
+      IntegerRangePredicate<ChangeData> r =
+          (IntegerRangePredicate<ChangeData>) p;
+      int minimum = r.getMinimumValue();
+      int maximum = r.getMaximumValue();
+      if (minimum == maximum) {
+        // Just fall back to a standard integer query.
+        return new TermQuery(intTerm(p.getField().getName(), minimum));
+      } else {
+        return NumericRangeQuery.newIntRange(
+            r.getField().getName(),
+            minimum,
+            maximum,
+            true,
+            true);
+      }
+    }
+    throw new QueryParseException("not an integer range: " + p);
   }
 
   private Query sortKeyQuery(SortKeyPredicate p) {

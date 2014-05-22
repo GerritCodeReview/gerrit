@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.index;
 
+import com.google.common.base.Preconditions;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gwtorm.server.OrmException;
@@ -47,6 +48,8 @@ public abstract class FieldDef<I, T> {
       extends FieldDef<I, Iterable<T>> {
     Repeatable(String name, FieldType<T> type, boolean stored) {
       super(name, type, stored);
+      Preconditions.checkArgument(type != FieldType.INTEGER_RANGE,
+          "Range queries against repeated fields are unsupported");
     }
 
     @Override

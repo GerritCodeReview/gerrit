@@ -165,6 +165,29 @@
     },
     {
       "key": {
+        "uuid": "5f63e0f1_e9e295eb",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-22T13:45:51Z",
+      "side": 1,
+      "message": "I am not sure if we could prevent the file to be renamed. At least from the documentation it sounds like it is not necessary: [1]:\n\n  version:\n\n  Version of the artifact to be deployed. Retrieved from POM file if specified.\n  Type: java.lang.String\n  Since: 1.0-beta-4\n  Required: No\n  User Property: version\n\nSo from this documentation i would expect, that something lie this should work as well:\n\n  mvn gpg:sign-and-deploy-file \\\n  -Durl\u003dhttps://oss.sonatype.org/service/local/staging/deploy/maven2/ \\\n  -DrepositoryId\u003dsonatype-nexus-staging \\\n  -DpomFile\u003dgerrit-plugin-api.pom \\\n  -Dfile\u003dgerrit-plugin-api.jar\n\nNote: generated artifacts are always have the same names, without version name. In this case the version should be induced from provided pom.xml\n\nOr even:\n\n  mvn gpg:sign-and-deploy-file \\\n  -Durl\u003dhttps://oss.sonatype.org/service/local/staging/deploy/maven2/ \\\n  -DrepositoryId\u003dsonatype-nexus-staging \\\n  -DpomFile\u003dgerrit-plugin-api.pom \\\n  -Dfile\u003dgerrit-plugin-api.jar \\\n  -Dversion\u003d2.10-rc1\n\nNote: additional version parameter.\n\nCan you please give it a try and see if this is working as expected with default file names? This would simplify automating the deployment process to Maven central. \n\n[1] http://maven.apache.org/plugins/maven-gpg-plugin/sign-and-deploy-file-mojo.html",
+      "range": {
+        "startLine": 359,
+        "startChar": 0,
+        "endLine": 359,
+        "endChar": 77
+      },
+      "revId": "7a5c3038c7ff434cde891bbb521401a7414b105d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f63e0f1_c99a318e",
         "filename": "Documentation/dev-release.txt",
         "patchSetId": 1

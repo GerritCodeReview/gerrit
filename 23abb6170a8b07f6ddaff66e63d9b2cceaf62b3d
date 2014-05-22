@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "5f63e0f1_29278da8",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-22T07:45:43Z",
+      "side": 1,
+      "message": "[optional] Maybe also support \u0027size\u0027 as an alias for this.",
+      "range": {
+        "startLine": 318,
+        "startChar": 52,
+        "endLine": 318,
+        "endChar": 57
+      },
+      "revId": "23abb6170a8b07f6ddaff66e63d9b2cceaf62b3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff51f41e_86378acf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-22T07:45:43Z",
+      "side": 1,
+      "message": "I don\u0027t understand how this can work with a normal INTEGER field. For INTEGER fields Lucene will only do a TermQuery which finds exact matches (see QueryBuilder,intQuery(...)), but you want it to be a range query. That\u0027s the difficult part of this change and the reason why this feature wasn\u0027t implemented yet. See [1] for an example what Dave did to do range queries for timestamps.\n\n[1] https://gerrit-review.googlesource.com/#/c/54509/8/gerrit-lucene/src/main/java/com/google/gerrit/lucene/QueryBuilder.java",
+      "range": {
+        "startLine": 435,
+        "startChar": 42,
+        "endLine": 435,
+        "endChar": 59
+      },
+      "revId": "23abb6170a8b07f6ddaff66e63d9b2cceaf62b3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f63e0f1_69aa25ab",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeSizePredicate.java",
         "patchSetId": 1
@@ -13,6 +59,52 @@
       "writtenOn": "2014-05-22T02:38:00Z",
       "side": 1,
       "message": "missing license and copyright header",
+      "revId": "23abb6170a8b07f6ddaff66e63d9b2cceaf62b3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff51f41e_66448e30",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeSizePredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-22T07:45:43Z",
+      "side": 1,
+      "message": "If value is not an integer the execution of the query fails, e.g. if a relation was specified. This is because the fields are INTEGER fields. The query for INTEGER fields is done by QueryBuilder.intQuery(...) and this mehod checks that the value is an integer and fails if not.",
+      "range": {
+        "startLine": 22,
+        "startChar": 16,
+        "endLine": 22,
+        "endChar": 21
+      },
+      "revId": "23abb6170a8b07f6ddaff66e63d9b2cceaf62b3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f63e0f1_e93055db",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeSizePredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-22T07:45:43Z",
+      "side": 1,
+      "message": "This filtering here does not work. The match method is invoked only for changes that were returned by the underlying Lucene query, and for INTEGER fields it\u0027s only returning exact matches. You must do the filtering in Lucene by using a range query.",
+      "range": {
+        "startLine": 51,
+        "startChar": 4,
+        "endLine": 65,
+        "endChar": 5
+      },
       "revId": "23abb6170a8b07f6ddaff66e63d9b2cceaf62b3d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

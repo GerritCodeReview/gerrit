@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5f63e0f1_69aa25ab",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeSizePredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-22T02:38:00Z",
+      "side": 1,
+      "message": "missing license and copyright header",
+      "revId": "23abb6170a8b07f6ddaff66e63d9b2cceaf62b3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f63e0f1_29a42dd9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/AddedPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-22T02:38:00Z",
+      "side": 1,
+      "message": "missing license and copyright header",
+      "revId": "23abb6170a8b07f6ddaff66e63d9b2cceaf62b3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff51f41e_06571a01",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/DeletedPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-22T02:38:00Z",
+      "side": 1,
+      "message": "missing license and copyright header",
+      "revId": "23abb6170a8b07f6ddaff66e63d9b2cceaf62b3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff51f41e_e66bdebf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/DeltaPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-22T02:38:00Z",
+      "side": 1,
+      "message": "missing license and copyright header",
+      "revId": "23abb6170a8b07f6ddaff66e63d9b2cceaf62b3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

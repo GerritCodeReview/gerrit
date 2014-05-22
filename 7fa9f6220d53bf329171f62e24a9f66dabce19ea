@@ -260,6 +260,24 @@
     },
     {
       "key": {
+        "uuid": "1f5de831_47c86e8b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeKindCacheImpl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2014-05-22T20:05:06Z",
+      "side": 1,
+      "message": "Agreed.  Should this be implemented as part of the TODO for NEW_CHANGE?  It\u0027d certainly make some of the logic simpler (I wouldn\u0027t need to check to make sure there\u0027s more than one change ID). :)",
+      "parentUuid": "df4ef081_4553ca25",
+      "revId": "7fa9f6220d53bf329171f62e24a9f66dabce19ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea221089_25cb4e53",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeKindCacheImpl.java",
         "patchSetId": 5

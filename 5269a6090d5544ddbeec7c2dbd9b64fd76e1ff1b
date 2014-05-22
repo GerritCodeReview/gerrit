@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "ff51f41e_c606a2eb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-22T09:04:33Z",
+      "side": 1,
+      "message": "It looks like I added my comments at the same time you were merging. When it refreshed after I added the comments, it was already merged.",
+      "parentUuid": "5f63e0f1_4949a146",
+      "range": {
+        "startLine": 23,
+        "startChar": 39,
+        "endLine": 23,
+        "endChar": 49
+      },
+      "revId": "5269a6090d5544ddbeec7c2dbd9b64fd76e1ff1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f63e0f1_893799cf",
         "filename": "/COMMIT_MSG",
         "patchSetId": 13

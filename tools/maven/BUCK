@@ -3,27 +3,41 @@ include_defs('//tools/maven/package.defs')
 
 TYPE = 'snapshot' if GERRIT_VERSION.endswith('-SNAPSHOT') else 'release'
 
-maven_package(
-  repository = 'gerrit-api-repository',
-  url = 'gs://gerrit-api/%s' % TYPE,
-  version = GERRIT_VERSION,
-  jar = {
-    'gerrit-extension-api': '//gerrit-extension-api:extension-api',
-    'gerrit-plugin-api': '//gerrit-plugin-api:plugin-api',
-    'gerrit-plugin-gwtui': '//gerrit-plugin-gwtui:gwtui-api',
-  },
-  src = {
-    'gerrit-extension-api': '//gerrit-extension-api:extension-api-src',
-    'gerrit-plugin-api': '//gerrit-plugin-api:plugin-api-src',
-    'gerrit-plugin-gwtui': '//gerrit-plugin-gwtui:gwtui-api-src',
-  },
-  doc = {
-    'gerrit-extension-api': '//gerrit-extension-api:extension-api-javadoc',
-    'gerrit-plugin-api': '//gerrit-plugin-api:plugin-api-javadoc',
-    'gerrit-plugin-gwtui': '//gerrit-plugin-gwtui:gwtui-api-javadoc',
-  },
-  war = {'gerrit-war': '//:release'},
-)
+JAR = {
+  'gerrit-extension-api': '//gerrit-extension-api:extension-api',
+  'gerrit-plugin-api': '//gerrit-plugin-api:plugin-api',
+  'gerrit-plugin-gwtui': '//gerrit-plugin-gwtui:gwtui-api',
+}
+
+SRC = {
+  'gerrit-extension-api': '//gerrit-extension-api:extension-api-src',
+  'gerrit-plugin-api': '//gerrit-plugin-api:plugin-api-src',
+  'gerrit-plugin-gwtui': '//gerrit-plugin-gwtui:gwtui-api-src',
+}
+
+DOC = {
+  'gerrit-extension-api': '//gerrit-extension-api:extension-api-javadoc',
+  'gerrit-plugin-api': '//gerrit-plugin-api:plugin-api-javadoc',
+  'gerrit-plugin-gwtui': '//gerrit-plugin-gwtui:gwtui-api-javadoc',
+}
+
+WAR = {'gerrit-war': '//:release'}
+
+for r, u, s in [('gerrit-api-repository', 'gs://gerrit-api/%s' % TYPE, ""), \
+                ('sonatype-nexus-staging', \
+                 'https://oss.sonatype.org/service/local/staging/deploy/maven2',\
+                 '_oss')]:
+  maven_package(
+    repository = r,
+    url = u,
+    suffix = s,
+    version = GERRIT_VERSION,
+    jar = JAR,
+    src = SRC,
+    doc = DOC,
+    war = WAR
+  )
+
 
 python_binary(
   name = 'mvn',

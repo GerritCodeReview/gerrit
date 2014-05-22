@@ -14,6 +14,7 @@
 
 def maven_package(
     version,
+    suffix,
     repository = None,
     url = None,
     jar = {},
@@ -28,18 +29,19 @@ def maven_package(
       api_cmd.append('-s %s:%s:$(location %s)' % (a,type,t))
       api_deps.append(t)
 
-  genrule(
-    name = 'api_install',
-    cmd = ' '.join(cmd + api_cmd + ['-a', 'install']),
-    deps = api_deps + ['//tools/maven:mvn'],
-    out = 'api_install.info',
-  )
+  if not suffix:
+    genrule(
+      name = 'api_install',
+      cmd = ' '.join(cmd + api_cmd + ['-a', 'install']),
+      deps = api_deps + ['//tools/maven:mvn'],
+      out = 'api_install.info',
+    )
 
   if repository and url:
     genrule(
-      name = 'api_deploy',
+      name = 'api_deploy' + suffix,
       cmd = ' '.join(cmd + api_cmd + [
-        '-a', 'deploy',
+        '-a', 'deploy' + suffix,
         '--repository', repository,
         '--url', url]),
       deps = api_deps + ['//tools/maven:mvn'],
@@ -52,14 +54,15 @@ def maven_package(
     war_cmd.append('-s %s:war:$(location %s)' % (a,t))
     war_deps.append(t)
 
-  genrule(
-    name = 'war_install',
-    cmd = ' '.join(cmd + war_cmd + ['-a', 'install']),
-    deps = war_deps + ['//tools/maven:mvn'],
-    out = 'war_install.info',
-  )
+  if not suffix:
+    genrule(
+      name = 'war_install',
+      cmd = ' '.join(cmd + war_cmd + ['-a', 'install']),
+      deps = war_deps + ['//tools/maven:mvn'],
+      out = 'war_install.info',
+     )
 
-  if repository and url:
+  if repository and url and not suffix:
     genrule(
       name = 'war_deploy',
       cmd = ' '.join(cmd + war_cmd + [

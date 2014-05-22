@@ -15,7 +15,7 @@
 
 from __future__ import print_function
 from optparse import OptionParser
-from os import path
+from os import path, environ
 
 from sys import stderr
 from tools.util import check_output
@@ -36,33 +36,47 @@ if not args.v:
   print('version is empty', file=stderr)
   exit(1)
 
-common = [
-  '-DgroupId=com.google.gerrit',
-  '-Dversion=%s' % args.v,
-]
-
 self = path.dirname(path.abspath(__file__))
+ROOT = path.abspath(__file__)
+for _ in range(0, 3):
+  ROOT = path.dirname(ROOT)
 
 if 'install' == args.a:
-  cmd = mvn(args.a) + ['install:install-file'] + common
+  cmd = mvn(args.a) + ['install:install-file']
 elif 'deploy' == args.a:
   cmd = mvn(args.a) + [
     'deploy:deploy-file',
     '-DrepositoryId=%s' % args.repository,
     '-Durl=%s' % args.url,
-  ] + common
+  ]
+elif 'deploy_oss' == args.a:
+  cmd = ['mvn',
+     'gpg:sign-and-deploy-file',
+     '-DrepositoryId=%s' % args.repository,
+     '-Durl=%s' % args.url,
+  ]
 else:
   print("unknown action -a %s" % args.a, file=stderr)
   exit(1)
 
+cmd += [
+  '-DgroupId=com.google.gerrit',
+  '-Dversion=%s' % args.v,
+]
+
 for spec in args.s:
   artifact, packaging_type, src = spec.split(':')
+  cmd += [
+    '-DartifactId=%s' % artifact,
+    '-Dpackaging=%s' % packaging_type,
+    '-Dfile=%s' % src,
+  ]
+  if 'deploy_oss' == args.a:
+    cmd += ['-DpomFile=%s' % path.join(ROOT, '%s/pom.xml' % artifact)]
   try:
-    check_output(cmd + [
-      '-DartifactId=%s' % artifact,
-      '-Dpackaging=%s' % packaging_type,
-      '-Dfile=%s' % src,
-    ])
+    if environ.get('VERBOSE'):
+      print(' '.join(cmd), file=stderr)
+    check_output(cmd)
   except Exception as e:
     print('%s command failed: %s' % (args.a, e), file=stderr)
     exit(1)

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff51f41e_46be32c4",
+        "filename": "gerrit-solr/src/main/java/com/google/gerrit/solr/SolrChangeIndex.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-22T11:56:25Z",
+      "side": 1,
+      "message": "ChangeIndex?",
+      "range": {
+        "startLine": 75,
+        "startChar": 33,
+        "endLine": 75,
+        "endChar": 50
+      },
+      "revId": "8b783d4cf3e4ab15903d86eea99c64da4a9be337",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

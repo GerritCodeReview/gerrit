@@ -35,12 +35,16 @@ import com.google.gerrit.server.config.GerritRequestModule;
 import com.google.gerrit.server.contact.ContactStore;
 import com.google.gerrit.server.contact.ContactStoreProvider;
 import com.google.gerrit.server.git.AsyncReceiveCommits;
+import com.google.gerrit.server.plugins.ReloadPluginListener;
+import com.google.gerrit.server.plugins.StartPluginListener;
+import com.google.gerrit.server.plugins.StopPluginListener;
 import com.google.gerrit.server.util.GuiceRequestScopePropagator;
 import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.ProvisionException;
+import com.google.inject.internal.UniqueAnnotations;
 import com.google.inject.servlet.RequestScoped;
 
 import java.net.SocketAddress;
@@ -124,6 +128,17 @@ public class WebModule extends LifecycleModule {
         SINGLETON);
     bind(GerritConfigProvider.class);
     bind(GerritConfig.class).toProvider(GerritConfigProvider.class);
+
+    bind(StartPluginListener.class)
+        .annotatedWith(UniqueAnnotations.create())
+        .to(AvatarTracker.class);
+    bind(StopPluginListener.class)
+        .annotatedWith(UniqueAnnotations.create())
+        .to(AvatarTracker.class);
+    bind(ReloadPluginListener.class)
+        .annotatedWith(UniqueAnnotations.create())
+        .to(AvatarTracker.class);
+
     DynamicSet.setOf(binder(), WebUiPlugin.class);
 
     install(new AsyncReceiveCommits.Module());

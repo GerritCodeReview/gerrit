@@ -57,6 +57,7 @@ public class GerritConfig implements Cloneable {
   protected List<String> archiveFormats;
   protected int largeChangeSize;
   protected boolean newFeatures;
+  protected boolean avatarSupport;
 
   public String getLoginUrl() {
     return loginUrl;
@@ -307,5 +308,13 @@ public class GerritConfig implements Cloneable {
 
   public void setNewFeatures(boolean n) {
     newFeatures = n;
+  }
+
+  public boolean getAvatarSupport() {
+    return avatarSupport;
+  }
+
+  public void setAvatarSupport(boolean s) {
+    avatarSupport = s;
   }
 }

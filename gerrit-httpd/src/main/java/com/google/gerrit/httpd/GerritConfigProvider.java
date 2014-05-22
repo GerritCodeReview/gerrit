@@ -60,6 +60,7 @@ class GerritConfigProvider implements Provider<GerritConfig> {
   private final ContactStore contactStore;
   private final ServletContext servletContext;
   private final String anonymousCowardName;
+  private final Provider<AvatarTracker> avatarTracker;
 
   @Inject
   GerritConfigProvider(final Realm r, @GerritServerConfig final Config gsc,
@@ -67,7 +68,8 @@ class GerritConfigProvider implements Provider<GerritConfig> {
       final SshInfo si, final ContactStore cs,
       final ServletContext sc, final DownloadConfig dc,
       final GetArchive.AllowedFormats af,
-      final @AnonymousCowardName String acn) {
+      final @AnonymousCowardName String acn,
+      Provider<AvatarTracker> at) {
     realm = r;
     cfg = gsc;
     authConfig = ac;
@@ -79,6 +81,7 @@ class GerritConfigProvider implements Provider<GerritConfig> {
     contactStore = cs;
     servletContext = sc;
     anonymousCowardName = acn;
+    avatarTracker = at;
   }
 
   @Inject(optional = true)
@@ -146,6 +149,8 @@ class GerritConfigProvider implements Provider<GerritConfig> {
         })));
 
     config.setNewFeatures(cfg.getBoolean("gerrit", "enableNewFeatures", true));
+
+    config.setAvatarSupport(avatarTracker.get().getAvatarSupport());
 
     final String reportBugUrl = cfg.getString("gerrit", null, "reportBugUrl");
     config.setReportBugUrl(reportBugUrl != null ?

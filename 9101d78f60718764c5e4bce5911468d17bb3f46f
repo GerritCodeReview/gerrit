@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5f63e0f1_29f9cda0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchSetInfoFactory.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-05-22T10:52:13Z",
+      "side": 1,
+      "message": "I debugged code to check why OtherBranchcommit is always returning true. I replaced this code with below and tested.\nfor (RevCommit n; (n \u003d rw.next()) !\u003d null;) {\n          if (n.equals(rw.parseCommit(mergeBase)) {\n            return false;\n          }\nWhile looping at one point of time the value of both n and rw.parseCommit(mergeBase) was same i.e. commit 4e57dcc56caa4dd8723f6c27e5d3f80f5e778b36 1400489656 ----sp ,\nand if condition should be true and flow should go inside if loop and return false. But instead if condition doesnt seem to be getting satisfied.\nPlease suggest.",
+      "range": {
+        "startLine": 182,
+        "startChar": 8,
+        "endLine": 186,
+        "endChar": 3
+      },
+      "revId": "9101d78f60718764c5e4bce5911468d17bb3f46f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

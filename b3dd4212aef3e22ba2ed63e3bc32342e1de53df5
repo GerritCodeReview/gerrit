@@ -59,6 +59,24 @@
     },
     {
       "key": {
+        "uuid": "5f5da05e_f909974b",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/HttpIfModifiedSinceDate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-05-23T22:06:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ffc49429_0ef62bf9",
+      "revId": "b3dd4212aef3e22ba2ed63e3bc32342e1de53df5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3fdb8c07_702c70bc",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/SmallResource.java",
         "patchSetId": 5
@@ -70,6 +88,24 @@
       "writtenOn": "2014-05-23T21:55:31Z",
       "side": 1,
       "message": "long d \u003d req.getDateHeader(HttpHeaders.IF_MODIFIED_SINCE);",
+      "revId": "b3dd4212aef3e22ba2ed63e3bc32342e1de53df5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f5da05e_b90f1f51",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/SmallResource.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-05-23T22:06:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3fdb8c07_702c70bc",
       "revId": "b3dd4212aef3e22ba2ed63e3bc32342e1de53df5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

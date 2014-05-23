@@ -31,6 +31,7 @@ public class Module extends RestApiModule {
     DynamicMap.mapOf(binder(), TOP_MENU_KIND);
     child(CONFIG_KIND, "caches").to(CachesCollection.class);
     get(CACHE_KIND).to(GetCache.class);
+    post(CACHE_KIND, "flush").to(FlushCache.class);
     child(CONFIG_KIND, "capabilities").to(CapabilitiesCollection.class);
     child(CONFIG_KIND, "top-menus").to(TopMenuCollection.class);
     get(CONFIG_KIND, "version").to(GetVersion.class);

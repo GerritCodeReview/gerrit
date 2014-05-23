@@ -32,6 +32,7 @@ import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -39,6 +40,7 @@ import org.eclipse.jgit.lib.PersonIdent;
 
 import java.io.IOException;
 
+@Singleton
 class EditMessage implements RestModifyView<RevisionResource, Input>,
     UiAction<RevisionResource> {
   private final ChangeUtil changeUtil;

@@ -37,6 +37,7 @@ import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
@@ -54,7 +55,7 @@ public class PatchSetNotificationSender {
   private static final Logger log =
       LoggerFactory.getLogger(PatchSetNotificationSender.class);
 
-  private final ReviewDb db;
+  private final Provider<ReviewDb> db;
   private final GitRepositoryManager repoManager;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final ApprovalsUtil approvalsUtil;
@@ -63,7 +64,7 @@ public class PatchSetNotificationSender {
   private final ReplacePatchSetSender.Factory replacePatchSetFactory;
 
   @Inject
-  public PatchSetNotificationSender(ReviewDb db,
+  public PatchSetNotificationSender(Provider<ReviewDb> db,
       ChangeHooks hooks,
       GitRepositoryManager repoManager,
       PatchSetInfoFactory patchSetInfoFactory,
@@ -104,7 +105,7 @@ public class PatchSetNotificationSender {
       recipients.remove(me);
 
       if (newChange) {
-        approvalsUtil.addReviewers(db, update, labelTypes, updatedChange,
+        approvalsUtil.addReviewers(db.get(), update, labelTypes, updatedChange,
             updatedPatchSet, info, recipients.getReviewers(),
             Collections.<Account.Id> emptySet());
         try {
@@ -118,12 +119,12 @@ public class PatchSetNotificationSender {
           log.error("Cannot send email for new change " + updatedChange.getId(), e);
         }
       } else {
-        approvalsUtil.addReviewers(db, update, labelTypes, updatedChange,
+        approvalsUtil.addReviewers(db.get(), update, labelTypes, updatedChange,
             updatedPatchSet, info, recipients.getReviewers(),
-            approvalsUtil.getReviewers(db, notes).values());
+            approvalsUtil.getReviewers(db.get(), notes).values());
         final ChangeMessage msg =
             new ChangeMessage(new ChangeMessage.Key(updatedChange.getId(),
-                ChangeUtil.messageUUID(db)), me,
+                ChangeUtil.messageUUID(db.get())), me,
                 updatedPatchSet.getCreatedOn(), updatedPatchSet.getId());
         msg.setMessage("Uploaded patch set " + updatedPatchSet.getPatchSetId() + ".");
         try {

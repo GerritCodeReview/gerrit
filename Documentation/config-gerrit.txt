@@ -391,23 +391,6 @@ To enable the actual usage of contributor agreement the project
 specific config option in the `project.config` must be set:
 link:config-project-config.html[receive.requireContributorAgreement].
 
-auth.allowGoogleAccountUpgrade::
-+
-Allows Google Account users to automatically update their Gerrit
-account when/if their Google Account OpenID identity token changes.
-Identity tokens can change if the server changes hostnames, or
-for other reasons known only to Google.  The upgrade path works
-by matching users by email address if the identity is not present,
-and then changing the identity.
-+
-This setting also permits old Gerrit 1.x users to seamlessly upgrade
-from Google Accounts on Google App Engine to OpenID authentication.
-+
-Having this enabled incurs an extra database query when Google
-Account users register with the Gerrit server.
-+
-By default, unset/false.
-
 [[auth.trustContainerAuth]]auth.trustContainerAuth::
 +
 If true then it is the responsibility of the container hosting

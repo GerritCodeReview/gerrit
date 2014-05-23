@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ff51f41e_86854af7",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeConstants.properties",
+        "patchSetId": 19
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-23T03:16:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f63e0f1_49f401a9",
+      "revId": "33fa52db1cf108d7c4a9a84ade932202044defb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f63e0f1_a9d6ddf6",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AccountGeneralPreferences.java",
         "patchSetId": 19
@@ -30,6 +48,24 @@
       "writtenOn": "2014-05-23T02:25:02Z",
       "side": 1,
       "message": "missing closing brace here.",
+      "revId": "33fa52db1cf108d7c4a9a84ade932202044defb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff51f41e_66724e68",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AccountGeneralPreferences.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-23T03:16:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f63e0f1_a9d6ddf6",
       "revId": "33fa52db1cf108d7c4a9a84ade932202044defb8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

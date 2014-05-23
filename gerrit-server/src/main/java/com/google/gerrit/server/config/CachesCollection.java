@@ -14,13 +14,17 @@
 
 package com.google.gerrit.server.config;
 
+import com.google.common.cache.Cache;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestView;
+import com.google.gerrit.server.AnonymousUser;
+import com.google.gerrit.server.CurrentUser;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -30,12 +34,17 @@ public class CachesCollection implements
 
   private final DynamicMap<RestView<CacheResource>> views;
   private final Provider<ListCaches> list;
+  private final Provider<CurrentUser> self;
+  private final DynamicMap<Cache<?, ?>> cacheMap;
 
   @Inject
   CachesCollection(DynamicMap<RestView<CacheResource>> views,
-      Provider<ListCaches> list) {
+      Provider<ListCaches> list, Provider<CurrentUser> self,
+      DynamicMap<Cache<?, ?>> cacheMap) {
     this.views = views;
     this.list = list;
+    this.self = self;
+    this.cacheMap = cacheMap;
   }
 
   @Override
@@ -45,8 +54,30 @@ public class CachesCollection implements
 
   @Override
   public CacheResource parse(ConfigResource parent, IdString id)
-      throws ResourceNotFoundException {
-    throw new ResourceNotFoundException(id);
+      throws AuthException, ResourceNotFoundException {
+    final CurrentUser user = self.get();
+    if (user instanceof AnonymousUser) {
+      throw new AuthException("Authentication required");
+    } else if(!(user.isIdentifiedUser())) {
+      throw new ResourceNotFoundException();
+    }
+    if (!user.getCapabilities().canViewCaches()) {
+      throw new AuthException("not allowed to view caches");
+    }
+
+    String cacheName = id.get();
+    String pluginName = "gerrit";
+    int i = cacheName.lastIndexOf('-');
+    if (i != -1) {
+      pluginName = cacheName.substring(0, i);
+      cacheName = cacheName.length() > i + 1 ? cacheName.substring(i + 1) : "";
+    }
+
+    Provider<Cache<?, ?>> cacheProvider = cacheMap.byPlugin(pluginName).get(cacheName);
+    if (cacheProvider == null) {
+      throw new ResourceNotFoundException(id);
+    }
+    return new CacheResource(pluginName, cacheName, cacheProvider);
   }
 
   @Override

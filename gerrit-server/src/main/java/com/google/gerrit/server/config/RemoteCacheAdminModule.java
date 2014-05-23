@@ -27,5 +27,6 @@ public class RemoteCacheAdminModule extends RestApiModule {
     DynamicMap.mapOf(binder(), CACHE_KIND);
     child(CONFIG_KIND, "caches").to(CachesCollection.class);
     get(CACHE_KIND).to(GetCache.class);
+    post(CACHE_KIND, "flush").to(FlushCache.class);
   }
 }

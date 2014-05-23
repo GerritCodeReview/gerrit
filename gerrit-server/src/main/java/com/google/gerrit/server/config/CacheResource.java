@@ -14,10 +14,36 @@
 
 package com.google.gerrit.server.config;
 
+import com.google.common.cache.Cache;
 import com.google.gerrit.extensions.restapi.RestView;
+import com.google.inject.Provider;
 import com.google.inject.TypeLiteral;
 
 public class CacheResource extends ConfigResource {
   public static final TypeLiteral<RestView<CacheResource>> CACHE_KIND =
       new TypeLiteral<RestView<CacheResource>>() {};
+
+  private final String name;
+  private final Provider<Cache<?, ?>> cacheProvider;
+
+  public CacheResource(String pluginName, String cacheName, Provider<Cache<?, ?>> cacheProvider) {
+    this.name = cacheNameOf(pluginName, cacheName);
+    this.cacheProvider = cacheProvider;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public Cache<?, ?> getCache() {
+    return cacheProvider.get();
+  }
+
+  public static String cacheNameOf(String plugin, String name) {
+    if ("gerrit".equals(plugin)) {
+      return name;
+    } else {
+      return plugin + "." + name;
+    }
+  }
 }

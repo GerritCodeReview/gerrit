@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3fdb8c07_504e0c83",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-23T22:01:29Z",
+      "side": 1,
+      "message": "Good idea. I have been thinking about this myself, but hadn\u0027t looked  if it was feasible.",
+      "revId": "6be9b6f65a868a2b3f2b968bd91ab1ea9cc982a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -254,6 +254,24 @@
     },
     {
       "key": {
+        "uuid": "df4ef081_c5b33a24",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/IntegerRangePredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1016223
+      },
+      "writtenOn": "2014-05-23T00:36:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1f5de831_a73a8ab7",
+      "revId": "016f313d8b5fff6af41495240bb05bc82de15741",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "df4ef081_c568dac5",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/IntegerRangePredicate.java",
         "patchSetId": 2
@@ -406,6 +424,24 @@
       "side": 1,
       "message": "Just update file1 to have fewer lines than it did initially.",
       "parentUuid": "1f5de831_e73082db",
+      "revId": "016f313d8b5fff6af41495240bb05bc82de15741",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df4ef081_a5c03e5e",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 837,
+      "author": {
+        "id": 1016223
+      },
+      "writtenOn": "2014-05-23T00:36:08Z",
+      "side": 1,
+      "message": "Doesn\u0027t seem to work - the following gives me one change with 3 insertions and no deletions, and then 2 insertions and no deletions:\n\n    RevCommit commit1 \u003d repo.parseBody(\n        repo.commit().add(\"file1\", \"foo\\n\\foo\\nfoo\").create());\n    RevCommit commit2 \u003d repo.parseBody(\n        repo.commit().add(\"file1\", \"foo\\nfoo\").create());\n\n    Change change1 \u003d newChange(repo, commit1, null, null, null).insert();\n    Change change2 \u003d newChange(repo, commit2, null, null, null).insert();",
+      "parentUuid": "1f5de831_873786cf",
       "revId": "016f313d8b5fff6af41495240bb05bc82de15741",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

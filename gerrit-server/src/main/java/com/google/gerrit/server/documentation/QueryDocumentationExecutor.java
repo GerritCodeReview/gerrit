@@ -46,7 +46,7 @@ public class QueryDocumentationExecutor {
   private static final Logger log =
       LoggerFactory.getLogger(QueryDocumentationExecutor.class);
 
-  private static final Version LUCENE_VERSION = Version.LUCENE_47;
+  private static final Version LUCENE_VERSION = Version.LUCENE_48;
 
   private IndexSearcher searcher;
   private QueryParser parser;

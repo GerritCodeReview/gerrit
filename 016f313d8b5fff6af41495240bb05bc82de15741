@@ -463,6 +463,24 @@
       "revId": "016f313d8b5fff6af41495240bb05bc82de15741",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f5de831_67449230",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 837,
+      "author": {
+        "id": 1016223
+      },
+      "writtenOn": "2014-05-23T01:26:42Z",
+      "side": 1,
+      "message": "aha. done.",
+      "parentUuid": "df4ef081_65aa46ab",
+      "revId": "016f313d8b5fff6af41495240bb05bc82de15741",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

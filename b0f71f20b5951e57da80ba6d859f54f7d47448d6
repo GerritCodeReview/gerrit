@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "df4ef081_25a44ed9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2014-05-23T15:53:53Z",
+      "side": 1,
+      "message": "s/cicles/cycles/",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 6
+      },
+      "revId": "b0f71f20b5951e57da80ba6d859f54f7d47448d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f5de831_273e9aaa",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2014-05-23T15:53:53Z",
+      "side": 1,
+      "message": "May or just \"Only\" (like on line 450)? i.e. we shouldn\u0027t use \"May\" unless there is some way this could be set for a cache that is not a disk cache.",
+      "range": {
+        "startLine": 445,
+        "startChar": 59,
+        "endLine": 445,
+        "endChar": 62
+      },
+      "revId": "b0f71f20b5951e57da80ba6d859f54f7d47448d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df4ef081_05a952b1",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ShowCaches.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2014-05-23T15:53:53Z",
+      "side": 1,
+      "message": "Was there any special behavior that \"Cache\" command granted that is lost by using SshCommand? I thought there was something about skipping the ssh queue or bypassing the sshd.threads limit?",
+      "range": {
+        "startLine": 61,
+        "startChar": 31,
+        "endLine": 61,
+        "endChar": 34
+      },
+      "revId": "b0f71f20b5951e57da80ba6d859f54f7d47448d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

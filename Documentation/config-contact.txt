@@ -142,7 +142,6 @@ Date: 2009-02-23 20:32:32.852 UTC
 Full-Name: John Doe
 Preferred-Email: jdoe@example.com
 Identity: jd15@some-isp.com
-Identity: jdoe@example.com <https://www.google.com/accounts/o8/id?id=AIt18axxafvda821aQZaHDF1k8akbalk218sak>
 Identity: jdoe@example.com <http://jdoe.blogger.com/>
 Address:
 	123 Any Street

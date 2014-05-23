@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff51f41e_266c568a",
+        "filename": "tools/plugin_archetype_deploy.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-23T05:43:07Z",
+      "side": 1,
+      "message": "mvn.py is passing also:\n\n  \u0027-Dversion\u003d%s\u0027 % args.v,\n  \u0027-DgroupId\u003dcom.google.gerrit\u0027,\n  \u0027-DartifactId\u003d%s\u0027 % artifact,\n  \u0027-Dpackaging\u003d%s\u0027 % packaging_type,",
+      "range": {
+        "startLine": 58,
+        "startChar": 7,
+        "endLine": 62,
+        "endChar": 34
+      },
+      "revId": "2aafc297bd942250ff6777c99fd6882f228b06e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

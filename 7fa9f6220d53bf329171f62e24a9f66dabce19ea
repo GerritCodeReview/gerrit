@@ -296,6 +296,24 @@
     },
     {
       "key": {
+        "uuid": "5f7120c6_39e48f48",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeKindCacheImpl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2014-05-23T14:37:39Z",
+      "side": 1,
+      "message": "Ah, I see.  Yes, the same patch should always be a NO_CODE_CHANGE... although in this particular case, if I attempt to fetch a change compared with itself, it means we have no previous patch.\n\nI could\u0027ve sworn I changed this logic so it wouldn\u0027t be an issue -- but apparently I never committed it (or I reset it accidentally).  New patch coming in a second.",
+      "parentUuid": "df4ef081_65580633",
+      "revId": "7fa9f6220d53bf329171f62e24a9f66dabce19ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea221089_25cb4e53",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeKindCacheImpl.java",
         "patchSetId": 5

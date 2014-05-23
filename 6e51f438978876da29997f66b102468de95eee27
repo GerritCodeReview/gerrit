@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ff51f41e_c6dc62f4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-23T12:19:53Z",
+      "side": 1,
+      "message": "Ah, I see that this is handled by the follow-up change :)",
+      "parentUuid": "ff51f41e_46d192db",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 48
+      },
+      "revId": "6e51f438978876da29997f66b102468de95eee27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ff51f41e_26c69627",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

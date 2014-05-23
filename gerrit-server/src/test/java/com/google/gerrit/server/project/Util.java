@@ -20,6 +20,7 @@ import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.Lists;
+import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelValue;
@@ -123,6 +124,24 @@ public class Util {
   public static PermissionRule allow(ProjectConfig project,
       String permissionName, AccountGroup.UUID group, String ref) {
     return grant(project, permissionName, newRule(project, group), ref);
+  }
+
+  public static PermissionRule allow(ProjectConfig project,
+      String capabilityName, AccountGroup.UUID group) {
+    PermissionRule rule = newRule(project, group);
+    project.getAccessSection(AccessSection.GLOBAL_CAPABILITIES, true)
+        .getPermission(capabilityName, true)
+        .add(rule);
+    return rule;
+  }
+
+  public static PermissionRule block(ProjectConfig project,
+      String capabilityName, AccountGroup.UUID group) {
+    PermissionRule rule = newRule(project, group);
+    project.getAccessSection(AccessSection.GLOBAL_CAPABILITIES, true)
+        .getPermission(capabilityName, true)
+        .add(rule);
+    return rule;
   }
 
   public static PermissionRule block(ProjectConfig project,

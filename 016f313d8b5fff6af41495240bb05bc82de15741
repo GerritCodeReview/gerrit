@@ -236,6 +236,24 @@
     },
     {
       "key": {
+        "uuid": "1f5de831_a73a8ab7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/IntegerRangePredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-05-23T00:22:02Z",
+      "side": 1,
+      "message": "What I meant was:\n\n Integer qi \u003d Ints.tryParse(value);\n if (qi \u003d\u003d null) {\n   throw new QueryParseException(\"Invalid size: \" + value);\n }\n\n(cf. Effective Java item 57)\n\nSorry that wasn\u0027t clear.",
+      "parentUuid": "1f5de831_671db252",
+      "revId": "016f313d8b5fff6af41495240bb05bc82de15741",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "df4ef081_c568dac5",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/IntegerRangePredicate.java",
         "patchSetId": 2
@@ -370,6 +388,24 @@
       "side": 1,
       "message": "Agreed, but I couldn\u0027t figure out how to insert a commit which had deleted \u003e 0. I tried adding .rm(\"file1\") to commit2 but it had no effect.\n\nHappy to test these cases if you or someone can help me with that.",
       "parentUuid": "1f5de831_47af4eb9",
+      "revId": "016f313d8b5fff6af41495240bb05bc82de15741",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f5de831_873786cf",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 837,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-05-23T00:22:02Z",
+      "side": 1,
+      "message": "Just update file1 to have fewer lines than it did initially.",
+      "parentUuid": "1f5de831_e73082db",
       "revId": "016f313d8b5fff6af41495240bb05bc82de15741",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

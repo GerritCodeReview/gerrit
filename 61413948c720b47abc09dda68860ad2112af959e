@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3fdb8c07_d0419c4c",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GerritConfigProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-23T22:28:29Z",
+      "side": 1,
+      "message": "This is a singleton, so its created once at server startup. IIRC its created before plugins are loaded. It might always be false. It will certainly stay false after the admin installs an avatar plugin. :(",
+      "revId": "61413948c720b47abc09dda68860ad2112af959e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

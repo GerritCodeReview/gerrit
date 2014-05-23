@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5f5da05e_99e5fb45",
+        "filename": "tools/plugin_archetype_deploy.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-23T21:35:57Z",
+      "side": 1,
+      "message": "Nit: trailing space.",
+      "range": {
+        "startLine": 76,
+        "startChar": 71,
+        "endLine": 76,
+        "endChar": 72
+      },
+      "revId": "055f3052aa898799a7bbb353767fc42188546125",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

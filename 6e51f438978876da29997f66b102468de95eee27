@@ -215,6 +215,30 @@
     },
     {
       "key": {
+        "uuid": "5f5da05e_19da8b82",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-23T21:07:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff51f41e_0606fab5",
+      "range": {
+        "startLine": 18,
+        "startChar": 2,
+        "endLine": 31,
+        "endChar": 13
+      },
+      "revId": "6e51f438978876da29997f66b102468de95eee27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ff51f41e_86bf8a98",
         "filename": "tools/maven/BUCK",
         "patchSetId": 2
@@ -250,6 +274,54 @@
       "side": 1,
       "message": "Sure, that what TYPE var on the line 4 is for. I didn\u0027t know where to put it.",
       "parentUuid": "ff51f41e_86bf8a98",
+      "range": {
+        "startLine": 28,
+        "startChar": 18,
+        "endLine": 28,
+        "endChar": 78
+      },
+      "revId": "6e51f438978876da29997f66b102468de95eee27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f58a46f_3ad5c152",
+        "filename": "tools/maven/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-23T21:07:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff51f41e_86bf8a98",
+      "range": {
+        "startLine": 28,
+        "startChar": 18,
+        "endLine": 28,
+        "endChar": 78
+      },
+      "revId": "6e51f438978876da29997f66b102468de95eee27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f58a46f_1ada7d82",
+        "filename": "tools/maven/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-23T21:07:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff51f41e_a6d96602",
       "range": {
         "startLine": 28,
         "startChar": 18,
@@ -357,6 +429,30 @@
     },
     {
       "key": {
+        "uuid": "7f58a46f_5ae4f548",
+        "filename": "tools/maven/mvn.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-23T21:07:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f63e0f1_69722568",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 1
+      },
+      "revId": "6e51f438978876da29997f66b102468de95eee27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ff51f41e_46775256",
         "filename": "tools/maven/mvn.py",
         "patchSetId": 2
@@ -380,6 +476,30 @@
     },
     {
       "key": {
+        "uuid": "5f5da05e_39d5cf52",
+        "filename": "tools/maven/mvn.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-23T21:07:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff51f41e_46775256",
+      "range": {
+        "startLine": 58,
+        "startChar": 8,
+        "endLine": 61,
+        "endChar": 3
+      },
+      "revId": "6e51f438978876da29997f66b102468de95eee27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f63e0f1_a9adbd8c",
         "filename": "tools/maven/package.defs",
         "patchSetId": 2
@@ -391,6 +511,30 @@
       "writtenOn": "2014-05-23T05:42:53Z",
       "side": 1,
       "message": "Default value is not used.",
+      "range": {
+        "startLine": 19,
+        "startChar": 10,
+        "endLine": 19,
+        "endChar": 15
+      },
+      "revId": "6e51f438978876da29997f66b102468de95eee27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f58a46f_7adf3972",
+        "filename": "tools/maven/package.defs",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-23T21:07:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f63e0f1_a9adbd8c",
       "range": {
         "startLine": 19,
         "startChar": 10,

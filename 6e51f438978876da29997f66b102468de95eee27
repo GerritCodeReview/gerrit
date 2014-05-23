@@ -2,6 +2,98 @@
   "comments": [
     {
       "key": {
+        "uuid": "ff51f41e_46d192db",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-23T12:17:54Z",
+      "side": 1,
+      "message": "api_deploy_oss now deploys gerrit-plugin-api, gerrit-plugin-extensions and gerrit-plugin-gwtui. Ideally it should also build and deploy the maven archetypes (gerrit-plugin-archetype, gerrit-plugin-gwt-archetype, gerrit-plugin-js-archetype). Are you planning to add this?",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 48
+      },
+      "revId": "6e51f438978876da29997f66b102468de95eee27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff51f41e_26c69627",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-23T12:17:54Z",
+      "side": 1,
+      "message": "I had to define my Sonatype user and password in my settings.xml\n\n  \u003cserver\u003e\n    \u003cid\u003esonatype-nexus-staging\u003c/id\u003e\n    \u003cusername\u003eUSER\u003c/username\u003e\n    \u003cpassword\u003ePASSWORD\u003c/password\u003e\n  \u003c/server\u003e\n\nMy this should be mentioned in the documentation. At least one should know the server ID that is now hard-coded in the buck files.",
+      "range": {
+        "startLine": 16,
+        "startChar": 3,
+        "endLine": 16,
+        "endChar": 21
+      },
+      "revId": "6e51f438978876da29997f66b102468de95eee27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff51f41e_66cc8e49",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-23T12:17:54Z",
+      "side": 1,
+      "message": "FYI: I\u0027ve added my passphrase to the keychain on my Mac and then there this also no prompt and I don\u0027t need this in my seetings.xml.\n\nShould this description be added to the \"Publish plugin artifacts to Maven Central\" section in dev-release.txt?",
+      "range": {
+        "startLine": 18,
+        "startChar": 2,
+        "endLine": 31,
+        "endChar": 13
+      },
+      "revId": "6e51f438978876da29997f66b102468de95eee27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff51f41e_86bf8a98",
+        "filename": "tools/maven/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-23T12:17:54Z",
+      "side": 1,
+      "message": "This URL only works for release versions, for SNAPSHOT versions it must be\n\n  https://oss.sonatype.org/content/repositories/snapshots/",
+      "range": {
+        "startLine": 28,
+        "startChar": 18,
+        "endLine": 28,
+        "endChar": 78
+      },
+      "revId": "6e51f438978876da29997f66b102468de95eee27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ff51f41e_06715a5e",
         "filename": "tools/maven/mvn.py",
         "patchSetId": 2
@@ -13,6 +105,30 @@
       "writtenOn": "2014-05-23T05:42:53Z",
       "side": 1,
       "message": "This can be used now in place on line 66 below. No need for var.",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 1
+      },
+      "revId": "6e51f438978876da29997f66b102468de95eee27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f63e0f1_69722568",
+        "filename": "tools/maven/mvn.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-23T12:17:54Z",
+      "side": 1,
+      "message": "For running\n\n  mvn gpg:sign-and-deploy-file\n\nspecifying -Dversion, -DgroupId, -DartifactId and -Dpackaging are optional and may be omitted since this information is already contained in the pom file.",
+      "parentUuid": "ff51f41e_06715a5e",
       "range": {
         "startLine": 39,
         "startChar": 0,

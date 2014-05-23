@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.config;
 
+import static com.google.gerrit.server.config.CacheResource.cacheNameOf;
+
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheStats;
 import com.google.gerrit.common.data.GlobalCapability;
@@ -47,14 +49,6 @@ public class ListCaches implements RestReadView<ConfigResource> {
     return cacheInfos;
   }
 
-  private static String cacheNameOf(String plugin, String name) {
-    if ("gerrit".equals(plugin)) {
-      return name;
-    } else {
-      return plugin + "-" + name;
-    }
-  }
-
   public enum CacheType {
     MEM, DISK;
   }
@@ -67,6 +61,12 @@ public class ListCaches implements RestReadView<ConfigResource> {
     public HitRatioInfo hitRatio;
 
     public CacheInfo(Cache<?,?> cache) {
+      this(null, cache);
+    }
+
+    public CacheInfo(String name, Cache<?,?> cache) {
+      this.name = name;
+
       CacheStats stat = cache.stats();
 
       entries = new EntriesInfo();

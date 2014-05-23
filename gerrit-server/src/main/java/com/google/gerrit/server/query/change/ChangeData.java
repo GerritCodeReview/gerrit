@@ -342,6 +342,10 @@ public class ChangeData {
     return changedLines;
   }
 
+  public void setChangedLines(int insertions, int deletions) {
+    changedLines = new ChangedLines(insertions, deletions);
+  }
+
   public Change.Id getId() {
     return legacyId;
   }

@@ -72,6 +72,7 @@ import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.IndexWriterConfig.OpenMode;
+import org.apache.lucene.index.IndexableField;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
@@ -113,9 +114,14 @@ public class LuceneChangeIndex implements ChangeIndex {
 
   public static final String CHANGES_OPEN = "open";
   public static final String CHANGES_CLOSED = "closed";
-  private static final String ID_FIELD = ChangeField.LEGACY_ID.getName();
-  private static final String CHANGE_FIELD = ChangeField.CHANGE.getName();
+
+  private static final String ADDED_FIELD = ChangeField.ADDED.getName();
   private static final String APPROVAL_FIELD = ChangeField.APPROVAL.getName();
+  private static final String CHANGE_FIELD = ChangeField.CHANGE.getName();
+  private static final String DELETED_FIELD = ChangeField.DELETED.getName();
+  private static final String ID_FIELD = ChangeField.LEGACY_ID.getName();
+  private static final ImmutableSet<String> FIELDS = ImmutableSet.of(
+      ADDED_FIELD, APPROVAL_FIELD, CHANGE_FIELD, DELETED_FIELD, ID_FIELD);
 
   private static final Map<Schema<ChangeData>, Version> LUCENE_VERSIONS;
   static {
@@ -352,9 +358,6 @@ public class LuceneChangeIndex implements ChangeIndex {
     setReady(sitePaths, schema.getVersion(), ready);
   }
 
-  private static final ImmutableSet<String> FIELDS =
-      ImmutableSet.of(ID_FIELD, CHANGE_FIELD, APPROVAL_FIELD);
-
   @SuppressWarnings("deprecation")
   private static Sort getSort(Schema<ChangeData> schema,
       Predicate<ChangeData> p) {
@@ -464,10 +467,12 @@ public class LuceneChangeIndex implements ChangeIndex {
       return changeDataFactory.create(db.get(), new Change.Id(id));
     }
 
+    // Change proto.
     Change change = ChangeProtoField.CODEC.decode(
         cb.bytes, cb.offset, cb.length);
     ChangeData cd = changeDataFactory.create(db.get(), change);
 
+    // Approvals.
     BytesRef[] approvalsBytes = doc.getBinaryValues(APPROVAL_FIELD);
     if (approvalsBytes != null) {
       List<PatchSetApproval> approvals =
@@ -478,6 +483,16 @@ public class LuceneChangeIndex implements ChangeIndex {
       }
       cd.setCurrentApprovals(approvals);
     }
+
+    // Changed lines.
+    IndexableField added = doc.getField(ADDED_FIELD);
+    IndexableField deleted = doc.getField(DELETED_FIELD);
+    if (added != null && deleted != null) {
+      cd.setChangedLines(
+          added.numericValue().intValue(),
+          deleted.numericValue().intValue());
+    }
+
     return cd;
   }
 

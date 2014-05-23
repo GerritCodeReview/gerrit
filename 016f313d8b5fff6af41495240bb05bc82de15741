@@ -445,6 +445,24 @@
       "revId": "016f313d8b5fff6af41495240bb05bc82de15741",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df4ef081_65aa46ab",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 837,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-05-23T00:49:05Z",
+      "side": 1,
+      "message": "You need to add commit1 as a parent of commit2:\n\n RevCommit commit2 \u003d repo.parseBody(\n     repo.commit(commit1).add(\"file1\", \"foo\\nfoo\").create());\n\nIt\u0027s correct that if commit2 is an orhpan then it is adding 2 lines :)",
+      "parentUuid": "df4ef081_a5c03e5e",
+      "revId": "016f313d8b5fff6af41495240bb05bc82de15741",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

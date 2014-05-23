@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3fdb8c07_3036e808",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-23T21:56:14Z",
+      "side": 1,
+      "message": "Why? I am not familiar with this feature in Buck and what your motivation is for setting this value.",
+      "revId": "2a23d7440ec404a6b1af0efa8435881c63002ee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

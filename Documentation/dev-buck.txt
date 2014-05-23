@@ -476,14 +476,32 @@ directories and they will not interfere with each other. Buck's documentation
 covers daemon in http://facebook.github.io/buck/command/buckd.html[buckd].
 
 To use `buckd` the additional watchman program must be installed, see
-link:https://github.com/facebook/watchman[watchman] for details.
+link:#[watchman] for details.
+
+[[watchman]]
+=== Installing watchman
+
+Watchman is used intern by Buck to monitor directory trees and is needed to
+buck daemon to work properly. Because buckd in latest version of Buck is
+activated per default, it searchs for watchman executable in path and issues
+warning when it is not found and kills buckd.
+
+To install watchman on Linux:
+ 
+----
+  git clone https://github.com/facebook/watchman.git
+  cd watchman
+  ./autogen.sh
+  ./configure --prefix $HOME/watchman
+  make install
+----
+
+Put $HOME/watchman/bin/watchman in path or link to $HOME/bin/watchman.
+
+To install watchman on OS X:
 
 ----
-  buckd
-  buck build gerrit
-  Using buckd.
-  [-] PARSING BUILD FILES...FINISHED 0.6s
-  [-] BUILDING...FINISHED 0.2s
+  brew install --HEAD watchman
 ----
 
 === Override Buck's settings

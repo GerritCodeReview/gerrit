@@ -247,6 +247,44 @@ The entries in the map are sorted by cache name.
   }
 ----
 
+[[get-cache]]
+=== Get Cache
+--
+'GET /config/server/caches/link:#cache-name[\{cache-name\}]'
+--
+
+Retrieves information about a cache.
+
+The caller must be a member of a group that is granted the
+link:access-control.html#capability_viewCaches[View Caches] capability
+or the link:access-control.html#capability_administrateServer[
+Administrate Server] capability.
+
+As result a link:#cache-info[CacheInfo] entity is returned.
+
+.Request
+----
+  GET /config/server/caches/projects HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "name": "projects",
+    "entries": {
+      "mem": 35
+    },
+    "average_get": " 8.6ms",
+    "hit_ratio": {
+      "mem": 99
+    }
+  }
+----
+
 [[list-capabilities]]
 === List Capabilities
 --
@@ -391,6 +429,20 @@ link:#top-menu-entry-info[TopMenuEntryInfo] entities is returned.
     }
   ]
 ----
+
+
+[[ids]]
+== IDs
+
+[[cache-name]]
+=== \{cache-name\}
+The name of the cache.
+
+If the cache is defined by a plugin the cache name must include the
+plugin name: "<plugin-name>-<cache-name>".
+
+Gerrit core caches can optionally be prefixed with "gerrit":
+"gerrit-<cache-name>".
 
 
 [[json-entities]]

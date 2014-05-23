@@ -20,10 +20,12 @@ import com.google.common.cache.Cache;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.sshd.BaseCommand;
+import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.config.CacheResource;
+import com.google.gerrit.server.config.FlushCache;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 import org.kohsuke.args4j.Option;
 
@@ -48,18 +50,10 @@ final class FlushCaches extends CacheCommand {
   private boolean list;
 
   @Inject
-  IdentifiedUser currentUser;
+  private Provider<FlushCache> flushCache;
 
   @Override
   protected void run() throws Failure {
-    if (caches.contains(WEB_SESSIONS)
-        && !currentUser.getCapabilities().canAdministrateServer()) {
-      String msg = String.format(
-          "fatal: only site administrators can flush %s",
-          WEB_SESSIONS);
-      throw new UnloggedFailure(BaseCommand.STATUS_NOT_ADMIN, msg);
-    }
-
     if (list) {
       if (all || caches.size() > 0) {
         throw error("error: cannot use --list with --all or --cache");
@@ -104,9 +98,12 @@ final class FlushCaches extends CacheCommand {
         String n = cacheNameOf(e.getPluginName(), e.getExportName());
         if (flush(n)) {
           try {
-            e.getProvider().get().invalidateAll();
-          } catch (Throwable err) {
-            stderr.println("error: cannot flush cache \"" + n + "\": " + err);
+            flushCache.get().apply(
+                new CacheResource(e.getPluginName(), e.getExportName(),
+                    e.getProvider()), new FlushCache.Input());
+          } catch (RestApiException err) {
+            stderr.println("error: cannot flush cache \"" + n + "\": "
+                + err.getMessage());
           }
         }
       }

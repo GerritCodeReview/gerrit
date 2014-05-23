@@ -285,6 +285,34 @@ As result a link:#cache-info[CacheInfo] entity is returned.
   }
 ----
 
+[[flush-cache]]
+=== Flush Cache
+--
+'POST /config/server/caches/link:#cache-name[\{cache-name\}]/flush'
+--
+
+Flushes a cache.
+
+The caller must be a member of a group that is granted the
+link:access-control.html#capability_flushCaches[Flush Caches] capability
+or the link:access-control.html#capability_administrateServer[
+Administrate Server] capability.
+
+The "web_sessions" cache can only be flushed if the caller is member of
+a group that is granted the
+link:access-control.html#capability_administrateServer[Administrate
+Server] capability.
+
+.Request
+----
+  POST /config/server/caches/projects/flush HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+----
+
 [[list-capabilities]]
 === List Capabilities
 --

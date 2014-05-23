@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "df4ef081_45c86a8b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 1016223
+      },
+      "writtenOn": "2014-05-23T00:15:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df4ef081_a565deeb",
+      "range": {
+        "startLine": 435,
+        "startChar": 67,
+        "endLine": 435,
+        "endChar": 72
+      },
+      "revId": "016f313d8b5fff6af41495240bb05bc82de15741",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "df4ef081_8562e2df",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2014-05-22T22:10:11Z",
       "side": 1,
       "message": "This one can stay un-stored.",
+      "range": {
+        "startLine": 457,
+        "startChar": 67,
+        "endLine": 457,
+        "endChar": 72
+      },
+      "revId": "016f313d8b5fff6af41495240bb05bc82de15741",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f5de831_a7972a64",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 1016223
+      },
+      "writtenOn": "2014-05-23T00:15:31Z",
+      "side": 1,
+      "message": "ack",
+      "parentUuid": "df4ef081_8562e2df",
       "range": {
         "startLine": 457,
         "startChar": 67,
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "1f5de831_87942660",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/FieldType.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1016223
+      },
+      "writtenOn": "2014-05-23T00:15:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df4ef081_e56bd6bf",
+      "revId": "016f313d8b5fff6af41495240bb05bc82de15741",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1f5de831_27a45ad9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/IntegerRangePredicate.java",
         "patchSetId": 2
@@ -76,6 +142,24 @@
       "writtenOn": "2014-05-22T22:10:11Z",
       "side": 1,
       "message": "This is kind of the same logic as the parser in LabelPredicate. If you see an easy way to combine them please do so, otherwise don\u0027t worry about it.",
+      "revId": "016f313d8b5fff6af41495240bb05bc82de15741",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f5de831_4722ae98",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/IntegerRangePredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1016223
+      },
+      "writtenOn": "2014-05-23T00:15:31Z",
+      "side": 1,
+      "message": "I\u0027ve done my best here and created a RangeUtil. Let me know if this looks okay to you (and/or whether the name/placement of that class is reasonable).\n\nI did change the pattern to allow no test (same as \u003d) so I\u0027m not sure if this makes LabelPredicate behave in an undesirable way, as I can\u0027t quite figure out how it\u0027s supposed to work.",
+      "parentUuid": "1f5de831_27a45ad9",
       "revId": "016f313d8b5fff6af41495240bb05bc82de15741",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -99,6 +183,24 @@
     },
     {
       "key": {
+        "uuid": "1f5de831_2727baa8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/IntegerRangePredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1016223
+      },
+      "writtenOn": "2014-05-23T00:15:31Z",
+      "side": 1,
+      "message": "Yeah, I\u0027m not sure if there\u0027s a right answer here. Someone suggested 500 +- some delta but that feels surprising too.\n\nOne thought would be to suggest all the variants that make sense, e.g.\n\nsize:\u003e\nsize:\u003c\nsize:\u003e\u003d\nsize:\u003c\u003d\n\nfor each of the new range operators.\n\nOtherwise, I defer to you and the other reviewers here, as I don\u0027t know that anything makes sense.\n\nOne thing to note is that if we special case this, it could make using the common logic as LabelPredicate harder.",
+      "parentUuid": "1f5de831_c79a1e8e",
+      "revId": "016f313d8b5fff6af41495240bb05bc82de15741",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1f5de831_07a956b1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/IntegerRangePredicate.java",
         "patchSetId": 2
@@ -110,6 +212,24 @@
       "writtenOn": "2014-05-22T22:10:11Z",
       "side": 1,
       "message": "Use Ints.tryParse",
+      "revId": "016f313d8b5fff6af41495240bb05bc82de15741",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f5de831_671db252",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/IntegerRangePredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1016223
+      },
+      "writtenOn": "2014-05-23T00:15:31Z",
+      "side": 1,
+      "message": "I don\u0027t think this is what we want - what do we do if it returns null? Still seems like an error to me (rather than falling back to some default, as I don\u0027t see any default that\u0027s reasonable here).",
+      "parentUuid": "1f5de831_07a956b1",
       "revId": "016f313d8b5fff6af41495240bb05bc82de15741",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -133,6 +253,24 @@
     },
     {
       "key": {
+        "uuid": "1f5de831_072cb688",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/IntegerRangePredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1016223
+      },
+      "writtenOn": "2014-05-23T00:15:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df4ef081_c568dac5",
+      "revId": "016f313d8b5fff6af41495240bb05bc82de15741",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "df4ef081_25520e11",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/IntegerRangePredicate.java",
         "patchSetId": 2
@@ -144,6 +282,24 @@
       "writtenOn": "2014-05-22T22:10:11Z",
       "side": 1,
       "message": "Or:\n\n return Ints.saturatedCast(queryInt + 1L);",
+      "revId": "016f313d8b5fff6af41495240bb05bc82de15741",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df4ef081_25cd6e9b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/IntegerRangePredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1016223
+      },
+      "writtenOn": "2014-05-23T00:15:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df4ef081_25520e11",
       "revId": "016f313d8b5fff6af41495240bb05bc82de15741",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -167,6 +323,24 @@
     },
     {
       "key": {
+        "uuid": "df4ef081_05d27237",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/IntegerRangePredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1016223
+      },
+      "writtenOn": "2014-05-23T00:15:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df4ef081_05571201",
+      "revId": "016f313d8b5fff6af41495240bb05bc82de15741",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1f5de831_47af4eb9",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
         "patchSetId": 2
@@ -178,6 +352,24 @@
       "writtenOn": "2014-05-22T22:10:11Z",
       "side": 1,
       "message": "I think you want separate test methods for deleted !\u003d 0 and delta !\u003d added.",
+      "revId": "016f313d8b5fff6af41495240bb05bc82de15741",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f5de831_e73082db",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 837,
+      "author": {
+        "id": 1016223
+      },
+      "writtenOn": "2014-05-23T00:15:31Z",
+      "side": 1,
+      "message": "Agreed, but I couldn\u0027t figure out how to insert a commit which had deleted \u003e 0. I tried adding .rm(\"file1\") to commit2 but it had no effect.\n\nHappy to test these cases if you or someone can help me with that.",
+      "parentUuid": "1f5de831_47af4eb9",
       "revId": "016f313d8b5fff6af41495240bb05bc82de15741",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -243,7 +243,7 @@ public class MyIdentitiesScreen extends SettingsScreen {
         //
         return "";
 
-      } else if (k.isScheme(OpenIdUrls.URL_GOOGLE)) {
+      } else if (k.isScheme("https://www.google.com/accounts/o8/id")) {
         return OpenIdUtil.C.nameGoogle();
 
       } else if (k.isScheme(OpenIdUrls.URL_YAHOO)) {

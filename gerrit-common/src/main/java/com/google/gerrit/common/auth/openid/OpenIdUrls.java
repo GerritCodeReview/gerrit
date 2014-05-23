@@ -19,6 +19,4 @@ public class OpenIdUrls {
   public static final String LASTID_COOKIE = "gerrit.last_openid";
 
   public static final String URL_YAHOO = "https://me.yahoo.com";
-  public static final String URL_GOOGLE =
-      "https://www.google.com/accounts/o8/id";
 }

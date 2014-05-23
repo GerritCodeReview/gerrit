@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.account;
 
-import com.google.gerrit.common.auth.openid.OpenIdUrls;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.Permission;
@@ -38,9 +37,7 @@ import com.google.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /** Tracks authentication related details for user accounts. */
@@ -197,67 +194,6 @@ public class AccountManager {
 
   private AuthResult create(final ReviewDb db, final AuthRequest who)
       throws OrmException, AccountException {
-    if (authConfig.isAllowGoogleAccountUpgrade()
-        && who.isScheme(OpenIdUrls.URL_GOOGLE + "?")
-        && who.getEmailAddress() != null) {
-      final List<AccountExternalId> openId = new ArrayList<>();
-      final List<AccountExternalId> v1 = new ArrayList<>();
-
-      for (final AccountExternalId extId : db.accountExternalIds()
-          .byEmailAddress(who.getEmailAddress())) {
-        if (extId.isScheme(OpenIdUrls.URL_GOOGLE + "?")) {
-          openId.add(extId);
-        } else if (extId.isScheme(AccountExternalId.LEGACY_GAE)) {
-          v1.add(extId);
-        }
-      }
-
-      if (!openId.isEmpty()) {
-        // The user has already registered with an OpenID from Google, but
-        // Google may have changed the user's OpenID identity if this server
-        // name has changed. Insert a new identity for the user.
-        //
-        final Account.Id accountId = openId.get(0).getAccountId();
-
-        if (openId.size() > 1) {
-          // Validate all matching identities are actually the same user.
-          //
-          for (final AccountExternalId extId : openId) {
-            if (!accountId.equals(extId.getAccountId())) {
-              throw new AccountException("Multiple user accounts for "
-                  + who.getEmailAddress() + " using Google Accounts provider");
-            }
-          }
-        }
-
-        final AccountExternalId newId = createId(accountId, who);
-        newId.setEmailAddress(who.getEmailAddress());
-
-        db.accountExternalIds().upsert(Collections.singleton(newId));
-        if (openId.size() == 1) {
-          final AccountExternalId oldId = openId.get(0);
-          db.accountExternalIds().delete(Collections.singleton(oldId));
-        }
-        return new AuthResult(accountId, newId.getKey(), false);
-
-      } else if (v1.size() == 1) {
-        // Exactly one user was imported from Gerrit 1.x with this email
-        // address. Upgrade their account by deleting the legacy import
-        // identity and creating a new identity matching the token we have.
-        //
-        final AccountExternalId oldId = v1.get(0);
-        final AccountExternalId newId = createId(oldId.getAccountId(), who);
-        newId.setEmailAddress(who.getEmailAddress());
-
-        db.accountExternalIds().upsert(Collections.singleton(newId));
-        db.accountExternalIds().delete(Collections.singleton(oldId));
-        return new AuthResult(newId.getAccountId(), newId.getKey(), false);
-
-      } else if (v1.size() > 1) {
-        throw new AccountException("Multiple Gerrit 1.x accounts found");
-      }
-    }
-
     final Account.Id newId = new Account.Id(db.nextAccountId());
     final Account account = new Account(newId, TimeUtil.nowTs());
     final AccountExternalId extId = createId(newId, who);

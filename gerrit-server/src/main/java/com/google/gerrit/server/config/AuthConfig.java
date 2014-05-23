@@ -54,8 +54,6 @@ public class AuthConfig {
   private final SignedToken emailReg;
   private final SignedToken restToken;
 
-  private final boolean allowGoogleAccountUpgrade;
-
   @Inject
   AuthConfig(@GerritServerConfig final Config cfg)
       throws XsrfException {
@@ -96,13 +94,6 @@ public class AuthConfig {
       restToken = new SignedToken(age, key);
     } else {
       restToken = null;
-    }
-
-    if (authType == AuthType.OPENID) {
-      allowGoogleAccountUpgrade =
-          cfg.getBoolean("auth", "allowgoogleaccountupgrade", false);
-    } else {
-      allowGoogleAccountUpgrade = false;
     }
   }
 
@@ -172,10 +163,6 @@ public class AuthConfig {
     return restToken;
   }
 
-  public boolean isAllowGoogleAccountUpgrade() {
-    return allowGoogleAccountUpgrade;
-  }
-
   /** OpenID identities which the server permits for authentication. */
   public List<OpenIdProviderPattern> getAllowedOpenIDs() {
     return allowedOpenIDs;
@@ -237,14 +224,6 @@ public class AuthConfig {
   }
 
   private boolean isTrusted(final AccountExternalId id) {
-    if (id.isScheme(AccountExternalId.LEGACY_GAE)) {
-      // Assume this is a trusted token, its a legacy import from
-      // a fairly well respected provider and only takes effect if
-      // the administrator has the import still enabled
-      //
-      return isAllowGoogleAccountUpgrade();
-    }
-
     if (id.isScheme(AccountExternalId.SCHEME_MAILTO)) {
       // mailto identities are created by sending a unique validation
       // token to the address and asking them to come back to the site

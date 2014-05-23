@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7f58a46f_faf22907",
+        "filename": "tools/plugin_archetype_deploy.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-23T21:21:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f63e0f1_e965f59c",
+      "range": {
+        "startLine": 59,
+        "startChar": 10,
+        "endLine": 59,
+        "endChar": 70
+      },
+      "revId": "2aafc297bd942250ff6777c99fd6882f228b06e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ff51f41e_266c568a",
         "filename": "tools/plugin_archetype_deploy.sh",
         "patchSetId": 3
@@ -60,6 +84,30 @@
       "side": 1,
       "message": "Since this information is contained in the pom.xml we don\u0027t need to specify them explictely.",
       "parentUuid": "ff51f41e_266c568a",
+      "range": {
+        "startLine": 58,
+        "startChar": 7,
+        "endLine": 62,
+        "endChar": 34
+      },
+      "revId": "2aafc297bd942250ff6777c99fd6882f228b06e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f58a46f_daef6521",
+        "filename": "tools/plugin_archetype_deploy.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-23T21:21:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff51f41e_46fcf251",
       "range": {
         "startLine": 58,
         "startChar": 7,

@@ -25,3 +25,6 @@
 [cache]
   mode = dir
   dir = buck-out/cache
+
+[log]
+  max_traces = 25

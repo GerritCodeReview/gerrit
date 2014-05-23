@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "3fdb8c07_f0e5c043",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeSchemas.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-05-23T17:15:49Z",
+      "side": 1,
+      "message": "Oops, I thought we were already on 4.8.x. Upgrading in this change is a good plan. Just need to put a case in LuceneChangeIndex to set the version.",
+      "parentUuid": "3fdb8c07_50d5ac50",
+      "range": {
+        "startLine": 220,
+        "startChar": 15,
+        "endLine": 220,
+        "endChar": 38
+      },
+      "revId": "d0ae34ee711334d00dbbf3a0ed82cfa35ca43b5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3fdb8c07_70da3084",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/RangeUtil.java",
         "patchSetId": 6

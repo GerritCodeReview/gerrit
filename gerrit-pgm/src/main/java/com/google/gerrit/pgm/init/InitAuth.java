@@ -40,7 +40,7 @@ class InitAuth implements InitStep {
     ui.header("User Authentication");
 
     final AuthType auth_type =
-        auth.select("Authentication method", "type", AuthType.OPENID);
+        auth.select("Authentication method", "type", AuthType.LDAP);
 
     switch (auth_type) {
       case HTTP:

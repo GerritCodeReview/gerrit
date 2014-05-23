@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "ff51f41e_66f7ee6f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-23T12:39:42Z",
+      "side": 1,
+      "message": "Yes, let\u0027s keep Buck and Maven driven builds separated.",
+      "parentUuid": "ff51f41e_c6dc62f4",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 48
+      },
+      "revId": "6e51f438978876da29997f66b102468de95eee27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ff51f41e_26c69627",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -60,6 +84,30 @@
       "writtenOn": "2014-05-23T12:17:54Z",
       "side": 1,
       "message": "I had to define my Sonatype user and password in my settings.xml\n\n  \u003cserver\u003e\n    \u003cid\u003esonatype-nexus-staging\u003c/id\u003e\n    \u003cusername\u003eUSER\u003c/username\u003e\n    \u003cpassword\u003ePASSWORD\u003c/password\u003e\n  \u003c/server\u003e\n\nMy this should be mentioned in the documentation. At least one should know the server ID that is now hard-coded in the buck files.",
+      "range": {
+        "startLine": 16,
+        "startChar": 3,
+        "endLine": 16,
+        "endChar": 21
+      },
+      "revId": "6e51f438978876da29997f66b102468de95eee27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff51f41e_86d66ace",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-23T12:39:42Z",
+      "side": 1,
+      "message": "Good point! I am not aware where the other stuff is documented, but this should be removed from commit message then.",
+      "parentUuid": "ff51f41e_26c69627",
       "range": {
         "startLine": 16,
         "startChar": 3,
@@ -95,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "5f63e0f1_296c2d8a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-23T12:39:42Z",
+      "side": 1,
+      "message": "OK, will remove it then.",
+      "parentUuid": "ff51f41e_66cc8e49",
+      "range": {
+        "startLine": 18,
+        "startChar": 2,
+        "endLine": 31,
+        "endChar": 13
+      },
+      "revId": "6e51f438978876da29997f66b102468de95eee27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ff51f41e_86bf8a98",
         "filename": "tools/maven/BUCK",
         "patchSetId": 2
@@ -106,6 +178,30 @@
       "writtenOn": "2014-05-23T12:17:54Z",
       "side": 1,
       "message": "This URL only works for release versions, for SNAPSHOT versions it must be\n\n  https://oss.sonatype.org/content/repositories/snapshots/",
+      "range": {
+        "startLine": 28,
+        "startChar": 18,
+        "endLine": 28,
+        "endChar": 78
+      },
+      "revId": "6e51f438978876da29997f66b102468de95eee27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff51f41e_a6d96602",
+        "filename": "tools/maven/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-23T12:39:42Z",
+      "side": 1,
+      "message": "Sure, that what TYPE var on the line 4 is for. I didn\u0027t know where to put it.",
+      "parentUuid": "ff51f41e_86bf8a98",
       "range": {
         "startLine": 28,
         "startChar": 18,
@@ -153,6 +249,30 @@
       "side": 1,
       "message": "For running\n\n  mvn gpg:sign-and-deploy-file\n\nspecifying -Dversion, -DgroupId, -DartifactId and -Dpackaging are optional and may be omitted since this information is already contained in the pom file.",
       "parentUuid": "ff51f41e_06715a5e",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 1
+      },
+      "revId": "6e51f438978876da29997f66b102468de95eee27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f63e0f1_0971695e",
+        "filename": "tools/maven/mvn.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-23T12:39:42Z",
+      "side": 1,
+      "message": "Idea is to provide -Ddescription\u003d\"blah blah\" and then pom could be even generated? The only stuff that we have not there are Maintainers, right? Is this really required? I would prefer to delete all pom.xml files (Well, we still need pom.xml for archetypes, because we are building them with Maven).\n\nCan you try to upload JAR|SRC|Javadocs without\n\n  \u0027-DpomFile\u003dfoo\u0027\n\nand see if it works as well?\n\ni mean, provide -DgroupId\u003d... -DartifactId)... -Dfile\u003d... -Dpackaging\u003d... and see if it works?",
+      "parentUuid": "5f63e0f1_69722568",
       "range": {
         "startLine": 39,
         "startChar": 0,

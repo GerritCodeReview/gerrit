@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1f5de831_e75762dd",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2014-05-23T15:56:06Z",
+      "side": 1,
+      "message": "s/to/for/",
+      "range": {
+        "startLine": 484,
+        "startChar": 73,
+        "endLine": 484,
+        "endChar": 75
+      },
+      "revId": "7ccca0fac6d6f2237612bb89451d85680f6c15ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df4ef081_e59d1688",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2014-05-23T15:56:06Z",
+      "side": 1,
+      "message": "s/intern/internally/",
+      "range": {
+        "startLine": 484,
+        "startChar": 17,
+        "endLine": 484,
+        "endChar": 23
+      },
+      "revId": "7ccca0fac6d6f2237612bb89451d85680f6c15ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df4ef081_c59a1a8e",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2014-05-23T15:56:06Z",
+      "side": 1,
+      "message": "I think before giving these instructions we should still link to the github page and suggest going there for the latest install instructions.",
+      "range": {
+        "startLine": 489,
+        "startChar": 0,
+        "endLine": 489,
+        "endChar": 29
+      },
+      "revId": "7ccca0fac6d6f2237612bb89451d85680f6c15ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

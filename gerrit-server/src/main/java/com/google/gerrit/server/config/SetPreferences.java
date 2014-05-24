@@ -23,12 +23,14 @@ import com.google.gerrit.server.account.SetPreferences.Input;
 import com.google.gerrit.server.account.VersionedAccountPreferences;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 import java.io.IOException;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
+@Singleton
 public class SetPreferences implements RestModifyView<ConfigResource, Input> {
   private final MetaDataUpdate.User metaDataUpdateFactory;
   private final AllUsersName allUsersName;

@@ -27,7 +27,9 @@ import com.google.gerrit.server.account.AccountsCollection;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
+@Singleton
 public class AccountsImpl extends Accounts.NotImplemented implements Accounts {
   private final AccountsCollection accounts;
   private final AccountApiImpl.Factory api;

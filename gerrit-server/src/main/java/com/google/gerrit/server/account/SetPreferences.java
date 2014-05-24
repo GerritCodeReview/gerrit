@@ -41,6 +41,7 @@ import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
@@ -49,6 +50,7 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
+@Singleton
 public class SetPreferences implements RestModifyView<AccountResource, Input> {
   public static class Input {
     public Short changesPerPage;
@@ -72,13 +74,14 @@ public class SetPreferences implements RestModifyView<AccountResource, Input> {
 
   private final Provider<CurrentUser> self;
   private final AccountCache cache;
-  private final ReviewDb db;
+  private final Provider<ReviewDb> db;
   private final MetaDataUpdate.User metaDataUpdateFactory;
   private final AllUsersName allUsersName;
 
   @Inject
-  SetPreferences(Provider<CurrentUser> self, AccountCache cache, ReviewDb db,
-      MetaDataUpdate.User metaDataUpdateFactory, AllUsersName allUsersName) {
+  SetPreferences(Provider<CurrentUser> self, AccountCache cache,
+      Provider<ReviewDb> db, MetaDataUpdate.User metaDataUpdateFactory,
+      AllUsersName allUsersName) {
     this.self = self;
     this.cache = cache;
     this.db = db;
@@ -102,9 +105,9 @@ public class SetPreferences implements RestModifyView<AccountResource, Input> {
     AccountGeneralPreferences p;
     VersionedAccountPreferences versionedPrefs;
     MetaDataUpdate md = metaDataUpdateFactory.create(allUsersName);
-    db.accounts().beginTransaction(accountId);
+    db.get().accounts().beginTransaction(accountId);
     try {
-      Account a = db.accounts().get(accountId);
+      Account a = db.get().accounts().get(accountId);
       if (a == null) {
         throw new ResourceNotFoundException();
       }
@@ -167,8 +170,8 @@ public class SetPreferences implements RestModifyView<AccountResource, Input> {
         p.setChangeScreen(i.changeScreen);
       }
 
-      db.accounts().update(Collections.singleton(a));
-      db.commit();
+      db.get().accounts().update(Collections.singleton(a));
+      db.get().commit();
       storeMyMenus(versionedPrefs, i.my);
       versionedPrefs.commit(md);
       cache.evict(accountId);
@@ -177,7 +180,7 @@ public class SetPreferences implements RestModifyView<AccountResource, Input> {
           md.getRepository());
     } finally {
       md.close();
-      db.rollback();
+      db.get().rollback();
     }
   }
 

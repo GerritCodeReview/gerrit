@@ -16,7 +16,9 @@ package com.google.gerrit.server.account;
 
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.account.GetEmails.EmailInfo;
+import com.google.inject.Singleton;
 
+@Singleton
 public class GetEmail implements RestReadView<AccountResource.Email> {
   @Override
   public EmailInfo apply(AccountResource.Email rsrc) {

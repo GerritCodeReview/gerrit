@@ -26,6 +26,7 @@ import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.server.plugins.InstallPlugin.Input;
 import com.google.gerrit.server.plugins.ListPlugins.PluginInfo;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -36,6 +37,7 @@ import java.net.URL;
 import java.util.zip.ZipException;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
+@Singleton
 class InstallPlugin implements RestModifyView<TopLevelResource, Input> {
   static class Input {
     @DefaultInput

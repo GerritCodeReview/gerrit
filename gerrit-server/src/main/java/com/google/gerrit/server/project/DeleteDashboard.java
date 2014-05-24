@@ -25,9 +25,11 @@ import com.google.gerrit.server.project.DashboardsCollection.DashboardInfo;
 import com.google.gerrit.server.project.DeleteDashboard.Input;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
 import java.io.IOException;
 
+@Singleton
 class DeleteDashboard implements RestModifyView<DashboardResource, Input> {
   static class Input {
     String commitMessage;

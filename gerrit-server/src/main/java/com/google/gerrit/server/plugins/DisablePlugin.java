@@ -22,8 +22,10 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.plugins.DisablePlugin.Input;
 import com.google.gerrit.server.plugins.ListPlugins.PluginInfo;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
+@Singleton
 class DisablePlugin implements RestModifyView<PluginResource, Input> {
   static class Input {
   }

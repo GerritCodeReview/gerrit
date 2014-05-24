@@ -16,7 +16,9 @@ package com.google.gerrit.server.project;
 
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.project.ListBranches.BranchInfo;
+import com.google.inject.Singleton;
 
+@Singleton
 public class GetBranch implements RestReadView<BranchResource> {
 
   @Override

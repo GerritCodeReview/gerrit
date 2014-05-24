@@ -22,6 +22,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.events.CommitReceivedEvent;
@@ -39,6 +40,8 @@ import com.google.gerrit.server.ssh.NoSshInfo;
 import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -58,22 +61,25 @@ import org.eclipse.jgit.util.ChangeIdUtil;
 import java.io.IOException;
 import java.util.List;
 
+@Singleton
 public class CherryPickChange {
 
   private static final FooterKey CHANGE_ID = new FooterKey("Change-Id");
 
-  private final ReviewDb db;
+  private final Provider<ReviewDb> db;
   private final GitRepositoryManager gitManager;
   private final PersonIdent myIdent;
-  private final IdentifiedUser currentUser;
+  private final Provider<CurrentUser> currentUser;
   private final CommitValidators.Factory commitValidatorsFactory;
   private final ChangeInserter.Factory changeInserterFactory;
   private final PatchSetInserter.Factory patchSetInserterFactory;
   final MergeUtil.Factory mergeUtilFactory;
 
   @Inject
-  CherryPickChange(final ReviewDb db, @GerritPersonIdent final PersonIdent myIdent,
-      final GitRepositoryManager gitManager, final IdentifiedUser currentUser,
+  CherryPickChange(final Provider<ReviewDb> db,
+      @GerritPersonIdent final PersonIdent myIdent,
+      final GitRepositoryManager gitManager,
+      final Provider<CurrentUser> currentUser,
       final CommitValidators.Factory commitValidatorsFactory,
       final ChangeInserter.Factory changeInserterFactory,
       final PatchSetInserter.Factory patchSetInserterFactory,
@@ -96,7 +102,7 @@ public class CherryPickChange {
       InvalidChangeOperationException, MergeException {
 
     final Change.Id changeId = patchSetId.getParentKey();
-    final PatchSet patch = db.patchSets().get(patchSetId);
+    final PatchSet patch = db.get().patchSets().get(patchSetId);
     if (patch == null) {
       throw new NoSuchChangeException(changeId);
     }
@@ -105,7 +111,8 @@ public class CherryPickChange {
           "Cherry Pick: Destination branch cannot be null or empty");
     }
 
-    Project.NameKey project = db.changes().get(changeId).getProject();
+    Project.NameKey project = db.get().changes().get(changeId).getProject();
+    IdentifiedUser identifiedUser = (IdentifiedUser) currentUser.get();
     final Repository git;
     try {
       git = gitManager.openRepository(project);
@@ -128,7 +135,7 @@ public class CherryPickChange {
             revWalk.parseCommit(ObjectId.fromString(patch.getRevision().get()));
 
         PersonIdent committerIdent =
-            currentUser.newCommitterIdent(myIdent.getWhen(),
+            identifiedUser.newCommitterIdent(TimeUtil.nowTs(),
                 myIdent.getTimeZone());
 
         final ObjectId computedChangeId =
@@ -163,9 +170,9 @@ public class CherryPickChange {
         }
 
         List<Change> destChanges =
-            db.changes()
+            db.get().changes()
                 .byBranchKey(
-                    new Branch.NameKey(db.changes().get(changeId).getProject(),
+                    new Branch.NameKey(db.get().changes().get(changeId).getProject(),
                         destRef.getName()), changeKey).toList();
 
         if (destChanges.size() > 1) {
@@ -176,12 +183,12 @@ public class CherryPickChange {
           // The change key exists on the destination branch. The cherry pick
           // will be added as a new patch set.
           return insertPatchSet(git, revWalk, destChanges.get(0), patchSetId,
-              cherryPickCommit, refControl, currentUser);
+              cherryPickCommit, refControl, identifiedUser);
         } else {
           // Change key not found on destination branch. We can create a new
           // change.
           return createNewChange(git, revWalk, changeKey, project, patchSetId, destRef,
-              cherryPickCommit, refControl);
+              cherryPickCommit, refControl, identifiedUser);
         }
       } finally {
         revWalk.release();
@@ -193,7 +200,7 @@ public class CherryPickChange {
 
   private Change.Id insertPatchSet(Repository git, RevWalk revWalk, Change change,
       PatchSet.Id patchSetId, RevCommit cherryPickCommit,
-      RefControl refControl, IdentifiedUser uploader)
+      RefControl refControl, IdentifiedUser identifiedUser)
       throws InvalidChangeOperationException, IOException, OrmException,
       NoSuchChangeException {
     final ChangeControl changeControl =
@@ -201,11 +208,11 @@ public class CherryPickChange {
     final PatchSetInserter inserter = patchSetInserterFactory
         .create(git, revWalk, changeControl, cherryPickCommit);
     final PatchSet.Id newPatchSetId = inserter.getPatchSetId();
-    final PatchSet current = db.patchSets().get(change.currentPatchSetId());
+    PatchSet current = db.get().patchSets().get(change.currentPatchSetId());
     inserter
       .setMessage("Uploaded patch set " + newPatchSetId.get() + ".")
       .setDraft(current.isDraft())
-      .setUploader(uploader.getAccountId())
+      .setUploader(identifiedUser.getAccountId())
       .setCopyLabels(true)
       .insert();
     return change.getId();
@@ -213,11 +220,12 @@ public class CherryPickChange {
 
   private Change.Id createNewChange(Repository git, RevWalk revWalk,
       Change.Key changeKey, Project.NameKey project, PatchSet.Id patchSetId,
-      Ref destRef, RevCommit cherryPickCommit, RefControl refControl)
+      Ref destRef, RevCommit cherryPickCommit, RefControl refControl,
+      IdentifiedUser identifiedUser)
       throws OrmException, InvalidChangeOperationException, IOException {
     Change change =
-        new Change(changeKey, new Change.Id(db.nextChangeId()),
-            currentUser.getAccountId(), new Branch.NameKey(project,
+        new Change(changeKey, new Change.Id(db.get().nextChangeId()),
+            identifiedUser.getAccountId(), new Branch.NameKey(project,
                 destRef.getName()), TimeUtil.nowTs());
     ChangeInserter ins =
         changeInserterFactory.create(refControl, change, cherryPickCommit);
@@ -229,7 +237,7 @@ public class CherryPickChange {
         new CommitReceivedEvent(new ReceiveCommand(ObjectId.zeroId(),
             cherryPickCommit.getId(), newPatchSet.getRefName()), refControl
             .getProjectControl().getProject(), refControl.getRefName(),
-            cherryPickCommit, currentUser);
+            cherryPickCommit, identifiedUser);
 
     try {
       commitValidators.validateForGerritCommits(commitReceivedEvent);
@@ -247,18 +255,20 @@ public class CherryPickChange {
           change.getDest().getParentKey().get(), ru.getResult()));
     }
 
-    ins.setMessage(buildChangeMessage(patchSetId, change, cherryPickCommit))
+    ins.setMessage(buildChangeMessage(patchSetId, change, cherryPickCommit,
+        identifiedUser))
         .insert();
 
     return change.getId();
   }
 
   private ChangeMessage buildChangeMessage(PatchSet.Id patchSetId, Change dest,
-      RevCommit cherryPickCommit) throws OrmException {
+      RevCommit cherryPickCommit, IdentifiedUser identifiedUser)
+      throws OrmException {
     ChangeMessage cmsg = new ChangeMessage(
         new ChangeMessage.Key(
-            patchSetId.getParentKey(), ChangeUtil.messageUUID(db)),
-        currentUser.getAccountId(), TimeUtil.nowTs(), patchSetId);
+            patchSetId.getParentKey(), ChangeUtil.messageUUID(db.get())),
+            identifiedUser.getAccountId(), TimeUtil.nowTs(), patchSetId);
     String destBranchName = dest.getDest().get();
     StringBuilder msgBuf = new StringBuilder("Patch Set ")
         .append(patchSetId.get())

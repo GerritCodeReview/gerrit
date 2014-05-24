@@ -38,10 +38,12 @@ import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
 import java.util.List;
 import java.util.Map;
 
+@Singleton
 public class AddIncludedGroups implements RestModifyView<GroupResource, Input> {
   public static class Input {
     @DefaultInput
@@ -71,13 +73,13 @@ public class AddIncludedGroups implements RestModifyView<GroupResource, Input> {
 
   private final Provider<GroupsCollection> groupsCollection;
   private final GroupIncludeCache groupIncludeCache;
-  private final ReviewDb db;
+  private final Provider<ReviewDb> db;
   private final GroupJson json;
 
   @Inject
   public AddIncludedGroups(Provider<GroupsCollection> groupsCollection,
       GroupIncludeCache groupIncludeCache,
-      ReviewDb db, GroupJson json) {
+      Provider<ReviewDb> db, GroupJson json) {
     this.groupsCollection = groupsCollection;
     this.groupIncludeCache = groupIncludeCache;
     this.db = db;
@@ -111,7 +113,7 @@ public class AddIncludedGroups implements RestModifyView<GroupResource, Input> {
         AccountGroupById.Key agiKey =
             new AccountGroupById.Key(group.getId(),
                 d.getGroupUUID());
-        AccountGroupById agi = db.accountGroupById().get(agiKey);
+        AccountGroupById agi = db.get().accountGroupById().get(agiKey);
         if (agi == null) {
           agi = new AccountGroupById(agiKey);
           newIncludedGroups.put(d.getGroupUUID(), agi);
@@ -123,8 +125,8 @@ public class AddIncludedGroups implements RestModifyView<GroupResource, Input> {
     }
 
     if (!newIncludedGroups.isEmpty()) {
-      db.accountGroupByIdAud().insert(newIncludedGroupsAudits);
-      db.accountGroupById().insert(newIncludedGroups.values());
+      db.get().accountGroupByIdAud().insert(newIncludedGroupsAudits);
+      db.get().accountGroupById().insert(newIncludedGroups.values());
       for (AccountGroupById agi : newIncludedGroups.values()) {
         groupIncludeCache.evictMemberIn(agi.getIncludeUUID());
       }
@@ -134,6 +136,7 @@ public class AddIncludedGroups implements RestModifyView<GroupResource, Input> {
     return result;
   }
 
+  @Singleton
   static class PutIncludedGroup implements RestModifyView<GroupResource, PutIncludedGroup.Input> {
     static class Input {
     }
@@ -160,6 +163,7 @@ public class AddIncludedGroups implements RestModifyView<GroupResource, Input> {
     }
   }
 
+  @Singleton
   static class UpdateIncludedGroup implements RestModifyView<IncludedGroupResource, PutIncludedGroup.Input> {
     static class Input {
     }

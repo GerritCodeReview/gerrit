@@ -22,9 +22,11 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 import java.util.concurrent.TimeUnit;
 
+@Singleton
 public class GetCommit implements RestReadView<RevisionResource> {
   private final ChangeJson json;
 

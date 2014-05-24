@@ -18,7 +18,9 @@ import com.google.common.base.Strings;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.inject.Singleton;
 
+@Singleton
 class GetDescription implements RestReadView<GroupResource> {
   @Override
   public String apply(GroupResource resource) throws MethodNotAllowedException {

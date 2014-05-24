@@ -25,7 +25,9 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
+@Singleton
 public class GetDiffPreferences implements RestReadView<AccountResource> {
   private final Provider<CurrentUser> self;
   private final Provider<ReviewDb> db;

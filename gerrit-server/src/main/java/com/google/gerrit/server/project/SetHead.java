@@ -28,6 +28,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.SetHead.Input;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Constants;
@@ -38,6 +39,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
+@Singleton
 public class SetHead implements RestModifyView<ProjectResource, Input> {
   private static final Logger log = LoggerFactory.getLogger(SetHead.class);
 

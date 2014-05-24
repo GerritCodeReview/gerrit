@@ -35,6 +35,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
@@ -46,6 +47,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Singleton
 public class GetPreferences implements RestReadView<AccountResource> {
   private static final Logger log = LoggerFactory.getLogger(GetPreferences.class);
 

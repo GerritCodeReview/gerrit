@@ -17,7 +17,9 @@ package com.google.gerrit.server.account;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.inject.Singleton;
 
+@Singleton
 public class GetActive implements RestReadView<AccountResource> {
   @Override
   public Object apply(AccountResource rsrc) {

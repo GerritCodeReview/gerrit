@@ -23,11 +23,13 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.plugins.EnablePlugin.Input;
 import com.google.gerrit.server.plugins.ListPlugins.PluginInfo;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
+@Singleton
 class EnablePlugin implements RestModifyView<PluginResource, Input> {
   static class Input {
   }

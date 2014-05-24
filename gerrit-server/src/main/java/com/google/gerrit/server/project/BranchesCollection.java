@@ -23,12 +23,14 @@ import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.server.project.ListBranches.BranchInfo;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.Constants;
 
 import java.io.IOException;
 import java.util.List;
 
+@Singleton
 public class BranchesCollection implements
     ChildCollection<ProjectResource, BranchResource>,
     AcceptsCreate<ProjectResource> {

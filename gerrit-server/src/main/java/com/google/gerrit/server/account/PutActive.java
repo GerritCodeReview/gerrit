@@ -25,10 +25,12 @@ import com.google.gerrit.server.account.PutActive.Input;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
 import java.util.Collections;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
+@Singleton
 public class PutActive implements RestModifyView<AccountResource, Input> {
   public static class Input {
   }

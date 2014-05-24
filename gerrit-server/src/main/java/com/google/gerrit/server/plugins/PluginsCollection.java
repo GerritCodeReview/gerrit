@@ -24,7 +24,9 @@ import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
+@Singleton
 public class PluginsCollection implements
     RestCollection<TopLevelResource, PluginResource>,
     AcceptsCreate<TopLevelResource> {

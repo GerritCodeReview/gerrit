@@ -15,7 +15,9 @@
 package com.google.gerrit.server.group;
 
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.inject.Singleton;
 
+@Singleton
 public class GetOptions implements RestReadView<GroupResource> {
 
   @Override

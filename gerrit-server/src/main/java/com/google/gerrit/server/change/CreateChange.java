@@ -47,6 +47,7 @@ import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Constants;
@@ -67,6 +68,7 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.TimeZone;
 
+@Singleton
 public class CreateChange implements
     RestModifyView<TopLevelResource, ChangeInfo> {
 

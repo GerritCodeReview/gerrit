@@ -17,7 +17,9 @@ package com.google.gerrit.server.project;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.project.CreateBranch.Input;
+import com.google.inject.Singleton;
 
+@Singleton
 public class PutBranch implements RestModifyView<BranchResource, Input> {
 
   @Override

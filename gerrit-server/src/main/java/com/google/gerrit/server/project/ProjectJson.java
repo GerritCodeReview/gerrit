@@ -24,7 +24,9 @@ import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
+@Singleton
 public class ProjectJson {
 
   private final AllProjectsName allProjects;

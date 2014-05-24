@@ -19,6 +19,7 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -31,6 +32,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
 
 import java.io.IOException;
 
+@Singleton
 public class GetHead implements RestReadView<ProjectResource> {
 
   private GitRepositoryManager repoManager;

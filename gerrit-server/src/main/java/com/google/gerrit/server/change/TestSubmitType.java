@@ -30,6 +30,8 @@ import com.google.gerrit.server.project.RuleEvalException;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
 import com.googlecode.prolog_cafe.lang.SymbolTerm;
 import com.googlecode.prolog_cafe.lang.Term;
@@ -39,8 +41,9 @@ import org.kohsuke.args4j.Option;
 import java.io.ByteArrayInputStream;
 import java.util.List;
 
+@Singleton
 public class TestSubmitType implements RestModifyView<RevisionResource, Input> {
-  private final ReviewDb db;
+  private final Provider<ReviewDb> db;
   private final ChangeData.Factory changeDataFactory;
   private final RulesCache rules;
 
@@ -48,7 +51,7 @@ public class TestSubmitType implements RestModifyView<RevisionResource, Input> {
   private Filters filters = Filters.RUN;
 
   @Inject
-  TestSubmitType(ReviewDb db,
+  TestSubmitType(Provider<ReviewDb> db,
       ChangeData.Factory changeDataFactory,
       RulesCache rules) {
     this.db = db;
@@ -68,12 +71,12 @@ public class TestSubmitType implements RestModifyView<RevisionResource, Input> {
     input.filters = Objects.firstNonNull(input.filters, filters);
 
     SubmitRuleEvaluator evaluator = new SubmitRuleEvaluator(
-        db,
+        db.get(),
         rsrc.getPatchSet(),
         rsrc.getControl().getProjectControl(),
         rsrc.getControl(),
         rsrc.getChange(),
-        changeDataFactory.create(db, rsrc.getChange()),
+        changeDataFactory.create(db.get(), rsrc.getChange()),
         false,
         "locate_submit_type", "get_submit_type",
         "locate_submit_type_filter", "filter_submit_type_results",

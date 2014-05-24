@@ -20,9 +20,11 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.project.ProjectsCollection;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 import java.io.IOException;
 
+@Singleton
 class ProjectsImpl extends Projects.NotImplemented implements Projects {
   private final ProjectsCollection projects;
   private final ProjectApiImpl.Factory api;

@@ -26,6 +26,7 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.server.project.DashboardsCollection.DashboardInfo;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.kohsuke.args4j.Option;
@@ -33,6 +34,7 @@ import org.kohsuke.args4j.Option;
 import java.io.IOException;
 import java.util.List;
 
+@Singleton
 class GetDashboard implements RestReadView<DashboardResource> {
   private final DashboardsCollection dashboards;
 

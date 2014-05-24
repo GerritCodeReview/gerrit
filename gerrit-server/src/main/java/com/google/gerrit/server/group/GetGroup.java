@@ -18,7 +18,9 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.group.GroupJson.GroupInfo;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
+@Singleton
 class GetGroup implements RestReadView<GroupResource> {
   private final GroupJson json;
 

@@ -21,6 +21,7 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 import org.eclipse.jgit.api.GarbageCollectCommand;
 import org.eclipse.jgit.api.Git;
@@ -31,6 +32,7 @@ import org.eclipse.jgit.lib.Repository;
 import java.io.IOException;
 
 @RequiresCapability(GlobalCapability.RUN_GC)
+@Singleton
 public class GetStatistics implements RestReadView<ProjectResource> {
 
   private final GitRepositoryManager repoManager;

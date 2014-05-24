@@ -20,9 +20,11 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.change.ChangeJson.ChangeInfo;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 import org.kohsuke.args4j.Option;
 
+@Singleton
 public class GetDetail implements RestReadView<ChangeResource> {
   private final GetChange delegate;
 

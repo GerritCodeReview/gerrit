@@ -42,6 +42,7 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
 import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.diff.ReplaceEdit;
@@ -57,6 +58,7 @@ import org.kohsuke.args4j.spi.Setter;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+@Singleton
 public class GetDiff implements RestReadView<FileResource> {
   private final ProjectCache projectCache;
   private final PatchScriptFactory.Factory patchScriptFactoryFactory;

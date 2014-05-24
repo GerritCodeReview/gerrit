@@ -44,6 +44,7 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
+@Singleton
 public class GetArchive implements RestReadView<RevisionResource> {
   @Singleton
   public static class AllowedFormats {

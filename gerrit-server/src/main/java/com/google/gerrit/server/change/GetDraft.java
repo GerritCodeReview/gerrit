@@ -15,7 +15,9 @@
 package com.google.gerrit.server.change;
 
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.inject.Singleton;
 
+@Singleton
 class GetDraft implements RestReadView<DraftResource> {
   @Override
   public CommentInfo apply(DraftResource rsrc) {

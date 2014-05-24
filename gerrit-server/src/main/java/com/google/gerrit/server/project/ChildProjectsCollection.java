@@ -23,9 +23,11 @@ import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
 import java.io.IOException;
 
+@Singleton
 public class ChildProjectsCollection implements
     ChildCollection<ProjectResource, ChildProjectResource> {
   private final Provider<ListChildProjects> list;

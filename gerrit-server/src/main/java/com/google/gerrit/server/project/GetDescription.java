@@ -17,7 +17,9 @@ package com.google.gerrit.server.project;
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.inject.Singleton;
 
+@Singleton
 class GetDescription implements RestReadView<ProjectResource> {
   @Override
   public String apply(ProjectResource resource) {

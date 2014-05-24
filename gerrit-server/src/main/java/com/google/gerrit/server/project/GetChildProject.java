@@ -18,9 +18,11 @@ import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 import org.kohsuke.args4j.Option;
 
+@Singleton
 public class GetChildProject implements RestReadView<ChildProjectResource> {
   @Option(name = "--recursive", usage = "to list child projects recursively")
   private boolean recursive;

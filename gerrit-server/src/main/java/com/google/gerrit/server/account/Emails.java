@@ -25,7 +25,9 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountResource.Email;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
+@Singleton
 public class Emails implements
     ChildCollection<AccountResource, AccountResource.Email>,
     AcceptsCreate<AccountResource> {

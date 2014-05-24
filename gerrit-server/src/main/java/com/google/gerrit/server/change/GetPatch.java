@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
@@ -40,6 +41,7 @@ import java.util.Locale;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+@Singleton
 public class GetPatch implements RestReadView<RevisionResource> {
   private final GitRepositoryManager repoManager;
 

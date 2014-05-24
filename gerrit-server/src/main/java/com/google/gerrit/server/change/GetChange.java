@@ -21,11 +21,13 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.change.ChangeJson.ChangeInfo;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 import org.kohsuke.args4j.Option;
 
 import java.util.concurrent.TimeUnit;
 
+@Singleton
 public class GetChange implements RestReadView<ChangeResource> {
   private final ChangeJson json;
 

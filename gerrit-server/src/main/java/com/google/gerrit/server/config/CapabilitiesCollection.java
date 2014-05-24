@@ -21,7 +21,9 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
+@Singleton
 public class CapabilitiesCollection implements
     ChildCollection<ConfigResource, CapabilityResource> {
   private final DynamicMap<RestView<CapabilityResource>> views;

@@ -24,6 +24,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -37,11 +38,11 @@ import java.util.Collection;
 
 class IncludedIn implements RestReadView<ChangeResource> {
 
-  private final ReviewDb db;
+  private final Provider<ReviewDb> db;
   private final GitRepositoryManager repoManager;
 
   @Inject
-  IncludedIn(ReviewDb db, GitRepositoryManager repoManager) {
+  IncludedIn(Provider<ReviewDb> db, GitRepositoryManager repoManager) {
     this.db = db;
     this.repoManager = repoManager;
   }
@@ -51,7 +52,7 @@ class IncludedIn implements RestReadView<ChangeResource> {
       ResourceConflictException, OrmException, IOException {
     ChangeControl ctl = rsrc.getControl();
     PatchSet ps =
-        db.patchSets().get(ctl.getChange().currentPatchSetId());
+        db.get().patchSets().get(ctl.getChange().currentPatchSetId());
     Repository r =
         repoManager.openRepository(ctl.getProject().getNameKey());
     try {

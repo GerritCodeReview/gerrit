@@ -37,11 +37,13 @@ import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
+@Singleton
 public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
   public static class Input {
   }

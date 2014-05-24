@@ -16,7 +16,9 @@ package com.google.gerrit.server.account;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.inject.Singleton;
 
+@Singleton
 public class GetName implements RestReadView<AccountResource> {
   @Override
   public String apply(AccountResource rsrc) {

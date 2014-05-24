@@ -29,7 +29,9 @@ import com.google.gerrit.server.account.PerformRenameGroup;
 import com.google.gerrit.server.group.PutName.Input;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
+@Singleton
 public class PutName implements RestModifyView<GroupResource, Input> {
   public static class Input {
     @DefaultInput

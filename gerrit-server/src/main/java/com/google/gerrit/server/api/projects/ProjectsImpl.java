@@ -24,10 +24,12 @@ import com.google.gerrit.server.project.ListProjects;
 import com.google.gerrit.server.project.ProjectsCollection;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
 import java.io.IOException;
 import java.util.List;
 
+@Singleton
 class ProjectsImpl extends Projects.NotImplemented implements Projects {
   private final ProjectsCollection projects;
   private final ProjectApiImpl.Factory api;

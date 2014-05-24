@@ -25,19 +25,22 @@ import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.group.PutOptions.Input;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
 import java.util.Collections;
 
+@Singleton
 public class PutOptions implements RestModifyView<GroupResource, Input> {
   public static class Input {
     public Boolean visibleToAll;
   }
 
   private final GroupCache groupCache;
-  private final ReviewDb db;
+  private final Provider<ReviewDb> db;
 
   @Inject
-  PutOptions(GroupCache groupCache, ReviewDb db) {
+  PutOptions(GroupCache groupCache, Provider<ReviewDb> db) {
     this.groupCache = groupCache;
     this.db = db;
   }
@@ -59,14 +62,14 @@ public class PutOptions implements RestModifyView<GroupResource, Input> {
       input.visibleToAll = false;
     }
 
-    AccountGroup group = db.accountGroups().get(
+    AccountGroup group = db.get().accountGroups().get(
         resource.toAccountGroup().getId());
     if (group == null) {
       throw new ResourceNotFoundException();
     }
 
     group.setVisibleToAll(input.visibleToAll);
-    db.accountGroups().update(Collections.singleton(group));
+    db.get().accountGroups().update(Collections.singleton(group));
     groupCache.evict(group);
 
     return new GroupOptionsInfo(group);

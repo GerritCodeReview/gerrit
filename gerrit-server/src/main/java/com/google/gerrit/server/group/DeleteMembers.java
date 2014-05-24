@@ -36,19 +36,22 @@ import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
 import java.util.List;
 import java.util.Map;
 
+@Singleton
 public class DeleteMembers implements RestModifyView<GroupResource, Input> {
   private final Provider<AccountsCollection> accounts;
   private final AccountCache accountCache;
-  private final ReviewDb db;
+  private final Provider<ReviewDb> db;
   private final Provider<CurrentUser> self;
 
   @Inject
   DeleteMembers(Provider<AccountsCollection> accounts,
-      AccountCache accountCache, ReviewDb db, Provider<CurrentUser> self) {
+      AccountCache accountCache, Provider<ReviewDb> db,
+      Provider<CurrentUser> self) {
     this.accounts = accounts;
     this.accountCache = accountCache;
     this.db = db;
@@ -83,7 +86,7 @@ public class DeleteMembers implements RestModifyView<GroupResource, Input> {
     }
 
     writeAudits(toRemove);
-    db.accountGroupMembers().delete(toRemove);
+    db.get().accountGroupMembers().delete(toRemove);
     for (final AccountGroupMember m : toRemove) {
       accountCache.evict(m.getAccountId());
     }
@@ -98,7 +101,7 @@ public class DeleteMembers implements RestModifyView<GroupResource, Input> {
     final List<AccountGroupMemberAudit> auditInserts = Lists.newLinkedList();
     for (final AccountGroupMember m : toBeRemoved) {
       AccountGroupMemberAudit audit = null;
-      for (AccountGroupMemberAudit a : db.accountGroupMembersAudit()
+      for (AccountGroupMemberAudit a : db.get().accountGroupMembersAudit()
           .byGroupAccount(m.getAccountGroupId(), m.getAccountId())) {
         if (a.isActive()) {
           audit = a;
@@ -115,19 +118,21 @@ public class DeleteMembers implements RestModifyView<GroupResource, Input> {
         auditInserts.add(audit);
       }
     }
-    db.accountGroupMembersAudit().update(auditUpdates);
-    db.accountGroupMembersAudit().insert(auditInserts);
+    db.get().accountGroupMembersAudit().update(auditUpdates);
+    db.get().accountGroupMembersAudit().insert(auditInserts);
   }
 
   private Map<Account.Id, AccountGroupMember> getMembers(
       final AccountGroup.Id groupId) throws OrmException {
     final Map<Account.Id, AccountGroupMember> members = Maps.newHashMap();
-    for (final AccountGroupMember m : db.accountGroupMembers().byGroup(groupId)) {
+    for (final AccountGroupMember m : db.get().accountGroupMembers()
+        .byGroup(groupId)) {
       members.put(m.getAccountId(), m);
     }
     return members;
   }
 
+  @Singleton
   static class DeleteMember implements RestModifyView<MemberResource, DeleteMember.Input> {
     static class Input {
     }

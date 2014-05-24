@@ -35,11 +35,13 @@ import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collections;
 
+@Singleton
 public class AddSshKey implements RestModifyView<AccountResource, Input> {
   public static class Input {
     public RawInput raw;

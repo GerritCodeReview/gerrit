@@ -23,10 +23,12 @@ import com.google.gerrit.server.change.Index.Input;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
 import java.io.IOException;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
+@Singleton
 public class Index implements RestModifyView<ChangeResource, Input> {
   public static class Input {
   }

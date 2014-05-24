@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.changedetail;
 
-import static com.google.gerrit.server.change.PatchSetInserter.ValidatePolicy;
-
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
@@ -29,6 +27,7 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.PatchSetInserter;
+import com.google.gerrit.server.change.PatchSetInserter.ValidatePolicy;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
@@ -38,6 +37,8 @@ import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.CommitBuilder;
@@ -53,9 +54,10 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import java.io.IOException;
 import java.util.List;
 
+@Singleton
 public class RebaseChange {
   private final ChangeControl.GenericFactory changeControlFactory;
-  private final ReviewDb db;
+  private final Provider<ReviewDb> db;
   private final GitRepositoryManager gitManager;
   private final PersonIdent myIdent;
   private final MergeUtil.Factory mergeUtilFactory;
@@ -63,7 +65,7 @@ public class RebaseChange {
 
   @Inject
   RebaseChange(final ChangeControl.GenericFactory changeControlFactory,
-      final ReviewDb db,
+      final Provider<ReviewDb> db,
       @GerritPersonIdent final PersonIdent myIdent,
       final GitRepositoryManager gitManager,
       final MergeUtil.Factory mergeUtilFactory,
@@ -122,7 +124,7 @@ public class RebaseChange {
       rw = new RevWalk(git);
       inserter = git.newObjectInserter();
 
-      final String baseRev = findBaseRevision(patchSetId, db,
+      final String baseRev = findBaseRevision(patchSetId, db.get(),
           change.getDest(), git, null, null, null);
       final RevCommit baseCommit =
           rw.parseCommit(ObjectId.fromString(baseRev));
@@ -282,7 +284,7 @@ public class RebaseChange {
     if (!change.currentPatchSetId().equals(patchSetId)) {
       throw new InvalidChangeOperationException("patch set is not current");
     }
-    final PatchSet originalPatchSet = db.patchSets().get(patchSetId);
+    final PatchSet originalPatchSet = db.get().patchSets().get(patchSetId);
 
     final RevCommit rebasedCommit;
     ObjectId oldId = ObjectId.fromString(originalPatchSet.getRevision().get());
@@ -305,8 +307,9 @@ public class RebaseChange {
 
     final PatchSet.Id newPatchSetId = patchSetInserter.getPatchSetId();
     final ChangeMessage cmsg = new ChangeMessage(
-        new ChangeMessage.Key(change.getId(), ChangeUtil.messageUUID(db)),
-        uploader.getAccountId(), TimeUtil.nowTs(), patchSetId);
+        new ChangeMessage.Key(change.getId(),
+            ChangeUtil.messageUUID(db.get())), uploader.getAccountId(),
+            TimeUtil.nowTs(), patchSetId);
 
     cmsg.setMessage("Patch Set " + newPatchSetId.get()
         + ": Patch Set " + patchSetId.get() + " was rebased");
@@ -315,7 +318,7 @@ public class RebaseChange {
         .setMessage(cmsg)
         .insert();
 
-    return db.patchSets().get(newChange.currentPatchSetId());
+    return db.get().patchSets().get(newChange.currentPatchSetId());
   }
 
   /**
@@ -375,7 +378,7 @@ public class RebaseChange {
     try {
       findBaseRevision(
           r.getPatchSet().getId(),
-          db,
+          db.get(),
           r.getChange().getDest(),
           git,
           null,

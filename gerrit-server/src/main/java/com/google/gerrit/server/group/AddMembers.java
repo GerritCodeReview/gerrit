@@ -43,10 +43,12 @@ import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
 import java.util.List;
 import java.util.Map;
 
+@Singleton
 public class AddMembers implements RestModifyView<GroupResource, Input> {
   public static class Input {
     @DefaultInput
@@ -79,7 +81,7 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
   private final AccountResolver accountResolver;
   private final AccountCache accountCache;
   private final AccountInfo.Loader.Factory infoFactory;
-  private final ReviewDb db;
+  private final Provider<ReviewDb> db;
 
   @Inject
   AddMembers(AccountManager accountManager,
@@ -88,7 +90,7 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
       AccountResolver accountResolver,
       AccountCache accountCache,
       AccountInfo.Loader.Factory infoFactory,
-      ReviewDb db) {
+      Provider<ReviewDb> db) {
     this.accountManager = accountManager;
     this.authType = authConfig.getAuthType();
     this.accounts = accounts;
@@ -129,7 +131,7 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
       if (!newAccountGroupMembers.containsKey(a.getId())) {
         AccountGroupMember.Key key =
             new AccountGroupMember.Key(a.getId(), internalGroup.getId());
-        AccountGroupMember m = db.accountGroupMembers().get(key);
+        AccountGroupMember m = db.get().accountGroupMembers().get(key);
         if (m == null) {
           m = new AccountGroupMember(key);
           newAccountGroupMembers.put(m.getAccountId(), m);
@@ -140,8 +142,8 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
       result.add(loader.get(a.getId()));
     }
 
-    db.accountGroupMembersAudit().insert(newAccountGroupMemberAudits);
-    db.accountGroupMembers().insert(newAccountGroupMembers.values());
+    db.get().accountGroupMembersAudit().insert(newAccountGroupMemberAudits);
+    db.get().accountGroupMembers().insert(newAccountGroupMembers.values());
     for (AccountGroupMember m : newAccountGroupMembers.values()) {
       accountCache.evict(m.getAccountId());
     }
@@ -213,6 +215,7 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
     }
   }
 
+  @Singleton
   static class UpdateMember implements RestModifyView<MemberResource, PutMember.Input> {
     static class Input {
     }

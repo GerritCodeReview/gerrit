@@ -24,4 +24,4 @@
 
 [cache]
   mode = dir
-  dir = buck-out/cache
+  dir = ~/.gerritcodereview/buck-cache/cache

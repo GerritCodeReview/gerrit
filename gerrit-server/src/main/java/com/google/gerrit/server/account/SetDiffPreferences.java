@@ -27,9 +27,11 @@ import com.google.gerrit.server.account.SetDiffPreferences.Input;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
 import java.util.Collections;
 
+@Singleton
 public class SetDiffPreferences implements RestModifyView<AccountResource, Input> {
   static class Input {
     Short context;
@@ -54,10 +56,10 @@ public class SetDiffPreferences implements RestModifyView<AccountResource, Input
   }
 
   private final Provider<CurrentUser> self;
-  private final ReviewDb db;
+  private final Provider<ReviewDb> db;
 
   @Inject
-  SetDiffPreferences(Provider<CurrentUser> self, ReviewDb db) {
+  SetDiffPreferences(Provider<CurrentUser> self, Provider<ReviewDb> db) {
     this.self = self;
     this.db = db;
   }
@@ -76,9 +78,9 @@ public class SetDiffPreferences implements RestModifyView<AccountResource, Input
     Account.Id accountId = rsrc.getUser().getAccountId();
     AccountDiffPreference p;
 
-    db.accounts().beginTransaction(accountId);
+    db.get().accounts().beginTransaction(accountId);
     try {
-      p = db.accountDiffPreferences().get(accountId);
+      p = db.get().accountDiffPreferences().get(accountId);
       if (p == null) {
         p = new AccountDiffPreference(accountId);
       }
@@ -141,10 +143,10 @@ public class SetDiffPreferences implements RestModifyView<AccountResource, Input
         p.setHideEmptyPane(input.hideEmptyPane);
       }
 
-      db.accountDiffPreferences().upsert(Collections.singleton(p));
-      db.commit();
+      db.get().accountDiffPreferences().upsert(Collections.singleton(p));
+      db.get().commit();
     } finally {
-      db.rollback();
+      db.get().rollback();
     }
     return DiffPreferencesInfo.parse(p);
   }

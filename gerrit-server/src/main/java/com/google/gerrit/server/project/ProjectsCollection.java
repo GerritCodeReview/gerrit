@@ -27,9 +27,11 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.OutputFormat;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
 import java.io.IOException;
 
+@Singleton
 public class ProjectsCollection implements
     RestCollection<TopLevelResource, ProjectResource>,
     AcceptsCreate<TopLevelResource> {

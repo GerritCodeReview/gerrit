@@ -17,7 +17,9 @@ package com.google.gerrit.server.account;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
+@Singleton
 public class GetAccount implements RestReadView<AccountResource> {
   private final AccountInfo.Loader.Factory infoFactory;
 

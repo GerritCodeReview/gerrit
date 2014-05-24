@@ -25,7 +25,9 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountResource.Capability;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
+@Singleton
 class Capabilities implements
     ChildCollection<AccountResource, AccountResource.Capability> {
   private final Provider<CurrentUser> self;

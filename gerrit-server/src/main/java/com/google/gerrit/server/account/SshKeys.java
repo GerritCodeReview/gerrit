@@ -26,7 +26,9 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
+@Singleton
 public class SshKeys implements
     ChildCollection<AccountResource, AccountResource.SshKey> {
   private final DynamicMap<RestView<AccountResource.SshKey>> views;

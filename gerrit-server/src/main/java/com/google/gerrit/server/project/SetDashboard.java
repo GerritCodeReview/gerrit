@@ -24,9 +24,11 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.project.SetDashboard.Input;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
 import java.io.IOException;
 
+@Singleton
 class SetDashboard implements RestModifyView<DashboardResource, Input> {
   static class Input {
     @DefaultInput

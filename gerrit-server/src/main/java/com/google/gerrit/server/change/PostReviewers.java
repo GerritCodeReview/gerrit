@@ -36,6 +36,7 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountInfo;
@@ -54,6 +55,7 @@ import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
@@ -65,6 +67,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+@Singleton
 public class PostReviewers implements RestModifyView<ChangeResource, AddReviewerInput> {
   private static final Logger log = LoggerFactory
       .getLogger(PostReviewers.class);
@@ -81,7 +84,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
   private final AccountInfo.Loader.Factory accountLoaderFactory;
   private final Provider<ReviewDb> dbProvider;
   private final ChangeUpdate.Factory updateFactory;
-  private final IdentifiedUser currentUser;
+  private final Provider<CurrentUser> currentUser;
   private final IdentifiedUser.GenericFactory identifiedUserFactory;
   private final Config cfg;
   private final ChangeHooks hooks;
@@ -99,7 +102,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
       AccountInfo.Loader.Factory accountLoaderFactory,
       Provider<ReviewDb> db,
       ChangeUpdate.Factory updateFactory,
-      IdentifiedUser currentUser,
+      Provider<CurrentUser> currentUser,
       IdentifiedUser.GenericFactory identifiedUserFactory,
       @GerritServerConfig Config cfg,
       ChangeHooks hooks,
@@ -268,15 +271,16 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
     //
     // The user knows they added themselves, don't bother emailing them.
     List<Account.Id> toMail = Lists.newArrayListWithCapacity(added.size());
+    IdentifiedUser idenitifiedUser = (IdentifiedUser)currentUser.get();
     for (PatchSetApproval psa : added) {
-      if (!psa.getAccountId().equals(currentUser.getAccountId())) {
+      if (!psa.getAccountId().equals(idenitifiedUser.getAccountId())) {
         toMail.add(psa.getAccountId());
       }
     }
     if (!toMail.isEmpty()) {
       try {
         AddReviewerSender cm = addReviewerSenderFactory.create(change);
-        cm.setFrom(currentUser.getAccountId());
+        cm.setFrom(idenitifiedUser.getAccountId());
         cm.addReviewers(toMail);
         cm.send();
       } catch (Exception err) {

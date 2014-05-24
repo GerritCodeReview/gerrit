@@ -21,9 +21,11 @@ import com.google.gerrit.server.change.DeleteDraft.Input;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
 import java.util.Collections;
 
+@Singleton
 class DeleteDraft implements RestModifyView<DraftResource, Input> {
   static class Input {
   }

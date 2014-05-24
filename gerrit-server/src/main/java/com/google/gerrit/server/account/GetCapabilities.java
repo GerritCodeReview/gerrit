@@ -48,6 +48,7 @@ import com.google.gerrit.server.git.QueueProvider;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
 import org.kohsuke.args4j.Option;
 
@@ -178,6 +179,7 @@ class GetCapabilities implements RestReadView<AccountResource> {
     }
   }
 
+  @Singleton
   static class CheckOne implements RestReadView<AccountResource.Capability> {
     @Override
     public BinaryResult apply(Capability resource) {

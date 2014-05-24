@@ -27,9 +27,12 @@ import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.group.PutDescription.Input;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
 import java.util.Collections;
 
+@Singleton
 public class PutDescription implements RestModifyView<GroupResource, Input> {
   public static class Input {
     @DefaultInput
@@ -37,10 +40,10 @@ public class PutDescription implements RestModifyView<GroupResource, Input> {
   }
 
   private final GroupCache groupCache;
-  private final ReviewDb db;
+  private final Provider<ReviewDb> db;
 
   @Inject
-  PutDescription(GroupCache groupCache, ReviewDb db) {
+  PutDescription(GroupCache groupCache, Provider<ReviewDb> db) {
     this.groupCache = groupCache;
     this.db = db;
   }
@@ -59,14 +62,14 @@ public class PutDescription implements RestModifyView<GroupResource, Input> {
       throw new AuthException("Not group owner");
     }
 
-    AccountGroup group = db.accountGroups().get(
+    AccountGroup group = db.get().accountGroups().get(
         resource.toAccountGroup().getId());
     if (group == null) {
       throw new ResourceNotFoundException();
     }
 
     group.setDescription(Strings.emptyToNull(input.description));
-    db.accountGroups().update(Collections.singleton(group));
+    db.get().accountGroups().update(Collections.singleton(group));
     groupCache.evict(group);
 
     return Strings.isNullOrEmpty(input.description)

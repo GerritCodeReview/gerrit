@@ -20,6 +20,7 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.Repository;
@@ -30,6 +31,7 @@ import org.eclipse.jgit.treewalk.TreeWalk;
 import java.io.IOException;
 import java.io.OutputStream;
 
+@Singleton
 public class GetContent implements RestReadView<FileResource> {
   private final GitRepositoryManager repoManager;
 

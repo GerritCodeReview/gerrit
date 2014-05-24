@@ -20,7 +20,9 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.avatar.AvatarProvider;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
+@Singleton
 public class GetAvatarChangeUrl implements RestReadView<AccountResource> {
   private final DynamicItem<AvatarProvider> avatarProvider;
 

@@ -32,10 +32,12 @@ import com.google.gerrit.server.query.change.QueryChanges;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
 import java.util.Collections;
 import java.util.List;
 
+@Singleton
 public class ChangesCollection implements
     RestCollection<TopLevelResource, ChangeResource>,
     AcceptsPost<TopLevelResource> {

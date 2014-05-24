@@ -31,7 +31,9 @@ import com.google.gerrit.server.group.AddMembers.PutMember;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
+@Singleton
 public class MembersCollection implements
     ChildCollection<GroupResource, MemberResource>,
     AcceptsCreate<GroupResource> {

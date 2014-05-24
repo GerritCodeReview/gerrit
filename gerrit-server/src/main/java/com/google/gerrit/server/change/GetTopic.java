@@ -16,7 +16,9 @@ package com.google.gerrit.server.change;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.inject.Singleton;
 
+@Singleton
 class GetTopic implements RestReadView<ChangeResource> {
   @Override
   public String apply(ChangeResource rsrc) {

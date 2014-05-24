@@ -29,10 +29,12 @@ import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
 import java.sql.Timestamp;
 import java.util.Collections;
 
+@Singleton
 class PutDraft implements RestModifyView<DraftResource, Input> {
   static class Input {
     String kind;

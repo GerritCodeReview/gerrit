@@ -18,7 +18,9 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.account.AccountInfo;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
+@Singleton
 class GetComment implements RestReadView<CommentResource> {
 
   private final AccountInfo.Loader.Factory accountLoaderFactory;

@@ -24,7 +24,9 @@ import com.google.gerrit.server.config.ProjectConfigEntry;
 import com.google.gerrit.server.git.TransferConfig;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
+@Singleton
 public class GetConfig implements RestReadView<ProjectResource> {
 
   private final TransferConfig config;

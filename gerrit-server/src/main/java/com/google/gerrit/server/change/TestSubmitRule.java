@@ -37,6 +37,7 @@ import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 import com.googlecode.prolog_cafe.lang.Term;
 
@@ -57,7 +58,7 @@ public class TestSubmitRule implements RestModifyView<RevisionResource, Input> {
     public Filters filters;
   }
 
-  private final ReviewDb db;
+  private final Provider<ReviewDb> db;
   private final ChangeData.Factory changeDataFactory;
   private final RulesCache rules;
   private final AccountInfo.Loader.Factory accountInfoFactory;
@@ -66,7 +67,7 @@ public class TestSubmitRule implements RestModifyView<RevisionResource, Input> {
   private Filters filters = Filters.RUN;
 
   @Inject
-  TestSubmitRule(ReviewDb db,
+  TestSubmitRule(Provider<ReviewDb> db,
       ChangeData.Factory changeDataFactory,
       RulesCache rules,
       AccountInfo.Loader.Factory infoFactory) {
@@ -88,12 +89,12 @@ public class TestSubmitRule implements RestModifyView<RevisionResource, Input> {
     input.filters = Objects.firstNonNull(input.filters, filters);
 
     SubmitRuleEvaluator evaluator = new SubmitRuleEvaluator(
-        db,
+        db.get(),
         rsrc.getPatchSet(),
         rsrc.getControl().getProjectControl(),
         rsrc.getControl(),
         rsrc.getChange(),
-        changeDataFactory.create(db, rsrc.getChange()),
+        changeDataFactory.create(db.get(), rsrc.getChange()),
         false,
         "locate_submit_rule", "can_submit",
         "locate_submit_filter", "filter_submit_results",

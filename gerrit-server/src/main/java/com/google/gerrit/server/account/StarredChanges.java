@@ -38,12 +38,14 @@ import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Collections;
 
+@Singleton
 public class StarredChanges implements
     ChildCollection<AccountResource, AccountResource.StarredChange>,
     AcceptsCreate<AccountResource> {
@@ -112,6 +114,7 @@ public class StarredChanges implements
     }
   }
 
+  @Singleton
   public static class Create implements RestModifyView<AccountResource, EmptyInput> {
     private final Provider<CurrentUser> self;
     private final Provider<ReviewDb> dbProvider;
@@ -146,6 +149,7 @@ public class StarredChanges implements
     }
   }
 
+  @Singleton
   static class Put implements
       RestModifyView<AccountResource.StarredChange, EmptyInput> {
     private final Provider<CurrentUser> self;
@@ -165,6 +169,7 @@ public class StarredChanges implements
     }
   }
 
+  @Singleton
   public static class Delete implements
       RestModifyView<AccountResource.StarredChange, EmptyInput> {
     private final Provider<CurrentUser> self;

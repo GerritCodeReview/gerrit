@@ -44,6 +44,7 @@ import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.project.PutConfig.Input;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
@@ -57,6 +58,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+@Singleton
 public class PutConfig implements RestModifyView<ProjectResource, Input> {
   private static final Logger log = LoggerFactory.getLogger(PutConfig.class);
   public static class Input {

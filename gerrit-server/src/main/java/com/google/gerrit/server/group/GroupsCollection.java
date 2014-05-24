@@ -35,7 +35,9 @@ import com.google.gerrit.server.account.GroupBackends;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
+@Singleton
 public class GroupsCollection implements
     RestCollection<TopLevelResource, GroupResource>,
     AcceptsCreate<TopLevelResource> {

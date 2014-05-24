@@ -38,10 +38,12 @@ import com.google.gerrit.server.query.change.QueryChanges;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
 import java.io.IOException;
 import java.util.List;
 
+@Singleton
 class ChangesImpl implements Changes {
   private final ChangesCollection changes;
   private final ChangeApiImpl.Factory api;

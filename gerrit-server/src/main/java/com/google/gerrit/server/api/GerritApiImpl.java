@@ -20,7 +20,9 @@ import com.google.gerrit.extensions.api.changes.Changes;
 import com.google.gerrit.extensions.api.projects.Projects;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
+@Singleton
 class GerritApiImpl extends GerritApi.NotImplemented implements GerritApi {
   private final Provider<Accounts> accounts;
   private final Provider<Changes> changes;

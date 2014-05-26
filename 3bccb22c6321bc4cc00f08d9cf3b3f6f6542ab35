@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "7f58a46f_3a4e6182",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1006818
+      },
+      "writtenOn": "2014-05-26T01:56:55Z",
+      "side": 1,
+      "message": "the token will not always be \" \",\nsometimes it depends on ldap.accountFullName",
+      "revId": "3bccb22c6321bc4cc00f08d9cf3b3f6f6542ab35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f63e0f1_09c84958",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AccountGeneralPreferences.java",
         "patchSetId": 3

@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "ffc49429_4e2753d9",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 479,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-26T02:07:09Z",
+      "side": 1,
+      "message": "Is it worth adding a hyperlink to the section, when the section is directly after this sentence?",
+      "range": {
+        "startLine": 478,
+        "startChar": 65,
+        "endLine": 479,
+        "endChar": 29
+      },
+      "revId": "7ccca0fac6d6f2237612bb89451d85680f6c15ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1f5de831_e75762dd",
         "filename": "Documentation/dev-buck.txt",
         "patchSetId": 2
@@ -41,6 +64,75 @@
         "startChar": 17,
         "endLine": 484,
         "endChar": 23
+      },
+      "revId": "7ccca0fac6d6f2237612bb89451d85680f6c15ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ffc49429_6e2c8fbc",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-26T02:07:09Z",
+      "side": 1,
+      "message": "\"Because buckd is activated by default in the latest version of Buck\"",
+      "range": {
+        "startLine": 485,
+        "startChar": 30,
+        "endLine": 486,
+        "endChar": 21
+      },
+      "revId": "7ccca0fac6d6f2237612bb89451d85680f6c15ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ffc49429_0e314b0f",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-26T02:07:09Z",
+      "side": 1,
+      "message": "\"for the watchman executable in the path\"",
+      "range": {
+        "startLine": 486,
+        "startChar": 34,
+        "endLine": 486,
+        "endChar": 65
+      },
+      "revId": "7ccca0fac6d6f2237612bb89451d85680f6c15ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3fdb8c07_7076b0b3",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-26T02:07:09Z",
+      "side": 1,
+      "message": "a warning",
+      "range": {
+        "startLine": 487,
+        "startChar": 0,
+        "endLine": 487,
+        "endChar": 7
       },
       "revId": "7ccca0fac6d6f2237612bb89451d85680f6c15ae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

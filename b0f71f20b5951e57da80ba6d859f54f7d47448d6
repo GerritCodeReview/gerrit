@@ -48,6 +48,29 @@
     },
     {
       "key": {
+        "uuid": "7f58a46f_fa8ea96a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ListCaches.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-26T07:18:42Z",
+      "side": 1,
+      "message": "Can we be consisten here with other REST endpoints that return plugin specific extensions? Because we can only grant plugin owned global capabilities in Git config file, we didn\u0027t have the option to separate plugin-name with capability name with \u0027.\u0027 and used \u0027-\u0027 instead. Hier an excerpt from the output of GET capabilities REST endpoint on a site with serviceuser-plugin installed:\n\n http://localhost:8080/config/server/capabilities/\n [...]\n \"serviceuser-createServiceUser\":{\n     \"kind\":\"gerritcodereview#capability\",\n         \"id\":\"serviceuser-createServiceUser\",\n         \"name\":\"Create Service User\"\n  },\n  [...]\n\nEither we should always use \u0027-\u0027 as separator or explain/justify why we cannot or don\u0027t want and change the delimiter in each and every REST endpoint arbitrary in prominent place (commit message and Plugin documentation or may be even put a table in the documentation with mapping REST endpoint \u003d\u003e delimiter used).",
+      "range": {
+        "startLine": 74,
+        "startChar": 22,
+        "endLine": 74,
+        "endChar": 25
+      },
+      "revId": "b0f71f20b5951e57da80ba6d859f54f7d47448d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "df4ef081_05a952b1",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ShowCaches.java",
         "patchSetId": 1

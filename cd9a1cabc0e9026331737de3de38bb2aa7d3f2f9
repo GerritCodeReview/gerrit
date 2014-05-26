@@ -22,6 +22,30 @@
       "revId": "cd9a1cabc0e9026331737de3de38bb2aa7d3f2f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ffc49429_4e4e7383",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/account/AccountIndex.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-26T08:18:34Z",
+      "side": 1,
+      "message": "Yes, if we want to be able to provide vendor-specific implementations, it should be like that.\n\nI wasn\u0027t sure if we want to do that, or only provide a Lucene index, like we do for the documentation.",
+      "parentUuid": "ff51f41e_a65f26c5",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 43,
+        "endChar": 25
+      },
+      "revId": "cd9a1cabc0e9026331737de3de38bb2aa7d3f2f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

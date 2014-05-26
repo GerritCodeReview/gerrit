@@ -114,6 +114,30 @@
       "revId": "f96947be70890cf21e37f46ef128c1b554591939",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f5da05e_99685bc5",
+        "filename": "tools/maven/BUCK",
+        "patchSetId": 7
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-26T09:52:21Z",
+      "side": 1,
+      "message": "Sorry, the \u0027release\u0027 part was a left over from the previous version. The right statement is:\n\n  URL \u003d \u0027https://oss.sonatype.org/content/repositories/snapshots\u0027 \\\n      if GERRIT_VERSION.endswith(\u0027-SNAPSHOT\u0027) else \\\n        \u0027https://oss.sonatype.org/service/local/staging/deploy/maven2\u0027\n\nCan you recheck with this again?",
+      "parentUuid": "7f58a46f_ba6b91c0",
+      "range": {
+        "startLine": 5,
+        "startChar": 51,
+        "endLine": 6,
+        "endChar": 70
+      },
+      "revId": "f96947be70890cf21e37f46ef128c1b554591939",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

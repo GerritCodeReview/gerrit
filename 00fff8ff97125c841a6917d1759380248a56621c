@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "5f5da05e_39714fba",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1441,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-26T06:09:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3fdb8c07_b08bb859",
+      "range": {
+        "startLine": 1441,
+        "startChar": 68,
+        "endLine": 1441,
+        "endChar": 69
+      },
+      "revId": "00fff8ff97125c841a6917d1759380248a56621c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f58a46f_ba41d14d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1441,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-26T06:09:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ffc49429_ae2117be",
+      "range": {
+        "startLine": 1441,
+        "startChar": 43,
+        "endLine": 1441,
+        "endChar": 67
+      },
+      "revId": "00fff8ff97125c841a6917d1759380248a56621c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ffc49429_8e245bcf",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 2
@@ -59,6 +107,30 @@
       "writtenOn": "2014-05-26T06:00:19Z",
       "side": 1,
       "message": "activated",
+      "range": {
+        "startLine": 1445,
+        "startChar": 56,
+        "endLine": 1445,
+        "endChar": 64
+      },
+      "revId": "00fff8ff97125c841a6917d1759380248a56621c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f58a46f_9a3e8dd5",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1445,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-26T06:09:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ffc49429_8e245bcf",
       "range": {
         "startLine": 1445,
         "startChar": 56,

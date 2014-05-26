@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7f58a46f_5a57d5ff",
+        "filename": "Documentation/dev-release-deploy-config.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-26T09:28:07Z",
+      "side": 1,
+      "message": "Add a link to\n  https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide#SonatypeOSSMavenRepositoryUsageGuide-2.Signup",
+      "range": {
+        "startLine": 6,
+        "startChar": 14,
+        "endLine": 6,
+        "endChar": 42
+      },
+      "revId": "f96947be70890cf21e37f46ef128c1b554591939",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f5da05e_195d6b22",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-26T09:28:07Z",
+      "side": 1,
+      "message": "This description is only relevant for deploying into the Google Cloud Storage, but not for the deployment to Maven Central. Did you rather want to link to the newly added description in dev-release-deploy-config.html?",
+      "range": {
+        "startLine": 154,
+        "startChar": 35,
+        "endLine": 154,
+        "endChar": 69
+      },
+      "revId": "f96947be70890cf21e37f46ef128c1b554591939",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f5da05e_7952a711",
+        "filename": "gerrit-war/pom.xml",
+        "patchSetId": 7
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-26T09:28:07Z",
+      "side": 1,
+      "message": "The tools/version.sh script should be adapted to update also this version here.",
+      "range": {
+        "startLine": 5,
+        "startChar": 11,
+        "endLine": 5,
+        "endChar": 23
+      },
+      "revId": "f96947be70890cf21e37f46ef128c1b554591939",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

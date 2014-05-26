@@ -70,6 +70,30 @@
       "revId": "cd9a1cabc0e9026331737de3de38bb2aa7d3f2f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3fdb8c07_906554ec",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/account/AccountIndex.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-26T15:25:45Z",
+      "side": 1,
+      "message": "OK.  This needs to be reworked then.",
+      "parentUuid": "5f5da05e_19af2bba",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 43,
+        "endChar": 25
+      },
+      "revId": "cd9a1cabc0e9026331737de3de38bb2aa7d3f2f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

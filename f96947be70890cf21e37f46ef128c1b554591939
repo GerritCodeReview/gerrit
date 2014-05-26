@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "7f58a46f_9a684dc5",
+        "filename": "Documentation/dev-release-deploy-config.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-26T09:37:57Z",
+      "side": 1,
+      "message": "Say that a PGP key must be generated and published and link to \n\n  https://docs.sonatype.org/display/Repository/How+To+Generate+PGP+Signatures+With+Maven",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 53
+      },
+      "revId": "f96947be70890cf21e37f46ef128c1b554591939",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f5da05e_195d6b22",
         "filename": "Documentation/dev-release.txt",
         "patchSetId": 7
@@ -64,6 +87,29 @@
         "startChar": 11,
         "endLine": 5,
         "endChar": 23
+      },
+      "revId": "f96947be70890cf21e37f46ef128c1b554591939",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f58a46f_ba6b91c0",
+        "filename": "tools/maven/BUCK",
+        "patchSetId": 7
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-26T09:37:57Z",
+      "side": 1,
+      "message": "If \u0027release\u0027 is added as a prefix to the URL, the resulting URL is invalid and the upload to it fails.",
+      "range": {
+        "startLine": 5,
+        "startChar": 51,
+        "endLine": 6,
+        "endChar": 70
       },
       "revId": "f96947be70890cf21e37f46ef128c1b554591939",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

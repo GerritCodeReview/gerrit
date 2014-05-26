@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ffc49429_ae8b5759",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/AvatarTracker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-26T23:05:00Z",
+      "side": 1,
+      "message": "else if on one line.",
+      "range": {
+        "startLine": 54,
+        "startChar": 4,
+        "endLine": 55,
+        "endChar": 10
+      },
+      "revId": "7a2b13ec0d5653601c2c1d2b7f747b2a459fa251",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3fdb8c07_f0b38023",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/AvatarTracker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-26T23:05:00Z",
+      "side": 1,
+      "message": "Ick. Why can\u0027t we use DynamicItem\u003cAvatarProvider\u003e and test if its set?",
+      "range": {
+        "startLine": 61,
+        "startChar": 2,
+        "endLine": 70,
+        "endChar": 3
+      },
+      "revId": "7a2b13ec0d5653601c2c1d2b7f747b2a459fa251",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ffc49429_4e58b332",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GerritConfigProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-26T23:05:00Z",
+      "side": 1,
+      "message": "Despite the fancy code, this still doesn\u0027t work.\n\nHostPageServlet is a singleton. It accepts GerritConfig in its constructor and caches the value forever.",
+      "revId": "7a2b13ec0d5653601c2c1d2b7f747b2a459fa251",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3fdb8c07_d0b67c16",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/WebModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-26T23:05:00Z",
+      "side": 1,
+      "message": "DynamicItem.bind(binder(), StartPluginListener.class).to(AvatarTracker.class) ?",
+      "range": {
+        "startLine": 132,
+        "startChar": 4,
+        "endLine": 133,
+        "endChar": 50
+      },
+      "revId": "7a2b13ec0d5653601c2c1d2b7f747b2a459fa251",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

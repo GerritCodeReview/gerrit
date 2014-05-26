@@ -20,10 +20,14 @@ import com.google.common.cache.Cache;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.config.ConfigResource;
+import com.google.gerrit.server.config.PostCaches;
 import com.google.gerrit.sshd.BaseCommand;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 import org.kohsuke.args4j.Option;
 
@@ -48,7 +52,10 @@ final class FlushCaches extends CacheCommand {
   private boolean list;
 
   @Inject
-  IdentifiedUser currentUser;
+  private IdentifiedUser currentUser;
+
+  @Inject
+  private Provider<PostCaches> postCaches;
 
   @Override
   protected void run() throws Failure {
@@ -88,6 +95,18 @@ final class FlushCaches extends CacheCommand {
 
   private static UnloggedFailure error(final String msg) {
     return new UnloggedFailure(1, msg);
+  }
+
+  @SuppressWarnings("unchecked")
+  private SortedSet<String> cacheNames() {
+    try {
+    PostCaches.Input in = new PostCaches.Input();
+    in.operation = PostCaches.Operation.LIST;
+    return (SortedSet<String>) postCaches.get().apply(new ConfigResource(), in);
+    } catch (RestApiException e) {
+      die(e);
+      return null;
+    }
   }
 
   private void doList() {

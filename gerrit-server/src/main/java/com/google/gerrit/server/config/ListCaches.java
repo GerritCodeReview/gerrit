@@ -45,26 +45,26 @@ public class ListCaches implements RestReadView<ConfigResource> {
   @Override
   public Map<String, CacheInfo> apply(ConfigResource rsrc) {
     Map<String, CacheInfo> cacheInfos = new TreeMap<>();
-    for (Map.Entry<String, Cache<?,?>> entry : getCaches().entrySet()) {
-      cacheInfos.put(entry.getKey(), new CacheInfo(entry.getValue()));
+    for (Map.Entry<String, Provider<Cache<?,?>>> entry : getCaches().entrySet()) {
+      cacheInfos.put(entry.getKey(), new CacheInfo(entry.getValue().get()));
     }
     return cacheInfos;
   }
 
-  private Map<String, Cache<?, ?>> getCaches() {
-    SortedMap<String, Cache<?, ?>> m = Maps.newTreeMap();
+  public Map<String, Provider<Cache<?, ?>>> getCaches() {
+    SortedMap<String, Provider<Cache<?, ?>>> m = Maps.newTreeMap();
 
     // core caches
     for (Map.Entry<String, Provider<Cache<?, ?>>> e :
         cacheMap.byPlugin("gerrit").entrySet()) {
-      m.put(cacheNameOf("gerrit", e.getKey()), e.getValue().get());
+      m.put(cacheNameOf("gerrit", e.getKey()), e.getValue());
     }
 
     // plugin caches
     for (DynamicMap.Entry<Cache<?, ?>> e : cacheMap) {
       if (!"gerrit".equals(e.getPluginName())) {
         m.put(cacheNameOf(e.getPluginName(), e.getExportName()),
-            e.getProvider().get());
+            e.getProvider());
       }
     }
 

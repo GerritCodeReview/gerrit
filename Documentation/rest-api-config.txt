@@ -247,6 +247,63 @@ The entries in the map are sorted by cache name.
   }
 ----
 
+[[cache-operations]]
+=== Cache Operations
+--
+'POST /config/server/caches/'
+--
+
+Executes a cache operation that is specified in the request body in a
+link:#cache-operation-input[CacheOperationInput] entity.
+
+The result that is returned depends on the specified operation.
+
+[[list-cache-names]]
+==== List Cache Names
+
+.Request
+----
+  POST /config/server/caches/ HTTP/1.0
+  Content-Type: application/json;charset=UTF-8
+
+  {
+    "operation": "LIST"
+  }
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  [
+    "accounts",
+    "accounts_byemail",
+    "accounts_byname",
+    "adv_bases",
+    "change_kind",
+    "changes",
+    "conflicts",
+    "diff",
+    "diff_intraline",
+    "git_tags",
+    "groups",
+    "groups_byinclude",
+    "groups_byname",
+    "groups_byuuid",
+    "groups_external",
+    "groups_members",
+    "permission_sort",
+    "plugin_resources",
+    "project_list",
+    "projects",
+    "quota-repo_size",
+    "sshkeys",
+    "web_sessions"
+  ]
+----
+
 [[get-cache]]
 === Get Cache
 --
@@ -513,6 +570,20 @@ The `CapabilityInfo` entity contains information about a capability.
 |`kind`               |`gerritcodereview#capability`
 |`id`                 |capability ID
 |`name`               |capability name
+|=================================
+
+[[cache-operation-input]]
+=== CacheOperationInput
+The `CacheOperationInput` entity contains information about an
+operation that should be executed on caches.
+
+[options="header",width="50%",cols="1,6"]
+|=================================
+|Field Name           |Description
+|`operation`          |
+The cache operation that should be executed:
+
+`LIST`: Lists the cache names. The cache names a returned as a list.
 |=================================
 
 [[entries-info]]

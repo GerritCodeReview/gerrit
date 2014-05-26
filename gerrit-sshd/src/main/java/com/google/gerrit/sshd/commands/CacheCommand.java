@@ -15,24 +15,13 @@
 package com.google.gerrit.sshd.commands;
 
 import com.google.common.cache.Cache;
-import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
 
-import java.util.SortedSet;
-
 abstract class CacheCommand extends SshCommand {
   @Inject
   protected DynamicMap<Cache<?, ?>> cacheMap;
-
-  protected SortedSet<String> cacheNames() {
-    SortedSet<String> names = Sets.newTreeSet();
-    for (DynamicMap.Entry<Cache<?, ?>> e : cacheMap) {
-      names.add(cacheNameOf(e.getPluginName(), e.getExportName()));
-    }
-    return names;
-  }
 
   protected String cacheNameOf(String plugin, String name) {
     if ("gerrit".equals(plugin)) {

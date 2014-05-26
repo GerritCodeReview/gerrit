@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5f5da05e_19760bb2",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 479,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-26T06:19:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ffc49429_4e2753d9",
+      "range": {
+        "startLine": 478,
+        "startChar": 65,
+        "endLine": 479,
+        "endChar": 29
+      },
+      "revId": "7ccca0fac6d6f2237612bb89451d85680f6c15ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1f5de831_e75762dd",
         "filename": "Documentation/dev-buck.txt",
         "patchSetId": 2
@@ -64,6 +88,54 @@
         "startChar": 17,
         "endLine": 484,
         "endChar": 23
+      },
+      "revId": "7ccca0fac6d6f2237612bb89451d85680f6c15ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f58a46f_7a7bb999",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-26T06:19:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df4ef081_e59d1688",
+      "range": {
+        "startLine": 484,
+        "startChar": 17,
+        "endLine": 484,
+        "endChar": 23
+      },
+      "revId": "7ccca0fac6d6f2237612bb89451d85680f6c15ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f5da05e_b9843f4d",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-26T06:19:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1f5de831_e75762dd",
+      "range": {
+        "startLine": 484,
+        "startChar": 73,
+        "endLine": 484,
+        "endChar": 75
       },
       "revId": "7ccca0fac6d6f2237612bb89451d85680f6c15ae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
@@ -140,6 +212,78 @@
     },
     {
       "key": {
+        "uuid": "7f58a46f_3a7141ba",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-26T06:19:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ffc49429_6e2c8fbc",
+      "range": {
+        "startLine": 485,
+        "startChar": 30,
+        "endLine": 486,
+        "endChar": 21
+      },
+      "revId": "7ccca0fac6d6f2237612bb89451d85680f6c15ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f58a46f_da3805ea",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-26T06:19:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ffc49429_0e314b0f",
+      "range": {
+        "startLine": 486,
+        "startChar": 34,
+        "endLine": 486,
+        "endChar": 65
+      },
+      "revId": "7ccca0fac6d6f2237612bb89451d85680f6c15ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f58a46f_1a76fdb1",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-26T06:19:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f5da05e_b941df4d",
+      "range": {
+        "startLine": 486,
+        "startChar": 26,
+        "endLine": 486,
+        "endChar": 33
+      },
+      "revId": "7ccca0fac6d6f2237612bb89451d85680f6c15ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3fdb8c07_7076b0b3",
         "filename": "Documentation/dev-buck.txt",
         "patchSetId": 2
@@ -151,6 +295,30 @@
       "writtenOn": "2014-05-26T02:07:09Z",
       "side": 1,
       "message": "a warning",
+      "range": {
+        "startLine": 487,
+        "startChar": 0,
+        "endLine": 487,
+        "endChar": 7
+      },
+      "revId": "7ccca0fac6d6f2237612bb89451d85680f6c15ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f5da05e_797bc799",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-26T06:19:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3fdb8c07_7076b0b3",
       "range": {
         "startLine": 487,
         "startChar": 0,
@@ -197,6 +365,30 @@
       "writtenOn": "2014-05-23T16:06:32Z",
       "side": 1,
       "message": "Yes, we can link to it, but these instructions are always the same. The only choice would be: local istallation vs. system wide:\n\n  ./configure\n  make\n  sudo make install",
+      "parentUuid": "df4ef081_c59a1a8e",
+      "range": {
+        "startLine": 489,
+        "startChar": 0,
+        "endLine": 489,
+        "endChar": 29
+      },
+      "revId": "7ccca0fac6d6f2237612bb89451d85680f6c15ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f5da05e_59808338",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-26T06:19:11Z",
+      "side": 1,
+      "message": "Splitted the instructions in two: local and system wide installation plus added a link to the whole truth site.",
       "parentUuid": "df4ef081_c59a1a8e",
       "range": {
         "startLine": 489,

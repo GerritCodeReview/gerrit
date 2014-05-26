@@ -820,6 +820,16 @@ public class RestApiServlet extends HttpServlet {
     RestView<RestResource> core = views.get("gerrit", name);
     if (core != null) {
       return new ViewData(null, core);
+    } else {
+      name = "GET." + p.get(0);
+      core = views.get("gerrit", name);
+      if (core != null) {
+        if (core instanceof AcceptsPost && "POST".equals(method)) {
+          @SuppressWarnings("unchecked")
+          AcceptsPost<RestResource> ap = (AcceptsPost<RestResource>) core;
+          return new ViewData(null, ap.post(rsrc));
+        }
+      }
     }
 
     Map<String, RestView<RestResource>> r = Maps.newTreeMap();

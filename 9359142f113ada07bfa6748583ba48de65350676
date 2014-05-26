@@ -1,0 +1,135 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ffc49429_0e7b8b9a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetCommit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-26T22:51:27Z",
+      "side": 1,
+      "message": "Did we fix this to be singleton?",
+      "revId": "9359142f113ada07bfa6748583ba48de65350676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3fdb8c07_b062d8df",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-26T22:51:27Z",
+      "side": 1,
+      "message": "PostReview is _NOT_ OK as a singleton. See the many private fields like Change on line 92.",
+      "revId": "9359142f113ada07bfa6748583ba48de65350676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3fdb8c07_50c36c70",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-26T22:51:27Z",
+      "side": 1,
+      "message": "nit: space after cast",
+      "revId": "9359142f113ada07bfa6748583ba48de65350676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ffc49429_ce84a34e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-26T22:51:27Z",
+      "side": 1,
+      "message": "typo: identifiedUser",
+      "range": {
+        "startLine": 274,
+        "startChar": 19,
+        "endLine": 274,
+        "endChar": 34
+      },
+      "revId": "9359142f113ada07bfa6748583ba48de65350676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3fdb8c07_70c8f08b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/RebaseChange.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-26T22:51:27Z",
+      "side": 1,
+      "message": "The timestamp is now frozen early at server startup.",
+      "revId": "9359142f113ada07bfa6748583ba48de65350676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ffc49429_ee815f3b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/RebaseChange.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-26T22:51:27Z",
+      "side": 1,
+      "message": "This is now frozen to server startup (or first rebase request). It should always be \"now\".",
+      "range": {
+        "startLine": 133,
+        "startChar": 37,
+        "endLine": 133,
+        "endChar": 54
+      },
+      "revId": "9359142f113ada07bfa6748583ba48de65350676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3fdb8c07_10cde49a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/InstallPlugin.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-26T22:51:27Z",
+      "side": 1,
+      "message": "This cannot be a singleton. We create it manually by passing in the name in the constructor.",
+      "revId": "9359142f113ada07bfa6748583ba48de65350676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

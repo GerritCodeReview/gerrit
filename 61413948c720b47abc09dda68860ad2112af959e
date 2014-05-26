@@ -16,6 +16,24 @@
       "revId": "61413948c720b47abc09dda68860ad2112af959e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f5da05e_99817b3d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GerritConfigProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-26T08:57:29Z",
+      "side": 1,
+      "message": "Ah, I thought that this was too easy...\n\nShould be working now with the new patch set.\n\nDone.",
+      "parentUuid": "3fdb8c07_d0419c4c",
+      "revId": "61413948c720b47abc09dda68860ad2112af959e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

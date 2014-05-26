@@ -22,6 +22,30 @@
       "revId": "0764aa1ea89d3a230117aeefabf84319cc7058f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f58a46f_ba9d5189",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/CachesCollection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-26T13:33:27Z",
+      "side": 1,
+      "message": "This is a bug. Fixed it here and also in the predecesssor change in the ShowCaches class.\n\nDone",
+      "parentUuid": "5f5da05e_99b33b25",
+      "range": {
+        "startLine": 67,
+        "startChar": 12,
+        "endLine": 67,
+        "endChar": 34
+      },
+      "revId": "0764aa1ea89d3a230117aeefabf84319cc7058f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

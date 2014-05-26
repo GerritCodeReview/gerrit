@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7f58a46f_1a5d5d22",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-05-26T09:09:08Z",
+      "side": 1,
+      "message": "David, Just to confirm: here changes is committed in branch \"foo\" and pushed in master right or it is vice versa?",
+      "range": {
+        "startLine": 267,
+        "startChar": 2,
+        "endLine": 279,
+        "endChar": 35
+      },
+      "revId": "eb6df183e4c3b41ca12140a0dadfee1fa1ce1803",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f5da05e_39582f32",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-05-26T09:09:08Z",
+      "side": 1,
+      "message": "Here both committed and pushed in master?",
+      "range": {
+        "startLine": 283,
+        "startChar": 2,
+        "endLine": 286,
+        "endChar": 35
+      },
+      "revId": "eb6df183e4c3b41ca12140a0dadfee1fa1ce1803",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

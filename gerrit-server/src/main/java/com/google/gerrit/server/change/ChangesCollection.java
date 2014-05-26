@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AcceptsPost;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -25,6 +24,7 @@ import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -33,7 +33,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-import java.util.Collections;
 import java.util.List;
 
 public class ChangesCollection implements
@@ -75,7 +74,7 @@ public class ChangesCollection implements
   @Override
   public ChangeResource parse(TopLevelResource root, IdString id)
       throws ResourceNotFoundException, OrmException {
-    List<Change> changes = findChanges(id.encoded());
+    List<Change> changes = ChangeUtil.findChanges(db.get(), id.encoded());
     if (changes.size() != 1) {
       throw new ResourceNotFoundException(id);
     }
@@ -97,39 +96,6 @@ public class ChangesCollection implements
 
   public ChangeResource parse(ChangeControl control) throws OrmException {
     return new ChangeResource(control);
-  }
-
-  private List<Change> findChanges(String id)
-      throws OrmException, ResourceNotFoundException {
-    // Try legacy id
-    if (id.matches("^[1-9][0-9]*$")) {
-      Change c = db.get().changes().get(Change.Id.parse(id));
-      if (c != null) {
-        return ImmutableList.of(c);
-      }
-      return Collections.emptyList();
-    }
-
-    // Try isolated changeId
-    if (!id.contains("~")) {
-      Change.Key key = new Change.Key(id);
-      if (key.get().length() == 41) {
-        return db.get().changes().byKey(key).toList();
-      } else {
-        return db.get().changes().byKeyRange(key, key.max()).toList();
-      }
-    }
-
-    // Try change triplet
-    ChangeTriplet triplet;
-    try {
-        triplet = new ChangeTriplet(id);
-    } catch (ChangeTriplet.ParseException e) {
-        throw new ResourceNotFoundException(id);
-    }
-    return db.get().changes().byBranchKey(
-        triplet.getBranchNameKey(),
-        triplet.getChangeKey()).toList();
   }
 
   @SuppressWarnings("unchecked")

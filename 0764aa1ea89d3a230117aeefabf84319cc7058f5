@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5f5da05e_99b33b25",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/CachesCollection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-26T12:58:36Z",
+      "side": 1,
+      "message": "So if previous change changed the output of plugin owned caches to be \"plugin-cache\", shouldn\u0027t this be reflected in this parse method as well? Or do you expect that the output from list caches REST endpoint is \"plugin-cache\" and input for flush REST endpoint is \"plugin.cache\"?",
+      "range": {
+        "startLine": 67,
+        "startChar": 12,
+        "endLine": 67,
+        "endChar": 34
+      },
+      "revId": "0764aa1ea89d3a230117aeefabf84319cc7058f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

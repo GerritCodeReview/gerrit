@@ -1,6 +1,48 @@
 = Deploy Gerrit Artifacts
 
-Gerrit Artifacts are stored on
+[[deploy-configuration-setting-maven-central]]
+== Deploy Configuration settings for Maven Central
+
+Gerrit Extension API Jar and the Gerrit Plugin API artifacts are stored on
+Maven Central.
+
+Prerequisites: Set up the Sonatype account (see link:https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide#SonatypeOSSMavenRepositoryUsageGuide-2.Signup[Sonatype
+Maven Repository Usage Guide]) and put Sonatype user and password in
+~/.m2/settings.xml:
+
+----
+<server>
+  <id>sonatype-nexus-staging</id>
+  <username>USER</username>
+  <password>PASSWORD</password>
+</server>
+----
+
+PGP key must be generated and published, see
+link:https://docs.sonatype.org/display/Repository/How+To+Generate+PGP+Signatures+With+Maven[How
+To Generate PGP Signatures With Maven] for details. PGP passphrase can also be
+put in ~/.m2/settings.xml:
+
+----
+<settings>
+  <profiles>
+    <profile>
+      <id>gpg</id>
+      <properties>
+        <gpg.executable>gpg2</gpg.executable>
+        <gpg.passphrase>mypassphrase</gpg.passphrase>
+      </properties>
+    </profile>
+  </profiles>
+  <activeProfiles>
+    <activeProfile>gpg</activeProfile>
+  </activeProfiles>
+</settings>
+----
+
+It can also be included in the key chain on OS X.
+
+Gerrit Subproject Artifacts are stored on
 link:https://developers.google.com/storage/[Google Cloud Storage].
 Via the link:https://code.google.com/apis/console/?noredirect[API Console] the
 Gerrit maintainers have access to the `Gerrit Code Review` project.

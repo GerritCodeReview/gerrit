@@ -16,3 +16,4 @@
 /local.properties
 *.pyc
 /gwt-unitCache
+*.asc

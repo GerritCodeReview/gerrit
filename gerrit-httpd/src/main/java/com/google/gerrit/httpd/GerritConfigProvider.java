@@ -126,6 +126,8 @@ class GerritConfigProvider implements Provider<GerritConfig> {
     config.setDownloadCommands(downloadConfig.getDownloadCommands());
     config.setAuthType(authConfig.getAuthType());
     config.setWildProject(wildProject);
+    config.setAvatarIntegrationDisabled(cfg
+        .getBoolean("gerrit", null, "avatarIntegrationDisabled", false));
     config.setDocumentationAvailable(servletContext
         .getResource("/Documentation/index.html") != null);
     config.setAnonymousCowardName(anonymousCowardName);

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff6bb4fb_f62400d0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/projects/ProjectsImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-05-26T17:12:09Z",
+      "side": 1,
+      "message": "I don\u0027t think ProjectsImpl.this is necessary, it would only be necessary if the method call were get(this) which conflicts with the method name in the anonymous class.",
+      "revId": "67bf4b14f7d7c5c2d97cf35c5b688b398d26c4fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff6bb4fb_96178c5d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/projects/ProjectsImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-05-26T17:12:09Z",
+      "side": 1,
+      "message": "Unnecessary funal",
+      "range": {
+        "startLine": 66,
+        "startChar": 33,
+        "endLine": 66,
+        "endChar": 38
+      },
+      "revId": "67bf4b14f7d7c5c2d97cf35c5b688b398d26c4fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

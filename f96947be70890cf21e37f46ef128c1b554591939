@@ -138,6 +138,30 @@
       "revId": "f96947be70890cf21e37f46ef128c1b554591939",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f58a46f_da62c5e0",
+        "filename": "tools/maven/BUCK",
+        "patchSetId": 7
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-26T11:21:02Z",
+      "side": 1,
+      "message": "Yes, like this it works :)",
+      "parentUuid": "5f5da05e_99685bc5",
+      "range": {
+        "startLine": 5,
+        "startChar": 51,
+        "endLine": 6,
+        "endChar": 70
+      },
+      "revId": "f96947be70890cf21e37f46ef128c1b554591939",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

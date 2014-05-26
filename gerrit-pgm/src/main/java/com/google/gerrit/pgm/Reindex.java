@@ -18,6 +18,7 @@ import static com.google.gerrit.server.schema.DataSourceProvider.Context.MULTI_U
 import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.common.cache.Cache;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.ChangeHooks;
@@ -26,6 +27,7 @@ import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.lucene.LuceneIndexModule;
@@ -34,6 +36,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.rules.PrologModule;
+import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountByEmailCacheImpl;
@@ -98,6 +101,7 @@ import org.kohsuke.args4j.Option;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -125,9 +129,11 @@ public class Reindex extends SiteProgram {
   @Option(name = "--dry-run", usage = "Dry run: don't write anything to index")
   private boolean dryRun;
 
+  @Option(name = "--change-id", usage = "Legacy id | isolated change id | triplet")
+  private String changeId;
+
   private Injector dbInjector;
   private Injector sysInjector;
-  private ChangeIndex index;
 
   @Override
   public int run() throws Exception {
@@ -147,18 +153,50 @@ public class Reindex extends SiteProgram {
     sysManager.add(sysInjector);
     sysManager.start();
 
-    index = sysInjector.getInstance(IndexCollection.class).getSearchIndex();
+    int result = changeId == null
+        ? processAll()
+        : processOne();
+    sysManager.stop();
+    dbManager.stop();
+    return result;
+  }
+
+  private int processOne() {
+    IndexCollection indexCollection = sysInjector
+        .getInstance(IndexCollection.class);
+    ChangeData.Factory changeDataFactory = sysInjector
+        .getInstance(ChangeData.Factory.class);
+    ReviewDb db = sysInjector.getInstance(ReviewDb.class);
+    try {
+      List<Change> changes = ChangeUtil.findChanges(db, changeId);
+      if (changes.size() != 1) {
+        throw new ResourceNotFoundException(changeId);
+      }
+      Change c = Iterables.getOnlyElement(changes);
+      for (ChangeIndex ind : indexCollection.getWriteIndexes()) {
+        ind.replace(changeDataFactory.create(db, c ));
+      }
+    } catch (ResourceNotFoundException | OrmException | IOException e) {
+      throw die(e.getMessage(), e);
+    }
+    return 0;
+  }
+
+  private int processAll() {
+    ChangeIndex index = sysInjector.getInstance(IndexCollection.class)
+        .getSearchIndex();
+    ChangeBatchIndexer batchIndexer =
+        sysInjector.getInstance(ChangeBatchIndexer.class);
+    ReviewDb db = sysInjector.getInstance(ReviewDb.class);
     int result = 0;
     try {
       index.markReady(false);
       index.deleteAll();
-      result = indexAll();
+      result = indexAll(db, index, batchIndexer, verbose);
       index.markReady(true);
     } catch (Exception e) {
       throw die(e.getMessage(), e);
     }
-    sysManager.stop();
-    dbManager.stop();
     return result;
   }
 
@@ -320,8 +358,8 @@ public class Reindex extends SiteProgram {
     }
   }
 
-  private int indexAll() throws Exception {
-    ReviewDb db = sysInjector.getInstance(ReviewDb.class);
+  private static int indexAll(ReviewDb db, ChangeIndex index,
+      ChangeBatchIndexer batchIndexer, boolean verbose) throws Exception {
     ProgressMonitor pm = new TextProgressMonitor();
     pm.start(1);
     pm.beginTask("Collecting projects", ProgressMonitor.UNKNOWN);
@@ -339,8 +377,6 @@ public class Reindex extends SiteProgram {
     }
     pm.endTask();
 
-    ChangeBatchIndexer batchIndexer =
-        sysInjector.getInstance(ChangeBatchIndexer.class);
     ChangeBatchIndexer.Result result = batchIndexer.indexAll(
       index, projects, projects.size(), changeCount, System.err,
       verbose ? System.out : NullOutputStream.INSTANCE);

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7f58a46f_3aaae1a9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-26T12:32:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df4ef081_25a44ed9",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 6
+      },
+      "revId": "b0f71f20b5951e57da80ba6d859f54f7d47448d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1f5de831_273e9aaa",
         "filename": "Documentation/rest-api-config.txt",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2014-05-23T15:53:53Z",
       "side": 1,
       "message": "May or just \"Only\" (like on line 450)? i.e. we shouldn\u0027t use \"May\" unless there is some way this could be set for a cache that is not a disk cache.",
+      "range": {
+        "startLine": 445,
+        "startChar": 59,
+        "endLine": 445,
+        "endChar": 62
+      },
+      "revId": "b0f71f20b5951e57da80ba6d859f54f7d47448d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f58a46f_dabda5f1",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-26T12:32:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1f5de831_273e9aaa",
       "range": {
         "startLine": 445,
         "startChar": 59,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "7f58a46f_9ab32d25",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ListCaches.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-26T12:32:13Z",
+      "side": 1,
+      "message": "This is kind of unrelated to this change. The naming of the caches here is just the same naming that is used in the existing SSH commands. But yes, it makes sense to have the naming consistent. Done in [1].\n\n[1] https://gerrit-review.googlesource.com/57479",
+      "parentUuid": "7f58a46f_fa8ea96a",
+      "range": {
+        "startLine": 74,
+        "startChar": 22,
+        "endLine": 74,
+        "endChar": 25
+      },
+      "revId": "b0f71f20b5951e57da80ba6d859f54f7d47448d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "df4ef081_05a952b1",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ShowCaches.java",
         "patchSetId": 1
@@ -82,6 +154,30 @@
       "writtenOn": "2014-05-23T15:53:53Z",
       "side": 1,
       "message": "Was there any special behavior that \"Cache\" command granted that is lost by using SshCommand? I thought there was something about skipping the ssh queue or bypassing the sshd.threads limit?",
+      "range": {
+        "startLine": 61,
+        "startChar": 31,
+        "endLine": 61,
+        "endChar": 34
+      },
+      "revId": "b0f71f20b5951e57da80ba6d859f54f7d47448d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f58a46f_1aaf1dba",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ShowCaches.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-26T12:32:13Z",
+      "side": 1,
+      "message": "No, I believe there is no special handling for CacheCommand\u0027s. There are own SSH threads for interactive users and for streaming. Maybe this is what you mean?",
+      "parentUuid": "df4ef081_05a952b1",
       "range": {
         "startLine": 61,
         "startChar": 31,

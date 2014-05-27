@@ -15,12 +15,25 @@
 package com.google.gerrit.httpd;
 
 import com.google.gerrit.common.data.GerritConfig;
+import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.config.SitePaths;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
+
+import org.eclipse.jgit.lib.Config;
 
 import java.util.Date;
 
 @Singleton
 public class ConfigTracker {
+  private final boolean refreshConfig;
+  private final SitePaths site;
+
+  @Inject
+  ConfigTracker(SitePaths site, @GerritServerConfig Config cfg) {
+    this.site = site;
+    this.refreshConfig = cfg.getBoolean("site", "refreshConfig", false);
+  }
 
   private long lastUpdated;
 
@@ -29,6 +42,7 @@ public class ConfigTracker {
   }
 
   public boolean isStale(GerritConfig cfg) {
-    return lastUpdated > cfg.getCreationTime();
+    return lastUpdated > cfg.getCreationTime()
+        || (refreshConfig && site.gerrit_config.lastModified() > cfg.getCreationTime());
   }
 }

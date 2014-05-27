@@ -50,7 +50,7 @@ import javax.servlet.ServletContext;
 
 class GerritConfigProvider implements Provider<GerritConfig> {
   private final Realm realm;
-  private final Config cfg;
+  private final Provider<Config> cfgProvider;
   private final AuthConfig authConfig;
   private final DownloadConfig downloadConfig;
   private final GetArchive.AllowedFormats archiveFormats;
@@ -65,15 +65,15 @@ class GerritConfigProvider implements Provider<GerritConfig> {
   private final DynamicItem<AvatarProvider> avatar;
 
   @Inject
-  GerritConfigProvider(final Realm r, @GerritServerConfig final Config gsc,
-      final AuthConfig ac, final GitWebConfig gwc, final AllProjectsName wp,
-      final SshInfo si, final ContactStore cs,
-      final ServletContext sc, final DownloadConfig dc,
+  GerritConfigProvider(final Realm r,
+      @GerritServerConfig final Provider<Config> gscp, final AuthConfig ac,
+      final GitWebConfig gwc, final AllProjectsName wp, final SshInfo si,
+      final ContactStore cs, final ServletContext sc, final DownloadConfig dc,
       final GetArchive.AllowedFormats af,
       final @AnonymousCowardName String acn,
       final DynamicItem<AvatarProvider> ap) {
     realm = r;
-    cfg = gsc;
+    cfgProvider = gscp;
     authConfig = ac;
     downloadConfig = dc;
     archiveFormats = af;
@@ -92,6 +92,7 @@ class GerritConfigProvider implements Provider<GerritConfig> {
   }
 
   private GerritConfig create() throws MalformedURLException {
+    Config cfg = cfgProvider.get();
     final GerritConfig config = new GerritConfig();
     switch (authConfig.getAuthType()) {
       case LDAP:

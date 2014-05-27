@@ -2685,6 +2685,12 @@ By default, unset, so no Expiry-Date header is generated.
 [[site]]
 === Section site
 
+[[site.refreshConfig]]site.refreshConfig::
++
+If true the server checks the site config file (`gerrit.config`) for
+updates. If false, a server restart is required to read the new
+configuration. Default is false, not allowing automatic update.
+
 [[site.refreshHeaderFooter]]site.refreshHeaderFooter::
 +
 If true the server checks the site header, footer and CSS files for

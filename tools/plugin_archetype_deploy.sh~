@@ -65,9 +65,9 @@ function build_and_deploy
 
 function confirm
 {
-  read -n1 -p "Are you sure you want to deploy? [N/y]: " ready
+  read -n1 -p "Are you sure you want to deploy? [Y/n]: " ready
   if [[ ! $ready == [Yy] ]]; then
-    if [[ $ready == [Nn] || -z $ready ]]; then
+    if [[ ($ready == [Nn] || -z $ready) ]]; then
       echo; exit
     else
       echo; confirm

@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "7f58a46f_5a71955d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-27T11:30:18Z",
+      "side": 1,
+      "message": "ctl",
+      "range": {
+        "startLine": 359,
+        "startChar": 24,
+        "endLine": 359,
+        "endChar": 36
+      },
+      "revId": "eaaea9524754e85603540b75f78d80e070e22abb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f5da05e_f9d6b7f7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 1

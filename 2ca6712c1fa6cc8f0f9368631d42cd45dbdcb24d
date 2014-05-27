@@ -251,6 +251,30 @@
     },
     {
       "key": {
+        "uuid": "5f5da05e_79c3c73e",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/HostPageServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-27T10:48:19Z",
+      "side": 1,
+      "message": "Because if it\u0027s singleton it cannot be changed \u003d\u003e no change \u003d\u003e no reload \u003d\u003e no new instances. Just expose dynamic config (avatar and friends) as it own container or make the entire GerritConfig dynamic and reloadable and not by putting one dynamic item (AvatarProvider) in static container.",
+      "parentUuid": "5f5da05e_d90013cf",
+      "range": {
+        "startLine": 314,
+        "startChar": 6,
+        "endLine": 314,
+        "endChar": 32
+      },
+      "revId": "2ca6712c1fa6cc8f0f9368631d42cd45dbdcb24d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f5da05e_7910e71f",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/HostPageServlet.java",
         "patchSetId": 3

@@ -16,6 +16,24 @@
       "revId": "2e47255299774f226dd227c0a3ac30832e78351b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f020043_91e5bc45",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeKindCacheImpl.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-05-27T18:20:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff6bb4fb_963e6cd5",
+      "revId": "2e47255299774f226dd227c0a3ac30832e78351b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -227,6 +227,30 @@
     },
     {
       "key": {
+        "uuid": "5f5da05e_d90013cf",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/HostPageServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-27T10:40:09Z",
+      "side": 1,
+      "message": "\u003e You are creating a new instance of entire config only \n \u003e while avatar plugin was reloaded\n\nWhy is it bad to create a new GerritConfig instance in this case? The Config object itself that represents gerrit.config is NOT reloaded since it is bound as singleton.",
+      "parentUuid": "7f58a46f_1a90bd37",
+      "range": {
+        "startLine": 314,
+        "startChar": 6,
+        "endLine": 314,
+        "endChar": 32
+      },
+      "revId": "2ca6712c1fa6cc8f0f9368631d42cd45dbdcb24d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f5da05e_7910e71f",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/HostPageServlet.java",
         "patchSetId": 3

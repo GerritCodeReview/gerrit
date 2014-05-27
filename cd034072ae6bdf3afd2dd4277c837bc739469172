@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5f5da05e_79958727",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/config/FlushCacheIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-27T12:35:01Z",
+      "side": 1,
+      "message": "Simplify this?",
+      "range": {
+        "startLine": 36,
+        "startChar": 4,
+        "endLine": 37,
+        "endChar": 49
+      },
+      "revId": "cd034072ae6bdf3afd2dd4277c837bc739469172",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f58a46f_9ab5edbb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/FlushCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-27T12:35:01Z",
+      "side": 1,
+      "message": "Consider to make it singleton.",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 71
+      },
+      "revId": "cd034072ae6bdf3afd2dd4277c837bc739469172",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

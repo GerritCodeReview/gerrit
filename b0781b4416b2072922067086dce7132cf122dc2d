@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ffc49429_2e576701",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 494,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-27T01:17:03Z",
+      "side": 1,
+      "message": "Worth mentioning that automake must be installed for this to work?",
+      "revId": "b0781b4416b2072922067086dce7132cf122dc2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ffc49429_ce6b43c0",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 504,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-27T01:17:03Z",
+      "side": 1,
+      "message": "I would say \"systemwide\" but my browser is putting a red line under it.",
+      "range": {
+        "startLine": 504,
+        "startChar": 14,
+        "endLine": 504,
+        "endChar": 25
+      },
+      "revId": "b0781b4416b2072922067086dce7132cf122dc2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3fdb8c07_70af90b9",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 520,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-27T01:17:03Z",
+      "side": 1,
+      "message": "\"See the\"",
+      "range": {
+        "startLine": 520,
+        "startChar": 0,
+        "endLine": 520,
+        "endChar": 4
+      },
+      "revId": "b0781b4416b2072922067086dce7132cf122dc2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

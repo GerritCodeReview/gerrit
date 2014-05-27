@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "7f58a46f_3acca148",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-27T12:34:39Z",
+      "side": 1,
+      "message": "Mention, that core caches can be accessed also with \"gerrit-prefix\":\n\n  \"gerrit-aacounts\"\n\n?  It wasn\u0027t clear to me that we support this way as well. I\u0027ve seen that this also works from reading the unit test.",
+      "range": {
+        "startLine": 442,
+        "startChar": 13,
+        "endLine": 442,
+        "endChar": 41
+      },
+      "revId": "31ea9f92c9950d9a6f8cbe626ae21170dc9d2c82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7f58a46f_7aaf3970",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/config/GetCacheIT.java",
         "patchSetId": 6

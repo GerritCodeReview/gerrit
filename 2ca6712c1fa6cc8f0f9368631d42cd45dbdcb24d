@@ -2,6 +2,92 @@
   "comments": [
     {
       "key": {
+        "uuid": "7f58a46f_9a7b2d46",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/GerritConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-27T10:29:10Z",
+      "side": 1,
+      "message": "Move it to GerritDynamicConfig?",
+      "range": {
+        "startLine": 324,
+        "startChar": 2,
+        "endLine": 330,
+        "endChar": 3
+      },
+      "revId": "2ca6712c1fa6cc8f0f9368631d42cd45dbdcb24d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f5da05e_b909dffe",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/AvatarTracker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-27T10:29:10Z",
+      "side": 1,
+      "message": "Rename to GerritDynamicConfigTracker?",
+      "range": {
+        "startLine": 27,
+        "startChar": 13,
+        "endLine": 27,
+        "endChar": 26
+      },
+      "revId": "2ca6712c1fa6cc8f0f9368631d42cd45dbdcb24d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f58a46f_ba7ef135",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/AvatarTracker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-27T10:29:10Z",
+      "side": 1,
+      "message": "not needed.",
+      "range": {
+        "startLine": 32,
+        "startChar": 2,
+        "endLine": 32,
+        "endChar": 44
+      },
+      "revId": "2ca6712c1fa6cc8f0f9368631d42cd45dbdcb24d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f5da05e_191bab47",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ConfigTracker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-27T10:29:10Z",
+      "side": 1,
+      "message": "You don\u0027t need this class, move the content in AvatarTracker.",
+      "revId": "2ca6712c1fa6cc8f0f9368631d42cd45dbdcb24d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7f58a46f_faad098c",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ConfigTracker.java",
         "patchSetId": 3
@@ -42,6 +128,121 @@
         "startChar": 2,
         "endLine": 33,
         "endChar": 3
+      },
+      "revId": "2ca6712c1fa6cc8f0f9368631d42cd45dbdcb24d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f5da05e_99069bea",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GerritConfigProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-27T10:29:10Z",
+      "side": 1,
+      "message": "Don\u0027t combine static and dynamic data in one container and move it in its own class GerritDynamicConfig?",
+      "range": {
+        "startLine": 74,
+        "startChar": 6,
+        "endLine": 74,
+        "endChar": 42
+      },
+      "revId": "2ca6712c1fa6cc8f0f9368631d42cd45dbdcb24d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f5da05e_5915230e",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/HostPageServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-27T10:29:10Z",
+      "side": 1,
+      "message": "Provider is not needed for static data. See comment below.",
+      "range": {
+        "startLine": 92,
+        "startChar": 39,
+        "endLine": 92,
+        "endChar": 70
+      },
+      "revId": "2ca6712c1fa6cc8f0f9368631d42cd45dbdcb24d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f58a46f_5a9a3559",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/HostPageServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-27T10:29:10Z",
+      "side": 1,
+      "message": "gerritDynamicConfigTracker",
+      "range": {
+        "startLine": 93,
+        "startChar": 6,
+        "endLine": 93,
+        "endChar": 28
+      },
+      "revId": "2ca6712c1fa6cc8f0f9368631d42cd45dbdcb24d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f58a46f_1a90bd37",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/HostPageServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-27T10:29:10Z",
+      "side": 1,
+      "message": "You are creating a new instance of entire config only while avatar plugin was reloaded, only because you have combined GerritConfig + and availability of Avatar plugin in one container. While config is static, availability of avatar plugin is dynamic. Why not to separate the two and isolate properties that have dynamic behavior in its own container:\n\n GerritDynamicConfig and include its content in addition to static (unchanged) content of GerritConfig in HostPageServlet.\n\nSo the changed design would be:\n\n* GerritDynamicConfigTracker is set to be stale.\n* Only GerritDynamicConfig container is refreshed.\n* The behavior and characteristic to be static of GerritConfig remain unchanged.",
+      "range": {
+        "startLine": 314,
+        "startChar": 6,
+        "endLine": 314,
+        "endChar": 32
+      },
+      "revId": "2ca6712c1fa6cc8f0f9368631d42cd45dbdcb24d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f5da05e_7910e71f",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/HostPageServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-27T10:29:10Z",
+      "side": 1,
+      "message": "gerritDynamicConfigTracker.isStale(gc)? Because your tracker wouldn\u0027t become stale if ´$gerrit_site/etc/gerrit.config` is going to change. But that is what one one would expect from this method. That why the current implementation is confusing.",
+      "range": {
+        "startLine": 345,
+        "startChar": 13,
+        "endLine": 345,
+        "endChar": 38
       },
       "revId": "2ca6712c1fa6cc8f0f9368631d42cd45dbdcb24d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

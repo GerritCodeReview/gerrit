@@ -15,13 +15,10 @@
 
 from __future__ import print_function
 from optparse import OptionParser
-from os import path
+from os import path, environ
 
 from sys import stderr
 from tools.util import check_output
-
-def mvn(action):
-  return ['mvn', '--file', path.join(self, 'fake_pom_%s.xml' % action)]
 
 opts = OptionParser()
 opts.add_option('--repository', help='maven repository id')
@@ -36,33 +33,38 @@ if not args.v:
   print('version is empty', file=stderr)
   exit(1)
 
-common = [
-  '-DgroupId=com.google.gerrit',
-  '-Dversion=%s' % args.v,
-]
-
-self = path.dirname(path.abspath(__file__))
+root = path.abspath(__file__)
+for _ in range(0, 3):
+  root = path.dirname(root)
 
 if 'install' == args.a:
-  cmd = mvn(args.a) + ['install:install-file'] + common
+  cmd = [
+    'mvn',
+    'install:install-file',
+    '-Dversion=%s' % args.v,
+  ]
 elif 'deploy' == args.a:
-  cmd = mvn(args.a) + [
-    'deploy:deploy-file',
+  cmd = [
+    'mvn',
+    'gpg:sign-and-deploy-file',
     '-DrepositoryId=%s' % args.repository,
     '-Durl=%s' % args.url,
-  ] + common
+  ]
 else:
   print("unknown action -a %s" % args.a, file=stderr)
   exit(1)
 
 for spec in args.s:
   artifact, packaging_type, src = spec.split(':')
+  exe = cmd + [
+    '-DpomFile=%s' % path.join(root, '%s/pom.xml' % artifact),
+    '-Dpackaging=%s' % packaging_type,
+    '-Dfile=%s' % src,
+  ]
   try:
-    check_output(cmd + [
-      '-DartifactId=%s' % artifact,
-      '-Dpackaging=%s' % packaging_type,
-      '-Dfile=%s' % src,
-    ])
+    if environ.get('VERBOSE'):
+      print(' '.join(exe), file=stderr)
+    check_output(exe)
   except Exception as e:
     print('%s command failed: %s' % (args.a, e), file=stderr)
     exit(1)

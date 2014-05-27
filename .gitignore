@@ -17,3 +17,4 @@
 *.pyc
 /gwt-unitCache
 *.swp
+*.asc

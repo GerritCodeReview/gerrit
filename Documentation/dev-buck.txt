@@ -135,33 +135,11 @@ Install {extension,plugin,gwt}-api to the local maven repository:
   buck build api_install
 ----
 
-Deploy {extension,plugin,gwt}-api to the remote maven repository:
-
-----
-  buck build api_deploy
-----
-
 Install gerrit.war to the local maven repository:
 
 ----
   buck build war_install
 ----
-
-Deploy gerrit.war to the remote maven repository:
-
-----
-  buck build war_deploy
-----
-
-The type of the repo is induced from the Gerrit version name, i.e.
-
-* `2.9-SNAPSHOT`: snapshot repo
-* `2.9`: release repo
-
-Deploying to the remote repository still depends on Maven, and the credentials
-for the repository need to be
-link:dev-release-deploy-config.html#deploy-configuration-settings-xml[
-configured in Maven's settings.xml file].
 
 === Plugins
 

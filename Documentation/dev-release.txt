@@ -141,27 +141,30 @@ for the Subproject in `/lib/BUCK` to the released version.
 ==== Publish the Extension and Plugin API Jars
 
 * Make sure you have done the
-link:dev-release-deploy-config.html#deploy-configuration-settings-xml[
+link:dev-release-deploy-config.html#deploy-configuration-setting-maven-central[
 configuration needed for deployment]
 
-* Push the Jars to the storage bucket:
+* Push the Jars to the Maven Central:
 +
 ----
   buck build api_deploy
 ----
 
+* Troubleshooting: to see the commands that are execured in Buck build process
+environment variable VERBOSE can be set:
++
+----
+  VERBOSE=1 buck build api_deploy
+----
 
 [[publish-gerrit-war]]
 ==== Publish the Gerrit WAR (with Core Plugins)
 
-* The WAR file to upload is `buck-out/gen/release.war`
-* Upload WAR to the storage bucket via `https://cloud.google.com/console` (manual via web browser)
-* Push the WAR file to the Maven storage bucket:
+* Push the WAR to the Maven Central:
 +
 ----
   buck build war_deploy
 ----
-
 
 
 [[push-stable]]
@@ -292,6 +295,17 @@ included in the next Gerrit release. Update the Gerrit version in the
 `VERSION` file, and plugin archetypes' `pom.xml` files. Push the change
 for review and get it merged.
 
+
+[[publish-plugins-archetypes-to-maven-central]]
+=== Publish plugin archetypes to Maven Central
+
+Make sure you have done the
+link:dev-release-deploy-config.html#deploy-configuration-setting-maven-central[
+configuration needed for deployment]
+
+----
+  ./tools/plugin_archetype_deploy.sh
+----
 
 [[merge-stable]]
 === Merge `stable` into `master`

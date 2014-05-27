@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff6bb4fb_963e6cd5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeKindCacheImpl.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-05-27T18:08:57Z",
+      "side": 1,
+      "message": "Use Objects.equal",
+      "revId": "2e47255299774f226dd227c0a3ac30832e78351b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

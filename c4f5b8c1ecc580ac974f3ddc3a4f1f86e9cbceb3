@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7f58a46f_1a771d57",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-27T10:54:24Z",
+      "side": 1,
+      "message": "Can\u0027t it be added with?\n\n  java_doc(\n    name \u003d \u0027extension-api-javadoc\u0027,\n    title \u003d \u0027Gerrit Review Extension API Documentation\u0027,\n    pkg \u003d \u0027com.google.gerrit.extensions\u0027,\n    paths \u003d [\u0027src/main/java\u0027],\n    srcs \u003d SRCS,\n    deps \u003d [\n      \u0027//lib/guice:javax-inject\u0027,\n      \u0027//lib/guice:guice_library\u0027,\n      \u0027//lib:servlet-api-3_1\u0027,\n    ],\n    visibility \u003d [\u0027PUBLIC\u0027],\n  )",
+      "range": {
+        "startLine": 10,
+        "startChar": 19,
+        "endLine": 11,
+        "endChar": 29
+      },
+      "revId": "c4f5b8c1ecc580ac974f3ddc3a4f1f86e9cbceb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

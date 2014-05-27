@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3fdb8c07_7049d046",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-27T18:37:40Z",
+      "side": 1,
+      "message": "This is not really safe across users.\n\nMaybe we shouldn\u0027t try to make ChangeJson singleton.",
+      "range": {
+        "startLine": 192,
+        "startChar": 4,
+        "endLine": 200,
+        "endChar": 9
+      },
+      "revId": "5351dcb1afac2b4895bd970f6cd4af7b48aa151e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

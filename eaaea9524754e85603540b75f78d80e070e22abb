@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "3fdb8c07_f02dc084",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-27T12:49:00Z",
+      "side": 1,
+      "message": "ChangeJson",
+      "range": {
+        "startLine": 9,
+        "startChar": 55,
+        "endLine": 9,
+        "endChar": 64
+      },
+      "revId": "eaaea9524754e85603540b75f78d80e070e22abb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ffc49429_eeb39f23",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-27T12:49:00Z",
+      "side": 1,
+      "message": "that are using",
+      "range": {
+        "startLine": 9,
+        "startChar": 44,
+        "endLine": 9,
+        "endChar": 54
+      },
+      "revId": "eaaea9524754e85603540b75f78d80e070e22abb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7f58a46f_5a71955d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 1

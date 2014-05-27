@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5f5da05e_799aa762",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2688,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-05-27T12:26:30Z",
+      "side": 1,
+      "message": "Why don\u0027t we call it \"autoReload\" as in the replication plugin ?\nThat would make it easier to remember :-)\n\nDefaults to false.",
+      "range": {
+        "startLine": 2688,
+        "startChar": 22,
+        "endLine": 2688,
+        "endChar": 42
+      },
+      "revId": "63f90ca2c7d46fc46fe3ce8f9ad325f5975659a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f5da05e_599fe350",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ConfigTracker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-05-27T12:26:30Z",
+      "side": 1,
+      "message": "autoReload ?",
+      "range": {
+        "startLine": 35,
+        "startChar": 49,
+        "endLine": 35,
+        "endChar": 62
+      },
+      "revId": "63f90ca2c7d46fc46fe3ce8f9ad325f5975659a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f5da05e_b9b39fed",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritServerConfigProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-05-27T12:26:30Z",
+      "side": 1,
+      "message": "autoReload ?",
+      "range": {
+        "startLine": 52,
+        "startChar": 43,
+        "endLine": 52,
+        "endChar": 56
+      },
+      "revId": "63f90ca2c7d46fc46fe3ce8f9ad325f5975659a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

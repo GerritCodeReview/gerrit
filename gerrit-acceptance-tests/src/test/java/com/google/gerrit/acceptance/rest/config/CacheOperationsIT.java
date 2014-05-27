@@ -15,11 +15,13 @@
 package com.google.gerrit.acceptance.rest.config;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.server.config.PostCaches;
+import com.google.gerrit.server.config.ListCaches.CacheInfo;
 import com.google.gson.reflect.TypeToken;
 
 import org.apache.http.HttpStatus;
@@ -45,6 +47,31 @@ public class CacheOperationsIT extends AbstractDaemonTest {
   public void listCacheNames_Forbidden() throws IOException {
     PostCaches.Input in = new PostCaches.Input();
     in.operation = PostCaches.Operation.LIST;
+    RestResponse r = userSession.post("/config/server/caches/", in);
+    assertEquals(HttpStatus.SC_FORBIDDEN, r.getStatusCode());
+  }
+
+  @Test
+  public void flushAll() throws IOException {
+    RestResponse r = adminSession.get("/config/server/caches/project_list");
+    CacheInfo cacheInfo = newGson().fromJson(r.getReader(), CacheInfo.class);
+    assertTrue(cacheInfo.entries.mem.longValue() > 0);
+
+    PostCaches.Input in = new PostCaches.Input();
+    in.operation = PostCaches.Operation.FLUSH_ALL;
+    r = adminSession.post("/config/server/caches/", in);
+    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    r.consume();
+
+    r = adminSession.get("/config/server/caches/project_list");
+    cacheInfo = newGson().fromJson(r.getReader(), CacheInfo.class);
+    assertNull(cacheInfo.entries.mem);
+  }
+
+  @Test
+  public void flushAll_Forbidden() throws IOException {
+    PostCaches.Input in = new PostCaches.Input();
+    in.operation = PostCaches.Operation.FLUSH_ALL;
     RestResponse r = userSession.post("/config/server/caches/", in);
     assertEquals(HttpStatus.SC_FORBIDDEN, r.getStatusCode());
   }

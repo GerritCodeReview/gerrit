@@ -31,7 +31,7 @@ public class FlushCache implements RestModifyView<CacheResource, Input> {
   public static class Input {
   }
 
-  private static final String WEB_SESSIONS = "web_sessions";
+  public static final String WEB_SESSIONS = "web_sessions";
 
   private final Provider<CurrentUser> self;
 

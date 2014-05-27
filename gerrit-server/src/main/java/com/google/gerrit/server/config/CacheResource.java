@@ -31,6 +31,11 @@ public class CacheResource extends ConfigResource {
     this.cacheProvider = cacheProvider;
   }
 
+  public CacheResource(String cacheName, Provider<Cache<?, ?>> cacheProvider) {
+    this.name = cacheName;
+    this.cacheProvider = cacheProvider;
+  }
+
   public String getName() {
     return name;
   }

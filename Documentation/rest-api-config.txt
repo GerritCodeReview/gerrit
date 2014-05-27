@@ -304,6 +304,26 @@ The result that is returned depends on the specified operation.
   ]
 ----
 
+[[flush-all-caches]]
+==== Flush All Caches
+
+.Request
+----
+  POST /config/server/caches/ HTTP/1.0
+  Content-Type: application/json;charset=UTF-8
+
+  {
+    "operation": "FLUSH_ALL"
+  }
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+
+  ok
+----
+
 [[get-cache]]
 === Get Cache
 --
@@ -584,6 +604,8 @@ operation that should be executed on caches.
 The cache operation that should be executed:
 
 `LIST`: Lists the cache names. The cache names a returned as a list.
+
+`FLUSH_ALL`: Flushes all caches, except the `web_sessions` cache.
 |=================================
 
 [[entries-info]]

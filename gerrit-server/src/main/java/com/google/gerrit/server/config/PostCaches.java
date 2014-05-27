@@ -14,16 +14,21 @@
 
 package com.google.gerrit.server.config;
 
-import com.google.gerrit.common.data.GlobalCapability;
-import com.google.gerrit.extensions.annotations.RequiresCapability;
+import com.google.common.cache.Cache;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.server.AnonymousUser;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.PostCaches.Input;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
-@RequiresCapability(GlobalCapability.VIEW_CACHES)
+import java.util.Map.Entry;
+
 @Singleton
 public class PostCaches implements RestModifyView<ConfigResource, Input> {
   public static class Input {
@@ -31,22 +36,56 @@ public class PostCaches implements RestModifyView<ConfigResource, Input> {
   }
 
   public static enum Operation {
-    LIST;
+    LIST, FLUSH_ALL;
   }
 
+  private final Provider<CurrentUser> self;
   private final Provider<ListCaches> listCaches;
+  private final Provider<FlushCache> flushCache;
 
   @Inject
-  public PostCaches(Provider<ListCaches> listCaches) {
+  public PostCaches(Provider<CurrentUser> self,
+      Provider<ListCaches> listCaches, Provider<FlushCache> flushCache) {
+    this.self = self;
     this.listCaches = listCaches;
+    this.flushCache = flushCache;
   }
 
   @Override
-  public Object apply(ConfigResource rsrc, Input input)
-      throws BadRequestException {
-    if (!Operation.LIST.equals(input.operation)) {
-      throw new BadRequestException("unsupported operation: " + input.operation);
+  public Object apply(ConfigResource rsrc, Input input) throws AuthException,
+      ResourceNotFoundException, BadRequestException {
+    CurrentUser user = self.get();
+    if (user instanceof AnonymousUser) {
+      throw new AuthException("Authentication required");
+    } else if(!(user.isIdentifiedUser())) {
+      throw new ResourceNotFoundException();
     }
-    return listCaches.get().getCaches().keySet();
+
+    if (input == null || input.operation == null) {
+      throw new BadRequestException("operation must be specified");
+    }
+
+    switch (input.operation) {
+      case LIST:
+        if (!user.getCapabilities().canViewCaches()) {
+          throw new AuthException("not allowed to view caches");
+        }
+        return listCaches.get().getCaches().keySet();
+      case FLUSH_ALL:
+        if (!user.getCapabilities().canFlushCaches()) {
+          throw new AuthException("not allowed to flush caches");
+        }
+        for (Entry<String, Provider<Cache<?, ?>>> e :
+            listCaches.get().getCaches().entrySet()) {
+          if (FlushCache.WEB_SESSIONS.equals(e.getKey())) {
+            continue;
+          }
+          flushCache.get().apply(new CacheResource(e.getKey(), e.getValue()),
+              new FlushCache.Input());
+        }
+        return Response.ok("ok");
+      default:
+        throw new BadRequestException("unsupported operation: " + input.operation);
+    }
   }
 }

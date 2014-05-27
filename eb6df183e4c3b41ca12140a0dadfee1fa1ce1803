@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "7f58a46f_1aa55da7",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-05-27T07:58:40Z",
+      "side": 1,
+      "message": "I tested this acceptance and it gave correct result.\nI also tested by creating a change on master and pushing it to branchA which also returned true (as expected.)\nHere are my steps:\nHere are the steps: 1. git checkout master 2. echo \"c\" \u003e c.txt 2. git add c.txt 3. git commit -m \"c\" 4. git push origin HEAD:refs/for/branchA",
+      "parentUuid": "5f5da05e_999a1b8d",
+      "range": {
+        "startLine": 267,
+        "startChar": 2,
+        "endLine": 279,
+        "endChar": 35
+      },
+      "revId": "eb6df183e4c3b41ca12140a0dadfee1fa1ce1803",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f5da05e_39582f32",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 16
@@ -84,6 +108,30 @@
       "side": 1,
       "message": "Here only one change (with one patch set) is created with default content:\n\n  SUBJECT \u003d \"test commit\";\n  FILE_NAME \u003d \"a.txt\";\n  FILE_CONTENT \u003d \"some content\";\n\nand pushed to master. Then the change is retrieved and commit.otherBranchCommit checked to be false.",
       "parentUuid": "5f5da05e_39582f32",
+      "range": {
+        "startLine": 283,
+        "startChar": 2,
+        "endLine": 286,
+        "endChar": 35
+      },
+      "revId": "eb6df183e4c3b41ca12140a0dadfee1fa1ce1803",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f5da05e_59fec389",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-05-27T07:58:40Z",
+      "side": 1,
+      "message": "Ok. I ran this acceptance test for both positive and negative test and they seem to be giving correct result (both were green). \nHowever, when I tested by creating a change on master and pushing it to master commit.OtherBranchCommit returned true.\nAlthough it should return false.\nHere are the steps:\n1. git checkout master\n2. echo \"c\" \u003e c.txt\n2. git add c.txt\n3. git commit -m \"c\"\n4. git push origin HEAD:refs/for/master \nPlease suggest.",
+      "parentUuid": "7f58a46f_1a49dd47",
       "range": {
         "startLine": 283,
         "startChar": 2,

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7f58a46f_dad3e505",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetCommit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-27T07:41:07Z",
+      "side": 1,
+      "message": "Done in [1].\n\nBTW: previously merged change that moved UiActions to singleton scope probably suffers from the same proble, as Revert, Abandon and Restore actions still using ChangeJson to render Json output (that not used at all by the client). We should probably try to change that to just return Response.none() instead.\n\n [1] https://gerrit-review.googlesource.com/57494",
+      "parentUuid": "ffc49429_0e7b8b9a",
+      "revId": "9359142f113ada07bfa6748583ba48de65350676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3fdb8c07_b062d8df",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2014-05-26T22:51:27Z",
       "side": 1,
       "message": "PostReview is _NOT_ OK as a singleton. See the many private fields like Change on line 92.",
+      "revId": "9359142f113ada07bfa6748583ba48de65350676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f58a46f_9ac96d5e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-27T07:41:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3fdb8c07_b062d8df",
       "revId": "9359142f113ada07bfa6748583ba48de65350676",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -64,6 +100,48 @@
       "writtenOn": "2014-05-26T22:51:27Z",
       "side": 1,
       "message": "typo: identifiedUser",
+      "range": {
+        "startLine": 274,
+        "startChar": 19,
+        "endLine": 274,
+        "endChar": 34
+      },
+      "revId": "9359142f113ada07bfa6748583ba48de65350676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f5da05e_19f44ba8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-27T07:41:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3fdb8c07_50c36c70",
+      "revId": "9359142f113ada07bfa6748583ba48de65350676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f5da05e_79f907a0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-27T07:41:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ffc49429_ce84a34e",
       "range": {
         "startLine": 274,
         "startChar": 19,
@@ -116,6 +194,30 @@
     },
     {
       "key": {
+        "uuid": "7f58a46f_bacc316e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/RebaseChange.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-27T07:41:07Z",
+      "side": 1,
+      "message": "Done\n\nThe same problem exists in recently merged change that moved UiActions in singleton scope. Fixed in [1].\n\n [1] https://gerrit-review.googlesource.com/57493",
+      "parentUuid": "ffc49429_ee815f3b",
+      "range": {
+        "startLine": 133,
+        "startChar": 37,
+        "endLine": 133,
+        "endChar": 54
+      },
+      "revId": "9359142f113ada07bfa6748583ba48de65350676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3fdb8c07_10cde49a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/InstallPlugin.java",
         "patchSetId": 4
@@ -127,6 +229,24 @@
       "writtenOn": "2014-05-26T22:51:27Z",
       "side": 1,
       "message": "This cannot be a singleton. We create it manually by passing in the name in the constructor.",
+      "revId": "9359142f113ada07bfa6748583ba48de65350676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f58a46f_fad6a9f7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/InstallPlugin.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-27T07:41:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3fdb8c07_10cde49a",
       "revId": "9359142f113ada07bfa6748583ba48de65350676",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

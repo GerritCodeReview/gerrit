@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5f5da05e_99dfbb1e",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/AvatarTracker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-27T08:21:28Z",
+      "side": 1,
+      "message": "Not applicable anymore.",
+      "parentUuid": "ffc49429_ae8b5759",
+      "range": {
+        "startLine": 54,
+        "startChar": 4,
+        "endLine": 55,
+        "endChar": 10
+      },
+      "revId": "7a2b13ec0d5653601c2c1d2b7f747b2a459fa251",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3fdb8c07_f0b38023",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/AvatarTracker.java",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2014-05-26T23:05:00Z",
       "side": 1,
       "message": "Ick. Why can\u0027t we use DynamicItem\u003cAvatarProvider\u003e and test if its set?",
+      "range": {
+        "startLine": 61,
+        "startChar": 2,
+        "endLine": 70,
+        "endChar": 3
+      },
+      "revId": "7a2b13ec0d5653601c2c1d2b7f747b2a459fa251",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f58a46f_5a9fd550",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/AvatarTracker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-27T08:21:28Z",
+      "side": 1,
+      "message": "Because onStartPlugin(...) and onReloadPlugin(...) are invoked too early and the bindings from the new plugin are not loaded yet. Fixed this in [1].\n\nDone\n\n[1] https://gerrit-review.googlesource.com/57495",
+      "parentUuid": "3fdb8c07_f0b38023",
       "range": {
         "startLine": 61,
         "startChar": 2,
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "7f58a46f_bab391ed",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GerritConfigProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-27T08:21:28Z",
+      "side": 1,
+      "message": "I see...\n\nPTAL at the new patch set.",
+      "parentUuid": "ffc49429_4e58b332",
+      "revId": "7a2b13ec0d5653601c2c1d2b7f747b2a459fa251",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3fdb8c07_d0b67c16",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/WebModule.java",
         "patchSetId": 2
@@ -76,6 +142,30 @@
       "writtenOn": "2014-05-26T23:05:00Z",
       "side": 1,
       "message": "DynamicItem.bind(binder(), StartPluginListener.class).to(AvatarTracker.class) ?",
+      "range": {
+        "startLine": 132,
+        "startChar": 4,
+        "endLine": 133,
+        "endChar": 50
+      },
+      "revId": "7a2b13ec0d5653601c2c1d2b7f747b2a459fa251",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f5da05e_39ef8fdb",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/WebModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-27T08:21:28Z",
+      "side": 1,
+      "message": "OK. I just followed the pattern how StartPluginListener and ReloadPluginListener are bound to implementations in HttpPluginModule and SshModule. Should we change it there too?",
+      "parentUuid": "3fdb8c07_d0b67c16",
       "range": {
         "startLine": 132,
         "startChar": 4,

@@ -140,7 +140,6 @@ public class ChangeJson {
   private final ProjectControl.GenericFactory projectControlFactory;
   private final ChangeData.Factory changeDataFactory;
   private final PatchSetInfoFactory patchSetInfoFactory;
-  private final ChangesCollection changes;
   private final FileInfoJson fileInfoJson;
   private final AccountInfo.Loader.Factory accountLoaderFactory;
   private final DynamicMap<DownloadScheme> downloadSchemes;
@@ -163,7 +162,6 @@ public class ChangeJson {
       ProjectControl.GenericFactory pcf,
       ChangeData.Factory cdf,
       PatchSetInfoFactory psi,
-      ChangesCollection changes,
       FileInfoJson fileInfoJson,
       AccountInfo.Loader.Factory ailf,
       DynamicMap<DownloadScheme> downloadSchemes,
@@ -179,7 +177,6 @@ public class ChangeJson {
     this.projectControlFactory = pcf;
     this.changeDataFactory = cdf;
     this.patchSetInfoFactory = psi;
-    this.changes = changes;
     this.fileInfoJson = fileInfoJson;
     this.accountLoaderFactory = ailf;
     this.downloadSchemes = downloadSchemes;
@@ -356,7 +353,7 @@ public class ChangeJson {
       out.actions = Maps.newTreeMap();
       for (UiAction.Description d : UiActions.from(
           changeViews,
-          changes.parse(ctl),
+          new ChangeResource(ctl),
           userProvider)) {
         out.actions.put(d.getId(), new ActionInfo(d));
       }
@@ -857,7 +854,7 @@ public class ChangeJson {
       out.actions = Maps.newTreeMap();
       for (UiAction.Description d : UiActions.from(
           revisions,
-          new RevisionResource(changes.parse(ctl), in),
+          new RevisionResource(new ChangeResource(ctl), in),
           userProvider)) {
         out.actions.put(d.getId(), new ActionInfo(d));
       }

@@ -107,7 +107,6 @@ public class Module extends RestApiModule {
         factory(EmailReviewComments.Factory.class);
         factory(ChangeInserter.Factory.class);
         factory(PatchSetInserter.Factory.class);
-        factory(CreateChange.Factory.class);
       }
     });
   }

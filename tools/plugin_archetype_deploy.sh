@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-help()
+function help
 {
   cat <<'eof'
 Usage: plugin_archetype_deploy [option]
@@ -21,8 +21,10 @@ Usage: plugin_archetype_deploy [option]
 Deploys Gerrit plugin Maven archetypes to Maven Central
 
 Valid options:
-  --help                     show this message
-  --dry-run                  don't execute commands, just print them
+  --help                     show this message.
+  --dry-run                  don't execute commands, just print them.
+                             execute commands.
+
 eof
 exit
 }
@@ -62,22 +64,26 @@ function build_and_deploy
     -Dfile=target/$module-$ver.jar
 }
 
-while [ $# -gt 0 ]; do
-  test "$1" == --dry-run && dryRun=true
-  test "$1" == --help && help
-  shift
-done
+function run
+{
+  root=$(instroot)
+  cd "$root"
+  ver=$(getver GERRIT_VERSION)
+  [[ $ver == *-SNAPSHOT ]] \
+    && url="https://oss.sonatype.org/content/repositories/snapshots" \
+    || url="https://oss.sonatype.org/service/local/staging/deploy/maven2"
 
-root=$(instroot)
-cd "$root"
-ver=$(getver GERRIT_VERSION)
-[[ $ver == *-SNAPSHOT ]] \
-  && url="https://oss.sonatype.org/content/repositories/snapshots" \
-  || url="https://oss.sonatype.org/service/local/staging/deploy/maven2"
+  for d in gerrit-plugin-archetype \
+           gerrit-plugin-js-archetype \
+           gerrit-plugin-gwt-archetype ; do
+    (cd "$d"; build_and_deploy)
+  done
+}
 
-for d in gerrit-plugin-archetype \
-         gerrit-plugin-js-archetype \
-         gerrit-plugin-gwt-archetype ; do
-  (cd "$d"; build_and_deploy)
-done
-
+if [ "$1" == "--dry-run" ]; then
+  dryRun=true && run
+elif [ -z "$1" ]; then
+  run
+else
+  help
+fi

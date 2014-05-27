@@ -70,6 +70,30 @@
       "revId": "5351dcb1afac2b4895bd970f6cd4af7b48aa151e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f58a46f_7a18d908",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-27T19:24:59Z",
+      "side": 1,
+      "message": "Should be fixed in the new ps, PTAL.",
+      "parentUuid": "3fdb8c07_7049d046",
+      "range": {
+        "startLine": 192,
+        "startChar": 4,
+        "endLine": 200,
+        "endChar": 9
+      },
+      "revId": "5351dcb1afac2b4895bd970f6cd4af7b48aa151e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

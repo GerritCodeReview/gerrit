@@ -453,16 +453,51 @@ It is safe to run several buck daemons started from different project
 directories and they will not interfere with each other. Buck's documentation
 covers daemon in http://facebook.github.io/buck/command/buckd.html[buckd].
 
-To use `buckd` the additional watchman program must be installed, see
-link:https://github.com/facebook/watchman[watchman] for details.
+To use `buckd` the additional
+link:https://facebook.github.io/watchman[watchman] program must be installed.
+
+[[watchman]]
+=== Installing watchman
+
+Watchman is used internally by Buck to monitor directory trees and is needed
+for buck daemon to work properly. Because buckd is activated by default in the
+latest version of Buck, it searches for the watchman executable in the
+path and issues a warning when it is not found and kills buckd.
+
+To prepare watchman installation on Linux:
 
 ----
-  buckd
-  buck build gerrit
-  Using buckd.
-  [-] PARSING BUILD FILES...FINISHED 0.6s
-  [-] BUILDING...FINISHED 0.2s
+  git clone https://github.com/facebook/watchman.git
+  cd watchman
+  ./autogen.sh
 ----
+
+To install it in user home directory (without root privileges):
+
+----
+  ./configure --prefix $HOME/watchman
+  make install
+----
+
+To install it system wide:
+
+----
+  ./configure
+  make
+  sudo make install
+----
+
+Put $HOME/watchman/bin/watchman in path or link to $HOME/bin/watchman.
+
+To install watchman on OS X:
+
+----
+  brew install --HEAD watchman
+----
+
+See the original documentation for more information:
+link:https://facebook.github.io/watchman/docs/install.html[Watchman
+installation].
 
 === Override Buck's settings
 

@@ -68,11 +68,7 @@ import java.util.List;
 public class CreateChange implements
     RestModifyView<TopLevelResource, ChangeInfo> {
 
-  public static interface Factory {
-    CreateChange create();
-  }
-
-  private final ReviewDb db;
+  private final Provider<ReviewDb> db;
   private final GitRepositoryManager gitManager;
   private final PersonIdent myIdent;
   private final Provider<CurrentUser> userProvider;
@@ -82,7 +78,7 @@ public class CreateChange implements
   private final ChangeJson json;
 
   @Inject
-  CreateChange(ReviewDb db,
+  CreateChange(Provider<ReviewDb> db,
       GitRepositoryManager gitManager,
       @GerritPersonIdent PersonIdent myIdent,
       Provider<CurrentUser> userProvider,
@@ -167,7 +163,7 @@ public class CreateChange implements
 
         Change change = new Change(
             getChangeId(id, c),
-            new Change.Id(db.nextChangeId()),
+            new Change.Id(db.get().nextChangeId()),
             me.getAccountId(),
             new Branch.NameKey(project, destRef.getName()),
             TimeUtil.nowTs());

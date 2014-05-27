@@ -22,6 +22,30 @@
       "revId": "5351dcb1afac2b4895bd970f6cd4af7b48aa151e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f5da05e_99621b92",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-27T18:59:34Z",
+      "side": 1,
+      "message": "Done\n\nIt seems like the construct:\n\n  ChangeControl ctl \u003d projectControlFactory.controlFor(\n     key, userProvider.get()).controlFor(Change));\n\nDon\u0027t even used, as the condition \"cd.hasChangeControl()\" in:\n\n  if (cd.hasChangeControl()) {\n     ctrl \u003d cd.changeControl().forUser(userProvider.get());\n   } else {\n     ctrl \u003d projectControlFactory.controlFor(cd.change().getProject(),\n       userProvider.get()).controlFor(cd.change());\n   }\n\n(in new patch set) is always true (tested with unit test only).",
+      "parentUuid": "3fdb8c07_7049d046",
+      "range": {
+        "startLine": 192,
+        "startChar": 4,
+        "endLine": 200,
+        "endChar": 9
+      },
+      "revId": "5351dcb1afac2b4895bd970f6cd4af7b48aa151e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7f58a46f_5acb552e",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-27T12:45:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f58a46f_3acca148",
+      "range": {
+        "startLine": 442,
+        "startChar": 13,
+        "endLine": 442,
+        "endChar": 41
+      },
+      "revId": "31ea9f92c9950d9a6f8cbe626ae21170dc9d2c82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7f58a46f_7aaf3970",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/config/GetCacheIT.java",
         "patchSetId": 6
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "7f58a46f_badf11e7",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/config/GetCacheIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-27T12:45:52Z",
+      "side": 1,
+      "message": "Yes, this looks easier :)\n\nDone",
+      "parentUuid": "7f58a46f_7aaf3970",
+      "range": {
+        "startLine": 38,
+        "startChar": 4,
+        "endLine": 39,
+        "endChar": 49
+      },
+      "revId": "31ea9f92c9950d9a6f8cbe626ae21170dc9d2c82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7f58a46f_5ab4f5be",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GetCache.java",
         "patchSetId": 6
@@ -59,6 +107,30 @@
       "writtenOn": "2014-05-27T12:30:46Z",
       "side": 1,
       "message": "Consider to make it singleton.",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 60
+      },
+      "revId": "31ea9f92c9950d9a6f8cbe626ae21170dc9d2c82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f58a46f_7ac61928",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GetCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-27T12:45:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f58a46f_5ab4f5be",
       "range": {
         "startLine": 20,
         "startChar": 0,

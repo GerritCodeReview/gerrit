@@ -49,6 +49,29 @@
     },
     {
       "key": {
+        "uuid": "3f20ecdd_6852e311",
+        "filename": "Documentation/dev-release-deploy-config.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2014-05-28T21:13:34Z",
+      "side": 1,
+      "message": "This is confusing, I am trying to make a release and these notes don\u0027t seem sufficient to explain what I need to do.  What is a sonatype account, and how does it relate to maven central?  That link talks about creating new projects, how does it help me deploy to maven central?",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 6,
+        "endChar": 13
+      },
+      "revId": "f96947be70890cf21e37f46ef128c1b554591939",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7f58a46f_9a684dc5",
         "filename": "Documentation/dev-release-deploy-config.txt",
         "patchSetId": 7

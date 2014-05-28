@@ -75,6 +75,7 @@ def gerrit_plugin(
     type = 'plugin',
     visibility = ['PUBLIC']):
   from multiprocessing import cpu_count
+  sane_manifest = name + '__manifest'
   mf_cmd = 'v=$(git describe HEAD);'
   if manifest_file:
     mf_src = [manifest_file]
@@ -89,7 +90,7 @@ def gerrit_plugin(
       line = line.replace('$', '\$')
       mf_cmd += ';echo "%s" >> $OUT' % line
   genrule(
-    name = name + '__manifest',
+    name = sane_manifest,
     cmd = mf_cmd,
     srcs = mf_src,
     out = 'MANIFEST.MF',
@@ -134,13 +135,26 @@ def gerrit_plugin(
       vm_args = GWT_JVM_ARGS,
     )
 
+  broken_manifest_jar = '%s__broken_manifest' % name
   java_binary(
-    name = name,
-    manifest_file = genfile('MANIFEST.MF'),
+    name = broken_manifest_jar,
     deps = [
       ':%s__plugin' % name,
-      ':%s__manifest' % name,
     ] + static_jars,
+  )
+  genrule(
+    name = name,
+    cmd = 'cd $TMP' +
+       ';unzip -qo $(location %s)'
+       % (':' + broken_manifest_jar) +
+       ';cp $(location %s) META-INF/MANIFEST.MF'
+       % (':' + sane_manifest) +
+       ';zip -9qr $OUT .',
+    out = '%s.jar' % name,
+    deps = [
+      ':' + broken_manifest_jar,
+      ':' + sane_manifest,
+    ],
     visibility = visibility,
   )
 

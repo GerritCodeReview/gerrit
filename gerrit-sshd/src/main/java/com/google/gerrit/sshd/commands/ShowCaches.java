@@ -21,6 +21,7 @@ import com.google.gerrit.common.Version;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.events.LifecycleListener;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.server.config.ConfigResource;
 import com.google.gerrit.server.config.ListCaches;
 import com.google.gerrit.server.config.ListCaches.CacheInfo;
@@ -109,7 +110,7 @@ final class ShowCaches extends SshCommand {
   }
 
   @Override
-  protected void run() {
+  protected void run() throws UnloggedFailure {
     nw = columns - 50;
     Date now = new Date();
     stdout.format(
@@ -171,16 +172,22 @@ final class ShowCaches extends SshCommand {
     stdout.flush();
   }
 
-  private Collection<CacheInfo> getCaches() {
-    Map<String, CacheInfo> caches = listCaches.get().apply(new ConfigResource());
-    for (Map.Entry<String, CacheInfo> entry : caches.entrySet()) {
-      CacheInfo cache = entry.getValue();
-      if (cache.type == null) {
-        cache.type = CacheType.MEM;
+  private Collection<CacheInfo> getCaches() throws UnloggedFailure {
+    try {
+      @SuppressWarnings("unchecked")
+      Map<String, CacheInfo> caches =
+          (Map<String, CacheInfo>) listCaches.get().apply(new ConfigResource());
+      for (Map.Entry<String, CacheInfo> entry : caches.entrySet()) {
+        CacheInfo cache = entry.getValue();
+        if (cache.type == null) {
+          cache.type = CacheType.MEM;
+        }
+        cache.name = entry.getKey();
       }
-      cache.name = entry.getKey();
+      return caches.values();
+    } catch (BadRequestException e) {
+      throw die(e.getMessage());
     }
-    return caches.values();
   }
 
   private void printMemoryCoreCaches(Collection<CacheInfo> caches) {

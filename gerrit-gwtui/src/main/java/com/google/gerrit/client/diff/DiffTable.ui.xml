@@ -29,13 +29,15 @@ limitations under the License.
       border-bottom: 1px solid #ddd;
     }
 
-    .difftable {
+    .difftable .patchSetNav,
+    .difftable .CodeMirror {
       -webkit-touch-callout: none;
       -webkit-user-select: none;
       -khtml-user-select: none;
       -moz-user-select: none;
       -ms-user-select: none;
     }
+
     .difftable .CodeMirror-lines { padding: 0; }
     .difftable .CodeMirror pre {
       padding: 0;
@@ -99,7 +101,7 @@ limitations under the License.
     .dark .noIntraline .a .intralineBg { background-color: #400; }
     .dark .noIntraline .b .intralineBg { background-color: #444; }
 
-    .patchSetNav {
+    .patchSetNav, .diff_header {
       background-color: #f7f7f7;
       line-height: 1;
     }
@@ -164,11 +166,14 @@ limitations under the License.
       z-index: 2;
       cursor: text;
     }
+
     .diff_header {
-      margin: 0 0 3px 0;
       font-size: 12px;
       font-weight: bold;
       color: #5252ad;
+    }
+    .diff_header pre {
+      margin: 0 0 3px 0;
     }
   </ui:style>
   <g:HTMLPanel styleName='{style.difftable}'>
@@ -182,10 +187,8 @@ limitations under the License.
         </td>
         <td class='{style.overview}' />
       </tr>
-      <tr ui:field='diffHeaderRow' class='{style.patchSetNav}'>
-        <td colspan='2'><pre
-            ui:field='diffHeaderText'
-            class='{style.diff_header}' /></td>
+      <tr ui:field='diffHeaderRow' class='{style.diff_header}'>
+        <td colspan='2'><pre ui:field='diffHeaderText' /></td>
         <td class='{style.overview}' />
       </tr>
       <tr>

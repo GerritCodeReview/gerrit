@@ -94,6 +94,30 @@
       "revId": "c4f5b8c1ecc580ac974f3ddc3a4f1f86e9cbceb3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1fda4833_3f7667b2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-28T10:58:39Z",
+      "side": 1,
+      "message": "But i wonder, why it hits us only here and works on other places, where link annotation can be correctly resolved? Something wrong/differently with format here? I double checked, and the referenced method does exist.",
+      "parentUuid": "ff19f4bf_a60fe650",
+      "range": {
+        "startLine": 10,
+        "startChar": 19,
+        "endLine": 11,
+        "endChar": 29
+      },
+      "revId": "c4f5b8c1ecc580ac974f3ddc3a4f1f86e9cbceb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

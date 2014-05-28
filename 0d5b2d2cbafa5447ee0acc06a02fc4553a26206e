@@ -166,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "1fda4833_df09fb4b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ListCaches.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-28T07:29:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3f20ecdd_c8214fbe",
+      "range": {
+        "startLine": 127,
+        "startChar": 17,
+        "endLine": 127,
+        "endChar": 21
+      },
+      "revId": "0d5b2d2cbafa5447ee0acc06a02fc4553a26206e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f2be0c2_e93b75e3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ListCaches.java",
         "patchSetId": 5
@@ -177,6 +201,30 @@
       "writtenOn": "2014-05-28T06:53:23Z",
       "side": 1,
       "message": "HitRatioInfo",
+      "range": {
+        "startLine": 166,
+        "startChar": 22,
+        "endLine": 166,
+        "endChar": 35
+      },
+      "revId": "0d5b2d2cbafa5447ee0acc06a02fc4553a26206e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff19f4bf_262776da",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ListCaches.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-28T07:29:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f2be0c2_e93b75e3",
       "range": {
         "startLine": 166,
         "startChar": 22,

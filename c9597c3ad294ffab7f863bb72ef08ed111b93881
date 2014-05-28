@@ -16,6 +16,24 @@
       "revId": "c9597c3ad294ffab7f863bb72ef08ed111b93881",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff19f4bf_a61a4685",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-28T07:42:03Z",
+      "side": 1,
+      "message": "For one Rendering of Change Info for restore and abandon should be dropped entirely, because it\u0027s not needed and not used on the client side. I tried to do that in [1] but we had concerns about backward compatibility. If we wouldn\u0027t care, i can try to restore this change and drop rendering if change info for this use cases.\n\nFor another this is kind of pointless to use cache to optimize loading of one and only one change control \u003d\u003e project control. This is the same as not to use the cache. Or was your comment proposing to extend the commit message and mention that here?\n\n [1] https://gerrit-review.googlesource.com/48944",
+      "parentUuid": "5f2be0c2_a984dd4c",
+      "revId": "c9597c3ad294ffab7f863bb72ef08ed111b93881",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

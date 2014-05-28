@@ -323,6 +323,35 @@ E.g. this could be used to flush all caches:
   done
 ----
 
+[cache-operations]]
+=== Cache Operations
+--
+'POST /config/server/caches/'
+--
+
+Executes a cache operation that is specified in the request body in a
+link:#cache-operation-input[CacheOperationInput] entity.
+
+[[flush-all-caches]]
+==== Flush All Caches
+
+.Request
+----
+  POST /config/server/caches/ HTTP/1.0
+  Content-Type: application/json;charset=UTF-8
+
+  {
+    "operation": "FLUSH_ALL"
+  }
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+
+  ok
+----
+
 [[get-cache]]
 === Get Cache
 --
@@ -589,6 +618,20 @@ The `CapabilityInfo` entity contains information about a capability.
 |`kind`               |`gerritcodereview#capability`
 |`id`                 |capability ID
 |`name`               |capability name
+|=================================
+
+[[cache-operation-input]]
+=== CacheOperationInput
+The `CacheOperationInput` entity contains information about an
+operation that should be executed on caches.
+
+[options="header",width="50%",cols="1,6"]
+|=================================
+|Field Name           |Description
+|`operation`          |
+The cache operation that should be executed:
+
+`FLUSH_ALL`: Flushes all caches, except the `web_sessions` cache.
 |=================================
 
 [[entries-info]]

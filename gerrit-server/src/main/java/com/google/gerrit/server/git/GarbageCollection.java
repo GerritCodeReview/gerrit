@@ -14,10 +14,14 @@
 
 package com.google.gerrit.server.git;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.GarbageCollectionResult;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.scheduler.JobModule;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
+import com.google.inject.Module;
 
 import org.eclipse.jgit.api.GarbageCollectCommand;
 import org.eclipse.jgit.api.Git;
@@ -28,6 +32,8 @@ import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.eclipse.jgit.storage.pack.PackConfig;
+import org.quartz.JobExecutionContext;
+import org.quartz.JobExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,6 +49,37 @@ public class GarbageCollection {
   public static final String LOG_NAME = "gc_log";
   private static final Logger gcLog = LoggerFactory.getLogger(LOG_NAME);
 
+  public static Module module() {
+
+    return new JobModule() {
+      @Override
+      protected void configure() {
+        job("gc", Job.class);
+      }
+    };
+  }
+
+  /**
+   * Job for scheduling garbage collection for all projects
+   */
+  public static class Job implements org.quartz.Job {
+
+    private GarbageCollection.Factory garbageCollectionFactory;
+    private ProjectCache projectCache;
+
+    @Inject
+    private Job(GarbageCollection.Factory garbageCollectionFactory, ProjectCache projectCache) {
+      this.garbageCollectionFactory = garbageCollectionFactory;
+      this.projectCache = projectCache;
+    }
+
+    @Override
+    public void execute(JobExecutionContext context)
+        throws JobExecutionException {
+      garbageCollectionFactory.create().run(
+          Lists.newArrayList(projectCache.all()));
+    }
+  }
 
   private final GitRepositoryManager repoManager;
   private final GarbageCollectionQueue gcQueue;

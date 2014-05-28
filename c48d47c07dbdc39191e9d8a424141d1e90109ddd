@@ -39,6 +39,91 @@
       "revId": "c48d47c07dbdc39191e9d8a424141d1e90109ddd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f2be0c2_e92415d0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Mergeable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-28T05:29:10Z",
+      "side": 1,
+      "message": "dead code, this line has no useful side effect",
+      "revId": "c48d47c07dbdc39191e9d8a424141d1e90109ddd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f2be0c2_c92151be",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Mergeable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-28T05:29:10Z",
+      "side": 1,
+      "message": "If its not defined in the project, can we inherit it from the parent?\n\nFor Android we would like to use this feature too, but Android has 400+ projects that use the same branch rules, e.g.:\n\n  [branchOrder]\n    branch \u003d master\n    branch \u003d donut\n    branch \u003d cupcake\n\nI\u0027d like to write this once in All-Projects and forget about it until they choose another tasty treat letter name.",
+      "revId": "c48d47c07dbdc39191e9d8a424141d1e90109ddd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f2be0c2_294e2d82",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Mergeable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-28T05:29:10Z",
+      "side": 1,
+      "message": "n is already in format of \"refs/heads/X\" as the BranchOrderSection forced it to start with \"refs/heads/\" if it did not already start with it.\n\nAbove on line 125 we have the entire ref set available locally in a Map\u003cString,Ref\u003e refs. Just use:\n\n  Ref other \u003d refs.get(n);\n\nhere and save a call into the repository code path.",
+      "revId": "c48d47c07dbdc39191e9d8a424141d1e90109ddd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f20ecdd_880c775d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BranchOrderSection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-28T05:29:10Z",
+      "side": 1,
+      "message": "This list should be ImmutableList or wrapped as Collections.unmodifiableList in the constructor.",
+      "revId": "c48d47c07dbdc39191e9d8a424141d1e90109ddd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f2be0c2_8917595d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BranchOrderSection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-28T05:29:10Z",
+      "side": 1,
+      "message": "This subList should not be mutable to the caller.",
+      "revId": "c48d47c07dbdc39191e9d8a424141d1e90109ddd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

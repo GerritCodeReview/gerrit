@@ -30,6 +30,261 @@ Returns the version of the Gerrit server.
   "2.7"
 ----
 
+[[list-caches]]
+=== List Caches
+--
+'GET /config/server/caches/'
+--
+
+Lists the caches of the server. Caches defined by plugins are included.
+
+The caller must be a member of a group that is granted the
+link:access-control.html#capability_viewCaches[View Caches] capability
+or the link:access-control.html#capability_administrateServer[
+Administrate Server] capability.
+
+As result a map of link:#cache-info[CacheInfo] entities is returned.
+
+The entries in the map are sorted by cache name.
+
+.Request
+----
+  GET /config/server/caches/ HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "accounts": {
+      "entries": {
+        "mem": 4
+      },
+      "average_get": "2.5ms",
+      "hit_ratio": {
+        "mem": 94
+      }
+    },
+    "accounts_byemail": {
+      "entries": {
+        "mem": 4
+      },
+      "average_get": "771.8us",
+      "hit_ratio": {
+        "mem": 95
+      }
+    },
+    "accounts_byname": {
+      "entries": {
+        "mem": 4
+      },
+      "hit_ratio": {
+        "mem": 100
+      }
+    },
+    "adv_bases": {
+      "entries": {},
+      "hit_ratio": {}
+    },
+    "change_kind": {
+      "type": "DISK",
+      "entries": {
+        "space": "0.00k"
+      },
+      "hit_ratio": {}
+    },
+    "changes": {
+      "entries": {},
+      "hit_ratio": {}
+    },
+    "conflicts": {
+      "type": "DISK",
+      "entries": {
+        "mem": 2,
+        "disk": 3,
+        "space": "2.75k"
+      },
+      "hit_ratio": {
+        "mem": 0,
+        "disk": 100
+      }
+    },
+    "diff": {
+      "type": "DISK",
+      "entries": {
+        "mem": 177,
+        "disk": 253,
+        "space": "170.97k"
+      },
+      "average_get": "1.1ms",
+      "hit_ratio": {
+        "mem": 67,
+        "disk": 100
+      }
+    },
+    "diff_intraline": {
+      "type": "DISK",
+      "entries": {
+        "mem": 1,
+        "disk": 1,
+        "space": "0.37k"
+      },
+      "average_get": "6.8ms",
+      "hit_ratio": {
+        "mem": 0
+      }
+    },
+    "git_tags": {
+      "type": "DISK",
+      "entries": {
+        "space": "0.00k"
+      },
+      "hit_ratio": {}
+    },
+    groups": {
+      "entries": {
+        "mem": 27
+      },
+      "average_get": "183.2us",
+      "hit_ratio": {
+        "mem": 12
+      }
+    },
+    "groups_byinclude": {
+      "entries": {},
+      "hit_ratio": {}
+    },
+    "groups_byname": {
+      "entries": {},
+      "hit_ratio": {}
+    },
+    "groups_byuuid": {
+      "entries": {
+        "mem": 25
+      },
+      "average_get": "173.4us",
+      "hit_ratio": {
+        "mem": 13
+      }
+    },
+    "groups_external": {
+      "entries": {},
+      "hit_ratio": {}
+    },
+    groups_members": {
+      "entries": {
+        "mem": 4
+      },
+      "average_get": "697.8us",
+      "hit_ratio": {
+        "mem": 82
+      }
+    },
+    "permission_sort": {
+      "entries": {
+        "mem": 16
+      },
+      "hit_ratio": {
+        "mem": 96
+      }
+    },
+    "plugin_resources": {
+      "entries": {
+        "mem": 2
+      },
+      "hit_ratio": {
+        "mem": 83
+      }
+    },
+    "project_list": {
+      "entries": {
+        "mem": 1
+      },
+      "average_get": "18.6ms",
+      "hit_ratio": {
+        "mem": 0
+      }
+    },
+    "projects": {
+      "entries": {
+        "mem": 35
+      },
+      "average_get": "8.6ms",
+      "hit_ratio": {
+        "mem": 99
+      }
+    },
+    "quota-repo_size": {
+      "type": "DISK",
+      "entries": {
+        "space": "0.00k"
+      },
+      "hit_ratio": {}
+    },
+    "sshkeys": {
+      "entries": {
+        "mem": 1
+      },
+      "average_get": "3.2ms",
+      "hit_ratio": {
+        "mem": 50
+      }
+    },
+    "web_sessions": {
+      "type": "DISK",
+      "entries": {
+        "mem": 1,
+        "disk": 2,
+        "space": "0.78k"
+      },
+      "hit_ratio": {
+        "mem": 82
+      }
+    }
+  }
+----
+
+[[get-cache]]
+=== Get Cache
+--
+'GET /config/server/caches/link:#cache-name[\{cache-name\}]'
+--
+
+Retrieves information about a cache.
+
+The caller must be a member of a group that is granted the
+link:access-control.html#capability_viewCaches[View Caches] capability
+or the link:access-control.html#capability_administrateServer[
+Administrate Server] capability.
+
+As result a link:#cache-info[CacheInfo] entity is returned.
+
+.Request
+----
+  GET /config/server/caches/projects HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "name": "projects",
+    "entries": {
+      "mem": 35
+    },
+    "average_get": " 8.6ms",
+    "hit_ratio": {
+      "mem": 99
+    }
+  }
+----
+
 [[list-capabilities]]
 === List Capabilities
 --
@@ -176,8 +431,47 @@ link:#top-menu-entry-info[TopMenuEntryInfo] entities is returned.
 ----
 
 
+[[ids]]
+== IDs
+
+[[cache-name]]
+=== \{cache-name\}
+The name of the cache.
+
+If the cache is defined by a plugin the cache name must include the
+plugin name: "<plugin-name>-<cache-name>".
+
+Gerrit core caches can optionally be prefixed with "gerrit":
+"gerrit-<cache-name>".
+
+
 [[json-entities]]
 == JSON Entities
+
+[[cache-info]]
+=== CacheInfo
+The `CacheInfo` entity contains information about a cache.
+
+[options="header",width="50%",cols="1,^1,5"]
+|==================================
+|Field Name           ||Description
+|`name`               |
+not set if returned in a map where the cache name is used as map key|
+The cache name. If the cache is defined by a plugin the cache name
+includes the plugin name: "<plugin-name>-<cache-name>".
+|`type`               |not set for in memory caches|
+The type of the cache (`MEM`: in memory cache, `DISK`: disk cache).
+|`entries`            ||
+Information about the entries in the cache as a
+link:#entries-info[EntriesInfo] entity.
+|`average_get`        |optional|
+The average duration of getting one entry from the cache. The value is
+returned with a standard time unit abbreviation (`ns`: nanoseconds,
+`us`: microseconds, `ms`: milliseconds, `s`: seconds).
+|`hit_ratio`          ||
+Information about the hit ratio as a link:#hit-ration-info[
+HitRatioInfo] entity.
+|==================================
 
 [[capability-info]]
 === CapabilityInfo
@@ -190,6 +484,39 @@ The `CapabilityInfo` entity contains information about a capability.
 |`id`                 |capability ID
 |`name`               |capability name
 |=================================
+
+[[entries-info]]
+=== EntriesInfo
+The `EntriesInfo` entity contains information about the entries in a
+cache.
+
+[options="header",width="50%",cols="1,^1,5"]
+|==================================
+|Field Name ||Description
+|`mem`      |optional|Number of cache entries that are held in memory.
+|`disk`     |optional|Number of cache entries on the disk. For non-disk
+caches this value is not set; for disk caches it is only set if there
+are entries in the cache.
+|`space`    |optional|
+The space that is consumed by the cache on disk. The value is returned
+with a unit abbreviation (`k`: kilobytes, `m`: megabytes,
+`g`: gigabytes). Only set for disk caches.
+|==================================
+
+[[hit-ration-info]]
+=== HitRatioInfo
+The `HitRatioInfo` entity contains information about the hit ratio of a
+cache.
+
+[options="header",width="50%",cols="1,^1,5"]
+|==================================
+|Field Name ||Description
+|`mem`      ||
+Hit ratio for cache entries that are held in memory (0 \<= value \<= 100).
+|`disk`     |optional|
+Hit ratio for cache entries that are held on disk (0 \<= value \<= 100).
+Only set for disk caches.
+|==================================
 
 [[top-menu-entry-info]]
 === TopMenuEntryInfo

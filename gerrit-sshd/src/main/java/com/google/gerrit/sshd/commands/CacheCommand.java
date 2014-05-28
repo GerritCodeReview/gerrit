@@ -38,7 +38,7 @@ abstract class CacheCommand extends SshCommand {
     if ("gerrit".equals(plugin)) {
       return name;
     } else {
-      return plugin + "." + name;
+      return plugin + "-" + name;
     }
   }
 }

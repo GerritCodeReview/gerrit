@@ -34,6 +34,24 @@
       "revId": "c9597c3ad294ffab7f863bb72ef08ed111b93881",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f9e806d_51dfb471",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-28T21:24:22Z",
+      "side": 1,
+      "message": "We shouldn\u0027t change abandon/restore response, I think they are correct to return a simple ChangeInfo after the update happens. So ChangeJson needs to support being called from there.\n\nThe cache is probably unnecessary, but ChangeData may be missing the control. So you need to make it on the fly in ChangeJson.",
+      "parentUuid": "ff19f4bf_a61a4685",
+      "revId": "c9597c3ad294ffab7f863bb72ef08ed111b93881",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

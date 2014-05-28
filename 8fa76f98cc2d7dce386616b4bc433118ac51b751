@@ -206,6 +206,24 @@
       "revId": "8fa76f98cc2d7dce386616b4bc433118ac51b751",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1fda4833_5f7b2b99",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/FlushCache.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-28T11:21:43Z",
+      "side": 1,
+      "message": "This will not help. If they are admin they can always grant this new capability to themselves.",
+      "parentUuid": "ff19f4bf_a641a64d",
+      "revId": "8fa76f98cc2d7dce386616b4bc433118ac51b751",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

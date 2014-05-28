@@ -36,9 +36,6 @@ public final class AccountExternalId {
   /** Scheme for the username used to authenticate an account, e.g. over SSH. */
   public static final String SCHEME_USERNAME = "username:";
 
-  /** Very old scheme from Gerrit Code Review 1.x imports. */
-  public static final String LEGACY_GAE = "Google Account ";
-
   public static class Key extends StringKey<com.google.gwtorm.client.Key<?>> {
     private static final long serialVersionUID = 1L;
 

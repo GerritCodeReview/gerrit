@@ -249,9 +249,6 @@ public class MyIdentitiesScreen extends SettingsScreen {
       } else if (k.isScheme(OpenIdUrls.URL_YAHOO)) {
         return OpenIdUtil.C.nameYahoo();
 
-      } else if (k.isScheme(AccountExternalId.LEGACY_GAE)) {
-        return OpenIdUtil.C.nameGoogle() + " (Imported from Google AppEngine)";
-
       } else {
         return k.getExternalId();
       }

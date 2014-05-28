@@ -352,6 +352,30 @@ link:#cache-operation-input[CacheOperationInput] entity.
   ok
 ----
 
+[[flush-several-caches]]
+==== Flush Several Caches At Once
+
+.Request
+----
+  POST /config/server/caches/ HTTP/1.0
+  Content-Type: application/json;charset=UTF-8
+
+  {
+    "operation": "FLUSH"
+    "caches": [
+      "projects",
+      "project_list"
+    ]
+  }
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+
+  ok
+----
+
 [[get-cache]]
 === Get Cache
 --
@@ -608,14 +632,20 @@ The `CapabilityInfo` entity contains information about a capability.
 The `CacheOperationInput` entity contains information about an
 operation that should be executed on caches.
 
-[options="header",width="50%",cols="1,6"]
-|=================================
-|Field Name           |Description
-|`operation`          |
+[options="header",width="50%",cols="1,^1,5"]
+|==================================
+|Field Name           ||Description
+|`operation`          ||
 The cache operation that should be executed:
 
 `FLUSH_ALL`: Flushes all caches, except the `web_sessions` cache.
-|=================================
+
+`FLUSH`: Flushes the specified caches.
+|`caches`             |optional|
+A list of cache names. This list defines the caches on which the
+specified operation should be executed. Whether this list must be
+specified depends on the operation being executed.
+|==================================
 
 [[entries-info]]
 === EntriesInfo

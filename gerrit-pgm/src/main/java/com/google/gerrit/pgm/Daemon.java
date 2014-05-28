@@ -42,6 +42,7 @@ import com.google.gerrit.pgm.util.LogFileCompressor;
 import com.google.gerrit.pgm.util.RuntimeShutdown;
 import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.reviewdb.client.AuthType;
+import com.google.gerrit.scheduler.Scheduler;
 import com.google.gerrit.server.account.InternalAccountDirectory;
 import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
 import com.google.gerrit.server.change.MergeabilityChecksExecutorModule;
@@ -353,6 +354,7 @@ public class Daemon extends SiteProgram {
         bind(GerritUiOptions.class).toInstance(new GerritUiOptions(headless));
       }
     });
+    modules.add(Scheduler.module());
     return cfgInjector.createChildInjector(modules);
   }
 

@@ -335,3 +335,9 @@ maven_jar(
   license = 'DO_NOT_DISTRIBUTE',
 )
 
+maven_jar(
+  name = 'quartz',
+  id = 'org.quartz-scheduler:quartz:2.2.1',
+  sha1 = '2bd17ec0c66d0370a932e225f52c23f3dc7cc4ce',
+  license = 'Apache2.0',
+)

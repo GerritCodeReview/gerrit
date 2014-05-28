@@ -25,6 +25,7 @@ import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.lucene.LuceneIndexModule;
 import com.google.gerrit.reviewdb.client.AuthType;
+import com.google.gerrit.scheduler.Scheduler;
 import com.google.gerrit.server.account.InternalAccountDirectory;
 import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
 import com.google.gerrit.server.change.MergeabilityChecksExecutorModule;
@@ -310,6 +311,7 @@ public class WebAppInitializer extends GuiceServletContextListener
         bind(GerritUiOptions.class).toInstance(new GerritUiOptions(false));
       }
     });
+    modules.add(Scheduler.module());
     return cfgInjector.createChildInjector(modules);
   }
 

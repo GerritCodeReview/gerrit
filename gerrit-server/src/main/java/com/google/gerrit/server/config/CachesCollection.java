@@ -18,10 +18,12 @@ import com.google.common.cache.Cache;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.restapi.AcceptsPost;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
@@ -32,26 +34,29 @@ import com.google.inject.Singleton;
 @RequiresCapability(GlobalCapability.VIEW_CACHES)
 @Singleton
 public class CachesCollection implements
-    ChildCollection<ConfigResource, CacheResource> {
+    ChildCollection<ConfigResource, CacheResource>, AcceptsPost<ConfigResource> {
 
   private final DynamicMap<RestView<CacheResource>> views;
-  private final ListCaches list;
+  private final Provider<ListCaches> list;
   private final Provider<CurrentUser> self;
   private final DynamicMap<Cache<?, ?>> cacheMap;
+  private final PostCaches postCaches;
 
   @Inject
   CachesCollection(DynamicMap<RestView<CacheResource>> views,
-      ListCaches list, Provider<CurrentUser> self,
-      DynamicMap<Cache<?, ?>> cacheMap) {
+      Provider<ListCaches> list, Provider<CurrentUser> self,
+      DynamicMap<Cache<?, ?>> cacheMap,
+      PostCaches postCaches) {
     this.views = views;
     this.list = list;
     this.self = self;
     this.cacheMap = cacheMap;
+    this.postCaches = postCaches;
   }
 
   @Override
   public RestView<ConfigResource> list() {
-    return list;
+    return list.get();
   }
 
   @Override
@@ -84,5 +89,11 @@ public class CachesCollection implements
   @Override
   public DynamicMap<RestView<CacheResource>> views() {
     return views;
+  }
+
+  @SuppressWarnings("unchecked")
+  @Override
+  public PostCaches post(ConfigResource parent) throws RestApiException {
+    return postCaches;
   }
 }

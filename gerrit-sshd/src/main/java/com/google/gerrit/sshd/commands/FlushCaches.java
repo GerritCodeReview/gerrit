@@ -14,19 +14,20 @@
 
 package com.google.gerrit.sshd.commands;
 
+import static com.google.gerrit.server.config.PostCaches.Operation.FLUSH_ALL;
 import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 
 import com.google.common.cache.Cache;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.config.CacheResource;
 import com.google.gerrit.server.config.ConfigResource;
 import com.google.gerrit.server.config.FlushCache;
 import com.google.gerrit.server.config.ListCaches;
 import com.google.gerrit.server.config.ListCaches.OutputFormat;
+import com.google.gerrit.server.config.PostCaches;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -41,8 +42,6 @@ import java.util.List;
 @CommandMetaData(name = "flush-caches", description = "Flush some/all server caches from memory",
   runsAt = MASTER_OR_SLAVE)
 final class FlushCaches extends CacheCommand {
-  private static final String WEB_SESSIONS = "web_sessions";
-
   @Option(name = "--cache", usage = "flush named cache", metaVar = "NAME")
   private List<String> caches = new ArrayList<>();
 
@@ -58,32 +57,44 @@ final class FlushCaches extends CacheCommand {
   @Inject
   private Provider<ListCaches> listCaches;
 
+  @Inject
+  private Provider<PostCaches> postCaches;
+
   @Override
   protected void run() throws Failure {
-    if (list) {
-      if (all || caches.size() > 0) {
-        throw error("error: cannot use --list with --all or --cache");
+    try {
+      if (list) {
+        if (all || caches.size() > 0) {
+          throw error("error: cannot use --list with --all or --cache");
+        }
+        doList();
+        return;
       }
-      doList();
-      return;
-    }
 
-    if (all && caches.size() > 0) {
-      throw error("error: cannot combine --all and --cache");
-    } else if (!all && caches.size() == 1 && caches.contains("all")) {
-      caches.clear();
-      all = true;
-    } else if (!all && caches.isEmpty()) {
-      all = true;
-    }
-
-    List<String> names = cacheNames();
-    for (String n : caches) {
-      if (!names.contains(n)) {
-        throw error("error: cache \"" + n + "\" not recognized");
+      if (all && caches.size() > 0) {
+        throw error("error: cannot combine --all and --cache");
+      } else if (!all && caches.size() == 1 && caches.contains("all")) {
+        caches.clear();
+        all = true;
+      } else if (!all && caches.isEmpty()) {
+        all = true;
       }
+
+      if (all) {
+        postCaches.get().apply(new ConfigResource(),
+            new PostCaches.Input(FLUSH_ALL));
+      } else {
+        List<String> names = cacheNames();
+        for (String n : caches) {
+          if (!names.contains(n)) {
+            throw error("error: cache \"" + n + "\" not recognized");
+          }
+        }
+        doBulkFlush();
+      }
+    } catch (RestApiException e) {
+      throw die(e.getMessage());
     }
-    doBulkFlush();
   }
 
   private static UnloggedFailure error(final String msg) {
@@ -91,16 +102,12 @@ final class FlushCaches extends CacheCommand {
   }
 
   @SuppressWarnings("unchecked")
-  private List<String> cacheNames() throws UnloggedFailure {
-    try {
-      return (List<String>) listCaches.get().setFormat(OutputFormat.LIST)
-          .apply(new ConfigResource());
-    } catch (BadRequestException e) {
-      throw die(e.getMessage());
-    }
+  private List<String> cacheNames() throws RestApiException {
+    return (List<String>) listCaches.get().setFormat(OutputFormat.LIST)
+        .apply(new ConfigResource());
   }
 
-  private void doList() throws UnloggedFailure {
+  private void doList() throws RestApiException {
     for (String name : cacheNames()) {
       stderr.print(name);
       stderr.print('\n');
@@ -112,7 +119,7 @@ final class FlushCaches extends CacheCommand {
     try {
       for (DynamicMap.Entry<Cache<?, ?>> e : cacheMap) {
         String n = cacheNameOf(e.getPluginName(), e.getExportName());
-        if (flush(n)) {
+        if (caches.contains(n)) {
           try {
             flushCache.get().apply(
                 new CacheResource(e.getPluginName(), e.getExportName(),
@@ -125,21 +132,6 @@ final class FlushCaches extends CacheCommand {
       }
     } finally {
       stderr.flush();
-    }
-  }
-
-  private boolean flush(final String cacheName) {
-    if (caches.contains(cacheName)) {
-      return true;
-
-    } else if (all) {
-      if (WEB_SESSIONS.equals(cacheName)) {
-        return false;
-      }
-      return true;
-
-    } else {
-      return false;
     }
   }
 }

@@ -28,6 +28,7 @@ import org.apache.http.HttpStatus;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 public class ListCachesIT extends AbstractDaemonTest {
@@ -64,5 +65,23 @@ public class ListCachesIT extends AbstractDaemonTest {
   public void listCaches_Forbidden() throws IOException {
     RestResponse r = userSession.get("/config/server/caches/");
     assertEquals(HttpStatus.SC_FORBIDDEN, r.getStatusCode());
+  }
+
+  @Test
+  public void listCacheNames() throws IOException {
+    RestResponse r = adminSession.get("/config/server/caches/?format=LIST");
+    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    List<String> result =
+        newGson().fromJson(r.getReader(),
+            new TypeToken<List<String>>() {}.getType());
+    assertTrue(result.contains("accounts"));
+    assertTrue(result.contains("projects"));
+    assertTrue(result.indexOf("accounts") < result.indexOf("projects"));
+  }
+
+  @Test
+  public void listCaches_BadRequest() throws IOException {
+    RestResponse r = adminSession.get("/config/server/caches/?format=NONSENSE");
+    assertEquals(HttpStatus.SC_BAD_REQUEST, r.getStatusCode());
   }
 }

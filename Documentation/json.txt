@@ -115,7 +115,7 @@ was created.
 
 isDraft:: Whether or not the patch set is a draft patch set.
 
-changeKind:: Kind of change uploaded.
+kind:: Kind of change uploaded.
 
   REWORK;; Nontrivial content changes.
 

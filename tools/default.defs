@@ -134,8 +134,22 @@ def gerrit_plugin(
       vm_args = GWT_JVM_ARGS,
     )
 
-  java_binary(
+  genrule(
     name = name,
+    cmd = 'mkdir -p $TMP/fix' +
+       ';cd $TMP/fix' +
+       ';unzip -qo $(location %s)' % ':%s__broken_manifest' % name +
+       ';cp $(location %s) META-INF/MANIFEST.MF' % ':%s__manifest' % name +
+       ';zip -9qr $OUT .',
+    out = '%s.jar' % name,
+    deps = [
+      ':%s__broken_manifest' % name,
+      ':%s__manifest' % name,
+    ],
+  )
+
+  java_binary(
+    name = '%s__broken_manifest' % name,
     manifest_file = genfile('MANIFEST.MF'),
     deps = [
       ':%s__plugin' % name,

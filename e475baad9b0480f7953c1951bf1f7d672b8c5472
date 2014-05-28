@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3f20ecdd_48fb9fe0",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 826,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-28T05:08:40Z",
+      "side": 1,
+      "message": "This is unnecessary. The instanceof test will be false for null, and the block won\u0027t run. So you can safely skip the !\u003d null conditional.\n\nEven if you insist on keeping it for code clarity, you can fold this boolean into the first part of a triple \u0026\u0026 test with the next if statement and save yourself an entire block level indent:\n\n  if (core !\u003d null \u0026\u0026 core instanceof AcceptsPost \u0026\u0026 \"POST\".equals(method))\n\nbut really, !\u003d null \u0026\u0026 instanceof is unnecessary since \"null instanceof Foo\" is always false.",
+      "revId": "e475baad9b0480f7953c1951bf1f7d672b8c5472",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -21,18 +21,36 @@ import com.google.common.cache.CacheStats;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.cache.PersistentCache;
 import com.google.inject.Inject;
-import com.google.inject.Singleton;
 
+import org.apache.commons.lang.StringUtils;
+import org.kohsuke.args4j.Option;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
 @RequiresCapability(GlobalCapability.VIEW_CACHES)
-@Singleton
 public class ListCaches implements RestReadView<ConfigResource> {
   private final DynamicMap<Cache<?, ?>> cacheMap;
+
+  public static enum OutputFormat {
+    LIST, TEXT_LIST;
+  }
+
+  @Option(name = "--format", usage = "output format")
+  private OutputFormat format;
+
+  public ListCaches setFormat(OutputFormat format) {
+    this.format = format;
+    return this;
+  }
 
   @Inject
   public ListCaches(DynamicMap<Cache<?, ?>> cacheMap) {
@@ -40,13 +58,33 @@ public class ListCaches implements RestReadView<ConfigResource> {
   }
 
   @Override
-  public Map<String, CacheInfo> apply(ConfigResource rsrc) {
-    Map<String, CacheInfo> cacheInfos = new TreeMap<>();
-    for (DynamicMap.Entry<Cache<?, ?>> e : cacheMap) {
-      cacheInfos.put(cacheNameOf(e.getPluginName(), e.getExportName()),
-          new CacheInfo(e.getProvider().get()));
+  public Object apply(ConfigResource rsrc) throws BadRequestException {
+    if (format == null) {
+      Map<String, CacheInfo> cacheInfos = new TreeMap<>();
+      for (DynamicMap.Entry<Cache<?, ?>> e : cacheMap) {
+        cacheInfos.put(cacheNameOf(e.getPluginName(), e.getExportName()),
+            new CacheInfo(e.getProvider().get()));
+      }
+      return cacheInfos;
+    } else if (OutputFormat.LIST.equals(format)
+        || OutputFormat.TEXT_LIST.equals(format)) {
+      List<String> cacheNames = new ArrayList<>();
+      for (DynamicMap.Entry<Cache<?, ?>> e : cacheMap) {
+        cacheNames.add(cacheNameOf(e.getPluginName(), e.getExportName()));
+      }
+      Collections.sort(cacheNames);
+
+      if (OutputFormat.TEXT_LIST.equals(format)) {
+        return BinaryResult.create(StringUtils.join(cacheNames, "\n"))
+            .base64()
+            .setContentType("text/plain")
+            .setCharacterEncoding("UTF-8");
+      } else {
+        return cacheNames;
+      }
+    } else {
+      throw new BadRequestException("unsupported format: " + format);
     }
-    return cacheInfos;
   }
 
   public enum CacheType {

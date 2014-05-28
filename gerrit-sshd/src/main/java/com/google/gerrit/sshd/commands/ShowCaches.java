@@ -118,7 +118,7 @@ final class ShowCaches extends SshCommand {
   }
 
   @Override
-  protected void run() {
+  protected void run() throws UnloggedFailure {
     nw = columns - 50;
     Date now = new Date();
     stdout.format(
@@ -182,12 +182,11 @@ final class ShowCaches extends SshCommand {
   }
 
   private Collection<CacheInfo> getCaches() {
-    Map<String, CacheInfo> caches = listCaches.get().apply(new ConfigResource());
+    @SuppressWarnings("unchecked")
+    Map<String, CacheInfo> caches =
+        (Map<String, CacheInfo>) listCaches.get().apply(new ConfigResource());
     for (Map.Entry<String, CacheInfo> entry : caches.entrySet()) {
       CacheInfo cache = entry.getValue();
-      if (cache.type == null) {
-        cache.type = CacheType.MEM;
-      }
       cache.name = entry.getKey();
     }
     return caches.values();

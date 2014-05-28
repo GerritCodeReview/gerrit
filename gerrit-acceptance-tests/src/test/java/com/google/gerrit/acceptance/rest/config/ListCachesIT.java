@@ -19,6 +19,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import com.google.common.collect.Ordering;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.server.config.ListCaches.CacheInfo;
@@ -29,6 +30,7 @@ import org.apache.http.HttpStatus;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 public class ListCachesIT extends AbstractDaemonTest {
@@ -65,5 +67,23 @@ public class ListCachesIT extends AbstractDaemonTest {
   public void listCaches_Forbidden() throws IOException {
     RestResponse r = userSession.get("/config/server/caches/");
     assertEquals(HttpStatus.SC_FORBIDDEN, r.getStatusCode());
+  }
+
+  @Test
+  public void listCacheNames() throws IOException {
+    RestResponse r = adminSession.get("/config/server/caches/?format=LIST");
+    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    List<String> result =
+        newGson().fromJson(r.getReader(),
+            new TypeToken<List<String>>() {}.getType());
+    assertTrue(result.contains("accounts"));
+    assertTrue(result.contains("projects"));
+    assertTrue(Ordering.natural().isOrdered(result));
+  }
+
+  @Test
+  public void listCaches_BadRequest() throws IOException {
+    RestResponse r = adminSession.get("/config/server/caches/?format=NONSENSE");
+    assertEquals(HttpStatus.SC_BAD_REQUEST, r.getStatusCode());
   }
 }

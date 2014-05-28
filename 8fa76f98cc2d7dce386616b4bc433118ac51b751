@@ -66,6 +66,30 @@
     },
     {
       "key": {
+        "uuid": "1fda4833_7f362f09",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/FlushCache.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-28T08:03:58Z",
+      "side": 1,
+      "message": "Opps, flush-all happens in a follow-up change, so i should have said instead:\n\n  api.config().caches(\"foo\").flush();",
+      "parentUuid": "ff19f4bf_e6243ed0",
+      "range": {
+        "startLine": 46,
+        "startChar": 4,
+        "endLine": 50,
+        "endChar": 5
+      },
+      "revId": "8fa76f98cc2d7dce386616b4bc433118ac51b751",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3f20ecdd_883e37d5",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/FlushCache.java",
         "patchSetId": 7

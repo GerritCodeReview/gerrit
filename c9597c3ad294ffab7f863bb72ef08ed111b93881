@@ -70,6 +70,24 @@
       "revId": "c9597c3ad294ffab7f863bb72ef08ed111b93881",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f82641a_0ad5fb51",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-28T22:32:14Z",
+      "side": 1,
+      "message": "Yes, you are right. Thanks for correcting me.",
+      "parentUuid": "1fda4833_7f438f25",
+      "revId": "c9597c3ad294ffab7f863bb72ef08ed111b93881",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

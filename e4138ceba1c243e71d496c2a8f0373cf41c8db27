@@ -22,6 +22,30 @@
       "revId": "e4138ceba1c243e71d496c2a8f0373cf41c8db27",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1fda4833_7f80ef38",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/annotations/RootRelative.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-28T11:32:54Z",
+      "side": 0,
+      "message": "I think I tried this already without success.",
+      "parentUuid": "ff19f4bf_0676bab1",
+      "range": {
+        "startLine": 29,
+        "startChar": 3,
+        "endLine": 29,
+        "endChar": 60
+      },
+      "revId": "e4138ceba1c243e71d496c2a8f0373cf41c8db27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

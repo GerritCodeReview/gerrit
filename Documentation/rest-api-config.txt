@@ -438,6 +438,72 @@ Server] capability.
   HTTP/1.1 200 OK
 ----
 
+[[get-summary]]
+=== Get Summary
+--
+'GET /config/server/summary'
+--
+
+Retrieves a summary of the current server state.
+
+The caller must be a member of a group that is granted the
+link:access-control.html#capability_viewCaches[View Caches] capability
+or the link:access-control.html#capability_administrateServer[
+Administrate Server] capability.
+
+The following options are supported:
+
+* `jvm`:
++
+Includes a JVM summary.
+
+* `gc`:
++
+Requests a Java garbage collection before computing the information
+about the Java memory heap.
+
+.Request
+----
+  GET /config/server/summary?jvm HTTP/1.0
+----
+
+As result a link:#summary-info[SummaryInfo] entity is returned.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "task_summary": {
+      "total": 2,
+      "sleeping": 2
+    },
+    "mem_summary": {
+      "total": "341.06m",
+      "used": "57.16m",
+      "free": "283.90m",
+      "buffers": "0.00k",
+      "max": "1.67g",
+      "cpus": 8,
+      "threads": 37
+    },
+    "jvm_summary": {
+      "vm_vendor": "Oracle Corporation",
+      "vm_name": "Java HotSpot(TM) 64-Bit Server VM",
+      "vm_version": "23.25-b01",
+      "os_name": "Mac OS X",
+      "os_version": "10.8.5",
+      "os_arch": "x86_64",
+      "user": "gerrit",
+      "host": "GERRIT",
+      "current_working_directory": "/Users/gerrit/site",
+      "site": "/Users/gerrit/site"
+    }
+  }
+----
+
 [[list-capabilities]]
 === List Capabilities
 --
@@ -673,6 +739,94 @@ Hit ratio for cache entries that are held in memory (0 \<= value \<= 100).
 Hit ratio for cache entries that are held on disk (0 \<= value \<= 100).
 Only set for disk caches.
 |==================================
+
+[[jvm-summary-info]]
+=== JvmSummaryInfo
+The `JvmSummaryInfo` entity contains information about the JVM.
+
+[options="header",width="50%",cols="1,^1,5"]
+|========================================
+|Field Name                 ||Description
+|`vm_vendor`                ||The vendor of the virtual machine.
+|`vm_name`                  ||The name of the virtual machine.
+|`vm_version`               ||The version of the virtual machine.
+|`os_name`                  ||The name of the operating system.
+|`os_version`               ||The version of the operating system.
+|`os_arch`                  ||The architecture of the operating system.
+|`user`                     ||The user that is running Gerrit.
+|`host`                     |optional|
+The host on which Gerrit is running.
+|`current_working_directory`||The current working directory.
+|`site`                     ||The path to the review site.
+|========================================
+
+[[mem-summary-info]]
+=== MemSummaryInfo
+The `MemSummaryInfo` entity contains information about the current
+memory usage.
+
+[options="header",width="50%",cols="1,^1,5"]
+|============================
+|Field Name     ||Description
+|`total`        ||
+The total size of the memory. The value is returned with a unit
+abbreviation (`k`: kilobytes, `m`: megabytes, `g`: gigabytes).
+|`used`         ||
+The size of used memory. The value is returned with a unit abbreviation
+(`k`: kilobytes, `m`: megabytes, `g`: gigabytes).
+|`free`         ||
+The size of free memory. The value is returned with a unit abbreviation
+(`k`: kilobytes, `m`: megabytes, `g`: gigabytes).
+|`buffers`      ||
+The size of memory used for JGit buffers. The value is returned with a
+unit abbreviation (`k`: kilobytes, `m`: megabytes, `g`: gigabytes).
+|`max`          ||
+The maximal memory size. The value is returned with a unit abbreviation
+(`k`: kilobytes, `m`: megabytes, `g`: gigabytes).
+|`open_files`   |optional|
+The number of open files.
+|`cpus`         ||
+The number of available processors.
+|`threads`      |optional|
+The current number of threads.
+|============================
+
+[[summary-info]]
+=== SummaryInfo
+The `SummaryInfo` entity contains information about the current state
+of the server.
+
+[options="header",width="50%",cols="1,^1,5"]
+|============================
+|Field Name     ||Description
+|`task_summary` ||
+Summary about current tasks as a link:#task-summary-info[
+TaskSummaryInfo] entity.
+|`mem_summary`  ||
+Summary about current memory usage as a link:#mem-summary-info[
+MemSummaryInfo] entity.
+|`jvm_summary`  |optional|
+Summary about the JVM link:#jvm-summary-info[JvmSummaryInfo] entity.
+Only set if the `jvm` option was set.
+|============================
+
+[[task-summary-info]]
+=== TaskSummaryInfo
+The `TaskSummaryInfo` entity contains information about the current
+tasks.
+
+[options="header",width="50%",cols="1,^1,5"]
+|============================
+|Field Name     ||Description
+|`total`        |optional|
+Total number of current tasks.
+|`running`      |optional|
+Number of currently running tasks.
+|`ready`        |optional|
+Number of currently ready tasks.
+|`sleeping`     |optional|
+Number of currently sleeping tasks.
+|============================
 
 [[top-menu-entry-info]]
 === TopMenuEntryInfo

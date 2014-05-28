@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5f2be0c2_a984dd4c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-28T07:22:39Z",
+      "side": 1,
+      "message": "This is true for query, but what about other users of ChangeJson, like Abandon or Restore that use ChangeJson to format a Change object we just modified?",
+      "revId": "c9597c3ad294ffab7f863bb72ef08ed111b93881",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

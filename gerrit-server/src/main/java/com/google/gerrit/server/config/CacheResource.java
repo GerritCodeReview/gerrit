@@ -31,6 +31,15 @@ public class CacheResource extends ConfigResource {
     this.cacheProvider = cacheProvider;
   }
 
+  public CacheResource(String pluginName, String cacheName, final Cache<?, ?> cache) {
+    this(pluginName, cacheName, new Provider<Cache<?, ?>>() {
+      @Override
+      public Cache<?, ?> get() {
+        return cache;
+      }
+    });
+  }
+
   public String getName() {
     return name;
   }

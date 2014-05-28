@@ -14,21 +14,19 @@
 
 package com.google.gerrit.sshd.commands;
 
+import static com.google.gerrit.server.config.PostCaches.Operation.FLUSH;
 import static com.google.gerrit.server.config.PostCaches.Operation.FLUSH_ALL;
 import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 
-import com.google.common.cache.Cache;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
-import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.server.config.CacheResource;
 import com.google.gerrit.server.config.ConfigResource;
-import com.google.gerrit.server.config.FlushCache;
 import com.google.gerrit.server.config.ListCaches;
 import com.google.gerrit.server.config.ListCaches.OutputFormat;
 import com.google.gerrit.server.config.PostCaches;
 import com.google.gerrit.sshd.CommandMetaData;
+import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -41,7 +39,7 @@ import java.util.List;
 @RequiresCapability(GlobalCapability.FLUSH_CACHES)
 @CommandMetaData(name = "flush-caches", description = "Flush some/all server caches from memory",
   runsAt = MASTER_OR_SLAVE)
-final class FlushCaches extends CacheCommand {
+final class FlushCaches extends SshCommand {
   @Option(name = "--cache", usage = "flush named cache", metaVar = "NAME")
   private List<String> caches = new ArrayList<>();
 
@@ -50,9 +48,6 @@ final class FlushCaches extends CacheCommand {
 
   @Option(name = "--list", usage = "list available caches")
   private boolean list;
-
-  @Inject
-  private Provider<FlushCache> flushCache;
 
   @Inject
   private Provider<ListCaches> listCaches;
@@ -84,13 +79,8 @@ final class FlushCaches extends CacheCommand {
         postCaches.get().apply(new ConfigResource(),
             new PostCaches.Input(FLUSH_ALL));
       } else {
-        List<String> names = cacheNames();
-        for (String n : caches) {
-          if (!names.contains(n)) {
-            throw error("error: cache \"" + n + "\" not recognized");
-          }
-        }
-        doBulkFlush();
+        postCaches.get().apply(new ConfigResource(),
+            new PostCaches.Input(FLUSH, caches));
       }
     } catch (RestApiException e) {
       throw die(e.getMessage());
@@ -102,36 +92,12 @@ final class FlushCaches extends CacheCommand {
   }
 
   @SuppressWarnings("unchecked")
-  private List<String> cacheNames() throws RestApiException {
-    return (List<String>) listCaches.get().setFormat(OutputFormat.LIST)
-        .apply(new ConfigResource());
-  }
-
   private void doList() throws RestApiException {
-    for (String name : cacheNames()) {
+    for (String name : (List<String>) listCaches.get()
+        .setFormat(OutputFormat.LIST).apply(new ConfigResource())) {
       stderr.print(name);
       stderr.print('\n');
     }
     stderr.flush();
-  }
-
-  private void doBulkFlush() {
-    try {
-      for (DynamicMap.Entry<Cache<?, ?>> e : cacheMap) {
-        String n = cacheNameOf(e.getPluginName(), e.getExportName());
-        if (caches.contains(n)) {
-          try {
-            flushCache.get().apply(
-                new CacheResource(e.getPluginName(), e.getExportName(),
-                    e.getProvider()), null);
-          } catch (RestApiException err) {
-            stderr.println("error: cannot flush cache \"" + n + "\": "
-                + err.getMessage());
-          }
-        }
-      }
-    } finally {
-      stderr.flush();
-    }
   }
 }

@@ -22,6 +22,30 @@
       "revId": "79c76795de428bee39ea8a08e5dc32fdee5ee46a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1fda4833_3f5d8722",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/FlushCaches.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-28T13:24:22Z",
+      "side": 1,
+      "message": "Fixed in\n  https://gerrit-review.googlesource.com/57411",
+      "parentUuid": "1fda4833_1f58c331",
+      "range": {
+        "startLine": 126,
+        "startChar": 38,
+        "endLine": 126,
+        "endChar": 60
+      },
+      "revId": "79c76795de428bee39ea8a08e5dc32fdee5ee46a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

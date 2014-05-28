@@ -40,6 +40,24 @@
       "revId": "60087292eba071328ff1d53b5fe447f72596cdc4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f20ecdd_2858eb31",
+        "filename": "tools/plugin_archetype_deploy.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2014-05-28T21:08:41Z",
+      "side": 0,
+      "message": "I don\u0027t understand?  I think you are trying to run help in those cases, aren\u0027t you?  My simple suggestion above runs help in all cases except for a correctly spelled --dry-run or no arguments.  Isn\u0027t that what you want?",
+      "parentUuid": "3f20ecdd_8817575d",
+      "revId": "60087292eba071328ff1d53b5fe447f72596cdc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

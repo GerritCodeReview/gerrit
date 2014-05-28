@@ -188,6 +188,24 @@
       "revId": "8fa76f98cc2d7dce386616b4bc433118ac51b751",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff19f4bf_a641a64d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/FlushCache.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-28T10:24:43Z",
+      "side": 1,
+      "message": "Another option to address that would be to decouple FLUSH_CACHES from AdminServer ACL, like we did with ACCESS_DATABASE. So that it\u0027s not enough to be admin to flush caches.",
+      "parentUuid": "ff19f4bf_06535a26",
+      "revId": "8fa76f98cc2d7dce386616b4bc433118ac51b751",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

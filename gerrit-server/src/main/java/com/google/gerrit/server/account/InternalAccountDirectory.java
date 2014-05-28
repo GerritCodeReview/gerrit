@@ -101,9 +101,9 @@ public class InternalAccountDirectory extends AccountDirectory {
       info.username = account.getUserName();
     }
     if (options.contains(FillOptions.AVATARS)) {
-      info.avatars = Lists.newArrayListWithCapacity(1);
       AvatarProvider ap = avatar.get();
       if (ap != null) {
+        info.avatars = Lists.newArrayListWithCapacity(1);
         String u = ap.getUrl(
             userFactory.create(account.getId()),
             AvatarInfo.DEFAULT_SIZE);

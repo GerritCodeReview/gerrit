@@ -33,9 +33,6 @@ import static com.google.gerrit.extensions.common.ListChangesOption.WEB_LINKS;
 import com.google.common.base.Joiner;
 import com.google.common.base.Objects;
 import com.google.common.base.Optional;
-import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableList;
@@ -74,7 +71,6 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.PatchSetInfo.ParentInfo;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.UserIdentity;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
@@ -88,7 +84,6 @@ import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
-import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeData.ChangedLines;
@@ -100,7 +95,6 @@ import com.google.inject.Provider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Collections;
@@ -111,7 +105,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
-import java.util.concurrent.ExecutionException;
 
 public class ChangeJson {
   private static final Logger log = LoggerFactory.getLogger(ChangeJson.class);
@@ -137,7 +130,6 @@ public class ChangeJson {
   private final Provider<CurrentUser> userProvider;
   private final AnonymousUser anonymous;
   private final IdentifiedUser.GenericFactory userFactory;
-  private final ProjectControl.GenericFactory projectControlFactory;
   private final ChangeData.Factory changeDataFactory;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final ChangesCollection changes;
@@ -152,7 +144,6 @@ public class ChangeJson {
   private AccountInfo.Loader accountLoader;
   private ChangeControl lastControl;
   private Set<Change.Id> reviewed;
-  private LoadingCache<Project.NameKey, ProjectControl> projectControls;
   private Provider<WebLinks> webLinks;
 
   @Inject
@@ -178,7 +169,6 @@ public class ChangeJson {
     this.userProvider = user;
     this.anonymous = au;
     this.userFactory = uf;
-    this.projectControlFactory = pcf;
     this.changeDataFactory = cdf;
     this.patchSetInfoFactory = psi;
     this.changes = changes;
@@ -191,15 +181,6 @@ public class ChangeJson {
     this.webLinks = webLinks;
 
     options = EnumSet.noneOf(ListChangesOption.class);
-    projectControls = CacheBuilder.newBuilder()
-      .concurrencyLevel(1)
-      .build(new CacheLoader<Project.NameKey, ProjectControl>() {
-        @Override
-        public ProjectControl load(Project.NameKey key)
-            throws NoSuchProjectException, IOException {
-          return projectControlFactory.controlFor(key, userProvider.get());
-        }
-      });
   }
 
   public ChangeJson addOption(ListChangesOption o) {
@@ -369,19 +350,7 @@ public class ChangeJson {
         && cd.getId().equals(lastControl.getChange().getId())) {
       return lastControl;
     }
-    ChangeControl ctrl;
-    try {
-      if (cd.hasChangeControl()) {
-        ctrl = cd.changeControl().forUser(userProvider.get());
-      } else {
-        ctrl = projectControls.get(cd.change().getProject())
-            .controlFor(cd.change());
-      }
-    } catch (ExecutionException e) {
-      throw new OrmException(e);
-    }
-    lastControl = ctrl;
-    return ctrl;
+    return lastControl = cd.changeControl().forUser(userProvider.get());
   }
 
   private List<SubmitRecord> submitRecords(ChangeData cd) throws OrmException {

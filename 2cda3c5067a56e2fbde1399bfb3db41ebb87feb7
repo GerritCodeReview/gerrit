@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7f82641a_4af613fa",
+        "filename": "tools/default.defs",
+        "patchSetId": 3
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-28T23:24:45Z",
+      "side": 1,
+      "message": "Logically this rule runs after the java_binary rule. Move it down after the java_binary() just for readability.",
+      "revId": "2cda3c5067a56e2fbde1399bfb3db41ebb87feb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f876029_2901ed26",
+        "filename": "tools/default.defs",
+        "patchSetId": 3
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-28T23:24:45Z",
+      "side": 1,
+      "message": "You can just use $TMP. No need for the fix subdirectory.",
+      "range": {
+        "startLine": 139,
+        "startChar": 20,
+        "endLine": 139,
+        "endChar": 28
+      },
+      "revId": "2cda3c5067a56e2fbde1399bfb3db41ebb87feb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f876029_e9efd520",
+        "filename": "tools/default.defs",
+        "patchSetId": 3
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-28T23:24:45Z",
+      "side": 1,
+      "message": "Put this into a local variable. Then you can reuse that variable in 2 places in the rule above.",
+      "range": {
+        "startLine": 152,
+        "startChar": 11,
+        "endLine": 152,
+        "endChar": 39
+      },
+      "revId": "2cda3c5067a56e2fbde1399bfb3db41ebb87feb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f82641a_6afbd7e0",
+        "filename": "tools/default.defs",
+        "patchSetId": 3
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-28T23:24:45Z",
+      "side": 1,
+      "message": "Drop this entry since its no longer useful to us.",
+      "revId": "2cda3c5067a56e2fbde1399bfb3db41ebb87feb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f876029_09fc29da",
+        "filename": "tools/default.defs",
+        "patchSetId": 3
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-28T23:24:45Z",
+      "side": 1,
+      "message": "Drop this dep.",
+      "revId": "2cda3c5067a56e2fbde1399bfb3db41ebb87feb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

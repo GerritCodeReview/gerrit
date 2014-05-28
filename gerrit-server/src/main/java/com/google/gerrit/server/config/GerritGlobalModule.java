@@ -276,6 +276,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.setOf(binder(), ProjectWebLink.class);
 
     DynamicMap.mapOf(binder(), JobModule.ANY_JOB);
+    install(GarbageCollection.module());
 
     bind(AnonymousUser.class);
 

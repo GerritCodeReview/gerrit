@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1fda4833_1f58c331",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/FlushCaches.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-28T13:00:32Z",
+      "side": 1,
+      "message": "This wasn\u0027t introduced in this change, but this is wrong: create a constant object in a loop. Just move the new statement outside of the loop.",
+      "range": {
+        "startLine": 126,
+        "startChar": 38,
+        "endLine": 126,
+        "endChar": 60
+      },
+      "revId": "79c76795de428bee39ea8a08e5dc32fdee5ee46a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

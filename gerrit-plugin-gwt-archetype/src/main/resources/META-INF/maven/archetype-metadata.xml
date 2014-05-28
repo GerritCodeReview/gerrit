@@ -25,7 +25,7 @@ limitations under the License.
       <defaultValue>http://code.google.com/p/gerrit/</defaultValue>
     </requiredProperty>
     <requiredProperty key="Gwt-Version">
-      <defaultValue>2.6.0</defaultValue>
+      <defaultValue>2.6.1</defaultValue>
     </requiredProperty>
 
     <requiredProperty key="gerritApiVersion">

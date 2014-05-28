@@ -60,6 +60,7 @@ The entries in the map are sorted by cache name.
   )]}'
   {
     "accounts": {
+      "type": "MEM",
       "entries": {
         "mem": 4
       },
@@ -69,6 +70,7 @@ The entries in the map are sorted by cache name.
       }
     },
     "accounts_byemail": {
+      "type": "MEM",
       "entries": {
         "mem": 4
       },
@@ -78,6 +80,7 @@ The entries in the map are sorted by cache name.
       }
     },
     "accounts_byname": {
+      "type": "MEM",
       "entries": {
         "mem": 4
       },
@@ -86,6 +89,7 @@ The entries in the map are sorted by cache name.
       }
     },
     "adv_bases": {
+      "type": "MEM",
       "entries": {},
       "hit_ratio": {}
     },
@@ -97,6 +101,7 @@ The entries in the map are sorted by cache name.
       "hit_ratio": {}
     },
     "changes": {
+      "type": "MEM",
       "entries": {},
       "hit_ratio": {}
     },
@@ -145,6 +150,7 @@ The entries in the map are sorted by cache name.
       "hit_ratio": {}
     },
     groups": {
+      "type": "MEM",
       "entries": {
         "mem": 27
       },
@@ -154,14 +160,17 @@ The entries in the map are sorted by cache name.
       }
     },
     "groups_byinclude": {
+      "type": "MEM",
       "entries": {},
       "hit_ratio": {}
     },
     "groups_byname": {
+      "type": "MEM",
       "entries": {},
       "hit_ratio": {}
     },
     "groups_byuuid": {
+      "type": "MEM",
       "entries": {
         "mem": 25
       },
@@ -171,10 +180,12 @@ The entries in the map are sorted by cache name.
       }
     },
     "groups_external": {
+      "type": "MEM",
       "entries": {},
       "hit_ratio": {}
     },
     groups_members": {
+      "type": "MEM",
       "entries": {
         "mem": 4
       },
@@ -184,6 +195,7 @@ The entries in the map are sorted by cache name.
       }
     },
     "permission_sort": {
+      "type": "MEM",
       "entries": {
         "mem": 16
       },
@@ -192,6 +204,7 @@ The entries in the map are sorted by cache name.
       }
     },
     "plugin_resources": {
+      "type": "MEM",
       "entries": {
         "mem": 2
       },
@@ -200,6 +213,7 @@ The entries in the map are sorted by cache name.
       }
     },
     "project_list": {
+      "type": "MEM",
       "entries": {
         "mem": 1
       },
@@ -209,6 +223,7 @@ The entries in the map are sorted by cache name.
       }
     },
     "projects": {
+      "type": "MEM",
       "entries": {
         "mem": 35
       },
@@ -225,6 +240,7 @@ The entries in the map are sorted by cache name.
       "hit_ratio": {}
     },
     "sshkeys": {
+      "type": "MEM",
       "entries": {
         "mem": 1
       },
@@ -245,6 +261,82 @@ The entries in the map are sorted by cache name.
       }
     }
   }
+----
+
+It is possible to get different output formats by specifying the
+`format` option:
+
+* `LIST`:
++
+Returns the cache names as JSON list.
++
+The cache names are lexicographically sorted.
++
+.Request
+----
+  GET /config/server/caches/?format=LIST HTTP/1.0
+----
++
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  [
+    "accounts",
+    "accounts_byemail",
+    "accounts_byname",
+    "adv_bases",
+    "change_kind",
+    "changes",
+    "conflicts",
+    "diff",
+    "diff_intraline",
+    "git_tags",
+    "groups",
+    "groups_byinclude",
+    "groups_byname",
+    "groups_byuuid",
+    "groups_external",
+    "groups_members",
+    "permission_sort",
+    "plugin_resources",
+    "project_list",
+    "projects",
+    "quota-repo_size",
+    "sshkeys",
+    "web_sessions"
+  ]
+----
+
+* `TEXT_LIST`:
++
+Returns the cache names as a UTF-8 list that is base64 encoded. The
+cache names are delimited by '\n'.
++
+The cache names are lexicographically sorted.
++
+.Request
+----
+  GET /config/server/caches/?format=TEXT_LIST HTTP/1.0
+----
++
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Type: text/plain;charset=UTF-8
+
+  YWNjb3VudHMKYW...ViX3Nlc3Npb25z
+----
++
+E.g. this could be used to flush all caches:
++
+----
+  for c in $(curl --digest --user jdoe:TNAuLkXsIV7w http://gerrit/a/config/server/caches/?format=TEXT_LIST | base64 -D)
+  do
+    curl --digest --user jdoe:TNAuLkXsIV7w -X POST http://gerrit/a/config/server/caches/$c/flush
+  done
 ----
 
 [[get-cache]]

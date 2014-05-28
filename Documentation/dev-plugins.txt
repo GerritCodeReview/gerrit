@@ -401,6 +401,10 @@ Project deletion
 +
 Update of HEAD on a project
 
+* `com.google.gerrit.extensions.events.UsageDataPublishedListener`:
++
+Publication of usage data
+
 [[stream-events]]
 == Sending Events to the Events Stream
 

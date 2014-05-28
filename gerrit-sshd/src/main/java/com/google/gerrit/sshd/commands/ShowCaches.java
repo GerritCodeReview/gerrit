@@ -17,20 +17,21 @@ package com.google.gerrit.sshd.commands;
 import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 
 import com.google.common.base.Strings;
-import com.google.common.collect.HashBasedTable;
-import com.google.common.collect.Table;
 import com.google.gerrit.common.Version;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.server.config.ConfigResource;
+import com.google.gerrit.server.config.GetSummary;
+import com.google.gerrit.server.config.GetSummary.JvmSummaryInfo;
+import com.google.gerrit.server.config.GetSummary.MemSummaryInfo;
+import com.google.gerrit.server.config.GetSummary.SummaryInfo;
+import com.google.gerrit.server.config.GetSummary.TaskSummaryInfo;
+import com.google.gerrit.server.config.GetSummary.ThreadSummaryInfo;
 import com.google.gerrit.server.config.ListCaches;
 import com.google.gerrit.server.config.ListCaches.CacheInfo;
 import com.google.gerrit.server.config.ListCaches.CacheType;
-import com.google.gerrit.server.config.SitePath;
-import com.google.gerrit.server.git.WorkQueue;
-import com.google.gerrit.server.git.WorkQueue.Task;
 import com.google.gerrit.server.util.TimeUtil;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
@@ -42,24 +43,14 @@ import org.apache.sshd.common.io.IoAcceptor;
 import org.apache.sshd.common.io.IoSession;
 import org.apache.sshd.common.io.mina.MinaSession;
 import org.apache.sshd.server.Environment;
-import org.eclipse.jgit.internal.storage.file.WindowCacheStatAccessor;
 import org.kohsuke.args4j.Option;
 
-import java.io.File;
 import java.io.IOException;
-import java.lang.management.ManagementFactory;
-import java.lang.management.OperatingSystemMXBean;
-import java.lang.management.RuntimeMXBean;
-import java.lang.management.ThreadInfo;
-import java.lang.management.ThreadMXBean;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 /** Show the current cache states. */
 @RequiresCapability(GlobalCapability.VIEW_CACHES)
@@ -89,17 +80,13 @@ final class ShowCaches extends SshCommand {
   private boolean showThreads;
 
   @Inject
-  private WorkQueue workQueue;
-
-  @Inject
   private SshDaemon daemon;
 
   @Inject
-  @SitePath
-  private File sitePath;
+  private Provider<ListCaches> listCaches;
 
   @Inject
-  private Provider<ListCaches> listCaches;
+  private Provider<GetSummary> getSummary;
 
   @Option(name = "--width", aliases = {"-w"}, metaVar = "COLS", usage = "width of output table")
   private int columns = 80;
@@ -164,19 +151,16 @@ final class ShowCaches extends SshCommand {
     printDiskCaches(caches);
     stdout.print('\n');
 
-    if (gc) {
-      System.gc();
-      System.runFinalization();
-      System.gc();
-    }
-
     sshSummary();
-    taskSummary();
-    memSummary();
-    threadSummary();
 
-    if (showJVM) {
-      jvmSummary();
+    SummaryInfo summary =
+        getSummary.get().setGc(gc).setJvm(showJVM).apply(new ConfigResource());
+    taskSummary(summary.taskSummary);
+    memSummary(summary.memSummary);
+    threadSummary(summary.threadSummary);
+
+    if (summary.jvmSummary != null) {
+      jvmSummary(summary.jvmSummary);
     }
 
     stdout.flush();
@@ -246,102 +230,51 @@ final class ShowCaches extends SshCommand {
     return i != null ? String.valueOf(i) + "%" : "";
   }
 
-  private void memSummary() {
-    final Runtime r = Runtime.getRuntime();
-    final long mMax = r.maxMemory();
-    final long mFree = r.freeMemory();
-    final long mTotal = r.totalMemory();
-    final long mInuse = mTotal - mFree;
-
-    final int jgitOpen = WindowCacheStatAccessor.getOpenFiles();
-    final long jgitBytes = WindowCacheStatAccessor.getOpenBytes();
-
+  private void memSummary(MemSummaryInfo memSummary) {
     stdout.format("Mem: %s total = %s used + %s free + %s buffers\n",
-        bytes(mTotal),
-        bytes(mInuse - jgitBytes),
-        bytes(mFree),
-        bytes(jgitBytes));
-    stdout.format("     %s max\n", bytes(mMax));
-    stdout.format("    %8d open files\n", jgitOpen);
+        memSummary.total,
+        memSummary.used,
+        memSummary.free,
+        memSummary.buffers);
+    stdout.format("     %s max\n", memSummary.max);
+    stdout.format("    %8d open files\n",
+        nullToZero(memSummary.openFiles));
     stdout.print('\n');
   }
 
-  private void threadSummary() {
-    List<String> prefixes = Arrays.asList("HTTP", "IntraLineDiff", "ReceiveCommits",
-        "SSH git-receive-pack", "SSH git-upload-pack", "SSH-Interactive-Worker",
-        "SSH-Stream-Worker", "SshCommandStart");
-    String other = "Other";
-    Runtime r = Runtime.getRuntime();
-    ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean();
+  private void threadSummary(ThreadSummaryInfo threadSummary) {
     stdout.format("Threads: %d CPUs available, %d threads\n",
-        r.availableProcessors(), threadMXBean.getThreadCount());
+        threadSummary.cpus, threadSummary.threads);
 
     if (showThreads) {
-      Table<String, Thread.State, Integer> count = HashBasedTable.create();
-      for (long id : threadMXBean.getAllThreadIds()) {
-        ThreadInfo info = threadMXBean.getThreadInfo(id);
-        if (info == null) {
-          continue;
-        }
-        String name = info.getThreadName();
-        Thread.State state = info.getThreadState();
-        String group = other;
-        for (String p : prefixes) {
-          if (name.startsWith(p)) {
-            group = p;
-            break;
-          }
-        }
-        Integer c = count.get(group, state);
-        count.put(group, state, c != null ? c + 1 : 1);
-      }
-
       stdout.print(String.format("  %22s", ""));
       for (Thread.State s : Thread.State.values()) {
         stdout.print(String.format(" %14s", s.name()));
       }
       stdout.print('\n');
-      for (String p : prefixes) {
-        printThreadCounts(p, count.row(p));
+      for (Entry<String, Map<Thread.State, Integer>> e :
+          threadSummary.counts.entrySet()) {
+        stdout.print(String.format("  %-22s", e.getKey()));
+        for (Thread.State s : Thread.State.values()) {
+          stdout.print(String.format(" %14d", nullToZero(e.getValue().get(s))));
+        }
+        stdout.print('\n');
       }
-      printThreadCounts(other, count.row(other));
     }
     stdout.print('\n');
   }
 
-  private void printThreadCounts(String title, Map<Thread.State, Integer> counts) {
-    stdout.print(String.format("  %-22s", title));
-    for (Thread.State s : Thread.State.values()) {
-      stdout.print(String.format(" %14d", nullToZero(counts.get(s))));
-    }
-    stdout.print('\n');
+  private void taskSummary(TaskSummaryInfo taskSummary) {
+    stdout.format(
+        "Tasks: %4d  total = %4d running +   %4d ready + %4d sleeping\n",
+        nullToZero(taskSummary.total),
+        nullToZero(taskSummary.running),
+        nullToZero(taskSummary.ready),
+        nullToZero(taskSummary.sleeping));
   }
 
   private static int nullToZero(Integer i) {
-    return i != null ? i.intValue() : 0;
-  }
-
-  private void taskSummary() {
-    Collection<Task<?>> pending = workQueue.getTasks();
-    int tasksTotal = pending.size();
-    int tasksRunning = 0, tasksReady = 0, tasksSleeping = 0;
-    for (Task<?> task : pending) {
-      switch (task.getState()) {
-        case RUNNING: tasksRunning++; break;
-        case READY: tasksReady++; break;
-        case SLEEPING: tasksSleeping++; break;
-        case CANCELLED:
-        case DONE:
-        case OTHER:
-          break;
-      }
-    }
-    stdout.format(
-        "Tasks: %4d  total = %4d running +   %4d ready + %4d sleeping\n",
-        tasksTotal,
-        tasksRunning,
-        tasksReady,
-        tasksSleeping);
+    return i != null ? i : 0;
   }
 
   private void sshSummary() {
@@ -367,33 +300,20 @@ final class ShowCaches extends SshCommand {
         uptime(now - oldest));
   }
 
-  private void jvmSummary() {
-    OperatingSystemMXBean osBean = ManagementFactory.getOperatingSystemMXBean();
-    RuntimeMXBean runtimeBean = ManagementFactory.getRuntimeMXBean();
+  private void jvmSummary(JvmSummaryInfo jvmSummary) {
     stdout.format("JVM: %s %s %s\n",
-        runtimeBean.getVmVendor(),
-        runtimeBean.getVmName(),
-        runtimeBean.getVmVersion());
+        jvmSummary.vmVendor,
+        jvmSummary.vmName,
+        jvmSummary.vmVersion);
     stdout.format("  on %s %s %s\n",
-        osBean.getName(),
-        osBean.getVersion(),
-        osBean.getArch());
-    try {
-      stdout.format("  running as %s on %s\n",
-          System.getProperty("user.name"),
-          InetAddress.getLocalHost().getHostName());
-    } catch (UnknownHostException e) {
-    }
-    stdout.format("  cwd  %s\n", path(new File(".").getAbsoluteFile().getParentFile()));
-    stdout.format("  site %s\n", path(sitePath));
-  }
-
-  private String path(File file) {
-    try {
-      return file.getCanonicalPath();
-    } catch (IOException err) {
-      return file.getAbsolutePath();
-    }
+        jvmSummary.osName,
+        jvmSummary.osVersion,
+        jvmSummary.osArch);
+    stdout.format("  running as %s on %s\n",
+        jvmSummary.user,
+        Strings.nullToEmpty(jvmSummary.host));
+    stdout.format("  cwd  %s\n", jvmSummary.currentWorkingDirectory);
+    stdout.format("  site %s\n", jvmSummary.site);
   }
 
   private String uptime(long uptimeMillis) {
@@ -417,20 +337,5 @@ final class ShowCaches extends SshCommand {
     long days = uptime / (24 * 3600);
     hr = (uptime - (days * 24 * 3600)) / 3600;
     return String.format("%4d days %2d hrs", days, hr);
-  }
-
-  private String bytes(double value) {
-    value /= 1024;
-    String suffix = "k";
-
-    if (value > 1024) {
-      value /= 1024;
-      suffix = "m";
-    }
-    if (value > 1024) {
-      value /= 1024;
-      suffix = "g";
-    }
-    return String.format("%1$6.2f%2$s", value, suffix);
   }
 }

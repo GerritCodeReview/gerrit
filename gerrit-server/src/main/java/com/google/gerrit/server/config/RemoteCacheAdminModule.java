@@ -28,5 +28,6 @@ public class RemoteCacheAdminModule extends RestApiModule {
     child(CONFIG_KIND, "caches").to(CachesCollection.class);
     get(CACHE_KIND).to(GetCache.class);
     post(CACHE_KIND, "flush").to(FlushCache.class);
+    get(CONFIG_KIND, "summary").to(GetSummary.class);
   }
 }

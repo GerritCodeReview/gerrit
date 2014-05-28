@@ -70,6 +70,30 @@
       "revId": "c4f5b8c1ecc580ac974f3ddc3a4f1f86e9cbceb3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff19f4bf_a60fe650",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-05-28T07:03:34Z",
+      "side": 1,
+      "message": "Yes, I also think that it should work with adding this dependency. Seems to be an issue with javadoc :(",
+      "parentUuid": "ff19f4bf_46fb92e0",
+      "range": {
+        "startLine": 10,
+        "startChar": 19,
+        "endLine": 11,
+        "endChar": 29
+      },
+      "revId": "c4f5b8c1ecc580ac974f3ddc3a4f1f86e9cbceb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

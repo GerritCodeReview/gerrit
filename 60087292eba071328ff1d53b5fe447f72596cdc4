@@ -22,6 +22,24 @@
       "revId": "60087292eba071328ff1d53b5fe447f72596cdc4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f20ecdd_8817575d",
+        "filename": "tools/plugin_archetype_deploy.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1006818
+      },
+      "writtenOn": "2014-05-28T06:13:32Z",
+      "side": 0,
+      "message": "it cannot resolve  the misspelled input, like  \u0027--dry-rnu\u0027  or \u0027--dry_run\u0027 :)",
+      "parentUuid": "5f5da05e_79af4770",
+      "revId": "60087292eba071328ff1d53b5fe447f72596cdc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

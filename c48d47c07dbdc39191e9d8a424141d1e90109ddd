@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5f2be0c2_c9ef9121",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-28T00:31:10Z",
+      "side": 1,
+      "message": "2.7",
+      "range": {
+        "startLine": 28,
+        "startChar": 22,
+        "endLine": 28,
+        "endChar": 25
+      },
+      "revId": "c48d47c07dbdc39191e9d8a424141d1e90109ddd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f2be0c2_29fc6dda",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-28T00:31:10Z",
+      "side": 1,
+      "message": "It would be good to describe what happens when this section is not configured.\n\nAlso, if this section is configured, will any branches that are not listed in the section be ignored?",
+      "revId": "c48d47c07dbdc39191e9d8a424141d1e90109ddd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

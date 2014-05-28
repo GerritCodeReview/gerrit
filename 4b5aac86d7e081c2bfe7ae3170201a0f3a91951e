@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff19f4bf_a66b66c0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2014-05-28T15:02:35Z",
+      "side": 1,
+      "message": "Please consider to add the scheduler mechanism and the concrete job in separate changes.",
+      "range": {
+        "startLine": 7,
+        "startChar": 27,
+        "endLine": 7,
+        "endChar": 30
+      },
+      "revId": "4b5aac86d7e081c2bfe7ae3170201a0f3a91951e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff19f4bf_8668eac4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/scheduler/Scheduler.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2014-05-28T15:02:35Z",
+      "side": 1,
+      "message": "Rather have the JobFactory injected in order to avoid to pass the injector to the JobFactory",
+      "range": {
+        "startLine": 64,
+        "startChar": 19,
+        "endLine": 64,
+        "endChar": 36
+      },
+      "revId": "4b5aac86d7e081c2bfe7ae3170201a0f3a91951e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff19f4bf_e6655eeb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/scheduler/Scheduler.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2014-05-28T15:02:35Z",
+      "side": 1,
+      "message": "see above",
+      "range": {
+        "startLine": 75,
+        "startChar": 51,
+        "endLine": 75,
+        "endChar": 59
+      },
+      "revId": "4b5aac86d7e081c2bfe7ae3170201a0f3a91951e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff19f4bf_c662e2e0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/scheduler/Scheduler.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2014-05-28T15:02:35Z",
+      "side": 1,
+      "message": "use for each loop",
+      "range": {
+        "startLine": 94,
+        "startChar": 4,
+        "endLine": 94,
+        "endChar": 9
+      },
+      "revId": "4b5aac86d7e081c2bfe7ae3170201a0f3a91951e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

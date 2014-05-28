@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3f20ecdd_e83b73e3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/FlushCache.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-28T07:02:44Z",
+      "side": 1,
+      "message": "2014?",
+      "revId": "8fa76f98cc2d7dce386616b4bc433118ac51b751",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f2be0c2_4980c138",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/FlushCache.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-28T07:02:44Z",
+      "side": 1,
+      "message": "Can we now change the SSH code to call this implementation, so we can move this test to only this location in the code?",
+      "range": {
+        "startLine": 46,
+        "startChar": 4,
+        "endLine": 50,
+        "endChar": 5
+      },
+      "revId": "8fa76f98cc2d7dce386616b4bc433118ac51b751",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f20ecdd_883e37d5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/FlushCache.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-28T07:02:44Z",
+      "side": 1,
+      "message": "I am a bit worried about this in our installation. We routinely hand out administrateServer, but I don\u0027t actually want our admins to flush our caches, nor do I want them delegating that capability to others to flush. :)",
+      "revId": "8fa76f98cc2d7dce386616b4bc433118ac51b751",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

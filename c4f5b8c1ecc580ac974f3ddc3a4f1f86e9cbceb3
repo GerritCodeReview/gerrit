@@ -46,6 +46,30 @@
       "revId": "c4f5b8c1ecc580ac974f3ddc3a4f1f86e9cbceb3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff19f4bf_46fb92e0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-28T07:00:41Z",
+      "side": 1,
+      "message": "Yes, doesn\u0027t work here too. Seems to be javadoc issue and not Buck issue?\n\n SRCDIR\u003d/home/davido/projects/gerrit/buck-out/gen/gerrit-extension-api/extension-api-javadoc__srcs\n TMP\u003d/home/davido/projects/gerrit/buck-out/gen/gerrit-extension-api/extension-api-javadoc__tmp\n\nAnd the whole command:\n\n javadoc -quiet -protected -encoding UTF-8 -charset UTF-8 -notimestamp -windowtitle \"Gerrit Review Extension API Documentation\" -link http://docs.oracle.com/javase/7/docs/api -subpackages com.google.gerrit.extensions -sourcepath  $SRCDIR/src/main/java  -classpath  /home/davido/projects/gerrit/buck-out/gen/lib/guice/javax-inject/javax.inject-1.jar:/home/davido/projects/gerrit/buck-out/gen/lib/guice/guice_library/guice-4.0-beta.jar:/home/davido/projects/gerrit/buck-out/gen/lib/servlet-api-3_1/tomcat-servlet-api-8.0.5.jar\n\nissues the warning:\nRootRelative.java:36: warning - Tag @link: reference not found: javax.servlet.http.HttpServletRequest#getPathInfo",
+      "parentUuid": "1fda4833_ffef9f20",
+      "range": {
+        "startLine": 10,
+        "startChar": 19,
+        "endLine": 11,
+        "endChar": 29
+      },
+      "revId": "c4f5b8c1ecc580ac974f3ddc3a4f1f86e9cbceb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

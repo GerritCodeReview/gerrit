@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7f82641a_8ae80b1e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-28T22:58:10Z",
+      "side": 1,
+      "message": "This is frozen at startup. It needs to be \"now\".",
+      "range": {
+        "startLine": 155,
+        "startChar": 33,
+        "endLine": 155,
+        "endChar": 50
+      },
+      "revId": "544a966957ab8d870e12a51b4f0f402236aac116",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f82641a_aae5cf44",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-28T22:58:10Z",
+      "side": 1,
+      "message": "This is actually the only part you need from myIdent. So you could change myIdent to be a TimeZone object instead of PersonIdent and get the TimeZone in the constructor.",
+      "range": {
+        "startLine": 155,
+        "startChar": 52,
+        "endLine": 155,
+        "endChar": 73
+      },
+      "revId": "544a966957ab8d870e12a51b4f0f402236aac116",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f82641a_caf20308",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-28T22:58:10Z",
+      "side": 1,
+      "message": "This should be the same object used above to make that PersonIdent for the caller.",
+      "range": {
+        "startLine": 169,
+        "startChar": 13,
+        "endLine": 169,
+        "endChar": 28
+      },
+      "revId": "544a966957ab8d870e12a51b4f0f402236aac116",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

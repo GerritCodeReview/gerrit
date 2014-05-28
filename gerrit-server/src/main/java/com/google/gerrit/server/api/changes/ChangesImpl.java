@@ -45,17 +45,17 @@ import java.util.List;
 class ChangesImpl implements Changes {
   private final ChangesCollection changes;
   private final ChangeApiImpl.Factory api;
-  private final CreateChange.Factory createChangeFactory;
+  private final CreateChange createChange;
   private final Provider<QueryChanges> queryProvider;
 
   @Inject
   ChangesImpl(ChangesCollection changes,
       ChangeApiImpl.Factory api,
-      CreateChange.Factory createChangeFactory,
+      CreateChange createChange,
       Provider<QueryChanges> queryProvider) {
     this.changes = changes;
     this.api = api;
-    this.createChangeFactory = createChangeFactory;
+    this.createChange = createChange;
     this.queryProvider = queryProvider;
   }
 
@@ -87,7 +87,7 @@ class ChangesImpl implements Changes {
   @Override
   public ChangeApi create(ChangeInfo in) throws RestApiException {
     try {
-      ChangeJson.ChangeInfo out = createChangeFactory.create().apply(
+      ChangeJson.ChangeInfo out = createChange.apply(
           TopLevelResource.INSTANCE, in).value();
       return api.create(changes.parse(TopLevelResource.INSTANCE,
           IdString.fromUrl(out.changeId)));

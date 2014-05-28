@@ -63,18 +63,16 @@ import org.eclipse.jgit.util.ChangeIdUtil;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.sql.Timestamp;
 import java.util.List;
+import java.util.TimeZone;
 
 public class CreateChange implements
     RestModifyView<TopLevelResource, ChangeInfo> {
 
-  public static interface Factory {
-    CreateChange create();
-  }
-
-  private final ReviewDb db;
+  private final Provider<ReviewDb> db;
   private final GitRepositoryManager gitManager;
-  private final PersonIdent myIdent;
+  private final TimeZone serverTimeZone;
   private final Provider<CurrentUser> userProvider;
   private final Provider<ProjectsCollection> projectsCollection;
   private final CommitValidators.Factory commitValidatorsFactory;
@@ -82,7 +80,7 @@ public class CreateChange implements
   private final ChangeJson json;
 
   @Inject
-  CreateChange(ReviewDb db,
+  CreateChange(Provider<ReviewDb> db,
       GitRepositoryManager gitManager,
       @GerritPersonIdent PersonIdent myIdent,
       Provider<CurrentUser> userProvider,
@@ -92,7 +90,7 @@ public class CreateChange implements
       ChangeJson json) {
     this.db = db;
     this.gitManager = gitManager;
-    this.myIdent = myIdent;
+    this.serverTimeZone = myIdent.getTimeZone();
     this.userProvider = userProvider;
     this.projectsCollection = projectsCollection;
     this.commitValidatorsFactory = commitValidatorsFactory;
@@ -154,9 +152,9 @@ public class CreateChange implements
               "Branch %s does not exist.", refName));
         }
 
-        IdentifiedUser me = (IdentifiedUser)userProvider.get();
-        PersonIdent author =
-            me.newCommitterIdent(myIdent.getWhen(), myIdent.getTimeZone());
+        Timestamp now = TimeUtil.nowTs();
+        IdentifiedUser me = (IdentifiedUser) userProvider.get();
+        PersonIdent author = me.newCommitterIdent(now, serverTimeZone);
 
         RevCommit mergeTip = rw.parseCommit(destRef.getObjectId());
         ObjectId id = ChangeIdUtil.computeChangeId(mergeTip.getTree(),
@@ -167,10 +165,10 @@ public class CreateChange implements
 
         Change change = new Change(
             getChangeId(id, c),
-            new Change.Id(db.nextChangeId()),
+            new Change.Id(db.get().nextChangeId()),
             me.getAccountId(),
             new Branch.NameKey(project, destRef.getName()),
-            TimeUtil.nowTs());
+            now);
 
         ChangeInserter ins =
             changeInserterFactory.create(refControl, change, c);

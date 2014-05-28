@@ -44,7 +44,7 @@ public class ChangesCollection implements
   private final ChangeControl.GenericFactory changeControlFactory;
   private final Provider<QueryChanges> queryFactory;
   private final DynamicMap<RestView<ChangeResource>> views;
-  private final CreateChange.Factory createChangeFactory;
+  private final CreateChange createChange;
 
   @Inject
   ChangesCollection(
@@ -53,13 +53,13 @@ public class ChangesCollection implements
       ChangeControl.GenericFactory changeControlFactory,
       Provider<QueryChanges> queryFactory,
       DynamicMap<RestView<ChangeResource>> views,
-      CreateChange.Factory createChangeFactory) {
+      CreateChange createChange) {
     this.db = dbProvider;
     this.user = user;
     this.changeControlFactory = changeControlFactory;
     this.queryFactory = queryFactory;
     this.views = views;
-    this.createChangeFactory = createChangeFactory;
+    this.createChange = createChange;
   }
 
   @Override
@@ -135,6 +135,6 @@ public class ChangesCollection implements
   @SuppressWarnings("unchecked")
   @Override
   public CreateChange post(TopLevelResource parent) throws RestApiException {
-    return createChangeFactory.create();
+    return createChange;
   }
 }

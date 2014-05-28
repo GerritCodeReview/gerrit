@@ -40,6 +40,7 @@ import com.google.gerrit.server.account.CapabilityCollection;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.git.BranchOrderSection;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.git.ProjectLevelConfig;
@@ -443,6 +444,16 @@ public class ProjectState {
       }
     }
     return ImmutableList.copyOf(cls.values());
+  }
+
+  public BranchOrderSection getBranchOrderSection() {
+    for (ProjectState s : tree()) {
+      BranchOrderSection section = s.getConfig().getBranchOrderSection();
+      if (section != null) {
+        return section;
+      }
+    }
+    return null;
   }
 
   public ThemeInfo getTheme() {

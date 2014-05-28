@@ -95,6 +95,9 @@ public class ProjectConfig extends VersionedMetaData {
   private static final String ACCOUNTS = "accounts";
   private static final String KEY_SAME_GROUP_VISIBILITY = "sameGroupVisibility";
 
+  private static final String BRANCH_ORDER = "branchOrder";
+  private static final String BRANCH = "branch";
+
   private static final String CONTRIBUTOR_AGREEMENT = "contributor-agreement";
   private static final String KEY_ACCEPTED = "accepted";
   private static final String KEY_REQUIRE_CONTACT_INFORMATION = "requireContactInformation";
@@ -152,6 +155,7 @@ public class ProjectConfig extends VersionedMetaData {
   private AccountsSection accountsSection;
   private Map<AccountGroup.UUID, GroupReference> groupsByUUID;
   private Map<String, AccessSection> accessSections;
+  private BranchOrderSection branchOrderSection;
   private Map<String, ContributorAgreement> contributorAgreements;
   private Map<String, NotifyConfig> notifySections;
   private Map<String, LabelType> labelSections;
@@ -240,6 +244,10 @@ public class ProjectConfig extends VersionedMetaData {
 
   public Collection<AccessSection> getAccessSections() {
     return sort(accessSections.values());
+  }
+
+  public BranchOrderSection getBranchOrderSection() {
+    return branchOrderSection;
   }
 
   public void remove(AccessSection section) {
@@ -420,6 +428,7 @@ public class ProjectConfig extends VersionedMetaData {
     loadAccountsSection(rc, groupsByName);
     loadContributorAgreements(rc, groupsByName);
     loadAccessSections(rc, groupsByName);
+    loadBranchOrderSection(rc);
     loadNotifySections(rc, groupsByName);
     loadLabelSections(rc);
     loadCommentLinkSections(rc);
@@ -567,6 +576,13 @@ public class ProjectConfig extends VersionedMetaData {
       Permission perm = capability.getPermission(varName, true);
       loadPermissionRules(rc, CAPABILITY, null, varName, groupsByName, perm,
           GlobalCapability.hasRange(varName));
+    }
+  }
+
+  private void loadBranchOrderSection(Config rc) {
+    if (rc.getSections().contains(BRANCH_ORDER)) {
+      branchOrderSection = new BranchOrderSection(
+          rc.getStringList(BRANCH_ORDER, null, BRANCH));
     }
   }
 

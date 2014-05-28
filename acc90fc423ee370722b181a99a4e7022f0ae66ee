@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3f20ecdd_a8e85b1d",
+        "filename": "tools/plugin_archetype_deploy.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-28T00:24:36Z",
+      "side": 1,
+      "message": "why is this line added?",
+      "range": {
+        "startLine": 26,
+        "startChar": 29,
+        "endLine": 26,
+        "endChar": 46
+      },
+      "revId": "acc90fc423ee370722b181a99a4e7022f0ae66ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

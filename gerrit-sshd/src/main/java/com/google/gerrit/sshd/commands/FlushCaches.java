@@ -22,15 +22,18 @@ import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.config.CacheResource;
+import com.google.gerrit.server.config.ConfigResource;
 import com.google.gerrit.server.config.FlushCache;
+import com.google.gerrit.server.config.ListCaches;
+import com.google.gerrit.server.config.ListCaches.OutputFormat;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 import org.kohsuke.args4j.Option;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.SortedSet;
 
 /** Causes the caches to purge all entries and reload. */
 @RequiresCapability(GlobalCapability.FLUSH_CACHES)
@@ -51,6 +54,9 @@ final class FlushCaches extends CacheCommand {
   @Inject
   private FlushCache flushCache;
 
+  @Inject
+  private Provider<ListCaches> listCaches;
+
   @Override
   protected void run() throws Failure {
     if (list) {
@@ -70,8 +76,8 @@ final class FlushCaches extends CacheCommand {
       all = true;
     }
 
-    final SortedSet<String> names = cacheNames();
-    for (final String n : caches) {
+    List<String> names = cacheNames();
+    for (String n : caches) {
       if (!names.contains(n)) {
         throw error("error: cache \"" + n + "\" not recognized");
       }
@@ -83,8 +89,14 @@ final class FlushCaches extends CacheCommand {
     return new UnloggedFailure(1, msg);
   }
 
-  private void doList() {
-    for (final String name : cacheNames()) {
+  @SuppressWarnings("unchecked")
+  private List<String> cacheNames() {
+    return (List<String>) listCaches.get().setFormat(OutputFormat.LIST)
+        .apply(new ConfigResource());
+  }
+
+  private void doList() throws UnloggedFailure {
+    for (String name : cacheNames()) {
       stderr.print(name);
       stderr.print('\n');
     }

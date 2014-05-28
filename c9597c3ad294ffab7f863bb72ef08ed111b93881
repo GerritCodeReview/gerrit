@@ -52,6 +52,24 @@
       "revId": "c9597c3ad294ffab7f863bb72ef08ed111b93881",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1fda4833_7f438f25",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-28T21:58:25Z",
+      "side": 1,
+      "message": "OK. I think that the current ps already doing it on line 235:\n\n  return lastControl \u003d  cd.changeControl().forUser(userProvider.get());",
+      "parentUuid": "5f9e806d_51dfb471",
+      "revId": "c9597c3ad294ffab7f863bb72ef08ed111b93881",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

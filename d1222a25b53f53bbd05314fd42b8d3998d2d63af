@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1fda4833_1f71a3b9",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-28T10:36:23Z",
+      "side": 1,
+      "message": "Is this needed?",
+      "range": {
+        "startLine": 261,
+        "startChar": 27,
+        "endLine": 261,
+        "endChar": 28
+      },
+      "revId": "d1222a25b53f53bbd05314fd42b8d3998d2d63af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1fda4833_ff387fe9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ListCaches.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-28T10:36:23Z",
+      "side": 1,
+      "message": "Apache-commons? We are guava funs, not?\n\n  Joiner.on(\u0027\\n\u0027).join(cacheNames);",
+      "range": {
+        "startLine": 78,
+        "startChar": 35,
+        "endLine": 78,
+        "endChar": 69
+      },
+      "revId": "d1222a25b53f53bbd05314fd42b8d3998d2d63af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

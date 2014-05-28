@@ -25,6 +25,23 @@
     },
     {
       "key": {
+        "uuid": "3f20ecdd_28710bba",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-28T07:08:22Z",
+      "side": 1,
+      "message": "No. Do not perform a get type action using a POST. This should be:\n\n  GET /config/server/caches/?format\u003dLIST HTTP/1.0\n\nor some such query parameter.\n\nYou may could return this as a flat UTF-8 list of names delimited by \\n. If it was base64 encoded to be websafe you can do:\n\n  for c in $(curl http://gerrit/config/server/caches?format\u003dLIST | base64 -d)\n  do\n    curl -XPOST http://gerrit/config/server/caches/$c/flush\n  done\n\nto flush all caches.",
+      "revId": "e269b128813ef5570f5658ae3b15ec7df7ef52b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7f58a46f_baea7183",
         "filename": "Documentation/rest-api-config.txt",
         "patchSetId": 1

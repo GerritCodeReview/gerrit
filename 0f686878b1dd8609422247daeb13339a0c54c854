@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1f0de8bb_07f0b6fd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ListCaches.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-29T09:50:50Z",
+      "side": 1,
+      "message": "Is this OK to change it? This logic was done in SSH command (if type \u003d\u003d null, assign it to MEM) so that i moved it here, to not duplicate the code in Plugin API. Correspondingly unit tests were adjusted.",
+      "range": {
+        "startLine": 81,
+        "startChar": 4,
+        "endLine": 83,
+        "endChar": 5
+      },
+      "revId": "0f686878b1dd8609422247daeb13339a0c54c854",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

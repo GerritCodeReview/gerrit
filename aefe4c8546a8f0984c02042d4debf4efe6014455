@@ -359,6 +359,30 @@
     },
     {
       "key": {
+        "uuid": "1f0de8bb_0739d6eb",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1010404
+      },
+      "writtenOn": "2014-05-29T23:38:06Z",
+      "side": 1,
+      "message": "\u003e With regards to the state parameter and the RFC-6819#section-5.3.5, I am with you that it is definitely better to use it to protect against malicious use. However we should look at something that ties to the specific client that made the request and, unfortunately, as the client is not yet authenticated there is not yet any user agent session active or defined. As there is no session active there is nothing to save on the Gerrit web_sessions cache either.\n\nYes, I was thinking about maybe creating such a session (I see WebSession has an isSignedIn, I thought maybe there could be a WebSession for a \"no yet authenticated\" user; it doesn\u0027t seem possible though with the current implementation). Still, something similar with another cache could be used.\n\n\u003e Computing the User Agent + Accept-* header is definitely not enough, as they are not specific to an individual browser but rather a \"class\" of browsers.\n\nHave you tried https://panopticlick.eff.org with JS disabled?\n\nIn my Chrome browser I get “Your browser fingerprint appears to be unique among the 4,160,410 tested so far.”, in Firefox “Within our dataset of several million visitors, only one in 1,386,804 browsers have the same fingerprint as yours.” And a few months ago I tried it with a coworker using the same browsers as me and they didn\u0027t tell us we had the same fingerprint.\n\nSo it\u0027s not enough (and browser vendors try to make it harder to fingerprint a browser that way in each version, so it\u0027s not future-proof) but is better than nothing.\n\n\u003e Even setting up a Browser cookie tied to the domain and JavaScript-safe, wouldn\u0027t help us out because of the potential threat mentioned at the beginning (under the hypothesis that Gerrit is or could be vulnerable to XSS).\n\nAgain, a limited security is still better than none at all.\n\n\u003e I see your point but it is unclear to me how to really make it more secure in a truly reliable way. Possibly the only option is really the hashing of Client IP + User-Agent + Headers altogether, with the disclaimer in the Gerrit doc that if reverse proxy is not properly configured to propagate the client IP, it could then be vulnerable when used in conjunction with OAuth / GitHub.\n\u003e What do you think ?\n\nIMO, we should try the simplest thing that would make it \"more secure\" (i.e. store the random as-is in a cookie, or possibly the hash(User-Agent+Accept+random)). It can always be improved later, but that would still be better than nothing.\n\nXSS is hard to defend against, and Gerrit is not known to be vulnerable to it, so if we can at least defend against CSRF, that\u0027s still better than doing nothing, even if the risk is low (see below).\n\n\u003e P.S. Again unless you\u0027re talking about PayPal payment of GerritHub accounts (which do not exist and would require anyway to re-authenticate again for security reasons), it is unclear to me the real benefit of anyone trying to exploit that type of potential XSS vulnerability. I would avoid to put up-front complexity for a non-real threat, unless there is a simple solution to it.\n\nI 100% agree (except I think you meant CSRF rather than XSS here), this is why I advocate for just using a simple cookie (not even the \"hash with fingerprint\" one!): it\u0027s really simple *and* is useful.",
+      "parentUuid": "1f0de8bb_273cdadb",
+      "range": {
+        "startLine": 107,
+        "startChar": 0,
+        "endLine": 109,
+        "endChar": 66
+      },
+      "revId": "aefe4c8546a8f0984c02042d4debf4efe6014455",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1f0de8bb_87fa66db",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
         "patchSetId": 1

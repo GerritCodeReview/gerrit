@@ -145,6 +145,21 @@ request is the exact string supplied in the dialog by the user.
 The configured <<ldap.username,ldap.username>> identity is not used to obtain
 account information.
 +
+* OAUTH_GITHUB
++
+OAuth2 is a protocol that lets external apps request authorization to private
+details in a user’s GitHub account without getting their password. This is
+preferred over Basic Authentication because tokens can be limited to specific
+types of data, and can be revoked by users at any time.
++
+Site owners have to register their application before getting started.  For
+more information see
+https://github.com/settings/applications/new[github-register-application].
+A registered OAuth application is assigned a unique `Client ID` and `Client
+Secret`. The `Client Secret` should never be shared.
++
++ `auth.httpHeader` is set to 'GITHUB_USER' with this authentication method.
++
 * `DEVELOPMENT_BECOME_ANY_ACCOUNT`
 +
 *DO NOT USE*.  Only for use in a development environment.
@@ -462,6 +477,33 @@ If false the feature is disabled and cannot be re-enabled without
 editing gerrit.config and restarting the server.
 +
 Default is true.
+
+[[github]]
+=== Section GitHub
+
+Only applies when `auth.type` was set to `OAUTH_GITHUB`.
++
+[[github.url]]github.url::
++
+GitHub URL.
++
+Default is `https://github.com`.
+
+[[github.apiUrl]]github.apiUrl::
++
+GitHub API URL.
++
+Default is `https://api.github.com`.
+
+[[github.clientId]]github.clientId::
++
+The `Client ID`, that was received from GitHub when the application was
+registered. Required.
+
+[[github.clientSecret]]github.clientSecret::
++
+The `Client Secret`, that was received from GitHub when the application was
+registered. Required.
 
 [[cache]]
 === Section cache
@@ -1864,6 +1906,18 @@ Pattern to print user in Tomcat AccessLog.
 
 +
 Default value is true.
+
+[[http.pooledMaxConnectionPerRoute]]http.pooledMaxConnectionPerRoute::
++
+Maximum connection per route for pooled connections.
++
+Defaults to 512.
+
+[[http.pooledMaxTotalConnection]]http.pooledMaxTotalConnection::
++
+Maximum total connection for pooled connections.
++
+Defaults to 1024.
 
 [[httpd]]
 === Section httpd

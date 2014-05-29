@@ -335,3 +335,35 @@ maven_jar(
   license = 'DO_NOT_DISTRIBUTE',
 )
 
+maven_jar(
+  name = 'github-api',
+  id = 'org.kohsuke:github-api:1.53',
+  sha1 = 'ae1320268c9c60be6c6341f64a733cb42dc9f5e3',
+  license = 'Apache2.0',
+  deps = [ ':jackson-databind' ],
+)
+
+maven_jar(
+  name = 'jackson-databind',
+  id = 'com.fasterxml.jackson.core:jackson-databind:2.2.3',
+  sha1 = '03ae380888029daefb91d3ecdca3a37d8cb92bc9',
+  license = 'Apache2.0',
+  deps = [ 
+    ':jackson-core',
+    ':jackson-annotations',
+  ],
+)
+
+maven_jar(
+  name = 'jackson-core',
+  id = 'com.fasterxml.jackson.core:jackson-core:2.2.3',
+  sha1 = '1a0113da2cab5f4c216b4e5e7c1dbfaa67087e14',
+  license = 'Apache2.0',
+)
+
+maven_jar(
+  name = 'jackson-annotations',
+  id = 'com.fasterxml.jackson.core:jackson-annotations:2.2.3',
+  sha1 = '0527fece4f23a457070a36c371a26d6c0208e1c3',
+  license = 'Apache2.0',
+)

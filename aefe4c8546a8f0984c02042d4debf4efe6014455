@@ -287,6 +287,30 @@
     },
     {
       "key": {
+        "uuid": "1f0de8bb_e74da285",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-05-29T20:56:48Z",
+      "side": 1,
+      "message": "I see, so you want to prevent an attacker to get a SSO URL and send it through phishing to induce other users to login to Gerrit using someone else identity.\n\nThe SSO URL however would need to be valid for multiple requests as you may want to spread your phishing e-mails to a very large number of people to have the probability of someone clicking on it. However the GitHub SSO is valid for only one shot, so only one can be potentially attacked.\n\nLet\u0027s see then what you could do with this \"attack\": you have someone else wondering why is logged in to Gerrit with someone else account (the username is displayed on the top-right together with the Gravatar) and then, regardless of the strange situation, push some sensitive information to a Gerrit repo (personal account data ? Credit Card ? other ?)\n\nThe other possibility you envision is that another vulnerability (which one ? are you aware of any ?) would allow someone else to inject code into Gerrit that could then land into someone else Web-Browser ... but this is a different story :-) Nothing to do with this problem.\n\nLet\u0027s go to the solution you proposed: an encrypted NONCE to use as state parameter and as browser cookie. If I am the attacker I definitely know how to read that cookie and inject into someone else browser. The fact of the cookie being encrypted does not mean it cannot be copied. If I can inject my own cookie (i.e. GerritAccount) into someone else browser I can already today transfer my Gerrit account identity to somebody else. The vulnerability that you envision then already exist today and has nothing to do with this change :-)\n\nI recognise the problem you presented, but I am unsure of its real risk and opportunity of anyone to exploit it successfully and provide any profit or benefit. What do you think ?\n\nAny proposal on really solving the issue (including the GerritAccount cookie transfer to another browser) would be appreciated.",
+      "parentUuid": "1f0de8bb_c72bbea3",
+      "range": {
+        "startLine": 107,
+        "startChar": 0,
+        "endLine": 109,
+        "endChar": 66
+      },
+      "revId": "aefe4c8546a8f0984c02042d4debf4efe6014455",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1f0de8bb_87fa66db",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
         "patchSetId": 1

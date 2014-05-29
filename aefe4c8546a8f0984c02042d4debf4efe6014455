@@ -335,6 +335,30 @@
     },
     {
       "key": {
+        "uuid": "1f0de8bb_273cdadb",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-05-29T23:01:44Z",
+      "side": 1,
+      "message": "Under the hypothesis (not verified as we don\u0027t know if Gerrit is vulnerable to XSS) that an attacker can inject its JS into a Gerrit page, he can then definitely return a cookie in an HTTP response and bind it to the Gerrit domain. In this case it could potentially impersonate another user via setting the GerritAccount.\n\nWith regards to the state parameter and the RFC-6819#section-5.3.5, I am with you that it is definitely better to use it to protect against malicious use. However we should look at something that ties to the specific client that made the request and, unfortunately, as the client is not yet authenticated there is not yet any user agent session active or defined. As there is no session active there is nothing to save on the Gerrit web_sessions cache either.\n\nComputing the User Agent + Accept-* header is definitely not enough, as they are not specific to an individual browser but rather a \"class\" of browsers. Potentially using the client IP address would help, assuming that you\u0027re not under a reverse-proxy masking them.\n\nEven setting up a Browser cookie tied to the domain and JavaScript-safe, wouldn\u0027t help us out because of the potential threat mentioned at the beginning (under the hypothesis that Gerrit is or could be vulnerable to XSS).\n\nI see your point but it is unclear to me how to really make it more secure in a truly reliable way. Possibly the only option is really the hashing of Client IP + User-Agent + Headers altogether, with the disclaimer in the Gerrit doc that if reverse proxy is not properly configured to propagate the client IP, it could then be vulnerable when used in conjunction with OAuth / GitHub.\n\nWhat do you think ?\n\nP.S. Again unless you\u0027re talking about PayPal payment of GerritHub accounts (which do not exist and would require anyway to re-authenticate again for security reasons), it is unclear to me the real benefit of anyone trying to exploit that type of potential XSS vulnerability. I would avoid to put up-front complexity for a non-real threat, unless there is a simple solution to it.",
+      "parentUuid": "3f08ecaa_283cabdb",
+      "range": {
+        "startLine": 107,
+        "startChar": 0,
+        "endLine": 109,
+        "endChar": 66
+      },
+      "revId": "aefe4c8546a8f0984c02042d4debf4efe6014455",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1f0de8bb_87fa66db",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
         "patchSetId": 1

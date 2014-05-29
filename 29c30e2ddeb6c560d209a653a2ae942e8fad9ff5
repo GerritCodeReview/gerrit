@@ -46,6 +46,30 @@
       "revId": "29c30e2ddeb6c560d209a653a2ae942e8fad9ff5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f0de8bb_67e9b220",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-29T08:01:10Z",
+      "side": 1,
+      "message": "Reimplemented with ParameterizedString, even with unit tests now.",
+      "parentUuid": "5f13e0db_2925cdc9",
+      "range": {
+        "startLine": 475,
+        "startChar": 4,
+        "endLine": 483,
+        "endChar": 5
+      },
+      "revId": "29c30e2ddeb6c560d209a653a2ae942e8fad9ff5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

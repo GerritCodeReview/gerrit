@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5f13e0db_e970d5b7",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Actions.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-29T17:30:45Z",
+      "side": 1,
+      "message": "The CSS requires this text to be inside of a \u003cdiv\u003e in the button.",
+      "revId": "4441ae4216986fb456103bfd6796b723c58cc08f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

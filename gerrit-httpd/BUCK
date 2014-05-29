@@ -26,6 +26,8 @@ java_library(
     '//lib:jsch',
     '//lib:mime-util',
     '//lib/commons:codec',
+    '//lib/commons:httpcore',
+    '//lib/commons:httpclient',
     '//lib/guice:guice',
     '//lib/guice:guice-assistedinject',
     '//lib/guice:guice-servlet',

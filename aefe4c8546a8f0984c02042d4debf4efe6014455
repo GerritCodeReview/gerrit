@@ -239,6 +239,30 @@
     },
     {
       "key": {
+        "uuid": "1f0de8bb_07079636",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-05-29T16:11:22Z",
+      "side": 1,
+      "message": "mmm ... intercepting a URL redirect over HTTPS ? and modifying it ?\n\nIt would be possibly ONLY if you\u0027ve stolen the SSL Server private key ... and if you did it ... you definitely have MUCH BIGGER PROBLEMS right ?\n\nWith security, the overall security of a system is as strong as the weakest link: if you someone has stolen the SSL Server private key, the weakest link is not really the URL redirect :-)\n\nDoes it make sense ?",
+      "parentUuid": "1f0de8bb_270a9a40",
+      "range": {
+        "startLine": 107,
+        "startChar": 0,
+        "endLine": 109,
+        "endChar": 66
+      },
+      "revId": "aefe4c8546a8f0984c02042d4debf4efe6014455",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1f0de8bb_87fa66db",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
         "patchSetId": 1

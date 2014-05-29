@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7f0ee4b6_0af0bbfd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/CacheResource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-29T06:30:03Z",
+      "side": 1,
+      "message": "No need to use final here if Providers.of is used.",
+      "range": {
+        "startLine": 34,
+        "startChar": 60,
+        "endLine": 34,
+        "endChar": 65
+      },
+      "revId": "630538b254f1ad87d0b08b035275e9dd70331d13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f13e0db_a9de5d73",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/CacheResource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-29T06:30:03Z",
+      "side": 1,
+      "message": "Providers.of(cache)",
+      "range": {
+        "startLine": 35,
+        "startChar": 32,
+        "endLine": 40,
+        "endChar": 5
+      },
+      "revId": "630538b254f1ad87d0b08b035275e9dd70331d13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

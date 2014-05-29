@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5f13e0db_49e6c150",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2004,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-29T06:38:16Z",
+      "side": 1,
+      "message": "Run cron on your UNIX host as the user running Gerrit to do:\n\n ssh -i $site_path/ssh_host_key -p 29418 \"Gerrit Code Review@localhost\" gerrit gc --all",
+      "range": {
+        "startLine": 2003,
+        "startChar": 0,
+        "endLine": 2004,
+        "endChar": 11
+      },
+      "revId": "929952179d9494511290b5d36e01a9592a9c5e85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f0ee4b6_8afa6bdb",
+        "filename": "gerrit-extension-api/BUCK",
+        "patchSetId": 6
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-29T06:38:16Z",
+      "side": 1,
+      "message": "No we are not going to export quartz to extensions.",
+      "revId": "929952179d9494511290b5d36e01a9592a9c5e85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f0ee4b6_aaf52fed",
+        "filename": "lib/BUCK",
+        "patchSetId": 6
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-29T06:38:16Z",
+      "side": 1,
+      "message": "For stupid reasons I can\u0027t use this version of quartz. :(\n\nThis is a fairly simple thing to schedule. Do we really need this entire package for the basic idea of running the task at time T? We already do log rotation at midnight local server time by scheduling a task with delay of (midnight - now). No scheduler package required.",
+      "revId": "929952179d9494511290b5d36e01a9592a9c5e85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

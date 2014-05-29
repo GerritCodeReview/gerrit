@@ -20,6 +20,7 @@ import com.google.common.base.Strings;
 import com.google.gerrit.common.Version;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
+import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.common.CacheInfo;
 import com.google.gerrit.extensions.common.CacheInfo.CacheType;
 import com.google.gerrit.extensions.events.LifecycleListener;
@@ -83,7 +84,7 @@ final class ShowCaches extends SshCommand {
   private SshDaemon daemon;
 
   @Inject
-  private Provider<ListCaches> listCaches;
+  private GerritApi gApi;
 
   @Inject
   private Provider<GetSummary> getSummary;
@@ -174,7 +175,7 @@ final class ShowCaches extends SshCommand {
   private Collection<CacheInfo> getCaches() {
     @SuppressWarnings("unchecked")
     Map<String, CacheInfo> caches =
-        (Map<String, CacheInfo>) listCaches.get().apply(new ConfigResource());
+        (Map<String, CacheInfo>) gApi.configs().caches().list();
     for (Map.Entry<String, CacheInfo> entry : caches.entrySet()) {
       CacheInfo cache = entry.getValue();
       cache.name = entry.getKey();

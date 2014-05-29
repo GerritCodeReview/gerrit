@@ -95,6 +95,9 @@ class Header extends Composite {
     this.patchSetId = patchSetId;
     this.path = path;
 
+    if (!Gerrit.isSignedIn()) {
+      reviewed.getElement().getStyle().setVisibility(Visibility.HIDDEN);
+    }
     SafeHtml.setInnerHTML(filePath, formatPath(path, null, null));
     up.setTargetHistoryToken(PageLinks.toChange(
         patchSetId.getParentKey(),

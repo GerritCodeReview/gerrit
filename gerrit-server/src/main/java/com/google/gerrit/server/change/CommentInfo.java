@@ -24,8 +24,6 @@ import com.google.gerrit.server.account.AccountInfo;
 import java.sql.Timestamp;
 
 public class CommentInfo {
-
-  final String kind = "gerritcodereview#comment";
   String id;
   String path;
   Side side;

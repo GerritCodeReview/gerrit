@@ -99,8 +99,6 @@ public class GetPreferences implements RestReadView<AccountResource> {
   }
 
   public static class PreferenceInfo {
-    final String kind = "gerritcodereview#preferences";
-
     Short changesPerPage;
     Boolean showSiteHeader;
     Boolean useFlashClipboard;

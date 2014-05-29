@@ -43,7 +43,6 @@ the resulting change.
 
   )]}'
   {
-    "kind": "gerritcodereview#change",
     "id": "myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9941",
     "project": "myProject",
     "branch": "master",
@@ -94,7 +93,6 @@ Query for open changes of watched projects:
   )]}'
   [
     {
-      "kind": "gerritcodereview#change",
       "id": "demo~master~Idaf5e098d70898b7119f6f4af5a6c13343d64b57",
       "project": "demo",
       "branch": "master",
@@ -113,7 +111,6 @@ Query for open changes of watched projects:
       },
     },
     {
-      "kind": "gerritcodereview#change",
       "id": "demo~master~I09c8041b5867d5b33170316e2abc34b79bbb8501",
       "project": "demo",
       "branch": "master",
@@ -169,7 +166,6 @@ Query that retrieves changes for a user's dashboard:
   [
     [
       {
-        "kind": "gerritcodereview#change",
         "id": "demo~master~Idaf5e098d70898b7119f6f4af5a6c13343d64b57",
         "project": "demo",
         "branch": "master",
@@ -318,7 +314,6 @@ default. Optional fields are:
   )]}'
   [
     {
-      "kind": "gerritcodereview#change",
       "id": "demo~master~I7ea46d2e2ee5c64c0d807677859cfb7d90b8966a",
       "project": "gerrit",
       "branch": "master",
@@ -455,7 +450,6 @@ describes the change.
 
   )]}'
   {
-    "kind": "gerritcodereview#change",
     "id": "myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940",
     "project": "myProject",
     "branch": "master",
@@ -506,7 +500,6 @@ describes the change.
 
   )]}'
   {
-    "kind": "gerritcodereview#change",
     "id": "myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940",
     "project": "myProject",
     "branch": "master",
@@ -757,7 +750,6 @@ describes the abandoned change.
 
   )]}'
   {
-    "kind": "gerritcodereview#change",
     "id": "myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940",
     "project": "myProject",
     "branch": "master",
@@ -817,7 +809,6 @@ describes the restored change.
 
   )]}'
   {
-    "kind": "gerritcodereview#change",
     "id": "myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940",
     "project": "myProject",
     "branch": "master",
@@ -875,7 +866,6 @@ is included.
 
   )]}'
   {
-    "kind": "gerritcodereview#change",
     "id": "myProject~master~I3ea943139cb62e86071996f2480e58bf3eeb9dd2",
     "project": "myProject",
     "branch": "master",
@@ -968,7 +958,6 @@ describes the reverting change.
 
   )]}'
   {
-    "kind": "gerritcodereview#change",
     "id": "myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940",
     "project": "myProject",
     "branch": "master",
@@ -1034,7 +1023,6 @@ describes the submitted/merged change.
 
   )]}'
   {
-    "kind": "gerritcodereview#change",
     "id": "myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940",
     "project": "myProject",
     "branch": "master",
@@ -1124,7 +1112,6 @@ an link:#included-in-info[IncludedInInfo] entity is returned.
 
   )]}'
   {
-    "kind": "gerritcodereview#includedininfo",
     "branches": [
       "master"
     ],
@@ -1159,7 +1146,6 @@ As result a list of link:#reviewer-info[ReviewerInfo] entries is returned.
   )]}'
   [
     {
-      "kind": "gerritcodereview#reviewer",
       "approvals": {
         "Verified": "+1",
         "Code-Review": "+2"
@@ -1169,7 +1155,6 @@ As result a list of link:#reviewer-info[ReviewerInfo] entries is returned.
       "email": "john.doe@example.com"
     },
     {
-      "kind": "gerritcodereview#reviewer",
       "approvals": {
         "Verified": " 0",
         "Code-Review": "-1"
@@ -1206,7 +1191,6 @@ As result a list of link:#suggested-reviewer-info[SuggestedReviewerInfo] entries
   )]}'
   [
     {
-      "kind": "gerritcodereview#suggestedreviewer",
       "account": {
         "_account_id": 1000097,
         "name": "Jane Roe",
@@ -1214,7 +1198,6 @@ As result a list of link:#suggested-reviewer-info[SuggestedReviewerInfo] entries
       }
     },
     {
-      "kind": "gerritcodereview#suggestedreviewer",
       "group": {
         "id": "4fd581c0657268f2bdcc26699fbf9ddb76e3a279",
         "name": "Joiner"
@@ -1247,7 +1230,6 @@ describes the reviewer.
 
   )]}'
   {
-    "kind": "gerritcodereview#reviewer",
     "approvals": {
       "Verified": "+1",
       "Code-Review": "+2"
@@ -1292,7 +1274,6 @@ returned that describes the newly added reviewers.
   {
     "reviewers": [
       {
-        "kind": "gerritcodereview#reviewer",
         "approvals": {
           "Verified": " 0",
           "Code-Review": " 0"
@@ -1394,7 +1375,6 @@ describes the revision.
 
   )]}'
   {
-    "kind": "gerritcodereview#commit",
     "parents": [
       {
         "commit": "1eee2c9d8f352483781e772f35dc586a69ff5646",
@@ -1449,7 +1429,6 @@ for the current patch set.
 
   )]}'
   {
-    "kind": "gerritcodereview#change",
     "id": "myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940",
     "project": "myProject",
     "branch": "master",
@@ -1632,7 +1611,6 @@ is included.
 
   )]}'
   {
-    "kind": "gerritcodereview#change",
     "id": "myProject~master~I3ea943139cb62e86071996f2480e58bf3eeb9dd2",
     "project": "myProject",
     "branch": "master",
@@ -2002,14 +1980,12 @@ sorted by file path.
   {
     "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java": [
       {
-        "kind": "gerritcodereview#comment",
         "id": "TvcXrmjM",
         "line": 23,
         "message": "[nit] trailing whitespace",
         "updated": "2013-02-26 15:40:43.986000000"
       },
       {
-        "kind": "gerritcodereview#comment",
         "id": "TveXwFiA",
         "line": 49,
         "in_reply_to": "TfYX-Iuo",
@@ -2054,7 +2030,6 @@ describes the draft comment.
 
   )]}'
   {
-    "kind": "gerritcodereview#comment",
     "id": "TvcXrmjM",
     "path": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
     "line": 23,
@@ -2088,7 +2063,6 @@ describes the draft comment.
 
   )]}'
   {
-    "kind": "gerritcodereview#comment",
     "id": "TvcXrmjM",
     "path": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
     "line": 23,
@@ -2131,7 +2105,6 @@ describes the draft comment.
 
   )]}'
   {
-    "kind": "gerritcodereview#comment",
     "id": "TvcXrmjM",
     "path": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
     "line": 23,
@@ -2185,7 +2158,6 @@ sorted by file path.
   {
     "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java": [
       {
-        "kind": "gerritcodereview#comment",
         "id": "TvcXrmjM",
         "line": 23,
         "message": "[nit] trailing whitespace",
@@ -2197,7 +2169,6 @@ sorted by file path.
         }
       },
       {
-        "kind": "gerritcodereview#comment",
         "id": "TveXwFiA",
         "line": 49,
         "in_reply_to": "TfYX-Iuo",
@@ -2237,7 +2208,6 @@ describes the published comment.
 
   )]}'
   {
-    "kind": "gerritcodereview#comment",
     "id": "TvcXrmjM",
     "path": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
     "line": 23,
@@ -2577,7 +2547,6 @@ describes the resulting cherry picked change.
 
   )]}'
   {
-    "kind": "gerritcodereview#change",
     "id": "myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9941",
     "project": "myProject",
     "branch": "release-branch",
@@ -2629,7 +2598,6 @@ describes the change.
 
   )]}'
   {
-    "kind": "gerritcodereview#change",
     "id": "myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9941",
     "project": "myProject",
     "branch": "release-branch",
@@ -2793,7 +2761,6 @@ The `ChangeInfo` entity contains information about a change.
 [options="header",width="50%",cols="1,^1,5"]
 |==================================
 |Field Name           ||Description
-|`kind`               ||`gerritcodereview#change`
 |`id`                 ||
 The ID of the change in the format "'<project>\~<branch>~<Change-Id>'",
 where 'project', 'branch' and 'Change-Id' are URL encoded. For 'branch' the
@@ -2906,7 +2873,6 @@ The `CommentInfo` entity contains information about an inline comment.
 [options="header",width="50%",cols="1,^1,5"]
 |===========================
 |Field Name    ||Description
-|`kind`        ||`gerritcodereview#comment`
 |`id`          ||The URL encoded UUID of the comment.
 |`path`        |optional|
 The path of the file for which the inline comment was done. +
@@ -2942,8 +2908,6 @@ comment.
 [options="header",width="50%",cols="1,^1,5"]
 |===========================
 |Field Name    ||Description
-|`kind`        |optional|
-Must be `gerritcodereview#comment` if provided.
 |`id`          |optional|
 The URL encoded UUID of the comment if an existing draft comment should
 be updated.
@@ -3302,7 +3266,6 @@ In addition `ReviewerInfo` has the following fields:
 [options="header",width="50%",cols="1,6"]
 |==========================
 |Field Name    |Description
-|`kind`        |`gerritcodereview#reviewer`
 |`approvals`   |
 The approvals of the reviewer as a map that maps the label names to the
 approval values ("`-2`", "`-1`", " `0`", "`+1`", "`+2`").
@@ -3479,7 +3442,6 @@ change was merged into and tags it was tagged with.
 [options="header",width="50%",cols="1,6"]
 |==========================
 |Field Name |Description
-|`kind`     |`gerritcodereview#includedininfo`
 |`branches` | The list of branches this change was merged into.
 Each branch is listed without the 'refs/head/' prefix.
 |`tags`     | The list of tags this change was tagged with.

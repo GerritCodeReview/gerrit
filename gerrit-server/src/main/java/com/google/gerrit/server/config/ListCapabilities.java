@@ -86,7 +86,6 @@ public class ListCapabilities implements RestReadView<ConfigResource> {
   }
 
   public static class CapabilityInfo {
-    final String kind = "gerritcodereview#capability";
     public String id;
     public String name;
 

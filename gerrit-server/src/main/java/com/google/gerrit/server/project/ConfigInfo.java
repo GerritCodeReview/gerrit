@@ -39,8 +39,6 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class ConfigInfo {
-  public final String kind = "gerritcodereview#project_config";
-
   public String description;
   public InheritedBooleanInfo useContributorAgreements;
   public InheritedBooleanInfo useContentMerge;

@@ -753,7 +753,6 @@ entries is returned.
   )]}'
   [
     {
-      "kind": "gerritcodereview#group",
       "id": "global%3AAnonymous-Users",
       "url": "#/admin/groups/uuid-global%3AAnonymous-Users",
       "options": {
@@ -763,7 +762,6 @@ entries is returned.
       "owner_id": "6a1e70e1a88782771a91808c8af9bbb7a9871389"
     },
     {
-      "kind": "gerritcodereview#group",
       "id": "834ec36dd5e0ed21a2ff5d7e2255da082d63bbd7",
       "url": "#/admin/groups/uuid-834ec36dd5e0ed21a2ff5d7e2255da082d63bbd7",
       "options": {
@@ -773,7 +771,6 @@ entries is returned.
       "owner_id": "834ec36dd5e0ed21a2ff5d7e2255da082d63bbd7"
     },
     {
-      "kind": "gerritcodereview#group",
       "id": "global%3ARegistered-Users",
       "url": "#/admin/groups/uuid-global%3ARegistered-Users",
       "options": {
@@ -948,7 +945,6 @@ link:rest-api-changes.html#change-info[ChangeInfo] entities.
   )]}'
   [
     {
-      "kind": "gerritcodereview#change",
       "id": "myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940",
       "project": "myProject",
       "branch": "master",

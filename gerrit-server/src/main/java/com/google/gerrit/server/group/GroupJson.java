@@ -127,7 +127,6 @@ public class GroupJson {
   }
 
   public static class GroupInfo extends GroupBaseInfo {
-    final String kind = "gerritcodereview#group";
     public String url;
     public GroupOptionsInfo options;
 

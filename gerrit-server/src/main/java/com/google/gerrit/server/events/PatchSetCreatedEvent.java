@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.events;
 
-import com.google.gerrit.server.change.ChangeKind;
 import com.google.gerrit.server.data.AccountAttribute;
 import com.google.gerrit.server.data.ChangeAttribute;
 import com.google.gerrit.server.data.PatchSetAttribute;
@@ -24,5 +23,4 @@ public class PatchSetCreatedEvent extends ChangeEvent {
     public ChangeAttribute change;
     public PatchSetAttribute patchSet;
     public AccountAttribute uploader;
-    public ChangeKind kind;
 }

@@ -311,6 +311,30 @@
     },
     {
       "key": {
+        "uuid": "3f08ecaa_283cabdb",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1010404
+      },
+      "writtenOn": "2014-05-29T22:28:41Z",
+      "side": 1,
+      "message": "\u003e The SSO URL however would need to be valid for multiple requests as you may want to spread your phishing e-mails to a very large number of people to have the probability of someone clicking on it. However the GitHub SSO is valid for only one shot, so only one can be potentially attacked.\n\nSuffice it to be the \"right one\" (i.e. targetted attack; remember this is how the Syrian Electronic Army hacked the RSA Conference website late last month –http://krebsonsecurity.com/2014/05/complexity-as-the-enemy-of-security/–, as in many other cases).\n\n\u003e Let\u0027s see then what you could do with this \"attack\": you have someone else wondering why is logged in to Gerrit with someone else account (the username is displayed on the top-right together with the Gravatar)\n\nIt\u0027s easy to set the same name and avatar in your fake/attacker GitHub account as the victim you\u0027re targetting.\n\n\u003e and then, regardless of the strange situation, push some sensitive information to a Gerrit repo (personal account data ? Credit Card ? other ?)\n\nAbsolutely, this is why it\u0027s OK I believe to discuss this publicly: there\u0027s not much info you can get from a victim.\n\nHowever, the day you add \"premium\" accounts in GerritHub with, say, private repositories, and you allow paying or link a PayPal account with the same auth as you use for GerritHub (assuming the implementation in this patchset), then it will become a real, big issue.\n\n\u003e The other possibility you envision is that another vulnerability (which one ? are you aware of any ?)\n\nNo (I haven\u0027t search for one, I suspect –and hope– Google did it).\n\n\u003e would allow someone else to inject code into Gerrit that could then land into someone else Web-Browser ... but this is a different story :-) Nothing to do with this problem.\n\nIf that allows an attacker to log with the victim\u0027s account by taking advantage of the current issue we\u0027re discussing, then yes, it has to do with it ;-)\n\n\u003e Let\u0027s go to the solution you proposed: an encrypted NONCE to use as state parameter and as browser cookie. If I am the attacker I definitely know how to read that cookie and inject into someone else browser. The fact of the cookie being encrypted does not mean it cannot be copied. If I can inject my own cookie (i.e. GerritAccount) into someone else browser I can already today transfer my Gerrit account identity to somebody else. The vulnerability that you envision then already exist today and has nothing to do with this change :-)\n\nExcept AFAIK you can\u0027t \"inject\" a cookie into someone else\u0027s browser unless the targeted domain is vulnerable to XSS (in which case, yes, injecting the state cookie is the least of your concern ;-) )\nCookies are bound to domains, and can only be manipulated by those domains.\n\nBTW, it\u0027s not about an \"encrypted cookie\", just a random value (truly random though, so it cannot be guessed, aka crypto-secure; in other words, java.security.SecureRandom, not just java.util.Random).\n\nSo, really, just generating such a random value and setting it in a cookie that you later compare with the received state value has real benefits. See https://developers.google.com/accounts/docs/OAuth2Login#createxsrftoken for an OAuth guide by people who are really knowledgeable about security ;-)\n\nThe use of cookie is what the \"OAuth 2.0 Threat Model\" RFC linked in my first comment above suggests:\n\n   This parameter should bind to the authenticated state in a user agent\n   and, as per the core OAuth spec, the user agent must be capable of\n   keeping it in a location accessible only by the client and user\n   agent, i.e., protected by same-origin policy.\n\nSee also http://tools.ietf.org/html/rfc6819#section-5.3.5\n\nIdeally, you\u0027d save the random value on the server (in the \"web_sessions\" cache?) and only set the cache key in the cookie (so forging the cookie would be really hard!)\n\nI don\u0027t know how secure it would be (I\u0027m not an expert), but you could also possibly compute a hash of the random + a fingerprint of the browser (just using the User-Agent and Accept-* headers is enough to uniquely identify a browser! [1]) and put that hash in the cookie; then in loginPhase2 recompute the hash and compare it with the cookie value. The browser fingerprinting would make it useless to inject the cookie into someone else\u0027s browser; and that approach would be stateless.\n\n[1] Disable JavaScript and then visit https://panopticlick.eff.org/",
+      "parentUuid": "1f0de8bb_e74da285",
+      "range": {
+        "startLine": 107,
+        "startChar": 0,
+        "endLine": 109,
+        "endChar": 66
+      },
+      "revId": "aefe4c8546a8f0984c02042d4debf4efe6014455",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1f0de8bb_87fa66db",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
         "patchSetId": 1

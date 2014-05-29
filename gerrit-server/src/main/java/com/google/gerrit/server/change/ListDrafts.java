@@ -26,12 +26,14 @@ import com.google.gerrit.server.account.AccountInfo;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
+@Singleton
 class ListDrafts implements RestReadView<RevisionResource> {
   protected final Provider<ReviewDb> db;
   private final AccountInfo.Loader.Factory accountLoaderFactory;

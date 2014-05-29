@@ -79,7 +79,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
   private final ReviewerResource.Factory reviewerFactory;
   private final ApprovalsUtil approvalsUtil;
   private final AddReviewerSender.Factory addReviewerSenderFactory;
-  private final Provider<GroupsCollection> groupsCollection;
+  private final GroupsCollection groupsCollection;
   private final GroupMembers.Factory groupMembersFactory;
   private final AccountInfo.Loader.Factory accountLoaderFactory;
   private final Provider<ReviewDb> dbProvider;
@@ -97,7 +97,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
       ReviewerResource.Factory reviewerFactory,
       ApprovalsUtil approvalsUtil,
       AddReviewerSender.Factory addReviewerSenderFactory,
-      Provider<GroupsCollection> groupsCollection,
+      GroupsCollection groupsCollection,
       GroupMembers.Factory groupMembersFactory,
       AccountInfo.Loader.Factory accountLoaderFactory,
       Provider<ReviewDb> db,
@@ -162,7 +162,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
   private PostResult putGroup(ChangeResource rsrc, AddReviewerInput input)
       throws BadRequestException,
       UnprocessableEntityException, OrmException, EmailException, IOException {
-    GroupDescription.Basic group = groupsCollection.get().parseInternal(input.reviewer);
+    GroupDescription.Basic group = groupsCollection.parseInternal(input.reviewer);
     PostResult result = new PostResult();
     if (!isLegalReviewerGroup(group.getGroupUUID())) {
       result.error = MessageFormat.format(

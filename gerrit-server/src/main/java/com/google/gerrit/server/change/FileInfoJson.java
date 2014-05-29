@@ -27,11 +27,13 @@ import com.google.gerrit.server.patch.PatchListEntry;
 import com.google.gerrit.server.patch.PatchListKey;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.ObjectId;
 
 import java.util.Map;
 
+@Singleton
 public class FileInfoJson {
   private final PatchListCache patchListCache;
 

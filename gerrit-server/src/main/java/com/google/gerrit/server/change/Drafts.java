@@ -32,13 +32,13 @@ import com.google.inject.Singleton;
 class Drafts implements ChildCollection<RevisionResource, DraftResource> {
   private final DynamicMap<RestView<DraftResource>> views;
   private final Provider<CurrentUser> user;
-  private final Provider<ListDrafts> list;
+  private final ListDrafts list;
   private final Provider<ReviewDb> dbProvider;
 
   @Inject
   Drafts(DynamicMap<RestView<DraftResource>> views,
       Provider<CurrentUser> user,
-      Provider<ListDrafts> list,
+      ListDrafts list,
       Provider<ReviewDb> dbProvider) {
     this.views = views;
     this.user = user;
@@ -54,7 +54,7 @@ class Drafts implements ChildCollection<RevisionResource, DraftResource> {
   @Override
   public RestView<RevisionResource> list() throws AuthException {
     checkIdentifiedUser();
-    return list.get();
+    return list;
   }
 
   @Override

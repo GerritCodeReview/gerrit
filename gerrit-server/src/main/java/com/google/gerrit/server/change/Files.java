@@ -97,7 +97,7 @@ class Files implements ChildCollection<RevisionResource, FileResource> {
     private final Provider<ReviewDb> db;
     private final Provider<CurrentUser> self;
     private final FileInfoJson fileInfoJson;
-    private final Provider<Revisions> revisions;
+    private final Revisions revisions;
     private final GitRepositoryManager gitManager;
     private final PatchListCache patchListCache;
 
@@ -105,7 +105,7 @@ class Files implements ChildCollection<RevisionResource, FileResource> {
     ListFiles(Provider<ReviewDb> db,
         Provider<CurrentUser> self,
         FileInfoJson fileInfoJson,
-        Provider<Revisions> revisions,
+        Revisions revisions,
         GitRepositoryManager gitManager,
         PatchListCache patchListCache) {
       this.db = db;
@@ -127,7 +127,7 @@ class Files implements ChildCollection<RevisionResource, FileResource> {
 
       PatchSet basePatchSet = null;
       if (base != null) {
-        RevisionResource baseResource = revisions.get().parse(
+        RevisionResource baseResource = revisions.parse(
             resource.getChangeResource(), IdString.fromDecoded(base));
         basePatchSet = baseResource.getPatchSet();
       }

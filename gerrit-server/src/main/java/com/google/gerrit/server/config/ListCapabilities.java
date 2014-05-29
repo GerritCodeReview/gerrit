@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,6 +30,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Map;
 
 /** List capabilities visible to the calling user. */
+@Singleton
 public class ListCapabilities implements RestReadView<ConfigResource> {
   private static final Logger log = LoggerFactory.getLogger(ListCapabilities.class);
   private final DynamicMap<CapabilityDefinition> pluginCapabilities;

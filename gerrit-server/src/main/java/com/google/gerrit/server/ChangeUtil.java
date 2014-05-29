@@ -51,6 +51,7 @@ import com.google.gwtorm.server.OrmConcurrencyException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -79,6 +80,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+@Singleton
 public class ChangeUtil {
   /**
    * Epoch for sort key calculations, Tue Sep 30 2008 17:00:00.

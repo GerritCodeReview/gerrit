@@ -42,12 +42,12 @@ import java.io.IOException;
 public class CherryPick implements RestModifyView<RevisionResource, CherryPickInput>,
     UiAction<RevisionResource> {
   private final Provider<ReviewDb> dbProvider;
-  private final Provider<CherryPickChange> cherryPickChange;
+  private final CherryPickChange cherryPickChange;
   private final ChangeJson json;
 
   @Inject
   CherryPick(Provider<ReviewDb> dbProvider,
-      Provider<CherryPickChange> cherryPickChange,
+      CherryPickChange cherryPickChange,
       ChangeJson json) {
     this.dbProvider = dbProvider;
     this.cherryPickChange = cherryPickChange;
@@ -85,7 +85,7 @@ public class CherryPick implements RestModifyView<RevisionResource, CherryPickIn
 
     final PatchSet.Id patchSetId = revision.getPatchSet().getId();
     try {
-      Change.Id cherryPickedChangeId = cherryPickChange.get().cherryPick(
+      Change.Id cherryPickedChangeId = cherryPickChange.cherryPick(
           patchSetId, input.message,
           input.destination, refControl);
       return json.format(cherryPickedChangeId);

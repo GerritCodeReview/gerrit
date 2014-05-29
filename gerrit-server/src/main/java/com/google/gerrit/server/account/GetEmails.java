@@ -21,11 +21,13 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+@Singleton
 public class GetEmails implements RestReadView<AccountResource> {
   private final Provider<CurrentUser> self;
 

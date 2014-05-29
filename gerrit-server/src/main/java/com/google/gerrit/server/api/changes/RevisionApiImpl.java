@@ -43,24 +43,24 @@ class RevisionApiImpl extends RevisionApi.NotImplemented implements RevisionApi 
   }
 
   private final Changes changes;
-  private final Provider<CherryPick> cherryPick;
-  private final Provider<DeleteDraftPatchSet> deleteDraft;
-  private final Provider<Rebase> rebase;
-  private final Provider<RebaseChange> rebaseChange;
-  private final Provider<PostReview> review;
-  private final Provider<Submit> submit;
-  private final Provider<Publish> publish;
+  private final CherryPick cherryPick;
+  private final DeleteDraftPatchSet deleteDraft;
+  private final Rebase rebase;
+  private final RebaseChange rebaseChange;
+  private final Submit submit;
+  private final Publish publish;
   private final RevisionResource revision;
+  private final Provider<PostReview> review;
 
   @Inject
   RevisionApiImpl(Changes changes,
-      Provider<CherryPick> cherryPick,
-      Provider<DeleteDraftPatchSet> deleteDraft,
-      Provider<Rebase> rebase,
-      Provider<RebaseChange> rebaseChange,
+      CherryPick cherryPick,
+      DeleteDraftPatchSet deleteDraft,
+      Rebase rebase,
+      RebaseChange rebaseChange,
+      Submit submit,
+      Publish publish,
       Provider<PostReview> review,
-      Provider<Submit> submit,
-      Provider<Publish> publish,
       @Assisted RevisionResource r) {
     this.changes = changes;
     this.cherryPick = cherryPick;
@@ -92,7 +92,7 @@ class RevisionApiImpl extends RevisionApi.NotImplemented implements RevisionApi 
   @Override
   public void submit(SubmitInput in) throws RestApiException {
     try {
-      submit.get().apply(revision, in);
+      submit.apply(revision, in);
     } catch (OrmException | IOException e) {
       throw new RestApiException("Cannot submit change", e);
     }
@@ -101,7 +101,7 @@ class RevisionApiImpl extends RevisionApi.NotImplemented implements RevisionApi 
   @Override
   public void publish() throws RestApiException {
     try {
-      publish.get().apply(revision, new Publish.Input());
+      publish.apply(revision, new Publish.Input());
     } catch (OrmException | IOException e) {
       throw new RestApiException("Cannot publish draft patch set", e);
     }
@@ -110,7 +110,7 @@ class RevisionApiImpl extends RevisionApi.NotImplemented implements RevisionApi 
   @Override
   public void delete() throws RestApiException {
     try {
-      deleteDraft.get().apply(revision, null);
+      deleteDraft.apply(revision, null);
     } catch (OrmException | IOException e) {
       throw new RestApiException("Cannot delete draft ps", e);
     }
@@ -119,7 +119,7 @@ class RevisionApiImpl extends RevisionApi.NotImplemented implements RevisionApi 
   @Override
   public ChangeApi rebase() throws RestApiException {
     try {
-      return changes.id(rebase.get().apply(revision, null)._number);
+      return changes.id(rebase.apply(revision, null)._number);
     } catch (OrmException | EmailException e) {
       throw new RestApiException("Cannot rebase ps", e);
     }
@@ -127,13 +127,13 @@ class RevisionApiImpl extends RevisionApi.NotImplemented implements RevisionApi 
 
   @Override
   public boolean canRebase() {
-    return rebaseChange.get().canRebase(revision);
+    return rebaseChange.canRebase(revision);
   }
 
   @Override
   public ChangeApi cherryPick(CherryPickInput in) throws RestApiException {
     try {
-      return changes.id(cherryPick.get().apply(revision, in)._number);
+      return changes.id(cherryPick.apply(revision, in)._number);
     } catch (OrmException | EmailException | IOException e) {
       throw new RestApiException("Cannot cherry pick", e);
     }

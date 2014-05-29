@@ -42,13 +42,13 @@ public class PutOwner implements RestModifyView<GroupResource, Input> {
     public String owner;
   }
 
-  private final Provider<GroupsCollection> groupsCollection;
+  private final GroupsCollection groupsCollection;
   private final GroupCache groupCache;
   private final Provider<ReviewDb> db;
   private final GroupJson json;
 
   @Inject
-  PutOwner(Provider<GroupsCollection> groupsCollection, GroupCache groupCache,
+  PutOwner(GroupsCollection groupsCollection, GroupCache groupCache,
       Provider<ReviewDb> db, GroupJson json) {
     this.groupsCollection = groupsCollection;
     this.groupCache = groupCache;
@@ -77,7 +77,7 @@ public class PutOwner implements RestModifyView<GroupResource, Input> {
       throw new ResourceNotFoundException();
     }
 
-    GroupDescription.Basic owner = groupsCollection.get().parse(input.owner);
+    GroupDescription.Basic owner = groupsCollection.parse(input.owner);
     if (!group.getOwnerGroupUUID().equals(owner.getGroupUUID())) {
       group.setOwnerGroupUUID(owner.getGroupUUID());
       db.get().accountGroups().update(Collections.singleton(group));

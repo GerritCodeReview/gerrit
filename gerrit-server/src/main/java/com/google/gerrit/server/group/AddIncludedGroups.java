@@ -71,13 +71,13 @@ public class AddIncludedGroups implements RestModifyView<GroupResource, Input> {
     }
   }
 
-  private final Provider<GroupsCollection> groupsCollection;
+  private final GroupsCollection groupsCollection;
   private final GroupIncludeCache groupIncludeCache;
   private final Provider<ReviewDb> db;
   private final GroupJson json;
 
   @Inject
-  public AddIncludedGroups(Provider<GroupsCollection> groupsCollection,
+  public AddIncludedGroups(GroupsCollection groupsCollection,
       GroupIncludeCache groupIncludeCache,
       Provider<ReviewDb> db, GroupJson json) {
     this.groupsCollection = groupsCollection;
@@ -103,7 +103,7 @@ public class AddIncludedGroups implements RestModifyView<GroupResource, Input> {
     Account.Id me = ((IdentifiedUser) control.getCurrentUser()).getAccountId();
 
     for (String includedGroup : input.groups) {
-      GroupDescription.Basic d = groupsCollection.get().parse(includedGroup);
+      GroupDescription.Basic d = groupsCollection.parse(includedGroup);
       if (!control.canAddGroup(d.getGroupUUID())) {
         throw new AuthException(String.format("Cannot add group: %s",
             d.getName()));
@@ -140,10 +140,10 @@ public class AddIncludedGroups implements RestModifyView<GroupResource, Input> {
     static class Input {
     }
 
-    private final Provider<AddIncludedGroups> put;
+    private final AddIncludedGroups put;
     private final String id;
 
-    PutIncludedGroup(Provider<AddIncludedGroups> put, String id) {
+    PutIncludedGroup(AddIncludedGroups put, String id) {
       this.put = put;
       this.id = id;
     }
@@ -154,7 +154,7 @@ public class AddIncludedGroups implements RestModifyView<GroupResource, Input> {
         UnprocessableEntityException, OrmException {
       AddIncludedGroups.Input in = new AddIncludedGroups.Input();
       in.groups = ImmutableList.of(id);
-      List<GroupInfo> list = put.get().apply(resource, in);
+      List<GroupInfo> list = put.apply(resource, in);
       if (list.size() == 1) {
         return list.get(0);
       }

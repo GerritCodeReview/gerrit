@@ -12,17 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.config;
+package com.google.gerrit.extensions.api.configs;
 
-import com.google.gerrit.extensions.common.CacheInfo;
-import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.inject.Singleton;
-
-@Singleton
-public class GetCache implements RestReadView<CacheResource> {
-
-  @Override
-  public CacheInfo apply(CacheResource rsrc) {
-    return ListCaches.newCacheInfo(rsrc.getName(), rsrc.getCache());
-  }
+public interface Configs {
+  String version();
+  Caches caches();
 }

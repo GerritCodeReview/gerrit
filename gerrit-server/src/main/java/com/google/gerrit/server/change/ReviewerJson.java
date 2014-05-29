@@ -132,7 +132,6 @@ public class ReviewerJson {
   }
 
   public static class ReviewerInfo extends AccountInfo {
-    final String kind = "gerritcodereview#reviewer";
     Map<String, String> approvals;
 
     protected ReviewerInfo(Account.Id id) {

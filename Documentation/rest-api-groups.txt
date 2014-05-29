@@ -35,7 +35,6 @@ by group name.
   )]}'
   {
     "Administrators": {
-      "kind": "gerritcodereview#group",
       "id": "6a1e70e1a88782771a91808c8af9bbb7a9871389",
       "url": "#/admin/groups/uuid-6a1e70e1a88782771a91808c8af9bbb7a9871389",
       "options": {
@@ -46,7 +45,6 @@ by group name.
       "owner_id": "6a1e70e1a88782771a91808c8af9bbb7a9871389"
     },
     "Anonymous Users": {
-      "kind": "gerritcodereview#group",
       "id": "global%3AAnonymous-Users",
       "url": "#/admin/groups/uuid-global%3AAnonymous-Users",
       "options": {
@@ -57,7 +55,6 @@ by group name.
       "owner_id": "6a1e70e1a88782771a91808c8af9bbb7a9871389"
     },
     "MyProject_Committers": {
-      "kind": "gerritcodereview#group",
       "id": "834ec36dd5e0ed21a2ff5d7e2255da082d63bbd7",
       "url": "#/admin/groups/uuid-834ec36dd5e0ed21a2ff5d7e2255da082d63bbd7",
       "options": {
@@ -68,7 +65,6 @@ by group name.
       "owner_id": "834ec36dd5e0ed21a2ff5d7e2255da082d63bbd7"
     },
     "Non-Interactive Users": {
-      "kind": "gerritcodereview#group",
       "id": "5057f3cbd3519d6ab69364429a89ffdffba50f73",
       "url": "#/admin/groups/uuid-5057f3cbd3519d6ab69364429a89ffdffba50f73",
       "options": {
@@ -79,7 +75,6 @@ by group name.
       "owner_id": "6a1e70e1a88782771a91808c8af9bbb7a9871389"
     },
     "Project Owners": {
-      "kind": "gerritcodereview#group",
       "id": "global%3AProject-Owners",
       "url": "#/admin/groups/uuid-global%3AProject-Owners",
       "options": {
@@ -90,7 +85,6 @@ by group name.
       "owner_id": "6a1e70e1a88782771a91808c8af9bbb7a9871389"
     },
     "Registered Users": {
-      "kind": "gerritcodereview#group",
       "id": "global%3ARegistered-Users",
       "url": "#/admin/groups/uuid-global%3ARegistered-Users",
       "options": {
@@ -147,7 +141,6 @@ returned.
   )]}'
   {
     "MyProject-Committers": {
-      "kind": "gerritcodereview#group",
       "id": "9999c971bb4ab872aab759d8c49833ee6b9ff320",
       "url": "#/admin/groups/uuid-9999c971bb4ab872aab759d8c49833ee6b9ff320",
       "options": {
@@ -203,7 +196,6 @@ describes the group.
 
   )]}'
   {
-    "kind": "gerritcodereview#group",
     "id": "6a1e70e1a88782771a91808c8af9bbb7a9871389",
     "name": "Administrators",
     "url": "#/admin/groups/uuid-6a1e70e1a88782771a91808c8af9bbb7a9871389",
@@ -251,7 +243,6 @@ describes the created group.
 
   )]}'
   {
-    "kind": "gerritcodereview#group",
     "id": "9999c971bb4ab872aab759d8c49833ee6b9ff320",
     "name": "MyProject-Committers",
     "url": "#/admin/groups/uuid-9999c971bb4ab872aab759d8c49833ee6b9ff320",
@@ -293,7 +284,6 @@ describes the group.
 
   )]}'
   {
-    "kind": "gerritcodereview#group",
     "id": "6a1e70e1a88782771a91808c8af9bbb7a9871389",
     "name": "Administrators",
     "url": "#/admin/groups/uuid-6a1e70e1a88782771a91808c8af9bbb7a9871389",
@@ -544,7 +534,6 @@ describes the owner group.
 
   )]}'
   {
-    "kind": "gerritcodereview#group",
     "id": "6a1e70e1a88782771a91808c8af9bbb7a9871389",
     "name": "Administrators",
     "url": "#/admin/groups/uuid-6a1e70e1a88782771a91808c8af9bbb7a9871389",
@@ -591,7 +580,6 @@ describes the new owner group.
 
   )]}'
   {
-    "kind": "gerritcodereview#group",
     "id": "6a1e70e1a88782771a91808c8af9bbb7a9871389",
     "name": "Administrators",
     "url": "#/admin/groups/uuid-6a1e70e1a88782771a91808c8af9bbb7a9871389",
@@ -892,7 +880,6 @@ The entries in the list are sorted by group name and UUID.
   )]}'
   [
     {
-      "kind": "gerritcodereview#group",
       "id": "7ca042f4d5847936fcb90ca91057673157fd06fc",
       "name": "MyProject-Verifiers",
       "url": "#/admin/groups/uuid-7ca042f4d5847936fcb90ca91057673157fd06fc",
@@ -929,7 +916,6 @@ describes the included group.
 
   )]}'
   {
-    "kind": "gerritcodereview#group",
     "id": "7ca042f4d5847936fcb90ca91057673157fd06fc",
     "name": "MyProject-Verifiers",
     "url": "#/admin/groups/uuid-7ca042f4d5847936fcb90ca91057673157fd06fc",
@@ -966,7 +952,6 @@ describes the included group.
 
   )]}'
   {
-    "kind": "gerritcodereview#group",
     "id": "6a1e70e1a88782771a91808c8af9bbb7a9871389",
     "name": "MyGroup",
     "url": "#/admin/groups/uuid-6a1e70e1a88782771a91808c8af9bbb7a9871389",
@@ -1027,7 +1012,6 @@ group was already included in the group.
   )]}'
   [
     {
-      "kind": "gerritcodereview#group",
       "id": "6a1e70e1a88782771a91808c8af9bbb7a9871389",
       "name": "MyGroup",
       "url": "#/admin/groups/uuid-6a1e70e1a88782771a91808c8af9bbb7a9871389",
@@ -1038,7 +1022,6 @@ group was already included in the group.
       "owner_id": "6a1e70e1a88782771a91808c8af9bbb7a9871389"
     },
     {
-      "kind": "gerritcodereview#group",
       "id": "5057f3cbd3519d6ab69364429a89ffdffba50f73",
       "name": "MyOtherGroup",
       "url": "#/admin/groups/uuid-5057f3cbd3519d6ab69364429a89ffdffba50f73",
@@ -1133,7 +1116,6 @@ a Gerrit internal group, or an external group that is known to Gerrit.
 [options="header",width="50%",cols="1,^1,5"]
 |===========================
 |Field Name    ||Description
-|`kind`        ||`gerritcodereview#group`
 |`id`          ||The URL encoded UUID of the group.
 |`name`        |
 not set if returned in a map where the group name is used as map key|

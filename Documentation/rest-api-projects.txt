@@ -439,7 +439,6 @@ read access to `refs/meta/config`.
 
   )]}'
   {
-    "kind": "gerritcodereview#project_config",
     "description": "demo project",
     "use_contributor_agreements": {
       "value": true,
@@ -528,7 +527,6 @@ ConfigInfo] entity.
 
   )]}'
   {
-    "kind": "gerritcodereview#project_config",
     "use_contributor_agreements": {
       "value": false,
       "configured_value": "FALSE",
@@ -925,7 +923,6 @@ List all dashboards for the `work/my-project` project:
   )]}'
   [
     {
-      "kind": "gerritcodereview#dashboard",
       "id": "main:closed",
       "ref": "main",
       "path": "closed",
@@ -977,7 +974,6 @@ that describes the dashboard.
 
   )]}'
   {
-    "kind": "gerritcodereview#dashboard",
     "id": "main:closed",
     "ref": "main",
     "path": "closed",
@@ -1014,7 +1010,6 @@ dashboard-id.
 
   )]}'
   {
-    "kind": "gerritcodereview#dashboard",
     "id": "main:closed",
     "ref": "main",
     "path": "closed",
@@ -1070,7 +1065,6 @@ link:#dashboard-info[DashboardInfo] entity.
 
   )]}'
   {
-    "kind": "gerritcodereview#dashboard",
     "id": "main:closed",
     "ref": "main",
     "path": "closed",
@@ -1331,7 +1325,6 @@ dashboard.
 [options="header",width="50%",cols="1,^2,4"]
 |===============================
 |Field Name        ||Description
-|`kind`            ||`gerritcodereview#dashboard`
 |`id`              ||
 The ID of the dashboard. The ID has the format '<ref>:<path>',
 where ref and path are URL encoded.

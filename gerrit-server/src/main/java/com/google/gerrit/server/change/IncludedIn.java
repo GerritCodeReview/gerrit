@@ -79,7 +79,6 @@ class IncludedIn implements RestReadView<ChangeResource> {
   }
 
   static class IncludedInInfo {
-    String kind = "gerritcodereview#includedininfo";
     Collection<String> branches;
     Collection<String> tags;
 

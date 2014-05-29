@@ -205,7 +205,6 @@ class DashboardsCollection implements
   }
 
   static class DashboardInfo {
-    final String kind = "gerritcodereview#dashboard";
     String id;
     String project;
     String definingProject;

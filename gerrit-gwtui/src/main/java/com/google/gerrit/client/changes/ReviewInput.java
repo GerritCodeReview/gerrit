@@ -61,7 +61,6 @@ public class ReviewInput extends JavaScriptObject {
         var l=m[p];
         for (var i=0;i<l.length;i++) {
           var c=l[i];
-          delete c['kind'];
           delete c['path'];
           delete c['updated'];
         }

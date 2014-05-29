@@ -37,7 +37,6 @@ import java.util.Collections;
 @Singleton
 class PutDraft implements RestModifyView<DraftResource, Input> {
   static class Input {
-    String kind;
     String id;
     String path;
     Side side;
@@ -65,8 +64,6 @@ class PutDraft implements RestModifyView<DraftResource, Input> {
     PatchLineComment c = rsrc.getComment();
     if (in == null || in.message == null || in.message.trim().isEmpty()) {
       return delete.get().apply(rsrc, null);
-    } else if (in.kind != null && !"gerritcodereview#comment".equals(in.kind)) {
-      throw new BadRequestException("expected kind gerritcodereview#comment");
     } else if (in.id != null && !rsrc.getId().equals(in.id)) {
       throw new BadRequestException("id must match URL");
     } else if (in.line != null && in.line < 0) {

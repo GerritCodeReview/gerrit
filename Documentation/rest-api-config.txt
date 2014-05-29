@@ -312,82 +312,66 @@ The entries in the map are sorted by capability ID.
   )]}'
   {
     "accessDatabase": {
-      "kind": "gerritcodereview#capability",
       "id": "accessDatabase",
       "name": "Access Database"
     },
     "administrateServer": {
-      "kind": "gerritcodereview#capability",
       "id": "administrateServer",
       "name": "Administrate Server"
     },
     "createAccount": {
-      "kind": "gerritcodereview#capability",
       "id": "createAccount",
       "name": "Create Account"
     },
     "createGroup": {
-      "kind": "gerritcodereview#capability",
       "id": "createGroup",
       "name": "Create Group"
     },
     "createProject": {
-      "kind": "gerritcodereview#capability",
       "id": "createProject",
       "name": "Create Project"
     },
     "emailReviewers": {
-      "kind": "gerritcodereview#capability",
       "id": "emailReviewers",
       "name": "Email Reviewers"
     },
     "flushCaches": {
-      "kind": "gerritcodereview#capability",
       "id": "flushCaches",
       "name": "Flush Caches"
     },
     "killTask": {
-      "kind": "gerritcodereview#capability",
       "id": "killTask",
       "name": "Kill Task"
     },
     "priority": {
-      "kind": "gerritcodereview#capability",
       "id": "priority",
       "name": "Priority"
     },
     "queryLimit": {
-      "kind": "gerritcodereview#capability",
       "id": "queryLimit",
       "name": "Query Limit"
     },
     "runGC": {
-      "kind": "gerritcodereview#capability",
       "id": "runGC",
       "name": "Run Garbage Collection"
     },
     "streamEvents": {
-      "kind": "gerritcodereview#capability",
       "id": "streamEvents",
       "name": "Stream Events"
     },
     "viewCaches": {
-      "kind": "gerritcodereview#capability",
       "id": "viewCaches",
       "name": "View Caches"
     },
     "viewConnections": {
-      "kind": "gerritcodereview#capability",
       "id": "viewConnections",
       "name": "View Connections"
     },
     "viewPlugins": {
-      "kind": "gerritcodereview#capability",
       "id": "viewPlugins",
       "name": "View Plugins"
     },
     "viewQueue": {
-      "kind": "gerritcodereview#capability",
       "id": "viewQueue",
       "name": "View Queue"
     }
@@ -480,7 +464,6 @@ The `CapabilityInfo` entity contains information about a capability.
 [options="header",width="50%",cols="1,6"]
 |=================================
 |Field Name           |Description
-|`kind`               |`gerritcodereview#capability`
 |`id`                 |capability ID
 |`name`               |capability name
 |=================================

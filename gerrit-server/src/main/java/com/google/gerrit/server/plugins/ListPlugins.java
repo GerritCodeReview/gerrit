@@ -127,7 +127,6 @@ public class ListPlugins implements RestReadView<TopLevelResource> {
   }
 
   static class PluginInfo {
-    final String kind = "gerritcodereview#plugin";
     String id;
     String version;
     String indexUrl;

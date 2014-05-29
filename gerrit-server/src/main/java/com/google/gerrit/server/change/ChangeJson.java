@@ -919,7 +919,6 @@ public class ChangeJson {
   }
 
   public static class ChangeInfo {
-    public final String kind = "gerritcodereview#change";
     public String id;
     public String project;
     public String branch;

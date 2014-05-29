@@ -100,8 +100,6 @@ limitations under the License.
       <div><ui:msg>Restore</ui:msg></div>
     </g:Button>
 
-    <g:Button ui:field='submit' styleName='{style.submit}' visible='false'>
-      <div><ui:msg>Submit</ui:msg></div>
-    </g:Button>
+    <g:Button ui:field='submit' styleName='{style.submit}' visible='false'/>
   </g:FlowPanel>
 </ui:UiBinder>

@@ -80,5 +80,14 @@ public enum AuthType {
   CUSTOM_EXTENSION,
 
   /** Development mode to enable becoming anyone you want. */
-  DEVELOPMENT_BECOME_ANY_ACCOUNT
+  DEVELOPMENT_BECOME_ANY_ACCOUNT,
+
+  /**
+   * Login relies upon GitHub OAuth 2.0 security over HTTP.
+   * <p>
+   * GitHub is responsible for the user identify verification and an HTTP
+   * header is populated with the authenticated username. Gerrit will then
+   * implicily trust the GitHub user in this HTTP header as unique identity.
+   */
+   OAUTH_GITHUB
 }

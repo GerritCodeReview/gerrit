@@ -37,6 +37,7 @@ class ProxyPropertiesProvider implements Provider<ProxyProperties> {
       throws MalformedURLException {
     String proxyUrlStr = config.getString("http", null, "proxy");
     if (!Strings.isNullOrEmpty(proxyUrlStr)) {
+      proxyUrl = new URL(proxyUrlStr);
       proxyUser = config.getString("http", null, "proxyUsername");
       proxyPassword = config.getString("http", null, "proxyPassword");
       String userInfo = proxyUrl.getUserInfo();

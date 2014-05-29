@@ -20,11 +20,11 @@ import com.google.common.base.Strings;
 import com.google.gerrit.common.Version;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
+import com.google.gerrit.extensions.common.CacheInfo;
+import com.google.gerrit.extensions.common.CacheInfo.CacheType;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.server.config.ConfigResource;
 import com.google.gerrit.server.config.ListCaches;
-import com.google.gerrit.server.config.ListCaches.CacheInfo;
-import com.google.gerrit.server.config.ListCaches.CacheType;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.git.WorkQueue.Task;
@@ -52,7 +52,6 @@ import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
-import java.util.Map;
 
 /** Show the current cache states. */
 @RequiresCapability(GlobalCapability.VIEW_CACHES)
@@ -148,7 +147,8 @@ final class ShowCaches extends SshCommand {
     }
     stdout.print("+---------------------+---------+---------+\n");
 
-    Collection<CacheInfo> caches = getCaches();
+    Collection<CacheInfo> caches =
+        listCaches.get().apply(new ConfigResource()).values();
     printMemoryCoreCaches(caches);
     printMemoryPluginCaches(caches);
     printDiskCaches(caches);
@@ -169,18 +169,6 @@ final class ShowCaches extends SshCommand {
     }
 
     stdout.flush();
-  }
-
-  private Collection<CacheInfo> getCaches() {
-    Map<String, CacheInfo> caches = listCaches.get().apply(new ConfigResource());
-    for (Map.Entry<String, CacheInfo> entry : caches.entrySet()) {
-      CacheInfo cache = entry.getValue();
-      if (cache.type == null) {
-        cache.type = CacheType.MEM;
-      }
-      cache.name = entry.getKey();
-    }
-    return caches.values();
   }
 
   private void printMemoryCoreCaches(Collection<CacheInfo> caches) {

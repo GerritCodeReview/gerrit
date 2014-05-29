@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.webui.WebUiPlugin;
 import com.google.gerrit.httpd.auth.become.BecomeAnyAccountModule;
 import com.google.gerrit.httpd.auth.container.HttpAuthModule;
 import com.google.gerrit.httpd.auth.container.HttpsClientSslCertModule;
+import com.google.gerrit.httpd.auth.github.HttpGitHubOAuthModule;
 import com.google.gerrit.httpd.auth.ldap.LdapAuthModule;
 import com.google.gerrit.httpd.gitweb.GitWebModule;
 import com.google.gerrit.httpd.rpc.UiRpcModule;
@@ -105,6 +106,9 @@ public class WebModule extends LifecycleModule {
 
   private void installAuthModule() {
     switch (authConfig.getAuthType()) {
+      case OAUTH_GITHUB:
+        install(new HttpGitHubOAuthModule());
+        // break is omitted as we need the HTTP modules as well
       case HTTP:
       case HTTP_LDAP:
         install(new HttpAuthModule(authConfig));

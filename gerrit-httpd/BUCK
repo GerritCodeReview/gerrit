@@ -28,6 +28,8 @@ java_library(
     '//lib:mime-util',
     '//lib/auto:auto-value',
     '//lib/commons:codec',
+    '//lib/httpcomponents:httpcore',
+    '//lib/httpcomponents:httpclient',
     '//lib/guice:guice',
     '//lib/guice:guice-assistedinject',
     '//lib/guice:guice-servlet',

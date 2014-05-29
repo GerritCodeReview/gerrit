@@ -27,15 +27,20 @@ import com.google.inject.Singleton;
 /** Initialize the {@code auth} configuration section. */
 @Singleton
 class InitAuth implements InitStep {
+  private static final String GITHUB_URL = "https://github.com";
+  private static final String GITHUB_API_URL = "https://api.github.com";
+
   private final ConsoleUI ui;
   private final Section auth;
   private final Section ldap;
+  private final Section github;
 
   @Inject
   InitAuth(final ConsoleUI ui, final Section.Factory sections) {
     this.ui = ui;
     this.auth = sections.get("auth", null);
     this.ldap = sections.get("ldap", null);
+    this.github = sections.get("github", null);
   }
 
   @Override
@@ -57,6 +62,10 @@ class InitAuth implements InitStep {
         auth.string("SSO logout URL", "logoutUrl", null);
         break;
       }
+
+      case OAUTH_GITHUB:
+        auth.set("httpHeader", "GITHUB_USER");
+        break;
 
       case CLIENT_SSL_CERT_LDAP:
       case CUSTOM_EXTENSION:
@@ -92,6 +101,13 @@ class InitAuth implements InitStep {
         ldap.string("Group BaseDN", "groupBase", aBase);
         break;
       }
+
+      case OAUTH_GITHUB:
+        github.string("GitHub URL", "url", GITHUB_URL);
+        github.string("GitHub API URL", "apiUrl", GITHUB_API_URL);
+        github.string("GitHub Client ID", "clientId", null);
+        github.passwordForKey("GitHub Client Secret", "clientSecret");
+        break;
 
       case CLIENT_SSL_CERT_LDAP:
       case CUSTOM_EXTENSION:

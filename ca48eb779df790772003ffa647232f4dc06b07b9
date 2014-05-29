@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7f0ee4b6_0a22fbc1",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 795,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-29T13:04:08Z",
+      "side": 1,
+      "message": "for the",
+      "range": {
+        "startLine": 795,
+        "startChar": 11,
+        "endLine": 795,
+        "endChar": 14
+      },
+      "revId": "ca48eb779df790772003ffa647232f4dc06b07b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f13e0db_092209c2",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 801,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-29T13:04:08Z",
+      "side": 1,
+      "message": "for the",
+      "range": {
+        "startLine": 801,
+        "startChar": 8,
+        "endLine": 801,
+        "endChar": 11
+      },
+      "revId": "ca48eb779df790772003ffa647232f4dc06b07b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f13e0db_e94d7585",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-05-29T13:04:08Z",
+      "side": 1,
+      "message": "Break this line a bit earlier?",
+      "range": {
+        "startLine": 137,
+        "startChar": 50,
+        "endLine": 137,
+        "endChar": 85
+      },
+      "revId": "ca48eb779df790772003ffa647232f4dc06b07b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

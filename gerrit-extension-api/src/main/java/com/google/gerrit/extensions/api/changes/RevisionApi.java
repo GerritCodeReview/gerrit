@@ -17,6 +17,8 @@ package com.google.gerrit.extensions.api.changes;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 
+import java.util.Set;
+
 public interface RevisionApi {
   void delete() throws RestApiException;
   void review(ReviewInput in) throws RestApiException;
@@ -28,6 +30,9 @@ public interface RevisionApi {
   ChangeApi cherryPick(CherryPickInput in) throws RestApiException;
   ChangeApi rebase() throws RestApiException;
   boolean canRebase();
+
+  void setReviewed(String path, boolean reviewed) throws RestApiException;
+  Set<String> reviewed() throws RestApiException;
 
   /**
    * A default implementation which allows source compatibility
@@ -71,6 +76,16 @@ public interface RevisionApi {
 
     @Override
     public boolean canRebase() {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void setReviewed(String path, boolean reviewed) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public Set<String> reviewed() throws RestApiException {
       throw new NotImplementedException();
     }
   }

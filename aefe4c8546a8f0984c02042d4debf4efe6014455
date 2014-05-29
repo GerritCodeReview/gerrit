@@ -191,6 +191,30 @@
     },
     {
       "key": {
+        "uuid": "1f0de8bb_6710926e",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-05-29T14:04:36Z",
+      "side": 1,
+      "message": "Thanks Thomas for this security feedback.\nCan you explain exactly the scenario and how a potential attacker could use it to steal personal information or impersonate yourself on Gerrit  ?\n\nThe pattern for OAuth implementation is taken directly from GitHub documentation, so if that pattern is flowed potentially many other applications integrated with GitHub would have the same problem :-(\n\nIt is important then to clarify what is the problem / risk and find an effective workaround.",
+      "parentUuid": "1f0de8bb_a7f56aed",
+      "range": {
+        "startLine": 107,
+        "startChar": 0,
+        "endLine": 109,
+        "endChar": 66
+      },
+      "revId": "aefe4c8546a8f0984c02042d4debf4efe6014455",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1f0de8bb_87fa66db",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
         "patchSetId": 1

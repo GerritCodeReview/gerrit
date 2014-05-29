@@ -81,7 +81,6 @@ public class ChangeInserter {
   @Inject
   ChangeInserter(Provider<ReviewDb> dbProvider,
       ChangeUpdate.Factory updateFactory,
-      Provider<ApprovalsUtil> approvals,
       PatchSetInfoFactory patchSetInfoFactory,
       GitReferenceUpdated gitRefUpdated,
       ChangeHooks hooks,

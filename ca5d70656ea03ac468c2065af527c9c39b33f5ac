@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1f0de8bb_8735c6fc",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/RevisionApi.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2014-05-29T19:55:20Z",
+      "side": 1,
+      "message": "Sure, I can change that. Basically I don\u0027t like boolean arguments that much, but in this case it should work fine.",
+      "parentUuid": "7f0ee4b6_aa7acf93",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 59
+      },
+      "revId": "ca5d70656ea03ac468c2065af527c9c39b33f5ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f13e0db_098c4970",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/RevisionApi.java",
         "patchSetId": 2
@@ -71,6 +95,54 @@
     },
     {
       "key": {
+        "uuid": "3f08ecaa_681bc38c",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/RevisionApi.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2014-05-29T19:55:20Z",
+      "side": 1,
+      "message": "Sure.",
+      "parentUuid": "5f13e0db_098c4970",
+      "range": {
+        "startLine": 36,
+        "startChar": 2,
+        "endLine": 36,
+        "endChar": 14
+      },
+      "revId": "ca5d70656ea03ac468c2065af527c9c39b33f5ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f0de8bb_671bf28c",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/RevisionApi.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2014-05-29T19:55:20Z",
+      "side": 1,
+      "message": "I can change that.",
+      "parentUuid": "5f13e0db_e957b500",
+      "range": {
+        "startLine": 36,
+        "startChar": 15,
+        "endLine": 36,
+        "endChar": 26
+      },
+      "revId": "ca5d70656ea03ac468c2065af527c9c39b33f5ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7f0ee4b6_8a7f0b84",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/RevisionApi.java",
         "patchSetId": 2
@@ -82,6 +154,24 @@
       "writtenOn": "2014-05-29T19:51:57Z",
       "side": 1,
       "message": "Server will need an implementation of this.",
+      "revId": "ca5d70656ea03ac468c2065af527c9c39b33f5ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f08ecaa_4818ff8d",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/RevisionApi.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2014-05-29T19:55:20Z",
+      "side": 1,
+      "message": "Change-Id: If68c43e94acdfcffd7b41e78179f5b2e3f83db48",
+      "parentUuid": "7f0ee4b6_8a7f0b84",
       "revId": "ca5d70656ea03ac468c2065af527c9c39b33f5ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

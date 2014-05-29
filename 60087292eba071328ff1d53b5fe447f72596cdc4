@@ -58,6 +58,24 @@
       "revId": "60087292eba071328ff1d53b5fe447f72596cdc4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dfa7d0cf_fdd42757",
+        "filename": "tools/plugin_archetype_deploy.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-05-29T02:12:34Z",
+      "side": 0,
+      "message": "not run help.   \n\nmy background as below: \n\n1, when I run   \n\u0027./tools/plugin_archetype_deploy.sh  -help\u0027   # only one \u0027-\u0027 , not \u0027--\u0027\n it starts to run\n\n2, when I run \n\u0027./tools/plugin_archetype_deploy.sh  --dry_run\u0027  # its \u0027_\u0027, not \u0027-\u0027\n it starts to run , not dry run\n\n3, when I run \n\u0027./tools/plugin_archetype_deploy.sh\u0027 , but suddenly I recall something and feel I am not ready yet. \n it starts to run and I can not stop it.",
+      "parentUuid": "3f20ecdd_2858eb31",
+      "revId": "60087292eba071328ff1d53b5fe447f72596cdc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

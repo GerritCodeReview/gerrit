@@ -20,11 +20,10 @@ import com.google.common.base.Strings;
 import com.google.gerrit.common.Version;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
+import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.common.CacheInfo;
 import com.google.gerrit.extensions.common.CacheInfo.CacheType;
 import com.google.gerrit.extensions.events.LifecycleListener;
-import com.google.gerrit.server.config.ConfigResource;
-import com.google.gerrit.server.config.ListCaches;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.git.WorkQueue.Task;
@@ -33,7 +32,6 @@ import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.gerrit.sshd.SshDaemon;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 
 import org.apache.sshd.common.io.IoAcceptor;
 import org.apache.sshd.common.io.IoSession;
@@ -88,7 +86,7 @@ final class ShowCaches extends SshCommand {
   private File sitePath;
 
   @Inject
-  private Provider<ListCaches> listCaches;
+  private GerritApi gApi;
 
   @Option(name = "--width", aliases = {"-w"}, metaVar = "COLS", usage = "width of output table")
   private int columns = 80;
@@ -147,8 +145,7 @@ final class ShowCaches extends SshCommand {
     }
     stdout.print("+---------------------+---------+---------+\n");
 
-    Collection<CacheInfo> caches =
-        listCaches.get().apply(new ConfigResource()).values();
+    Collection<CacheInfo> caches = gApi.configs().caches().list();
     printMemoryCoreCaches(caches);
     printMemoryPluginCaches(caches);
     printDiskCaches(caches);

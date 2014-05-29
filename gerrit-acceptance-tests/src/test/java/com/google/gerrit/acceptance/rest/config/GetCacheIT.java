@@ -21,7 +21,7 @@ import static org.junit.Assert.assertTrue;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
-import com.google.gerrit.server.config.ListCaches.CacheInfo;
+import com.google.gerrit.extensions.common.CacheInfo;
 
 import org.apache.http.HttpStatus;
 import org.junit.Test;
@@ -37,7 +37,7 @@ public class GetCacheIT extends AbstractDaemonTest {
     CacheInfo result = newGson().fromJson(r.getReader(), CacheInfo.class);
 
     assertEquals("accounts", result.name);
-    assertNull(result.type);
+    assertEquals(CacheInfo.CacheType.MEM, result.type);
     assertEquals(1, result.entries.mem.longValue());
     assertNotNull(result.averageGet);
     assertTrue(result.averageGet.endsWith("s"));

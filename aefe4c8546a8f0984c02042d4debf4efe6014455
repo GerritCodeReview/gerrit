@@ -215,6 +215,30 @@
     },
     {
       "key": {
+        "uuid": "1f0de8bb_270a9a40",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1010404
+      },
+      "writtenOn": "2014-05-29T16:01:44Z",
+      "side": 1,
+      "message": "As an attacker, I intercept the URL GitHub redirects to (the one at gerrithub containing the code) without dereferencing it (something like https://review.gerrithub.io/oauth?code\u003df500ac0f787d222fc7ad\u0026state\u003d626120578%2C%2Flogin) and lead you to follow it; and bam, you\u0027re logged in to gerrithub as \"Thomas Broyer\".\n\nAs I said, this is no big deal for Gerrit. All I could do (unless I missed something important) is trick you to give me your email address or your SSH public key.\n\nI could possibly badly interact with other plugins that ask you for more information though (e.g. enter your payment info to get *me* a \"premium account\", and possibly give *me* your payment info to retrive later from *my* account where you entered them)",
+      "parentUuid": "1f0de8bb_6710926e",
+      "range": {
+        "startLine": 107,
+        "startChar": 0,
+        "endLine": 109,
+        "endChar": 66
+      },
+      "revId": "aefe4c8546a8f0984c02042d4debf4efe6014455",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1f0de8bb_87fa66db",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
         "patchSetId": 1

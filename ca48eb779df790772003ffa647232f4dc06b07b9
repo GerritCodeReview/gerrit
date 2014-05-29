@@ -48,6 +48,23 @@
     },
     {
       "key": {
+        "uuid": "7f0ee4b6_6a429752",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-29T17:10:49Z",
+      "side": 1,
+      "message": "nit: blank line before inner type.",
+      "revId": "ca48eb779df790772003ffa647232f4dc06b07b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f13e0db_e94d7585",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
         "patchSetId": 5
@@ -64,6 +81,29 @@
         "startChar": 50,
         "endLine": 137,
         "endChar": 85
+      },
+      "revId": "ca48eb779df790772003ffa647232f4dc06b07b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f0ee4b6_4a3fd3d2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-29T17:10:49Z",
+      "side": 1,
+      "message": "patchSet?",
+      "range": {
+        "startLine": 203,
+        "startChar": 9,
+        "endLine": 203,
+        "endChar": 23
       },
       "revId": "ca48eb779df790772003ffa647232f4dc06b07b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

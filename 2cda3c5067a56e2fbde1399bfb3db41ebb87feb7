@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "dfa7d0cf_ddd96b8f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-29T06:13:36Z",
+      "side": 1,
+      "message": "Yes, normally you are right. But i sought that in this specific case, where we ought to do that hackery work around for such a trivial problem for which the fix was proposed months ago, we can do an exception?\n\nDone",
+      "parentUuid": "5f876029_49f621fa",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 6
+      },
+      "revId": "2cda3c5067a56e2fbde1399bfb3db41ebb87feb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7f82641a_4af613fa",
         "filename": "tools/default.defs",
         "patchSetId": 3
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "bfb4dcfc_dcd96d8f",
+        "filename": "tools/default.defs",
+        "patchSetId": 3
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-29T06:13:36Z",
+      "side": 1,
+      "message": "Oh, tastes are different. I am trying always to put all dependent rules after their parent. That way one can easily see who depends on what, by reading the code from the top to the bottom.\n\n rule\u003dfoo\n   dep\u003dbar\n rule\u003dbar\n   dep\u003dbaz\n [...]\n\nDoing it the way you like.",
+      "parentUuid": "7f82641a_4af613fa",
+      "revId": "2cda3c5067a56e2fbde1399bfb3db41ebb87feb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f876029_2901ed26",
         "filename": "tools/default.defs",
         "patchSetId": 3
@@ -53,6 +95,30 @@
       "writtenOn": "2014-05-28T23:24:45Z",
       "side": 1,
       "message": "You can just use $TMP. No need for the fix subdirectory.",
+      "range": {
+        "startLine": 139,
+        "startChar": 20,
+        "endLine": 139,
+        "endChar": 28
+      },
+      "revId": "2cda3c5067a56e2fbde1399bfb3db41ebb87feb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dfa7d0cf_bdde9f73",
+        "filename": "tools/default.defs",
+        "patchSetId": 3
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-29T06:13:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f876029_2901ed26",
       "range": {
         "startLine": 139,
         "startChar": 20,
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "bfb4dcfc_bcdea173",
+        "filename": "tools/default.defs",
+        "patchSetId": 3
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-29T06:13:36Z",
+      "side": 1,
+      "message": "Added also var for sane_manifest above.\n\nDone",
+      "parentUuid": "5f876029_e9efd520",
+      "range": {
+        "startLine": 152,
+        "startChar": 11,
+        "endLine": 152,
+        "endChar": 39
+      },
+      "revId": "2cda3c5067a56e2fbde1399bfb3db41ebb87feb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7f82641a_6afbd7e0",
         "filename": "tools/default.defs",
         "patchSetId": 3
@@ -105,6 +195,24 @@
     },
     {
       "key": {
+        "uuid": "bfb4dcfc_9ce3e541",
+        "filename": "tools/default.defs",
+        "patchSetId": 3
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-29T06:13:36Z",
+      "side": 1,
+      "message": "The hope was that Buck team would address the issue described in the commit message some day, and it would be simpler to recover the right way/code to do that.\n\nDone",
+      "parentUuid": "7f82641a_6afbd7e0",
+      "revId": "2cda3c5067a56e2fbde1399bfb3db41ebb87feb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f876029_09fc29da",
         "filename": "tools/default.defs",
         "patchSetId": 3
@@ -116,6 +224,24 @@
       "writtenOn": "2014-05-28T23:24:45Z",
       "side": 1,
       "message": "Drop this dep.",
+      "revId": "2cda3c5067a56e2fbde1399bfb3db41ebb87feb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dfa7d0cf_9de3e341",
+        "filename": "tools/default.defs",
+        "patchSetId": 3
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-29T06:13:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f876029_09fc29da",
       "revId": "2cda3c5067a56e2fbde1399bfb3db41ebb87feb7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

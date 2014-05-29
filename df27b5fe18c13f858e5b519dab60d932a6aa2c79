@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3f08ecaa_082207c2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/RevisionApiImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-29T20:42:42Z",
+      "side": 1,
+      "message": "This should be Provider\u003cFile\u003e",
+      "range": {
+        "startLine": 59,
+        "startChar": 16,
+        "endLine": 59,
+        "endChar": 21
+      },
+      "revId": "df27b5fe18c13f858e5b519dab60d932a6aa2c79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f08ecaa_e84d7385",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/RevisionApiImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-29T20:42:42Z",
+      "side": 1,
+      "message": "This too, like Provider\u003cPostReview\u003e on line 64. Why only these tree REST endpoints? Because they are not singeltons, like other guys, and that why we don\u0027t want that the instances for them going to be created when RevisionApiImpl is create and anoter action, say submit or publish is called.",
+      "range": {
+        "startLine": 62,
+        "startChar": 16,
+        "endLine": 62,
+        "endChar": 31
+      },
+      "revId": "df27b5fe18c13f858e5b519dab60d932a6aa2c79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f0de8bb_2725fac9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/RevisionApiImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-05-29T20:42:42Z",
+      "side": 1,
+      "message": "Break this line earlier:\n\n  ImmutableSet.copyOf((Iterable\u003cString\u003e) listFiles.setReviewed(true)\n     .apply(revision).value());",
+      "range": {
+        "startLine": 182,
+        "startChar": 13,
+        "endLine": 182,
+        "endChar": 95
+      },
+      "revId": "df27b5fe18c13f858e5b519dab60d932a6aa2c79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

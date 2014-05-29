@@ -263,6 +263,30 @@
     },
     {
       "key": {
+        "uuid": "1f0de8bb_c72bbea3",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1010404
+      },
+      "writtenOn": "2014-05-29T18:01:24Z",
+      "side": 1,
+      "message": "\u003e mmm ... intercepting a URL redirect over HTTPS ? and modifying it ?\n\u003e It would be possibly ONLY if you\u0027ve stolen the SSL Server private key ... and if you did it ... you definitely have MUCH BIGGER PROBLEMS right ?\n\nNo, I just meant that I start the login process (loginPhase1, login to GitHub, authorize Gerrit) but don\u0027t let the browser load the loginPhase2 at Gerrit (that\u0027s what I meant by \"intercept the URL\"). Instead of loading that URL in *my* browser, I trick you into loading it in *your* browser. Because Gerrit doesn\u0027t check that it generated the \"state\" parameter for *my* browser, then *you* are authenticated with *my* account (session fixation attack). If you\u0027re not careful, you could then enter your personal information on my Gerrit profile, and I can then retrieve it.\n\nIt\u0027s not about the attacker being logged-in with the victim\u0027s account, but the reverse: the victim being logged in with the attacker\u0027s account.\n\nIf there\u0027s another vulnerability in Gerrit in which an attacker could inject some code, then there\u0027s a possibility that the injected code could intercept the redirect from GitHub and send it to the attacker. In that case, the attacker could then login with the victim\u0027s account, and that\u0027s much worse, but it supposes another vulnerability in Gerrit.",
+      "parentUuid": "1f0de8bb_07079636",
+      "range": {
+        "startLine": 107,
+        "startChar": 0,
+        "endLine": 109,
+        "endChar": 66
+      },
+      "revId": "aefe4c8546a8f0984c02042d4debf4efe6014455",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1f0de8bb_87fa66db",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
         "patchSetId": 1

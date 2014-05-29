@@ -2,10 +2,6 @@
 	path = plugins/commit-message-length-validator
 	url = ../plugins/commit-message-length-validator
 
-[submodule "plugins/cookbook-plugin"]
-	path = plugins/cookbook-plugin
-	url = ../plugins/cookbook-plugin
-
 [submodule "plugins/download-commands"]
 	path = plugins/download-commands
 	url = ../plugins/download-commands

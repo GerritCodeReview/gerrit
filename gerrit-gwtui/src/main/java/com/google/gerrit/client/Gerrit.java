@@ -727,6 +727,7 @@ public class Gerrit implements EntryPoint {
 
         case HTTP:
         case HTTP_LDAP:
+        case HTTP_GITHUB:
           if (cfg.getLoginUrl() != null) {
             final String signinText = cfg.getLoginText() == null ? C.menuSignIn() : cfg.getLoginText();
             menuRight.add(anchor(signinText, cfg.getLoginUrl()));

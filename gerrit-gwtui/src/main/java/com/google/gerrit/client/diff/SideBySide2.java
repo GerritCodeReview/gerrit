@@ -421,12 +421,14 @@ public class SideBySide2 extends Screen {
     keysAction.add(new NoOpKeyCommand(0, 'o', PatchUtil.C.expandComment()));
     keysAction.add(new NoOpKeyCommand(
         KeyCommand.M_SHIFT, 'o', PatchUtil.C.expandAllCommentsOnCurrentLine()));
-    keysAction.add(new KeyCommand(0, 'r', PatchUtil.C.toggleReviewed()) {
-      @Override
-      public void onKeyPress(KeyPressEvent event) {
-        header.toggleReviewed().run();
-      }
-    });
+    if (Gerrit.isSignedIn()) {
+      keysAction.add(new KeyCommand(0, 'r', PatchUtil.C.toggleReviewed()) {
+        @Override
+        public void onKeyPress(KeyPressEvent event) {
+          header.toggleReviewed().run();
+        }
+      });
+    }
     keysAction.add(new KeyCommand(
         KeyCommand.M_SHIFT, 'm', PatchUtil.C.markAsReviewedAndGoToNext()) {
       @Override

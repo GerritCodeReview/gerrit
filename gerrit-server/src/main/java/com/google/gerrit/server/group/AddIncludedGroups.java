@@ -136,7 +136,6 @@ public class AddIncludedGroups implements RestModifyView<GroupResource, Input> {
     return result;
   }
 
-  @Singleton
   static class PutIncludedGroup implements RestModifyView<GroupResource, PutIncludedGroup.Input> {
     static class Input {
     }

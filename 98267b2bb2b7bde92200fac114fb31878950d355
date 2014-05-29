@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7f0ee4b6_aa308f0c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 841,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-29T06:55:46Z",
+      "side": 1,
+      "message": "Only insert the image if the owner has a URL:\n\n  AvatarInfo img \u003d owner.avatar(AvatarInfo.DEFAULT_SIZE);\n  if (img !\u003d null) {\n    ownerPanel.insert(..., 0);\n  }\n\nThat matches behavior with the Reviewer/\"cc\" chips on the next line below in the info table.",
+      "revId": "98267b2bb2b7bde92200fac114fb31878950d355",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

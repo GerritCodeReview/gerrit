@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.data;
 
+import com.google.gerrit.server.change.ChangeKind;
+
 import java.util.List;
 
 public class PatchSetAttribute {
@@ -25,6 +27,7 @@ public class PatchSetAttribute {
   public Long createdOn;
   public AccountAttribute author;
   public boolean isDraft;
+  public ChangeKind kind;
 
   public List<ApprovalAttribute> approvals;
   public List<PatchSetCommentAttribute> comments;

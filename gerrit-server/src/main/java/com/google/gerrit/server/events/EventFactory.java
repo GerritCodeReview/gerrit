@@ -35,6 +35,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.change.ChangeKindCache;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.data.AccountAttribute;
 import com.google.gerrit.server.data.ApprovalAttribute;
@@ -84,6 +85,7 @@ public class EventFactory {
   private final Provider<ReviewDb> db;
   private final ChangeData.Factory changeDataFactory;
   private final ApprovalsUtil approvalsUtil;
+  private final ChangeKindCache changeKindCache;
 
   @Inject
   EventFactory(AccountCache accountCache,
@@ -93,7 +95,8 @@ public class EventFactory {
       @GerritPersonIdent PersonIdent myIdent,
       Provider<ReviewDb> db,
       ChangeData.Factory changeDataFactory,
-      ApprovalsUtil approvalsUtil) {
+      ApprovalsUtil approvalsUtil,
+      ChangeKindCache changeKindCache) {
     this.accountCache = accountCache;
     this.urlProvider = urlProvider;
     this.patchListCache = patchListCache;
@@ -103,6 +106,7 @@ public class EventFactory {
     this.db = db;
     this.changeDataFactory = changeDataFactory;
     this.approvalsUtil = approvalsUtil;
+    this.changeKindCache = changeKindCache;
   }
 
   /**
@@ -426,6 +430,7 @@ public class EventFactory {
             p.sizeInsertions += pe.getInsertions();
           }
         }
+        p.kind = changeKindCache.getChangeKind(db, change, patchSet);
       } finally {
         db.close();
       }

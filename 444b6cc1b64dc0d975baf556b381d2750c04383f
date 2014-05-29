@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7f0ee4b6_eafb27e2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GetSummary.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-29T06:32:38Z",
+      "side": 1,
+      "message": "This is... not something I really want in our servers. So now I really am in trouble.",
+      "range": {
+        "startLine": 66,
+        "startChar": 4,
+        "endLine": 70,
+        "endChar": 5
+      },
+      "revId": "444b6cc1b64dc0d975baf556b381d2750c04383f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f13e0db_69e98520",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/Module.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-29T06:32:38Z",
+      "side": 1,
+      "message": "If you pull this and maybe even:\n\n  post(CACHE_KIND, \"flush\").to(FlushCache.class)\n\ninto a new RemoteCacheAdminModule in this package, we can add that module in Daemon and WebAppIntializer and I can skip the module in our build. Then these REST APIs aren\u0027t defined in our server and users cannot invoke them.",
+      "revId": "444b6cc1b64dc0d975baf556b381d2750c04383f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

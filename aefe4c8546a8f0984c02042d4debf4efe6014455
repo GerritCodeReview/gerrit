@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "3f08ecaa_6810636e",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/GitHubLogin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1010404
+      },
+      "writtenOn": "2014-05-29T12:57:11Z",
+      "side": 1,
+      "message": "Are you forced to do that redirect passing the OAuth access_token in the URL? One of the strengths of OAuth is that specifically the token can be kept \"private\".",
+      "revId": "aefe4c8546a8f0984c02042d4debf4efe6014455",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f876029_a9179d5c",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/GitHubOAuthConfig.java",
         "patchSetId": 1
@@ -59,6 +76,138 @@
       "writtenOn": "2014-05-29T01:57:44Z",
       "side": 1,
       "message": "Missing copyright/license header.",
+      "revId": "aefe4c8546a8f0984c02042d4debf4efe6014455",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f0de8bb_c7005e25",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1010404
+      },
+      "writtenOn": "2014-05-29T12:57:11Z",
+      "side": 1,
+      "message": "Use Guava\u0027s Objects.hashCode? (or Java7\u0027s Objects.hash)",
+      "range": {
+        "startLine": 68,
+        "startChar": 0,
+        "endLine": 75,
+        "endChar": 20
+      },
+      "revId": "aefe4c8546a8f0984c02042d4debf4efe6014455",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f0de8bb_e7fb62e2",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1010404
+      },
+      "writtenOn": "2014-05-29T12:57:11Z",
+      "side": 1,
+      "message": "Use Guava\u0027s Objects.equal? (or Java 7\u0027s Objects.equals)",
+      "range": {
+        "startLine": 84,
+        "startChar": 0,
+        "endLine": 90,
+        "endChar": 18
+      },
+      "revId": "aefe4c8546a8f0984c02042d4debf4efe6014455",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f08ecaa_a8f53bed",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1010404
+      },
+      "writtenOn": "2014-05-29T12:57:11Z",
+      "side": 1,
+      "message": "Couldn\u0027t you inject an HttpClint instance directly then?",
+      "revId": "aefe4c8546a8f0984c02042d4debf4efe6014455",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f08ecaa_88fa77db",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1010404
+      },
+      "writtenOn": "2014-05-29T12:57:11Z",
+      "side": 1,
+      "message": "That second (empty string) argument (and the corresponding %s in the format string) is useless.",
+      "range": {
+        "startLine": 108,
+        "startChar": 8,
+        "endLine": 108,
+        "endChar": 33
+      },
+      "revId": "aefe4c8546a8f0984c02042d4debf4efe6014455",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f0de8bb_a7f56aed",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1010404
+      },
+      "writtenOn": "2014-05-29T12:57:11Z",
+      "side": 1,
+      "message": "If this is what\u0027s used on gerrithub.io, that doesn\u0027t look secure: the me() is the same for me between different browsers.\n\nYou\u0027ll want to generate a cryptographically-secure random and store it in a cookie.\n\nSee http://tools.ietf.org/html/rfc6819#section-3.6 for the related threat.\n\nIt\u0027s not a serious threat in the context of Gerrit I believe (allows an attacker to log you in with his own account; the main risk is when the victim will later enter credit card number or link account to Paypal, etc.), which is why I disclose it here publicly.",
+      "range": {
+        "startLine": 107,
+        "startChar": 0,
+        "endLine": 109,
+        "endChar": 66
+      },
+      "revId": "aefe4c8546a8f0984c02042d4debf4efe6014455",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f0de8bb_87fa66db",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1010404
+      },
+      "writtenOn": "2014-05-29T12:57:11Z",
+      "side": 1,
+      "message": "This is where you\u0027re supposed to validate the random part of the \"state\" to mitigate CSRF, before you make the request to GitHub to exchange the code for a token.",
+      "range": {
+        "startLine": 129,
+        "startChar": 0,
+        "endLine": 130,
+        "endChar": 56
+      },
       "revId": "aefe4c8546a8f0984c02042d4debf4efe6014455",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

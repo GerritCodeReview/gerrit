@@ -31,12 +31,12 @@ import java.io.IOException;
 public class ChildProjectsCollection implements
     ChildCollection<ProjectResource, ChildProjectResource> {
   private final Provider<ListChildProjects> list;
-  private final Provider<ProjectsCollection> projectsCollection;
+  private final ProjectsCollection projectsCollection;
   private final DynamicMap<RestView<ChildProjectResource>> views;
 
   @Inject
   ChildProjectsCollection(Provider<ListChildProjects> list,
-      Provider<ProjectsCollection> projectsCollection,
+      ProjectsCollection projectsCollection,
       DynamicMap<RestView<ChildProjectResource>> views) {
     this.list = list;
     this.projectsCollection = projectsCollection;
@@ -53,7 +53,7 @@ public class ChildProjectsCollection implements
   public ChildProjectResource parse(ProjectResource parent, IdString id)
       throws ResourceNotFoundException, IOException {
     ProjectResource p =
-        projectsCollection.get().parse(TopLevelResource.INSTANCE, id);
+        projectsCollection.parse(TopLevelResource.INSTANCE, id);
     for (ProjectState pp : p.getControl().getProjectState().parents()) {
       if (parent.getNameKey().equals(pp.getProject().getNameKey())) {
         return new ChildProjectResource(parent, p.getControl());

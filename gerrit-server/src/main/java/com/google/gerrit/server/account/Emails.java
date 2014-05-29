@@ -32,13 +32,13 @@ public class Emails implements
     ChildCollection<AccountResource, AccountResource.Email>,
     AcceptsCreate<AccountResource> {
   private final DynamicMap<RestView<AccountResource.Email>> views;
-  private final Provider<GetEmails> list;
+  private final GetEmails list;
   private final Provider<CurrentUser> self;
   private final CreateEmail.Factory createEmailFactory;
 
   @Inject
   Emails(DynamicMap<RestView<AccountResource.Email>> views,
-      Provider<GetEmails> list,
+      GetEmails list,
       Provider<CurrentUser> self,
       CreateEmail.Factory createEmailFactory) {
     this.views = views;
@@ -49,7 +49,7 @@ public class Emails implements
 
   @Override
   public RestView<AccountResource> list() {
-    return list.get();
+    return list;
   }
 
   @Override

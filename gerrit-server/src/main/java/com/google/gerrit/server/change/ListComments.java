@@ -20,7 +20,9 @@ import com.google.gerrit.server.account.AccountInfo;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
+@Singleton
 class ListComments extends ListDrafts {
   @Inject
   ListComments(Provider<ReviewDb> db, AccountInfo.Loader.Factory alf) {

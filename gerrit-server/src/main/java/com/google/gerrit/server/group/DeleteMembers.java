@@ -43,13 +43,13 @@ import java.util.Map;
 
 @Singleton
 public class DeleteMembers implements RestModifyView<GroupResource, Input> {
-  private final Provider<AccountsCollection> accounts;
+  private final AccountsCollection accounts;
   private final AccountCache accountCache;
   private final Provider<ReviewDb> db;
   private final Provider<CurrentUser> self;
 
   @Inject
-  DeleteMembers(Provider<AccountsCollection> accounts,
+  DeleteMembers(AccountsCollection accounts,
       AccountCache accountCache, Provider<ReviewDb> db,
       Provider<CurrentUser> self) {
     this.accounts = accounts;
@@ -73,7 +73,7 @@ public class DeleteMembers implements RestModifyView<GroupResource, Input> {
     final List<AccountGroupMember> toRemove = Lists.newLinkedList();
 
     for (final String nameOrEmail : input.members) {
-      Account a = accounts.get().parse(nameOrEmail).getAccount();
+      Account a = accounts.parse(nameOrEmail).getAccount();
 
       if (!control.canRemoveMember(a.getId())) {
         throw new AuthException("Cannot delete member: " + a.getFullName());

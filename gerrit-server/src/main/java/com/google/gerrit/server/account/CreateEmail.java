@@ -59,7 +59,7 @@ public class CreateEmail implements RestModifyView<AccountResource, Input> {
   private final AuthConfig authConfig;
   private final AccountManager accountManager;
   private final RegisterNewEmailSender.Factory registerNewEmailFactory;
-  private final Provider<PutPreferred> putPreferredProvider;
+  private final PutPreferred putPreferred;
   private final String email;
 
   @Inject
@@ -68,14 +68,14 @@ public class CreateEmail implements RestModifyView<AccountResource, Input> {
       AuthConfig authConfig,
       AccountManager accountManager,
       RegisterNewEmailSender.Factory registerNewEmailFactory,
-      Provider<PutPreferred> putPreferredProvider,
+      PutPreferred putPreferred,
       @Assisted String email) {
     this.self = self;
     this.realm = realm;
     this.authConfig = authConfig;
     this.accountManager = accountManager;
     this.registerNewEmailFactory = registerNewEmailFactory;
-    this.putPreferredProvider = putPreferredProvider;
+    this.putPreferred = putPreferred;
     this.email = email;
   }
 
@@ -128,7 +128,7 @@ public class CreateEmail implements RestModifyView<AccountResource, Input> {
         throw new ResourceConflictException(e.getMessage());
       }
       if (input.preferred) {
-        putPreferredProvider.get().apply(
+        putPreferred.apply(
             new AccountResource.Email(user, email),
             null);
         info.preferred = true;

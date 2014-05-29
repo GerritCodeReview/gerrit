@@ -76,7 +76,7 @@ public class CreateChange implements
   private final GitRepositoryManager gitManager;
   private final TimeZone serverTimeZone;
   private final Provider<CurrentUser> userProvider;
-  private final Provider<ProjectsCollection> projectsCollection;
+  private final ProjectsCollection projectsCollection;
   private final CommitValidators.Factory commitValidatorsFactory;
   private final ChangeInserter.Factory changeInserterFactory;
   private final ChangeJson json;
@@ -86,7 +86,7 @@ public class CreateChange implements
       GitRepositoryManager gitManager,
       @GerritPersonIdent PersonIdent myIdent,
       Provider<CurrentUser> userProvider,
-      Provider<ProjectsCollection> projectsCollection,
+      ProjectsCollection projectsCollection,
       CommitValidators.Factory commitValidatorsFactory,
       ChangeInserter.Factory changeInserterFactory,
       ChangeJson json) {
@@ -130,7 +130,7 @@ public class CreateChange implements
       refName = Constants.R_HEADS + input.branch;
     }
 
-    ProjectResource rsrc = projectsCollection.get().parse(input.project);
+    ProjectResource rsrc = projectsCollection.parse(input.project);
 
     Capable r = rsrc.getControl().canPushToAtLeastOneRef();
     if (r != Capable.OK) {

@@ -41,7 +41,6 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 
 import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.diff.ReplaceEdit;
@@ -60,7 +59,7 @@ import java.util.concurrent.TimeUnit;
 public class GetDiff implements RestReadView<FileResource> {
   private final ProjectCache projectCache;
   private final PatchScriptFactory.Factory patchScriptFactoryFactory;
-  private final Provider<Revisions> revisions;
+  private final Revisions revisions;
 
   @Option(name = "--base", metaVar = "REVISION")
   String base;
@@ -77,7 +76,7 @@ public class GetDiff implements RestReadView<FileResource> {
   @Inject
   GetDiff(ProjectCache projectCache,
       PatchScriptFactory.Factory patchScriptFactoryFactory,
-      Provider<Revisions> revisions) {
+      Revisions revisions) {
     this.projectCache = projectCache;
     this.patchScriptFactoryFactory = patchScriptFactoryFactory;
     this.revisions = revisions;
@@ -88,7 +87,7 @@ public class GetDiff implements RestReadView<FileResource> {
       throws ResourceConflictException, ResourceNotFoundException, OrmException {
     PatchSet.Id basePatchSet = null;
     if (base != null) {
-      RevisionResource baseResource = revisions.get().parse(
+      RevisionResource baseResource = revisions.parse(
           resource.getRevision().getChangeResource(), IdString.fromDecoded(base));
       basePatchSet = baseResource.getPatchSet().getId();
     }

@@ -21,6 +21,7 @@ import com.google.gwtjsonrpc.server.ValidToken;
 import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 import org.eclipse.jgit.util.Base64;
 
@@ -29,6 +30,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /** Verifies the token sent by {@link RegisterNewEmailSender}. */
+@Singleton
 public class SignedTokenEmailTokenVerifier implements EmailTokenVerifier {
   private final SignedToken emailRegistrationToken;
 

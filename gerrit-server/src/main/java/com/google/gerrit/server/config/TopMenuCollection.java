@@ -20,25 +20,24 @@ import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 @Singleton
 class TopMenuCollection implements
     ChildCollection<ConfigResource, TopMenuResource> {
   private final DynamicMap<RestView<TopMenuResource>> views;
-  private final Provider<ListTopMenus> list;
+  private final ListTopMenus list;
 
   @Inject
   TopMenuCollection(DynamicMap<RestView<TopMenuResource>> views,
-      Provider<ListTopMenus> list) {
+      ListTopMenus list) {
     this.views = views;
     this.list = list;
   }
 
   @Override
   public RestView<ConfigResource> list() throws ResourceNotFoundException {
-    return list.get();
+    return list;
   }
 
   @Override

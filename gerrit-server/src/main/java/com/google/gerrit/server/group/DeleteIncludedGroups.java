@@ -44,13 +44,13 @@ import java.util.Map;
 
 @Singleton
 public class DeleteIncludedGroups implements RestModifyView<GroupResource, Input> {
-  private final Provider<GroupsCollection> groupsCollection;
+  private final GroupsCollection groupsCollection;
   private final GroupIncludeCache groupIncludeCache;
   private final Provider<ReviewDb> db;
   private final Provider<CurrentUser> self;
 
   @Inject
-  DeleteIncludedGroups(Provider<GroupsCollection> groupsCollection,
+  DeleteIncludedGroups(GroupsCollection groupsCollection,
       GroupIncludeCache groupIncludeCache,
       Provider<ReviewDb> db,
       Provider<CurrentUser> self) {
@@ -75,7 +75,7 @@ public class DeleteIncludedGroups implements RestModifyView<GroupResource, Input
     final List<AccountGroupById> toRemove = Lists.newLinkedList();
 
     for (final String includedGroup : input.groups) {
-      GroupDescription.Basic d = groupsCollection.get().parse(includedGroup);
+      GroupDescription.Basic d = groupsCollection.parse(includedGroup);
       if (!control.canRemoveGroup(d.getGroupUUID())) {
         throw new AuthException(String.format("Cannot delete group: %s",
             d.getName()));

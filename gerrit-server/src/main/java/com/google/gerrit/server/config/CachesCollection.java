@@ -35,13 +35,13 @@ public class CachesCollection implements
     ChildCollection<ConfigResource, CacheResource> {
 
   private final DynamicMap<RestView<CacheResource>> views;
-  private final Provider<ListCaches> list;
+  private final ListCaches list;
   private final Provider<CurrentUser> self;
   private final DynamicMap<Cache<?, ?>> cacheMap;
 
   @Inject
   CachesCollection(DynamicMap<RestView<CacheResource>> views,
-      Provider<ListCaches> list, Provider<CurrentUser> self,
+      ListCaches list, Provider<CurrentUser> self,
       DynamicMap<Cache<?, ?>> cacheMap) {
     this.views = views;
     this.list = list;
@@ -51,7 +51,7 @@ public class CachesCollection implements
 
   @Override
   public RestView<ConfigResource> list() {
-    return list.get();
+    return list;
   }
 
   @Override

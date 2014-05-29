@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5f13e0db_290a6d40",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 803,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-29T07:03:46Z",
+      "side": 1,
+      "message": "Like David Pursehouse I am worried about the format of this string getting broken by a user. Or we have to change it later and break everyone.\n\nWhat about our ParameterizedString class that we use for LDAP configuration? Its more flexible by using different values and allowing the user to omit values if they don\u0027t want to include them.",
+      "revId": "bc88fc7855018f88eda390ba542b9a971fd986b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

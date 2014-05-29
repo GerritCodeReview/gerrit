@@ -31,6 +31,15 @@ public enum AuthType {
   HTTP,
 
   /**
+   * Login relies upon GitHub OAuth 2.0 security over HTTP.
+   * <p>
+   * GitHub is responsible for the user identify verification and an HTTP
+   * header is populated with the authenticated username. Gerrit will then
+   * implicily trust the GitHub user in this HTTP header as unique identity.
+   */
+   HTTP_GITHUB,
+
+  /**
    * Login relies upon the container/web server security, but also uses LDAP.
    * <p>
    * Like {@link #HTTP}, the container or web server must populate an HTTP

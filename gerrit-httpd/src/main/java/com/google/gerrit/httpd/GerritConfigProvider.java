@@ -97,6 +97,7 @@ class GerritConfigProvider implements Provider<GerritConfig> {
 
       case HTTP:
       case HTTP_LDAP:
+      case HTTP_GITHUB:
         config.setLoginUrl(cfg.getString("auth", null, "loginurl"));
         config.setLoginText(cfg.getString("auth", null, "logintext"));
         break;

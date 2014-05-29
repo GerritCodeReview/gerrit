@@ -14,6 +14,7 @@
 
 package com.google.gerrit.httpd;
 
+import com.google.common.base.Strings;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -34,8 +35,9 @@ class ProxyPropertiesProvider implements Provider<ProxyProperties> {
   @Inject
   ProxyPropertiesProvider(@GerritServerConfig Config config)
       throws MalformedURLException {
-    proxyUrl = new URL(config.getString("http", null, "proxy"));
-    if (proxyUrl != null) {
+    String proxyUrlStr = config.getString("http", null, "proxy");
+    if (!Strings.isNullOrEmpty(proxyUrlStr)) {
+      proxyUrl = new URL(proxyUrlStr);
       proxyUser = config.getString("http", null, "proxyUsername");
       proxyPassword = config.getString("http", null, "proxyPassword");
       String userInfo = proxyUrl.getUserInfo();

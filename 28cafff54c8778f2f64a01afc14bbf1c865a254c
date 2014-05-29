@@ -1,0 +1,130 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5f13e0db_8935d9fc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-29T07:19:01Z",
+      "side": 1,
+      "message": "Many, many places have singletons created off @GerritServerConfig that will not be updated.\n\nIIRC JGit\u0027s Config class is \"fast enough\" for most variable lookups on the fly. Its also thread safe to query and load() is atomic.\n\nJust keep @GerritServerConfig Config singleton. But change callers/consumers to read values on the fly from it. If you need to cache expensive conversions, use its get(SectionParser\u003cT\u003e) method to manage that cache for you.\n\nImplement reload checking in HostPageServlet or via a simple timer the way ProjectCache invalidates ProjectState objects.",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 4
+      },
+      "revId": "28cafff54c8778f2f64a01afc14bbf1c865a254c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f13e0db_a9309d0c",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ConfigTracker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-29T07:19:01Z",
+      "side": 1,
+      "message": "I think you over complicated this for yourself.\n\nThe new version of GerritServerConfigProvider returns a new Config object when it reloads, otherwise it returns the existing Config reference. It also tracks the FileSnapshot for you.\n\nYou can detect a new Config by storing the Config you used to build GerritConfig and comparing if they are reference equal from the provider. If they are different, its stale and you should get a new GerritConfig created.",
+      "revId": "28cafff54c8778f2f64a01afc14bbf1c865a254c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f13e0db_c92bd1a3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritServerConfigModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-29T07:19:01Z",
+      "side": 1,
+      "message": "nit: fix this space :)",
+      "range": {
+        "startLine": 28,
+        "startChar": 86,
+        "endLine": 28,
+        "endChar": 89
+      },
+      "revId": "28cafff54c8778f2f64a01afc14bbf1c865a254c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f0ee4b6_4a18f38d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritServerConfigModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-29T07:19:01Z",
+      "side": 1,
+      "message": "nit: one ;",
+      "range": {
+        "startLine": 29,
+        "startChar": 56,
+        "endLine": 29,
+        "endChar": 58
+      },
+      "revId": "28cafff54c8778f2f64a01afc14bbf1c865a254c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f0ee4b6_6a1bb78c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritServerConfigProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-29T07:19:01Z",
+      "side": 1,
+      "message": "I think we should test the boolean refreshConfig first not the snapshot.isModified.",
+      "range": {
+        "startLine": 51,
+        "startChar": 12,
+        "endLine": 52,
+        "endChar": 65
+      },
+      "revId": "28cafff54c8778f2f64a01afc14bbf1c865a254c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f13e0db_691bc58c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritServerConfigProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-29T07:19:01Z",
+      "side": 1,
+      "message": "FileBasedConfig manages its own snapshot.\n\nUse config.isOutdated() to detect if it might be dirty and config.load() to reread from disk and update the internal snapshot.",
+      "revId": "28cafff54c8778f2f64a01afc14bbf1c865a254c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

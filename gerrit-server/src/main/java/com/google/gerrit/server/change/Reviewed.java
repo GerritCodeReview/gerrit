@@ -26,12 +26,12 @@ import com.google.inject.Singleton;
 
 import java.util.Collections;
 
-class Reviewed {
-  static class Input {
+public class Reviewed {
+  public static class Input {
   }
 
   @Singleton
-  static class PutReviewed implements RestModifyView<FileResource, Input> {
+  public static class PutReviewed implements RestModifyView<FileResource, Input> {
     private final Provider<ReviewDb> dbProvider;
 
     @Inject
@@ -60,7 +60,7 @@ class Reviewed {
   }
 
   @Singleton
-  static class DeleteReviewed implements RestModifyView<FileResource, Input> {
+  public static class DeleteReviewed implements RestModifyView<FileResource, Input> {
     private final Provider<ReviewDb> dbProvider;
 
     @Inject

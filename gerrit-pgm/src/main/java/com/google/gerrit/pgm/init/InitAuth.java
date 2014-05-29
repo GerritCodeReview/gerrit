@@ -55,6 +55,10 @@ class InitAuth implements InitStep {
         break;
       }
 
+      case HTTP_GITHUB:
+        auth.set("httpHeader", "GITHUB_USER");
+        break;
+
       case CLIENT_SSL_CERT_LDAP:
       case CUSTOM_EXTENSION:
       case DEVELOPMENT_BECOME_ANY_ACCOUNT:

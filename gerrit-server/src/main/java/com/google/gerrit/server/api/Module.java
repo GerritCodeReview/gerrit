@@ -22,8 +22,9 @@ public class Module extends AbstractModule {
   protected void configure() {
     bind(GerritApi.class).to(GerritApiImpl.class);
 
-    install(new com.google.gerrit.server.api.changes.Module());
-    install(new com.google.gerrit.server.api.projects.Module());
     install(new com.google.gerrit.server.api.accounts.Module());
+    install(new com.google.gerrit.server.api.changes.Module());
+    install(new com.google.gerrit.server.api.configs.Module());
+    install(new com.google.gerrit.server.api.projects.Module());
   }
 }

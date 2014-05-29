@@ -38,6 +38,7 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
@@ -56,6 +57,7 @@ import java.util.TreeMap;
  * database at submit time, or refreshed on demand, as when reading approvals
  * from the notedb.
  */
+@Singleton
 public class ApprovalCopier {
   private final GitRepositoryManager repoManager;
   private final ProjectCache projectCache;

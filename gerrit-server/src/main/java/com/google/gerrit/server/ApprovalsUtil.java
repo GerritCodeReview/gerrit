@@ -49,6 +49,7 @@ import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -70,6 +71,7 @@ import java.util.Set;
  * <p>
  * The methods in this class only modify the gwtorm database.
  */
+@Singleton
 public class ApprovalsUtil {
   private static Ordering<PatchSetApproval> SORT_APPROVALS = Ordering.natural()
       .onResultOf(new Function<PatchSetApproval, Timestamp>() {

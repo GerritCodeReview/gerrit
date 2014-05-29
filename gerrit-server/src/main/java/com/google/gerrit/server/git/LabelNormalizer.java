@@ -33,6 +33,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 import java.util.Collection;
 import java.util.List;
@@ -46,6 +47,7 @@ import java.util.List;
  * is originally made and a later point, for example when a change is submitted.
  * This class normalizes old votes against current project configuration.
  */
+@Singleton
 public class LabelNormalizer {
   public static class Result {
     private final ImmutableList<PatchSetApproval> unchanged;

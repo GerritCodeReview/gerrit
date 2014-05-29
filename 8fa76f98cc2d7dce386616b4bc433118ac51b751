@@ -224,6 +224,24 @@
       "revId": "8fa76f98cc2d7dce386616b4bc433118ac51b751",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f0ee4b6_ead44757",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/FlushCache.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-05-29T05:48:35Z",
+      "side": 1,
+      "message": "invalidateAll is only used by the flush admin command. We could wrap our Cache\u003cK,V\u003e instances with a wrapper that makes invalidateAll() a no-op. :)\n\nWe hand out admin because many teams run their own ACLs. Given that canAdministrateServer() is a fallback case throughout the ACL system that lets them do whatever they want, this works for us.\n\nIn retrospect we maybe could have gotten there somewhat by granting Owner on refs/* to the \"admins\" in a new Top-Level project and granted capabilities for Create Group and Create Project and gotten about 99% of the way there if we could force Create Project to require all projects to inherit either directly or indirectly through Top-Level. Then the \"admins\" can\u0027t edit capabilities in All-Projects, but they can still manage all ACLs.",
+      "parentUuid": "1fda4833_5f7b2b99",
+      "revId": "8fa76f98cc2d7dce386616b4bc433118ac51b751",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

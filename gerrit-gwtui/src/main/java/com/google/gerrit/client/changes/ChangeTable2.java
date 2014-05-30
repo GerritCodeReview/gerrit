@@ -31,7 +31,6 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyPressEvent;
-import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
@@ -332,7 +331,7 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
     if (highlightUnreviewed && !c.reviewed()) {
       needHighlight = true;
     }
-    final Element tr = DOM.getParent(fmt.getElement(row, 0));
+    final Element tr = fmt.getElement(row, 0).getParentElement();
     UIObject.setStyleName(tr, Gerrit.RESOURCES.css().needsReview(),
         needHighlight);
 

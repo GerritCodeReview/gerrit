@@ -75,7 +75,7 @@ public class KeyHelpPopup extends PluginSafePopupPanel implements
 
     final FlowPanel body = new FlowPanel();
     body.add(header);
-    DOM.appendChild(body.getElement(), DOM.createElement("hr"));
+    body.getElement().appendChild(DOM.createElement("hr"));
     body.add(lists);
 
     focus = new FocusPanel(body);

@@ -134,8 +134,8 @@ public abstract class FancyFlexTable<RowItem> extends Composite {
 
   protected void scrollIntoView(final int topRow, final int endRow) {
     final CellFormatter fmt = table.getCellFormatter();
-    final Element top = DOM.getParent(fmt.getElement(topRow, C_ARROW));
-    final Element end = DOM.getParent(fmt.getElement(endRow, C_ARROW));
+    final Element top = fmt.getElement(topRow, C_ARROW).getParentElement();
+    final Element end = fmt.getElement(endRow, C_ARROW).getParentElement();
 
     final int rTop = top.getAbsoluteTop();
     final int rEnd = end.getAbsoluteTop() + end.getOffsetHeight();

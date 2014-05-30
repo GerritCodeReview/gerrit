@@ -165,7 +165,7 @@ public class ApprovalTable extends Composite {
         && !change.mergeable()) {
       addMissingLabel(Util.C.messageNeedsRebaseOrHasDependency());
     }
-    missing.setVisible(DOM.getChildCount(missing.getElement()) > 0);
+    missing.setVisible(missing.getElement().getChildCount() > 0);
     addReviewer.setVisible(Gerrit.isSignedIn());
   }
 

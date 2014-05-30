@@ -168,7 +168,7 @@ public abstract class NavigationTable<RowItem> extends FancyFlexTable<RowItem> {
     final int sEnd = sTop + Document.get().getClientHeight();
 
     while (0 <= row && row < max) {
-      final Element cur = DOM.getParent(fmt.getElement(row, C_ARROW));
+      final Element cur = fmt.getElement(row, C_ARROW).getParentElement();
       final int cTop = cur.getAbsoluteTop();
       final int cEnd = cTop + cur.getOffsetHeight();
 
@@ -194,13 +194,13 @@ public abstract class NavigationTable<RowItem> extends FancyFlexTable<RowItem> {
     final CellFormatter fmt = table.getCellFormatter();
     final boolean clear = 0 <= currentRow && currentRow < table.getRowCount();
     if (clear) {
-      final Element tr = DOM.getParent(fmt.getElement(currentRow, C_ARROW));
+      final Element tr = fmt.getElement(currentRow, C_ARROW).getParentElement();
       UIObject.setStyleName(tr, Gerrit.RESOURCES.css().activeRow(), false);
     }
     if (0 <= newRow && newRow < table.getRowCount()
         && getRowItem(newRow) != null) {
       table.setWidget(newRow, C_ARROW, pointer);
-      final Element tr = DOM.getParent(fmt.getElement(newRow, C_ARROW));
+      final Element tr = fmt.getElement(newRow, C_ARROW).getParentElement();
       UIObject.setStyleName(tr, Gerrit.RESOURCES.css().activeRow(), true);
       if (scroll && isAttached()) {
         scrollIntoView(tr);

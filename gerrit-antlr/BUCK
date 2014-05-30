@@ -17,8 +17,8 @@ genantlr(
 
 java_library(
   name = 'lib',
-  srcs = [genfile('query_antlr.src.zip')],
-  deps = PARSER_DEPS + [':query_antlr'],
+  srcs = [':query_antlr'],
+  deps = PARSER_DEPS,
 )
 
 # Hack necessary to expose ANTLR generated code as JAR to Eclipse.
@@ -28,9 +28,10 @@ genrule(
   deps = [':lib'],
   out = 'query_parser.jar',
 )
+
 prebuilt_jar(
   name = 'query_parser',
-  binary_jar = genfile('query_parser.jar'),
-  deps = PARSER_DEPS + [':query_link'],
+  binary_jar = ':query_link',
+  deps = PARSER_DEPS,
   visibility = ['PUBLIC'],
 )

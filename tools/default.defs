@@ -110,8 +110,7 @@ def gerrit_plugin(
   if gwt_module:
     prebuilt_jar(
       name = '%s-static-jar' % name,
-      binary_jar = genfile('%s-static.zip' % name),
-      deps = [':%s-static' % name],
+      binary_jar = ':%s-static' % name,
     )
     genrule(
       name = '%s-static' % name,
@@ -120,8 +119,8 @@ def gerrit_plugin(
         ':%s__gwt_application' % name +
         ';cd $TMP' +
         ';zip -qr $OUT .',
+      deps = [':%s__gwt_application' % name],
       out = '%s-static.zip' % name,
-      deps = [':%s__gwt_application' % name]
     )
     gwt_binary(
       name = name + '__gwt_application',
@@ -136,7 +135,7 @@ def gerrit_plugin(
 
   java_binary(
     name = name,
-    manifest_file = genfile('MANIFEST.MF'),
+    manifest_file = ':%s__manifest' % name,
     deps = [
       ':%s__plugin' % name,
       ':%s__manifest' % name,

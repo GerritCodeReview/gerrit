@@ -95,11 +95,10 @@ gwt_module(
 
 prebuilt_jar(
   name = 'diffy_logo',
-  binary_jar = genfile('diffy_images.jar'),
+  binary_jar = ':diffy_image_files_ln',
   deps = [
     '//lib:LICENSE-diffy',
     '//lib:LICENSE-CC-BY3.0',
-    ':diffy_image_files_ln',
   ],
 )
 

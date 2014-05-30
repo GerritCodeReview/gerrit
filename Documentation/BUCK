@@ -10,21 +10,16 @@ genrule(
   name = 'html',
   cmd = 'cd $TMP;' +
     'mkdir -p %s/images;' % DOC_DIR +
-    'unzip -q $SRCDIR/only_html.zip -d %s/;' % DOC_DIR +
+    'unzip -q $(location %s) -d %s/;'
+    % (':generate_html', DOC_DIR) +
     'for s in $SRCS;do ln -s $s %s;done;' % DOC_DIR +
     'mv %s/*.{jpg,png} %s/images;' % (DOC_DIR, DOC_DIR) +
-    'rm %s/only_html.zip;' % DOC_DIR +
-    'rm %s/licenses.txt;' % DOC_DIR +
-    'cp $SRCDIR/licenses.txt LICENSES.txt;' +
+    'cp $(location %s) LICENSES.txt;' % ':licenses.txt' +
     'zip -qr $OUT *',
   srcs = glob([
       'images/*.jpg',
       'images/*.png',
-    ]) + [
-      'doc.css',
-      genfile('licenses.txt'),
-      genfile('only_html.zip'),
-    ],
+    ]) + ['doc.css'],
   deps = [
     ':generate_html',
     ':licenses.txt',
@@ -35,7 +30,7 @@ genrule(
 
 genasciidoc(
   name = 'generate_html',
-  srcs = SRCS + [genfile('licenses.txt')],
+  srcs = SRCS + [':licenses.txt'],
   deps = [':licenses.txt'],
   attributes = documentation_attributes(git_describe()),
   backend = 'html5',
@@ -66,8 +61,9 @@ genrule(
       '--prefix "%s/" ' % DOC_DIR +
       '--in-ext ".txt" ' +
       '--out-ext ".html" ' +
-      '$SRCS',
-  srcs = SRCS + [genfile('licenses.txt')],
+      '$SRCS ' +
+      '$(location :licenses.txt)',
+  srcs = SRCS,
   deps = [
     ':licenses.txt',
     '//lib/asciidoctor:doc_indexer',
@@ -77,7 +73,6 @@ genrule(
 
 prebuilt_jar(
   name = 'index_lib',
-  binary_jar = genfile('index.jar'),
-  deps = [':index'],
+  binary_jar = ':index',
   visibility = ['PUBLIC'],
 )

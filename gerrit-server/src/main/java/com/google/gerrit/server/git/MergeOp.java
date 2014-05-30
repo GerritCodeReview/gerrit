@@ -520,6 +520,15 @@ public class MergeOp {
         continue;
       }
 
+      try {
+        commit.setControl(changeControlFactory.controlFor(chg,
+            identifiedUserFactory.create(chg.getOwner())));
+      } catch (NoSuchChangeException e) {
+        throw new MergeException("Failed to validate changes", e);
+      }
+      commit.setPatchsetId(ps.getId());
+      commit.originalOrder = commitOrder++;
+
       MergeValidators mergeValidators = mergeValidatorsFactory.create();
       try {
         mergeValidators.validatePreMerge(repo, commit, destProject, destBranch, ps.getId());
@@ -529,14 +538,6 @@ public class MergeOp {
         continue;
       }
 
-      try {
-        commit.setControl(changeControlFactory.controlFor(chg,
-            identifiedUserFactory.create(chg.getOwner())));
-      } catch (NoSuchChangeException e) {
-        throw new MergeException("Failed to validate changes", e);
-      }
-      commit.setPatchsetId(ps.getId());
-      commit.originalOrder = commitOrder++;
       commits.put(changeId, commit);
 
       if (branchTip != null) {

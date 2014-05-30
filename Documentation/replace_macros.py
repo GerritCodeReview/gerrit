@@ -13,6 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from __future__ import print_function
 from optparse import OptionParser
 import re
 import sys
@@ -89,6 +90,7 @@ options, _ = opts.parse_args()
 try:
   out_file = open(options.out, 'w')
   src_file = open(options.src, 'r')
+
   last_line = ''
   ignore_next_line = False
   last_title = ''

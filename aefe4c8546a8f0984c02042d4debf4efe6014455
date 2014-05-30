@@ -19,6 +19,47 @@
     },
     {
       "key": {
+        "uuid": "9ff8f8d3_c3005625",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/GitHubLogin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-05-30T16:46:42Z",
+      "side": 1,
+      "message": "True, I think I will need to store it into an HTTP Session server side to be recovered later on.\n\nI was late at night and I wanted to \"make it work\" and give for an early RFC review :-)\n\nDefinitely NOT a good idea as the OAuth token is a multi-use authentication secret.",
+      "parentUuid": "3f08ecaa_6810636e",
+      "revId": "aefe4c8546a8f0984c02042d4debf4efe6014455",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ff8f8d3_83fa5edb",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/GitHubOAuthConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-05-30T16:46:42Z",
+      "side": 1,
+      "message": "ClientID is NOT secret: I would leave it in the gerrit.config then.",
+      "range": {
+        "startLine": 58,
+        "startChar": 59,
+        "endLine": 58,
+        "endChar": 66
+      },
+      "revId": "aefe4c8546a8f0984c02042d4debf4efe6014455",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f876029_a9179d5c",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/GitHubOAuthConfig.java",
         "patchSetId": 1
@@ -30,6 +71,30 @@
       "writtenOn": "2014-05-29T01:57:44Z",
       "side": 1,
       "message": "is it possible to put these in the secure config?",
+      "range": {
+        "startLine": 58,
+        "startChar": 0,
+        "endLine": 59,
+        "endChar": 78
+      },
+      "revId": "aefe4c8546a8f0984c02042d4debf4efe6014455",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ff8f8d3_a3f55aed",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/GitHubOAuthConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-05-30T16:46:42Z",
+      "side": 1,
+      "message": "Yes, good idea.\nWith the new secure store for secrets will be then even encrypted on the server.\n\nAnyway this does not change the way is read :-) still a config.getString() correct ?",
+      "parentUuid": "5f876029_a9179d5c",
       "range": {
         "startLine": 58,
         "startChar": 0,
@@ -65,6 +130,30 @@
     },
     {
       "key": {
+        "uuid": "3f3d4c4d_a0de9a73",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/HttpGitHubOAuthModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-05-30T16:46:42Z",
+      "side": 1,
+      "message": "Yes, but it should be 2013 then ;-)",
+      "parentUuid": "5f876029_c924d1d0",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "aefe4c8546a8f0984c02042d4debf4efe6014455",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7f82641a_ea2187bd",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
         "patchSetId": 1
@@ -76,6 +165,24 @@
       "writtenOn": "2014-05-29T01:57:44Z",
       "side": 1,
       "message": "Missing copyright/license header.",
+      "revId": "aefe4c8546a8f0984c02042d4debf4efe6014455",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f3d4c4d_c0e39e40",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-05-30T16:46:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f82641a_ea2187bd",
       "revId": "aefe4c8546a8f0984c02042d4debf4efe6014455",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -429,6 +536,30 @@
     },
     {
       "key": {
+        "uuid": "9ff8f8d3_6310826e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/AuthConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-05-30T16:46:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f82641a_0a4edb81",
+      "range": {
+        "startLine": 201,
+        "startChar": 11,
+        "endLine": 201,
+        "endChar": 14
+      },
+      "revId": "aefe4c8546a8f0984c02042d4debf4efe6014455",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7f82641a_2a539f26",
         "filename": "lib/BUCK",
         "patchSetId": 1
@@ -440,6 +571,30 @@
       "writtenOn": "2014-05-29T01:57:44Z",
       "side": 1,
       "message": "nit: trailing whitespace",
+      "range": {
+        "startLine": 351,
+        "startChar": 9,
+        "endLine": 351,
+        "endChar": 10
+      },
+      "revId": "aefe4c8546a8f0984c02042d4debf4efe6014455",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f3d4c4d_60e97220",
+        "filename": "lib/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-05-30T16:46:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f82641a_2a539f26",
       "range": {
         "startLine": 351,
         "startChar": 9,

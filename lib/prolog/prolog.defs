@@ -28,11 +28,8 @@ def prolog_cafe_library(
   )
   java_library(
     name = name + '__lib',
-    srcs = [genfile(name + '.src.zip')],
-    deps = [
-      ':' + name + '__pl2j',
-      '//lib/prolog:prolog-cafe',
-    ] + deps,
+    srcs = [':' + name + '__pl2j'],
+    deps = ['//lib/prolog:prolog-cafe'] + deps,
   )
   genrule(
     name = name + '__ln',
@@ -42,7 +39,6 @@ def prolog_cafe_library(
   )
   prebuilt_jar(
     name = name,
-    binary_jar = genfile(name + '.jar'),
-    deps = [':%s__ln' % name],
+    binary_jar = ':%s__ln' % name,
     visibility = visibility,
   )

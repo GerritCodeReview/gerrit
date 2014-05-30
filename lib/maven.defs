@@ -98,7 +98,7 @@ def maven_jar(
     )
     prebuilt_jar(
       name = name + '_src',
-      binary_jar = genfile(srcjar),
+      binary_jar = ':%s__download_src' % name,
       deps = license + [':' + name + '__download_src'],
       visibility = visibility,
     )
@@ -115,8 +115,8 @@ def maven_jar(
     prebuilt_jar(
       name = name + '__jar',
       deps = deps + srcdep + license + [':' + name + '__download_bin'],
-      binary_jar = genfile(binjar),
-      source_jar = genfile(srcjar) if srcjar else None,
+      binary_jar = ':%s__download_bin' % name,
+      source_jar = ':%s__download_src' % name if srcjar else None,
     )
     java_library(
       name = name,
@@ -127,8 +127,8 @@ def maven_jar(
     prebuilt_jar(
       name = name,
       deps = deps + srcdep + license + [':' + name + '__download_bin'],
-      binary_jar = genfile(binjar),
-      source_jar = genfile(srcjar) if srcjar else None,
+      binary_jar = ':%s__download_bin' % name,
+      source_jar = ':%s__download_src' % name if srcjar else None,
       visibility = visibility,
     )
 
@@ -152,7 +152,7 @@ def local_jar(
     prebuilt_jar(
       name = name + '_src',
       deps = [':' + name + '__local_src'],
-      binary_jar = genfile(srcjar),
+      binary_jar = ':' + name + '__local_src',
       visibility = visibility,
     )
   else:
@@ -161,7 +161,7 @@ def local_jar(
   prebuilt_jar(
     name = name,
     deps = deps + [':' + name + '__local_bin'],
-    binary_jar = genfile(binjar),
-    source_jar = genfile(srcjar) if srcjar else None,
+    binary_jar = ':%s__local_bin' % name,
+    source_jar = ':%s__local_src' % name if srcjar else None,
     visibility = visibility,
   )

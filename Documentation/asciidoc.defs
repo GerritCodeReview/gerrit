@@ -38,28 +38,33 @@ def genasciidoc(
   newdeps = deps + ['//lib/asciidoctor:asciidoc']
 
   for src in srcs:
+    srcs = [src]
     tx = []
     fn = src
-    if fn.startswith('BUCKGEN:') :
-      fn = src[8:]
-      tx = [':' + fn]
+    passed_src = ' -s %s' % fn
+    if fn.startswith(':') :
+      tx = [fn]
+      fn = src[1:]
+      srcs = []
+      passed_src = ' -s $(location :%s)' % fn
     ex = fn + EXPN
 
     genrule(
       name = ex,
       cmd = '$(exe :replace_macros) --suffix=' + EXPN +
-            ' -s %s' % fn +
+            passed_src +
             ' -o $OUT',
-      srcs = [src],
+      srcs = srcs,
       deps = tx + [':replace_macros'],
       out = ex,
     )
-    newdeps.append(':' + ex)
-    newsrcs.append(genfile(ex))
+
+    ex_target = ':' + ex
+    newdeps.append(ex_target)
 
   genrule(
     name = name,
-    cmd = ' '.join(asciidoc),
+    cmd = ' '.join(asciidoc) + ' $(location %s)' % ex_target,
     srcs = newsrcs,
     deps = newdeps,
     out = out,

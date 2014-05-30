@@ -63,9 +63,8 @@ def gwt_user_agent_permutations(
     )
     prebuilt_jar(
       name = '%s_gwtxml_lib' % gwt_name,
-      binary_jar = genfile(jar),
-      gwt_jar = genfile(jar),
-      deps = [':%s_gwtxml_gen' % gwt_name],
+      binary_jar = ':%s_gwtxml_gen' % gwt_name,
+      gwt_jar = ':%s_gwtxml_gen' % gwt_name,
     )
     gwt_binary(
       name = gwt_name,

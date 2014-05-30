@@ -69,17 +69,18 @@ maven_jar(
 
 prebuilt_jar(
   name = 'Edit',
-  binary_jar = genfile('edit-src.jar'),
-  deps = [':jgit_edit_src'],
+  binary_jar = ':jgit_edit_src',
   visibility = ['PUBLIC'],
 )
 
 genrule(
   name = 'jgit_edit_src',
-  cmd = 'unzip -qd $TMP $SRCS org/eclipse/jgit/diff/Edit.java;' +
+  cmd = 'unzip -qd $TMP $(location :jgit_src) ' +
+    'org/eclipse/jgit/diff/Edit.java;' +
     'cd $TMP;' +
     'zip -Dq $OUT org/eclipse/jgit/diff/Edit.java',
-  srcs = [genfile('jgit/org.eclipse.jgit-%s-src.jar' % VERS)],
+  deps = [
+    ':jgit_src',
+  ],
   out = 'edit-src.jar',
-  deps = [':jgit_src']
 )

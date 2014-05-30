@@ -105,7 +105,7 @@ def gerrit_plugin(
     resources = resources,
     deps = deps,
     provided_deps = ['//gerrit-%s-api:lib' % type] + provided_deps + gwt_deps,
-    visibility = ['//tools/eclipse:classpath'],
+    visibility = ['PUBLIC'],
   )
   if gwt_module:
     prebuilt_jar(

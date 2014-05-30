@@ -14,12 +14,8 @@
 
 # These definitions support building a runnable version of Gerrit.
 
-DOCS_SRC = genfile('Documentation/html.zip')
+DOCS_HTML = '//Documentation:html'
 DOCS_LIB = '//Documentation:index_lib'
-DOCS_DEP = [
-  '//Documentation:html',
-  '//Documentation:index_lib',
-]
 LIBS = [
   '//gerrit-war:log4j-config',
   '//gerrit-war:init',
@@ -50,23 +46,20 @@ def war(
   for l in pgmlibs:
     cmd.extend(['--pgmlib', l])
 
-  src = []
   dep = []
   if docs:
-    src.append(DOCS_SRC)
-    dep.extend(DOCS_DEP)
+    cmd.append('$(location %s)' % DOCS_HTML)
+    dep.append(DOCS_HTML)
+    dep.append(DOCS_LIB)
     cmd.extend(['--lib', DOCS_LIB])
   if context:
     for t in context:
       dep.append(t)
       cmd.append('$(location %s)' % t)
-  if src:
-    cmd.append('$SRCS')
 
   genrule(
     name = name,
     cmd = ' '.join(cmd),
-    srcs = src,
     deps = libs + pgmlibs + dep + ['//tools:pack_war'],
     out = name + '.war',
     visibility = visibility,

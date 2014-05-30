@@ -49,8 +49,7 @@ genrule(
 
 prebuilt_jar(
   name = 'log4j-config',
-  binary_jar = genfile('log4j-config.jar'),
-  deps = [':log4j-config__jar'],
+  binary_jar = ':log4j-config__jar',
   visibility = [
     '//:',
     '//tools/eclipse:classpath',
@@ -59,8 +58,7 @@ prebuilt_jar(
 
 prebuilt_jar(
   name = 'version',
-  binary_jar = genfile('version.jar'),
-  deps = [':gen_version'],
+  binary_jar = ':gen_version',
   visibility = ['//:'],
 )
 

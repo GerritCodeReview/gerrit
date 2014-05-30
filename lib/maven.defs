@@ -79,7 +79,7 @@ def maven_jar(
     cmd.append('--unsign')
 
   genrule(
-    name = name + '__download_bin',
+    name = '%s__download_bin' % name,
     cmd = ' '.join(cmd),
     deps = ['//tools:download_file'],
     out = binjar,
@@ -91,32 +91,31 @@ def maven_jar(
     if src_sha1:
       cmd.extend(['-v', src_sha1])
     genrule(
-      name = name + '__download_src',
+      name = '%s__download_src' % name,
       cmd = ' '.join(cmd),
       deps = ['//tools:download_file'],
       out = srcjar,
     )
     prebuilt_jar(
-      name = name + '_src',
-      binary_jar = genfile(srcjar),
+      name = '%s_src' % name,
+      binary_jar = ':%s__download_src' % name,
       deps = license + [':' + name + '__download_src'],
       visibility = visibility,
     )
   else:
     srcjar = None
     genrule(
-      name = name + '__download_src',
+      name = '%s__download_src' % name,
       cmd = ':>$OUT',
-      out = '__' + name + '__no_src',
+      out = '__%s__no_src' % name,
     )
 
-  srcdep = [':' + name + '__download_src'] if srcjar else []
   if exported_deps:
     prebuilt_jar(
-      name = name + '__jar',
-      deps = deps + srcdep + license + [':' + name + '__download_bin'],
-      binary_jar = genfile(binjar),
-      source_jar = genfile(srcjar) if srcjar else None,
+      name = '%s__jar' % name,
+      deps = deps,
+      binary_jar = ':%s__download_bin' % name,
+      source_jar = ':%s__download_src' % name if srcjar else None,
     )
     java_library(
       name = name,
@@ -126,9 +125,9 @@ def maven_jar(
   else:
     prebuilt_jar(
       name = name,
-      deps = deps + srcdep + license + [':' + name + '__download_bin'],
-      binary_jar = genfile(binjar),
-      source_jar = genfile(srcjar) if srcjar else None,
+      deps = deps,
+      binary_jar = ':%s__download_bin' % name,
+      source_jar = ':%s__download_src' % name if srcjar else None,
       visibility = visibility,
     )
 
@@ -141,18 +140,17 @@ def local_jar(
   binjar = name + '.jar'
   srcjar = name + '-src.jar'
   genrule(
-    name = name + '__local_bin',
+    name = '%s__local_bin' % name,
     cmd = 'ln -s %s $OUT' % jar,
     out = binjar)
   if src:
     genrule(
-      name = name + '__local_src',
+      name = '%s__local_src' % name,
       cmd = 'ln -s %s $OUT' % src,
       out = srcjar)
     prebuilt_jar(
-      name = name + '_src',
-      deps = [':' + name + '__local_src'],
-      binary_jar = genfile(srcjar),
+      name = '%s_src' % name,
+      binary_jar = ':%s__local_src' % name,
       visibility = visibility,
     )
   else:
@@ -160,8 +158,8 @@ def local_jar(
 
   prebuilt_jar(
     name = name,
-    deps = deps + [':' + name + '__local_bin'],
-    binary_jar = genfile(binjar),
-    source_jar = genfile(srcjar) if srcjar else None,
+    deps = deps,
+    binary_jar = ':%s__local_bin' % name,
+    source_jar = ':%s__local_src' % name if srcjar else None,
     visibility = visibility,
   )

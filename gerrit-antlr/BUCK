@@ -17,7 +17,7 @@ genantlr(
 
 java_library(
   name = 'lib',
-  srcs = [genfile('query_antlr.src.zip')],
+  srcs = [':query_antlr'],
   deps = PARSER_DEPS + [':query_antlr'],
 )
 
@@ -28,9 +28,10 @@ genrule(
   deps = [':lib'],
   out = 'query_parser.jar',
 )
+
 prebuilt_jar(
   name = 'query_parser',
-  binary_jar = genfile('query_parser.jar'),
+  binary_jar = ':query_link',
   deps = PARSER_DEPS + [':query_link'],
   visibility = ['PUBLIC'],
 )

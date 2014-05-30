@@ -12,6 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from __future__ import print_function
+import sys
+
 def genasciidoc(
     name,
     out,
@@ -38,12 +41,15 @@ def genasciidoc(
   newdeps = deps + ['//lib/asciidoctor:asciidoc']
 
   for src in srcs:
+    print(src, file=sys.stderr)
     tx = []
     fn = src
     if fn.startswith('BUCKGEN:') :
       fn = src[8:]
       tx = [':' + fn]
     ex = fn + EXPN
+    print(ex, file=sys.stderr)
+    print(tx, file=sys.stderr)
 
     genrule(
       name = ex,

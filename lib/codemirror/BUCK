@@ -1,5 +1,6 @@
 include_defs('//lib/maven.defs')
 include_defs('//lib/codemirror/cm3.defs')
+include_defs('//lib/codemirror/closure.defs')
 
 VERSION = '28a638a984'
 SHA1 = '68f8f136092a5965778186fb401a33be34cf73ed'
@@ -7,6 +8,11 @@ URL = GERRIT + 'net/codemirror/codemirror-%s.zip' % VERSION
 
 ZIP = 'codemirror-%s.zip' % VERSION
 TOP = 'codemirror-%s' % VERSION
+
+CLOSURE_COMPILER_ARGS = [
+  '--compilation_level SIMPLE_OPTIMIZATIONS',
+  '--warning_level QUIET'
+]
 
 genrule(
   name = 'css',
@@ -23,9 +29,8 @@ genrule(
   out = 'cm3.css',
 )
 
-# TODO(sop) Minify with Closure JavaScript compiler.
 genrule(
-  name = 'js',
+  name = 'cm3-verbose',
   cmd = ';'.join([
       ':>$OUT',
       "echo '/** @license' >>$OUT",
@@ -36,7 +41,14 @@ genrule(
      for n in CM3_JS]
   ),
   deps = [':zip'],
-  out = 'cm3.js',
+  out = 'cm3-verbose.js',
+)
+
+js_minify(
+  name = 'js',
+  generated = [':cm3-verbose'],
+  compiler_args = CLOSURE_COMPILER_ARGS,
+  out = 'cm3.js'
 )
 
 prebuilt_jar(
@@ -50,13 +62,18 @@ genrule(
   name = 'jar',
   cmd = ';'.join([
     'cd $TMP',
-      'unzip -q $(location :zip) %s' %
-      ' '.join(['%s/mode/%s' % (TOP, n) for n in CM3_MODES]),
+    'unzip -q $(location :zip) %s' %
+    ' '.join(['%s/mode/%s' % (TOP, n) for n in CM3_MODES]),
+    ';'.join(['$(exe :js_minifier) ' +
+    ' '.join(CLOSURE_COMPILER_ARGS) +
+    ' --js_output_file %s/mode/%s.min --js %s/mode/%s'
+    % (TOP, n, TOP, n) for n in CM3_MODES]),
+    ';'.join(['mv %s/mode/%s.min %s/mode/%s' % (TOP, n, TOP, n) for n in CM3_MODES]),
     'mkdir net',
     'mv %s net/codemirror' % TOP,
     'mkdir net/codemirror/lib',
-    'mv $(location :css) net/codemirror/lib',
-    'mv $(location :js) net/codemirror/lib',
+    'cp $(location :css) net/codemirror/lib',
+    'cp $(location :js) net/codemirror/lib',
     'zip -qr $OUT *'
   ]),
   out = 'codemirror.jar',

@@ -47,19 +47,16 @@ import java.net.SocketAddress;
 
 public class WebModule extends LifecycleModule {
   private final AuthConfig authConfig;
-  private final UrlModule.UrlConfig urlConfig;
   private final boolean wantSSL;
   private final GitWebConfig gitWebConfig;
   private final GerritUiOptions uiOptions;
 
   @Inject
   WebModule(final AuthConfig authConfig,
-      final UrlModule.UrlConfig urlConfig,
       @CanonicalWebUrl @Nullable final String canonicalUrl,
       GerritUiOptions uiOptions,
       final Injector creatingInjector) {
     this.authConfig = authConfig;
-    this.urlConfig = urlConfig;
     this.wantSSL = canonicalUrl != null && canonicalUrl.startsWith("https:");
     this.uiOptions = uiOptions;
 
@@ -110,7 +107,7 @@ public class WebModule extends LifecycleModule {
         throw new ProvisionException("Unsupported loginType: " + authConfig.getAuthType());
     }
 
-    install(new UrlModule(urlConfig, uiOptions));
+    install(new UrlModule(uiOptions));
     install(new UiRpcModule());
     install(new GerritRequestModule());
     install(new GitOverHttpServlet.Module());

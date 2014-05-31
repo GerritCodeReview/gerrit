@@ -44,19 +44,16 @@ import java.net.SocketAddress;
 
 public class WebModule extends LifecycleModule {
   private final AuthConfig authConfig;
-  private final UrlModule.UrlConfig urlConfig;
   private final boolean wantSSL;
   private final GitWebConfig gitWebConfig;
   private final GerritOptions options;
 
   @Inject
   WebModule(final AuthConfig authConfig,
-      final UrlModule.UrlConfig urlConfig,
       @CanonicalWebUrl @Nullable final String canonicalUrl,
       GerritOptions options,
       final Injector creatingInjector) {
     this.authConfig = authConfig;
-    this.urlConfig = urlConfig;
     this.wantSSL = canonicalUrl != null && canonicalUrl.startsWith("https:");
     this.options = options;
 
@@ -81,7 +78,7 @@ public class WebModule extends LifecycleModule {
 
     if (options.enableMasterFeatures()) {
       installAuthModule();
-      install(new UrlModule(urlConfig, options));
+      install(new UrlModule(options));
       install(new UiRpcModule());
     }
     install(new GerritRequestModule());

@@ -1,0 +1,238 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3f3d4c4d_40f0eefe",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/GitHubLogin.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1010404
+      },
+      "writtenOn": "2014-05-31T01:03:56Z",
+      "side": 1,
+      "message": "I don\u0027t think Gerrit uses HttpSessions (there\u0027s no other use of SessionScoped or HttpServletRequest#getSession), as it has its own shared-cache mechanism for sharing data between nodes in a cluster.",
+      "revId": "427319fcc08e7f039613affca9f87f933eded11c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ff8f8d3_8335befc",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/GitHubLogin.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1010404
+      },
+      "writtenOn": "2014-05-31T01:03:56Z",
+      "side": 1,
+      "message": "nit: missing space after \u0027if\u0027",
+      "revId": "427319fcc08e7f039613affca9f87f933eded11c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f3d4c4d_00018626",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1010404
+      },
+      "writtenOn": "2014-05-31T01:03:56Z",
+      "side": 1,
+      "message": "This will likely create an infinite loop and stackoverflow.\n\nIt should be\n\n Objects.equal(access_token, other.access_token)\n\nor just\n\n access_token.equals(other.access_token)\n\nif `access_token` is guaranteed to be no-null (it\u0027s not, AccessToken constructor doesn\u0027t enforce it, but hashCode would throw if that\u0027s the case)",
+      "range": {
+        "startLine": 83,
+        "startChar": 0,
+        "endLine": 84,
+        "endChar": 38
+      },
+      "revId": "427319fcc08e7f039613affca9f87f933eded11c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f3d4c4d_e026e2db",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1010404
+      },
+      "writtenOn": "2014-05-31T01:03:56Z",
+      "side": 1,
+      "message": "Same comment as before re. the use of Provider being useless here.",
+      "range": {
+        "startLine": 92,
+        "startChar": 16,
+        "endLine": 92,
+        "endChar": 40
+      },
+      "revId": "427319fcc08e7f039613affca9f87f933eded11c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f3d4c4d_40078e35",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1010404
+      },
+      "writtenOn": "2014-05-31T01:03:56Z",
+      "side": 1,
+      "message": "Looks like a \"constructor does real work\" flaw to me: http://misko.hevery.com/code-reviewers-guide/flaw-constructor-does-real-work/",
+      "revId": "427319fcc08e7f039613affca9f87f933eded11c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ff8f8d3_a330ba0c",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1010404
+      },
+      "writtenOn": "2014-05-31T01:03:56Z",
+      "side": 1,
+      "message": "Not sure it\u0027s a good idea to create two SecureRandom instances. Not sure about generating a new seed each time either.",
+      "revId": "427319fcc08e7f039613affca9f87f933eded11c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f3d4c4d_a0f53aed",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1010404
+      },
+      "writtenOn": "2014-05-31T01:03:56Z",
+      "side": 1,
+      "message": "re-use requestState",
+      "range": {
+        "startLine": 182,
+        "startChar": 13,
+        "endLine": 182,
+        "endChar": 27
+      },
+      "revId": "427319fcc08e7f039613affca9f87f933eded11c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f3d4c4d_002c26ba",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1010404
+      },
+      "writtenOn": "2014-05-31T01:03:56Z",
+      "side": 1,
+      "message": "What\u0027s the purpose of this?",
+      "range": {
+        "startLine": 194,
+        "startChar": 0,
+        "endLine": 203,
+        "endChar": 3
+      },
+      "revId": "427319fcc08e7f039613affca9f87f933eded11c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f3d4c4d_c0fabedc",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthWebFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1010404
+      },
+      "writtenOn": "2014-05-31T01:03:56Z",
+      "side": 1,
+      "message": "You removed the code that sends this parameter",
+      "revId": "427319fcc08e7f039613affca9f87f933eded11c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ff8f8d3_4318e68d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthWebFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1010404
+      },
+      "writtenOn": "2014-05-31T01:03:56Z",
+      "side": 1,
+      "message": "Use {} placeholders instead (particularly for debug level)",
+      "revId": "427319fcc08e7f039613affca9f87f933eded11c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ff8f8d3_631be28c",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthWebFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1010404
+      },
+      "writtenOn": "2014-05-31T01:03:56Z",
+      "side": 1,
+      "message": "!?",
+      "revId": "427319fcc08e7f039613affca9f87f933eded11c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ff8f8d3_2325eac9",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/PooledHttpClientProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1010404
+      },
+      "writtenOn": "2014-05-31T01:03:56Z",
+      "side": 1,
+      "message": "localhost",
+      "range": {
+        "startLine": 47,
+        "startChar": 39,
+        "endLine": 47,
+        "endChar": 47
+      },
+      "revId": "427319fcc08e7f039613affca9f87f933eded11c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

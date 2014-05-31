@@ -8,6 +8,16 @@ URL = GERRIT + 'net/codemirror/codemirror-%s.zip' % VERSION
 ZIP = 'codemirror-%s.zip' % VERSION
 TOP = 'codemirror-%s' % VERSION
 
+# https://code.google.com/p/closure-compiler/wiki/BinaryDownloads?tm=2
+CLOSURE_VERSION = 'v20140407'
+CLOSURE_COMPILER_URL = 'http://dl.google.com/closure-compiler/compiler-%s.zip' % CLOSURE_VERSION
+COMPILER = 'compiler.jar'
+CLOSURE_COMPILER_SHA1 = '728e1b1cf59ee89679e5c40226ee080a10c34004'
+CLOSURE_COMPILER_ARGS = [
+  '--compilation_level SIMPLE',
+  '--warning_level QUIET'
+]
+
 genrule(
   name = 'css',
   cmd = ';'.join([
@@ -23,9 +33,8 @@ genrule(
   out = 'cm3.css',
 )
 
-# TODO(sop) Minify with Closure JavaScript compiler.
 genrule(
-  name = 'js',
+  name = 'cm3-verbose',
   cmd = ';'.join([
       ':>$OUT',
       "echo '/** @license' >>$OUT",
@@ -36,6 +45,19 @@ genrule(
      for n in CM3_JS]
   ),
   deps = [':zip'],
+  out = 'cm3-verbose.js',
+)
+
+genrule(
+  name = 'js',
+  cmd = '$(exe :js_minifier) ' +
+    '--js_output_file $OUT ' +
+    ' '.join(CLOSURE_COMPILER_ARGS) +
+    ' --js $(location :cm3-verbose)',
+  deps = [
+    ':cm3-verbose',
+    ':js_minifier',
+  ],
   out = 'cm3.js',
 )
 
@@ -50,19 +72,25 @@ genrule(
   name = 'jar',
   cmd = ';'.join([
     'cd $TMP',
-      'unzip -q $(location :zip) %s' %
-      ' '.join(['%s/mode/%s' % (TOP, n) for n in CM3_MODES]),
+    'unzip -q $(location :zip) %s' %
+    ' '.join(['%s/mode/%s' % (TOP, n) for n in CM3_MODES]),
+    ';'.join(['$(exe :js_minifier) ' +
+    ' '.join(CLOSURE_COMPILER_ARGS) +
+    ' --js_output_file %s/mode/%s.min --js %s/mode/%s'
+    % (TOP, n, TOP, n) for n in CM3_MODES]),
+    ';'.join(['mv %s/mode/%s.min %s/mode/%s' % (TOP, n, TOP, n) for n in CM3_MODES]),
     'mkdir net',
     'mv %s net/codemirror' % TOP,
     'mkdir net/codemirror/lib',
-    'mv $(location :css) net/codemirror/lib',
-    'mv $(location :js) net/codemirror/lib',
+    'cp $(location :css) net/codemirror/lib',
+    'cp $(location :js) net/codemirror/lib',
     'zip -qr $OUT *'
   ]),
   deps = [
     ':zip',
     ':css',
     ':js',
+    ':js_minifier',
   ],
   out = 'codemirror.jar',
 )
@@ -75,4 +103,32 @@ genrule(
     ' -v ' + SHA1,
   deps = ['//tools:download_file'],
   out = ZIP,
+)
+
+java_binary(
+  name = 'js_minifier',
+  main_class = 'com.google.javascript.jscomp.CommandLineRunner',
+  deps = [':compiler-jar']
+)
+
+prebuilt_jar(
+  name = 'compiler-jar',
+  binary_jar = ':compiler',
+)
+
+genrule(
+  name = 'compiler',
+  cmd = 'unzip -p $(location :closure-compiler-zip) %s >$OUT' % COMPILER,
+  deps = [':closure-compiler-zip'],
+  out = 'compiler.jar'
+)
+
+genrule(
+  name = 'closure-compiler-zip',
+  cmd = '$(exe //tools:download_file)' +
+    ' -o $OUT' +
+    ' -u ' + CLOSURE_COMPILER_URL +
+    ' -v ' + CLOSURE_COMPILER_SHA1,
+  deps = ['//tools:download_file'],
+  out = 'closure-compiler.zip',
 )

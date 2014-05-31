@@ -28,22 +28,18 @@ import com.google.gerrit.httpd.raw.ToolServlet;
 import com.google.gerrit.httpd.rpc.access.AccessRestApiServlet;
 import com.google.gerrit.httpd.rpc.account.AccountsRestApiServlet;
 import com.google.gerrit.httpd.rpc.change.ChangesRestApiServlet;
-import com.google.gerrit.httpd.rpc.change.DeprecatedChangeQueryServlet;
 import com.google.gerrit.httpd.rpc.config.ConfigRestApiServlet;
 import com.google.gerrit.httpd.rpc.doc.QueryDocumentationFilter;
 import com.google.gerrit.httpd.rpc.group.GroupsRestApiServlet;
 import com.google.gerrit.httpd.rpc.project.ProjectsRestApiServlet;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gwtexpui.server.CacheControlFilter;
-import com.google.inject.Inject;
 import com.google.inject.Key;
 import com.google.inject.Provider;
 import com.google.inject.internal.UniqueAnnotations;
 import com.google.inject.servlet.ServletModule;
 
-import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 
 import java.io.IOException;
@@ -53,20 +49,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 class UrlModule extends ServletModule {
-  static class UrlConfig {
-    private final boolean deprecatedQuery;
-
-    @Inject
-    UrlConfig(@GerritServerConfig Config cfg) {
-      deprecatedQuery = cfg.getBoolean("site", "enableDeprecatedQuery", true);
-    }
-  }
-
-  private final UrlConfig cfg;
   private GerritUiOptions uiOptions;
 
-  UrlModule(UrlConfig cfg, GerritUiOptions uiOptions) {
-    this.cfg = cfg;
+  UrlModule(GerritUiOptions uiOptions) {
     this.uiOptions = uiOptions;
   }
 
@@ -112,10 +97,6 @@ class UrlModule extends ServletModule {
     serveRegex("^/(?:a/)?projects/(.*)?$").with(ProjectsRestApiServlet.class);
 
     filter("/Documentation/").through(QueryDocumentationFilter.class);
-
-    if (cfg.deprecatedQuery) {
-      serve("/query").with(DeprecatedChangeQueryServlet.class);
-    }
 
     serve("/robots.txt").with(RobotsServlet.class);
   }

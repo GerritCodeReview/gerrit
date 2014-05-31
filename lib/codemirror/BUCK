@@ -8,6 +8,35 @@ URL = GERRIT + 'net/codemirror/codemirror-%s.zip' % VERSION
 ZIP = 'codemirror-%s.zip' % VERSION
 TOP = 'codemirror-%s' % VERSION
 
+# Maven is broken: https://github.com/google/closure-compiler/issues/450
+# Do it the hard way: download zip, extract, create executable
+# https://code.google.com/p/closure-compiler/wiki/BinaryDownloads?tm=2
+CLOSURE_VERSION = 'v20140407'
+CLOSURE_COMPILER_URL = 'http://dl.google.com/closure-compiler/compiler-%s.zip' % CLOSURE_VERSION
+COMPILER = 'compiler.jar'
+CLOSURE_COMPILER_SHA1 = '728e1b1cf59ee89679e5c40226ee080a10c34004'
+CLOSURE_COMPILER_ARGS = [
+  '--compilation_level SIMPLE',
+  '--warning_level QUIET'
+]
+
+# Doesn't seem to work with --compilation_level ADVANCED, switching to SIMPLE
+#SEVERE: (TypeError)
+# __gwt$exception: <skipped>: Cannot read property 'keyMap' of undefined
+# com.google.gwt.core.client.JavaScriptException: (TypeError)
+# __gwt$exception: <skipped>: Cannot read property 'keyMap' of undefined
+#	at Unknown.cloneKeyMap(gerrit_ui-1.js@26)
+#	at Unknown.initVimKeys(gerrit_ui-1.js@8)
+#	at Unknown.$onSuccess_178(gerrit_ui-1.js@3)
+#	at Unknown.onSuccess_190(gerrit_ui-1.js@3)
+#	at Unknown.$onSuccess_180(gerrit_ui-1.js@28)
+#	at Unknown.onSuccess_192(gerrit_ui-1.js@3)
+#	at Unknown.eval(gerrit_ui-0.js@16)
+#	at Unknown.apply_5(gerrit_ui-0.js@23)
+#	at Unknown.entry0(gerrit_ui-0.js@16)
+#	at Unknown.eval(gerrit_ui-0.js@16)
+
+
 genrule(
   name = 'css',
   cmd = ';'.join([
@@ -23,9 +52,8 @@ genrule(
   out = 'cm3.css',
 )
 
-# TODO(sop) Minify with Closure JavaScript compiler.
 genrule(
-  name = 'js',
+  name = 'cm3-verbose',
   cmd = ';'.join([
       ':>$OUT',
       "echo '/** @license' >>$OUT",
@@ -36,6 +64,19 @@ genrule(
      for n in CM3_JS]
   ),
   deps = [':zip'],
+  out = 'cm3-verbose.js',
+)
+
+genrule(
+  name = 'js',
+  cmd = '$(exe :js_minifier) ' +
+    '--js_output_file $OUT ' +
+    ' '.join(CLOSURE_COMPILER_ARGS) + 
+    ' --js $(location :cm3-verbose)',
+  deps = [
+    ':cm3-verbose',
+    ':js_minifier',
+  ],
   out = 'cm3.js',
 )
 
@@ -46,6 +87,7 @@ prebuilt_jar(
   visibility = ['PUBLIC'],
 )
 
+#TODO(davido): Minify CM3 modes?
 genrule(
   name = 'jar',
   cmd = ';'.join([
@@ -75,4 +117,34 @@ genrule(
     ' -v ' + SHA1,
   deps = ['//tools:download_file'],
   out = ZIP,
+)
+
+# Unfortunately we have to repeat main_class attribute
+# even though the original jar already contained one
+java_binary(
+  name = 'js_minifier',
+  main_class = 'com.google.javascript.jscomp.CommandLineRunner',
+  deps = [':compiler-jar']
+)
+
+prebuilt_jar(
+  name = 'compiler-jar',
+  binary_jar = ':compiler',
+)
+
+genrule(
+  name = 'compiler',
+  cmd = 'unzip -p $(location :closure-compiler-zip) %s >$OUT' % COMPILER,
+  deps = [':closure-compiler-zip'],
+  out = 'compiler.jar'
+)
+
+genrule(
+  name = 'closure-compiler-zip',
+  cmd = '$(exe //tools:download_file)' +
+    ' -o $OUT' +
+    ' -u ' + CLOSURE_COMPILER_URL +
+    ' -v ' + CLOSURE_COMPILER_SHA1,
+  deps = ['//tools:download_file'],
+  out = 'closure-compiler.zip',
 )

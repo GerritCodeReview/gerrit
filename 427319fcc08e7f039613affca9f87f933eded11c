@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "3f3d4c4d_a0477a61",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/GitHubLogin.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1010404
+      },
+      "writtenOn": "2014-05-31T02:04:24Z",
+      "side": 1,
+      "message": "I don\u0027t use clustering, but I think I\u0027d prefer hashing the \"state\" and storing it in a cookie \"controlled\" by the auth code.\n\n(I have no doubt that it works, it just looks like you\u0027re now using 2 ways to keep sessions, each with its own cookie and lifecycle and expiration delays and cookie-renewal delay)\n\nBTW, how would you adapt the GitHub plugin to use the same access_token as the GitHub auth here? Unless I missed something, the access_token is only stored in a @SessionScoped bean.",
+      "parentUuid": "3f3d4c4d_c035defb",
+      "revId": "427319fcc08e7f039613affca9f87f933eded11c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ff8f8d3_8335befc",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/GitHubLogin.java",
         "patchSetId": 3
@@ -159,6 +177,24 @@
     },
     {
       "key": {
+        "uuid": "9ff8f8d3_a3479a61",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1010404
+      },
+      "writtenOn": "2014-05-31T02:04:24Z",
+      "side": 1,
+      "message": "Ack.",
+      "parentUuid": "9ff8f8d3_e34d9285",
+      "revId": "427319fcc08e7f039613affca9f87f933eded11c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ff8f8d3_a330ba0c",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
         "patchSetId": 3
@@ -252,6 +288,30 @@
       "side": 1,
       "message": "Not necessarily the target after a Gerrit auth is the Gerrit home page. You may be requested to start an authentication session because you\u0027re accessing a private resource.\n\nIn that case the target resource URL endpoint is stored together with the state parameter.",
       "parentUuid": "3f3d4c4d_002c26ba",
+      "range": {
+        "startLine": 194,
+        "startChar": 0,
+        "endLine": 203,
+        "endChar": 3
+      },
+      "revId": "427319fcc08e7f039613affca9f87f933eded11c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f3d4c4d_e04d8285",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1010404
+      },
+      "writtenOn": "2014-05-31T02:04:24Z",
+      "side": 1,
+      "message": "Sure, but why concatenate the state (which is random+targetUrl) to the targetUrl? Why not just use the targetUrl?",
+      "parentUuid": "9ff8f8d3_c3529621",
       "range": {
         "startLine": 194,
         "startChar": 0,

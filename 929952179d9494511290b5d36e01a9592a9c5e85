@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3f3d4c4d_e07022b8",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2004,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2014-06-01T21:27:46Z",
+      "side": 1,
+      "message": "we don\u0027t have OS level access for some of our servers running in the cloud, that\u0027s why we are looking for a solution on application level",
+      "parentUuid": "5f13e0db_49e6c150",
+      "range": {
+        "startLine": 2003,
+        "startChar": 0,
+        "endLine": 2004,
+        "endChar": 11
+      },
+      "revId": "929952179d9494511290b5d36e01a9592a9c5e85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7f0ee4b6_8afa6bdb",
         "filename": "gerrit-extension-api/BUCK",
         "patchSetId": 6
@@ -53,6 +77,24 @@
       "writtenOn": "2014-05-29T06:38:16Z",
       "side": 1,
       "message": "For stupid reasons I can\u0027t use this version of quartz. :(\n\nThis is a fairly simple thing to schedule. Do we really need this entire package for the basic idea of running the task at time T? We already do log rotation at midnight local server time by scheduling a task with delay of (midnight - now). No scheduler package required.",
+      "revId": "929952179d9494511290b5d36e01a9592a9c5e85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f3d4c4d_007666b1",
+        "filename": "lib/BUCK",
+        "patchSetId": 6
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2014-06-01T21:27:46Z",
+      "side": 1,
+      "message": "is there another version of quartz which would be ok ?\n\nyes, for scheduling gc we could also live with a simpler solution \n\nwe also started working on a metering plugin to send Gerrit metrics at regular intervals to a central metering application, this will also need some scheduling so it looks like having a simple scheduler in the core could make sense",
+      "parentUuid": "7f0ee4b6_aaf52fed",
       "revId": "929952179d9494511290b5d36e01a9592a9c5e85",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

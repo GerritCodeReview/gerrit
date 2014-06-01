@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9ff8f8d3_238f2a69",
+        "filename": "Documentation/asciidoc.defs",
+        "patchSetId": 8
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-01T17:58:52Z",
+      "side": 1,
+      "message": "Good idea. Done",
+      "parentUuid": "5f38405c_01018a26",
+      "revId": "b8cf691c85397780ae4b30daa31738ccbe4333ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f38405c_e1fb46e2",
         "filename": "Documentation/asciidoc.defs",
         "patchSetId": 8
@@ -30,6 +48,30 @@
       "writtenOn": "2014-05-31T20:35:37Z",
       "side": 1,
       "message": "\"cmd\" might be a bad name here as we have at least 2 other \"cmd\"s. Maybe it\u0027s better to just use asciidoc.append() instead",
+      "range": {
+        "startLine": 64,
+        "startChar": 4,
+        "endLine": 64,
+        "endChar": 7
+      },
+      "revId": "b8cf691c85397780ae4b30daa31738ccbe4333ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ff8f8d3_038c2e70",
+        "filename": "Documentation/asciidoc.defs",
+        "patchSetId": 8
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-01T17:58:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f38405c_e1fb46e2",
       "range": {
         "startLine": 64,
         "startChar": 4,

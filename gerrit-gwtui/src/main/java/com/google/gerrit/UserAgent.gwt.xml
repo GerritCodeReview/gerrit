@@ -20,22 +20,4 @@
     <when-property-is name="user.agent" value="safari" />
     <when-property-is name="user.agent" value="gecko1_8" />
   </replace-with>
-
-  <replace-with class="com.google.gerrit.client.ui.FancyFlexTableImplIE6">
-    <when-type-is class="com.google.gerrit.client.ui.FancyFlexTableImpl" />
-    <any>
-      <when-property-is name="user.agent" value="ie6"/>
-      <when-property-is name="user.agent" value="ie8"/>
-    </any>
-  </replace-with>
-
-  <replace-with class="com.google.gerrit.client.Themer.ThemerIE">
-    <when-type-is class="com.google.gerrit.client.Themer" />
-    <any>
-      <when-property-is name="user.agent" value="ie6"/>
-      <when-property-is name="user.agent" value="ie8"/>
-      <when-property-is name="user.agent" value="ie9"/>
-      <when-property-is name="user.agent" value="ie10"/>
-    </any>
-  </replace-with>
 </module>

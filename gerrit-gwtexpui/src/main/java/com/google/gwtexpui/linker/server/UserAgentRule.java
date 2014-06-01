@@ -29,7 +29,6 @@ import javax.servlet.http.HttpServletRequest;
  * Ported from JavaScript in {@code com.google.gwt.user.UserAgent.gwt.xml}.
  */
 public class UserAgentRule {
-  private static final Pattern msie = compile(".*msie ([0-9]+)\\.([0-9]+).*");
   private static final Pattern gecko = compile(".*rv:([0-9]+)\\.([0-9]+).*");
 
   public String getName() {
@@ -49,28 +48,6 @@ public class UserAgentRule {
 
     } else if (ua.contains("webkit")) {
       return "safari";
-
-    } else if (ua.contains("msie")) {
-      // GWT 2.0 uses document.documentMode here, which we can't do
-      // on the server side.
-
-      Matcher m = msie.matcher(ua);
-      if (m.matches() && m.groupCount() == 2) {
-        int v = makeVersion(m);
-        if (v >= 10000) {
-          return "ie10";
-        }
-        if (v >= 9000) {
-          return "ie9";
-        }
-        if (v >= 8000) {
-          return "ie8";
-        }
-        if (v >= 6000) {
-          return "ie6";
-        }
-      }
-      return null;
 
     } else if (ua.contains("gecko")) {
       Matcher m = gecko.matcher(ua);

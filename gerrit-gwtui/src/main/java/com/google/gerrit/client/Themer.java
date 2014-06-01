@@ -19,20 +19,6 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.StyleElement;
 
 public class Themer {
-  public static class ThemerIE extends Themer {
-    protected ThemerIE() {
-    }
-
-    @Override
-    protected String getCssText(StyleElement el) {
-      return el.getCssText();
-    }
-
-    @Override
-    protected void setCssText(StyleElement el, String css) {
-      el.setCssText(css);
-    }
-  }
 
   protected StyleElement cssElement;
   protected Element headerElement;

@@ -17,12 +17,10 @@ BROWSERS = [
   'firefox',
   'gecko1_8',
   'safari',
-  'msie', 'ie6', 'ie8', 'ie9',
 ]
 ALIASES = {
   'chrome': 'safari',
   'firefox': 'gecko1_8',
-  'msie': 'ie9',
 }
 MODULE = 'com.google.gerrit.GerritGwtUI'
 

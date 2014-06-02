@@ -218,6 +218,8 @@ public class GerritGlobalModule extends FactoryModule {
     bind(EventFactory.class);
     bind(TransferConfig.class);
 
+    bind(GcConfig.class);
+
     bind(ApprovalsUtil.class);
     bind(ChangeMergeQueue.class).in(SINGLETON);
     bind(MergeQueue.class).to(ChangeMergeQueue.class).in(SINGLETON);

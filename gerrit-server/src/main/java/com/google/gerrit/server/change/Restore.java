@@ -29,7 +29,6 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.ChangeJson.ChangeInfo;
-import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.mail.ReplyToChangeSender;
 import com.google.gerrit.server.mail.RestoredSender;
 import com.google.gerrit.server.project.ChangeControl;
@@ -52,19 +51,19 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
   private final RestoredSender.Factory restoredSenderFactory;
   private final Provider<ReviewDb> dbProvider;
   private final ChangeJson json;
-  private final ChangeIndexer indexer;
+  private final MergeabilityChecker mergeabilityChecker;
 
   @Inject
   Restore(ChangeHooks hooks,
       RestoredSender.Factory restoredSenderFactory,
       Provider<ReviewDb> dbProvider,
       ChangeJson json,
-      ChangeIndexer indexer) {
+      MergeabilityChecker mergeabilityChecker) {
     this.hooks = hooks;
     this.restoredSenderFactory = restoredSenderFactory;
     this.dbProvider = dbProvider;
     this.json = json;
-    this.indexer = indexer;
+    this.mergeabilityChecker = mergeabilityChecker;
   }
 
   @Override
@@ -108,8 +107,11 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
       db.rollback();
     }
 
-    CheckedFuture<?, IOException> indexFuture =
-        indexer.indexAsync(change.getId());
+    CheckedFuture<?, IOException> f = mergeabilityChecker.newCheck()
+        .addChange(change)
+        .reindex()
+        .runAsync();
+
     try {
       ReplyToChangeSender cm = restoredSenderFactory.create(change);
       cm.setFrom(caller.getAccountId());
@@ -124,7 +126,7 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
         Strings.emptyToNull(input.message),
         dbProvider.get());
     ChangeInfo result = json.format(change);
-    indexFuture.checkedGet();
+    f.checkedGet();
     return result;
   }
 

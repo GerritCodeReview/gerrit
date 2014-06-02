@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ff8f8d3_c3c7367a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-02T15:09:42Z",
+      "side": 1,
+      "message": "I don\u0027t see how this is going to work for Open Source projects. The biggest advantage of Gerrit against GitHub platform and friends is that no registration is needed and that CLA can be signed before even first change is submitted.\n\nHow this process is going to work with LDAP? Before a potential contributor can submit even one line of code she should file a JIRA issue to the project owner to create LDAP account for her?\n\nI think Gerrit should provide out of the box (or at very least a plugin) an authentication option that is going to work for Open Source projects.",
+      "revId": "08f80d464a201c6095eb85b038663e5411dd1db2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -98,6 +98,24 @@
       "revId": "929952179d9494511290b5d36e01a9592a9c5e85",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff4654ef_bee31941",
+        "filename": "lib/BUCK",
+        "patchSetId": 6
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-06-02T14:40:47Z",
+      "side": 1,
+      "message": "You could use a Timer and a TimerTask if you want to do simple scheduling that does not require additional library.",
+      "parentUuid": "3f3d4c4d_007666b1",
+      "revId": "929952179d9494511290b5d36e01a9592a9c5e85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

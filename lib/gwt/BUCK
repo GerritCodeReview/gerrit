@@ -18,6 +18,7 @@ maven_jar(
   deps = [
     ':javax-validation',
     ':javax-validation_src',
+    ':json',
   ],
   attach_source = False,
   exclude = ['org/eclipse/jetty/*'],
@@ -30,6 +31,14 @@ maven_jar(
   src_sha1 = '7a561191db2203550fbfa40d534d4997624cd369',
   license = 'Apache2.0',
   visibility = [],
+)
+
+maven_jar(
+  name = 'json',
+  id = 'org.json:json:20140107',
+  sha1 = 'd1ffca6e2482b002702c6a576166fd685e3370e3',
+  license = 'DO_NOT_DISTRIBUTE',
+  attach_source = False,
 )
 
 maven_jar(

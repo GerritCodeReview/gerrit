@@ -1343,6 +1343,66 @@ screen:
 If `download.archive` is not specified defaults to all archive
 commands. Set to `off` or empty string to disable.
 
+[[gc]]
+=== Section gc
+
+This section allows to configure git garbage collection
+and schedule it to run periodically. If the configured gc.interval
+is shorter than gc.startTime - now the startTime will be preponed
+by the maximum integral multiple of gc.interval so that the start
+time is still in the future.
+
+[[gc.startTime]]gc.startTime::
++
+Start time to define first execution of gc, supported formats:
++
+----
+<day of week> <hours>:<minutes>
+or
+<hours>:<minutes>
+
+<day of week> : Mon, Tue, Wed, Thu, Fri, Sat, Sun
+<hours>       : 00-23
+<minutes>     : 0-59
+----
+
+
+[[gc.interval]]gc.interval::
++
+Interval for periodic repetition of triggering gc, the following suffixes are
+supported to define the time unit for the interval:
++
+* s, sec, second, seconds
+* m, min, minute, minutes
+* h, hr, hour, hours
+* d, day, days
+* w, week, weeks (`1 week` is treated as `7 days`)
+* mon, month, months (`1 month` is treated as `30 days`)
+* y, year, years (`1 year` is treated as `365 days`)
+
+Examples::
++
+----
+gc.startTime = Fri 10:30
+gc.interval  = 2 day
+----
++
+Assuming the server is started on Mon 7:00 -> startTime - now = 4 days 3:30 hours.
+This is larger than the interval hence prepone the start time
+by the maximum integral multiple of the interval so that start
+time is still in the future, i.e. prepone by 4 days. This yields
+a start time of Mon 10:30, next executions are Wed 10:30, Fri 10:30
+etc.
++
+----
+gc.startTime = 6:00
+gc.interval = 1 day
+----
++
+Assuming the server is started on Mon 7:00 this yields first run on next Tuesday
+at 6:00 and repetition interval of 1 day.
+
+
 [[gerrit]]
 === Section gerrit
 

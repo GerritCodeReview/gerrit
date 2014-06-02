@@ -2141,7 +2141,9 @@ Lists the published comments of a revision.
 
 As result a map is returned that maps the file path to a list of
 link:#comment-info[CommentInfo] entries. The entries in the map are
-sorted by file path.
+sorted by file path amd only include file (or inline) comments. Use
+the link:#get-change-detail[Get Change Detail] endpoint to retrieve
+the general change message (or comment).
 
 .Request
 ----
@@ -2845,7 +2847,7 @@ attached to a change.
 |Field Name           ||Description
 |`id`                 ||The ID of the message.
 |`author`             |optional|
-Author of the message as an 
+Author of the message as an
 link:rest-api-accounts.html#account-info[AccountInfo] entity. +
 Unset if written by the Gerrit system.
 |`date`            ||

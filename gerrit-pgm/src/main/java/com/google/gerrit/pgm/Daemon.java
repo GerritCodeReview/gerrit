@@ -53,6 +53,7 @@ import com.google.gerrit.server.config.GerritGlobalModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.MasterNodeStartup;
 import com.google.gerrit.server.contact.HttpContactStoreConnection;
+import com.google.gerrit.server.git.GarbageCollectionRunner;
 import com.google.gerrit.server.git.ReceiveCommitsExecutorModule;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.index.IndexModule;
@@ -353,6 +354,7 @@ public class Daemon extends SiteProgram {
         bind(GerritUiOptions.class).toInstance(new GerritUiOptions(headless));
       }
     });
+    modules.add(GarbageCollectionRunner.module());
     return cfgInjector.createChildInjector(modules);
   }
 

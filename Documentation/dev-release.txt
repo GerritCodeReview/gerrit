@@ -144,7 +144,7 @@ for the Subproject in `/lib/BUCK` to the released version.
 link:dev-release-deploy-config.html#deploy-configuration-setting-maven-central[
 configuration needed for deployment]
 
-* Push the Jars to the Maven Central:
+* Push the Jars to Maven Central:
 +
 ----
   buck build api_deploy
@@ -160,7 +160,7 @@ environment variable VERBOSE can be set:
 [[publish-gerrit-war]]
 ==== Publish the Gerrit WAR (with Core Plugins)
 
-* Push the WAR to the Maven Central:
+* Push the WAR to Maven Central:
 +
 ----
   buck build war_deploy
@@ -170,9 +170,8 @@ environment variable VERBOSE can be set:
 [[push-stable]]
 ==== Push the Stable Branch
 
-* create the stable branch `stable-2.5` in the `gerrit` project
-+
-Via the link:https://gerrit-review.googlesource.com/#/admin/projects/gerrit,branches[
+* Create the stable branch `stable-2.5` in the `gerrit` project via the
+link:https://gerrit-review.googlesource.com/#/admin/projects/gerrit,branches[
 Gerrit Web UI] or by push.
 
 * Push the commits done on `stable-2.5` to `refs/for/stable-2.5` and

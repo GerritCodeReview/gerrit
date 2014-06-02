@@ -37,6 +37,7 @@ import com.google.gerrit.server.config.GerritServerConfigModule;
 import com.google.gerrit.server.config.MasterNodeStartup;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.contact.HttpContactStoreConnection;
+import com.google.gerrit.server.git.GarbageCollectionRunner;
 import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 import com.google.gerrit.server.git.ReceiveCommitsExecutorModule;
 import com.google.gerrit.server.git.WorkQueue;
@@ -310,6 +311,7 @@ public class WebAppInitializer extends GuiceServletContextListener
         bind(GerritUiOptions.class).toInstance(new GerritUiOptions(false));
       }
     });
+    modules.add(GarbageCollectionRunner.module());
     return cfgInjector.createChildInjector(modules);
   }
 

@@ -853,7 +853,7 @@ public class MyListener implements GitReferenceUpdatedListener {
 == Plugin Owned Capabilities
 
 Plugins may provide their own capabilities and restrict usage of SSH
-commands to the users who are granted those capabilities.
+commands or `UiAction` to the users who are granted those capabilities.
 
 Plugins define the capabilities by overriding the `CapabilityDefinition`
 abstract class:
@@ -868,7 +868,7 @@ public class PrintHelloCapability extends CapabilityDefinition {
 }
 ----
 
-If no Guice modules are declared in the manifest, UI actions may
+If no Guice modules are declared in the manifest, capability may
 use auto-registration by providing an `@Export` annotation:
 
 [source,java]

@@ -1119,6 +1119,25 @@ an link:#included-in-info[IncludedInInfo] entity is returned.
   }
 ----
 
+[[index-change]]
+=== Index Change
+--
+'POST /changes/link:#change-id[\{change-id\}]/index'
+--
+
+Adds or updates the change in the secondary index.
+
+.Request
+----
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/index HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
+
 [[reviewer-endpoints]]
 == Reviewer Endpoints
 

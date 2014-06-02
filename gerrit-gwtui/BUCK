@@ -32,7 +32,7 @@ gwt_binary(
   deps = DEPS + [':ui_dbg'],
   local_workers = cpu_count(),
   strict = True,
-  experimental_args = GWT_COMPILER_ARGS,
+  experimental_args = ['-XenableClosureCompiler'] + GWT_COMPILER_ARGS,
   vm_args = GWT_JVM_ARGS,
 )
 

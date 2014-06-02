@@ -3,9 +3,11 @@ GWT_JVM_ARGS = ['-Xmx512m']
 GWT_COMPILER_ARGS = [
   '-XdisableClassMetadata',
   '-XdisableCastChecking',
+  '-XenableClosureCompiler',
 ]
 
 GWT_PLUGIN_DEPS = [
   '//gerrit-plugin-gwtui:gwtui-api-lib',
   '//lib/gwt:user',
+  '//lib/gwt:dev',
 ]

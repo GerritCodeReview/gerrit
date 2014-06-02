@@ -14,7 +14,9 @@
 
 package com.google.gerrit.client.change;
 
-public interface Messages extends com.google.gwt.i18n.client.Messages {
+import com.google.gwt.i18n.client.Messages;
+
+public interface ChangeMessages extends Messages {
   String patchSets(int currentlyViewedPatchSet, int currentPatchSet);
   String changeWithNoRevisions(int changeId);
   String relatedChanges(int count);

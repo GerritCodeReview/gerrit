@@ -121,6 +121,30 @@
     },
     {
       "key": {
+        "uuid": "3f3d4c4d_c0a87eb0",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-03T09:17:16Z",
+      "side": 1,
+      "message": "Really, that doesn\u0027t make any sense to me to deploy the same binary artifact to more then one location. If you are in favor for Google Cloud Storage for gerrit.war, then it shouldn\u0027t be deployed on Maven Central.\n\nIn any event, I strongly disagree to have any manual steps (with potential human failure factor) in such crucial steps as uploading of release artifacts.\n\nEven in that ridiculous case that you\u0027ve decided to upload gerrit.war to dozen different locations, there must not be any manual steps at all.\n\nThe right way to achieve (the wrong thing you are trying to achieve: to deploy the same artifact to dozen different locations): \n\n  buck build war_deploy\n\nmust be extended to upload to all dozen locations. And the new section above (161-165) must be removed.",
+      "parentUuid": "5f38405c_c14c0288",
+      "range": {
+        "startLine": 161,
+        "startChar": 0,
+        "endLine": 165,
+        "endChar": 67
+      },
+      "revId": "432ae31460aef32176f45452d580c541f65134dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f38405c_6142d652",
         "filename": "Documentation/dev-release.txt",
         "patchSetId": 1

@@ -52,6 +52,69 @@
       "revId": "1d1d8334a7691f034b587a9fe82e2a8620163d93",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bffbfccc_844ca686",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-06-03T13:14:44Z",
+      "side": 1,
+      "message": "add a comma after",
+      "range": {
+        "startLine": 190,
+        "startChar": 4,
+        "endLine": 190,
+        "endChar": 19
+      },
+      "revId": "1d1d8334a7691f034b587a9fe82e2a8620163d93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bffbfccc_6442ca52",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-06-03T13:14:44Z",
+      "side": 1,
+      "message": "The repository will only be closed if everything is OK.",
+      "range": {
+        "startLine": 242,
+        "startChar": 48,
+        "endLine": 243,
+        "endChar": 31
+      },
+      "revId": "1d1d8334a7691f034b587a9fe82e2a8620163d93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bffbfccc_443fced2",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-06-03T13:14:44Z",
+      "side": 1,
+      "message": "Maybe make this line bold?  Can we use the asciidoc WARNING macro?",
+      "revId": "1d1d8334a7691f034b587a9fe82e2a8620163d93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

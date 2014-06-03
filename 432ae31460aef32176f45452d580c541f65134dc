@@ -94,6 +94,53 @@
       "revId": "432ae31460aef32176f45452d580c541f65134dc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f38405c_c14c0288",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-06-03T08:40:10Z",
+      "side": 1,
+      "message": "I also understood that it was for the plugin APIs, and was surprised when I couldn\u0027t find the cloud storage instructions any more (when I was trying to help Martin).",
+      "parentUuid": "9ff8f8d3_c3217694",
+      "range": {
+        "startLine": 161,
+        "startChar": 0,
+        "endLine": 165,
+        "endChar": 67
+      },
+      "revId": "432ae31460aef32176f45452d580c541f65134dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f38405c_6142d652",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-06-03T08:40:10Z",
+      "side": 1,
+      "message": "Remove \"the\".\n\nAlso in other places. I fixed those in another commit but it was only on master.  Shall we cherry pick that across?",
+      "range": {
+        "startLine": 167,
+        "startChar": 18,
+        "endLine": 167,
+        "endChar": 21
+      },
+      "revId": "432ae31460aef32176f45452d580c541f65134dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

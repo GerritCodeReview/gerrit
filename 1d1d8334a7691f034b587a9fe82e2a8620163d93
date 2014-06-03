@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ff8f8d3_e3eeb2dc",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-06-03T11:45:30Z",
+      "side": 1,
+      "message": "I tried that with the \"buck build gerrit\":\n\n$ VERBOSE\u003d10 buck build gerrit\n\nand it didn\u0027t print any additional info.\n\nHowever, the following:\n\n$ buck build --verbose 10 gerrit\n\ndid print a lot of text.",
+      "revId": "1d1d8334a7691f034b587a9fe82e2a8620163d93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

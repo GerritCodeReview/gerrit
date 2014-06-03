@@ -22,6 +22,30 @@
       "revId": "6ba21941e4b161df96e230d18737296934806077",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f3d4c4d_e0c2626c",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-06-03T07:34:52Z",
+      "side": 1,
+      "message": "Just to be consistent with the other examples in this document. We should once update all examples to a newer version, but I would do this in an own change.",
+      "parentUuid": "3f3d4c4d_40630ee6",
+      "range": {
+        "startLine": 126,
+        "startChar": 43,
+        "endLine": 126,
+        "endChar": 55
+      },
+      "revId": "6ba21941e4b161df96e230d18737296934806077",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

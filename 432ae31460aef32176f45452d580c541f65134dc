@@ -145,6 +145,30 @@
     },
     {
       "key": {
+        "uuid": "9ff8f8d3_435586d3",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-06-03T09:25:37Z",
+      "side": 1,
+      "message": "Can you discuss this with Shawn? I don\u0027t mind much if the WAR gets published on Google Cloud Storage and Maven Central or only on Maven Central or only on Google Cloud Storage. We must decide on this once and then document it and adapt the Buck target if needed.",
+      "parentUuid": "3f3d4c4d_c0a87eb0",
+      "range": {
+        "startLine": 161,
+        "startChar": 0,
+        "endLine": 165,
+        "endChar": 67
+      },
+      "revId": "432ae31460aef32176f45452d580c541f65134dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f38405c_6142d652",
         "filename": "Documentation/dev-release.txt",
         "patchSetId": 1

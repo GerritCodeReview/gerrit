@@ -34,6 +34,24 @@
       "revId": "1d1d8334a7691f034b587a9fe82e2a8620163d93",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f3d4c4d_0022e697",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-03T12:18:27Z",
+      "side": 1,
+      "message": "How that? I am providing an example for your at line 194 how this supposed to work:\n\n  VERBOSE\u003d1 buck build api_deploy\n\nand you are trying this new feature with completely different target:\n\n  buck build --verbose 10 gerrit\n\nMay be it may sense to be more precisely here and stat, that this flag is got evaluated by our own script: mvn.py and not by Buck build process itself [1]:\n\n  for spec in args.s:\n   artifact, packaging_type, src \u003d spec.split(\u0027:\u0027)\n   exe \u003d cmd + [\n     \u0027-DpomFile\u003d%s\u0027 % path.join(root, \u0027%s/pom.xml\u0027 % artifact),\n     \u0027-Dpackaging\u003d%s\u0027 % packaging_type,\n     \u0027-Dfile\u003d%s\u0027 % src,\n   ]\n   try:\n     if environ.get(\u0027VERBOSE\u0027):\n        print(\u0027 \u0027.join(exe), file\u003dstderr)    \n   [...]\n\n[1] https://gerrit.googlesource.com/gerrit/+/master/tools/maven/mvn.py",
+      "parentUuid": "9ff8f8d3_e3eeb2dc",
+      "revId": "1d1d8334a7691f034b587a9fe82e2a8620163d93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

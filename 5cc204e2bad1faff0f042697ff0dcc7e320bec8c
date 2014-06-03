@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9f4d5812_bbfa47db",
+        "filename": "Documentation/dev-release-deploy-config.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-03T18:38:10Z",
+      "side": 1,
+      "message": "Thanks, that was kind of expected. I am sure i will never get your aproval ;-).",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 43
+      },
+      "revId": "5cc204e2bad1faff0f042697ff0dcc7e320bec8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

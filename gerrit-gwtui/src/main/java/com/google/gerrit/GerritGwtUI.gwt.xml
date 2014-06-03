@@ -37,6 +37,9 @@
   <set-configuration-property name='UiBinder.useSafeHtmlTemplates' value='true'/>
   <set-configuration-property name='CssResource.style' value='stable'/>
   <add-linker name='xsiframe'/>
+  <set-configuration-property name="devModeRedirectEnabled" value="true"/>
+  <!-- enable source maps -->
+  <set-property name="compiler.useSourceMaps" value="true" />
 
   <set-property name='gwt.logging.logLevel' value='SEVERE'/>
   <set-property name='gwt.logging.popupHandler' value='DISABLED'/>

@@ -24,6 +24,25 @@ maven_jar(
 )
 
 maven_jar(
+  name = 'codeserver',
+  id = 'com.google.gwt:gwt-codeserver:' + VERSION,
+  sha1 = '940edc715cc31b1957e18f617f75a068f251346a',
+  license = 'Apache2.0',
+  deps = [
+    ':json',
+  ],
+  attach_source = False,
+)
+
+maven_jar(
+  name = 'json',
+  id = 'org.json:json:20140107',
+  sha1 = 'd1ffca6e2482b002702c6a576166fd685e3370e3',
+  license = 'Apache2.0',
+  attach_source = False,
+)
+
+maven_jar(
   name = 'javax-validation',
   id = 'javax.validation:validation-api:1.0.0.GA',
   bin_sha1 = 'b6bd7f9d78f6fdaa3c37dae18a4bd298915f328e',

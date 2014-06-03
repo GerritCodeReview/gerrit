@@ -67,6 +67,40 @@ Duplicate the existing launch configuration:
 * Close the Debug Configurations dialog and save the changes when prompted.
 
 
+=== Running Super Dev Mode
+
+Install dependencies:
+
+----
+  buck build codeserver
+----
+
+* Select in Eclipse Run -> Debug Configurations `gerrit_gwt_codeserver.launch`
+* Select in Eclipse Run -> Debug Configurations `gerrit_daemon.launch`
+* Only once: add bookmarks for `Dev Mode On/Off` from codeserver URL:
+`http://localhost:9876/` to your bookmark bar
+* Make sure to activate source maps feature in your browser
+* Load Gerrit page `http://localhost:8080`
+* Open developer tools, source tab
+* Click on `Dev Mode On` bookmark
+* Select `gerrit_ui` module to compile (the `Compile` button can also be used
+as a bookmarklet).
+* Navigate on the left to: sourcemaps/gerrit_ui folder (`Ctrl+O` key shortcut
+can be used)
+* Select a file, for example com.google.gerrit.client.change.ChangeScreen2
+and put a breakpoint
+* Navigate in application in change screen and confirm hitting the breakpoint
+* Select `Dev Mode Off` when the debugging session is finished
+
+After changing the client side code:
+* click `Dev Mode On` then `Compile` to reflect your changes in debug session
+* Hitting `F5` in the browser will just load the last compile output, without
+recompiling
+
+
+ load page, open dev tools, then click Dev Mode On then Compile for the
+ gerrit_ui module.
+
 [[known-problems]]
 == Known problems
 

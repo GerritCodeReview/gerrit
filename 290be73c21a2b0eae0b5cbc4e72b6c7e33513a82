@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bffbfccc_847f0684",
+        "filename": "Documentation/dev-release-deploy-config.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-06-03T14:25:31Z",
+      "side": 1,
+      "message": "remove \"for\"",
+      "range": {
+        "startLine": 46,
+        "startChar": 22,
+        "endLine": 46,
+        "endChar": 25
+      },
+      "revId": "290be73c21a2b0eae0b5cbc4e72b6c7e33513a82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

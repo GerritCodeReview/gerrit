@@ -107,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "9ff8f8d3_a33d5aae",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/GitHubOAuthConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-06-03T09:21:09Z",
+      "side": 1,
+      "message": "Do you mean etc/secure.config? The injected config already contains gerrit.config + secure.config, overlayed. See the GerritServerConfigProvider",
+      "parentUuid": "5f876029_a9179d5c",
+      "range": {
+        "startLine": 58,
+        "startChar": 0,
+        "endLine": 59,
+        "endChar": 78
+      },
+      "revId": "aefe4c8546a8f0984c02042d4debf4efe6014455",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f876029_c924d1d0",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/HttpGitHubOAuthModule.java",
         "patchSetId": 1

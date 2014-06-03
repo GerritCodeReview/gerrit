@@ -16,6 +16,24 @@
       "revId": "1d1d8334a7691f034b587a9fe82e2a8620163d93",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f3d4c4d_e01ca258",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-06-03T12:10:33Z",
+      "side": 1,
+      "message": "\u0027VERBOSE\u003d1 buck build api_deploy\u0027 seems to work fine here. Its purpose is to print out the mvn commands and it works.",
+      "parentUuid": "9ff8f8d3_e3eeb2dc",
+      "revId": "1d1d8334a7691f034b587a9fe82e2a8620163d93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

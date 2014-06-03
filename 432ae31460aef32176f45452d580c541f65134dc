@@ -46,6 +46,30 @@
       "revId": "432ae31460aef32176f45452d580c541f65134dc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f3d4c4d_60b73213",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-03T07:48:04Z",
+      "side": 1,
+      "message": "Oh, missed it, that you are talking about \"Google Cloud Storage\". No, it only uploads to Maven Central.\n\nBut I thought we were agreeed upon discontinue \"Google Cloud Storage\" thing in favor of Maven Central? At least that what i\u0027ve understood from Shawn answer in this therad:\n\n [1] https://groups.google.com/forum/#!topic/repo-discuss/w9iROIZQoEQ",
+      "parentUuid": "3f3d4c4d_c0d15e34",
+      "range": {
+        "startLine": 161,
+        "startChar": 0,
+        "endLine": 165,
+        "endChar": 67
+      },
+      "revId": "432ae31460aef32176f45452d580c541f65134dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

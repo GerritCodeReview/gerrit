@@ -106,3 +106,22 @@ maven_jar(
   exclude = EXCLUDE,
   visibility = [],
 )
+
+maven_jar(
+  name = 'servlet-aggregate',
+  id = 'org.eclipse.jetty.aggregate:jetty-servlet:8.1.12.v20130726',
+  sha1 = '4d0f0cb6e5a54de01be46717a7ab48d0b45dcadd',
+  license = 'Apache2.0',
+  attach_source = False,
+  deps = [':servlets'],
+  visibility = ['//lib/gwt:codeserver'],
+)
+
+maven_jar(
+  name = 'servlets',
+  id = 'org.eclipse.jetty:jetty-servlets:8.1.12.v20130726',
+  sha1 = '4ebc6894b899fee0c3597697d11f255ce9214bbf',
+  license = 'Apache2.0',
+  attach_source = False,
+  visibility = ['//lib/gwt:codeserver'],
+)

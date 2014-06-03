@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9f4d5812_dbd4f357",
+        "filename": "Documentation/dev-release-deploy-config.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-06-03T13:35:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bffbfccc_c475fea5",
+      "range": {
+        "startLine": 44,
+        "startChar": 15,
+        "endLine": 44,
+        "endChar": 19
+      },
+      "revId": "2cef87b3f1bb57f655b5d28f75e424905f18a459",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f38405c_218fee68",
         "filename": "Documentation/dev-release-deploy-config.txt",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2014-06-03T13:30:42Z",
       "side": 1,
       "message": "to be able",
+      "range": {
+        "startLine": 46,
+        "startChar": 22,
+        "endLine": 46,
+        "endChar": 36
+      },
+      "revId": "2cef87b3f1bb57f655b5d28f75e424905f18a459",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f4d5812_fbd9af8e",
+        "filename": "Documentation/dev-release-deploy-config.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-06-03T13:35:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f38405c_218fee68",
       "range": {
         "startLine": 46,
         "startChar": 22,

@@ -67,6 +67,38 @@ Duplicate the existing launch configuration:
 * Close the Debug Configurations dialog and save the changes when prompted.
 
 
+=== Running Super Dev Mode
+
+Install dependencies:
+
+----
+  buck build codeserver
+----
+
+* Restrict only one permutation to match your user agent:
+Add to `gerrit-gwtui/src/main/java/com/google/gerrit/GerritGwtUI.gwt.xml`
+`gecko1_8` for Firefox or `safari` for Safari and Chrome: 
+
+----
+  <set-property name="user.agent" value="gecko1_8"/>
+or
+  <set-property name="user.agent" value="safari"/>
+----
+
+* Select in Eclipse Run -> Debug Configurations `gerrit_gwt_codeserver.launch`
+* Select in eclipse Run -> Debuc Configurations `gerrit_daemon.launch`
+* Only once: add bookmarks for Dev Mode On/Off from coderserver URL:
+`http://localhost:9876/` to your bookmark bar
+* Open Gerrit application `http://localhost:8080` and click on `Dev Mode On`
+* Select `gerrit_ui` module to compile
+* Make sure to activate source maps feature in your browser
+* Open developer tools, source tab
+* Navigate on the left to: sourcemaps/gerrit_ui folder
+* Select a file, for example com.google.gerrit.client.change.ChangeScreen2
+and put a breakpoint
+* Navigate in application in change screen and confirm hitting the breakpoint
+* Select `Dev Mode Off` when the debugging session is finished
+
 [[known-problems]]
 == Known problems
 

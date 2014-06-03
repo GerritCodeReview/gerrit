@@ -3,13 +3,22 @@
 [[deploy-configuration-setting-maven-central]]
 == Deploy Configuration settings for Maven Central
 
-Gerrit Extension API Jar and the Gerrit Plugin API artifacts are stored on
-Maven Central.
+Some Gerrit artifacts (e.g. the Gerrit WAR file, the Gerrit Plugin API
+and the Gerrit Extension API) are published on Maven Central in the
+`com.google.gerrit` repository.
 
-Prerequisites: Set up the Sonatype account (see link:https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide#SonatypeOSSMavenRepositoryUsageGuide-2.Signup[Sonatype
-Maven Repository Usage Guide]) and put Sonatype user and password in
-~/.m2/settings.xml:
+To be able to publish artifacts to Maven Central some preparations must
+be done:
 
+* Create a Sonatype account as described in the
+link:https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide#SonatypeOSSMavenRepositoryUsageGuide-2.Signup[
+Sonatype OSS Maven Repository Usage Guide].
++
+Sonatype is the company that runs Maven Central and you need a Sonatype
+account for uploading artifacts to Maven Central.
+
+* Configure your Sonatype user and password in `~/.m2/settings.xml`:
++
 ----
 <server>
   <id>sonatype-nexus-staging</id>
@@ -18,11 +27,27 @@ Maven Repository Usage Guide]) and put Sonatype user and password in
 </server>
 ----
 
-PGP key must be generated and published, see
-link:https://docs.sonatype.org/display/Repository/How+To+Generate+PGP+Signatures+With+Maven[How
-To Generate PGP Signatures With Maven] for details. PGP passphrase can also be
-put in ~/.m2/settings.xml:
+* Request permissions to upload artifacts to the `com.google.gerrit`
+repository on Maven Central:
++
+Ask for this permission by adding a comment on the
+link:https://issues.sonatype.org/browse/OSSRH-7392[OSSRH-7392] Jira
+ticket at Sonatype.
 
+* Generate and publish a PGP key
++
+Generate and publish a PGP key as described in
+link:https://docs.sonatype.org/display/Repository/How+To+Generate+PGP+Signatures+With+Maven[
+How To Generate PGP Signatures With Maven].
++
+Please be aware that after publishing your public key it may take a
+while until it gets visible to the Sonatype server.
++
+The PGP key is needed for being able to sign the artifacts before the
+upload to Maven Central.
++
+The PGP passphrase can be put in `~/.m2/settings.xml`:
++
 ----
 <settings>
   <profiles>
@@ -39,8 +64,11 @@ put in ~/.m2/settings.xml:
   </activeProfiles>
 </settings>
 ----
-
++
 It can also be included in the key chain on OS X.
+
+[[deploy-configuration-settings-xml]]
+== Deploy Configuration in Maven `settings.xml`
 
 Gerrit Subproject Artifacts are stored on
 link:https://developers.google.com/storage/[Google Cloud Storage].
@@ -56,9 +84,6 @@ Jar.
 * `gerrit-maven`:
 +
 Bucket to store Gerrit Subproject Artifacts (e.g. `gwtjsonrpc` etc.).
-
-[[deploy-configuration-settings-xml]]
-== Deploy Configuration in Maven `settings.xml`
 
 To upload artifacts to a bucket the user must authenticate with a
 username and password. The username and password need to be retrieved

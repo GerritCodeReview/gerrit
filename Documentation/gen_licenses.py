@@ -48,7 +48,7 @@ def parse_graph():
     # they are not included in the final artifact.
     if "DO_NOT_DISTRIBUTE" in dep:
       if not target in KNOWN_PROVIDED_DEPS:
-        print('DO_NOT_DISTRIBUTE license for tagret: %s' % target, file=stderr)
+        print('DO_NOT_DISTRIBUTE license for target: %s' % target, file=stderr)
         exit(1)
     else:
       graph[target].append(dep)

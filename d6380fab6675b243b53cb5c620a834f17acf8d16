@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "5f38405c_01766ab1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-06-03T13:27:37Z",
+      "side": 1,
+      "message": "effectively",
+      "range": {
+        "startLine": 19,
+        "startChar": 5,
+        "endLine": 19,
+        "endChar": 16
+      },
+      "revId": "d6380fab6675b243b53cb5c620a834f17acf8d16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f38405c_a17a1e94",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-06-03T13:27:37Z",
+      "side": 1,
+      "message": "thanks to",
+      "range": {
+        "startLine": 22,
+        "startChar": 30,
+        "endLine": 22,
+        "endChar": 36
+      },
+      "revId": "d6380fab6675b243b53cb5c620a834f17acf8d16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3f3d4c4d_a0269aa8",
         "filename": "lib/gwt/BUCK",
         "patchSetId": 1
@@ -13,6 +59,30 @@
       "writtenOn": "2014-06-03T12:43:43Z",
       "side": 1,
       "message": "No sane licenses provided, only this message:\n\n\"The license includes this restriction: \"The software shall be used for good,\nnot evil.\"\n\nIf at all, android package should be used instead. That\u0027s what GWT project does [2].\n\n[1] https://github.com/douglascrockford/JSON-java\n[2] http://developer.android.com/reference/org/json/package-summary.html",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 43,
+        "endChar": 1
+      },
+      "revId": "d6380fab6675b243b53cb5c620a834f17acf8d16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f38405c_c17f2283",
+        "filename": "lib/gwt/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-06-03T13:27:37Z",
+      "side": 1,
+      "message": "Can\u0027t we define a custom license?",
+      "parentUuid": "3f3d4c4d_a0269aa8",
       "range": {
         "startLine": 37,
         "startChar": 0,

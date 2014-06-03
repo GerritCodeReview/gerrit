@@ -119,6 +119,25 @@ the subproject.
 * Update the `id`, `bin_sha1`, and `src_sha1` values in the `maven_jar`
 for the Subproject in `/lib/BUCK` to the released version.
 
+[[update-versions]]
+=== Update Versions and Create Release Tag
+
+Before doing the release build the `GERRIT_VERSION` in the `VERSION`
+file must be updated, e.g. change if from `2.5-SNAPSHOT` to `2.5`.
+
+In addition the version must be updated in a number of pom.xml files.
+To do this run the `./tools/version.sh` script and provide the new
+version as parameter, e.g.:
+
+----
+  ./tools/version.sh 2.5
+----
+
+Commit the changes and create the release tag on the new commit:
+
+----
+  git tag -a v2.5
+----
 
 [[build-gerrit]]
 === Build Gerrit
@@ -136,6 +155,20 @@ for the Subproject in `/lib/BUCK` to the released version.
 [[publish-gerrit]]
 === Publish the Gerrit Release
 
+[[publish-gerrit-war]]
+==== Publish the Gerrit WAR (with Core Plugins)
+
+* Upload the WAR to the Google Cloud Storage
+
+** go to https://console.developers.google.com/project/164060093628/storage/gerrit-releases/
+** make sure you are signed in with your Gmail account
+** manually upload the Gerrit WAR file by using the `Upload` button
+
+* Push the WAR to Maven Central:
++
+----
+  buck build war_deploy
+----
 
 [[extension-and-plugin-api]]
 ==== Publish the Extension and Plugin API Jars

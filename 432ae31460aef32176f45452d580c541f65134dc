@@ -70,6 +70,30 @@
       "revId": "432ae31460aef32176f45452d580c541f65134dc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ff8f8d3_c3217694",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-06-03T08:10:35Z",
+      "side": 1,
+      "message": "But this agreement was only for the plugin artifacts and not for the Gerrit WAR file, wasn\u0027t it?\n\n\"Yes, I am in favor of removing the Google bucket and its tools, and using Maven Central *for the API artifacts*.\"\n\nI think it makes sense that we are still having all the Gerrit WAR files in one place at the Google Cloud Storage.",
+      "parentUuid": "3f3d4c4d_60b73213",
+      "range": {
+        "startLine": 161,
+        "startChar": 0,
+        "endLine": 165,
+        "endChar": 67
+      },
+      "revId": "432ae31460aef32176f45452d580c541f65134dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

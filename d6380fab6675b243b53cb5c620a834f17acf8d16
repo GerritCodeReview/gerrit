@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9f4d5812_bbe32741",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-03T13:47:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f38405c_01766ab1",
+      "range": {
+        "startLine": 19,
+        "startChar": 5,
+        "endLine": 19,
+        "endChar": 16
+      },
+      "revId": "d6380fab6675b243b53cb5c620a834f17acf8d16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f38405c_a17a1e94",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2014-06-03T13:27:37Z",
       "side": 1,
       "message": "thanks to",
+      "range": {
+        "startLine": 22,
+        "startChar": 30,
+        "endLine": 22,
+        "endChar": 36
+      },
+      "revId": "d6380fab6675b243b53cb5c620a834f17acf8d16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f4d5812_5be9c31f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-03T13:47:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f38405c_a17a1e94",
       "range": {
         "startLine": 22,
         "startChar": 30,
@@ -83,6 +131,30 @@
       "side": 1,
       "message": "Can\u0027t we define a custom license?",
       "parentUuid": "3f3d4c4d_a0269aa8",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 43,
+        "endChar": 1
+      },
+      "revId": "d6380fab6675b243b53cb5c620a834f17acf8d16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f3d4c4d_00498647",
+        "filename": "lib/gwt/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-03T13:47:01Z",
+      "side": 1,
+      "message": "Good idea. We could use don\u0027t distribute license; we need this (if at all) only for development. Will change that.",
+      "parentUuid": "5f38405c_c17f2283",
       "range": {
         "startLine": 37,
         "startChar": 0,

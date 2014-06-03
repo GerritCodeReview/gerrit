@@ -155,6 +155,20 @@ Commit the changes and create the release tag on the new commit:
 [[publish-gerrit]]
 === Publish the Gerrit Release
 
+[[publish-gerrit-war]]
+==== Publish the Gerrit WAR (with Core Plugins)
+
+* Upload the WAR to the Google Cloud Storage
+
+** go to https://console.developers.google.com/project/164060093628/storage/gerrit-releases/
+** make sure you are signed in with your Gmail account
+** manually upload the Gerrit WAR file by using the `Upload` button
+
+* Push the WAR to the Maven Central:
++
+----
+  buck build war_deploy
+----
 
 [[extension-and-plugin-api]]
 ==== Publish the Extension and Plugin API Jars
@@ -174,15 +188,6 @@ environment variable VERBOSE can be set:
 +
 ----
   VERBOSE=1 buck build api_deploy
-----
-
-[[publish-gerrit-war]]
-==== Publish the Gerrit WAR (with Core Plugins)
-
-* Push the WAR to the Maven Central:
-+
-----
-  buck build war_deploy
 ----
 
 

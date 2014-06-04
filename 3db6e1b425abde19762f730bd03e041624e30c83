@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9f4d5812_fb5c4f27",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JarScanner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-04T13:43:58Z",
+      "side": 1,
+      "message": "Do you really need all the interfaces ?\nThis would cause all my non-Jar resource scanners to return a lot of boilerplate stuff ;-(",
+      "range": {
+        "startLine": 92,
+        "startChar": 4,
+        "endLine": 94,
+        "endChar": 5
+      },
+      "revId": "3db6e1b425abde19762f730bd03e041624e30c83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f3d4c4d_40d46eee",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JarScanner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-04T13:43:58Z",
+      "side": 1,
+      "message": "Can you get the same result by calling the scan() method below and then a get on the annotation ? This method seemed a bit redundant to me.",
+      "range": {
+        "startLine": 97,
+        "startChar": 44,
+        "endLine": 97,
+        "endChar": 48
+      },
+      "revId": "3db6e1b425abde19762f730bd03e041624e30c83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f4d5812_9b518b0e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JarScanner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-04T13:43:58Z",
+      "side": 1,
+      "message": "What are you using the Interfaces for ?",
+      "range": {
+        "startLine": 197,
+        "startChar": 4,
+        "endLine": 197,
+        "endChar": 31
+      },
+      "revId": "3db6e1b425abde19762f730bd03e041624e30c83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

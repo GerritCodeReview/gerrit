@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9f4d5812_9bcc2ba0",
+        "filename": "lib/jetty/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1010404
+      },
+      "writtenOn": "2014-06-04T16:12:26Z",
+      "side": 1,
+      "message": "Want to name it \"legacy-jetty\" to make it clear it\u0027s not the same version as the others above?\n\nMaybe move those rules to //lib/gwt to avoid confusion? (and you could make them \"private\" there)",
+      "revId": "86c24553ce7947940524b5ee58a43da2c0b06203",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f4d5812_bbd1e734",
+        "filename": "tools/eclipse/gerrit_gwt_codeserver.launch",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1010404
+      },
+      "writtenOn": "2014-06-04T16:12:26Z",
+      "side": 1,
+      "message": "Maybe move it above defaultClasspath, just to be sure? (in case you later add jetty-servlets 9.x)",
+      "revId": "86c24553ce7947940524b5ee58a43da2c0b06203",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

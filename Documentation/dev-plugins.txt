@@ -1259,6 +1259,16 @@ public class MyTopMenuExtension implements TopMenu {
 }
 ----
 
+Binding `MenuItems` using `GerritTopMenu.PROJECTS` name and url with ${projectName}
+placeholder allows plugins to provide project aware screens.
+
+[source,java]
+---
+  new MenuItem("My Screen", "my-screen/for/${projectName}");
+---
+
+will result in url http://$canonical_web_url/#/admin/projects/$project_name,my-screen
+
 If no Guice modules are declared in the manifest, the top menu extension may use
 auto-registration by providing an `@Listen` annotation:
 

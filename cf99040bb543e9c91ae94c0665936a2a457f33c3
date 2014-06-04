@@ -207,6 +207,24 @@
     },
     {
       "key": {
+        "uuid": "9f4d5812_fbc76f79",
+        "filename": "tools/eclipse/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-04T16:08:45Z",
+      "side": 1,
+      "message": "Thanks! Will translate this step-by-step guide into dev-gwt-super-dev-mode.txt or some such in the next patch set.",
+      "parentUuid": "9f4d5812_3b6397e7",
+      "revId": "cf99040bb543e9c91ae94c0665936a2a457f33c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3f3d4c4d_001bc647",
         "filename": "tools/eclipse/gerrit_gwt_codeserver.launch",
         "patchSetId": 2

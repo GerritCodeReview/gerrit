@@ -387,7 +387,7 @@ class GitWebServlet extends HttpServlet {
         // Allow anonymous users a chance to login.
         // Avoid leaking information by not distinguishing between
         // project not existing and no access rights.
-        rsp.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+        rsp.sendRedirect(getLoginRedirectUrl(req));
       }
       return;
     }
@@ -406,6 +406,16 @@ class GitWebServlet extends HttpServlet {
     } finally {
       repo.close();
     }
+  }
+
+  private static String getLoginRedirectUrl(HttpServletRequest req) {
+    String loginUrl = req.getContextPath() + "/login/";
+    String token = req.getRequestURI().substring(1);
+    String queryString = req.getQueryString();
+    if (queryString != null && !queryString.isEmpty()) {
+      token = token.concat("?" + queryString);
+    }
+    return (loginUrl + Url.encode(token));
   }
 
   private static Map<String, String> getParameters(HttpServletRequest req) {

@@ -74,9 +74,7 @@ class LdapLoginServlet extends HttpServlet {
     String self = req.getRequestURI();
     String cancel = Objects.firstNonNull(urlProvider.get(req), "/");
     String token = LoginUrlToken.getToken(req);
-    if (!token.equals("/")) {
-      cancel += "#" + token;
-    }
+    cancel += token;
 
     Document doc = headers.parse(LdapLoginServlet.class, "LoginForm.html");
     HtmlDomUtil.find(doc, "hostName").setTextContent(req.getServerName());
@@ -142,10 +140,10 @@ class LdapLoginServlet extends HttpServlet {
       return;
     }
 
+    String token = LoginUrlToken.getToken(req);
     StringBuilder dest = new StringBuilder();
     dest.append(urlProvider.get(req));
-    dest.append('#');
-    dest.append(LoginUrlToken.getToken(req));
+    dest.append(token);
 
     CacheHeaders.setNotCacheable(res);
     webSession.get().login(ares, "1".equals(remember));

@@ -16,6 +16,24 @@
       "revId": "c319631ae53c2dcb5281029df3f1b4c4f3c8f866",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f4d5812_fb520f21",
+        "filename": "gerrit-plugin-gwt-archetype/src/main/resources/archetype-resources/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-06-04T12:44:42Z",
+      "side": 1,
+      "message": "It\u0027s not required but intended, in the generated pom.xml the \u0027repositories\u0027 tag should be seperated by a blank line from the \u0027dependencies\u0027 section.",
+      "parentUuid": "9f4d5812_3b22b7c2",
+      "revId": "c319631ae53c2dcb5281029df3f1b4c4f3c8f866",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

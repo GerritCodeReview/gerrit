@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9f4d5812_3b22b7c2",
+        "filename": "gerrit-plugin-gwt-archetype/src/main/resources/archetype-resources/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-04T12:41:48Z",
+      "side": 1,
+      "message": "Is this empty line required? Can #if be direct on the line 115?",
+      "revId": "c319631ae53c2dcb5281029df3f1b4c4f3c8f866",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

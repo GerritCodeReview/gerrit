@@ -19,7 +19,7 @@ import com.google.gerrit.client.admin.ProjectScreen;
 import com.google.gerrit.reviewdb.client.Project;
 
 public class ProjectLinkMenuItem extends LinkMenuItem {
-  private final String panel;
+  protected final String panel;
 
   public ProjectLinkMenuItem(String text, String panel) {
     super(text, "");
@@ -38,10 +38,14 @@ public class ProjectLinkMenuItem extends LinkMenuItem {
 
     if (projectKey != null) {
       setVisible(true);
-      setTargetHistoryToken(Dispatcher.toProjectAdmin(projectKey, panel));
+      onScreenLoad(projectKey);
     } else {
       setVisible(false);
     }
     super.onScreenLoad(event);
+  }
+
+  protected void onScreenLoad(Project.NameKey project) {
+    setTargetHistoryToken(Dispatcher.toProjectAdmin(project, panel));
   }
 }

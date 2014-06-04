@@ -59,6 +59,30 @@
     },
     {
       "key": {
+        "uuid": "3f3d4c4d_c014fe14",
+        "filename": "lib/gwt/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-04T12:15:58Z",
+      "side": 1,
+      "message": "Right. That has to be:\n\n  deps \u003d [\n    \u0027:dev\u0027,\n  ]\n\nThat was fixed in another change that wasn\u0027t merged yet. I will rebase this change on top of it [1].\n\n [1] https://gerrit-review.googlesource.com/57640",
+      "parentUuid": "9f4d5812_9b30ab0d",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 33,
+        "endChar": 3
+      },
+      "revId": "cf99040bb543e9c91ae94c0665936a2a457f33c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9f4d5812_fb2befa2",
         "filename": "lib/gwt/BUCK",
         "patchSetId": 2
@@ -76,6 +100,24 @@
     },
     {
       "key": {
+        "uuid": "3f3d4c4d_600ad2f3",
+        "filename": "lib/gwt/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-04T12:15:58Z",
+      "side": 1,
+      "message": "Thanks for pointing this out. This was also addressed in this change with \u0027DO_NOT_DISTRIBUTE\u0027 license [1].\n\n [1] https://gerrit-review.googlesource.com/57640",
+      "parentUuid": "9f4d5812_fb2befa2",
+      "revId": "cf99040bb543e9c91ae94c0665936a2a457f33c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9f4d5812_bb3567fc",
         "filename": "tools/eclipse/BUCK",
         "patchSetId": 2
@@ -87,6 +129,24 @@
       "writtenOn": "2014-06-04T09:36:22Z",
       "side": 1,
       "message": "This is not needed in the Eclipse .classpath (and you added it explicitly in the *.launch file for SuperDevMode)\n\nMaybe this rule should be split with //tools/eclipse:classpath containing only those things needed in the Eclipse .classpath, and another rule that \"extends\" it to add those few other dependencies needed for working with the code (and downloaded by tools/download_all.py). tools/eclipse/project.py could build that other rule too to make sure all dependencies are downloaded (and therefore available for the *.launch configuration in Eclipse)",
+      "revId": "cf99040bb543e9c91ae94c0665936a2a457f33c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f4d5812_1b257bc9",
+        "filename": "tools/eclipse/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-04T12:15:58Z",
+      "side": 1,
+      "message": "Yes, I see. As you pointed out DevMode is still seems to working on OS X. That why i am inclined not to include that additional download step of gwt-codeserver.jar + (!) legacy Jetty aggregate artifact in common tools/eclipse/project.py code path (for now), but instead provide it as an additional (documented) step, a lá:\n\n  buck build codeserver\n\nas a prerequisite to run SuperDevMode. That should work, given the following Buck dependency graph is in place:\n\n  maven_jar(\n   name \u003d \u0027codeserver\u0027,\n   id \u003d \u0027com.google.gwt:gwt-codeserver:\u0027 + VERSION,\n   sha1 \u003d \u0027940edc715cc31b1957e18f617f75a068f251346a\u0027,\n   license \u003d \u0027Apache2.0\u0027,\n   deps \u003d [\n    \u0027:gwt-dev\u0027, # Jetty 8.1 is stripped\n    \u0027:jetty-servlet-aggregate\u0027, # 8.1 for codeserver\n   ],\n   attach_source \u003d False,\n  )\n  maven_jar(\n   name \u003d \u0027jetty-servlet-aggregate\u0027,\n   id \u003d \u0027org.eclipse.jetty.aggregate:jetty-servlet:8.1.12.v20130726\u0027,\n   [...]\n  )",
+      "parentUuid": "9f4d5812_bb3567fc",
       "revId": "cf99040bb543e9c91ae94c0665936a2a457f33c3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

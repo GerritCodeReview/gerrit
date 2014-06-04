@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9f4d5812_5bb78312",
+        "filename": "lib/jetty/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-04T17:32:44Z",
+      "side": 1,
+      "message": "Good idea. Done.",
+      "parentUuid": "9f4d5812_9bcc2ba0",
+      "revId": "86c24553ce7947940524b5ee58a43da2c0b06203",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9f4d5812_bbd1e734",
         "filename": "tools/eclipse/gerrit_gwt_codeserver.launch",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2014-06-04T16:12:26Z",
       "side": 1,
       "message": "Maybe move it above defaultClasspath, just to be sure? (in case you later add jetty-servlets 9.x)",
+      "revId": "86c24553ce7947940524b5ee58a43da2c0b06203",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f3d4c4d_20ae0a88",
+        "filename": "tools/eclipse/gerrit_gwt_codeserver.launch",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-04T17:32:44Z",
+      "side": 1,
+      "message": "This was my intention, but somehow this went wrong. Done.",
+      "parentUuid": "9f4d5812_bbd1e734",
       "revId": "86c24553ce7947940524b5ee58a43da2c0b06203",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

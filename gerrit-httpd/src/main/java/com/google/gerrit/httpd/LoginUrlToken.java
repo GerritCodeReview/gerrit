@@ -16,17 +16,23 @@ package com.google.gerrit.httpd;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.extensions.restapi.Url;
 
 import javax.servlet.http.HttpServletRequest;
 
 public class LoginUrlToken {
+  private static final String DEFAULT_TOKEN = '#' + PageLinks.MINE;
 
-  public static String getToken(HttpServletRequest req) {
-    String token = req.getPathInfo();
-    if (Strings.isNullOrEmpty(token)) {
-      token = PageLinks.MINE;
-    } else if (!token.startsWith("/")) {
-      token = "/" + token;
+  public static String getToken(final HttpServletRequest req) {
+    String token;
+    String encodedToken = req.getPathInfo();
+    if (Strings.isNullOrEmpty(encodedToken)) {
+      token = DEFAULT_TOKEN;
+    } else {
+      if (encodedToken.startsWith("/")) {
+        encodedToken = encodedToken.substring(1);
+      }
+      token = Url.decode(encodedToken);
     }
     return token;
   }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff2f341f_16f31c0e",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneVersionManager.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-06-04T06:06:01Z",
+      "side": 1,
+      "message": "This should also be abstracted out.  Currently it\u0027s specific to change indexes.",
+      "range": {
+        "startLine": 55,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 3
+      },
+      "revId": "c23b61d5b1cddd158909fc9a5ec4458e85f94d36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

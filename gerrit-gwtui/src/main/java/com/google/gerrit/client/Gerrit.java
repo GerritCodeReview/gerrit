@@ -336,7 +336,7 @@ public class Gerrit implements EntryPoint {
     } else if (token.startsWith("/")) {
       token = token.substring(1);
     }
-    return selfRedirect("/login/" + token);
+    return selfRedirect("/login/" + URL.encodePathSegment("#/" + token));
   }
 
   public static String selfRedirect(String suffix) {
@@ -371,8 +371,9 @@ public class Gerrit implements EntryPoint {
     if (port != null && !port.isEmpty()) {
       builder.setPort(Integer.parseInt(port));
     }
-    builder.setPath(path);
-    return builder.buildString();
+    //Do not use URLBuilder for path to prevent double encoding (e.g. encoded
+    //suffix would be encoded again)
+    return builder.buildString() + path;
   }
 
   static void deleteSessionCookie() {

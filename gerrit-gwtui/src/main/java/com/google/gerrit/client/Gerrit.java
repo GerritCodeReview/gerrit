@@ -756,14 +756,26 @@ public class Gerrit implements EntryPoint {
       public void onSuccess(TopMenuList result) {
         List<TopMenu> topMenuExtensions = Natives.asList(result);
         for (TopMenu menu : topMenuExtensions) {
-          LinkMenuBar existingBar = menuBars.get(menu.getName());
+          String name = menu.getName();
+          LinkMenuBar existingBar = menuBars.get(name);
           LinkMenuBar bar = existingBar != null ? existingBar : new LinkMenuBar();
-          for (TopMenuItem item : Natives.asList(menu.getItems())) {
-            addExtensionLink(bar, item);
+          if (GerritTopMenu.PROJECTS.menuName.equals(name)) {
+            for (TopMenuItem item : Natives.asList(menu.getItems())) {
+              String url = item.getUrl();
+              if (url.startsWith("http://") || url.startsWith("https://")) {
+                addExtensionLink(bar, item);
+              } else {
+                addProjectLink(bar, item.getName(), url);
+              }
+            }
+          } else {
+            for (TopMenuItem item : Natives.asList(menu.getItems())) {
+              addExtensionLink(bar, item);
+            }
           }
           if (existingBar == null) {
-            menuBars.put(menu.getName(), bar);
-            menuLeft.add(bar, menu.getName());
+            menuBars.put(name, bar);
+            menuLeft.add(bar, name);
           }
         }
       }

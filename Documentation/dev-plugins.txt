@@ -1247,6 +1247,16 @@ public class MyTopMenuExtension implements TopMenu {
 }
 ----
 
+Binding `MenuItems` using `GerritTopMenu.PROJECTS` name and url without protocol
+definition will result in bulding url withn `project name` context eg.
+
+[source,java]
+---
+  new MenuItem("My Screen", "my-screen");
+---
+
+will result in url http://$canonical_web_url/#/admin/projects/$project_name,my-screen
+
 If no Guice modules are declared in the manifest, the top menu extension may use
 auto-registration by providing an `@Listen` annotation:
 

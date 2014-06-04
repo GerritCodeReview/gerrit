@@ -15,7 +15,7 @@
 package com.google.gerrit.httpd.auth.container;
 
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.httpd.LoginUrlToken;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gwtexpui.server.CacheHeaders;
 import com.google.inject.Inject;
@@ -53,18 +53,9 @@ public class HttpsClientSslCertLoginServlet extends HttpServlet {
       final HttpServletResponse rsp) throws IOException {
     final StringBuilder rdr = new StringBuilder();
     rdr.append(urlProvider.get());
-    rdr.append('#');
-    rdr.append(getToken(req));
+    rdr.append(LoginUrlToken.getToken(req));
 
     CacheHeaders.setNotCacheable(rsp);
     rsp.sendRedirect(rdr.toString());
-  }
-
-  private String getToken(final HttpServletRequest req) {
-    String token = req.getPathInfo();
-    if (token == null || token.isEmpty()) {
-      token = PageLinks.MINE;
-    }
-    return token;
   }
 }

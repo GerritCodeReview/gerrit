@@ -18,6 +18,7 @@ import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.httpd.CanonicalWebUrl;
 import com.google.gerrit.httpd.HtmlDomUtil;
+import com.google.gerrit.httpd.LoginUrlToken;
 import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
@@ -78,7 +79,7 @@ class HttpLoginServlet extends HttpServlet {
   @Override
   protected void doGet(final HttpServletRequest req,
       final HttpServletResponse rsp) throws ServletException, IOException {
-    final String token = getToken(req);
+    final String token = LoginUrlToken.getToken(req);
     if ("/logout".equals(token) || "/signout".equals(token)) {
       req.getRequestDispatcher("/logout").forward(req, rsp);
       return;
@@ -130,9 +131,8 @@ class HttpLoginServlet extends HttpServlet {
       rdr.append(authConfig.getRegisterPageUrl());
     } else {
       rdr.append(urlProvider.get(req));
-      rdr.append('#');
       if (arsp.isNew() && !token.startsWith(PageLinks.REGISTER + "/")) {
-        rdr.append(PageLinks.REGISTER);
+        rdr.append('#' + PageLinks.REGISTER);
       }
       rdr.append(token);
     }
@@ -162,15 +162,5 @@ class HttpLoginServlet extends HttpServlet {
       }
       replaceByClass(n, name, value);
     }
-  }
-
-  private String getToken(final HttpServletRequest req) {
-    String token = req.getPathInfo();
-    if (token == null || token.isEmpty()) {
-      token = PageLinks.MINE;
-    } else if (!token.startsWith("/")) {
-      token = "/" + token;
-    }
-    return token;
   }
 }

@@ -171,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "3f3d4c4d_c09e3e54",
+        "filename": "tools/eclipse/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-04T15:56:28Z",
+      "side": 1,
+      "message": "Even work on top of existing .classpath from Gerrit project. That allow us not to mess around with custom classpath in launch configuration.\n\nCoderServer is up and running now:\n\n Compile completed in 22542 ms\n  [2014-06-04 19:47:22,770] INFO  org.eclipse.jetty.server.Server : jetty-  \n  8.1.12.v20130726\n  [2014-06-04 19:47:22,803] INFO  \n  org.eclipse.jetty.server.AbstractConnector : Started  \n  SelectChannelConnector@127.0.0.1:9876\n  The code server is ready.\n  Next, visit: http://localhost:9876/\n\nHowever when i am trying to activate \"Dev Mode On\" there, i am getting:\n\n  \"Can\u0027t find any GWT Modules on this page.\"\n\nAnd i don\u0027t know why...",
+      "parentUuid": "9f4d5812_bb4c8786",
+      "revId": "cf99040bb543e9c91ae94c0665936a2a457f33c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3f3d4c4d_001bc647",
         "filename": "tools/eclipse/gerrit_gwt_codeserver.launch",
         "patchSetId": 2

@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "ff2f341f_b6fa68db",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-06-04T13:12:12Z",
+      "side": 1,
+      "message": "no longer",
+      "range": {
+        "startLine": 9,
+        "startChar": 25,
+        "endLine": 9,
+        "endChar": 36
+      },
+      "revId": "c319631ae53c2dcb5281029df3f1b4c4f3c8f866",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9f4d5812_3b22b7c2",
         "filename": "gerrit-plugin-gwt-archetype/src/main/resources/archetype-resources/pom.xml",
         "patchSetId": 1

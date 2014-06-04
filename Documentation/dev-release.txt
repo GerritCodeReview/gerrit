@@ -274,11 +274,13 @@ Releasing artifacts to Maven Central cannot be undone!
 link:https://oss.sonatype.org/[Sonatype Nexus Server], select it and
 click on `Release`.
 
+** The released artifacts are available in
+https://oss.sonatype.org/content/repositories/releases/com/google/gerrit/
+
 ** It may take up to 2 hours until the artifacts appear on Maven
 Central:
 +
-https://oss.sonatype.org/content/repositories/releases/com/google/gerrit/
-
+http://central.maven.org/maven2/com/google/gerrit/
 
 
 [[push-stable]]

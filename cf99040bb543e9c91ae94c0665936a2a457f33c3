@@ -1,0 +1,164 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9f4d5812_db2633dc",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/GerritGwtUI.gwt.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1010404
+      },
+      "writtenOn": "2014-06-04T09:36:22Z",
+      "side": 1,
+      "message": "This is not needed with GWT 2.6+, this is now the default value.",
+      "revId": "cf99040bb543e9c91ae94c0665936a2a457f33c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f3d4c4d_40ea2ec4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/GerritGwtUI.gwt.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1010404
+      },
+      "writtenOn": "2014-06-04T09:36:22Z",
+      "side": 1,
+      "message": "If you don\u0027t want/need source maps in \"prod mode\", then you don\u0027t need this; CodeServer will set it anyway.",
+      "revId": "cf99040bb543e9c91ae94c0665936a2a457f33c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f4d5812_9b30ab0d",
+        "filename": "lib/gwt/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1010404
+      },
+      "writtenOn": "2014-06-04T09:36:22Z",
+      "side": 1,
+      "message": "codeserver actually depends on :dev, and :dev depends on :json (but you addressed that last bit in another change)",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 33,
+        "endChar": 3
+      },
+      "revId": "cf99040bb543e9c91ae94c0665936a2a457f33c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f4d5812_fb2befa2",
+        "filename": "lib/gwt/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1010404
+      },
+      "writtenOn": "2014-06-04T09:36:22Z",
+      "side": 1,
+      "message": "org.json:json from Maven Central is Crockford\u0027s one under the JSON.org license; I\u0027m not aware of a publicly-available JAR for the Android re-implementation (GWT uses one that\u0027s been extracted from the Android SDK, in https://google-web-toolkit.googlecode.com/svn/tools/lib/json/android-sdk-19.1/ but when deployed to Maven Central, we declare the dependency on org.json:json, as we want to minimize —some— conflicts and there\u0027s no alternative)",
+      "revId": "cf99040bb543e9c91ae94c0665936a2a457f33c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f4d5812_bb3567fc",
+        "filename": "tools/eclipse/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1010404
+      },
+      "writtenOn": "2014-06-04T09:36:22Z",
+      "side": 1,
+      "message": "This is not needed in the Eclipse .classpath (and you added it explicitly in the *.launch file for SuperDevMode)\n\nMaybe this rule should be split with //tools/eclipse:classpath containing only those things needed in the Eclipse .classpath, and another rule that \"extends\" it to add those few other dependencies needed for working with the code (and downloaded by tools/download_all.py). tools/eclipse/project.py could build that other rule too to make sure all dependencies are downloaded (and therefore available for the *.launch configuration in Eclipse)",
+      "revId": "cf99040bb543e9c91ae94c0665936a2a457f33c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f3d4c4d_001bc647",
+        "filename": "tools/eclipse/gerrit_gwt_codeserver.launch",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1010404
+      },
+      "writtenOn": "2014-06-04T09:36:22Z",
+      "side": 1,
+      "message": "Any reason to use 9999 rather than the 9876 that\u0027s used by default?",
+      "range": {
+        "startLine": 14,
+        "startChar": 107,
+        "endLine": 14,
+        "endChar": 117
+      },
+      "revId": "cf99040bb543e9c91ae94c0665936a2a457f33c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f4d5812_7b183f8e",
+        "filename": "tools/eclipse/gerrit_gwt_codeserver.launch",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1010404
+      },
+      "writtenOn": "2014-06-04T09:36:22Z",
+      "side": 1,
+      "message": "SuperDevMode doesn\u0027t run your code in Java like DevMode did, so this will have no effect, and GWT has no equivalent to java\u0027s -da (it only has -ea and that\u0027s always active in SuperDevMode).\n\nIf you really need to disable the assertions in this class in SuperDevMode, then I\u0027m afraid you\u0027ll have to wrap them into\n\n if (!GWT.isScript())\n\nblocks or similar (that said, I don\u0027t see anything that would exercise those asserts then).",
+      "range": {
+        "startLine": 16,
+        "startChar": 333,
+        "endLine": 16,
+        "endChar": 387
+      },
+      "revId": "cf99040bb543e9c91ae94c0665936a2a457f33c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f4d5812_5b1b038c",
+        "filename": "tools/eclipse/gerrit_gwt_codeserver.launch",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1010404
+      },
+      "writtenOn": "2014-06-04T09:36:22Z",
+      "side": 1,
+      "message": "SuperDevMode only runs the client-side code (you have to run gerrit_daemon and gerrit_gwt_codeserver side-by-side), so I don\u0027t think this is needed here.",
+      "range": {
+        "startLine": 16,
+        "startChar": 214,
+        "endLine": 16,
+        "endChar": 333
+      },
+      "revId": "cf99040bb543e9c91ae94c0665936a2a457f33c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

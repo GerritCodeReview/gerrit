@@ -131,9 +131,8 @@ class HttpLoginServlet extends HttpServlet {
       rdr.append(authConfig.getRegisterPageUrl());
     } else {
       rdr.append(urlProvider.get(req));
-      rdr.append('#');
       if (arsp.isNew() && !token.startsWith(PageLinks.REGISTER + "/")) {
-        rdr.append(PageLinks.REGISTER);
+        rdr.append('#' + PageLinks.REGISTER);
       }
       rdr.append(token);
     }

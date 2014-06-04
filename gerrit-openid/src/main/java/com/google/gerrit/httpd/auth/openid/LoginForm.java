@@ -222,9 +222,7 @@ class LoginForm extends HttpServlet {
     String self = req.getRequestURI();
     String cancel = Objects.firstNonNull(urlProvider != null ? urlProvider.get() : "/", "/");
     String token = LoginUrlToken.getToken(req);
-    if (!token.equals("/")) {
-      cancel += "#" + token;
-    }
+    cancel += token;
 
     Document doc = header.parse(LoginForm.class, "LoginForm.html");
     HtmlDomUtil.find(doc, "hostName").setTextContent(req.getServerName());

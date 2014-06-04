@@ -21,6 +21,7 @@ import com.google.common.base.Strings;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.httpd.HtmlDomUtil;
+import com.google.gerrit.httpd.LoginUrlToken;
 import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.httpd.template.SiteHeaderFooter;
 import com.google.gerrit.reviewdb.client.Account;
@@ -132,11 +133,12 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
         }
         rdr.append("gwt.codesvr=").append(req.getParameter("gwt.codesvr"));
       }
-      rdr.append('#');
+
       if (res.isNew()) {
-        rdr.append(PageLinks.REGISTER);
+        rdr.append('#' + PageLinks.REGISTER);
+      } else {
+        rdr.append(LoginUrlToken.getToken(req));
       }
-      rdr.append(PageLinks.MINE);
       rsp.sendRedirect(rdr.toString());
 
     } else {

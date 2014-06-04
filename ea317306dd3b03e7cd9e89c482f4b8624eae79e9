@@ -1,0 +1,193 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9f4d5812_1bc1fb61",
+        "filename": "Documentation/dev-eclipse.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1010404
+      },
+      "writtenOn": "2014-06-04T20:48:52Z",
+      "side": 1,
+      "message": "this is not really needed.\n\nIf the goal is to speed up codeserver startup, then you can pass -noprecompile to codeserver, but then you won\u0027t know whether you have compile errors until you click \"Dev Mode On\" in your browser.",
+      "range": {
+        "startLine": 78,
+        "startChar": 0,
+        "endLine": 86,
+        "endChar": 4
+      },
+      "revId": "ea317306dd3b03e7cd9e89c482f4b8624eae79e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f3d4c4d_0090a637",
+        "filename": "Documentation/dev-eclipse.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1010404
+      },
+      "writtenOn": "2014-06-04T20:48:52Z",
+      "side": 1,
+      "message": "typo: upper case E",
+      "range": {
+        "startLine": 89,
+        "startChar": 12,
+        "endLine": 89,
+        "endChar": 19
+      },
+      "revId": "ea317306dd3b03e7cd9e89c482f4b8624eae79e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f4d5812_3bbe37ed",
+        "filename": "Documentation/dev-eclipse.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1010404
+      },
+      "writtenOn": "2014-06-04T20:48:52Z",
+      "side": 1,
+      "message": "typo: Debug",
+      "range": {
+        "startLine": 89,
+        "startChar": 27,
+        "endLine": 89,
+        "endChar": 32
+      },
+      "revId": "ea317306dd3b03e7cd9e89c482f4b8624eae79e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f3d4c4d_607f3234",
+        "filename": "Documentation/dev-eclipse.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1010404
+      },
+      "writtenOn": "2014-06-04T20:48:52Z",
+      "side": 1,
+      "message": "type: codeserver",
+      "range": {
+        "startLine": 90,
+        "startChar": 52,
+        "endLine": 90,
+        "endChar": 63
+      },
+      "revId": "ea317306dd3b03e7cd9e89c482f4b8624eae79e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f4d5812_fbae8fbb",
+        "filename": "Documentation/dev-eclipse.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1010404
+      },
+      "writtenOn": "2014-06-04T20:48:52Z",
+      "side": 1,
+      "message": "Maybe reword as \"click on your `Dev Mode On` bookmark\" to make it crystal clear.",
+      "range": {
+        "startLine": 92,
+        "startChar": 54,
+        "endLine": 92,
+        "endChar": 76
+      },
+      "revId": "ea317306dd3b03e7cd9e89c482f4b8624eae79e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f3d4c4d_a0945a2c",
+        "filename": "Documentation/dev-eclipse.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1010404
+      },
+      "writtenOn": "2014-06-04T20:48:52Z",
+      "side": 1,
+      "message": "FYI (I don\u0027t think it\u0027s worth mentioning here though), the \"Compile\" button can also be used as a bookmarklet.",
+      "range": {
+        "startLine": 93,
+        "startChar": 0,
+        "endLine": 93,
+        "endChar": 38
+      },
+      "revId": "ea317306dd3b03e7cd9e89c482f4b8624eae79e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f3d4c4d_807cb63e",
+        "filename": "Documentation/dev-eclipse.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1010404
+      },
+      "writtenOn": "2014-06-04T20:48:52Z",
+      "side": 1,
+      "message": "I think this has to be done before loading the page, so maybe move that line above the Dev Mode On → Compile (just after the install bookmarklets step)",
+      "revId": "ea317306dd3b03e7cd9e89c482f4b8624eae79e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f3d4c4d_c0995e65",
+        "filename": "Documentation/dev-eclipse.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1010404
+      },
+      "writtenOn": "2014-06-04T20:48:52Z",
+      "side": 1,
+      "message": "You can also use Ctrl+O instead of navigating.",
+      "revId": "ea317306dd3b03e7cd9e89c482f4b8624eae79e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f4d5812_dba953b6",
+        "filename": "Documentation/dev-eclipse.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1010404
+      },
+      "writtenOn": "2014-06-04T20:48:52Z",
+      "side": 1,
+      "message": "You should probably add bullets about the need to click \"Dev Mode On\" then \"Compile\" when you change client-side code. Hitting F5 in the browser will just load the last compile output, without recompiling.",
+      "revId": "ea317306dd3b03e7cd9e89c482f4b8624eae79e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -189,6 +189,24 @@
     },
     {
       "key": {
+        "uuid": "9f4d5812_3b6397e7",
+        "filename": "tools/eclipse/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1010404
+      },
+      "writtenOn": "2014-06-04T16:06:21Z",
+      "side": 1,
+      "message": "Dev Mode On is a bookmarklet. You need to \"activate\" it on a deployed (prod mode) version of the app (e.g. gerrit_daemon). Actually, you only need to open localhost:9876 once to grab the bookmarklets (note: the bookmarklets are bound to the codeserver URL though, so changing port for example means they\u0027ll no longer work), or possibly to go read compile logs.\n\nSee http://stackoverflow.com/a/18333050/116472 for a complete howto.",
+      "parentUuid": "3f3d4c4d_c09e3e54",
+      "revId": "cf99040bb543e9c91ae94c0665936a2a457f33c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3f3d4c4d_001bc647",
         "filename": "tools/eclipse/gerrit_gwt_codeserver.launch",
         "patchSetId": 2

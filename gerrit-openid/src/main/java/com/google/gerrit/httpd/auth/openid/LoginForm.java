@@ -24,6 +24,7 @@ import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.auth.openid.OpenIdUrls;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.httpd.HtmlDomUtil;
+import com.google.gerrit.httpd.LoginUrlToken;
 import com.google.gerrit.httpd.template.SiteHeaderFooter;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.server.config.AuthConfig;
@@ -102,7 +103,7 @@ class LoginForm extends HttpServlet {
   protected void doGet(HttpServletRequest req, HttpServletResponse res)
       throws IOException {
     if (ssoUrl != null) {
-      String token = getToken(req);
+      String token = LoginUrlToken.getToken(req);
       SignInMode mode;
       if (PageLinks.REGISTER.equals(token)) {
         mode = SignInMode.REGISTER;
@@ -140,7 +141,7 @@ class LoginForm extends HttpServlet {
     }
 
     boolean remember = "1".equals(req.getParameter("rememberme"));
-    String token = getToken(req);
+    String token = LoginUrlToken.getToken(req);
     SignInMode mode;
     if (link) {
       mode = SignInMode.LINK_IDENTIY;
@@ -216,24 +217,12 @@ class LoginForm extends HttpServlet {
     sendHtml(res, doc);
   }
 
-  private static String getToken(HttpServletRequest req) {
-    String token = req.getPathInfo();
-    if (token == null || token.isEmpty()) {
-      token = PageLinks.MINE;
-    } else if (!token.startsWith("/")) {
-      token = "/" + token;
-    }
-    return token;
-  }
-
   private void sendForm(HttpServletRequest req, HttpServletResponse res,
       boolean link, @Nullable String errorMessage) throws IOException {
     String self = req.getRequestURI();
     String cancel = Objects.firstNonNull(urlProvider != null ? urlProvider.get() : "/", "/");
-    String token = getToken(req);
-    if (!token.equals("/")) {
-      cancel += "#" + token;
-    }
+    String token = LoginUrlToken.getToken(req);
+    cancel += token;
 
     Document doc = header.parse(LoginForm.class, "LoginForm.html");
     HtmlDomUtil.find(doc, "hostName").setTextContent(req.getServerName());

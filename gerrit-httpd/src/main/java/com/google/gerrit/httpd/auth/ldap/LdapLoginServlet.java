@@ -17,10 +17,10 @@ package com.google.gerrit.httpd.auth.ldap;
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.httpd.CanonicalWebUrl;
 import com.google.gerrit.httpd.HtmlDomUtil;
+import com.google.gerrit.httpd.LoginUrlToken;
 import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.httpd.template.SiteHeaderFooter;
 import com.google.gerrit.server.account.AccountException;
@@ -73,10 +73,8 @@ class LdapLoginServlet extends HttpServlet {
       @Nullable String errorMessage) throws IOException {
     String self = req.getRequestURI();
     String cancel = Objects.firstNonNull(urlProvider.get(req), "/");
-    String token = getToken(req);
-    if (!token.equals("/")) {
-      cancel += "#" + token;
-    }
+    String token = LoginUrlToken.getToken(req);
+    cancel += token;
 
     Document doc = headers.parse(LdapLoginServlet.class, "LoginForm.html");
     HtmlDomUtil.find(doc, "hostName").setTextContent(req.getServerName());
@@ -142,23 +140,13 @@ class LdapLoginServlet extends HttpServlet {
       return;
     }
 
+    String token = LoginUrlToken.getToken(req);
     StringBuilder dest = new StringBuilder();
     dest.append(urlProvider.get(req));
-    dest.append('#');
-    dest.append(getToken(req));
+    dest.append(token);
 
     CacheHeaders.setNotCacheable(res);
     webSession.get().login(ares, "1".equals(remember));
     res.sendRedirect(dest.toString());
-  }
-
-  private static String getToken(final HttpServletRequest req) {
-    String token = req.getPathInfo();
-    if (token == null || token.isEmpty()) {
-      token = PageLinks.MINE;
-    } else if (!token.startsWith("/")) {
-      token = "/" + token;
-    }
-    return token;
   }
 }

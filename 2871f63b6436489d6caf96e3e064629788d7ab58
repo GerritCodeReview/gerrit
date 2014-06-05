@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3f3d4c4d_40f22e79",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-05T10:38:21Z",
+      "side": 1,
+      "message": "Provide this feature for all Gerrit users, without needing to fork Gerrit?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 55
+      },
+      "revId": "2871f63b6436489d6caf96e3e064629788d7ab58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f4d5812_fbbd2fc6",
+        "filename": "gerrit-war/src/main/java/com/google/gerrit/httpd/WebAppInitializer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-05T10:38:21Z",
+      "side": 1,
+      "message": "The appropriate way to do that is per configuration and not per commenting out the code. In very big organization (big open source projects) there are too many administrators, and i afraid, that such organization may also want that feature. And no, to fork Gerrit is not really an option there.\n\nThat why i would suggest to introduce new configuration option:\n\n  cache.remoteConfiguration: allow to configure caches remotely.\n\nand may be even disable it per default.",
+      "range": {
+        "startLine": 288,
+        "startChar": 4,
+        "endLine": 288,
+        "endChar": 46
+      },
+      "revId": "2871f63b6436489d6caf96e3e064629788d7ab58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

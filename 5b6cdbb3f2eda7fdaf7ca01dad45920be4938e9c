@@ -22,6 +22,30 @@
       "revId": "5b6cdbb3f2eda7fdaf7ca01dad45920be4938e9c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f3d4c4d_40330e7c",
+        "filename": "Documentation/dev-eclipse.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-05T20:49:48Z",
+      "side": 1,
+      "message": "Ups. Done.",
+      "parentUuid": "9f4d5812_1b601b89",
+      "range": {
+        "startLine": 101,
+        "startChar": 0,
+        "endLine": 102,
+        "endChar": 18
+      },
+      "revId": "5b6cdbb3f2eda7fdaf7ca01dad45920be4938e9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

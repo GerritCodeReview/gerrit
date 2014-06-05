@@ -121,6 +121,30 @@
     },
     {
       "key": {
+        "uuid": "3f3d4c4d_e04022c6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-06-05T12:05:41Z",
+      "side": 1,
+      "message": "\u003e I would also want to disable this from remote HOST per SSH.\n\nBut then this is unrelated to this change. If you want this, please upload an own change for this.\n\n\n \u003e I would like to restrict very sensible actions like \n \u003e Database, Git, Plugins, Caches managements to the small \n \u003e subset of administrator group that have direct access to \n \u003e the production machine.\n\nHow would this \"small subset of administrators\" be able to flush the caches if this functionality is disabled on the server?",
+      "parentUuid": "9f4d5812_db9f1352",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 55
+      },
+      "revId": "2871f63b6436489d6caf96e3e064629788d7ab58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9f4d5812_fbbd2fc6",
         "filename": "gerrit-war/src/main/java/com/google/gerrit/httpd/WebAppInitializer.java",
         "patchSetId": 1

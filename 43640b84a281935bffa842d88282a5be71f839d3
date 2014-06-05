@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9f4d5812_7b7cbf3d",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-06-05T14:00:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bffbfccc_e4435a27",
+      "range": {
+        "startLine": 285,
+        "startChar": 14,
+        "endLine": 285,
+        "endChar": 19
+      },
+      "revId": "43640b84a281935bffa842d88282a5be71f839d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bffbfccc_0438b6be",
         "filename": "Documentation/dev-release.txt",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2014-06-05T13:31:13Z",
       "side": 1,
       "message": "\"Click on \u0027Central Statistics\u0027 under \u0027View/Repositories\u0027 on the left navigation bar.\"\n\nI think it\u0027s better not to use backticks here.  Instead use either single or double quotes; I\u0027m not sure which one renders better.",
+      "range": {
+        "startLine": 290,
+        "startChar": 3,
+        "endLine": 291,
+        "endChar": 21
+      },
+      "revId": "43640b84a281935bffa842d88282a5be71f839d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f3d4c4d_002d061f",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-06-05T14:00:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bffbfccc_0438b6be",
       "range": {
         "startLine": 290,
         "startChar": 3,

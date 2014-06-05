@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "3f3d4c4d_6012d2e8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-06-05T11:50:18Z",
+      "side": 1,
+      "message": "I believe Shawn\u0027s setup is wrong. If you don\u0027t want people to be administrator then don\u0027t grant them the \u0027Administrate Server\u0027 capability but only those capabilities and permissions that they should have. It doesn\u0027t make sense to make people administrator and then configure that some things can\u0027t be done by an administrator. Then as a next thing you will ask if we can have a super-administrator which again can do everything?",
+      "parentUuid": "9f4d5812_1bd7bbf5",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 55
+      },
+      "revId": "2871f63b6436489d6caf96e3e064629788d7ab58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9f4d5812_fbbd2fc6",
         "filename": "gerrit-war/src/main/java/com/google/gerrit/httpd/WebAppInitializer.java",
         "patchSetId": 1

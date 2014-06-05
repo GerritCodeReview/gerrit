@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "3f3d4c4d_4009ceb8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-05T12:02:51Z",
+      "side": 1,
+      "message": "If that doesn\u0027t make sense, why do we have enabledRemotePluginConfiguration option [1]? You even +1 that change.\n\n [1] https://gerrit-review.googlesource.com/54650",
+      "parentUuid": "3f3d4c4d_6012d2e8",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 55
+      },
+      "revId": "2871f63b6436489d6caf96e3e064629788d7ab58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9f4d5812_fbbd2fc6",
         "filename": "gerrit-war/src/main/java/com/google/gerrit/httpd/WebAppInitializer.java",
         "patchSetId": 1

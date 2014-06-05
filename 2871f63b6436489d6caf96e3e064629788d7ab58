@@ -217,6 +217,30 @@
     },
     {
       "key": {
+        "uuid": "9f4d5812_db8ab30d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-06-05T12:51:29Z",
+      "side": 1,
+      "message": "Well, as I already said, since this functionality is already available via SSH, I don\u0027t see anything wrong with making it available via REST too.\n\nWhether it should be possible to disable this functionality is unrelated to this change and I\u0027m not interested in implementing this.\n\nHaving an own module for these REST endpoints is a favour for Shawn so that he doesn\u0027t need to adapt his current setup of handing out the administrator privilege for his server. I still think that it is wrong to grant the administrate server capability to anyone that shouldn\u0027t have all capabilities. If you make someone an admin that is not trustworthy there is something wrong with this setup and we shouldn\u0027t fix it by disabling admin functionality in the server. I only agree to this change, because it is trivial to implement and becasue it saves work for Shawn.\n\nBut really what is the problem with creating an \"OperationAdmin\" group that has all capabilities except FLUSH_CACHES and add all your \"administrators\" to it instead of giving them the \"Administrate Server\" capability??",
+      "parentUuid": "9f4d5812_1baedb87",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 55
+      },
+      "revId": "2871f63b6436489d6caf96e3e064629788d7ab58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9f4d5812_fbbd2fc6",
         "filename": "gerrit-war/src/main/java/com/google/gerrit/httpd/WebAppInitializer.java",
         "patchSetId": 1

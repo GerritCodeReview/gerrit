@@ -16,6 +16,24 @@
       "revId": "b97113ece01a6c9b5092489eba63c9b092d4babc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f3d4c4d_205fea9e",
+        "filename": "Documentation/dev-eclipse.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-05T13:10:09Z",
+      "side": 1,
+      "message": "Don\u0027t sure either, but i think it should be safe to switch the lines 85 and 87.",
+      "parentUuid": "9f4d5812_3bab9778",
+      "revId": "b97113ece01a6c9b5092489eba63c9b092d4babc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

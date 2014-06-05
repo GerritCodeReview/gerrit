@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9f4d5812_9bc2eb39",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreProvider.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-05T10:45:21Z",
+      "side": 1,
+      "message": "Does it make sense to get all interfaces from the Jar and then looking for the one you need by name ? Seems a bit overkill IMHO.",
+      "range": {
+        "startLine": 44,
+        "startChar": 30,
+        "endLine": 44,
+        "endChar": 82
+      },
+      "revId": "454784aa88a0977bfedc1933329fffba4a81c6f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f3d4c4d_0023c644",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreProvider.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-05T10:45:21Z",
+      "side": 1,
+      "message": "You are kind of overloading on the Export concept here: this will not be used in the same way that plugins do and would not generate the same plugin loading mechanism.\n\nWhy don\u0027t you just define a @SecureStoreProvider annotation or something more tailored to this ? It is typically a bad idea to reause names for different concepts.",
+      "range": {
+        "startLine": 57,
+        "startChar": 48,
+        "endLine": 57,
+        "endChar": 60
+      },
+      "revId": "454784aa88a0977bfedc1933329fffba4a81c6f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f4d5812_bbc7a748",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreProvider.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-05T10:45:21Z",
+      "side": 1,
+      "message": "A bit overkill here. I think you had to do in this way because of the reuse of existing @Export annotation for a different context / purpose.\nIf you sort out the previous problem, then you don\u0027t need to make this complex searching / scanning anymore :-)",
+      "range": {
+        "startLine": 60,
+        "startChar": 6,
+        "endLine": 61,
+        "endChar": 75
+      },
+      "revId": "454784aa88a0977bfedc1933329fffba4a81c6f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f3d4c4d_a0177ad7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreProvider.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-05T10:45:21Z",
+      "side": 1,
+      "message": "Does it really make sense to have a plugin with multiple secure-stores ? What would be the rationale behind it ?",
+      "range": {
+        "startLine": 99,
+        "startChar": 4,
+        "endLine": 105,
+        "endChar": 5
+      },
+      "revId": "454784aa88a0977bfedc1933329fffba4a81c6f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

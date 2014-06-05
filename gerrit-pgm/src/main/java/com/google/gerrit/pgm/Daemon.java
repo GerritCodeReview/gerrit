@@ -52,6 +52,7 @@ import com.google.gerrit.server.config.CanonicalWebUrlProvider;
 import com.google.gerrit.server.config.GerritGlobalModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.MasterNodeStartup;
+import com.google.gerrit.server.config.RemoteCacheAdminModule;
 import com.google.gerrit.server.contact.HttpContactStoreConnection;
 import com.google.gerrit.server.git.ReceiveCommitsExecutorModule;
 import com.google.gerrit.server.git.WorkQueue;
@@ -323,6 +324,7 @@ public class Daemon extends SiteProgram {
     modules.add(new SmtpEmailSender.Module());
     modules.add(new SignedTokenEmailTokenVerifier.Module());
     modules.add(new PluginRestApiModule());
+    modules.add(new RemoteCacheAdminModule());
     modules.add(createIndexModule());
     if (Objects.firstNonNull(httpd, true)) {
       modules.add(new CanonicalWebUrlModule() {

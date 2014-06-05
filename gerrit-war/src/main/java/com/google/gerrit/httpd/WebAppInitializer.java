@@ -35,6 +35,7 @@ import com.google.gerrit.server.config.GerritGlobalModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerConfigModule;
 import com.google.gerrit.server.config.MasterNodeStartup;
+import com.google.gerrit.server.config.RemoteCacheAdminModule;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.contact.HttpContactStoreConnection;
 import com.google.gerrit.server.git.LocalDiskRepositoryManager;
@@ -284,6 +285,7 @@ public class WebAppInitializer extends GuiceServletContextListener
     modules.add(new SmtpEmailSender.Module());
     modules.add(new SignedTokenEmailTokenVerifier.Module());
     modules.add(new PluginRestApiModule());
+    modules.add(new RemoteCacheAdminModule());
     AbstractModule changeIndexModule;
     switch (IndexModule.getIndexType(cfgInjector)) {
       case LUCENE:

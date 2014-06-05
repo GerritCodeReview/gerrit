@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3f3d4c4d_c04f1ef1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-05T12:21:20Z",
+      "side": 1,
+      "message": "This was fixed and can be addressed already in this change [1].\n\n [1] https://github.com/facebook/buck/issues/126",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 47
+      },
+      "revId": "3f8a53cf5f17b647cef545420bc15fb0dcbeab04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

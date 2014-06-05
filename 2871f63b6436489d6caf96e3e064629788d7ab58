@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "9f4d5812_db9f1352",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-05T11:59:37Z",
+      "side": 1,
+      "message": "I would also want to disable this from remote HOST per SSH. Exact as it is the case with remote plugin commands: You can disable remotePluginConfiguration.\n\nThat means: you cannot install/reinstall/uninstall plugins per SSH/Rest API, but only when you have direct access to the machine.\n\nDue to organization of big open source projects, it is common case, that the whole Infrastructure team (\u003e10) get administrator right. However only very small group (\u003c5) get direct access to the Gerrit machine.\n\nI would like to restrict very sensible actions like Database, Git, Plugins, Caches managements to the small subset of administrator group that have direct access to the production machine.\n\nAnother approach to my suggestion would be to do the same as with plugin remote configuration option:\n\nAlways bind the endpoints/SSH commands, but add a \n\n\n  checkRemoteCacheConfiguraionEnabled()\n\nguard. Exact like it is already today the case with remotePluginConfiguration().",
+      "parentUuid": "9f4d5812_1bd7bbf5",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 55
+      },
+      "revId": "2871f63b6436489d6caf96e3e064629788d7ab58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9f4d5812_fbbd2fc6",
         "filename": "gerrit-war/src/main/java/com/google/gerrit/httpd/WebAppInitializer.java",
         "patchSetId": 1

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff2f341f_d62604dc",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-06-05T14:25:36Z",
+      "side": 1,
+      "message": "\"Click on \u0027Build Promotion\u0027 under \u0027 Staging Repositories\u0027 on the left navigation bar.\"",
+      "range": {
+        "startLine": 229,
+        "startChar": 3,
+        "endLine": 230,
+        "endChar": 22
+      },
+      "revId": "fe97bd96335195b33019852dbef06294790d5c10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bffbfccc_a43d62ae",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-06-05T14:25:36Z",
+      "side": 1,
+      "message": "\"Click on \u0027Central Statistics\u0027 under \u0027View/Repositories\u0027 on the left navigation bar.\"",
+      "range": {
+        "startLine": 290,
+        "startChar": 3,
+        "endLine": 291,
+        "endChar": 21
+      },
+      "revId": "fe97bd96335195b33019852dbef06294790d5c10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

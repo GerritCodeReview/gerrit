@@ -169,6 +169,30 @@
     },
     {
       "key": {
+        "uuid": "9f4d5812_bb9ec752",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-06-05T12:20:50Z",
+      "side": 1,
+      "message": "Ok, I\u0027m not against you implementing this. I don\u0027t find this useful, so I will not spent time on it. We have fine-grained capabilities that allow you to exactly assign the needed permissions. I think we don\u0027t need a second possibility to do the same, by saying you are administrator, but minus the following capabilities. Just don\u0027t be lazy and make not everyone an administrator if they should not have all capabilities.\n\n \u003e So this should still work from the same machine, where Gerrit is installed.\n\nAFAIK for the plugins the functionality in Gerrit to install/disable plugins via REST/SSH is completely disabled, no matter from which machine you come. It only works being on the machine by copying/deleting the plugin jars in the $review_site/plugins folder.\n\nSo flushing caches was maybe a bad example, since you can flush the caches by deleting the corresponding folder in $review_site/cache if the functionality is disabled in Gerrit.\n\nBut how would you get this summary data if the functionality is disabled in Gerrit?",
+      "parentUuid": "3f3d4c4d_a04a1ae2",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 55
+      },
+      "revId": "2871f63b6436489d6caf96e3e064629788d7ab58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9f4d5812_fbbd2fc6",
         "filename": "gerrit-war/src/main/java/com/google/gerrit/httpd/WebAppInitializer.java",
         "patchSetId": 1

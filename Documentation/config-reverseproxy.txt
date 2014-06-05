@@ -135,6 +135,14 @@ screen, your Nginx proxy is very likely decoding the passed URL.
 Make sure to use a 'proxy_pass' URL without any path (esp. no trailing
 '/' after the 'host:port').
 
+If you are using Apache httpd server with mod_jk and AJP connector, add
+the following option to your httpd.conf directly or included from another
+file:
+
+----
+JkOptions +ForwardURICompatUnparsed
+----
+
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

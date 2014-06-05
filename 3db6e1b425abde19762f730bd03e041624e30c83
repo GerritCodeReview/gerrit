@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3f3d4c4d_a0c53a1b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JarScanner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-06-05T09:12:07Z",
+      "side": 1,
+      "message": "It is just DTO. We can filter this list only to com.google.gerrit.* interfaces.\n\nBut this should be done in separate change :)",
+      "parentUuid": "9f4d5812_fb5c4f27",
+      "range": {
+        "startLine": 92,
+        "startChar": 4,
+        "endLine": 94,
+        "endChar": 5
+      },
+      "revId": "3db6e1b425abde19762f730bd03e041624e30c83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3f3d4c4d_40d46eee",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JarScanner.java",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "3f3d4c4d_c0cabe2a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JarScanner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-06-05T09:12:07Z",
+      "side": 1,
+      "message": "I don\u0027t want to duplicate code for scanning. IMO it is better to scan jar once and collect all needed data, then rescanning it when something is needed.\n\nOf course we are trading here cpu over memory. Such approach will not extend Gerrit startup time.",
+      "parentUuid": "3f3d4c4d_40d46eee",
+      "range": {
+        "startLine": 97,
+        "startChar": 44,
+        "endLine": 97,
+        "endChar": 48
+      },
+      "revId": "3db6e1b425abde19762f730bd03e041624e30c83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9f4d5812_9b518b0e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JarScanner.java",
         "patchSetId": 1
@@ -59,6 +107,30 @@
       "writtenOn": "2014-06-04T13:43:58Z",
       "side": 1,
       "message": "What are you using the Interfaces for ?",
+      "range": {
+        "startLine": 197,
+        "startChar": 4,
+        "endLine": 197,
+        "endChar": 31
+      },
+      "revId": "3db6e1b425abde19762f730bd03e041624e30c83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f3d4c4d_00d186dc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JarScanner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-06-05T09:12:07Z",
+      "side": 1,
+      "message": "They are used to discover secure stores in plugin Jar. The approach here is to get those data once and not rescan jar ruing secure store discovery/install process",
+      "parentUuid": "9f4d5812_9b518b0e",
       "range": {
         "startLine": 197,
         "startChar": 4,

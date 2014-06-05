@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "9f4d5812_9bae6b72",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/GitHubLogin.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-05T22:48:24Z",
+      "side": 1,
+      "message": "Will leave the @SessionScoped for now, as implementing a custom-session for Gerrit would be a bit overkill just for the sake of clustering during the initial GitHub OAuth handshake (a few secs long).",
+      "parentUuid": "9ff8f8d3_6342c252",
+      "revId": "427319fcc08e7f039613affca9f87f933eded11c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ff8f8d3_8335befc",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/GitHubLogin.java",
         "patchSetId": 3
@@ -84,6 +102,24 @@
       "writtenOn": "2014-05-31T01:03:56Z",
       "side": 1,
       "message": "nit: missing space after \u0027if\u0027",
+      "revId": "427319fcc08e7f039613affca9f87f933eded11c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f4d5812_fba9af6c",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/GitHubLogin.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-05T22:48:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9ff8f8d3_8335befc",
       "revId": "427319fcc08e7f039613affca9f87f933eded11c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -137,6 +173,30 @@
     },
     {
       "key": {
+        "uuid": "3f3d4c4d_a09c5a15",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-05T22:48:24Z",
+      "side": 1,
+      "message": "Fixed.",
+      "parentUuid": "9ff8f8d3_0322eec1",
+      "range": {
+        "startLine": 83,
+        "startChar": 0,
+        "endLine": 84,
+        "endChar": 38
+      },
+      "revId": "427319fcc08e7f039613affca9f87f933eded11c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3f3d4c4d_e026e2db",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
         "patchSetId": 3
@@ -148,6 +208,30 @@
       "writtenOn": "2014-05-31T01:03:56Z",
       "side": 1,
       "message": "Same comment as before re. the use of Provider being useless here.",
+      "range": {
+        "startLine": 92,
+        "startChar": 16,
+        "endLine": 92,
+        "endChar": 40
+      },
+      "revId": "427319fcc08e7f039613affca9f87f933eded11c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f3d4c4d_c0a15e52",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-05T22:48:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3f3d4c4d_e026e2db",
       "range": {
         "startLine": 92,
         "startChar": 16,
@@ -248,6 +332,24 @@
     },
     {
       "key": {
+        "uuid": "9f4d5812_bbb327d7",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-05T22:48:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3f3d4c4d_601bb28c",
+      "revId": "427319fcc08e7f039613affca9f87f933eded11c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3f3d4c4d_a0f53aed",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
         "patchSetId": 3
@@ -259,6 +361,30 @@
       "writtenOn": "2014-05-31T01:03:56Z",
       "side": 1,
       "message": "re-use requestState",
+      "range": {
+        "startLine": 182,
+        "startChar": 13,
+        "endLine": 182,
+        "endChar": 27
+      },
+      "revId": "427319fcc08e7f039613affca9f87f933eded11c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f4d5812_5bb9c3b5",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-05T22:48:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3f3d4c4d_a0f53aed",
       "range": {
         "startLine": 182,
         "startChar": 13,
@@ -366,6 +492,30 @@
     },
     {
       "key": {
+        "uuid": "3f3d4c4d_608732c1",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-05T22:48:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9ff8f8d3_433fc6d2",
+      "range": {
+        "startLine": 194,
+        "startChar": 0,
+        "endLine": 203,
+        "endChar": 3
+      },
+      "revId": "427319fcc08e7f039613affca9f87f933eded11c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3f3d4c4d_c0fabedc",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthWebFilter.java",
         "patchSetId": 3
@@ -401,6 +551,24 @@
     },
     {
       "key": {
+        "uuid": "3f3d4c4d_8084b6bb",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthWebFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-05T22:48:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3f3d4c4d_2025aac9",
+      "revId": "427319fcc08e7f039613affca9f87f933eded11c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ff8f8d3_4318e68d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthWebFilter.java",
         "patchSetId": 3
@@ -412,6 +580,24 @@
       "writtenOn": "2014-05-31T01:03:56Z",
       "side": 1,
       "message": "Use {} placeholders instead (particularly for debug level)",
+      "revId": "427319fcc08e7f039613affca9f87f933eded11c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f4d5812_7bb6ffc6",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthWebFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-05T22:48:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9ff8f8d3_4318e68d",
       "revId": "427319fcc08e7f039613affca9f87f933eded11c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -453,6 +639,24 @@
     },
     {
       "key": {
+        "uuid": "3f3d4c4d_20912af8",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthWebFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-05T22:48:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3f3d4c4d_8018368f",
+      "revId": "427319fcc08e7f039613affca9f87f933eded11c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ff8f8d3_2325eac9",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/PooledHttpClientProvider.java",
         "patchSetId": 3
@@ -464,6 +668,30 @@
       "writtenOn": "2014-05-31T01:03:56Z",
       "side": 1,
       "message": "localhost",
+      "range": {
+        "startLine": 47,
+        "startChar": 39,
+        "endLine": 47,
+        "endChar": 47
+      },
+      "revId": "427319fcc08e7f039613affca9f87f933eded11c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f3d4c4d_408eaedb",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/PooledHttpClientProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-05T22:48:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9ff8f8d3_2325eac9",
       "range": {
         "startLine": 47,
         "startChar": 39,

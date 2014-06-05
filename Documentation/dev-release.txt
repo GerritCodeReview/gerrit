@@ -226,8 +226,8 @@ Sonatype OSS Maven Repository Usage Guide].
 ** Go to the link:https://oss.sonatype.org/[Sonatype Nexus Server] and
 sign in with your Sonatype credentials.
 
-** Click in the left navigation bar under `Build Promotion` on
-`Staging Repositories` and find the `comgooglegerrit-XXXX` staging
+** Click in the left navigation bar under 'Build Promotion' on
+'Staging Repositories' and find the `comgooglegerrit-XXXX` staging
 repository.
 
 ** Verify its content
@@ -281,6 +281,16 @@ https://oss.sonatype.org/content/repositories/releases/com/google/gerrit/
 Central:
 +
 http://central.maven.org/maven2/com/google/gerrit/
+
+* [optional]: View download statistics
+
+** Sign in to the
+link:https://oss.sonatype.org/[Sonatype Nexus Server].
+
+** Click in the left navigation bar under 'Views/Repositories' on
+'Central Statistics'.
+
+** Select `com.google.gerrit` as `Project`.
 
 
 [[push-stable]]

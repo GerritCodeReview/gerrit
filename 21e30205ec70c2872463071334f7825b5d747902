@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9f4d5812_7b07dfe7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/PostCaches.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-06-05T09:50:20Z",
+      "side": 1,
+      "message": "Looks like.\n\nDone",
+      "parentUuid": "9f4d5812_fb1a0f42",
+      "range": {
+        "startLine": 74,
+        "startChar": 42,
+        "endLine": 74,
+        "endChar": 64
+      },
+      "revId": "21e30205ec70c2872463071334f7825b5d747902",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9f4d5812_9b0f4b03",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/PostCaches.java",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2014-06-05T09:25:29Z",
       "side": 1,
       "message": "On other places we return just:\n\n  return Response.ok(\"\")\n\nCan we be consistent?",
+      "range": {
+        "startLine": 76,
+        "startChar": 15,
+        "endLine": 76,
+        "endChar": 32
+      },
+      "revId": "21e30205ec70c2872463071334f7825b5d747902",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f3d4c4d_20da8af6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/PostCaches.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-06-05T09:50:20Z",
+      "side": 1,
+      "message": "Done\n\nHere and also in [1].\n\n[1] https://gerrit-review.googlesource.com/57411",
+      "parentUuid": "9f4d5812_9b0f4b03",
       "range": {
         "startLine": 76,
         "startChar": 15,

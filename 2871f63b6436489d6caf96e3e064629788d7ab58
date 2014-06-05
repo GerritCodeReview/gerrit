@@ -193,6 +193,30 @@
     },
     {
       "key": {
+        "uuid": "9f4d5812_1baedb87",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-05T12:35:44Z",
+      "side": 1,
+      "message": "Nope, it wasn\u0027t bad example. It was exactly the right example! By allowing to remove caches from the disk require you to have access to the machine. Exact what i need and exact how this currently work for plugins.\n\n\u003e But how would you get this summary data if the functionality is disabled in Gerrit?\n\nAgain: look how it works with plugins: Disable remote plugin management and check if you (and all others as well) can list plugins. Sure they do.\n\nThe same here, the cacheRemoteConfiguration\u003dfalse option obviously would only prevent you to change something, not to provide summary/statistic details.\n\nSure it wouldn\u0027t work with your the one and only one RemoteCacheConfiguration module approach as is. I just was disagree to put useful feature for Shawn in code, and referencing the ability to fork Gerrit, that other Open Source projects don\u0027t have.",
+      "parentUuid": "9f4d5812_bb9ec752",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 55
+      },
+      "revId": "2871f63b6436489d6caf96e3e064629788d7ab58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9f4d5812_fbbd2fc6",
         "filename": "gerrit-war/src/main/java/com/google/gerrit/httpd/WebAppInitializer.java",
         "patchSetId": 1

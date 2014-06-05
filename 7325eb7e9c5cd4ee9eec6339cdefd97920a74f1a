@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9f4d5812_fb48cf45",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1353,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2014-06-05T08:20:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9f4d5812_fb21af93",
+      "range": {
+        "startLine": 1350,
+        "startChar": 37,
+        "endLine": 1353,
+        "endChar": 28
+      },
+      "revId": "7325eb7e9c5cd4ee9eec6339cdefd97920a74f1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9f4d5812_9b266ba9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ScheduleConfig.java",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "9f4d5812_5b58e30e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ScheduleConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2014-06-05T08:20:17Z",
+      "side": 1,
+      "message": "done, though git config keys are case insensitive",
+      "parentUuid": "9f4d5812_9b266ba9",
+      "range": {
+        "startLine": 35,
+        "startChar": 47,
+        "endLine": 35,
+        "endChar": 56
+      },
+      "revId": "7325eb7e9c5cd4ee9eec6339cdefd97920a74f1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9f4d5812_7b2eff81",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ScheduleConfig.java",
         "patchSetId": 2
@@ -59,6 +107,30 @@
       "writtenOn": "2014-06-05T06:34:34Z",
       "side": 1,
       "message": "Should be static (see below).",
+      "range": {
+        "startLine": 53,
+        "startChar": 2,
+        "endLine": 53,
+        "endChar": 9
+      },
+      "revId": "7325eb7e9c5cd4ee9eec6339cdefd97920a74f1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f3d4c4d_606652aa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ScheduleConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2014-06-05T08:20:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9f4d5812_7b2eff81",
       "range": {
         "startLine": 53,
         "startChar": 2,
@@ -117,6 +189,54 @@
     },
     {
       "key": {
+        "uuid": "9f4d5812_7b559fd3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ScheduleConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2014-06-05T08:20:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9f4d5812_5b31c3dc",
+      "range": {
+        "startLine": 68,
+        "startChar": 2,
+        "endLine": 68,
+        "endChar": 9
+      },
+      "revId": "7325eb7e9c5cd4ee9eec6339cdefd97920a74f1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f3d4c4d_80635697",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ScheduleConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2014-06-05T08:20:17Z",
+      "side": 1,
+      "message": "of course, as I wrote in a previous comment",
+      "parentUuid": "9f4d5812_bb2b2772",
+      "range": {
+        "startLine": 68,
+        "startChar": 15,
+        "endLine": 68,
+        "endChar": 27
+      },
+      "revId": "7325eb7e9c5cd4ee9eec6339cdefd97920a74f1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9f4d5812_1b3b3bbf",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GarbageCollectionRunner.java",
         "patchSetId": 2
@@ -140,6 +260,30 @@
     },
     {
       "key": {
+        "uuid": "9f4d5812_db439327",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GarbageCollectionRunner.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2014-06-05T08:20:17Z",
+      "side": 1,
+      "message": "This class name is used for the same purpose in many other places in Gerrit hence I have used the same one here",
+      "parentUuid": "9f4d5812_1b3b3bbf",
+      "range": {
+        "startLine": 47,
+        "startChar": 15,
+        "endLine": 47,
+        "endChar": 24
+      },
+      "revId": "7325eb7e9c5cd4ee9eec6339cdefd97920a74f1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3f3d4c4d_a06bfa72",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GarbageCollectionRunner.java",
         "patchSetId": 2
@@ -151,6 +295,30 @@
       "writtenOn": "2014-06-05T06:34:34Z",
       "side": 1,
       "message": "I would guess that the work queue itself listens to the stop event and cancels the tasks. But this would have to be verified.",
+      "range": {
+        "startLine": 78,
+        "startChar": 6,
+        "endLine": 80,
+        "endChar": 7
+      },
+      "revId": "7325eb7e9c5cd4ee9eec6339cdefd97920a74f1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f3d4c4d_20604a89",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GarbageCollectionRunner.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2014-06-05T08:20:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3f3d4c4d_a06bfa72",
       "range": {
         "startLine": 78,
         "startChar": 6,

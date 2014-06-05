@@ -75,6 +75,7 @@ public class PluginGuiceEnvironment {
   private final CopyConfigModule copyConfigModule;
   private final Set<Key<?>> copyConfigKeys;
   private final List<StartPluginListener> onStart;
+  private final List<StopPluginListener> onStop;
   private final List<ReloadPluginListener> onReload;
 
   private Module sysModule;
@@ -110,6 +111,9 @@ public class PluginGuiceEnvironment {
 
     onStart = new CopyOnWriteArrayList<>();
     onStart.addAll(listeners(sysInjector, StartPluginListener.class));
+
+    onStop = new CopyOnWriteArrayList<>();
+    onStop.addAll(listeners(sysInjector, StopPluginListener.class));
 
     onReload = new CopyOnWriteArrayList<>();
     onReload.addAll(listeners(sysInjector, ReloadPluginListener.class));
@@ -165,6 +169,7 @@ public class PluginGuiceEnvironment {
     sshSets = dynamicSetsOf(injector);
     sshMaps = dynamicMapsOf(injector);
     onStart.addAll(listeners(injector, StartPluginListener.class));
+    onStop.addAll(listeners(injector, StopPluginListener.class));
     onReload.addAll(listeners(injector, ReloadPluginListener.class));
   }
 
@@ -187,6 +192,7 @@ public class PluginGuiceEnvironment {
     httpSets = dynamicSetsOf(injector);
     httpMaps = dynamicMapsOf(injector);
     onStart.addAll(listeners(injector, StartPluginListener.class));
+    onStop.addAll(listeners(injector, StopPluginListener.class));
     onReload.addAll(listeners(injector, ReloadPluginListener.class));
   }
 
@@ -230,6 +236,12 @@ public class PluginGuiceEnvironment {
       attachMap(httpMaps, plugin.getHttpInjector(), plugin);
     } finally {
       exit(oldContext);
+    }
+  }
+
+  void onStopPlugin(Plugin plugin) {
+    for (StopPluginListener l : onStop) {
+      l.onStopPlugin(plugin);
     }
   }
 
@@ -543,6 +555,9 @@ public class PluginGuiceEnvironment {
       return false;
     }
     if (StartPluginListener.class.isAssignableFrom(type)) {
+      return false;
+    }
+    if (StopPluginListener.class.isAssignableFrom(type)) {
       return false;
     }
 

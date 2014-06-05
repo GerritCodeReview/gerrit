@@ -240,6 +240,7 @@ public class PluginLoader implements LifecycleListener {
     String name = plugin.getName();
     log.info(String.format("Unloading plugin %s", name));
     plugin.stop(env);
+    env.onStopPlugin(plugin);
     running.remove(name);
     disabled.remove(name);
     toCleanup.add(plugin);

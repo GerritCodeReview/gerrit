@@ -217,10 +217,6 @@ public class PluginGuiceEnvironment {
   }
 
   void onStartPlugin(Plugin plugin) {
-    for (StartPluginListener l : onStart) {
-      l.onStartPlugin(plugin);
-    }
-
     RequestContext oldContext = enter(plugin);
     try {
       attachItem(sysItems, plugin.getSysInjector(), plugin);
@@ -236,6 +232,10 @@ public class PluginGuiceEnvironment {
       attachMap(httpMaps, plugin.getHttpInjector(), plugin);
     } finally {
       exit(oldContext);
+    }
+
+    for (StartPluginListener l : onStart) {
+      l.onStartPlugin(plugin);
     }
   }
 
@@ -273,10 +273,6 @@ public class PluginGuiceEnvironment {
   }
 
   void onReloadPlugin(Plugin oldPlugin, Plugin newPlugin) {
-    for (ReloadPluginListener l : onReload) {
-      l.onReloadPlugin(oldPlugin, newPlugin);
-    }
-
     // Index all old registrations by the raw type. These may be replaced
     // during the reattach calls below. Any that are not replaced will be
     // removed when the old plugin does its stop routine.
@@ -301,6 +297,10 @@ public class PluginGuiceEnvironment {
       reattachItem(old, httpItems, newPlugin.getHttpInjector(), newPlugin);
     } finally {
       exit(oldContext);
+    }
+
+    for (ReloadPluginListener l : onReload) {
+      l.onReloadPlugin(oldPlugin, newPlugin);
     }
   }
 

@@ -34,6 +34,24 @@
       "revId": "b97113ece01a6c9b5092489eba63c9b092d4babc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f4d5812_bb99e765",
+        "filename": "Documentation/dev-eclipse.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1010404
+      },
+      "writtenOn": "2014-06-05T13:27:40Z",
+      "side": 1,
+      "message": "Yes, should be safe, but a bit strange: click Dev Mode On, then open dev tools then click compile. If you want to make a change, it would rather be: load page, open dev tools, then click Dev Mode On then Compile for the gerrit_ui module.",
+      "parentUuid": "3f3d4c4d_205fea9e",
+      "revId": "b97113ece01a6c9b5092489eba63c9b092d4babc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

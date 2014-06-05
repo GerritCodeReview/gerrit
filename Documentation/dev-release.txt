@@ -282,6 +282,16 @@ Central:
 +
 http://central.maven.org/maven2/com/google/gerrit/
 
+* [optional]: Watch download statistics
+
+** Sign in to the
+link:https://oss.sonatype.org/[Sonatype Nexus Server].
+
+** Click in the left navigation bar under `Views/Repositories` on
+`Central Statistics`.
+
+** Select `com.google.gerrit` as `Project`.
+
 
 [[push-stable]]
 ==== Push the Stable Branch

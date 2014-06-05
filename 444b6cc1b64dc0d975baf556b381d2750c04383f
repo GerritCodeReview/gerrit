@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9f4d5812_5b0a23f3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GetSummary.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-06-05T09:51:02Z",
+      "side": 1,
+      "message": "We don\u0027t really need this. I have it here because the SSH command supports this option and with the REST endpoint I want to cover as much functionality of the SSH command as possible (the SSH summary is missing because gerrit-server doesn\u0027t depend on gerrit-sshd).\n\nIf this is a problem, I could simply remove this option. I\u0027m now following your suggestion to bind these REST endpoints in an own module that you can skip in your build. I guess then we can also keep this option here?",
+      "parentUuid": "7f0ee4b6_eafb27e2",
+      "range": {
+        "startLine": 66,
+        "startChar": 4,
+        "endLine": 70,
+        "endChar": 5
+      },
+      "revId": "444b6cc1b64dc0d975baf556b381d2750c04383f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f13e0db_69e98520",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/Module.java",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2014-05-29T06:32:38Z",
       "side": 1,
       "message": "If you pull this and maybe even:\n\n  post(CACHE_KIND, \"flush\").to(FlushCache.class)\n\ninto a new RemoteCacheAdminModule in this package, we can add that module in Daemon and WebAppIntializer and I can skip the module in our build. Then these REST APIs aren\u0027t defined in our server and users cannot invoke them.",
+      "revId": "444b6cc1b64dc0d975baf556b381d2750c04383f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f3d4c4d_80dd96ef",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/Module.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-06-05T09:51:02Z",
+      "side": 1,
+      "message": "This sounds like a good idea, I\u0027ve added the RemoteCacheAdminModule in [1]. But I also needed to move the REST endpoint to list caches into this module because [2] adds POST on the CacheCollection to flush all caches and module-wise it\u0027s not possible to bind the POST on the CacheCollection separately from binding the CacheCollection for just listing the caches.\n\n[1] https://gerrit-review.googlesource.com/57684\n\n[2] https://gerrit-review.googlesource.com/57512",
+      "parentUuid": "5f13e0db_69e98520",
       "revId": "444b6cc1b64dc0d975baf556b381d2750c04383f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9f4d5812_3bab9778",
+        "filename": "Documentation/dev-eclipse.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1010404
+      },
+      "writtenOn": "2014-06-05T12:33:37Z",
+      "side": 1,
+      "message": "Oh, I wonder if you don\u0027t actually need to open the dev tools before reloading the page (i.e. before clicking compile) for source maps to be loaded. It probably depends on the browser (I haven\u0027t yet used source maps in Firefox)\n\nThat\u0027s a detail though; and I might be wrong.",
+      "revId": "b97113ece01a6c9b5092489eba63c9b092d4babc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

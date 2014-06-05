@@ -145,6 +145,30 @@
     },
     {
       "key": {
+        "uuid": "3f3d4c4d_a04a1ae2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-05T12:11:32Z",
+      "side": 1,
+      "message": "As per my comment above: \"I would also want to disable this from remote HOST per SSH.\"\n\nSo this should still work from the same machine, where Gerrit is installed. Exact the same, like this works now with plugins, when remote plugin configuration option is disabled.",
+      "parentUuid": "3f3d4c4d_e04022c6",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 55
+      },
+      "revId": "2871f63b6436489d6caf96e3e064629788d7ab58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9f4d5812_fbbd2fc6",
         "filename": "gerrit-war/src/main/java/com/google/gerrit/httpd/WebAppInitializer.java",
         "patchSetId": 1

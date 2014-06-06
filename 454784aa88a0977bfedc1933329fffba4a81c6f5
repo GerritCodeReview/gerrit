@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "3f3d4c4d_c0fb9e27",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreProvider.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-06T08:55:41Z",
+      "side": 1,
+      "message": "You need only one interface (SecureStore) and you expect this to be implemented by one class at most per plugin.\n\nWith regards to Memory vs. start-up time: most of the people typically don\u0027t care of taking a bit more time to start Gerrit if it uses overall less memory :-)\n\nYou start/restart Gerrit (at most) 1-2 times a day (if you do continuous deployment from Gerrit master) and most of Gerrit users once a week.",
+      "parentUuid": "3f3d4c4d_40654e57",
+      "range": {
+        "startLine": 44,
+        "startChar": 30,
+        "endLine": 44,
+        "endChar": 82
+      },
+      "revId": "454784aa88a0977bfedc1933329fffba4a81c6f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3f3d4c4d_0023c644",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreProvider.java",
         "patchSetId": 12
@@ -84,6 +108,30 @@
       "side": 1,
       "message": "Yes, I was thinking about providing another annotation, but IMO it will make thins more complicated. I prefer to have less annotations to keep client API smaller.\n\nIMO it is better to have one general purpose annotation to \"bind something\" in gerrit then have separate annotations for everything.\n\nI also think that this is Gerrit\u0027s approach to have less annotations. If it won\u0027t be then you will have something like: @ExportSshCommans, @ExportHttpServlet, @ExportJavaScript ... and so on.",
       "parentUuid": "3f3d4c4d_0023c644",
+      "range": {
+        "startLine": 57,
+        "startChar": 48,
+        "endLine": 57,
+        "endChar": 60
+      },
+      "revId": "454784aa88a0977bfedc1933329fffba4a81c6f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f4d5812_fbfbef58",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreProvider.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-06T08:55:41Z",
+      "side": 1,
+      "message": "This is different though: you\u0027re not using the Gerrit plugin architecture for that but it is only a way for you to recognise the class to load *OUTSIDE* the plugin loader.\n\nReusing a plugin-specific annotation for something that is not related to Gerrit plugins, it is misleading IMHO.",
+      "parentUuid": "3f3d4c4d_00f2e64d",
       "range": {
         "startLine": 57,
         "startChar": 48,
@@ -143,6 +191,30 @@
     },
     {
       "key": {
+        "uuid": "9f4d5812_9b00ab9b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreProvider.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-06T08:55:41Z",
+      "side": 1,
+      "message": "What is the value of one plugin with three different SecureStore implementations ? At the end of the day I choose to use one in Gerrit right ? The basic concept of development should be KISS without anticipating future needs in current development.\n\nDo simple steps: make it work (and merged) and *THEN* make it better :-)",
+      "parentUuid": "9f4d5812_3bd717cd",
+      "range": {
+        "startLine": 60,
+        "startChar": 6,
+        "endLine": 61,
+        "endChar": 75
+      },
+      "revId": "454784aa88a0977bfedc1933329fffba4a81c6f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3f3d4c4d_a0177ad7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreProvider.java",
         "patchSetId": 12
@@ -178,6 +250,30 @@
       "side": 1,
       "message": "Is it really make sense to block such behavior?\n\nI can imagine plugin that will contain multiple secure stores one for each encryption algorithm. Why would you like to prevent that?",
       "parentUuid": "3f3d4c4d_a0177ad7",
+      "range": {
+        "startLine": 99,
+        "startChar": 4,
+        "endLine": 105,
+        "endChar": 5
+      },
+      "revId": "454784aa88a0977bfedc1933329fffba4a81c6f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f4d5812_bb0567aa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreProvider.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-06T08:55:41Z",
+      "side": 1,
+      "message": "KISS: we\u0027ve got nothing in Gerrit at the moment, keep it simple and merged and *THEN* more flexible and better (if anyone needs it)",
+      "parentUuid": "3f3d4c4d_80391660",
       "range": {
         "startLine": 99,
         "startChar": 4,

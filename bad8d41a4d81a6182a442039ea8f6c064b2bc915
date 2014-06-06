@@ -46,6 +46,30 @@
       "revId": "bad8d41a4d81a6182a442039ea8f6c064b2bc915",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f3d4c4d_401f8ebc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreProvider.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-06T11:17:00Z",
+      "side": 1,
+      "message": "Of course not. Your plugin name may contain as much \u0027-\u0027 characters as you want. But your plugin extension names (plugin owned capabilities, caches and secure stores, ...) must not contain any, so the convention is to switch to the CamelCaseNamingConventionForPluginExtensionNames, a lá:\n\n  \"foo-bar-baz-plugin-someCoolPluginExtension\"\n\nWhich you would decompose to plugin name and extension name with:\n\n  int i \u003d extensionName.lastIndexOf(\u0027-\u0027);\n  if (i !\u003d -1) {\n    plugin \u003d extensionName.substring(0, i);\n    secureStore \u003d extensionName.length() \u003e i + 1\n      ? extensionName.substring(i + 1)\n      : \"\";\n  } else {\n    throw new SecureStoreException(\"bad secure store name\");\n  }",
+      "parentUuid": "3f3d4c4d_80259614",
+      "range": {
+        "startLine": 94,
+        "startChar": 4,
+        "endLine": 100,
+        "endChar": 5
+      },
+      "revId": "bad8d41a4d81a6182a442039ea8f6c064b2bc915",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

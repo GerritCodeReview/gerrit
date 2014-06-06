@@ -765,6 +765,12 @@ If the compared patches are identical, this is highlighted by a red
 
 image::images/user-review-ui-side-by-side-diff-screen-no-differences.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-no-differences.png"]
 
+If a file got renamed the old and new file path are shown in the header
+together with a similarity index that shows how much of file content is
+unmodified.
+
+image::images/user-review-ui-side-by-side-diff-screen-rename.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-rename.png"]
+
 For navigating between the patches in a patch set there are navigation
 buttons on the right side of the screen header. The left arrow button
 navigates to the previous patch; the right arrow button navigates to

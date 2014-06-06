@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "9f4d5812_5beb038a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreProvider.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-06-06T09:13:42Z",
+      "side": 1,
+      "message": "Wait a minute, we are talking here about PluginData class, right? Will this instances of this class be always used in Gerrit? I think that after deploying a plugin they will be GCed or am I wrong?\n\nAlso instances of this class will be created only during startup and plugin installation process. Restarts, as you mentioned, are not so often and I would say that you even less often install plugins",
+      "parentUuid": "3f3d4c4d_c0fb9e27",
+      "range": {
+        "startLine": 44,
+        "startChar": 30,
+        "endLine": 44,
+        "endChar": 82
+      },
+      "revId": "454784aa88a0977bfedc1933329fffba4a81c6f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3f3d4c4d_0023c644",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreProvider.java",
         "patchSetId": 12
@@ -132,6 +156,30 @@
       "side": 1,
       "message": "This is different though: you\u0027re not using the Gerrit plugin architecture for that but it is only a way for you to recognise the class to load *OUTSIDE* the plugin loader.\n\nReusing a plugin-specific annotation for something that is not related to Gerrit plugins, it is misleading IMHO.",
       "parentUuid": "3f3d4c4d_00f2e64d",
+      "range": {
+        "startLine": 57,
+        "startChar": 48,
+        "endLine": 57,
+        "endChar": 60
+      },
+      "revId": "454784aa88a0977bfedc1933329fffba4a81c6f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f3d4c4d_200b6a8d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreProvider.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-06-06T09:13:42Z",
+      "side": 1,
+      "message": "You are looking on this from Gerrit developer perspective. Somebody who knows Gerrit internals. If you look from the perspective of person that doesn\u0027t care about internals but want to implement extension then it doesn\u0027t make much sense to have different annotation here.",
+      "parentUuid": "9f4d5812_fbfbef58",
       "range": {
         "startLine": 57,
         "startChar": 48,
@@ -215,6 +263,30 @@
     },
     {
       "key": {
+        "uuid": "3f3d4c4d_4008ee8d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreProvider.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-06-06T09:13:42Z",
+      "side": 1,
+      "message": "The value is in the effort that one need to put to maintain one plugin code base versus eg. ten plugins.\n\nTBH personally I really don\u0027t think that limiting number of SecureStore implementations per plugin to one will make this change to be merged earlier and also will not make code simpler.",
+      "parentUuid": "9f4d5812_9b00ab9b",
+      "range": {
+        "startLine": 60,
+        "startChar": 6,
+        "endLine": 61,
+        "endChar": 75
+      },
+      "revId": "454784aa88a0977bfedc1933329fffba4a81c6f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3f3d4c4d_a0177ad7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreProvider.java",
         "patchSetId": 12
@@ -274,6 +346,30 @@
       "side": 1,
       "message": "KISS: we\u0027ve got nothing in Gerrit at the moment, keep it simple and merged and *THEN* more flexible and better (if anyone needs it)",
       "parentUuid": "3f3d4c4d_80391660",
+      "range": {
+        "startLine": 99,
+        "startChar": 4,
+        "endLine": 105,
+        "endChar": 5
+      },
+      "revId": "454784aa88a0977bfedc1933329fffba4a81c6f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f4d5812_7be83f8c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreProvider.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-06-06T09:13:42Z",
+      "side": 1,
+      "message": "You can\u0027t do some things after change is merged without breaking backward compatibility. At least for this change if you remove possibility to provide multiple SecureStore per plugin, then current format of secureStroe property ($plugin_name/$store_name) will not make sense so it should also be changed. This will block going back to initial idea of multiple SecureStore instances per jar file.",
+      "parentUuid": "9f4d5812_bb0567aa",
       "range": {
         "startLine": 99,
         "startChar": 4,

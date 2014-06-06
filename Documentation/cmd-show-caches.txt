@@ -22,6 +22,9 @@ Display statistics about the size and hit ratio of in-memory caches.
 	operating system, and other details about the environment
 	that Gerrit Code Review is running in.
 
+--show-threads::
+	Show detailed counts for Gerrit specific threads.
+
 --width::
 -w::
 	Width of the output table.

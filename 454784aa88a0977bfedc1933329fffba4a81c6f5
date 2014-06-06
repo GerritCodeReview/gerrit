@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3f3d4c4d_40654e57",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreProvider.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-06-06T08:43:28Z",
+      "side": 1,
+      "message": "It depends on the point of view. You are right that collection all that data can be overkill, but my approach was at create something for general purposes and not hardcode SecureStore class name in other parts of the code base.\n\nI see here two responsibilities. First to collect all metadata about class. Second to extract classes that are interesting for SecureStore.\n\nRight now code in scanner is fully disconnected form SecureStore implementation.\n\nAFAIR my initial idea was to pass list of interfaces that are interesting for caller to scan() method. But this will mean that scanning will be done many times. Current approach is the simply trading CPU for memory, making Gerrit starting faster and consume bit more ram...",
+      "parentUuid": "9f4d5812_9bc2eb39",
+      "range": {
+        "startLine": 44,
+        "startChar": 30,
+        "endLine": 44,
+        "endChar": 82
+      },
+      "revId": "454784aa88a0977bfedc1933329fffba4a81c6f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3f3d4c4d_0023c644",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreProvider.java",
         "patchSetId": 12
@@ -36,6 +60,30 @@
       "writtenOn": "2014-06-05T10:45:21Z",
       "side": 1,
       "message": "You are kind of overloading on the Export concept here: this will not be used in the same way that plugins do and would not generate the same plugin loading mechanism.\n\nWhy don\u0027t you just define a @SecureStoreProvider annotation or something more tailored to this ? It is typically a bad idea to reause names for different concepts.",
+      "range": {
+        "startLine": 57,
+        "startChar": 48,
+        "endLine": 57,
+        "endChar": 60
+      },
+      "revId": "454784aa88a0977bfedc1933329fffba4a81c6f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f3d4c4d_00f2e64d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreProvider.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-06-06T08:43:28Z",
+      "side": 1,
+      "message": "Yes, I was thinking about providing another annotation, but IMO it will make thins more complicated. I prefer to have less annotations to keep client API smaller.\n\nIMO it is better to have one general purpose annotation to \"bind something\" in gerrit then have separate annotations for everything.\n\nI also think that this is Gerrit\u0027s approach to have less annotations. If it won\u0027t be then you will have something like: @ExportSshCommans, @ExportHttpServlet, @ExportJavaScript ... and so on.",
+      "parentUuid": "3f3d4c4d_0023c644",
       "range": {
         "startLine": 57,
         "startChar": 48,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "9f4d5812_3bd717cd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreProvider.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-06-06T08:43:28Z",
+      "side": 1,
+      "message": "You mean here rather, if I change my approach and make this extension point more strict (single SecureStore impl per plugin) and less consumer friendly (additional annotation). Then we could have different code in few places.\n\nIMO we should care more about consumers. Changes that I did are not so dramatic and complex to force other developers to use more obscure API",
+      "parentUuid": "9f4d5812_bbc7a748",
+      "range": {
+        "startLine": 60,
+        "startChar": 6,
+        "endLine": 61,
+        "endChar": 75
+      },
+      "revId": "454784aa88a0977bfedc1933329fffba4a81c6f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3f3d4c4d_a0177ad7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreProvider.java",
         "patchSetId": 12
@@ -82,6 +154,30 @@
       "writtenOn": "2014-06-05T10:45:21Z",
       "side": 1,
       "message": "Does it really make sense to have a plugin with multiple secure-stores ? What would be the rationale behind it ?",
+      "range": {
+        "startLine": 99,
+        "startChar": 4,
+        "endLine": 105,
+        "endChar": 5
+      },
+      "revId": "454784aa88a0977bfedc1933329fffba4a81c6f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f3d4c4d_80391660",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreProvider.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-06-06T08:43:28Z",
+      "side": 1,
+      "message": "Is it really make sense to block such behavior?\n\nI can imagine plugin that will contain multiple secure stores one for each encryption algorithm. Why would you like to prevent that?",
+      "parentUuid": "3f3d4c4d_a0177ad7",
       "range": {
         "startLine": 99,
         "startChar": 4,

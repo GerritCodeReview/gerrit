@@ -17,6 +17,9 @@ package com.google.gerrit.sshd.commands;
 import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.HashBasedTable;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Table;
 import com.google.gerrit.common.Version;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
@@ -47,11 +50,14 @@ import java.io.IOException;
 import java.lang.management.ManagementFactory;
 import java.lang.management.OperatingSystemMXBean;
 import java.lang.management.RuntimeMXBean;
+import java.lang.management.ThreadInfo;
+import java.lang.management.ThreadMXBean;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 /** Show the current cache states. */
@@ -77,6 +83,9 @@ final class ShowCaches extends SshCommand {
 
   @Option(name = "--show-jvm", usage = "show details about the JVM")
   private boolean showJVM;
+
+  @Option(name = "--show-threads", usage = "show detailed thread counts")
+  private boolean showThreads;
 
   @Inject
   private WorkQueue workQueue;
@@ -163,6 +172,7 @@ final class ShowCaches extends SshCommand {
     sshSummary();
     taskSummary();
     memSummary();
+    threadSummary();
 
     if (showJVM) {
       jvmSummary();
@@ -245,11 +255,55 @@ final class ShowCaches extends SshCommand {
         bytes(mFree),
         bytes(jgitBytes));
     stdout.format("     %s max\n", bytes(mMax));
-    stdout.format("    %8d open files, %8d cpus available, %8d threads\n",
-        jgitOpen,
-        r.availableProcessors(),
-        ManagementFactory.getThreadMXBean().getThreadCount());
+    stdout.format("    %8d open files\n", jgitOpen);
     stdout.print('\n');
+  }
+
+  private void threadSummary() {
+    List<String> prefixes = Lists.newArrayList("HTTP", "IntraLineDiff", "ReceiveCommits",
+        "SSH git-receive-pack", "SSH git-upload-pack", "SSH-Interactive-Worker",
+        "SSH-Stream-Worker", "SshCommandStart");
+    Runtime r = Runtime.getRuntime();
+    ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean();
+    stdout.format("Threads: %d CPUs available, %d threads\n",
+        r.availableProcessors(), threadMXBean.getThreadCount());
+
+    if (showThreads) {
+      Table<String, Thread.State, Integer> count = HashBasedTable.create();
+      for (long id : threadMXBean.getAllThreadIds()) {
+        ThreadInfo info = threadMXBean.getThreadInfo(id);
+        if (info == null) {
+          continue;
+        }
+        String name = info.getThreadName();
+        for (String p : prefixes) {
+          if (name.startsWith(p)) {
+            Thread.State state = info.getThreadState();
+            Integer c = count.get(p, state);
+            count.put(p, info.getThreadState(), c != null ? c++ : 1);
+          }
+        }
+      }
+
+      stdout.print(String.format("  %22s", ""));
+      for (Thread.State s : Thread.State.values()) {
+        stdout.print(String.format(" %14s", s.name()));
+      }
+      stdout.print('\n');
+      for (String p : prefixes) {
+        stdout.print(String.format("  %-22s", p));
+        for (Thread.State s : Thread.State.values()) {
+          stdout.print(String.format(" %14d", nullToZero(count.get(p, s))));
+        }
+        stdout.print('\n');
+      }
+
+    }
+    stdout.print('\n');
+  }
+
+  private static int nullToZero(Integer i) {
+    return i != null ? i.intValue() : 0;
   }
 
   private void taskSummary() {

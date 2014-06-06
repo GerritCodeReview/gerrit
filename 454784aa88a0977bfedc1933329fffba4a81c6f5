@@ -192,6 +192,30 @@
     },
     {
       "key": {
+        "uuid": "9f4d5812_3bf2b778",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreProvider.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-06T09:24:24Z",
+      "side": 1,
+      "message": "I think it needs to be understood by the \"SecureExtension\" developer that what he is going to implement is not a plugin and would not benefit from the plugin Guice injections.\n\nHe needs to know that he provides a plain class, that\u0027s it.\nIt would be KISS just to mention the plugin / class name to load from your Gerrit config and that\u0027s it: simple, clear, less chances to break :-)",
+      "parentUuid": "3f3d4c4d_200b6a8d",
+      "range": {
+        "startLine": 57,
+        "startChar": 48,
+        "endLine": 57,
+        "endChar": 60
+      },
+      "revId": "454784aa88a0977bfedc1933329fffba4a81c6f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9f4d5812_bbc7a748",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreProvider.java",
         "patchSetId": 12
@@ -287,6 +311,30 @@
     },
     {
       "key": {
+        "uuid": "3f3d4c4d_a00d3a9c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreProvider.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-06T09:24:24Z",
+      "side": 1,
+      "message": "Do you have already a plugin that provides multiple secure stores ?\nIsn\u0027t it going to be a \"one-size-fits-all\" plugin ?\nPlugin should simple, trivial, even just a simple script :-)",
+      "parentUuid": "3f3d4c4d_4008ee8d",
+      "range": {
+        "startLine": 60,
+        "startChar": 6,
+        "endLine": 61,
+        "endChar": 75
+      },
+      "revId": "454784aa88a0977bfedc1933329fffba4a81c6f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3f3d4c4d_a0177ad7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreProvider.java",
         "patchSetId": 12
@@ -370,6 +418,30 @@
       "side": 1,
       "message": "You can\u0027t do some things after change is merged without breaking backward compatibility. At least for this change if you remove possibility to provide multiple SecureStore per plugin, then current format of secureStroe property ($plugin_name/$store_name) will not make sense so it should also be changed. This will block going back to initial idea of multiple SecureStore instances per jar file.",
       "parentUuid": "9f4d5812_bb0567aa",
+      "range": {
+        "startLine": 99,
+        "startChar": 4,
+        "endLine": 105,
+        "endChar": 5
+      },
+      "revId": "454784aa88a0977bfedc1933329fffba4a81c6f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f4d5812_db1dd3fb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreProvider.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-06T09:24:24Z",
+      "side": 1,
+      "message": "That\u0027s the danger in Code-Review: as you fear your change to take too much time to be merged, you tend to put as much stuff as you can ... as this could be \"your only chance\".\n\nThat\u0027s wrong: changes must be simple, incremental, as trivial as possible, as stable as possible. That\u0027s the way Code Review becomes agile and useful IMHO :-)",
+      "parentUuid": "9f4d5812_7be83f8c",
       "range": {
         "startLine": 99,
         "startChar": 4,

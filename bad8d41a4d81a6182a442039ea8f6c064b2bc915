@@ -22,6 +22,30 @@
       "revId": "bad8d41a4d81a6182a442039ea8f6c064b2bc915",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f3d4c4d_80259614",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStoreProvider.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-06-06T10:36:00Z",
+      "side": 1,
+      "message": "does it mean that if you want to provide capability your plugin name must not contain \u0027-\u0027?\n\nthat is strange...",
+      "parentUuid": "9f4d5812_1bf57b5f",
+      "range": {
+        "startLine": 94,
+        "startChar": 4,
+        "endLine": 100,
+        "endChar": 5
+      },
+      "revId": "bad8d41a4d81a6182a442039ea8f6c064b2bc915",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

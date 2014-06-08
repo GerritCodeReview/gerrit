@@ -76,6 +76,9 @@
   -webkit-margin-before: 0.2em;
   -webkit-margin-after: 0.3em;
 }
+.message {
+  white-space: pre;
+}
 .commentBox button {
   margin-right: 3px;
   margin-bottom: 1px;

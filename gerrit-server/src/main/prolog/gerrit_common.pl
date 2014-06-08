@@ -475,6 +475,14 @@ split_commit_delta(copy, NewPath, OldPath, add, NewPath) :- !.
 split_commit_delta(Type, Path, _, Type, Path).
 
 
+%% commit_footer/1:
+%%
+:- public commit_footer/1.
+%%
+commit_footer(Footer) :-
+  commit_footer(Footer, _).
+
+
 %% commit_message_matches/1:
 %%
 :- public commit_message_matches/1.

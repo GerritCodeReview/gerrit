@@ -83,6 +83,14 @@ the following table.
 |`commit_delta/4`           |`commit_delta('\\.java$', T, P, O)`
     |Like `commit_delta/3` plus the old path (via `O`) if applicable.
 
+|`commit_footer/1`          |`commit_footer('Bug')`
+    |True if there is a footer line with the specified key in the commit message
+    of the patch-set.
+
+|`commit_footer/2`          |`commit_footer('Bug', F)`
+    |Returns the first value (via `F`) that matches the footer line specified in
+    the commit message of the patch-set.
+
 |`commit_edits/2`           |`commit_edits('/pom.xml$', 'dependency')`
     |True if any of the files matched by the file name regex (first parameter)
     have edited lines that match the regex in the second parameter. This

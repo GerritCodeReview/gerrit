@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "bf577cb3_a4fa22db",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-09T23:59:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf577cb3_44e9ee1f",
+      "revId": "0e26ea26338632ce7f17137239917a104c320a40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bf577cb3_64e66a51",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2014-06-09T21:51:09Z",
       "side": 1,
       "message": "Unnecessary \"final\"s here and the rest of this method.",
+      "revId": "0e26ea26338632ce7f17137239917a104c320a40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f5478b2_23f06afe",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-09T23:59:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf577cb3_64e66a51",
       "revId": "0e26ea26338632ce7f17137239917a104c320a40",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -59,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "9f5478b2_c3fb96e2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-09T23:59:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9f5478b2_a3e3fa40",
+      "range": {
+        "startLine": 203,
+        "startChar": 16,
+        "endLine": 203,
+        "endChar": 27
+      },
+      "revId": "0e26ea26338632ce7f17137239917a104c320a40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9f5478b2_83defe73",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
         "patchSetId": 3
@@ -70,6 +130,24 @@
       "writtenOn": "2014-06-09T21:51:09Z",
       "side": 1,
       "message": "This needs to handle multiple paragraphs, as in:\n\n  Update patch set 1\n\n  This is the first paragraph of the commit message.\n\n  This is the second paragraph.\n\n  Patch-set: 1\n  Label: Code-Review\u003d+1\n\n(Unfortunately Gerrit doesn\u0027t render these as full double-newlines, but note the slightly larger gap.)\n\nYou should add a test for this behavior as well.",
+      "revId": "0e26ea26338632ce7f17137239917a104c320a40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf577cb3_44100e6e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-09T23:59:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9f5478b2_83defe73",
       "revId": "0e26ea26338632ce7f17137239917a104c320a40",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -93,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "bf577cb3_640d0a57",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-09T23:59:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf577cb3_c4fb9ee2",
+      "revId": "0e26ea26338632ce7f17137239917a104c320a40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bf577cb3_04f3f60d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
         "patchSetId": 3
@@ -104,6 +200,24 @@
       "writtenOn": "2014-06-09T21:51:09Z",
       "side": 1,
       "message": "Lines can be up to 80 chars.",
+      "revId": "0e26ea26338632ce7f17137239917a104c320a40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f5478b2_e3001225",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-09T23:59:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf577cb3_04f3f60d",
       "revId": "0e26ea26338632ce7f17137239917a104c320a40",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -127,6 +241,24 @@
     },
     {
       "key": {
+        "uuid": "bf577cb3_040a1640",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-09T23:59:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf577cb3_24f072fe",
+      "revId": "0e26ea26338632ce7f17137239917a104c320a40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bf577cb3_e4001a25",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
         "patchSetId": 3
@@ -138,6 +270,24 @@
       "writtenOn": "2014-06-09T21:51:09Z",
       "side": 1,
       "message": "Unnecessary change.",
+      "revId": "0e26ea26338632ce7f17137239917a104c320a40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f5478b2_83f59eed",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 464,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-09T23:59:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf577cb3_e4001a25",
       "revId": "0e26ea26338632ce7f17137239917a104c320a40",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -167,6 +317,30 @@
     },
     {
       "key": {
+        "uuid": "bf577cb3_24071237",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-09T23:59:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9f5478b2_43e9e61f",
+      "range": {
+        "startLine": 216,
+        "startChar": 14,
+        "endLine": 216,
+        "endChar": 38
+      },
+      "revId": "0e26ea26338632ce7f17137239917a104c320a40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9f5478b2_63e66251",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
         "patchSetId": 3
@@ -184,6 +358,24 @@
     },
     {
       "key": {
+        "uuid": "bf577cb3_c4263edc",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-09T23:59:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9f5478b2_63e66251",
+      "revId": "0e26ea26338632ce7f17137239917a104c320a40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bf577cb3_84f5a6ed",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
         "patchSetId": 3
@@ -195,6 +387,24 @@
       "writtenOn": "2014-06-09T21:51:09Z",
       "side": 1,
       "message": "As previously mentioned you\u0027ll also want a case with \\n\\n.",
+      "revId": "0e26ea26338632ce7f17137239917a104c320a40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f5478b2_a3fa1adb",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-09T23:59:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf577cb3_84f5a6ed",
       "revId": "0e26ea26338632ce7f17137239917a104c320a40",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

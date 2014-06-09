@@ -756,14 +756,20 @@ comparing the old patch against the current patch.
 
 image::images/user-review-ui-side-by-side-diff-screen-patch-sets.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-patch-sets.png"]
 
+The download icon next to the patch set list allows to download the
+patch. Unless the mime type of the file is configured as safe, the
+download file is a zip archive that contains the patch file.
+
 If the compared patches are identical, this is highlighted by a red
 `No Differences` label in the screen header.
 
 image::images/user-review-ui-side-by-side-diff-screen-no-differences.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-no-differences.png"]
 
-The download icon next to the patch set list allows to download the
-patch. Unless the mime type of the file is configured as safe, the
-download file is a zip archive that contains the patch file.
+If a file was renamed, the old and new file paths are shown in the
+header together with a similarity index that shows how much of the file
+content is unmodified.
+
+image::images/user-review-ui-side-by-side-diff-screen-rename.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-rename.png"]
 
 For navigating between the patches in a patch set there are navigation
 buttons on the right side of the screen header. The left arrow button

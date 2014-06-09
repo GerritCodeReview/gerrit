@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1f4248dc_7f182f8e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/GroupJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2014-06-09T16:56:55Z",
+      "side": 1,
+      "message": "Well darn, that stinks. I\u0027ll go back and look why the UUID is coming back null.  I can say for sure it does: I can reproduce on my dev environment and production.  Thanks for pointing out the more relevant issue, though.",
+      "parentUuid": "bf577cb3_c4d4fe57",
+      "revId": "c8f5ea18253734f87b4a51b4c9fbd12d52d3747f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bf577cb3_e4d9fa8e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/ListIncludedGroups.java",
         "patchSetId": 1

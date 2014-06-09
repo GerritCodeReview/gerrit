@@ -22,6 +22,7 @@ import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
@@ -89,7 +90,7 @@ public class AddIncludedGroups implements RestModifyView<GroupResource, Input> {
   @Override
   public List<GroupInfo> apply(GroupResource resource, Input input)
       throws MethodNotAllowedException, AuthException,
-      UnprocessableEntityException, OrmException {
+      UnprocessableEntityException, OrmException, ResourceNotFoundException {
     AccountGroup group = resource.toAccountGroup();
     if (group == null) {
       throw new MethodNotAllowedException();
@@ -151,7 +152,7 @@ public class AddIncludedGroups implements RestModifyView<GroupResource, Input> {
     @Override
     public GroupInfo apply(GroupResource resource, Input input)
         throws AuthException, MethodNotAllowedException,
-        UnprocessableEntityException, OrmException {
+        UnprocessableEntityException, OrmException, ResourceNotFoundException {
       AddIncludedGroups.Input in = new AddIncludedGroups.Input();
       in.groups = ImmutableList.of(id);
       List<GroupInfo> list = put.apply(resource, in);
@@ -176,7 +177,8 @@ public class AddIncludedGroups implements RestModifyView<GroupResource, Input> {
 
     @Override
     public GroupInfo apply(IncludedGroupResource resource,
-        PutIncludedGroup.Input input) throws OrmException {
+        PutIncludedGroup.Input input) throws OrmException,
+        ResourceNotFoundException {
       // Do nothing, the group is already included.
       return get.get().apply(resource);
     }

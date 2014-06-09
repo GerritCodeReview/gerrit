@@ -19,6 +19,7 @@ import static com.google.common.base.Strings.nullToEmpty;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.AccountGroupById;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -69,6 +70,11 @@ public class ListIncludedGroups implements RestReadView<GroupResource> {
           included.add(json.format(i.getGroup()));
         }
       } catch (NoSuchGroupException notFound) {
+        log.warn(String.format("Group %s no longer available, included into %s",
+            u.getIncludeUUID(),
+            rsrc.getGroup().getName()));
+        continue;
+      } catch (ResourceNotFoundException e) {
         log.warn(String.format("Group %s no longer available, included into %s",
             u.getIncludeUUID(),
             rsrc.getGroup().getName()));

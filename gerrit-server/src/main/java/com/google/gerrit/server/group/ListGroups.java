@@ -23,6 +23,7 @@ import com.google.gerrit.common.data.GroupDescriptions;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.common.groups.ListGroupsOption;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.Url;
@@ -132,7 +133,8 @@ public class ListGroups implements RestReadView<TopLevelResource> {
   }
 
   @Override
-  public Object apply(TopLevelResource resource) throws OrmException {
+  public Object apply(TopLevelResource resource) throws OrmException,
+      ResourceNotFoundException {
     final Map<String, GroupInfo> output = Maps.newTreeMap();
     for (GroupInfo info : get()) {
       output.put(Objects.firstNonNull(
@@ -144,7 +146,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
         new TypeToken<Map<String, GroupInfo>>() {}.getType());
   }
 
-  public List<GroupInfo> get() throws OrmException {
+  public List<GroupInfo> get() throws OrmException, ResourceNotFoundException {
     List<GroupInfo> groupInfos;
     if (user != null) {
       if (owned) {
@@ -192,7 +194,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
   }
 
   private List<GroupInfo> getGroupsOwnedBy(IdentifiedUser user)
-      throws OrmException {
+      throws OrmException, ResourceNotFoundException {
     List<GroupInfo> groups = Lists.newArrayList();
     int found = 0;
     int foundIndex = 0;

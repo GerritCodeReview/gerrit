@@ -18,6 +18,7 @@ import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.IdentifiedUser;
@@ -83,7 +84,8 @@ public class ListGroupsCommand extends BaseCommand {
           identifiedUser, userFactory, accountGetGroups, json);
     }
 
-    void display(final PrintWriter out) throws OrmException {
+    void display(final PrintWriter out) throws OrmException,
+        ResourceNotFoundException {
       final ColumnFormatter formatter = new ColumnFormatter(out, '\t');
       for (final GroupInfo info : get()) {
         formatter.addColumn(Objects.firstNonNull(info.name, "n/a"));

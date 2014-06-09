@@ -137,6 +137,7 @@ def gerrit_plugin(
   java_binary(
     name = name,
     manifest_file = genfile('MANIFEST.MF'),
+    merge_manifests = False,
     deps = [
       ':%s__plugin' % name,
       ':%s__manifest' % name,

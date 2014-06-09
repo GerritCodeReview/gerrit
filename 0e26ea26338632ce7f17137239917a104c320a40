@@ -1,0 +1,203 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf577cb3_44e9ee1f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-09T21:51:09Z",
+      "side": 1,
+      "message": "Just newArrayList(); we don\u0027t have a good estimate of expected size. (submitRecords is a special case)",
+      "revId": "0e26ea26338632ce7f17137239917a104c320a40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf577cb3_64e66a51",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-09T21:51:09Z",
+      "side": 1,
+      "message": "Unnecessary \"final\"s here and the rest of this method.",
+      "revId": "0e26ea26338632ce7f17137239917a104c320a40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f5478b2_a3e3fa40",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-09T21:51:09Z",
+      "side": 1,
+      "message": "Maybe subjectStart? \"Header\" in the context of a commit message means all the stuff in the commit buffer before the subject, which is not what you\u0027re talking about here.",
+      "range": {
+        "startLine": 203,
+        "startChar": 16,
+        "endLine": 203,
+        "endChar": 27
+      },
+      "revId": "0e26ea26338632ce7f17137239917a104c320a40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f5478b2_83defe73",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-09T21:51:09Z",
+      "side": 1,
+      "message": "This needs to handle multiple paragraphs, as in:\n\n  Update patch set 1\n\n  This is the first paragraph of the commit message.\n\n  This is the second paragraph.\n\n  Patch-set: 1\n  Label: Code-Review\u003d+1\n\n(Unfortunately Gerrit doesn\u0027t render these as full double-newlines, but note the slightly larger gap.)\n\nYou should add a test for this behavior as well.",
+      "revId": "0e26ea26338632ce7f17137239917a104c320a40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf577cb3_c4fb9ee2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-09T21:51:09Z",
+      "side": 1,
+      "message": "This is not a safe assumption. Note that the implementation of endOfParagraph allows either \\n\\n or \\r\\n\\r\\n.",
+      "revId": "0e26ea26338632ce7f17137239917a104c320a40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf577cb3_04f3f60d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-09T21:51:09Z",
+      "side": 1,
+      "message": "Lines can be up to 80 chars.",
+      "revId": "0e26ea26338632ce7f17137239917a104c320a40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf577cb3_24f072fe",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-09T21:51:09Z",
+      "side": 1,
+      "message": "Fits on one line.",
+      "revId": "0e26ea26338632ce7f17137239917a104c320a40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf577cb3_e4001a25",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 464,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-09T21:51:09Z",
+      "side": 1,
+      "message": "Unnecessary change.",
+      "revId": "0e26ea26338632ce7f17137239917a104c320a40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f5478b2_43e9e61f",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-09T21:51:09Z",
+      "side": 1,
+      "message": "This is testing the commit format of change messages, not of approvals. So perhaps \"changeMessageCommitFormat\"",
+      "range": {
+        "startLine": 216,
+        "startChar": 14,
+        "endLine": 216,
+        "endChar": 38
+      },
+      "revId": "0e26ea26338632ce7f17137239917a104c320a40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f5478b2_63e66251",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-09T21:51:09Z",
+      "side": 1,
+      "message": "This is fine but it would be less code and more obvious what you\u0027re testing if you didn\u0027t call any methods on the update at all other than setChangeMessage.",
+      "revId": "0e26ea26338632ce7f17137239917a104c320a40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf577cb3_84f5a6ed",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-09T21:51:09Z",
+      "side": 1,
+      "message": "As previously mentioned you\u0027ll also want a case with \\n\\n.",
+      "revId": "0e26ea26338632ce7f17137239917a104c320a40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

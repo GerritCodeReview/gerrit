@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf577cb3_c4d4fe57",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/GroupJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-09T16:50:15Z",
+      "side": 1,
+      "message": "The documentation of GroupDescription.Basic#getGroupUUID() specifically says \"@return the non-null UUID of the group\", so how can this happen?\n\nLooking at GroupResource it looks like you would have to have a null UUID on the GroupControl that\u0027s passed in, is that even possible?",
+      "revId": "c8f5ea18253734f87b4a51b4c9fbd12d52d3747f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf577cb3_e4d9fa8e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/ListIncludedGroups.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-09T16:50:15Z",
+      "side": 1,
+      "message": "Combine this with the previous catch block.",
+      "revId": "c8f5ea18253734f87b4a51b4c9fbd12d52d3747f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

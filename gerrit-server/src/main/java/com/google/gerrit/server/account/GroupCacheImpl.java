@@ -30,6 +30,7 @@ import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 
+import org.eclipse.jgit.lib.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -171,8 +172,12 @@ public class GroupCacheImpl implements GroupCache {
   }
 
   private static AccountGroup missing(AccountGroup.Id key) {
-    AccountGroup.NameKey name = new AccountGroup.NameKey("Deleted Group" + key);
-    return new AccountGroup(name, key, null);
+    AccountGroup.NameKey name = new AccountGroup.NameKey("Deleted Group " + key);
+    /* Create a bogus UUID: AccountGroups must have a UUID, and this one's
+     * pretty safe to be unused.
+     */
+    return new AccountGroup(name, key,
+        AccountGroup.UUID.parse(ObjectId.zeroId().getName()));
   }
 
   static class ByIdLoader extends

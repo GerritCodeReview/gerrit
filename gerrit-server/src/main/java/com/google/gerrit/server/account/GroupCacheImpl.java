@@ -171,8 +171,12 @@ public class GroupCacheImpl implements GroupCache {
   }
 
   private static AccountGroup missing(AccountGroup.Id key) {
-    AccountGroup.NameKey name = new AccountGroup.NameKey("Deleted Group" + key);
-    return new AccountGroup(name, key, null);
+    AccountGroup.NameKey name = new AccountGroup.NameKey("Deleted Group " + key);
+    /* Create a bogus UUID: AccountGroups must have a UUID, and this one's
+     * pretty safe to be unused.
+     */
+    return new AccountGroup(name, key,
+        AccountGroup.UUID.parse("0000000000000000000000000000000000000000"));
   }
 
   static class ByIdLoader extends

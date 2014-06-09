@@ -88,6 +88,7 @@ public class ChangeUpdate extends VersionedMetaData {
   private String subject;
   private PatchSet.Id psId;
   private List<SubmitRecord> submitRecords;
+  private String changeMessage;
 
   @AssistedInject
   private ChangeUpdate(
@@ -184,6 +185,10 @@ public class ChangeUpdate extends VersionedMetaData {
     checkArgument(psId == null
         || psId.getParentKey().equals(getChange().getKey()));
     this.psId = psId;
+  }
+
+  public void setChangeMessage(String changeMessage) {
+    this.changeMessage = changeMessage;
   }
 
   public void putReviewer(Account.Id reviewer, ReviewerState type) {
@@ -297,6 +302,13 @@ public class ChangeUpdate extends VersionedMetaData {
       msg.append("Update patch set ").append(ps);
     }
     msg.append("\n\n");
+
+    if (changeMessage != null) {
+      msg.append(changeMessage);
+      msg.append("\n\n");
+    }
+
+
     addFooter(msg, FOOTER_PATCH_SET, ps);
     if (status != null) {
       addFooter(msg, FOOTER_STATUS, status.name().toLowerCase());
@@ -352,7 +364,8 @@ public class ChangeUpdate extends VersionedMetaData {
     return approvals.isEmpty()
         && reviewers.isEmpty()
         && status == null
-        && submitRecords == null;
+        && submitRecords == null
+        && changeMessage == null;
   }
 
   private static StringBuilder addFooter(StringBuilder sb, FooterKey footer) {

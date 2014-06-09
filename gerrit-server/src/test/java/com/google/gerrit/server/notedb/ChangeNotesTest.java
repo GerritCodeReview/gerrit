@@ -213,6 +213,50 @@ public class ChangeNotesTest {
   }
 
   @Test
+  public void approvalsCommitFormatNew() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.putApproval("Verified", (short) 1);
+    update.putApproval("Code-Review", (short) -1);
+    update.putReviewer(changeOwner.getAccount().getId(), REVIEWER);
+    update.putReviewer(otherUser.getAccount().getId(), CC);
+    update.setChangeMessage("Just a little code change.\nHow about a new line");
+    update.commit();
+    assertEquals("refs/changes/01/1/meta", update.getRefName());
+
+    RevWalk walk = new RevWalk(repo);
+    try {
+      RevCommit commit = walk.parseCommit(update.getRevision());
+      walk.parseBody(commit);
+      assertEquals("Update patch set 1\n"
+          + "\n"
+          + "Just a little code change.\nHow about a new line\n"
+          + "\n"
+          + "Patch-set: 1\n"
+          + "Reviewer: Change Owner <1@gerrit>\n"
+          + "CC: Other Account <2@gerrit>\n"
+          + "Label: Code-Review=-1\n"
+          + "Label: Verified=+1\n",
+          commit.getFullMessage());
+
+      PersonIdent author = commit.getAuthorIdent();
+      assertEquals("Change Owner", author.getName());
+      assertEquals("1@gerrit", author.getEmailAddress());
+      assertEquals(new Date(c.getCreatedOn().getTime() + 1000),
+          author.getWhen());
+      assertEquals(TimeZone.getTimeZone("GMT-7:00"), author.getTimeZone());
+
+      PersonIdent committer = commit.getCommitterIdent();
+      assertEquals("Gerrit Server", committer.getName());
+      assertEquals("noreply@gerrit.com", committer.getEmailAddress());
+      assertEquals(author.getWhen(), committer.getWhen());
+      assertEquals(author.getTimeZone(), committer.getTimeZone());
+    } finally {
+      walk.release();
+    }
+  }
+
+  @Test
   public void approvalTombstoneCommitFormat() throws Exception {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);
@@ -606,6 +650,44 @@ public class ChangeNotesTest {
     assertEquals(otherUser.getAccount().getId(), psas.get(1).getAccountId());
     assertEquals("Code-Review", psas.get(1).getLabel());
     assertEquals((short) 2, psas.get(1).getValue());
+  }
+
+  @Test
+  public void changeMessageOnePatchSet() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.putReviewer(changeOwner.getAccount().getId(), REVIEWER);
+    update.setChangeMessage("Just a little code change.\nTesting new line");
+    update.commit();
+
+    ChangeNotes notes = newNotes(c);
+    List<String> changeMessages = notes.getChangeMessages();
+    assertEquals(1, changeMessages.size());
+    assertEquals("Just a little code change.\nTesting new line", changeMessages.get(0));
+  }
+
+  @Test
+  public void changeMessagesMultiplePatchSets() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.putReviewer(changeOwner.getAccount().getId(), REVIEWER);
+    update.setChangeMessage("This is the change message for the first PS.");
+    update.commit();
+    PatchSet.Id ps1 = c.currentPatchSetId();
+
+    incrementPatchSet(c);
+    update = newUpdate(c, changeOwner);
+    update.putReviewer(changeOwner.getAccount().getId(), REVIEWER);
+    update.setChangeMessage("This is the change message for the second PS.");
+    update.commit();
+    PatchSet.Id ps2 = c.currentPatchSetId();
+
+
+    ChangeNotes notes = newNotes(c);
+    List<String> changeMessages = notes.getChangeMessages();
+    assertEquals(2, changeMessages.size());
+    assertEquals("This is the change message for the second PS.", changeMessages.get(0));
+    assertEquals("This is the change message for the first PS.", changeMessages.get(1));
   }
 
   private Change newChange() {

@@ -58,8 +58,10 @@ import org.eclipse.jgit.revwalk.FooterKey;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.RawParseUtils;
+import org.eclipse.jgit.util.StringUtils;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Collections;
@@ -102,6 +104,7 @@ public class ChangeNotes extends VersionedMetaData {
     private final Map<Account.Id, ReviewerState> reviewers;
     private final List<SubmitRecord> submitRecords;
     private Change.Status status;
+    private List<String> changeMessages;
 
     private Parser(Change.Id changeId, ObjectId tip, RevWalk walk) {
       this.changeId = changeId;
@@ -110,6 +113,7 @@ public class ChangeNotes extends VersionedMetaData {
       approvals = Maps.newHashMap();
       reviewers = Maps.newLinkedHashMap();
       submitRecords = Lists.newArrayListWithExpectedSize(1);
+      changeMessages = Lists.newArrayListWithExpectedSize(1);
     }
 
     private void parseAll() throws ConfigInvalidException, IOException {
@@ -142,6 +146,8 @@ public class ChangeNotes extends VersionedMetaData {
       }
       PatchSet.Id psId = parsePatchSetId(commit);
       Account.Id accountId = parseIdent(commit);
+      parseChangeMessage(commit);
+
 
       if (submitRecords.isEmpty()) {
         // Only parse the most recent set of submit records; any older ones are
@@ -187,6 +193,35 @@ public class ChangeNotes extends VersionedMetaData {
         throw invalidFooter(FOOTER_PATCH_SET, psIdLines.get(0));
       }
       return new PatchSet.Id(changeId, psId);
+    }
+
+    private void parseChangeMessage(RevCommit commit) {
+      final byte[] raw = commit.getRawBuffer();
+      final int size = raw.length;
+      final Charset enc = RawParseUtils.parseEncoding(raw);
+
+      final int headerStart = RawParseUtils.commitMessage(raw, 0);
+      if (headerStart < 0)
+        return;
+
+
+      int headerEnd = RawParseUtils.endOfParagraph(raw, headerStart);
+      if (headerEnd == size)
+        return;
+
+      int changeMsgStart = headerEnd + 2;
+      // 2 is for the \n\n that will be between the subject line and the
+      // message we want
+
+      int changeMsgEnd = RawParseUtils.endOfParagraph(raw,
+          changeMsgStart);
+
+      if (changeMsgEnd == size)
+        return;
+      String str = RawParseUtils.decode(enc, raw, changeMsgStart,
+          changeMsgEnd);
+
+      changeMessages.add(str);
     }
 
     private void parseApproval(PatchSet.Id psId, Account.Id accountId,
@@ -353,6 +388,7 @@ public class ChangeNotes extends VersionedMetaData {
   private ImmutableListMultimap<PatchSet.Id, PatchSetApproval> approvals;
   private ImmutableSetMultimap<ReviewerState, Account.Id> reviewers;
   private ImmutableList<SubmitRecord> submitRecords;
+  private ImmutableList<String> changeMessages;
 
   @VisibleForTesting
   ChangeNotes(GitRepositoryManager repoManager, Change change) {
@@ -405,6 +441,14 @@ public class ChangeNotes extends VersionedMetaData {
     return submitRecords;
   }
 
+  /**
+   * @return change messages
+   */
+  public ImmutableList<String> getChangeMessages() {
+    return changeMessages;
+
+  }
+
   @Override
   protected String getRefName() {
     return ChangeNoteUtil.changeRefName(change.getId());
@@ -417,6 +461,7 @@ public class ChangeNotes extends VersionedMetaData {
       loadDefaults();
       return;
     }
+
     RevWalk walk = new RevWalk(reader);
     try {
       Parser parser = new Parser(change.getId(), rev, walk);
@@ -435,6 +480,7 @@ public class ChangeNotes extends VersionedMetaData {
       }
       this.reviewers = reviewers.build();
       submitRecords = ImmutableList.copyOf(parser.submitRecords);
+      changeMessages = ImmutableList.copyOf(parser.changeMessages);
     } finally {
       walk.release();
     }
@@ -444,6 +490,7 @@ public class ChangeNotes extends VersionedMetaData {
     approvals = ImmutableListMultimap.of();
     reviewers = ImmutableSetMultimap.of();
     submitRecords = ImmutableList.of();
+    changeMessages = ImmutableList.of();
   }
 
   @Override

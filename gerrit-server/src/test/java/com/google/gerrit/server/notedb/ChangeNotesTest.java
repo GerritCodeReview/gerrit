@@ -213,6 +213,55 @@ public class ChangeNotesTest {
   }
 
   @Test
+  public void changeMessageCommitFormatSimple() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.setChangeMessage("Just a little code change.\nHow about a new line");
+    update.commit();
+    assertEquals("refs/changes/01/1/meta", update.getRefName());
+
+    RevWalk walk = new RevWalk(repo);
+    try {
+      RevCommit commit = walk.parseCommit(update.getRevision());
+      walk.parseBody(commit);
+      assertEquals("Update patch set 1\n"
+          + "\n"
+          + "Just a little code change.\nHow about a new line\n"
+          + "\n"
+          + "Patch-set: 1\n",
+          commit.getFullMessage());
+    } finally {
+      walk.release();
+    }
+  }
+
+  @Test
+  public void changeMessageCommitFormatMultipleParagraph() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.setChangeMessage("Just a little code change.\nTesting new line"
+        + "\n\nTesting multiple paragraphs.");
+    update.commit();
+    assertEquals("refs/changes/01/1/meta", update.getRefName());
+
+    RevWalk walk = new RevWalk(repo);
+    try {
+      RevCommit commit = walk.parseCommit(update.getRevision());
+      walk.parseBody(commit);
+      assertEquals("Update patch set 1\n"
+          + "\n"
+          + "Just a little code change.\nTesting new line"
+          + "\n\nTesting multiple paragraphs.\n"
+          + "\n"
+          + "Patch-set: 1\n",
+          commit.getFullMessage());
+    } finally {
+      walk.release();
+    }
+  }
+
+
+  @Test
   public void approvalTombstoneCommitFormat() throws Exception {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);
@@ -606,6 +655,44 @@ public class ChangeNotesTest {
     assertEquals(otherUser.getAccount().getId(), psas.get(1).getAccountId());
     assertEquals("Code-Review", psas.get(1).getLabel());
     assertEquals((short) 2, psas.get(1).getValue());
+  }
+
+  @Test
+  public void changeMessageOnePatchSet() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.putReviewer(changeOwner.getAccount().getId(), REVIEWER);
+    update.setChangeMessage("Just a little code change.\n");
+    update.commit();
+
+    ChangeNotes notes = newNotes(c);
+    List<String> changeMessages = notes.getChangeMessages();
+    assertEquals(1, changeMessages.size());
+    assertEquals("Just a little code change.\n", changeMessages.get(0));
+  }
+
+  @Test
+  public void changeMessagesMultiplePatchSets() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.putReviewer(changeOwner.getAccount().getId(), REVIEWER);
+    update.setChangeMessage("This is the change message for the first PS.");
+    update.commit();
+    PatchSet.Id ps1 = c.currentPatchSetId();
+
+    incrementPatchSet(c);
+    update = newUpdate(c, changeOwner);
+    update.putReviewer(changeOwner.getAccount().getId(), REVIEWER);
+    update.setChangeMessage("This is the change message for the second PS.");
+    update.commit();
+    PatchSet.Id ps2 = c.currentPatchSetId();
+
+
+    ChangeNotes notes = newNotes(c);
+    List<String> changeMessages = notes.getChangeMessages();
+    assertEquals(2, changeMessages.size());
+    assertEquals("This is the change message for the second PS.", changeMessages.get(0));
+    assertEquals("This is the change message for the first PS.", changeMessages.get(1));
   }
 
   private Change newChange() {

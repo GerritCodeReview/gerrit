@@ -134,9 +134,9 @@ def gerrit_plugin(
   java_binary(
     name = name,
     manifest_file = ':%s__manifest' % name,
+    merge_manifests = False,
     deps = [
       ':%s__plugin' % name,
-      ':%s__manifest' % name,
     ] + static_jars,
     visibility = visibility,
   )

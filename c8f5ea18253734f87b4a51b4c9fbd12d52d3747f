@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "9f5478b2_e3d9f28e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/GroupJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-09T18:27:49Z",
+      "side": 1,
+      "message": "Yeah, that seems inconsistent. If you look at GroupsCollection.parse it\u0027s doing the right thing and throwing ResourceNotFoundException.\n\nWhere are these GroupResources coming from if it\u0027s not GroupsCollection.parse? Maybe the thing to do is change those callers.",
+      "parentUuid": "ff4654ef_fe7521a5",
+      "revId": "c8f5ea18253734f87b4a51b4c9fbd12d52d3747f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bf577cb3_e4d9fa8e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/ListIncludedGroups.java",
         "patchSetId": 1

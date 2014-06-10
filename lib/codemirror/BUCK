@@ -59,11 +59,6 @@ genrule(
     'mv $(location :js) net/codemirror/lib',
     'zip -qr $OUT *'
   ]),
-  deps = [
-    ':zip',
-    ':css',
-    ':js',
-  ],
   out = 'codemirror.jar',
 )
 
@@ -73,6 +68,5 @@ genrule(
     ' -o $OUT' +
     ' -u ' + URL +
     ' -v ' + SHA1,
-  deps = ['//tools:download_file'],
   out = ZIP,
 )

@@ -49,18 +49,16 @@ def war(
   dep = []
   if docs:
     cmd.append('$(location %s)' % DOCS_HTML)
-    dep.append(DOCS_HTML)
     dep.append(DOCS_LIB)
     cmd.extend(['--lib', DOCS_LIB])
   if context:
     for t in context:
-      dep.append(t)
       cmd.append('$(location %s)' % t)
 
   genrule(
     name = name,
     cmd = ' '.join(cmd),
-    deps = libs + pgmlibs + dep + ['//tools:pack_war'],
+    deps = libs + pgmlibs + dep,
     out = name + '.war',
     visibility = visibility,
   )

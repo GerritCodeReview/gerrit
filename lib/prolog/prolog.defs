@@ -23,7 +23,6 @@ def prolog_cafe_library(
       ' $TMP $OUT ' +
       ' '.join(srcs),
     srcs = srcs,
-    deps = ['//lib/prolog:compiler'],
     out = name + '.src.zip',
   )
   java_library(

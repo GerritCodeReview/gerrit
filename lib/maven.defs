@@ -81,7 +81,6 @@ def maven_jar(
   genrule(
     name = '%s__download_bin' % name,
     cmd = ' '.join(cmd),
-    deps = ['//tools:download_file'],
     out = binjar,
   )
   license = ['//lib:LICENSE-' + license]
@@ -93,13 +92,12 @@ def maven_jar(
     genrule(
       name = '%s__download_src' % name,
       cmd = ' '.join(cmd),
-      deps = ['//tools:download_file'],
       out = srcjar,
     )
     prebuilt_jar(
       name = '%s_src' % name,
       binary_jar = ':%s__download_src' % name,
-      deps = license + [':' + name + '__download_src'],
+      deps = license,
       visibility = visibility,
     )
   else:

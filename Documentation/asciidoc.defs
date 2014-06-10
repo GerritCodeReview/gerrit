@@ -16,7 +16,6 @@ def genasciidoc(
     name,
     out,
     srcs = [],
-    deps = [],
     attributes = [],
     backend = None,
     visibility = []):
@@ -35,9 +34,7 @@ def genasciidoc(
     asciidoc.extend(['-a', attribute])
   asciidoc.append('$SRCS')
   newsrcs = ["doc.css"]
-  newdeps = deps + ['//lib/asciidoctor:asciidoc']
   for src in srcs:
-    tx = []
     fn = src
     # We have two cases: regular source files and generated files.
     # Generated files are passed as targets ':foo', and ':' is removed.
@@ -46,7 +43,6 @@ def genasciidoc(
     srcs = [src]
     passed_src = ' -s %s' % fn
     if fn.startswith(':') :
-      tx = [fn]
       fn = src[1:]
       srcs = []
       passed_src = ' -s $(location :%s)' % fn
@@ -58,19 +54,15 @@ def genasciidoc(
             passed_src +
             ' -o $OUT',
       srcs = srcs,
-      deps = tx + [':replace_macros'],
       out = ex,
     )
 
-    ex = ':' + ex
-    newdeps.append(ex)
-    asciidoc.append('$(location %s)' % ex)
+    asciidoc.append('$(location :%s)' % ex)
 
   genrule(
     name = name,
     cmd = ' '.join(asciidoc),
     srcs = newsrcs,
-    deps = newdeps,
     out = out,
     visibility = visibility,
   )

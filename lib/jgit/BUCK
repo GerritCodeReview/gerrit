@@ -79,6 +79,5 @@ genrule(
     'org/eclipse/jgit/diff/Edit.java;' +
     'cd $TMP;' +
     'zip -Dq $OUT org/eclipse/jgit/diff/Edit.java',
-  deps = [':jgit_src'],
   out = 'edit-src.jar',
 )

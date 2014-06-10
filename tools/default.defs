@@ -28,7 +28,6 @@ def genantlr(
     cmd = '$(exe //lib/antlr:antlr-tool) -o $TMP $SRCS;' +
       'cd $TMP;' +
       'zip -qr $OUT .',
-    deps = ['//lib/antlr:antlr-tool'],
     out = out,
   )
 
@@ -119,7 +118,6 @@ def gerrit_plugin(
         ':%s__gwt_application' % name +
         ';cd $TMP' +
         ';zip -qr $OUT .',
-      deps = [':%s__gwt_application' % name],
       out = '%s-static.zip' % name,
     )
     gwt_binary(
@@ -188,7 +186,6 @@ def java_doc(
       '-d $TMP',
     ]) + ';jar cf $OUT -C $TMP .',
     srcs = srcs,
-    deps = deps,
     out = name + '.jar',
     visibility = visibility,
 )

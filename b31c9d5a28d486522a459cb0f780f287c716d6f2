@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "df9d10d5_ed51450d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchSetInfoFactory.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-06-10T16:30:51Z",
+      "side": 1,
+      "message": "I came across 1 test case where same branch commit is wrongly classified as other branch commit. \n1-branchB is created from branchA\n2-A Change is pushed and submitted in branchA\n3-git fetch\n4-git checkout -b branchB origin/branchB\n5-Pushed a commit to branchB\n\nNow mergeBase is not reached starting from pushedCommit in branchB, so function returns otherBranchCommit as true although it should be false.\n\nPlease suggest on what condition we can put to take care of this condition.",
+      "range": {
+        "startLine": 185,
+        "startChar": 8,
+        "endLine": 188,
+        "endChar": 11
+      },
+      "revId": "b31c9d5a28d486522a459cb0f780f287c716d6f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

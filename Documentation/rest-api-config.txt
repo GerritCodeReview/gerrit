@@ -378,6 +378,65 @@ The entries in the map are sorted by capability ID.
   }
 ----
 
+[[list-tasks]]
+=== List Tasks
+--
+'GET /config/server/tasks/'
+--
+
+Lists the tasks from the background work queues that the Gerrit daemon
+is currently performing, or will perform in the near future.
+
+Gerrit contains an internal scheduler, similar to cron, that it uses to
+queue and dispatch both short and long term tasks.
+
+Tasks that are completed or canceled exit the queue very quickly once
+they enter this state, but it can be possible to observe tasks in these
+states.
+
+End-users may see a task only if they can also see the project the task
+is associated with. Tasks operating on other projects, or that do not
+have a specific project are hidden.
+
+Members of a group that is granted the
+link:access-control.html#capability_viewQueue[View Queue] capability or
+the link:access-control.html#capability_administrateServer[Administrate
+Server] capability can see all tasks.
+
+As result a list of link:#task-info[TaskInfo] entities is returned.
+
+The entries in the list are sorted by task state, remaining delay and
+command.
+
+.Request
+----
+  GET /config/server/tasks/ HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  [
+    {
+      "id": "1e688bea",
+      "state": "SLEEPING",
+      "start_time": "2014-06-11 12:58:51.991000000",
+      "delay": 3453,
+      "command": "Reload Submit Queue"
+    },
+    {
+      "id": "3e6d4ffa",
+      "state": "SLEEPING",
+      "start_time": "2014-06-11 12:58:51.508000000",
+      "delay": 3287966,
+      "command": "Log File Compressor"
+    }
+  ]
+----
+
 [[get-top-menus]]
 === Get Top Menus
 --
@@ -500,6 +559,27 @@ Hit ratio for cache entries that are held in memory (0 \<= value \<= 100).
 Hit ratio for cache entries that are held on disk (0 \<= value \<= 100).
 Only set for disk caches.
 |==================================
+
+[[task-info]]
+=== TaskInfo
+The `TaskInfo` entity contains information about a task in a background
+work queue.
+
+[options="header",width="50%",cols="1,^1,5"]
+|====================================
+|Field Name   ||Description
+|`id`         ||The ID of the task.
+|`state`      ||
+The state of the task, can be `DONE`, `CANCELLED`, `RUNNING`, `READY`,
+`SLEEPING` and `OTHER`.
+|`start_time` ||The start time of the task.
+|`delay`      ||The remaining delay of the task.
+|`command`    ||The command of the task.
+|`remote_name`|optional|
+The remote name. May only be set for tasks that are associated with a
+project.
+|`project`    |optional|The project the task is associated with.
+|====================================
 
 [[top-menu-entry-info]]
 === TopMenuEntryInfo

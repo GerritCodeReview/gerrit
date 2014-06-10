@@ -33,7 +33,6 @@ genrule(
     ';do ln -s $s $TMP/WEB-INF/plugins;done;' +
     'cd $TMP;' +
     'zip -qr $OUT .',
-  deps = ['//%s/%s:%s' % (BASE, n, n) for n in HAVE],
   out = 'core.zip',
   visibility = ['//:release'],
 )

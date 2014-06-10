@@ -20,10 +20,6 @@ genrule(
       'images/*.jpg',
       'images/*.png',
     ]) + ['doc.css'],
-  deps = [
-    ':generate_html',
-    ':licenses.txt',
-  ],
   out = 'html.zip',
   visibility = ['PUBLIC'],
 )
@@ -31,7 +27,6 @@ genrule(
 genasciidoc(
   name = 'generate_html',
   srcs = SRCS + [':licenses.txt'],
-  deps = [':licenses.txt'],
   attributes = documentation_attributes(git_describe()),
   backend = 'html5',
   out = 'only_html.zip',
@@ -64,10 +59,6 @@ genrule(
       '$SRCS ' +
       '$(location :licenses.txt)',
   srcs = SRCS,
-  deps = [
-    ':licenses.txt',
-    '//lib/asciidoctor:doc_indexer',
-  ],
   out = 'index.jar',
 )
 

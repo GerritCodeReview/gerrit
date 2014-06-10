@@ -39,6 +39,7 @@ import com.google.common.primitives.Ints;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetApproval.LabelId;
@@ -58,8 +59,6 @@ import org.eclipse.jgit.revwalk.FooterKey;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.RawParseUtils;
-import org.eclipse.jgit.util.StringUtils;
-
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.sql.Timestamp;
@@ -104,7 +103,7 @@ public class ChangeNotes extends VersionedMetaData {
     private final Map<Account.Id, ReviewerState> reviewers;
     private final List<SubmitRecord> submitRecords;
     private Change.Status status;
-    private List<String> changeMessages;
+    private List<ChangeMessage> changeMessages;
 
     private Parser(Change.Id changeId, ObjectId tip, RevWalk walk) {
       this.changeId = changeId;
@@ -146,7 +145,7 @@ public class ChangeNotes extends VersionedMetaData {
       }
       PatchSet.Id psId = parsePatchSetId(commit);
       Account.Id accountId = parseIdent(commit);
-      parseChangeMessage(commit);
+      parseChangeMessage(psId, accountId, commit);
 
 
       if (submitRecords.isEmpty()) {
@@ -195,7 +194,8 @@ public class ChangeNotes extends VersionedMetaData {
       return new PatchSet.Id(changeId, psId);
     }
 
-    private void parseChangeMessage(RevCommit commit) {
+    private void parseChangeMessage(PatchSet.Id psId, Account.Id accountId,
+        RevCommit commit) {
       byte[] raw = commit.getRawBuffer();
       int size = raw.length;
       Charset enc = RawParseUtils.parseEncoding(raw);
@@ -240,8 +240,12 @@ public class ChangeNotes extends VersionedMetaData {
         return;
       }
 
-      String changeMessage = RawParseUtils.decode(enc, raw,
+      String changeMessageString = RawParseUtils.decode(enc, raw,
           changeMessageStart, changeMessageEnd + 1);
+      ChangeMessage changeMessage = new ChangeMessage(new
+          ChangeMessage.Key(psId.getParentKey(), commit.name()), accountId,
+          new Timestamp(commit.getCommitterIdent().getWhen().getTime()), psId);
+      changeMessage.setMessage(changeMessageString);
       changeMessages.add(changeMessage);
     }
 
@@ -409,7 +413,8 @@ public class ChangeNotes extends VersionedMetaData {
   private ImmutableListMultimap<PatchSet.Id, PatchSetApproval> approvals;
   private ImmutableSetMultimap<ReviewerState, Account.Id> reviewers;
   private ImmutableList<SubmitRecord> submitRecords;
-  private ImmutableList<String> changeMessages;
+  //private ImmutableList<String> changeMessages;
+  private ImmutableList<ChangeMessage> changeMessages;
 
   @VisibleForTesting
   ChangeNotes(GitRepositoryManager repoManager, Change change) {
@@ -465,7 +470,7 @@ public class ChangeNotes extends VersionedMetaData {
   /**
    * @return change messages in reverse chronological order.
    */
-  public ImmutableList<String> getChangeMessages() {
+  public ImmutableList<ChangeMessage> getChangeMessages() {
     return changeMessages;
 
   }

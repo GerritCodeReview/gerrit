@@ -32,6 +32,7 @@ import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
@@ -640,11 +641,16 @@ public class ChangeNotesTest {
     update.putReviewer(changeOwner.getAccount().getId(), REVIEWER);
     update.setChangeMessage("Just a little code change.\n");
     update.commit();
+    PatchSet.Id ps1 = c.currentPatchSetId();
 
     ChangeNotes notes = newNotes(c);
-    List<String> changeMessages = notes.getChangeMessages();
+    List<ChangeMessage> changeMessages = notes.getChangeMessages();
     assertEquals(1, changeMessages.size());
-    assertEquals("Just a little code change.\n", changeMessages.get(0));
+    assertEquals("Just a little code change.\n",
+        changeMessages.get(0).getMessage());
+    assertEquals(changeOwner.getAccount().getId(),
+        changeMessages.get(0).getAuthor());
+    assertEquals(ps1, changeMessages.get(0).getPatchSetId());
   }
 
   @Test
@@ -664,10 +670,18 @@ public class ChangeNotesTest {
     PatchSet.Id ps2 = c.currentPatchSetId();
 
     ChangeNotes notes = newNotes(c);
-    List<String> changeMessages = notes.getChangeMessages();
+    List<ChangeMessage> changeMessages = notes.getChangeMessages();
     assertEquals(2, changeMessages.size());
-    assertEquals("This is the change message for the second PS.", changeMessages.get(0));
-    assertEquals("This is the change message for the first PS.", changeMessages.get(1));
+    assertEquals("This is the change message for the second PS.",
+        changeMessages.get(0).getMessage());
+    assertEquals(changeOwner.getAccount().getId(),
+        changeMessages.get(0).getAuthor());
+    assertEquals(ps2, changeMessages.get(0).getPatchSetId());
+    assertEquals("This is the change message for the first PS.",
+        changeMessages.get(1).getMessage());
+    assertEquals(changeOwner.getAccount().getId(),
+        changeMessages.get(1).getAuthor());
+    assertEquals(ps1, changeMessages.get(1).getPatchSetId());
   }
 
   @Test
@@ -691,7 +705,7 @@ public class ChangeNotesTest {
     }
 
     ChangeNotes notes = newNotes(c);
-    List<String> changeMessages = notes.getChangeMessages();
+    List<ChangeMessage> changeMessages = notes.getChangeMessages();
     assertEquals(0, changeMessages.size());
   }
 
@@ -720,10 +734,10 @@ public class ChangeNotesTest {
     }
 
     ChangeNotes notes = newNotes(c);
-    List<String> changeMessages = notes.getChangeMessages();
+    List<ChangeMessage> changeMessages = notes.getChangeMessages();
     assertEquals(1, changeMessages.size());
     assertEquals("Testing trailing double newline\n"
-        + "\n", changeMessages.get(0));
+        + "\n", changeMessages.get(0).getMessage());
   }
 
   @Test
@@ -756,13 +770,13 @@ public class ChangeNotesTest {
     }
 
     ChangeNotes notes = newNotes(c);
-    List<String> changeMessages = notes.getChangeMessages();
+    List<ChangeMessage> changeMessages = notes.getChangeMessages();
     assertEquals(1, changeMessages.size());
     assertEquals("Testing paragraph 1\n"
         + "\n"
         + "Testing paragraph 2\n"
         + "\n"
-        + "Testing paragraph 3", changeMessages.get(0));
+        + "Testing paragraph 3", changeMessages.get(0).getMessage());
   }
 
   private Change newChange() {

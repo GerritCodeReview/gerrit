@@ -1,0 +1,112 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9f5478b2_a34c5a86",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 466,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-10T17:45:55Z",
+      "side": 1,
+      "message": "Specify the order.\n\nAlso, if the total length is \u003c\u003d 80 chars, you can put this on one line:\n\n /** @return change messages in reverse chronological order. */",
+      "revId": "1592ba2cb5f7f35c63c9b25567e570f7a3b9c3ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf577cb3_c4707eb8",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-10T17:45:55Z",
+      "side": 1,
+      "message": "I think you need a changeMessageWithMultipleParagraphs() test below, to test parsing multiple paragraphs. If you do that then you can drop this one.",
+      "revId": "1592ba2cb5f7f35c63c9b25567e570f7a3b9c3ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf577cb3_043c56db",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-10T17:45:55Z",
+      "side": 1,
+      "message": "Line break.",
+      "range": {
+        "startLine": 257,
+        "startChar": 39,
+        "endLine": 257,
+        "endChar": 42
+      },
+      "revId": "1592ba2cb5f7f35c63c9b25567e570f7a3b9c3ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f5478b2_e3525221",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-10T17:45:55Z",
+      "side": 1,
+      "message": "Extra blank line.",
+      "revId": "1592ba2cb5f7f35c63c9b25567e570f7a3b9c3ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f5478b2_8347de61",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 694,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-10T17:45:55Z",
+      "side": 1,
+      "message": "Extra blank line.",
+      "revId": "1592ba2cb5f7f35c63c9b25567e570f7a3b9c3ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f5478b2_c34dd685",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 757,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-10T17:45:55Z",
+      "side": 1,
+      "message": "Extra blank lines.",
+      "revId": "1592ba2cb5f7f35c63c9b25567e570f7a3b9c3ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

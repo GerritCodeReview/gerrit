@@ -32,6 +32,7 @@ import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
@@ -640,11 +641,19 @@ public class ChangeNotesTest {
     update.putReviewer(changeOwner.getAccount().getId(), REVIEWER);
     update.setChangeMessage("Just a little code change.\n");
     update.commit();
+    PatchSet.Id ps1 = c.currentPatchSetId();
 
     ChangeNotes notes = newNotes(c);
-    List<String> changeMessages = notes.getChangeMessages();
-    assertEquals(1, changeMessages.size());
-    assertEquals("Just a little code change.\n", changeMessages.get(0));
+    ListMultimap<PatchSet.Id, ChangeMessage> changeMessages =
+        notes.getChangeMessages();
+    assertEquals(1, changeMessages.keySet().size());
+
+    ChangeMessage cm = Iterables.getOnlyElement(changeMessages.get(ps1));
+    assertEquals("Just a little code change.\n",
+        cm.getMessage());
+    assertEquals(changeOwner.getAccount().getId(),
+        cm.getAuthor());
+    assertEquals(ps1, cm.getPatchSetId());
   }
 
   @Test
@@ -664,10 +673,22 @@ public class ChangeNotesTest {
     PatchSet.Id ps2 = c.currentPatchSetId();
 
     ChangeNotes notes = newNotes(c);
-    List<String> changeMessages = notes.getChangeMessages();
-    assertEquals(2, changeMessages.size());
-    assertEquals("This is the change message for the second PS.", changeMessages.get(0));
-    assertEquals("This is the change message for the first PS.", changeMessages.get(1));
+    ListMultimap<PatchSet.Id, ChangeMessage> changeMessages =
+        notes.getChangeMessages();
+    assertEquals(2, changeMessages.keySet().size());
+
+    ChangeMessage cm1 = Iterables.getOnlyElement(changeMessages.get(ps1));
+    assertEquals("This is the change message for the first PS.",
+        cm1.getMessage());
+    assertEquals(changeOwner.getAccount().getId(),
+        cm1.getAuthor());
+
+    ChangeMessage cm2 = Iterables.getOnlyElement(changeMessages.get(ps2));
+    assertEquals(ps1, cm1.getPatchSetId());
+    assertEquals("This is the change message for the second PS.",
+        cm2.getMessage());
+    assertEquals(changeOwner.getAccount().getId(), cm2.getAuthor());
+    assertEquals(ps2, cm2.getPatchSetId());
   }
 
   @Test
@@ -691,8 +712,9 @@ public class ChangeNotesTest {
     }
 
     ChangeNotes notes = newNotes(c);
-    List<String> changeMessages = notes.getChangeMessages();
-    assertEquals(0, changeMessages.size());
+    ListMultimap<PatchSet.Id, ChangeMessage> changeMessages =
+        notes.getChangeMessages();
+    assertEquals(0, changeMessages.keySet().size());
   }
 
   @Test
@@ -702,6 +724,7 @@ public class ChangeNotesTest {
     update.setChangeMessage("Testing trailing double newline\n"
         + "\n");
     update.commit();
+    PatchSet.Id ps1 = c.currentPatchSetId();
 
     RevWalk walk = new RevWalk(repo);
     try {
@@ -720,10 +743,14 @@ public class ChangeNotesTest {
     }
 
     ChangeNotes notes = newNotes(c);
-    List<String> changeMessages = notes.getChangeMessages();
-    assertEquals(1, changeMessages.size());
-    assertEquals("Testing trailing double newline\n"
-        + "\n", changeMessages.get(0));
+    ListMultimap<PatchSet.Id, ChangeMessage> changeMessages =
+        notes.getChangeMessages();
+    assertEquals(1, changeMessages.keySet().size());
+
+    ChangeMessage cm1 = Iterables.getOnlyElement(changeMessages.get(ps1));
+    assertEquals("Testing trailing double newline\n" + "\n", cm1.getMessage());
+    assertEquals(changeOwner.getAccount().getId(), cm1.getAuthor());
+
   }
 
   @Test
@@ -736,6 +763,7 @@ public class ChangeNotesTest {
         + "\n"
         + "Testing paragraph 3");
     update.commit();
+    PatchSet.Id ps1 = c.currentPatchSetId();
 
     RevWalk walk = new RevWalk(repo);
     try {
@@ -756,14 +784,53 @@ public class ChangeNotesTest {
     }
 
     ChangeNotes notes = newNotes(c);
-    List<String> changeMessages = notes.getChangeMessages();
-    assertEquals(1, changeMessages.size());
+    ListMultimap<PatchSet.Id, ChangeMessage> changeMessages =
+        notes.getChangeMessages();
+    assertEquals(1, changeMessages.keySet().size());
+
+    ChangeMessage cm1 = Iterables.getOnlyElement(changeMessages.get(ps1));
     assertEquals("Testing paragraph 1\n"
         + "\n"
         + "Testing paragraph 2\n"
         + "\n"
-        + "Testing paragraph 3", changeMessages.get(0));
+        + "Testing paragraph 3", cm1.getMessage());
+    assertEquals(changeOwner.getAccount().getId(), cm1.getAuthor());
   }
+
+  @Test
+  public void changeMessageMultipleInOnePatchSet() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.putReviewer(changeOwner.getAccount().getId(), REVIEWER);
+    update.setChangeMessage("First change message.\n");
+    update.commit();
+
+    PatchSet.Id ps1 = c.currentPatchSetId();
+
+    update = newUpdate(c, changeOwner);
+    update.putReviewer(changeOwner.getAccount().getId(), REVIEWER);
+    update.setChangeMessage("Second change message.\n");
+    update.commit();
+
+    ChangeNotes notes = newNotes(c);
+    ListMultimap<PatchSet.Id, ChangeMessage> changeMessages =
+        notes.getChangeMessages();
+    assertEquals(1, changeMessages.keySet().size());
+
+    List<ChangeMessage> cm = changeMessages.get(ps1);
+    assertEquals(2, cm.size());
+    assertEquals("Second change message.\n",
+        cm.get(0).getMessage());
+    assertEquals(changeOwner.getAccount().getId(),
+        cm.get(0).getAuthor());
+    assertEquals(ps1, cm.get(0).getPatchSetId());
+    assertEquals("First change message.\n",
+        cm.get(1).getMessage());
+    assertEquals(changeOwner.getAccount().getId(),
+        cm.get(0).getAuthor());
+    assertEquals(ps1, cm.get(0).getPatchSetId());
+  }
+
 
   private Change newChange() {
     Change.Id changeId = new Change.Id(1);

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bfaa1cea_acfbc3e2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-06-10T07:13:04Z",
+      "side": 1,
+      "message": "Newline after this?",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 37
+      },
+      "revId": "a8349cdfb0a2293b458029de1c1b8606c7de3036",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfaa1cea_4cf05fff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-06-10T07:13:04Z",
+      "side": 1,
+      "message": "compilation",
+      "range": {
+        "startLine": 23,
+        "startChar": 21,
+        "endLine": 23,
+        "endChar": 31
+      },
+      "revId": "a8349cdfb0a2293b458029de1c1b8606c7de3036",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df9d10d5_0d0db157",
+        "filename": "lib/codemirror/closure.defs",
+        "patchSetId": 6
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-06-10T07:13:04Z",
+      "side": 1,
+      "message": "This version seems not to exist.\n\nAt least I\u0027m getting:\n\n  Download http://dl.google.com/closure-compiler/compiler-v20140407.zip\n  error using curl: Command \u0027[\u0027curl\u0027, \u0027--proxy-anyauth\u0027, \u0027-sfo\u0027, \u0027/Users/d044411/.gerritcodereview/buck-cache/closure-compiler.zip-728e1b1cf59ee89679e5c40226ee080a10c34004\u0027, \u0027http://dl.google.com/closure-compiler/compiler-v20140407.zip\u0027]\u0027 returned non-zero exit status 22\n  BUILD FAILED: //lib/codemirror:closure-compiler-zip failed with exit code 1:\n  genrule",
+      "range": {
+        "startLine": 2,
+        "startChar": 0,
+        "endLine": 3,
+        "endChar": 96
+      },
+      "revId": "a8349cdfb0a2293b458029de1c1b8606c7de3036",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

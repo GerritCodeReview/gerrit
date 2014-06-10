@@ -148,9 +148,9 @@ public class ChangeMergeQueue implements MergeQueue {
     if (e == null) {
       e = new MergeEntry(branch);
       active.put(branch, e);
+      e.needMerge = true;
+      scheduleJob(e);
     }
-    e.needMerge = true;
-    scheduleJob(e);
   }
 
   @Override

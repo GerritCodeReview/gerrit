@@ -17,31 +17,27 @@ package com.google.gerrit.sshd.commands;
 import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 
 import com.google.common.base.Objects;
-import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.git.TaskInfoFactory;
-import com.google.gerrit.server.git.WorkQueue;
-import com.google.gerrit.server.git.WorkQueue.ProjectTask;
+import com.google.gerrit.server.config.ConfigResource;
+import com.google.gerrit.server.config.ListTasks;
+import com.google.gerrit.server.config.ListTasks.TaskInfo;
 import com.google.gerrit.server.git.WorkQueue.Task;
-import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectState;
-import com.google.gerrit.server.util.IdGenerator;
 import com.google.gerrit.server.util.TimeUtil;
 import com.google.gerrit.sshd.AdminHighPriorityCommand;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 import org.apache.sshd.server.Environment;
 import org.kohsuke.args4j.Option;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 /** Display the current work queue. */
 @AdminHighPriorityCommand
@@ -52,10 +48,7 @@ final class ShowQueue extends SshCommand {
   private boolean wide;
 
   @Inject
-  private WorkQueue workQueue;
-
-  @Inject
-  private ProjectCache projectCache;
+  private Provider<ListTasks> listTasks;
 
   @Inject
   private IdentifiedUser currentUser;
@@ -64,7 +57,7 @@ final class ShowQueue extends SshCommand {
   private int taskNameWidth;
 
   @Override
-  public void start(final Environment env) throws IOException {
+  public void start(Environment env) throws IOException {
     String s = env.getEnv().get(Environment.ENV_COLUMNS);
     if (s != null && !s.isEmpty()) {
       try {
@@ -77,125 +70,59 @@ final class ShowQueue extends SshCommand {
   }
 
   @Override
-  protected void run() {
+  protected void run() throws UnloggedFailure {
     taskNameWidth = wide ? Integer.MAX_VALUE : columns - 8 - 12 - 12 - 4 - 4;
-    final List<QueueTaskInfo> pending = getSortedTaskInfoList();
-
     stdout.print(String.format("%-8s %-12s %-12s %-4s %s\n", //
         "Task", "State", "StartTime", "", "Command"));
     stdout.print("----------------------------------------------"
         + "--------------------------------\n");
 
-    int numberOfPendingTasks = 0;
-    final long now = TimeUtil.nowMs();
-    final boolean viewAll = currentUser.getCapabilities().canViewQueue();
-
-    for (final QueueTaskInfo taskInfo : pending) {
-      final long delay = taskInfo.delayMillis;
-      final Task.State state = taskInfo.state;
-
-      final String start;
-      switch (state) {
-        case DONE:
-        case CANCELLED:
-        case RUNNING:
-        case READY:
-          start = format(state);
-          break;
-        default:
-          start = time(now, delay);
-          break;
-      }
-
-      boolean regularUserCanSee = false;
-      boolean hasCustomizedPrint = true;
-
-      // If the user is not administrator, check if has rights to see
-      // the Task
-      Project.NameKey projectName = null;
-      String remoteName = null;
-
-      if (!viewAll) {
-        projectName = taskInfo.getProjectNameKey();
-        remoteName = taskInfo.getRemoteName();
-        hasCustomizedPrint = taskInfo.hasCustomizedPrint();
-
-        ProjectState e = null;
-        if (projectName != null) {
-          e = projectCache.get(projectName);
+    try {
+      List<TaskInfo> tasks = listTasks.get().apply(new ConfigResource());
+      long now = TimeUtil.nowMs();
+      boolean viewAll = currentUser.getCapabilities().canViewQueue();
+      for (TaskInfo task : tasks) {
+        String start;
+        switch (task.state) {
+          case DONE:
+          case CANCELLED:
+          case RUNNING:
+          case READY:
+            start = format(task.state);
+            break;
+          default:
+            start = time(now, task.delay);
+            break;
         }
 
-        regularUserCanSee = e != null && e.controlFor(currentUser).isVisible();
+        // Shows information about tasks depending on the user rights
+        if (viewAll || task.projectName == null) {
+          String command = task.command.length() < taskNameWidth
+              ? task.command
+              : task.command.substring(0, taskNameWidth);
 
-        if (regularUserCanSee) {
-          numberOfPendingTasks++;
+          stdout.print(String.format("%8s %-12s %-12s %-4s %s\n",
+              task.id, start, startTime(task.startTime), "", command));
+        } else {
+          String remoteName = task.remoteName != null
+              ? task.remoteName + "/" + task.projectName
+              : task.projectName;
+
+          stdout.print(String.format("%8s %-12s %-4s %s\n",
+              task.id, start, startTime(task.startTime),
+              Objects.firstNonNull(remoteName, "n/a")));
         }
       }
-
-      String startTime = startTime(taskInfo.getStartTime());
-
-      // Shows information about tasks depending on the user rights
-      if (viewAll || (!hasCustomizedPrint && regularUserCanSee)) {
-        stdout.print(String.format("%8s %-12s %-12s %-4s %s\n", //
-            id(taskInfo.getTaskId()), start, startTime, "",
-            taskInfo.getTaskString(taskNameWidth)));
-      } else if (regularUserCanSee) {
-        if (projectName != null) {
-          if (remoteName == null) {
-            remoteName = projectName.get();
-          } else {
-            remoteName = remoteName + "/" + projectName.get();
-          }
-        }
-
-        stdout.print(String.format("%8s %-12s %-4s %s\n",
-            id(taskInfo.getTaskId()), start, startTime,
-            Objects.firstNonNull(remoteName, "n/a")));
-      }
+      stdout.print("----------------------------------------------"
+          + "--------------------------------\n");
+      stdout.print("  " + tasks.size() + " tasks\n");
+    } catch (AuthException | ResourceNotFoundException e) {
+      throw die(e);
     }
-    stdout.print("----------------------------------------------"
-        + "--------------------------------\n");
-
-    if (viewAll) {
-      numberOfPendingTasks = pending.size();
-    }
-
-    stdout.print("  " + numberOfPendingTasks + " tasks\n");
   }
 
-  private List<QueueTaskInfo> getSortedTaskInfoList() {
-    final List<QueueTaskInfo> taskInfos =
-        workQueue.getTaskInfos(new TaskInfoFactory<QueueTaskInfo>() {
-          @Override
-          public QueueTaskInfo getTaskInfo(Task<?> task) {
-            return new QueueTaskInfo(task);
-          }
-        });
-    Collections.sort(taskInfos, new Comparator<QueueTaskInfo>() {
-      @Override
-      public int compare(QueueTaskInfo a, QueueTaskInfo b) {
-        if (a.state != b.state) {
-          return a.state.ordinal() - b.state.ordinal();
-        }
-
-        int cmp = Long.signum(a.delayMillis - b.delayMillis);
-        if (cmp != 0) {
-          return cmp;
-        }
-
-        return a.getTaskString(taskNameWidth)
-            .compareTo(b.getTaskString(taskNameWidth));
-      }
-    });
-    return taskInfos;
-  }
-
-  private static String id(final int id) {
-    return IdGenerator.format(id);
-  }
-
-  private static String time(final long now, final long delay) {
-    final Date when = new Date(now + delay);
+  private static String time(long now, long delay) {
+    Date when = new Date(now + delay);
     return format(when, delay);
   }
 
@@ -203,14 +130,14 @@ final class ShowQueue extends SshCommand {
     return format(when, TimeUtil.nowMs() - when.getTime());
   }
 
-  private static String format(final Date when, final long timeFromNow) {
+  private static String format(Date when, long timeFromNow) {
     if (timeFromNow < 24 * 60 * 60 * 1000L) {
       return new SimpleDateFormat("HH:mm:ss.SSS").format(when);
     }
     return new SimpleDateFormat("MMM-dd HH:mm").format(when);
   }
 
-  private static String format(final Task.State state) {
+  private static String format(Task.State state) {
     switch (state) {
       case DONE:
         return "....... done";
@@ -224,52 +151,6 @@ final class ShowQueue extends SshCommand {
         return "sleeping";
       default:
         return state.toString();
-    }
-  }
-
-  private static class QueueTaskInfo {
-    private final long delayMillis;
-    private final Task.State state;
-    private final Task<?> task;
-
-    QueueTaskInfo(Task<?> task) {
-      this.task = task;
-      this.delayMillis = task.getDelay(TimeUnit.MILLISECONDS);
-      this.state = task.getState();
-    }
-
-    String getRemoteName() {
-      if (task instanceof ProjectTask) {
-        return ((ProjectTask<?>) task).getRemoteName();
-      }
-      return null;
-    }
-
-    Project.NameKey getProjectNameKey() {
-      if (task instanceof ProjectTask<?>) {
-        return ((ProjectTask<?>) task).getProjectNameKey();
-      }
-      return null;
-    }
-
-    boolean hasCustomizedPrint() {
-      if (task instanceof ProjectTask<?>) {
-        return ((ProjectTask<?>) task).hasCustomizedPrint();
-      }
-      return false;
-    }
-
-    int getTaskId() {
-      return task.getTaskId();
-    }
-
-    Date getStartTime() {
-      return task.getStartTime();
-    }
-
-    String getTaskString(int maxLength) {
-      String s = task.toString();
-      return s.length() < maxLength ? s : s.substring(0, maxLength);
     }
   }
 }

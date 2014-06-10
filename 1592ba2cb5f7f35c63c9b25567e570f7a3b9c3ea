@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9f5478b2_43856646",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 466,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-10T19:47:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9f5478b2_a34c5a86",
+      "revId": "1592ba2cb5f7f35c63c9b25567e570f7a3b9c3ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bf577cb3_c4707eb8",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2014-06-10T17:45:55Z",
       "side": 1,
       "message": "I think you need a changeMessageWithMultipleParagraphs() test below, to test parsing multiple paragraphs. If you do that then you can drop this one.",
+      "revId": "1592ba2cb5f7f35c63c9b25567e570f7a3b9c3ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf577cb3_e45c9a27",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-10T19:47:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf577cb3_c4707eb8",
       "revId": "1592ba2cb5f7f35c63c9b25567e570f7a3b9c3ea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -59,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "bf577cb3_8451260e",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-10T19:47:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf577cb3_043c56db",
+      "range": {
+        "startLine": 257,
+        "startChar": 39,
+        "endLine": 257,
+        "endChar": 42
+      },
+      "revId": "1592ba2cb5f7f35c63c9b25567e570f7a3b9c3ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9f5478b2_e3525221",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
         "patchSetId": 6
@@ -76,6 +136,24 @@
     },
     {
       "key": {
+        "uuid": "bf577cb3_a456a201",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-10T19:47:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9f5478b2_e3525221",
+      "revId": "1592ba2cb5f7f35c63c9b25567e570f7a3b9c3ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9f5478b2_8347de61",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
         "patchSetId": 6
@@ -87,6 +165,24 @@
       "writtenOn": "2014-06-10T17:45:55Z",
       "side": 1,
       "message": "Extra blank line.",
+      "revId": "1592ba2cb5f7f35c63c9b25567e570f7a3b9c3ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f5478b2_6382e241",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 694,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-10T19:47:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9f5478b2_8347de61",
       "revId": "1592ba2cb5f7f35c63c9b25567e570f7a3b9c3ea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

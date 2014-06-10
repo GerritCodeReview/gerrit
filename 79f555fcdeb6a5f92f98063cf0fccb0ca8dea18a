@@ -1,0 +1,141 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9f5478b2_c3571601",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-10T23:20:45Z",
+      "side": 1,
+      "message": "We\u0027re not storing anything different. We\u0027re just changing what\u0027s returned by ChangeNotes.getChangeMessages().",
+      "range": {
+        "startLine": 7,
+        "startChar": 35,
+        "endLine": 7,
+        "endChar": 42
+      },
+      "revId": "79f555fcdeb6a5f92f98063cf0fccb0ca8dea18a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f5478b2_238cea70",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-10T23:20:45Z",
+      "side": 1,
+      "message": "Fix commit message format, git push should have warned you.",
+      "revId": "79f555fcdeb6a5f92f98063cf0fccb0ca8dea18a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f5478b2_e35c9227",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-10T23:20:45Z",
+      "side": 1,
+      "message": "Optional: you could use a shorter name like \"msg\"",
+      "range": {
+        "startLine": 243,
+        "startChar": 13,
+        "endLine": 243,
+        "endChar": 32
+      },
+      "revId": "79f555fcdeb6a5f92f98063cf0fccb0ca8dea18a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f5478b2_83511e0e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-10T23:20:45Z",
+      "side": 1,
+      "message": "This indentation is a little awkward. How about:\n\n ChangeMessage changeMessage \u003d new ChangeMessage(\n     new ChangeMessage.Key(psId.getParentKey(), commit.name()),\n     accountId,\n     new Timestamp(commit.getCommitterIdent().getWhen().getTime()),\n     psId);\n\nSo there\u0027s exactly one argument to \"new ChangeMessage\" on each line.",
+      "revId": "79f555fcdeb6a5f92f98063cf0fccb0ca8dea18a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf577cb3_e4c7ba79",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-10T23:20:45Z",
+      "side": 1,
+      "message": "Please describe this change in the commit message.\n\nKey points to mention in your description:\n\n* We need a unique identifier because it\u0027s documented in the REST API.\n* The format of the unique identifier is not documented, it doesn\u0027t necessarily need to be a UUID.\n* The SHA-1 of the commit in the notedb graph is unique enough.\n* IDs of existing messages will change after converting a site to notedb.\n* This is probably ok since no API actually ever reads the UUID field (either the external REST API or anything internal to Gerrit).",
+      "range": {
+        "startLine": 246,
+        "startChar": 49,
+        "endLine": 246,
+        "endChar": 62
+      },
+      "revId": "79f555fcdeb6a5f92f98063cf0fccb0ca8dea18a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f5478b2_a3569a01",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 416,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-10T23:20:45Z",
+      "side": 1,
+      "message": "Delete this.",
+      "revId": "79f555fcdeb6a5f92f98063cf0fccb0ca8dea18a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f5478b2_436c86d8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-10T23:20:45Z",
+      "side": 1,
+      "message": "You were also talking about keying these by PatchSet.Id. That would be ok to do in this change, or you can save it for later. The type would be ImmutableListMultimap\u003cPatchSet.Id, ChangeMessage\u003e, same as approvals.",
+      "revId": "79f555fcdeb6a5f92f98063cf0fccb0ca8dea18a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

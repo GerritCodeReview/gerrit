@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9f5478b2_4310066e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-10T00:09:29Z",
+      "side": 1,
+      "message": "I\u0027m not sure why you changed this from using RawParseUtils.commitMessage.\n\nIn particular, commit.getFullMessage() first encodes the bytes using the commit\u0027s character encoding, and now you\u0027re decoding it and copying the result into a new byte buffer.\n\nMy comment on headerStart vs. subjectStart was just a suggestion for a better variable name; I think the code was correct.",
+      "revId": "01dfdc9952c99a519931cbdbdb6c2005577a60df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf577cb3_8430460d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-10T00:09:29Z",
+      "side": 1,
+      "message": "Style in Gerrit is to use {} even around one-line blocks. \n\nThis recommendation comes from:\nhttp://google-styleguide.googlecode.com/svn/trunk/javaguide.html#s4.1.1-braces-always-used\n\n(This is different from \nstyle in JGit. FWIW I disagree with JGit style in this case, as it makes bugs of this form more likely:\n\n if (foo)\n   doSomethingIfFooIsTrue();\n   doSomethingElseIfFooIsTrue(); // Wrong, foo may be false.\n\n)",
+      "revId": "01dfdc9952c99a519931cbdbdb6c2005577a60df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf577cb3_a43542fc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-10T00:09:29Z",
+      "side": 1,
+      "message": "Extraneous blank line.",
+      "revId": "01dfdc9952c99a519931cbdbdb6c2005577a60df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f5478b2_630d0257",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-10T00:09:29Z",
+      "side": 1,
+      "message": "Nit: put each line of the mutli-line string on its own line and end it with \\n, so it more closely resembles the output if we were to print it.",
+      "revId": "01dfdc9952c99a519931cbdbdb6c2005577a60df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f5478b2_030a0e40",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-10T00:09:29Z",
+      "side": 1,
+      "message": "Same nit as above, split this up.",
+      "revId": "01dfdc9952c99a519931cbdbdb6c2005577a60df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f5478b2_23070a37",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 697,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-10T00:09:29Z",
+      "side": 1,
+      "message": "Other test cases you might want based on what we discussed:\n* no change message at all\n* change message with trailing newlines (e.g. \"Message\\n\\n\\n\\nPatch-set: 1\")",
+      "revId": "01dfdc9952c99a519931cbdbdb6c2005577a60df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

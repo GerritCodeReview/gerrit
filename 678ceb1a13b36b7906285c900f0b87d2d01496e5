@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bfaa1cea_8c524720",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-06-10T07:46:58Z",
+      "side": 1,
+      "message": "Should this be \u0027SIMPLE_OPTIMIZATIONS\u0027 now?",
+      "range": {
+        "startLine": 12,
+        "startChar": 10,
+        "endLine": 12,
+        "endChar": 29
+      },
+      "revId": "678ceb1a13b36b7906285c900f0b87d2d01496e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfaa1cea_ec478b60",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-06-10T07:46:58Z",
+      "side": 1,
+      "message": "Should there be an option to decide whether minification should be done? During development this seems to be unneeded.",
+      "range": {
+        "startLine": 23,
+        "startChar": 14,
+        "endLine": 23,
+        "endChar": 38
+      },
+      "revId": "678ceb1a13b36b7906285c900f0b87d2d01496e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

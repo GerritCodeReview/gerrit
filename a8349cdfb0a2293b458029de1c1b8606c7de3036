@@ -68,6 +68,30 @@
       "revId": "a8349cdfb0a2293b458029de1c1b8606c7de3036",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df9d10d5_0d18118d",
+        "filename": "lib/codemirror/closure.defs",
+        "patchSetId": 6
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-10T07:19:56Z",
+      "side": 1,
+      "message": "My bad this sould be:\n\n  wget http://dl.google.com/closure-compiler/compiler-20140407.zip",
+      "parentUuid": "df9d10d5_0d0db157",
+      "range": {
+        "startLine": 2,
+        "startChar": 0,
+        "endLine": 3,
+        "endChar": 96
+      },
+      "revId": "a8349cdfb0a2293b458029de1c1b8606c7de3036",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

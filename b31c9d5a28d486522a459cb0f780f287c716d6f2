@@ -22,6 +22,30 @@
       "revId": "b31c9d5a28d486522a459cb0f780f287c716d6f2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfaa1cea_8c5c0727",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchSetInfoFactory.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-06-10T19:56:00Z",
+      "side": 1,
+      "message": "*Please suggest on what check we can put to take care of this condition.",
+      "parentUuid": "df9d10d5_ed51450d",
+      "range": {
+        "startLine": 185,
+        "startChar": 8,
+        "endLine": 188,
+        "endChar": 11
+      },
+      "revId": "b31c9d5a28d486522a459cb0f780f287c716d6f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

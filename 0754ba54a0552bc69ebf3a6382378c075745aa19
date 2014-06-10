@@ -70,6 +70,30 @@
       "revId": "0754ba54a0552bc69ebf3a6382378c075745aa19",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfaa1cea_6cf39b0d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-06-10T07:03:25Z",
+      "side": 1,
+      "message": "Ok, that wasn\u0027t the needed flag. But as you can see from this change the copyAllScoresIfNoCodeChange is also set to true.\n\nhttps://gerrit-review.googlesource.com/#/c/54190/1/project.config",
+      "parentUuid": "df9d10d5_8d008124",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 66
+      },
+      "revId": "0754ba54a0552bc69ebf3a6382378c075745aa19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

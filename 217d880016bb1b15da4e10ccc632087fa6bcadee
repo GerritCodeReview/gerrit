@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "df9d10d5_2d422d51",
+        "filename": "lib/codemirror/closure.defs",
+        "patchSetId": 8
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-06-10T07:30:35Z",
+      "side": 1,
+      "message": "Now I\u0027m getting this:\n\n  Download http://dl.google.com/closure-compiler/compiler-20140407.zip\nhttp://dl.google.com/closure-compiler/compiler-20140407.zip:\n  expected 728e1b1cf59ee89679e5c40226ee080a10c34004\n  received eeb02bfd45eb4a080b66dd423eaee4bdd1d674e9",
+      "range": {
+        "startLine": 5,
+        "startChar": 25,
+        "endLine": 5,
+        "endChar": 65
+      },
+      "revId": "217d880016bb1b15da4e10ccc632087fa6bcadee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

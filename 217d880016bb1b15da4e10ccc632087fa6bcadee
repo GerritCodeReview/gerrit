@@ -22,6 +22,53 @@
       "revId": "217d880016bb1b15da4e10ccc632087fa6bcadee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfaa1cea_6c255bc9",
+        "filename": "lib/codemirror/closure.defs",
+        "patchSetId": 8
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-10T07:40:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df9d10d5_2d422d51",
+      "range": {
+        "startLine": 5,
+        "startChar": 25,
+        "endLine": 5,
+        "endChar": 65
+      },
+      "revId": "217d880016bb1b15da4e10ccc632087fa6bcadee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df9d10d5_4d3979eb",
+        "filename": "lib/codemirror/closure.defs",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-10T07:40:30Z",
+      "side": 1,
+      "message": "SIMPLE_OPTIMIZATION",
+      "range": {
+        "startLine": 7,
+        "startChar": 23,
+        "endLine": 7,
+        "endChar": 29
+      },
+      "revId": "217d880016bb1b15da4e10ccc632087fa6bcadee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

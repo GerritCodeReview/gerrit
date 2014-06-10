@@ -39,6 +39,9 @@ of them we must use a qualified name like `gerrit:change_branch(X)`.
     |ID, full name and the email of the commit committer. The full name and the
     email are string atoms
 
+|`commit_footer/2`    |`commit_footer('Bug', '1234')`
+    |Set of footers specified in the commit message of the patch-set.
+
 .2+|`commit_label/2`  |`commit_label(label('Code-Review', 2), user(1000000)).`
     .2+|Set of votes on the last patch-set
 

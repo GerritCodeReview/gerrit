@@ -475,6 +475,61 @@ split_commit_delta(copy, NewPath, OldPath, add, NewPath) :- !.
 split_commit_delta(Type, Path, _, Type, Path).
 
 
+%% commit_footer/2:
+%%
+%% commit_footer( "Signed-off-by", "user <user@example.net>" ).
+%%
+:- public commit_footer/2.
+%%
+commit_footer(Footer, Value) :-
+  atom(Footer),
+  atom(Value),
+  !,
+  hash_get(commit_footers, Footer, Cached),
+  ( [] == Cached ->
+    get_commit_footers(_),
+    hash_get(commit_footers, H, Rs), !
+    ;
+    Rs = Cached
+  ),
+  scan_commit_footers(Rs, Footer, Value)
+  .
+commit_footer(Footer, Value) :-
+  get_commit_footers(Rs),
+  scan_commit_footers(Rs, Footer, Value).
+
+scan_commit_footers([R | Rs], F, V) :- R = commit_footer(F, V).
+scan_commit_footers([_ | Rs], F, V) :- scan_commit_footers(Rs, F, V).
+scan_commit_footers([], _, _) :- fail.
+
+get_commit_footers(Rs) :-
+  hash_exists(commit_footers),
+  !,
+  hash_contains_key(commit_footers, '$all'),
+  !,
+  hash_get(commit_footers, '$all', Rs)
+  .
+get_commit_footers(Rs) :-
+  '_load_commit_footers'(Rs),
+  set_commit_footers(Rs).
+
+set_commit_footers(Rs) :-
+  define_hash(commit_footers),
+  hash_put(commit_footers, '$all', Rs),
+  index_commit_footers(Rs).
+
+index_commit_footers([]).
+index_commit_footers([R | Rs]) :-
+  R = commit_footer(F, _),
+  atom(F),
+  !,
+  hash_get(commit_footers, F, Tmp),
+  hash_put(commit_footers, F, [R | Tmp]),
+  index_commit_footers(Rs)
+  .
+index_commit_footers([_ | Rs]) :-
+  index_commit_footers(Rs).
+
 %% commit_message_matches/1:
 %%
 :- public commit_message_matches/1.

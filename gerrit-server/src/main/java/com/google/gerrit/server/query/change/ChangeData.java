@@ -32,6 +32,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
+import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -152,7 +153,8 @@ public class ChangeData {
    * @return instance for testing.
    */
   static ChangeData createForTest(Change.Id id, int currentPatchSetId) {
-    ChangeData cd = new ChangeData(null, null, null, null, null, null, null, null, id);
+    ChangeData cd = new ChangeData(null, null, null, null, null,
+        null, null, null, null, id);
     cd.currentPatchSet = new PatchSet(new PatchSet.Id(id, currentPatchSetId));
     return cd;
   }
@@ -163,6 +165,7 @@ public class ChangeData {
   private final IdentifiedUser.GenericFactory userFactory;
   private final ChangeNotes.Factory notesFactory;
   private final ApprovalsUtil approvalsUtil;
+  private final ChangeMessagesUtil cmUtil;
   private final PatchListCache patchListCache;
   private final NotesMigration notesMigration;
   private final Change.Id legacyId;
@@ -190,6 +193,7 @@ public class ChangeData {
       IdentifiedUser.GenericFactory userFactory,
       ChangeNotes.Factory notesFactory,
       ApprovalsUtil approvalsUtil,
+      ChangeMessagesUtil cmUtil,
       PatchListCache patchListCache,
       NotesMigration notesMigration,
       @Assisted ReviewDb db,
@@ -200,6 +204,7 @@ public class ChangeData {
     this.userFactory = userFactory;
     this.notesFactory = notesFactory;
     this.approvalsUtil = approvalsUtil;
+    this.cmUtil = cmUtil;
     this.patchListCache = patchListCache;
     this.notesMigration = notesMigration;
     legacyId = id;
@@ -212,6 +217,7 @@ public class ChangeData {
       IdentifiedUser.GenericFactory userFactory,
       ChangeNotes.Factory notesFactory,
       ApprovalsUtil approvalsUtil,
+      ChangeMessagesUtil cmUtil,
       PatchListCache patchListCache,
       NotesMigration notesMigration,
       @Assisted ReviewDb db,
@@ -222,6 +228,7 @@ public class ChangeData {
     this.userFactory = userFactory;
     this.notesFactory = notesFactory;
     this.approvalsUtil = approvalsUtil;
+    this.cmUtil = cmUtil;
     this.patchListCache = patchListCache;
     this.notesMigration = notesMigration;
     legacyId = c.getId();
@@ -235,6 +242,7 @@ public class ChangeData {
       IdentifiedUser.GenericFactory userFactory,
       ChangeNotes.Factory notesFactory,
       ApprovalsUtil approvalsUtil,
+      ChangeMessagesUtil cmUtil,
       PatchListCache patchListCache,
       NotesMigration notesMigration,
       @Assisted ReviewDb db,
@@ -245,6 +253,7 @@ public class ChangeData {
     this.userFactory = userFactory;
     this.notesFactory = notesFactory;
     this.approvalsUtil = approvalsUtil;
+    this.cmUtil = cmUtil;
     this.patchListCache = patchListCache;
     this.notesMigration = notesMigration;
     legacyId = c.getChange().getId();
@@ -521,7 +530,7 @@ public class ChangeData {
   public List<ChangeMessage> messages()
       throws OrmException {
     if (messages == null) {
-      messages = db.changeMessages().byChange(legacyId).toList();
+      messages = cmUtil.byChange(db, notes);
     }
     return messages;
   }

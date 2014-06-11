@@ -81,7 +81,7 @@ public class ChangeNotes extends VersionedMetaData {
           }
         });
 
-  private static final Ordering<ChangeMessage> MESSAGE_BY_TIME =
+  public static final Ordering<ChangeMessage> MESSAGE_BY_TIME =
       Ordering.natural().onResultOf(
         new Function<ChangeMessage, Timestamp>() {
           @Override

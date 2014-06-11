@@ -16,6 +16,24 @@
       "revId": "369b0e1aeeb510fa0eea7d54d9efa87ca282d8bd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f07a8cc_17e6544f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2014-06-11T15:06:35Z",
+      "side": 1,
+      "message": "YES! I was hoping there was a constant for that (I just couldn\u0027t remember it). Thank you!",
+      "parentUuid": "bf577cb3_a4e30241",
+      "revId": "369b0e1aeeb510fa0eea7d54d9efa87ca282d8bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

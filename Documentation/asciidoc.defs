@@ -41,17 +41,17 @@ def genasciidoc(
     # 1. regular files: cmd = '-s foo', srcs = ['foo']
     # 2. generated files: cmd = '-s $(location :foo)', srcs = []
     srcs = [src]
-    passed_src = ' -s %s' % fn
+    passed_src = fn
     if fn.startswith(':') :
       fn = src[1:]
       srcs = []
-      passed_src = ' -s $(location :%s)' % fn
+      passed_src = '$(location :%s)' % fn
     ex = fn + EXPN
 
     genrule(
       name = ex,
       cmd = '$(exe :replace_macros) --suffix=' + EXPN +
-            passed_src +
+            ' -s ' + passed_src +
             ' -o $OUT',
       srcs = srcs,
       out = ex,

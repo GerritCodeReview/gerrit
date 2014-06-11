@@ -55,8 +55,8 @@ genrule(
     'mkdir net',
     'mv %s net/codemirror' % TOP,
     'mkdir net/codemirror/lib',
-    'mv $(location :css) net/codemirror/lib',
-    'mv $(location :js) net/codemirror/lib',
+    'cp $(location :css) net/codemirror/lib',
+    'cp $(location :js) net/codemirror/lib',
     'zip -qr $OUT *'
   ]),
   out = 'codemirror.jar',

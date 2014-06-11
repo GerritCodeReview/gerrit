@@ -38,12 +38,12 @@ public class MasterNodeStartup extends LifecycleModule {
   static class Lifecycle implements LifecycleListener {
     private static final int INITIAL_DELAY_S = 15;
 
-    private final ReloadSubmitQueueOp.Factory submit;
+    private final ReloadSubmitQueueOp submit;
     private final long delay;
     private volatile ScheduledFuture<?> handle;
 
     @Inject
-    Lifecycle(ReloadSubmitQueueOp.Factory submit,
+    Lifecycle(ReloadSubmitQueueOp submit,
         @GerritServerConfig Config config) {
       this.submit = submit;
       this.delay = ConfigUtil.getTimeUnit(config,
@@ -54,10 +54,9 @@ public class MasterNodeStartup extends LifecycleModule {
     @Override
     public void start() {
       if (delay > 0) {
-        handle = submit.create()
-            .startWithFixedDelay(INITIAL_DELAY_S, delay, SECONDS);
+        handle = submit.startWithFixedDelay(INITIAL_DELAY_S, delay, SECONDS);
       } else {
-        handle = submit.create().start(INITIAL_DELAY_S, SECONDS);
+        handle = submit.start(INITIAL_DELAY_S, SECONDS);
       }
     }
 

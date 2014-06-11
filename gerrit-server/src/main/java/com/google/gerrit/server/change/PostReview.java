@@ -46,6 +46,7 @@ import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
+import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountsCollection;
@@ -82,6 +83,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   private final ChangeData.Factory changeDataFactory;
   private final ChangeUpdate.Factory updateFactory;
   private final ApprovalsUtil approvalsUtil;
+  private final ChangeMessagesUtil cmUtil;
   private final ChangeIndexer indexer;
   private final AccountsCollection accounts;
   private final EmailReviewComments.Factory email;
@@ -100,6 +102,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       ChangeData.Factory changeDataFactory,
       ChangeUpdate.Factory updateFactory,
       ApprovalsUtil approvalsUtil,
+      ChangeMessagesUtil cmUtil,
       ChangeIndexer indexer,
       AccountsCollection accounts,
       EmailReviewComments.Factory email,
@@ -109,6 +112,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     this.changeDataFactory = changeDataFactory;
     this.updateFactory = updateFactory;
     this.approvalsUtil = approvalsUtil;
+    this.cmUtil = cmUtil;
     this.indexer = indexer;
     this.accounts = accounts;
     this.email = email;
@@ -144,7 +148,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       update = updateFactory.create(revision.getControl(), timestamp);
       dirty |= insertComments(revision, input.comments, input.drafts);
       dirty |= updateLabels(revision, update, input.labels);
-      dirty |= insertMessage(revision, input.message);
+      dirty |= insertMessage(revision, input.message, update);
       if (dirty) {
         db.get().changes().update(Collections.singleton(change));
         db.get().commit();
@@ -505,8 +509,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     labelDelta.add(new LabelVote(name, value).format());
   }
 
-  private boolean insertMessage(RevisionResource rsrc, String msg)
-      throws OrmException {
+  private boolean insertMessage(RevisionResource rsrc, String msg,
+      ChangeUpdate update) throws OrmException {
     msg = Strings.nullToEmpty(msg).trim();
 
     StringBuilder buf = new StringBuilder();
@@ -534,7 +538,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         "Patch Set %d:%s",
         rsrc.getPatchSet().getPatchSetId(),
         buf.toString()));
-    db.get().changeMessages().insert(Collections.singleton(message));
+    cmUtil.addChangeMessage(db.get(), update, message);
     return true;
   }
 

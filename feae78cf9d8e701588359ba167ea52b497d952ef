@@ -105,6 +105,24 @@
     },
     {
       "key": {
+        "uuid": "9f5478b2_63b4220d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-11T01:20:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9f5478b2_83ccbe9f",
+      "revId": "feae78cf9d8e701588359ba167ea52b497d952ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bf577cb3_04c1b661",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
         "patchSetId": 3
@@ -122,6 +140,24 @@
     },
     {
       "key": {
+        "uuid": "9f5478b2_03c1ae61",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-11T01:20:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf577cb3_04c1b661",
+      "revId": "feae78cf9d8e701588359ba167ea52b497d952ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9f5478b2_a3d1ba34",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
         "patchSetId": 3
@@ -133,6 +169,24 @@
       "writtenOn": "2014-06-11T00:19:50Z",
       "side": 1,
       "message": "Since changeMessages is a Map, not a Multimap, this will only record the first ChangeMessage for each PatchSet.Id.\n\nYou end up populating a Multimap in the enclosing ChangeNotes, but because of this it will only have one value per key.\n\nPlease add a test with multiple messages for the same patch set. I suggest writing the test first, observing that it fails (at least according to my claim above), then fixing the implementation to make the test pass.",
+      "revId": "feae78cf9d8e701588359ba167ea52b497d952ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf577cb3_a4a8e2ae",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-11T01:20:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9f5478b2_a3d1ba34",
       "revId": "feae78cf9d8e701588359ba167ea52b497d952ef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -69,6 +69,7 @@ import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalCopier;
 import com.google.gerrit.server.ApprovalsUtil;
+import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
@@ -97,6 +98,7 @@ import com.google.gerrit.server.mail.ReplacePatchSetSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
@@ -279,6 +281,7 @@ public class ReceiveCommits {
   private final ChangeHooks hooks;
   private final ApprovalsUtil approvalsUtil;
   private final ApprovalCopier approvalCopier;
+  private final ChangeMessagesUtil cmUtil;
   private final GitRepositoryManager repoManager;
   private final ProjectCache projectCache;
   private final String canonicalWebUrl;
@@ -344,6 +347,7 @@ public class ReceiveCommits {
       final ChangeHooks hooks,
       final ApprovalsUtil approvalsUtil,
       final ApprovalCopier approvalCopier,
+      final ChangeMessagesUtil cmUtil,
       final ProjectCache projectCache,
       final GitRepositoryManager repoManager,
       final TagCache tagCache,
@@ -383,6 +387,7 @@ public class ReceiveCommits {
     this.hooks = hooks;
     this.approvalsUtil = approvalsUtil;
     this.approvalCopier = approvalCopier;
+    this.cmUtil = cmUtil;
     this.projectCache = projectCache;
     this.repoManager = repoManager;
     this.canonicalWebUrl = canonicalWebUrl;
@@ -576,53 +581,57 @@ public class ReceiveCommits {
     }
 
     for (final ReceiveCommand c : commands) {
-      if (c.getResult() == OK) {
-        switch (c.getType()) {
-          case CREATE:
-            if (isHead(c) || isConfig(c)) {
-              autoCloseChanges(c);
-            }
-            break;
+      try {
+        if (c.getResult() == OK) {
+          switch (c.getType()) {
+            case CREATE:
+              if (isHead(c) || isConfig(c)) {
+                autoCloseChanges(c);
+              }
+              break;
 
-          case UPDATE: // otherwise known as a fast-forward
-            tagCache.updateFastForward(project.getNameKey(),
-                c.getRefName(),
+            case UPDATE: // otherwise known as a fast-forward
+              tagCache.updateFastForward(project.getNameKey(),
+                  c.getRefName(),
+                  c.getOldId(),
+                  c.getNewId());
+              if (isHead(c) || isConfig(c)) {
+                autoCloseChanges(c);
+              }
+              break;
+
+            case UPDATE_NONFASTFORWARD:
+              if (isHead(c) || isConfig(c)) {
+                autoCloseChanges(c);
+              }
+              break;
+
+            case DELETE:
+              break;
+          }
+
+          if (isConfig(c)) {
+            projectCache.evict(project);
+            ProjectState ps = projectCache.get(project.getNameKey());
+            repoManager.setProjectDescription(project.getNameKey(), //
+                ps.getProject().getDescription());
+          }
+
+          if (!MagicBranch.isMagicBranch(c.getRefName())) {
+            // We only fire gitRefUpdated for direct refs updates.
+            // Events for change refs are fired when they are created.
+            //
+            gitRefUpdated.fire(project.getNameKey(), c.getRefName(),
+                c.getOldId(), c.getNewId());
+            hooks.doRefUpdatedHook(
+                new Branch.NameKey(project.getNameKey(), c.getRefName()),
                 c.getOldId(),
-                c.getNewId());
-            if (isHead(c) || isConfig(c)) {
-              autoCloseChanges(c);
-            }
-            break;
-
-          case UPDATE_NONFASTFORWARD:
-            if (isHead(c) || isConfig(c)) {
-              autoCloseChanges(c);
-            }
-            break;
-
-          case DELETE:
-            break;
+                c.getNewId(),
+                currentUser.getAccount());
+          }
         }
-
-        if (isConfig(c)) {
-          projectCache.evict(project);
-          ProjectState ps = projectCache.get(project.getNameKey());
-          repoManager.setProjectDescription(project.getNameKey(), //
-              ps.getProject().getDescription());
-        }
-
-        if (!MagicBranch.isMagicBranch(c.getRefName())) {
-          // We only fire gitRefUpdated for direct refs updates.
-          // Events for change refs are fired when they are created.
-          //
-          gitRefUpdated.fire(project.getNameKey(), c.getRefName(),
-              c.getOldId(), c.getNewId());
-          hooks.doRefUpdatedHook(
-              new Branch.NameKey(project.getNameKey(), c.getRefName()),
-              c.getOldId(),
-              c.getNewId(),
-              currentUser.getAccount());
-        }
+      } catch (NoSuchChangeException e) {
+        c.setResult(REJECTED_OTHER_REASON, e.getMessage());
       }
     }
     closeProgress.end();
@@ -1928,7 +1937,7 @@ public class ReceiveCommits {
       ListenableFuture<PatchSet.Id> future = changeUpdateExector.submit(
           requestScopePropagator.wrap(new Callable<PatchSet.Id>() {
         @Override
-        public PatchSet.Id call() throws OrmException, IOException {
+        public PatchSet.Id call() throws OrmException, IOException, NoSuchChangeException {
           try {
             if (caller == Thread.currentThread()) {
               return insertPatchSet(db);
@@ -1950,7 +1959,7 @@ public class ReceiveCommits {
       return Futures.makeChecked(future, INSERT_EXCEPTION);
     }
 
-    PatchSet.Id insertPatchSet(ReviewDb db) throws OrmException, IOException {
+    PatchSet.Id insertPatchSet(ReviewDb db) throws OrmException, IOException, NoSuchChangeException {
       final Account.Id me = currentUser.getAccountId();
       final List<FooterLine> footerLines = newCommit.getFooterLines();
       final MailRecipients recipients = new MailRecipients();
@@ -1993,7 +2002,7 @@ public class ReceiveCommits {
             new ChangeMessage(new ChangeMessage.Key(change.getId(), ChangeUtil
                 .messageUUID(db)), me, newPatchSet.getCreatedOn(), newPatchSet.getId());
         msg.setMessage("Uploaded patch set " + newPatchSet.getPatchSetId() + ".");
-        db.changeMessages().insert(Collections.singleton(msg));
+        cmUtil.addChangeMessage(db, update, msg);
 
         if (mergedIntoRef == null) {
           // Change should be new, so it can go through review again.
@@ -2049,7 +2058,7 @@ public class ReceiveCommits {
       if (mergedIntoRef != null) {
         // Change was already submitted to a branch, close it.
         //
-        markChangeMergedByPush(db, this);
+        markChangeMergedByPush(db, this, changeCtl);
       }
 
       if (cmd.getResult() == NOT_ATTEMPTED) {
@@ -2256,7 +2265,7 @@ public class ReceiveCommits {
     return true;
   }
 
-  private void autoCloseChanges(final ReceiveCommand cmd) {
+  private void autoCloseChanges(final ReceiveCommand cmd) throws NoSuchChangeException {
     final RevWalk rw = rp.getRevWalk();
     try {
       rw.reset();
@@ -2329,7 +2338,7 @@ public class ReceiveCommits {
   }
 
   private Change.Key closeChange(final ReceiveCommand cmd, final PatchSet.Id psi,
-      final RevCommit commit) throws OrmException, IOException {
+      final RevCommit commit) throws OrmException, IOException, NoSuchChangeException {
     final String refName = cmd.getRefName();
     final Change.Id cid = psi.getParentKey();
 
@@ -2355,7 +2364,7 @@ public class ReceiveCommits {
     result.newPatchSet = ps;
     result.info = patchSetInfoFactory.get(commit, psi);
     result.mergedIntoRef = refName;
-    markChangeMergedByPush(db, result);
+    markChangeMergedByPush(db, result, null);
     hooks.doChangeMergedHook(
         change, currentUser.getAccount(), result.newPatchSet, db);
     sendMergedEmail(result);
@@ -2383,11 +2392,13 @@ public class ReceiveCommits {
     return r;
   }
 
-  private void markChangeMergedByPush(ReviewDb db, final ReplaceRequest result)
-      throws OrmException, IOException {
+  private void markChangeMergedByPush(ReviewDb db, final ReplaceRequest result, ChangeControl control)
+      throws OrmException, IOException, NoSuchChangeException {
     Change.Id id = result.change.getId();
     db.changes().beginTransaction(id);
     Change change;
+
+    ChangeUpdate update;
     try {
       change = db.changes().atomicUpdate(id, new AtomicUpdate<Change>() {
           @Override
@@ -2420,12 +2431,15 @@ public class ReceiveCommits {
           result.info.getKey());
       msg.setMessage(msgBuf.toString());
 
-      db.changeMessages().insert(Collections.singleton(msg));
+      update = updateFactory.create(control, change.getLastUpdatedOn());
+
+      cmUtil.addChangeMessage(db, update, msg);
       db.commit();
     } finally {
       db.rollback();
     }
     indexer.index(db, change);
+    update.commit();
   }
 
   private void sendMergedEmail(final ReplaceRequest result) {

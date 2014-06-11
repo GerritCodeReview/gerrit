@@ -42,6 +42,7 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
+import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
@@ -54,6 +55,7 @@ import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.mail.MergeFailSender;
 import com.google.gerrit.server.mail.MergedSender;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
@@ -88,7 +90,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -137,9 +138,11 @@ public class MergeOp {
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final IdentifiedUser.GenericFactory identifiedUserFactory;
   private final ChangeControl.GenericFactory changeControlFactory;
+  private final ChangeUpdate.Factory updateFactory;
   private final MergeQueue mergeQueue;
   private final MergeValidators.Factory mergeValidatorsFactory;
   private final ApprovalsUtil approvalsUtil;
+  private final ChangeMessagesUtil cmUtil;
 
   private final Branch.NameKey destBranch;
   private ProjectState destProject;
@@ -173,6 +176,7 @@ public class MergeOp {
       final MergeFailSender.Factory mfsf,
       final PatchSetInfoFactory psif, final IdentifiedUser.GenericFactory iuf,
       final ChangeControl.GenericFactory changeControlFactory,
+      final ChangeUpdate.Factory updateFactory,
       final MergeQueue mergeQueue, @Assisted final Branch.NameKey branch,
       final ChangeHooks hooks, final AccountCache accountCache,
       final TagCache tagCache,
@@ -182,7 +186,8 @@ public class MergeOp {
       final RequestScopePropagator requestScopePropagator,
       final ChangeIndexer indexer,
       final MergeValidators.Factory mergeValidatorsFactory,
-      final ApprovalsUtil approvalsUtil) {
+      final ApprovalsUtil approvalsUtil,
+      final ChangeMessagesUtil cmUtil) {
     repoManager = grm;
     schemaFactory = sf;
     notesFactory = nf;
@@ -193,6 +198,7 @@ public class MergeOp {
     patchSetInfoFactory = psif;
     identifiedUserFactory = iuf;
     this.changeControlFactory = changeControlFactory;
+    this.updateFactory = updateFactory;
     this.mergeQueue = mergeQueue;
     this.hooks = hooks;
     this.accountCache = accountCache;
@@ -204,6 +210,7 @@ public class MergeOp {
     this.indexer = indexer;
     this.mergeValidatorsFactory = mergeValidatorsFactory;
     this.approvalsUtil = approvalsUtil;
+    this.cmUtil = cmUtil;
     destBranch = branch;
     toMerge = ArrayListMultimap.create();
     potentiallyStillSubmittable = new ArrayList<>();
@@ -224,7 +231,7 @@ public class MergeOp {
     }
   }
 
-  public void merge() throws MergeException {
+  public void merge() throws MergeException, NoSuchChangeException, IOException {
     setDestProject();
     try {
       openSchema();
@@ -395,7 +402,7 @@ public class MergeOp {
     inserter = repo.newObjectInserter();
   }
 
-  private RefUpdate openBranch() throws MergeException, OrmException {
+  private RefUpdate openBranch() throws MergeException, OrmException, NoSuchChangeException {
     try {
       final RefUpdate branchUpdate = repo.updateRef(destBranch.get());
       if (branchUpdate.getOldObjectId() != null) {
@@ -442,7 +449,7 @@ public class MergeOp {
   }
 
   private ListMultimap<SubmitType, Change> validateChangeList(
-      final List<Change> submitted) throws MergeException {
+      final List<Change> submitted) throws MergeException, NoSuchChangeException {
     final ListMultimap<SubmitType, Change> toSubmit =
         ArrayListMultimap.create();
 
@@ -658,7 +665,7 @@ public class MergeOp {
     hooks.doRefUpdatedHook(destBranch, branchUpdate, account);
   }
 
-  private void updateChangeStatus(final List<Change> submitted) {
+  private void updateChangeStatus(final List<Change> submitted) throws NoSuchChangeException {
     for (final Change c : submitted) {
       final CodeReviewCommit commit = commits.get(c.getId());
       final CommitMergeStatus s = commit != null ? commit.getStatusCode() : null;
@@ -824,7 +831,8 @@ public class MergeOp {
   }
 
   private void setMerged(Change c, ChangeMessage msg)
-      throws OrmException, IOException {
+      throws OrmException, IOException, NoSuchChangeException {
+    ChangeUpdate update = null;
     try {
       db.changes().beginTransaction(c.getId());
 
@@ -835,8 +843,13 @@ public class MergeOp {
       c = setMergedPatchSet(c.getId(), merged);
       PatchSetApproval submitter =
           approvalsUtil.getSubmitter(db, commit.notes(), merged);
-      addMergedMessage(submitter, msg);
+      ChangeControl control = commit.getControl();
+      update = updateFactory.create(control, c.getLastUpdatedOn());
 
+      // TODO(yyonas): we need to be able to change the author of the message
+      // is not the person for whom the change was made. addMergedMessage
+      // did this in the past.
+      cmUtil.addChangeMessage(db, update, msg);
       db.commit();
 
       sendMergedEmail(c, submitter);
@@ -853,6 +866,7 @@ public class MergeOp {
       db.rollback();
     }
     indexer.index(db, c);
+    update.commit();
   }
 
   private Change setMergedPatchSet(Change.Id changeId, final PatchSet.Id merged)
@@ -879,16 +893,6 @@ public class MergeOp {
         return c;
       }
     });
-  }
-
-  private void addMergedMessage(PatchSetApproval submitter, ChangeMessage msg)
-      throws OrmException {
-    if (msg != null) {
-      if (submitter != null && msg.getAuthor() == null) {
-        msg.setAuthor(submitter.getAccountId());
-      }
-      db.changeMessages().insert(Collections.singleton(msg));
-    }
   }
 
   private void sendMergedEmail(final Change c, final PatchSetApproval from) {
@@ -933,11 +937,11 @@ public class MergeOp {
         c, identifiedUserFactory.create(c.getOwner()));
   }
 
-  private void setNew(CodeReviewCommit c, ChangeMessage msg) {
+  private void setNew(CodeReviewCommit c, ChangeMessage msg) throws NoSuchChangeException, IOException {
     sendMergeFail(c.notes(), msg, true);
   }
 
-  private void setNew(Change c, ChangeMessage msg) throws OrmException {
+  private void setNew(Change c, ChangeMessage msg) throws OrmException, NoSuchChangeException, IOException {
     sendMergeFail(notesFactory.create(c), msg, true);
   }
 
@@ -947,7 +951,8 @@ public class MergeOp {
 
   private RetryStatus getRetryStatus(
       @Nullable PatchSetApproval submitter,
-      ChangeMessage msg) {
+      ChangeMessage msg,
+      ChangeNotes notes) {
     if (submitter != null
         && TimeUtil.nowMs() - submitter.getGranted().getTime()
           > MAX_SUBMIT_WINDOW) {
@@ -955,8 +960,7 @@ public class MergeOp {
     }
 
     try {
-      ChangeMessage last = Iterables.getLast(db.changeMessages().byChange(
-          msg.getPatchSetId().getParentKey()), null);
+      ChangeMessage last = Iterables.getLast(cmUtil.byChange(db, notes));
       if (last != null) {
         if (Objects.equal(last.getAuthor(), msg.getAuthor())
             && Objects.equal(last.getMessage(), msg.getMessage())) {
@@ -975,7 +979,7 @@ public class MergeOp {
   }
 
   private void sendMergeFail(ChangeNotes notes, final ChangeMessage msg,
-      boolean makeNew) {
+      boolean makeNew) throws NoSuchChangeException, IOException {
     PatchSetApproval submitter = null;
     try {
       submitter = approvalsUtil.getSubmitter(
@@ -985,7 +989,7 @@ public class MergeOp {
     }
 
     if (!makeNew) {
-      RetryStatus retryStatus = getRetryStatus(submitter, msg);
+      RetryStatus retryStatus = getRetryStatus(submitter, msg, notes);
       if (retryStatus == RetryStatus.RETRY_NO_MESSAGE) {
         return;
       } else if (retryStatus == RetryStatus.UNSUBMIT) {
@@ -996,6 +1000,7 @@ public class MergeOp {
     final boolean setStatusNew = makeNew;
     final Change c = notes.getChange();
     Change change = null;
+    ChangeUpdate update = null;
     try {
       db.changes().beginTransaction(c.getId());
       try {
@@ -1013,13 +1018,20 @@ public class MergeOp {
             return c;
           }
         });
-        db.changeMessages().insert(Collections.singleton(msg));
+        ChangeControl control = changeControl(change);
+
+        //TODO(yyonas): atomic change is not propagated.
+        update = updateFactory.create(control, c.getLastUpdatedOn());
+        cmUtil.addChangeMessage(db, update, msg);
         db.commit();
       } finally {
         db.rollback();
       }
     } catch (OrmException err) {
       log.warn("Cannot record merge failure message", err);
+    }
+    if (update != null) {
+      update.commit();
     }
 
     CheckedFuture<?, IOException> indexFuture;
@@ -1083,7 +1095,7 @@ public class MergeOp {
     }
   }
 
-  private void abandonAllOpenChanges() {
+  private void abandonAllOpenChanges() throws NoSuchChangeException {
     Exception err = null;
     try {
       openSchema();
@@ -1105,8 +1117,13 @@ public class MergeOp {
   }
 
   private void abandonOneChange(Change change) throws OrmException,
-      IOException {
+    NoSuchChangeException,  IOException {
     db.changes().beginTransaction(change.getId());
+
+    //TODO(dborowitz): support InternalUser in ChangeUpdate
+    ChangeControl control = changeControlFactory.controlFor(change,
+        identifiedUserFactory.create(change.getOwner()));
+    ChangeUpdate update = updateFactory.create(control);
     try {
       change = db.changes().atomicUpdate(
         change.getId(),
@@ -1120,6 +1137,7 @@ public class MergeOp {
             return null;
           }
         });
+
       if (change != null) {
         ChangeMessage msg = new ChangeMessage(
             new ChangeMessage.Key(
@@ -1129,12 +1147,15 @@ public class MergeOp {
             change.getLastUpdatedOn(),
             change.currentPatchSetId());
         msg.setMessage("Project was deleted.");
-        db.changeMessages().insert(Collections.singleton(msg));
+
+        //TODO(yyonas): atomic change is not propagated.
+        cmUtil.addChangeMessage(db, update, msg);
         db.commit();
         indexer.index(db, change);
       }
     } finally {
       db.rollback();
     }
+    update.commit();
   }
 }

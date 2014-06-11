@@ -23,7 +23,6 @@ import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.google.inject.Inject;
-
 import com.google.inject.name.Named;
 import com.google.inject.PrivateModule;
 import com.google.inject.Provides;

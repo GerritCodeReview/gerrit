@@ -25,12 +25,14 @@ import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.ChangeJson.ChangeInfo;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.mail.AbandonedSender;
 import com.google.gerrit.server.mail.ReplyToChangeSender;
+import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
@@ -42,7 +44,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.Collections;
 
 @Singleton
 public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
@@ -54,18 +55,24 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
   private final Provider<ReviewDb> dbProvider;
   private final ChangeJson json;
   private final ChangeIndexer indexer;
+  private final ChangeUpdate.Factory updateFactory;
+  private final ChangeMessagesUtil cmUtil;
 
   @Inject
   Abandon(ChangeHooks hooks,
       AbandonedSender.Factory abandonedSenderFactory,
       Provider<ReviewDb> dbProvider,
       ChangeJson json,
-      ChangeIndexer indexer) {
+      ChangeIndexer indexer,
+      ChangeUpdate.Factory updateFactory,
+      ChangeMessagesUtil cmUtil) {
     this.hooks = hooks;
     this.abandonedSenderFactory = abandonedSenderFactory;
     this.dbProvider = dbProvider;
     this.json = json;
     this.indexer = indexer;
+    this.updateFactory = updateFactory;
+    this.cmUtil = cmUtil;
   }
 
   @Override
@@ -84,6 +91,7 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
     }
 
     ChangeMessage message;
+    ChangeUpdate update;
     ReviewDb db = dbProvider.get();
     db.changes().beginTransaction(change.getId());
     try {
@@ -104,12 +112,16 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
         throw new ResourceConflictException("change is "
             + status(db.changes().get(req.getChange().getId())));
       }
+
+      //TODO(yyonas): atomic update was not propagated
+      update = updateFactory.create(control, change.getLastUpdatedOn());
       message = newMessage(input, caller, change);
-      db.changeMessages().insert(Collections.singleton(message));
+      cmUtil.addChangeMessage(db, update, message);
       db.commit();
     } finally {
       db.rollback();
     }
+    update.commit();
 
     CheckedFuture<?, IOException> indexFuture =
         indexer.indexAsync(change.getId());

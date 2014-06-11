@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1f07a8cc_170db457",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ShowCaches.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-06-11T19:00:56Z",
+      "side": 1,
+      "message": "Do you think we should have an else with a miscellaneous category to put all the other threads that don\u0027t start with those prefix? I am asking because the thread counts says some number and when you sum all the numbers in the detailed table, it doesn\u0027t add up to the total number of threads.",
+      "range": {
+        "startLine": 280,
+        "startChar": 10,
+        "endLine": 280,
+        "endChar": 35
+      },
+      "revId": "d96ada0cee50b13db660e7dcf4c5d422fd2e634b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

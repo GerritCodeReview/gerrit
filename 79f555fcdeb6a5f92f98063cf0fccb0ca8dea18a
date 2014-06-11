@@ -65,6 +65,30 @@
     },
     {
       "key": {
+        "uuid": "bf577cb3_84ccc69f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-11T00:04:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9f5478b2_e35c9227",
+      "range": {
+        "startLine": 243,
+        "startChar": 13,
+        "endLine": 243,
+        "endChar": 32
+      },
+      "revId": "79f555fcdeb6a5f92f98063cf0fccb0ca8dea18a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9f5478b2_83511e0e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
         "patchSetId": 2
@@ -76,6 +100,24 @@
       "writtenOn": "2014-06-10T23:20:45Z",
       "side": 1,
       "message": "This indentation is a little awkward. How about:\n\n ChangeMessage changeMessage \u003d new ChangeMessage(\n     new ChangeMessage.Key(psId.getParentKey(), commit.name()),\n     accountId,\n     new Timestamp(commit.getCommitterIdent().getWhen().getTime()),\n     psId);\n\nSo there\u0027s exactly one argument to \"new ChangeMessage\" on each line.",
+      "revId": "79f555fcdeb6a5f92f98063cf0fccb0ca8dea18a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf577cb3_a4d1c234",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-11T00:04:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9f5478b2_83511e0e",
       "revId": "79f555fcdeb6a5f92f98063cf0fccb0ca8dea18a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -105,6 +147,30 @@
     },
     {
       "key": {
+        "uuid": "9f5478b2_03668ef6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-11T00:04:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf577cb3_e4c7ba79",
+      "range": {
+        "startLine": 246,
+        "startChar": 49,
+        "endLine": 246,
+        "endChar": 62
+      },
+      "revId": "79f555fcdeb6a5f92f98063cf0fccb0ca8dea18a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9f5478b2_a3569a01",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
         "patchSetId": 2
@@ -122,6 +188,24 @@
     },
     {
       "key": {
+        "uuid": "9f5478b2_23638ae7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 416,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-11T00:04:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9f5478b2_a3569a01",
+      "revId": "79f555fcdeb6a5f92f98063cf0fccb0ca8dea18a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9f5478b2_436c86d8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
         "patchSetId": 2
@@ -133,6 +217,24 @@
       "writtenOn": "2014-06-10T23:20:45Z",
       "side": 1,
       "message": "You were also talking about keying these by PatchSet.Id. That would be ok to do in this change, or you can save it for later. The type would be ImmutableListMultimap\u003cPatchSet.Id, ChangeMessage\u003e, same as approvals.",
+      "revId": "79f555fcdeb6a5f92f98063cf0fccb0ca8dea18a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf577cb3_44b7ae12",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-11T00:04:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9f5478b2_436c86d8",
       "revId": "79f555fcdeb6a5f92f98063cf0fccb0ca8dea18a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

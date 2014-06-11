@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9f5478b2_0398ce93",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-06-11T08:06:16Z",
+      "side": 1,
+      "message": "There is no new schema version added in this change.",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 18
+      },
+      "revId": "0615c0e7cede7f6ffba9dda521b10f71a8705429",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f5478b2_639bc293",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-06-11T08:06:16Z",
+      "side": 1,
+      "message": "Gerrit",
+      "range": {
+        "startLine": 20,
+        "startChar": 62,
+        "endLine": 20,
+        "endChar": 67
+      },
+      "revId": "0615c0e7cede7f6ffba9dda521b10f71a8705429",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

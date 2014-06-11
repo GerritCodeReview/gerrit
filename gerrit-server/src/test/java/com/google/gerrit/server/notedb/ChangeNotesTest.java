@@ -819,16 +819,16 @@ public class ChangeNotesTest {
 
     List<ChangeMessage> cm = changeMessages.get(ps1);
     assertEquals(2, cm.size());
-    assertEquals("Second change message.\n",
+    assertEquals("First change message.\n",
         cm.get(0).getMessage());
     assertEquals(changeOwner.getAccount().getId(),
         cm.get(0).getAuthor());
     assertEquals(ps1, cm.get(0).getPatchSetId());
-    assertEquals("First change message.\n",
+    assertEquals("Second change message.\n",
         cm.get(1).getMessage());
     assertEquals(changeOwner.getAccount().getId(),
-        cm.get(0).getAuthor());
-    assertEquals(ps1, cm.get(0).getPatchSetId());
+        cm.get(1).getAuthor());
+    assertEquals(ps1, cm.get(1).getPatchSetId());
   }
 
 

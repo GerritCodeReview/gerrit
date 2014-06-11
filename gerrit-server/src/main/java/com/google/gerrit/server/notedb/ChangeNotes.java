@@ -81,6 +81,15 @@ public class ChangeNotes extends VersionedMetaData {
           }
         });
 
+  private static final Ordering<ChangeMessage> MESSAGE_BY_TIME =
+      Ordering.natural().onResultOf(
+        new Function<ChangeMessage, Timestamp>() {
+          @Override
+          public Timestamp apply(ChangeMessage input) {
+            return input.getWrittenOn();
+          }
+        });
+
   @Singleton
   public static class Factory {
     private final GitRepositoryManager repoManager;
@@ -139,6 +148,13 @@ public class ChangeNotes extends VersionedMetaData {
         Collections.sort((List<PatchSetApproval>) v, PSA_BY_TIME);
       }
       return ImmutableListMultimap.copyOf(result);
+    }
+
+    private ImmutableListMultimap<PatchSet.Id, ChangeMessage> buildMessages() {
+      for (Collection<ChangeMessage> v : changeMessages.asMap().values()) {
+        Collections.sort((List<ChangeMessage>) v, MESSAGE_BY_TIME);
+      }
+      return ImmutableListMultimap.copyOf(changeMessages);
     }
 
     private void parse(RevCommit commit) throws ConfigInvalidException {
@@ -470,13 +486,9 @@ public class ChangeNotes extends VersionedMetaData {
     return submitRecords;
   }
 
-  /**
-   * @return change messages. for some PatchSet.Id, the change messages
-   * are stored in a list in reverse chronological order.
-   */
+  /** @return change messages by patch set, in chronological order. */
   public ImmutableListMultimap<PatchSet.Id, ChangeMessage> getChangeMessages() {
     return changeMessages;
-
   }
 
   @Override
@@ -500,6 +512,7 @@ public class ChangeNotes extends VersionedMetaData {
         change.setStatus(parser.status);
       }
       approvals = parser.buildApprovals();
+      changeMessages = parser.buildMessages();
 
       ImmutableSetMultimap.Builder<ReviewerState, Account.Id> reviewers =
           ImmutableSetMultimap.builder();
@@ -508,15 +521,6 @@ public class ChangeNotes extends VersionedMetaData {
         reviewers.put(e.getValue(), e.getKey());
       }
       this.reviewers = reviewers.build();
-
-      ImmutableListMultimap.Builder<PatchSet.Id, ChangeMessage> cms =
-          ImmutableListMultimap.builder();
-      for (Map.Entry<PatchSet.Id, ChangeMessage> e
-          : parser.changeMessages.entries()) {
-        cms.put(e.getKey(), e.getValue());
-      }
-      this.changeMessages = cms.build();
-
 
       submitRecords = ImmutableList.copyOf(parser.submitRecords);
     } finally {

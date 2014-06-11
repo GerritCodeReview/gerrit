@@ -118,6 +118,10 @@ CREATE INDEX patch_sets_byRevision
 ON patch_sets (revision)
 #
 
+CREATE UNIQUE INDEX patch_sets_byChangeRev
+ON patch_sets (change_id, revision)
+#
+
 -- *********************************************************************
 -- PatchSetAncestorAccess
 --    @PrimaryKey covers: ancestorsOf

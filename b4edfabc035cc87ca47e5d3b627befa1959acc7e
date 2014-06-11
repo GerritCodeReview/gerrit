@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "df9d10d5_6d98b595",
+        "filename": "lib/codemirror/BUCK",
+        "patchSetId": 11
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-11T05:48:27Z",
+      "side": 0,
+      "message": "In second thought, i think that the failure you\u0027ve reported was because of this rule \"jar\" wasn\u0027t repeatable. Usage of \"mv\" wasn\u0027t a good idea here. The rule \"jar\" was changed and thus must be reevaluated. But it cannot, because \"css\" and \"js\" targets were moved form their location. I will extract the fix in a separate change.",
+      "range": {
+        "startLine": 58,
+        "startChar": 4,
+        "endLine": 59,
+        "endChar": 44
+      },
+      "revId": "b4edfabc035cc87ca47e5d3b627befa1959acc7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -125,19 +125,15 @@ public class ChangeMergeQueue implements MergeQueue {
   }
 
   private synchronized boolean start(final Branch.NameKey branch) {
-    final MergeEntry e = active.get(branch);
-    if (e == null) {
+    if (!active.containsKey(branch)) {
       // Let the caller attempt this merge, its the only one interested
       // in processing this branch right now.
       //
       active.put(branch, new MergeEntry(branch));
       return true;
-    } else {
-      // Request that the job queue handle this merge later.
-      //
-      e.needMerge = true;
-      return false;
     }
+    // Request that the job queue handle this merge later.
+    return false;
   }
 
   @Override

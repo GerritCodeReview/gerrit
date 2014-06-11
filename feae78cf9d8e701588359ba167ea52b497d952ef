@@ -1,0 +1,141 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9f5478b2_e3c7b279",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-11T00:19:50Z",
+      "side": 1,
+      "message": "return type",
+      "range": {
+        "startLine": 7,
+        "startChar": 11,
+        "endLine": 7,
+        "endChar": 17
+      },
+      "revId": "feae78cf9d8e701588359ba167ea52b497d952ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf577cb3_64b42a0d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-11T00:19:50Z",
+      "side": 1,
+      "message": "Missing some words here?",
+      "revId": "feae78cf9d8e701588359ba167ea52b497d952ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf577cb3_24be32ed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-11T00:19:50Z",
+      "side": 1,
+      "message": "Optional: paragraph break here.",
+      "range": {
+        "startLine": 13,
+        "startChar": 16,
+        "endLine": 13,
+        "endChar": 17
+      },
+      "revId": "feae78cf9d8e701588359ba167ea52b497d952ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf577cb3_c4a95eb6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-11T00:19:50Z",
+      "side": 1,
+      "message": "IMHO this sentence is unnecessary. But it\u0027s technically true so you can leave it if you prefer.",
+      "range": {
+        "startLine": 21,
+        "startChar": 21,
+        "endLine": 22,
+        "endChar": 50
+      },
+      "revId": "feae78cf9d8e701588359ba167ea52b497d952ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f5478b2_83ccbe9f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-11T00:19:50Z",
+      "side": 1,
+      "message": "Should be final, and order it above the non-final status field. (Sorry I missed this in the previous review.)",
+      "revId": "feae78cf9d8e701588359ba167ea52b497d952ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf577cb3_04c1b661",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-11T00:19:50Z",
+      "side": 1,
+      "message": "Extra blank line",
+      "revId": "feae78cf9d8e701588359ba167ea52b497d952ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f5478b2_a3d1ba34",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-11T00:19:50Z",
+      "side": 1,
+      "message": "Since changeMessages is a Map, not a Multimap, this will only record the first ChangeMessage for each PatchSet.Id.\n\nYou end up populating a Multimap in the enclosing ChangeNotes, but because of this it will only have one value per key.\n\nPlease add a test with multiple messages for the same patch set. I suggest writing the test first, observing that it fails (at least according to my claim above), then fixing the implementation to make the test pass.",
+      "revId": "feae78cf9d8e701588359ba167ea52b497d952ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

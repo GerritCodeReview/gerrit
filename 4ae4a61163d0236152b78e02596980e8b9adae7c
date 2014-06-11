@@ -108,6 +108,24 @@
     },
     {
       "key": {
+        "uuid": "df9d10d5_8d488145",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRelated.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-06-11T14:26:55Z",
+      "side": 1,
+      "message": "Static variable change has been removed from PS 12. Please help to review. Thanks.",
+      "parentUuid": "4a7cfcf0_68cf6390",
+      "revId": "4ae4a61163d0236152b78e02596980e8b9adae7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8acb5465_e296266b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRelated.java",
         "patchSetId": 7

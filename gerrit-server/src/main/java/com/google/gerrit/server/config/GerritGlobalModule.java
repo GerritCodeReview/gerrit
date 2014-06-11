@@ -81,7 +81,6 @@ import com.google.gerrit.server.git.MergeQueue;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.NotesBranchUtil;
 import com.google.gerrit.server.git.ReceivePackInitializer;
-import com.google.gerrit.server.git.ReloadSubmitQueueOp;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.git.validators.CommitValidationListener;
@@ -221,7 +220,6 @@ public class GerritGlobalModule extends FactoryModule {
     bind(ApprovalsUtil.class);
     bind(ChangeMergeQueue.class).in(SINGLETON);
     bind(MergeQueue.class).to(ChangeMergeQueue.class).in(SINGLETON);
-    factory(ReloadSubmitQueueOp.Factory.class);
 
     bind(RuntimeInstance.class)
         .toProvider(VelocityRuntimeProvider.class)

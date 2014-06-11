@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "bfaa1cea_8c21a795",
+        "filename": "Documentation/asciidoc.defs",
+        "patchSetId": 12
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-11T08:42:00Z",
+      "side": 1,
+      "message": "Good idea, but then you should also remove \"-s\" on line 47. Please upload a change, i would be happy to review it.",
+      "parentUuid": "bfaa1cea_aca903b7",
+      "revId": "d8af092c0a37025d84ced45903af2e52048d387e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bfaa1cea_8caec7ba",
         "filename": "lib/codemirror/BUCK",
         "patchSetId": 12
@@ -47,6 +65,24 @@
       "writtenOn": "2014-06-11T08:19:10Z",
       "side": 1,
       "message": "delete this line",
+      "revId": "d8af092c0a37025d84ced45903af2e52048d387e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfaa1cea_ac1c6357",
+        "filename": "lib/codemirror/BUCK",
+        "patchSetId": 12
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-11T08:42:00Z",
+      "side": 1,
+      "message": "This was done in a separate change [1]:\n\n [1] https://gerrit-review.googlesource.com/#/c/57713",
+      "parentUuid": "bfaa1cea_8caec7ba",
       "revId": "d8af092c0a37025d84ced45903af2e52048d387e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -70,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "df9d10d5_2d318dde",
+        "filename": "lib/codemirror/BUCK",
+        "patchSetId": 12
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-11T08:42:00Z",
+      "side": 1,
+      "message": "the same as above",
+      "parentUuid": "bfaa1cea_0c9bf793",
+      "revId": "d8af092c0a37025d84ced45903af2e52048d387e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bfaa1cea_2c9eb383",
         "filename": "tools/default.defs",
         "patchSetId": 12
@@ -81,6 +135,24 @@
       "writtenOn": "2014-06-11T08:19:10Z",
       "side": 1,
       "message": "delete this line",
+      "revId": "d8af092c0a37025d84ced45903af2e52048d387e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df9d10d5_0d2e5180",
+        "filename": "tools/default.defs",
+        "patchSetId": 12
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-11T08:42:00Z",
+      "side": 1,
+      "message": "This was forgotten to do in this change [1], but was addressed in this change [2].\n\n* [1] https://gerrit-review.googlesource.com/#/c/57713\n* [2] https://gerrit-review.googlesource.com/#/c/57712",
+      "parentUuid": "bfaa1cea_2c9eb383",
       "revId": "d8af092c0a37025d84ced45903af2e52048d387e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

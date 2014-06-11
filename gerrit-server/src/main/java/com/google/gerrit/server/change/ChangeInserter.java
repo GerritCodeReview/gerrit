@@ -27,6 +27,7 @@ import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
+import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.mail.CreateChangeSender;
@@ -62,6 +63,7 @@ public class ChangeInserter {
   private final GitReferenceUpdated gitRefUpdated;
   private final ChangeHooks hooks;
   private final ApprovalsUtil approvalsUtil;
+  private final ChangeMessagesUtil cmUtil;
   private final MergeabilityChecker mergeabilityChecker;
   private final CreateChangeSender.Factory createChangeSenderFactory;
 
@@ -85,6 +87,7 @@ public class ChangeInserter {
       GitReferenceUpdated gitRefUpdated,
       ChangeHooks hooks,
       ApprovalsUtil approvalsUtil,
+      ChangeMessagesUtil cmUtil,
       MergeabilityChecker mergeabilityChecker,
       CreateChangeSender.Factory createChangeSenderFactory,
       @Assisted RefControl refControl,
@@ -95,6 +98,7 @@ public class ChangeInserter {
     this.gitRefUpdated = gitRefUpdated;
     this.hooks = hooks;
     this.approvalsUtil = approvalsUtil;
+    this.cmUtil = cmUtil;
     this.mergeabilityChecker = mergeabilityChecker;
     this.createChangeSenderFactory = createChangeSenderFactory;
     this.refControl = refControl;
@@ -181,20 +185,22 @@ public class ChangeInserter {
       approvalsUtil.addApprovals(db, update, labelTypes, patchSet, patchSetInfo,
           change, ctl, approvals);
       if (messageIsForChange()) {
-        insertMessage(db);
+        cmUtil.addChangeMessage(db, update, changeMessage);
       }
       db.commit();
     } finally {
       db.rollback();
     }
-
-    update.commit();
+    if (messageIsForChange()) {
+      update.commit();
+    }
     CheckedFuture<?, IOException> f = mergeabilityChecker.newCheck()
         .addChange(change)
         .reindex()
         .runAsync();
-    if (!messageIsForChange()) {
-      insertMessage(db);
+
+    if(!messageIsForChange()) {
+      commitMessageNotForChange();
     }
     gitRefUpdated.fire(change.getProject(), patchSet.getRefName(),
         ObjectId.zeroId(), commit);
@@ -220,14 +226,23 @@ public class ChangeInserter {
     return change;
   }
 
+  private void commitMessageNotForChange() throws OrmException,
+      IOException {
+    ReviewDb db = dbProvider.get();
+    if (changeMessage != null) {
+      Change otherChange =
+          db.changes().get(changeMessage.getPatchSetId().getParentKey());
+      ChangeControl otherControl =
+          refControl.getProjectControl().controlFor(otherChange);
+      ChangeUpdate updateForOtherChange =
+          updateFactory.create(otherControl, change.getLastUpdatedOn());
+      cmUtil.addChangeMessage(db, updateForOtherChange, changeMessage);
+      updateForOtherChange.commit();
+    }
+  }
+
   private boolean messageIsForChange() {
     return changeMessage != null
         && changeMessage.getKey().getParentKey().equals(change.getKey());
-  }
-
-  private void insertMessage(ReviewDb db) throws OrmException {
-    if (changeMessage != null) {
-      db.changeMessages().insert(Collections.singleton(changeMessage));
-    }
   }
 }

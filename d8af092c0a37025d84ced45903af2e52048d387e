@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "df9d10d5_ad1c5d57",
+        "filename": "Documentation/asciidoc.defs",
+        "patchSetId": 12
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-06-11T08:19:10Z",
+      "side": 1,
+      "message": "passed_src \u003d \u0027 $(location :%s)\u0027 % fn",
+      "revId": "d8af092c0a37025d84ced45903af2e52048d387e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfaa1cea_aca903b7",
+        "filename": "Documentation/asciidoc.defs",
+        "patchSetId": 12
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-06-11T08:19:10Z",
+      "side": 1,
+      "message": "‘-s’ + passed_src +",
+      "revId": "d8af092c0a37025d84ced45903af2e52048d387e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfaa1cea_8caec7ba",
+        "filename": "lib/codemirror/BUCK",
+        "patchSetId": 12
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-06-11T08:19:10Z",
+      "side": 1,
+      "message": "delete this line",
+      "revId": "d8af092c0a37025d84ced45903af2e52048d387e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfaa1cea_0c9bf793",
+        "filename": "lib/codemirror/BUCK",
+        "patchSetId": 12
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-06-11T08:19:10Z",
+      "side": 1,
+      "message": "delete this line",
+      "revId": "d8af092c0a37025d84ced45903af2e52048d387e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfaa1cea_2c9eb383",
+        "filename": "tools/default.defs",
+        "patchSetId": 12
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-06-11T08:19:10Z",
+      "side": 1,
+      "message": "delete this line",
+      "revId": "d8af092c0a37025d84ced45903af2e52048d387e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

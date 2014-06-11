@@ -74,6 +74,7 @@ import com.google.gerrit.reviewdb.client.PatchSetInfo.ParentInfo;
 import com.google.gerrit.reviewdb.client.UserIdentity;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
+import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.WebLinks;
@@ -96,6 +97,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -108,22 +110,8 @@ import java.util.TreeMap;
 
 public class ChangeJson {
   private static final Logger log = LoggerFactory.getLogger(ChangeJson.class);
-  private static final ResultSet<ChangeMessage> NO_MESSAGES =
-      new ResultSet<ChangeMessage>() {
-        @Override
-        public Iterator<ChangeMessage> iterator() {
-          return toList().iterator();
-        }
-
-        @Override
-        public List<ChangeMessage> toList() {
-          return Collections.emptyList();
-        }
-
-        @Override
-        public void close() {
-        }
-      };
+  private static final List<ChangeMessage> NO_MESSAGES =
+      new ArrayList<ChangeMessage>(0);
 
   private final Provider<ReviewDb> db;
   private final LabelNormalizer labelNormalizer;
@@ -140,6 +128,7 @@ public class ChangeJson {
   private final Revisions revisions;
   private final Provider<WebLinks> webLinks;
   private final EnumSet<ListChangesOption> options;
+  private final ChangeMessagesUtil cmUtil;
 
   private AccountInfo.Loader accountLoader;
 
@@ -159,7 +148,8 @@ public class ChangeJson {
       DynamicMap<DownloadCommand> downloadCommands,
       DynamicMap<RestView<ChangeResource>> changeViews,
       Revisions revisions,
-      Provider<WebLinks> webLinks) {
+      Provider<WebLinks> webLinks,
+      ChangeMessagesUtil cmUtil) {
     this.db = db;
     this.labelNormalizer = ln;
     this.userProvider = user;
@@ -174,6 +164,7 @@ public class ChangeJson {
     this.changeViews = changeViews;
     this.revisions = revisions;
     this.webLinks = webLinks;
+    this.cmUtil = cmUtil;
     options = EnumSet.noneOf(ListChangesOption.class);
   }
 
@@ -642,8 +633,7 @@ public class ChangeJson {
   private Collection<ChangeMessageInfo> messages(ChangeControl ctl, ChangeData cd,
       Map<PatchSet.Id, PatchSet> map)
       throws OrmException {
-    List<ChangeMessage> messages =
-        db.get().changeMessages().byChange(cd.getId()).toList();
+    List<ChangeMessage> messages = cmUtil.byChange(db.get(), cd.notes());
     if (messages.isEmpty()) {
       return Collections.emptyList();
     }
@@ -705,18 +695,18 @@ public class ChangeJson {
     if (userProvider.get().isIdentifiedUser()) {
       Account.Id self = ((IdentifiedUser) userProvider.get()).getAccountId();
       for (List<ChangeData> batch : Iterables.partition(all, 50)) {
-        List<ResultSet<ChangeMessage>> m =
+        List<List<ChangeMessage>> m =
             Lists.newArrayListWithCapacity(batch.size());
         for (ChangeData cd : batch) {
           PatchSet.Id ps = cd.change().currentPatchSetId();
           if (ps != null && cd.change().getStatus().isOpen()) {
-            m.add(db.get().changeMessages().byPatchSet(ps));
+            m.add(cmUtil.byPatchSet(db.get(), cd.notes(), ps));
           } else {
             m.add(NO_MESSAGES);
           }
         }
         for (int i = 0; i < m.size(); i++) {
-          if (isChangeReviewed(self, batch.get(i), m.get(i).toList())) {
+          if (isChangeReviewed(self, batch.get(i), m.get(i))) {
             reviewed.add(batch.get(i).getId());
           }
         }

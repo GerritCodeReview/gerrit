@@ -44,6 +44,7 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval.LabelId;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
+import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
@@ -73,6 +74,7 @@ import org.eclipse.jgit.lib.PersonIdent;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -103,6 +105,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
   private final IdentifiedUser.GenericFactory userFactory;
   private final ChangeUpdate.Factory updateFactory;
   private final ApprovalsUtil approvalsUtil;
+  private final ChangeMessagesUtil cmUtil;
   private final MergeQueue mergeQueue;
   private final ChangeIndexer indexer;
   private final LabelNormalizer labelNormalizer;
@@ -118,6 +121,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
       IdentifiedUser.GenericFactory userFactory,
       ChangeUpdate.Factory updateFactory,
       ApprovalsUtil approvalsUtil,
+      ChangeMessagesUtil cmUtil,
       MergeQueue mergeQueue,
       AccountsCollection accounts,
       ChangesCollection changes,
@@ -130,6 +134,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     this.userFactory = userFactory;
     this.updateFactory = updateFactory;
     this.approvalsUtil = approvalsUtil;
+    this.cmUtil = cmUtil;
     this.mergeQueue = mergeQueue;
     this.accounts = accounts;
     this.changes = changes;
@@ -226,16 +231,16 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
    */
   public ChangeMessage getConflictMessage(RevisionResource rsrc)
       throws OrmException {
-    return Iterables.getFirst(Iterables.filter(
-      Lists.reverse(dbProvider.get().changeMessages()
-          .byChange(rsrc.getChange().getId())
-          .toList()),
-      new Predicate<ChangeMessage>() {
-        @Override
-        public boolean apply(ChangeMessage input) {
-          return input.getAuthor() == null;
-        }
-      }), null);
+    List<ChangeMessage> cms =
+        cmUtil.byPatchSet(dbProvider.get(), rsrc.getNotes(),
+            rsrc.getPatchSet().getId());
+    return Iterables.getFirst(Iterables.filter(Lists.reverse(cms),
+        new Predicate<ChangeMessage>() {
+          @Override
+          public boolean apply(ChangeMessage input) {
+            return input.getAuthor() == null;
+          }
+        }), null);
   }
 
   public Change submit(RevisionResource rsrc, IdentifiedUser caller,

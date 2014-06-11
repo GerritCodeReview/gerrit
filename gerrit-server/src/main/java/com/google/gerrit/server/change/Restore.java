@@ -26,11 +26,13 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.ChangeJson.ChangeInfo;
 import com.google.gerrit.server.mail.ReplyToChangeSender;
 import com.google.gerrit.server.mail.RestoredSender;
+import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
@@ -42,7 +44,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.Collections;
 
 @Singleton
 public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
@@ -54,18 +55,24 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
   private final Provider<ReviewDb> dbProvider;
   private final ChangeJson json;
   private final MergeabilityChecker mergeabilityChecker;
+  private final ChangeMessagesUtil cmUtil;
+  private final ChangeUpdate.Factory updateFactory;
 
   @Inject
   Restore(ChangeHooks hooks,
       RestoredSender.Factory restoredSenderFactory,
       Provider<ReviewDb> dbProvider,
       ChangeJson json,
-      MergeabilityChecker mergeabilityChecker) {
+      MergeabilityChecker mergeabilityChecker,
+      ChangeMessagesUtil cmUtil,
+      ChangeUpdate.Factory updateFactory) {
     this.hooks = hooks;
     this.restoredSenderFactory = restoredSenderFactory;
     this.dbProvider = dbProvider;
     this.json = json;
     this.mergeabilityChecker = mergeabilityChecker;
+    this.cmUtil = cmUtil;
+    this.updateFactory = updateFactory;
   }
 
   @Override
@@ -82,6 +89,7 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
     }
 
     ChangeMessage message;
+    ChangeUpdate update;
     ReviewDb db = dbProvider.get();
     db.changes().beginTransaction(change.getId());
     try {
@@ -102,12 +110,16 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
         throw new ResourceConflictException("change is "
             + status(db.changes().get(req.getChange().getId())));
       }
+
+      //TODO(yyonas): atomic update was not propagated
+      update = updateFactory.create(control);
       message = newMessage(input, caller, change);
-      db.changeMessages().insert(Collections.singleton(message));
+      cmUtil.addChangeMessage(db, update, message);
       db.commit();
     } finally {
       db.rollback();
     }
+    update.commit();
 
     CheckedFuture<?, IOException> f = mergeabilityChecker.newCheck()
         .addChange(change)

@@ -27,6 +27,7 @@ import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
+import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.DeleteReviewer.Input;
@@ -40,7 +41,6 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
 
 @Singleton
@@ -51,6 +51,7 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
   private final Provider<ReviewDb> dbProvider;
   private final ChangeUpdate.Factory updateFactory;
   private final ApprovalsUtil approvalsUtil;
+  private final ChangeMessagesUtil cmUtil;
   private final ChangeIndexer indexer;
   private final IdentifiedUser.GenericFactory userFactory;
 
@@ -58,11 +59,13 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
   DeleteReviewer(Provider<ReviewDb> dbProvider,
       ChangeUpdate.Factory updateFactory,
       ApprovalsUtil approvalsUtil,
+      ChangeMessagesUtil cmUtil,
       ChangeIndexer indexer,
       IdentifiedUser.GenericFactory userFactory) {
     this.dbProvider = dbProvider;
     this.updateFactory = updateFactory;
     this.approvalsUtil = approvalsUtil;
+    this.cmUtil = cmUtil;
     this.indexer = indexer;
     this.userFactory = userFactory;
   }
@@ -111,7 +114,7 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
                 ((IdentifiedUser) control.getCurrentUser()).getAccountId(),
                 TimeUtil.nowTs(), rsrc.getChange().currentPatchSetId());
         changeMessage.setMessage(msg.toString());
-        db.changeMessages().insert(Collections.singleton(changeMessage));
+        cmUtil.addChangeMessage(db, update, changeMessage);
       }
 
       db.commit();

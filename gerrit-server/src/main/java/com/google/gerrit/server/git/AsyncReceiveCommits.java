@@ -18,12 +18,12 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.WorkQueue.Executor;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.google.inject.Inject;
-
 import com.google.inject.name.Named;
 import com.google.inject.PrivateModule;
 import com.google.inject.Provides;
@@ -87,7 +87,13 @@ public class AsyncReceiveCommits implements PreReceiveHook {
 
     @Override
     public void run() {
-      rc.processCommands(commands, progress);
+      try {
+        rc.processCommands(commands, progress);
+      } catch (NoSuchChangeException e) {
+        // TODO(yyonas): Auto-generated catch block
+        e.printStackTrace();
+      }
+
     }
 
     @Override

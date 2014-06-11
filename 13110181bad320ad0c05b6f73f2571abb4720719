@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9f5478b2_23be2aed",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-11T01:33:09Z",
+      "side": 1,
+      "message": "Nit: move above status",
+      "revId": "13110181bad320ad0c05b6f73f2571abb4720719",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f5478b2_c3a956b6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-11T01:33:09Z",
+      "side": 1,
+      "message": "I think these should be in chronological order to match the approvals. Also, strictly speaking, commits don\u0027t have to be ordered in chronological order, which is why we actually do a sort in buildApprovals.\n\nI don\u0027t want this to slow you down more than it has, so I will correct this in a followup change. I don\u0027t think it will actually affect callers quite yet.",
+      "revId": "13110181bad320ad0c05b6f73f2571abb4720719",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

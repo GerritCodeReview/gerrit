@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9f5478b2_a3fd3a8d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-06-12T08:20:06Z",
+      "side": 1,
+      "message": "lists",
+      "range": {
+        "startLine": 9,
+        "startChar": 26,
+        "endLine": 9,
+        "endChar": 30
+      },
+      "revId": "3d3aba4040f65a59fb2dbe617be44690d8183ad6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f5478b2_83f83e9e",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-06-12T08:20:06Z",
+      "side": 1,
+      "message": "add a comma after",
+      "range": {
+        "startLine": 399,
+        "startChar": 16,
+        "endLine": 399,
+        "endChar": 23
+      },
+      "revId": "3d3aba4040f65a59fb2dbe617be44690d8183ad6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

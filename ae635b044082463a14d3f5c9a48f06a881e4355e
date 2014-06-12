@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "bfaa1cea_8cfb675a",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitPluginStepsLoader.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-12T14:59:52Z",
+      "side": 1,
+      "message": "Unnecessary complication. Why not just to say:\n\n  final String pluginName \u003d JarPluginProvider.getGerritJarPluginName(jarFile);\n\n?",
+      "range": {
+        "startLine": 101,
+        "startChar": 8,
+        "endLine": 102,
+        "endChar": 41
+      },
+      "revId": "ae635b044082463a14d3f5c9a48f06a881e4355e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bfaa1cea_accbc330",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JarPluginProvider.java",
         "patchSetId": 14
@@ -42,6 +65,29 @@
         "startChar": 2,
         "endLine": 48,
         "endChar": 8
+      },
+      "revId": "ae635b044082463a14d3f5c9a48f06a881e4355e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df9d10d5_2deb4d8b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JarPluginProvider.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-12T14:59:52Z",
+      "side": 1,
+      "message": "You are already doing it here.",
+      "range": {
+        "startLine": 60,
+        "startChar": 2,
+        "endLine": 67,
+        "endChar": 3
       },
       "revId": "ae635b044082463a14d3f5c9a48f06a881e4355e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

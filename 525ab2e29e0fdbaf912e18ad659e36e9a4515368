@@ -46,6 +46,30 @@
       "revId": "525ab2e29e0fdbaf912e18ad659e36e9a4515368",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfaa1cea_2cb993b7",
+        "filename": "tools/maven/mvn.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-12T14:14:58Z",
+      "side": 1,
+      "message": "This one seems to be identically construct: [1].\n\n ROOT \u003d path.abspath(__file__)\n for _ in range(0, 3):\n   ROOT \u003d path.dirname(ROOT)\n\nHave you tried:\n\n  tools/eclipse/project.py\n\n [1] https://gerrit.googlesource.com/gerrit/+/master/tools/eclipse/project.py",
+      "parentUuid": "df9d10d5_edc5c51a",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 21
+      },
+      "revId": "525ab2e29e0fdbaf912e18ad659e36e9a4515368",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

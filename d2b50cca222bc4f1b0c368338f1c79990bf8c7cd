@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9f5478b2_8394be2c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-12T21:05:00Z",
+      "side": 1,
+      "message": "Nit: for a sequence of method calls on a fluent object I would use the following indentation:\n\n FluentIterable.from()\n     .nextMethod()\n     .nextMethod()\n     .nextMethod();\n\nSo all operations on the FluentIterable are indented the same amount.",
+      "revId": "d2b50cca222bc4f1b0c368338f1c79990bf8c7cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf577cb3_0489b612",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-12T21:05:00Z",
+      "side": 1,
+      "message": ".orNull() instead of storing this in result.",
+      "revId": "d2b50cca222bc4f1b0c368338f1c79990bf8c7cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf577cb3_c4715e63",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 542,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-12T21:05:00Z",
+      "side": 1,
+      "message": "Were there some more throws clauses you had previously added that you can now remove because this no longer throws?",
+      "revId": "d2b50cca222bc4f1b0c368338f1c79990bf8c7cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf577cb3_24863202",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 587,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-12T21:05:00Z",
+      "side": 1,
+      "message": "Strictly speaking I think this try should go inside the if (c.getResult() \u003d\u003d OK) block, since you don\u0027t want to change the result of any command that has already been executed. (In practice it\u0027s a non-issue because there are no statements outside (c.getResult() \u003d\u003d OK) that could potentially throw an exception. But I think it would be easier to reason about this way.",
+      "revId": "d2b50cca222bc4f1b0c368338f1c79990bf8c7cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f5478b2_437fa633",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 637,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-12T21:05:00Z",
+      "side": 1,
+      "message": "Need a better message, e.getMessage() just returns the change number. How about:\n\n \"No such change: \" + e.getMessage()",
+      "range": {
+        "startLine": 637,
+        "startChar": 43,
+        "endLine": 637,
+        "endChar": 57
+      },
+      "revId": "d2b50cca222bc4f1b0c368338f1c79990bf8c7cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

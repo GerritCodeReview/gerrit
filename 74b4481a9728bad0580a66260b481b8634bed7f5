@@ -178,6 +178,30 @@
     },
     {
       "key": {
+        "uuid": "df9d10d5_4df21979",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeMessagesUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-12T17:48:13Z",
+      "side": 1,
+      "message": "Yes i checked that document before comenting on that, but it wasn\u0027t that clear stated: public static method/private static method places. That why i put question mark after my comment. We should make it more clear.",
+      "parentUuid": "9f5478b2_a3145a13",
+      "range": {
+        "startLine": 26,
+        "startChar": 2,
+        "endLine": 29,
+        "endChar": 3
+      },
+      "revId": "74b4481a9728bad0580a66260b481b8634bed7f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "df9d10d5_cdc72948",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeMessagesUtil.java",
         "patchSetId": 1

@@ -16,6 +16,24 @@
       "revId": "1c5197683fedfa8f06f912230871ec1a8ac117d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfaa1cea_8cf367c1",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/LabelType.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-12T06:54:01Z",
+      "side": 1,
+      "message": "getAbbreviation() is already defined on line 154 in this class (without parameters, but still). defaultAbbreviation was wrong, because there is never other abbreviations. May be computeAbbreviation()?",
+      "parentUuid": "bfaa1cea_4c4fbf46",
+      "revId": "1c5197683fedfa8f06f912230871ec1a8ac117d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -120,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "df9d10d5_6d89d512",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/Plugin.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-12T12:06:47Z",
+      "side": 1,
+      "message": "True, I could get rid of it straight away :-) Will do it now.",
+      "parentUuid": "bfaa1cea_ec94ab2d",
+      "range": {
+        "startLine": 127,
+        "startChar": 18,
+        "endLine": 127,
+        "endChar": 36
+      },
+      "revId": "92f5da9ab99b86dccc7e1e99b4466e42da1fbf00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "df9d10d5_ad157d13",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginContentScanner.java",
         "patchSetId": 19

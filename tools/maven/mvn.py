@@ -34,7 +34,7 @@ if not args.v:
   exit(1)
 
 root = path.abspath(__file__)
-for _ in range(0, 3):
+for _ in range(0, 8):
   root = path.dirname(root)
 
 if 'install' == args.a:

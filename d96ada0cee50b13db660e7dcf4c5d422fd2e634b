@@ -22,6 +22,30 @@
       "revId": "d96ada0cee50b13db660e7dcf4c5d422fd2e634b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df9d10d5_6ded55da",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ShowCaches.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-06-12T08:49:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1f07a8cc_170db457",
+      "range": {
+        "startLine": 280,
+        "startChar": 10,
+        "endLine": 280,
+        "endChar": 35
+      },
+      "revId": "d96ada0cee50b13db660e7dcf4c5d422fd2e634b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

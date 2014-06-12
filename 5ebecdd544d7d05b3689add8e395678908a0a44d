@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9f5478b2_637c223e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 849,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-12T21:04:49Z",
+      "side": 1,
+      "message": "Very minor nit: one space between the // and the first char of the comment.",
+      "revId": "5ebecdd544d7d05b3689add8e395678908a0a44d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f5478b2_0389ae12",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 2395,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-12T21:04:49Z",
+      "side": 1,
+      "message": "Long line.",
+      "revId": "5ebecdd544d7d05b3689add8e395678908a0a44d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -22,6 +22,30 @@
       "revId": "525ab2e29e0fdbaf912e18ad659e36e9a4515368",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df9d10d5_edc5c51a",
+        "filename": "tools/maven/mvn.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-12T13:58:18Z",
+      "side": 1,
+      "message": "It depends: if they were starting from __file__ then yes. \n\nThe build process everything however and does not fail ... but will grep on the buck files and check.",
+      "parentUuid": "bfaa1cea_ecae6b72",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 21
+      },
+      "revId": "525ab2e29e0fdbaf912e18ad659e36e9a4515368",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

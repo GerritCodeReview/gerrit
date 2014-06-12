@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "df9d10d5_cd99e965",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/MergeQueueRaceConditionIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-06-12T11:58:39Z",
+      "side": 1,
+      "message": "If I revert the fix in ChangeMergeQueue and execute this test from Eclipse I can see in the console output that we are hitting the OrmConcurrencyException several times, but the test still succeeds. I would expect that the test is red in this case and not green, otherwise nobody will notice if it\u0027s get broken again.",
+      "range": {
+        "startLine": 55,
+        "startChar": 14,
+        "endLine": 55,
+        "endChar": 58
+      },
+      "revId": "c3d976eaf7a7d29e7836fdf7f6bcbc76248cc5d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df9d10d5_2d7fcd34",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-06-12T11:58:39Z",
+      "side": 1,
+      "message": "Are you sure that this doesn\u0027t need to be set if e !\u003d null?\n\nI\u0027m not fully understanding this code, but what if 2 merges for the same branch are triggered concurrently by merge(branch) and schedule(branch), Can the following happen?\n\n1. merge(branch)\n   -\u003e calls start(branch) which creates a MergeEntry\n      in the active map (e.needMerge is false)\n   -\u003e calls mergeImpl(branch) which does merge the branch\n\n      SECOND THREAD executes schedule(branch), see 2.\n\n      -\u003e calls finish(branch) which removes the MergeEntry\n         from the active map because e.needMerge is false,\n         but the merge scheduled by the second thread was\n         not done yet, and new also will not be done anymore,\n         only if e.needMerge would have been set in \n         schedule(branch), the job would be rescheduled\n\n2. schedule(branch)\n   -\u003e MergeEntry exists already in the active map and\n      nothing is done",
+      "range": {
+        "startLine": 151,
+        "startChar": 6,
+        "endLine": 151,
+        "endChar": 25
+      },
+      "revId": "c3d976eaf7a7d29e7836fdf7f6bcbc76248cc5d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

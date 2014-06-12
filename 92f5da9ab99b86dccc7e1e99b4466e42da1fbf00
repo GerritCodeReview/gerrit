@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bfaa1cea_acb8e3d7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JarScanner.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-06-12T09:20:51Z",
+      "side": 1,
+      "message": "nit: missing space after if",
+      "range": {
+        "startLine": 308,
+        "startChar": 4,
+        "endLine": 308,
+        "endChar": 7
+      },
+      "revId": "92f5da9ab99b86dccc7e1e99b4466e42da1fbf00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df9d10d5_2d0a2df2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/Plugin.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-06-12T09:20:51Z",
+      "side": 1,
+      "message": "Why is this method still here? Shouldn\u0027t it exist only in ServerPlugin?\n\nI thought the idea of this change is to make the Plugin class independent of how the form in which the plugin is stored (jar-file or something else).",
+      "range": {
+        "startLine": 127,
+        "startChar": 18,
+        "endLine": 127,
+        "endChar": 36
+      },
+      "revId": "92f5da9ab99b86dccc7e1e99b4466e42da1fbf00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df9d10d5_ad157d13",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginContentScanner.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-06-12T09:20:51Z",
+      "side": 1,
+      "message": "Put the methods in the same order as in the PluginContentScanner interface?",
+      "range": {
+        "startLine": 40,
+        "startChar": 4,
+        "endLine": 66,
+        "endChar": 5
+      },
+      "revId": "92f5da9ab99b86dccc7e1e99b4466e42da1fbf00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df9d10d5_4dea19c4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginContentScanner.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-06-12T09:20:51Z",
+      "side": 1,
+      "message": "has",
+      "range": {
+        "startLine": 89,
+        "startChar": 54,
+        "endLine": 89,
+        "endChar": 56
+      },
+      "revId": "92f5da9ab99b86dccc7e1e99b4466e42da1fbf00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfaa1cea_4c017fd0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginContentScanner.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-06-12T09:20:51Z",
+      "side": 1,
+      "message": "one space too much",
+      "range": {
+        "startLine": 107,
+        "startChar": 15,
+        "endLine": 107,
+        "endChar": 17
+      },
+      "revId": "92f5da9ab99b86dccc7e1e99b4466e42da1fbf00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df9d10d5_8d1a4141",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ServerPlugin.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-06-12T09:20:51Z",
+      "side": 1,
+      "message": "This is not used anymore since the manifest is now retrieved from the provided PluginContentScanner. Remove this parameter?",
+      "range": {
+        "startLine": 84,
+        "startChar": 6,
+        "endLine": 84,
+        "endChar": 23
+      },
+      "revId": "92f5da9ab99b86dccc7e1e99b4466e42da1fbf00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df9d10d5_ed0f8501",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ServerPlugin.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-06-12T09:20:51Z",
+      "side": 1,
+      "message": "Wrap this line?",
+      "revId": "92f5da9ab99b86dccc7e1e99b4466e42da1fbf00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

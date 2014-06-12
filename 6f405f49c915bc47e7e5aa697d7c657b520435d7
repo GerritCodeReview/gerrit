@@ -121,6 +121,30 @@
     },
     {
       "key": {
+        "uuid": "df9d10d5_6daef588",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ShowCaches.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-06-12T10:26:43Z",
+      "side": 1,
+      "message": "It is showing many thread counts :)\nLeving it as \u0027thread counts\u0027 then.",
+      "parentUuid": "bfaa1cea_4cd4dfee",
+      "range": {
+        "startLine": 87,
+        "startChar": 58,
+        "endLine": 87,
+        "endChar": 71
+      },
+      "revId": "6f405f49c915bc47e7e5aa697d7c657b520435d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bfaa1cea_8cbd27c8",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ShowCaches.java",
         "patchSetId": 5
@@ -144,6 +168,30 @@
     },
     {
       "key": {
+        "uuid": "bfaa1cea_ac8aa30b",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ShowCaches.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-06-12T10:26:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bfaa1cea_8cbd27c8",
+      "range": {
+        "startLine": 263,
+        "startChar": 28,
+        "endLine": 263,
+        "endChar": 46
+      },
+      "revId": "6f405f49c915bc47e7e5aa697d7c657b520435d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bfaa1cea_ecc2eb39",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ShowCaches.java",
         "patchSetId": 5
@@ -155,6 +203,30 @@
       "writtenOn": "2014-06-12T09:15:32Z",
       "side": 1,
       "message": "DRY would be nicer and more readable.",
+      "range": {
+        "startLine": 304,
+        "startChar": 0,
+        "endLine": 308,
+        "endChar": 25
+      },
+      "revId": "6f405f49c915bc47e7e5aa697d7c657b520435d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df9d10d5_0db131e5",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ShowCaches.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-06-12T10:26:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bfaa1cea_ecc2eb39",
       "range": {
         "startLine": 304,
         "startChar": 0,

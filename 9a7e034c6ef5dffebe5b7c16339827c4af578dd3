@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bfaa1cea_cc1c4ffe",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-12T18:38:27Z",
+      "side": 1,
+      "message": "unused import",
+      "range": {
+        "startLine": 92,
+        "startChar": 0,
+        "endLine": 92,
+        "endChar": 41
+      },
+      "revId": "9a7e034c6ef5dffebe5b7c16339827c4af578dd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df9d10d5_8d22413e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-12T18:38:27Z",
+      "side": 1,
+      "message": "unused import",
+      "range": {
+        "startLine": 105,
+        "startChar": 0,
+        "endLine": 105,
+        "endChar": 26
+      },
+      "revId": "9a7e034c6ef5dffebe5b7c16339827c4af578dd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfaa1cea_2c1233e7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-12T18:38:27Z",
+      "side": 1,
+      "message": "No, we are on Java7:\n\n  new ArrayList\u003c\u003e();",
+      "range": {
+        "startLine": 114,
+        "startChar": 20,
+        "endLine": 114,
+        "endChar": 33
+      },
+      "revId": "9a7e034c6ef5dffebe5b7c16339827c4af578dd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df9d10d5_ed1785d6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-12T18:38:27Z",
+      "side": 1,
+      "message": "unnecessary, it is zero already.",
+      "range": {
+        "startLine": 114,
+        "startChar": 35,
+        "endLine": 114,
+        "endChar": 36
+      },
+      "revId": "9a7e034c6ef5dffebe5b7c16339827c4af578dd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfaa1cea_0c0f77c1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 703,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-12T18:38:27Z",
+      "side": 1,
+      "message": "That\u0027s wrong. When notesMigration are activated, then this method delegates to notes.load().getChangeMessages():\n\n  public List\u003cChangeMessage\u003e byPatchSet(ReviewDb db, ChangeNotes notes,\n      PatchSet.Id psId) throws OrmException {\n    if (!migration.readChangeMessages()) {\n      return sortChangeMessages(db.changeMessages().byPatchSet(psId));\n    }\n    return notes.load().getChangeMessages().get(psId);\n  }\n\nAnd this one returns:\n\n  /** @return change messages by patch set, in chronological order. */\n  public ImmutableListMultimap\u003cPatchSet.Id, ChangeMessage\u003e getChangeMessages() {\n    return changeMessages;\n  }\n\nYou see your problem? This one is immutable list, and you are pssing it to the isChangedReviewed() on line 709. But on line 721 it should be sorted:\n\n  Collections.sort(msgs, new Comparator\u003cChangeMessage\u003e() \n\nAnd you are getting:\n\n java.lang.UnsupportedOperationException\n\tat com.google.common.collect.UnmodifiableListIterator.set(UnmodifiableListIterator.java:53)",
+      "range": {
+        "startLine": 703,
+        "startChar": 18,
+        "endLine": 703,
+        "endChar": 61
+      },
+      "revId": "9a7e034c6ef5dffebe5b7c16339827c4af578dd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfaa1cea_ec178bd6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-12T18:38:27Z",
+      "side": 1,
+      "message": "I would prefer to factor this out to a helper method:\n\n  if (!messageIsForChange()) {\n    insertMessage(updatedChange);\n  }\n\nOr even put that in else branch from previous if:\n\n  if (messageIsForChange()) {\n    update.commit();\n  } else {\n    insertMessage(updatedChange);\n  }",
+      "range": {
+        "startLine": 296,
+        "startChar": 8,
+        "endLine": 307,
+        "endChar": 9
+      },
+      "revId": "9a7e034c6ef5dffebe5b7c16339827c4af578dd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df9d10d5_cd1c49fe",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NotesMigration.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-12T18:38:27Z",
+      "side": 1,
+      "message": "Great, but now, you are missing to use it, put this lines in existing ChangesMessagesIT:\n\n   @ConfigSuite.Config\n  public static Config noteDbEnabled() {\n    Config cfg \u003d new Config();\n    cfg.setBoolean(\"notedb\", null, \"write\", true);\n    cfg.setBoolean(\"notedb\", \"changeMessages\", \"read\", true);\n    return cfg;\n  }\n\nAnd benefit form the whole nine yard unit tests, all are failing for reason i commented in ChangeJson.java:\n\n  TESTING //gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change:ChangeMessagesIT\nFAIL    40,8s  4 Passed   0 Skipped   2 Failed   com.google.gerrit.acceptance.rest.change.ChangeMessagesIT\nFAILURE defaultMessage[noteDbEnabled]: \njava.lang.UnsupportedOperationException\n\tat com.google.common.collect.UnmodifiableListIterator.set(UnmodifiableListIterator.java:53)\n\tat java.util.Collections.sort(Collections.java:221)\n\tat com.google.gerrit.server.change.ChangeJson.isChangeReviewed(ChangeJson.java:721)\n\tat com.google.gerrit.server.change.ChangeJson.loadReviewed(ChangeJson.java:709)\n\tat com.google.gerrit.server.change.ChangeJson.format(ChangeJson.java:202)\n\tat com.google.gerrit.server.change.ChangeJson.format(ChangeJson.java:194)\n\tat com.google.gerrit.server.change.ChangeJson.format(ChangeJson.java:182)\n\tat com.google.gerrit.server.api.changes.ChangeApiImpl.get(ChangeApiImpl.java:167)\n\tat com.google.gerrit.server.api.changes.ChangeApiImpl.get(ChangeApiImpl.java:176)\n\tat com.google.gerrit.acceptance.AbstractDaemonTest.get(AbstractDaemonTest.java:187)\n\tat com.google.gerrit.acceptance.rest.change.ChangeMessagesIT.defaultMessage(ChangeMessagesIT.java:56)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)\n\tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n\tat java.lang.reflect.Method.invoke(Method.java:606)\n\tat org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:47)\n\tat org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)\n\tat org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:44)\n\tat org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)\n\tat com.google.gerrit.acceptance.AbstractDaemonTest$1$1.evaluate(AbstractDaemonTest.java:100)\n\tat org.junit.rules.RunRules.evaluate(RunRules.java:20)\n\tat org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:271)\n\tat org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:70)\n\tat org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:50)\n\tat org.junit.runners.ParentRunner$3.run(ParentRunner.java:238)\n\tat org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:63)\n\tat org.junit.runners.ParentRunner.runChildren(ParentRunner.java:236)\n\tat org.junit.runners.ParentRunner.access$000(ParentRunner.java:53)\n\tat org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:229)\n\tat org.junit.runners.ParentRunner.run(ParentRunner.java:309)\n\tat org.junit.runners.Suite.runChild(Suite.java:127)\n\tat org.junit.runners.Suite.runChild(Suite.java:26)\n\tat org.junit.runners.ParentRunner$3.run(ParentRunner.java:238)\n\tat org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:63)\n\tat org.junit.runners.ParentRunner.runChildren(ParentRunner.java:236)\n\tat org.junit.runners.ParentRunner.access$000(ParentRunner.java:53)\n\tat org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:229)\n\tat org.junit.runners.ParentRunner.run(ParentRunner.java:309)\n\tat org.junit.runners.Suite.runChild(Suite.java:127)\n\tat org.junit.runners.Suite.runChild(Suite.java:26)\n\tat org.junit.runners.ParentRunner$3.run(ParentRunner.java:238)\n\tat org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:63)\n\tat org.junit.runners.ParentRunner.runChildren(ParentRunner.java:236)\n\tat org.junit.runners.ParentRunner.access$000(ParentRunner.java:53)\n\tat org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:229)\n\tat org.junit.runners.ParentRunner.run(ParentRunner.java:309)\n\tat org.junit.runner.JUnitCore.run(JUnitCore.java:160)\n\tat org.junit.runner.JUnitCore.run(JUnitCore.java:138)\n\tat com.facebook.buck.junit.JUnitRunner.run(JUnitRunner.java:137)\n\tat com.facebook.buck.junit.JUnitRunner.main(JUnitRunner.java:416)",
+      "range": {
+        "startLine": 38,
+        "startChar": 4,
+        "endLine": 38,
+        "endChar": 61
+      },
+      "revId": "9a7e034c6ef5dffebe5b7c16339827c4af578dd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

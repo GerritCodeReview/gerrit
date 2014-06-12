@@ -1,0 +1,256 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bfaa1cea_0ccad750",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-12T10:00:01Z",
+      "side": 1,
+      "message": "What is that? CM \u003d \"Change Message\"? I think it would be clearly to just say:\n\n  Add ChangeMessagesUtil to assist with NotesDB migration",
+      "range": {
+        "startLine": 7,
+        "startChar": 38,
+        "endLine": 7,
+        "endChar": 40
+      },
+      "revId": "74b4481a9728bad0580a66260b481b8634bed7f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df9d10d5_6d0435e2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeMessagesUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-12T10:00:01Z",
+      "side": 1,
+      "message": "License header?",
+      "revId": "74b4481a9728bad0580a66260b481b8634bed7f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfaa1cea_ec994b6e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeMessagesUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-12T10:00:01Z",
+      "side": 1,
+      "message": "private",
+      "range": {
+        "startLine": 26,
+        "startChar": 2,
+        "endLine": 26,
+        "endChar": 8
+      },
+      "revId": "74b4481a9728bad0580a66260b481b8634bed7f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df9d10d5_adb8ddd7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeMessagesUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-12T10:00:01Z",
+      "side": 1,
+      "message": "Code organization: I think that static methods normally go at the end of the class?",
+      "range": {
+        "startLine": 26,
+        "startChar": 2,
+        "endLine": 29,
+        "endChar": 3
+      },
+      "revId": "74b4481a9728bad0580a66260b481b8634bed7f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df9d10d5_cdc72948",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeMessagesUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-12T10:00:01Z",
+      "side": 1,
+      "message": "Unneeded, you could return direct from if else branches.",
+      "range": {
+        "startLine": 41,
+        "startChar": 24,
+        "endLine": 41,
+        "endChar": 38
+      },
+      "revId": "74b4481a9728bad0580a66260b481b8634bed7f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df9d10d5_4d0179d0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeMessagesUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-12T10:00:01Z",
+      "side": 1,
+      "message": "Nit: unnecessary  new line.",
+      "revId": "74b4481a9728bad0580a66260b481b8634bed7f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df9d10d5_2dcd0d69",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeMessagesUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-12T10:00:01Z",
+      "side": 1,
+      "message": "Shuldn\u0027t we guard that with:\n\n if (migration.write()) {\n  [...]",
+      "range": {
+        "startLine": 70,
+        "startChar": 6,
+        "endLine": 70,
+        "endChar": 58
+      },
+      "revId": "74b4481a9728bad0580a66260b481b8634bed7f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df9d10d5_6dd715f5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Restore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-12T10:00:01Z",
+      "side": 1,
+      "message": "What\u0027s the point of putting this TODO in all places?",
+      "range": {
+        "startLine": 115,
+        "startChar": 6,
+        "endLine": 115,
+        "endChar": 45
+      },
+      "revId": "74b4481a9728bad0580a66260b481b8634bed7f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df9d10d5_4dd4d9ee",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/AsyncReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-12T10:00:01Z",
+      "side": 1,
+      "message": "We never do that. At very least log error message with log.error(), or better handle it properly.",
+      "range": {
+        "startLine": 93,
+        "startChar": 8,
+        "endLine": 94,
+        "endChar": 28
+      },
+      "revId": "74b4481a9728bad0580a66260b481b8634bed7f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df9d10d5_ad9f3d52",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 909,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-12T10:00:01Z",
+      "side": 1,
+      "message": "Remove this?",
+      "range": {
+        "startLine": 901,
+        "startChar": 0,
+        "endLine": 909,
+        "endChar": 5
+      },
+      "revId": "74b4481a9728bad0580a66260b481b8634bed7f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df9d10d5_8da401ac",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2399,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-12T10:00:01Z",
+      "side": 1,
+      "message": "Nit: unnesessary new line.",
+      "revId": "74b4481a9728bad0580a66260b481b8634bed7f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfaa1cea_8ca407ac",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NotesMigration.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-12T10:00:01Z",
+      "side": 1,
+      "message": "Nit: unnecessary new line.",
+      "revId": "74b4481a9728bad0580a66260b481b8634bed7f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

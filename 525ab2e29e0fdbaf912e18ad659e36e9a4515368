@@ -94,6 +94,30 @@
       "revId": "525ab2e29e0fdbaf912e18ad659e36e9a4515368",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfaa1cea_8cd087da",
+        "filename": "tools/maven/mvn.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-12T14:28:59Z",
+      "side": 1,
+      "message": "I was thinking exactly the same thing, but wanted to reduce the impact.\n\n  while path.basename(root) !\u003d \u0027buck-out\u0027:\n    root \u003d root.dirname(root)\n  root \u003d root.dirname(root)\n\nThe above should not be sensitive to the problem anymore.\n\nWhat do you think ?",
+      "parentUuid": "bfaa1cea_6cc39b1b",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 21
+      },
+      "revId": "525ab2e29e0fdbaf912e18ad659e36e9a4515368",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

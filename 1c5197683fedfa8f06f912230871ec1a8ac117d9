@@ -97,6 +97,54 @@
     },
     {
       "key": {
+        "uuid": "df9d10d5_8d4521d5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-12T20:18:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf577cb3_44b48ed5",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 43
+      },
+      "revId": "1c5197683fedfa8f06f912230871ec1a8ac117d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfaa1cea_cc4f2ff1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-12T20:18:48Z",
+      "side": 1,
+      "message": "Not apply in light of Dave\u0027s comment below.",
+      "parentUuid": "bfaa1cea_2ce353f2",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 43
+      },
+      "revId": "1c5197683fedfa8f06f912230871ec1a8ac117d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bfaa1cea_4c4fbf46",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/LabelType.java",
         "patchSetId": 3

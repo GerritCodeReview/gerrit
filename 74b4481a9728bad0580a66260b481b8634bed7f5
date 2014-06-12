@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9f5478b2_830fde02",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-12T17:43:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bfaa1cea_0ccad750",
+      "range": {
+        "startLine": 7,
+        "startChar": 38,
+        "endLine": 7,
+        "endChar": 40
+      },
+      "revId": "74b4481a9728bad0580a66260b481b8634bed7f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "df9d10d5_6d0435e2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeMessagesUtil.java",
         "patchSetId": 1
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "bf577cb3_24eab2c3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeMessagesUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-12T17:43:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df9d10d5_6d0435e2",
+      "revId": "74b4481a9728bad0580a66260b481b8634bed7f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bfaa1cea_ec994b6e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeMessagesUtil.java",
         "patchSetId": 1
@@ -53,6 +95,30 @@
       "writtenOn": "2014-06-12T10:00:01Z",
       "side": 1,
       "message": "private",
+      "range": {
+        "startLine": 26,
+        "startChar": 2,
+        "endLine": 26,
+        "endChar": 8
+      },
+      "revId": "74b4481a9728bad0580a66260b481b8634bed7f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf577cb3_64e0aae3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeMessagesUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-12T17:43:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bfaa1cea_ec994b6e",
       "range": {
         "startLine": 26,
         "startChar": 2,
@@ -135,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "9f5478b2_c315d612",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeMessagesUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-12T17:43:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df9d10d5_cdc72948",
+      "range": {
+        "startLine": 41,
+        "startChar": 24,
+        "endLine": 41,
+        "endChar": 38
+      },
+      "revId": "74b4481a9728bad0580a66260b481b8634bed7f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "df9d10d5_4d0179d0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeMessagesUtil.java",
         "patchSetId": 1
@@ -152,6 +242,24 @@
     },
     {
       "key": {
+        "uuid": "bf577cb3_04ed36da",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeMessagesUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-12T17:43:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df9d10d5_4d0179d0",
+      "revId": "74b4481a9728bad0580a66260b481b8634bed7f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "df9d10d5_2dcd0d69",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeMessagesUtil.java",
         "patchSetId": 1
@@ -163,6 +271,30 @@
       "writtenOn": "2014-06-12T10:00:01Z",
       "side": 1,
       "message": "Shuldn\u0027t we guard that with:\n\n if (migration.write()) {\n  [...]",
+      "range": {
+        "startLine": 70,
+        "startChar": 6,
+        "endLine": 70,
+        "endChar": 58
+      },
+      "revId": "74b4481a9728bad0580a66260b481b8634bed7f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf577cb3_64074ae8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeMessagesUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-12T17:43:37Z",
+      "side": 1,
+      "message": "I don\u0027t think this is necessary because if you try to commit an update and migration.write() is false, then the commit will just be a no-op (see the commit and openUpdate functions in ChangeUpdate for this).",
+      "parentUuid": "df9d10d5_2dcd0d69",
       "range": {
         "startLine": 70,
         "startChar": 6,
@@ -221,6 +353,30 @@
     },
     {
       "key": {
+        "uuid": "bf577cb3_840fe602",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/AsyncReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-12T17:43:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df9d10d5_4dd4d9ee",
+      "range": {
+        "startLine": 93,
+        "startChar": 8,
+        "endLine": 94,
+        "endChar": 28
+      },
+      "revId": "74b4481a9728bad0580a66260b481b8634bed7f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "df9d10d5_ad9f3d52",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 1
@@ -232,6 +388,30 @@
       "writtenOn": "2014-06-12T10:00:01Z",
       "side": 1,
       "message": "Remove this?",
+      "range": {
+        "startLine": 901,
+        "startChar": 0,
+        "endLine": 909,
+        "endChar": 5
+      },
+      "revId": "74b4481a9728bad0580a66260b481b8634bed7f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf577cb3_e41a5a42",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 909,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-12T17:43:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df9d10d5_ad9f3d52",
       "range": {
         "startLine": 901,
         "startChar": 0,
@@ -261,6 +441,24 @@
     },
     {
       "key": {
+        "uuid": "bf577cb3_440a4ef3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2399,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-12T17:43:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df9d10d5_8da401ac",
+      "revId": "74b4481a9728bad0580a66260b481b8634bed7f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bfaa1cea_8ca407ac",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NotesMigration.java",
         "patchSetId": 1
@@ -272,6 +470,24 @@
       "writtenOn": "2014-06-12T10:00:01Z",
       "side": 1,
       "message": "Nit: unnecessary new line.",
+      "revId": "74b4481a9728bad0580a66260b481b8634bed7f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf577cb3_a4146213",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NotesMigration.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-12T17:43:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bfaa1cea_8ca407ac",
       "revId": "74b4481a9728bad0580a66260b481b8634bed7f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

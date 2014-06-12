@@ -118,6 +118,30 @@
       "revId": "525ab2e29e0fdbaf912e18ad659e36e9a4515368",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfaa1cea_ccca8f2a",
+        "filename": "tools/maven/mvn.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-12T14:35:00Z",
+      "side": 1,
+      "message": "I think this wouldn\u0027t work in the project.py case, as it is not under buck control, as in:\n\n  tools/eclipse/project.py\n\nWhat would always work is checking if .buckconfig is located in the current directory, then we know we have reached root of the project.",
+      "parentUuid": "bfaa1cea_8cd087da",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 21
+      },
+      "revId": "525ab2e29e0fdbaf912e18ad659e36e9a4515368",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

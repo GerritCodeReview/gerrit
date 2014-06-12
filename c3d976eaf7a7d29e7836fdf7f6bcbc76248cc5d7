@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "df9d10d5_ad71fd63",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/MergeQueueRaceConditionIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-12T13:13:09Z",
+      "side": 1,
+      "message": "True, but I don\u0027t know how to fix that. Merge queue swallow exceptions, as in:\n\n private void mergeImpl(final Branch.NameKey branch) {\n    try {\n      threadScoper.scope(new Callable\u003cVoid\u003e(){\n        @Override\n        public Void call() throws Exception {\n          bgFactory.get().create(branch).merge();\n          return null;\n        }\n      }).call();\n    } catch (Throwable e) {\n      log.error(\"Merge attempt for \" + branch + \" failed\", e);\n    } finally {\n      finish(branch);\n    }\n  }",
+      "parentUuid": "df9d10d5_cd99e965",
+      "range": {
+        "startLine": 55,
+        "startChar": 14,
+        "endLine": 55,
+        "endChar": 58
+      },
+      "revId": "c3d976eaf7a7d29e7836fdf7f6bcbc76248cc5d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "df9d10d5_2d7fcd34",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2014-06-12T11:58:39Z",
       "side": 1,
       "message": "Are you sure that this doesn\u0027t need to be set if e !\u003d null?\n\nI\u0027m not fully understanding this code, but what if 2 merges for the same branch are triggered concurrently by merge(branch) and schedule(branch), Can the following happen?\n\n1. merge(branch)\n   -\u003e calls start(branch) which creates a MergeEntry\n      in the active map (e.needMerge is false)\n   -\u003e calls mergeImpl(branch) which does merge the branch\n\n      SECOND THREAD executes schedule(branch), see 2.\n\n      -\u003e calls finish(branch) which removes the MergeEntry\n         from the active map because e.needMerge is false,\n         but the merge scheduled by the second thread was\n         not done yet, and new also will not be done anymore,\n         only if e.needMerge would have been set in \n         schedule(branch), the job would be rescheduled\n\n2. schedule(branch)\n   -\u003e MergeEntry exists already in the active map and\n      nothing is done",
+      "range": {
+        "startLine": 151,
+        "startChar": 6,
+        "endLine": 151,
+        "endChar": 25
+      },
+      "revId": "c3d976eaf7a7d29e7836fdf7f6bcbc76248cc5d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df9d10d5_ed6b0572",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-12T13:13:09Z",
+      "side": 1,
+      "message": "No, i am not. From what i\u0027ve understood, manual triggered merge jobs differ from background jobs exactly by this:\n\n* Background triggering: two jobs are scheduled, one through mergeImpl(branch) and another through finish() because e.needMerge \u003d\u003d true in this case\n* Manual triggering: job is scheduled once only through mergeImpl(branch),  e.needMerge \u003d\u003d false in finish() method.\n\nAs you pointed out, when background triggering is scheduled during manual triggering is underway (case 2 in your listing), then no background triggering should take place (this time). Neither in mergeImpl() nor in finish().\n\nThat why i moved also the statement:\n\n  e.needMerge \u003d true;\n\nin \n\n if (e \u003d\u003d null)\n\nbranch. If i\u0027m reading the code right, finish() method just call the mergeImpl() second time. But mergeImpl() was already called once also for manual triggered jobs, also in case that (e.needMerge \u003d\u003d false).\n\nAs suggested as work around in issue linked to this change, the background machinery could be entirely disabled by setting\n\n changeMerge.checkFrequency \u003d 0\n\nin gerrit.config file and changes still would get merged, only by manual triggering (e.needMerge \u003d\u003d false)?",
+      "parentUuid": "df9d10d5_2d7fcd34",
       "range": {
         "startLine": 151,
         "startChar": 6,

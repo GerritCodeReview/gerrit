@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "bfaa1cea_ec94ab2d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/Plugin.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-06-12T10:49:16Z",
+      "side": 1,
+      "message": "Is it really that difficult to adapt HttpPluginServlet?\nThere are only a few usages of this method\n\n1. HttpPluginServlet line 271 + 289:\n\n  JarFile jar \u003d holder.plugin.getJarFile();\n  \n  could be\n\n  if (plugin instanceof ServerPlugin) {\n    JarFile jar \u003d ((ServerPlugin)plugin).getJarFile();\n  }\n\n2. HttpPluginServlet line 651 to 657, could be\n\n   plugin.getContentScanner().getManifest()\n       .getMainAttributes().getValue(attr);\n\n   Actually as it is now it is wrong, because the Manifest \n   file of non-jar-plugins is not considered even if they \n   provide one.",
+      "parentUuid": "bfaa1cea_ac9f4352",
+      "range": {
+        "startLine": 127,
+        "startChar": 18,
+        "endLine": 127,
+        "endChar": 36
+      },
+      "revId": "92f5da9ab99b86dccc7e1e99b4466e42da1fbf00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "df9d10d5_ad157d13",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginContentScanner.java",
         "patchSetId": 19

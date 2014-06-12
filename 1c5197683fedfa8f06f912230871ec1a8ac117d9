@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "bf577cb3_44b48ed5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-12T19:59:23Z",
+      "side": 1,
+      "message": "Search doesn\u0027t work because ChangeField.LABEL doesn\u0027t use abbreviations. So if EqualsLabelPredicate isn\u0027t consistent with that, yes, it should be fixed.",
+      "parentUuid": "bfaa1cea_8c4527d5",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 43
+      },
+      "revId": "1c5197683fedfa8f06f912230871ec1a8ac117d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bfaa1cea_4c4fbf46",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/LabelType.java",
         "patchSetId": 3

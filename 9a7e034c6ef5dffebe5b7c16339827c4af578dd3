@@ -184,6 +184,30 @@
       "revId": "9a7e034c6ef5dffebe5b7c16339827c4af578dd3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfaa1cea_6c0c3bcb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NotesMigration.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-12T18:46:45Z",
+      "side": 1,
+      "message": "I disagree to push broken changes in master.",
+      "parentUuid": "bf577cb3_e4a49aac",
+      "range": {
+        "startLine": 38,
+        "startChar": 4,
+        "endLine": 38,
+        "endChar": 61
+      },
+      "revId": "9a7e034c6ef5dffebe5b7c16339827c4af578dd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

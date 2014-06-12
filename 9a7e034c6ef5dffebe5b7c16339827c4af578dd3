@@ -160,6 +160,30 @@
       "revId": "9a7e034c6ef5dffebe5b7c16339827c4af578dd3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf577cb3_e4a49aac",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NotesMigration.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-12T18:42:21Z",
+      "side": 1,
+      "message": "I told Yacob we should get this change in first, then we will add notedb support to that integration test and fix the bugs it flushes out.\n\nChecking this in first prevents too much rebasing, and the existing non-notedb integration tests should ensure nothing breaks in the non-notedb case.",
+      "parentUuid": "df9d10d5_cd1c49fe",
+      "range": {
+        "startLine": 38,
+        "startChar": 4,
+        "endLine": 38,
+        "endChar": 61
+      },
+      "revId": "9a7e034c6ef5dffebe5b7c16339827c4af578dd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

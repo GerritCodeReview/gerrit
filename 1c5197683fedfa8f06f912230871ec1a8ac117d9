@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "bf577cb3_c415de12",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-12T17:14:41Z",
+      "side": 1,
+      "message": "\u003e Please describe in the commit message what was broken with the customized label abbreviations (it only worked for the querying on labels, but they were not shown as column headers in the dashboard, this inconsistency could easily confuse users).\n\nIt doesn\u0027t work for querying on labels.",
+      "parentUuid": "bfaa1cea_2ce353f2",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 43
+      },
+      "revId": "1c5197683fedfa8f06f912230871ec1a8ac117d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bfaa1cea_4c4fbf46",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/LabelType.java",
         "patchSetId": 3

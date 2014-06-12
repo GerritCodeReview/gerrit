@@ -171,11 +171,13 @@ Here are some guidelines that Gerrit uses:
   * Define any static interfaces next in your class.
   * Define non static interfaces after static interfaces in your
     class.
-  * Next you should define static types and members.
+  * Next you should define static types, members, and methods, in
+    decreasing order of visibility (public to private).
   * Finally instance members, then constructors, and then instance
     methods.
-  * Some common exceptions are private helper static methods which
-    might appear near the instance methods which they help.
+  * Some common exceptions are private helper static methods, which
+    might appear near the instance methods which they help (but may
+    also appear at the top).
   * Getters and setters for the same instance field should usually
     be near each other baring a good reason not to.
   * If you are using assisted injection, the factory for your class

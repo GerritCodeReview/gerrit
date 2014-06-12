@@ -49,6 +49,53 @@
     },
     {
       "key": {
+        "uuid": "9f5478b2_430a46f3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-12T18:26:24Z",
+      "side": 1,
+      "message": "s/NotesDB/notedb/ but otherwise agreed.",
+      "parentUuid": "bfaa1cea_0ccad750",
+      "range": {
+        "startLine": 7,
+        "startChar": 38,
+        "endLine": 7,
+        "endChar": 40
+      },
+      "revId": "74b4481a9728bad0580a66260b481b8634bed7f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f5478b2_630742e8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-12T18:26:24Z",
+      "side": 1,
+      "message": "nit: utility",
+      "range": {
+        "startLine": 10,
+        "startChar": 33,
+        "endLine": 10,
+        "endChar": 42
+      },
+      "revId": "74b4481a9728bad0580a66260b481b8634bed7f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "df9d10d5_6d0435e2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeMessagesUtil.java",
         "patchSetId": 1
@@ -249,6 +296,23 @@
     },
     {
       "key": {
+        "uuid": "9f5478b2_03044ee0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeMessagesUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-12T18:26:24Z",
+      "side": 1,
+      "message": "You don\u0027t need a multimap, just\n\n return sortChangeMessages(db.changeMessages().byChange(notes.getChangeId()));\n\nlike you do in byPatchSet.",
+      "revId": "74b4481a9728bad0580a66260b481b8634bed7f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "df9d10d5_4d0179d0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeMessagesUtil.java",
         "patchSetId": 1
@@ -331,6 +395,131 @@
     },
     {
       "key": {
+        "uuid": "9f5478b2_c3b876d9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Abandon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-12T18:26:24Z",
+      "side": 1,
+      "message": "My thought on these cases is that we don\u0027t really need to worry about it. The nature of the updates we\u0027re making via ChangeUpdate is that they do not need to read any change state from the ChangeNotes instance that\u0027s being passed in.\n\nThis might no longer be the case when we start migrating these AtomicUpdates themselves to be in notedb, but then that mutation-sharing logic should be encapsulated in an appropriate utility class.\n\nIOW it\u0027s fine to leave these comments in here to remind us, but don\u0027t worry about fixing it for now.\n\nHowever, one nit, we do have a kind of standard TODO format:\n\n // TODO(dborowitz): atomic update was not propagated.",
+      "revId": "74b4481a9728bad0580a66260b481b8634bed7f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f5478b2_e3bd72c6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-12T18:26:24Z",
+      "side": 1,
+      "message": "This method is getting a little hefty, how about factoring out the contents of this if block into a helper method.",
+      "revId": "74b4481a9728bad0580a66260b481b8634bed7f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f5478b2_83c27e39",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-12T18:26:24Z",
+      "side": 1,
+      "message": "ImmutableList.of();",
+      "range": {
+        "startLine": 114,
+        "startChar": 20,
+        "endLine": 114,
+        "endChar": 33
+      },
+      "revId": "74b4481a9728bad0580a66260b481b8634bed7f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf577cb3_240152d1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-12T18:26:24Z",
+      "side": 1,
+      "message": "Same comment as ChangeInserter, factor this out just to keep the total message size down.",
+      "revId": "74b4481a9728bad0580a66260b481b8634bed7f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf577cb3_c4b87ed9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-12T18:26:24Z",
+      "side": 1,
+      "message": "Can fit on one line.",
+      "revId": "74b4481a9728bad0580a66260b481b8634bed7f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f5478b2_a3c77a48",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 514,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-12T18:26:24Z",
+      "side": 1,
+      "message": "Optional nit: same line as the )",
+      "revId": "74b4481a9728bad0580a66260b481b8634bed7f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf577cb3_e4bd7ac6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutTopic.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-12T18:26:24Z",
+      "side": 1,
+      "message": "TODO format",
+      "revId": "74b4481a9728bad0580a66260b481b8634bed7f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "df9d10d5_6dd715f5",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Restore.java",
         "patchSetId": 1
@@ -348,6 +537,47 @@
         "endLine": 115,
         "endChar": 45
       },
+      "revId": "74b4481a9728bad0580a66260b481b8634bed7f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f5478b2_43cd6667",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Restore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-12T18:26:24Z",
+      "side": 1,
+      "message": "As a warning to anybody modifying this code to call other methods on the ChangeUpdate/ChangeNotes not to assume that the change has propagated.\n\nWe have had bugs (in MergeOp I believe) where we forgot to assign there result of an atomicUpdate back to the change variable, so this is an important thing to remember. And the extra risk here is that _even though_ we\u0027ve assigned the result to change above, it doesn\u0027t mutate the ChangeNotes state.\n\nPer my comment on a previous TODO I don\u0027t think this is an issue _for now_, but I for one don\u0027t mind having the reminders here for the future.\n\nAlso, TODO format.",
+      "parentUuid": "df9d10d5_6dd715f5",
+      "range": {
+        "startLine": 115,
+        "startChar": 6,
+        "endLine": 115,
+        "endChar": 45
+      },
+      "revId": "74b4481a9728bad0580a66260b481b8634bed7f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf577cb3_84c28639",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-12T18:26:24Z",
+      "side": 1,
+      "message": "Anytime you see a lot of Iterables and Lists static methods together you can often get a cleaner result using FluentIterable:\n\n FluentIterable.from(cmUtil.byPatchSet(\n     dbProvider.get(), rsrc.getNotes(), rsrc.getPatchSet().getId()))\n   .filter(...)\n   .last();",
       "revId": "74b4481a9728bad0580a66260b481b8634bed7f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -401,6 +631,40 @@
     },
     {
       "key": {
+        "uuid": "bf577cb3_a4c78248",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 847,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-12T18:26:24Z",
+      "side": 1,
+      "message": "Just use commit.getControl(), that\u0027s what it\u0027s for.",
+      "revId": "74b4481a9728bad0580a66260b481b8634bed7f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f5478b2_63cae252",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 851,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-12T18:26:24Z",
+      "side": 1,
+      "message": "You need to keep the logic to set the author to the submitter on the message if it doesn\u0027t already have the author.\n\nI would just add update as an arg to addMergedMessage and keep that method.",
+      "revId": "74b4481a9728bad0580a66260b481b8634bed7f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "df9d10d5_ad9f3d52",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 1
@@ -448,6 +712,125 @@
     },
     {
       "key": {
+        "uuid": "9f5478b2_03d76ef5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1036,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-12T18:26:24Z",
+      "side": 1,
+      "message": "TODO format",
+      "revId": "74b4481a9728bad0580a66260b481b8634bed7f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f5478b2_c39f1652",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1136,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-12T18:26:24Z",
+      "side": 1,
+      "message": "This is a slight behavior change compared with below where we insert a null author in the ChangeMessage. In notedb every update must be associated with an author, so there is no equivalent of null; that\u0027s.\n\nI think the right thing to do here would be to pass an InternalUser so this is operating as the Gerrit Code Review server identity. *But* don\u0027t do that right now, since it will cause ChangeUpdate to fail with a ClassCastException in getUser().\n\nInstead, leave a TODO for me to support InternalUser in ChangeUpdate.",
+      "revId": "74b4481a9728bad0580a66260b481b8634bed7f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf577cb3_64caea52",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1139,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-12T18:26:24Z",
+      "side": 1,
+      "message": "Don\u0027t pass a timestamp here, this update should use now as its timestamp.\n\n(Aside: I actually think it\u0027s a bug that the AtomicUpdate below doesn\u0027t call ChangeUtil.updated(change) to bump the timestamp. I don\u0027t think it\u0027s worth fixing right now.)",
+      "revId": "74b4481a9728bad0580a66260b481b8634bed7f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f5478b2_23d4eaed",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1164,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-12T18:26:24Z",
+      "side": 1,
+      "message": "TODO format",
+      "revId": "74b4481a9728bad0580a66260b481b8634bed7f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf577cb3_44cd6e67",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1175,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-12T18:26:24Z",
+      "side": 1,
+      "message": "Unnecessary blank line",
+      "revId": "74b4481a9728bad0580a66260b481b8634bed7f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf577cb3_24d4f2ed",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-12T18:26:24Z",
+      "side": 1,
+      "message": "Don\u0027t do this.\n\nGoing through a ChangeControl factory means it has to create a ProjectControl, then a RefControl, then a ChangeControl. This is actually fairly expensive due to the way project configuration works in Gerrit. To create a ProjectControl we have to read the project configuration from refs/meta/config in the project _and_ walk all the way up the project hierarchy (projects can inherit configuration from other projects).\n\nI believe we actually have a threadlocal ProjectControl cache somewhere to alleviate this, but in this case you don\u0027t even need to depend on that.\n\nInstead, pass a RefControl into the method that needs to create the ChangeUpdate and use that. (RefControls are also not super cheap to create, but this class is already creating a bunch of them, so might as well use one we\u0027re already creating.)",
+      "revId": "74b4481a9728bad0580a66260b481b8634bed7f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf577cb3_04d776f5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 542,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-12T18:26:24Z",
+      "side": 1,
+      "message": "Don\u0027t throw from this method. Any errors should be logged and result in setting an error status on the ReceiveCommands.",
+      "revId": "74b4481a9728bad0580a66260b481b8634bed7f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "df9d10d5_8da401ac",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 1
@@ -477,6 +860,23 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "df9d10d5_8da401ac",
+      "revId": "74b4481a9728bad0580a66260b481b8634bed7f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f5478b2_e3a492ac",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-12T18:26:24Z",
+      "side": 1,
+      "message": "Since you\u0027re making this public, move it above the private static field.",
       "revId": "74b4481a9728bad0580a66260b481b8634bed7f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

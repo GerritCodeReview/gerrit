@@ -130,7 +130,6 @@ public class ProjectConfig extends VersionedMetaData {
   private static final String KEY_LOCAL_DEFAULT = "local-default";
 
   private static final String LABEL = "label";
-  private static final String KEY_ABBREVIATION = "abbreviation";
   private static final String KEY_FUNCTION = "function";
   private static final String KEY_DEFAULT_VALUE = "defaultValue";
   private static final String KEY_COPY_MIN_SCORE = "copyMinScore";
@@ -673,10 +672,6 @@ public class ProjectConfig extends VersionedMetaData {
             "Invalid label \"%s\"", name)));
         continue;
       }
-      String abbr = rc.getString(LABEL, name, KEY_ABBREVIATION);
-      if (abbr != null) {
-        label.setAbbreviation(abbr);
-      }
 
       String functionName = Objects.firstNonNull(
           rc.getString(LABEL, name, KEY_FUNCTION), "MaxWithBlock");
@@ -1050,15 +1045,6 @@ public class ProjectConfig extends VersionedMetaData {
       LabelType label = e.getValue();
       toUnset.remove(name);
       rc.setString(LABEL, name, KEY_FUNCTION, label.getFunctionName());
-
-      if (!LabelType.defaultAbbreviation(name)
-          .equals(label.getAbbreviation())) {
-        rc.setString(
-            LABEL, name, KEY_ABBREVIATION, label.getAbbreviation());
-      } else {
-        rc.unset(LABEL, name, KEY_ABBREVIATION);
-      }
-
       rc.setInt(LABEL, name, KEY_DEFAULT_VALUE, label.getDefaultValue());
       if (label.isCopyMinScore()) {
         rc.setBoolean(LABEL, name, KEY_COPY_MIN_SCORE, true);

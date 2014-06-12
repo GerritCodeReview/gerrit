@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9f5478b2_0360ce88",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-12T21:41:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9f5478b2_8394be2c",
+      "revId": "d2b50cca222bc4f1b0c368338f1c79990bf8c7cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bf577cb3_0489b612",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2014-06-12T21:05:00Z",
       "side": 1,
       "message": ".orNull() instead of storing this in result.",
+      "revId": "d2b50cca222bc4f1b0c368338f1c79990bf8c7cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f5478b2_235dcacb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-12T21:41:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf577cb3_0489b612",
       "revId": "d2b50cca222bc4f1b0c368338f1c79990bf8c7cd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "bf577cb3_4466cea9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 542,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-12T21:41:48Z",
+      "side": 1,
+      "message": "Yes, and I removed the ones that I can",
+      "parentUuid": "bf577cb3_c4715e63",
+      "revId": "d2b50cca222bc4f1b0c368338f1c79990bf8c7cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bf577cb3_24863202",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 4
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "9f5478b2_c3a4f695",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 587,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-12T21:41:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf577cb3_24863202",
+      "revId": "d2b50cca222bc4f1b0c368338f1c79990bf8c7cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9f5478b2_437fa633",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 4
@@ -81,6 +153,30 @@
       "writtenOn": "2014-06-12T21:05:00Z",
       "side": 1,
       "message": "Need a better message, e.getMessage() just returns the change number. How about:\n\n \"No such change: \" + e.getMessage()",
+      "range": {
+        "startLine": 637,
+        "startChar": 43,
+        "endLine": 637,
+        "endChar": 57
+      },
+      "revId": "d2b50cca222bc4f1b0c368338f1c79990bf8c7cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf577cb3_6463ca98",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 637,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-12T21:41:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9f5478b2_437fa633",
       "range": {
         "startLine": 637,
         "startChar": 43,

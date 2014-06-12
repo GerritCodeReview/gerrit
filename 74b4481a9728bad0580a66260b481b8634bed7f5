@@ -88,6 +88,30 @@
     },
     {
       "key": {
+        "uuid": "9f5478b2_a3145a13",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeMessagesUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-12T17:40:14Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/Documentation/dev-contributing.html#_code_organization\n\nPublic static stuff goes at the top; private static stuff may go near where it is used (but at the top is also fine).",
+      "parentUuid": "df9d10d5_adb8ddd7",
+      "range": {
+        "startLine": 26,
+        "startChar": 2,
+        "endLine": 29,
+        "endChar": 3
+      },
+      "revId": "74b4481a9728bad0580a66260b481b8634bed7f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "df9d10d5_cdc72948",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeMessagesUtil.java",
         "patchSetId": 1

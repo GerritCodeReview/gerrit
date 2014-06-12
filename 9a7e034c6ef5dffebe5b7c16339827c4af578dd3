@@ -280,6 +280,30 @@
       "revId": "9a7e034c6ef5dffebe5b7c16339827c4af578dd3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfaa1cea_ec4aebe2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NotesMigration.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-12T20:03:48Z",
+      "side": 1,
+      "message": "| Of course potential errors that are caught in review despite no test coverage should be fixed\n\nThanks for pointing this out. In the end that why we are doing code review. If we don\u0027t fix potential error, that are caught in review and just ignore the reviewer\u0027s opinion, then why to do review at all?\n\nAnd yes, i agree with your approach: to not activate the unit test for change messages in this change and do it later. So i am happy to approve this change as is, with fixed immutable list sorting issue.",
+      "parentUuid": "9f5478b2_a39e9a52",
+      "range": {
+        "startLine": 38,
+        "startChar": 4,
+        "endLine": 38,
+        "endChar": 61
+      },
+      "revId": "9a7e034c6ef5dffebe5b7c16339827c4af578dd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -142,6 +142,30 @@
       "revId": "525ab2e29e0fdbaf912e18ad659e36e9a4515368",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df9d10d5_4dd7b9cb",
+        "filename": "tools/maven/mvn.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-12T14:41:37Z",
+      "side": 1,
+      "message": "We are doing it this way in shell code in java_doc() rule:\n\n  [...]\n  \u0027while ! test -f .buckconfig; do cd ..; done;\u0027\n  [...]\n\nLet\u0027s try to do the same in python. In all places.",
+      "parentUuid": "bfaa1cea_ccca8f2a",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 21
+      },
+      "revId": "525ab2e29e0fdbaf912e18ad659e36e9a4515368",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bfaa1cea_4cf21f79",
+        "filename": "tools/maven/mvn.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-12T17:35:32Z",
+      "side": 1,
+      "message": "How about to adjust the second place in tools/eclipse/project.py too?\n\n ROOT \u003d path.abspath(__file__)\n for _ in range(0, 3):\n   ROOT \u003d path.dirname(ROOT)",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 27
+      },
+      "revId": "2f1e0666f4bedf8f0c46049006593d6cb89e5775",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

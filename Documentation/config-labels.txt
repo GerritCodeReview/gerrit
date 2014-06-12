@@ -183,14 +183,6 @@ range for a user.  In that case the score that will get set in the Reply
 box will be either the lowest or highest score in the permissible range.
 
 
-[[label_abbreviation]]
-=== `label.Label-Name.abbreviation`
-
-An abbreviated name for a label shown as a compact column header, for
-example on project dashboards. Defaults to all the uppercase characters
-in the label name, e.g. `Label-Name` is abbreviated by default as `LN`.
-
-
 [[label_function]]
 === `label.Label-Name.function`
 

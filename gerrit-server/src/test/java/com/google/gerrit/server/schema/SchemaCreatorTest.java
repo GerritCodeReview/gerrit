@@ -128,7 +128,6 @@ public class SchemaCreatorTest {
     LabelType codeReview = getLabelTypes().byLabel("Code-Review");
     assertNotNull(codeReview);
     assertEquals("Code-Review", codeReview.getName());
-    assertEquals("CR", codeReview.getAbbreviation());
     assertEquals(0, codeReview.getDefaultValue());
     assertEquals("MaxWithBlock", codeReview.getFunctionName());
     assertTrue(codeReview.isCopyMinScore());

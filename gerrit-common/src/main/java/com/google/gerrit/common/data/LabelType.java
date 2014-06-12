@@ -60,7 +60,7 @@ public class LabelType {
     return name;
   }
 
-  public static String defaultAbbreviation(String name) {
+  private static String getAbbreviation(String name) {
     StringBuilder abbr = new StringBuilder();
     for (int i = 0; i < name.length(); i++) {
       char c = name.charAt(i);
@@ -128,7 +128,7 @@ public class LabelType {
     values = sortValues(valueList);
     defaultValue = 0;
 
-    abbreviation = defaultAbbreviation(name);
+    abbreviation = getAbbreviation(name);
     functionName = "MaxWithBlock";
 
     maxNegative = Short.MIN_VALUE;
@@ -149,14 +149,6 @@ public class LabelType {
 
   public boolean matches(PatchSetApproval psa) {
     return psa.getLabelId().get().equalsIgnoreCase(name);
-  }
-
-  public String getAbbreviation() {
-    return abbreviation;
-  }
-
-  public void setAbbreviation(String abbreviation) {
-    this.abbreviation = abbreviation;
   }
 
   public String getFunctionName() {

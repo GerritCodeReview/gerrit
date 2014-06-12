@@ -60,7 +60,7 @@ public class LabelType {
     return name;
   }
 
-  public static String defaultAbbreviation(String name) {
+  private static String abbreviation(String name) {
     StringBuilder abbr = new StringBuilder();
     for (int i = 0; i < name.length(); i++) {
       char c = name.charAt(i);
@@ -128,7 +128,7 @@ public class LabelType {
     values = sortValues(valueList);
     defaultValue = 0;
 
-    abbreviation = defaultAbbreviation(name);
+    abbreviation = abbreviation(name);
     functionName = "MaxWithBlock";
 
     maxNegative = Short.MIN_VALUE;

@@ -103,12 +103,6 @@ class EqualsLabelPredicate extends IndexPredicate<ChangeData> {
         return lt;
       }
     }
-
-    for (LabelType lt : types.getLabelTypes()) {
-      if (toFind.equalsIgnoreCase(lt.getAbbreviation())) {
-        return lt;
-      }
-    }
     return null;
   }
 

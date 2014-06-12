@@ -32,7 +32,7 @@ JRE = '/'.join([
 ])
 
 ROOT = path.abspath(__file__)
-for _ in range(0, 3):
+while not path.exists(path.join(ROOT, '.buckconfig')):
   ROOT = path.dirname(ROOT)
 
 opts = OptionParser()

@@ -203,8 +203,7 @@ public class Schema_77 extends SchemaVersion {
     Statement catStmt = ((JdbcSchema) db).getConnection().createStatement();
     try {
       ResultSet catRs = catStmt.executeQuery(
-          "SELECT category_id, name, abbreviated_name, function_name, "
-          + " copy_min_score"
+          "SELECT category_id, name, function_name, copy_min_score"
           + " FROM approval_categories"
           + " ORDER BY position, name");
       PreparedStatement valStmt = ((JdbcSchema) db).getConnection().prepareStatement(
@@ -224,7 +223,6 @@ public class Schema_77 extends SchemaVersion {
           LegacyLabelType type =
               new LegacyLabelType(getLabelName(catRs.getString("name")), values);
           type.setId(id);
-          type.setAbbreviation(catRs.getString("abbreviated_name"));
           type.setFunctionName(catRs.getString("function_name"));
           type.setCopyMinScore("Y".equals(catRs.getString("copy_min_score")));
           types.add(type);

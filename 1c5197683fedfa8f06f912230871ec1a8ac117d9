@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "bfaa1cea_2ce353f2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-06-12T07:41:11Z",
+      "side": 1,
+      "message": "Label abbreviations in general are not dead, but only configuring customized label abbreviations in project.config is not working. Only this configuration option is removed, but we are still having the default abbreviatons for labels that will be shown in the column headers of the dashboards and which can also be used for querying on labels.\n\nPlease describe in the commit message what was broken with the customized label abbreviations (it only worked for the querying on labels, but they were not shown as column headers in the dashboard, this inconsistency could easily confuse users).",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 43
+      },
+      "revId": "1c5197683fedfa8f06f912230871ec1a8ac117d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bfaa1cea_4c4fbf46",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/LabelType.java",
         "patchSetId": 3
@@ -31,6 +54,29 @@
       "side": 1,
       "message": "getAbbreviation() is already defined on line 154 in this class (without parameters, but still). defaultAbbreviation was wrong, because there is never other abbreviations. May be computeAbbreviation()?",
       "parentUuid": "bfaa1cea_4c4fbf46",
+      "revId": "1c5197683fedfa8f06f912230871ec1a8ac117d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfaa1cea_6ced5bda",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/LabelType.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-06-12T07:41:11Z",
+      "side": 1,
+      "message": "Should this method be removed?\n\nIf setting the abbreviation from ProjectConfig does not work, setting it from other places should not work as well?\n\nIt seems that only AllProjectsCreator is using this method to set an abbreviation for the Code Review label, but since it sets the default abbreviation (\"CR\"), this call is unneeded and can be removed.",
+      "range": {
+        "startLine": 158,
+        "startChar": 2,
+        "endLine": 160,
+        "endChar": 3
+      },
       "revId": "1c5197683fedfa8f06f912230871ec1a8ac117d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

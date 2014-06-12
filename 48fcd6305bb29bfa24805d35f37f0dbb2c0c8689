@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bfaa1cea_0ce017e2",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-06-12T07:41:11Z",
+      "side": 0,
+      "message": "This information about how the default abbreviations are computed should probably stay somewhere in the documentation.",
+      "range": {
+        "startLine": 191,
+        "startChar": 19,
+        "endLine": 191,
+        "endChar": 71
+      },
+      "revId": "48fcd6305bb29bfa24805d35f37f0dbb2c0c8689",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -70,6 +70,30 @@
       "revId": "525ab2e29e0fdbaf912e18ad659e36e9a4515368",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfaa1cea_6cc39b1b",
+        "filename": "tools/maven/mvn.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-12T14:16:58Z",
+      "side": 1,
+      "message": "The difference between two is, that one is under Buck management and another (eclipse.py) is not. i wonder if we could change it to go up until we locate .buckconfig or .buckversion and not hard coded numbers...",
+      "parentUuid": "bfaa1cea_2cb993b7",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 21
+      },
+      "revId": "525ab2e29e0fdbaf912e18ad659e36e9a4515368",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

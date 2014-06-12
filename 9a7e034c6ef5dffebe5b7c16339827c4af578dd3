@@ -256,6 +256,30 @@
       "revId": "9a7e034c6ef5dffebe5b7c16339827c4af578dd3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f5478b2_a39e9a52",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NotesMigration.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-12T19:56:04Z",
+      "side": 1,
+      "message": "\u003e LabelTypeIT does activate it on master. So i don\u0027t see why that sorting on Immutable list problem that must be addressed sooner or later can\u0027t be addressed in thi change?\n\nIf \"buck test --all\" is failing, yes, that needs to pass before this is submitted.\n\n\u003e The very last justifications is to often rebasing. Just check my changes that are still pedning for reviewes [1], [2] with average patch set number of 30+ ps with half of them rebasing, then let us talk abut how annoying rebasing is.\n\nThis is why I want to submit this to keep Yacob\u0027s patch series short.\n\nI know that you have issues with speed of review of your changes. Please leave Yacob out of it.\n\n\u003e So again, thereis no jsutification to push broken change.\n\nWe merge broken changes from time to time because we don\u0027t demand 100% test coverage. Increasing test coverage goes hand in hand with fixing breakages, but it doesn\u0027t always have to be in the same change.\n\nYacob is going to do this later today anyway. I don\u0027t see what the big deal is.\n\n\u003e And yes, trying to sort Immutable list is my definition of brokenm no matter if it\u0027s run or not.\n\nOf course potential errors that are caught in review despite no test coverage should be fixed.",
+      "parentUuid": "df9d10d5_0d0f71c1",
+      "range": {
+        "startLine": 38,
+        "startChar": 4,
+        "endLine": 38,
+        "endChar": 61
+      },
+      "revId": "9a7e034c6ef5dffebe5b7c16339827c4af578dd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

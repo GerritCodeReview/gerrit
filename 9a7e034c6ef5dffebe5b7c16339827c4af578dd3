@@ -232,6 +232,30 @@
       "revId": "9a7e034c6ef5dffebe5b7c16339827c4af578dd3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df9d10d5_0d0f71c1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NotesMigration.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-12T19:16:40Z",
+      "side": 1,
+      "message": "LabelTypeIT does activate it on master. So i don\u0027t see why that sorting on Immutable list problem that must be addressed sooner or later can\u0027t be addressed in thi change? The very last justifications is to often rebasing. Just check my changes that are still pedning for reviewes [1], [2] with average patch set number of 30+ ps with half of them rebasing, then let us talk abut how annoying rebasing is. So again, thereis no jsutification to push broken change. And yes, trying to sort Immutable list is my definition of brokenm no matter if it\u0027s run or not.\n\n* [1] https://gerrit-review.googlesource.com/#/c/49601\n* [2] https://gerrit-review.googlesource.com/#/c/52890",
+      "parentUuid": "bf577cb3_8499266f",
+      "range": {
+        "startLine": 38,
+        "startChar": 4,
+        "endLine": 38,
+        "endChar": 61
+      },
+      "revId": "9a7e034c6ef5dffebe5b7c16339827c4af578dd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

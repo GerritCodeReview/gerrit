@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "bfaa1cea_0c7c973c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRelated.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-06-12T11:28:58Z",
+      "side": 1,
+      "message": "static has been removed from gitMgr and it again been made final in PS13.",
+      "parentUuid": "4aaebc94_d88f4d63",
+      "revId": "4ae4a61163d0236152b78e02596980e8b9adae7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4a7cfcf0_886e57cd",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRelated.java",
         "patchSetId": 7

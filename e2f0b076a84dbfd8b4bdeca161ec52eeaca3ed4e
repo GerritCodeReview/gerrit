@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "df9d10d5_2d6ead41",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-06-13T09:47:54Z",
+      "side": 1,
+      "message": "continueRequest?",
+      "range": {
+        "startLine": 16,
+        "startChar": 14,
+        "endLine": 16,
+        "endChar": 28
+      },
+      "revId": "e2f0b076a84dbfd8b4bdeca161ec52eeaca3ed4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

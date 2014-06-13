@@ -73,7 +73,7 @@ ssh
 
 * Upgrade SSHD to version 0.11.0.
 +
-Fixes https://code.google.com/p/gerrit/issues/detail?id=2406[Issue 2406]:
+Fixes link:https://code.google.com/p/gerrit/issues/detail?id=2406[Issue 2406]:
 "git clone" hangs after 100% resolving deltas with git over SSH.
 +
 Fixes a number of other issues including a

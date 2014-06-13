@@ -168,8 +168,17 @@ public class Mergeable implements RestReadView<RevisionResource> {
       Map<String, Ref> refs,
       final Ref ref) throws IOException, OrmException {
 
-    final boolean mergeable = isMergeable(change, ps, type, git, refs, ref);
+    boolean oldMergeable = change.isMergeable();
+    boolean newMergeable = isMergeable(change, ps, type, git, refs, ref);
 
+    if (oldMergeable != newMergeable) {
+      updateMergeableState(change, ps, ref, newMergeable);
+    }
+    return newMergeable;
+  }
+
+  private void updateMergeableState(Change change, final PatchSet ps,
+      final Ref ref, final boolean mergeable) throws OrmException, IOException {
     Change c = db.get().changes().atomicUpdate(
         change.getId(),
         new AtomicUpdate<Change>() {
@@ -188,7 +197,6 @@ public class Mergeable implements RestReadView<RevisionResource> {
     if (c != null) {
       indexer.index(db.get(), c);
     }
-    return mergeable;
   }
 
   private boolean isMergeable(Change change,

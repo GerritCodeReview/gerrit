@@ -5,7 +5,7 @@
 
 There is currently no binary distribution of Buck, so it has to be manually
 built and installed.  Apache Ant is required.  Currently only Linux and Mac
-OS are supported.  Gerrit's buck wrappers require Python version 2.6 or higher.
+OS are supported.  Buck requires Python version 2.7 to be installed.
 
 Clone the git and build it:
 

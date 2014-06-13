@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf577cb3_a40542aa",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-13T21:14:23Z",
+      "side": 1,
+      "message": "I\u0027m guessing you did this to make it align with the deps above, but actually the one above is indented one more space than it should be (3 instead of 2).",
+      "revId": "f47a1c7adc0b48cee13b523158f1c1e70d73321e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf577cb3_44eb2e8a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeMessagesIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-13T21:14:23Z",
+      "side": 1,
+      "message": "Don\u0027t import *, just use the ones you need.\n\nhttp://google-styleguide.googlecode.com/svn/trunk/javaguide.html#s3.3.1-wildcard-imports",
+      "revId": "f47a1c7adc0b48cee13b523158f1c1e70d73321e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f5478b2_a3053aaa",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeMessagesIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-13T21:14:23Z",
+      "side": 1,
+      "message": "Two unnecessary blank lines.",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 0
+      },
+      "revId": "f47a1c7adc0b48cee13b523158f1c1e70d73321e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

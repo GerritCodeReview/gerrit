@@ -29,7 +29,6 @@ import java.io.File;
 import java.util.Collections;
 import java.util.List;
 import java.util.jar.Attributes;
-import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 
 public abstract class Plugin {

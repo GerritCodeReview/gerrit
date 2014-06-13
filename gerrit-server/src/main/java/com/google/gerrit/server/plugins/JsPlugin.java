@@ -28,7 +28,6 @@ import com.google.inject.Injector;
 import org.eclipse.jgit.internal.storage.file.FileSnapshot;
 
 import java.io.File;
-import java.util.jar.JarFile;
 
 class JsPlugin extends Plugin {
   private Injector httpInjector;

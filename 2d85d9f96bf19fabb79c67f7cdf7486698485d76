@@ -22,6 +22,23 @@
       "revId": "2d85d9f96bf19fabb79c67f7cdf7486698485d76",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1feec834_1f18238d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Mergeable.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1015382
+      },
+      "writtenOn": "2014-06-13T22:13:44Z",
+      "side": 1,
+      "message": "I don\u0027t know anything about java, and maybe there is some magic going on.. but:\nwhat guarantee that between line 171 and here  or even line 172 and here some other thread does not have altered the \u0027mergeability\u0027 ?\nI do not see any Enqueue/Dequeue, any locking mechanism that would pin the result of isMergeable in place.\n\nIf you are going to have mutiple thread operating on a shared data structure (here a git repo + a database + whatever else)\nIt seems to me that you would need at least some kind of read-write-lock on the change_id to synchronize these threads",
+      "revId": "2d85d9f96bf19fabb79c67f7cdf7486698485d76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

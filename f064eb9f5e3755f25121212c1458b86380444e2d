@@ -22,6 +22,30 @@
       "revId": "f064eb9f5e3755f25121212c1458b86380444e2d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfaa1cea_8c7ec7f0",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/GetRelatedIT.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-06-13T10:26:04Z",
+      "side": 1,
+      "message": "I will take care of it. Corrected in PS15.",
+      "parentUuid": "bf577cb3_e4d01adb",
+      "range": {
+        "startLine": 46,
+        "startChar": 2,
+        "endLine": 155,
+        "endChar": 3
+      },
+      "revId": "f064eb9f5e3755f25121212c1458b86380444e2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

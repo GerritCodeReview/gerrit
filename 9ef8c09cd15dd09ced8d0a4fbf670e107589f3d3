@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "df9d10d5_4d33397c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-06-13T07:58:53Z",
+      "side": 1,
+      "message": "See the comment history on\n  https://gerrit-review.googlesource.com/#/c/57770/4/gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java\n\nI understand it like this. If a merge is triggered (no matter if by start(branch) or schedule(branch) we do (or should do) this:\n\n1. if there is no MergeEntry in the active map, create a new MergeEntry and add it (there is currently no merge for this branch running, but we are starting one now).\n\n2. if there is a MergeEntry in the active map, set e.needsMerge \u003d true on it (a merge is currently running for this branch but we can\u0027t be sure that our changes are already included in it, hence we set e.needsMerge to true to reschedule the merge from the finish method, if it is not needed it\u0027s not doing anything).\n\nThis is why I think the code here should be like this:\n\n  if (e \u003d\u003d null) {\n    e \u003d new MergeEntry(branch);\n    active.put(branch, e);\n    scheduleJob(e);\n  } else {\n    e.needMerge \u003d true;\n  }",
+      "range": {
+        "startLine": 148,
+        "startChar": 4,
+        "endLine": 153,
+        "endChar": 5
+      },
+      "revId": "9ef8c09cd15dd09ced8d0a4fbf670e107589f3d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

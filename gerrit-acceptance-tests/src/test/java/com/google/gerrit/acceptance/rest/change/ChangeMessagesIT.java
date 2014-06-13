@@ -14,6 +14,8 @@
 
 package com.google.gerrit.acceptance.rest.change;
 
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -23,14 +25,55 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.testutil.ConfigSuite;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.lib.Config;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeUtils;
+import org.joda.time.DateTimeUtils.MillisProvider;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.concurrent.atomic.AtomicLong;
 
+@RunWith(ConfigSuite.class)
 public class ChangeMessagesIT extends AbstractDaemonTest {
+  private String systemTimeZone;
+  private volatile long clockStepMs;
+
+  @ConfigSuite.Config
+  public static Config noteDbEnabled() {
+    Config cfg = new Config();
+    cfg.setBoolean("notedb", null, "write", true);
+    cfg.setBoolean("notedb", "changeMessages", "read", true);
+    return cfg;
+  }
+
+  @Before
+  public void setTimeForTesting() {
+    systemTimeZone = System.setProperty("user.timezone", "US/Eastern");
+    clockStepMs = MILLISECONDS.convert(1, SECONDS);
+    final AtomicLong clockMs = new AtomicLong(
+        new DateTime(2009, 9, 30, 17, 0, 0).getMillis());
+
+    DateTimeUtils.setCurrentMillisProvider(new MillisProvider() {
+      @Override
+      public long getMillis() {
+        return clockMs.getAndAdd(clockStepMs);
+      }
+    });
+  }
+
+  @After
+  public void resetTime() {
+    DateTimeUtils.setCurrentMillisSystem();
+    System.setProperty("user.timezone", systemTimeZone);
+  }
 
   @Test
   public void messagesNotReturnedByDefault() throws Exception {

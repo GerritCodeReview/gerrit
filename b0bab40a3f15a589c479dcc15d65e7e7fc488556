@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "df9d10d5_0dfe5116",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1349,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2014-06-13T14:04:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bfaa1cea_8c76c757",
+      "range": {
+        "startLine": 1349,
+        "startChar": 33,
+        "endLine": 1349,
+        "endChar": 55
+      },
+      "revId": "b0bab40a3f15a589c479dcc15d65e7e7fc488556",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "df9d10d5_4d5cd9a7",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2014-06-13T07:36:34Z",
       "side": 1,
       "message": "schedules",
+      "range": {
+        "startLine": 1350,
+        "startChar": 4,
+        "endLine": 1350,
+        "endChar": 12
+      },
+      "revId": "b0bab40a3f15a589c479dcc15d65e7e7fc488556",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df9d10d5_6d0b958c",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1350,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2014-06-13T14:04:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df9d10d5_4d5cd9a7",
       "range": {
         "startLine": 1350,
         "startChar": 4,
@@ -94,6 +142,54 @@
     },
     {
       "key": {
+        "uuid": "bfaa1cea_4c65ff57",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1354,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2014-06-13T14:04:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df9d10d5_2d66ada8",
+      "range": {
+        "startLine": 1354,
+        "startChar": 21,
+        "endLine": 1354,
+        "endChar": 26
+      },
+      "revId": "b0bab40a3f15a589c479dcc15d65e7e7fc488556",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df9d10d5_4d08598e",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1354,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2014-06-13T14:04:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df9d10d5_0d63f198",
+      "range": {
+        "startLine": 1354,
+        "startChar": 40,
+        "endLine": 1354,
+        "endChar": 42
+      },
+      "revId": "b0bab40a3f15a589c479dcc15d65e7e7fc488556",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "df9d10d5_6d60b58a",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 4
@@ -105,6 +201,30 @@
       "writtenOn": "2014-06-13T07:36:34Z",
       "side": 1,
       "message": "the git garbage collection",
+      "range": {
+        "startLine": 1372,
+        "startChar": 47,
+        "endLine": 1372,
+        "endChar": 49
+      },
+      "revId": "b0bab40a3f15a589c479dcc15d65e7e7fc488556",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfaa1cea_acec6375",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1372,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2014-06-13T14:04:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df9d10d5_6d60b58a",
       "range": {
         "startLine": 1372,
         "startChar": 47,
@@ -140,6 +260,30 @@
     },
     {
       "key": {
+        "uuid": "bfaa1cea_8cf1a74b",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1402,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2014-06-13T14:04:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bfaa1cea_cc70cf5d",
+      "range": {
+        "startLine": 1402,
+        "startChar": 55,
+        "endLine": 1402,
+        "endChar": 60
+      },
+      "revId": "b0bab40a3f15a589c479dcc15d65e7e7fc488556",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bfaa1cea_2c66b3a8",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 4
@@ -151,6 +295,30 @@
       "writtenOn": "2014-06-13T07:36:34Z",
       "side": 1,
       "message": "a repetition interval",
+      "range": {
+        "startLine": 1403,
+        "startChar": 12,
+        "endLine": 1403,
+        "endChar": 31
+      },
+      "revId": "b0bab40a3f15a589c479dcc15d65e7e7fc488556",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df9d10d5_ad13bdbd",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1403,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2014-06-13T14:04:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bfaa1cea_2c66b3a8",
       "range": {
         "startLine": 1403,
         "startChar": 12,
@@ -186,6 +354,30 @@
     },
     {
       "key": {
+        "uuid": "bfaa1cea_ecf66b3f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GcConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2014-06-13T14:04:28Z",
+      "side": 1,
+      "message": "Why ?\n\nDone",
+      "parentUuid": "df9d10d5_edae6572",
+      "range": {
+        "startLine": 28,
+        "startChar": 31,
+        "endLine": 28,
+        "endChar": 36
+      },
+      "revId": "b0bab40a3f15a589c479dcc15d65e7e7fc488556",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bfaa1cea_ec214b2b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ScheduleConfig.java",
         "patchSetId": 4
@@ -197,6 +389,30 @@
       "writtenOn": "2014-06-13T07:36:34Z",
       "side": 1,
       "message": "In addition you may offer a constructor that also accepts a subsection. This may be useful for plugins that want to make use of this class.",
+      "range": {
+        "startLine": 40,
+        "startChar": 2,
+        "endLine": 40,
+        "endChar": 52
+      },
+      "revId": "b0bab40a3f15a589c479dcc15d65e7e7fc488556",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfaa1cea_ccfbaf27",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ScheduleConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2014-06-13T14:04:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bfaa1cea_ec214b2b",
       "range": {
         "startLine": 40,
         "startChar": 2,
@@ -226,6 +442,24 @@
     },
     {
       "key": {
+        "uuid": "bfaa1cea_2c01936c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ScheduleConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2014-06-13T14:04:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bfaa1cea_0c63f798",
+      "revId": "b0bab40a3f15a589c479dcc15d65e7e7fc488556",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "df9d10d5_ed21452b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GarbageCollectionRunner.java",
         "patchSetId": 4
@@ -237,6 +471,30 @@
       "writtenOn": "2014-06-13T07:36:34Z",
       "side": 1,
       "message": "remove \u0027final\u0027 here",
+      "range": {
+        "startLine": 52,
+        "startChar": 14,
+        "endLine": 52,
+        "endChar": 42
+      },
+      "revId": "b0bab40a3f15a589c479dcc15d65e7e7fc488556",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfaa1cea_0cfe5716",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GarbageCollectionRunner.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2014-06-13T14:04:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df9d10d5_ed21452b",
       "range": {
         "startLine": 52,
         "startChar": 14,
@@ -272,6 +530,30 @@
     },
     {
       "key": {
+        "uuid": "bfaa1cea_0c25b712",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GarbageCollectionRunner.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2014-06-13T14:04:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bfaa1cea_cc260f41",
+      "range": {
+        "startLine": 65,
+        "startChar": 14,
+        "endLine": 65,
+        "endChar": 18
+      },
+      "revId": "b0bab40a3f15a589c479dcc15d65e7e7fc488556",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "df9d10d5_cd260941",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GarbageCollectionRunner.java",
         "patchSetId": 4
@@ -295,6 +577,30 @@
     },
     {
       "key": {
+        "uuid": "bfaa1cea_6c0b9b8c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GarbageCollectionRunner.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2014-06-13T14:04:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df9d10d5_cd260941",
+      "range": {
+        "startLine": 83,
+        "startChar": 6,
+        "endLine": 84,
+        "endChar": 12
+      },
+      "revId": "b0bab40a3f15a589c479dcc15d65e7e7fc488556",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "df9d10d5_2d3ced4d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GarbageCollectionRunner.java",
         "patchSetId": 4
@@ -306,6 +612,30 @@
       "writtenOn": "2014-06-13T07:36:34Z",
       "side": 1,
       "message": "Maybe just: \"Triggering gc on all repositories\"",
+      "range": {
+        "startLine": 91,
+        "startChar": 16,
+        "endLine": 91,
+        "endChar": 56
+      },
+      "revId": "b0bab40a3f15a589c479dcc15d65e7e7fc488556",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfaa1cea_4c085f8e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GarbageCollectionRunner.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2014-06-13T14:04:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df9d10d5_2d3ced4d",
       "range": {
         "startLine": 91,
         "startChar": 16,

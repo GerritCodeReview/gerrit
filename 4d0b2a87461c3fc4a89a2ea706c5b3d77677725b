@@ -22,6 +22,30 @@
       "revId": "4d0b2a87461c3fc4a89a2ea706c5b3d77677725b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f5478b2_83c59e1b",
+        "filename": "ReleaseNotes/ReleaseNotes-2.8.6.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-06-13T06:23:53Z",
+      "side": 1,
+      "message": "Doh.  This change was supposed to be amended into the previous commit.",
+      "parentUuid": "df9d10d5_6d5f159e",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 1
+      },
+      "revId": "4d0b2a87461c3fc4a89a2ea706c5b3d77677725b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

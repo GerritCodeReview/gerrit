@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf577cb3_e4d01adb",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/GetRelatedIT.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-06-13T08:59:51Z",
+      "side": 1,
+      "message": "Please try not to make unrelated changes.",
+      "range": {
+        "startLine": 46,
+        "startChar": 2,
+        "endLine": 155,
+        "endChar": 3
+      },
+      "revId": "f064eb9f5e3755f25121212c1458b86380444e2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

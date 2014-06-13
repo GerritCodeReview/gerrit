@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "df9d10d5_cd1289b7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-13T16:53:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9f5478b2_23d70acd",
+      "range": {
+        "startLine": 13,
+        "startChar": 59,
+        "endLine": 13,
+        "endChar": 65
+      },
+      "revId": "eebef8f9df65d2361692d1ffe9d93039b1e2a393",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9f5478b2_c3f63672",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "bfaa1cea_cccd6ffb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-13T16:53:30Z",
+      "side": 1,
+      "message": "Sicher: Das heißt ja auch Lasttest und nicht load test ;-)\n\ndone",
+      "parentUuid": "9f5478b2_c3f63672",
+      "range": {
+        "startLine": 15,
+        "startChar": 41,
+        "endLine": 15,
+        "endChar": 45
+      },
+      "revId": "eebef8f9df65d2361692d1ffe9d93039b1e2a393",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9f5478b2_e3fb3259",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -59,6 +107,30 @@
       "writtenOn": "2014-06-13T14:28:16Z",
       "side": 1,
       "message": "hundreds of",
+      "range": {
+        "startLine": 16,
+        "startChar": 38,
+        "endLine": 16,
+        "endChar": 46
+      },
+      "revId": "eebef8f9df65d2361692d1ffe9d93039b1e2a393",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df9d10d5_2d286dec",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-13T16:53:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9f5478b2_e3fb3259",
       "range": {
         "startLine": 16,
         "startChar": 38,

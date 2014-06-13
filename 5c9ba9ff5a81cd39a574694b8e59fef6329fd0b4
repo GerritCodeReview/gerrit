@@ -45,6 +45,23 @@
       "revId": "5c9ba9ff5a81cd39a574694b8e59fef6329fd0b4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf577cb3_84ae0672",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/HttpPluginServlet.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-06-13T01:06:08Z",
+      "side": 1,
+      "message": "Static imports should be before regular imports.\n\nAlso, rather than doing a wildcard import, I think it\u0027s better to explicitly import only the things that are actually used.  In this case:\n\n import static com.google.gerrit.server.plugins.PluginEntry.ATTR_CHARACTER_ENCODING;\n import static com.google.gerrit.server.plugins.PluginEntry.ATTR_CONTENT_TYPE;",
+      "revId": "5c9ba9ff5a81cd39a574694b8e59fef6329fd0b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

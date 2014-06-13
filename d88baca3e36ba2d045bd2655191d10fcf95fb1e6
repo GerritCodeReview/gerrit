@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf577cb3_a4ca2229",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-06-13T14:14:54Z",
+      "side": 1,
+      "message": "Now it\u0027s not only Gerrit\u0027s wrappers that require a specific version, but buck itself.\n\nAlso we don\u0027t know if it works with 3.x so should probably not add \"or higher\".\n\nSo I suggest to replace this simply with \"Python 2.7 is required\".",
+      "range": {
+        "startLine": 8,
+        "startChar": 19,
+        "endLine": 8,
+        "endChar": 78
+      },
+      "revId": "d88baca3e36ba2d045bd2655191d10fcf95fb1e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

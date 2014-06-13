@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bfaa1cea_0cb01778",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Mergeable.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-13T21:07:59Z",
+      "side": 1,
+      "message": "If force is true, then isStale() is ignored and then this case is hit, that hundreds of nop op database updates take place.  But it can be that lastSha1MergeTested still differs. So for isStale() to wirk poperly it should be checked that both are equal to skip database and index operation on line 174 below.",
+      "range": {
+        "startLine": 125,
+        "startChar": 6,
+        "endLine": 128,
+        "endChar": 7
+      },
+      "revId": "2d85d9f96bf19fabb79c67f7cdf7486698485d76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

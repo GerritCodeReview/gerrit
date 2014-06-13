@@ -38,6 +38,7 @@ import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.NoMergeBaseException;
 import org.eclipse.jgit.errors.NoMergeBaseException.MergeBaseFailureReason;
@@ -395,6 +396,9 @@ public class MergeUtil {
     final ThreeWayMerger m = newThreeWayMerger(repo, createDryRunInserter());
     try {
       return m.merge(new AnyObjectId[] {mergeTip, toMerge});
+    } catch (LargeObjectException e) {
+      log.warn("Cannot merge due to LargeObjectException: " + toMerge.name());
+      return false;
     } catch (NoMergeBaseException e) {
       return false;
     } catch (IOException e) {

@@ -22,6 +22,30 @@
       "revId": "d88baca3e36ba2d045bd2655191d10fcf95fb1e6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfaa1cea_4c1fbfbc",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-13T14:20:57Z",
+      "side": 1,
+      "message": "You are right. Can you fix it?",
+      "parentUuid": "bf577cb3_a4ca2229",
+      "range": {
+        "startLine": 8,
+        "startChar": 19,
+        "endLine": 8,
+        "endChar": 78
+      },
+      "revId": "d88baca3e36ba2d045bd2655191d10fcf95fb1e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

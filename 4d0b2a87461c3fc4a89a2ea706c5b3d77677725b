@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "df9d10d5_6d5f159e",
+        "filename": "ReleaseNotes/ReleaseNotes-2.8.6.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-13T06:21:02Z",
+      "side": 1,
+      "message": "Nit: trailing white space",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 1
+      },
+      "revId": "4d0b2a87461c3fc4a89a2ea706c5b3d77677725b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -57,6 +57,24 @@
       "revId": "2d85d9f96bf19fabb79c67f7cdf7486698485d76",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f07a8cc_b74de886",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Mergeable.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1015382
+      },
+      "writtenOn": "2014-06-14T16:44:04Z",
+      "side": 1,
+      "message": "Ok but what about git.\nYou are trying essentially to change 2 resource (db and git) atomically\nthe \u0027optimistic locking\u0027 of the database would be fine if only the db transaction was involved.. but how do you rollback git in that case or how do you detect change to git (depending if you do git then db or db then git... and btw is the order db then git or git then db consistently enforce in the product ? )\nor is the Open() line 121 take an exclusive lock on the repo ?\nand everywhere the code is\n\nlock git repo\ndo database changes in txn\nif sucessfull do git change\nunlock git\n?\nIf it was then you would not have to worry about optimistinc locking of the database, since presumably no-one would update the same rows in the database without holding a lock on git so you could not have race there.. yet you have so I assume that OpenRepository is not exclusive.. so you have a possibilitily of race windows between git and db\nWhere \n1 - you test for a git state\n2 - if it is the state you want: update the database\n3 - if sucessful at updating the database\n4 - do the git operation\n\nanywhere after 1 and before 4 if git change in such a way that the git state you tested for in 1 change, you can\u0027t do 4... yet the db change is committed.",
+      "parentUuid": "df9d10d5_6dbd5550",
+      "revId": "2d85d9f96bf19fabb79c67f7cdf7486698485d76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

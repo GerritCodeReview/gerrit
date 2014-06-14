@@ -94,6 +94,30 @@
       "revId": "9ef8c09cd15dd09ced8d0a4fbf670e107589f3d3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df9d10d5_8dc361cf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-06-14T09:29:45Z",
+      "side": 1,
+      "message": "\u003e I don\u0027t understand the problem you are describing in:\n \u003e\n \u003e  \"SECOND THREAD executes schedule(branch), see 2.\n \u003e\n \u003e  -\u003e calls finish(branch) which removes the MergeEntry\n \u003e     from the active map because e.needMerge is false,\n \u003e     but the merge scheduled by the second thread was\n \u003e     not done yet\"\n \u003e\n \u003e Can you explain what do you mean by that?\n\nSure. I\u0027m talking about 2 threads being executed at the same time\nthread 1 does what is explained under 1. and thread 2 does what is\nexplained under 2. Both threads run in parallel and the problem I have\nin mind happens when the code from thread 2 runs at the moment where I\nwrote \" \"SECOND THREAD executes schedule(branch), see 2.\", so some of\nthe code from thread 1 was already executed and some of the code from\nthread 1 is only executed afterwards.\n\n \u003e Why was the schedule(branch) triggered in the first place?\n\nI wasn\u0027t even looking in which context this method is used. I was only\nreading the code in this class. But from where it is called is not\nimportant. This class here has to be consistent on this own. It\nprovides two public methods\n\n* merge(branch) -\u003e triggers merge immediately\n* schedule(branch) -\u003e schedules a merge\n\nIn both cases the expectation is that the merge will happen. But I\nbelieve with your code change it can happen that schedule(branch) just\ndoes nothing and a merge will not be done, because it was already done from the other thread\njust before schedule(branch) was invoked, but that merge may not\ninclude the changes for which schedule(branch) was invoked.\n \n \u003e So the events are:\n \u003e\n \u003e FIRST THREAD is triggered: one or multiple changes were submitted\n \u003e merge(branch) is called (e.needMerge is false)\n \u003e SECOND (beackground) THREAD is triggered: executes schedule(branch), (e.needMerge is false),\n \u003e active contains MergEntry for the given branch.\n \u003e background thread doesn\u0027t interfere with interactive \n \u003e submit processing: this time the background cycle is a nop-op.\n\nYes, this is exactly what I mean. The scheduled merge is not done and\nyou now rely on the caller to reschedule it.\n\nThis may work because we know\nthere is a background task which does this scheduling every 300\nseconds. But this class must not rely on the caller to do this. If it\ndoes rely on this, this at least must be documented as JavaDoc.\n\n \u003e FIRST THREAD merge the change, as when it would do it if there\n \u003e wouldn\u0027t be any collision with background thread: finish() is always a no op.\n \u003e 300 second later (if default is not changed), new background job cycle is\n \u003e scheduled and this time (if no interactive scheduling is underway) it block\n \u003e active with e.needMerge \u003d True, and merge in two phases: in mergeImpl() + finish().\n\n \u003e So if you think that interactive merging must be a two phase merge process:\n \u003e mergeImpl() + finish() then you may want to fix that in own change in the\n \u003e first place\n \n\nNo, I don\u0027t think that this should be a two phase merge process.\n\n \u003e and not claiming a probability of 1% that it hapens:\n \u003e interactive + background job coincidently are running at the same time.\n\nBut before your change it was guarenteed that if schedule(branch) is\ninvoked that a merge will be done. Now with your change it may be a\nNoOp as you confirmed yourself. This behaviour change is what I\u0027m\nconcerned about.",
+      "parentUuid": "df9d10d5_4d1fb9bc",
+      "range": {
+        "startLine": 148,
+        "startChar": 4,
+        "endLine": 153,
+        "endChar": 5
+      },
+      "revId": "9ef8c09cd15dd09ced8d0a4fbf670e107589f3d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

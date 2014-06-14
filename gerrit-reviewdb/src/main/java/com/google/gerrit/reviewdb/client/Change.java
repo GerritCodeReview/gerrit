@@ -415,6 +415,7 @@ public final class Change {
     subject = other.subject;
     topic = other.topic;
     mergeable = other.mergeable;
+    lastSha1MergeTested = other.lastSha1MergeTested;
   }
 
   /** Legacy 32 bit integer identity for a change. */

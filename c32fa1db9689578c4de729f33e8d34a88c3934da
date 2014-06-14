@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "df9d10d5_4dba195a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Dispatcher.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 728,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-14T16:53:12Z",
+      "side": 1,
+      "message": "Why in addition to unified and not instead of it? Should we add Unified/Unified2 on user preferences? May be add to the commit message, that to test it, \",unified2\" suffix should be manually added, to activate it.",
+      "range": {
+        "startLine": 726,
+        "startChar": 10,
+        "endLine": 728,
+        "endChar": 11
+      },
+      "revId": "c32fa1db9689578c4de729f33e8d34a88c3934da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

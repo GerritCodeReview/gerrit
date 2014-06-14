@@ -135,8 +135,4 @@ class InitAuth implements InitStep {
       libraries.bouncyCastlePGP.downloadRequired();
     }
   }
-
-  @Override
-  public void postRun() throws Exception {
-  }
 }

@@ -63,8 +63,4 @@ class InitIndex implements InitStep {
       initFlags.autoStart = false;
     }
   }
-
-  @Override
-  public void postRun() throws Exception {
-  }
 }

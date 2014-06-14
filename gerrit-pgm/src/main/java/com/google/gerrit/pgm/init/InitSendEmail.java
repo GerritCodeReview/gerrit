@@ -64,8 +64,4 @@ class InitSendEmail implements InitStep {
     sendemail.string("SMTP username", "smtpUser", username);
     sendemail.password("smtpUser", "smtpPass");
   }
-
-  @Override
-  public void postRun() throws Exception {
-  }
 }

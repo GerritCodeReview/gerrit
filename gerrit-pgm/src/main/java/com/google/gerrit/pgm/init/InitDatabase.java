@@ -102,8 +102,4 @@ class InitDatabase implements InitStep {
           GerritServerIdProvider.KEY, GerritServerIdProvider.generate());
     }
   }
-
-  @Override
-  public void postRun() throws Exception {
-  }
 }

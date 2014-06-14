@@ -78,8 +78,4 @@ class InitIndex implements InitStep {
       return true;
     }
   }
-
-  @Override
-  public void postRun() throws Exception {
-  }
 }

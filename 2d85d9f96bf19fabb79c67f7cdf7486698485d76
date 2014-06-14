@@ -39,6 +39,24 @@
       "revId": "2d85d9f96bf19fabb79c67f7cdf7486698485d76",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df9d10d5_6dbd5550",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Mergeable.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-14T15:58:28Z",
+      "side": 1,
+      "message": "Hey Norbert, nice to see you aroud and commenting on my changes.\n\nAs you assumed, there is some magic inside these lines and this magic is called ORM (object relational mapping framework) in generall and optimistic locking in particluar (used by Gerrit). So every single row is stumped with version and every update operation increases the version.\n\nSay you and me are trying to alter the same change 4711 in two different threads. We both have read is simulateneously and say this current version \u003d 42. We both changed something. In the end ORM would try to execute something like that:\n\n _david_: update changes set foo \u003d bar, version \u003d 43 where change_id \u003d 4711 and version \u003d 42;\n shm_get: update changes set baz \u003d qux, version \u003d 43 where change_id \u003d 4711 and version \u003d 42;\n\nORM then checks, that exact one statement (and not zero) was altered, if not: there was no change with that version, i. e. it was already altered by somebody else and stale row manipulation exception is thrown. See also my investigation result of sporadic database corruption problems:\n\n [1] https://groups.google.com/forum/#!topic/repo-discuss/KUUBaI29QO8",
+      "parentUuid": "1feec834_1f18238d",
+      "revId": "2d85d9f96bf19fabb79c67f7cdf7486698485d76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

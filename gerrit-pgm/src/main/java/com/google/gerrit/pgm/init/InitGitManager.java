@@ -45,8 +45,4 @@ class InitGitManager implements InitStep {
       throw die("Cannot create " + d);
     }
   }
-
-  @Override
-  public void postRun() throws Exception {
-  }
 }

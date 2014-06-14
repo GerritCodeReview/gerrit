@@ -46,6 +46,30 @@
       "revId": "9ef8c09cd15dd09ced8d0a4fbf670e107589f3d3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfaa1cea_ace58371",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-06-14T07:43:13Z",
+      "side": 1,
+      "message": "I agree about doing the scheduling only if there is no merge scheduled or running yet, but not setting e.needMerge means we risk to loose a merge as I explained before. Can you point out what is wrong with my argumentation?\n\nWhat if 2 merges for the same branch are triggered concurrently by merge(branch) and schedule(branch), can the following happen?\n\n1. merge(branch)\n   -\u003e calls start(branch) which creates a MergeEntry\n      in the active map (e.needMerge is false)\n   -\u003e calls mergeImpl(branch) which does merge the branch\n\n   SECOND THREAD executes schedule(branch), see 2.\n\n   -\u003e calls finish(branch) which removes the MergeEntry\n      from the active map because e.needMerge is false,\n      but the merge scheduled by the second thread was\n      not done yet, and new also will not be done anymore,\n      only if e.needMerge would have been set in\n      schedule(branch), the job would be rescheduled\n\n2. schedule(branch)\n   -\u003e MergeEntry exists already in the active map and\n      nothing is done",
+      "parentUuid": "df9d10d5_6d22750c",
+      "range": {
+        "startLine": 148,
+        "startChar": 4,
+        "endLine": 153,
+        "endChar": 5
+      },
+      "revId": "9ef8c09cd15dd09ced8d0a4fbf670e107589f3d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

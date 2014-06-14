@@ -54,8 +54,4 @@ class InitCache implements InitStep {
     Path loc = site.resolve(path);
     FileUtil.mkdirsOrDie(loc, "cannot create cache.directory");
   }
-
-  @Override
-  public void postRun() throws Exception {
-  }
 }

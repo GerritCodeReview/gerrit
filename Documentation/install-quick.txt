@@ -26,14 +26,14 @@ Most distributions come with Java today. Do you already have Java installed?
 
 ----
   $ java -version
-  java version "1.7.0_21"
-  Java(TM) SE Runtime Environment (build 1.7.0_21-b11)
-  Java HotSpot(TM) 64-Bit Server VM (build 23.21-b01, mixed mode)
+  java version "1.8.0_05"
+  Java(TM) SE Runtime Environment (build 1.8.0_05-b13)
+  Java HotSpot(TM) 64-Bit Server VM (build 25.5-b02, mixed mode)
 ----
 
 If Java isn't installed, get it:
 
-* JDK, minimum version 1.7 http://www.oracle.com/technetwork/java/javase/downloads/index.html[Download]
+* JDK, minimum version 1.8 http://www.oracle.com/technetwork/java/javase/downloads/index.html[Download]
 
 
 [[user]]

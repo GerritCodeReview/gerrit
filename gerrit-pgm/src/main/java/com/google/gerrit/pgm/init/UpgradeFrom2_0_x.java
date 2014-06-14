@@ -290,8 +290,4 @@ class UpgradeFrom2_0_x implements InitStep {
       return null;
     }
   }
-
-  @Override
-  public void postRun() throws Exception {
-  }
 }

@@ -47,8 +47,4 @@ class InitGitManager implements InitStep {
     }
     FileUtil.mkdirsOrDie(d, "Cannot create");
   }
-
-  @Override
-  public void postRun() throws Exception {
-  }
 }

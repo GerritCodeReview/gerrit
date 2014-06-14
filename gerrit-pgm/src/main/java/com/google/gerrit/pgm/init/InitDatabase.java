@@ -90,8 +90,4 @@ class InitDatabase implements InitStep {
 
     dci.initConfig(database);
   }
-
-  @Override
-  public void postRun() throws Exception {
-  }
 }

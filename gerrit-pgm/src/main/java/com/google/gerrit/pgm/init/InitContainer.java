@@ -118,8 +118,4 @@ class InitContainer implements InitStep {
   private static String javaHome() {
     return System.getProperty("java.home");
   }
-
-  @Override
-  public void postRun() throws Exception {
-  }
 }

@@ -202,8 +202,4 @@ class InitHttpd implements InitStep {
       throw die("Cannot delete " + tmpdir, e);
     }
   }
-
-  @Override
-  public void postRun() throws Exception {
-  }
 }

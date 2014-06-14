@@ -70,6 +70,30 @@
       "revId": "9ef8c09cd15dd09ced8d0a4fbf670e107589f3d3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df9d10d5_4d1fb9bc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-14T08:53:06Z",
+      "side": 1,
+      "message": "I don\u0027t understand the problem you are describing in:\n\n \"SECOND THREAD executes schedule(branch), see 2.\n   -\u003e calls finish(branch) which removes the MergeEntry\n      from the active map because e.needMerge is false,\n      but the merge scheduled by the second thread was\n      not done yet\"\n\nCan you explain what do you mean by that?\n\nWhy was the schedule(branch) triggered in the first place? Because one or multiple changes were submitted:\n\n  public void run() {\n    final HashSet\u003cBranch.NameKey\u003e pending \u003d new HashSet\u003c\u003e();\n    try {\n      final ReviewDb c \u003d schema.open();\n      try {\n        for (final Change change : c.changes().allSubmitted()) {\n          pending.add(change.getDest());\n        }\n      } finally {\n        c.close();\n      }\n    } catch (OrmException e) {\n      log.error(\"Cannot reload MergeQueue\", e);\n    }\n\n    for (final Branch.NameKey branch : pending) {\n      mergeQueue.schedule(branch);\n    }\n  }\n\nSo the events are:\n\n* FIRST THREAD is triggered: one or multiple changes were submitted\n* merge(branch) is called (e.needMerge is false)\n* SECOND (beackground) THREAD is triggered: executes schedule(branch), (e.needMerge is false), active contains MergEntry for the given branch.\n* background thread doesn\u0027t interfere with interactive submit processing: this time the background cycle is a nop-op. \n* FIRST THREAD merge the change, as when it would do it if there wouldn\u0027t be any collision with background thread: finish() is always a no op.\n* 300 second later (if default is not changed), new background job cycle is scheduled and this time (if no interactive scheduling is underway) it block active with e.needMerge \u003d True, and merge in two phases: in mergeImpl() + finish().\n\nSo if you think that interactive merging must be a two phase merge process: mergeImpl() + finish() then you may want to fix that in own change in the first place, and not claiming a probability of 1% that it hapens: interactive + background job coincidently are running at the same time.",
+      "parentUuid": "bfaa1cea_ace58371",
+      "range": {
+        "startLine": 148,
+        "startChar": 4,
+        "endLine": 153,
+        "endChar": 5
+      },
+      "revId": "9ef8c09cd15dd09ced8d0a4fbf670e107589f3d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

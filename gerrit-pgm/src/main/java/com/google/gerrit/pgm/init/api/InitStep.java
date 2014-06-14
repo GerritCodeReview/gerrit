@@ -19,5 +19,5 @@ public interface InitStep {
   void run() throws Exception;
 
   /** Executed after the site has been initialized */
-  void postRun() throws Exception;
+  default public void postRun() throws Exception {}
 }

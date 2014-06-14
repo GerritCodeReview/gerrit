@@ -10,13 +10,14 @@ def java_doc(
   ):
   # TODO(davido): Actually we shouldn't need to extract the source
   # archive, javadoc should just work with provided archive.
-  external_docs.insert(0, 'http://docs.oracle.com/javase/7/docs/api')
+  external_docs.insert(0, 'http://docs.oracle.com/javase/8/docs/api')
   genrule(
     name = name,
     cmd = ' '.join([
       'mkdir $TMP/sourcepath &&',
       'unzip $(location %s) -d $TMP/sourcepath &&' % source_jar,
       'javadoc',
+      '-Xdoclint:-missing',
       '-quiet',
       '-protected',
       '-encoding UTF-8',

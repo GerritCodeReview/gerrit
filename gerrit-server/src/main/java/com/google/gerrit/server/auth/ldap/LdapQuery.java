@@ -60,6 +60,33 @@ class LdapQuery {
     return pattern.getParameterNames();
   }
 
+  String replacePatternParameter(String name, String value) {
+    return pattern.replace(name, value).toString();
+  }
+
+  List<Result> query(final DirContext ctx, String filter)
+      throws NamingException {
+    final SearchControls sc = new SearchControls();
+    final NamingEnumeration<SearchResult> res;
+
+    sc.setSearchScope(searchScope.scope());
+    sc.setReturningAttributes(returnAttributes);
+    res = ctx.search(base, filter, sc);
+
+    try {
+      final List<Result> r = new ArrayList<>();
+      try {
+        while (res.hasMore()) {
+          r.add(new Result(res.next()));
+        }
+      } catch (PartialResultException e) {
+      }
+      return r;
+    } finally {
+      res.close();
+    }
+  }
+
   List<Result> query(final DirContext ctx, final Map<String, String> params)
       throws NamingException {
     final SearchControls sc = new SearchControls();

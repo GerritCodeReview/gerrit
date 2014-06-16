@@ -63,6 +63,7 @@ public class LdapRealm implements Realm {
   static final Logger log = LoggerFactory.getLogger(LdapRealm.class);
   static final String LDAP = "com.sun.jndi.ldap.LdapCtxFactory";
   static final String USERNAME = "username";
+  static final String GROUPNAME = "groupname";
 
   private final Helper helper;
   private final AuthConfig authConfig;

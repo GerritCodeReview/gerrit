@@ -18,8 +18,10 @@ import com.google.common.base.Throwables;
 import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.data.ParameterizedString;
+import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.AccountException;
+import com.google.gerrit.server.account.GroupException;
 import com.google.gerrit.server.auth.NoSuchUserException;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -185,8 +187,42 @@ import javax.security.auth.login.LoginException;
         return res.get(0);
 
       default:
-        throw new AccountException("Duplicate users: " + username);
+        throw new AccountException("Duplicate LDAP users: " + username);
     }
+  }
+
+  LdapQuery.Result findGroup(final Helper.LdapSchema schema,
+      final DirContext ctx, final String groupname) throws NamingException,
+      GroupException, NoSuchGroupException {
+    final HashMap<String, String> params = new HashMap<>();
+    params.put(LdapRealm.USERNAME, username);
+
+    final List<LdapQuery.Result> res = new ArrayList<>();
+    for (LdapQuery accountQuery : schema.accountQueryList) {
+      res.addAll(accountQuery.query(ctx, params));
+    }
+
+    switch (res.size()) {
+      case 0:
+        throw new NoSuchGroupException(groupname);
+
+      case 1:
+        return res.get(0);
+
+      default:
+        throw new GroupException("Duplicate LDAP groups: " + username);
+    }
+  }
+
+  List<LdapQuery.Result> suggestGroup(final Helper.LdapSchema schema,
+      final DirContext ctx, final String groupName) throws NamingException {
+    final List<LdapQuery.Result> res = new ArrayList<>();
+    String filter = schema.groupQueryList.get(0).replacePatternParameter(
+            LdapRealm.GROUPNAME, groupName);
+    for (LdapQuery query : schema.groupQueryList) {
+      res.addAll(query.query(ctx, filter));
+    }
+    return res;
   }
 
   Set<AccountGroup.UUID> queryForGroups(final DirContext ctx,
@@ -297,30 +333,25 @@ import javax.security.auth.login.LoginException;
     final String accountMemberField;
     final List<LdapQuery> accountQueryList;
 
-    final List<String> groupBases;
-    final SearchScope groupScope;
-    final ParameterizedString groupPattern;
     final ParameterizedString groupName;
     final List<LdapQuery> groupMemberQueryList;
+    final List<LdapQuery> groupQueryList;
 
     LdapSchema(final DirContext ctx) {
       type = discoverLdapType(ctx);
       groupMemberQueryList = new ArrayList<>();
+      groupQueryList = new ArrayList<>();
       accountQueryList = new ArrayList<>();
 
       final Set<String> accountAtts = new HashSet<>();
 
-      // Group query
-      //
+      final SearchScope groupScope = LdapRealm.scope(config, "groupScope");
 
-      groupBases = LdapRealm.optionalList(config, "groupBase");
-      groupScope = LdapRealm.scope(config, "groupScope");
-      groupPattern = LdapRealm.paramString(config, "groupPattern", type.groupPattern());
       groupName = LdapRealm.paramString(config, "groupName", type.groupName());
       final String groupMemberPattern =
           LdapRealm.optdef(config, "groupMemberPattern", type.groupMemberPattern());
-
-      for (String groupBase : groupBases) {
+      // Group member query
+      for (String groupBase : LdapRealm.optionalList(config, "groupBase")) {
         if (groupMemberPattern != null) {
           final LdapQuery groupMemberQuery =
               new LdapQuery(groupBase, groupScope, new ParameterizedString(
@@ -336,10 +367,19 @@ import javax.security.auth.login.LoginException;
 
           groupMemberQueryList.add(groupMemberQuery);
         }
+        // Group query
+        final LdapQuery groupQuery =
+            new LdapQuery(groupBase, groupScope,
+                LdapRealm.paramString(config, "groupPattern", type.groupPattern()),
+                new HashSet<>(groupName.getParameterNames()));
+        if (groupQuery.getParameters().isEmpty()) {
+          throw new IllegalArgumentException(
+              "No variables in ldap.groupPattern");
+        }
+        groupQueryList.add(groupQuery);
       }
 
       // Account query
-      //
       accountFullName =
           LdapRealm.paramString(config, "accountFullName", type.accountFullName());
       if (accountFullName != null) {

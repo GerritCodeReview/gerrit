@@ -39,7 +39,7 @@ class LdapQuery {
   private final String base;
   private final SearchScope searchScope;
   private final ParameterizedString pattern;
-  private final String[] returnAttributes;
+  private String[] returnAttributes;
 
   LdapQuery(final String base, final SearchScope searchScope,
       final ParameterizedString pattern, final Set<String> returnAttributes) {
@@ -47,7 +47,10 @@ class LdapQuery {
     this.searchScope = searchScope;
 
     this.pattern = pattern;
+    setReturnAttributes(returnAttributes);
+  }
 
+  void setReturnAttributes(Set<String> returnAttributes) {
     if (returnAttributes != null) {
       this.returnAttributes = new String[returnAttributes.size()];
       returnAttributes.toArray(this.returnAttributes);

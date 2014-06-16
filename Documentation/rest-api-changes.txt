@@ -2923,7 +2923,7 @@ Unset for draft comments, assumed to be the calling user.
 
 [[comment-input]]
 === CommentInput
-The `CommitInput` entity contains information for creating an inline
+The `CommentInput` entity contains information for creating an inline
 comment.
 
 [options="header",width="50%",cols="1,^1,5"]

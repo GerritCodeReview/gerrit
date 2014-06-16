@@ -25,6 +25,8 @@ import java.util.EnumSet;
 /** List of changes available from {@code /changes/}. */
 public class ChangeList extends JsArray<ChangeInfo> {
   private static final String URI = "/changes/";
+  private static final EnumSet<ListChangesOption> OPTIONS = EnumSet.of(
+      ListChangesOption.LABELS, ListChangesOption.DETAILED_ACCOUNTS);
 
   /** Run 2 or more queries in a single remote invocation. */
   public static void query(
@@ -36,10 +38,8 @@ public class ChangeList extends JsArray<ChangeInfo> {
     for (String q : queries) {
       call.addParameterRaw("q", KeyUtil.encode(q));
     }
-
-    EnumSet<ListChangesOption> o = EnumSet.of(ListChangesOption.LABELS);
-    o.addAll(options);
-    addOptions(call, o);
+    OPTIONS.addAll(options);
+    addOptions(call, OPTIONS);
     call.get(callback);
   }
 
@@ -58,7 +58,7 @@ public class ChangeList extends JsArray<ChangeInfo> {
     if (limit > 0) {
       call.addParameter("n", limit);
     }
-    addOptions(call, EnumSet.of(ListChangesOption.LABELS));
+    addOptions(call, OPTIONS);
     if (start != 0) {
       call.addParameter("S", start);
     }

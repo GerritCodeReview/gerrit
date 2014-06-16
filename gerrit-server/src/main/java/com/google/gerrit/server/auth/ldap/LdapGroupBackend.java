@@ -44,8 +44,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
@@ -63,7 +61,6 @@ public class LdapGroupBackend implements GroupBackend {
   private static final Logger log = LoggerFactory.getLogger(LdapGroupBackend.class);
 
   private static final String LDAP_NAME = "ldap/";
-  private static final String GROUPNAME = "groupname";
 
   private final Helper helper;
   private final LoadingCache<String, Set<AccountGroup.UUID>> membershipCache;
@@ -212,29 +209,21 @@ public class LdapGroupBackend implements GroupBackend {
   }
 
 
-  private Set<GroupReference> suggestLdap(String name) {
-    if (name.isEmpty()) {
+  private Set<GroupReference> suggestLdap(String groupName) {
+    if (groupName.isEmpty()) {
       return Collections.emptySet();
     }
 
     Set<GroupReference> out = Sets.newTreeSet(GROUP_REF_NAME_COMPARATOR);
+    // Do exact lookups until there are at least 3 characters.
+    groupName =
+        Rdn.escapeValue(groupName) + ((groupName.length() >= 3) ? "*" : "");
     try {
       DirContext ctx = helper.open();
+      LdapSchema schema = helper.getSchema(ctx);
       try {
-        // Do exact lookups until there are at least 3 characters.
-        name = Rdn.escapeValue(name) + ((name.length() >= 3) ? "*" : "");
-        LdapSchema schema = helper.getSchema(ctx);
-        ParameterizedString filter = ParameterizedString.asis(
-            schema.groupPattern.replace(GROUPNAME, name).toString());
-        Set<String> returnAttrs =
-            new HashSet<>(schema.groupName.getParameterNames());
-        Map<String, String> params = Collections.emptyMap();
-        for (String groupBase : schema.groupBases) {
-          LdapQuery query = new LdapQuery(
-              groupBase, schema.groupScope, filter, returnAttrs);
-          for (LdapQuery.Result res : query.query(ctx, params)) {
-            out.add(groupReference(schema.groupName, res));
-          }
+        for (LdapQuery.Result res : helper.findGroup(schema, ctx, groupName)) {
+          out.add(groupReference(schema.groupName, res));
         }
       } finally {
         try {
@@ -243,9 +232,7 @@ public class LdapGroupBackend implements GroupBackend {
           log.warn("Cannot close LDAP query handle", e);
         }
       }
-    } catch (NamingException e) {
-      log.warn("Cannot query LDAP for groups matching requested name", e);
-    } catch (LoginException e) {
+    } catch (LoginException | NamingException e) {
       log.warn("Cannot query LDAP for groups matching requested name", e);
     }
     return out;

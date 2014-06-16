@@ -38,6 +38,7 @@ public class ChangeList extends JsArray<ChangeInfo> {
     }
 
     EnumSet<ListChangesOption> o = EnumSet.of(ListChangesOption.LABELS);
+    o.add(ListChangesOption.DETAILED_ACCOUNTS);
     o.addAll(options);
     addOptions(call, o);
     call.get(callback);
@@ -58,7 +59,9 @@ public class ChangeList extends JsArray<ChangeInfo> {
     if (limit > 0) {
       call.addParameter("n", limit);
     }
-    addOptions(call, EnumSet.of(ListChangesOption.LABELS));
+    EnumSet<ListChangesOption> o = EnumSet.of(ListChangesOption.LABELS);
+    o.add(ListChangesOption.DETAILED_ACCOUNTS);
+    addOptions(call, o);
     if (start != 0) {
       call.addParameter("S", start);
     }

@@ -1,6 +1,7 @@
 include_defs('//lib/maven.defs')
 
 VERSION = '4.0-beta'
+COOKIE_PATCH = '4.0-beta-98-g8d88344'
 EXCLUDE = [
   'META-INF/DEPENDENCIES',
   'META-INF/LICENSE',
@@ -41,8 +42,9 @@ maven_jar(
 
 maven_jar(
   name = 'guice-servlet',
-  id = 'com.google.inject.extensions:guice-servlet:' + VERSION,
-  sha1 = '46b44984f254c0bf92d0c972fad1a70292ada28e',
+  id = 'com.google.inject.extensions:guice-servlet:' + COOKIE_PATCH,
+  repository = GERRIT,
+  sha1 = 'fa17d57a083fe9fc86b93f2dc37069573a2e65cd',
   license = 'Apache2.0',
   deps = [':guice'],
   exclude = EXCLUDE,

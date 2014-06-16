@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "df9d10d5_8d8d21b6",
+        "filename": "lib/jgit/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2014-06-16T13:59:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df9d10d5_8dea413f",
+      "revId": "c1158f803cc7ad6a5bcf3d4e4e854a07148afbf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bfaa1cea_6cd43b78",
         "filename": "lib/jgit/BUCK",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2014-06-15T06:05:39Z",
       "side": 1,
       "message": "Not needed here and in all maven_jar() definitions below. It\u0027s the default value in maven_jar().",
+      "range": {
+        "startLine": 12,
+        "startChar": 2,
+        "endLine": 12,
+        "endChar": 20
+      },
+      "revId": "c1158f803cc7ad6a5bcf3d4e4e854a07148afbf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfaa1cea_2c9d13df",
+        "filename": "lib/jgit/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2014-06-16T13:59:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bfaa1cea_6cd43b78",
       "range": {
         "startLine": 12,
         "startChar": 2,

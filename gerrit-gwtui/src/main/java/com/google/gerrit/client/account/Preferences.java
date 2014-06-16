@@ -18,6 +18,7 @@ import com.google.gerrit.client.extensions.TopMenuItem;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.ChangeScreen;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.CommentVisibilityStrategy;
+import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.ReviewCategoryStrategy;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DateFormat;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DiffView;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadCommand;
@@ -43,11 +44,11 @@ public class Preferences extends JavaScriptObject {
     p.dateFormat(in.getDateFormat());
     p.timeFormat(in.getTimeFormat());
     p.reversePatchSetOrder(in.isReversePatchSetOrder());
-    p.showUsernameInReviewCategory(in.isShowUsernameInReviewCategory());
     p.relativeDateInChangeTable(in.isRelativeDateInChangeTable());
     p.sizeBarInChangeTable(in.isSizeBarInChangeTable());
     p.legacycidInChangeTable(in.isLegacycidInChangeTable());
     p.commentVisibilityStrategy(in.getCommentVisibilityStrategy());
+    p.reviewCategoryStrategy(in.getReviewCategoryStrategy());
     p.diffView(in.getDiffView());
     p.changeScreen(in.getChangeScreen());
     p.setMyMenus(myMenus);
@@ -100,9 +101,6 @@ public class Preferences extends JavaScriptObject {
   public final native boolean reversePatchSetOrder()
   /*-{ return this.reverse_patch_set_order || false }-*/;
 
-  public final native boolean showUsernameInReviewCategory()
-  /*-{ return this.show_username_in_review_category || false }-*/;
-
   public final native boolean relativeDateInChangeTable()
   /*-{ return this.relative_date_in_change_table || false }-*/;
 
@@ -111,6 +109,13 @@ public class Preferences extends JavaScriptObject {
 
   public final native boolean legacycidInChangeTable()
   /*-{ return this.legacycid_in_change_table || false }-*/;
+
+  public final ReviewCategoryStrategy reviewCategoryStrategy() {
+    String s = reviewCategeoryStrategyRaw();
+    return s != null ? ReviewCategoryStrategy.valueOf(s) : ReviewCategoryStrategy.NONE;
+  }
+  private final native String reviewCategeoryStrategyRaw()
+  /*-{ return this.review_category_strategy }-*/;
 
   public final CommentVisibilityStrategy commentVisibilityStrategy() {
     String s = commentVisibilityStrategyRaw();
@@ -175,9 +180,6 @@ public class Preferences extends JavaScriptObject {
   public final native void reversePatchSetOrder(boolean r)
   /*-{ this.reverse_patch_set_order = r }-*/;
 
-  public final native void showUsernameInReviewCategory(boolean s)
-  /*-{ this.show_username_in_review_category = s }-*/;
-
   public final native void relativeDateInChangeTable(boolean d)
   /*-{ this.relative_date_in_change_table = d }-*/;
 
@@ -186,6 +188,12 @@ public class Preferences extends JavaScriptObject {
 
   public final native void legacycidInChangeTable(boolean s)
   /*-{ this.legacycid_in_change_table = s }-*/;
+
+  public final void reviewCategoryStrategy(ReviewCategoryStrategy s) {
+    reviewCategoryStrategyRaw(s != null ? s.toString() : null);
+  }
+  private final native void reviewCategoryStrategyRaw(String s)
+  /*-{ this.review_category_strategy = s }-*/;
 
   public final void commentVisibilityStrategy(CommentVisibilityStrategy s) {
     commentVisibilityStrategyRaw(s != null ? s.toString() : null);

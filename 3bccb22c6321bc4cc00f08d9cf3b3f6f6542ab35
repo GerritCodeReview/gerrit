@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "bf577cb3_04f5365f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-06-16T05:50:01Z",
+      "side": 1,
+      "message": "i\u0027m not real familiar with how names are stored in ldap.  do you know what the possible tokens would be?",
+      "parentUuid": "7f58a46f_3a4e6182",
+      "revId": "3bccb22c6321bc4cc00f08d9cf3b3f6f6542ab35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f63e0f1_09c84958",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AccountGeneralPreferences.java",
         "patchSetId": 3

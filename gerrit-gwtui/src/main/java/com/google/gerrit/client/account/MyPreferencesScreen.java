@@ -28,6 +28,7 @@ import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.OnEditEnabler;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.CommentVisibilityStrategy;
+import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.ReviewCategoryStrategy;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -56,6 +57,7 @@ public class MyPreferencesScreen extends SettingsScreen {
   private ListBox maximumPageSize;
   private ListBox dateFormat;
   private ListBox timeFormat;
+  private ListBox reviewCategoryStrategy;
   private ListBox commentVisibilityStrategy;
   private ListBox changeScreen;
   private ListBox diffView;
@@ -75,6 +77,20 @@ public class MyPreferencesScreen extends SettingsScreen {
     for (final short v : PAGESIZE_CHOICES) {
       maximumPageSize.addItem(Util.M.rowsPerPage(v), String.valueOf(v));
     }
+
+    reviewCategoryStrategy = new ListBox();
+    reviewCategoryStrategy.addItem(
+        Util.C.messageShowInReviewCategoryNone(),
+        AccountGeneralPreferences.ReviewCategoryStrategy.NONE.name());
+    reviewCategoryStrategy.addItem(
+        Util.C.messageShowInReviewCategoryName(),
+        AccountGeneralPreferences.ReviewCategoryStrategy.NAME.name());
+    reviewCategoryStrategy.addItem(
+        Util.C.messageShowInReviewCategoryEmail(),
+        AccountGeneralPreferences.ReviewCategoryStrategy.EMAIL.name());
+    reviewCategoryStrategy.addItem(
+        Util.C.messageShowInReviewCategoryAbbrev(),
+        AccountGeneralPreferences.ReviewCategoryStrategy.ABBREV.name());
 
     commentVisibilityStrategy = new ListBox();
     commentVisibilityStrategy.addItem(
@@ -167,8 +183,8 @@ public class MyPreferencesScreen extends SettingsScreen {
     formGrid.setWidget(row, fieldIdx, reversePatchSetOrder);
     row++;
 
-    formGrid.setText(row, labelIdx, "");
-    formGrid.setWidget(row, fieldIdx, showUsernameInReviewCategory);
+    formGrid.setText(row, labelIdx, Util.C.reviewCategoryLabel());
+    formGrid.setWidget(row, fieldIdx, reviewCategoryStrategy);
     row++;
 
     formGrid.setText(row, labelIdx, Util.C.maximumPageSizeFieldLabel());
@@ -233,6 +249,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     e.listenTo(relativeDateInChangeTable);
     e.listenTo(sizeBarInChangeTable);
     e.listenTo(legacycidInChangeTable);
+    e.listenTo(reviewCategoryStrategy);
     e.listenTo(commentVisibilityStrategy);
     e.listenTo(changeScreen);
     e.listenTo(diffView);
@@ -262,6 +279,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     relativeDateInChangeTable.setEnabled(on);
     sizeBarInChangeTable.setEnabled(on);
     legacycidInChangeTable.setEnabled(on);
+    reviewCategoryStrategy.setEnabled(on);
     commentVisibilityStrategy.setEnabled(on);
     changeScreen.setEnabled(on);
     diffView.setEnabled(on);
@@ -281,6 +299,9 @@ public class MyPreferencesScreen extends SettingsScreen {
     relativeDateInChangeTable.setValue(p.relativeDateInChangeTable());
     sizeBarInChangeTable.setValue(p.sizeBarInChangeTable());
     legacycidInChangeTable.setValue(p.legacycidInChangeTable());
+    setListBox(reviewCategoryStrategy,
+        AccountGeneralPreferences.ReviewCategoryStrategy.NONE,
+        p.reviewCategoryStrategy());
     setListBox(commentVisibilityStrategy,
         AccountGeneralPreferences.CommentVisibilityStrategy.EXPAND_RECENT,
         p.commentVisibilityStrategy());
@@ -369,6 +390,9 @@ public class MyPreferencesScreen extends SettingsScreen {
     p.setRelativeDateInChangeTable(relativeDateInChangeTable.getValue());
     p.setSizeBarInChangeTable(sizeBarInChangeTable.getValue());
     p.setLegacycidInChangeTable(legacycidInChangeTable.getValue());
+    p.setReviewCategoryStrategy(getListBox(reviewCategoryStrategy,
+        ReviewCategoryStrategy.NONE,
+        ReviewCategoryStrategy.values()));
     p.setCommentVisibilityStrategy(getListBox(commentVisibilityStrategy,
         CommentVisibilityStrategy.EXPAND_RECENT,
         CommentVisibilityStrategy.values()));

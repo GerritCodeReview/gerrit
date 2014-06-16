@@ -23,6 +23,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.ChangeScreen;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.CommentVisibilityStrategy;
+import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.ReviewCategoryStrategy;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DateFormat;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DiffView;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadCommand;
@@ -112,6 +113,7 @@ public class GetPreferences implements RestReadView<AccountResource> {
     Boolean relativeDateInChangeTable;
     Boolean sizeBarInChangeTable;
     Boolean legacycidInChangeTable;
+    ReviewCategoryStrategy reviewCategoryStrategy;
     CommentVisibilityStrategy commentVisibilityStrategy;
     DiffView diffView;
     ChangeScreen changeScreen;
@@ -133,6 +135,7 @@ public class GetPreferences implements RestReadView<AccountResource> {
         relativeDateInChangeTable = p.isRelativeDateInChangeTable() ? true : null;
         sizeBarInChangeTable = p.isSizeBarInChangeTable() ? true : null;
         legacycidInChangeTable = p.isLegacycidInChangeTable() ? true : null;
+        reviewCategoryStrategy = p.getReviewCategoryStrategy();
         commentVisibilityStrategy = p.getCommentVisibilityStrategy();
         diffView = p.getDiffView();
         changeScreen = p.getChangeScreen();

@@ -19,6 +19,7 @@ import static com.google.gerrit.client.FormatUtil.shortFormat;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.ChangeInfo.LabelInfo;
+import com.google.gerrit.client.account.AccountInfo;
 import com.google.gerrit.client.ui.AccountLinkPanel;
 import com.google.gerrit.client.ui.BranchLink;
 import com.google.gerrit.client.ui.ChangeLink;
@@ -26,6 +27,7 @@ import com.google.gerrit.client.ui.NavigationTable;
 import com.google.gerrit.client.ui.NeedsSignInKeyCommand;
 import com.google.gerrit.client.ui.ProjectLink;
 import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.ReviewCategoryStrategy;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -40,6 +42,7 @@ import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.regexp.shared.RegExp;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -197,11 +200,8 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
       String name = labelNames.get(i);
       int col = baseColumns + i;
 
-      StringBuilder abbrev = new StringBuilder();
-      for (String t : name.split("-")) {
-        abbrev.append(t.substring(0, 1).toUpperCase());
-      }
-      table.setText(0, col, abbrev.toString());
+      String abbrev = getAbbreviation(name, "-");
+      table.setText(0, col, abbrev);
       table.getCellFormatter().getElement(0, col).setTitle(name);
       fmt.addStyleName(0, col, Gerrit.RESOURCES.css().dataHeader());
     }
@@ -265,7 +265,7 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
     }
 
     boolean displayName = Gerrit.isSignedIn() && Gerrit.getUserAccount()
-        .getGeneralPreferences().isShowUsernameInReviewCategory();
+        .getGeneralPreferences().isShowInfoInReviewCategory();
 
     for (int idx = 0; idx < labelNames.size(); idx++, col++) {
       String name = labelNames.get(idx);
@@ -278,8 +278,11 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
       }
 
       String user;
+      ReviewCategoryStrategy reviewCategoryStrategy = Gerrit.getUserAccount()
+                          .getGeneralPreferences().getReviewCategoryStrategy();
       if (label.rejected() != null) {
-        user = label.rejected().name();
+        user = getReviewCategoryDisplayName(reviewCategoryStrategy,
+                                            label.rejected());
         if (displayName && user != null) {
           FlowPanel panel = new FlowPanel();
           panel.add(new Image(Gerrit.RESOURCES.redNot()));
@@ -289,7 +292,8 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
           table.setWidget(row, col, new Image(Gerrit.RESOURCES.redNot()));
         }
       } else if (label.approved() != null) {
-        user = label.approved().name();
+        user = getReviewCategoryDisplayName(reviewCategoryStrategy,
+                                            label.approved());
         if (displayName && user != null) {
           FlowPanel panel = new FlowPanel();
           panel.add(new Image(Gerrit.RESOURCES.greenCheck()));
@@ -299,7 +303,8 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
           table.setWidget(row, col, new Image(Gerrit.RESOURCES.greenCheck()));
         }
       } else if (label.disliked() != null) {
-        user = label.disliked().name();
+        user = getReviewCategoryDisplayName(reviewCategoryStrategy,
+                                            label.disliked());
         String vstr = String.valueOf(label._value());
         if (displayName && user != null) {
           vstr = vstr + " " + user;
@@ -307,7 +312,8 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
         fmt.addStyleName(row, col, Gerrit.RESOURCES.css().negscore());
         table.setText(row, col, vstr);
       } else if (label.recommended() != null) {
-        user = label.recommended().name();
+        user = getReviewCategoryDisplayName(reviewCategoryStrategy,
+                                            label.recommended());
         String vstr = "+" + label._value();
         if (displayName && user != null) {
           vstr = vstr + " " + user;
@@ -336,6 +342,36 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
         needHighlight);
 
     setRowItem(row, c);
+  }
+
+  private static String getReviewCategoryDisplayName(
+                             ReviewCategoryStrategy reviewCategoryStrategy,
+                             AccountInfo accountInfo) {
+    String displayName = "";
+
+    switch (reviewCategoryStrategy) {
+      case NAME:
+        displayName = accountInfo.name();
+        break;
+      case EMAIL:
+        displayName = accountInfo.email();
+        break;
+      case ABBREV:
+        displayName = getAbbreviation(accountInfo.name(), " ");
+      default:
+        break;
+    }
+    return displayName;
+  }
+
+  private static String getAbbreviation(String name, String token) {
+    StringBuilder abbrev = new StringBuilder();
+    if (name != null) {
+      for (String t : name.split(token)) {
+        abbrev.append(t.substring(0, 1).toUpperCase());
+      }
+    }
+    return abbrev.toString();
   }
 
   private static Widget getSizeWidget(ChangeInfo c) {

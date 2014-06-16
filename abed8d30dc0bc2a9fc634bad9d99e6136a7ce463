@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1f07a8cc_37427851",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AccountGeneralPreferences.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-06-16T16:44:09Z",
+      "side": 1,
+      "message": "This essentially replaces column 11 (showUserInReview).  What would be the correct way to deprecate showUserInReview?",
+      "revId": "abed8d30dc0bc2a9fc634bad9d99e6136a7ce463",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -75,6 +75,13 @@ public final class AccountGeneralPreferences {
     EXPAND_ALL
   }
 
+  public static enum ReviewCategoryStrategy {
+    NONE,
+    NAME,
+    EMAIL,
+    ABBREV
+  }
+
   public static enum DiffView {
     SIDE_BY_SIDE,
     UNIFIED_DIFF
@@ -146,9 +153,6 @@ public final class AccountGeneralPreferences {
   @Column(id = 10)
   protected boolean reversePatchSetOrder;
 
-  @Column(id = 11)
-  protected boolean showUserInReview;
-
   @Column(id = 12)
   protected boolean relativeDateInChangeTable;
 
@@ -166,6 +170,9 @@ public final class AccountGeneralPreferences {
 
   @Column(id = 17)
   protected boolean legacycidInChangeTable;
+
+  @Column(id = 18, length = 20, notNull = false)
+  protected String reviewCategoryStrategy;
 
   public AccountGeneralPreferences() {
   }
@@ -240,12 +247,8 @@ public final class AccountGeneralPreferences {
     this.reversePatchSetOrder = reversePatchSetOrder;
   }
 
-  public boolean isShowUsernameInReviewCategory() {
-    return showUserInReview;
-  }
-
-  public void setShowUsernameInReviewCategory(final boolean showUsernameInReviewCategory) {
-    this.showUserInReview = showUsernameInReviewCategory;
+  public boolean isShowInfoInReviewCategory() {
+    return getReviewCategoryStrategy() != ReviewCategoryStrategy.NONE;
   }
 
   public DateFormat getDateFormat() {
@@ -276,6 +279,18 @@ public final class AccountGeneralPreferences {
 
   public void setRelativeDateInChangeTable(final boolean relativeDateInChangeTable) {
     this.relativeDateInChangeTable = relativeDateInChangeTable;
+  }
+
+  public ReviewCategoryStrategy getReviewCategoryStrategy() {
+    if (reviewCategoryStrategy == null) {
+      return ReviewCategoryStrategy.NONE;
+    }
+    return ReviewCategoryStrategy.valueOf(reviewCategoryStrategy);
+  }
+
+  public void setReviewCategoryStrategy(
+      ReviewCategoryStrategy strategy) {
+    reviewCategoryStrategy = strategy.name();
   }
 
   public CommentVisibilityStrategy getCommentVisibilityStrategy() {
@@ -331,7 +346,7 @@ public final class AccountGeneralPreferences {
     useFlashClipboard = true;
     copySelfOnEmail = false;
     reversePatchSetOrder = false;
-    showUserInReview = false;
+    reviewCategoryStrategy = null;
     downloadUrl = null;
     downloadCommand = null;
     dateFormat = null;

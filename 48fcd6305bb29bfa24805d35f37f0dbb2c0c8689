@@ -22,6 +22,23 @@
       "revId": "48fcd6305bb29bfa24805d35f37f0dbb2c0c8689",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f07a8cc_5739ecea",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/schema/SchemaCreatorTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-06-16T17:26:56Z",
+      "side": 0,
+      "message": "Shouldn\u0027t this be restored since you added getAbbreviation function in PS #5.",
+      "revId": "48fcd6305bb29bfa24805d35f37f0dbb2c0c8689",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

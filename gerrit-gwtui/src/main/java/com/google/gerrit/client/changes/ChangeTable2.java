@@ -19,6 +19,7 @@ import static com.google.gerrit.client.FormatUtil.shortFormat;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.ChangeInfo.LabelInfo;
+import com.google.gerrit.client.account.AccountInfo;
 import com.google.gerrit.client.ui.AccountLinkPanel;
 import com.google.gerrit.client.ui.BranchLink;
 import com.google.gerrit.client.ui.ChangeLink;
@@ -26,6 +27,7 @@ import com.google.gerrit.client.ui.NavigationTable;
 import com.google.gerrit.client.ui.NeedsSignInKeyCommand;
 import com.google.gerrit.client.ui.ProjectLink;
 import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.ReviewCategoryStrategy;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -197,11 +199,8 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
       String name = labelNames.get(i);
       int col = baseColumns + i;
 
-      StringBuilder abbrev = new StringBuilder();
-      for (String t : name.split("-")) {
-        abbrev.append(t.substring(0, 1).toUpperCase());
-      }
-      table.setText(0, col, abbrev.toString());
+      String abbrev = getAbbreviation(name, "-");
+      table.setText(0, col, abbrev);
       table.getCellFormatter().getElement(0, col).setTitle(name);
       fmt.addStyleName(0, col, Gerrit.RESOURCES.css().dataHeader());
     }
@@ -217,9 +216,8 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
       boolean highlightUnreviewed) {
     CellFormatter fmt = table.getCellFormatter();
     if (Gerrit.isSignedIn()) {
-      table.setWidget(row, C_STAR, StarredChanges.createIcon(
-          c.legacy_id(),
-          c.starred()));
+      table.setWidget(row, C_STAR,
+          StarredChanges.createIcon(c.legacy_id(), c.starred()));
     }
     table.setWidget(row, C_ID, new TableChangeLink(String.valueOf(c.legacy_id()), c));
 
@@ -264,8 +262,8 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
       col++;
     }
 
-    boolean displayName = Gerrit.isSignedIn() && Gerrit.getUserAccount()
-        .getGeneralPreferences().isShowUsernameInReviewCategory();
+    boolean displayInfo = Gerrit.isSignedIn() && Gerrit.getUserAccount()
+        .getGeneralPreferences().isShowInfoInReviewCategory();
 
     for (int idx = 0; idx < labelNames.size(); idx++, col++) {
       String name = labelNames.get(idx);
@@ -278,9 +276,12 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
       }
 
       String user;
+      ReviewCategoryStrategy reviewCategoryStrategy = Gerrit.getUserAccount()
+          .getGeneralPreferences().getReviewCategoryStrategy();
       if (label.rejected() != null) {
-        user = label.rejected().name();
-        if (displayName && user != null) {
+        user = getReviewCategoryDisplayInfo(reviewCategoryStrategy,
+                label.rejected());
+        if (displayInfo && user != null) {
           FlowPanel panel = new FlowPanel();
           panel.add(new Image(Gerrit.RESOURCES.redNot()));
           panel.add(new InlineLabel(user));
@@ -289,8 +290,9 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
           table.setWidget(row, col, new Image(Gerrit.RESOURCES.redNot()));
         }
       } else if (label.approved() != null) {
-        user = label.approved().name();
-        if (displayName && user != null) {
+        user = getReviewCategoryDisplayInfo(reviewCategoryStrategy,
+                label.approved());
+        if (displayInfo && user != null) {
           FlowPanel panel = new FlowPanel();
           panel.add(new Image(Gerrit.RESOURCES.greenCheck()));
           panel.add(new InlineLabel(user));
@@ -299,17 +301,19 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
           table.setWidget(row, col, new Image(Gerrit.RESOURCES.greenCheck()));
         }
       } else if (label.disliked() != null) {
-        user = label.disliked().name();
+        user = getReviewCategoryDisplayInfo(reviewCategoryStrategy,
+                label.disliked());
         String vstr = String.valueOf(label._value());
-        if (displayName && user != null) {
+        if (displayInfo && user != null) {
           vstr = vstr + " " + user;
         }
         fmt.addStyleName(row, col, Gerrit.RESOURCES.css().negscore());
         table.setText(row, col, vstr);
       } else if (label.recommended() != null) {
-        user = label.recommended().name();
+        user = getReviewCategoryDisplayInfo(reviewCategoryStrategy,
+                label.recommended());
         String vstr = "+" + label._value();
-        if (displayName && user != null) {
+        if (displayInfo && user != null) {
           vstr = vstr + " " + user;
         }
         fmt.addStyleName(row, col, Gerrit.RESOURCES.css().posscore());
@@ -320,7 +324,7 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
       }
       fmt.addStyleName(row, col, Gerrit.RESOURCES.css().singleLine());
 
-      if (!displayName && user != null) {
+      if (!displayInfo && user != null) {
         // Some web browsers ignore the embedded newline; some like it;
         // so we include a space before the newline to accommodate both.
         fmt.getElement(row, col).setTitle(name + " \nby " + user);
@@ -336,6 +340,30 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
         needHighlight);
 
     setRowItem(row, c);
+  }
+
+  private static String getReviewCategoryDisplayInfo(
+      ReviewCategoryStrategy reviewCategoryStrategy, AccountInfo accountInfo) {
+    switch (reviewCategoryStrategy) {
+      case NAME:
+        return accountInfo.name();
+      case EMAIL:
+        return accountInfo.email();
+      case ABBREV:
+        return getAbbreviation(accountInfo.name(), " ");
+      default:
+        return null;
+    }
+  }
+
+  private static String getAbbreviation(String name, String token) {
+    StringBuilder abbrev = new StringBuilder();
+    if (name != null) {
+      for (String t : name.split(token)) {
+        abbrev.append(t.substring(0, 1).toUpperCase());
+      }
+    }
+    return abbrev.toString();
   }
 
   private static Widget getSizeWidget(ChangeInfo c) {

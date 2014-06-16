@@ -28,6 +28,7 @@ import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.OnEditEnabler;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.CommentVisibilityStrategy;
+import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.ReviewCategoryStrategy;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -49,13 +50,13 @@ public class MyPreferencesScreen extends SettingsScreen {
   private CheckBox useFlashClipboard;
   private CheckBox copySelfOnEmails;
   private CheckBox reversePatchSetOrder;
-  private CheckBox showUsernameInReviewCategory;
   private CheckBox relativeDateInChangeTable;
   private CheckBox sizeBarInChangeTable;
   private CheckBox legacycidInChangeTable;
   private ListBox maximumPageSize;
   private ListBox dateFormat;
   private ListBox timeFormat;
+  private ListBox reviewCategoryStrategy;
   private ListBox commentVisibilityStrategy;
   private ListBox changeScreen;
   private ListBox diffView;
@@ -70,11 +71,24 @@ public class MyPreferencesScreen extends SettingsScreen {
     useFlashClipboard = new CheckBox(Util.C.useFlashClipboard());
     copySelfOnEmails = new CheckBox(Util.C.copySelfOnEmails());
     reversePatchSetOrder = new CheckBox(Util.C.reversePatchSetOrder());
-    showUsernameInReviewCategory = new CheckBox(Util.C.showUsernameInReviewCategory());
     maximumPageSize = new ListBox();
     for (final short v : PAGESIZE_CHOICES) {
       maximumPageSize.addItem(Util.M.rowsPerPage(v), String.valueOf(v));
     }
+
+    reviewCategoryStrategy = new ListBox();
+    reviewCategoryStrategy.addItem(
+        Util.C.messageShowInReviewCategoryNone(),
+        AccountGeneralPreferences.ReviewCategoryStrategy.NONE.name());
+    reviewCategoryStrategy.addItem(
+        Util.C.messageShowInReviewCategoryName(),
+        AccountGeneralPreferences.ReviewCategoryStrategy.NAME.name());
+    reviewCategoryStrategy.addItem(
+        Util.C.messageShowInReviewCategoryEmail(),
+        AccountGeneralPreferences.ReviewCategoryStrategy.EMAIL.name());
+    reviewCategoryStrategy.addItem(
+        Util.C.messageShowInReviewCategoryAbbrev(),
+        AccountGeneralPreferences.ReviewCategoryStrategy.ABBREV.name());
 
     commentVisibilityStrategy = new ListBox();
     commentVisibilityStrategy.addItem(
@@ -167,8 +181,8 @@ public class MyPreferencesScreen extends SettingsScreen {
     formGrid.setWidget(row, fieldIdx, reversePatchSetOrder);
     row++;
 
-    formGrid.setText(row, labelIdx, "");
-    formGrid.setWidget(row, fieldIdx, showUsernameInReviewCategory);
+    formGrid.setText(row, labelIdx, Util.C.reviewCategoryLabel());
+    formGrid.setWidget(row, fieldIdx, reviewCategoryStrategy);
     row++;
 
     formGrid.setText(row, labelIdx, Util.C.maximumPageSizeFieldLabel());
@@ -226,13 +240,13 @@ public class MyPreferencesScreen extends SettingsScreen {
     e.listenTo(useFlashClipboard);
     e.listenTo(copySelfOnEmails);
     e.listenTo(reversePatchSetOrder);
-    e.listenTo(showUsernameInReviewCategory);
     e.listenTo(maximumPageSize);
     e.listenTo(dateFormat);
     e.listenTo(timeFormat);
     e.listenTo(relativeDateInChangeTable);
     e.listenTo(sizeBarInChangeTable);
     e.listenTo(legacycidInChangeTable);
+    e.listenTo(reviewCategoryStrategy);
     e.listenTo(commentVisibilityStrategy);
     e.listenTo(changeScreen);
     e.listenTo(diffView);
@@ -255,13 +269,13 @@ public class MyPreferencesScreen extends SettingsScreen {
     useFlashClipboard.setEnabled(on);
     copySelfOnEmails.setEnabled(on);
     reversePatchSetOrder.setEnabled(on);
-    showUsernameInReviewCategory.setEnabled(on);
     maximumPageSize.setEnabled(on);
     dateFormat.setEnabled(on);
     timeFormat.setEnabled(on);
     relativeDateInChangeTable.setEnabled(on);
     sizeBarInChangeTable.setEnabled(on);
     legacycidInChangeTable.setEnabled(on);
+    reviewCategoryStrategy.setEnabled(on);
     commentVisibilityStrategy.setEnabled(on);
     changeScreen.setEnabled(on);
     diffView.setEnabled(on);
@@ -272,7 +286,6 @@ public class MyPreferencesScreen extends SettingsScreen {
     useFlashClipboard.setValue(p.useFlashClipboard());
     copySelfOnEmails.setValue(p.copySelfOnEmail());
     reversePatchSetOrder.setValue(p.reversePatchSetOrder());
-    showUsernameInReviewCategory.setValue(p.showUsernameInReviewCategory());
     setListBox(maximumPageSize, DEFAULT_PAGESIZE, p.changesPerPage());
     setListBox(dateFormat, AccountGeneralPreferences.DateFormat.STD, //
         p.dateFormat());
@@ -281,6 +294,9 @@ public class MyPreferencesScreen extends SettingsScreen {
     relativeDateInChangeTable.setValue(p.relativeDateInChangeTable());
     sizeBarInChangeTable.setValue(p.sizeBarInChangeTable());
     legacycidInChangeTable.setValue(p.legacycidInChangeTable());
+    setListBox(reviewCategoryStrategy,
+        AccountGeneralPreferences.ReviewCategoryStrategy.NONE,
+        p.reviewCategoryStrategy());
     setListBox(commentVisibilityStrategy,
         AccountGeneralPreferences.CommentVisibilityStrategy.EXPAND_RECENT,
         p.commentVisibilityStrategy());
@@ -358,7 +374,6 @@ public class MyPreferencesScreen extends SettingsScreen {
     p.setUseFlashClipboard(useFlashClipboard.getValue());
     p.setCopySelfOnEmails(copySelfOnEmails.getValue());
     p.setReversePatchSetOrder(reversePatchSetOrder.getValue());
-    p.setShowUsernameInReviewCategory(showUsernameInReviewCategory.getValue());
     p.setMaximumPageSize(getListBox(maximumPageSize, DEFAULT_PAGESIZE));
     p.setDateFormat(getListBox(dateFormat,
         AccountGeneralPreferences.DateFormat.STD,
@@ -369,6 +384,9 @@ public class MyPreferencesScreen extends SettingsScreen {
     p.setRelativeDateInChangeTable(relativeDateInChangeTable.getValue());
     p.setSizeBarInChangeTable(sizeBarInChangeTable.getValue());
     p.setLegacycidInChangeTable(legacycidInChangeTable.getValue());
+    p.setReviewCategoryStrategy(getListBox(reviewCategoryStrategy,
+        ReviewCategoryStrategy.NONE,
+        ReviewCategoryStrategy.values()));
     p.setCommentVisibilityStrategy(getListBox(commentVisibilityStrategy,
         CommentVisibilityStrategy.EXPAND_RECENT,
         CommentVisibilityStrategy.values()));

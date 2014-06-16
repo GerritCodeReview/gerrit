@@ -28,6 +28,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.ChangeScreen;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.CommentVisibilityStrategy;
+import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.ReviewCategoryStrategy;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DateFormat;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DiffView;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadCommand;
@@ -62,11 +63,11 @@ public class SetPreferences implements RestModifyView<AccountResource, Input> {
     public DateFormat dateFormat;
     public TimeFormat timeFormat;
     public Boolean reversePatchSetOrder;
-    public Boolean showUsernameInReviewCategory;
     public Boolean relativeDateInChangeTable;
     public Boolean sizeBarInChangeTable;
     public Boolean legacycidInChangeTable;
     public CommentVisibilityStrategy commentVisibilityStrategy;
+    public ReviewCategoryStrategy reviewCategoryStrategy;
     public DiffView diffView;
     public ChangeScreen changeScreen;
     public List<TopMenu.MenuItem> my;
@@ -148,9 +149,6 @@ public class SetPreferences implements RestModifyView<AccountResource, Input> {
       if (i.reversePatchSetOrder != null) {
         p.setReversePatchSetOrder(i.reversePatchSetOrder);
       }
-      if (i.showUsernameInReviewCategory != null) {
-        p.setShowUsernameInReviewCategory(i.showUsernameInReviewCategory);
-      }
       if (i.relativeDateInChangeTable != null) {
         p.setRelativeDateInChangeTable(i.relativeDateInChangeTable);
       }
@@ -159,6 +157,9 @@ public class SetPreferences implements RestModifyView<AccountResource, Input> {
       }
       if (i.legacycidInChangeTable != null) {
         p.setLegacycidInChangeTable(i.legacycidInChangeTable);
+      }
+      if (i.reviewCategoryStrategy != null) {
+        p.setReviewCategoryStrategy(i.reviewCategoryStrategy);
       }
       if (i.commentVisibilityStrategy != null) {
         p.setCommentVisibilityStrategy(i.commentVisibilityStrategy);

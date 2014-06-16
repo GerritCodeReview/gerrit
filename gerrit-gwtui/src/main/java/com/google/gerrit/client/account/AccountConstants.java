@@ -35,7 +35,11 @@ public interface AccountConstants extends Constants {
   String useFlashClipboard();
   String copySelfOnEmails();
   String reversePatchSetOrder();
-  String showUsernameInReviewCategory();
+  String reviewCategoryLabel();
+  String messageShowInReviewCategoryNone();
+  String messageShowInReviewCategoryName();
+  String messageShowInReviewCategoryEmail();
+  String messageShowInReviewCategoryAbbrev();
   String buttonSaveChanges();
   String showRelativeDateInChangeTable();
   String showSizeBarInChangeTable();

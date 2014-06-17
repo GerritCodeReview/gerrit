@@ -18,6 +18,7 @@ import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.StringKey;
 
 import java.sql.Timestamp;
+import java.util.Objects;
 
 /** A comment left by a user on a specific line of a {@link Patch}. */
 public final class PatchLineComment {
@@ -120,6 +121,15 @@ public final class PatchLineComment {
   @Column(id = 9, notNull = false)
   protected CommentRange range;
 
+  /**
+   * The RevId for the commit to which this comment is referring.
+   *
+   * Note that this field is not stored in the database. It is just provided
+   * for users of this class to avoid a lookup when they don't have easy access
+   * to a ReviewDb.
+   */
+  protected RevId revId;
+
   protected PatchLineComment() {
   }
 
@@ -195,5 +205,52 @@ public final class PatchLineComment {
 
   public CommentRange getRange() {
     return range;
+  }
+
+  public void setRevId(RevId rev) {
+    revId = rev;
+  }
+
+  public RevId getRevId() {
+    return revId;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (o instanceof PatchLineComment) {
+      PatchLineComment c = (PatchLineComment) o;
+      return Objects.equals(key, c.getKey())
+          && Objects.equals(lineNbr, c.getLine())
+          && Objects.equals(author, c.getAuthor())
+          && Objects.equals(writtenOn, c.getWrittenOn())
+          && Objects.equals(status, c.getStatus().getCode())
+          && Objects.equals(side, c.getSide())
+          && Objects.equals(message, c.getMessage())
+          && Objects.equals(parentUuid, c.getParentUuid())
+          && Objects.equals(range, c.getRange())
+          && Objects.equals(revId, c.getRevId());
+    }
+    return false;
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder builder = new StringBuilder();
+    builder.append("PatchLineComment{");
+    builder.append("key=").append(key).append(',');
+    builder.append("lineNbr=").append(lineNbr).append(',');
+    builder.append("author=").append(author.get()).append(',');
+    builder.append("writtenOn=").append(writtenOn.toString()).append(',');
+    builder.append("status=").append(status).append(',');
+    builder.append("side=").append(side).append(',');
+    builder.append("message=").append(Objects.toString(message, ""))
+      .append(',');
+    builder.append("parentUuid=").append(Objects.toString(parentUuid, ""))
+      .append(',');
+    builder.append("range=").append(Objects.toString(range, ""))
+      .append(',');
+    builder.append("revId=").append(revId != null ? revId.get() : "");
+    builder.append('}');
+    return builder.toString();
   }
 }

@@ -17,6 +17,7 @@ package com.google.gerrit.server.notedb;
 import static com.google.gerrit.server.notedb.ReviewerState.CC;
 import static com.google.gerrit.server.notedb.ReviewerState.REVIEWER;
 import static com.google.inject.Scopes.SINGLETON;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.easymock.EasyMock.expect;
@@ -24,19 +25,26 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
+import com.google.gerrit.reviewdb.client.CommentRange;
+import com.google.gerrit.reviewdb.client.Patch;
+import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
@@ -53,6 +61,7 @@ import com.google.gerrit.server.git.GitModule;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.VersionedMetaData.BatchMetaDataUpdate;
 import com.google.gerrit.server.group.SystemGroupBackend;
+import com.google.gerrit.server.notedb.CommentsInNotesUtil;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.util.TimeUtil;
@@ -70,7 +79,9 @@ import org.easymock.EasyMock;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.notes.Note;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.joda.time.DateTime;
@@ -81,6 +92,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
@@ -97,6 +109,7 @@ public class ChangeNotesTest {
   private FakeAccountCache accountCache;
   private IdentifiedUser changeOwner;
   private IdentifiedUser otherUser;
+  private CommentsInNotesUtil commentsUtil;
   private Injector injector;
   private String systemTimeZone;
   private volatile long clockStepMs;
@@ -120,6 +133,7 @@ public class ChangeNotesTest {
     ou.setFullName("Other Account");
     ou.setPreferredEmail("other@account.com");
     accountCache.put(ou);
+    commentsUtil = new CommentsInNotesUtil(accountCache, serverIdent);
 
     injector = Guice.createInjector(new FactoryModule() {
       @Override
@@ -831,6 +845,341 @@ public class ChangeNotesTest {
     assertEquals(ps1, cm.get(1).getPatchSetId());
   }
 
+  @Test
+  public void patchLineCommentNotesFormatSide1() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, otherUser);
+    String uuid = "uuid";
+    String message1 = "comment 1";
+    String message2 = "comment 2";
+    String message3 = "comment 3";
+    CommentRange range1 = new CommentRange(1, 1, 2, 1);
+    Timestamp time1 = TimeUtil.nowTs();
+    Timestamp time2 = TimeUtil.nowTs();
+    Timestamp time3 = TimeUtil.nowTs();
+    PatchSet.Id psId = c.currentPatchSetId();
+
+    PatchLineComment comment1 = newPatchLineComment(psId, "file1", uuid,
+        range1, range1.getEndLine(), otherUser, null, time1, message1,
+        (short) 1, "abcd1234abcd1234abcd1234abcd1234abcd1234");
+    update.setPatchSetId(psId);
+    update.putComment(comment1);
+    update.commit();
+
+    update = newUpdate(c, otherUser);
+    CommentRange range2 = new CommentRange(2, 1, 3, 1);
+    PatchLineComment comment2 = newPatchLineComment(psId, "file1", uuid,
+        range2, range2.getEndLine(), otherUser, null, time2, message2,
+        (short) 1, "abcd1234abcd1234abcd1234abcd1234abcd1234");
+    update.setPatchSetId(psId);
+    update.putComment(comment2);
+    update.commit();
+
+    update = newUpdate(c, otherUser);
+    CommentRange range3 = new CommentRange(3, 1, 4, 1);
+    PatchLineComment comment3 = newPatchLineComment(psId, "file2", uuid,
+        range3, range3.getEndLine(), otherUser, null, time3, message3,
+        (short) 1, "abcd1234abcd1234abcd1234abcd1234abcd1234");
+    update.setPatchSetId(psId);
+    update.putComment(comment3);
+    update.commit();
+
+    ChangeNotes notes = newNotes(c);
+
+    RevWalk walk = new RevWalk(repo);
+    ArrayList<Note> notesInTree =
+        Lists.newArrayList(notes.getNoteMap().iterator());
+    Note note = Iterables.getOnlyElement(notesInTree);
+
+    byte[] bytes =
+        walk.getObjectReader().open(
+            note.getData(), Constants.OBJ_BLOB).getBytes();
+    String noteString = new String(bytes, UTF_8);
+    assertEquals("Patch-set: 1\n"
+        + "Revision: abcd1234abcd1234abcd1234abcd1234abcd1234\n"
+        + "File: file1\n"
+        + "\n"
+        + "1:1-2:1\n"
+        + commentsUtil.formatTime(serverIdent, time1) + "\n"
+        + "Author: Other Account <2@gerrit>\n"
+        + "UUID: uuid\n"
+        + "Length-in-bytes: 9\n"
+        + "comment 1\n"
+        + "\n"
+        + "2:1-3:1\n"
+        + commentsUtil.formatTime(serverIdent, time2) + "\n"
+        + "Author: Other Account <2@gerrit>\n"
+        + "UUID: uuid\n"
+        + "Length-in-bytes: 9\n"
+        + "comment 2\n"
+        + "\n"
+        + "File: file2\n"
+        + "\n"
+        + "3:1-4:1\n"
+        + commentsUtil.formatTime(serverIdent, time3) + "\n"
+        + "Author: Other Account <2@gerrit>\n"
+        + "UUID: uuid\n"
+        + "Length-in-bytes: 9\n"
+        + "comment 3\n"
+        + "\n",
+        noteString);
+  }
+
+  @Test
+  public void patchLineCommentNotesFormatSide0() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, otherUser);
+    String uuid = "uuid";
+    String message1 = "comment 1";
+    String message2 = "comment 2";
+    CommentRange range1 = new CommentRange(1, 1, 2, 1);
+    Timestamp time1 = TimeUtil.nowTs();
+    Timestamp time2 = TimeUtil.nowTs();
+    PatchSet.Id psId = c.currentPatchSetId();
+
+    PatchLineComment comment1 = newPatchLineComment(psId, "file1", uuid,
+        range1, range1.getEndLine(), otherUser, null, time1, message1,
+        (short) 0, "abcd1234abcd1234abcd1234abcd1234abcd1234");
+    update.setPatchSetId(psId);
+    update.putComment(comment1);
+    update.commit();
+
+    update = newUpdate(c, otherUser);
+    CommentRange range2 = new CommentRange(2, 1, 3, 1);
+    PatchLineComment comment2 = newPatchLineComment(psId, "file1", uuid,
+        range2, range2.getEndLine(), otherUser, null, time2, message2,
+        (short) 0, "abcd1234abcd1234abcd1234abcd1234abcd1234");
+    update.setPatchSetId(psId);
+    update.putComment(comment2);
+    update.commit();
+
+    ChangeNotes notes = newNotes(c);
+
+    RevWalk walk = new RevWalk(repo);
+    ArrayList<Note> notesInTree =
+        Lists.newArrayList(notes.getNoteMap().iterator());
+    Note note = Iterables.getOnlyElement(notesInTree);
+
+    byte[] bytes =
+        walk.getObjectReader().open(
+            note.getData(), Constants.OBJ_BLOB).getBytes();
+    String noteString = new String(bytes, UTF_8);
+    assertEquals("Base-for-patch-set: 1\n"
+        + "Revision: abcd1234abcd1234abcd1234abcd1234abcd1234\n"
+        + "File: file1\n"
+        + "\n"
+        + "1:1-2:1\n"
+        + commentsUtil.formatTime(serverIdent, time1) + "\n"
+        + "Author: Other Account <2@gerrit>\n"
+        + "UUID: uuid\n"
+        + "Length-in-bytes: 9\n"
+        + "comment 1\n"
+        + "\n"
+        + "2:1-3:1\n"
+        + commentsUtil.formatTime(serverIdent, time2) + "\n"
+        + "Author: Other Account <2@gerrit>\n"
+        + "UUID: uuid\n"
+        + "Length-in-bytes: 9\n"
+        + "comment 2\n"
+        + "\n",
+        noteString);
+  }
+
+
+  @Test
+  public void patchLineCommentMultipleOnePatchsetOneFileBothSides()
+      throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, otherUser);
+    String uuid = "uuid";
+    String messageForBase = "comment for base";
+    String messageForPS = "comment for ps";
+    CommentRange range = new CommentRange(1, 1, 2, 1);
+    Timestamp now = TimeUtil.nowTs();
+    PatchSet.Id psId = c.currentPatchSetId();
+
+    PatchLineComment commentForBase =
+        newPatchLineComment(psId, "filename", uuid,
+        range, range.getEndLine(), otherUser, null, now, messageForBase,
+        (short) 0, "abcd1234abcd1234abcd1234abcd1234abcd1234");
+    update.setPatchSetId(psId);
+    update.putComment(commentForBase);
+    update.commit();
+
+    update = newUpdate(c, otherUser);
+    PatchLineComment commentForPS =
+        newPatchLineComment(psId, "filename", uuid,
+        range, range.getEndLine(), otherUser, null, now, messageForPS,
+        (short) 1, "abcd4567abcd4567abcd4567abcd4567abcd4567");
+    update.setPatchSetId(psId);
+    update.putComment(commentForPS);
+    update.commit();
+
+    ChangeNotes notes = newNotes(c);
+    ImmutableListMultimap<PatchSet.Id, PatchLineComment> commentsForBase =
+        notes.getCommentsBase();
+    ImmutableListMultimap<PatchSet.Id, PatchLineComment> commentsForPS =
+        notes.getPatchSetComments();
+    assertEquals(commentsForBase.size(), 1);
+    assertEquals(commentsForPS.size(), 1);
+
+    assertCommentEquals(commentForBase,
+        Iterables.getOnlyElement(commentsForBase.get(psId)));
+    assertCommentEquals(commentForPS,
+        Iterables.getOnlyElement(commentsForPS.get(psId)));
+  }
+
+  @Test
+  public void patchLineCommentMultipleOnePatchsetOneFile() throws Exception {
+    Change c = newChange();
+    String uuid = "uuid";
+    CommentRange range = new CommentRange(1, 1, 2, 1);
+    PatchSet.Id psId = c.currentPatchSetId();
+    String filename = "filename";
+    short side = (short) 1;
+
+    ChangeUpdate update = newUpdate(c, otherUser);
+    Timestamp timeForComment1 = TimeUtil.nowTs();
+    Timestamp timeForComment2 = TimeUtil.nowTs();
+    PatchLineComment comment1 = newPatchLineComment(psId, filename, uuid, range,
+        range.getEndLine(), otherUser, null, timeForComment1, "comment 1", side,
+        "abcd1234abcd1234abcd1234abcd1234abcd1234");
+    update.setPatchSetId(psId);
+    update.putComment(comment1);
+    update.commit();
+
+    update = newUpdate(c, otherUser);
+    PatchLineComment comment2 = newPatchLineComment(psId, filename, uuid, range,
+        range.getEndLine(), otherUser, null, timeForComment2, "comment 2", side,
+        "abcd1234abcd1234abcd1234abcd1234abcd1234");
+    update.setPatchSetId(psId);
+    update.putComment(comment2);
+    update.commit();
+
+    ChangeNotes notes = newNotes(c);
+    ImmutableListMultimap<PatchSet.Id, PatchLineComment> commentsForBase =
+        notes.getCommentsBase();
+    ImmutableListMultimap<PatchSet.Id, PatchLineComment> commentsForPS =
+        notes.getPatchSetComments();
+    assertEquals(commentsForBase.size(), 0);
+    assertEquals(commentsForPS.size(), 2);
+
+    List<PatchLineComment> commentsForThisPS = commentsForPS.get(psId);
+    assertEquals(commentsForThisPS.size(), 2);
+    PatchLineComment commentFromNotes1 = commentsForThisPS.get(0);
+    PatchLineComment commentFromNotes2 = commentsForThisPS.get(1);
+
+    assertCommentEquals(comment1, commentFromNotes1);
+    assertCommentEquals(comment2, commentFromNotes2);
+  }
+
+  @Test
+  public void patchLineCommentMultipleOnePatchsetMultipleFiles()
+      throws Exception {
+    Change c = newChange();
+    String uuid = "uuid";
+    CommentRange range = new CommentRange(1, 1, 2, 1);
+    PatchSet.Id psId = c.currentPatchSetId();
+    String filename1 = "filename1";
+    String filename2 = "filename2";
+    short side = (short) 1;
+
+    ChangeUpdate update = newUpdate(c, otherUser);
+    Timestamp now = TimeUtil.nowTs();
+    PatchLineComment comment1 = newPatchLineComment(psId, filename1, uuid,
+        range, range.getEndLine(), otherUser, null, now, "comment 1", side,
+        "abcd1234abcd1234abcd1234abcd1234abcd1234");
+    update.setPatchSetId(psId);
+    update.putComment(comment1);
+    update.commit();
+
+    update = newUpdate(c, otherUser);
+    PatchLineComment comment2 = newPatchLineComment(psId, filename2, uuid,
+        range, range.getEndLine(), otherUser, null, now, "comment 2", side,
+        "abcd1234abcd1234abcd1234abcd1234abcd1234");
+    update.setPatchSetId(psId);
+    update.putComment(comment2);
+    update.commit();
+
+    ChangeNotes notes = newNotes(c);
+    ImmutableListMultimap<PatchSet.Id, PatchLineComment> commentsForBase =
+        notes.getCommentsBase();
+    ImmutableListMultimap<PatchSet.Id, PatchLineComment> commentsForPS =
+        notes.getPatchSetComments();
+    assertEquals(commentsForBase.size(), 0);
+    assertEquals(commentsForPS.size(), 2);
+
+    List<PatchLineComment> commentsForThisPS = commentsForPS.get(psId);
+    assertEquals(commentsForThisPS.size(), 2);
+    PatchLineComment commentFromNotes1 = commentsForThisPS.get(0);
+    PatchLineComment commentFromNotes2 = commentsForThisPS.get(1);
+
+    assertCommentEquals(comment1, commentFromNotes1);
+    assertCommentEquals(comment2, commentFromNotes2);
+  }
+
+  @Test
+  public void patchLineCommentMultiplePatchsets() throws Exception {
+    Change c = newChange();
+    String uuid = "uuid";
+    CommentRange range = new CommentRange(1, 1, 2, 1);
+    PatchSet.Id ps1 = c.currentPatchSetId();
+    String filename = "filename1";
+    short side = (short) 1;
+
+    ChangeUpdate update = newUpdate(c, otherUser);
+    Timestamp now = TimeUtil.nowTs();
+    PatchLineComment comment1 = newPatchLineComment(ps1, filename, uuid,
+        range, range.getEndLine(), otherUser, null, now, "comment on ps1", side,
+        "abcd1234abcd1234abcd1234abcd1234abcd1234");
+    update.setPatchSetId(ps1);
+    update.putComment(comment1);
+    update.commit();
+
+    incrementPatchSet(c);
+    PatchSet.Id ps2 = c.currentPatchSetId();
+
+    update = newUpdate(c, otherUser);
+    now = TimeUtil.nowTs();
+    PatchLineComment comment2 = newPatchLineComment(ps2, filename, uuid,
+        range, range.getEndLine(), otherUser, null, now, "comment on ps2", side,
+        "abcd4567abcd4567abcd4567abcd4567abcd4567");
+    update.setPatchSetId(ps2);
+    update.putComment(comment2);
+    update.commit();
+
+    ChangeNotes notes = newNotes(c);
+    LinkedListMultimap<PatchSet.Id, PatchLineComment> commentsForBase =
+        LinkedListMultimap.create(notes.getCommentsBase());
+    LinkedListMultimap<PatchSet.Id, PatchLineComment> commentsForPS =
+        LinkedListMultimap.create(notes.getPatchSetComments());
+    assertEquals(commentsForBase.keys().size(), 0);
+    assertEquals(commentsForPS.values().size(), 2);
+
+    List<PatchLineComment> commentsForPS1 = commentsForPS.get(ps1);
+    assertEquals(commentsForPS1.size(), 1);
+    PatchLineComment commentFromPs1 = commentsForPS1.get(0);
+
+    List<PatchLineComment> commentsForPS2 = commentsForPS.get(ps2);
+    assertEquals(commentsForPS2.size(), 1);
+    PatchLineComment commentFromPs2 = commentsForPS2.get(0);
+
+    assertCommentEquals(comment1, commentFromPs1);
+    assertCommentEquals(comment2, commentFromPs2);
+  }
+
+  private static void assertCommentEquals(PatchLineComment c1,
+      PatchLineComment c2) {
+    assertEquals(c1.getSide(), c2.getSide());
+    assertEquals(c1.getAuthor(), c2.getAuthor());
+    assertEquals(c1.getLine(), c2.getLine());
+    assertEquals(c1.getMessage(), c2.getMessage());
+    assertEquals(c1.getParentUuid(), c2.getParentUuid());
+    assertEquals(c1.getWrittenOn(), c2.getWrittenOn());
+    assertEquals(c1.getKey(), c2.getKey());
+    assertEquals(c1.getRange(), c2.getRange());
+    assertEquals(c1.getRevId(), c2.getRevId());
+  }
 
   private Change newChange() {
     Change.Id changeId = new Change.Id(1);
@@ -842,6 +1191,21 @@ public class ChangeNotesTest {
         TimeUtil.nowTs());
     incrementPatchSet(c);
     return c;
+  }
+
+  private PatchLineComment newPatchLineComment(PatchSet.Id psId,
+      String filename, String UUID, CommentRange range, int line,
+      IdentifiedUser commenter, String parentUUID, Timestamp t,
+      String message, short side, String commitSHA1) {
+    PatchLineComment comment = new PatchLineComment(
+        new PatchLineComment.Key(
+            new Patch.Key(psId, filename), UUID),
+        line, commenter.getAccountId(), parentUUID, t);
+    comment.setSide(side);
+    comment.setMessage(message);
+    comment.setRange(range);
+    comment.setRevId(new RevId(commitSHA1));
+    return comment;
   }
 
   private ChangeUpdate newUpdate(Change c, final IdentifiedUser user)
@@ -877,10 +1241,13 @@ public class ChangeNotesTest {
     return new Timestamp(c.getCreatedOn().getTime() + millis);
   }
 
-  private ChangeControl stubChangeControl(Change c, IdentifiedUser user) {
+  private ChangeControl stubChangeControl(Change c, IdentifiedUser user) throws OrmException {
     ChangeControl ctl = EasyMock.createNiceMock(ChangeControl.class);
     expect(ctl.getChange()).andStubReturn(c);
     expect(ctl.getCurrentUser()).andStubReturn(user);
+    ChangeNotes notes = new ChangeNotes(repoManager, c);
+    notes = notes.load();
+    expect(ctl.getNotes()).andStubReturn(notes);
     EasyMock.replay(ctl);
     return ctl;
   }

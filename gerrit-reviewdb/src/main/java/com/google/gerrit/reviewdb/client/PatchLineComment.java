@@ -120,6 +120,15 @@ public final class PatchLineComment {
   @Column(id = 9, notNull = false)
   protected CommentRange range;
 
+  /**
+   * The RevId for the commit to which this comment is referring.
+   *
+   * Note that this field is not stored in the database. It is just provided
+   * for users of this class to avoid a lookup when they don't have easy access
+   * to a ReviewDb.
+   */
+  protected RevId revId;
+
   protected PatchLineComment() {
   }
 
@@ -195,5 +204,13 @@ public final class PatchLineComment {
 
   public CommentRange getRange() {
     return range;
+  }
+
+  public void setRevId(RevId rev) {
+    revId = rev;
+  }
+
+  public RevId getRevId() {
+    return revId;
   }
 }

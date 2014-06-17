@@ -34,6 +34,24 @@
       "revId": "accae70e9918dd5e63f3376cafdd004382e3262e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4485179_83ee5e24",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CherryPick.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1016473
+      },
+      "writtenOn": "2014-06-17T21:33:46Z",
+      "side": 1,
+      "message": "And who test that?\nProblem is real, if we write code that works fine on JDBC (No entity group restrictions)\n\nOn GAE simple can throw exception.\n\nSolutin is to make this check also on JDBC/SQL.\n\nCode is related to: https://gerrit-review.googlesource.com/#/c/57851/3/src/main/java/com/google/gwtorm/jdbc/JdbcAccess.java\n\n(Not sure, but I think this is what Dave ask)",
+      "parentUuid": "5f3760c3_4925c1c8",
+      "revId": "accae70e9918dd5e63f3376cafdd004382e3262e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

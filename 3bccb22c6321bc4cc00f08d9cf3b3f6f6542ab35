@@ -117,6 +117,30 @@
       "revId": "3bccb22c6321bc4cc00f08d9cf3b3f6f6542ab35",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84834dc4_82d99a8e",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AccountGeneralPreferences.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-06-17T21:59:33Z",
+      "side": 1,
+      "message": "I\u0027ve done something similar to change 56641 but did not remove showUserAbbrevInReview from the code.  Not sure whether it should be removed or now.",
+      "parentUuid": "1feec834_df4cfb87",
+      "range": {
+        "startLine": 170,
+        "startChar": 2,
+        "endLine": 171,
+        "endChar": 43
+      },
+      "revId": "3bccb22c6321bc4cc00f08d9cf3b3f6f6542ab35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

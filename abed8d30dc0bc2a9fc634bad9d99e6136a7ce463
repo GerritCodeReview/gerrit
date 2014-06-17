@@ -16,6 +16,24 @@
       "revId": "abed8d30dc0bc2a9fc634bad9d99e6136a7ce463",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f2c6c7a_68f0c3ff",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AccountGeneralPreferences.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-06-17T01:25:54Z",
+      "side": 1,
+      "message": "I guess it would need to be done in a schema migration.",
+      "parentUuid": "1f07a8cc_37427851",
+      "revId": "abed8d30dc0bc2a9fc634bad9d99e6136a7ce463",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

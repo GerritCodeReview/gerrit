@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0424bda2_562b74a3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CherryPick.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1016473
+      },
+      "writtenOn": "2014-06-17T21:16:52Z",
+      "side": 1,
+      "message": "How we know if PatchSet, CodeReviewCo\nmmit, PatchSetApproval are on same entity group on GAE ?\n\nWe need to store more info on @Relation() I think. (not sure)\n\nFor JDBC works fine.",
+      "revId": "accae70e9918dd5e63f3376cafdd004382e3262e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

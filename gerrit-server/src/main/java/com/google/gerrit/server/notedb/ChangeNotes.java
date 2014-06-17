@@ -26,6 +26,7 @@ import com.google.common.base.Function;
 import com.google.common.base.Optional;
 import com.google.common.base.Supplier;
 import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableSetMultimap;
@@ -41,7 +42,10 @@ import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
+import com.google.gerrit.reviewdb.client.CommentRange;
+import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.PatchSet.Id;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetApproval.LabelId;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -52,20 +56,27 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.notes.Note;
+import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.FooterKey;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.RawParseUtils;
+import org.eclipse.jgit.lib.Constants;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -90,6 +101,38 @@ public class ChangeNotes extends VersionedMetaData {
           }
         });
 
+  public static Comparator<PatchLineComment> PatchLineCommentComparator =
+      new Comparator<PatchLineComment>() {
+    public int compare(PatchLineComment c1, PatchLineComment c2) {
+      String filename1 = c1.getKey().getParentKey().get();
+      String filename2 = c2.getKey().getParentKey().get();
+      CommentRange range1 = c1.getRange();
+      CommentRange range2 = c2.getRange();
+
+      // The range field for a comment can be null. If a comment's range is null
+      // we just use the line field in the comment (which can't be null) for
+      // comparison and compare to the other comment's range's end line (if
+      // its range isn't null) or just the line field in the other comment.
+      int lineForComment1 = (range1 == null)
+          ? c1.getLine() : range1.getEndLine();
+      int lineForComment2 = (range2 == null)
+          ? c2.getLine() : range2.getEndLine();
+
+      ComparisonChain chain = ComparisonChain.start();
+      if ((range1 == null) || (range2 == null)) {
+        chain = chain.compare(lineForComment1, lineForComment2);
+      } else {
+        chain = chain.compare(range1.getStartLine(), range2.getStartLine())
+            .compare(range1.getStartCharacter(), range2.getStartCharacter())
+            .compare(range1.getEndLine(), range2.getEndLine())
+            .compare(range1.getEndCharacter(), range2.getEndCharacter());
+      }
+      return chain.compare(filename1, filename2)
+          .compare(c1.getWrittenOn(), c2.getWrittenOn())
+          .result();
+    }
+  };
+
   @Singleton
   public static class Factory {
     private final GitRepositoryManager repoManager;
@@ -109,28 +152,38 @@ public class ChangeNotes extends VersionedMetaData {
     private final Change.Id changeId;
     private final ObjectId tip;
     private final RevWalk walk;
+    private final Repository repo;
     private final Map<PatchSet.Id,
         Table<Account.Id, String, Optional<PatchSetApproval>>> approvals;
     private final Map<Account.Id, ReviewerState> reviewers;
     private final List<SubmitRecord> submitRecords;
     private final Multimap<PatchSet.Id, ChangeMessage> changeMessages;
+    private final Multimap<Id, PatchLineComment> commentsForPs;
+    private final Multimap<PatchSet.Id, PatchLineComment> commentsForBase;
+    private NoteMap commentNoteMap;
     private Change.Status status;
 
-    private Parser(Change.Id changeId, ObjectId tip, RevWalk walk) {
-      this.changeId = changeId;
+    private Parser(Change change, ObjectId tip, RevWalk walk,
+        GitRepositoryManager repoManager) throws RepositoryNotFoundException,
+        IOException {
+      this.changeId = change.getId();
       this.tip = tip;
       this.walk = walk;
+      this.repo = repoManager.openRepository(change.getProject());
       approvals = Maps.newHashMap();
       reviewers = Maps.newLinkedHashMap();
       submitRecords = Lists.newArrayListWithExpectedSize(1);
       changeMessages = LinkedListMultimap.create();
+      commentsForPs = ArrayListMultimap.create();
+      commentsForBase = ArrayListMultimap.create();
     }
 
-    private void parseAll() throws ConfigInvalidException, IOException {
+    private void parseAll() throws ConfigInvalidException, IOException, ParseException {
       walk.markStart(walk.parseCommit(tip));
       for (RevCommit commit : walk) {
         parse(commit);
       }
+      parseComments(walk.parseCommit(tip));
       pruneReviewers();
     }
 
@@ -157,7 +210,7 @@ public class ChangeNotes extends VersionedMetaData {
       return ImmutableListMultimap.copyOf(changeMessages);
     }
 
-    private void parse(RevCommit commit) throws ConfigInvalidException {
+    private void parse(RevCommit commit) throws ConfigInvalidException, IOException {
       if (status == null) {
         status = parseStatus(commit);
       }
@@ -267,6 +320,34 @@ public class ChangeNotes extends VersionedMetaData {
           psId);
       changeMessage.setMessage(changeMsgString);
       changeMessages.put(psId, changeMessage);
+    }
+
+    private void parseComments(RevCommit commit)
+        throws IOException, ConfigInvalidException, ParseException {
+      Ref sharedMeta = repo.getRef(ChangeNoteUtil.changeRefName(changeId));
+      if (sharedMeta != null) {
+        RevCommit sharedBaseCommit = walk.parseCommit(sharedMeta.getObjectId());
+        commentNoteMap =
+            NoteMap.read(walk.getObjectReader(), sharedBaseCommit);
+      }
+      Iterator<Note> notes = commentNoteMap.iterator();
+      while (notes.hasNext()) {
+        Note next = notes.next();
+        byte[] bytes = walk.getObjectReader().open(
+            next.getData(), Constants.OBJ_BLOB).getBytes();
+        List<PatchLineComment> result =
+            CommentsInNotesUtil.parseNote(bytes, changeId);
+        if ((result == null) || (result.isEmpty())) {
+          continue;
+        }
+        PatchSet.Id psId = result.get(0).getKey().getParentKey().getParentKey();
+        short side = result.get(0).getSide();
+        if (side == 0) {
+          commentsForBase.putAll(psId, result);
+        } else {
+          commentsForPs.putAll(psId, result);
+        }
+      }
     }
 
     private void parseApproval(PatchSet.Id psId, Account.Id accountId,
@@ -403,11 +484,6 @@ public class ChangeNotes extends VersionedMetaData {
       }
     }
 
-    private ConfigInvalidException parseException(String fmt, Object... args) {
-      return new ConfigInvalidException("Change " + changeId + ": "
-          + String.format(fmt, args));
-    }
-
     private ConfigInvalidException expectedOneFooter(FooterKey footer,
         List<String> actual) {
       return parseException("missing or multiple %s: %s",
@@ -425,6 +501,10 @@ public class ChangeNotes extends VersionedMetaData {
         throw invalidFooter(footer, actual);
       }
     }
+
+    private ConfigInvalidException parseException(String fmt, Object... args) {
+      return ChangeNotes.parseException(changeId, fmt, args);
+    }
   }
 
   private final GitRepositoryManager repoManager;
@@ -434,6 +514,9 @@ public class ChangeNotes extends VersionedMetaData {
   private ImmutableSetMultimap<ReviewerState, Account.Id> reviewers;
   private ImmutableList<SubmitRecord> submitRecords;
   private ImmutableListMultimap<PatchSet.Id, ChangeMessage> changeMessages;
+  private ImmutableListMultimap<PatchSet.Id, PatchLineComment> commentsForBase;
+  private ImmutableListMultimap<PatchSet.Id, PatchLineComment> commentsForPS;
+  NoteMap noteMap;
 
   @VisibleForTesting
   ChangeNotes(GitRepositoryManager repoManager, Change change) {
@@ -491,6 +574,23 @@ public class ChangeNotes extends VersionedMetaData {
     return changeMessages;
   }
 
+  /** @return inline comments on each patchset's base (side == 0). */
+  public Multimap<PatchSet.Id, PatchLineComment>
+      getBaseComments() {
+    return commentsForBase;
+  }
+
+  /** @return inline comments on each patchset (side == 1). */
+  public Multimap<PatchSet.Id, PatchLineComment>
+      getPatchSetComments() {
+    return commentsForPS;
+  }
+
+  /** @return the NoteMap */
+  NoteMap getNoteMap() {
+    return noteMap;
+  }
+
   @Override
   protected String getRefName() {
     return ChangeNoteUtil.changeRefName(change.getId());
@@ -505,7 +605,7 @@ public class ChangeNotes extends VersionedMetaData {
     }
     RevWalk walk = new RevWalk(reader);
     try {
-      Parser parser = new Parser(change.getId(), rev, walk);
+      Parser parser = new Parser(change, rev, walk, repoManager);
       parser.parseAll();
 
       if (parser.status != null) {
@@ -513,6 +613,9 @@ public class ChangeNotes extends VersionedMetaData {
       }
       approvals = parser.buildApprovals();
       changeMessages = parser.buildMessages();
+      commentsForBase = ImmutableListMultimap.copyOf(parser.commentsForBase);
+      commentsForPS = ImmutableListMultimap.copyOf(parser.commentsForPs);
+      noteMap = parser.commentNoteMap;
 
       ImmutableSetMultimap.Builder<ReviewerState, Account.Id> reviewers =
           ImmutableSetMultimap.builder();
@@ -523,6 +626,9 @@ public class ChangeNotes extends VersionedMetaData {
       this.reviewers = reviewers.build();
 
       submitRecords = ImmutableList.copyOf(parser.submitRecords);
+    } catch (ParseException e1) {
+      // TODO(yyonas): figure out how to handle this exception
+      throw new IOException(e1);
     } finally {
       walk.release();
     }
@@ -533,11 +639,35 @@ public class ChangeNotes extends VersionedMetaData {
     reviewers = ImmutableSetMultimap.of();
     submitRecords = ImmutableList.of();
     changeMessages = ImmutableListMultimap.of();
+    commentsForBase = ImmutableListMultimap.of();
+    commentsForPS = ImmutableListMultimap.of();
   }
 
   @Override
   protected boolean onSave(CommitBuilder commit) {
     throw new UnsupportedOperationException(
         getClass().getSimpleName() + " is read-only");
+  }
+
+
+  public static ConfigInvalidException parseException(Change.Id changeId,
+      String fmt, Object... args) {
+    return new ConfigInvalidException("Change " + changeId + ": "
+        + String.format(fmt, args));
+  }
+
+  public static Account.Id parseIdent(PersonIdent ident, Change.Id changeId)
+      throws ConfigInvalidException {
+    String email = ident.getEmailAddress();
+    int at = email.indexOf('@');
+    if (at >= 0) {
+      String host = email.substring(at + 1, email.length());
+      Integer id = Ints.tryParse(email.substring(0, at));
+      if (id != null && host.equals(GERRIT_PLACEHOLDER_HOST)) {
+        return new Account.Id(id);
+      }
+    }
+    throw parseException(changeId, "invalid identity, expected <id>@%s: %s",
+      GERRIT_PLACEHOLDER_HOST, email);
   }
 }

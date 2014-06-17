@@ -120,6 +120,11 @@ public final class PatchLineComment {
   @Column(id = 9, notNull = false)
   protected CommentRange range;
 
+  /**
+   * The RevId for the commit to which this comment is referring.
+   */
+  protected RevId revId;
+
   protected PatchLineComment() {
   }
 
@@ -195,5 +200,13 @@ public final class PatchLineComment {
 
   public CommentRange getRange() {
     return range;
+  }
+
+  public void setRevId(RevId rev) {
+    revId = rev;
+  }
+
+  public RevId getRevId() {
+    return revId;
   }
 }

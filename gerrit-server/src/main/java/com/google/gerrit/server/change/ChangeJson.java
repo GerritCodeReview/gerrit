@@ -717,6 +717,7 @@ public class ChangeJson {
       List<ChangeMessage> msgs) throws OrmException {
     // Sort messages to keep the most recent ones at the beginning.
     msgs = ChangeNotes.MESSAGE_BY_TIME.sortedCopy(msgs);
+    Collections.reverse(msgs);
 
     Account.Id changeOwnerId = cd.change().getOwner();
     for (ChangeMessage cm : msgs) {

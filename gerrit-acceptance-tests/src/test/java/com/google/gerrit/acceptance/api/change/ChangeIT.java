@@ -262,4 +262,33 @@ public class ChangeIT extends AbstractDaemonTest {
     setApiUser(user);
     assertTrue(query("owner:self").isEmpty());
   }
+
+  @Test
+  public void queryChangesReviewerAfterReview() throws Exception {
+    PushOneCommit.Result r = createChange();
+    AddReviewerInput in = new AddReviewerInput();
+    in.reviewer = user.email;
+    gApi.changes()
+        .id("p~master~" + r.getChangeId())
+        .addReviewer(in);
+
+    setApiUser(user);
+    revision(r).review(ReviewInput.recommend());
+
+    assertTrue(get(r.getChangeId()).reviewed);
+  }
+
+  @Test
+  public void queryChangesReviewerNotReviewed() throws Exception {
+    PushOneCommit.Result r = createChange();
+    AddReviewerInput in = new AddReviewerInput();
+    in.reviewer = user.email;
+    gApi.changes()
+        .id("p~master~" + r.getChangeId())
+        .addReviewer(in);
+
+    setApiUser(user);
+
+    assertNull(get(r.getChangeId()).reviewed);
+  }
 }

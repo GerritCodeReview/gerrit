@@ -24,14 +24,17 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.GERRIT_PLACEHOLDER_
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.PatchLineCommentsUtil;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
@@ -39,14 +42,17 @@ import com.google.gerrit.server.git.VersionedMetaData;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.util.LabelVote;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.FooterKey;
 import org.eclipse.jgit.revwalk.RevCommit;
 
@@ -88,7 +94,9 @@ public class ChangeUpdate extends VersionedMetaData {
   private String subject;
   private PatchSet.Id psId;
   private List<SubmitRecord> submitRecords;
+  private List<PatchLineComment> commentsToAdd;
   private String changeMessage;
+
 
   @AssistedInject
   private ChangeUpdate(
@@ -191,6 +199,10 @@ public class ChangeUpdate extends VersionedMetaData {
     this.changeMessage = changeMessage;
   }
 
+  public void putComment(PatchLineComment comment) {
+    commentsToAdd.add(comment);
+  }
+
   public void putReviewer(Account.Id reviewer, ReviewerState type) {
     checkArgument(type != ReviewerState.REMOVED, "invalid ReviewerType");
     reviewers.put(reviewer, type);
@@ -213,6 +225,36 @@ public class ChangeUpdate extends VersionedMetaData {
     }
   }
 
+  private void storeCommentsInNotes(RevCommit c) throws OrmException, IOException {
+    if (commentsToAdd.isEmpty()) {
+      return;
+    }
+
+    //assume you can only add comments to one patchset at a time
+    PatchSet.Id psId =
+        commentsToAdd.get(0).getKey().getParentKey().getParentKey();
+
+    ChangeNotes notes = ctl.getNotes();
+    LinkedListMultimap<PatchSet.Id, PatchLineComment> allComments =
+        LinkedListMultimap.create(notes.getPublishedComments()) ;
+    List<PatchLineComment> commentsOnSamePs = allComments.get(psId);
+
+
+    //add all comments and re-sort list
+    commentsOnSamePs.addAll(commentsToAdd);
+    commentsOnSamePs =
+        ChangeNotes.COMMENT_ORDERING.sortedCopy(commentsOnSamePs);
+
+    String noteContents =
+        PatchLineCommentsUtil.buildNote(accountCache, commentsOnSamePs);
+
+    AnyObjectId oId = c.getId();
+    NoteMap noteMap = notes.getNoteMap();
+    noteMap.set(oId, noteContents, this.inserter);
+
+    this.inserter.flush();
+  }
+
   @Override
   public RevCommit commit(MetaDataUpdate md) throws IOException {
     throw new UnsupportedOperationException("use commit()");
@@ -222,7 +264,12 @@ public class ChangeUpdate extends VersionedMetaData {
     BatchMetaDataUpdate batch = openUpdate();
     try {
       batch.write(new CommitBuilder());
-      return batch.commit();
+      RevCommit c = batch.commit();
+      storeCommentsInNotes(c);
+      return c;
+    } catch (OrmException e) {
+      // TODO(yyonas): what to do with this exception?
+      return null;
     } finally {
       batch.close();
     }

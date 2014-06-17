@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "648819e3_41e39242",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitOverHttpServlet.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-06-17T19:52:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df9d10d5_cdfba927",
+      "range": {
+        "startLine": 215,
+        "startChar": 33,
+        "endLine": 215,
+        "endChar": 56
+      },
+      "revId": "f15be04184c4e18d838b5bd215655b72255b8157",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "df9d10d5_2d018d6c",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Upload.java",
         "patchSetId": 17
@@ -36,6 +60,30 @@
       "writtenOn": "2014-06-13T11:43:40Z",
       "side": 1,
       "message": "This is somehow inconsistent with the injection of PostReceiveHooks in class Receive.java. There any plugin can add new PostReceiveHooks to the DynamicSet.\n\nI would like it more if you inject here only DynamicSet\u003cPreUploadHook\u003e preUploadHooks and to add the uploadValidatorsFactory to the preUploadHooks somewhere else.\n\nI think the interface PreUploadHook is the right abstraction matching the UploadPack.",
+      "range": {
+        "startLine": 48,
+        "startChar": 10,
+        "endLine": 48,
+        "endChar": 26
+      },
+      "revId": "f15be04184c4e18d838b5bd215655b72255b8157",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "648819e3_e1e7464c",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Upload.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-06-17T19:52:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df9d10d5_2d018d6c",
       "range": {
         "startLine": 48,
         "startChar": 10,

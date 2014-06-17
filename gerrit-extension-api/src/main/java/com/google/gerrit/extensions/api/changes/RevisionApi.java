@@ -14,6 +14,9 @@
 
 package com.google.gerrit.extensions.api.changes;
 
+import java.util.Map;
+
+import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 
@@ -28,6 +31,9 @@ public interface RevisionApi {
   ChangeApi cherryPick(CherryPickInput in) throws RestApiException;
   ChangeApi rebase() throws RestApiException;
   boolean canRebase();
+
+  Map<String, FileInfo> files();
+  FileApi file(String filePath);
 
   /**
    * A default implementation which allows source compatibility
@@ -71,6 +77,16 @@ public interface RevisionApi {
 
     @Override
     public boolean canRebase() {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public Map<String, FileInfo> files() {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public FileApi file(String filePath) {
       throw new NotImplementedException();
     }
   }

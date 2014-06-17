@@ -433,6 +433,14 @@ notified when JGit successfully receives a pack. This may be useful
 for those plugins which would like to monitor changes in Git
 repositories.
 
+[[pre-upload-hook]]
+== Pre Upload-Pack Hooks
+
+Plugins may register PreUploadHook instances in order to get
+notified when JGit is about to upload a pack. This may be useful
+for those plugins which would like to monitor usage in Git
+repositories.
+
 [[ssh]]
 == SSH Commands
 

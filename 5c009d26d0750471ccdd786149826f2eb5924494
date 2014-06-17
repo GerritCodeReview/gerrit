@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0424bda2_16fcdcd5",
+        "filename": "lib/jetty/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-17T12:43:52Z",
+      "side": 1,
+      "message": "9.2.1.v20140609",
+      "range": {
+        "startLine": 3,
+        "startChar": 11,
+        "endLine": 3,
+        "endChar": 26
+      },
+      "revId": "5c009d26d0750471ccdd786149826f2eb5924494",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

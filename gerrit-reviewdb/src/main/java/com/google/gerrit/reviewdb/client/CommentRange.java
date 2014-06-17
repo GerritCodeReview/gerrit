@@ -16,7 +16,7 @@ package com.google.gerrit.reviewdb.client;
 
 import com.google.gwtorm.client.Column;
 
-public class CommentRange {
+public class CommentRange implements Comparable<CommentRange> {
 
   @Column(id = 1)
   protected int startLine;
@@ -80,6 +80,27 @@ public class CommentRange {
           endLine == other.endLine && endCharacter == other.endCharacter;
     }
     return false;
+  }
+
+  @Override
+  public int compareTo(CommentRange o) {
+    int slCmp = Integer.compare(startLine, o.startLine);
+    if (slCmp != 0) {
+      return slCmp;
+    }
+    int scCmp = Integer.compare(startCharacter, o.startCharacter);
+    if (scCmp != 0) {
+      return scCmp;
+    }
+    int elCmp = Integer.compare(endLine, o.endLine);
+    if (elCmp != 0) {
+      return elCmp;
+    }
+    int ecCmp = Integer.compare(endCharacter, o.endCharacter);
+    if (ecCmp != 0) {
+      return ecCmp;
+    }
+    return 0;
   }
 
   @Override

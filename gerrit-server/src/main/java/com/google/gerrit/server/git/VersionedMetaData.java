@@ -222,13 +222,19 @@ public abstract class VersionedMetaData {
           return;
         }
 
-        final ObjectId res = newTree.writeTree(inserter);
-        if (res.equals(srcTree) && !update.allowEmpty()) {
+        ObjectId res = newTree.writeTree(inserter);
+        if (res.equals(srcTree) && !update.allowEmpty()
+            && (commit.getTreeId() == null)) {
           // If there are no changes to the content, don't create the commit.
           return;
         }
 
-        commit.setTreeId(res);
+        if (commit.getTreeId() == null) {
+          commit.setTreeId(res);
+        } else {
+          res = commit.getTreeId();
+        }
+
         if (src != null) {
           commit.addParentId(src);
         }

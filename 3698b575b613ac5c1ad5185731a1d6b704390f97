@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5f3760c3_e9faf5db",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/AccountConstants.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-06-17T01:48:19Z",
+      "side": 1,
+      "message": "Show",
+      "range": {
+        "startLine": 40,
+        "startChar": 16,
+        "endLine": 40,
+        "endChar": 21
+      },
+      "revId": "3698b575b613ac5c1ad5185731a1d6b704390f97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f3760c3_0910296d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/AccountConstants.properties",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-06-17T01:48:19Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this have a string value, like \"Show none\" or something like that?",
+      "range": {
+        "startLine": 14,
+        "startChar": 33,
+        "endLine": 14,
+        "endChar": 34
+      },
+      "revId": "3698b575b613ac5c1ad5185731a1d6b704390f97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f3760c3_290ded57",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-06-17T01:48:19Z",
+      "side": 1,
+      "message": "This will give strange results for names with non-latin characters, for example the Japanese name:\n\n  鈴木 一朗\n\nwill result in:\n\n  鈴一\n\nwhich is a bit weird.\n\nThis might be considered an unusual edge case though.  And it should be fairly easy to add proper handling for it later.\n\nJust for interest, the following names:\n\n  鈴木 一朗\n  鈴木 次郎\n  松本 行弘\n\nShould be properly abbreviated as:\n\n  鈴木 (一)\n  鈴木 (次)\n  松本",
+      "range": {
+        "startLine": 369,
+        "startChar": 6,
+        "endLine": 371,
+        "endChar": 7
+      },
+      "revId": "3698b575b613ac5c1ad5185731a1d6b704390f97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

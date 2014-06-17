@@ -16,6 +16,24 @@
       "revId": "accae70e9918dd5e63f3376cafdd004382e3262e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f3760c3_4925c1c8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CherryPick.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-17T21:23:48Z",
+      "side": 1,
+      "message": "(Not GAE, but sure.)\n\nYou walk up getParentKey() calls until you reach the root key (getParentKey() on this key is null), and that\u0027s the entity group key.",
+      "parentUuid": "0424bda2_562b74a3",
+      "revId": "accae70e9918dd5e63f3376cafdd004382e3262e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

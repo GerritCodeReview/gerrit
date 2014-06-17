@@ -259,11 +259,43 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void queryChangesReviewer() throws Exception {
+  public void queryChangesReviewerAfterReview() throws Exception {
     PushOneCommit.Result r = createChange();
     QueryRequest q = gApi.changes().query("owner:self");
     assertEquals(r.getChangeId(), Iterables.getOnlyElement(q.get()).changeId);
+    AddReviewerInput in = new AddReviewerInput();
+    in.reviewer = user.email;
+    gApi.changes()
+        .id("p~master~" + r.getChangeId())
+        .addReviewer(in);
     setAccountContext(user);
-    assertTrue(q.get().isEmpty());
+    revision(r).review(ReviewInput.recommend());
+
+    ChangeInfo result = Iterables.getOnlyElement(gApi.changes()
+        .query(r.getChangeId())
+        .withOptions(EnumSet.allOf(ListChangesOption.class))
+        .get());
+
+    assertTrue(result.reviewed);
+  }
+
+  @Test
+  public void queryChangesReviewerNotReviewed() throws Exception {
+    PushOneCommit.Result r = createChange();
+    QueryRequest q = gApi.changes().query("owner:self");
+    assertEquals(r.getChangeId(), Iterables.getOnlyElement(q.get()).changeId);
+    AddReviewerInput in = new AddReviewerInput();
+    in.reviewer = user.email;
+    gApi.changes()
+        .id("p~master~" + r.getChangeId())
+        .addReviewer(in);
+    setAccountContext(user);
+
+    ChangeInfo result = Iterables.getOnlyElement(gApi.changes()
+        .query(r.getChangeId())
+        .withOptions(EnumSet.allOf(ListChangesOption.class))
+        .get());
+
+    assertNull(result.reviewed);
   }
 }

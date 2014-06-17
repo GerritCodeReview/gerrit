@@ -52,6 +52,24 @@
       "revId": "accae70e9918dd5e63f3376cafdd004382e3262e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f3760c3_692285c3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CherryPick.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-17T21:53:59Z",
+      "side": 1,
+      "message": "Yes, the annoying thing is that you would actually have to store the entity group key (and entity type), and compare the the entity group key(s) for any objects being modified in any Access method. This is not terribly difficult logic to write in Java (the Megastore gwtorm bindings are hand-written), but will be more annoying in gwtorm where it\u0027s generating bytecode directly.\n\nAll that said if it\u0027s too much work I\u0027m not necessarily opposed to the gwtorm change. It will flush out bugs in Gerrit and won\u0027t necessarily to make it any _easier_ to write code in upstream Gerrit that won\u0027t work with Megastore than it already was.\n\nSince we don\u0027t have an open-source reference implementation of entity-group-based transaction semantics, we know it\u0027s on our team to be careful in review.",
+      "parentUuid": "a4485179_83ee5e24",
+      "revId": "accae70e9918dd5e63f3376cafdd004382e3262e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

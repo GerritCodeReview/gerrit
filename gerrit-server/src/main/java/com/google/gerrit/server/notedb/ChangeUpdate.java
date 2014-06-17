@@ -24,10 +24,13 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.GERRIT_PLACEHOLDER_
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.LinkedListMultimap;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -39,14 +42,17 @@ import com.google.gerrit.server.git.VersionedMetaData;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.util.LabelVote;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.FooterKey;
 import org.eclipse.jgit.revwalk.RevCommit;
 
@@ -88,6 +94,9 @@ public class ChangeUpdate extends VersionedMetaData {
   private String subject;
   private PatchSet.Id psId;
   private List<SubmitRecord> submitRecords;
+  private final CommentsInNotesUtil commentsUtil;
+  private List<PatchLineComment> commentsForBase;
+  private List<PatchLineComment> commentsForPs;
   private String changeMessage;
 
   @AssistedInject
@@ -99,9 +108,10 @@ public class ChangeUpdate extends VersionedMetaData {
       MetaDataUpdate.User updateFactory,
       ProjectCache projectCache,
       IdentifiedUser user,
-      @Assisted ChangeControl ctl) {
+      @Assisted ChangeControl ctl,
+      CommentsInNotesUtil commentsUtil) {
     this(serverIdent, repoManager, migration, accountCache, updateFactory,
-        projectCache, ctl, serverIdent.getWhen());
+        projectCache, ctl, serverIdent.getWhen(), commentsUtil);
   }
 
   @AssistedInject
@@ -113,10 +123,12 @@ public class ChangeUpdate extends VersionedMetaData {
       MetaDataUpdate.User updateFactory,
       ProjectCache projectCache,
       @Assisted ChangeControl ctl,
-      @Assisted Date when) {
-    this(serverIdent, repoManager, migration, accountCache, updateFactory,
-        ctl, when,
-        projectCache.get(getProjectName(ctl)).getLabelTypes().nameComparator());
+      @Assisted Date when,
+      CommentsInNotesUtil commentsUtil) {
+    this(serverIdent, repoManager, migration, accountCache, updateFactory, ctl,
+        when,
+        projectCache.get(getProjectName(ctl)).getLabelTypes().nameComparator(),
+        commentsUtil);
   }
 
   private static Project.NameKey getProjectName(ChangeControl ctl) {
@@ -132,7 +144,8 @@ public class ChangeUpdate extends VersionedMetaData {
       MetaDataUpdate.User updateFactory,
       @Assisted ChangeControl ctl,
       @Assisted Date when,
-      @Assisted Comparator<String> labelNameComparator) {
+      @Assisted Comparator<String> labelNameComparator,
+      CommentsInNotesUtil commentsUtil) {
     this.repoManager = repoManager;
     this.migration = migration;
     this.accountCache = accountCache;
@@ -140,8 +153,11 @@ public class ChangeUpdate extends VersionedMetaData {
     this.ctl = ctl;
     this.when = when;
     this.serverIdent = serverIdent;
+    this.commentsUtil = commentsUtil;
     this.approvals = Maps.newTreeMap(labelNameComparator);
     this.reviewers = Maps.newLinkedHashMap();
+    this.commentsForPs = Lists.newArrayList();
+    this.commentsForBase = Lists.newArrayList();
   }
 
   public Change getChange() {
@@ -183,12 +199,23 @@ public class ChangeUpdate extends VersionedMetaData {
 
   public void setPatchSetId(PatchSet.Id psId) {
     checkArgument(psId == null
-        || psId.getParentKey().equals(getChange().getKey()));
+        || psId.getParentKey().equals(getChange().getId()));
     this.psId = psId;
   }
 
   public void setChangeMessage(String changeMessage) {
     this.changeMessage = changeMessage;
+  }
+
+  public void putComment(PatchLineComment comment) {
+    checkArgument(psId != null);
+    checkArgument(CommentsInNotesUtil.psId(comment).equals(psId));
+    checkArgument(comment.getRevId() != null);
+    if (comment.getSide() == 0) {
+      commentsForBase.add(comment);
+    } else {
+      commentsForPs.add(comment);
+    }
   }
 
   public void putReviewer(Account.Id reviewer, ReviewerState type) {
@@ -213,6 +240,52 @@ public class ChangeUpdate extends VersionedMetaData {
     }
   }
 
+  /** @return the tree id for the updated tree */
+  private ObjectId storeCommentsInNotes() throws OrmException, IOException {
+    ChangeNotes notes = ctl.getNotes();
+    NoteMap noteMap = notes.getNoteMap();
+    if (noteMap == null) {
+      noteMap = NoteMap.newEmptyMap();
+    }
+    if (commentsForPs.isEmpty() && commentsForBase.isEmpty()) {
+      return null;
+    }
+
+    LinkedListMultimap<PatchSet.Id, PatchLineComment> allCommentsOnBases =
+        LinkedListMultimap.create(notes.getCommentsBase());
+    LinkedListMultimap<PatchSet.Id, PatchLineComment> allCommentsOnPs =
+        LinkedListMultimap.create(notes.getPatchSetComments());
+
+    // This writes all comments for the base of this PS to the note map.
+    if (!commentsForBase.isEmpty()) {
+      writeCommentsToNoteMap(noteMap, allCommentsOnBases, commentsForBase);
+    }
+
+    // This write all comments for this PS to the note map.
+    if (!commentsForPs.isEmpty()) {
+      writeCommentsToNoteMap(noteMap, allCommentsOnPs, commentsForPs);
+    }
+    return noteMap.writeTree(inserter);
+  }
+
+  private void writeCommentsToNoteMap(NoteMap noteMap,
+      LinkedListMultimap<PatchSet.Id, PatchLineComment> allComments,
+      List<PatchLineComment> commentsToAdd)
+      throws OrmException, IOException {
+    ObjectId noteId;
+    ObjectId commitOID =
+        ObjectId.fromString(commentsToAdd.get(0).getRevId().get());
+    List<PatchLineComment> commentsForThisPS = allComments.get(psId);
+    commentsForThisPS.addAll(commentsToAdd);
+    commentsForThisPS =
+        ChangeNotes.COMMENT_ORDERING.sortedCopy(commentsForThisPS);
+    byte[] note =
+        commentsUtil.buildNote(commentsForThisPS);
+    noteId = inserter.insert(
+        Constants.OBJ_BLOB, note, 0, note.length);
+    noteMap.set(commitOID, noteId);
+  }
+
   @Override
   public RevCommit commit(MetaDataUpdate md) throws IOException {
     throw new UnsupportedOperationException("use commit()");
@@ -221,8 +294,18 @@ public class ChangeUpdate extends VersionedMetaData {
   public RevCommit commit() throws IOException {
     BatchMetaDataUpdate batch = openUpdate();
     try {
-      batch.write(new CommitBuilder());
-      return batch.commit();
+      CommitBuilder builder = new CommitBuilder();
+      if (migration.write()) {
+        ObjectId treeId = storeCommentsInNotes();
+        if (treeId != null) {
+          builder.setTreeId(treeId);
+        }
+      }
+      batch.write(builder);
+      RevCommit c = batch.commit();
+      return c;
+    } catch (OrmException e) {
+      throw new IOException(e);
     } finally {
       batch.close();
     }
@@ -363,6 +446,8 @@ public class ChangeUpdate extends VersionedMetaData {
   private boolean isEmpty() {
     return approvals.isEmpty()
         && reviewers.isEmpty()
+        && commentsForBase.isEmpty()
+        && commentsForPs.isEmpty()
         && status == null
         && submitRecords == null
         && changeMessage == null;

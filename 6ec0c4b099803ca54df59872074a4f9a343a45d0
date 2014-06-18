@@ -140,6 +140,30 @@
       "revId": "6ec0c4b099803ca54df59872074a4f9a343a45d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4485179_838ade53",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-18T17:28:22Z",
+      "side": 1,
+      "message": "Yes setApiUser would be much better: short names are always welcommed.",
+      "parentUuid": "3f2c6c7a_887097b7",
+      "range": {
+        "startLine": 262,
+        "startChar": 14,
+        "endLine": 262,
+        "endChar": 34
+      },
+      "revId": "6ec0c4b099803ca54df59872074a4f9a343a45d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

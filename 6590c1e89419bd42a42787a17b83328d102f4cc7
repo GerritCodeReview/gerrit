@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3f2c6c7a_081bc78c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/AccountConstants.properties",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-06-18T01:08:13Z",
+      "side": 1,
+      "message": "I think it\u0027s better to explicitly say \"None\" or \"Don\u0027t show\" or something like that.\n\nIt should probably also include \"(default)\".",
+      "range": {
+        "startLine": 14,
+        "startChar": 32,
+        "endLine": 14,
+        "endChar": 33
+      },
+      "revId": "6590c1e89419bd42a42787a17b83328d102f4cc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f2c6c7a_28188b8d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-06-18T01:08:13Z",
+      "side": 1,
+      "message": "This will exclude names with diacritics, for example German names containing Ä/ä, Ö/ö, or Ü/ü.",
+      "range": {
+        "startLine": 374,
+        "startChar": 5,
+        "endLine": 374,
+        "endChar": 46
+      },
+      "revId": "6590c1e89419bd42a42787a17b83328d102f4cc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f2c6c7a_4825bfc8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-06-18T01:08:13Z",
+      "side": 1,
+      "message": "The example I gave in the previous patch set was for Japanese names.  It is unlikely to be the same for other non-latin names, like Chinese, Korean, Russian, etc.",
+      "range": {
+        "startLine": 376,
+        "startChar": 8,
+        "endLine": 382,
+        "endChar": 9
+      },
+      "revId": "6590c1e89419bd42a42787a17b83328d102f4cc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f3760c3_c947f160",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-06-18T01:08:13Z",
+      "side": 1,
+      "message": "Sorry, I think it would be better to revert this back to the previous implementation and leave non-latin names as unsupported for now.",
+      "range": {
+        "startLine": 367,
+        "startChar": 2,
+        "endLine": 390,
+        "endChar": 3
+      },
+      "revId": "6590c1e89419bd42a42787a17b83328d102f4cc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

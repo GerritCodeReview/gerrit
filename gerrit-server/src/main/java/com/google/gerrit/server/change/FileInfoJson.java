@@ -16,11 +16,12 @@ package com.google.gerrit.server.change;
 
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.extensions.api.changes.ChangeType;
 import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.Patch.PatchType;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListEntry;
@@ -59,10 +60,10 @@ public class FileInfoJson {
     Map<String, FileInfo> files = Maps.newTreeMap();
     for (PatchListEntry e : list.getPatches()) {
       FileInfo d = new FileInfo();
-      d.status = e.getChangeType() != Patch.ChangeType.MODIFIED
+      d.status = e.getChangeType() != ChangeType.MODIFIED
           ? e.getChangeType().getCode() : null;
       d.oldPath = e.getOldName();
-      if (e.getPatchType() == Patch.PatchType.BINARY) {
+      if (e.getPatchType() == PatchType.BINARY) {
         d.binary = true;
       } else {
         d.linesInserted = e.getInsertions() > 0 ? e.getInsertions() : null;
@@ -74,7 +75,7 @@ public class FileInfoJson {
         // This should only happen on a delete-add break created by JGit
         // when the file was rewritten and too little content survived. Write
         // a single record with data from both sides.
-        d.status = Patch.ChangeType.REWRITE.getCode();
+        d.status = ChangeType.REWRITE.getCode();
         if (o.binary != null && o.binary) {
           d.binary = true;
         }

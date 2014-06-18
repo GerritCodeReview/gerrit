@@ -22,6 +22,10 @@ import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.PatchScript;
 import com.google.gerrit.common.data.PatchScript.DisplayMethod;
 import com.google.gerrit.common.data.PatchScript.FileMode;
+import com.google.gerrit.extensions.common.DiffInfo;
+import com.google.gerrit.extensions.common.DiffInfo.ContentEntry;
+import com.google.gerrit.extensions.common.DiffInfo.FileMeta;
+import com.google.gerrit.extensions.common.DiffInfo.IntraLineStatus;
 import com.google.gerrit.extensions.restapi.CacheControl;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -32,7 +36,6 @@ import com.google.gerrit.prettify.common.SparseFileContent;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.reviewdb.client.Patch;
-import com.google.gerrit.reviewdb.client.Patch.ChangeType;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.git.LargeObjectException;
 import com.google.gerrit.server.patch.PatchScriptFactory;
@@ -83,7 +86,7 @@ public class GetDiff implements RestReadView<FileResource> {
   }
 
   @Override
-  public Response<Result> apply(FileResource resource)
+  public Response<DiffInfo> apply(FileResource resource)
       throws ResourceConflictException, ResourceNotFoundException, OrmException {
     PatchSet.Id basePatchSet = null;
     if (base != null) {
@@ -136,7 +139,7 @@ public class GetDiff implements RestReadView<FileResource> {
       ProjectState state =
           projectCache.get(resource.getRevision().getChange().getProject());
 
-      Result result = new Result();
+      DiffInfo result = new DiffInfo();
       if (ps.getDisplayMethodA() != DisplayMethod.NONE) {
         result.metaA = new FileMeta();
         result.metaA.name = Objects.firstNonNull(ps.getOldName(), ps.getNewName());
@@ -166,7 +169,7 @@ public class GetDiff implements RestReadView<FileResource> {
         result.diffHeader = ps.getPatchHeader();
       }
       result.content = content.lines;
-      Response<Result> r = Response.ok(result);
+      Response<DiffInfo> r = Response.ok(result);
       if (resource.isCacheable()) {
         r.caching(CacheControl.PRIVATE(7, TimeUnit.DAYS));
       }
@@ -176,21 +179,6 @@ public class GetDiff implements RestReadView<FileResource> {
     } catch (LargeObjectException e) {
       throw new ResourceConflictException(e.getMessage());
     }
-  }
-
-  static class Result {
-    FileMeta metaA;
-    FileMeta metaB;
-    IntraLineStatus intralineStatus;
-    ChangeType changeType;
-    List<String> diffHeader;
-    List<ContentEntry> content;
-  }
-
-  static class FileMeta {
-    String name;
-    String contentType;
-    Integer lines;
   }
 
   private void setContentType(FileMeta meta, ProjectState project,
@@ -219,12 +207,6 @@ public class GetDiff implements RestReadView<FileResource> {
       default:
         throw new IllegalStateException("file mode: " + fileMode);
     }
-  }
-
-  enum IntraLineStatus {
-    OK,
-    TIMEOUT,
-    FAILURE
   }
 
   private static class Content {
@@ -339,28 +321,6 @@ public class GetDiff implements RestReadView<FileResource> {
     private IgnoreWhitespace(AccountDiffPreference.Whitespace whitespace) {
       this.whitespace = whitespace;
     }
-  }
-
-  static final class ContentEntry {
-    // Common lines to both sides.
-    List<String> ab;
-    // Lines of a.
-    List<String> a;
-    // Lines of b.
-    List<String> b;
-
-    // A list of changed sections of the corresponding line list.
-    // Each entry is a character <offset, length> pair. The offset is from the
-    // beginning of the first line in the list. Also, the offset includes an
-    // implied trailing newline character for each line.
-    List<List<Integer>> editA;
-    List<List<Integer>> editB;
-
-    // a and b are actually common with this whitespace ignore setting.
-    Boolean common;
-
-    // Number of lines to skip on both sides.
-    Integer skip;
   }
 
   public static class ContextOptionHandler extends OptionHandler<Short> {

@@ -16,6 +16,24 @@
       "revId": "e08d9ef124a0c7c5d754bcc4aba48911dcfb96b5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "648819e3_a1237ec6",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-18T21:16:47Z",
+      "side": 1,
+      "message": "It seems like reviewed is always null unless it is true, so I added an assertNull()",
+      "parentUuid": "648819e3_e1198692",
+      "revId": "e08d9ef124a0c7c5d754bcc4aba48911dcfb96b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

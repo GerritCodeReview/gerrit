@@ -14,6 +14,8 @@
 
 package com.google.gerrit.reviewdb.client;
 
+import com.google.gerrit.extensions.api.changes.ChangeType;
+import com.google.gerrit.extensions.common.CodedEnum;
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.StringKey;
 
@@ -64,50 +66,6 @@ public final class Patch {
 
     public String getFileName() {
       return get();
-    }
-  }
-
-  /** Type of modification made to the file path. */
-  public static enum ChangeType implements CodedEnum {
-    /** Path is being created/introduced by this patch. */
-    ADDED('A'),
-
-    /** Path already exists, and has updated content. */
-    MODIFIED('M'),
-
-    /** Path existed, but is being removed by this patch. */
-    DELETED('D'),
-
-    /** Path existed at {@link Patch#getSourceFileName()} but was moved. */
-    RENAMED('R'),
-
-    /** Path was copied from {@link Patch#getSourceFileName()}. */
-    COPIED('C'),
-
-    /** Sufficient amount of content changed to claim the file was rewritten. */
-    REWRITE('W');
-
-    private final char code;
-
-    private ChangeType(final char c) {
-      code = c;
-    }
-
-    public char getCode() {
-      return code;
-    }
-
-    public boolean matches(String s) {
-      return s != null && s.length() == 1 && s.charAt(0) == code;
-    }
-
-    public static ChangeType forCode(final char c) {
-      for (final ChangeType s : ChangeType.values()) {
-        if (s.code == c) {
-          return s;
-        }
-      }
-      return null;
     }
   }
 

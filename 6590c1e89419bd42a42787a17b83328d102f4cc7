@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3f2c6c7a_682283c3",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/AccountConstants.properties",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-06-18T05:31:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3f2c6c7a_081bc78c",
+      "range": {
+        "startLine": 14,
+        "startChar": 32,
+        "endLine": 14,
+        "endChar": 33
+      },
+      "revId": "6590c1e89419bd42a42787a17b83328d102f4cc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3f2c6c7a_28188b8d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
         "patchSetId": 6
@@ -82,6 +106,30 @@
       "writtenOn": "2014-06-18T01:08:13Z",
       "side": 1,
       "message": "Sorry, I think it would be better to revert this back to the previous implementation and leave non-latin names as unsupported for now.",
+      "range": {
+        "startLine": 367,
+        "startChar": 2,
+        "endLine": 390,
+        "endChar": 3
+      },
+      "revId": "6590c1e89419bd42a42787a17b83328d102f4cc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f3760c3_0942e950",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-06-18T05:31:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f3760c3_c947f160",
       "range": {
         "startLine": 367,
         "startChar": 2,

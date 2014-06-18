@@ -22,6 +22,30 @@
       "revId": "2e2f0a96aa8003be833c9ad5634f72fff6832080",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f3760c3_a9755da6",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/FileApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1016348
+      },
+      "writtenOn": "2014-06-18T16:20:40Z",
+      "side": 1,
+      "message": "I\u0027m not quite sure what you mean by factor out the class from the server package.\n\nShould I just add the DiffInfo entity (and other required entities) as described at https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#diff-info to the package com.google.gerrit.extensions.common? Other entities (like ChangeInfo) also have a class in both packages.",
+      "parentUuid": "0424bda2_d669c4c7",
+      "range": {
+        "startLine": 17,
+        "startChar": 7,
+        "endLine": 17,
+        "endChar": 45
+      },
+      "revId": "2e2f0a96aa8003be833c9ad5634f72fff6832080",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

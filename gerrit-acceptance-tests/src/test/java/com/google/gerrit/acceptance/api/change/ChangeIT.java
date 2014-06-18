@@ -27,6 +27,7 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
+import com.google.gerrit.extensions.api.changes.Changes.QueryRequest;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -255,5 +256,14 @@ public class ChangeIT extends AbstractDaemonTest {
     RevisionInfo rev = Iterables.getOnlyElement(result.revisions.values());
     assertEquals(r.getPatchSetId().get(), rev._number);
     assertFalse(rev.actions.isEmpty());
+  }
+
+  @Test
+  public void queryChangesReviewer() throws Exception {
+    PushOneCommit.Result r = createChange();
+    QueryRequest q = gApi.changes().query("owner:self");
+    assertEquals(r.getChangeId(), Iterables.getOnlyElement(q.get()).changeId);
+    setAccountContext(user);
+    assertTrue(q.get().isEmpty());
   }
 }

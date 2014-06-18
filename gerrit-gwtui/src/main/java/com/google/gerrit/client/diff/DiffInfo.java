@@ -14,7 +14,7 @@
 
 package com.google.gerrit.client.diff;
 
-import com.google.gerrit.reviewdb.client.Patch.ChangeType;
+import com.google.gerrit.extensions.api.changes.ChangeType;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.JsArrayString;

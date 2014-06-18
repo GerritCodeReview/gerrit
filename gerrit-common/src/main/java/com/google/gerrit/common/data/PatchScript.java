@@ -14,13 +14,13 @@
 
 package com.google.gerrit.common.data;
 
+import com.google.gerrit.extensions.api.changes.ChangeType;
 import com.google.gerrit.prettify.common.EditList;
 import com.google.gerrit.prettify.common.SparseFileContent;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
-import com.google.gerrit.reviewdb.client.Patch.ChangeType;
 
 import org.eclipse.jgit.diff.Edit;
 

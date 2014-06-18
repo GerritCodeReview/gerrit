@@ -14,13 +14,15 @@
 
 package com.google.gerrit.server.patch;
 
-import com.google.gerrit.reviewdb.client.Patch;
-import org.junit.Test;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
+
+import com.google.gerrit.extensions.api.changes.ChangeType;
+import com.google.gerrit.reviewdb.client.Patch.PatchType;
+
+import org.junit.Test;
 
 public class PatchListEntryTest {
   @Test
@@ -29,8 +31,8 @@ public class PatchListEntryTest {
     final PatchListEntry e = PatchListEntry.empty(name);
     assertNull(e.getOldName());
     assertEquals(name, e.getNewName());
-    assertSame(Patch.PatchType.UNIFIED, e.getPatchType());
-    assertSame(Patch.ChangeType.MODIFIED, e.getChangeType());
+    assertSame(PatchType.UNIFIED, e.getPatchType());
+    assertSame(ChangeType.MODIFIED, e.getChangeType());
     assertTrue(e.getEdits().isEmpty());
   }
 }

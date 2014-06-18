@@ -14,7 +14,7 @@
 
 package gerrit;
 
-import com.google.gerrit.reviewdb.client.Patch;
+import com.google.gerrit.extensions.api.changes.ChangeType;
 import com.google.gerrit.rules.StoredValues;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListEntry;
@@ -103,7 +103,7 @@ public class PRED_commit_delta_4 extends Predicate.P4 {
         PatchListEntry patch = iter.next();
         String newName = patch.getNewName();
         String oldName = patch.getOldName();
-        Patch.ChangeType changeType = patch.getChangeType();
+        ChangeType changeType = patch.getChangeType();
 
         if (newName.equals("/COMMIT_MSG")) {
           continue;
@@ -157,7 +157,7 @@ public class PRED_commit_delta_4 extends Predicate.P4 {
     }
   }
 
-  private static SymbolTerm getTypeSymbol(Patch.ChangeType type) {
+  private static SymbolTerm getTypeSymbol(ChangeType type) {
     switch (type) {
       case ADDED:
         return add;

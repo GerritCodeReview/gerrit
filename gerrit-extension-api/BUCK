@@ -4,7 +4,10 @@ SRCS = glob([SRC + '**/*.java'])
 gwt_module(
   name = 'client',
   srcs = glob([
+    SRC + 'api/changes/ChangeType.java',
+    SRC + 'api/changes/PatchType.java',
     SRC + 'api/projects/ProjectState.java',
+    SRC + 'common/CodedEnum.java',
     SRC + 'common/InheritableBoolean.java',
     SRC + 'common/ListChangesOption.java',
     SRC + 'common/SubmitType.java',

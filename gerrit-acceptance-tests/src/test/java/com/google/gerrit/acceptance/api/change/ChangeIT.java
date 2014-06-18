@@ -253,4 +253,13 @@ public class ChangeIT extends AbstractDaemonTest {
     assertEquals(r.getPatchSetId().get(), rev._number);
     assertFalse(rev.actions.isEmpty());
   }
+
+  @Test
+  public void queryChangesOwnerWithDifferentUsers() throws Exception {
+    PushOneCommit.Result r = createChange();
+    assertEquals(r.getChangeId(),
+        Iterables.getOnlyElement(query("owner:self")).changeId);
+    setApiUser(user);
+    assertTrue(query("owner:self").isEmpty());
+  }
 }

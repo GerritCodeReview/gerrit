@@ -21,6 +21,7 @@ import static org.junit.Assert.assertEquals;
 
 import com.google.common.base.Joiner;
 import com.google.common.primitives.Chars;
+import com.google.gerrit.acceptance.AcceptanceTestRequestScope.Context;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -128,9 +129,9 @@ public abstract class AbstractDaemonTest {
     userSession = new RestSession(server, user);
     initSsh(admin);
     db = reviewDbProvider.open();
-    atrScope.set(atrScope.newContext(reviewDbProvider, sshSession,
-        identifiedUserFactory.create(Providers.of(db), admin.getId())));
-    sshSession = new SshSession(server, admin);
+    Context ctx = newRequestContext(admin);
+    atrScope.set(ctx);
+    sshSession = ctx.getSession();
     project = new Project.NameKey("p");
     createProject(sshSession, project.get());
     git = cloneProject(sshSession.getUrl() + "/" + project.get());
@@ -196,6 +197,15 @@ public abstract class AbstractDaemonTest {
 
   protected List<ChangeInfo> query(String q) throws RestApiException {
     return gApi.changes().query(q).get();
+  }
+
+  private Context newRequestContext(TestAccount account) {
+    return atrScope.newContext(reviewDbProvider, new SshSession(server, admin),
+        identifiedUserFactory.create(Providers.of(db), account.getId()));
+  }
+
+  protected Context setApiUser(TestAccount account) {
+    return atrScope.set(newRequestContext(account));
   }
 
   protected static Gson newGson() {

@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.reviewdb.client;
+package com.google.gerrit.extensions.common;
 
 /** Extension of Enum which provides distinct character code values. */
 public interface CodedEnum {

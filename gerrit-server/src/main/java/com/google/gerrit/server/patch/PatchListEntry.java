@@ -23,9 +23,9 @@ import static com.google.gerrit.server.ioutil.BasicSerialization.writeEnum;
 import static com.google.gerrit.server.ioutil.BasicSerialization.writeString;
 import static com.google.gerrit.server.ioutil.BasicSerialization.writeVarInt32;
 
+import com.google.gerrit.extensions.api.changes.ChangeType;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.Patch.ChangeType;
 import com.google.gerrit.reviewdb.client.Patch.PatchType;
 
 import org.eclipse.jgit.diff.Edit;
@@ -259,15 +259,15 @@ public class PatchListEntry {
   private static ChangeType toChangeType(final FileHeader hdr) {
     switch (hdr.getChangeType()) {
       case ADD:
-        return Patch.ChangeType.ADDED;
+        return ChangeType.ADDED;
       case MODIFY:
-        return Patch.ChangeType.MODIFIED;
+        return ChangeType.MODIFIED;
       case DELETE:
-        return Patch.ChangeType.DELETED;
+        return ChangeType.DELETED;
       case RENAME:
-        return Patch.ChangeType.RENAMED;
+        return ChangeType.RENAMED;
       case COPY:
-        return Patch.ChangeType.COPIED;
+        return ChangeType.COPIED;
       default:
         throw new IllegalArgumentException("Unsupported type "
             + hdr.getChangeType());
@@ -279,11 +279,11 @@ public class PatchListEntry {
 
     switch (hdr.getPatchType()) {
       case UNIFIED:
-        pt = Patch.PatchType.UNIFIED;
+        pt = PatchType.UNIFIED;
         break;
       case GIT_BINARY:
       case BINARY:
-        pt = Patch.PatchType.BINARY;
+        pt = PatchType.BINARY;
         break;
       default:
         throw new IllegalArgumentException("Unsupported type "

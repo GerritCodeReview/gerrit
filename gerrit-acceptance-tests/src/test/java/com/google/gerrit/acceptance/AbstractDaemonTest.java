@@ -194,6 +194,10 @@ public abstract class AbstractDaemonTest {
     return gApi.changes().id(id).get(s);
   }
 
+  protected List<ChangeInfo> query(String q) throws RestApiException {
+    return gApi.changes().query(q).get();
+  }
+
   protected static Gson newGson() {
     return OutputFormat.JSON_COMPACT.newGson();
   }

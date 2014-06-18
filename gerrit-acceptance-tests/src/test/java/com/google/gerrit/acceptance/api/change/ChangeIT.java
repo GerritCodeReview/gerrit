@@ -186,9 +186,9 @@ public class ChangeIT extends AbstractDaemonTest {
   @Test
   public void queryChangesNoResults() throws Exception {
     createChange();
-    List<ChangeInfo> results = gApi.changes().query("status:open").get();
+    List<ChangeInfo> results = query("status:open");
     assertEquals(1, results.size());
-    results = gApi.changes().query("status:closed").get();
+    results = query("status:closed");
     assertTrue(results.isEmpty());
   }
 
@@ -196,7 +196,7 @@ public class ChangeIT extends AbstractDaemonTest {
   public void queryChangesOneTerm() throws Exception {
     PushOneCommit.Result r1 = createChange();
     PushOneCommit.Result r2 = createChange();
-    List<ChangeInfo> results = gApi.changes().query("status:open").get();
+    List<ChangeInfo> results = query("status:open");
     assertEquals(2, results.size());
     assertEquals(r2.getChangeId(), results.get(0).changeId);
     assertEquals(r1.getChangeId(), results.get(1).changeId);
@@ -206,9 +206,7 @@ public class ChangeIT extends AbstractDaemonTest {
   public void queryChangesMultipleTerms() throws Exception {
     PushOneCommit.Result r1 = createChange();
     createChange();
-    List<ChangeInfo> results = gApi.changes()
-        .query("status:open " + r1.getChangeId())
-        .get();
+    List<ChangeInfo> results = query("status:open " + r1.getChangeId());
     assertEquals(r1.getChangeId(), Iterables.getOnlyElement(results).changeId);
   }
 
@@ -232,8 +230,7 @@ public class ChangeIT extends AbstractDaemonTest {
   @Test
   public void queryChangesNoOptions() throws Exception {
     PushOneCommit.Result r = createChange();
-    ChangeInfo result = Iterables.getOnlyElement(
-        gApi.changes().query(r.getChangeId()).get());
+    ChangeInfo result = Iterables.getOnlyElement(query(r.getChangeId()));
     assertNull(result.labels);
     assertNull(result.messages);
     assertNull(result.revisions);

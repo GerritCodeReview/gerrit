@@ -22,6 +22,30 @@
       "revId": "98ee1be3067dffade0a872330b61e3260835ad04",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0424bda2_d6b2e421",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/HttpPluginServlet.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-18T15:16:05Z",
+      "side": 1,
+      "message": "True, but I typically do not mix refactoring steps with new functionality introduced. The \"code smell\" was there before, I do prefer to concentrate only on functionality in this change.\n\nWill remove the \"code smell\" in a separate change, OK?",
+      "parentUuid": "0424bda2_367a3895",
+      "range": {
+        "startLine": 383,
+        "startChar": 27,
+        "endLine": 388,
+        "endChar": 5
+      },
+      "revId": "98ee1be3067dffade0a872330b61e3260835ad04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

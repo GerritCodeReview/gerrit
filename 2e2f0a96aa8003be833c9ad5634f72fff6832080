@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0424bda2_d669c4c7",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/FileApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-18T15:02:55Z",
+      "side": 1,
+      "message": "This is wrong package. This is GWT client (JSNI) stuff. What you want is one from com.google.gerrit.extensions.common package.  But, there is no DiffInfo there. So the first change would be to do refactoring and factor out the class from server package to extensions.",
+      "range": {
+        "startLine": 17,
+        "startChar": 7,
+        "endLine": 17,
+        "endChar": 45
+      },
+      "revId": "2e2f0a96aa8003be833c9ad5634f72fff6832080",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

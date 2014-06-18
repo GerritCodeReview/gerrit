@@ -83,6 +83,13 @@ class HttpPluginServlet extends HttpServlet
   private static final long serialVersionUID = 1L;
   private static final Logger log
       = LoggerFactory.getLogger(HttpPluginServlet.class);
+  private static final Comparator<JarEntry> JAR_ENTRY_COMPARATOR_BY_NAME =
+      new Comparator<JarEntry>() {
+        @Override
+        public int compare(JarEntry a, JarEntry b) {
+          return a.getName().compareTo(b.getName());
+        }
+      };
 
   private final MimeUtilFileTypeRegistry mimeUtil;
   private final Provider<String> webUrl;
@@ -369,18 +376,9 @@ class HttpPluginServlet extends HttpServlet
         }
       }
     }
-    Collections.sort(cmds, new Comparator<JarEntry>() {
-      @Override
-      public int compare(JarEntry a, JarEntry b) {
-        return a.getName().compareTo(b.getName());
-      }
-    });
-    Collections.sort(docs, new Comparator<JarEntry>() {
-      @Override
-      public int compare(JarEntry a, JarEntry b) {
-        return a.getName().compareTo(b.getName());
-      }
-    });
+
+    Collections.sort(cmds, JAR_ENTRY_COMPARATOR_BY_NAME);
+    Collections.sort(docs, JAR_ENTRY_COMPARATOR_BY_NAME);
 
     StringBuilder md = new StringBuilder();
     md.append(String.format("# Plugin %s #\n", pluginName));

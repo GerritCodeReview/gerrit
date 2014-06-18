@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "a4485179_233faaa6",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-18T20:38:13Z",
+      "side": 1,
+      "message": "Unused.",
+      "range": {
+        "startLine": 135,
+        "startChar": 2,
+        "endLine": 135,
+        "endChar": 25
+      },
+      "revId": "f21d15699f5b8ed85356a5cd54f1b5ff73a3742d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0424bda2_36491876",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
         "patchSetId": 22
@@ -41,6 +64,53 @@
         "startChar": 50,
         "endLine": 585,
         "endChar": 85
+      },
+      "revId": "f21d15699f5b8ed85356a5cd54f1b5ff73a3742d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0424bda2_f6e160e9",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 585,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-18T20:38:13Z",
+      "side": 1,
+      "message": "Wrap this line.",
+      "parentUuid": "0424bda2_36491876",
+      "range": {
+        "startLine": 585,
+        "startChar": 50,
+        "endLine": 585,
+        "endChar": 85
+      },
+      "revId": "f21d15699f5b8ed85356a5cd54f1b5ff73a3742d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0424bda2_16fdfc8a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 591,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-18T20:38:13Z",
+      "side": 1,
+      "message": "Unused.",
+      "range": {
+        "startLine": 591,
+        "startChar": 4,
+        "endLine": 591,
+        "endChar": 73
       },
       "revId": "f21d15699f5b8ed85356a5cd54f1b5ff73a3742d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

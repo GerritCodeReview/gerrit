@@ -1,0 +1,1124 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0424bda2_f69e0082",
+        "filename": "gerrit-httpd/BUCK",
+        "patchSetId": 7
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-18T20:12:50Z",
+      "side": 1,
+      "message": "this should be alphabetically sorted",
+      "revId": "7a61f5e9eb7b7fa6eb964b90926653dfa5e84d95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4485179_c369f6c7",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/AuthenticatedHttpRequest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-18T20:12:50Z",
+      "side": 1,
+      "message": "no public, only package visible",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 6
+      },
+      "revId": "7a61f5e9eb7b7fa6eb964b90926653dfa5e84d95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0424bda2_d69b0490",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/AuthenticatedHttpRequest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-18T20:12:50Z",
+      "side": 1,
+      "message": "the same comment as above",
+      "range": {
+        "startLine": 29,
+        "startChar": 2,
+        "endLine": 29,
+        "endChar": 8
+      },
+      "revId": "7a61f5e9eb7b7fa6eb964b90926653dfa5e84d95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4485179_8363fee5",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/AuthenticatedHttpRequest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-18T20:12:50Z",
+      "side": 1,
+      "message": "You are passing two string values: configured \"auth.httpHeader\" from gerrit.config and user name, and turn it here to String array? This should just be two parameters with sanity checks: we want to fail earlier and loud:\n\n  \n  AuthenticatedHttpRequest(HttpServletRequest request,\n      String httpHeaderKey, String userName) {\n    super(request);\n    Preconditions.checkNotNull(httpHeaderKey);\n    Preconditions.checkNotNull(userName);\n    headers.put(httpHeaderKey, userName);\n  }",
+      "range": {
+        "startLine": 33,
+        "startChar": 4,
+        "endLine": 39,
+        "endChar": 5
+      },
+      "revId": "7a61f5e9eb7b7fa6eb964b90926653dfa5e84d95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4485179_43c7467d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/AuthenticatedHttpRequest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-18T20:12:50Z",
+      "side": 1,
+      "message": "no final. We only use final where it\u0027s required.",
+      "range": {
+        "startLine": 44,
+        "startChar": 4,
+        "endLine": 44,
+        "endChar": 9
+      },
+      "revId": "7a61f5e9eb7b7fa6eb964b90926653dfa5e84d95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4485179_63c2426f",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/AuthenticatedHttpRequest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-18T20:12:50Z",
+      "side": 1,
+      "message": "Only Set and not HashSet. We use interfaces and not underlying implementations.",
+      "range": {
+        "startLine": 45,
+        "startChar": 4,
+        "endLine": 45,
+        "endChar": 11
+      },
+      "revId": "7a61f5e9eb7b7fa6eb964b90926653dfa5e84d95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0424bda2_b6988894",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/AuthenticatedHttpRequest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-18T20:12:50Z",
+      "side": 1,
+      "message": "Omit this, we are on Java7 now and are using type inference.",
+      "range": {
+        "startLine": 45,
+        "startChar": 46,
+        "endLine": 45,
+        "endChar": 52
+      },
+      "revId": "7a61f5e9eb7b7fa6eb964b90926653dfa5e84d95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0424bda2_96958c5e",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/AuthenticatedHttpRequest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-18T20:12:50Z",
+      "side": 1,
+      "message": "The whole method above can be rewritten as one liner, using Guava:\n\n  return Iterators.asEnumeration(\n        Iterators.concat(Iterators.forEnumeration(super.getHeaderNames()),\n            headers.keySet().iterator()));",
+      "range": {
+        "startLine": 49,
+        "startChar": 4,
+        "endLine": 49,
+        "endChar": 59
+      },
+      "revId": "7a61f5e9eb7b7fa6eb964b90926653dfa5e84d95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4485179_23cc4a9d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/AuthenticatedHttpRequest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-18T20:12:50Z",
+      "side": 1,
+      "message": "If we can make assumtion, that either one or another value always not null, we could rewrite this as one liner:\n\n  return Objects.firstNonNull(headers.get(name), super.getHeader(name));",
+      "range": {
+        "startLine": 54,
+        "startChar": 4,
+        "endLine": 59,
+        "endChar": 5
+      },
+      "revId": "7a61f5e9eb7b7fa6eb964b90926653dfa5e84d95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0424bda2_761c3056",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/GitHubLogin.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-18T20:12:50Z",
+      "side": 1,
+      "message": "no public, package visible",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 6
+      },
+      "revId": "7a61f5e9eb7b7fa6eb964b90926653dfa5e84d95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0424bda2_d62c2489",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/GitHubLogin.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-18T20:12:50Z",
+      "side": 1,
+      "message": "log (small letters):\n\n  $ git grep \"Logger log \u003d LoggerFactory.getLogger\" | wc -l\n  68\n  $  $ git grep \"Logger LOG \u003d LoggerFactory.getLogger\" | wc -l\n  1",
+      "range": {
+        "startLine": 33,
+        "startChar": 30,
+        "endLine": 33,
+        "endChar": 33
+      },
+      "revId": "7a61f5e9eb7b7fa6eb964b90926653dfa5e84d95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4485179_a3bf1ae8",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/GitHubLogin.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-18T20:12:50Z",
+      "side": 1,
+      "message": "private",
+      "range": {
+        "startLine": 35,
+        "startChar": 2,
+        "endLine": 35,
+        "endChar": 8
+      },
+      "revId": "7a61f5e9eb7b7fa6eb964b90926653dfa5e84d95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4485179_83bc1ef4",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/GitHubLogin.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-18T20:12:50Z",
+      "side": 1,
+      "message": "private",
+      "range": {
+        "startLine": 36,
+        "startChar": 2,
+        "endLine": 36,
+        "endChar": 8
+      },
+      "revId": "7a61f5e9eb7b7fa6eb964b90926653dfa5e84d95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4485179_63ab62ad",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/GitHubLogin.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-18T20:12:50Z",
+      "side": 1,
+      "message": "private final OAuthProtocol oauth;",
+      "range": {
+        "startLine": 38,
+        "startChar": 2,
+        "endLine": 38,
+        "endChar": 29
+      },
+      "revId": "7a61f5e9eb7b7fa6eb964b90926653dfa5e84d95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0424bda2_56213492",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/GitHubLogin.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-18T20:12:50Z",
+      "side": 1,
+      "message": "Unused: remove it.",
+      "range": {
+        "startLine": 41,
+        "startChar": 2,
+        "endLine": 47,
+        "endChar": 3
+      },
+      "revId": "7a61f5e9eb7b7fa6eb964b90926653dfa5e84d95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4485179_23a56ad7",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/GitHubLogin.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-18T20:12:50Z",
+      "side": 1,
+      "message": "no public.",
+      "range": {
+        "startLine": 50,
+        "startChar": 2,
+        "endLine": 50,
+        "endChar": 8
+      },
+      "revId": "7a61f5e9eb7b7fa6eb964b90926653dfa5e84d95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0424bda2_3626b8ac",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/GitHubLogin.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-18T20:12:50Z",
+      "side": 1,
+      "message": "no final",
+      "range": {
+        "startLine": 50,
+        "startChar": 21,
+        "endLine": 50,
+        "endChar": 26
+      },
+      "revId": "7a61f5e9eb7b7fa6eb964b90926653dfa5e84d95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4485179_03d14e33",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/GitHubLogin.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-18T20:12:50Z",
+      "side": 1,
+      "message": "no public",
+      "range": {
+        "startLine": 54,
+        "startChar": 2,
+        "endLine": 54,
+        "endChar": 8
+      },
+      "revId": "7a61f5e9eb7b7fa6eb964b90926653dfa5e84d95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4485179_e3b5120c",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/GitHubLogin.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-18T20:12:50Z",
+      "side": 1,
+      "message": "the same",
+      "range": {
+        "startLine": 58,
+        "startChar": 2,
+        "endLine": 58,
+        "endChar": 8
+      },
+      "revId": "7a61f5e9eb7b7fa6eb964b90926653dfa5e84d95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0424bda2_b639a8c5",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/GitHubLogin.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-18T20:12:50Z",
+      "side": 1,
+      "message": "Nit: unnecessary new line",
+      "revId": "7a61f5e9eb7b7fa6eb964b90926653dfa5e84d95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4485179_c3b21622",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/GitHubLogin.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-18T20:12:50Z",
+      "side": 1,
+      "message": "the same",
+      "range": {
+        "startLine": 90,
+        "startChar": 2,
+        "endLine": 90,
+        "endChar": 8
+      },
+      "revId": "7a61f5e9eb7b7fa6eb964b90926653dfa5e84d95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0424bda2_162bbc72",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/GitHubLogin.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-18T20:12:50Z",
+      "side": 1,
+      "message": "the same",
+      "range": {
+        "startLine": 95,
+        "startChar": 2,
+        "endLine": 95,
+        "endChar": 8
+      },
+      "revId": "7a61f5e9eb7b7fa6eb964b90926653dfa5e84d95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0424bda2_f62f207b",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/GitHubLogin.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-18T20:12:50Z",
+      "side": 1,
+      "message": "the same",
+      "range": {
+        "startLine": 99,
+        "startChar": 2,
+        "endLine": 99,
+        "endChar": 8
+      },
+      "revId": "7a61f5e9eb7b7fa6eb964b90926653dfa5e84d95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4485179_43b06615",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/GitHubOAuthConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-18T20:12:50Z",
+      "side": 1,
+      "message": "no public, package visible",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 6
+      },
+      "revId": "7a61f5e9eb7b7fa6eb964b90926653dfa5e84d95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4485179_03aa6ea5",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/GitHubOAuthConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-18T20:12:50Z",
+      "side": 1,
+      "message": "Unused: remove it.",
+      "range": {
+        "startLine": 47,
+        "startChar": 2,
+        "endLine": 47,
+        "endChar": 35
+      },
+      "revId": "7a61f5e9eb7b7fa6eb964b90926653dfa5e84d95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0424bda2_9636acd3",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/GitHubOAuthConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-18T20:12:50Z",
+      "side": 1,
+      "message": "no public",
+      "range": {
+        "startLine": 51,
+        "startChar": 2,
+        "endLine": 51,
+        "endChar": 8
+      },
+      "revId": "7a61f5e9eb7b7fa6eb964b90926653dfa5e84d95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4485179_e39e3282",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/GitHubOAuthConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-18T20:12:50Z",
+      "side": 1,
+      "message": "Unused: remove it.",
+      "range": {
+        "startLine": 53,
+        "startChar": 4,
+        "endLine": 53,
+        "endChar": 31
+      },
+      "revId": "7a61f5e9eb7b7fa6eb964b90926653dfa5e84d95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0424bda2_7645502c",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/GitHubOAuthConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-18T20:12:50Z",
+      "side": 1,
+      "message": "private static and goes at the end of the file.",
+      "range": {
+        "startLine": 68,
+        "startChar": 2,
+        "endLine": 68,
+        "endChar": 9
+      },
+      "revId": "7a61f5e9eb7b7fa6eb964b90926653dfa5e84d95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0424bda2_363fd8a6",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/GitHubOAuthConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-18T20:12:50Z",
+      "side": 1,
+      "message": "This can be done shorter with guava:\n\n  return CharMatcher.is(\u0027/\u0027).trimTrailingFrom(url);\n\nAnd may by worth inlining on the line 56 above.",
+      "range": {
+        "startLine": 69,
+        "startChar": 4,
+        "endLine": 69,
+        "endChar": 74
+      },
+      "revId": "7a61f5e9eb7b7fa6eb964b90926653dfa5e84d95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0424bda2_564a543c",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/GitHubOAuthConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-18T20:12:50Z",
+      "side": 1,
+      "message": "private static",
+      "range": {
+        "startLine": 72,
+        "startChar": 2,
+        "endLine": 72,
+        "endChar": 8
+      },
+      "revId": "7a61f5e9eb7b7fa6eb964b90926653dfa5e84d95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0424bda2_1644dc2c",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/GitHubOAuthConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-18T20:12:50Z",
+      "side": 1,
+      "message": "Typicall idiom for doing this is: trim and add:\n\n  baseUrl + CharMatcher.is(\u0027/\u0027).trimTrailingFrom(url) + \"/\" + [...]",
+      "range": {
+        "startLine": 77,
+        "startChar": 24,
+        "endLine": 77,
+        "endChar": 56
+      },
+      "revId": "7a61f5e9eb7b7fa6eb964b90926653dfa5e84d95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0424bda2_d65544d7",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-18T20:12:50Z",
+      "side": 1,
+      "message": "no public, package visible.",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 6
+      },
+      "revId": "7a61f5e9eb7b7fa6eb964b90926653dfa5e84d95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0424bda2_f658400f",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-18T20:12:50Z",
+      "side": 1,
+      "message": "log",
+      "range": {
+        "startLine": 50,
+        "startChar": 30,
+        "endLine": 50,
+        "endChar": 33
+      },
+      "revId": "7a61f5e9eb7b7fa6eb964b90926653dfa5e84d95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4485179_c39b3690",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-18T20:12:50Z",
+      "side": 1,
+      "message": "no public",
+      "range": {
+        "startLine": 59,
+        "startChar": 2,
+        "endLine": 59,
+        "endChar": 8
+      },
+      "revId": "7a61f5e9eb7b7fa6eb964b90926653dfa5e84d95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4485179_a3983a94",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-18T20:12:50Z",
+      "side": 1,
+      "message": "private static and move it at the end of the class.",
+      "range": {
+        "startLine": 67,
+        "startChar": 2,
+        "endLine": 67,
+        "endChar": 9
+      },
+      "revId": "7a61f5e9eb7b7fa6eb964b90926653dfa5e84d95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4485179_83953e5e",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-18T20:12:50Z",
+      "side": 1,
+      "message": "private",
+      "range": {
+        "startLine": 87,
+        "startChar": 2,
+        "endLine": 87,
+        "endChar": 8
+      },
+      "revId": "7a61f5e9eb7b7fa6eb964b90926653dfa5e84d95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0424bda2_b652c8eb",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-18T20:12:50Z",
+      "side": 1,
+      "message": "private",
+      "range": {
+        "startLine": 91,
+        "startChar": 2,
+        "endLine": 91,
+        "endChar": 8
+      },
+      "revId": "7a61f5e9eb7b7fa6eb964b90926653dfa5e84d95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0424bda2_964fcc45",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-18T20:12:50Z",
+      "side": 1,
+      "message": "pass 3 as array size to create the proper array size in constructor.",
+      "range": {
+        "startLine": 107,
+        "startChar": 59,
+        "endLine": 107,
+        "endChar": 61
+      },
+      "revId": "7a61f5e9eb7b7fa6eb964b90926653dfa5e84d95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4485179_631c8256",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-18T20:12:50Z",
+      "side": 1,
+      "message": "Java7: type inference.",
+      "range": {
+        "startLine": 107,
+        "startChar": 45,
+        "endLine": 107,
+        "endChar": 58
+      },
+      "revId": "7a61f5e9eb7b7fa6eb964b90926653dfa5e84d95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4485179_23268aac",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-18T20:12:50Z",
+      "side": 1,
+      "message": "Code repetition with blocks below. Can\u0027t it be reused?",
+      "range": {
+        "startLine": 116,
+        "startChar": 8,
+        "endLine": 122,
+        "endChar": 20
+      },
+      "revId": "7a61f5e9eb7b7fa6eb964b90926653dfa5e84d95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4485179_43218692",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-18T20:12:50Z",
+      "side": 1,
+      "message": "Why not to use the constant:\n\n  Charsets.UTF_8\n\nas on the line 111 above.",
+      "range": {
+        "startLine": 157,
+        "startChar": 27,
+        "endLine": 157,
+        "endChar": 34
+      },
+      "revId": "7a61f5e9eb7b7fa6eb964b90926653dfa5e84d95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0424bda2_56f374c2",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthWebFilter.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-18T20:12:50Z",
+      "side": 1,
+      "message": "no public.",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 6
+      },
+      "revId": "7a61f5e9eb7b7fa6eb964b90926653dfa5e84d95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0424bda2_76ee70de",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthWebFilter.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-18T20:12:50Z",
+      "side": 1,
+      "message": "Here this var is low cased ;-)",
+      "range": {
+        "startLine": 38,
+        "startChar": 40,
+        "endLine": 38,
+        "endChar": 43
+      },
+      "revId": "7a61f5e9eb7b7fa6eb964b90926653dfa5e84d95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4485179_032b8e72",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthWebFilter.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-18T20:12:50Z",
+      "side": 1,
+      "message": "no public",
+      "range": {
+        "startLine": 46,
+        "startChar": 2,
+        "endLine": 46,
+        "endChar": 8
+      },
+      "revId": "7a61f5e9eb7b7fa6eb964b90926653dfa5e84d95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4485179_e32f527b",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/PooledHttpClientProvider.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-18T20:12:50Z",
+      "side": 1,
+      "message": "no public",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 6
+      },
+      "revId": "7a61f5e9eb7b7fa6eb964b90926653dfa5e84d95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0424bda2_36f8f89a",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/PooledHttpClientProvider.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-18T20:12:50Z",
+      "side": 1,
+      "message": "no public",
+      "range": {
+        "startLine": 37,
+        "startChar": 2,
+        "endLine": 37,
+        "endChar": 8
+      },
+      "revId": "7a61f5e9eb7b7fa6eb964b90926653dfa5e84d95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4485179_435e261f",
+        "filename": "lib/BUCK",
+        "patchSetId": 7
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-18T20:12:50Z",
+      "side": 1,
+      "message": "Incorrect. The library is released under MIT or own license: [1], [2].\n\n* [1] http://github-api.kohsuke.org/license.html\n* [2] https://github.com/kohsuke/github-api/blob/master/LICENSE.txt",
+      "range": {
+        "startLine": 342,
+        "startChar": 12,
+        "endLine": 342,
+        "endChar": 23
+      },
+      "revId": "7a61f5e9eb7b7fa6eb964b90926653dfa5e84d95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4485179_23532a17",
+        "filename": "lib/BUCK",
+        "patchSetId": 7
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-18T20:12:50Z",
+      "side": 1,
+      "message": "visibility \u003d [],",
+      "revId": "7a61f5e9eb7b7fa6eb964b90926653dfa5e84d95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4485179_03582e2d",
+        "filename": "lib/BUCK",
+        "patchSetId": 7
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-18T20:12:50Z",
+      "side": 1,
+      "message": "visibility \u003d [],",
+      "revId": "7a61f5e9eb7b7fa6eb964b90926653dfa5e84d95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4485179_e36cf2d9",
+        "filename": "lib/BUCK",
+        "patchSetId": 7
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-18T20:12:50Z",
+      "side": 1,
+      "message": "visibility \u003d [],",
+      "revId": "7a61f5e9eb7b7fa6eb964b90926653dfa5e84d95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

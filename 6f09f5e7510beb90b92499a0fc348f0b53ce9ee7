@@ -1,0 +1,146 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "648819e3_a1f13e06",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-18T18:35:03Z",
+      "side": 1,
+      "message": "Typo",
+      "range": {
+        "startLine": 12,
+        "startChar": 25,
+        "endLine": 12,
+        "endChar": 28
+      },
+      "revId": "6f09f5e7510beb90b92499a0fc348f0b53ce9ee7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "648819e3_c1eec225",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-18T18:35:03Z",
+      "side": 1,
+      "message": "You deleted my test. It was doing fine testing one thing; your tests are testing another thing.",
+      "revId": "6f09f5e7510beb90b92499a0fc348f0b53ce9ee7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "648819e3_61fd76d5",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-18T18:35:03Z",
+      "side": 1,
+      "message": "I don\u0027t think you need to use queryChanges at all. Just use the get() method defined in AbstractDaemonTest, which gets a single change with all options enabled.",
+      "revId": "6f09f5e7510beb90b92499a0fc348f0b53ce9ee7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84834dc4_a2f13e06",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-18T18:35:03Z",
+      "side": 1,
+      "message": "This assertion is not related to what you\u0027re trying to test, which is just the reviewed flag.",
+      "revId": "6f09f5e7510beb90b92499a0fc348f0b53ce9ee7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "648819e3_8102fa2a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-18T18:35:03Z",
+      "side": 1,
+      "message": "A blank line before this line would help visually separate the portion using the new user context.\n\nYou need to rebase on current master; the name of this method changed.",
+      "revId": "6f09f5e7510beb90b92499a0fc348f0b53ce9ee7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84834dc4_c2eec225",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-18T18:35:03Z",
+      "side": 1,
+      "message": "If you used the get() convenience method this could be much shorter:\n\n assertTrue(get(r.getChangeId()).reviewed);",
+      "revId": "6f09f5e7510beb90b92499a0fc348f0b53ce9ee7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "648819e3_21f76ef7",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-18T18:35:03Z",
+      "side": 1,
+      "message": "Not relevant to what you\u0027re testing.",
+      "revId": "6f09f5e7510beb90b92499a0fc348f0b53ce9ee7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "648819e3_41fcf2d6",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-18T18:35:03Z",
+      "side": 1,
+      "message": "Same comments as other method on spacing and convenience methods.",
+      "revId": "6f09f5e7510beb90b92499a0fc348f0b53ce9ee7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

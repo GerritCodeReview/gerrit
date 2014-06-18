@@ -34,6 +34,7 @@ import com.google.gerrit.prettify.client.ClientSideFormatter;
 import com.google.gerrit.prettify.client.PrettyFactory;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.reviewdb.client.Patch;
+import com.google.gerrit.reviewdb.client.Patch.PatchType;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
@@ -438,7 +439,7 @@ public abstract class PatchScreen extends Screen implements
 
     for (Patch p : patchSetDetail.getPatches()) {
       if (p.getKey().equals(patchKey)) {
-        if (p.getPatchType().equals(Patch.PatchType.BINARY)) {
+        if (p.getPatchType().equals(PatchType.BINARY)) {
           contentTable.isDisplayBinary = true;
         }
         break;

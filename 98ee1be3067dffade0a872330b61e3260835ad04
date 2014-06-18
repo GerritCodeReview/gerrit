@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0424bda2_367a3895",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/HttpPluginServlet.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-06-18T13:10:46Z",
+      "side": 1,
+      "message": "IMHO it would be better to extract this comparator to constant and reuse it here and in line 377",
+      "range": {
+        "startLine": 383,
+        "startChar": 27,
+        "endLine": 388,
+        "endChar": 5
+      },
+      "revId": "98ee1be3067dffade0a872330b61e3260835ad04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

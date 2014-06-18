@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3f2c6c7a_6839a3eb",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-18T17:23:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4485179_03fcaed5",
+      "range": {
+        "startLine": 203,
+        "startChar": 20,
+        "endLine": 203,
+        "endChar": 37
+      },
+      "revId": "6ec0c4b099803ca54df59872074a4f9a343a45d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0424bda2_f6196092",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "5f3760c3_c97a9195",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-18T17:23:28Z",
+      "side": 1,
+      "message": "Thought this would be useful for try/finally blocks but after writing a test I think it\u0027s not. Removed.",
+      "parentUuid": "0424bda2_f6196092",
+      "range": {
+        "startLine": 207,
+        "startChar": 2,
+        "endLine": 209,
+        "endChar": 3
+      },
+      "revId": "6ec0c4b099803ca54df59872074a4f9a343a45d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0424bda2_d6166462",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 1
@@ -59,6 +107,30 @@
       "writtenOn": "2014-06-18T05:51:07Z",
       "side": 1,
       "message": "Method name doesn\u0027t match the implementation. This is reviewer predicate:\n\n  reviewer:self\n\nBut you are quering by owner. The method is also confusing, because the method\n\n  setAccountContext(user)\n\nname doesn\u0027r reflect well what happens, so that it\u0027s not\nclear/readable why the test\n\n  assertTrue(q.get().isEmpty())\n\nis successful.",
+      "range": {
+        "startLine": 262,
+        "startChar": 14,
+        "endLine": 262,
+        "endChar": 34
+      },
+      "revId": "6ec0c4b099803ca54df59872074a4f9a343a45d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f2c6c7a_887097b7",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-18T17:23:28Z",
+      "side": 1,
+      "message": "Incorrectly named the test method, sorry.\n\nDoes renaming setAccountContext to setApiUser make the test more obvious?\n\nI think factoring out the QueryRequest, while saving some typing, also makes it less obvious.",
+      "parentUuid": "0424bda2_d6166462",
       "range": {
         "startLine": 262,
         "startChar": 14,

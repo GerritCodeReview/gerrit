@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "648819e3_e1198692",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-18T21:05:59Z",
+      "side": 1,
+      "message": "Much more readable, thanks.\n\nI think there should be assertFalse(...) immediately before the .review() call.",
+      "revId": "e08d9ef124a0c7c5d754bcc4aba48911dcfb96b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

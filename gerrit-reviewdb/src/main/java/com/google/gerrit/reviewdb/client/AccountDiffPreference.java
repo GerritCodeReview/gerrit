@@ -14,6 +14,7 @@
 
 package com.google.gerrit.reviewdb.client;
 
+import com.google.gerrit.extensions.common.CodedEnum;
 import com.google.gwtorm.client.Column;
 
 /** Diff formatting preferences of an account */

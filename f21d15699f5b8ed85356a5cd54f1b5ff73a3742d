@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0424bda2_5654940d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyPreferencesScreen.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-06-18T09:10:16Z",
+      "side": 1,
+      "message": "ME--\u003eI",
+      "range": {
+        "startLine": 124,
+        "startChar": 55,
+        "endLine": 124,
+        "endChar": 90
+      },
+      "revId": "f21d15699f5b8ed85356a5cd54f1b5ff73a3742d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0424bda2_36491876",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 585,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-06-18T09:10:16Z",
+      "side": 1,
+      "message": "ME-\u003eI",
+      "range": {
+        "startLine": 585,
+        "startChar": 50,
+        "endLine": 585,
+        "endChar": 85
+      },
+      "revId": "f21d15699f5b8ed85356a5cd54f1b5ff73a3742d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4485179_432bc6a3",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 967,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-06-18T09:10:16Z",
+      "side": 1,
+      "message": "ME-\u003eI",
+      "range": {
+        "startLine": 967,
+        "startChar": 55,
+        "endLine": 967,
+        "endChar": 90
+      },
+      "revId": "f21d15699f5b8ed85356a5cd54f1b5ff73a3742d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

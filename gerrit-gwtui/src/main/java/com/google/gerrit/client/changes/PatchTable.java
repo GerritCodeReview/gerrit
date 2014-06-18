@@ -22,11 +22,11 @@ import com.google.gerrit.client.ui.ListenableAccountDiffPreference;
 import com.google.gerrit.client.ui.NavigationTable;
 import com.google.gerrit.client.ui.PatchLink;
 import com.google.gerrit.common.data.PatchSetDetail;
+import com.google.gerrit.extensions.api.changes.ChangeType;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DiffView;
 import com.google.gerrit.reviewdb.client.Patch;
-import com.google.gerrit.reviewdb.client.Patch.ChangeType;
-import com.google.gerrit.reviewdb.client.Patch.Key;
 import com.google.gerrit.reviewdb.client.Patch.PatchType;
+import com.google.gerrit.reviewdb.client.Patch.Key;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.RepeatingCommand;
@@ -349,7 +349,7 @@ public class PatchTable extends Composite {
         if (patch.isReviewedByCurrentUser() != reviewed) {
           int row = idx + 1;
           int col = C_SIDEBYSIDE + 2;
-          if (patch.getPatchType() == Patch.PatchType.BINARY) {
+          if (patch.getPatchType() == PatchType.BINARY) {
             col = C_SIDEBYSIDE + 3;
           }
           if (reviewed) {
@@ -409,9 +409,9 @@ public class PatchTable extends Composite {
 
       if (patch.getSourceFileName() != null) {
         final String text;
-        if (patch.getChangeType() == Patch.ChangeType.RENAMED) {
+        if (patch.getChangeType() == ChangeType.RENAMED) {
           text = Util.M.renamedFrom(patch.getSourceFileName());
-        } else if (patch.getChangeType() == Patch.ChangeType.COPIED) {
+        } else if (patch.getChangeType() == ChangeType.COPIED) {
           text = Util.M.copiedFrom(patch.getSourceFileName());
         } else {
           text = Util.M.otherFrom(patch.getSourceFileName());

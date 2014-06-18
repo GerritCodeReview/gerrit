@@ -19,7 +19,7 @@ import static com.google.gerrit.server.ioutil.BasicSerialization.readVarInt32;
 import static com.google.gerrit.server.ioutil.BasicSerialization.writeEnum;
 import static com.google.gerrit.server.ioutil.BasicSerialization.writeVarInt32;
 
-import com.google.gerrit.reviewdb.client.CodedEnum;
+import com.google.gerrit.extensions.common.CodedEnum;
 
 import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.diff.ReplaceEdit;

@@ -80,6 +80,12 @@ public final class AccountGeneralPreferences {
     UNIFIED_DIFF
   }
 
+  public static enum PreselectDiffAgainst {
+    BASE,
+    PREVIOUS_REVISION,
+    PRIOR_REVISION_I_LAST_COMMENTED_ON
+  }
+
   public static enum ChangeScreen {
     OLD_UI,
     CHANGE_SCREEN2
@@ -166,6 +172,9 @@ public final class AccountGeneralPreferences {
 
   @Column(id = 17)
   protected boolean legacycidInChangeTable;
+
+  @Column(id = 18, length = 40, notNull = false)
+  protected String preselectRevision;
 
   public AccountGeneralPreferences() {
   }
@@ -325,6 +334,17 @@ public final class AccountGeneralPreferences {
     this.legacycidInChangeTable = legacycidInChangeTable;
   }
 
+  public PreselectDiffAgainst getPreselectRevision() {
+    if (preselectRevision == null) {
+      return PreselectDiffAgainst.BASE;
+    }
+    return PreselectDiffAgainst.valueOf(preselectRevision);
+  }
+
+  public void setPreselectRevision(PreselectDiffAgainst preselectRevision) {
+    this.preselectRevision = preselectRevision.name();
+  }
+
   public void resetToDefaults() {
     maximumPageSize = DEFAULT_PAGESIZE;
     showSiteHeader = true;
@@ -342,5 +362,6 @@ public final class AccountGeneralPreferences {
     changeScreen = null;
     sizeBarInChangeTable = true;
     legacycidInChangeTable = false;
+    preselectRevision = null;
   }
 }

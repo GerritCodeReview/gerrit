@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "648819e3_010eea53",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-18T20:59:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "648819e3_a1f13e06",
+      "range": {
+        "startLine": 12,
+        "startChar": 25,
+        "endLine": 12,
+        "endChar": 28
+      },
+      "revId": "6f09f5e7510beb90b92499a0fc348f0b53ce9ee7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "648819e3_c1eec225",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2014-06-18T18:35:03Z",
       "side": 1,
       "message": "You deleted my test. It was doing fine testing one thing; your tests are testing another thing.",
+      "revId": "6f09f5e7510beb90b92499a0fc348f0b53ce9ee7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84834dc4_62fd76d5",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-18T20:59:42Z",
+      "side": 1,
+      "message": "I put it back in.",
+      "parentUuid": "648819e3_c1eec225",
       "revId": "6f09f5e7510beb90b92499a0fc348f0b53ce9ee7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "648819e3_a10a9e3c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-18T20:59:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "648819e3_61fd76d5",
+      "revId": "6f09f5e7510beb90b92499a0fc348f0b53ce9ee7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "84834dc4_a2f13e06",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 1
@@ -70,6 +130,24 @@
       "writtenOn": "2014-06-18T18:35:03Z",
       "side": 1,
       "message": "This assertion is not related to what you\u0027re trying to test, which is just the reviewed flag.",
+      "revId": "6f09f5e7510beb90b92499a0fc348f0b53ce9ee7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "648819e3_c107a235",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-18T20:59:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "84834dc4_a2f13e06",
       "revId": "6f09f5e7510beb90b92499a0fc348f0b53ce9ee7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -93,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "648819e3_6126d6df",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-18T20:59:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "648819e3_8102fa2a",
+      "revId": "6f09f5e7510beb90b92499a0fc348f0b53ce9ee7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "84834dc4_c2eec225",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 1
@@ -104,6 +200,24 @@
       "writtenOn": "2014-06-18T18:35:03Z",
       "side": 1,
       "message": "If you used the get() convenience method this could be much shorter:\n\n assertTrue(get(r.getChangeId()).reviewed);",
+      "revId": "6f09f5e7510beb90b92499a0fc348f0b53ce9ee7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84834dc4_8202fa2a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-18T20:59:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "84834dc4_c2eec225",
       "revId": "6f09f5e7510beb90b92499a0fc348f0b53ce9ee7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

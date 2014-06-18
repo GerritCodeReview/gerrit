@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "648819e3_812bdaa2",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AccountGeneralPreferences.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-06-18T21:04:40Z",
+      "side": 1,
+      "message": "should column 18 replace column 11?  or is it ok to just remove 11 and keep 18?  I guess what i\u0027m asking is, does it matter that the column IDs are not sequencial?",
+      "parentUuid": "a4485179_a3395ac5",
+      "range": {
+        "startLine": 156,
+        "startChar": 2,
+        "endLine": 157,
+        "endChar": 37
+      },
+      "revId": "4ce8fcd3118ca03450595b7724919958dd44ea35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a4485179_83365ed3",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AccountGeneralPreferences.java",
         "patchSetId": 8
@@ -36,6 +60,30 @@
       "writtenOn": "2014-06-18T20:26:29Z",
       "side": 1,
       "message": "If `showUserInReview` is superseded by `reviewCategoryStrategy` then we don\u0027t need both. The old column should be renmoved here (on line 157). This woud cause schema migration code to drop this column from the database after (!) migrateData method. So if you want to migrate the data from boolean column to more choices column then you should do this in schema migration code. if you don\u0027t care then the value is going to be resettet to default for all users.",
+      "range": {
+        "startLine": 364,
+        "startChar": 4,
+        "endLine": 365,
+        "endChar": 27
+      },
+      "revId": "4ce8fcd3118ca03450595b7724919958dd44ea35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "648819e3_2130ce0b",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AccountGeneralPreferences.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-06-18T21:04:40Z",
+      "side": 1,
+      "message": "agreed we should be removed showUserInReview.  Do you care about migrating the data?  I\u0027m indifferent since users can just set again after upgrade.  However if you feel strongly then I can do.",
+      "parentUuid": "a4485179_83365ed3",
       "range": {
         "startLine": 364,
         "startChar": 4,

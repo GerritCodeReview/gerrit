@@ -15,9 +15,15 @@
 package com.google.gerrit.acceptance.api.revision;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.PushOneCommit.FILE_CONTENT;
+import static com.google.gerrit.acceptance.PushOneCommit.FILE_NAME;
 import static org.eclipse.jgit.lib.Constants.HEAD;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
@@ -29,10 +35,12 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.common.MergeableInfo;
 import com.google.gerrit.extensions.common.SubmitType;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.reviewdb.client.Patch;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.ObjectId;
@@ -278,6 +286,43 @@ public class RevisionIT extends AbstractDaemonTest {
     PushOneCommit.Result r2 = push2.to(git, "refs/for/master");
     assertMergeable(r2.getChangeId(), false);
     // TODO(dborowitz): Test for other-branches.
+  }
+
+  @Test
+  public void files() throws Exception {
+    PushOneCommit.Result r = createChange();
+    assertTrue(Iterables.all(gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .files()
+        .keySet(), new Predicate<String>() {
+            @Override
+            public boolean apply(String file) {
+              return file.matches(FILE_NAME + '|' + Patch.COMMIT_MSG);
+            }
+         }));
+  }
+
+  @Test
+  public void diff() throws Exception {
+    PushOneCommit.Result r = createChange();
+    DiffInfo diff = gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .file(FILE_NAME)
+        .diff();
+    assertNull(diff.metaA);
+    assertEquals(1, diff.metaB.lines.intValue());
+  }
+
+  @Test
+  public void content() throws Exception {
+    PushOneCommit.Result r = createChange();
+    assertEquals(FILE_CONTENT, gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .file(FILE_NAME)
+        .content());
   }
 
   private void assertMergeable(String id, boolean expected) throws Exception {

@@ -19,9 +19,11 @@ import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.Changes;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
+import com.google.gerrit.extensions.api.changes.FileApi;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
+import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.common.MergeableInfo;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -44,6 +46,7 @@ import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.Set;
 
 class RevisionApiImpl extends RevisionApi.NotImplemented implements RevisionApi {
@@ -65,6 +68,7 @@ class RevisionApiImpl extends RevisionApi.NotImplemented implements RevisionApi 
   private final Provider<Files.ListFiles> listFiles;
   private final Provider<PostReview> review;
   private final Provider<Mergeable> mergeable;
+  private final FileApiImpl.Factory fileApi;
 
   @Inject
   RevisionApiImpl(Changes changes,
@@ -80,6 +84,7 @@ class RevisionApiImpl extends RevisionApi.NotImplemented implements RevisionApi 
       Provider<Files.ListFiles> listFiles,
       Provider<PostReview> review,
       Provider<Mergeable> mergeable,
+      FileApiImpl.Factory fileApi,
       @Assisted RevisionResource r) {
     this.changes = changes;
     this.cherryPick = cherryPick;
@@ -94,6 +99,7 @@ class RevisionApiImpl extends RevisionApi.NotImplemented implements RevisionApi 
     this.deleteReviewed = deleteReviewed;
     this.listFiles = listFiles;
     this.mergeable = mergeable;
+    this.fileApi = fileApi;
     this.revision = r;
   }
 
@@ -210,5 +216,32 @@ class RevisionApiImpl extends RevisionApi.NotImplemented implements RevisionApi 
     } catch (OrmException | IOException e) {
       throw new RestApiException("Cannot check mergeability", e);
     }
+  }
+
+  @SuppressWarnings("unchecked")
+  @Override
+  public Map<String, FileInfo> files() throws RestApiException {
+    try {
+      return (Map<String, FileInfo>)listFiles.get().apply(revision).value();
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot retrieve files", e);
+    }
+  }
+
+  @SuppressWarnings("unchecked")
+  @Override
+  public Map<String, FileInfo> files(String base) throws RestApiException {
+    try {
+      return (Map<String, FileInfo>) listFiles.get().setBase(base)
+          .apply(revision).value();
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot retrieve files", e);
+    }
+  }
+
+  @Override
+  public FileApi file(String path) {
+    return fileApi.create(files.get().parse(revision,
+        IdString.fromDecoded(path)));
   }
 }

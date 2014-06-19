@@ -278,6 +278,11 @@ public class GetDiff implements RestReadView<FileResource> {
     }
   }
 
+  public GetDiff setBase(String base) {
+    this.base = base;
+    return this;
+  }
+
   private static class Content {
     final List<ContentEntry> lines;
     final SparseFileContent fileA;

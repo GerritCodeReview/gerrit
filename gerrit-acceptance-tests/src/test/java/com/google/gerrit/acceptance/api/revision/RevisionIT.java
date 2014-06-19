@@ -14,9 +14,15 @@
 
 package com.google.gerrit.acceptance.api.revision;
 
+import static com.google.gerrit.acceptance.PushOneCommit.FILE_CONTENT;
+import static com.google.gerrit.acceptance.PushOneCommit.FILE_NAME;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -27,8 +33,10 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.api.projects.BranchInput;
+import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.reviewdb.client.Patch;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.junit.Before;
@@ -167,6 +175,43 @@ public class RevisionIT extends AbstractDaemonTest {
         .id(r3.getChangeId())
         .revision(r3.getCommit().name())
         .canRebase());
+  }
+
+  @Test
+  public void files() throws Exception {
+    PushOneCommit.Result r = createChange();
+    assertTrue(Iterables.all(gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .files()
+        .keySet(), new Predicate<String>() {
+            @Override
+            public boolean apply(String file) {
+              return file.matches(FILE_NAME + '|' + Patch.COMMIT_MSG);
+            }
+         }));
+  }
+
+  @Test
+  public void diff() throws Exception {
+    PushOneCommit.Result r = createChange();
+    DiffInfo diff = gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .file(FILE_NAME)
+        .diff();
+    assertNull(diff.metaA);
+    assertTrue(diff.metaB.lines == 1);
+  }
+
+  @Test
+  public void content() throws Exception {
+    PushOneCommit.Result r = createChange();
+    assertEquals(FILE_CONTENT, gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .file(FILE_NAME)
+        .content());
   }
 
   protected RevisionApi revision(PushOneCommit.Result r) throws Exception {

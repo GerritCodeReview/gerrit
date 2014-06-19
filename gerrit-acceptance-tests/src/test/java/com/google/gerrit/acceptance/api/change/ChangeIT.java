@@ -264,33 +264,18 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void queryChangesReviewerAfterReview() throws Exception {
+  public void checkReviewedFlagBeforeAndAfterReview() throws Exception {
     PushOneCommit.Result r = createChange();
     AddReviewerInput in = new AddReviewerInput();
     in.reviewer = user.email;
     gApi.changes()
-        .id("p~master~" + r.getChangeId())
+        .id(r.getChangeId())
         .addReviewer(in);
 
     setApiUser(user);
     assertNull(get(r.getChangeId()).reviewed);
 
     revision(r).review(ReviewInput.recommend());
-
     assertTrue(get(r.getChangeId()).reviewed);
-  }
-
-  @Test
-  public void queryChangesReviewerNotReviewed() throws Exception {
-    PushOneCommit.Result r = createChange();
-    AddReviewerInput in = new AddReviewerInput();
-    in.reviewer = user.email;
-    gApi.changes()
-        .id("p~master~" + r.getChangeId())
-        .addReviewer(in);
-
-    setApiUser(user);
-
-    assertNull(get(r.getChangeId()).reviewed);
   }
 }

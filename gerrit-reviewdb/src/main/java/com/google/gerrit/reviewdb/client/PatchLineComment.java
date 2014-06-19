@@ -14,6 +14,7 @@
 
 package com.google.gerrit.reviewdb.client;
 
+import com.google.gerrit.extensions.common.Comment.Range;
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.StringKey;
 
@@ -272,5 +273,12 @@ public final class PatchLineComment {
     builder.append("revId=").append(revId != null ? revId.get() : "");
     builder.append('}');
     return builder.toString();
+  }
+
+  public void fromRange(Range r) {
+    range = range == null
+        ? null
+        : new CommentRange(range.startLine, range.startCharacter,
+            range.endLine, range.endCharacter);
   }
 }

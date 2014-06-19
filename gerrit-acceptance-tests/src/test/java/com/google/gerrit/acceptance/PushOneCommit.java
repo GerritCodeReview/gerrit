@@ -57,7 +57,7 @@ import java.util.Set;
 public class PushOneCommit {
   public static final String SUBJECT = "test commit";
   public static final String FILE_NAME = "a.txt";
-  private static final String FILE_CONTENT = "some content";
+  public static final String FILE_CONTENT = "some content";
 
   public interface Factory {
     PushOneCommit create(

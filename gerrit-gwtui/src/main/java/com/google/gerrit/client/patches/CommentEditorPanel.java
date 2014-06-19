@@ -20,7 +20,7 @@ import com.google.gerrit.client.changes.CommentInfo;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.client.ui.CommentPanel;
-import com.google.gerrit.common.changes.Side;
+import com.google.gerrit.extensions.common.Side;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;

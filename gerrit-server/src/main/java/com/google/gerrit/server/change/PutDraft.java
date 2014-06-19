@@ -14,40 +14,25 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.gerrit.common.changes.Side;
+import com.google.gerrit.extensions.api.changes.DraftInput;
+import com.google.gerrit.extensions.common.Side;
 import com.google.gerrit.extensions.restapi.BadRequestException;
-import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.Url;
-import com.google.gerrit.reviewdb.client.CommentRange;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.change.PutDraft.Input;
 import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
-import java.sql.Timestamp;
 import java.util.Collections;
 
 @Singleton
-class PutDraft implements RestModifyView<DraftResource, Input> {
-  static class Input {
-    String id;
-    String path;
-    Side side;
-    Integer line;
-    String inReplyTo;
-    Timestamp updated; // Accepted but ignored.
-    CommentRange range;
-
-    @DefaultInput
-    String message;
-  }
+class PutDraft implements RestModifyView<DraftResource, DraftInput> {
 
   private final Provider<ReviewDb> db;
   private final Provider<DeleteDraft> delete;
@@ -59,7 +44,7 @@ class PutDraft implements RestModifyView<DraftResource, Input> {
   }
 
   @Override
-  public Response<CommentInfo> apply(DraftResource rsrc, Input in) throws
+  public Response<CommentInfo> apply(DraftResource rsrc, DraftInput in) throws
       BadRequestException, OrmException {
     PatchLineComment c = rsrc.getComment();
     if (in == null || in.message == null || in.message.trim().isEmpty()) {
@@ -68,7 +53,7 @@ class PutDraft implements RestModifyView<DraftResource, Input> {
       throw new BadRequestException("id must match URL");
     } else if (in.line != null && in.line < 0) {
       throw new BadRequestException("line must be >= 0");
-    } else if (in.line != null && in.range != null && in.line != in.range.getEndLine()) {
+    } else if (in.line != null && in.range != null && in.line != in.range.endLine) {
       throw new BadRequestException("range endLine must be on the same line as the comment");
     }
 
@@ -91,7 +76,7 @@ class PutDraft implements RestModifyView<DraftResource, Input> {
     return Response.ok(new CommentInfo(c, null));
   }
 
-  private PatchLineComment update(PatchLineComment e, Input in) {
+  private PatchLineComment update(PatchLineComment e, DraftInput in) {
     if (in.side != null) {
       e.setSide(in.side == Side.PARENT ? (short) 0 : (short) 1);
     }
@@ -100,8 +85,8 @@ class PutDraft implements RestModifyView<DraftResource, Input> {
     }
     e.setMessage(in.message.trim());
     if (in.range != null || in.line != null) {
-      e.setRange(in.range);
-      e.setLine(in.range != null ? in.range.getEndLine() : in.line);
+      e.fromRange(in.range);
+      e.setLine(in.range != null ? in.range.endLine : in.line);
     }
     e.setWrittenOn(TimeUtil.nowTs());
     return e;

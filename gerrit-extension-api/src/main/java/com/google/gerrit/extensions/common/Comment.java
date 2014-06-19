@@ -20,15 +20,11 @@ public abstract class Comment {
   public String id;
   public String path;
   public Side side;
-  public int line;
+  public Integer line;
   public Range range;
   public String inReplyTo;
   public Timestamp updated;
   public String message;
-
-  public static enum Side {
-    PARENT, REVISION
-  }
 
   public static class Range {
     public int startLine;

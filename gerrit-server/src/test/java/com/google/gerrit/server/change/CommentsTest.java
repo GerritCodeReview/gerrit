@@ -25,7 +25,7 @@ import static org.junit.Assert.fail;
 import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
-import com.google.gerrit.common.changes.Side;
+import com.google.gerrit.extensions.common.Side;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -212,7 +212,10 @@ public class CommentsTest {
     assertEquals(plc.getSide() == 0 ? Side.PARENT : Side.REVISION,
         Objects.firstNonNull(ci.side, Side.REVISION));
     assertEquals(plc.getWrittenOn(), ci.updated);
-    assertEquals(plc.getRange(), ci.range);
+    assertEquals(plc.getRange().getStartLine(), ci.range.startLine);
+    assertEquals(plc.getRange().getStartCharacter(), ci.range.startCharacter);
+    assertEquals(plc.getRange().getEndLine(), ci.range.endLine);
+    assertEquals(plc.getRange().getEndCharacter(), ci.range.endCharacter);
   }
 
   private static PatchLineComment newPatchLineComment(PatchSet.Id psId,

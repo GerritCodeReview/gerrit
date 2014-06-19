@@ -12,20 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.extensions.common;
+package com.google.gerrit.client;
 
-import com.google.gerrit.extensions.api.projects.ProjectState;
+import com.google.gwt.core.client.JavaScriptObject;
 
-import java.util.List;
-import java.util.Map;
+public class CustomIconInfo extends JavaScriptObject {
 
-public class ProjectInfo {
-  public String id;
-  public String name;
-  public String parent;
-  public String description;
-  public ProjectState state;
-  public Map<String, String> branches;
-  public List<WebLinkInfo> webLinks;
-  public List<CustomIconInfo> customIcons;
+  public final native String name() /*-{ return this.name; }-*/;
+  public final native String path() /*-{ return this.path; }-*/;
+
+  protected CustomIconInfo() {
+  }
 }

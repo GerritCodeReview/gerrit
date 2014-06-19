@@ -33,6 +33,7 @@ import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.systemstatus.MessageOfTheDay;
 import com.google.gerrit.extensions.webui.PatchSetWebLink;
+import com.google.gerrit.extensions.webui.ProjectCustomIcon;
 import com.google.gerrit.extensions.webui.ProjectWebLink;
 import com.google.gerrit.extensions.webui.TopMenu;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -41,6 +42,8 @@ import com.google.gerrit.rules.RulesCache;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.CmdLineParserModule;
+import com.google.gerrit.server.CustomIcons;
+import com.google.gerrit.server.CustomIconsProvider;
 import com.google.gerrit.server.FileTypeRegistry;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.MimeUtilFileTypeRegistry;
@@ -232,6 +235,7 @@ public class GerritGlobalModule extends FactoryModule {
     bind(FromAddressGenerator.class).toProvider(
         FromAddressGeneratorProvider.class).in(SINGLETON);
     bind(WebLinks.class).toProvider(WebLinksProvider.class).in(SINGLETON);
+    bind(CustomIcons.class).toProvider(CustomIconsProvider.class).in(SINGLETON);
 
     bind(PatchSetInfoFactory.class);
     bind(IdentifiedUser.GenericFactory.class).in(SINGLETON);
@@ -277,6 +281,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicMap.mapOf(binder(), ProjectConfigEntry.class);
     DynamicSet.setOf(binder(), PatchSetWebLink.class);
     DynamicSet.setOf(binder(), ProjectWebLink.class);
+    DynamicSet.setOf(binder(), ProjectCustomIcon.class);
 
     bind(AnonymousUser.class);
 

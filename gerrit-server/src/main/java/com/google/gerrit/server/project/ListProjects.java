@@ -21,6 +21,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.errors.NoSuchGroupException;
+import com.google.gerrit.extensions.common.CustomIconInfo;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.common.WebLinkInfo;
 import com.google.gerrit.extensions.restapi.BinaryResult;
@@ -31,6 +32,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.CustomIcons;
 import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.StringUtil;
 import com.google.gerrit.server.WebLinks;
@@ -110,6 +112,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
   private final GitRepositoryManager repoManager;
   private final ProjectNode.Factory projectNodeFactory;
   private final Provider<WebLinks> webLinks;
+  private final Provider<CustomIcons> customIcons;
 
   @Deprecated
   @Option(name = "--format", usage = "(deprecated) output format")
@@ -184,7 +187,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
   protected ListProjects(CurrentUser currentUser, ProjectCache projectCache,
       GroupCache groupCache, GroupControl.Factory groupControlFactory,
       GitRepositoryManager repoManager, ProjectNode.Factory projectNodeFactory,
-      Provider<WebLinks> webLinks) {
+      Provider<WebLinks> webLinks, Provider<CustomIcons> customIcons) {
     this.currentUser = currentUser;
     this.projectCache = projectCache;
     this.groupCache = groupCache;
@@ -192,6 +195,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
     this.repoManager = repoManager;
     this.projectNodeFactory = projectNodeFactory;
     this.webLinks = webLinks;
+    this.customIcons = customIcons;
   }
 
   public List<String> getShowBranch() {
@@ -378,6 +382,13 @@ public class ListProjects implements RestReadView<TopLevelResource> {
           for (WebLinks.Link link : webLinks.get().getProjectLinks(projectName.get())) {
             if (!Strings.isNullOrEmpty(link.name) && !Strings.isNullOrEmpty(link.url)) {
               info.webLinks.add(new WebLinkInfo(link.name, link.url));
+            }
+          }
+
+          info.customIcons = Lists.newArrayList();
+          for (CustomIcons.Icon icon : customIcons.get().getProjectIcons(projectName.get())) {
+            if (!Strings.isNullOrEmpty(icon.name) && !Strings.isNullOrEmpty(icon.path)) {
+              info.customIcons.add(new CustomIconInfo(icon.name, icon.path));
             }
           }
         }

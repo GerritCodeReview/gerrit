@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0424bda2_d60784e7",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-19T08:38:11Z",
+      "side": 1,
+      "message": "That didn\u0027t work, while ambiguous, because lines is Integer.",
+      "parentUuid": "5f3760c3_e9d11534",
+      "range": {
+        "startLine": 204,
+        "startChar": 4,
+        "endLine": 204,
+        "endChar": 14
+      },
+      "revId": "99efe3d912e439a08bf8c784509529219e2e4fad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3f2c6c7a_e8d11334",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/RevisionApiImpl.java",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2014-06-19T08:14:13Z",
       "side": 1,
       "message": "Is the correct message?",
+      "range": {
+        "startLine": 184,
+        "startChar": 34,
+        "endLine": 184,
+        "endChar": 52
+      },
+      "revId": "99efe3d912e439a08bf8c784509529219e2e4fad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0424bda2_f60a80ef",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/RevisionApiImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-19T08:38:11Z",
+      "side": 1,
+      "message": "Oops. Copy/paste.",
+      "parentUuid": "3f2c6c7a_e8d11334",
       "range": {
         "startLine": 184,
         "startChar": 34,

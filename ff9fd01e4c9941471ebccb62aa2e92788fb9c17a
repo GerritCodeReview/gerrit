@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a4a4d187_03de0e75",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-19T16:14:33Z",
+      "side": 1,
+      "message": "Don\u0027t describe _why_ you\u0027re making the change, describe _what_ the change is doing.",
+      "revId": "ff9fd01e4c9941471ebccb62aa2e92788fb9c17a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

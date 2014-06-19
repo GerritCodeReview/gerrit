@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "64349907_61e31643",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AccountGeneralPreferences.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-19T18:23:46Z",
+      "side": 1,
+      "message": "It should be just removed. Column 18 is located on the right place (ordered).",
+      "parentUuid": "648819e3_812bdaa2",
+      "range": {
+        "startLine": 156,
+        "startChar": 2,
+        "endLine": 157,
+        "endChar": 37
+      },
+      "revId": "4ce8fcd3118ca03450595b7724919958dd44ea35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a4485179_83365ed3",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AccountGeneralPreferences.java",
         "patchSetId": 8
@@ -84,6 +108,30 @@
       "side": 1,
       "message": "agreed we should be removed showUserInReview.  Do you care about migrating the data?  I\u0027m indifferent since users can just set again after upgrade.  However if you feel strongly then I can do.",
       "parentUuid": "a4485179_83365ed3",
+      "range": {
+        "startLine": 364,
+        "startChar": 4,
+        "endLine": 365,
+        "endChar": 27
+      },
+      "revId": "4ce8fcd3118ca03450595b7724919958dd44ea35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44395500_20d90a8d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AccountGeneralPreferences.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-19T18:23:46Z",
+      "side": 1,
+      "message": "I don\u0027t care too. Add that statement, that data is going to be lost after schema upgrade and wait for opinion of other reviewers.",
+      "parentUuid": "648819e3_2130ce0b",
       "range": {
         "startLine": 364,
         "startChar": 4,

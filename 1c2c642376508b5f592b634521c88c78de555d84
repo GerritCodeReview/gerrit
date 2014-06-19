@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "648819e3_414e327f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-06-19T14:34:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4485179_834f7e45",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 30
+      },
+      "revId": "1c2c642376508b5f592b634521c88c78de555d84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0424bda2_d6de6421",
         "filename": "/COMMIT_MSG",
         "patchSetId": 18
@@ -36,6 +60,30 @@
       "writtenOn": "2014-06-18T20:59:26Z",
       "side": 1,
       "message": "fetches",
+      "range": {
+        "startLine": 17,
+        "startChar": 39,
+        "endLine": 17,
+        "endChar": 47
+      },
+      "revId": "1c2c642376508b5f592b634521c88c78de555d84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84834dc4_c207a235",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-06-19T14:34:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0424bda2_d6de6421",
       "range": {
         "startLine": 17,
         "startChar": 39,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "648819e3_e142e650",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitOverHttpServlet.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-06-19T14:34:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4485179_e358720f",
+      "range": {
+        "startLine": 245,
+        "startChar": 62,
+        "endLine": 245,
+        "endChar": 63
+      },
+      "revId": "1c2c642376508b5f592b634521c88c78de555d84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a4485179_c35576d7",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitOverHttpServlet.java",
         "patchSetId": 18
@@ -88,6 +160,24 @@
     },
     {
       "key": {
+        "uuid": "648819e3_01402a46",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitOverHttpServlet.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-06-19T14:34:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4485179_c35576d7",
+      "revId": "1c2c642376508b5f592b634521c88c78de555d84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a4485179_a3527aeb",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Upload.java",
         "patchSetId": 18
@@ -99,6 +189,30 @@
       "writtenOn": "2014-06-18T20:59:26Z",
       "side": 1,
       "message": "You don\u0027t need to use here newArrayList(), allPreUploadHooks is already a list:\n\n  up.setPreUploadHook(PreUploadHookChain.newChain(allPreUploadHooks));",
+      "range": {
+        "startLine": 78,
+        "startChar": 4,
+        "endLine": 79,
+        "endChar": 48
+      },
+      "revId": "1c2c642376508b5f592b634521c88c78de555d84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84834dc4_6226d6df",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Upload.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-06-19T14:34:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4485179_a3527aeb",
       "range": {
         "startLine": 78,
         "startChar": 4,

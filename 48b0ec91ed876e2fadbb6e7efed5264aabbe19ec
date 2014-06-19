@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3f2c6c7a_28b40b0c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/rules/RulesCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-06-19T13:25:17Z",
+      "side": 1,
+      "message": "nit: wrap this to the next line.",
+      "range": {
+        "startLine": 199,
+        "startChar": 68,
+        "endLine": 199,
+        "endChar": 75
+      },
+      "revId": "48b0ec91ed876e2fadbb6e7efed5264aabbe19ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -49,6 +49,98 @@
     },
     {
       "key": {
+        "uuid": "0424bda2_96010cd4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/FileApiImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-19T08:46:20Z",
+      "side": 1,
+      "message": "f",
+      "range": {
+        "startLine": 35,
+        "startChar": 36,
+        "endLine": 35,
+        "endChar": 37
+      },
+      "revId": "99efe3d912e439a08bf8c784509529219e2e4fad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4485179_a3eb9ac5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/FileApiImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-19T08:46:20Z",
+      "side": 1,
+      "message": "getDiff",
+      "range": {
+        "startLine": 44,
+        "startChar": 24,
+        "endLine": 44,
+        "endChar": 30
+      },
+      "revId": "99efe3d912e439a08bf8c784509529219e2e4fad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0424bda2_76b8b0d5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/FileApiImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-19T08:46:20Z",
+      "side": 1,
+      "message": "getDiff",
+      "range": {
+        "startLine": 47,
+        "startChar": 18,
+        "endLine": 47,
+        "endChar": 24
+      },
+      "revId": "99efe3d912e439a08bf8c784509529219e2e4fad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4485179_83e89ec9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/RevisionApiImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-19T08:46:20Z",
+      "side": 1,
+      "message": "Drop Provider here and below after this change is merged [1].\n\n [1] https://gerrit-review.googlesource.com/57940",
+      "range": {
+        "startLine": 60,
+        "startChar": 16,
+        "endLine": 60,
+        "endChar": 31
+      },
+      "revId": "99efe3d912e439a08bf8c784509529219e2e4fad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3f2c6c7a_e8d11334",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/RevisionApiImpl.java",
         "patchSetId": 3

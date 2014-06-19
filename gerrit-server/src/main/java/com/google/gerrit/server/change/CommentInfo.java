@@ -15,10 +15,11 @@
 package com.google.gerrit.server.change;
 
 import com.google.common.base.Strings;
-import com.google.gerrit.common.changes.Side;
+import com.google.gerrit.extensions.common.Comment.Range;
+import com.google.gerrit.extensions.common.Side;
 import com.google.gerrit.extensions.restapi.Url;
-import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.CommentRange;
+import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.server.account.AccountInfo;
 
 import java.sql.Timestamp;
@@ -32,7 +33,7 @@ public class CommentInfo {
   String message;
   Timestamp updated;
   AccountInfo author;
-  CommentRange range;
+  Range range;
 
   CommentInfo(PatchLineComment c, AccountInfo.Loader accountLoader) {
     id = Url.encode(c.getKey().get());
@@ -46,9 +47,21 @@ public class CommentInfo {
     inReplyTo = Url.encode(c.getParentUuid());
     message = Strings.emptyToNull(c.getMessage());
     updated = c.getWrittenOn();
-    range = c.getRange();
+    range = toRange(c.getRange());
     if (accountLoader != null) {
       author = accountLoader.get(c.getAuthor());
     }
+  }
+
+  public static Range toRange(CommentRange commentRange) {
+    Range range = null;
+    if (commentRange != null) {
+      range = new Range();
+      range.startLine = commentRange.getStartLine();
+      range.startCharacter = commentRange.getStartCharacter();
+      range.endLine = commentRange.getEndLine();
+      range.endCharacter = commentRange.getEndCharacter();
+    }
+    return range;
   }
 }

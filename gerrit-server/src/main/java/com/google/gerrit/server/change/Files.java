@@ -41,6 +41,7 @@ import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
@@ -59,6 +60,7 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.concurrent.TimeUnit;
 
+@Singleton
 class Files implements ChildCollection<RevisionResource, FileResource> {
   private final DynamicMap<RestView<FileResource>> views;
   private final Provider<ListFiles> list;

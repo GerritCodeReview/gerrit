@@ -1,0 +1,130 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a4485179_431ce63c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-19T09:51:08Z",
+      "side": 1,
+      "message": "Method name doesn\u0027t match the implementation. No query functionality is used. Apparently it was copy/pasted from the previous method.",
+      "range": {
+        "startLine": 267,
+        "startChar": 14,
+        "endLine": 267,
+        "endChar": 45
+      },
+      "revId": "a975c4f6957b4f15359afe972ce8e57bbc5c121c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4485179_2311ea24",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-19T09:51:08Z",
+      "side": 1,
+      "message": "We don\u0027t need to use triplet here:\n\n  id(r.getChangeId())\n\nIt is only needed, when the change-id is not unique. But here it\u0027s the case, only one change was pushed so far.",
+      "range": {
+        "startLine": 272,
+        "startChar": 12,
+        "endLine": 272,
+        "endChar": 41
+      },
+      "revId": "a975c4f6957b4f15359afe972ce8e57bbc5c121c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0424bda2_f6cba052",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-19T09:51:08Z",
+      "side": 1,
+      "message": "Nit: unnecessary new line.",
+      "revId": "a975c4f6957b4f15359afe972ce8e57bbc5c121c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0424bda2_56bdb4c3",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-19T09:51:08Z",
+      "side": 1,
+      "message": "The same comment as above.",
+      "range": {
+        "startLine": 284,
+        "startChar": 14,
+        "endLine": 284,
+        "endChar": 45
+      },
+      "revId": "a975c4f6957b4f15359afe972ce8e57bbc5c121c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0424bda2_36c2383c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-19T09:51:08Z",
+      "side": 1,
+      "message": "The same comment as above.",
+      "range": {
+        "startLine": 289,
+        "startChar": 12,
+        "endLine": 289,
+        "endChar": 41
+      },
+      "revId": "a975c4f6957b4f15359afe972ce8e57bbc5c121c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0424bda2_16c73c4c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-19T09:51:08Z",
+      "side": 1,
+      "message": "Inconsistent new line: Above between lines 275 and 276 you didn\u0027t use news line in the same block. Can we be consistent?",
+      "revId": "a975c4f6957b4f15359afe972ce8e57bbc5c121c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

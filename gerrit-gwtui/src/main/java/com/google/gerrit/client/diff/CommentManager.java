@@ -20,7 +20,7 @@ import com.google.gerrit.client.patches.SkippedLine;
 import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
-import com.google.gerrit.common.changes.Side;
+import com.google.gerrit.extensions.common.Side;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.JsArray;
 

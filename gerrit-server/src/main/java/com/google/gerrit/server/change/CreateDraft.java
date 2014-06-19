@@ -18,7 +18,8 @@ import static com.google.gerrit.server.PatchLineCommentsUtil.setCommentRevId;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.common.TimeUtil;
-import com.google.gerrit.common.changes.Side;
+import com.google.gerrit.extensions.api.changes.DraftInput;
+import com.google.gerrit.extensions.common.Side;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
@@ -28,7 +29,6 @@ import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.PatchLineCommentsUtil;
-import com.google.gerrit.server.change.PutDraft.Input;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gwtorm.server.OrmException;
@@ -41,7 +41,7 @@ import java.sql.Timestamp;
 import java.util.Collections;
 
 @Singleton
-class CreateDraft implements RestModifyView<RevisionResource, Input> {
+class CreateDraft implements RestModifyView<RevisionResource, DraftInput> {
   private final Provider<ReviewDb> db;
   private final ChangeUpdate.Factory updateFactory;
   private final PatchLineCommentsUtil plcUtil;
@@ -59,7 +59,7 @@ class CreateDraft implements RestModifyView<RevisionResource, Input> {
   }
 
   @Override
-  public Response<CommentInfo> apply(RevisionResource rsrc, Input in)
+  public Response<CommentInfo> apply(RevisionResource rsrc, DraftInput in)
       throws BadRequestException, OrmException, IOException {
     if (Strings.isNullOrEmpty(in.path)) {
       throw new BadRequestException("path must be non-empty");
@@ -67,13 +67,13 @@ class CreateDraft implements RestModifyView<RevisionResource, Input> {
       throw new BadRequestException("message must be non-empty");
     } else if (in.line != null && in.line <= 0) {
       throw new BadRequestException("line must be > 0");
-    } else if (in.line != null && in.range != null && in.line != in.range.getEndLine()) {
+    } else if (in.line != null && in.range != null && in.line != in.range.endLine) {
       throw new BadRequestException("range endLine must be on the same line as the comment");
     }
 
     int line = in.line != null
         ? in.line
-        : in.range != null ? in.range.getEndLine() : 0;
+        : in.range != null ? in.range.endLine : 0;
 
     Timestamp now = TimeUtil.nowTs();
     ChangeUpdate update = updateFactory.create(rsrc.getControl(), now);
@@ -85,7 +85,7 @@ class CreateDraft implements RestModifyView<RevisionResource, Input> {
         line, rsrc.getAccountId(), Url.decode(in.inReplyTo), now);
     c.setSide(in.side == Side.PARENT ? (short) 0 : (short) 1);
     c.setMessage(in.message.trim());
-    c.setRange(in.range);
+    c.fromRange(in.range);
     setCommentRevId(c, patchListCache, rsrc.getChange(), rsrc.getPatchSet());
     plcUtil.insertComments(db.get(), update, Collections.singleton(c));
     update.commit();

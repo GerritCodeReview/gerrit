@@ -16,6 +16,7 @@ package com.google.gerrit.client.admin;
 
 import static com.google.gerrit.common.PageLinks.ADMIN_PROJECTS;
 
+import com.google.gerrit.client.CustomIconInfo;
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.GitwebLink;
@@ -33,6 +34,7 @@ import com.google.gerrit.client.ui.ProjectsTable;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
@@ -196,23 +198,7 @@ public class ProjectListScreen extends Screen implements FilteredUserInterface {
 
       @Override
       protected void populate(final int row, final ProjectInfo k) {
-        Image state = new Image();
-        switch (k.state()) {
-          case HIDDEN:
-            state.setResource(Gerrit.RESOURCES.redNot());
-            state.setTitle(Util.toLongString(k.state()));
-            table.setWidget(row, ProjectsTable.C_STATE, state);
-            break;
-          case READ_ONLY:
-            state.setResource(Gerrit.RESOURCES.readOnly());
-            state.setTitle(Util.toLongString(k.state()));
-            table.setWidget(row, ProjectsTable.C_STATE, state);
-            break;
-          default:
-            // Intentionally left blank, do not show an icon when active.
-            break;
-        }
-
+        addIcons(row, k);
         FlowPanel fp = new FlowPanel();
         fp.add(new ProjectSearchLink(k.name_key()));
         fp.add(new HighlightingInlineHyperlink(k.name(), link(k), subname));
@@ -221,6 +207,34 @@ public class ProjectListScreen extends Screen implements FilteredUserInterface {
         addWebLinks(row, k);
 
         setRowItem(row, k);
+      }
+
+      private void addIcons(int row, ProjectInfo k) {
+        Image state = new Image();
+        HorizontalPanel hp = new HorizontalPanel();
+        table.setWidget(row, ProjectsTable.C_STATE, hp);
+        switch (k.state()) {
+          case HIDDEN:
+            state.setResource(Gerrit.RESOURCES.redNot());
+            state.setTitle(Util.toLongString(k.state()));
+            hp.add(state);
+            break;
+          case READ_ONLY:
+            state.setResource(Gerrit.RESOURCES.readOnly());
+            state.setTitle(Util.toLongString(k.state()));
+            hp.add(state);
+            break;
+          default:
+            // Intentionally left blank, do not show an icon when active.
+            break;
+        }
+
+        List<CustomIconInfo> customIcons = Natives.asList(k.custom_icons());
+        for (CustomIconInfo customicon : customIcons) {
+            Image icon = new Image(GWT.getHostPageBaseURL() + customicon.path());
+            icon.setTitle(customicon.name());
+            hp.add(icon);
+        }
       }
 
       private void addWebLinks(int row, ProjectInfo k) {

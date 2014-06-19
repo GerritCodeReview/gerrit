@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.projects;
 
+import com.google.gerrit.client.CustomIconInfo;
 import com.google.gerrit.client.WebLinkInfo;
 import com.google.gerrit.extensions.api.projects.ProjectState;
 import com.google.gerrit.reviewdb.client.Project;
@@ -31,6 +32,7 @@ public class ProjectInfo
   public final native String name() /*-{ return this.name; }-*/;
   public final native String description() /*-{ return this.description; }-*/;
   public final native JsArray<WebLinkInfo> web_links() /*-{ return this.web_links; }-*/;
+  public final native JsArray<CustomIconInfo> custom_icons() /*-{ return this.custom_icons; }-*/;
 
   public final ProjectState state() {
     return ProjectState.valueOf(getStringState());

@@ -86,8 +86,7 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
   }
 
   @Override
-  public FileResource parse(RevisionResource rev, IdString id)
-      throws ResourceNotFoundException, OrmException, AuthException {
+  public FileResource parse(RevisionResource rev, IdString id) {
     return new FileResource(rev, id.get());
   }
 
@@ -333,6 +332,11 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
       } finally {
         git.close();
       }
+    }
+
+    public ListFiles setBase(String base) {
+      this.base = base;
+      return this;
     }
   }
 }

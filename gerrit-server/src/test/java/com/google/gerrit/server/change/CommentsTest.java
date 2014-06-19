@@ -27,8 +27,8 @@ import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.TimeUtil;
-import com.google.gerrit.common.changes.Side;
 import com.google.gerrit.extensions.common.AccountInfo;
+import com.google.gerrit.extensions.common.Side;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -440,7 +440,11 @@ public class CommentsTest  {
         MoreObjects.firstNonNull(ci.side, Side.REVISION));
     assertEquals(TimeUtil.roundToSecond(plc.getWrittenOn()),
         TimeUtil.roundToSecond(ci.updated));
-    assertEquals(plc.getRange(), ci.range);
+    assertEquals(plc.getWrittenOn(), ci.updated);
+    assertEquals(plc.getRange().getStartLine(), ci.range.startLine);
+    assertEquals(plc.getRange().getStartCharacter(), ci.range.startCharacter);
+    assertEquals(plc.getRange().getEndLine(), ci.range.endLine);
+    assertEquals(plc.getRange().getEndCharacter(), ci.range.endCharacter);
   }
 
   private static PatchLineComment newPatchLineComment(PatchSet.Id psId,

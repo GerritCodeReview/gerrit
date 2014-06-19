@@ -19,7 +19,7 @@ import com.google.gerrit.client.changes.CommentInfo;
 import com.google.gerrit.client.diff.DisplaySide;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.client.ui.InlineHyperlink;
-import com.google.gerrit.common.changes.Side;
+import com.google.gerrit.extensions.common.Side;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;

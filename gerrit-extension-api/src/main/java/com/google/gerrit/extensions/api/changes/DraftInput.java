@@ -12,24 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.extensions.common;
+package com.google.gerrit.extensions.api.changes;
 
-import java.sql.Timestamp;
+import com.google.gerrit.extensions.common.Comment;
 
-public abstract class Comment {
-  public String id;
-  public String path;
-  public Side side;
-  public Integer line;
-  public Range range;
-  public String inReplyTo;
-  public Timestamp updated;
-  public String message;
-
-  public static class Range {
-    public int startLine;
-    public int startCharacter;
-    public int endLine;
-    public int endCharacter;
-  }
+public class DraftInput extends Comment {
 }

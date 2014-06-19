@@ -12,20 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.extensions.common;
+package com.google.gerrit.extensions.webui;
 
-import com.google.gerrit.extensions.api.projects.ProjectState;
+import com.google.gerrit.extensions.annotations.ExtensionPoint;
+import com.google.gerrit.extensions.common.CustomIconInfo;
 
-import java.util.List;
-import java.util.Map;
+@ExtensionPoint
+public interface ProjectCustomIcon {
 
-public class ProjectInfo {
-  public String id;
-  public String name;
-  public String parent;
-  public String description;
-  public ProjectState state;
-  public Map<String, String> branches;
-  public List<WebLinkInfo> webLinks;
-  public List<CustomIconInfo> customIcons;
+  Iterable<CustomIconInfo> getIcons(String project);
 }

@@ -16,10 +16,12 @@ package com.google.gerrit.server.project;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
+import com.google.gerrit.extensions.common.CustomIconInfo;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.common.WebLinkInfo;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.CustomIcons;
 import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
@@ -32,12 +34,15 @@ public class ProjectJson {
 
   private final AllProjectsName allProjects;
   private final Provider<WebLinks> webLinks;
+  private final Provider<CustomIcons> customIcons;
 
   @Inject
+
   ProjectJson(AllProjectsNameProvider allProjectsNameProvider,
-      Provider<WebLinks> webLinks) {
+      Provider<WebLinks> webLinks, Provider<CustomIcons> customIcons) {
     this.allProjects = allProjectsNameProvider.get();
     this.webLinks = webLinks;
+    this.customIcons = customIcons;
   }
 
   public ProjectInfo format(ProjectResource rsrc) {
@@ -57,6 +62,13 @@ public class ProjectJson {
     for (WebLinks.Link link : webLinks.get().getProjectLinks(p.getName())) {
       if (!Strings.isNullOrEmpty(link.name) && !Strings.isNullOrEmpty(link.url)) {
         info.webLinks.add(new WebLinkInfo(link.name, link.url));
+      }
+    }
+
+    info.customIcons = Lists.newArrayList();
+    for (CustomIconInfo icon : customIcons.get().getProjectIcons(p.getName())) {
+      if (!Strings.isNullOrEmpty(icon.name) && !Strings.isNullOrEmpty(icon.path)) {
+        info.customIcons.add(icon);
       }
     }
 

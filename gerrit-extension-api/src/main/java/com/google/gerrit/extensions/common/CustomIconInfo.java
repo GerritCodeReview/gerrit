@@ -14,18 +14,12 @@
 
 package com.google.gerrit.extensions.common;
 
-import com.google.gerrit.extensions.api.projects.ProjectState;
-
-import java.util.List;
-import java.util.Map;
-
-public class ProjectInfo {
-  public String id;
+public class CustomIconInfo {
   public String name;
-  public String parent;
-  public String description;
-  public ProjectState state;
-  public Map<String, String> branches;
-  public List<WebLinkInfo> webLinks;
-  public List<CustomIconInfo> customIcons;
+  public String path;
+
+  public CustomIconInfo(String name, String path) {
+    this.name = name;
+    this.path = path;
+  }
 }

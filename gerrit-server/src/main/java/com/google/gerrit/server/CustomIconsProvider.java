@@ -12,20 +12,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.extensions.common;
+package com.google.gerrit.server;
 
-import com.google.gerrit.extensions.api.projects.ProjectState;
+import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.extensions.webui.ProjectCustomIcon;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 
-import java.util.List;
-import java.util.Map;
+public class CustomIconsProvider implements Provider<CustomIcons> {
+  private final DynamicSet<ProjectCustomIcon> projectIcons;
 
-public class ProjectInfo {
-  public String id;
-  public String name;
-  public String parent;
-  public String description;
-  public ProjectState state;
-  public Map<String, String> branches;
-  public List<WebLinkInfo> webLinks;
-  public List<CustomIconInfo> customIcons;
+  @Inject
+  public CustomIconsProvider(DynamicSet<ProjectCustomIcon> projectIcons) {
+    this.projectIcons = projectIcons;
+  }
+
+  @Override
+  public CustomIcons get() {
+    return new CustomIcons(projectIcons);
+  }
 }

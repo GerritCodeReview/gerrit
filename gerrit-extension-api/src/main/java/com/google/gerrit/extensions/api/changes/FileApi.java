@@ -15,11 +15,12 @@
 package com.google.gerrit.extensions.api.changes;
 
 import com.google.gerrit.extensions.common.DiffInfo;
+import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 
 public interface FileApi {
-  String content() throws RestApiException;
+  BinaryResult content() throws RestApiException;
 
   /**
    * Diff against the revision's parent version of the file.
@@ -38,7 +39,7 @@ public interface FileApi {
    **/
   public class NotImplemented implements FileApi {
     @Override
-    public String content() throws RestApiException {
+    public BinaryResult content() throws RestApiException {
       throw new NotImplementedException();
     }
 

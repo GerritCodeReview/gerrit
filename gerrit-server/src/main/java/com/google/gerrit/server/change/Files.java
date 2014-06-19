@@ -59,7 +59,7 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.concurrent.TimeUnit;
 
-class Files implements ChildCollection<RevisionResource, FileResource> {
+public class Files implements ChildCollection<RevisionResource, FileResource> {
   private final DynamicMap<RestView<FileResource>> views;
   private final Provider<ListFiles> list;
 
@@ -85,7 +85,7 @@ class Files implements ChildCollection<RevisionResource, FileResource> {
     return new FileResource(rev, id.get());
   }
 
-  private static final class ListFiles implements RestReadView<RevisionResource> {
+  public static final class ListFiles implements RestReadView<RevisionResource> {
     private static final Logger log = LoggerFactory.getLogger(ListFiles.class);
 
     @Option(name = "--base", metaVar = "revision-id")
@@ -272,6 +272,11 @@ class Files implements ChildCollection<RevisionResource, FileResource> {
       } finally {
         git.close();
       }
+    }
+
+    public ListFiles setBase(String base) {
+      this.base = base;
+      return this;
     }
   }
 }

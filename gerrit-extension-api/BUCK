@@ -6,8 +6,10 @@ gwt_module(
   srcs = glob([
     SRC + 'api/projects/ProjectState.java',
     SRC + 'common/ChangeStatus.java',
+    SRC + 'common/Comment.java',
     SRC + 'common/InheritableBoolean.java',
     SRC + 'common/ListChangesOption.java',
+    SRC + 'common/Side.java',
     SRC + 'common/SubmitType.java',
     SRC + 'common/Theme.java',
     SRC + 'webui/GerritTopMenu.java',

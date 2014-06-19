@@ -18,7 +18,7 @@ import static com.google.common.base.MoreObjects.firstNonNull;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.gerrit.common.changes.Side;
+import com.google.gerrit.extensions.common.Side;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.server.ReviewDb;

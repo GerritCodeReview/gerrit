@@ -2,6 +2,57 @@
   "comments": [
     {
       "key": {
+        "uuid": "c4faa581_ec0a6b3d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-06-20T19:49:02Z",
+      "side": 1,
+      "message": "displayName should probably changed to displayInfo since it could be something  besides the name.",
+      "revId": "4ce8fcd3118ca03450595b7724919958dd44ea35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4faa581_cc07af35",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-06-20T19:49:02Z",
+      "side": 1,
+      "message": "function name should be getReviewCategoryDisplayInfo",
+      "revId": "4ce8fcd3118ca03450595b7724919958dd44ea35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4faa581_2c2633de",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-06-20T19:49:02Z",
+      "side": 1,
+      "message": "\u0027info\u0027 would be better var name",
+      "revId": "4ce8fcd3118ca03450595b7724919958dd44ea35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a4485179_a3395ac5",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AccountGeneralPreferences.java",
         "patchSetId": 8

@@ -38,7 +38,7 @@ import java.io.IOException;
 import java.util.Collections;
 
 @Singleton
-class PutDraft implements RestModifyView<DraftResource, DraftInput> {
+public class PutDraft implements RestModifyView<DraftResource, DraftInput> {
 
   private final Provider<ReviewDb> db;
   private final DeleteDraft delete;

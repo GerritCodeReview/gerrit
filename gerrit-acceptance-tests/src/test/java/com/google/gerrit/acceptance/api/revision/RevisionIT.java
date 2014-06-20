@@ -31,10 +31,15 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
+import com.google.gerrit.extensions.api.changes.DraftApi;
+import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
+import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.common.MergeableInfo;
 import com.google.gerrit.extensions.common.SubmitType;
@@ -52,6 +57,10 @@ import org.junit.Test;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @NoHttpd
 public class RevisionIT extends AbstractDaemonTest {
@@ -339,6 +348,92 @@ public class RevisionIT extends AbstractDaemonTest {
     assertThat(m.mergeableInto).isNull();
     ChangeInfo c = gApi.changes().id(id).info();
     assertThat(c.mergeable).isEqualTo(expected);
+  }
+
+  @Test
+  public void drafts() throws Exception {
+    PushOneCommit.Result r = createChange();
+    DraftInput in = new DraftInput();
+    in.line = 1;
+    in.message = "nit: trailing hitespace";
+    in.path = FILE_NAME;
+
+    DraftApi draftApi = gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .createDraft(in);
+    assertEquals(in.message, draftApi.get().message);
+    assertEquals(in.message, gApi.changes()
+       .id(r.getChangeId())
+       .revision(r.getCommit().name())
+       .draft(draftApi.get().id)
+       .get()
+       .message);
+    assertEquals(1, gApi.changes()
+       .id(r.getChangeId())
+       .revision(r.getCommit().name())
+       .drafts().size());
+
+    in.message = "good catch!";
+    assertEquals(in.message, gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .draft(draftApi.get().id)
+        .update(in)
+        .message);
+
+    CommentInfo comment = gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .draft(draftApi.get().id)
+        .get();
+    assertEquals(admin.email, comment.author.email);
+
+    draftApi.delete();
+    assertEquals(0, gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .drafts().size());
+  }
+
+  @Test
+  public void comments() throws Exception {
+    PushOneCommit.Result r = createChange();
+    CommentInput in = new CommentInput();
+    in.line = 1;
+    in.message = "nit: trailing hitespace";
+    in.path = FILE_NAME;
+    ReviewInput reviewInput = new ReviewInput();
+    Map<String, List<CommentInput>> comments = new HashMap<>();
+    comments.put(FILE_NAME, Collections.singletonList(in));
+    reviewInput.comments = comments;
+    reviewInput.message = "comment test";
+    gApi.changes()
+       .id(r.getChangeId())
+       .current()
+       .review(reviewInput);
+
+    Map<String, List<CommentInfo>> out = gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .comments();
+    assertEquals(1, out.size());
+    CommentInfo comment = Iterables.getOnlyElement(out.get(FILE_NAME));
+    assertEquals(in.message, comment.message);
+    assertEquals(admin.email, comment.author.email);
+
+    assertEquals(in.message, gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .comment(comment.id)
+        .get()
+        .message);
+  }
+
+  protected RevisionApi revision(PushOneCommit.Result r) throws Exception {
+    return gApi.changes()
+        .id(r.getChangeId())
+        .current();
   }
 
   private void merge(PushOneCommit.Result r) throws Exception {

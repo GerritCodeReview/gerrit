@@ -35,7 +35,7 @@ import java.util.List;
 import java.util.Map;
 
 @Singleton
-class ListDrafts implements RestReadView<RevisionResource> {
+public class ListDrafts implements RestReadView<RevisionResource> {
   protected final Provider<ReviewDb> db;
   protected final PatchLineCommentsUtil plcUtil;
   private final AccountLoader.Factory accountLoaderFactory;

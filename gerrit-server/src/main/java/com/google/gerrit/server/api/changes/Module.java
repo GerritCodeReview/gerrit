@@ -23,6 +23,8 @@ public class Module extends FactoryModule {
     bind(Changes.class).to(ChangesImpl.class);
 
     factory(ChangeApiImpl.Factory.class);
+    factory(CommentApiImpl.Factory.class);
+    factory(DraftApiImpl.Factory.class);
     factory(RevisionApiImpl.Factory.class);
     factory(FileApiImpl.Factory.class);
   }

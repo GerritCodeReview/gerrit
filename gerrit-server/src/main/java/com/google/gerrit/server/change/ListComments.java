@@ -23,7 +23,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 @Singleton
-class ListComments extends ListDrafts {
+public class ListComments extends ListDrafts {
   @Inject
   ListComments(Provider<ReviewDb> db, AccountInfo.Loader.Factory alf) {
     super(db, alf);
@@ -34,6 +34,7 @@ class ListComments extends ListDrafts {
     return true;
   }
 
+  @Override
   protected Iterable<PatchLineComment> listComments(RevisionResource rsrc)
       throws OrmException {
     return db.get().patchComments()

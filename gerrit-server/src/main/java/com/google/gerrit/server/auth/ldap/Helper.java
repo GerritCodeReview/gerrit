@@ -206,25 +206,25 @@ import javax.security.auth.login.LoginException;
     final LdapSchema schema = getSchema(ctx);
     final Set<String> groupDNs = new HashSet<>();
 
-    if (!schema.groupMemberQueryList.isEmpty()) {
-      final HashMap<String, String> params = new HashMap<>();
-
-      if (account == null) {
-        try {
-          account = findAccount(schema, ctx, username);
-        } catch (AccountException e) {
-          LdapRealm.log.warn("Account " + username +
-              " not found, assuming empty group membership");
-          return Collections.emptySet();
-        }
+    if (account == null) {
+      try {
+        account = findAccount(schema, ctx, username);
+      } catch (AccountException e) {
+        LdapRealm.log.warn("Account " + username
+            + " not found, assuming empty group membership");
+        return Collections.emptySet();
       }
-      for (String name : schema.groupMemberQueryList.get(0).getParameters()) {
+    }
+
+    if (!schema.groupMembershipQueryList.isEmpty()) {
+      final HashMap<String, String> params = new HashMap<>();
+      for (String name : schema.groupMembershipQueryList.get(0).getParameters()) {
         params.put(name, account.get(name));
       }
 
       params.put(LdapRealm.USERNAME, username);
 
-      for (LdapQuery groupMemberQuery : schema.groupMemberQueryList) {
+      for (LdapQuery groupMemberQuery : schema.groupMembershipQueryList) {
         for (LdapQuery.Result r : groupMemberQuery.query(ctx, params)) {
           recursivelyExpandGroups(groupDNs, schema, ctx, r.getDN());
         }
@@ -232,16 +232,6 @@ import javax.security.auth.login.LoginException;
     }
 
     if (schema.accountMemberField != null) {
-      if (account == null) {
-        try {
-          account = findAccount(schema, ctx, username);
-        } catch (AccountException e) {
-          LdapRealm.log.warn("Account " + username +
-              " not found, assuming empty group membership");
-          return Collections.emptySet();
-        }
-      }
-
       final Attribute groupAtt = account.getAll(schema.accountMemberField);
       if (groupAtt != null) {
         final NamingEnumeration<?> groups = groupAtt.getAll();
@@ -309,12 +299,12 @@ import javax.security.auth.login.LoginException;
     final List<LdapQuery> accountQueryList;
 
     final ParameterizedString groupName;
-    final List<LdapQuery> groupMemberQueryList;
+    final List<LdapQuery> groupMembershipQueryList;
     final List<LdapQuery> groupQueryList;
 
     LdapSchema(final DirContext ctx) {
       type = discoverLdapType(ctx);
-      groupMemberQueryList = new ArrayList<>();
+      groupMembershipQueryList = new ArrayList<>();
       groupQueryList = new ArrayList<>();
       accountQueryList = new ArrayList<>();
 
@@ -325,25 +315,25 @@ import javax.security.auth.login.LoginException;
           LdapRealm.paramString(config, "groupPattern", type.groupPattern());
 
       groupName = LdapRealm.paramString(config, "groupName", type.groupName());
-      final String groupMemberPattern =
-          LdapRealm.optdef(config, "groupMemberPattern", type.groupMemberPattern());
+      final String groupMembershipPattern =
+          LdapRealm.optdef(config, "groupMembershipPattern", type.groupMembershipPattern());
       // Group member query
       for (String groupBase : LdapRealm.optionalList(config, "groupBase")) {
 
-        if (groupMemberPattern != null) {
+        if (groupMembershipPattern != null) {
           final LdapQuery groupMemberQuery =
               new LdapQuery(groupBase, groupScope, new ParameterizedString(
-                  groupMemberPattern), Collections.<String> emptySet());
+                  groupMembershipPattern), Collections.<String> emptySet());
           if (groupMemberQuery.getParameters().isEmpty()) {
             throw new IllegalArgumentException(
-                "No variables in ldap.groupMemberPattern");
+                "No variables in ldap.groupMembershipPattern");
           }
 
           for (final String name : groupMemberQuery.getParameters()) {
             accountAtts.add(name);
           }
 
-          groupMemberQueryList.add(groupMemberQuery);
+          groupMembershipQueryList.add(groupMemberQuery);
         }
         // Group query
         final LdapQuery groupQuery =

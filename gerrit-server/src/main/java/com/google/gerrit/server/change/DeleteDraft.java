@@ -26,7 +26,7 @@ import com.google.inject.Singleton;
 import java.util.Collections;
 
 @Singleton
-class DeleteDraft implements RestModifyView<DraftResource, Input> {
+public class DeleteDraft implements RestModifyView<DraftResource, Input> {
   static class Input {
   }
 

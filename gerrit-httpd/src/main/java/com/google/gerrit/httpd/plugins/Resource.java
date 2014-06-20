@@ -34,9 +34,17 @@ abstract class Resource {
       CacheHeaders.setNotCacheable(res);
       res.sendError(HttpServletResponse.SC_NOT_FOUND);
     }
+
+    @Override
+    boolean isUnchanged(long latestModifiedDate) {
+      return false;
+    }
   };
 
+  abstract boolean isUnchanged(long latestModifiedDate);
+
   abstract int weigh();
+
   abstract void send(HttpServletRequest req, HttpServletResponse res)
       throws IOException;
 }

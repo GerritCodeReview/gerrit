@@ -21,7 +21,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
-class GetComment implements RestReadView<CommentResource> {
+public class GetComment implements RestReadView<CommentResource> {
 
   private final AccountLoader.Factory accountLoaderFactory;
 

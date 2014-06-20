@@ -21,7 +21,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
-class GetDraft implements RestReadView<DraftResource> {
+public class GetDraft implements RestReadView<DraftResource> {
 
   private final AccountLoader.Factory accountLoaderFactory;
 

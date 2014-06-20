@@ -30,7 +30,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 @Singleton
-class Drafts implements ChildCollection<RevisionResource, DraftResource> {
+public class Drafts implements ChildCollection<RevisionResource, DraftResource> {
   private final DynamicMap<RestView<DraftResource>> views;
   private final Provider<CurrentUser> user;
   private final ListDrafts list;

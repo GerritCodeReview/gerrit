@@ -33,7 +33,7 @@ import java.io.IOException;
 import java.util.Collections;
 
 @Singleton
-class DeleteDraft implements RestModifyView<DraftResource, Input> {
+public class DeleteDraft implements RestModifyView<DraftResource, Input> {
   static class Input {
   }
 

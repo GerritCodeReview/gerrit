@@ -15,23 +15,34 @@
 package com.google.gerrit.server.api.changes;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.Changes;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
+import com.google.gerrit.extensions.api.changes.CommentApi;
+import com.google.gerrit.extensions.api.changes.DraftApi;
+import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.FileApi;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
+import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.common.MergeableInfo;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.change.CherryPick;
+import com.google.gerrit.server.change.Comments;
+import com.google.gerrit.server.change.CreateDraft;
 import com.google.gerrit.server.change.DeleteDraftPatchSet;
+import com.google.gerrit.server.change.Drafts;
 import com.google.gerrit.server.change.FileResource;
 import com.google.gerrit.server.change.Files;
+import com.google.gerrit.server.change.ListComments;
+import com.google.gerrit.server.change.ListDrafts;
 import com.google.gerrit.server.change.Mergeable;
 import com.google.gerrit.server.change.PostReview;
 import com.google.gerrit.server.change.Publish;
@@ -46,6 +57,7 @@ import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -69,6 +81,13 @@ class RevisionApiImpl extends RevisionApi.NotImplemented implements RevisionApi 
   private final Provider<PostReview> review;
   private final Provider<Mergeable> mergeable;
   private final FileApiImpl.Factory fileApi;
+  private final ListComments listComments;
+  private final ListDrafts listDrafts;
+  private final CreateDraft createDraft;
+  private final Drafts drafts;
+  private final DraftApiImpl.Factory draftFactory;
+  private final Comments comments;
+  private final CommentApiImpl.Factory commentFactory;
 
   @Inject
   RevisionApiImpl(Changes changes,
@@ -85,6 +104,13 @@ class RevisionApiImpl extends RevisionApi.NotImplemented implements RevisionApi 
       Provider<PostReview> review,
       Provider<Mergeable> mergeable,
       FileApiImpl.Factory fileApi,
+      ListComments listComments,
+      ListDrafts listDrafts,
+      CreateDraft createDraft,
+      Drafts drafts,
+      DraftApiImpl.Factory draftFactory,
+      Comments comments,
+      CommentApiImpl.Factory commentFactory,
       @Assisted RevisionResource r) {
     this.changes = changes;
     this.cherryPick = cherryPick;
@@ -100,6 +126,13 @@ class RevisionApiImpl extends RevisionApi.NotImplemented implements RevisionApi 
     this.listFiles = listFiles;
     this.mergeable = mergeable;
     this.fileApi = fileApi;
+    this.listComments = listComments;
+    this.listDrafts = listDrafts;
+    this.createDraft = createDraft;
+    this.drafts = drafts;
+    this.draftFactory = draftFactory;
+    this.comments = comments;
+    this.commentFactory = commentFactory;
     this.revision = r;
   }
 
@@ -243,5 +276,70 @@ class RevisionApiImpl extends RevisionApi.NotImplemented implements RevisionApi 
   public FileApi file(String path) {
     return fileApi.create(files.get().parse(revision,
         IdString.fromDecoded(path)));
+  }
+
+  @Override
+  public Map<String, List<CommentInfo>> comments() throws RestApiException {
+    try {
+      return Maps.transformEntries(listComments.apply(revision),
+          new Maps.EntryTransformer<String,
+              List<com.google.gerrit.server.change.CommentInfo>,
+              List<CommentInfo>>() {
+                @Override
+                public List<CommentInfo> transformEntry(String key,
+                    List<com.google.gerrit.server.change.CommentInfo> c) {
+                  return Lists.transform(c, CommentInfoMapper.INSTANCE);
+                }
+          });
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot retrieve comments", e);
+    }
+  }
+
+  @Override
+  public Map<String, List<CommentInfo>> drafts() throws RestApiException {
+    try {
+      return Maps.transformEntries(listDrafts.apply(revision),
+          new Maps.EntryTransformer<String,
+              List<com.google.gerrit.server.change.CommentInfo>,
+              List<CommentInfo>>() {
+                @Override
+                public List<CommentInfo> transformEntry(String key,
+                    List<com.google.gerrit.server.change.CommentInfo> d) {
+                  return Lists.transform(d, CommentInfoMapper.INSTANCE);
+                }
+          });
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot retrieve drafts", e);
+    }
+  }
+
+  @Override
+  public DraftApi draft(String id) throws RestApiException {
+    try {
+      return draftFactory.create(drafts.parse(revision,
+          IdString.fromDecoded(id)));
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot retrieve draft", e);
+    }
+  }
+
+  @Override
+  public DraftApi createDraft(DraftInput in) throws RestApiException {
+    try {
+      return draft(createDraft.apply(revision, in).value().id);
+    } catch (IOException | OrmException e) {
+      throw new RestApiException("Cannot create draft", e);
+    }
+  }
+
+  @Override
+  public CommentApi comment(String id) throws RestApiException {
+    try {
+      return commentFactory.create(comments.parse(revision,
+          IdString.fromDecoded(id)));
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot retrieve comment", e);
+    }
   }
 }

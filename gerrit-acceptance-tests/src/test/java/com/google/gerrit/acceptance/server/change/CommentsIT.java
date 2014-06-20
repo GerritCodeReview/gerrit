@@ -22,8 +22,8 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
-import com.google.gerrit.extensions.common.Comment;
 import com.google.gerrit.extensions.common.CommentInfo;
+import com.google.gerrit.extensions.common.Side;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gson.reflect.TypeToken;
@@ -50,7 +50,7 @@ public class CommentsIT extends AbstractDaemonTest {
     String changeId = r.getChangeId();
     String revId = r.getCommit().getName();
     ReviewInput.CommentInput comment = newCommentInfo(
-        "file1", Comment.Side.REVISION, 1, "comment 1");
+        "file1", Side.REVISION, 1, "comment 1");
     addDraft(changeId, revId, comment);
     Map<String, List<CommentInfo>> result = getDraftComments(changeId, revId);
     assertThat(result).hasSize(1);
@@ -69,7 +69,7 @@ public class CommentsIT extends AbstractDaemonTest {
     String revId = r.getCommit().getName();
     ReviewInput input = new ReviewInput();
     ReviewInput.CommentInput comment = newCommentInfo(
-        file, Comment.Side.REVISION, 1, "comment 1");
+        file, Side.REVISION, 1, "comment 1");
     input.comments = new HashMap<>();
     input.comments.put(comment.path, Lists.newArrayList(comment));
     revision(r).review(input);
@@ -85,7 +85,7 @@ public class CommentsIT extends AbstractDaemonTest {
     String changeId = r.getChangeId();
     String revId = r.getCommit().getName();
     ReviewInput.CommentInput comment = newCommentInfo(
-        "file1", Comment.Side.REVISION, 1, "comment 1");
+        "file1", Side.REVISION, 1, "comment 1");
     addDraft(changeId, revId, comment);
     Map<String, List<CommentInfo>> result = getDraftComments(changeId, revId);
     CommentInfo actual = Iterables.getOnlyElement(result.get(comment.path));
@@ -104,7 +104,7 @@ public class CommentsIT extends AbstractDaemonTest {
     String changeId = r.getChangeId();
     String revId = r.getCommit().getName();
     ReviewInput.CommentInput comment = newCommentInfo(
-        "file1", Comment.Side.REVISION, 1, "comment 1");
+        "file1", Side.REVISION, 1, "comment 1");
     CommentInfo returned = addDraft(changeId, revId, comment);
     CommentInfo actual = getDraftComment(changeId, revId, returned.id);
     assertCommentInfo(comment, actual);
@@ -116,7 +116,7 @@ public class CommentsIT extends AbstractDaemonTest {
     String changeId = r.getChangeId();
     String revId = r.getCommit().getName();
     ReviewInput.CommentInput comment = newCommentInfo(
-        "file1", Comment.Side.REVISION, 1, "comment 1");
+        "file1", Side.REVISION, 1, "comment 1");
     CommentInfo returned = addDraft(changeId, revId, comment);
     deleteDraft(changeId, revId, returned.id);
     Map<String, List<CommentInfo>> drafts = getDraftComments(changeId, revId);
@@ -177,12 +177,12 @@ public class CommentsIT extends AbstractDaemonTest {
     assertThat(actual.message).isEqualTo(expected.message);
     assertThat(actual.inReplyTo).isEqualTo(expected.inReplyTo);
     if (actual.side == null) {
-      assertThat(Comment.Side.REVISION).isEqualTo(expected.side);
+      assertThat(Side.REVISION).isEqualTo(expected.side);
     }
   }
 
   private ReviewInput.CommentInput newCommentInfo(String path,
-      Comment.Side side, int line, String message) {
+      Side side, int line, String message) {
     ReviewInput.CommentInput input = new ReviewInput.CommentInput();
     input.path = path;
     input.side = side;

@@ -41,7 +41,7 @@ import java.sql.Timestamp;
 import java.util.Collections;
 
 @Singleton
-class CreateDraft implements RestModifyView<RevisionResource, DraftInput> {
+public class CreateDraft implements RestModifyView<RevisionResource, DraftInput> {
   private final Provider<ReviewDb> db;
   private final ChangeUpdate.Factory updateFactory;
   private final PatchLineCommentsUtil plcUtil;

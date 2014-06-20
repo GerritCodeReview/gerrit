@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "64d01910_814e3a7c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginEntry.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-20T14:00:08Z",
+      "side": 1,
+      "message": "Why not to use Guava\u0027s natural ordering?\n\n  private static Ordering\u003cPluginEntry\u003e SORT_BY_NAME \u003d Ordering.natural()\n      .onResultOf(new Function\u003cPluginEntry, String\u003e() {\n            @Override\n            public String apply(PluginEntry e) {\n              return e.getName();\n            }\n          });\n  public static List\u003cPluginEntry\u003e sortPluginEntries(\n      Iterable\u003cPluginEntry\u003e entries) {\n    return SORT_PLUGIN_ENTRY.sortedCopy(entries);\n  }",
+      "range": {
+        "startLine": 32,
+        "startChar": 2,
+        "endLine": 38,
+        "endChar": 8
+      },
+      "revId": "7cd0e26f5de361118e8e3cff1758f74a37646f7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

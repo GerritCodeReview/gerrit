@@ -16,6 +16,7 @@ package com.google.gerrit.server.change;
 
 import static com.google.gerrit.server.PatchLineCommentsUtil.setCommentRevId;
 
+import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
@@ -33,7 +34,7 @@ import java.io.IOException;
 import java.util.Collections;
 
 @Singleton
-class DeleteDraft implements RestModifyView<DraftResource, Input> {
+public class DeleteDraft implements RestModifyView<DraftResource, Input> {
   static class Input {
   }
 

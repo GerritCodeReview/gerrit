@@ -19,6 +19,7 @@ import static com.google.gerrit.server.PatchLineCommentsUtil.setCommentRevId;
 import com.google.common.base.Strings;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.api.changes.DraftInput;
+import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.Side;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -41,19 +42,22 @@ import java.sql.Timestamp;
 import java.util.Collections;
 
 @Singleton
-class CreateDraft implements RestModifyView<RevisionResource, DraftInput> {
+public class CreateDraft implements RestModifyView<RevisionResource, DraftInput> {
   private final Provider<ReviewDb> db;
   private final ChangeUpdate.Factory updateFactory;
+  private final CommentJson commentJson;
   private final PatchLineCommentsUtil plcUtil;
   private final PatchListCache patchListCache;
 
   @Inject
   CreateDraft(Provider<ReviewDb> db,
       ChangeUpdate.Factory updateFactory,
+      CommentJson commentJson,
       PatchLineCommentsUtil plcUtil,
       PatchListCache patchListCache) {
     this.db = db;
     this.updateFactory = updateFactory;
+    this.commentJson = commentJson;
     this.plcUtil = plcUtil;
     this.patchListCache = patchListCache;
   }
@@ -89,6 +93,6 @@ class CreateDraft implements RestModifyView<RevisionResource, DraftInput> {
     setCommentRevId(c, patchListCache, rsrc.getChange(), rsrc.getPatchSet());
     plcUtil.insertComments(db.get(), update, Collections.singleton(c));
     update.commit();
-    return Response.created(new CommentInfo(c, null));
+    return Response.created(commentJson.format(c, false));
   }
 }

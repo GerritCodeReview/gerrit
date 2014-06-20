@@ -14,27 +14,24 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.server.account.AccountLoader;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
-class GetComment implements RestReadView<CommentResource> {
+public class GetComment implements RestReadView<CommentResource> {
 
-  private final AccountLoader.Factory accountLoaderFactory;
+  private final CommentJson commentJson;
 
   @Inject
-  GetComment(AccountLoader.Factory accountLoaderFactory) {
-    this.accountLoaderFactory = accountLoaderFactory;
+  GetComment(CommentJson commentJson) {
+    this.commentJson = commentJson;
   }
 
   @Override
   public CommentInfo apply(CommentResource rsrc) throws OrmException {
-    AccountLoader accountLoader = accountLoaderFactory.create(true);
-    CommentInfo ci = new CommentInfo(rsrc.getComment(), accountLoader);
-    accountLoader.fill();
-    return ci;
+    return commentJson.format(rsrc.getComment());
   }
 }

@@ -29,7 +29,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 @Singleton
-class Comments implements ChildCollection<RevisionResource, CommentResource> {
+public class Comments implements ChildCollection<RevisionResource, CommentResource> {
   private final DynamicMap<RestView<CommentResource>> views;
   private final ListComments list;
   private final Provider<ReviewDb> dbProvider;

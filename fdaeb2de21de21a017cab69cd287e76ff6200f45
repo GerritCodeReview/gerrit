@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a4f77198_cb3955ec",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-20T21:15:48Z",
+      "side": 1,
+      "message": "Just wanted to make sure that there is no update logic that needs to be done if there are no commentsToAdd. I assume that the notes just advance with the new commit but I just wanted to make sure",
+      "range": {
+        "startLine": 229,
+        "startChar": 0,
+        "endLine": 231,
+        "endChar": 5
+      },
+      "revId": "fdaeb2de21de21a017cab69cd287e76ff6200f45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4f77198_2b70d9b5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-20T21:15:48Z",
+      "side": 1,
+      "message": "This is a safe assumption, right?",
+      "range": {
+        "startLine": 233,
+        "startChar": 0,
+        "endLine": 233,
+        "endChar": 64
+      },
+      "revId": "fdaeb2de21de21a017cab69cd287e76ff6200f45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4faa581_2c70f3b5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-20T21:15:48Z",
+      "side": 1,
+      "message": "I don\u0027t know what to do with exceptions like this that will force me to add a lot of throws lines to old methods that call this. Should I just throw and add all the lines or is there another protocol for this?",
+      "range": {
+        "startLine": 271,
+        "startChar": 14,
+        "endLine": 271,
+        "endChar": 20
+      },
+      "revId": "fdaeb2de21de21a017cab69cd287e76ff6200f45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

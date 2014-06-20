@@ -25,7 +25,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 @Singleton
-class ListComments extends ListDrafts {
+public class ListComments extends ListDrafts {
   @Inject
   ListComments(Provider<ReviewDb> db, AccountLoader.Factory alf,
       PatchLineCommentsUtil plcUtil) {

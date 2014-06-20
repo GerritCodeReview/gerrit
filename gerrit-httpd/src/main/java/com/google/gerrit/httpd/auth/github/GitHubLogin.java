@@ -18,8 +18,6 @@ import com.google.inject.Inject;
 import com.google.inject.servlet.SessionScoped;
 
 import org.apache.http.HttpStatus;
-import org.kohsuke.github.GHMyself;
-import org.kohsuke.github.GitHub;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,18 +31,9 @@ public class GitHubLogin {
   private static final Logger LOG = LoggerFactory.getLogger(GitHubLogin.class);
 
   public String token;
-  public GitHub hub;
+  public String user;
 
   private OAuthProtocol oauth;
-  private GHMyself myself;
-
-  public GHMyself getMyself() {
-    if (isLoggedIn()) {
-      return myself;
-    } else {
-      return null;
-    }
-  }
 
   @Inject
   public GitHubLogin(final OAuthProtocol oauth) {
@@ -52,7 +41,7 @@ public class GitHubLogin {
   }
 
   public boolean isLoggedIn() {
-    return token != null && hub != null;
+    return token != null && user != null;
   }
 
   public boolean login(HttpServletRequest request, HttpServletResponse response)
@@ -70,8 +59,8 @@ public class GitHubLogin {
         return false;
       }
 
-      LOG.debug("Login-FINAL " + this);
-      login(oauth.loginPhase2(request, response));
+      LOG.debug("Login-Retrieve-User " + this);
+      retrieveUser(oauth.loginPhase2(request, response));
       if (isLoggedIn()) {
         LOG.debug("Login-SUCCESS " + this);
         response.sendRedirect(redirectUrl);
@@ -88,8 +77,8 @@ public class GitHubLogin {
   }
 
   public void logout() {
-    hub = null;
     token = null;
+    user = null;
   }
 
   public boolean isLoginRequest(HttpServletRequest httpRequest) {
@@ -98,7 +87,7 @@ public class GitHubLogin {
 
   public String getUsername() {
     if (isLoggedIn()) {
-      return myself.getLogin();
+      return user;
     } else {
       return null;
     }
@@ -106,12 +95,11 @@ public class GitHubLogin {
 
   @Override
   public String toString() {
-    return "GitHubLogin [token=" + token + ", myself=" + myself + "]";
+    return "GitHubLogin [token=" + token + ", user=" + user + "]";
   }
 
-  private void login(String authToken) throws IOException {
+  private void retrieveUser(String authToken) throws IOException {
     this.token = authToken;
-    this.hub = GitHub.connectUsingOAuth(authToken);
-    this.myself = hub.getMyself();
+    this.user = oauth.retrieveUser(authToken);
   }
 }

@@ -26,6 +26,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
@@ -85,7 +86,7 @@ public class OAuthProtocol {
   }
 
   public String me() {
-    return "" + state + ME_SEPARATOR;
+    return state + ME_SEPARATOR;
   }
 
   public static boolean isOAuthLogin(HttpServletRequest request) {
@@ -104,7 +105,7 @@ public class OAuthProtocol {
 
     post = new HttpPost(config.gitHubOAuthAccessTokenUrl);
     post.setHeader("Accept", "application/json");
-    List<NameValuePair> nvps = new ArrayList<NameValuePair>();
+    List<NameValuePair> nvps = new ArrayList<>(3);
     nvps.add(new BasicNameValuePair("client_id", config.gitHubClientId));
     nvps.add(new BasicNameValuePair("client_secret", config.gitHubClientSecret));
     nvps.add(new BasicNameValuePair("code", request.getParameter("code")));
@@ -140,6 +141,30 @@ public class OAuthProtocol {
     }
   }
 
+  // See for reference: https://developer.github.com/v3/oauth/
+  // Header: Authorization: token <OAUTH-TOKEN>
+  // https://api.github.com/user
+  // out = {'login':'johndaw', [...]}
+  String retrieveUser(String authToken) throws IOException {
+    HttpGet get = new HttpGet("https://api.github.com/user");
+    get.setHeader("Authorization", String.format("token %s", authToken));
+    try {
+      HttpResponse getResponse = http.execute(get);
+      JsonObject userJson = getUserJson(getResponse);
+      if (userJson != null) {
+        return getUser(userJson);
+      } else {
+        LOG.error("Invalid response received from GitHub: {}",
+            getResponse.toString());
+        return null;
+      }
+    } catch (IOException e) {
+      LOG.error("POST " + config.gitHubOAuthAccessTokenUrl
+          + " request for access token failed", e);
+      return null;
+    }
+  }
+
   private String getAccessToken(JsonElement accessTokenJson) {
     JsonElement accessTokenString =
         accessTokenJson.getAsJsonObject().get("access_token");
@@ -154,9 +179,31 @@ public class OAuthProtocol {
       throws UnsupportedEncodingException, IOException {
     JsonElement accessTokenJson =
         gson.fromJson(new InputStreamReader(postResponse.getEntity()
-            .getContent(), "UTF-8"), JsonElement.class);
-    if(accessTokenJson.isJsonObject()) {
+            .getContent(), Charsets.UTF_8), JsonElement.class);
+    if (accessTokenJson.isJsonObject()) {
       return accessTokenJson.getAsJsonObject();
+    } else {
+      return null;
+    }
+  }
+
+  private static String getUser(JsonElement userJson) {
+    JsonElement userString =
+        userJson.getAsJsonObject().get("login");
+    if (userString != null) {
+      return userString.getAsString();
+    } else {
+      return null;
+    }
+  }
+
+  private JsonObject getUserJson(HttpResponse postResponse)
+      throws UnsupportedEncodingException, IOException {
+    JsonElement userJson =
+        gson.fromJson(new InputStreamReader(postResponse.getEntity()
+            .getContent(), Charsets.UTF_8), JsonElement.class);
+    if (userJson.isJsonObject()) {
+      return userJson.getAsJsonObject();
     } else {
       return null;
     }

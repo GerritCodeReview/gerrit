@@ -36,7 +36,6 @@ java_library(
     '//lib/jgit:jgit-servlet',
     '//lib/log:api',
     '//lib/lucene:core',
-    '//lib:github-api',
   ],
   provided_deps = ['//lib:servlet-api-3_1'],
   visibility = ['PUBLIC'],

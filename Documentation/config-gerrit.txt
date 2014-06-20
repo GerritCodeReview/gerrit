@@ -2100,7 +2100,7 @@ Directory.
   accountEmailAddress = mail
 
   groupBase = ou=groups,dc=example,dc=com
-  groupMemberPattern = (&(objectClass=group)(member=${dn}))
+  groupMembershipPattern = (&(objectClass=group)(member=${dn}))
 ----
 
 [[ldap.server]]ldap.server::
@@ -2279,7 +2279,7 @@ group owner.
 Default is `(cn=${groupname})` for RFC 2307,
 and `(&(objectClass=group)(cn=${groupname}))` for Active Directory.
 
-[[ldap.groupMemberPattern]]ldap.groupMemberPattern::
+[[ldap.groupMembershipPattern]]ldap.groupMembershipPattern::
 +
 Query pattern to use when searching for the groups that a user
 account is currently a member of.  This may be any valid LDAP query

@@ -35,7 +35,7 @@ abstract class LdapType {
 
   abstract String groupPattern();
 
-  abstract String groupMemberPattern();
+  abstract String groupMembershipPattern();
 
   abstract String groupName();
 
@@ -56,7 +56,7 @@ abstract class LdapType {
     }
 
     @Override
-    String groupMemberPattern() {
+    String groupMembershipPattern() {
       return "(|(memberUid=${username})(gidNumber=${gidNumber}))";
     }
 
@@ -103,7 +103,7 @@ abstract class LdapType {
     }
 
     @Override
-    String groupMemberPattern() {
+    String groupMembershipPattern() {
       return null; // Active Directory uses memberOf in the account
     }
 

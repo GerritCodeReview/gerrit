@@ -18,6 +18,7 @@ import static com.google.gerrit.server.PatchLineCommentsUtil.setCommentRevId;
 
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.api.changes.DraftInput;
+import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.Side;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -38,12 +39,13 @@ import java.io.IOException;
 import java.util.Collections;
 
 @Singleton
-class PutDraft implements RestModifyView<DraftResource, DraftInput> {
+public class PutDraft implements RestModifyView<DraftResource, DraftInput> {
 
   private final Provider<ReviewDb> db;
   private final DeleteDraft delete;
   private final PatchLineCommentsUtil plcUtil;
   private final ChangeUpdate.Factory updateFactory;
+  private final CommentJson commentJson;
   private final PatchListCache patchListCache;
 
   @Inject
@@ -51,11 +53,13 @@ class PutDraft implements RestModifyView<DraftResource, DraftInput> {
       DeleteDraft delete,
       PatchLineCommentsUtil plcUtil,
       ChangeUpdate.Factory updateFactory,
+      CommentJson commentJson,
       PatchListCache patchListCache) {
     this.db = db;
     this.delete = delete;
     this.plcUtil = plcUtil;
     this.updateFactory = updateFactory;
+    this.commentJson = commentJson;
     this.patchListCache = patchListCache;
   }
 
@@ -99,7 +103,7 @@ class PutDraft implements RestModifyView<DraftResource, DraftInput> {
           Collections.singleton(update(c, in)));
     }
     update.commit();
-    return Response.ok(new CommentInfo(c, null));
+    return Response.ok(commentJson.format(c, false));
   }
 
   private PatchLineComment update(PatchLineComment e, DraftInput in) {

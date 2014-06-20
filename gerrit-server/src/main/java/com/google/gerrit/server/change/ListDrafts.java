@@ -14,37 +14,31 @@
 
 package com.google.gerrit.server.change;
 
-import static com.google.common.base.MoreObjects.firstNonNull;
-
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.gerrit.extensions.common.Side;
+import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.PatchLineCommentsUtil;
-import com.google.gerrit.server.account.AccountLoader;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
 @Singleton
-class ListDrafts implements RestReadView<RevisionResource> {
+public class ListDrafts implements RestReadView<RevisionResource> {
   protected final Provider<ReviewDb> db;
+  protected CommentJson commentJson;
   protected final PatchLineCommentsUtil plcUtil;
-  private final AccountLoader.Factory accountLoaderFactory;
 
   @Inject
-  ListDrafts(Provider<ReviewDb> db, AccountLoader.Factory alf,
+  ListDrafts(Provider<ReviewDb> db,
+      CommentJson commentJson,
       PatchLineCommentsUtil plcUtil) {
     this.db = db;
-    this.accountLoaderFactory = alf;
+    this.commentJson = commentJson;
     this.plcUtil = plcUtil;
   }
 
@@ -61,38 +55,6 @@ class ListDrafts implements RestReadView<RevisionResource> {
   @Override
   public Map<String, List<CommentInfo>> apply(RevisionResource rsrc)
       throws OrmException {
-    Map<String, List<CommentInfo>> out = Maps.newTreeMap();
-    AccountLoader accountLoader =
-        includeAuthorInfo() ? accountLoaderFactory.create(true) : null;
-    for (PatchLineComment c : listComments(rsrc)) {
-      CommentInfo o = new CommentInfo(c, accountLoader);
-      List<CommentInfo> list = out.get(o.path);
-      if (list == null) {
-        list = Lists.newArrayList();
-        out.put(o.path, list);
-      }
-      o.path = null;
-      list.add(o);
-    }
-    for (List<CommentInfo> list : out.values()) {
-      Collections.sort(list, new Comparator<CommentInfo>() {
-        @Override
-        public int compare(CommentInfo a, CommentInfo b) {
-          int c = firstNonNull(a.side, Side.REVISION).ordinal()
-                - firstNonNull(b.side, Side.REVISION).ordinal();
-          if (c == 0) {
-            c = firstNonNull(a.line, 0) - firstNonNull(b.line, 0);
-          }
-          if (c == 0) {
-            c = a.id.compareTo(b.id);
-          }
-          return c;
-        }
-      });
-    }
-    if (accountLoader != null) {
-      accountLoader.fill();
-    }
-    return out;
+    return commentJson.format(listComments(rsrc), includeAuthorInfo());
   }
 }

@@ -141,6 +141,30 @@
       "revId": "4ce8fcd3118ca03450595b7724919958dd44ea35",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4faa581_2cd47356",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AccountGeneralPreferences.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-06-20T01:41:34Z",
+      "side": 1,
+      "message": "I think it would be better to migrate according to the user\u0027s current \"show user in review\" setting.\n\nIf they have it set to true, the value of \"review category strategy\" should be set to \"name\".  Otherwise leave it set to \"none\".",
+      "parentUuid": "44395500_20d90a8d",
+      "range": {
+        "startLine": 364,
+        "startChar": 4,
+        "endLine": 365,
+        "endChar": 27
+      },
+      "revId": "4ce8fcd3118ca03450595b7724919958dd44ea35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

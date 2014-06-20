@@ -24,6 +24,7 @@ import com.google.common.base.Strings;
 import com.google.common.cache.Cache;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.net.HttpHeaders;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.httpd.restapi.RestApiServlet;
 import com.google.gerrit.server.MimeUtilFileTypeRegistry;
@@ -260,7 +261,7 @@ class HttpPluginServlet extends HttpServlet
     String file = pathInfo.substring(1);
     ResourceKey key = new ResourceKey(holder.plugin, file);
     Resource rsc = resourceCache.getIfPresent(key);
-    if (rsc != null) {
+    if (rsc != null && req.getHeader(HttpHeaders.IF_MODIFIED_SINCE) == null) {
       rsc.send(req, res);
       return;
     }
@@ -278,7 +279,11 @@ class HttpPluginServlet extends HttpServlet
         PluginContentScanner scanner = holder.plugin.getContentScanner();
         Optional<PluginEntry> entry = scanner.getEntry(file);
         if (entry.isPresent()) {
-          sendResource(scanner, entry.get(), key, res);
+          if (hasUpToDateCachedResource(rsc, entry.get().getTime())) {
+            rsc.send(req, res);
+          } else {
+            sendResource(scanner, entry.get(), key, res);
+          }
         } else {
           resourceCache.put(key, Resource.NOT_FOUND);
           Resource.NOT_FOUND.send(req, res);
@@ -297,12 +302,26 @@ class HttpPluginServlet extends HttpServlet
       }
       if (!entry.isPresent() && file.endsWith("/index.html")) {
         String pfx = file.substring(0, file.length() - "index.html".length());
-        sendAutoIndex(scanner, pfx, holder.plugin.getName(), key, res,
-            holder.plugin.getSrcFile().lastModified());
+        long pluginLastModified = holder.plugin.getSrcFile().lastModified();
+        if (hasUpToDateCachedResource(rsc, pluginLastModified)) {
+          rsc.send(req, res);
+        } else {
+          sendAutoIndex(scanner, pfx, holder.plugin.getName(), key, res,
+              pluginLastModified);
+        }
       } else if (entry.isPresent() && entry.get().getName().endsWith(".md")) {
-        sendMarkdownAsHtml(scanner, entry.get(), holder.plugin.getName(), key, res);
+        if (hasUpToDateCachedResource(rsc, entry.get().getTime())) {
+          rsc.send(req, res);
+        } else {
+          sendMarkdownAsHtml(scanner, entry.get(), holder.plugin.getName(),
+              key, res);
+        }
       } else if (entry.isPresent()) {
-        sendResource(scanner, entry.get(), key, res);
+        if (hasUpToDateCachedResource(rsc, entry.get().getTime())) {
+          rsc.send(req, res);
+        } else {
+          sendResource(scanner, entry.get(), key, res);
+        }
       } else {
         resourceCache.put(key, Resource.NOT_FOUND);
         Resource.NOT_FOUND.send(req, res);
@@ -311,6 +330,11 @@ class HttpPluginServlet extends HttpServlet
       resourceCache.put(key, Resource.NOT_FOUND);
       Resource.NOT_FOUND.send(req, res);
     }
+  }
+
+  private boolean hasUpToDateCachedResource(Resource cachedResource, long lastUpdateTime) {
+    return cachedResource != null
+        && cachedResource.isUnchanged(lastUpdateTime);
   }
 
   private void appendEntriesSection(PluginContentScanner scanner, List<PluginEntry> entries,

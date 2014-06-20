@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "a4f77198_6b7ae195",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-20T21:27:17Z",
+      "side": 1,
+      "message": "This is perhaps too large a change for the format to be completely obvious from reading the code. Can you elaborate some in the commit message and maybe provide an example?",
+      "revId": "fdaeb2de21de21a017cab69cd287e76ff6200f45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a4f77198_cb3955ec",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
         "patchSetId": 1

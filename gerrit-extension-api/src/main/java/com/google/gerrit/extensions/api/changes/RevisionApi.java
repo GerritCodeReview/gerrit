@@ -14,8 +14,10 @@
 
 package com.google.gerrit.extensions.api.changes;
 
+import java.util.List;
 import java.util.Map;
 
+import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -35,6 +37,12 @@ public interface RevisionApi {
   Map<String, FileInfo> files() throws RestApiException;
   Map<String, FileInfo> files(String base) throws RestApiException;
   FileApi file(String path);
+
+  Map<String, List<CommentInfo>> comments() throws RestApiException;
+  Map<String, List<CommentInfo>> drafts() throws RestApiException;
+
+  DraftApi createDraft(DraftInput in) throws RestApiException;
+  DraftApi draft(String id) throws RestApiException;
 
   /**
    * A default implementation which allows source compatibility
@@ -93,6 +101,26 @@ public interface RevisionApi {
 
     @Override
     public FileApi file(String path) {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public Map<String, List<CommentInfo>> comments() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public Map<String, List<CommentInfo>> drafts() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public DraftApi createDraft(DraftInput in) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public DraftApi draft(String id) throws RestApiException {
       throw new NotImplementedException();
     }
   }

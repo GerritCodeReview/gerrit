@@ -34,7 +34,7 @@ import com.google.inject.Singleton;
 import java.util.Collections;
 
 @Singleton
-class CreateDraft implements RestModifyView<RevisionResource, DraftInput> {
+public class CreateDraft implements RestModifyView<RevisionResource, DraftInput> {
   private final Provider<ReviewDb> db;
 
   @Inject

@@ -32,13 +32,13 @@ import com.google.inject.Singleton;
 import java.util.Collections;
 
 @Singleton
-class PutDraft implements RestModifyView<DraftResource, DraftInput> {
+public class PutDraft implements RestModifyView<DraftResource, DraftInput> {
 
   private final Provider<ReviewDb> db;
-  private final Provider<DeleteDraft> delete;
+  private final DeleteDraft delete;
 
   @Inject
-  PutDraft(Provider<ReviewDb> db, Provider<DeleteDraft> delete) {
+  PutDraft(Provider<ReviewDb> db, DeleteDraft delete) {
     this.db = db;
     this.delete = delete;
   }
@@ -48,7 +48,7 @@ class PutDraft implements RestModifyView<DraftResource, DraftInput> {
       BadRequestException, OrmException {
     PatchLineComment c = rsrc.getComment();
     if (in == null || in.message == null || in.message.trim().isEmpty()) {
-      return delete.get().apply(rsrc, null);
+      return delete.apply(rsrc, null);
     } else if (in.id != null && !rsrc.getId().equals(in.id)) {
       throw new BadRequestException("id must match URL");
     } else if (in.line != null && in.line < 0) {

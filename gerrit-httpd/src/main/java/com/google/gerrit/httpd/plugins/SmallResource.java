@@ -71,4 +71,9 @@ final class SmallResource extends Resource {
     res.setContentLength(data.length);
     res.getOutputStream().write(data);
   }
+
+  @Override
+  boolean isUpToDate(long lastModified) {
+    return this.lastModified == lastModified;
+  }
 }

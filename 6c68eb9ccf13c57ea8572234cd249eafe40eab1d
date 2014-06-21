@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c4faa581_ecbf0be7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_98.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-06-21T02:36:30Z",
+      "side": 1,
+      "message": "should be set to NAME not ABBREV",
+      "revId": "6c68eb9ccf13c57ea8572234cd249eafe40eab1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

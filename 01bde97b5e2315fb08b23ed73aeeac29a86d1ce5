@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "64d01910_e18d466f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-21T16:17:30Z",
+      "side": 1,
+      "message": "Wrong indentation",
+      "range": {
+        "startLine": 280,
+        "startChar": 6,
+        "endLine": 281,
+        "endChar": 79
+      },
+      "revId": "01bde97b5e2315fb08b23ed73aeeac29a86d1ce5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84cb4d65_627a1696",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-21T16:17:30Z",
+      "side": 1,
+      "message": "No align on wrapped line. Here and below.",
+      "range": {
+        "startLine": 283,
+        "startChar": 8,
+        "endLine": 284,
+        "endChar": 62
+      },
+      "revId": "01bde97b5e2315fb08b23ed73aeeac29a86d1ce5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64d01910_a1833e44",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-21T16:17:30Z",
+      "side": 1,
+      "message": "In this case we have switch-with-earlier-return idiom:\n\n  private static String getReviewCategoryDisplayInfo(\n      ReviewCategoryStrategy strategy, AccountInfo account) {\n    switch (strategy) {\n      case NAME:\n        return account.name();\n      case EMAIL:\n        return account.email();\n      case ABBREV:\n        return getAbbreviation(account.name(), \" \");\n      default:\n        return null;\n    }\n  }",
+      "range": {
+        "startLine": 346,
+        "startChar": 2,
+        "endLine": 364,
+        "endChar": 3
+      },
+      "revId": "01bde97b5e2315fb08b23ed73aeeac29a86d1ce5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64d01910_c180423a",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AccountGeneralPreferences.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-21T16:17:30Z",
+      "side": 1,
+      "message": "Just:\n\n  public boolean isShowInfoInReviewCategory() {\n    return getReviewCategoryStrategy() !\u003d ReviewCategoryStrategy.NONE;\n  }",
+      "range": {
+        "startLine": 250,
+        "startChar": 2,
+        "endLine": 256,
+        "endChar": 3
+      },
+      "revId": "01bde97b5e2315fb08b23ed73aeeac29a86d1ce5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64d01910_018b0a5a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_98.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-21T16:17:30Z",
+      "side": 1,
+      "message": "Wrong indentation. When ich apply Ctr+f in Eclipse, i get this:\n\n  ui.message(\"Migrate user preference showUserInReview to \"\n        + \"reviewCategoryStrategy\");\n    Statement stmt \u003d ((JdbcSchema) db).getConnection().createStatement();\n    try {\n      stmt.executeUpdate(\"UPDATE ACCOUNTS SET \"\n          + \"REVIEW_CATEGORY_STRATEGY\u003d\u0027NAME\u0027 \"\n          + \"WHERE (SHOW_USER_IN_REVIEW\u003d\u0027Y\u0027)\");\n    } finally {\n      stmt.close();\n    }",
+      "range": {
+        "startLine": 33,
+        "startChar": 4,
+        "endLine": 42,
+        "endChar": 5
+      },
+      "revId": "01bde97b5e2315fb08b23ed73aeeac29a86d1ce5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64d01910_2159ee35",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_98.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-21T16:17:30Z",
+      "side": 1,
+      "message": "Another approach would be to use PreparedStatement and bind variables, as in Schema_77.java",
+      "revId": "01bde97b5e2315fb08b23ed73aeeac29a86d1ce5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

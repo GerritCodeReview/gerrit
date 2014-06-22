@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "64d01910_c16922c8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-22T20:25:43Z",
+      "side": 1,
+      "message": "Nit: missing blank.",
+      "range": {
+        "startLine": 202,
+        "startChar": 4,
+        "endLine": 202,
+        "endChar": 7
+      },
+      "revId": "086006ec35ef2a5bddb14a3a4ef427ad6085b01e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64d01910_e16626f7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-22T20:25:43Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be:\n\n  otherChange.getLastUpdatedOn()\n\n?",
+      "range": {
+        "startLine": 238,
+        "startChar": 45,
+        "endLine": 238,
+        "endChar": 70
+      },
+      "revId": "086006ec35ef2a5bddb14a3a4ef427ad6085b01e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -490,7 +490,10 @@ default. Fields are described in link:#list-changes[Query Changes].
 ----
 
 As response a link:#change-info[ChangeInfo] entity is returned that
-describes the change.
+describes the change.  This response will contain all votes for each
+label and include one combined vote.  The combined label vote is
+calculated in the following order (from highest to lowest):
+REJECTED > APPROVED > DISLIKED > RECOMMENDED.
 
 .Response
 ----
@@ -544,12 +547,6 @@ describes the change.
         }
       },
       "Code-Review": {
-        "recommended": {
-          "_account_id": 1000097,
-          "name": "Jane Roe",
-          "email": "jane.roe@example.com",
-          "username": "jroe"
-        },
         "disliked": {
           "_account_id": 1000096,
           "name": "John Doe",

@@ -490,7 +490,10 @@ default. Fields are described in link:#list-changes[Query Changes].
 ----
 
 As response a link:#change-info[ChangeInfo] entity is returned that
-describes the change.
+describes the change.  The label results are calculated in the following
+order (from highest to lowest): REJECTED > APPROVED > DISLIKED > RECOMMENDED.
+This response will return only the highest ordered result.
+
 
 .Response
 ----
@@ -544,12 +547,6 @@ describes the change.
         }
       },
       "Code-Review": {
-        "recommended": {
-          "_account_id": 1000097,
-          "name": "Jane Roe",
-          "email": "jane.roe@example.com",
-          "username": "jroe"
-        },
         "disliked": {
           "_account_id": 1000096,
           "name": "John Doe",

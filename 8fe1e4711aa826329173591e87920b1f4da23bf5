@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "84cb4d65_028b0a5a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-22T16:05:14Z",
+      "side": 1,
+      "message": "Unrelated change. This is anti pattern to combined reformatting/refactoring with new change. It is even stated in dev-contributing.txt: [1].\n\n* Separate supporting refactoring from feature changes.\n\nBut it also says:\n\n* It is generally more important to match the style of the nearby\n    code which you are modifying than it is to match the style\n    in the formatting guidelines.  This is especially true within the\n    same file.\n\nWhat we generally don\u0027t accept is new changes + reformatting in the same change. Those must be separated in different changes to simplify review process.\n\n[1] Documentation/dev-contributing.txt",
+      "range": {
+        "startLine": 96,
+        "startChar": 4,
+        "endLine": 100,
+        "endChar": 5
+      },
+      "revId": "8fe1e4711aa826329173591e87920b1f4da23bf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84cb4d65_2259ee35",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-22T16:05:14Z",
+      "side": 1,
+      "message": "the same as above. Here and below.",
+      "range": {
+        "startLine": 160,
+        "startChar": 4,
+        "endLine": 162,
+        "endChar": 43
+      },
+      "revId": "8fe1e4711aa826329173591e87920b1f4da23bf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84cb4d65_425ef21e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-22T16:05:14Z",
+      "side": 1,
+      "message": "I like more, how ot was idented in older version. Don\u0027t rely  always on Eclipse ;-)",
+      "range": {
+        "startLine": 270,
+        "startChar": 4,
+        "endLine": 273,
+        "endChar": 46
+      },
+      "revId": "8fe1e4711aa826329173591e87920b1f4da23bf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64d01910_8158fa2f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-22T16:05:14Z",
+      "side": 1,
+      "message": "No reason not to put it on the same line (here and below):\n\n  user \u003d getReviewCategoryDisplayInfo(reviewCategoryStrategy,\n      label.rejected());",
+      "range": {
+        "startLine": 291,
+        "startChar": 12,
+        "endLine": 291,
+        "endChar": 64
+      },
+      "revId": "8fe1e4711aa826329173591e87920b1f4da23bf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64d01910_a16c1ed9",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-22T16:05:14Z",
+      "side": 1,
+      "message": "Nit: unnecessary new line.",
+      "revId": "8fe1e4711aa826329173591e87920b1f4da23bf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84cb4d65_6253f615",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 509,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-22T16:05:14Z",
+      "side": 1,
+      "message": "Unrelated change ;-)",
+      "range": {
+        "startLine": 509,
+        "startChar": 15,
+        "endLine": 509,
+        "endChar": 16
+      },
+      "revId": "8fe1e4711aa826329173591e87920b1f4da23bf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

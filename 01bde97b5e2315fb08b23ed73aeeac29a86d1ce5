@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c4faa581_0cb09714",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-06-22T14:41:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "64d01910_e18d466f",
+      "range": {
+        "startLine": 280,
+        "startChar": 6,
+        "endLine": 281,
+        "endChar": 79
+      },
+      "revId": "01bde97b5e2315fb08b23ed73aeeac29a86d1ce5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "84cb4d65_627a1696",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
         "patchSetId": 10
@@ -36,6 +60,30 @@
       "writtenOn": "2014-06-21T16:17:30Z",
       "side": 1,
       "message": "No align on wrapped line. Here and below.",
+      "range": {
+        "startLine": 283,
+        "startChar": 8,
+        "endLine": 284,
+        "endChar": 62
+      },
+      "revId": "01bde97b5e2315fb08b23ed73aeeac29a86d1ce5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4faa581_6ca5dbd6",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-06-22T14:41:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "84cb4d65_627a1696",
       "range": {
         "startLine": 283,
         "startChar": 8,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "a4f77198_ab2fa97b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-06-22T14:41:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "64d01910_a1833e44",
+      "range": {
+        "startLine": 346,
+        "startChar": 2,
+        "endLine": 364,
+        "endChar": 3
+      },
+      "revId": "01bde97b5e2315fb08b23ed73aeeac29a86d1ce5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "64d01910_c180423a",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AccountGeneralPreferences.java",
         "patchSetId": 10
@@ -82,6 +154,30 @@
       "writtenOn": "2014-06-21T16:17:30Z",
       "side": 1,
       "message": "Just:\n\n  public boolean isShowInfoInReviewCategory() {\n    return getReviewCategoryStrategy() !\u003d ReviewCategoryStrategy.NONE;\n  }",
+      "range": {
+        "startLine": 250,
+        "startChar": 2,
+        "endLine": 256,
+        "endChar": 3
+      },
+      "revId": "01bde97b5e2315fb08b23ed73aeeac29a86d1ce5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4faa581_4caa9fa6",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AccountGeneralPreferences.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-06-22T14:41:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "64d01910_c180423a",
       "range": {
         "startLine": 250,
         "startChar": 2,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "c4faa581_ac9ea380",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_98.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-06-22T14:41:57Z",
+      "side": 1,
+      "message": "Done.  This formatting is from copy/paste from other files.  I keep forgetting to use the eclipse format.  Anyways, I\u0027ve noticed that non-standard formatting has gotten introduced to many other files already.",
+      "parentUuid": "64d01910_018b0a5a",
+      "range": {
+        "startLine": 33,
+        "startChar": 4,
+        "endLine": 42,
+        "endChar": 5
+      },
+      "revId": "01bde97b5e2315fb08b23ed73aeeac29a86d1ce5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "64d01910_2159ee35",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_98.java",
         "patchSetId": 10
@@ -128,6 +248,24 @@
       "writtenOn": "2014-06-21T16:17:30Z",
       "side": 1,
       "message": "Another approach would be to use PreparedStatement and bind variables, as in Schema_77.java",
+      "revId": "01bde97b5e2315fb08b23ed73aeeac29a86d1ce5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4f77198_8b2c6d88",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_98.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-06-22T14:41:57Z",
+      "side": 1,
+      "message": "I\u0027ve taken a look at schema_77 but am not sure what you are referring to specifically.  If you don\u0027t mind I will just keep this as-is.",
+      "parentUuid": "64d01910_2159ee35",
       "revId": "01bde97b5e2315fb08b23ed73aeeac29a86d1ce5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

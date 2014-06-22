@@ -184,6 +184,10 @@ public class ChangeInserter {
         .runAsync();
     if (!messageIsForChange()) {
       insertMessage(db);
+      if (changeMessage != null) {
+        ChangeUtil.bumpRowVersionNotLastUpdatedOn(
+            changeMessage.getKey().getParentKey(), db);
+      }
     }
     gitRefUpdated.fire(change.getProject(), patchSet.getRefName(),
         ObjectId.zeroId(), commit);

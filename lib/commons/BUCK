@@ -93,9 +93,9 @@ maven_jar(
 
 maven_jar(
   name = 'httpclient',
-  id = 'org.apache.httpcomponents:httpclient:4.2.5',
-  bin_sha1 = '666e26e76f2e87d84e4f16acb546481ae1b8e9a6',
-  src_sha1 = '55d345272944d7e8dace47925336a3764ee0e24b',
+  id = 'org.apache.httpcomponents:httpclient:4.3.4',
+  bin_sha1 = 'a9a1fef2faefed639ee0d0fba5b3b8e4eb2ff2d8',
+  src_sha1 = '7a14aafed8c5e2c4e360a2c1abd1602efa768b1f',
   license = 'Apache2.0',
   deps = [
     ':codec',
@@ -106,16 +106,16 @@ maven_jar(
 
 maven_jar(
   name = 'httpcore',
-  id = 'org.apache.httpcomponents:httpcore:4.2.4',
-  bin_sha1 = '3b7f38df6de5dd8b500e602ae8c2dd5ee446f883',
-  src_sha1 = 'c3ffe3a73348645042fb0b06303b6a3de194494e',
+  id = 'org.apache.httpcomponents:httpcore:4.3.2',
+  bin_sha1 = '31fbbff1ddbf98f3aa7377c94d33b0447c646b6e',
+  src_sha1 = '4809f38359edeea9487f747e09aa58ec8d3a54c5',
   license = 'Apache2.0',
 )
 
 maven_jar(
   name = 'httpmime',
-  id = 'org.apache.httpcomponents:httpmime:4.2.5',
-  bin_sha1 = '412b9914d0adec6d5716df1ada8acbc4f6f2dd37',
-  src_sha1 = 'c07ce7f6b153284a9ebaf58532c2442200cf3aa2',
+  id = 'org.apache.httpcomponents:httpmime:4.3.4',
+  bin_sha1 = '54ffde537682aea984c22fbcf0106f21397c5f9b',
+  src_sha1 = '0651e21152b0963661068f948d84ed08c18094f8',
   license = 'Apache2.0',
 )

@@ -1,18 +1,18 @@
 include_defs('//lib/maven.defs')
 
-VER = '1.7.6'
+VER = '1.7.7'
 
 maven_jar(
   name = 'api',
   id = 'org.slf4j:slf4j-api:' + VER,
-  sha1 = '562424e36df3d2327e8e9301a76027fca17d54ea',
+  sha1 = '2b8019b6249bb05d81d3a3094e468753e2b21311',
   license = 'slf4j',
 )
 
 maven_jar(
   name = 'impl_log4j',
   id = 'org.slf4j:slf4j-log4j12:' + VER,
-  sha1 = '6953717b9850aeb26d1b8375ca07dbd9c50eca4e',
+  sha1 = '58f588119ffd1702c77ccab6acb54bfb41bed8bd',
   license = 'slf4j',
   deps = [':log4j'],
 )
@@ -20,7 +20,7 @@ maven_jar(
 maven_jar(
   name = 'jcl-over-slf4j',
   id = 'org.slf4j:jcl-over-slf4j:' + VER,
-  sha1 = 'ab1648fe1dd6f1e5c2ec6d12f394672bb8c1036a',
+  sha1 = '56003dcd0a31deea6391b9e2ef2f2dc90b205a92',
   license = 'slf4j',
 )
 

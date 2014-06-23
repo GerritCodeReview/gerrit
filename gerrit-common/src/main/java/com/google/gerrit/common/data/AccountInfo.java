@@ -21,6 +21,7 @@ public class AccountInfo {
   protected Account.Id id;
   protected String fullName;
   protected String preferredEmail;
+  protected String username;
 
   protected AccountInfo() {
   }
@@ -45,6 +46,7 @@ public class AccountInfo {
     id = a.getId();
     fullName = a.getFullName();
     preferredEmail = a.getPreferredEmail();
+    username = a.getUserName();
   }
 
   /** @return the unique local id of the account */
@@ -70,6 +72,11 @@ public class AccountInfo {
     preferredEmail = email;
   }
 
+  /** @return the username of the account holder */
+  public String getUsername() {
+    return username;
+  }
+
   /**
    * Formats an account name.
    * <p>
@@ -87,7 +94,7 @@ public class AccountInfo {
   }
 
   /**
-   * Formats an account as an name and an email address.
+   * Formats an account as a name and an email address.
    * <p>
    * Example output:
    * <ul>

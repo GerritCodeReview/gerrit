@@ -180,21 +180,23 @@ public class FormatUtil {
 
   public static AccountInfo asInfo(Account acct) {
     if (acct == null) {
-      return AccountInfo.create(0, null, null);
+      return AccountInfo.create(0, null, null, null);
     }
     return AccountInfo.create(
         acct.getId() != null ? acct.getId().get() : 0,
         acct.getFullName(),
-        acct.getPreferredEmail());
+        acct.getPreferredEmail(),
+        acct.getUserName());
   }
 
   public static AccountInfo asInfo(com.google.gerrit.common.data.AccountInfo acct) {
     if (acct == null) {
-      return AccountInfo.create(0, null, null);
+      return AccountInfo.create(0, null, null, null);
     }
     return AccountInfo.create(
         acct.getId() != null ? acct.getId().get() : 0,
         acct.getFullName(),
-        acct.getPreferredEmail());
+        acct.getPreferredEmail(),
+        acct.getUsername());
   }
 }

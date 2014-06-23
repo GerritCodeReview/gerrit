@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c4faa581_ccd20f04",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/Comment.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-23T17:32:30Z",
+      "side": 0,
+      "message": "We don\u0027t care about backwards compatibility with old extension API versions do we?",
+      "revId": "6760ef57e31eb5c802959e8691463b32a69aa6fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

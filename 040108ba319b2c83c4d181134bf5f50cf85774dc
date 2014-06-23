@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a4f77198_ebaed185",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/DraftInput.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-23T17:32:30Z",
+      "side": 1,
+      "message": "Copyright header",
+      "revId": "040108ba319b2c83c4d181134bf5f50cf85774dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4faa581_ecd54bee",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/Side.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-23T17:32:30Z",
+      "side": 1,
+      "message": "Copyright header",
+      "revId": "040108ba319b2c83c4d181134bf5f50cf85774dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

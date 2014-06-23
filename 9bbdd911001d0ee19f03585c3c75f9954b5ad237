@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "64d01910_41bd12c4",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ChangeType.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-23T17:47:22Z",
+      "side": 1,
+      "message": "Yes, we had similar discussion on ChangeState enum. We leaked already more then enough in extension package: [1]. And even put this very helpful documentation in the header:\n\n  /** \u003cb\u003eDO NOT USE\u003c/b\u003e */\n\nSo in this specific case we temporarly (untill we evacuate the database to Git storage) leak some harmless (enum) detail and we are doing this for a *reason*: not to map the server side internal types to extension types and use it directly.\n\n [1] https://gerrit.googlesource.com/gerrit/+/master/gerrit-extension-api/src/main/java/com/google/gerrit/extensions/registration/PrivateInternals_DynamicMapImpl.java",
+      "parentUuid": "a4f77198_0ba6bdb4",
+      "revId": "9bbdd911001d0ee19f03585c3c75f9954b5ad237",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c4faa581_4cc73f4b",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/DiffInfo.java",
         "patchSetId": 7

@@ -58,6 +58,7 @@ import org.eclipse.jgit.revwalk.FooterLine;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevSort;
+import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.PackParser;
 import org.slf4j.Logger;
@@ -85,8 +86,34 @@ public class MergeUtil {
   private static final String R_HEADS_MASTER =
       Constants.R_HEADS + Constants.MASTER;
 
+  private static final ObjectId EMPTY_TREE_ID;
+  static {
+    try {
+      EMPTY_TREE_ID = new ObjectInserter.Formatter()
+          .insert(Constants.OBJ_TREE, new byte[] {});
+    } catch (IOException e) {
+      throw new ExceptionInInitializerError(e);
+    }
+  }
+
   public static boolean useRecursiveMerge(Config cfg) {
     return cfg.getBoolean("core", null, "useRecursiveMerge", false);
+  }
+
+  public static RevTree emptyTree(Repository repo, RevWalk walk)
+      throws IOException {
+    try {
+      return walk.parseTree(EMPTY_TREE_ID);
+    } catch (MissingObjectException e) {
+      ObjectInserter oi = repo.newObjectInserter();
+      try {
+        ObjectId id = oi.insert(Constants.OBJ_TREE, new byte[] {});
+        oi.flush();
+        return walk.parseTree(id);
+      } finally {
+        oi.release();
+      }
+    }
   }
 
   public static interface Factory {

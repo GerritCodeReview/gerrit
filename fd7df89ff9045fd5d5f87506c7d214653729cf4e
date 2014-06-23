@@ -70,6 +70,30 @@
       "revId": "fd7df89ff9045fd5d5f87506c7d214653729cf4e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4faa581_ec042be5",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/container/HttpLoginServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1016317
+      },
+      "writtenOn": "2014-06-23T13:52:57Z",
+      "side": 0,
+      "message": "req.getPathInfo() always appends a slash at the front, except if theres no extra path info, in which case it returns null. The null condition is checked first with an if-statement in LoginUrlToken so theres no risk of calling substring(1) when theres no slash. \n\nI\u0027m not sure why there was originally a check for a starting slash since it was unnecessary.",
+      "parentUuid": "64d01910_a1e17eea",
+      "range": {
+        "startLine": 171,
+        "startChar": 4,
+        "endLine": 173,
+        "endChar": 5
+      },
+      "revId": "fd7df89ff9045fd5d5f87506c7d214653729cf4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c4faa581_4c161f1e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeList.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-06-23T07:16:16Z",
+      "side": 1,
+      "message": "Rather than repeating this in both places, can we just make it a static final class member?",
+      "parentUuid": "84cb4d65_42c7d27c",
+      "range": {
+        "startLine": 40,
+        "startChar": 4,
+        "endLine": 41,
+        "endChar": 47
+      },
+      "revId": "1996d0fdcf3dd3adad9c4b88178bc50ef6466b92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "84cb4d65_62ccd69e",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
         "patchSetId": 15

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a4f77198_0ba6bdb4",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ChangeType.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-23T17:18:03Z",
+      "side": 1,
+      "message": "I seem to recall this coming up before, but IMHO CodedEnum is an implementation detail of the storage layer, and shouldn\u0027t need to leak into the common extension API.",
+      "revId": "9bbdd911001d0ee19f03585c3c75f9954b5ad237",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4faa581_4cc73f4b",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/DiffInfo.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-23T17:18:03Z",
+      "side": 1,
+      "message": "If this is going in the public extension API could it have a bit more documentation?",
+      "revId": "9bbdd911001d0ee19f03585c3c75f9954b5ad237",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

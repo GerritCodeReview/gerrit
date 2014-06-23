@@ -34,6 +34,24 @@
       "revId": "b75cf6ef6e12557c6c8677151da6e29d92305b2d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4faa581_ace183ea",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-06-23T04:24:28Z",
+      "side": 1,
+      "message": "I tested using the change detail REST API.  Here is the response I got:  \n* https://gerrit.googlecode.com/issues/attachment?aid\u003d27230000000\u0026name\u003ddetail+%2815%29.json\u0026token\u003dABZ6GAdUSt4Xp3NjR6NN2I3qHLr6Chy18w%3A1403496486396\n\nWhat gets passed into this function is the  ChangeInfo.LabelInfo.dislike(), ChangeInfo.LabelInfo.rejected(), etc.. therefore I believe that is the change detail info.   Also I don\u0027t even see the username in the response for ChangeInfo.LabelInfo.dislike().",
+      "parentUuid": "a4f77198_abe169ea",
+      "revId": "b75cf6ef6e12557c6c8677151da6e29d92305b2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

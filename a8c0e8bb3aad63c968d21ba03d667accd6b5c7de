@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "64d01910_613f76a5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GarbageCollectionRunner.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2014-06-23T11:53:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "64d01910_a12fbe7b",
+      "range": {
+        "startLine": 54,
+        "startChar": 31,
+        "endLine": 54,
+        "endChar": 36
+      },
+      "revId": "a8c0e8bb3aad63c968d21ba03d667accd6b5c7de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "64d01910_c12cc289",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/config/ScheduleConfigTest.java",
         "patchSetId": 6

@@ -14,13 +14,6 @@
 
 from os import path
 
-try:
-  from subprocess import check_output
-except ImportError:
-  from subprocess import Popen, PIPE
-  def check_output(*cmd):
-    return Popen(*cmd, stdout=PIPE).communicate()[0]
-
 REPO_ROOTS = {
   'GERRIT': 'http://gerrit-maven.storage.googleapis.com',
   'GERRIT_API': 'https://gerrit-api.commondatastorage.googleapis.com/release',
@@ -28,6 +21,7 @@ REPO_ROOTS = {
   'MAVEN_CENTRAL': 'http://repo1.maven.org/maven2',
   'MAVEN_LOCAL': 'file://' + path.expanduser('~/.m2/repository'),
 }
+
 
 def resolve_url(url, redirects):
   """ Resolve URL of a Maven artifact.

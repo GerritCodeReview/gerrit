@@ -33,6 +33,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.change.MergeabilityChecker;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.MultiProgressMonitor;
 import com.google.gerrit.server.git.MultiProgressMonitor.Task;
 import com.google.gerrit.server.patch.PatchListLoader;
@@ -46,7 +47,6 @@ import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -370,7 +370,7 @@ public class ChangeBatchIndexer {
     private RevTree aFor(RevCommit b, RevWalk walk) throws IOException {
       switch (b.getParentCount()) {
         case 0:
-          return walk.parseTree(emptyTree());
+          return MergeUtil.emptyTree(repo, walk);
         case 1:
           RevCommit a = b.getParent(0);
           walk.parseBody(a);
@@ -379,17 +379,6 @@ public class ChangeBatchIndexer {
           return PatchListLoader.automerge(repo, walk, b);
         default:
           return null;
-      }
-    }
-
-    private ObjectId emptyTree() throws IOException {
-      ObjectInserter oi = repo.newObjectInserter();
-      try {
-        ObjectId id = oi.insert(Constants.OBJ_TREE, new byte[] {});
-        oi.flush();
-        return id;
-      } finally {
-        oi.release();
       }
     }
 

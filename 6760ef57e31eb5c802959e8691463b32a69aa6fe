@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "84cb4d65_02e94acc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/FileApiImpl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-23T17:37:45Z",
+      "side": 1,
+      "message": "Yes, it does. This class has state: 4 @Option annotated instance vars and thus cannot be a singleton.",
+      "parentUuid": "c4faa581_8cc80758",
+      "range": {
+        "startLine": 44,
+        "startChar": 6,
+        "endLine": 44,
+        "endChar": 14
+      },
+      "revId": "6760ef57e31eb5c802959e8691463b32a69aa6fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a4f77198_abb4c9d7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/FileApiImpl.java",
         "patchSetId": 7

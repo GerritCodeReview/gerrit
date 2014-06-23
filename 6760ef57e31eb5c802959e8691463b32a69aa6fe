@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c4faa581_8cc80758",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/FileApiImpl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-23T17:30:32Z",
+      "side": 1,
+      "message": "Does this need to be a Provider? GetDiff is not explicitly marked @Singleton but it looks like it could be.",
+      "range": {
+        "startLine": 44,
+        "startChar": 6,
+        "endLine": 44,
+        "endChar": 14
+      },
+      "revId": "6760ef57e31eb5c802959e8691463b32a69aa6fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4faa581_accb4353",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/FileApiImpl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-23T17:30:32Z",
+      "side": 1,
+      "message": "getDiff",
+      "range": {
+        "startLine": 44,
+        "startChar": 24,
+        "endLine": 44,
+        "endChar": 30
+      },
+      "revId": "6760ef57e31eb5c802959e8691463b32a69aa6fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4f77198_abb4c9d7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/FileApiImpl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-23T17:30:32Z",
+      "side": 1,
+      "message": "As a REST API handler GetContent returns base64-encoded data to avoid XSS attacks. I don\u0027t think that is necessary for the extension API; why can\u0027t we just expose the byte array and/or BinaryResult to callers?",
+      "revId": "6760ef57e31eb5c802959e8691463b32a69aa6fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4f77198_4ba0c595",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/FileApiImpl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-23T17:30:32Z",
+      "side": 1,
+      "message": "I think recently we\u0027ve switched to statically importing StandardCharsets.UTF_8 instead of depending on Guava for this.",
+      "range": {
+        "startLine": 57,
+        "startChar": 42,
+        "endLine": 57,
+        "endChar": 57
+      },
+      "revId": "6760ef57e31eb5c802959e8691463b32a69aa6fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

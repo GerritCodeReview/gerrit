@@ -16,6 +16,24 @@
       "revId": "b75cf6ef6e12557c6c8677151da6e29d92305b2d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4f77198_abe169ea",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-06-23T01:22:46Z",
+      "side": 1,
+      "message": "How have you tested the REST API response?\n\nAccording to the REST API documentation the email and username are only returned when detailed account information is requested.",
+      "parentUuid": "a4f77198_4bfd658a",
+      "revId": "b75cf6ef6e12557c6c8677151da6e29d92305b2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

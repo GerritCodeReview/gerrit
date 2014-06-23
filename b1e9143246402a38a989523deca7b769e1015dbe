@@ -22,6 +22,30 @@
       "revId": "b1e9143246402a38a989523deca7b769e1015dbe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84cb4d65_82d1da35",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/HttpSession.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-23T07:10:44Z",
+      "side": 1,
+      "message": "Stolen from Luca, as in [1] and it solved endless loop:\n\n  [1]  https://gerrit-review.googlesource.com/#/c/57570/16/gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/PooledHttpClientProvider.java\n\nApparently PooledHttpClient (that is no used behind the scene ) needs it.",
+      "parentUuid": "c4faa581_6c115b24",
+      "range": {
+        "startLine": 55,
+        "startChar": 30,
+        "endLine": 55,
+        "endChar": 32
+      },
+      "revId": "b1e9143246402a38a989523deca7b769e1015dbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

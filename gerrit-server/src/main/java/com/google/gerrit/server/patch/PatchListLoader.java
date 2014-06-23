@@ -22,6 +22,7 @@ import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.MergeUtil;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.diff.DiffEntry;
@@ -233,7 +234,7 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
 
     switch (b.getParentCount()) {
       case 0:
-        return rw.parseAny(emptyTree(repo));
+        return MergeUtil.emptyTree(repo, rw);
       case 1: {
         RevCommit r = b.getParent(0);
         rw.parseBody(r);
@@ -392,16 +393,5 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
       update.forceUpdate();
     }
     return rw.parseTree(treeId);
-  }
-
-  private static ObjectId emptyTree(final Repository repo) throws IOException {
-    ObjectInserter oi = repo.newObjectInserter();
-    try {
-      ObjectId id = oi.insert(Constants.OBJ_TREE, new byte[] {});
-      oi.flush();
-      return id;
-    } finally {
-      oi.release();
-    }
   }
 }

@@ -52,6 +52,24 @@
       "revId": "b75cf6ef6e12557c6c8677151da6e29d92305b2d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4faa581_0c1c173c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-06-23T06:33:41Z",
+      "side": 1,
+      "message": "Done. Your suggestion to add ListChangesOption.DETAILED_ACCOUNTS worked.  Thanks!",
+      "parentUuid": "c4faa581_ace183ea",
+      "revId": "b75cf6ef6e12557c6c8677151da6e29d92305b2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

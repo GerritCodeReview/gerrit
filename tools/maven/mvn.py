@@ -16,9 +16,8 @@
 from __future__ import print_function
 from optparse import OptionParser
 from os import path, environ
-
+from subprocess import check_output
 from sys import stderr
-from tools.util import check_output
 
 opts = OptionParser()
 opts.add_option('--repository', help='maven repository id')

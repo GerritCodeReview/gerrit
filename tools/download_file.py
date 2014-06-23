@@ -28,6 +28,7 @@ GERRIT_HOME = path.expanduser('~/.gerritcodereview')
 CACHE_DIR = path.join(GERRIT_HOME, 'buck-cache')
 LOCAL_PROPERTIES = 'local.properties'
 
+
 def hashfile(p):
   d = sha1()
   with open(p, 'rb') as f:
@@ -38,6 +39,7 @@ def hashfile(p):
       d.update(b)
   return d.hexdigest()
 
+
 def safe_mkdirs(d):
   if path.isdir(d):
     return
@@ -46,6 +48,7 @@ def safe_mkdirs(d):
   except OSError as err:
     if not path.isdir(d):
       raise err
+
 
 def download_properties(root_dir):
   """ Get the download properties.
@@ -73,6 +76,7 @@ def download_properties(root_dir):
       pass
   return p
 
+
 def cache_entry(args):
   if args.v:
     h = args.v
@@ -80,6 +84,7 @@ def cache_entry(args):
     h = sha1(args.u.encode('utf-8')).hexdigest()
   name = '%s-%s' % (path.basename(args.o), h)
   return path.join(CACHE_DIR, name)
+
 
 opts = OptionParser()
 opts.add_option('-o', help='local output file')
@@ -137,30 +142,24 @@ if args.x:
   exclude += args.x
 if args.exclude_java_sources:
   try:
-    zf = ZipFile(cache_ent, 'r')
-    try:
+    with ZipFile(cache_ent, 'r') as zf:
       for n in zf.namelist():
         if n.endswith('.java'):
           exclude.append(n)
-    finally:
-      zf.close()
   except (BadZipfile, LargeZipFile) as err:
-    print('error opening %s: %s'  % (cache_ent, err), file=stderr)
+    print('error opening %s: %s' % (cache_ent, err), file=stderr)
     exit(1)
 
 if args.unsign:
   try:
-    zf = ZipFile(cache_ent, 'r')
-    try:
+    with ZipFile(cache_ent, 'r') as zf:
       for n in zf.namelist():
         if (n.endswith('.RSA')
             or n.endswith('.SF')
             or n.endswith('.LIST')):
           exclude.append(n)
-    finally:
-      zf.close()
   except (BadZipfile, LargeZipFile) as err:
-    print('error opening %s: %s'  % (cache_ent, err), file=stderr)
+    print('error opening %s: %s' % (cache_ent, err), file=stderr)
     exit(1)
 
 safe_mkdirs(path.dirname(args.o))

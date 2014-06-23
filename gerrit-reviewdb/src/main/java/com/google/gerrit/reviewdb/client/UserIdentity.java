@@ -23,6 +23,9 @@ public final class UserIdentity {
   /** Email address (or user@host style string anyway). */
   protected String email;
 
+  /** Username of the user. */
+  protected String username;
+
   /** Time (in UTC) when the identity was constructed. */
   protected Timestamp when;
 
@@ -46,6 +49,14 @@ public final class UserIdentity {
 
   public void setEmail(final String e) {
     email = e;
+  }
+
+  public String getUserName() {
+    return username;
+  }
+
+  public void setUserName(final String u) {
+    username = u;
   }
 
   public Timestamp getDate() {

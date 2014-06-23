@@ -79,6 +79,7 @@ public final class AccountGeneralPreferences {
     NONE,
     NAME,
     EMAIL,
+    USERNAME,
     ABBREV
   }
 

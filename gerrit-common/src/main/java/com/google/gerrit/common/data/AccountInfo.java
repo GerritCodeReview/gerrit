@@ -21,6 +21,7 @@ public class AccountInfo {
   protected Account.Id id;
   protected String fullName;
   protected String preferredEmail;
+  protected String preferredUsername;
 
   protected AccountInfo() {
   }
@@ -70,6 +71,15 @@ public class AccountInfo {
     preferredEmail = email;
   }
 
+  /** @return the username of the account holder; null if not supplied */
+  public String getPreferredUserName() {
+    return preferredUsername;
+  }
+
+  public void setPreferredUserName(final String username) {
+    preferredUsername = username;
+  }
+
   /**
    * Formats an account name.
    * <p>
@@ -79,6 +89,22 @@ public class AccountInfo {
   public String getName(String anonymousCowardName) {
     if (getFullName() != null) {
       return getFullName();
+    }
+    if (getPreferredEmail() != null) {
+      return getPreferredEmail();
+    }
+    return getNameEmail(anonymousCowardName);
+  }
+
+  /**
+   * Formats an account username.
+   * <p>
+   * If the account has a username, it returns only the username. Otherwise it
+   * returns a longer form that includes the email address.
+   */
+  public String getUserName(String anonymousCowardName) {
+    if (getPreferredUserName() != null) {
+      return getPreferredUserName();
     }
     if (getPreferredEmail() != null) {
       return getPreferredEmail();

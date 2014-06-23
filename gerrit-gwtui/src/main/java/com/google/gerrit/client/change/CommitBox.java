@@ -175,7 +175,7 @@ class CommitBox extends Composite {
         avatar = new AvatarImage(change.owner());
       } else {
         avatar = new AvatarImage(
-            AccountInfo.create(0, person.name(), person.email()));
+            AccountInfo.create(0, person.name(), person.email(), person.username()));
       }
       p.insert(avatar, 0);
     }

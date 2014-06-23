@@ -41,7 +41,8 @@ public class AccountLinkPanel extends FlowPanel {
     this(AccountInfo.create(
         ident.getAccount().get(),
         ident.getName(),
-        ident.getEmail()));
+        ident.getEmail(),
+        ident.getUserName()));
   }
 
   public AccountLinkPanel(AccountInfo info) {

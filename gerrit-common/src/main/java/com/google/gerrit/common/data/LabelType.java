@@ -60,20 +60,6 @@ public class LabelType {
     return name;
   }
 
-  private static String getAbbreviation(String name) {
-    StringBuilder abbr = new StringBuilder();
-    for (int i = 0; i < name.length(); i++) {
-      char c = name.charAt(i);
-      if (c >= 'A' && c <= 'Z') {
-        abbr.append(c);
-      }
-    }
-    if (abbr.length() == 0) {
-      abbr.append(Character.toUpperCase(name.charAt(0)));
-    }
-    return abbr.toString();
-  }
-
   private static List<LabelValue> sortValues(List<LabelValue> values) {
     values = new ArrayList<>(values);
     if (values.size() <= 1) {
@@ -102,7 +88,6 @@ public class LabelType {
 
   protected String name;
 
-  protected String abbreviation;
   protected String functionName;
   protected boolean copyMinScore;
   protected boolean copyMaxScore;
@@ -128,7 +113,6 @@ public class LabelType {
     values = sortValues(valueList);
     defaultValue = 0;
 
-    abbreviation = getAbbreviation(name);
     functionName = "MaxWithBlock";
 
     maxNegative = Short.MIN_VALUE;

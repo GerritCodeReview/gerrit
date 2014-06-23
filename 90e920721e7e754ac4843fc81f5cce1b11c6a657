@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "64d01910_21abaead",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/AuthenticatedHttpRequest.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-23T08:34:46Z",
+      "side": 1,
+      "message": "This is actually adding on top of existing headers, which is OK for this use-case but not in general, or you\u0027d risk to duplicate header names (that\u0027s why I used a HashSet).",
+      "range": {
+        "startLine": 37,
+        "startChar": 4,
+        "endLine": 39,
+        "endChar": 42
+      },
+      "revId": "90e920721e7e754ac4843fc81f5cce1b11c6a657",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84cb4d65_02bdcaee",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/GitHubLogin.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-23T08:34:46Z",
+      "side": 1,
+      "message": "just return user, it is null anyway when you\u0027re not logged in :-)",
+      "range": {
+        "startLine": 87,
+        "startChar": 0,
+        "endLine": 91,
+        "endChar": 3
+      },
+      "revId": "90e920721e7e754ac4843fc81f5cce1b11c6a657",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84cb4d65_22abaead",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/GitHubOAuthConfig.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-23T08:34:46Z",
+      "side": 1,
+      "message": "Are you then setting the defaults during the init phase?",
+      "range": {
+        "startLine": 58,
+        "startChar": 38,
+        "endLine": 59,
+        "endChar": 55
+      },
+      "revId": "90e920721e7e754ac4843fc81f5cce1b11c6a657",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64d01910_41b0b215",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/GitHubOAuthConfig.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-23T08:34:46Z",
+      "side": 1,
+      "message": "Really like it :-) more functional style",
+      "range": {
+        "startLine": 78,
+        "startChar": 11,
+        "endLine": 78,
+        "endChar": 52
+      },
+      "revId": "90e920721e7e754ac4843fc81f5cce1b11c6a657",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84cb4d65_42b0b215",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/GitHubOAuthConfig.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-23T08:34:46Z",
+      "side": 1,
+      "message": "Really like it :-) more functional style",
+      "range": {
+        "startLine": 87,
+        "startChar": 12,
+        "endLine": 87,
+        "endChar": 53
+      },
+      "revId": "90e920721e7e754ac4843fc81f5cce1b11c6a657",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84cb4d65_62a5b6d6",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitAuth.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-23T08:34:46Z",
+      "side": 1,
+      "message": "This must be in secure.config.",
+      "range": {
+        "startLine": 106,
+        "startChar": 8,
+        "endLine": 106,
+        "endChar": 60
+      },
+      "revId": "90e920721e7e754ac4843fc81f5cce1b11c6a657",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

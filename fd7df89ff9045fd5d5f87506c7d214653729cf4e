@@ -22,6 +22,30 @@
       "revId": "fd7df89ff9045fd5d5f87506c7d214653729cf4e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4faa581_ac0a23ee",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/container/HttpLoginServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1016317
+      },
+      "writtenOn": "2014-06-23T13:34:45Z",
+      "side": 0,
+      "message": "It\u0027s not needed. The if-statement was there to ensure that there will always be a slash in front of the token. In the new way we construct the token, we don\u0027t want this slash, hence why in LoginUrlToken we call substring(1).",
+      "parentUuid": "84cb4d65_82aabaa3",
+      "range": {
+        "startLine": 171,
+        "startChar": 4,
+        "endLine": 173,
+        "endChar": 5
+      },
+      "revId": "fd7df89ff9045fd5d5f87506c7d214653729cf4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

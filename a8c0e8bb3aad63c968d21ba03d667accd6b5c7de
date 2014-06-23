@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "84cb4d65_a22fbe7b",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/config/ScheduleConfigTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2014-06-23T11:52:13Z",
+      "side": 1,
+      "message": "Done.\n\nI had picked the wrong one coming with Eclipse instead of the one from JDK",
+      "parentUuid": "64d01910_c12cc289",
+      "revId": "a8c0e8bb3aad63c968d21ba03d667accd6b5c7de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "84cb4d65_622696ad",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/config/ScheduleConfigTest.java",
         "patchSetId": 6
@@ -88,6 +106,54 @@
     },
     {
       "key": {
+        "uuid": "64d01910_01378ad1",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/config/ScheduleConfigTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2014-06-23T11:52:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "64d01910_e139c6c4",
+      "range": {
+        "startLine": 35,
+        "startChar": 26,
+        "endLine": 35,
+        "endChar": 29
+      },
+      "revId": "a8c0e8bb3aad63c968d21ba03d667accd6b5c7de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84cb4d65_02378ad1",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/config/ScheduleConfigTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2014-06-23T11:52:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "84cb4d65_622696ad",
+      "range": {
+        "startLine": 35,
+        "startChar": 2,
+        "endLine": 35,
+        "endChar": 16
+      },
+      "revId": "a8c0e8bb3aad63c968d21ba03d667accd6b5c7de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "84cb4d65_42219292",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/config/ScheduleConfigTest.java",
         "patchSetId": 6
@@ -99,6 +165,30 @@
       "writtenOn": "2014-06-23T11:47:31Z",
       "side": 1,
       "message": "no final",
+      "range": {
+        "startLine": 74,
+        "startChar": 35,
+        "endLine": 74,
+        "endChar": 40
+      },
+      "revId": "a8c0e8bb3aad63c968d21ba03d667accd6b5c7de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64d01910_21456e2d",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/config/ScheduleConfigTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2014-06-23T11:52:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "84cb4d65_42219292",
       "range": {
         "startLine": 74,
         "startChar": 35,

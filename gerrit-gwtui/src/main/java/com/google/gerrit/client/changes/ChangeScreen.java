@@ -664,7 +664,7 @@ public class ChangeScreen extends Screen
       if (msg.getAuthor() != null) {
         author = FormatUtil.asInfo(accts.get(msg.getAuthor()));
       } else {
-        author = AccountInfo.create(0, Util.C.messageNoAuthor(), null);
+        author = AccountInfo.create(0, Util.C.messageNoAuthor(), null, null);
       }
 
       boolean isRecent;

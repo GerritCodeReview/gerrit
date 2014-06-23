@@ -69,9 +69,10 @@ the resulting change.
 'GET /changes/'
 --
 
-Queries changes visible to the caller. The query string must be
-provided by the `q` parameter. The `n` parameter can be used to limit
-the returned results.
+Queries changes visible to the caller. The
+link:user-search.html#_search_operators[query string] must be provided
+by the `q` parameter. The `n` parameter can be used to limit the
+returned results.
 
 As result a list of link:#change-info[ChangeInfo] entries is returned.
 The change output is sorted by the last update time, most recently

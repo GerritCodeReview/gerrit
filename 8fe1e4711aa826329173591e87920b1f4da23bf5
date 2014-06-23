@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "24b381fb_17d43456",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-06-23T01:01:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "84cb4d65_028b0a5a",
+      "range": {
+        "startLine": 96,
+        "startChar": 4,
+        "endLine": 100,
+        "endChar": 5
+      },
+      "revId": "8fe1e4711aa826329173591e87920b1f4da23bf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "84cb4d65_2259ee35",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
         "patchSetId": 11
@@ -36,6 +60,30 @@
       "writtenOn": "2014-06-22T16:05:14Z",
       "side": 1,
       "message": "the same as above. Here and below.",
+      "range": {
+        "startLine": 160,
+        "startChar": 4,
+        "endLine": 162,
+        "endChar": 43
+      },
+      "revId": "8fe1e4711aa826329173591e87920b1f4da23bf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04c83d74_16d43c56",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-06-23T01:01:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "84cb4d65_2259ee35",
       "range": {
         "startLine": 160,
         "startChar": 4,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "04c83d74_36d9388d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-06-23T01:01:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "84cb4d65_425ef21e",
+      "range": {
+        "startLine": 270,
+        "startChar": 4,
+        "endLine": 273,
+        "endChar": 46
+      },
+      "revId": "8fe1e4711aa826329173591e87920b1f4da23bf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "64d01910_8158fa2f",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
         "patchSetId": 11
@@ -82,6 +154,30 @@
       "writtenOn": "2014-06-22T16:05:14Z",
       "side": 1,
       "message": "No reason not to put it on the same line (here and below):\n\n  user \u003d getReviewCategoryDisplayInfo(reviewCategoryStrategy,\n      label.rejected());",
+      "range": {
+        "startLine": 291,
+        "startChar": 12,
+        "endLine": 291,
+        "endChar": 64
+      },
+      "revId": "8fe1e4711aa826329173591e87920b1f4da23bf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24b381fb_37d9388d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-06-23T01:01:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "64d01910_8158fa2f",
       "range": {
         "startLine": 291,
         "startChar": 12,
@@ -111,6 +207,24 @@
     },
     {
       "key": {
+        "uuid": "c4faa581_4c445f2e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-06-23T01:01:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "64d01910_a16c1ed9",
+      "revId": "8fe1e4711aa826329173591e87920b1f4da23bf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "84cb4d65_6253f615",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
         "patchSetId": 11
@@ -122,6 +236,30 @@
       "writtenOn": "2014-06-22T16:05:14Z",
       "side": 1,
       "message": "Unrelated change ;-)",
+      "range": {
+        "startLine": 509,
+        "startChar": 15,
+        "endLine": 509,
+        "endChar": 16
+      },
+      "revId": "8fe1e4711aa826329173591e87920b1f4da23bf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4faa581_ac58630e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 509,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-06-23T01:01:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "84cb4d65_6253f615",
       "range": {
         "startLine": 509,
         "startChar": 15,

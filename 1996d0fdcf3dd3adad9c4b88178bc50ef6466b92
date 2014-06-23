@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "84cb4d65_42c7d27c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeList.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-23T07:06:27Z",
+      "side": 1,
+      "message": "You can do that in one statement (here and below):\n\n  EnumSet\u003cListChangesOption\u003e o \u003d EnumSet.of(ListChangesOption.LABELS,\n    ListChangesOption.DETAILED_ACCOUNTS);",
+      "range": {
+        "startLine": 40,
+        "startChar": 4,
+        "endLine": 41,
+        "endChar": 47
+      },
+      "revId": "1996d0fdcf3dd3adad9c4b88178bc50ef6466b92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84cb4d65_62ccd69e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-23T07:06:27Z",
+      "side": 1,
+      "message": "4 chars (not 8) indent on wrapped lines (here and below).",
+      "range": {
+        "startLine": 284,
+        "startChar": 0,
+        "endLine": 284,
+        "endChar": 16
+      },
+      "revId": "1996d0fdcf3dd3adad9c4b88178bc50ef6466b92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

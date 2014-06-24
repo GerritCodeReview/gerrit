@@ -30,3 +30,10 @@ maven_jar(
   sha1 = '7a00eb4b97a6cb7a5a29957b62c7f002dd71b7ff',
   license = 'Apache2.0',
 )
+
+maven_jar(
+  name = 'suggest',
+  id = 'org.apache.lucene:lucene-suggest:' + VERSION,
+  sha1 = '91b41430a01ac8d5e93e5e61cd0e3d3218911067',
+  license = 'Apache2.0',
+)

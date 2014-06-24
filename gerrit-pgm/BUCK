@@ -62,6 +62,7 @@ java_library(
   srcs = glob([SRCS + 'util/*.java']),
   deps = DEPS + [
     '//gerrit-cache-h2:cache-h2',
+    '//gerrit-elasticsearch:elasticsearch',
     '//gerrit-util-cli:cli',
     '//lib:args4j',
     '//lib:gwtorm',
@@ -99,6 +100,7 @@ java_library(
     ':init-api',
     ':util',
     '//gerrit-cache-h2:cache-h2',
+    '//gerrit-elasticsearch:elasticsearch',
     '//gerrit-lucene:lucene',
     '//gerrit-openid:openid',
     '//gerrit-solr:solr',

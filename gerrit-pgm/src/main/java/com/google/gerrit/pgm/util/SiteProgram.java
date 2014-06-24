@@ -19,6 +19,7 @@ import static com.google.inject.Stage.PRODUCTION;
 
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.Die;
+import com.google.gerrit.elasticsearch.ElasticsearchIndexModule;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.lucene.LuceneIndexModule;
@@ -200,6 +201,8 @@ public abstract class SiteProgram extends AbstractProgram {
         return new LuceneIndexModule(luceneVersion, threads, outputBase);
       case SOLR:
         return new SolrIndexModule(false, threads, outputBase);
+      case ELASTICSEARCH:
+        return new ElasticsearchIndexModule(threads);
       default:
         throw new IllegalStateException("unsupported index.type");
     }

@@ -21,6 +21,7 @@ import com.google.common.net.InetAddresses;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.DisabledChangeHooks;
+import com.google.gerrit.elasticsearch.ElasticsearchIndexModule;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -191,6 +192,9 @@ public class InMemoryModule extends FactoryModule {
       switch (indexType) {
         case LUCENE:
           install(luceneIndexModule());
+          break;
+        case ELASTICSEARCH:
+          install(new ElasticsearchIndexModule());
           break;
         default:
           throw new ProvisionException(

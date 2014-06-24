@@ -5,6 +5,7 @@ java_library(
   srcs = glob(['src/main/java/**/*.java']),
   deps = [
     '//gerrit-cache-h2:cache-h2',
+    '//gerrit-elasticsearch:elasticsearch',
     '//gerrit-extension-api:api',
     '//gerrit-gpg:gpg',
     '//gerrit-httpd:httpd',

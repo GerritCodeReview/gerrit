@@ -16,6 +16,24 @@
       "revId": "b1bc226b7d0a24a967502d6e94586d04339ee2fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2481c117_e7d2a203",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 26
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-24T21:37:57Z",
+      "side": 1,
+      "message": "I was trying to introduce generic plugin dependencies concept in this series [1]. But gave up, as there were no reviewers.\n\n [1] https://gerrit-review.googlesource.com/#/q/status:abandoned+project:gerrit+branch:master+topic:plugin-dependencies",
+      "parentUuid": "24a621d4_9f7e3386",
+      "revId": "b1bc226b7d0a24a967502d6e94586d04339ee2fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

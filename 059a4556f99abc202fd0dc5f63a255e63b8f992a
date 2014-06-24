@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "44a155b9_007086b5",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/AccountInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-06-24T19:13:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4f77198_2bf61974",
+      "range": {
+        "startLine": 24,
+        "startChar": 19,
+        "endLine": 24,
+        "endChar": 28
+      },
+      "revId": "059a4556f99abc202fd0dc5f63a255e63b8f992a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a4f77198_0bfb5d5a",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/AccountInfo.java",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "44a155b9_e07482ab",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/AccountInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-06-24T19:13:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4f77198_0bfb5d5a",
+      "range": {
+        "startLine": 75,
+        "startChar": 28,
+        "endLine": 75,
+        "endChar": 36
+      },
+      "revId": "059a4556f99abc202fd0dc5f63a255e63b8f992a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "24a621d4_bf48d772",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/AccountInfo.java",
         "patchSetId": 2
@@ -59,6 +107,24 @@
       "writtenOn": "2014-06-24T19:01:09Z",
       "side": 1,
       "message": "We don\u0027t need this method. Should not allow setting a new username here.",
+      "revId": "059a4556f99abc202fd0dc5f63a255e63b8f992a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24a621d4_9f4d1383",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/AccountInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-06-24T19:13:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "24a621d4_bf48d772",
       "revId": "059a4556f99abc202fd0dc5f63a255e63b8f992a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -128,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "24a621d4_7f436f56",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/AccountInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-06-24T19:13:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "44a155b9_60407248",
+      "revId": "059a4556f99abc202fd0dc5f63a255e63b8f992a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c4faa581_ccd7afcb",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/AccountInfo.java",
         "patchSetId": 2
@@ -174,6 +258,30 @@
     },
     {
       "key": {
+        "uuid": "24a621d4_5f40ab47",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/AccountInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-06-24T19:13:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c4faa581_2cf63374",
+      "range": {
+        "startLine": 116,
+        "startChar": 27,
+        "endLine": 116,
+        "endChar": 34
+      },
+      "revId": "059a4556f99abc202fd0dc5f63a255e63b8f992a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a4f77198_4b0565a9",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/UserIdentity.java",
         "patchSetId": 2
@@ -197,6 +305,30 @@
     },
     {
       "key": {
+        "uuid": "24a621d4_3f3de7d7",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/UserIdentity.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-06-24T19:13:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4f77198_4b0565a9",
+      "range": {
+        "startLine": 54,
+        "startChar": 19,
+        "endLine": 54,
+        "endChar": 27
+      },
+      "revId": "059a4556f99abc202fd0dc5f63a255e63b8f992a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "24a621d4_df539b25",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/UserIdentity.java",
         "patchSetId": 2
@@ -208,6 +340,24 @@
       "writtenOn": "2014-06-24T19:01:09Z",
       "side": 1,
       "message": "We don\u0027t need this method. Should not allow setting a new username here.",
+      "revId": "059a4556f99abc202fd0dc5f63a255e63b8f992a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24a621d4_1f3a23e0",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/UserIdentity.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-06-24T19:13:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "24a621d4_df539b25",
       "revId": "059a4556f99abc202fd0dc5f63a255e63b8f992a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

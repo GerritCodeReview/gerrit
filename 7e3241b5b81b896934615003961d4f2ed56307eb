@@ -34,6 +34,24 @@
       "revId": "7e3241b5b81b896934615003961d4f2ed56307eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44a155b9_2096ea68",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-24T23:49:58Z",
+      "side": 1,
+      "message": "You\u0027re right that would be a big change. The main reason is that the very first injector that is created in normal Gerrit operation defines the database implementation used by gwtorm...which is read from gerrit.config, meaning the first time you run init it\u0027s not there yet.\n\nMaybe when we get rid of the database this will be easier ;)",
+      "parentUuid": "04767d12_c68762fe",
+      "revId": "7e3241b5b81b896934615003961d4f2ed56307eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

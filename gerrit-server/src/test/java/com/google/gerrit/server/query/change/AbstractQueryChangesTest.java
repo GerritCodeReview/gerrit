@@ -62,6 +62,7 @@ import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangeTriplet;
 import com.google.gerrit.server.change.PatchSetInserter;
+import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.index.change.ChangeField;
@@ -140,6 +141,13 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   protected abstract Injector createInjector();
 
+  /**
+   * @param sitePaths
+   */
+  protected void startIndexService(SitePaths sitePaths) {
+    // does nothing by default
+  }
+
   @Before
   public void setUpInjector() throws Exception {
     lifecycle = new LifecycleManager();
@@ -147,6 +155,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     lifecycle.add(injector);
     injector.injectMembers(this);
     lifecycle.start();
+    startIndexService(injector.getInstance(SitePaths.class));
 
     db = schemaFactory.open();
     schemaCreator.create(db);

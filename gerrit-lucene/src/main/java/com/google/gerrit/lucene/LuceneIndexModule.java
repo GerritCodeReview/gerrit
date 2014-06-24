@@ -86,7 +86,7 @@ public class LuceneIndexModule extends LifecycleModule {
     if (singleVersions == null) {
       install(new MultiVersionModule());
     } else {
-      install(new SingleVersionModule());
+      install(new SingleVersionModule(singleVersions));
     }
   }
 
@@ -105,7 +105,13 @@ public class LuceneIndexModule extends LifecycleModule {
     }
   }
 
-  private class SingleVersionModule extends LifecycleModule {
+  public static class SingleVersionModule extends LifecycleModule {
+    private final Map<String, Integer> singleVersions;
+
+    public SingleVersionModule(Map<String, Integer> singleVersions) {
+      this.singleVersions = singleVersions;
+    }
+
     @Override
     public void configure() {
       listener().to(SingleVersionListener.class);
@@ -116,7 +122,7 @@ public class LuceneIndexModule extends LifecycleModule {
   }
 
   @Singleton
-  static class SingleVersionListener implements LifecycleListener {
+  private static class SingleVersionListener implements LifecycleListener {
     private final Set<String> disabled;
     private final Collection<IndexDefinition<?, ?, ?>> defs;
     private final Map<String, Integer> singleVersions;

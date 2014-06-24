@@ -22,7 +22,7 @@ maven_jar(
     'META-INF/LICENSE.txt',
     'META-INF/NOTICE.txt',
   ],
-  visibility = [],
+  visibility = ['//gerrit-elasticsearch:elasticsearch'],
 )
 
 maven_jar(

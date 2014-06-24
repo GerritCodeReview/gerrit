@@ -1,0 +1,160 @@
+include_defs('//lib/maven.defs')
+
+# Java client library for Elasticsearch.
+maven_jar(
+  name = 'elasticsearch',
+  id = 'org.elasticsearch:elasticsearch:2.3.4',
+  sha1 = '48ae0fec118bd0c16369138037f63addcf4288c2',
+  attach_source = True,
+  repository = MAVEN_CENTRAL,
+  license = 'Apache2.0',
+  deps = [
+    ':compress-lzf',
+    ':hppc',
+    ':jsr166e',
+    ':netty',
+    ':t-digest',
+    '//lib/jackson:jackson-core',
+    '//lib/jackson:jackson-dataformat-cbor',
+    '//lib/jackson:jackson-dataformat-smile',
+    '//lib/joda:joda-time',
+    ':lucene-codecs',
+    ':lucene-highlighter',
+    ':lucene-join',
+    ':lucene-memory',
+    ':lucene-sandbox',
+    ':lucene-suggest',
+    ':lucene-queries',
+    ':lucene-spatial',
+    ':jna',
+  ]
+)
+
+# Java REST client for Elasticsearch.
+VERSION = '0.1.7'
+LUCENE_VERSION = '5.5.0'
+maven_jar(
+  name = 'jest-common',
+  id = 'io.searchbox:jest-common:' + VERSION,
+  sha1 = 'ff6e2694405557a3a02b444cb7f7da28c4d99f07',
+  license = 'Apache2.0',
+)
+
+maven_jar(
+  name = 'jest',
+  id = 'io.searchbox:jest:' + VERSION,
+  sha1 = '686619c7141edb50b562ad2a39d32ea4cf20b567',
+  license = 'Apache2.0',
+  deps = [
+    ':elasticsearch',
+    ':jest-common',
+    '//lib/commons:lang3',
+    '//lib/httpcomponents:httpasyncclient',
+    '//lib/httpcomponents:httpclient',
+    '//lib/httpcomponents:httpcore-nio',
+    '//lib/httpcomponents:httpcore-niossl',
+  ],
+)
+
+maven_jar(
+  name = 'compress-lzf',
+  id = 'com.ning:compress-lzf:1.0.2',
+  sha1 = '62896e6fca184c79cc01a14d143f3ae2b4f4b4ae',
+  license = 'Apache2.0',
+  visibility = ['//lib/elasticsearch:elasticsearch'],
+)
+
+maven_jar(
+  name = 'hppc',
+  id = 'com.carrotsearch:hppc:0.7.1',
+  sha1 = '8b5057f74ea378c0150a1860874a3ebdcb713767',
+  license = 'Apache2.0',
+  visibility = ['//lib/elasticsearch:elasticsearch'],
+)
+
+maven_jar(
+  name = 'jsr166e',
+  id = 'com.twitter:jsr166e:1.1.0',
+  sha1 = '233098147123ee5ddcd39ffc57ff648be4b7e5b2',
+  license = 'Apache2.0',
+  visibility = ['//lib/elasticsearch:elasticsearch'],
+)
+
+maven_jar(
+  name = 'netty',
+  id = 'io.netty:netty:3.10.0.Final',
+  sha1 = 'ad61cd1bba067e6634ddd3e160edf0727391ac30',
+  license = 'Apache2.0',
+  visibility = ['//lib/elasticsearch:elasticsearch'],
+)
+
+maven_jar(
+  name = 't-digest',
+  id = 'com.tdunning:t-digest:3.0',
+  sha1 = '84ccf145ac2215e6bfa63baa3101c0af41017cfc',
+  license = 'Apache2.0',
+  visibility = ['//lib/elasticsearch:elasticsearch'],
+)
+
+maven_jar(
+  name = 'lucene-memory',
+  id = 'org.apache.lucene:lucene-memory:' + LUCENE_VERSION,
+  sha1 = '09a327fe9f20fc7e3912ed213bdd5cb4b6d2a65a',
+  license = 'Apache2.0',
+)
+
+maven_jar(
+  name = 'lucene-highlighter',
+  id = 'org.apache.lucene:lucene-highlighter:' + LUCENE_VERSION,
+  sha1 = 'ecdd913cb7c61a5435591f0a7268b01ab3fc782a',
+  license = 'Apache2.0',
+)
+
+maven_jar(
+  name = 'lucene-suggest',
+  id = 'org.apache.lucene:lucene-suggest:' + LUCENE_VERSION,
+  sha1 = '51f9d52332f556976a5099817e35d37c69a24597',
+  license = 'Apache2.0',
+)
+
+maven_jar(
+  name = 'lucene-codecs',
+  id = 'org.apache.lucene:lucene-codecs:' + LUCENE_VERSION,
+  sha1 = 'b6d6b847a516b5fee88f7cfcf173cf9564233471',
+  license = 'Apache2.0',
+)
+
+maven_jar(
+  name = 'lucene-join',
+  id = 'org.apache.lucene:lucene-join:'+ LUCENE_VERSION,
+  sha1 = 'af4f55e36e3a7d1f4e9ed9efdccf7e22b767d6e8',
+  license = 'Apache2.0',
+)
+
+maven_jar(
+  name = 'lucene-queries',
+  id = 'org.apache.lucene:lucene-queries:' + LUCENE_VERSION,
+  sha1 = '60ca161c1dd5f127907423b6f039b846fb713de0',
+  license = 'Apache2.0',
+)
+
+maven_jar(
+  name = 'lucene-sandbox',
+  id = 'org.apache.lucene:lucene-sandbox:' + LUCENE_VERSION,
+  sha1 = 'b7da8e187acd6e4d7781ba41fac8b9082dd27409',
+  license = 'Apache2.0',
+)
+
+maven_jar(
+  name = 'lucene-spatial',
+  id = 'org.apache.lucene:lucene-spatial:' + LUCENE_VERSION,
+  sha1 = 'c14965bf67179bee93cc8efc58d09a75d230c891',
+  license = 'Apache2.0',
+)
+
+maven_jar(
+  name = 'jna',
+  id = 'net.java.dev.jna:jna:4.1.0',
+  sha1 = '1c12d070e602efd8021891cdd7fd18bc129372d4',
+  license = 'Apache2.0',
+)

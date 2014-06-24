@@ -16,6 +16,24 @@
       "revId": "7e3241b5b81b896934615003961d4f2ed56307eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04767d12_c68762fe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-24T23:43:55Z",
+      "side": 1,
+      "message": "Yes, I wish I could do it now :-)\n\nThe problem is really the Gerrit init phase, which runs with a \"restricted\" runtime of Gerrit without most of injections available.\n\nWe should IMHO change the way Gerrit init works:\na) Start a full but minimal Gerrit anyway with a set of predefined settings that would always work\nb) Offer a full set of injections for the Init shell so that we can reuse the entire Gerrit infrastructure, including the plugin loader\nc) Optionally define a GUI version of the init, bringing a full Web-UX to its init phase\n\nHowever, this seems to be a much bigger change :-)",
+      "parentUuid": "44a155b9_e05da221",
+      "revId": "7e3241b5b81b896934615003961d4f2ed56307eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

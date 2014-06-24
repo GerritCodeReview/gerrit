@@ -17,7 +17,6 @@ package com.google.gerrit.client.api;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptException;
 import com.google.gwt.core.client.JsArrayString;
-import com.google.gwt.core.client.impl.StackTraceCreator;
 
 /**
  * Determines the name a plugin has been installed under.
@@ -68,7 +67,9 @@ class PluginName {
   }
 
   private static StackTraceElement[] getTrace(JavaScriptException err) {
-    StackTraceCreator.fillInStackTrace(err);
+    if (err.getStackTrace().length == 0) {
+      err.fillInStackTrace();
+    }
     return err.getStackTrace();
   }
 

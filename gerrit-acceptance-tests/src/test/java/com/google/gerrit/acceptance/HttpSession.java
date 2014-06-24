@@ -18,8 +18,10 @@ import com.google.common.base.CharMatcher;
 
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.client.BasicCredentialsProvider;
+import org.apache.http.impl.client.HttpClientBuilder;
 
 import java.io.IOException;
 import java.net.URI;
@@ -28,7 +30,7 @@ public class HttpSession {
 
   protected final String url;
   private final TestAccount account;
-  private DefaultHttpClient client;
+  private HttpClient client;
 
   public HttpSession(GerritServer server, TestAccount account) {
     this.url = CharMatcher.is('/').trimTrailingFrom(server.getUrl());
@@ -40,13 +42,19 @@ public class HttpSession {
     return new HttpResponse(getClient().execute(get));
   }
 
-  protected DefaultHttpClient getClient() {
+  protected HttpClient getClient() {
     if (client == null) {
       URI uri = URI.create(url);
-      client = new DefaultHttpClient();
-      client.getCredentialsProvider().setCredentials(
-          new AuthScope(uri.getHost(), uri.getPort()),
-          new UsernamePasswordCredentials(account.username, account.httpPassword));
+      BasicCredentialsProvider creds = new BasicCredentialsProvider();
+      creds.setCredentials(new AuthScope(uri.getHost(), uri.getPort()),
+          new UsernamePasswordCredentials(account.username,
+              account.httpPassword));
+      client = HttpClientBuilder
+          .create()
+          .setDefaultCredentialsProvider(creds)
+          .setMaxConnPerRoute(10)
+          .setMaxConnTotal(1024)
+          .build();
     }
     return client;
   }

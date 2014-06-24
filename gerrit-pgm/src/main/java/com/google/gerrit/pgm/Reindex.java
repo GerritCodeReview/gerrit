@@ -22,6 +22,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.DisabledChangeHooks;
+import com.google.gerrit.elasticsearch.ElasticsearchIndexModule;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.registration.DynamicMap;
@@ -186,6 +187,9 @@ public class Reindex extends SiteProgram {
         break;
       case SOLR:
         changeIndexModule = new SolrIndexModule(false, threads, outputBase);
+        break;
+      case ELASTICSEARCH:
+        changeIndexModule = new ElasticsearchIndexModule(threads);
         break;
       default:
         throw new IllegalStateException("unsupported index.type");

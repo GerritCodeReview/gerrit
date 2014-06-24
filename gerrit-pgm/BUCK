@@ -94,6 +94,7 @@ java_library(
     ':init-base',
     '//gerrit-cache-h2:cache-h2',
     '//gerrit-common:server',
+    '//gerrit-elasticsearch:elasticsearch',
     '//gerrit-extension-api:api',
     '//gerrit-gwtexpui:linker_server',
     '//gerrit-gwtexpui:server',

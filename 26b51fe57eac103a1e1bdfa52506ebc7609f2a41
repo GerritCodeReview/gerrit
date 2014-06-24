@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "04767d12_26f3d6c3",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-24T17:40:51Z",
+      "side": 1,
+      "message": "In second sought, i still think operation thing (or the whole input in previous change) is not nessesary. How is this different from FLUSH_ALL that was introduced in the previous change? In both cases the operation is the same: flush. How do you know what to flush? according to caches list. If this is null or empty, you flush all, if it is has content, you flush only passed entries. So i can just say:\n\n  POST /config/server/caches/\n\nto flush all caches, or\n\n  POST /config/server/caches/ HTTP/1.0\n  {\n    \"caches\": [\n      \"projects\",\n      \"project_list\"\n    ]\n  }\n\nThe operation enum must not be introduced the day before you have at least two different operation.\n\nSay 25 years later someone would like to introduce PRE_POPULATE_CACHE operation. Then and only then she should add two different operations: existing FLUSH and the new one, and to make it backwards compatible she would assign empty operation as flush.\n\nSo for now no operation, because you don\u0027t have one. You are always flushing. Make the life of consumer of your API easier:\n\n  POST /config/server/caches/\n\ndone.",
+      "range": {
+        "startLine": 378,
+        "startChar": 4,
+        "endLine": 378,
+        "endChar": 24
+      },
+      "revId": "26b51fe57eac103a1e1bdfa52506ebc7609f2a41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

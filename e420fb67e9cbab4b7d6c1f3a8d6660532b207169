@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2481c117_c7ae7e86",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ServerPluginProvider.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-24T23:26:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "24a621d4_3f0ba744",
+      "revId": "e420fb67e9cbab4b7d6c1f3a8d6660532b207169",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "44a155b9_004f667d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ServerPluginProvider.java",
         "patchSetId": 29
@@ -30,6 +48,24 @@
       "writtenOn": "2014-06-24T16:48:44Z",
       "side": 1,
       "message": "I think we should explicitly document the fact that there is a 1-to-1 mapping between files in the plugin directory and plugins (apart from special cases for plugin reloading). Someone might reasonably wonder whether they can specify that a collection of files makes up a single plugin. The answer is \"no, but you can use a directory.\" It would just be nice for that to be clear from the documentation.",
+      "revId": "e420fb67e9cbab4b7d6c1f3a8d6660532b207169",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04767d12_66a06e96",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ServerPluginProvider.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-24T23:26:36Z",
+      "side": 1,
+      "message": "Changed the wording to \"one\"  for plugin, file and directory: it become then explicit that the relationship is 1:1.\n\nI added a statement as well to explain how to group a set of files into a single plugin.",
+      "parentUuid": "44a155b9_004f667d",
       "revId": "e420fb67e9cbab4b7d6c1f3a8d6660532b207169",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "04767d12_86b48ad8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ServerPluginProvider.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-24T23:26:36Z",
+      "side": 1,
+      "message": "I will mention that getPluginName(srcFile) should be called only if handles(srcFile) returns true, otherwise an IllegalArgumentException() is thrown.\n\nIt is formally incorrect to add a throws clause in the JavaDoc as it is not in the method signature.",
+      "parentUuid": "24a621d4_df2a7b9f",
+      "revId": "e420fb67e9cbab4b7d6c1f3a8d6660532b207169",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "24a621d4_1f08e343",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/UniversalServerPluginProvider.java",
         "patchSetId": 29
@@ -64,6 +118,24 @@
       "writtenOn": "2014-06-24T16:48:44Z",
       "side": 1,
       "message": "Tiny nit: blank line",
+      "revId": "e420fb67e9cbab4b7d6c1f3a8d6660532b207169",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2481c117_e7ab8273",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/UniversalServerPluginProvider.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-24T23:26:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "24a621d4_1f08e343",
       "revId": "e420fb67e9cbab4b7d6c1f3a8d6660532b207169",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "2481c117_078a560c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/UniversalServerPluginProvider.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-24T23:26:36Z",
+      "side": 1,
+      "message": "Yes, but not on this change. Did not want to introduce too much risks of regression on existing code.",
+      "parentUuid": "44a155b9_40244ece",
+      "revId": "e420fb67e9cbab4b7d6c1f3a8d6660532b207169",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "44a155b9_20214abe",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/UniversalServerPluginProvider.java",
         "patchSetId": 29
@@ -104,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "04767d12_a6b186e7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/UniversalServerPluginProvider.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-24T23:26:36Z",
+      "side": 1,
+      "message": "Good point: with the current implementation we do return the first match.\nI should continue looping with all the others and if there is more than one match, then a failure would be a better behaviour.",
+      "parentUuid": "44a155b9_20214abe",
+      "revId": "e420fb67e9cbab4b7d6c1f3a8d6660532b207169",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "24a621d4_ff253fd1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/UniversalServerPluginProvider.java",
         "patchSetId": 29
@@ -115,6 +223,24 @@
       "writtenOn": "2014-06-24T16:48:44Z",
       "side": 1,
       "message": "Might be useful for debugging purposes to include the providers that were attempted?",
+      "revId": "e420fb67e9cbab4b7d6c1f3a8d6660532b207169",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04767d12_c6ae8286",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/UniversalServerPluginProvider.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-24T23:26:36Z",
+      "side": 1,
+      "message": "True, plugin loading could become a bit difficult to understand and some debugging would be helpful to understand what\u0027s going on :-)",
+      "parentUuid": "24a621d4_ff253fd1",
       "revId": "e420fb67e9cbab4b7d6c1f3a8d6660532b207169",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

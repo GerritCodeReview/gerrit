@@ -62,6 +62,7 @@ import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangeTriplet;
 import com.google.gerrit.server.change.PatchSetInserter;
+import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.index.change.ChangeField;

@@ -65,6 +65,7 @@ java_library(
 
 REST_UTIL_DEPS = [
   '//gerrit-cache-h2:cache-h2',
+    '//gerrit-elasticsearch:elasticsearch',
   '//gerrit-util-cli:cli',
   '//lib:args4j',
   '//lib:gwtorm',
@@ -119,6 +120,7 @@ REST_PGM_DEPS = [
   ':init-api',
   ':util',
   '//gerrit-cache-h2:cache-h2',
+    '//gerrit-elasticsearch:elasticsearch',
   '//gerrit-gpg:gpg',
   '//gerrit-lucene:lucene',
   '//gerrit-oauth:oauth',

@@ -56,7 +56,7 @@ import java.util.Set;
  */
 public class IndexModule extends LifecycleModule {
   public enum IndexType {
-    LUCENE
+    LUCENE, ELASTICSEARCH
   }
 
   public static final ImmutableCollection<SchemaDefinitions<?>> ALL_SCHEMA_DEFS =

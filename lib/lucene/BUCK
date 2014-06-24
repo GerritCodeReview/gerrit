@@ -22,7 +22,7 @@ maven_jar(
     'META-INF/LICENSE.txt',
     'META-INF/NOTICE.txt',
   ],
-  visibility = [],
+  visibility = ['//gerrit-elasticsearch:elasticsearch'],
 )
 
 maven_jar(
@@ -73,3 +73,60 @@ maven_jar(
     'META-INF/NOTICE.txt',
   ],
 )
+
+maven_jar(
+  name = 'lucene-memory',
+  id = 'org.apache.lucene:lucene-memory:' + VERSION,
+  sha1 = 'ab71c02b81700ff542f833a0a8b6b50f8361452e',
+  license = 'Apache2.0',
+)
+
+maven_jar(
+  name = 'lucene-highlighter',
+  id = 'org.apache.lucene:lucene-highlighter:' + VERSION,
+  sha1 = 'd276e74d57c64ed5f9a09a48da05b75555e8709a',
+  license = 'Apache2.0',
+)
+
+maven_jar(
+  name = 'lucene-suggest',
+  id = 'org.apache.lucene:lucene-suggest:' + VERSION,
+  sha1 = '5e7ef6143d4d2b6e36816b3bdf98686821c0c8d4',
+  license = 'Apache2.0',
+)
+
+maven_jar(
+  name = 'lucene-codecs',
+  id = 'org.apache.lucene:lucene-codecs:' + VERSION,
+  sha1 = 'abe0b01f4debd683091a62d753b4776278a6fdaa',
+  license = 'Apache2.0',
+)
+
+maven_jar(
+  name = 'lucene-join',
+  id = 'org.apache.lucene:lucene-join:'+ VERSION,
+  sha1 = '8e575d04674536281332339a0a371478f896708b',
+  license = 'Apache2.0',
+)
+
+maven_jar(
+  name = 'lucene-queries',
+  id = 'org.apache.lucene:lucene-queries:' + VERSION,
+  sha1 = '4473e0d9b08601267f5b443c525334a4e199db37',
+  license = 'Apache2.0',
+)
+
+maven_jar(
+  name = 'lucene-sandbox',
+  id = 'org.apache.lucene:lucene-sandbox:' + VERSION,
+  sha1 = 'b2d9fbea66abddb49ada0f0f8d06e69e9724c789',
+  license = 'Apache2.0',
+)
+
+maven_jar(
+  name = 'lucene-spatial',
+  id = 'org.apache.lucene:lucene-spatial:' + VERSION,
+  sha1 = 'ef6281db5d31cef9d6a7ea3947d34777800bbfbc',
+  license = 'Apache2.0',
+)
+

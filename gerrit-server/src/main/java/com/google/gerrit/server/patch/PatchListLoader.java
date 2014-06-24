@@ -293,6 +293,7 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
         // an exception most likely means that the merge tree was not created
         // and m.getMergeResults() is empty. This would mean that all paths are
         // unmerged and Gerrit UI would show all paths in the patch list.
+        log.warn("Error attempting automerge " + refName, e);
         return null;
       }
 

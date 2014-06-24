@@ -143,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "04767d12_e64ffe43",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-06-24T16:57:47Z",
+      "side": 1,
+      "message": "OK, I guess you are right that showing the name might be confusing.",
+      "parentUuid": "24a621d4_5f0e6b54",
+      "range": {
+        "startLine": 352,
+        "startChar": 15,
+        "endLine": 352,
+        "endChar": 34
+      },
+      "revId": "3447f725dbb8013ca729a4cc8a3e68c4d4c54f6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2481c117_2702fa2c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetPreferences.java",
         "patchSetId": 17
@@ -178,6 +202,30 @@
       "side": 1,
       "message": "this is following the pattern set by the next setting,  getCommentVisibilityStrategy().  That one sends a default value.  I can do, but not sure why this one would be different.",
       "parentUuid": "2481c117_2702fa2c",
+      "range": {
+        "startLine": 136,
+        "startChar": 8,
+        "endLine": 136,
+        "endChar": 30
+      },
+      "revId": "3447f725dbb8013ca729a4cc8a3e68c4d4c54f6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04767d12_c65202ed",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetPreferences.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-06-24T16:57:47Z",
+      "side": 1,
+      "message": "Ah OK, then better keep it like this :)",
+      "parentUuid": "44a155b9_c02f3ead",
       "range": {
         "startLine": 136,
         "startChar": 8,

@@ -1,0 +1,10 @@
+include_defs('//lib/maven.defs')
+
+# Java client library to use Elasticsearch.
+maven_jar(
+  name = 'elasticsearch',
+  id = 'org.elasticsearch:elasticsearch:1.2.2',
+  sha1 = 'bc2645c208c71d8e6da7e41b9fab45fc9740cd8d',
+  license = 'Apache2.0',
+  deps = [],
+)

@@ -20,6 +20,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.MoreObjects;
 import com.google.gerrit.common.EventBroker;
+import com.google.gerrit.elasticsearch.ElasticIndexModule;
 import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.gpg.GpgModule;
 import com.google.gerrit.httpd.AllRequestFilter;
@@ -401,15 +402,18 @@ public class Daemon extends SiteProgram {
     return cfgInjector.createChildInjector(modules);
   }
 
-  private AbstractModule createIndexModule() {
+  private Module createIndexModule() {
     if (slave) {
       return new DummyIndexModule();
     }
+    if (luceneModule != null) {
+      return luceneModule;
+    }
     switch (indexType) {
       case LUCENE:
-        return luceneModule != null
-            ? luceneModule
-            : LuceneIndexModule.latestVersionWithOnlineUpgrade();
+        return LuceneIndexModule.latestVersionWithOnlineUpgrade();
+      case ELASTICSEARCH:
+        return ElasticIndexModule.latestVersionWithOnlineUpgrade();
       default:
         throw new IllegalStateException("unsupported index.type = " + indexType);
     }
@@ -419,6 +423,7 @@ public class Daemon extends SiteProgram {
     indexType = IndexModule.getIndexType(cfgInjector);
     switch (indexType) {
       case LUCENE:
+      case ELASTICSEARCH:
         break;
       default:
         throw new IllegalStateException("unsupported index.type = " + indexType);

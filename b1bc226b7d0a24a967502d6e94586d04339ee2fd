@@ -34,6 +34,24 @@
       "revId": "b1bc226b7d0a24a967502d6e94586d04339ee2fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04767d12_4694522d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 26
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-24T23:35:39Z",
+      "side": 1,
+      "message": "David\u0027s proposal was to start defining a full topological ordering of plugins ... however that relied on manifest-declared dependencies and scripts do not have manifest :-(\n\nIn order to allow other \"form\" of plugins to define plugin providers, we would need to keep rescanning until no new plugin providers are found, as you mentioned. That would make the Gerrit start-up even slower and prone to unexpected failures (a plugin is not recognised as first but at the 2nd or 3rd retry it is).\n\nI would opt for an initial *simple* (but not perfect) solution and then make it better and more flexible, including the David\u0027d topological ordering :-)",
+      "parentUuid": "2481c117_e7d2a203",
+      "revId": "b1bc226b7d0a24a967502d6e94586d04339ee2fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "04767d12_e68a9e54",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/config/FlushCacheIT.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-24T12:25:56Z",
+      "side": 1,
+      "message": "I started to think it is a bad idea to put one simple test case per test method. That\u0027s because we bootstrap Gerrit in every test method. This takes ca. 3-4 seconds.",
+      "range": {
+        "startLine": 66,
+        "startChar": 2,
+        "endLine": 88,
+        "endChar": 3
+      },
+      "revId": "778163fb8db8d11b2f57400c83a8eb1bdf92c01a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04767d12_06597a35",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/project/Util.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-24T12:25:56Z",
+      "side": 1,
+      "message": "I think many tests doing something similar and call it grant()? Should we switch to using this convenience method there too?",
+      "range": {
+        "startLine": 129,
+        "startChar": 31,
+        "endLine": 129,
+        "endChar": 36
+      },
+      "revId": "778163fb8db8d11b2f57400c83a8eb1bdf92c01a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2481c117_07c2566d",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/project/Util.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-24T12:25:56Z",
+      "side": 1,
+      "message": "This is very unusual. In fact i have never seen it in this order:\n\n  $ git grep \"static public\" | wc -l\n    5\n  $ git grep \"public static\" | wc -l\n    1254\n\nSure we have this rule in dev-contributing.txt:\n\n  * It is generally more important to match the style of the nearby\n    code which you are modifying than it is to match the style\n    in the formatting guidelines.  This is especially true within the\n    same file.\n\nBut here i disagree. It should just be:\n\n  public static\n\nin new and old places.",
+      "range": {
+        "startLine": 129,
+        "startChar": 2,
+        "endLine": 129,
+        "endChar": 15
+      },
+      "revId": "778163fb8db8d11b2f57400c83a8eb1bdf92c01a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2481c117_e76382e4",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/FlushCaches.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-24T12:25:56Z",
+      "side": 1,
+      "message": "Provider is unnecessary here: FlushCache is a singleton.",
+      "range": {
+        "startLine": 53,
+        "startChar": 10,
+        "endLine": 53,
+        "endChar": 18
+      },
+      "revId": "778163fb8db8d11b2f57400c83a8eb1bdf92c01a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

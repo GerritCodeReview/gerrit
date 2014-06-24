@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "04767d12_86b56a0d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/FlushCaches.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-24T13:03:10Z",
+      "side": 0,
+      "message": "Oh, now i see why you did it: backwards compatibility.",
+      "range": {
+        "startLine": 136,
+        "startChar": 6,
+        "endLine": 138,
+        "endChar": 7
+      },
+      "revId": "843e95a4d909c387bbac14225ee6882451057907",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -201,6 +201,10 @@ public class ChangeInserter {
 
     if(!messageIsForChange()) {
       commitMessageNotForChange();
+      if (changeMessage != null) {
+        ChangeUtil.bumpRowVersionNotLastUpdatedOn(
+            changeMessage.getKey().getParentKey(), db);
+      }
     }
     gitRefUpdated.fire(change.getProject(), patchSet.getRefName(),
         ObjectId.zeroId(), commit);

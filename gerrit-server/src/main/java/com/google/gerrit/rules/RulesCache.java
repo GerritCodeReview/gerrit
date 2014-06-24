@@ -195,14 +195,17 @@ public class RulesCache {
     return pmc;
   }
 
-  private PrologMachineCopy consultRules(String name, Reader rules) {
+  private PrologMachineCopy consultRules(String name, Reader rules)
+      throws CompileException {
     BufferingPrologControl ctl = newEmptyMachine(systemLoader);
     PushbackReader in = new PushbackReader(rules, Prolog.PUSHBACK_SIZE);
-    if (!ctl.execute(
-        Prolog.BUILTIN, "consult_stream",
-        SymbolTerm.intern(name),
-        new JavaObjectTerm(in))) {
-      return null;
+    try {
+      if (!ctl.execute(Prolog.BUILTIN, "consult_stream",
+          SymbolTerm.intern(name), new JavaObjectTerm(in))) {
+        return null;
+      }
+    } catch (RuntimeException e) {
+      throw new CompileException("Error while consulting rules from " + name, e);
     }
     return save(ctl);
   }

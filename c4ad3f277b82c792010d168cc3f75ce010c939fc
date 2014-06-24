@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "24a621d4_3f8e076b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 20
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-24T20:00:21Z",
+      "side": 1,
+      "message": "Would it make more sense to encapsulate these various arguments into a PluginDescription class?",
+      "revId": "c4ad3f277b82c792010d168cc3f75ce010c939fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

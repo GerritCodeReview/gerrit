@@ -25,8 +25,57 @@ maven_jar(
 )
 
 maven_jar(
+  name = 'codecs',
+  id = 'org.apache.lucene:lucene-codecs:' + VERSION,
+  sha1 = 'bdc50d38c7562523dd3e9b08a104a2c4c65924d0',
+  license = 'Apache2.0',
+)
+
+maven_jar(
+  name = 'highlighter',
+  id = 'org.apache.lucene:lucene-highlighter:' + VERSION,
+  sha1 = '7ced704190e1e5b9a9b32edec6dba9116d69ae72',
+  license = 'Apache2.0',
+)
+
+maven_jar(
+  name = 'join',
+  id = 'org.apache.lucene:lucene-join:' + VERSION,
+  sha1 = '066bbffc7e45b44401c3d49b8f86d61256674515',
+  license = 'Apache2.0',
+)
+
+maven_jar(
+  name = 'memory',
+  id = 'org.apache.lucene:lucene-memory:' + VERSION,
+  sha1 = 'c381123b510dd790e27445430ab8203e5a27f5bc',
+  license = 'Apache2.0',
+)
+
+maven_jar(
+  name = 'queries',
+  id = 'org.apache.lucene:lucene-queries:' + VERSION,
+  sha1 = '5933306d63f5354efef37b993e77152e619b8df4',
+  license = 'Apache2.0',
+)
+
+maven_jar(
   name = 'query-parser',
   id = 'org.apache.lucene:lucene-queryparser:' + VERSION,
   sha1 = 'd70f54e1060d553ba7aeb4d49a71fd0c068499e8',
+  license = 'Apache2.0',
+)
+
+maven_jar(
+  name = 'sandbox',
+  id = 'org.apache.lucene:lucene-sandbox:' + VERSION,
+  sha1 = '8a0659f7238639c04b8feb97cd77f1ce6abe9d7f',
+  license = 'Apache2.0',
+)
+
+maven_jar(
+  name = 'suggest',
+  id = 'org.apache.lucene:lucene-suggest:' + VERSION,
+  sha1 = '13cce2bab963c860b6f4a6cda66b30475ab5ae68',
   license = 'Apache2.0',
 )

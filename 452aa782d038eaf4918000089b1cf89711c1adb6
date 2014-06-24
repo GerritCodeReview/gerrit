@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "44a155b9_c0797ea1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-06-24T19:15:34Z",
+      "side": 1,
+      "message": "git-core knows how to read an empty tree just by its SHA-1. It only makes the object in the repository if it was handed to an inserter to be part of a graph. For simple reads like Gerrit is trying to do where the object isn\u0027t required to be in the repository, it can make the empty tree and the empty blob on demand.\n\nMaybe JGit should be doing that too? Unfortunately its hard to do inside e.g. RevWalk. RevWalk is used by ObjectWalk, which is used for connectivity check. If the empty tree is actually linked to by the graph connectivity check must verify its in the repository. IIRC git-core had a bug like that when it first started mocking out the empty tree to simplify its read paths. Risk of that bug is why JGit doesn\u0027t mock out the empty tree or empty blob.",
+      "revId": "452aa782d038eaf4918000089b1cf89711c1adb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

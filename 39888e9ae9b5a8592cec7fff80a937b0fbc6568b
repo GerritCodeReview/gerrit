@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2481c117_c7391ec5",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/config/ListCachesIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-06-24T14:23:41Z",
+      "side": 1,
+      "message": "I would like to keep the trailing to make it obvious that this is a collection.",
+      "parentUuid": "2481c117_27c75a7e",
+      "range": {
+        "startLine": 72,
+        "startChar": 38,
+        "endLine": 72,
+        "endChar": 74
+      },
+      "revId": "39888e9ae9b5a8592cec7fff80a937b0fbc6568b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2481c117_47cc4e9e",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/config/ListCachesIT.java",
         "patchSetId": 9
@@ -36,6 +60,30 @@
       "writtenOn": "2014-06-24T12:46:13Z",
       "side": 1,
       "message": "The same",
+      "range": {
+        "startLine": 84,
+        "startChar": 60,
+        "endLine": 84,
+        "endChar": 62
+      },
+      "revId": "39888e9ae9b5a8592cec7fff80a937b0fbc6568b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2481c117_e73622d4",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/config/ListCachesIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-06-24T14:23:41Z",
+      "side": 1,
+      "message": "I would like to keep the trailing to make it obvious that this is a collection.",
+      "parentUuid": "2481c117_47cc4e9e",
       "range": {
         "startLine": 84,
         "startChar": 60,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "04767d12_c63922c5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ListCaches.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-06-24T14:23:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2481c117_67d15233",
+      "range": {
+        "startLine": 82,
+        "startChar": 34,
+        "endLine": 82,
+        "endChar": 55
+      },
+      "revId": "39888e9ae9b5a8592cec7fff80a937b0fbc6568b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "04767d12_66586e2f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ListCaches.java",
         "patchSetId": 9
@@ -82,6 +154,30 @@
       "writtenOn": "2014-06-24T12:46:13Z",
       "side": 1,
       "message": "Is this code reachable? format is an enum.",
+      "range": {
+        "startLine": 86,
+        "startChar": 6,
+        "endLine": 88,
+        "endChar": 5
+      },
+      "revId": "39888e9ae9b5a8592cec7fff80a937b0fbc6568b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2481c117_0745f62c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ListCaches.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-06-24T14:23:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "04767d12_66586e2f",
       "range": {
         "startLine": 86,
         "startChar": 6,
@@ -128,6 +224,30 @@
       "writtenOn": "2014-06-24T13:27:10Z",
       "side": 1,
       "message": "OK, done in\n  https://gerrit-review.googlesource.com/58052",
+      "parentUuid": "04767d12_866c8ad9",
+      "range": {
+        "startLine": 192,
+        "startChar": 8,
+        "endLine": 194,
+        "endChar": 9
+      },
+      "revId": "39888e9ae9b5a8592cec7fff80a937b0fbc6568b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2481c117_274afa3b",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ShowCaches.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-06-24T14:23:41Z",
+      "side": 1,
+      "message": "Done",
       "parentUuid": "04767d12_866c8ad9",
       "range": {
         "startLine": 192,

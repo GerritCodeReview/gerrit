@@ -19,6 +19,7 @@ import static com.google.inject.Stage.PRODUCTION;
 
 import com.google.common.base.Splitter;
 import com.google.gerrit.common.EventBroker;
+import com.google.gerrit.elasticsearch.ElasticIndexModule;
 import com.google.gerrit.gpg.GpgModule;
 import com.google.gerrit.httpd.auth.oauth.OAuthModule;
 import com.google.gerrit.httpd.auth.openid.OpenIdModule;
@@ -340,6 +341,8 @@ public class WebAppInitializer extends GuiceServletContextListener
     switch (indexType) {
       case LUCENE:
         return LuceneIndexModule.latestVersionWithOnlineUpgrade();
+      case ELASTICSEARCH:
+        return new ElasticIndexModule();
       default:
         throw new IllegalStateException("unsupported index.type = " + indexType);
     }

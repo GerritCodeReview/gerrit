@@ -22,7 +22,7 @@ maven_jar(
     'META-INF/LICENSE.txt',
     'META-INF/NOTICE.txt',
   ],
-  visibility = [],
+  visibility = ['//gerrit-elasticsearch:elasticsearch'],
 )
 
 maven_jar(
@@ -51,6 +51,34 @@ maven_jar(
 )
 
 maven_jar(
+  name = 'codecs',
+  id = 'org.apache.lucene:lucene-codecs:' + VERSION,
+  sha1 = 'b6d6b847a516b5fee88f7cfcf173cf9564233471',
+  license = 'Apache2.0',
+)
+
+maven_jar(
+  name = 'highlighter',
+  id = 'org.apache.lucene:lucene-highlighter:' + VERSION,
+  sha1 = 'ecdd913cb7c61a5435591f0a7268b01ab3fc782a',
+  license = 'Apache2.0',
+)
+
+maven_jar(
+  name = 'join',
+  id = 'org.apache.lucene:lucene-join:' + VERSION,
+  sha1 = 'af4f55e36e3a7d1f4e9ed9efdccf7e22b767d6e8',
+  license = 'Apache2.0',
+)
+
+maven_jar(
+  name = 'memory',
+  id = 'org.apache.lucene:lucene-memory:' + VERSION,
+  sha1 = '09a327fe9f20fc7e3912ed213bdd5cb4b6d2a65a',
+  license = 'Apache2.0',
+)
+
+maven_jar(
   name = 'lucene-misc',
   id = 'org.apache.lucene:lucene-misc:' + VERSION,
   sha1 = '504d855a1a38190622fdf990b2298c067e7d60ca',
@@ -72,4 +100,25 @@ maven_jar(
     'META-INF/LICENSE.txt',
     'META-INF/NOTICE.txt',
   ],
+)
+
+maven_jar(
+  name = 'queries',
+  id = 'org.apache.lucene:lucene-queries:' + VERSION,
+  sha1 = '60ca161c1dd5f127907423b6f039b846fb713de0',
+  license = 'Apache2.0',
+)
+
+maven_jar(
+  name = 'sandbox',
+  id = 'org.apache.lucene:lucene-sandbox:' + VERSION,
+  sha1 = 'b7da8e187acd6e4d7781ba41fac8b9082dd27409',
+  license = 'Apache2.0',
+)
+
+maven_jar(
+  name = 'suggest',
+  id = 'org.apache.lucene:lucene-suggest:' + VERSION,
+  sha1 = '51f9d52332f556976a5099817e35d37c69a24597',
+  license = 'Apache2.0',
 )

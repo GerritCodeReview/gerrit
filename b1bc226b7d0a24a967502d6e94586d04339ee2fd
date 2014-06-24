@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "24a621d4_9f7e3386",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 26
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-24T19:55:04Z",
+      "side": 1,
+      "message": "Is it actually necessary to have this restriction that only jar plugins can register new plugin loaders?\n\nIt would be only a little more work to keep rescanning the plugin directory until no more plugin loader implementations were loaded on the previous run.",
+      "revId": "b1bc226b7d0a24a967502d6e94586d04339ee2fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

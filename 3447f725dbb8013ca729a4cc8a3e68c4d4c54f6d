@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2481c117_07fdf6d5",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/Preferences.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-06-24T08:18:41Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this return ReviewCategoryStrategy.NONE? Otherwise why do we have ReviewCategoryStrategy.NONE if null means NONE too?",
+      "range": {
+        "startLine": 115,
+        "startChar": 59,
+        "endLine": 115,
+        "endChar": 63
+      },
+      "revId": "3447f725dbb8013ca729a4cc8a3e68c4d4c54f6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04767d12_66e30e43",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-06-24T08:18:41Z",
+      "side": 1,
+      "message": "This is null if the user is not signed. As result of the exception then there are no changes displayed.",
+      "range": {
+        "startLine": 280,
+        "startChar": 54,
+        "endLine": 280,
+        "endChar": 77
+      },
+      "revId": "3447f725dbb8013ca729a4cc8a3e68c4d4c54f6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04767d12_86e72a4d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-06-24T08:18:41Z",
+      "side": 1,
+      "message": "email may be null, should we fallback to the name in this case?",
+      "range": {
+        "startLine": 352,
+        "startChar": 15,
+        "endLine": 352,
+        "endChar": 34
+      },
+      "revId": "3447f725dbb8013ca729a4cc8a3e68c4d4c54f6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2481c117_2702fa2c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetPreferences.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-06-24T08:18:41Z",
+      "side": 1,
+      "message": "Should we set this to null in case of NONE? We normally avoid to send the deafult values to the client.",
+      "range": {
+        "startLine": 136,
+        "startChar": 8,
+        "endLine": 136,
+        "endChar": 30
+      },
+      "revId": "3447f725dbb8013ca729a4cc8a3e68c4d4c54f6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+cluster.name: gerrit
+node.name: "Gerrit Elasticsearch Test Node"
+discovery.zen.ping.multicast.enabled: false
+discovery.zen.ping.unicast.hosts: ["localhost"]
+path.data: ./test_site/elasticsearch/data
+path.work: ./test_site/elasticsearch/work
+path.logs: ./test_site/elasticsearch/logs

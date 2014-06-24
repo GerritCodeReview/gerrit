@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "24a621d4_3f0ba744",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ServerPluginProvider.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-24T16:48:44Z",
+      "side": 1,
+      "message": "Tiny nit: blank line between copyright header and package declaration.",
+      "revId": "e420fb67e9cbab4b7d6c1f3a8d6660532b207169",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44a155b9_004f667d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ServerPluginProvider.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-24T16:48:44Z",
+      "side": 1,
+      "message": "I think we should explicitly document the fact that there is a 1-to-1 mapping between files in the plugin directory and plugins (apart from special cases for plugin reloading). Someone might reasonably wonder whether they can specify that a collection of files makes up a single plugin. The answer is \"no, but you can use a directory.\" It would just be nice for that to be clear from the documentation.",
+      "revId": "e420fb67e9cbab4b7d6c1f3a8d6660532b207169",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24a621d4_df2a7b9f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ServerPluginProvider.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-24T16:48:44Z",
+      "side": 1,
+      "message": "Behavior of the universal implementation is to throw IAE if the file cannot be handled by this provider (i.e. handles(srcFile) would return false). Document that here as part of the interface?",
+      "revId": "e420fb67e9cbab4b7d6c1f3a8d6660532b207169",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24a621d4_1f08e343",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/UniversalServerPluginProvider.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-24T16:48:44Z",
+      "side": 1,
+      "message": "Tiny nit: blank line",
+      "revId": "e420fb67e9cbab4b7d6c1f3a8d6660532b207169",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44a155b9_40244ece",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/UniversalServerPluginProvider.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-24T16:48:44Z",
+      "side": 1,
+      "message": "Is the plan to implement jar and JS plugins using this interface? Similar to how for dynamic group backends we only inject UniversalGroupBackend, and always bind the system and internal group backends into the DynamicSet used by that.\n\nI noticed in PluginLoader there was at least one place like\n\n if (isJarPlugin(foo) || isJsPlugin(foo) || provider.handles(foo))\n\nIt would be nice if that could be simplified.",
+      "revId": "e420fb67e9cbab4b7d6c1f3a8d6660532b207169",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44a155b9_20214abe",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/UniversalServerPluginProvider.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-24T16:48:44Z",
+      "side": 1,
+      "message": "What happens if multiple providers are capable of handling the same file? Do we have any guarantees on the order of DynamicSet iteration?",
+      "revId": "e420fb67e9cbab4b7d6c1f3a8d6660532b207169",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24a621d4_ff253fd1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/UniversalServerPluginProvider.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-24T16:48:44Z",
+      "side": 1,
+      "message": "Might be useful for debugging purposes to include the providers that were attempted?",
+      "revId": "e420fb67e9cbab4b7d6c1f3a8d6660532b207169",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

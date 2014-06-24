@@ -20,6 +20,7 @@ import static com.google.inject.Scopes.SINGLETON;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.DisabledChangeHooks;
+import com.google.gerrit.elasticsearch.ElasticIndexModule;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.gpg.GpgModule;
 import com.google.gerrit.metrics.DisabledMetricMaker;
@@ -202,6 +203,9 @@ public class InMemoryModule extends FactoryModule {
       switch (indexType) {
         case LUCENE:
           install(luceneIndexModule());
+          break;
+        case ELASTICSEARCH:
+          install(new ElasticIndexModule());
           break;
         default:
           throw new ProvisionException(

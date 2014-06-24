@@ -87,6 +87,7 @@ TESTUTIL_DEPS = [
   ':server',
   '//gerrit-common:server',
   '//gerrit-cache-h2:cache-h2',
+    '//gerrit-elasticsearch:elasticsearch',
   '//gerrit-extension-api:api',
   '//gerrit-gpg:gpg',
   '//gerrit-lucene:lucene',
@@ -178,6 +179,7 @@ java_test(
     '//lib/antlr:java_runtime',
   ],
   source_under_test = [':server'],
+  visibility = ['PUBLIC'],
 )
 
 java_test(

@@ -94,6 +94,7 @@ java_library(
     ':server',
     '//gerrit-common:server',
     '//gerrit-cache-h2:cache-h2',
+    '//gerrit-elasticsearch:elasticsearch',
     '//gerrit-lucene:lucene',
     '//gerrit-reviewdb:server',
     '//lib:guava',
@@ -187,6 +188,7 @@ java_test(
     '//lib/joda:joda-time',
   ],
   source_under_test = [':server'],
+  visibility = ['PUBLIC'],
 )
 
 java_test(

@@ -1,0 +1,41 @@
+java_library(
+  name = 'elasticsearch',
+  srcs = glob(['src/main/java/**/*.java']),
+  deps = [
+    '//gerrit-antlr:query_exception',
+    '//gerrit-extension-api:api',
+    '//gerrit-lucene:query_builder',
+    '//gerrit-lucene:lucene',
+    '//gerrit-reviewdb:client',
+    '//gerrit-reviewdb:server',
+    '//gerrit-server:server',
+    '//lib:guava',
+    '//lib:gwtorm',
+    '//lib/elasticsearch:elasticsearch',
+    '//lib/elasticsearch:jest',
+    '//lib/elasticsearch:jest-common',
+    '//lib/guice:guice',
+    '//lib/jgit:jgit',
+    '//lib/log:api',
+    '//lib/lucene:analyzers-common',
+    '//lib/lucene:core',
+  ],
+  visibility = ['PUBLIC'],
+)
+
+java_test(
+  name = 'elasticsearch_tests',
+  srcs = glob(['src/test/java/**/*.java']),
+  deps = [
+    ':elasticsearch',
+    '//gerrit-server:server',
+    '//gerrit-server:testutil',
+    '//gerrit-server:query_tests',
+    '//lib:junit',
+    '//lib:truth',
+    '//lib/elasticsearch:elasticsearch',
+    '//lib/guice:guice',
+    '//lib/jgit:jgit',
+  ],
+  source_under_test = [':elasticsearch'],
+)

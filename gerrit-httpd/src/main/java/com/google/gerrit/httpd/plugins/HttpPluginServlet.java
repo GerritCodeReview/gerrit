@@ -452,6 +452,7 @@ class HttpPluginServlet extends HttpServlet
     res.setContentType("text/html");
     res.setCharacterEncoding("UTF-8");
     res.setContentLength(html.length);
+    res.setDateHeader("Last-Modified", lastModifiedTime);
     res.getOutputStream().write(html);
   }
 

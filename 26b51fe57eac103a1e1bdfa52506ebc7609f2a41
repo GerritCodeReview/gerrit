@@ -22,6 +22,30 @@
       "revId": "26b51fe57eac103a1e1bdfa52506ebc7609f2a41",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04767d12_66fdce8a",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-06-24T17:52:06Z",
+      "side": 1,
+      "message": "I actually considered this, but I discarded this idea. If specifying no cache would be interpreted as flushing all caches it would be too easy to accidentally flush all caches. Actually if you look at the flush-caches SSH command, it follows the same pattern. It has 2 options:\n\n 1. Flush certain caches: The caches must be specified with the --cache option.\n\n 2. Flush all caches: --all must be specified\n\nHere you could also say that specifying no caches should flush all caches, but it was intentionally not done this way. I think flushing all caches should be very explicit and I would prefer to keep the operation for this reason.",
+      "parentUuid": "04767d12_26f3d6c3",
+      "range": {
+        "startLine": 378,
+        "startChar": 4,
+        "endLine": 378,
+        "endChar": 24
+      },
+      "revId": "26b51fe57eac103a1e1bdfa52506ebc7609f2a41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

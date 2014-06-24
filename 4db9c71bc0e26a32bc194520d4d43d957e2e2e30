@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "04767d12_0617ba1c",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-24T20:29:55Z",
+      "side": 1,
+      "message": "You missed to extend result for GET caches endpoint here and in all places below:\n\n    \"type\": \"MEM\",",
+      "revId": "4db9c71bc0e26a32bc194520d4d43d957e2e2e30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

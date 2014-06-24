@@ -20,6 +20,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.MoreObjects;
 import com.google.gerrit.common.ChangeHookRunner;
+import com.google.gerrit.elasticsearch.ElasticsearchIndexModule;
 import com.google.gerrit.httpd.AllRequestFilter;
 import com.google.gerrit.httpd.GerritOptions;
 import com.google.gerrit.httpd.GetUserFilter;
@@ -375,6 +376,8 @@ public class Daemon extends SiteProgram {
         return luceneModule != null ? luceneModule : new LuceneIndexModule();
       case SOLR:
         return new SolrIndexModule();
+      case ELASTICSEARCH:
+        return new ElasticsearchIndexModule();
       default:
         throw new IllegalStateException("unsupported index.type = " + indexType);
     }

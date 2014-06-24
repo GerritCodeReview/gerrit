@@ -22,6 +22,23 @@
       "revId": "7cd0e26f5de361118e8e3cff1758f74a37646f7c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24a621d4_1fefc322",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginEntry.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-24T16:23:18Z",
+      "side": 1,
+      "message": "I\u0027m probably missing something from a later change but this constructor doesn\u0027t appear to be called anywhere (nor the other constructor with Optional.absent()).",
+      "revId": "7cd0e26f5de361118e8e3cff1758f74a37646f7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

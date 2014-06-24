@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "44a155b9_e05da221",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-24T20:01:48Z",
+      "side": 1,
+      "message": "I would hope that we can eliminate this restriction someday. Init steps sound like a great use case for scripting plugins.",
+      "revId": "7e3241b5b81b896934615003961d4f2ed56307eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

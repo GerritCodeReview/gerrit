@@ -27,6 +27,7 @@ import static com.google.gerrit.server.index.change.ChangeIndexRewriter.OPEN_STA
 import com.google.common.base.Throwables;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.FluentIterable;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Multimap;
@@ -90,6 +91,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -110,6 +112,8 @@ public class LuceneChangeIndex implements ChangeIndex {
 
   public static final String CHANGES_OPEN = "open";
   public static final String CHANGES_CLOSED = "closed";
+  public static final Map<String, String> CUSTOM_CHAR_MAPPING = ImmutableMap.of(
+      "_", " ", ".", " ");
 
   static final String UPDATED_SORT_FIELD =
       sortFieldName(ChangeField.UPDATED);
@@ -312,7 +316,7 @@ public class LuceneChangeIndex implements ChangeIndex {
         throw new OrmException("interrupted");
       }
 
-      final Set<String> fields = fields(opts);
+      final Set<String> fields = fields(schema, opts);
       return new ChangeDataResults(
           executor.submit(new Callable<List<Document>>() {
             @Override
@@ -400,7 +404,7 @@ public class LuceneChangeIndex implements ChangeIndex {
     }
   }
 
-  private Set<String> fields(QueryOptions opts) {
+  public static Set<String> fields(Schema<ChangeData> schema, QueryOptions opts) {
     // Ensure we request enough fields to construct a ChangeData.
     Set<String> fs = opts.fields();
     if (fs.contains(CHANGE.getName())) {

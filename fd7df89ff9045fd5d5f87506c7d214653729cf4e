@@ -94,6 +94,30 @@
       "revId": "fd7df89ff9045fd5d5f87506c7d214653729cf4e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2481c117_67e31243",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/container/HttpLoginServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-06-24T07:23:25Z",
+      "side": 0,
+      "message": "Ok, I see.",
+      "parentUuid": "c4faa581_ec042be5",
+      "range": {
+        "startLine": 171,
+        "startChar": 4,
+        "endLine": 173,
+        "endChar": 5
+      },
+      "revId": "fd7df89ff9045fd5d5f87506c7d214653729cf4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

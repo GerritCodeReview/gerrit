@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2481c117_47de0e76",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-06-24T07:23:25Z",
+      "side": 1,
+      "message": "What if the token returned from LoginUrlToken was set to \u0027#\u0027 + PageLinks.MINE? Will we end up here with \"#/#/\"?",
+      "range": {
+        "startLine": 339,
+        "startChar": 58,
+        "endLine": 339,
+        "endChar": 70
+      },
+      "revId": "7602092d5c2fa712037dd6cc4bc1778af7961005",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2481c117_87e7264d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/LoginUrlToken.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-06-24T07:23:25Z",
+      "side": 1,
+      "message": "Isn\u0027t this inconsistent? In the first case the token starts with \u0027#\u0027, but not in the second case. Shouldn\u0027t it either always or never start with \u0027#\u0027?",
+      "range": {
+        "startLine": 26,
+        "startChar": 4,
+        "endLine": 30,
+        "endChar": 5
+      },
+      "revId": "7602092d5c2fa712037dd6cc4bc1778af7961005",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04767d12_46de1276",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/container/HttpLoginServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-06-24T07:23:25Z",
+      "side": 1,
+      "message": "The token returned by LoginUrlToken.getToken(req) may not start with a \u0027#\u0027. Don\u0027t we need to add it then?",
+      "range": {
+        "startLine": 137,
+        "startChar": 17,
+        "endLine": 137,
+        "endChar": 22
+      },
+      "revId": "7602092d5c2fa712037dd6cc4bc1778af7961005",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

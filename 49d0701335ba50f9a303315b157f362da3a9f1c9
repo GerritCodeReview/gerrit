@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "2481c117_6744f22e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/PostCaches.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-06-24T14:51:18Z",
+      "side": 1,
+      "message": "OK :)",
+      "parentUuid": "04767d12_06ab3aad",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 3
+      },
+      "revId": "49d0701335ba50f9a303315b157f362da3a9f1c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "04767d12_c66682f7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/PostCaches.java",
         "patchSetId": 6
@@ -83,6 +107,30 @@
       "writtenOn": "2014-06-24T13:03:10Z",
       "side": 1,
       "message": "Unnecessary as you cannot do anything else.",
+      "range": {
+        "startLine": 61,
+        "startChar": 4,
+        "endLine": 63,
+        "endChar": 5
+      },
+      "revId": "49d0701335ba50f9a303315b157f362da3a9f1c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2481c117_8758060f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/PostCaches.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-06-24T14:51:18Z",
+      "side": 1,
+      "message": "We check in almost each REST endpoint if input is null. Actually both can be null as the apply method can be invoked programmatically, e.g. by a plugin. I think it\u0027s safer and more consistent to keep this check.",
+      "parentUuid": "04767d12_c66682f7",
       "range": {
         "startLine": 61,
         "startChar": 4,
@@ -118,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "04767d12_463ff2a4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/PostCaches.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-06-24T14:51:18Z",
+      "side": 1,
+      "message": "The web_sessions cache is skipped intentionally even if you are administrator (see also my other inline comment [1]).\n\nThe behaviour is actually described in the documentation :)\nsee [2].\n\n[1] https://gerrit-review.googlesource.com/#/c/57512/6/gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/FlushCaches.java\n\n[2] https://gerrit-review.googlesource.com/#/c/57512/6/Documentation/rest-api-config.txt@613",
+      "parentUuid": "04767d12_e6637ee4",
+      "range": {
+        "startLine": 71,
+        "startChar": 10,
+        "endLine": 73,
+        "endChar": 11
+      },
+      "revId": "49d0701335ba50f9a303315b157f362da3a9f1c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2481c117_c7bf5ee7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/PostCaches.java",
         "patchSetId": 6
@@ -141,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "2481c117_a7550ad8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/PostCaches.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-06-24T14:51:18Z",
+      "side": 1,
+      "message": "Yes, but if I don\u0027t have it. the Java compiler complains that in this case nothing is returned. Also findbugs would probably complain about the missing \u0027default\u0027 case.",
+      "parentUuid": "2481c117_c7bf5ee7",
+      "range": {
+        "startLine": 77,
+        "startChar": 6,
+        "endLine": 78,
+        "endChar": 83
+      },
+      "revId": "49d0701335ba50f9a303315b157f362da3a9f1c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "04767d12_66d14e33",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/FlushCaches.java",
         "patchSetId": 6
@@ -152,6 +248,30 @@
       "writtenOn": "2014-06-24T13:03:10Z",
       "side": 1,
       "message": "No providers on singletons. Here and on line 55.",
+      "range": {
+        "startLine": 61,
+        "startChar": 10,
+        "endLine": 61,
+        "endChar": 18
+      },
+      "revId": "49d0701335ba50f9a303315b157f362da3a9f1c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2481c117_c752feec",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/FlushCaches.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-06-24T14:51:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "04767d12_66d14e33",
       "range": {
         "startLine": 61,
         "startChar": 10,

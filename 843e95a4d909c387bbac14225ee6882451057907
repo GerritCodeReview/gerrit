@@ -22,6 +22,30 @@
       "revId": "843e95a4d909c387bbac14225ee6882451057907",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04767d12_0645fa2c",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/FlushCaches.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-06-24T14:51:18Z",
+      "side": 0,
+      "message": "Yes, this is the reason, but I believe this behaviour was also intentional. You normally always want to keep the web_sessions and still as an administrator you want to have the comfort of being able to flush all caches at once (means all caches except web_sessions).",
+      "parentUuid": "04767d12_86b56a0d",
+      "range": {
+        "startLine": 136,
+        "startChar": 6,
+        "endLine": 138,
+        "endChar": 7
+      },
+      "revId": "843e95a4d909c387bbac14225ee6882451057907",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

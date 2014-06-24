@@ -19,6 +19,7 @@ import static com.google.inject.Scopes.SINGLETON;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gerrit.extensions.client.AuthType;
+import com.google.gerrit.elasticsearch.ElasticIndexModule;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.gpg.GpgModule;
 import com.google.gerrit.metrics.DisabledMetricMaker;
@@ -219,6 +220,14 @@ public class InMemoryModule extends FactoryModule {
       switch (indexType) {
         case LUCENE:
           install(luceneIndexModule());
+          break;
+        case ELASTICSEARCH:
+          Map<String, Integer> singleVersions = new HashMap<>();
+          int version = cfg.getInt("index", "lucene", "testVersion", -1);
+          if (version > 0) {
+            singleVersions.put(ChangeSchemaDefinitions.INSTANCE.getName(), version);
+          }
+          install(new ElasticIndexModule(singleVersions, 0));
           break;
         default:
           throw new ProvisionException(

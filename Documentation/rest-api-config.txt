@@ -60,6 +60,7 @@ The entries in the map are sorted by cache name.
   )]}'
   {
     "accounts": {
+      "type": "MEM",
       "entries": {
         "mem": 4
       },
@@ -69,6 +70,7 @@ The entries in the map are sorted by cache name.
       }
     },
     "accounts_byemail": {
+      "type": "MEM",
       "entries": {
         "mem": 4
       },
@@ -78,6 +80,7 @@ The entries in the map are sorted by cache name.
       }
     },
     "accounts_byname": {
+      "type": "MEM",
       "entries": {
         "mem": 4
       },
@@ -86,6 +89,7 @@ The entries in the map are sorted by cache name.
       }
     },
     "adv_bases": {
+      "type": "MEM",
       "entries": {},
       "hit_ratio": {}
     },
@@ -97,6 +101,7 @@ The entries in the map are sorted by cache name.
       "hit_ratio": {}
     },
     "changes": {
+      "type": "MEM",
       "entries": {},
       "hit_ratio": {}
     },
@@ -145,6 +150,7 @@ The entries in the map are sorted by cache name.
       "hit_ratio": {}
     },
     groups": {
+      "type": "MEM",
       "entries": {
         "mem": 27
       },
@@ -154,14 +160,17 @@ The entries in the map are sorted by cache name.
       }
     },
     "groups_byinclude": {
+      "type": "MEM",
       "entries": {},
       "hit_ratio": {}
     },
     "groups_byname": {
+      "type": "MEM",
       "entries": {},
       "hit_ratio": {}
     },
     "groups_byuuid": {
+      "type": "MEM",
       "entries": {
         "mem": 25
       },
@@ -171,10 +180,12 @@ The entries in the map are sorted by cache name.
       }
     },
     "groups_external": {
+      "type": "MEM",
       "entries": {},
       "hit_ratio": {}
     },
     groups_members": {
+      "type": "MEM",
       "entries": {
         "mem": 4
       },
@@ -184,6 +195,7 @@ The entries in the map are sorted by cache name.
       }
     },
     "permission_sort": {
+      "type": "MEM",
       "entries": {
         "mem": 16
       },
@@ -192,6 +204,7 @@ The entries in the map are sorted by cache name.
       }
     },
     "plugin_resources": {
+      "type": "MEM",
       "entries": {
         "mem": 2
       },
@@ -200,6 +213,7 @@ The entries in the map are sorted by cache name.
       }
     },
     "project_list": {
+      "type": "MEM",
       "entries": {
         "mem": 1
       },
@@ -209,6 +223,7 @@ The entries in the map are sorted by cache name.
       }
     },
     "projects": {
+      "type": "MEM",
       "entries": {
         "mem": 35
       },
@@ -225,6 +240,7 @@ The entries in the map are sorted by cache name.
       "hit_ratio": {}
     },
     "sshkeys": {
+      "type": "MEM",
       "entries": {
         "mem": 1
       },
@@ -275,6 +291,7 @@ As result a link:#cache-info[CacheInfo] entity is returned.
   )]}'
   {
     "name": "projects",
+    "type": "MEM",
     "entries": {
       "mem": 35
     },
@@ -443,7 +460,7 @@ The `CacheInfo` entity contains information about a cache.
 not set if returned in a map where the cache name is used as map key|
 The cache name. If the cache is defined by a plugin the cache name
 includes the plugin name: "<plugin-name>-<cache-name>".
-|`type`               |not set for in memory caches|
+|`type`               ||
 The type of the cache (`MEM`: in memory cache, `DISK`: disk cache).
 |`entries`            ||
 Information about the entries in the cache as a

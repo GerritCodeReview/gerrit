@@ -22,6 +22,7 @@ import static org.junit.Assert.assertTrue;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.server.config.ListCaches.CacheInfo;
+import com.google.gerrit.server.config.ListCaches.CacheType;
 import com.google.gson.reflect.TypeToken;
 
 import org.apache.http.HttpStatus;
@@ -42,7 +43,7 @@ public class ListCachesIT extends AbstractDaemonTest {
 
     assertTrue(result.containsKey("accounts"));
     CacheInfo accountsCacheInfo = result.get("accounts");
-    assertNull(accountsCacheInfo.type);
+    assertEquals(CacheType.MEM, accountsCacheInfo.type);
     assertEquals(1, accountsCacheInfo.entries.mem.longValue());
     assertNotNull(accountsCacheInfo.averageGet);
     assertTrue(accountsCacheInfo.averageGet.endsWith("s"));

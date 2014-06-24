@@ -30,3 +30,17 @@ maven_jar(
   sha1 = 'f3e105d74137906fdeb2c7bc4dd68c08564778f9',
   license = 'Apache2.0',
 )
+
+maven_jar(
+  name = 'codecs',
+  id = 'org.apache.lucene:lucene-codecs:' + VERSION,
+  sha1 = 'b6e6dc01bf0f532b7f2e53adbe64b76317435e6a',
+  license = 'Apache2.0',
+)
+
+maven_jar(
+  name = 'suggest',
+  id = 'org.apache.lucene:lucene-suggest:' + VERSION,
+  sha1 = 'cac346a1add7eda7445666fa58836ac1a5e85ece',
+  license = 'Apache2.0',
+)

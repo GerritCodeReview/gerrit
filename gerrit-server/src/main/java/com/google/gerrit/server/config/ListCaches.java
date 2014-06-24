@@ -84,6 +84,8 @@ public class ListCaches implements RestReadView<ConfigResource> {
         entries.setDisk(diskStats.size());
         entries.setSpace(diskStats.space());
         hitRatio.setDisk(diskStats.hitCount(), diskStats.requestCount());
+      } else {
+        type = CacheType.MEM;
       }
     }
 

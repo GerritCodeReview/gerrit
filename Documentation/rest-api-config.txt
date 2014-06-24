@@ -275,6 +275,7 @@ As result a link:#cache-info[CacheInfo] entity is returned.
   )]}'
   {
     "name": "projects",
+    "type": "MEM",
     "entries": {
       "mem": 35
     },
@@ -443,7 +444,7 @@ The `CacheInfo` entity contains information about a cache.
 not set if returned in a map where the cache name is used as map key|
 The cache name. If the cache is defined by a plugin the cache name
 includes the plugin name: "<plugin-name>-<cache-name>".
-|`type`               |not set for in memory caches|
+|`type`               ||
 The type of the cache (`MEM`: in memory cache, `DISK`: disk cache).
 |`entries`            ||
 Information about the entries in the cache as a

@@ -52,6 +52,41 @@
       "revId": "b1bc226b7d0a24a967502d6e94586d04339ee2fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44a155b9_c0a4dedc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 26
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-24T23:41:17Z",
+      "side": 1,
+      "message": "Yeah, I can see keeping it simple for now. I don\u0027t expect in reality there will be plugin loaders written not in Java.\n\nI agree that explicit dependencies is solving a different problem. What we have here is an ordering based on (in this case implicit) _feature_ dependencies, rather than _name_ dependencies.",
+      "parentUuid": "04767d12_4694522d",
+      "revId": "b1bc226b7d0a24a967502d6e94586d04339ee2fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44a155b9_a0a9dab2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-24T23:41:17Z",
+      "side": 1,
+      "message": "Instead of making a TreeSet of Map.Entrys how about just a TreeMap with this comparator?",
+      "revId": "b1bc226b7d0a24a967502d6e94586d04339ee2fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

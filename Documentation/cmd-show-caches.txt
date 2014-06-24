@@ -75,7 +75,9 @@ Intended for interactive use only.
   Tasks:   10  total =    6 running +      0 ready +    4 sleeping
   Mem:  14.94g total =   3.04g used +  11.89g free +  10.00m buffers
         28.44g max
-           107 open files,        4 cpus available,      371 threads
+           107 open files
+
+  Threads: 4 CPUs available, 371 threads
 ====
 
 == SEE ALSO

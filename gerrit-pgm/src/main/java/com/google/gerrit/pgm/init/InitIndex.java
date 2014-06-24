@@ -49,6 +49,10 @@ class InitIndex implements InitStep {
     IndexType type = index.select("Type", "type", IndexType.LUCENE);
     if (type == IndexType.SOLR) {
       index.string("Solr Index URL", "url", "localhost:9983");
+    } else if (type == IndexType.ELASTICSEARCH) {
+      index.string("Elasticsearch Index Hostname", "hostname", "localhost");
+      index.string("Elasticsearch Index Port", "port", "9300");
+      index.string("Elasticsearch Cluster Name", "cluster", "gerrit");
     }
     if (site.isNew && type == IndexType.LUCENE) {
       LuceneChangeIndex.setReady(

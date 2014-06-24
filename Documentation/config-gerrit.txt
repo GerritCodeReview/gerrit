@@ -2126,6 +2126,10 @@ A link:http://lucene.apache.org/[Lucene] index is used.
 +
 A link:https://cwiki.apache.org/confluence/display/solr/SolrCloud[
 SolrCloud] index is used.
++
+* `ELASTICSEARCH`
++
+An link:http://www.elasticsearch.org/[Elasticsearch] index is used.
 
 +
 By default, `LUCENE`.
@@ -2226,6 +2230,25 @@ The following settings are only used when the index type is `SOLR`.
 [[index.url]]index.url::
 +
 URL of the index server.
+
+==== Elasticsearch configuration
+
+Open and closed changes are indexed in a single index, separated
+into types 'open_changes' and 'closed_changes' respectively.
+
+The following settings are only used when the index type is
+`ELASTICSEARCH`.
+
+[[index.url]]index.url::
++
+Elasticsearch server URL.
+
+[[index.name]]index.name::
++
+Index name. This setting can be used to index changes from multiple
+Gerrit instances in a single Elasticsearch cluster.
++
+Defaults to 'gerrit'.
 
 [[ldap]]
 === Section ldap

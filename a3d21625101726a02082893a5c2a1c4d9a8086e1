@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "24a621d4_9ffbd3df",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-24T16:32:34Z",
+      "side": 1,
+      "message": "I think this subject could be clearer about why we need to send HTTP 200, namely that the cache has stale entries and we should not be sending 304 Not Modified in such cases.\n\nHow about:\n\n Serve latest version of plugin resources when cache is stale",
+      "revId": "a3d21625101726a02082893a5c2a1c4d9a8086e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44a155b9_e02a429f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-24T16:32:34Z",
+      "side": 1,
+      "message": "Trailing whitespace here and below.",
+      "revId": "a3d21625101726a02082893a5c2a1c4d9a8086e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44a155b9_a0343a00",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/HttpPluginServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-24T16:32:34Z",
+      "side": 1,
+      "message": "Also need the check here?\n\nThis is getting to be a lot of repetition but I guess there\u0027s not much we can do considering the send* methods all have different names and signatures.",
+      "revId": "a3d21625101726a02082893a5c2a1c4d9a8086e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44a155b9_801a5685",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/HttpPluginServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-24T16:32:34Z",
+      "side": 1,
+      "message": "This is a mouthful. How about \"canUseCache\" or \"canReturnNotModified\" (which would both be the inverse of course)?",
+      "revId": "a3d21625101726a02082893a5c2a1c4d9a8086e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24a621d4_7f112f72",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/SmallResource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-24T16:32:34Z",
+      "side": 1,
+      "message": "\u003e\u003d?",
+      "revId": "a3d21625101726a02082893a5c2a1c4d9a8086e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

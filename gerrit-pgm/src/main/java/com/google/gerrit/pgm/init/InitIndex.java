@@ -61,6 +61,15 @@ class InitIndex implements InitStep {
       type = index.select("Type", "type", type);
     }
 
+    if (type == IndexType.ELASTICSEARCH) {
+      index.string("Elasticsearch Index URL", "url", "http://localhost:9200");
+      index.string("Elasticsearch Index Name", "name", "gerrit");
+    }
+    for (SchemaDefinitions<?> def : IndexModule.ALL_SCHEMA_DEFS) {
+      AbstractLuceneIndex.setReady(
+          site, def.getName(), def.getLatest().getVersion(), true);
+    }
+
     if ((site.isNew || isEmptySite()) && type == IndexType.LUCENE) {
       for (SchemaDefinitions<?> def : IndexModule.ALL_SCHEMA_DEFS) {
         AbstractLuceneIndex.setReady(

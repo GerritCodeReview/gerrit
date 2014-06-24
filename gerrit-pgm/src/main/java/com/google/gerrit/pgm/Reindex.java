@@ -22,6 +22,7 @@ import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Die;
+import com.google.gerrit.elasticsearch.ElasticIndexModule;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.lucene.LuceneIndexModule;
@@ -168,6 +169,9 @@ public class Reindex extends SiteProgram {
       case LUCENE:
         indexModule = LuceneIndexModule.singleVersionWithExplicitVersions(
             versions, threads);
+      break;
+      case ELASTICSEARCH:
+        indexModule = new ElasticIndexModule(threads);
         break;
       default:
         throw new IllegalStateException("unsupported index.type");

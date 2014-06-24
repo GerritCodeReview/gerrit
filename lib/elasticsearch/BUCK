@@ -1,0 +1,38 @@
+include_defs('//lib/maven.defs')
+
+# Java client library for Elasticsearch.
+maven_jar(
+  name = 'elasticsearch',
+  id = 'org.elasticsearch:elasticsearch:1.2.2',
+  sha1 = 'bc2645c208c71d8e6da7e41b9fab45fc9740cd8d',
+  license = 'Apache2.0',
+  deps = [
+    '//lib/lucene:core',
+    '//lib/lucene:suggest',
+  ]
+)
+
+# Java REST client for Elasticsearch.
+maven_jar(
+  name = 'jest-common',
+  id = 'io.searchbox:jest-common:0.1.2',
+  sha1 = '779a9c9516addff0d623b236c0bd4548dcb3bc68',
+  src_sha1 = '4b364f94db89241cffcb0088e05db65655851ab2',
+  license = 'Apache2.0',
+)
+
+maven_jar(
+  name = 'jest',
+  id = 'io.searchbox:jest:0.1.2',
+  sha1 = 'd8056900ce872cf0de15ebe8f32dd3beeb6902ac',
+  src_sha1 = '950b80009995a81d2f9b8e24b188184cc37d2afd',
+  license = 'Apache2.0',
+  deps = [
+    ':elasticsearch',
+    ':jest-common',
+    '//lib/commons:lang3',
+    '//lib/httpcomponents:httpasyncclient',
+    '//lib/httpcomponents:httpcore-nio',
+    '//lib/httpcomponents:httpcore-niossl',
+  ],
+)

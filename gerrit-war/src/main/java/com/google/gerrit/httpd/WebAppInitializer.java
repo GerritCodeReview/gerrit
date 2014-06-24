@@ -19,6 +19,7 @@ import static com.google.inject.Stage.PRODUCTION;
 
 import com.google.common.base.Splitter;
 import com.google.gerrit.common.ChangeHookRunner;
+import com.google.gerrit.elasticsearch.ElasticsearchIndexModule;
 import com.google.gerrit.httpd.auth.oauth.OAuthModule;
 import com.google.gerrit.httpd.auth.openid.OpenIdModule;
 import com.google.gerrit.httpd.plugins.HttpPluginModule;
@@ -303,6 +304,9 @@ public class WebAppInitializer extends GuiceServletContextListener
         break;
       case SOLR:
         changeIndexModule = new SolrIndexModule();
+        break;
+      case ELASTICSEARCH:
+        changeIndexModule = new ElasticsearchIndexModule();
         break;
       default:
         throw new IllegalStateException("unsupported index.type");

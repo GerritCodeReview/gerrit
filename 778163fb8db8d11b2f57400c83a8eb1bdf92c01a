@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2481c117_c7983e96",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/config/FlushCacheIT.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-06-24T14:08:51Z",
+      "side": 1,
+      "message": "It\u0027s good to discuss about this, but this is a general concern about how we write tests at the moment and it shouldn\u0027t be discussed on this change.\n\nCombining these simple tests into one tests is good for performance, but bad for readability and tracing back issues.",
+      "parentUuid": "04767d12_e68a9e54",
+      "range": {
+        "startLine": 66,
+        "startChar": 2,
+        "endLine": 88,
+        "endChar": 3
+      },
+      "revId": "778163fb8db8d11b2f57400c83a8eb1bdf92c01a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "04767d12_06597a35",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/project/Util.java",
         "patchSetId": 12
@@ -71,6 +95,54 @@
     },
     {
       "key": {
+        "uuid": "04767d12_061c1a55",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/project/Util.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-06-24T14:08:51Z",
+      "side": 1,
+      "message": "Lol :D This looks indeed bad, fixed in\n  https://gerrit-review.googlesource.com/58053",
+      "parentUuid": "2481c117_07c2566d",
+      "range": {
+        "startLine": 129,
+        "startChar": 2,
+        "endLine": 129,
+        "endChar": 15
+      },
+      "revId": "778163fb8db8d11b2f57400c83a8eb1bdf92c01a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2481c117_071c1655",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/project/Util.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-06-24T14:08:51Z",
+      "side": 1,
+      "message": "Wasn\u0027t this done already by\n  https://gerrit-review.googlesource.com/57301\n?",
+      "parentUuid": "04767d12_06597a35",
+      "range": {
+        "startLine": 129,
+        "startChar": 31,
+        "endLine": 129,
+        "endChar": 36
+      },
+      "revId": "778163fb8db8d11b2f57400c83a8eb1bdf92c01a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2481c117_e76382e4",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/FlushCaches.java",
         "patchSetId": 12
@@ -82,6 +154,30 @@
       "writtenOn": "2014-06-24T12:25:56Z",
       "side": 1,
       "message": "Provider is unnecessary here: FlushCache is a singleton.",
+      "range": {
+        "startLine": 53,
+        "startChar": 10,
+        "endLine": 53,
+        "endChar": 18
+      },
+      "revId": "778163fb8db8d11b2f57400c83a8eb1bdf92c01a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04767d12_e6953e5d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/FlushCaches.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-06-24T14:08:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2481c117_e76382e4",
       "range": {
         "startLine": 53,
         "startChar": 10,

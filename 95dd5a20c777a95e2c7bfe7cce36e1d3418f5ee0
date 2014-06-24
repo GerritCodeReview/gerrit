@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a4f77198_ab1209e5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-24T03:34:34Z",
+      "side": 1,
+      "message": "Used the wrong method here. Done.",
+      "revId": "95dd5a20c777a95e2c7bfe7cce36e1d3418f5ee0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

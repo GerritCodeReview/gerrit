@@ -133,7 +133,7 @@ public class QueryBuilder {
       .build();
   }
 
-  private Query fieldQuery(IndexPredicate<ChangeData> p)
+  protected Query fieldQuery(IndexPredicate<ChangeData> p)
       throws QueryParseException {
     if (p.getType() == FieldType.INTEGER) {
       return intQuery(p);

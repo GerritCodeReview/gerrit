@@ -51,6 +51,10 @@ class InitIndex implements InitStep {
     ui.header("Index");
 
     IndexType type = index.select("Type", "type", IndexType.LUCENE);
+    if (type == IndexType.ELASTICSEARCH) {
+      index.string("Elasticsearch Index URL", "url", "http://localhost:9200");
+      index.string("Elasticsearch Index Name", "name", "gerrit");
+    }
     if (site.isNew && type == IndexType.LUCENE) {
       LuceneChangeIndex.setReady(
           site, ChangeSchemas.getLatest().getVersion(), true);

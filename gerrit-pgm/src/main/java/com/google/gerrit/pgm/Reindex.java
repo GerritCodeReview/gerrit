@@ -19,6 +19,7 @@ import static com.google.gerrit.server.schema.DataSourceProvider.Context.MULTI_U
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Die;
+import com.google.gerrit.elasticsearch.ElasticIndexModule;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.lucene.LuceneIndexModule;
 import com.google.gerrit.pgm.util.BatchProgramModule;
@@ -120,6 +121,9 @@ public class Reindex extends SiteProgram {
     switch (IndexModule.getIndexType(dbInjector)) {
       case LUCENE:
         changeIndexModule = new LuceneIndexModule(version, threads, outputBase);
+        break;
+      case ELASTICSEARCH:
+        changeIndexModule = new ElasticIndexModule(threads);
         break;
       default:
         throw new IllegalStateException("unsupported index.type");

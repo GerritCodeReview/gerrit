@@ -126,6 +126,8 @@ public class LuceneChangeIndex implements ChangeIndex {
 
   public static final String CHANGES_OPEN = "open";
   public static final String CHANGES_CLOSED = "closed";
+  public static final Map<String, String> CUSTOM_CHAR_MAPPING = ImmutableMap.of(
+      "_", " ", ".", " ");
 
   private static final String ADDED_FIELD = ChangeField.ADDED.getName();
   private static final String APPROVAL_FIELD = ChangeField.APPROVAL.getName();
@@ -143,8 +145,6 @@ public class LuceneChangeIndex implements ChangeIndex {
       ADDED_FIELD, APPROVAL_FIELD, CHANGE_FIELD, DELETED_FIELD, ID_FIELD,
       MERGEABLE_FIELD, PATCH_SET_FIELD, REVIEWEDBY_FIELD);
 
-  private static final Map<String, String> CUSTOM_CHAR_MAPPING = ImmutableMap.of(
-      "_", " ", ".", " ");
 
   public static void setReady(SitePaths sitePaths, int version, boolean ready)
       throws IOException {

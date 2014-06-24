@@ -195,6 +195,24 @@
     },
     {
       "key": {
+        "uuid": "04767d12_e6ab7e73",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/UniversalServerPluginProvider.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-24T23:29:58Z",
+      "side": 1,
+      "message": "True, I\u0027ve just been too lazy I guess.\nWill add it tomorrow morning ;-) as it is approaching midnight ...",
+      "parentUuid": "44a155b9_40c0ce5e",
+      "revId": "e420fb67e9cbab4b7d6c1f3a8d6660532b207169",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "44a155b9_20214abe",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/UniversalServerPluginProvider.java",
         "patchSetId": 29

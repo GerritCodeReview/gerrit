@@ -183,6 +183,7 @@ java_test(
     '//lib/joda:joda-time',
   ],
   source_under_test = [':server'],
+  visibility = ['PUBLIC'],
 )
 
 java_test(

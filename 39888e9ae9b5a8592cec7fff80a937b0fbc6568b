@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2481c117_27c75a7e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/config/ListCachesIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-24T12:46:13Z",
+      "side": 1,
+      "message": "Haven\u0027t we discussed, that it can be simplified as:\n\n  \"/config/server/caches?format\u003dLIST\"",
+      "range": {
+        "startLine": 72,
+        "startChar": 38,
+        "endLine": 72,
+        "endChar": 74
+      },
+      "revId": "39888e9ae9b5a8592cec7fff80a937b0fbc6568b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2481c117_47cc4e9e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/config/ListCachesIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-24T12:46:13Z",
+      "side": 1,
+      "message": "The same",
+      "range": {
+        "startLine": 84,
+        "startChar": 60,
+        "endLine": 84,
+        "endChar": 62
+      },
+      "revId": "39888e9ae9b5a8592cec7fff80a937b0fbc6568b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2481c117_67d15233",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ListCaches.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-24T12:46:13Z",
+      "side": 1,
+      "message": "As pointed out by Dave in this review [1] we now prefer to use StandardCharsets.UTF_8 [2] instead of depending on Guava.\n\n* [1] https://gerrit-review.googlesource.com/#/c/57930/7/gerrit-server/src/main/java/com/google/gerrit/server/api/changes/FileApiImpl.java\n* [2] http://docs.oracle.com/javase/7/docs/api/java/nio/charset/StandardCharsets.html#UTF_8",
+      "range": {
+        "startLine": 82,
+        "startChar": 34,
+        "endLine": 82,
+        "endChar": 55
+      },
+      "revId": "39888e9ae9b5a8592cec7fff80a937b0fbc6568b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04767d12_66586e2f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ListCaches.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-24T12:46:13Z",
+      "side": 1,
+      "message": "Is this code reachable? format is an enum.",
+      "range": {
+        "startLine": 86,
+        "startChar": 6,
+        "endLine": 88,
+        "endChar": 5
+      },
+      "revId": "39888e9ae9b5a8592cec7fff80a937b0fbc6568b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04767d12_866c8ad9",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ShowCaches.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-24T12:46:13Z",
+      "side": 1,
+      "message": "Why not to return MEM as default and not null? So instead:\n\n  // type is null per default\n  [...]\n  if (cache instanceof PersistentCache) {\n        type \u003d CacheType.DISK;\n  }\n\nto do:\n\n  type \u003d CacheType.MEM;\n  [...]\n  if (cache instanceof PersistentCache) {\n        type \u003d CacheType.DISK;\n  }\n\nAs a consumer i don\u0027t want to mess around with nulls.",
+      "range": {
+        "startLine": 192,
+        "startChar": 8,
+        "endLine": 194,
+        "endChar": 9
+      },
+      "revId": "39888e9ae9b5a8592cec7fff80a937b0fbc6568b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

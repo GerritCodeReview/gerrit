@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "04767d12_06ab3aad",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/PostCaches.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-24T13:07:17Z",
+      "side": 1,
+      "message": "OK, it doesn\u0027t hurt to check the follow-up change first ;-) Please ignore this and other comments related to PostCaches REST endpoint.",
+      "parentUuid": "2481c117_a7b26a20",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 3
+      },
+      "revId": "49d0701335ba50f9a303315b157f362da3a9f1c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "04767d12_c66682f7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/PostCaches.java",
         "patchSetId": 6

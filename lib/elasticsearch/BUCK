@@ -1,0 +1,94 @@
+include_defs('//lib/maven.defs')
+
+# Java client library for Elasticsearch.
+maven_jar(
+  name = 'elasticsearch',
+  id = 'org.elasticsearch:elasticsearch:2.0.0',
+  sha1 = 'a1189b6b207fda733044b4f0d766ff04103d0b81',
+  src_sha1 = 'b8fa8482f0351444adbea7d6b7817abd425d7776',
+  repository = MAVEN_CENTRAL,
+  license = 'Apache2.0',
+  deps = [
+    ':compress-lzf',
+    ':hppc',
+    ':jsr166e',
+    ':netty',
+    ':t-digest',
+    '//lib/jackson:jackson-core',
+    '//lib/jackson:jackson-dataformat-smile',
+    '//lib/joda:joda-time',
+    '//lib/lucene:codecs',
+    '//lib/lucene:core-and-backward-codecs',
+    '//lib/lucene:highlighter',
+    '//lib/lucene:join',
+    '//lib/lucene:memory',
+    '//lib/lucene:sandbox',
+    '//lib/lucene:suggest',
+    '//lib/lucene:queries',
+  ]
+)
+
+# Java REST client for Elasticsearch.
+VERSION = '0.1.7'
+maven_jar(
+  name = 'jest-common',
+  id = 'io.searchbox:jest-common:' + VERSION,
+  sha1 = 'ff6e2694405557a3a02b444cb7f7da28c4d99f07',
+  license = 'Apache2.0',
+)
+
+maven_jar(
+  name = 'jest',
+  id = 'io.searchbox:jest:' + VERSION,
+  sha1 = '686619c7141edb50b562ad2a39d32ea4cf20b567',
+  license = 'Apache2.0',
+  deps = [
+    ':elasticsearch',
+    ':jest-common',
+    '//lib/commons:lang3',
+    '//lib/httpcomponents:httpasyncclient',
+    '//lib/httpcomponents:httpclient',
+    '//lib/httpcomponents:httpcore-nio',
+    '//lib/httpcomponents:httpcore-niossl',
+  ],
+)
+
+maven_jar(
+  name = 'compress-lzf',
+  id = 'com.ning:compress-lzf:1.0.2',
+  sha1 = '62896e6fca184c79cc01a14d143f3ae2b4f4b4ae',
+  license = 'Apache2.0',
+  visibility = ['//lib/elasticsearch:elasticsearch'],
+)
+
+maven_jar(
+  name = 'hppc',
+  id = 'com.carrotsearch:hppc:0.7.1',
+  sha1 = '8b5057f74ea378c0150a1860874a3ebdcb713767',
+  license = 'Apache2.0',
+  visibility = ['//lib/elasticsearch:elasticsearch'],
+)
+
+maven_jar(
+  name = 'jsr166e',
+  id = 'com.twitter:jsr166e:1.1.0',
+  sha1 = '233098147123ee5ddcd39ffc57ff648be4b7e5b2',
+  license = 'Apache2.0',
+  visibility = ['//lib/elasticsearch:elasticsearch'],
+)
+
+maven_jar(
+  name = 'netty',
+  id = 'io.netty:netty:3.10.0.Final',
+  sha1 = 'ad61cd1bba067e6634ddd3e160edf0727391ac30',
+  license = 'Apache2.0',
+  visibility = ['//lib/elasticsearch:elasticsearch'],
+)
+
+maven_jar(
+  name = 't-digest',
+  id = 'com.tdunning:t-digest:3.0',
+  sha1 = '84ccf145ac2215e6bfa63baa3101c0af41017cfc',
+  license = 'Apache2.0',
+  visibility = ['//lib/elasticsearch:elasticsearch'],
+)

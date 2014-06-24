@@ -16,6 +16,24 @@
       "revId": "c4ad3f277b82c792010d168cc3f75ce010c939fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04767d12_867d6a3c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 20
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-24T23:40:18Z",
+      "side": 1,
+      "message": "Not really a descriptor but more a set of injections (canonicalWebUrl and dataDir now, potentially could be more in the future).",
+      "parentUuid": "24a621d4_3f8e076b",
+      "revId": "c4ad3f277b82c792010d168cc3f75ce010c939fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

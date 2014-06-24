@@ -81,6 +81,24 @@
       "revId": "7cd0e26f5de361118e8e3cff1758f74a37646f7c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44a155b9_00c2c66d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginEntry.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-24T22:32:32Z",
+      "side": 1,
+      "message": "Ok, as long as they\u0027re used eventually I\u0027m fine with it.",
+      "parentUuid": "04767d12_e6d29e03",
+      "revId": "7cd0e26f5de361118e8e3cff1758f74a37646f7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

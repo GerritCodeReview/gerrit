@@ -39,3 +39,25 @@ maven_jar(
   src_sha1 = '5394d3715181a87009032335a55b0a9789f6e26f',
   license = 'Apache2.0',
 )
+
+maven_jar(
+  name = 'httpasyncclient',
+  id = 'org.apache.httpcomponents:httpasyncclient:4.0.2',
+  sha1 = '6c0421e057af0fed081f0b8b4c4df829c4732a5c',
+  license = 'Apache2.0',
+)
+
+maven_jar(
+  name = 'httpcore-nio',
+  id = 'org.apache.httpcomponents:httpcore-nio:4.4-alpha1',
+  sha1 = 'a2d88fec096e30c4f472aadc3eb81d45bb77ff39',
+  license = 'Apache2.0',
+)
+
+maven_jar(
+  name = 'httpcore-niossl',
+  id = 'org.apache.httpcomponents:httpcore-niossl:4.0-alpha6',
+  sha1 = '9c662e7247ca8ceb1de5de629f685c9ef3e4ab58',
+  license = 'Apache2.0',
+  attach_source = False,
+)

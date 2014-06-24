@@ -47,6 +47,13 @@ maven_jar(
 )
 
 maven_jar(
+  name = 'lang3',
+  id = 'org.apache.commons:commons-lang3:3.3.2',
+  sha1 = '90a3822c38ec8c996e84c16a3477ef632cbc87a3',
+  license = 'Apache2.0',
+)
+
+maven_jar(
   name = 'net',
   id = 'commons-net:commons-net:2.2',
   sha1 = '07993c12f63c78378f8c90de4bc2ee62daa7ca3a',

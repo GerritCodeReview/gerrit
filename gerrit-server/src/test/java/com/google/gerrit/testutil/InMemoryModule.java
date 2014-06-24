@@ -19,6 +19,7 @@ import static com.google.inject.Scopes.SINGLETON;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gerrit.extensions.client.AuthType;
+import com.google.gerrit.elasticsearch.ElasticIndexModule;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.gpg.GpgModule;
 import com.google.gerrit.metrics.DisabledMetricMaker;
@@ -220,6 +221,9 @@ public class InMemoryModule extends FactoryModule {
         case LUCENE:
           install(luceneIndexModule());
           break;
+        case ELASTICSEARCH:
+          install(elasticIndexModule());
+          break;
         default:
           throw new ProvisionException(
               "index type unsupported in tests: " + indexType);
@@ -242,14 +246,21 @@ public class InMemoryModule extends FactoryModule {
   }
 
   private Module luceneIndexModule() {
+    return indexModule("com.google.gerrit.lucene.LuceneIndexModule");
+  }
+
+  private Module elasticIndexModule() {
+    return indexModule("com.google.gerrit.elasticsearch.ElasticIndexModule");
+  }
+
+  private Module indexModule(String moduleClassName) {
     try {
       Map<String, Integer> singleVersions = new HashMap<>();
       int version = cfg.getInt("index", "lucene", "testVersion", -1);
       if (version > 0) {
         singleVersions.put(ChangeSchemaDefinitions.INSTANCE.getName(), version);
       }
-      Class<?> clazz =
-          Class.forName("com.google.gerrit.lucene.LuceneIndexModule");
+      Class<?> clazz = Class.forName(moduleClassName);
       Method m = clazz.getMethod(
           "singleVersionWithExplicitVersions", Map.class, int.class);
       return (Module) m.invoke(null, singleVersions, 0);

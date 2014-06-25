@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "04767d12_06733a6c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-25T05:48:58Z",
+      "side": 1,
+      "message": "In some rare cases it is not obvious for the reviewers how to verify a change. I think we could learn from Buck team at FB, and require \"Test Plan: foo bar\" section (extend to dev-contributing) in such cases to be added in the commit message.\n\nFor this specific change this section could be (i think):\n\nTest Plan:\n\n* compile a GWT enabled plugin (cookbook plugin or serviceuser plugin)\n* deploy the GWT plugin to $gerrit_site/plugins\n* start Gerrit\n* check that full screen exposed by plugin is still working",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 64
+      },
+      "revId": "1be3d51d714c5ee23b54d8cc0b9fdd6937185715",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -46,6 +46,30 @@
       "revId": "1b3aa10b98b83aa678df154d49d321524768d66a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04d4bd2c_560e5454",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-06-25T12:25:35Z",
+      "side": 1,
+      "message": "What I meant is the ReloadSubmitQueueOp is now instantiated before the MasterNodeStartup is. It\u0027s possible that the assisted injection was use to instantiate the ReloadSubmitQueueOp in the MasterNodeStartup start method.\n\nAnyway, I looked at the constructor of the ReloadSubmitQueueOp and it\u0027s not doing anything that would require the instantiation until the start method is called.",
+      "parentUuid": "04767d12_261cb63c",
+      "range": {
+        "startLine": 9,
+        "startChar": 1,
+        "endLine": 10,
+        "endChar": 59
+      },
+      "revId": "1b3aa10b98b83aa678df154d49d321524768d66a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

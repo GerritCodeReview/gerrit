@@ -34,6 +34,24 @@
       "revId": "1f4b195a7138b226a9282e022c278d41b089a611",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2481c117_a750aa8e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-06-25T12:58:23Z",
+      "side": 1,
+      "message": "Yes, rightly pointed out by David. When a line is separated by single line breaks it is concatenated in one line in Web UI (although it is preserved in mail).\nSo this change is introduced to preserve these line breaks to make the output more readable for users on the WebUI.",
+      "parentUuid": "e4d0893d_f5d3186e",
+      "revId": "1f4b195a7138b226a9282e022c278d41b089a611",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

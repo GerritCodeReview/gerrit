@@ -257,7 +257,7 @@ To build release and api targets, a combined build target is provided:
 To run all tests including acceptance tests:
 
 ----
-  buck test --all
+  buck test
 ----
 
 To exclude slow tests:

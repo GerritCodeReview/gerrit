@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "04767d12_26d2f6e2",
+        "filename": "ReleaseNotes/ReleaseNotes-2.8.6.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-25T08:14:15Z",
+      "side": 1,
+      "message": "So we need here another 2 changes in addition to [1]:\n\n*  Execute multiple SQL operation in transaction: https://gerrit-review.googlesource.com/57860\n* Add transaction support for SQL dialects: https://gerrit-review.googlesource.com/57825\n\n [1] https://gerrit-review.googlesource.com/57825",
+      "revId": "3a1b2a0d7b30a32830a6c8cfc3ccb93bde3fd3b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -52,6 +52,24 @@
       "revId": "c4ad3f277b82c792010d168cc3f75ce010c939fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04767d12_46c7f223",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 20
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-25T08:45:25Z",
+      "side": 1,
+      "message": "Ok, so collecting all the info about the plugin to be loaded inot a PluginDescription and then pass it as a whole to the ServerPluginProvider.\n\nLet me work out that in the new squashed  I6a64a336f3",
+      "parentUuid": "44a155b9_609cf288",
+      "revId": "c4ad3f277b82c792010d168cc3f75ce010c939fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "04767d12_46f61243",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GetSummary.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-25T15:53:40Z",
+      "side": 1,
+      "message": "You meant surely\n\n  GlobalCapability.VIEW_QUEUE\n\nOr may be even administrateServer?",
+      "range": {
+        "startLine": 42,
+        "startChar": 20,
+        "endLine": 42,
+        "endChar": 48
+      },
+      "revId": "543eb164833b9f414bfe51087afa05c3f3fa3a4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04767d12_66fb0e28",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ShowCaches.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-25T15:53:40Z",
+      "side": 1,
+      "message": "showJVM",
+      "range": {
+        "startLine": 161,
+        "startChar": 8,
+        "endLine": 161,
+        "endChar": 34
+      },
+      "revId": "543eb164833b9f414bfe51087afa05c3f3fa3a4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2481c117_077b3603",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ShowCaches.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-25T15:53:40Z",
+      "side": 1,
+      "message": "Include SSH summary in server summary too? And may be even connection summary from ShowConnections SSH Command?",
+      "range": {
+        "startLine": 272,
+        "startChar": 2,
+        "endLine": 293,
+        "endChar": 3
+      },
+      "revId": "543eb164833b9f414bfe51087afa05c3f3fa3a4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

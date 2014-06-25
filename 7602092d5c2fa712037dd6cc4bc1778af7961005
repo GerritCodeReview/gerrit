@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "04d4bd2c_f62560d1",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 1016317
+      },
+      "writtenOn": "2014-06-25T13:01:27Z",
+      "side": 1,
+      "message": "Here the token isn\u0027t built with LoginUrlToken, its built with the getToken method of History, refer to lines ~700 to 750.",
+      "parentUuid": "2481c117_47de0e76",
+      "range": {
+        "startLine": 339,
+        "startChar": 58,
+        "endLine": 339,
+        "endChar": 70
+      },
+      "revId": "7602092d5c2fa712037dd6cc4bc1778af7961005",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2481c117_87e7264d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/LoginUrlToken.java",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "e4d0893d_550e4c54",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/LoginUrlToken.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1016317
+      },
+      "writtenOn": "2014-06-25T13:01:27Z",
+      "side": 1,
+      "message": "The \u0027#\u0027 is appended to the url when the user is redirected to the login page, this happens at line 339 of Gerrit.java, as a result, when we call req.getPathInfo(), the token will already contain the \u0027#\u0027. The only time when this isn\u0027t the case is if the token happens to be empty, which is why we append a \u0027#\u0027 in the first case.",
+      "parentUuid": "2481c117_87e7264d",
+      "range": {
+        "startLine": 26,
+        "startChar": 4,
+        "endLine": 30,
+        "endChar": 5
+      },
+      "revId": "7602092d5c2fa712037dd6cc4bc1778af7961005",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "04767d12_46de1276",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/container/HttpLoginServlet.java",
         "patchSetId": 2
@@ -59,6 +107,30 @@
       "writtenOn": "2014-06-24T07:23:25Z",
       "side": 1,
       "message": "The token returned by LoginUrlToken.getToken(req) may not start with a \u0027#\u0027. Don\u0027t we need to add it then?",
+      "range": {
+        "startLine": 137,
+        "startChar": 17,
+        "endLine": 137,
+        "endChar": 22
+      },
+      "revId": "7602092d5c2fa712037dd6cc4bc1778af7961005",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e4d0893d_350bd044",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/container/HttpLoginServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1016317
+      },
+      "writtenOn": "2014-06-25T13:01:27Z",
+      "side": 1,
+      "message": "Refer to my reply in LoginUrlToken.",
+      "parentUuid": "04767d12_46de1276",
       "range": {
         "startLine": 137,
         "startChar": 17,

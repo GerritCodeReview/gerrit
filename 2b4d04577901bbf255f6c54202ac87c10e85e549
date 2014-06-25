@@ -34,6 +34,24 @@
       "revId": "2b4d04577901bbf255f6c54202ac87c10e85e549",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04d4bd2c_b6f6c8f7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CherryPick.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-06-25T12:10:11Z",
+      "side": 1,
+      "message": "No, this is wrong. The change was on master, not stable-2.8, so this merge actually loses the fix.\n\nWill upload a new patch to fix this.",
+      "parentUuid": "e4d0893d_f5fc38db",
+      "revId": "2b4d04577901bbf255f6c54202ac87c10e85e549",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

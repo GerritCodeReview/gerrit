@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e4d0893d_f5d3186e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-06-25T05:33:45Z",
+      "side": 1,
+      "message": "When I run current master the line breaks are preserved for message comments and file/inline comments.   Therefore I\u0027m not sure what this adds.  Could you kindly give a little more detail?  I have also read the bug but I did not see the problem described in the bug when run with build from master.",
+      "revId": "1f4b195a7138b226a9282e022c278d41b089a611",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

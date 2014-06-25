@@ -16,6 +16,24 @@
       "revId": "2b4d04577901bbf255f6c54202ac87c10e85e549",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e4d0893d_f5fc38db",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CherryPick.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-06-25T12:07:59Z",
+      "side": 1,
+      "message": "On stable-2.9 it is moved to another path:\n\n  gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/CherryPick.java\n\nAnd since the fix in this file already exists on stable-2.9, there is nothing to merge.  The only conflict was \"deleted by us\".",
+      "parentUuid": "04767d12_664f8ef2",
+      "revId": "2b4d04577901bbf255f6c54202ac87c10e85e549",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,23 @@
+Release notes for Gerrit 2.8.6
+==============================
+
+There are no schema changes from link:ReleaseNotes-2.8.5.html[2.8.5].
+
+Download:
+link:https://gerrit-releases.storage.googleapis.com/gerrit-2.8.6.war[
+https://gerrit-releases.storage.googleapis.com/gerrit-2.8.6.war]
+
+
+Bug Fixes
+---------
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=2034[Issue 2034],
+link:https://code.google.com/p/gerrit/issues/detail?id=2383[Issue 2383],
+link:https://code.google.com/p/gerrit/issues/detail?id=2702[Issue 2702]:
+Fix race condition in change merge queue.
++
+There was a race in the merge queue between changes submitted via
+the UI, and merges scheduled by the background merge queue reload.
++
+This resulted in multiple submit actions being scheduled, leading
+to corrupt changes.

@@ -9,6 +9,7 @@ Version 2.9.x
 [[2_8]]
 Version 2.8.x
 -------------
+* link:ReleaseNotes-2.8.6.html[2.8.6]
 * link:ReleaseNotes-2.8.5.html[2.8.5]
 * link:ReleaseNotes-2.8.4.html[2.8.4]
 * link:ReleaseNotes-2.8.3.html[2.8.3]

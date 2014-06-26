@@ -186,109 +186,12 @@ maven_jar(
 )
 
 maven_jar(
-  name = 'easymock',
-  id = 'org.easymock:easymock:3.2',
-  sha1 = '00c82f7fa3ef377d8954b1db25123944b5af2ba4',
-  license = 'DO_NOT_DISTRIBUTE',
-  deps = [
-    ':cglib-2_2',
-    ':objenesis',
-  ],
-)
-
-maven_jar(
-  name = 'cglib-2_2',
-  id = 'cglib:cglib-nodep:2.2.2',
-  sha1 = '00d456bb230c70c0b95c76fb28e429d42f275941',
-  license = 'DO_NOT_DISTRIBUTE',
-  visibility = ['//lib:easymock'],
-  attach_source = False,
-)
-
-maven_jar(
-  name = 'objenesis',
-  id = 'org.objenesis:objenesis:1.2',
-  sha1 = 'bfcb0539a071a4c5a30690388903ac48c0667f2a',
-  license = 'DO_NOT_DISTRIBUTE',
-  visibility = ['//lib:easymock'],
-  attach_source = False,
-)
-
-maven_jar(
   name = 'tukaani-xz',
   id = 'org.tukaani:xz:1.4',
   sha1 = '18a9a2ce6abf32ea1b5fd31dae5210ad93f4e5e3',
   license = 'xz',
   attach_source = False,
   visibility = ['//lib/jgit:jgit-archive'],
-)
-
-maven_jar(
-  name = 'powermock-module-junit4',
-  id = 'org.powermock:powermock-module-junit4:1.5',
-  sha1 = '9f6f8d0485249171f9d870e2b269048fa8cad43b',
-  license = 'DO_NOT_DISTRIBUTE',
-  deps = [
-    ':junit',
-    ':powermock-module-junit4-common',
-  ],
-)
-
-maven_jar(
-  name = 'powermock-module-junit4-common',
-  id = 'org.powermock:powermock-module-junit4-common:1.5',
-  sha1 = '43db4720ff57af42a1bd5c73fb5cdfebeebd564c',
-  license = 'DO_NOT_DISTRIBUTE',
-  deps = [
-    ':junit',
-    ':powermock-reflect',
-  ],
-)
-
-maven_jar(
-  name = 'powermock-reflect',
-  id = 'org.powermock:powermock-reflect:1.5',
-  sha1 = '8df1548eeabb8492ba97d4f3eb84ae4d5f69215e',
-  license = 'DO_NOT_DISTRIBUTE',
-  deps = [
-    ':junit',
-    ':objenesis',
-  ],
-)
-
-maven_jar(
-  name = 'powermock-api-easymock',
-  id = 'org.powermock:powermock-api-easymock:1.5',
-  sha1 = 'a485b570b9debb46b53459a8e866a40343b2cfe2',
-  license = 'DO_NOT_DISTRIBUTE',
-  deps = [
-    ':easymock',
-    ':powermock-api-support',
-  ],
-)
-
-maven_jar(
-  name = 'powermock-api-support',
-  id = 'org.powermock:powermock-api-support:1.5',
-  sha1 = '7c1b2e4555cfa333aec201c4612345c092820a38',
-  license = 'DO_NOT_DISTRIBUTE',
-  deps = [
-    ':junit',
-    ':powermock-core',
-    ':powermock-reflect',
-  ],
-)
-
-maven_jar(
-  name = 'powermock-core',
-  id = 'org.powermock:powermock-core:1.5',
-  sha1 = '4415337ff3fdb7ceb484f11fd08e39711e408976',
-  license = 'DO_NOT_DISTRIBUTE',
-  deps = [
-    ':junit',
-    ':powermock-reflect',
-    ':javassist-3.17.1-GA',
-  ],
 )
 
 maven_jar(

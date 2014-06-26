@@ -1,0 +1,72 @@
+include_defs('//lib/maven.defs')
+
+VERSION = '1.5'
+
+maven_jar(
+  name = 'powermock-module-junit4',
+  id = 'org.powermock:powermock-module-junit4:' + VERSION,
+  sha1 = '9f6f8d0485249171f9d870e2b269048fa8cad43b',
+  license = 'DO_NOT_DISTRIBUTE',
+  deps = [
+    ':powermock-module-junit4-common',
+    '//lib:junit',
+  ],
+)
+
+maven_jar(
+  name = 'powermock-module-junit4-common',
+  id = 'org.powermock:powermock-module-junit4-common:' + VERSION,
+  sha1 = '43db4720ff57af42a1bd5c73fb5cdfebeebd564c',
+  license = 'DO_NOT_DISTRIBUTE',
+  deps = [
+    ':powermock-reflect',
+    '//lib:junit',
+  ],
+)
+
+maven_jar(
+  name = 'powermock-reflect',
+  id = 'org.powermock:powermock-reflect:' + VERSION,
+  sha1 = '8df1548eeabb8492ba97d4f3eb84ae4d5f69215e',
+  license = 'DO_NOT_DISTRIBUTE',
+  deps = [
+    '//lib:junit',
+    '//lib/easymock:objenesis',
+  ],
+)
+
+maven_jar(
+  name = 'powermock-api-easymock',
+  id = 'org.powermock:powermock-api-easymock:' + VERSION,
+  sha1 = 'a485b570b9debb46b53459a8e866a40343b2cfe2',
+  license = 'DO_NOT_DISTRIBUTE',
+  deps = [
+    ':powermock-api-support',
+    '//lib/easymock:easymock',
+  ],
+)
+
+maven_jar(
+  name = 'powermock-api-support',
+  id = 'org.powermock:powermock-api-support:' + VERSION,
+  sha1 = '7c1b2e4555cfa333aec201c4612345c092820a38',
+  license = 'DO_NOT_DISTRIBUTE',
+  deps = [
+    ':powermock-core',
+    ':powermock-reflect',
+    '//lib:junit',
+  ],
+)
+
+maven_jar(
+  name = 'powermock-core',
+  id = 'org.powermock:powermock-core:' + VERSION,
+  sha1 = '4415337ff3fdb7ceb484f11fd08e39711e408976',
+  license = 'DO_NOT_DISTRIBUTE',
+  deps = [
+    ':powermock-reflect',
+    '//lib:javassist-3.17.1-GA',
+    '//lib:junit',
+  ],
+)
+

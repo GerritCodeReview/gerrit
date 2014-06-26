@@ -107,12 +107,12 @@ java_library(
     '//lib/log:log4j',
   ],
   exported_deps = [
-    '//lib:easymock',
-    '//lib:powermock-api-easymock',
-    '//lib:powermock-api-support',
-    '//lib:powermock-core',
-    '//lib:powermock-module-junit4',
-    '//lib:powermock-module-junit4-common',
+    '//lib/easymock:easymock',
+    '//lib/powermock:powermock-api-easymock',
+    '//lib/powermock:powermock-api-support',
+    '//lib/powermock:powermock-core',
+    '//lib/powermock:powermock-module-junit4',
+    '//lib/powermock:powermock-module-junit4-common',
   ],
   visibility = ['PUBLIC'],
 )

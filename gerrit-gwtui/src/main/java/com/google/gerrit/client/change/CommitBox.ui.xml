@@ -81,8 +81,11 @@ limitations under the License.
       right: -16px;
     }
     <!-- To make room for the copyableLabel from the adjacent column -->
-    .webLinkCell a:first-child {
+    .webLinkPanel a:first-child {
       margin-left:16px;
+    }
+    .webLinkPanel>a {
+      margin-left:2px;
     }
     .parentWebLink {
       margin-left:16px;
@@ -152,7 +155,9 @@ limitations under the License.
           </g:Image>
         </th>
         <td><clippy:CopyableLabel styleName='{style.clippy}' ui:field='commitName'/></td>
-        <td ui:field='webLinkCell' class='{style.webLinkCell}'></td>
+        <td>
+            <g:FlowPanel ui:field='webLinkPanel' styleName='{style.webLinkPanel}'/>
+        </td>
       </tr>
       <tr ui:field='parents' style='display: none'>
         <th><ui:msg>Parents</ui:msg></th>

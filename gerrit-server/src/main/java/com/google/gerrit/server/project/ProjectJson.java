@@ -56,7 +56,7 @@ public class ProjectJson {
     info.webLinks = Lists.newArrayList();
     for (WebLinks.Link link : webLinks.get().getProjectLinks(p.getName())) {
       if (!Strings.isNullOrEmpty(link.name) && !Strings.isNullOrEmpty(link.url)) {
-        info.webLinks.add(new WebLinkInfo(link.name, link.url));
+        info.webLinks.add(new WebLinkInfo(link.name, link.imageUrl, link.url));
       }
     }
 

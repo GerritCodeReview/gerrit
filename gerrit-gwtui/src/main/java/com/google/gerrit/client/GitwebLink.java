@@ -51,7 +51,7 @@ public class GitwebLink {
   }
 
   public String getLinkName() {
-    return "(" + type.getLinkName() + ")";
+    return type.getLinkName();
   }
 
   public String toRevision(String  project, String commit) {

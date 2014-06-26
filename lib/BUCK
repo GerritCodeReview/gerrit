@@ -57,14 +57,6 @@ maven_jar(
 )
 
 maven_jar(
-  name = 'asm3',
-  id = 'asm:asm:3.2',
-  sha1 = '9bc1511dec6adf302991ced13303e4140fdf9ab7',
-  license = 'ow2',
-  attach_source = False,
-)
-
-maven_jar(
   name = 'ow2-asm',
   id = 'org.ow2.asm:asm:4.1',
   sha1 = 'ad568238ee36a820bd6c6806807e8a14ea34684d',

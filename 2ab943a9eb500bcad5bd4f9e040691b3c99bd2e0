@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "04767d12_e6061e82",
+        "filename": "lib/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-26T06:30:52Z",
+      "side": 1,
+      "message": "Move it to lib/easymock/BUCK?",
+      "range": {
+        "startLine": 224,
+        "startChar": 0,
+        "endLine": 251,
+        "endChar": 1
+      },
+      "revId": "2ab943a9eb500bcad5bd4f9e040691b3c99bd2e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

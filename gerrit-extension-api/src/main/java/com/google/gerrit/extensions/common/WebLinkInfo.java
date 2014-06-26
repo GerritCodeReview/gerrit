@@ -16,10 +16,12 @@ package com.google.gerrit.extensions.common;
 
 public class WebLinkInfo {
   public String name;
+  public String imageUrl;
   public String url;
 
-  public WebLinkInfo(String name, String url) {
+  public WebLinkInfo(String name, String imageUrl, String url) {
     this.name = name;
+    this.imageUrl = imageUrl;
     this.url = url;
   }
 }

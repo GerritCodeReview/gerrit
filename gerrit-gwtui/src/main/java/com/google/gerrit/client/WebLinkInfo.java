@@ -19,6 +19,7 @@ import com.google.gwt.core.client.JavaScriptObject;
 public class WebLinkInfo extends JavaScriptObject {
 
   public final native String name() /*-{ return this.name; }-*/;
+  public final native String imageUrl() /*-{ return this.image_url; }-*/;
   public final native String url() /*-{ return this.url; }-*/;
 
   protected WebLinkInfo() {

@@ -37,6 +37,7 @@ public class WebLinks {
     List<WebLinkInfo> links = Lists.newArrayList();
     for (PatchSetWebLink webLink : patchSetLinks) {
       links.add(new WebLinkInfo(webLink.getLinkName(),
+          webLink.getImageUrl(),
           webLink.getPatchSetUrl(project, commit)));
     }
     return links;
@@ -46,6 +47,7 @@ public class WebLinks {
     List<WebLinkInfo> links = Lists.newArrayList();
     for (ProjectWebLink webLink : projectLinks) {
       links.add(new WebLinkInfo(webLink.getLinkName(),
+          webLink.getImageUrl(),
           webLink.getProjectUrl(project)));
     }
     return links;

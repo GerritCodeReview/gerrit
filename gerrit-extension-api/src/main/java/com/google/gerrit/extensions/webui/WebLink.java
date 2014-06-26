@@ -18,7 +18,15 @@ public interface WebLink {
   /**
    * The link-name displayed in UI.
    *
-   * @return name of link.
+   * @return name of link or title of the link if image URL is available.
    */
   String getLinkName();
+
+  /**
+   * URL of image to be displayed
+   *
+   * @return URL to image for link or null for using a text-only link.
+   * Recommended image size is 16x16.
+   */
+  String getImageUrl();
 }

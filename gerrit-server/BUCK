@@ -62,6 +62,7 @@ java_library(
     '//lib/jgit:jgit-archive',
     '//lib/joda:joda-time',
     '//lib/log:api',
+    '//lib/log:log4j',
     '//lib/prolog:prolog-cafe',
     '//lib/lucene:analyzers-common',
     '//lib/lucene:core',

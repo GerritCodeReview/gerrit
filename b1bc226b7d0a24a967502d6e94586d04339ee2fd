@@ -123,6 +123,24 @@
       "revId": "b1bc226b7d0a24a967502d6e94586d04339ee2fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2442a1dc_5f1a0b88",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-26T21:00:54Z",
+      "side": 1,
+      "message": "I can think of some other ways, like using a named class besides Entry, or filtering the map into two separate Maps and concatenating their entrySets together. But this is not so terrible and it\u0027s only used once so I\u0027m fine with it.",
+      "parentUuid": "04767d12_a6aee61d",
+      "revId": "b1bc226b7d0a24a967502d6e94586d04339ee2fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

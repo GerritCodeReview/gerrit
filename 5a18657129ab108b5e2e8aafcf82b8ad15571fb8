@@ -252,6 +252,24 @@
       "revId": "5a18657129ab108b5e2e8aafcf82b8ad15571fb8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04767d12_09d42d56",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/UniversalServerPluginProvider.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-26T20:55:20Z",
+      "side": 1,
+      "message": "I was tempting to make the same suggestion, but sought the same: to require another patch set of a change that already has 35 patch sets, is too much. But now when you are saying that, i would prefer to do that too. Double hasNext() below is looking odd.",
+      "parentUuid": "2442a1dc_ff2aff9e",
+      "revId": "5a18657129ab108b5e2e8aafcf82b8ad15571fb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

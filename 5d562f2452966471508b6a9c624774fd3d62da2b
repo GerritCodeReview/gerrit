@@ -70,6 +70,30 @@
       "revId": "5d562f2452966471508b6a9c624774fd3d62da2b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04303d7d_f6d8e08a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-26T23:48:29Z",
+      "side": 1,
+      "message": "Yes, no problem :-)\nThe only issue would be writing a completed automated isolated unit-test for this, as it would require to mock-up many many things.\n\nCan upload a sample PluginContentScanner to be manually injected and tested.",
+      "parentUuid": "04767d12_26ecb65a",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 21
+      },
+      "revId": "5d562f2452966471508b6a9c624774fd3d62da2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

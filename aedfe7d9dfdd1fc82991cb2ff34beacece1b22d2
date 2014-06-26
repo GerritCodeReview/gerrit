@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0402fd8c_26f2960a",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticsearchChangeIndex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-06-26T11:10:24Z",
+      "side": 1,
+      "message": "This seems to work, but feels like a dirty hack.",
+      "range": {
+        "startLine": 319,
+        "startChar": 4,
+        "endLine": 336,
+        "endChar": 5
+      },
+      "revId": "aedfe7d9dfdd1fc82991cb2ff34beacece1b22d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

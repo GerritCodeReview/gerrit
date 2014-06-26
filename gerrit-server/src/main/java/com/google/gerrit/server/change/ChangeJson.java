@@ -832,7 +832,7 @@ public class ChangeJson {
       out.webLinks = Lists.newArrayList();
       for (WebLinks.Link link : webLinks.get().getPatchSetLinks(
           project, in.getRevision().get())) {
-        out.webLinks.add(new WebLinkInfo(link.name, link.url));
+        out.webLinks.add(new WebLinkInfo(link.name, link.imageUrl, link.url));
       }
     }
     return out;

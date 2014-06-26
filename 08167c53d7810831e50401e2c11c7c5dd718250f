@@ -46,6 +46,30 @@
       "revId": "08167c53d7810831e50401e2c11c7c5dd718250f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0402fd8c_46e59242",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticsearchChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-06-26T10:56:00Z",
+      "side": 1,
+      "message": "Digging a bit deeper, it seems to be because the query builder is generating a TermQuery with encoded bytes:\n\n  private static Term intTerm(String name, int value) {\n    BytesRef bytes \u003d new BytesRef(NumericUtils.BUF_SIZE_INT);\n    NumericUtils.intToPrefixCodedBytes(value, 0, bytes);\n    return new Term(name, bytes);\n  }\n\nand the toString method is returning the encoded bytes, which elasticsearch doesn\u0027t understand.",
+      "parentUuid": "440875ab_e8fc53db",
+      "range": {
+        "startLine": 301,
+        "startChar": 0,
+        "endLine": 303,
+        "endChar": 73
+      },
+      "revId": "08167c53d7810831e50401e2c11c7c5dd718250f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

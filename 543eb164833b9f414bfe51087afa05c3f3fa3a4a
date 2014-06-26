@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6413b9dc_29670df5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GetSummary.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-06-26T12:30:40Z",
+      "side": 1,
+      "message": "No, I\u0027ve really meant GlobalCapability.VIEW_CACHES here :(\n\nI find this confusing too, but this is for backwards compatibility. So far the summary information provided by this REST endpoint is printed out from the show-caches SSH command and this command requires GlobalCapability.VIEW_CACHES. Since the show-caches SSH command is now using this REST to retrieve the summary information, this must be GlobalCapability.VIEW_CACHES here too. With GlobalCapability.ADMINISTRATE_SERVER this would be an incompatible change, because a user which has only the \u0027View Caches\u0027 capability could see the summary information before, but now not anymore.\n\nStill I agree that GlobalCapability.ADMINISTRATE_SERVER would be more appropriate and we should probably change that. But since it is changing the existing behaviour I would rather do this in an own change.",
+      "parentUuid": "04767d12_46f61243",
+      "range": {
+        "startLine": 42,
+        "startChar": 20,
+        "endLine": 42,
+        "endChar": 48
+      },
+      "revId": "543eb164833b9f414bfe51087afa05c3f3fa3a4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "04767d12_66fb0e28",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ShowCaches.java",
         "patchSetId": 6
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "6413b9dc_096449ec",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ShowCaches.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-06-26T12:30:40Z",
+      "side": 1,
+      "message": "This should be the same. summary.jvmSummary should only be set if showJVM is true. Since the following code relies on summary.jvmSummary not being null I thought it\u0027s safer to check for this (and not to give findbugs a chance to complain). But yes, for readability it makes sense to check for showJVM too.\n\nDone.",
+      "parentUuid": "04767d12_66fb0e28",
+      "range": {
+        "startLine": 161,
+        "startChar": 8,
+        "endLine": 161,
+        "endChar": 34
+      },
+      "revId": "543eb164833b9f414bfe51087afa05c3f3fa3a4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2481c117_077b3603",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ShowCaches.java",
         "patchSetId": 6
@@ -59,6 +107,30 @@
       "writtenOn": "2014-06-25T15:53:40Z",
       "side": 1,
       "message": "Include SSH summary in server summary too? And may be even connection summary from ShowConnections SSH Command?",
+      "range": {
+        "startLine": 272,
+        "startChar": 2,
+        "endLine": 293,
+        "endChar": 3
+      },
+      "revId": "543eb164833b9f414bfe51087afa05c3f3fa3a4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6413b9dc_e9c1f569",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ShowCaches.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-06-26T12:30:40Z",
+      "side": 1,
+      "message": "I would love to do this. The problem is that all SSH information is only available inside of the SSH project and the server project which implements the REST endpoints doesn\u0027t have a dependency on it. Since we don\u0027t want this dependency I don\u0027t know how to implement it.\n\nOn the other hand, if you have SSH enabled and you are interested in the SSH summary and connections you can retrieve this information via SSH. The REST endpoints are mainly important for installations where SSH is not available, but in this case there is also no SSH summary and no SSH connections. This is why I\u0027m okay with the current solution of ignoring the SSH stuff in the REST endpoint.",
+      "parentUuid": "2481c117_077b3603",
       "range": {
         "startLine": 272,
         "startChar": 2,

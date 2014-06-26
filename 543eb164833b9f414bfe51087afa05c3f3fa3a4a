@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "04767d12_4664522b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GetSummary.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-26T12:49:45Z",
+      "side": 1,
+      "message": "Ok, i see. But may be put a comment or mention it even in the commit message? Every reviewer would wonder why VIEW_CACHES capability is used and not VIEW_QUEUE.",
+      "parentUuid": "6413b9dc_29670df5",
+      "range": {
+        "startLine": 42,
+        "startChar": 20,
+        "endLine": 42,
+        "endChar": 48
+      },
+      "revId": "543eb164833b9f414bfe51087afa05c3f3fa3a4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "04767d12_66fb0e28",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ShowCaches.java",
         "patchSetId": 6
@@ -131,6 +155,30 @@
       "side": 1,
       "message": "I would love to do this. The problem is that all SSH information is only available inside of the SSH project and the server project which implements the REST endpoints doesn\u0027t have a dependency on it. Since we don\u0027t want this dependency I don\u0027t know how to implement it.\n\nOn the other hand, if you have SSH enabled and you are interested in the SSH summary and connections you can retrieve this information via SSH. The REST endpoints are mainly important for installations where SSH is not available, but in this case there is also no SSH summary and no SSH connections. This is why I\u0027m okay with the current solution of ignoring the SSH stuff in the REST endpoint.",
       "parentUuid": "2481c117_077b3603",
+      "range": {
+        "startLine": 272,
+        "startChar": 2,
+        "endLine": 293,
+        "endChar": 3
+      },
+      "revId": "543eb164833b9f414bfe51087afa05c3f3fa3a4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04767d12_66694e00",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ShowCaches.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-26T12:49:45Z",
+      "side": 1,
+      "message": "Yes, you are right. Missed it.",
+      "parentUuid": "6413b9dc_e9c1f569",
       "range": {
         "startLine": 272,
         "startChar": 2,

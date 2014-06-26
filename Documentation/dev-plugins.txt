@@ -1739,10 +1739,11 @@ public class MyWeblinkPlugin implements PatchSetWebLink {
 
   private String name = "MyLink";
   private String placeHolderUrlProjectCommit = "http://my.tool.com/project=%s/commit=%s";
+  private String imageUrl = "http://placehold.it/16x16.gif";
 
   @Override
   public String getLinkName() {
-    return name ;
+    return name;
   }
 
   @Override
@@ -1750,6 +1751,10 @@ public class MyWeblinkPlugin implements PatchSetWebLink {
     return String.format(placeHolderUrlProjectCommit, project, commit);
   }
 
+  @Override
+  public String getImageUrl() {
+    return imageUrl;
+  }
 }
 ----
 

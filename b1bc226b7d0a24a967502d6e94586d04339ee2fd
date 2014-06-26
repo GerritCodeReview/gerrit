@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "6413b9dc_490ec154",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 26
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-26T08:33:25Z",
+      "side": 1,
+      "message": "cool :)",
+      "parentUuid": "44a155b9_c0a4dedc",
+      "revId": "b1bc226b7d0a24a967502d6e94586d04339ee2fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "44a155b9_a0a9dab2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
         "patchSetId": 26
@@ -84,6 +102,24 @@
       "writtenOn": "2014-06-24T23:41:17Z",
       "side": 1,
       "message": "Instead of making a TreeSet of Map.Entrys how about just a TreeMap with this comparator?",
+      "revId": "b1bc226b7d0a24a967502d6e94586d04339ee2fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04767d12_a6aee61d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-26T08:33:25Z",
+      "side": 1,
+      "message": "I need sorting by values and not keys :-(\nSee http://stackoverflow.com/questions/2864840/treemap-sort-by-value as reference. TreeSet\u003cEntry\u003ckey,value\u003e\u003e seems to be the only (ugly) solution :-(",
+      "parentUuid": "44a155b9_a0a9dab2",
       "revId": "b1bc226b7d0a24a967502d6e94586d04339ee2fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

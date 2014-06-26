@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6413b9dc_29f26d0a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ServerPluginProvider.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-26T07:56:15Z",
+      "side": 1,
+      "message": "Not exactly, there are two different situations here:\n\na) You are calling get() with a source file that is not supposed to be a plugin at all because the call handles(srcFile) would return false \u003d\u003e IllegalArgumentException() as the method call is incorrect.\n\nb) You are calling get() with a source file that IS a plugin and the call handles(srcFile) actually returns true \u003d\u003e InvalidPluginException() is when you were actually trying to load the plugin but because of other reasons (invalid classes ? missing annotations ? invalid script syntax ? anything that the Plugin provider would detect that is not quite right) you are NOT able to load the plugin at all.\n\nDoes it make sense ? I will document the extra IAE when the srcFile is not supposed a plugin at all.",
+      "parentUuid": "64ead9f0_91e29c3d",
+      "revId": "7b070351c62e579993efc666ef60b339a33265a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "64ead9f0_d1d8248b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/UniversalServerPluginProvider.java",
         "patchSetId": 32
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "04767d12_86280aed",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/UniversalServerPluginProvider.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-26T07:56:15Z",
+      "side": 1,
+      "message": "Sure, I was too optimistic on my Eclipse \"organise imports\" doing the job :-(",
+      "parentUuid": "64ead9f0_d1d8248b",
+      "revId": "7b070351c62e579993efc666ef60b339a33265a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "44ef95ff_d0d81c8b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/UniversalServerPluginProvider.java",
         "patchSetId": 32
@@ -47,6 +83,24 @@
       "writtenOn": "2014-06-25T17:51:06Z",
       "side": 1,
       "message": "So we\u0027re throwing IAE in this case even though handles(srcFile) returned true. Which I am fine with.",
+      "revId": "7b070351c62e579993efc666ef60b339a33265a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6413b9dc_09efa922",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/UniversalServerPluginProvider.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-26T07:56:15Z",
+      "side": 1,
+      "message": "Yes, even if in theory I should throw a different exception anyway but I needed to be consistent with the method signature for getPluginName().\n\nSame should be done for the handles() on the bottom. Will do in the next patch-set.",
+      "parentUuid": "44ef95ff_d0d81c8b",
       "revId": "7b070351c62e579993efc666ef60b339a33265a9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

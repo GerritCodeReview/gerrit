@@ -30,15 +30,12 @@ import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.common.PageLinks;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
-import com.google.gwt.dom.client.AnchorElement;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.TableCellElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
@@ -66,7 +63,7 @@ class CommitBox extends Composite {
   @UiField FlowPanel committerPanel;
   @UiField Image mergeCommit;
   @UiField CopyableLabel commitName;
-  @UiField TableCellElement webLinkCell;
+  @UiField FlowPanel webLinkPanel;
   @UiField Element parents;
   @UiField FlowPanel parentCommits;
   @UiField FlowPanel parentWebLinks;
@@ -129,22 +126,30 @@ class CommitBox extends Composite {
       RevisionInfo revInfo) {
     GitwebLink gw = Gerrit.getGitwebLink();
     if (gw != null && gw.canLink(revInfo)) {
-      addWebLink(gw.toRevision(change.project(), revision), gw.getLinkName());
+      addWebLink(gw.toRevision(change.project(), revision), gw.getLinkName(), null);
     }
 
     JsArray<WebLinkInfo> links = revInfo.web_links();
     if (links != null) {
       for (WebLinkInfo link : Natives.asList(links)) {
-        addWebLink(link.url(), parenthesize(link.name()));
+        addWebLink(link.url(), parenthesize(link.name()), link.imageUrl());
       }
     }
   }
 
-  private void addWebLink(String href, String name) {
-    AnchorElement a = DOM.createAnchor().cast();
+  private void addWebLink(String href, String name, String imageUrl) {
+    Anchor a = new Anchor();
     a.setHref(href);
-    a.setInnerText(name);
-    webLinkCell.appendChild(a);
+    if (imageUrl != null && !imageUrl.isEmpty()) {
+      Image img = new Image();
+      img.setAltText(name);
+      img.setUrl(imageUrl);
+      img.setTitle(name);
+      a.getElement().appendChild(img.getElement());
+    } else {
+      a.setText(name);
+    }
+    webLinkPanel.add(a);
   }
 
   private void setParents(String project, JsArray<CommitInfo> commits) {

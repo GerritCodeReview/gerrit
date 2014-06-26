@@ -112,6 +112,7 @@ java_library(
     '//lib:h2',
     '//lib:servlet-api-3_1',
     '//lib/guice:guice',
+    '//lib/guice:guice-assistedinject',
     '//lib/guice:guice-servlet',
     '//lib/jetty:server',
     '//lib/jetty:servlet',

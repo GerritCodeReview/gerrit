@@ -25,6 +25,7 @@ import com.google.common.html.HtmlEscapers;
 import com.google.common.io.ByteStreams;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.launcher.GerritLauncher;
+import com.google.gerrit.pgm.http.jetty.HttpLog.HttpLogFactory;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -160,7 +161,7 @@ public class JettyServer {
 
   @Inject
   JettyServer(@GerritServerConfig final Config cfg, final SitePaths site,
-      final JettyEnv env)
+      final JettyEnv env, final HttpLogFactory httpLogFactory)
       throws MalformedURLException, IOException {
     this.site = site;
 
@@ -170,7 +171,7 @@ public class JettyServer {
     Handler app = makeContext(env, cfg);
     if (cfg.getBoolean("httpd", "requestLog", !reverseProxy)) {
       RequestLogHandler handler = new RequestLogHandler();
-      handler.setRequestLog(new HttpLog(site, cfg));
+      handler.setRequestLog(httpLogFactory.get());
       handler.setHandler(app);
       app = handler;
     }

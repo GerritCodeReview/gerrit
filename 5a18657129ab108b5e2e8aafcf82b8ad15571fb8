@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "2442a1dc_df25bbd1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/MultipleProvidersForPluginException.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-26T20:46:26Z",
+      "side": 1,
+      "message": "Not that it matters but 1L is by fare more common in the Gerrit codebase.",
+      "revId": "5a18657129ab108b5e2e8aafcf82b8ad15571fb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6413b9dc_298eed6a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/MultipleProvidersForPluginException.java",
         "patchSetId": 35
@@ -13,6 +30,30 @@
       "writtenOn": "2014-06-26T10:16:16Z",
       "side": 1,
       "message": "This is enough to report comma separated plugin providers? I would expect that  something like that is needed:\n\n Joiner.on(\", \").join(new Function(): ServerPluginProvider -\u003e plugin-name);",
+      "range": {
+        "startLine": 26,
+        "startChar": 8,
+        "endLine": 26,
+        "endChar": 27
+      },
+      "revId": "5a18657129ab108b5e2e8aafcf82b8ad15571fb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04475ded_3eef0923",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/MultipleProvidersForPluginException.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-26T20:46:26Z",
+      "side": 1,
+      "message": "Not in general for Iterable but Collections and all subclasses are expected to have sane toString",
+      "parentUuid": "6413b9dc_298eed6a",
       "range": {
         "startLine": 26,
         "startChar": 8,
@@ -157,6 +198,23 @@
     },
     {
       "key": {
+        "uuid": "2442a1dc_9f2f33ae",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ServerPluginProvider.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-26T20:46:26Z",
+      "side": 1,
+      "message": "Did we decide for/against encapsulating these arguments into a Description class?",
+      "revId": "5a18657129ab108b5e2e8aafcf82b8ad15571fb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6413b9dc_c95d1122",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/UniversalServerPluginProvider.java",
         "patchSetId": 35
@@ -174,6 +232,23 @@
         "endLine": 71,
         "endChar": 51
       },
+      "revId": "5a18657129ab108b5e2e8aafcf82b8ad15571fb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2442a1dc_ff2aff9e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/UniversalServerPluginProvider.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-26T20:46:26Z",
+      "side": 1,
+      "message": "I\u0027m not going to require another round of review jsut for this but I would find this easier to read if you just converted it to a list and checked the length.",
       "revId": "5a18657129ab108b5e2e8aafcf82b8ad15571fb8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -3480,6 +3480,7 @@ The `WebLinkInfo` entity describes a link to an external site.
 |Field Name|Description
 |`name`    |The link name.
 |`url`     |The link URL.
+|'image_url'|URL to the icon of the link
 |======================
 
 GERRIT

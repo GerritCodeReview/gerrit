@@ -38,6 +38,7 @@ public class WebLinks {
     List<Link> links = Lists.newArrayList();
     for (PatchSetWebLink webLink : patchSetLinks) {
       links.add(new Link(webLink.getLinkName(),
+          webLink.getImageUrl(),
           webLink.getPatchSetUrl(project, commit)));
     }
     return links;
@@ -47,6 +48,7 @@ public class WebLinks {
     List<Link> links = Lists.newArrayList();
     for (ProjectWebLink webLink : projectLinks) {
       links.add(new Link(webLink.getLinkName(),
+          webLink.getImageUrl(),
           webLink.getProjectUrl(project)));
     }
     return links;
@@ -54,10 +56,12 @@ public class WebLinks {
 
   public class Link {
     public String name;
+    public String imageUrl;
     public String url;
 
-    public Link(String name, String url) {
+    public Link(String name, String imageUrl, String url) {
       this.name = name;
+      this.imageUrl = imageUrl;
       this.url = url;
     }
   }

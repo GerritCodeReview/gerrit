@@ -22,6 +22,30 @@
       "revId": "08167c53d7810831e50401e2c11c7c5dd718250f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "440875ab_e8fc53db",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticsearchChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-06-26T10:00:45Z",
+      "side": 1,
+      "message": "With a query \"owner:self\", the query string is coming out as:\n\n \"owner:`\\b\\u0000\u003d\\u0004@\"\n\nwhereas for a query \"status:open\" it comes out correctly as:\n\n \"status:new status:submitted status:draft\"",
+      "parentUuid": "0402fd8c_c6d8628b",
+      "range": {
+        "startLine": 301,
+        "startChar": 0,
+        "endLine": 303,
+        "endChar": 73
+      },
+      "revId": "08167c53d7810831e50401e2c11c7c5dd718250f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

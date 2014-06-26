@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0402fd8c_661ace88",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/AbstractPreloadedPluginScanner.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-26T21:51:31Z",
+      "side": 1,
+      "message": "I can see where this is useful.\n\nBut it\u0027s also telling me that Manifest is the wrong thing to be returning from the PluginContentScanner interface.\n\nAdd to the list of later cleanups I guess?",
+      "revId": "51def50e00d5cdef0f8ced411d82496bc9b77465",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

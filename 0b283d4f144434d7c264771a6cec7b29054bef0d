@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "440875ab_88439726",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Mergeable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2014-06-27T21:32:56Z",
+      "side": 1,
+      "message": "Why this change? After looking closer, it looks like a no-op since the only caller calls setForce right after it constructs a Mergeable.",
+      "range": {
+        "startLine": 83,
+        "startChar": 0,
+        "endLine": 83,
+        "endChar": 31
+      },
+      "revId": "0b283d4f144434d7c264771a6cec7b29054bef0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

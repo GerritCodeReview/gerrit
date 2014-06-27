@@ -191,9 +191,7 @@ public class ChangeInserter {
     } finally {
       db.rollback();
     }
-    if (messageIsForChange()) {
-      update.commit();
-    }
+    update.commit();
     CheckedFuture<?, IOException> f = mergeabilityChecker.newCheck()
         .addChange(change)
         .reindex()

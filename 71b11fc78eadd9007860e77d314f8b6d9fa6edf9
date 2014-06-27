@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0402fd8c_26c0565e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2014-06-27T19:23:40Z",
+      "side": 1,
+      "message": "Could this use .equals() or Objects.equal() instead? That way the reader doesn\u0027t have to worry about whether info.mergeable was created using an expression like \u0027new Boolean(true)\u0027.",
+      "range": {
+        "startLine": 343,
+        "startChar": 0,
+        "endLine": 343,
+        "endChar": 71
+      },
+      "revId": "71b11fc78eadd9007860e77d314f8b6d9fa6edf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "440875ab_e8c1f369",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Mergeable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2014-06-27T19:23:40Z",
+      "side": 1,
+      "message": "Unrelated change?",
+      "range": {
+        "startLine": 83,
+        "startChar": 0,
+        "endLine": 83,
+        "endChar": 31
+      },
+      "revId": "71b11fc78eadd9007860e77d314f8b6d9fa6edf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

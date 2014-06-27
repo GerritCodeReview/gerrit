@@ -201,10 +201,6 @@ public class ChangeInserter {
 
     if(!messageIsForChange()) {
       commitMessageNotForChange();
-      if (changeMessage != null) {
-        ChangeUtil.bumpRowVersionNotLastUpdatedOn(
-            changeMessage.getKey().getParentKey(), db);
-      }
     }
     gitRefUpdated.fire(change.getProject(), patchSet.getRefName(),
         ObjectId.zeroId(), commit);
@@ -236,6 +232,8 @@ public class ChangeInserter {
     if (changeMessage != null) {
       Change otherChange =
           db.changes().get(changeMessage.getPatchSetId().getParentKey());
+      ChangeUtil.bumpRowVersionNotLastUpdatedOn(
+          changeMessage.getKey().getParentKey(), db);
       ChangeControl otherControl =
           refControl.getProjectControl().controlFor(otherChange);
       ChangeUpdate updateForOtherChange =

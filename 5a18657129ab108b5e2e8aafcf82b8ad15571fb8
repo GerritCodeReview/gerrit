@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a44db111_fb01af28",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/MultipleProvidersForPluginException.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-27T08:10:00Z",
+      "side": 1,
+      "message": "Small fix, will do it :-)",
+      "parentUuid": "2442a1dc_df25bbd1",
+      "revId": "5a18657129ab108b5e2e8aafcf82b8ad15571fb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6413b9dc_298eed6a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/MultipleProvidersForPluginException.java",
         "patchSetId": 35
@@ -113,6 +131,30 @@
     },
     {
       "key": {
+        "uuid": "04303d7d_36ef3823",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-27T08:10:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "04767d12_06717af2",
+      "range": {
+        "startLine": 390,
+        "startChar": 6,
+        "endLine": 390,
+        "endChar": 31
+      },
+      "revId": "5a18657129ab108b5e2e8aafcf82b8ad15571fb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "04767d12_267676eb",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
         "patchSetId": 35
@@ -136,6 +178,30 @@
     },
     {
       "key": {
+        "uuid": "a44db111_9bf66bf8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-27T08:10:00Z",
+      "side": 1,
+      "message": "That is not completely true then: the point is that the file is not a recognised plugin loadable from Gerrit and will be skipped.\n\nIt could be one of the tree checks that failed:\n- it is not a Jar plugin\n- it is not a JS plugin\n- it is not managed by any pluggable Plugin provider",
+      "parentUuid": "04767d12_267676eb",
+      "range": {
+        "startLine": 391,
+        "startChar": 17,
+        "endLine": 391,
+        "endChar": 44
+      },
+      "revId": "5a18657129ab108b5e2e8aafcf82b8ad15571fb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "04767d12_466b7202",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
         "patchSetId": 35
@@ -147,6 +213,30 @@
       "writtenOn": "2014-06-26T10:16:16Z",
       "side": 1,
       "message": "Why this is needed? name was already retrieved in rescan() method and passed to this method. Put a comment?",
+      "range": {
+        "startLine": 434,
+        "startChar": 6,
+        "endLine": 434,
+        "endChar": 33
+      },
+      "revId": "5a18657129ab108b5e2e8aafcf82b8ad15571fb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04303d7d_d6fcc4db",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-27T08:10:00Z",
+      "side": 1,
+      "message": "True, will put a comment on that.\n\nThe problem is that the Gerrit scanner gives an \"initially guessed\" plugin name, but then it could be redefined by the ServerPluginProvider. This is the reason why after the initial guess, we need to get real one assigned to the plugin.",
+      "parentUuid": "04767d12_466b7202",
       "range": {
         "startLine": 434,
         "startChar": 6,
@@ -205,6 +295,30 @@
     },
     {
       "key": {
+        "uuid": "04303d7d_f601c028",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 688,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-27T08:10:00Z",
+      "side": 1,
+      "message": "It is an initial guessed name as described before. Will amend the comment.",
+      "parentUuid": "6413b9dc_098b295b",
+      "range": {
+        "startLine": 688,
+        "startChar": 2,
+        "endLine": 688,
+        "endChar": 53
+      },
+      "revId": "5a18657129ab108b5e2e8aafcf82b8ad15571fb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6413b9dc_e958d533",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ServerPluginProvider.java",
         "patchSetId": 35
@@ -222,6 +336,24 @@
     },
     {
       "key": {
+        "uuid": "04303d7d_96f64cf8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ServerPluginProvider.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-27T08:10:00Z",
+      "side": 1,
+      "message": "Let\u0027s recap: the IAE is thrown when you call a method whilst you shouldn\u0027t (e.g. you know that a plugin cannot be handled but you call getName() or get() on that plugin).\n\nThe UniversalServerPluginProvider (which is incidentally a ServerPluginProvider but a very \"special\" one because it manages and orchestrate the plugin loading across providers) makes this extra check on the fact that more than one provider per plugin is forbidden.\n\nThat behaviour however is specific to the UniversalServerPluginProvider and NOT to the ServerPluginProvider extension point. This is why that exception (MultipleProvidersForPluginException) is a RunTimeException and is not documented here and is NOT public.\n\nDoes it make sense?",
+      "parentUuid": "6413b9dc_e958d533",
+      "revId": "5a18657129ab108b5e2e8aafcf82b8ad15571fb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2442a1dc_9f2f33ae",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ServerPluginProvider.java",
         "patchSetId": 35
@@ -233,6 +365,24 @@
       "writtenOn": "2014-06-26T20:46:26Z",
       "side": 1,
       "message": "Did we decide for/against encapsulating these arguments into a Description class?",
+      "revId": "5a18657129ab108b5e2e8aafcf82b8ad15571fb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04303d7d_b6fb48df",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ServerPluginProvider.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-27T08:10:00Z",
+      "side": 1,
+      "message": "True, I missed that :-( apologies.\nWill include in the next patch-set.",
+      "parentUuid": "2442a1dc_9f2f33ae",
       "revId": "5a18657129ab108b5e2e8aafcf82b8ad15571fb8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

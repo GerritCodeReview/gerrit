@@ -19,6 +19,7 @@ import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
@@ -54,6 +55,26 @@ public class ScheduleConfigTest {
     assertEquals(ms(1, HOURS), initialDelay("Mon 11:00", "1d"));
     assertEquals(ms(23, HOURS), initialDelay("Mon 09:00", "1d"));
     assertEquals(ms(1, DAYS), initialDelay("Mon 10:00", "1d"));
+    assertEquals(ms(1, DAYS), initialDelay("Mon 10:00", "1d"));
+  }
+
+  @Test
+  public void testCustomKeys() throws ConfigInvalidException {
+    Config rc = readConfig(MessageFormat.format(
+            "[section \"subsection\"]\n{0} = {1}\n{2} = {3}\n",
+            "myStartTime", "01:00", "myInterval", "1h"));
+
+    ScheduleConfig scheduleConfig;
+
+    scheduleConfig = new ScheduleConfig(rc, "section",
+        "subsection", "myInterval", "myStartTime");
+    assertNotEquals(scheduleConfig.getInterval(), ScheduleConfig.MISSING_CONFIG);
+    assertNotEquals(scheduleConfig.getInitialDelay(), ScheduleConfig.MISSING_CONFIG);
+
+    scheduleConfig = new ScheduleConfig(rc, "section",
+        "subsection", "nonExistent", "myStartTime");
+    assertEquals(scheduleConfig.getInterval(), ScheduleConfig.MISSING_CONFIG);
+    assertEquals(scheduleConfig.getInitialDelay(), ScheduleConfig.MISSING_CONFIG);
   }
 
   private static long initialDelay(String startTime, String interval)

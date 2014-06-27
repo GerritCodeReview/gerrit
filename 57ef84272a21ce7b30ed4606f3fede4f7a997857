@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "0402fd8c_86a94ab3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-27T20:52:56Z",
+      "side": 1,
+      "message": "s/taught/teach/ig",
+      "parentUuid": "0402fd8c_c6af42b6",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 37
+      },
+      "revId": "57ef84272a21ce7b30ed4606f3fede4f7a997857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a4f77198_cbab1574",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -271,6 +295,30 @@
       "writtenOn": "2014-06-24T00:58:11Z",
       "side": 1,
       "message": "If it\u0027s expected that external programs will need to use this data, this ought to be included in the documentation, rather than only in the commit message.",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 61,
+        "endChar": 55
+      },
+      "revId": "57ef84272a21ce7b30ed4606f3fede4f7a997857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0402fd8c_669f6e7f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-27T20:52:56Z",
+      "side": 1,
+      "message": "I don\u0027t think there is any more need to document this format than the existing notedb commit message format.\n\nWe do need to document it but not until it\u0027s more stable.",
+      "parentUuid": "c4faa581_6cc79b24",
       "range": {
         "startLine": 48,
         "startChar": 0,

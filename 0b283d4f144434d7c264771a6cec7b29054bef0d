@@ -22,6 +22,30 @@
       "revId": "0b283d4f144434d7c264771a6cec7b29054bef0d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "440875ab_68598311",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Mergeable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-27T21:48:54Z",
+      "side": 1,
+      "message": "The confusing thing here is that this is used by both the REST API (/changes/X/revisions/Y/mergeable) and various internal callers (via MergeabilityChecker.newCheck().force()).\n\nThe REST API previously returned stale results sometimes (because force defaulted to false). Since the purpose of this series is to distinguish between \"mergeable/unmergeable\" and \"don\u0027t know\", I figured a reasonable behavior change would be to default force to true for the REST API.",
+      "parentUuid": "440875ab_88439726",
+      "range": {
+        "startLine": 83,
+        "startChar": 0,
+        "endLine": 83,
+        "endChar": 31
+      },
+      "revId": "0b283d4f144434d7c264771a6cec7b29054bef0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -91,30 +91,28 @@ public class ScheduleConfig {
     String start = rc.getString(section, subsection, KEY_STARTTIME);
     try {
       if (start != null) {
-        DateTimeFormatter formatter = ISODateTimeFormat.hourMinute();
+        DateTimeFormatter formatter;
         MutableDateTime startTime = now.toMutableDateTime();
-        LocalTime firstStartTime = null;
-        LocalDateTime firstStartDateTime = null;
         try {
-          firstStartTime = formatter.parseLocalTime(start);
+          formatter = ISODateTimeFormat.hourMinute();
+          LocalTime firstStartTime = formatter.parseLocalTime(start);
           startTime.hourOfDay().set(firstStartTime.getHourOfDay());
           startTime.minuteOfHour().set(firstStartTime.getMinuteOfHour());
         } catch (IllegalArgumentException e1) {
           formatter = DateTimeFormat.forPattern("E HH:mm");
-          firstStartDateTime = formatter.parseLocalDateTime(start);
+          LocalDateTime firstStartDateTime = formatter.parseLocalDateTime(start);
           startTime.dayOfWeek().set(firstStartDateTime.getDayOfWeek());
           startTime.hourOfDay().set(firstStartDateTime.getHourOfDay());
           startTime.minuteOfHour().set(firstStartDateTime.getMinuteOfHour());
         }
         startTime.secondOfMinute().set(0);
         startTime.millisOfSecond().set(0);
-        while (startTime.isBefore(now)) {
-          startTime.add(interval);
+        long s = startTime.getMillis();
+        long n = now.getMillis();
+        delay = (s - n) % interval;
+        if (delay <= 0) {
+          delay += interval;
         }
-        while (startTime.getMillis() - now.getMillis() > interval) {
-          startTime.add(-interval);
-        }
-        delay = startTime.getMillis() - now.getMillis();
       } else {
         log.info(MessageFormat.format(
             "{0} schedule parameter \"{0}.{1}\" is not configured", section,

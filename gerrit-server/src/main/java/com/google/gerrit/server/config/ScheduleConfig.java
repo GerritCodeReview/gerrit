@@ -47,11 +47,22 @@ public class ScheduleConfig {
     this(rc, section, subsection, DateTime.now());
   }
 
+  public ScheduleConfig(Config rc, String section, String subsection,
+      String keyInterval, String keyStartTime) {
+    this(rc, section, subsection, keyInterval, keyStartTime, DateTime.now());
+  }
+
   /* For testing we need to be able to pass now */
   ScheduleConfig(Config rc, String section, String subsection, DateTime now) {
-    this.interval = interval(rc, section, subsection);
+    this(rc, section, subsection, KEY_INTERVAL, KEY_STARTTIME, now);
+  }
+
+  private ScheduleConfig(Config rc, String section, String subsection,
+      String keyInterval, String keyStartTime, DateTime now) {
+    this.interval = interval(rc, section, subsection, keyInterval);
     if (interval > 0) {
-      this.initialDelay = initialDelay(rc, section, subsection, now, interval);
+      this.initialDelay = initialDelay(rc, section, subsection, keyStartTime, now,
+          interval);
     } else {
       this.initialDelay = interval;
     }
@@ -65,20 +76,21 @@ public class ScheduleConfig {
     return interval;
   }
 
-  private static long interval(Config rc, String section, String subsection) {
+  private static long interval(Config rc, String section, String subsection,
+      String keyInterval) {
     long interval = MISSING_CONFIG;
     try {
       interval =
-          ConfigUtil.getTimeUnit(rc, section, subsection, KEY_INTERVAL, -1,
+          ConfigUtil.getTimeUnit(rc, section, subsection, keyInterval, -1,
               TimeUnit.MILLISECONDS);
       if (interval == MISSING_CONFIG) {
         log.info(MessageFormat.format(
             "{0} schedule parameter \"{0}.{1}\" is not configured", section,
-            KEY_INTERVAL));
+            keyInterval));
       }
     } catch (IllegalArgumentException e) {
       log.error(MessageFormat.format(
-          "Invalid {0} schedule parameter \"{0}.{1}\"", section, KEY_INTERVAL),
+          "Invalid {0} schedule parameter \"{0}.{1}\"", section, keyInterval),
           e);
       interval = INVALID_CONFIG;
     }
@@ -86,9 +98,9 @@ public class ScheduleConfig {
   }
 
   private static long initialDelay(Config rc, String section,
-      String subsection, DateTime now, long interval) {
+      String subsection, String keyStartTime, DateTime now, long interval) {
     long delay = MISSING_CONFIG;
-    String start = rc.getString(section, subsection, KEY_STARTTIME);
+    String start = rc.getString(section, subsection, keyStartTime);
     try {
       if (start != null) {
         DateTimeFormatter formatter;
@@ -116,12 +128,12 @@ public class ScheduleConfig {
       } else {
         log.info(MessageFormat.format(
             "{0} schedule parameter \"{0}.{1}\" is not configured", section,
-            KEY_STARTTIME));
+            keyStartTime));
       }
     } catch (IllegalArgumentException e2) {
       log.error(
           MessageFormat.format("Invalid {0} schedule parameter \"{0}.{1}\"",
-              section, KEY_STARTTIME), e2);
+              section, keyStartTime), e2);
       delay = INVALID_CONFIG;
     }
     return delay;

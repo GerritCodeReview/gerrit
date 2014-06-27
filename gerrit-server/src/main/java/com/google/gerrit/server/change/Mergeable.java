@@ -65,7 +65,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
 
   public static class MergeableInfo {
     public SubmitType submitType;
-    public boolean mergeable;
+    public Boolean mergeable;
     public List<String> mergeableInto;
   }
 
@@ -80,7 +80,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
   private final Provider<ReviewDb> db;
   private final ChangeIndexer indexer;
 
-  private boolean force;
+  private boolean force = true;
 
   @Inject
   Mergeable(TestSubmitType.Get submitType,
@@ -116,7 +116,9 @@ public class Mergeable implements RestReadView<RevisionResource> {
     }
 
     result.submitType = submitType.apply(resource);
-    result.mergeable = change.isMergeable();
+    if (change.getLastSha1MergeTested() != null) {
+      result.mergeable = change.isMergeable();
+    }
 
     Repository git = gitManager.openRepository(change.getProject());
     try {

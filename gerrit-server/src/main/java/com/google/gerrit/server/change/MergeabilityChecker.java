@@ -58,6 +58,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 
@@ -340,7 +341,7 @@ public class MergeabilityChecker implements GitReferenceUpdatedListener {
             changeControlFactory.controlFor(change.getId(), context.getCurrentUser());
         MergeableInfo info = m.apply(
             new RevisionResource(new ChangeResource(control), ps));
-        return change.isMergeable() != info.mergeable;
+        return Objects.equals(change.isMergeable(), info.mergeable);
       } catch (ResourceConflictException e) {
         // change is closed
         return false;

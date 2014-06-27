@@ -50,7 +50,11 @@ public class ScheduleConfig {
   /* For testing we need to be able to pass now */
   ScheduleConfig(Config rc, String section, String subsection, DateTime now) {
     this.interval = interval(rc, section, subsection);
-    this.initialDelay = initialDelay(rc, section, subsection, now, interval);
+    if (interval > 0) {
+      this.initialDelay = initialDelay(rc, section, subsection, now, interval);
+    } else {
+      this.initialDelay = interval;
+    }
   }
 
   public long getInitialDelay() {

@@ -1,0 +1,851 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "440875ab_e8445332",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-27T22:26:58Z",
+      "side": 1,
+      "message": "Use the same format as the existing Submitted-with footer.",
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "440875ab_a8a41bdb",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/PatchLineComment.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-27T22:26:58Z",
+      "side": 1,
+      "message": "Mention that this is not stored in the database, but is provided for users of this class to avoid a lookup when they don\u0027t have easy access to a ReviewDb.",
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0402fd8c_469c7288",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VersionedMetaData.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-27T22:26:58Z",
+      "side": 1,
+      "message": "Add a comment like:\n\n // Caller populated tree without using DirCache.",
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0402fd8c_26997698",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-27T22:26:58Z",
+      "side": 1,
+      "message": "Either or both of these ranges might be null (see the @Column annotation), so you would need to fall back to the line number.\n\nThis ordering is fairly arbitrary, so just pick some way of breaking ties when c1 has only a line and c2 has only a range.",
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "440875ab_689f437f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-27T22:26:58Z",
+      "side": 1,
+      "message": "Optional nit: Ps is much more common.",
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "440875ab_489c7f88",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 568,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-27T22:26:58Z",
+      "side": 1,
+      "message": "Missing period and space after )",
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "440875ab_28994b98",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 570,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-27T22:26:58Z",
+      "side": 1,
+      "message": "Indent this one more.\n\nAlso I tend to prefer getBarFoo over getBarForFoo, it\u0027s more succinct and (in this case) no less clear.",
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0402fd8c_06967a68",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 574,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-27T22:26:58Z",
+      "side": 1,
+      "message": "Missing period and space after )",
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "440875ab_08968768",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-27T22:26:58Z",
+      "side": 1,
+      "message": "Indent.\n\ngetPatchSetComments?",
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "440875ab_e81b335d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 581,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-27T22:26:58Z",
+      "side": 1,
+      "message": "ChangeNotes has no subclasses so protected doesn\u0027t make sense here. Did you mean package-private (aka default)?",
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "440875ab_68e2a3ef",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-27T22:26:58Z",
+      "side": 1,
+      "message": "Useful error message.\n\nThere are actually two error cases:\n\n* setPatchSetId hasn\u0027t been called yet (psId \u003d null)\n* the PSID is mismatched\n\nI think it\u0027s fine to have the restriction that setPatchSetId must have been called previously, just might need a different error message in that case.",
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "440875ab_a8f77bac",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-27T22:26:58Z",
+      "side": 1,
+      "message": "I think you want to skip this writeTree step entirely when you have nothing to do, and return null. When you get that back from this method, don\u0027t call setTreeId on the CommitBuilder (it would NPE). This will cause it to reuse the tree pointer from the parent commit in the note graph, which is exactly what you want.",
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0402fd8c_86fcaa8f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-27T22:26:58Z",
+      "side": 1,
+      "message": "Surely you can factor out a method that can be called twice here?",
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "440875ab_c8206f92",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-27T22:26:58Z",
+      "side": 1,
+      "message": "2014",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "440875ab_a8253ba0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-27T22:26:58Z",
+      "side": 1,
+      "message": "Not just parsing, also storing, right?",
+      "range": {
+        "startLine": 51,
+        "startChar": 25,
+        "endLine": 51,
+        "endChar": 30
+      },
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "440875ab_882a776c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-27T22:26:58Z",
+      "side": 1,
+      "message": "Static methods go above the constructor.",
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0402fd8c_c6206292",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-27T22:26:58Z",
+      "side": 1,
+      "message": "Add\n\n // TODO(dborowitz): Use a ThreadLocal or use Joda.\n\nhttp://www.javacodegeeks.com/2010/07/java-best-practices-dateformat-in.html\n\ntl;dr Java standard library sucks at dates.",
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0402fd8c_e61b5e5d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-27T22:26:58Z",
+      "side": 1,
+      "message": "Can just be:\n\n formatTime(new PersonIdent(serverIdent, t));",
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0402fd8c_a62566a0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-27T22:26:58Z",
+      "side": 1,
+      "message": "Not just assuming, enforcing.\n\nUse a full javadoc for this public method with @param and @return.",
+      "range": {
+        "startLine": 85,
+        "startChar": 19,
+        "endLine": 85,
+        "endChar": 26
+      },
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0402fd8c_462d9281",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-27T22:26:58Z",
+      "side": 1,
+      "message": "Static import of UTF_8 and this will fit on one line.",
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0402fd8c_66308edb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-27T22:26:58Z",
+      "side": 1,
+      "message": "All these should be constants so you can be sure you\u0027re parsing out the same as you\u0027re generating.",
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0402fd8c_263a96b9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-27T22:26:58Z",
+      "side": 1,
+      "message": "aka psId? Here and below.",
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0402fd8c_06379ad1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-27T22:26:58Z",
+      "side": 1,
+      "message": "\"Revision\"? Not that I really care.",
+      "range": {
+        "startLine": 111,
+        "startChar": 30,
+        "endLine": 111,
+        "endChar": 38
+      },
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "440875ab_0837a7d1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-27T22:26:58Z",
+      "side": 1,
+      "message": "Maybe a more helpful error message?",
+      "range": {
+        "startLine": 116,
+        "startChar": 6,
+        "endLine": 116,
+        "endChar": 19
+      },
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "440875ab_283a6bb9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-27T22:26:58Z",
+      "side": 1,
+      "message": "This is all over the place and not particularly readable. Factor out a static method like\n\n PatchSet.Id psId(PatchLineComment plc)",
+      "range": {
+        "startLine": 116,
+        "startChar": 32,
+        "endLine": 116,
+        "endChar": 72
+      },
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0402fd8c_862a6a6c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-27T22:26:58Z",
+      "side": 1,
+      "message": "Extra space",
+      "range": {
+        "startLine": 168,
+        "startChar": 47,
+        "endLine": 168,
+        "endChar": 48
+      },
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "440875ab_683063db",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-27T22:26:58Z",
+      "side": 1,
+      "message": "RawParseUtils.match is probably better for this. Also, include the \": \".",
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "440875ab_c8498f48",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-27T22:26:58Z",
+      "side": 1,
+      "message": "Enforce that the separator chars are correct?",
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0402fd8c_c6498248",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-27T22:26:58Z",
+      "side": 1,
+      "message": "Public static methods above constructor.\n\nI would probably group all of the static parsing helpers above that too.",
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0402fd8c_4656b2e3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-27T22:26:58Z",
+      "side": 1,
+      "message": "Comments above blocks like this are a smell that you could just factor these out into descriptively-named methods.",
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "440875ab_a83e5ba6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-27T22:26:58Z",
+      "side": 1,
+      "message": "As above enforce \": \" as well?",
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0402fd8c_2653b6f3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-27T22:26:58Z",
+      "side": 1,
+      "message": "RevId",
+      "range": {
+        "startLine": 230,
+        "startChar": 32,
+        "endLine": 230,
+        "endChar": 39
+      },
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0402fd8c_0650bae2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-27T22:26:58Z",
+      "side": 1,
+      "message": "Factor out the body of this loop too?",
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0402fd8c_e6ed9ee0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-27T22:26:58Z",
+      "side": 1,
+      "message": "This looks like you\u0027re discarding any garbage between a line number and EOL. Probably fine, but you could just as easily get the result pointer back in a MutableInteger and check it has advanced to \\n.",
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "440875ab_28538bf3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-27T22:26:58Z",
+      "side": 1,
+      "message": "Aside: you\u0027ll notice that internally GitDateParser does the ThreadLocal trick I mentioned above.",
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0402fd8c_c6f2a2be",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-27T22:26:58Z",
+      "side": 1,
+      "message": "You don\u0027t want to let this propagate?",
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "440875ab_e8ed73e0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-27T22:26:58Z",
+      "side": 1,
+      "message": "The advantage of using the same format as elsewhere in ChangeNotes is you can reuse parseIdent.",
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "440875ab_c8f2afbe",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-27T22:26:58Z",
+      "side": 1,
+      "message": "We don\u0027t ever import Id classes, use Change.Id. (Eclipse likes to go behind your back on this, I understand.)",
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0402fd8c_a6f7a6ac",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-27T22:26:58Z",
+      "side": 1,
+      "message": "Don\u0027t do this, make another checkResult method.",
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0402fd8c_66e2ceef",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 886,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-27T22:26:58Z",
+      "side": 1,
+      "message": "Or just\n\n Iterables.getOnlyElement(notes.getNoteMap().values())",
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "440875ab_48dfdf1d",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 890,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-27T22:26:58Z",
+      "side": 1,
+      "message": ", UTF_8",
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "440875ab_28ecabdc",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 891,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-27T22:26:58Z",
+      "side": 1,
+      "message": "I think you want another format test (fewer comments is fine) with side \u003d 0.",
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0402fd8c_46dfd21d",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 951,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-27T22:26:58Z",
+      "side": 1,
+      "message": "Why do you need to wrap this in a new multimap?",
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0402fd8c_26ecd6dc",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 954,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-27T22:26:58Z",
+      "side": 1,
+      "message": "Or just commentsForBase.size()",
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "440875ab_08e9e7cc",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 959,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-27T22:26:58Z",
+      "side": 1,
+      "message": "Could cut down these lines to:\n\n assertCommentEquals(commentForBase,\n     Iterables.getOnlyElement(commentsForBase.get(psId)));",
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0402fd8c_e616be1e",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1076,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-27T22:26:58Z",
+      "side": 1,
+      "message": "Extra blank line",
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0402fd8c_06e9dacc",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1110,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-27T22:26:58Z",
+      "side": 1,
+      "message": "Can be static. Name \"assertCommentEquals\" to match other assert methods.\n\nYou could also just add equals()/hashCode()/toString() methods to PatchLineComment. (\"Just\" :)",
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

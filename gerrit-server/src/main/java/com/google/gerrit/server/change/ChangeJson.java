@@ -267,7 +267,7 @@ public class ChangeJson {
     out.branch = in.getDest().getShortName();
     out.topic = in.getTopic();
     out.changeId = in.getKey().get();
-    out.mergeable = in.getStatus() != Change.Status.MERGED ? in.isMergeable() : null;
+    out.mergeable = isMergeable(in);
     ChangedLines changedLines = cd.changedLines();
     if (changedLines != null) {
       out.insertions = changedLines.insertions;
@@ -328,6 +328,14 @@ public class ChangeJson {
       }
     }
     return out;
+  }
+
+  private Boolean isMergeable(Change c) {
+    if (c.getStatus() == Change.Status.MERGED
+        || c.getLastSha1MergeTested() == null) {
+      return null;
+    }
+    return c.isMergeable();
   }
 
   private List<SubmitRecord> submitRecords(ChangeControl ctl, ChangeData cd)

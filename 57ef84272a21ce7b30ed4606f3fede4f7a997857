@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0402fd8c_c6af42b6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-27T20:50:15Z",
+      "side": 1,
+      "message": "What exactly does this mean? Can you give an example of what would be correct for that first sentence?",
+      "parentUuid": "c4faa581_0cd257e2",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 37
+      },
+      "revId": "57ef84272a21ce7b30ed4606f3fede4f7a997857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a4f77198_cbab1574",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2014-06-23T18:19:42Z",
       "side": 1,
       "message": "Missing close paren",
+      "range": {
+        "startLine": 14,
+        "startChar": 60,
+        "endLine": 14,
+        "endChar": 61
+      },
+      "revId": "57ef84272a21ce7b30ed4606f3fede4f7a997857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4faa581_cc84cffc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-27T20:50:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4f77198_cbab1574",
       "range": {
         "startLine": 14,
         "startChar": 60,
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "c4faa581_2c73d36c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-27T20:50:15Z",
+      "side": 1,
+      "message": "Agreed.",
+      "parentUuid": "c4faa581_0ca6d7b4",
+      "revId": "57ef84272a21ce7b30ed4606f3fede4f7a997857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a4f77198_2b8a990c",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -76,6 +142,24 @@
       "writtenOn": "2014-06-23T18:19:42Z",
       "side": 1,
       "message": "Mention in the change description why UUIDs are still necessary despite this no longer living in the reviewdb",
+      "revId": "57ef84272a21ce7b30ed4606f3fede4f7a997857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4faa581_0c789743",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-27T20:50:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4f77198_2b8a990c",
       "revId": "57ef84272a21ce7b30ed4606f3fede4f7a997857",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -105,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "a4f77198_8b63cd97",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-27T20:50:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c4faa581_6c9b1b65",
+      "range": {
+        "startLine": 58,
+        "startChar": 9,
+        "endLine": 58,
+        "endChar": 10
+      },
+      "revId": "57ef84272a21ce7b30ed4606f3fede4f7a997857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a4f77198_abe049ad",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -116,6 +224,30 @@
       "writtenOn": "2014-06-24T00:58:11Z",
       "side": 1,
       "message": "This parenthesis is not closed.",
+      "range": {
+        "startLine": 60,
+        "startChar": 0,
+        "endLine": 60,
+        "endChar": 1
+      },
+      "revId": "57ef84272a21ce7b30ed4606f3fede4f7a997857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "440875ab_08bd67ee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-27T20:50:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4f77198_abe049ad",
       "range": {
         "startLine": 60,
         "startChar": 0,
@@ -168,6 +300,24 @@
     },
     {
       "key": {
+        "uuid": "a4f77198_eb60918c",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/CommentRange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-27T20:50:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c4faa581_4ca0df95",
+      "revId": "57ef84272a21ce7b30ed4606f3fede4f7a997857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a4f77198_0b8fdd1c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
         "patchSetId": 2
@@ -185,6 +335,24 @@
     },
     {
       "key": {
+        "uuid": "a4f77198_2ba45994",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-27T20:50:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4f77198_0b8fdd1c",
+      "revId": "57ef84272a21ce7b30ed4606f3fede4f7a997857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a4f77198_6b94a12d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
         "patchSetId": 2
@@ -196,6 +364,30 @@
       "writtenOn": "2014-06-23T18:19:42Z",
       "side": 1,
       "message": "Don\u0027t pass this into a static method, make it a non-static method and inject it into the constructor.",
+      "range": {
+        "startLine": 34,
+        "startChar": 33,
+        "endLine": 34,
+        "endChar": 58
+      },
+      "revId": "57ef84272a21ce7b30ed4606f3fede4f7a997857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4faa581_6c6ddb85",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-27T20:50:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4f77198_6b94a12d",
       "range": {
         "startLine": 34,
         "startChar": 33,
@@ -248,6 +440,30 @@
     },
     {
       "key": {
+        "uuid": "a4f77198_cb5dd5cc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-27T20:50:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4f77198_ab7de93b",
+      "range": {
+        "startLine": 48,
+        "startChar": 27,
+        "endLine": 48,
+        "endChar": 28
+      },
+      "revId": "57ef84272a21ce7b30ed4606f3fede4f7a997857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a4f77198_8b7aad3f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
         "patchSetId": 2
@@ -259,6 +475,30 @@
       "writtenOn": "2014-06-23T18:19:42Z",
       "side": 1,
       "message": "Filenames can contain newlines or other special characters. Escape this using QuotedString.GIT_PATH.",
+      "range": {
+        "startLine": 52,
+        "startChar": 20,
+        "endLine": 52,
+        "endChar": 35
+      },
+      "revId": "57ef84272a21ce7b30ed4606f3fede4f7a997857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4f77198_0ba99d6a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-27T20:50:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4f77198_8b7aad3f",
       "range": {
         "startLine": 52,
         "startChar": 20,
@@ -288,6 +528,24 @@
     },
     {
       "key": {
+        "uuid": "c4faa581_ac66a3a7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-27T20:50:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4f77198_4b99e561",
+      "revId": "57ef84272a21ce7b30ed4606f3fede4f7a997857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c4faa581_acb4e3d7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
         "patchSetId": 2
@@ -299,6 +557,30 @@
       "writtenOn": "2014-06-23T18:19:42Z",
       "side": 1,
       "message": "Use StandardCharsets.UTF_8 instead of the name. I think that should also let you drop UnsupportedEncodingException from the method signature.\n\nAlso, FYI:\n\nhttp://stackoverflow.com/questions/8511490/calculating-length-in-utf-8-of-java-string-without-actually-encoding-it\n\nBut I think doing that in this change would be a premature optimization.",
+      "range": {
+        "startLine": 70,
+        "startChar": 52,
+        "endLine": 70,
+        "endChar": 60
+      },
+      "revId": "57ef84272a21ce7b30ed4606f3fede4f7a997857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4f77198_6bae6174",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-27T20:50:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c4faa581_acb4e3d7",
       "range": {
         "startLine": 70,
         "startChar": 52,
@@ -328,6 +610,24 @@
     },
     {
       "key": {
+        "uuid": "c4faa581_4c729f65",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-27T20:50:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c4faa581_ecaeeb85",
+      "revId": "57ef84272a21ce7b30ed4606f3fede4f7a997857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a4f77198_eb87f1fd",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
         "patchSetId": 2
@@ -339,6 +639,24 @@
       "writtenOn": "2014-06-23T18:19:42Z",
       "side": 1,
       "message": "Optional: you could factor out a bunch of these three-line blocks:\n\n private static StringBuilder appendField(StringBuilder sb,\n     String field, String value) {\n   return sb.append(field).append(\": \").append(value).append(\u0027\\n\u0027);\n }",
+      "revId": "57ef84272a21ce7b30ed4606f3fede4f7a997857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4f77198_abb7a9c2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-27T20:50:15Z",
+      "side": 1,
+      "message": "I did this, but decided to keep some of the blocks in place because I thought it would be less readable if I passed in \"\" for the field for fields like the date where there is no label.",
+      "parentUuid": "a4f77198_eb87f1fd",
       "revId": "57ef84272a21ce7b30ed4606f3fede4f7a997857",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -362,6 +680,24 @@
     },
     {
       "key": {
+        "uuid": "c4faa581_ec60ab8c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-27T20:50:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c4faa581_ac7d033c",
+      "revId": "57ef84272a21ce7b30ed4606f3fede4f7a997857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c4faa581_8c7ac73f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
         "patchSetId": 2
@@ -373,6 +709,24 @@
       "writtenOn": "2014-06-23T18:19:42Z",
       "side": 1,
       "message": "Use ComparisonChain. I think if you use ComparisonChain it will actually be clear enough to omit these comments entirely.",
+      "revId": "57ef84272a21ce7b30ed4606f3fede4f7a997857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4faa581_8c63e797",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-27T20:50:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c4faa581_8c7ac73f",
       "revId": "57ef84272a21ce7b30ed4606f3fede4f7a997857",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -396,6 +750,24 @@
     },
     {
       "key": {
+        "uuid": "0402fd8c_a6a446db",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-27T20:50:15Z",
+      "side": 1,
+      "message": "I decided to make another class, CommentsInNotesUtil, that helped with reading and writing out of byte arrays. I decided to get rid of PatchLineCommentsUtil so that that class could be of the same format and serve the same purpose as ApprovalsUtil and ChangeMessagesUtil. Let me know if you think there is a better way to handle this.",
+      "parentUuid": "c4faa581_ccab2f74",
+      "revId": "57ef84272a21ce7b30ed4606f3fede4f7a997857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a4f77198_cb84b5fc",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
         "patchSetId": 2
@@ -407,6 +779,24 @@
       "writtenOn": "2014-06-23T18:19:42Z",
       "side": 1,
       "message": "Unnecessary blank line",
+      "revId": "57ef84272a21ce7b30ed4606f3fede4f7a997857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4f77198_8bb46dbf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-27T20:50:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4f77198_cb84b5fc",
       "revId": "57ef84272a21ce7b30ed4606f3fede4f7a997857",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -430,6 +820,24 @@
     },
     {
       "key": {
+        "uuid": "64ead9f0_b1dda079",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-27T20:50:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4f77198_2b73b96c",
+      "revId": "57ef84272a21ce7b30ed4606f3fede4f7a997857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c4faa581_2c8ab30c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
         "patchSetId": 2
@@ -441,6 +849,24 @@
       "writtenOn": "2014-06-23T18:19:42Z",
       "side": 1,
       "message": "Nits: space after //, and make it a complete sentence (start with a capital, end with a period).",
+      "revId": "57ef84272a21ce7b30ed4606f3fede4f7a997857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44ef95ff_90e2943d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-27T20:50:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c4faa581_2c8ab30c",
       "revId": "57ef84272a21ce7b30ed4606f3fede4f7a997857",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -464,6 +890,24 @@
     },
     {
       "key": {
+        "uuid": "44ef95ff_70e8501c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-27T20:50:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4f77198_0b787d43",
+      "revId": "57ef84272a21ce7b30ed4606f3fede4f7a997857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a4f77198_6b6dc185",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
         "patchSetId": 2
@@ -475,6 +919,24 @@
       "writtenOn": "2014-06-23T18:19:42Z",
       "side": 1,
       "message": "You need to separate out notes for the base vs. notes for the patch set revision; see also my comments in PatchLineCommentsUtil",
+      "revId": "57ef84272a21ce7b30ed4606f3fede4f7a997857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "440875ab_e82573d1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-27T20:50:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4f77198_6b6dc185",
       "revId": "57ef84272a21ce7b30ed4606f3fede4f7a997857",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -521,6 +983,30 @@
     },
     {
       "key": {
+        "uuid": "a4f77198_2bcd7944",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-27T20:50:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c4faa581_0c8ff71c",
+      "range": {
+        "startLine": 253,
+        "startChar": 35,
+        "endLine": 253,
+        "endChar": 40
+      },
+      "revId": "57ef84272a21ce7b30ed4606f3fede4f7a997857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a4f77198_ab6689a7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
         "patchSetId": 2
@@ -532,6 +1018,24 @@
       "writtenOn": "2014-06-23T18:19:42Z",
       "side": 1,
       "message": "This doesn\u0027t really have any effect. NoteMap is just an in-memory structure mapping object IDs to notes.\n\nWhat you want to do is call noteMap.write(inserter), and then in commit() pass the returned tree ID to setTree on the CommitBuilder.",
+      "revId": "57ef84272a21ce7b30ed4606f3fede4f7a997857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0402fd8c_e6259ed1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-27T20:50:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4f77198_ab6689a7",
       "revId": "57ef84272a21ce7b30ed4606f3fede4f7a997857",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -573,6 +1077,24 @@
     },
     {
       "key": {
+        "uuid": "440875ab_c82aaf9f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-27T20:50:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c4faa581_4c99ff61",
+      "revId": "57ef84272a21ce7b30ed4606f3fede4f7a997857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c4faa581_6c94bb2d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
         "patchSetId": 2
@@ -584,6 +1106,24 @@
       "writtenOn": "2014-06-23T18:19:42Z",
       "side": 1,
       "message": "Wrap in IOException and rethrow.",
+      "revId": "57ef84272a21ce7b30ed4606f3fede4f7a997857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4faa581_6cae7b74",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-27T20:50:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c4faa581_6c94bb2d",
       "revId": "57ef84272a21ce7b30ed4606f3fede4f7a997857",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

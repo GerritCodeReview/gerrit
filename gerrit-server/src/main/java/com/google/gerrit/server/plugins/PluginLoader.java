@@ -97,6 +97,7 @@ public class PluginLoader implements LifecycleListener {
   private final Provider<String> urlProvider;
   private final PersistentCacheFactory persistentCacheFactory;
   private final boolean remoteAdmin;
+  private final File staticDir;
 
   @Inject
   public PluginLoader(SitePaths sitePaths,
@@ -110,6 +111,7 @@ public class PluginLoader implements LifecycleListener {
     pluginsDir = sitePaths.plugins_dir;
     dataDir = sitePaths.data_dir;
     tmpDir = sitePaths.tmp_dir;
+    staticDir = sitePaths.static_dir;
     env = pe;
     srvInfoImpl = sii;
     pluginUserFactory = puf;
@@ -590,7 +592,7 @@ public class PluginLoader implements LifecycleListener {
       Plugin plugin = new ServerPlugin(name, url,
           pluginUserFactory.create(name),
           srcJar, snapshot, new JarFile(srcJar),
-          new JarScanner(srcJar),
+          new ExtOverrideJarScanner(srcJar, staticDir),
           new File(dataDir, name), type, pluginLoader,
           sysModule, sshModule, httpModule);
       cleanupHandles.put(plugin, new CleanupHandle(tmp, jarFile));

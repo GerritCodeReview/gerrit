@@ -32,8 +32,7 @@ import java.util.concurrent.TimeUnit;
 
 /** Runnable to enable scheduling gc to run periodically */
 public class GarbageCollectionRunner implements Runnable {
-  public static final String LOG_NAME = "gc_log";
-  private static final Logger gcLog = LoggerFactory.getLogger(LOG_NAME);
+  private static final Logger gcLog = LoggerFactory.getLogger(GarbageCollection.LOG_NAME);
 
   public static Module module() {
     return new LifecycleModule() {

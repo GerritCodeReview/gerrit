@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "440875ab_283dcbd7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JarPluginProvider.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-27T14:05:51Z",
+      "side": 1,
+      "message": "Tiny nit: blank line",
+      "revId": "7e5efe927f12483c6c5bd3362c5c5231db620ef9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0402fd8c_263df6d7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JarPluginProvider.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-27T14:05:51Z",
+      "side": 1,
+      "message": "I guess the idea is to make it so no other provider can load foo.jar.disabled? But what happens below in get()?",
+      "revId": "7e5efe927f12483c6c5bd3362c5c5231db620ef9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "440875ab_083a07e0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JarPluginProvider.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-27T14:05:51Z",
+      "side": 1,
+      "message": "try (JarFile jarFile \u003d new JarFile(srcFile)) {...}",
+      "revId": "7e5efe927f12483c6c5bd3362c5c5231db620ef9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0402fd8c_063afadf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JarPluginProvider.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-27T14:05:51Z",
+      "side": 1,
+      "message": "try (FileInputStream in \u003d new FileInputStream(srcFile)) {...}",
+      "revId": "7e5efe927f12483c6c5bd3362c5c5231db620ef9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0402fd8c_c674e2ab",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JarPluginProvider.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-27T14:05:51Z",
+      "side": 1,
+      "message": "Pretty much this entire method could be replaced by Files.copy() if we were using Java 7 nio.\n\nI can see that this is copied code though. We can clean it up later.",
+      "revId": "7e5efe927f12483c6c5bd3362c5c5231db620ef9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0402fd8c_a679e6a1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-27T14:05:51Z",
+      "side": 1,
+      "message": "Is this method still used in this class? It is now duplicated.",
+      "revId": "7e5efe927f12483c6c5bd3362c5c5231db620ef9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "440875ab_e86fb3d6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 571,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-27T14:05:51Z",
+      "side": 1,
+      "message": "This whole method seems like it should be factored out into the loader interface at some point.",
+      "revId": "7e5efe927f12483c6c5bd3362c5c5231db620ef9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

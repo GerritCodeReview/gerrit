@@ -242,7 +242,11 @@ public class ChangeInserter {
   }
 
   private boolean messageIsForChange() {
-    return changeMessage != null
-        && changeMessage.getKey().getParentKey().equals(change.getKey());
+    if (changeMessage == null) {
+      return false;
+    }
+    Change.Id id = change.getId();
+    Change.Id msgId = changeMessage.getKey().getParentKey();
+    return msgId.equals(id);
   }
 }

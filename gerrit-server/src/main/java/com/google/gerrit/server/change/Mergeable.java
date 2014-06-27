@@ -73,6 +73,12 @@ public class Mergeable implements RestReadView<RevisionResource> {
       usage = "test mergeability for other branches too")
   private boolean otherBranches;
 
+  @Option(name = "--force", aliases = {"-f"},
+      usage = "force recheck of mergeable field")
+  public void setForce(boolean force) {
+    this.force = force;
+  }
+
   private final TestSubmitType.Get submitType;
   private final GitRepositoryManager gitManager;
   private final ProjectCache projectCache;
@@ -95,10 +101,6 @@ public class Mergeable implements RestReadView<RevisionResource> {
     this.submitStrategyFactory = submitStrategyFactory;
     this.db = db;
     this.indexer = indexer;
-  }
-
-  public void setForce(boolean force) {
-    this.force = force;
   }
 
   @Override

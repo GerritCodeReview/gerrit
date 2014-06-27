@@ -108,6 +108,30 @@
     },
     {
       "key": {
+        "uuid": "a44db111_3b8b975b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/MultipleProvidersForPluginException.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-27T23:29:13Z",
+      "side": 1,
+      "message": "Guava is returning a polite toString representation :-)\n\n  /**\n   * Returns a string representation of {@code iterator}, with the format\n   * {@code [e1, e2, ..., en]}. The iterator will be left exhausted: its\n   * {@code hasNext()} method will return {@code false}.\n   */\n  public static String toString(Iterator\u003c?\u003e iterator) {\n    return Collections2.STANDARD_JOINER\n        .appendTo(new StringBuilder().append(\u0027[\u0027), iterator)\n        .append(\u0027]\u0027)\n        .toString();\n  }\n\nWe should be OK then.",
+      "parentUuid": "04767d12_86848a86",
+      "range": {
+        "startLine": 26,
+        "startChar": 8,
+        "endLine": 26,
+        "endChar": 27
+      },
+      "revId": "5a18657129ab108b5e2e8aafcf82b8ad15571fb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "04767d12_06717af2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
         "patchSetId": 35
@@ -202,6 +226,30 @@
     },
     {
       "key": {
+        "uuid": "04303d7d_168ebc6a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-27T23:29:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a44db111_9bf66bf8",
+      "range": {
+        "startLine": 391,
+        "startChar": 17,
+        "endLine": 391,
+        "endChar": 44
+      },
+      "revId": "5a18657129ab108b5e2e8aafcf82b8ad15571fb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "04767d12_466b7202",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
         "patchSetId": 35
@@ -249,6 +297,30 @@
     },
     {
       "key": {
+        "uuid": "a44db111_db587334",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-27T23:29:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "04303d7d_d6fcc4db",
+      "range": {
+        "startLine": 434,
+        "startChar": 6,
+        "endLine": 434,
+        "endChar": 33
+      },
+      "revId": "5a18657129ab108b5e2e8aafcf82b8ad15571fb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "04767d12_66706eec",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
         "patchSetId": 35
@@ -260,6 +332,30 @@
       "writtenOn": "2014-06-26T10:16:16Z",
       "side": 1,
       "message": "Move this line loadExternalPlugin()? it is not clear why you ignore name variable that is passed to this method? See also my comment on line 688.",
+      "range": {
+        "startLine": 549,
+        "startChar": 6,
+        "endLine": 549,
+        "endChar": 60
+      },
+      "revId": "5a18657129ab108b5e2e8aafcf82b8ad15571fb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04303d7d_368bb85b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-27T23:29:13Z",
+      "side": 1,
+      "message": "Fair enough, it can be delegate to the actual loading of the external plugin.",
+      "parentUuid": "04767d12_66706eec",
       "range": {
         "startLine": 549,
         "startChar": 6,
@@ -307,6 +403,30 @@
       "side": 1,
       "message": "It is an initial guessed name as described before. Will amend the comment.",
       "parentUuid": "6413b9dc_098b295b",
+      "range": {
+        "startLine": 688,
+        "startChar": 2,
+        "endLine": 688,
+        "endChar": 53
+      },
+      "revId": "5a18657129ab108b5e2e8aafcf82b8ad15571fb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a44db111_fb5d2f21",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 688,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-27T23:29:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "04303d7d_f601c028",
       "range": {
         "startLine": 688,
         "startChar": 2,
@@ -412,6 +532,30 @@
     },
     {
       "key": {
+        "uuid": "04303d7d_d6584434",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/UniversalServerPluginProvider.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-27T23:29:13Z",
+      "side": 1,
+      "message": "Rephrased as:\n  \"No ServerPluginProvider found/loaded to handle plugin file \"\n            + srcFile.getAbsolutePath()",
+      "parentUuid": "6413b9dc_c95d1122",
+      "range": {
+        "startLine": 71,
+        "startChar": 12,
+        "endLine": 71,
+        "endChar": 51
+      },
+      "revId": "5a18657129ab108b5e2e8aafcf82b8ad15571fb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2442a1dc_ff2aff9e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/UniversalServerPluginProvider.java",
         "patchSetId": 35
@@ -441,6 +585,24 @@
       "side": 1,
       "message": "I was tempting to make the same suggestion, but sought the same: to require another patch set of a change that already has 35 patch sets, is too much. But now when you are saying that, i would prefer to do that too. Double hasNext() below is looking odd.",
       "parentUuid": "2442a1dc_ff2aff9e",
+      "revId": "5a18657129ab108b5e2e8aafcf82b8ad15571fb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04303d7d_f65d4021",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/UniversalServerPluginProvider.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-27T23:29:13Z",
+      "side": 1,
+      "message": "True, look weird and not really readable :-) Have to upload another patch-set anyway, so why don\u0027t include this as well ? :-)",
+      "parentUuid": "04767d12_09d42d56",
       "revId": "5a18657129ab108b5e2e8aafcf82b8ad15571fb8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

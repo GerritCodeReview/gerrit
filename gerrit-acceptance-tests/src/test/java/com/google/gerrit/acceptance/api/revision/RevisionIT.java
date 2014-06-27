@@ -136,13 +136,18 @@ public class RevisionIT extends AbstractDaemonTest {
         .name(project.get())
         .branch(in.destination)
         .create(new BranchInput());
-    ChangeApi cApi = gApi.changes()
-        .id(r.getChangeId())
-        .revision(r.getCommit().name())
+    ChangeApi orig = gApi.changes()
+        .id("p~master~" + r.getChangeId());
+
+    assertEquals(1, orig.get().messages.size());
+    ChangeApi cherry = orig.revision(r.getCommit().name())
         .cherryPick(in);
-    cApi.current()
+    assertEquals(2, orig.get().messages.size());
+
+    assertTrue(cherry.get().subject.contains(in.message));
+    cherry.current()
         .review(ReviewInput.approve());
-    cApi.current()
+    cherry.current()
         .submit();
   }
 

@@ -19,6 +19,52 @@
     },
     {
       "key": {
+        "uuid": "04303d7d_16679cf4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-28T08:54:49Z",
+      "side": 1,
+      "message": "or by comment line. When no range exists you are using line number instead?",
+      "range": {
+        "startLine": 59,
+        "startChar": 26,
+        "endLine": 59,
+        "endChar": 49
+      },
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a44db111_fbc68f7f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-28T08:54:49Z",
+      "side": 1,
+      "message": "Shouldn\u0027t we mention that comment range is optional? And what is done in case it\u0027s missing?",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 62,
+        "endChar": 60
+      },
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "440875ab_a8a41bdb",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/PatchLineComment.java",
         "patchSetId": 3
@@ -394,6 +440,29 @@
     },
     {
       "key": {
+        "uuid": "a44db111_3b64f7ec",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-28T08:54:49Z",
+      "side": 1,
+      "message": "Too much code repetition. Why not to use ternary operator:\n\n  appendHeaderField(writer, side \u003d\u003d 0\n      ? \"Base-for-patch-set\"\n      : \"Patch-set\",\n      Integer.toString(psId(comments.get(0)));",
+      "range": {
+        "startLine": 102,
+        "startChar": 4,
+        "endLine": 110,
+        "endChar": 5
+      },
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0402fd8c_06379ad1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
         "patchSetId": 3
@@ -463,6 +532,52 @@
     },
     {
       "key": {
+        "uuid": "04303d7d_b657c8ff",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-28T08:54:49Z",
+      "side": 1,
+      "message": "On line 130 above you used colon as char, but here you are using string. Can we be consistent? Very common rule is to extract constants when they are used more then once in the code. And mey be check that the right delimiter is in place in code where you parse the range in parseCommentRange().",
+      "range": {
+        "startLine": 134,
+        "startChar": 21,
+        "endLine": 134,
+        "endChar": 24
+      },
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a44db111_dbc1536a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-28T08:54:49Z",
+      "side": 1,
+      "message": "It is not obviously and not documented in the commit message and there is no example given how missing ranges are handled.",
+      "range": {
+        "startLine": 137,
+        "startChar": 8,
+        "endLine": 137,
+        "endChar": 52
+      },
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0402fd8c_862a6a6c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
         "patchSetId": 3
@@ -503,6 +618,29 @@
     },
     {
       "key": {
+        "uuid": "a44db111_7b6a7fbd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-28T08:54:49Z",
+      "side": 1,
+      "message": "As pointed out by Dave in this comment [1], we enforce using curly bruckets, even for if with only one statement. The recommendation comes from [2].\n\n* [1] https://gerrit-review.googlesource.com/#/c/57740/5/gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java\n* [2] http://google-styleguide.googlecode.com/svn/trunk/javaguide.html#s4.1.1-braces-always-used",
+      "range": {
+        "startLine": 185,
+        "startChar": 4,
+        "endLine": 186,
+        "endChar": 18
+      },
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "440875ab_c8498f48",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
         "patchSetId": 3
@@ -514,6 +652,29 @@
       "writtenOn": "2014-06-27T22:26:58Z",
       "side": 1,
       "message": "Enforce that the separator chars are correct?",
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a44db111_5b6d43d2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-28T08:54:49Z",
+      "side": 1,
+      "message": "Unneeded, return directly.",
+      "range": {
+        "startLine": 204,
+        "startChar": 4,
+        "endLine": 204,
+        "endChar": 23
+      },
       "revId": "9486c43268f49986569a845753223459effdbcf1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -611,6 +772,46 @@
     },
     {
       "key": {
+        "uuid": "04303d7d_366418ed",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-28T08:54:49Z",
+      "side": 1,
+      "message": "I find this confusing. If range is present, then it is:\n\n 1:2-3-4\n\notherwise only line number is written on the range line:\n\n 1\n\nOn line 255 you have tried to parse range, but skipped line number. And now you are reparsing it here again. May be return uncomplete CommentRange from parseCommentRange() function (rename it to parseCommentRangeOrLineNumber()) and use it here: getEndLine() always would return tat right answer for both cases. Partial ranges cannot be exposed in PatchLineComment, on line 32 below.",
+      "range": {
+        "startLine": 255,
+        "startChar": 6,
+        "endLine": 261,
+        "endChar": 7
+      },
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04303d7d_566d14d2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-28T08:54:49Z",
+      "side": 1,
+      "message": "So even when we don\u0027t have comment range, you can report error?",
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0402fd8c_e6ed9ee0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
         "patchSetId": 3
@@ -673,6 +874,29 @@
       "writtenOn": "2014-06-27T22:26:58Z",
       "side": 1,
       "message": "The advantage of using the same format as elsewhere in ChangeNotes is you can reuse parseIdent.",
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a44db111_9bcbcb86",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-28T08:54:49Z",
+      "side": 1,
+      "message": "Always use range.getEndLine(), see comment above.",
+      "range": {
+        "startLine": 316,
+        "startChar": 10,
+        "endLine": 316,
+        "endChar": 21
+      },
       "revId": "9486c43268f49986569a845753223459effdbcf1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

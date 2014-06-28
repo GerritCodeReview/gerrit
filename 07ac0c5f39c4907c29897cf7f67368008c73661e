@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "04303d7d_9652cc10",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Mergeable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-28T06:23:32Z",
+      "side": 1,
+      "message": "In normal case, we don\u0027t need force \u003d true. MergeabilityChecker compares SHA-1 last checked and supposed to do the right thing. In case you are describing it was a bug in code: race condition with bumping row number on inserting change message during cherry-pick action and background megeability checks.  Now that it\u0027s screwed it doesn\u0027t work.\n\nTo troubleshoot such corner cases the appropriate way to asking REST api to force checking is to expose the force flag to REST api and not hard code it as you did:\n\n  GET /changes/X/revisions/Y/mergeable?force",
+      "range": {
+        "startLine": 83,
+        "startChar": 2,
+        "endLine": 83,
+        "endChar": 31
+      },
+      "revId": "07ac0c5f39c4907c29897cf7f67368008c73661e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

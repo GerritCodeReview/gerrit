@@ -158,6 +158,24 @@
       "revId": "78cb2f41b819b0c730c53df9525a3a929b42fc61",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04475ded_9ea41ddc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/UniversalServerPluginProvider.java",
+        "patchSetId": 41
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-30T17:25:42Z",
+      "side": 1,
+      "message": "Ah gotcha: it was a debug anyway :-)\nFor the sake of avoiding it and improving readability, will upload a patch with the a simple List.",
+      "parentUuid": "2442a1dc_bf2a376c",
+      "revId": "78cb2f41b819b0c730c53df9525a3a929b42fc61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

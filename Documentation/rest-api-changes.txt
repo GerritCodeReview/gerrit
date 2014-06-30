@@ -1125,6 +1125,10 @@ an link:#included-in-info[IncludedInInfo] entity is returned.
 
 Adds or updates the change in the secondary index.
 
+The caller must be a member of a group that is granted the
+link:access-control.html#capability_administrateServer[
+Administrate Server] capability.
+
 .Request
 ----
   POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/index HTTP/1.0

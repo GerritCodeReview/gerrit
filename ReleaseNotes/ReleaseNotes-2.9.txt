@@ -14,8 +14,9 @@ Gerrit 2.9 includes the bug fixes done with
 link:ReleaseNotes-2.8.1.html[Gerrit 2.8.1],
 link:ReleaseNotes-2.8.2.html[Gerrit 2.8.2],
 link:ReleaseNotes-2.8.3.html[Gerrit 2.8.3],
-link:ReleaseNotes-2.8.4.html[Gerrit 2.8.4], and
-link:ReleaseNotes-2.8.5.html[Gerrit 2.8.5].
+link:ReleaseNotes-2.8.4.html[Gerrit 2.8.4],
+link:ReleaseNotes-2.8.5.html[Gerrit 2.8.5], and
+link:ReleaseNotes-2.8.6.html[Gerrit 2.8.6].
 These bug fixes are *not* listed in these release notes.
 
 Schema Change

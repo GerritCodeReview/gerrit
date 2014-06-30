@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e4716954_4d591911",
+        "filename": "lib/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-30T13:00:12Z",
+      "side": 1,
+      "message": "| \u0027ve just deployed a snapshot version including the changes that are up for review now. The version is 1.7.1-20140630.124136-1 but I\u0027m having difficulty getting buck to download it.\n\nHave you tried changing this to:\n\n  gwtorm:gwtorm:1.7.1-SNAPSHOT-20140630.124136-1",
+      "range": {
+        "startLine": 27,
+        "startChar": 8,
+        "endLine": 27,
+        "endChar": 27
+      },
+      "revId": "e59525c24b96740427d67e262ecbded77e545cd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a44db111_fbd1afde",
+        "filename": "lib/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-30T13:00:12Z",
+      "side": 1,
+      "message": "And this to:\n\n  repository \u003d GERRIT",
+      "range": {
+        "startLine": 32,
+        "startChar": 2,
+        "endLine": 32,
+        "endChar": 26
+      },
+      "revId": "e59525c24b96740427d67e262ecbded77e545cd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

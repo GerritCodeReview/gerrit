@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a44db111_fb20cf91",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/MultipleProvidersForPluginException.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-30T06:35:27Z",
+      "side": 1,
+      "message": "Wrap this line.",
+      "range": {
+        "startLine": 23,
+        "startChar": 2,
+        "endLine": 23,
+        "endChar": 109
+      },
+      "revId": "2e10bdc8eca41dbbdd7d3b35a816f43ba7be79fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a44db111_5b30e3da",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-30T06:35:27Z",
+      "side": 1,
+      "message": "In your example the names are the same: File is hello.ssh, first guess returns name \u003d \"hello\". Your example provider re-guess it with exact the same strategy: drop extension from \".ssh\". So may be we should reconsider this reassignment. Especially following the principle of YAGNI.",
+      "range": {
+        "startLine": 437,
+        "startChar": 6,
+        "endLine": 441,
+        "endChar": 52
+      },
+      "revId": "2e10bdc8eca41dbbdd7d3b35a816f43ba7be79fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a44db111_db1b935d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 783,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-30T06:35:27Z",
+      "side": 1,
+      "message": "This is not a new code, you just mved it, but consider to use Java7 try-with-resources statement:\n\n  try (JarFile jarFile \u003d new JarFile(srcFile)) {\n    return jarFile.getManifest().getMainAttributes()\n        .getValue(\"Gerrit-PluginName\");\n  }",
+      "range": {
+        "startLine": 777,
+        "startChar": 4,
+        "endLine": 783,
+        "endChar": 5
+      },
+      "revId": "2e10bdc8eca41dbbdd7d3b35a816f43ba7be79fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a44db111_bb2a476c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ServerPluginProvider.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-30T06:35:27Z",
+      "side": 1,
+      "message": "We have already PluginData.java wit this attributes:\n\n  public final String name;\n  public final String version;\n  public final File pluginFile;\n\nI wonder if this can be (partially) reused? And why make it nested class? E. g. what if the same class is going to be used in another context, as ServerPluginProvider?",
+      "range": {
+        "startLine": 40,
+        "startChar": 15,
+        "endLine": 40,
+        "endChar": 32
+      },
+      "revId": "2e10bdc8eca41dbbdd7d3b35a816f43ba7be79fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

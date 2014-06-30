@@ -41,6 +41,7 @@ import java.util.Map;
 public class PluginConfigFactory implements ReloadPluginListener {
   private static final Logger log =
       LoggerFactory.getLogger(PluginConfigFactory.class);
+  private static final String EXTENSION = ".config";
 
   private final SitePaths site;
   private final GerritServerConfigProvider cfgProvider;
@@ -301,7 +302,7 @@ public class PluginConfigFactory implements ReloadPluginListener {
    */
   public Config getProjectPluginConfig(ProjectState projectState,
       String pluginName) {
-    return projectState.getConfig(pluginName).get();
+    return projectState.getConfig(pluginName + EXTENSION).get();
   }
 
   /**
@@ -359,7 +360,7 @@ public class PluginConfigFactory implements ReloadPluginListener {
    */
   public Config getProjectPluginConfigWithInheritance(ProjectState projectState,
       String pluginName) {
-    return projectState.getConfig(pluginName).getWithInheritance();
+    return projectState.getConfig(pluginName + EXTENSION).getWithInheritance();
   }
 
   private ProjectLevelConfig getPluginConfig(Project.NameKey projectName,
@@ -368,7 +369,7 @@ public class PluginConfigFactory implements ReloadPluginListener {
     if (projectState == null) {
       throw new NoSuchProjectException(projectName);
     }
-    return projectState.getConfig(pluginName);
+    return projectState.getConfig(pluginName + EXTENSION);
   }
 
   @Override

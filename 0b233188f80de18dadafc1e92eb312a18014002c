@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "04475ded_7e6a71bd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/AbstractPreloadedPluginScanner.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-06-30T16:11:42Z",
+      "side": 1,
+      "message": "True, I had no problem with \u0027pluginName\u0027, \u0027pluginVersion\u0027 etc. :)",
+      "parentUuid": "a44db111_7be7dfbc",
+      "range": {
+        "startLine": 42,
+        "startChar": 2,
+        "endLine": 42,
+        "endChar": 11
+      },
+      "revId": "0b233188f80de18dadafc1e92eb312a18014002c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a44db111_5b6783a5",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/AbstractPreloadedPluginScanner.java",
         "patchSetId": 25
@@ -190,6 +214,30 @@
     },
     {
       "key": {
+        "uuid": "04475ded_dec1456a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/AbstractPreloadedPluginScanner.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-06-30T16:11:42Z",
+      "side": 1,
+      "message": "as I mention in my fist comment this is only suggestion for improvement.",
+      "parentUuid": "e4716954_4d0b59f5",
+      "range": {
+        "startLine": 78,
+        "startChar": 8,
+        "endLine": 84,
+        "endChar": 9
+      },
+      "revId": "0b233188f80de18dadafc1e92eb312a18014002c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e4716954_0dec71dc",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/AbstractPreloadedPluginScanner.java",
         "patchSetId": 25
@@ -225,6 +273,30 @@
       "side": 1,
       "message": "It is an override of an existing interface: the JavaDoc is on the interface. Why would you like me to copy \u0026 paste here?\n\nI would rather prefer to add an overall JavaDoc at the beginning of the class to describe what this class is for.",
       "parentUuid": "e4716954_0dec71dc",
+      "range": {
+        "startLine": 93,
+        "startChar": 2,
+        "endLine": 93,
+        "endChar": 76
+      },
+      "revId": "0b233188f80de18dadafc1e92eb312a18014002c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04475ded_1e67adf4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/AbstractPreloadedPluginScanner.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-06-30T16:11:42Z",
+      "side": 1,
+      "message": "OK, my fault, didn\u0027t noticed JavaDoc on interface",
+      "parentUuid": "e4716954_6d0895f7",
       "range": {
         "startLine": 93,
         "startChar": 2,

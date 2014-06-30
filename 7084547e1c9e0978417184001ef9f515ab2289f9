@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e4716954_0d2471cd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-30T08:05:14Z",
+      "side": 1,
+      "message": "Yes, already mentioned with DaveB and agreed to have in a separate refactoring change.",
+      "parentUuid": "e4716954_ed2a459f",
+      "range": {
+        "startLine": 391,
+        "startChar": 10,
+        "endLine": 392,
+        "endChar": 49
+      },
+      "revId": "7084547e1c9e0978417184001ef9f515ab2289f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e4716954_2d084d44",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ServerPluginProvider.java",
         "patchSetId": 39
@@ -119,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "a44db111_3be957cd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/UniversalServerPluginProvider.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-30T08:05:14Z",
+      "side": 1,
+      "message": "True, will use package.",
+      "parentUuid": "a44db111_dbedd3e0",
+      "range": {
+        "startLine": 36,
+        "startChar": 2,
+        "endLine": 36,
+        "endChar": 9
+      },
+      "revId": "7084547e1c9e0978417184001ef9f515ab2289f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e4716954_ad343d00",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/UniversalServerPluginProvider.java",
         "patchSetId": 39
@@ -142,6 +190,30 @@
     },
     {
       "key": {
+        "uuid": "e4716954_2d212dbe",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/UniversalServerPluginProvider.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-30T08:05:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e4716954_ad343d00",
+      "range": {
+        "startLine": 51,
+        "startChar": 2,
+        "endLine": 51,
+        "endChar": 57
+      },
+      "revId": "7084547e1c9e0978417184001ef9f515ab2289f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a44db111_9bf74bad",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/UniversalServerPluginProvider.java",
         "patchSetId": 39
@@ -153,6 +225,30 @@
       "writtenOn": "2014-06-30T07:51:03Z",
       "side": 1,
       "message": "private methods should be after public",
+      "range": {
+        "startLine": 80,
+        "startChar": 2,
+        "endLine": 81,
+        "endChar": 27
+      },
+      "revId": "7084547e1c9e0978417184001ef9f515ab2289f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a44db111_db16331f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/UniversalServerPluginProvider.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-30T08:05:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a44db111_9bf74bad",
       "range": {
         "startLine": 80,
         "startChar": 2,

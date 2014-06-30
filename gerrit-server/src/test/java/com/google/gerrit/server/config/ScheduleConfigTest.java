@@ -53,7 +53,7 @@ public class ScheduleConfigTest {
 
     assertEquals(ms(1, HOURS), initialDelay("Mon 11:00", "1d"));
     assertEquals(ms(23, HOURS), initialDelay("Mon 09:00", "1d"));
-    assertEquals(0, initialDelay("Mon 10:00", "1d"));
+    assertEquals(ms(1, DAYS), initialDelay("Mon 10:00", "1d"));
   }
 
   private static long initialDelay(String startTime, String interval)

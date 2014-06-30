@@ -132,6 +132,30 @@
     },
     {
       "key": {
+        "uuid": "a44db111_7b2d9f81",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/MultipleProvidersForPluginException.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-30T06:34:40Z",
+      "side": 1,
+      "message": "Yes, but as i pointed out in my original comment this is not what we want:\n\n  /home/davido/projects/gerrit/../test_site_master_95/plugins/hello_world.ssh\n  is claimed to be handled by more than one plugin provider:\n  [com.googlesource.HelloSshPluginProvider@344476f1,\n  com.googlesource.HelloSshPluginProvider@7adce305]\n\nObviously the user stil doesn\u0027t know where the second HelloSshPluginProvider i coming from, from which plugin? That why you cannot skip that idiom that i suggested in my comment:\n\n  Joiner.on(\", \").join(new Function(): ServerPluginProvider -\u003e plugin-name);",
+      "parentUuid": "a44db111_3b8b975b",
+      "range": {
+        "startLine": 26,
+        "startChar": 8,
+        "endLine": 26,
+        "endChar": 27
+      },
+      "revId": "5a18657129ab108b5e2e8aafcf82b8ad15571fb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "04767d12_06717af2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
         "patchSetId": 35

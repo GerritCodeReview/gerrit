@@ -298,6 +298,30 @@
     },
     {
       "key": {
+        "uuid": "0402fd8c_86b26ad3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-30T15:26:43Z",
+      "side": 1,
+      "message": "I slightly prefer David\u0027s suggestion, especially since we agree the future is for everything to be a plugin provider.",
+      "parentUuid": "04303d7d_168ebc6a",
+      "range": {
+        "startLine": 391,
+        "startChar": 17,
+        "endLine": 391,
+        "endChar": 44
+      },
+      "revId": "5a18657129ab108b5e2e8aafcf82b8ad15571fb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "04767d12_466b7202",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
         "patchSetId": 35

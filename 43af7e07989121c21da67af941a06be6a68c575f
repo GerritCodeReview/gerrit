@@ -22,6 +22,30 @@
       "revId": "43af7e07989121c21da67af941a06be6a68c575f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2442a1dc_1f5323f3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-30T18:56:40Z",
+      "side": 1,
+      "message": "That\u0027s because they weren\u0027t merged yet:\n\n  https://gerrit-review.googlesource.com/#/q/status:open+project:gwtorm+branch:stable-1.7\n\nBut basically there are two changes [1], [2]:\n\n* [1] https://gerrit-review.googlesource.com/58104\n* [2] https://gerrit-review.googlesource.com/58107",
+      "parentUuid": "440875ab_a86c1b8a",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 22
+      },
+      "revId": "43af7e07989121c21da67af941a06be6a68c575f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

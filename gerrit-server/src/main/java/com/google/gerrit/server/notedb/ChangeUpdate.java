@@ -183,7 +183,7 @@ public class ChangeUpdate extends VersionedMetaData {
 
   public void setPatchSetId(PatchSet.Id psId) {
     checkArgument(psId == null
-        || psId.getParentKey().equals(getChange().getKey()));
+        || psId.getParentKey().equals(getChange().getId()));
     this.psId = psId;
   }
 

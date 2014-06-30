@@ -48,6 +48,8 @@ public class PluginConfigFactory implements ReloadPluginListener {
   private final ProjectState.Factory projectStateFactory;
   private final Map<String, Config> pluginConfigs;
 
+  private static final String EXTENSION = ".config";
+
   private volatile FileSnapshot cfgSnapshot;
   private volatile Config cfg;
 
@@ -301,7 +303,7 @@ public class PluginConfigFactory implements ReloadPluginListener {
    */
   public Config getProjectPluginConfig(ProjectState projectState,
       String pluginName) {
-    return projectState.getConfig(pluginName).get();
+    return projectState.getConfig(pluginName + EXTENSION).get();
   }
 
   /**
@@ -359,7 +361,7 @@ public class PluginConfigFactory implements ReloadPluginListener {
    */
   public Config getProjectPluginConfigWithInheritance(ProjectState projectState,
       String pluginName) {
-    return projectState.getConfig(pluginName).getWithInheritance();
+    return projectState.getConfig(pluginName + EXTENSION).getWithInheritance();
   }
 
   private ProjectLevelConfig getPluginConfig(Project.NameKey projectName,
@@ -368,7 +370,7 @@ public class PluginConfigFactory implements ReloadPluginListener {
     if (projectState == null) {
       throw new NoSuchProjectException(projectName);
     }
-    return projectState.getConfig(pluginName);
+    return projectState.getConfig(pluginName + EXTENSION);
   }
 
   @Override

@@ -21,3 +21,13 @@ the UI, and merges scheduled by the background merge queue reload.
 +
 This resulted in multiple submit actions being scheduled, leading
 to corrupt changes.
++
+Also implements transaction managements for Jdbc dialects to recover
+from collisions between interactive actions and background jobs.
+
+* The LIMIT clause was only honored when followed by a constant integer.
+When followed by a placeholder "?" it wasn't included in the generated
+database query.
+
+* link:https://issues.apache.org/jira/browse/SSHD-330:
+Fix sporadic SSHD handshake failures.

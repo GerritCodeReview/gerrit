@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a44db111_fb49af47",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/MultipleProvidersForPluginException.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-30T07:20:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a44db111_fb20cf91",
+      "range": {
+        "startLine": 23,
+        "startChar": 2,
+        "endLine": 23,
+        "endChar": 109
+      },
+      "revId": "2e10bdc8eca41dbbdd7d3b35a816f43ba7be79fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a44db111_5b30e3da",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
         "patchSetId": 38
@@ -36,6 +60,30 @@
       "writtenOn": "2014-06-30T06:35:27Z",
       "side": 1,
       "message": "In your example the names are the same: File is hello.ssh, first guess returns name \u003d \"hello\". Your example provider re-guess it with exact the same strategy: drop extension from \".ssh\". So may be we should reconsider this reassignment. Especially following the principle of YAGNI.",
+      "range": {
+        "startLine": 437,
+        "startChar": 6,
+        "endLine": 441,
+        "endChar": 52
+      },
+      "revId": "2e10bdc8eca41dbbdd7d3b35a816f43ba7be79fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e4716954_ed01e528",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-30T07:20:48Z",
+      "side": 1,
+      "message": "Actually, I am gonna needed VERY SOON. A couple of notable examples are:\na) JAR plugins (first temporary name assigned from the file name BUT then the MANIFEST can define a different one)\nb) Scala / Groovy plugins (file name contains name + version whilst the plugin provider uses only the name)\n\nDoes it make sense?",
+      "parentUuid": "a44db111_5b30e3da",
       "range": {
         "startLine": 437,
         "startChar": 6,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "a44db111_bb432726",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 783,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-30T07:20:48Z",
+      "side": 1,
+      "message": "Yes, this is an easy small one, can do it.",
+      "parentUuid": "a44db111_db1b935d",
+      "range": {
+        "startLine": 777,
+        "startChar": 4,
+        "endLine": 783,
+        "endChar": 5
+      },
+      "revId": "2e10bdc8eca41dbbdd7d3b35a816f43ba7be79fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a44db111_bb2a476c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ServerPluginProvider.java",
         "patchSetId": 38
@@ -82,6 +154,30 @@
       "writtenOn": "2014-06-30T06:35:27Z",
       "side": 1,
       "message": "We have already PluginData.java wit this attributes:\n\n  public final String name;\n  public final String version;\n  public final File pluginFile;\n\nI wonder if this can be (partially) reused? And why make it nested class? E. g. what if the same class is going to be used in another context, as ServerPluginProvider?",
+      "range": {
+        "startLine": 40,
+        "startChar": 15,
+        "endLine": 40,
+        "endChar": 32
+      },
+      "revId": "2e10bdc8eca41dbbdd7d3b35a816f43ba7be79fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e4716954_4d111972",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ServerPluginProvider.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-30T07:20:48Z",
+      "side": 1,
+      "message": "Not really, they serve for different purposes and should then stay isolated.\n\nPluginDescription: basic info for allowing a PluginProvider to load a plugin.\nPluginData: extra info of an already loaded Plugin.\n\nThey\u0027ve got nothing in common at the moment. Potentially the PluginData could contain the PluginDescription to \"remember\" what was the properties used to load the plugin ... but that\u0027s a different Change :-)\n\n1 change \u003d 1 thing right?",
+      "parentUuid": "a44db111_bb2a476c",
       "range": {
         "startLine": 40,
         "startChar": 15,

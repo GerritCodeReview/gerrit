@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "a44db111_7bb59fb8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-30T12:43:14Z",
+      "side": 1,
+      "message": "It mentions (only) projectState.getConfig() method, whereas the actually changed/fixed methods are:\n\n  getProjectPluginConfig()\n  getProjectPluginConfigWithInheritance()\n\nMay be clarify that? It can be easily misread. In fact i\u0027ve misread your change.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 29
+      },
+      "revId": "c791c1fa76bcf1cf092b195157fc6f7674c0d13d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a44db111_1bc25b18",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-30T12:43:14Z",
+      "side": 1,
+      "message": "That\u0027s a clear bug. As this is stated in the documentation:\n\n String[] reviewers \u003d cfg.getProjectPluginConfig(project, \"default-reviewer\")\n         .getStringList(\"branch\", \"refs/heads/master\", \"reviewer\");\n\nit must just work. So i wouldn\u0027t say in past form, but in present: \"Currently\" and not \"previously\".",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 10
+      },
+      "revId": "c791c1fa76bcf1cf092b195157fc6f7674c0d13d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0402fd8c_2661768f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/PluginConfigFactory.java",
         "patchSetId": 1

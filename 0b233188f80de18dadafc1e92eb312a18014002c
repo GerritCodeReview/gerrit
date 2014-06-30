@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a44db111_dbf5d367",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/AbstractPreloadedPluginScanner.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-06-30T13:50:00Z",
+      "side": 1,
+      "message": "make those module fields private or completely remove as suggested in later comment.\n\nThey are useless for API consumers, even when sb will set something there each call to getManifest will override that settings. This is confusing!",
+      "range": {
+        "startLine": 42,
+        "startChar": 2,
+        "endLine": 42,
+        "endChar": 11
+      },
+      "revId": "0b233188f80de18dadafc1e92eb312a18014002c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a44db111_5b6783a5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/AbstractPreloadedPluginScanner.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-06-30T13:50:00Z",
+      "side": 1,
+      "message": "Usage of StringBuilder would be more readable IMO",
+      "range": {
+        "startLine": 61,
+        "startChar": 14,
+        "endLine": 61,
+        "endChar": 89
+      },
+      "revId": "0b233188f80de18dadafc1e92eb312a18014002c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e4716954_edf245be",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/AbstractPreloadedPluginScanner.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-06-30T13:50:00Z",
+      "side": 1,
+      "message": "make it more functional and return here a data structure that contains three module classes and then if you remove those three module fields this object will be completely stateless.\n\nThis is just an idea.",
+      "range": {
+        "startLine": 69,
+        "startChar": 10,
+        "endLine": 69,
+        "endChar": 14
+      },
+      "revId": "0b233188f80de18dadafc1e92eb312a18014002c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e4716954_8d25c1a0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/AbstractPreloadedPluginScanner.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-06-30T13:50:00Z",
+      "side": 1,
+      "message": "This is naive implementation. It assumes that plugin would have only one SshModule, HttpModule, Module class. When in reality there could be multiple of those installed in one \u0027main\u0027 ssh/http/plugin module. Main module should be somehow marked, maybe by annotation or name convention.\n\nI\u0027m not sure whether this improvement should be also part of this commit. But IMO current implementation is to simple and naive.\n\nMaybe look for @Export annotation on module classes?",
+      "range": {
+        "startLine": 78,
+        "startChar": 8,
+        "endLine": 84,
+        "endChar": 9
+      },
+      "revId": "0b233188f80de18dadafc1e92eb312a18014002c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e4716954_0dec71dc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/AbstractPreloadedPluginScanner.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-06-30T13:50:00Z",
+      "side": 1,
+      "message": "Can you provide javadoc for this method? There is hidden convention that only classes with one of \u0027annotations\u0027 and @Export will be returned.",
+      "range": {
+        "startLine": 93,
+        "startChar": 2,
+        "endLine": 93,
+        "endChar": 76
+      },
+      "revId": "0b233188f80de18dadafc1e92eb312a18014002c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e4716954_4de279ef",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/AbstractPreloadedPluginScanner.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-06-30T13:50:00Z",
+      "side": 1,
+      "message": "why \u0027scriptClass\u0027? this should be something more generic like eg. \u0027pluginClass\u0027",
+      "range": {
+        "startLine": 103,
+        "startChar": 20,
+        "endLine": 103,
+        "endChar": 31
+      },
+      "revId": "0b233188f80de18dadafc1e92eb312a18014002c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "440875ab_487b5f46",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-30T15:26:39Z",
+      "side": 1,
+      "message": "We don\u0027t do multiline comments starting at the end of the line, move this up and it\u0027ll save a bunch of whitespace.",
+      "revId": "752481a81377e8bd6069b67faffacad5b6b8eb72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

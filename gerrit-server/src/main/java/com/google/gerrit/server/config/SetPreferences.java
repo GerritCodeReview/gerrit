@@ -50,10 +50,10 @@ public class SetPreferences implements RestModifyView<ConfigResource, Input> {
         || i.downloadCommand != null || i.copySelfOnEmail != null
         || i.dateFormat != null || i.timeFormat != null
         || i.reversePatchSetOrder != null
-        || i.showUsernameInReviewCategory != null
         || i.relativeDateInChangeTable != null
         || i.sizeBarInChangeTable != null
         || i.legacycidInChangeTable != null
+        || i.reviewCategoryStrategy != null
         || i.commentVisibilityStrategy != null || i.diffView != null
         || i.changeScreen != null) {
       throw new BadRequestException("unsupported option");

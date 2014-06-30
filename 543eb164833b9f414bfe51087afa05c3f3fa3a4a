@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "a44db111_1bf49b63",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GetSummary.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-06-30T14:09:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "04767d12_a64a668d",
+      "range": {
+        "startLine": 42,
+        "startChar": 20,
+        "endLine": 42,
+        "endChar": 48
+      },
+      "revId": "543eb164833b9f414bfe51087afa05c3f3fa3a4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "04767d12_66fb0e28",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ShowCaches.java",
         "patchSetId": 6

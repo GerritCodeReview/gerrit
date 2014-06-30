@@ -39,7 +39,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@RequiresCapability(GlobalCapability.VIEW_CACHES)
+@RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
 public class GetSummary implements RestReadView<ConfigResource> {
 
   private final WorkQueue workQueue;

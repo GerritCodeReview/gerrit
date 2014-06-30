@@ -21,6 +21,7 @@ import com.google.gerrit.common.Version;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.events.LifecycleListener;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.ConfigResource;
 import com.google.gerrit.server.config.GetSummary;
 import com.google.gerrit.server.config.GetSummary.JvmSummaryInfo;
@@ -87,6 +88,9 @@ final class ShowCaches extends SshCommand {
   @Inject
   private Provider<GetSummary> getSummary;
 
+  @Inject
+  private Provider<CurrentUser> self;
+
   @Option(name = "--width", aliases = {"-w"}, metaVar = "COLS", usage = "width of output table")
   private int columns = 80;
   private int nw;
@@ -150,16 +154,18 @@ final class ShowCaches extends SshCommand {
     printDiskCaches(caches);
     stdout.print('\n');
 
-    sshSummary();
+    if (self.get().getCapabilities().canAdministrateServer()) {
+      sshSummary();
 
-    SummaryInfo summary =
-        getSummary.get().setGc(gc).setJvm(showJVM).apply(new ConfigResource());
-    taskSummary(summary.taskSummary);
-    memSummary(summary.memSummary);
-    threadSummary(summary.threadSummary);
+      SummaryInfo summary =
+          getSummary.get().setGc(gc).setJvm(showJVM).apply(new ConfigResource());
+      taskSummary(summary.taskSummary);
+      memSummary(summary.memSummary);
+      threadSummary(summary.threadSummary);
 
-    if (showJVM && summary.jvmSummary != null) {
-      jvmSummary(summary.jvmSummary);
+      if (showJVM && summary.jvmSummary != null) {
+        jvmSummary(summary.jvmSummary);
+      }
     }
 
     stdout.flush();

@@ -464,9 +464,8 @@ Server] capability.
 Retrieves a summary of the current server state.
 
 The caller must be a member of a group that is granted the
-link:access-control.html#capability_viewCaches[View Caches] capability
-or the link:access-control.html#capability_administrateServer[
-Administrate Server] capability.
+link:access-control.html#capability_administrateServer[Administrate
+Server] capability.
 
 The following options are supported:
 

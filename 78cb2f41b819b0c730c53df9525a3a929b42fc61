@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "04475ded_be5799ff",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ServerPluginProvider.java",
+        "patchSetId": 41
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-30T15:51:20Z",
+      "side": 1,
+      "message": "mmm .... I like to name things in a way that are \"readable\".\n\nget(file, snapshot, description) means\n\"get this file from this snapshot and that\u0027s the description of what it contains\"\n\nIf I say get(description) I do not explicitly extra the \"file\" that is the objective of the sentence.",
+      "parentUuid": "440875ab_088567f5",
+      "revId": "78cb2f41b819b0c730c53df9525a3a929b42fc61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "440875ab_28882b0d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ServerPluginProvider.java",
         "patchSetId": 41
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "2442a1dc_1fc0035e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ServerPluginProvider.java",
+        "patchSetId": 41
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-30T15:51:20Z",
+      "side": 1,
+      "message": "True, will align with description then.",
+      "parentUuid": "440875ab_28882b0d",
+      "revId": "78cb2f41b819b0c730c53df9525a3a929b42fc61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0402fd8c_66b88eb2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/UniversalServerPluginProvider.java",
         "patchSetId": 41
@@ -47,6 +83,24 @@
       "writtenOn": "2014-06-30T15:26:35Z",
       "side": 1,
       "message": "This results in double log messages for the 0th element in the list, since the filter predicate is applied on every access. Just return a List from providersForHandlingPlugin and don\u0027t use Iterables.size/get.",
+      "revId": "78cb2f41b819b0c730c53df9525a3a929b42fc61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2442a1dc_3fbdc7ee",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/UniversalServerPluginProvider.java",
+        "patchSetId": 41
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-30T15:51:20Z",
+      "side": 1,
+      "message": "mmm ... strange as did not happen to me locally in my tests.\nWill try again and debug to see why I don\u0027t see the problem.",
+      "parentUuid": "0402fd8c_66b88eb2",
       "revId": "78cb2f41b819b0c730c53df9525a3a929b42fc61",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

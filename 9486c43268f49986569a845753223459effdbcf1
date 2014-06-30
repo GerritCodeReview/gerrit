@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0402fd8c_8615ca11",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-30T22:19:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "440875ab_e8445332",
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "04303d7d_16679cf4",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -30,6 +48,30 @@
       "writtenOn": "2014-06-28T08:54:49Z",
       "side": 1,
       "message": "or by comment line. When no range exists you are using line number instead?",
+      "range": {
+        "startLine": 59,
+        "startChar": 26,
+        "endLine": 59,
+        "endChar": 49
+      },
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0402fd8c_46e7d2bc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-30T22:19:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "04303d7d_16679cf4",
       "range": {
         "startLine": 59,
         "startChar": 26,
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "440875ab_68b863b2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-30T22:19:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a44db111_fbc68f7f",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 62,
+        "endChar": 60
+      },
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "440875ab_a8a41bdb",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/PatchLineComment.java",
         "patchSetId": 3
@@ -76,6 +142,24 @@
       "writtenOn": "2014-06-27T22:26:58Z",
       "side": 1,
       "message": "Mention that this is not stored in the database, but is provided for users of this class to avoid a lookup when they don\u0027t have easy access to a ReviewDb.",
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0402fd8c_a610c621",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/PatchLineComment.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-30T22:19:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "440875ab_a8a41bdb",
       "revId": "9486c43268f49986569a845753223459effdbcf1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -99,6 +183,24 @@
     },
     {
       "key": {
+        "uuid": "0402fd8c_0602fad6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VersionedMetaData.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-30T22:19:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0402fd8c_469c7288",
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0402fd8c_26997698",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
         "patchSetId": 3
@@ -110,6 +212,24 @@
       "writtenOn": "2014-06-27T22:26:58Z",
       "side": 1,
       "message": "Either or both of these ranges might be null (see the @Column annotation), so you would need to fall back to the line number.\n\nThis ordering is fairly arbitrary, so just pick some way of breaking ties when c1 has only a line and c2 has only a range.",
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0402fd8c_46c9125a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-30T22:19:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0402fd8c_26997698",
       "revId": "9486c43268f49986569a845753223459effdbcf1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -133,6 +253,24 @@
     },
     {
       "key": {
+        "uuid": "0402fd8c_26d616fa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-30T22:19:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "440875ab_689f437f",
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "440875ab_489c7f88",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
         "patchSetId": 3
@@ -144,6 +282,24 @@
       "writtenOn": "2014-06-27T22:26:58Z",
       "side": 1,
       "message": "Missing period and space after )",
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0402fd8c_06d31a0a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 568,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-30T22:19:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "440875ab_489c7f88",
       "revId": "9486c43268f49986569a845753223459effdbcf1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -167,6 +323,24 @@
     },
     {
       "key": {
+        "uuid": "440875ab_a8109b21",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 570,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-30T22:19:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "440875ab_28994b98",
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0402fd8c_06967a68",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
         "patchSetId": 3
@@ -178,6 +352,24 @@
       "writtenOn": "2014-06-27T22:26:58Z",
       "side": 1,
       "message": "Missing period and space after )",
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "440875ab_8815d711",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 574,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-30T22:19:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0402fd8c_06967a68",
       "revId": "9486c43268f49986569a845753223459effdbcf1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -201,6 +393,24 @@
     },
     {
       "key": {
+        "uuid": "0402fd8c_e6a0fe9a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-30T22:19:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "440875ab_08968768",
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "440875ab_e81b335d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
         "patchSetId": 3
@@ -212,6 +422,24 @@
       "writtenOn": "2014-06-27T22:26:58Z",
       "side": 1,
       "message": "ChangeNotes has no subclasses so protected doesn\u0027t make sense here. Did you mean package-private (aka default)?",
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0402fd8c_c6a502a9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 581,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-30T22:19:17Z",
+      "side": 1,
+      "message": "Yeah, I forgot about package-private.",
+      "parentUuid": "440875ab_e81b335d",
       "revId": "9486c43268f49986569a845753223459effdbcf1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -235,6 +463,24 @@
     },
     {
       "key": {
+        "uuid": "0402fd8c_a69a065f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-30T22:19:17Z",
+      "side": 1,
+      "message": "Is it enough to just separate that into two checkArguments like I did? Not sure if there is another better way to give error messages for situations like this. I could add an explicit message saying that psId must be set before we call putComment() but that seems a bit redundant..",
+      "parentUuid": "440875ab_68e2a3ef",
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "440875ab_a8f77bac",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
         "patchSetId": 3
@@ -246,6 +492,24 @@
       "writtenOn": "2014-06-27T22:26:58Z",
       "side": 1,
       "message": "I think you want to skip this writeTree step entirely when you have nothing to do, and return null. When you get that back from this method, don\u0027t call setTreeId on the CommitBuilder (it would NPE). This will cause it to reuse the tree pointer from the parent commit in the note graph, which is exactly what you want.",
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0402fd8c_869f0a4f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-30T22:19:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "440875ab_a8f77bac",
       "revId": "9486c43268f49986569a845753223459effdbcf1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -269,6 +533,24 @@
     },
     {
       "key": {
+        "uuid": "440875ab_680bc3f5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-30T22:19:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0402fd8c_86fcaa8f",
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "440875ab_c8206f92",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
         "patchSetId": 3
@@ -280,6 +562,30 @@
       "writtenOn": "2014-06-27T22:26:58Z",
       "side": 1,
       "message": "2014",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "440875ab_4808fff6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-30T22:19:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "440875ab_c8206f92",
       "range": {
         "startLine": 1,
         "startChar": 17,
@@ -315,6 +621,30 @@
     },
     {
       "key": {
+        "uuid": "0402fd8c_66b52ed2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-30T22:19:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "440875ab_a8253ba0",
+      "range": {
+        "startLine": 51,
+        "startChar": 25,
+        "endLine": 51,
+        "endChar": 30
+      },
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "440875ab_882a776c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
         "patchSetId": 3
@@ -326,6 +656,24 @@
       "writtenOn": "2014-06-27T22:26:58Z",
       "side": 1,
       "message": "Static methods go above the constructor.",
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04475ded_9ecbbd86",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-30T22:19:17Z",
+      "side": 1,
+      "message": "I changed it from being static because I found a way to inject this class into the test class. That meant I could get rid of the private helper method I had to make.",
+      "parentUuid": "440875ab_882a776c",
       "revId": "9486c43268f49986569a845753223459effdbcf1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -349,6 +697,24 @@
     },
     {
       "key": {
+        "uuid": "0402fd8c_46b232ec",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-30T22:19:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0402fd8c_c6206292",
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0402fd8c_e61b5e5d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
         "patchSetId": 3
@@ -360,6 +726,24 @@
       "writtenOn": "2014-06-27T22:26:58Z",
       "side": 1,
       "message": "Can just be:\n\n formatTime(new PersonIdent(serverIdent, t));",
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2442a1dc_3f962769",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-30T22:19:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0402fd8c_e61b5e5d",
       "revId": "9486c43268f49986569a845753223459effdbcf1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -389,6 +773,30 @@
     },
     {
       "key": {
+        "uuid": "2442a1dc_ff20bf91",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-30T22:19:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0402fd8c_a62566a0",
+      "range": {
+        "startLine": 85,
+        "startChar": 19,
+        "endLine": 85,
+        "endChar": 26
+      },
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0402fd8c_462d9281",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
         "patchSetId": 3
@@ -400,6 +808,24 @@
       "writtenOn": "2014-06-27T22:26:58Z",
       "side": 1,
       "message": "Static import of UTF_8 and this will fit on one line.",
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04475ded_7eb35127",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-30T22:19:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0402fd8c_462d9281",
       "revId": "9486c43268f49986569a845753223459effdbcf1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -423,6 +849,24 @@
     },
     {
       "key": {
+        "uuid": "2442a1dc_5f30cbda",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-30T22:19:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0402fd8c_66308edb",
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0402fd8c_263a96b9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
         "patchSetId": 3
@@ -434,6 +878,24 @@
       "writtenOn": "2014-06-27T22:26:58Z",
       "side": 1,
       "message": "aka psId? Here and below.",
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2442a1dc_1f3a43b9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-30T22:19:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0402fd8c_263a96b9",
       "revId": "9486c43268f49986569a845753223459effdbcf1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -463,6 +925,30 @@
     },
     {
       "key": {
+        "uuid": "2442a1dc_df44db32",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-30T22:19:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a44db111_3b64f7ec",
+      "range": {
+        "startLine": 102,
+        "startChar": 4,
+        "endLine": 110,
+        "endChar": 5
+      },
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0402fd8c_06379ad1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
         "patchSetId": 3
@@ -474,6 +960,30 @@
       "writtenOn": "2014-06-27T22:26:58Z",
       "side": 1,
       "message": "\"Revision\"? Not that I really care.",
+      "range": {
+        "startLine": 111,
+        "startChar": 30,
+        "endLine": 111,
+        "endChar": 38
+      },
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2442a1dc_3f3707d2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-30T22:19:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0402fd8c_06379ad1",
       "range": {
         "startLine": 111,
         "startChar": 30,
@@ -532,6 +1042,54 @@
     },
     {
       "key": {
+        "uuid": "2442a1dc_7f2d8f81",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-30T22:19:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "440875ab_283a6bb9",
+      "range": {
+        "startLine": 116,
+        "startChar": 32,
+        "endLine": 116,
+        "endChar": 72
+      },
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2442a1dc_ff499f47",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-30T22:19:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "440875ab_0837a7d1",
+      "range": {
+        "startLine": 116,
+        "startChar": 6,
+        "endLine": 116,
+        "endChar": 19
+      },
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "04303d7d_b657c8ff",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
         "patchSetId": 3
@@ -578,6 +1136,30 @@
     },
     {
       "key": {
+        "uuid": "2442a1dc_9f3e53a7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-30T22:19:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a44db111_dbc1536a",
+      "range": {
+        "startLine": 137,
+        "startChar": 8,
+        "endLine": 137,
+        "endChar": 52
+      },
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0402fd8c_862a6a6c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
         "patchSetId": 3
@@ -589,6 +1171,30 @@
       "writtenOn": "2014-06-27T22:26:58Z",
       "side": 1,
       "message": "Extra space",
+      "range": {
+        "startLine": 168,
+        "startChar": 47,
+        "endLine": 168,
+        "endChar": 48
+      },
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2442a1dc_9f25f3a0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-30T22:19:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0402fd8c_862a6a6c",
       "range": {
         "startLine": 168,
         "startChar": 47,
@@ -618,6 +1224,24 @@
     },
     {
       "key": {
+        "uuid": "440875ab_085e87c7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-30T22:19:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "440875ab_683063db",
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a44db111_7b6a7fbd",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
         "patchSetId": 3
@@ -629,6 +1253,30 @@
       "writtenOn": "2014-06-28T08:54:49Z",
       "side": 1,
       "message": "As pointed out by Dave in this comment [1], we enforce using curly bruckets, even for if with only one statement. The recommendation comes from [2].\n\n* [1] https://gerrit-review.googlesource.com/#/c/57740/5/gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java\n* [2] http://google-styleguide.googlecode.com/svn/trunk/javaguide.html#s4.1.1-braces-always-used",
+      "range": {
+        "startLine": 185,
+        "startChar": 4,
+        "endLine": 186,
+        "endChar": 18
+      },
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0402fd8c_26dbb6fa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-30T22:19:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a44db111_7b6a7fbd",
       "range": {
         "startLine": 185,
         "startChar": 4,
@@ -658,6 +1306,24 @@
     },
     {
       "key": {
+        "uuid": "440875ab_e8a3338c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-30T22:19:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "440875ab_c8498f48",
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a44db111_5b6d43d2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
         "patchSetId": 3
@@ -669,6 +1335,30 @@
       "writtenOn": "2014-06-28T08:54:49Z",
       "side": 1,
       "message": "Unneeded, return directly.",
+      "range": {
+        "startLine": 204,
+        "startChar": 4,
+        "endLine": 204,
+        "endChar": 23
+      },
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0402fd8c_06d8baf9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-30T22:19:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a44db111_5b6d43d2",
       "range": {
         "startLine": 204,
         "startChar": 4,
@@ -726,6 +1416,24 @@
       "writtenOn": "2014-06-27T22:26:58Z",
       "side": 1,
       "message": "As above enforce \": \" as well?",
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "440875ab_c8a86f69",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-30T22:19:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "440875ab_a83e5ba6",
       "revId": "9486c43268f49986569a845753223459effdbcf1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -863,6 +1571,24 @@
     },
     {
       "key": {
+        "uuid": "440875ab_28614b8f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-30T22:19:17Z",
+      "side": 1,
+      "message": "I am not throwing. I think before I was having a compilation confusion when I tried to throw.",
+      "parentUuid": "0402fd8c_c6f2a2be",
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "440875ab_e8ed73e0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
         "patchSetId": 3
@@ -903,6 +1629,30 @@
     },
     {
       "key": {
+        "uuid": "0402fd8c_66e1aeb0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-30T22:19:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a44db111_9bcbcb86",
+      "range": {
+        "startLine": 316,
+        "startChar": 10,
+        "endLine": 316,
+        "endChar": 21
+      },
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "440875ab_c8f2afbe",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
         "patchSetId": 3
@@ -914,6 +1664,24 @@
       "writtenOn": "2014-06-27T22:26:58Z",
       "side": 1,
       "message": "We don\u0027t ever import Id classes, use Change.Id. (Eclipse likes to go behind your back on this, I understand.)",
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2442a1dc_bf431726",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-30T22:19:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "440875ab_c8f2afbe",
       "revId": "9486c43268f49986569a845753223459effdbcf1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -937,6 +1705,24 @@
     },
     {
       "key": {
+        "uuid": "2442a1dc_5f59ab10",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-30T22:19:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0402fd8c_a6f7a6ac",
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0402fd8c_66e2ceef",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
         "patchSetId": 3
@@ -948,6 +1734,24 @@
       "writtenOn": "2014-06-27T22:26:58Z",
       "side": 1,
       "message": "Or just\n\n Iterables.getOnlyElement(notes.getNoteMap().values())",
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "440875ab_88b277d3",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 886,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-30T22:19:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0402fd8c_66e2ceef",
       "revId": "9486c43268f49986569a845753223459effdbcf1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -971,6 +1775,24 @@
     },
     {
       "key": {
+        "uuid": "0402fd8c_e6f59e67",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 890,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-30T22:19:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "440875ab_48dfdf1d",
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "440875ab_28ecabdc",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
         "patchSetId": 3
@@ -982,6 +1804,24 @@
       "writtenOn": "2014-06-27T22:26:58Z",
       "side": 1,
       "message": "I think you want another format test (fewer comments is fine) with side \u003d 0.",
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0402fd8c_66eace86",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 891,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-30T22:19:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "440875ab_28ecabdc",
       "revId": "9486c43268f49986569a845753223459effdbcf1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -1005,6 +1845,24 @@
     },
     {
       "key": {
+        "uuid": "0402fd8c_c6faa255",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 951,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-30T22:19:17Z",
+      "side": 1,
+      "message": "I don\u0027t..:)",
+      "parentUuid": "0402fd8c_46dfd21d",
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0402fd8c_26ecd6dc",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
         "patchSetId": 3
@@ -1016,6 +1874,24 @@
       "writtenOn": "2014-06-27T22:26:58Z",
       "side": 1,
       "message": "Or just commentsForBase.size()",
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0402fd8c_8604aaae",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 954,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-30T22:19:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0402fd8c_26ecd6dc",
       "revId": "9486c43268f49986569a845753223459effdbcf1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -1039,6 +1915,24 @@
     },
     {
       "key": {
+        "uuid": "0402fd8c_a6ffa643",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 959,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-30T22:19:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "440875ab_08e9e7cc",
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0402fd8c_e616be1e",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
         "patchSetId": 3
@@ -1056,6 +1950,24 @@
     },
     {
       "key": {
+        "uuid": "440875ab_a8ad3b77",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1076,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-30T22:19:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0402fd8c_e616be1e",
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0402fd8c_06e9dacc",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
         "patchSetId": 3
@@ -1067,6 +1979,24 @@
       "writtenOn": "2014-06-27T22:26:58Z",
       "side": 1,
       "message": "Can be static. Name \"assertCommentEquals\" to match other assert methods.\n\nYou could also just add equals()/hashCode()/toString() methods to PatchLineComment. (\"Just\" :)",
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04475ded_fe49a147",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1110,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-06-30T22:19:17Z",
+      "side": 1,
+      "message": "Would I need to implement all of those or can I just implement equals()?",
+      "parentUuid": "0402fd8c_06e9dacc",
       "revId": "9486c43268f49986569a845753223459effdbcf1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -16,9 +16,12 @@ package com.google.gerrit.acceptance.api.revision;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -29,6 +32,8 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.api.projects.BranchInput;
+import com.google.gerrit.extensions.common.Comment;
+import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 
@@ -37,6 +42,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 @NoHttpd
 public class RevisionIT extends AbstractDaemonTest {
@@ -204,6 +211,58 @@ public class RevisionIT extends AbstractDaemonTest {
             .current()
             .reviewed()
             .isEmpty());
+  }
+
+  @Test
+  public void getComments() throws Exception {
+    PushOneCommit push = pushFactory.create(db, admin.getIdent());
+    PushOneCommit.Result r = push.to(git, "refs/for/master");
+
+    ReviewInput.CommentInput in = new ReviewInput.CommentInput();
+    in.message = "foo message";
+    in.path = "/COMMIT_MSG";
+    in.line = 2;
+    in.side = Comment.Side.PARENT;
+    in.inReplyTo = "ReplyTo";
+
+    Comment.Range range = new Comment.Range();
+    range.startLine = 1;
+    range.startCharacter = 3;
+    range.endLine = 2;
+    range.endCharacter = 5;
+    in.range = range;
+
+    ReviewInput reviewInput = new ReviewInput();
+    reviewInput.comments = Maps.newHashMap();
+    reviewInput.comments.put(in.path, Lists.newArrayList(in));
+
+    gApi.changes()
+        .id(r.getChangeId())
+        .current()
+        .review(reviewInput);
+
+    Map<String, List<CommentInfo>> comments = gApi.changes()
+        .id(r.getChangeId())
+        .current()
+        .getComments();
+
+    List<CommentInfo> commentInfos = comments.get(in.path);
+
+    assertNotNull(commentInfos);
+    assertEquals(1, commentInfos.size());
+
+    CommentInfo commentInfo = commentInfos.get(0);
+    assertNotNull(commentInfo.id);
+    assertEquals(in.line, commentInfo.line);
+    assertEquals(in.side, commentInfo.side);
+    assertEquals(in.inReplyTo, commentInfo.inReplyTo);
+    assertNotNull(commentInfo.updated);
+    assertEquals(in.message, commentInfo.message);
+
+    assertEquals(in.range.startLine, commentInfo.range.startLine);
+    assertEquals(in.range.startCharacter, commentInfo.range.startCharacter);
+    assertEquals(in.range.endLine, commentInfo.range.endLine);
+    assertEquals(in.range.endCharacter, commentInfo.range.endCharacter);
   }
 
   protected RevisionApi revision(PushOneCommit.Result r) throws Exception {

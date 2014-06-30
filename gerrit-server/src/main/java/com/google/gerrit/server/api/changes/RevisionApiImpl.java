@@ -15,6 +15,8 @@
 package com.google.gerrit.server.api.changes;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.Changes;
@@ -22,10 +24,13 @@ import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
+import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.change.CherryPick;
+import com.google.gerrit.server.change.Comments;
 import com.google.gerrit.server.change.DeleteDraftPatchSet;
 import com.google.gerrit.server.change.FileResource;
 import com.google.gerrit.server.change.Files;
@@ -42,6 +47,8 @@ import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 class RevisionApiImpl extends RevisionApi.NotImplemented implements RevisionApi {
@@ -51,6 +58,7 @@ class RevisionApiImpl extends RevisionApi.NotImplemented implements RevisionApi 
 
   private final Changes changes;
   private final CherryPick cherryPick;
+  private final Comments comments;
   private final DeleteDraftPatchSet deleteDraft;
   private final Rebase rebase;
   private final RebaseChange rebaseChange;
@@ -66,6 +74,7 @@ class RevisionApiImpl extends RevisionApi.NotImplemented implements RevisionApi 
   @Inject
   RevisionApiImpl(Changes changes,
       CherryPick cherryPick,
+      Comments comments,
       DeleteDraftPatchSet deleteDraft,
       Rebase rebase,
       RebaseChange rebaseChange,
@@ -79,6 +88,7 @@ class RevisionApiImpl extends RevisionApi.NotImplemented implements RevisionApi 
       @Assisted RevisionResource r) {
     this.changes = changes;
     this.cherryPick = cherryPick;
+    this.comments = comments;
     this.deleteDraft = deleteDraft;
     this.rebase = rebase;
     this.rebaseChange = rebaseChange;
@@ -184,6 +194,28 @@ class RevisionApiImpl extends RevisionApi.NotImplemented implements RevisionApi 
           .apply(revision).value());
     } catch (OrmException e) {
       throw new RestApiException("Cannot list reviewed files", e);
+    }
+  }
+
+  @Override
+  public Map<String, List<CommentInfo>> getComments() throws RestApiException {
+    try {
+      RestReadView<RevisionResource> listView =
+          (RestReadView<RevisionResource>) comments.list();
+      @SuppressWarnings("unchecked")
+      Map<String, List<com.google.gerrit.server.change.CommentInfo>> actual =
+          (Map<String, List<com.google.gerrit.server.change.CommentInfo>>) listView.apply(revision);
+
+      Maps.EntryTransformer<String, List<com.google.gerrit.server.change.CommentInfo>, List<CommentInfo>> transformer =
+          new Maps.EntryTransformer<String, List<com.google.gerrit.server.change.CommentInfo>, List<CommentInfo>>() {
+        @Override
+        public List<CommentInfo> transformEntry(String key, List<com.google.gerrit.server.change.CommentInfo> value) {
+          return Lists.transform(value, CommentInfoMapper.INSTANCE);
+        }
+      };
+      return Maps.transformEntries(actual, transformer);
+    } catch (Exception e) {
+      throw new RestApiException("Cannot list comment", e);
     }
   }
 }

@@ -24,15 +24,15 @@ import com.google.gerrit.server.account.AccountInfo;
 import java.sql.Timestamp;
 
 public class CommentInfo {
-  String id;
-  String path;
-  Side side;
-  Integer line;
-  String inReplyTo;
-  String message;
-  Timestamp updated;
-  AccountInfo author;
-  CommentRange range;
+  public String id;
+  public String path;
+  public Side side;
+  public Integer line;
+  public String inReplyTo;
+  public String message;
+  public Timestamp updated;
+  public AccountInfo author;
+  public CommentRange range;
 
   CommentInfo(PatchLineComment c, AccountInfo.Loader accountLoader) {
     id = Url.encode(c.getKey().get());

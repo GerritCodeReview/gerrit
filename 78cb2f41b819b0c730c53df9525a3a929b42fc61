@@ -140,6 +140,24 @@
       "revId": "78cb2f41b819b0c730c53df9525a3a929b42fc61",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2442a1dc_bf2a376c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/UniversalServerPluginProvider.java",
+        "patchSetId": 41
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-06-30T16:49:22Z",
+      "side": 1,
+      "message": "I think hat Dave is refering to this log statement:\n\n  log.debug(\"File {} handled by {} ? \u003d\u003e {}\", srcFile, input, handles)\n\nIt will be printed twice since you are calling Iterable.size() and Iterable.get() on \u0027dynamically constructed collection\u0027. Iterable will not cache filtering results, but will always apply filter function. This meas it will always produce side effect, in this case log statement.",
+      "parentUuid": "2442a1dc_1f99e397",
+      "revId": "78cb2f41b819b0c730c53df9525a3a929b42fc61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -104,6 +104,24 @@
       "revId": "78cb2f41b819b0c730c53df9525a3a929b42fc61",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2442a1dc_1f99e397",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/UniversalServerPluginProvider.java",
+        "patchSetId": 41
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-30T16:29:12Z",
+      "side": 1,
+      "message": "Double-checked: this definitely does not double log messages for the 0th element in the list.\n\nDoes it really happen to you? Did you recreate the problem by copying twice the cookbook-plugin with the ServerPluginProvider showcase?",
+      "parentUuid": "2442a1dc_3fbdc7ee",
+      "revId": "78cb2f41b819b0c730c53df9525a3a929b42fc61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

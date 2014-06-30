@@ -328,6 +328,30 @@
       "revId": "28c9bfe58c225d62fffda5257a91838ae7d66274",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6413b9dc_a9489d72",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/UniversalServerPluginProvider.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-30T16:02:38Z",
+      "side": 1,
+      "message": "I\u0027ll reword myself: it is already documented as generic \"IllegalArgumentException\" in the interface documentation.\n\nHere I just wanted to make it more specific for the sake of DRYing the behaviour only for the UniversalServerPluginProvider inside Gerrit. Will make the Exception package scoped.",
+      "parentUuid": "6413b9dc_e94e957f",
+      "range": {
+        "startLine": 85,
+        "startChar": 16,
+        "endLine": 85,
+        "endChar": 51
+      },
+      "revId": "28c9bfe58c225d62fffda5257a91838ae7d66274",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0402fd8c_2661768f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/PluginConfigFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-06-30T12:30:01Z",
+      "side": 1,
+      "message": "nit: static finals should go at the top (near log is defined)",
+      "revId": "c791c1fa76bcf1cf092b195157fc6f7674c0d13d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

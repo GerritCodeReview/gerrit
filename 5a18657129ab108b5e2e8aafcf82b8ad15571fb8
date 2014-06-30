@@ -156,6 +156,30 @@
     },
     {
       "key": {
+        "uuid": "a44db111_9b3e6ba7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/MultipleProvidersForPluginException.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-30T07:14:24Z",
+      "side": 1,
+      "message": "Fair enough :-) but we\u0027re still with Java 7 so I have to use the ugly boilerplatefull Java syntax with innter classes :-(\nLambdas not available yet ...",
+      "parentUuid": "a44db111_7b2d9f81",
+      "range": {
+        "startLine": 26,
+        "startChar": 8,
+        "endLine": 26,
+        "endChar": 27
+      },
+      "revId": "5a18657129ab108b5e2e8aafcf82b8ad15571fb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "04767d12_06717af2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
         "patchSetId": 35

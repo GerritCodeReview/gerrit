@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "440875ab_a86c1b8a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2014-06-30T18:02:32Z",
+      "side": 1,
+      "message": "Where can I find the changelog for 1.7.1? The only change after version 1.7 I see in gwtorm\u0027s stable-1.7 branch is If6e6ecaf3db3563720b678dcb8eba5b3234c38fc, which just bumps the version number.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 22
+      },
+      "revId": "43af7e07989121c21da67af941a06be6a68c575f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

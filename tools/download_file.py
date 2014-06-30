@@ -24,6 +24,7 @@ from sys import stderr
 from zipfile import ZipFile, BadZipfile, LargeZipFile
 
 REPO_ROOTS = {
+  'ATLASSIAN': 'https://maven.atlassian.com/content/repositories/atlassian-3rdparty',
   'GERRIT': 'http://gerrit-maven.storage.googleapis.com',
   'ECLIPSE': 'https://repo.eclipse.org/content/groups/releases',
   'MAVEN_CENTRAL': 'http://repo1.maven.org/maven2',

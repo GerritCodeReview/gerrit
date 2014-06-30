@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e4716954_0d5311f3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ServerPlugin.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-06-30T13:05:45Z",
+      "side": 1,
+      "message": "You just moved this method from other place. But the name \"load\" and variable \"name\" is used more than once in plugin loading context. Here were are using it in Guice context, loading Guice module and not Gerrit plugin. I would prefer to be more specific naming this method and this variable, e. g.:\n\n  loadModule(String moduleName, ClassLoader pluginLoader)\n\nTo make it more clear.",
+      "range": {
+        "startLine": 114,
+        "startChar": 41,
+        "endLine": 114,
+        "endChar": 45
+      },
+      "revId": "9254ed973ab57a4015169755a23e39d799ed9c3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

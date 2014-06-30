@@ -23,6 +23,7 @@ import com.google.gerrit.common.Version;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.events.LifecycleListener;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.ConfigResource;
 import com.google.gerrit.server.config.ListCaches;
 import com.google.gerrit.server.config.ListCaches.CacheInfo;
@@ -100,6 +101,9 @@ final class ShowCaches extends SshCommand {
   @Inject
   private Provider<ListCaches> listCaches;
 
+  @Inject
+  private Provider<CurrentUser> self;
+
   @Option(name = "--width", aliases = {"-w"}, metaVar = "COLS", usage = "width of output table")
   private int columns = 80;
   private int nw;
@@ -163,19 +167,21 @@ final class ShowCaches extends SshCommand {
     printDiskCaches(caches);
     stdout.print('\n');
 
-    if (gc) {
-      System.gc();
-      System.runFinalization();
-      System.gc();
-    }
+    if (self.get().getCapabilities().canAdministrateServer()) {
+      if (gc) {
+        System.gc();
+        System.runFinalization();
+        System.gc();
+      }
 
-    sshSummary();
-    taskSummary();
-    memSummary();
-    threadSummary();
+      sshSummary();
+      taskSummary();
+      memSummary();
+      threadSummary();
 
-    if (showJVM) {
-      jvmSummary();
+      if (showJVM) {
+        jvmSummary();
+      }
     }
 
     stdout.flush();

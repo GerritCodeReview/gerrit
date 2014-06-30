@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "440875ab_088567f5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ServerPluginProvider.java",
+        "patchSetId": 41
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-30T15:26:35Z",
+      "side": 1,
+      "message": "Should this include the srcFile and/or snapshot? Why or why not?",
+      "revId": "78cb2f41b819b0c730c53df9525a3a929b42fc61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "440875ab_28882b0d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ServerPluginProvider.java",
+        "patchSetId": 41
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-30T15:26:35Z",
+      "side": 1,
+      "message": "Why \"description\" for the class name and \"descriptor\" for the variable name? I would just stick with \"description\" for both.",
+      "revId": "78cb2f41b819b0c730c53df9525a3a929b42fc61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0402fd8c_66b88eb2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/UniversalServerPluginProvider.java",
+        "patchSetId": 41
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-06-30T15:26:35Z",
+      "side": 1,
+      "message": "This results in double log messages for the 0th element in the list, since the filter predicate is applied on every access. Just return a List from providersForHandlingPlugin and don\u0027t use Iterables.size/get.",
+      "revId": "78cb2f41b819b0c730c53df9525a3a929b42fc61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

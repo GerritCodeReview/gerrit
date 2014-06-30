@@ -14,9 +14,12 @@
 
 package com.google.gerrit.extensions.api.changes;
 
+import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public interface RevisionApi {
@@ -33,6 +36,8 @@ public interface RevisionApi {
 
   void setReviewed(String path, boolean reviewed) throws RestApiException;
   Set<String> reviewed() throws RestApiException;
+
+  Map<String, List<CommentInfo>> getComments() throws RestApiException;
 
   /**
    * A default implementation which allows source compatibility
@@ -86,6 +91,11 @@ public interface RevisionApi {
 
     @Override
     public Set<String> reviewed() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public Map<String, List<CommentInfo>> getComments() throws RestApiException {
       throw new NotImplementedException();
     }
   }

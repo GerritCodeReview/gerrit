@@ -64,6 +64,14 @@ public class SshSession {
     return identity;
   }
 
+  public SocketAddress getRemoteAddress() {
+    return remoteAddress;
+  }
+
+  public String getRemoteAddressAsString() {
+    return remoteAsString;
+  }
+
   String getUsername() {
     return username;
   }
@@ -92,14 +100,6 @@ public class SshSession {
   /** @return {@code true} if the authentication did not succeed. */
   boolean isAuthenticationError() {
     return authError != null;
-  }
-
-  SocketAddress getRemoteAddress() {
-    return remoteAddress;
-  }
-
-  String getRemoteAddressAsString() {
-    return remoteAsString;
   }
 
   private static String format(final SocketAddress remote) {

@@ -106,28 +106,9 @@ public class ChangeNotes extends VersionedMetaData {
     public int compare(PatchLineComment c1, PatchLineComment c2) {
       String filename1 = c1.getKey().getParentKey().get();
       String filename2 = c2.getKey().getParentKey().get();
-      CommentRange range1 = c1.getRange();
-      CommentRange range2 = c2.getRange();
-
-      // The range field for a comment can be null. If a comment's range is null
-      // we just use the line field in the comment (which can't be null) for
-      // comparison and compare to the other comment's range's end line (if
-      // its range isn't null) or just the line field in the other comment.
-      int lineForComment1 = (range1 == null)
-          ? c1.getLine() : range1.getEndLine();
-      int lineForComment2 = (range2 == null)
-          ? c2.getLine() : range2.getEndLine();
-
-      ComparisonChain chain = ComparisonChain.start();
-      if ((range1 == null) || (range2 == null)) {
-        chain = chain.compare(lineForComment1, lineForComment2);
-      } else {
-        chain = chain.compare(range1.getStartLine(), range2.getStartLine())
-            .compare(range1.getStartCharacter(), range2.getStartCharacter())
-            .compare(range1.getEndLine(), range2.getEndLine())
-            .compare(range1.getEndCharacter(), range2.getEndCharacter());
-      }
-      return chain.compare(filename1, filename2)
+      return ComparisonChain.start()
+          .compare(c1.getLine(), c2.getLine())
+          .compare(filename1, filename2)
           .compare(c1.getWrittenOn(), c2.getWrittenOn())
           .result();
     }

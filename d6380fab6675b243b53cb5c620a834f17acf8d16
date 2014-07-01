@@ -236,6 +236,30 @@
       "revId": "d6380fab6675b243b53cb5c620a834f17acf8d16",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44b7954c_f0f640f8",
+        "filename": "lib/gwt/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-01T20:41:53Z",
+      "side": 1,
+      "message": "Well, I am not a lawyer. I\u0027ve spent more than enough time to make this change work. So if a maintainer vote LC-1 on my change i am not going to mess around with it any more.  The Parrot is Dead.",
+      "parentUuid": "c45705b3_e45d7a21",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 43,
+        "endChar": 1
+      },
+      "revId": "d6380fab6675b243b53cb5c620a834f17acf8d16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

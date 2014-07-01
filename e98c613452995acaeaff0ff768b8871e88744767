@@ -376,6 +376,24 @@
     },
     {
       "key": {
+        "uuid": "c45705b3_c4c15e6a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-01T21:13:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c45705b3_248b925b",
+      "revId": "e98c613452995acaeaff0ff768b8871e88744767",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a44db111_1b233b11",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
         "patchSetId": 6

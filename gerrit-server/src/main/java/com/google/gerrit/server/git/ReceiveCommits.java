@@ -177,6 +177,10 @@ public class ReceiveCommits {
 
   private static final FooterKey CHANGE_ID = new FooterKey("Change-Id");
 
+  private static final int SUBJECT_MAX_LENGTH = 80;
+  private static final String SUBJECT_CROP_APPENDIX = "...";
+  private static final int SUBJECT_CROP_RANGE = 10;
+
   private static final String COMMAND_REJECTION_MESSAGE_FOOTER =
       "Please read the documentation and contact an administrator\n"
           + "if you feel the configuration is incorrect";
@@ -682,11 +686,26 @@ public class ReceiveCommits {
     StringBuilder m = new StringBuilder()
         .append("  ")
         .append(url)
-        .append(change.getChangeId());
+        .append(change.getChangeId())
+        .append(" ")
+        .append(cropSubject(change.getSubject()));
     if (change.getStatus() == Change.Status.DRAFT) {
       m.append(" [DRAFT]");
     }
     return m.toString();
+  }
+
+  private static String cropSubject(final String subject) {
+    if (subject.length() > SUBJECT_MAX_LENGTH) {
+      final int maxLength = SUBJECT_MAX_LENGTH - SUBJECT_CROP_APPENDIX.length();
+      for (int cropPosition = maxLength; cropPosition > maxLength - SUBJECT_CROP_RANGE; cropPosition--) {
+        if (Character.isWhitespace(subject.charAt(cropPosition - 1))) {
+          return subject.substring(0, cropPosition) + SUBJECT_CROP_APPENDIX;
+        }
+      }
+      return subject.substring(0, maxLength) + SUBJECT_CROP_APPENDIX;
+    }
+    return subject;
   }
 
   private void insertChangesAndPatchSets() {

@@ -68,7 +68,7 @@ public class GarbageCollectionRunner implements Runnable {
       } else if (delay < 0 || interval <= 0) {
         gcLog.warn("Ignoring invalid gc schedule configuration");
       } else {
-        queue.getDefaultQueue().scheduleWithFixedDelay(gcRunner, delay,
+        queue.getDefaultQueue().scheduleAtFixedRate(gcRunner, delay,
             interval, TimeUnit.MILLISECONDS);
       }
     }

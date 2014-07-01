@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c45705b3_847926a2",
+        "filename": "lib/maven.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-01T15:13:20Z",
+      "side": 1,
+      "message": "Document with a comment what you\u0027re doing and why?",
+      "revId": "a3bed28ef7c31647900cd716f5fcde184d55d1d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

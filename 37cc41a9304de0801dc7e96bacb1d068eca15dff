@@ -118,6 +118,30 @@
       "revId": "37cc41a9304de0801dc7e96bacb1d068eca15dff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e4716954_2d5e0dc8",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 15
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-01T13:15:15Z",
+      "side": 1,
+      "message": "\u003e What if plugin would like to define a critical cache and  \n \u003e don\u0027t want that non administrator are able to flush it? \n\nLet\u0027s deal with this problem, when there is a plugin with this need. We don\u0027t have to solve it in advance.",
+      "parentUuid": "e4716954_0d61d18e",
+      "range": {
+        "startLine": 318,
+        "startChar": 0,
+        "endLine": 321,
+        "endChar": 19
+      },
+      "revId": "37cc41a9304de0801dc7e96bacb1d068eca15dff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

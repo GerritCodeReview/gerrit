@@ -46,6 +46,30 @@
       "revId": "07ac0c5f39c4907c29897cf7f67368008c73661e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8408adda_9a744dab",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Mergeable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-01T21:20:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a44db111_7b7b5f46",
+      "range": {
+        "startLine": 83,
+        "startChar": 2,
+        "endLine": 83,
+        "endChar": 31
+      },
+      "revId": "07ac0c5f39c4907c29897cf7f67368008c73661e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

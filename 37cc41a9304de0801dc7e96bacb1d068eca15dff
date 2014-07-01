@@ -94,6 +94,30 @@
       "revId": "37cc41a9304de0801dc7e96bacb1d068eca15dff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e4716954_0d61d18e",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 15
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-01T13:12:05Z",
+      "side": 1,
+      "message": "True. but the whole hard coding of skipping web_sessions cache only smells. What if plugin would like to define a critical cache and don\u0027t want that non administrator are able to flush it? There is currently no way to do that. The more generic way is to spend flush-by-non-admin-flag to cache configuration (defaulting to true) and the ability to overwrite it (setting to false) for web_sessions and friends.",
+      "parentUuid": "e4716954_6d6415a0",
+      "range": {
+        "startLine": 318,
+        "startChar": 0,
+        "endLine": 321,
+        "endChar": 19
+      },
+      "revId": "37cc41a9304de0801dc7e96bacb1d068eca15dff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -46,6 +46,30 @@
       "revId": "37cc41a9304de0801dc7e96bacb1d068eca15dff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e4716954_ad719d61",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 15
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-01T12:53:28Z",
+      "side": 1,
+      "message": "So what is then the real use case when an administrator would need to flush web_sessions cache? If it doesn\u0027t exist, what i assume from you description, then we may want to consider to remove it altogether, to make the code simpler.",
+      "parentUuid": "e4716954_cd72e967",
+      "range": {
+        "startLine": 318,
+        "startChar": 0,
+        "endLine": 321,
+        "endChar": 19
+      },
+      "revId": "37cc41a9304de0801dc7e96bacb1d068eca15dff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

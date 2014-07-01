@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e4716954_4d7ef937",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/config/ListCachesIT.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-07-01T09:33:31Z",
+      "side": 1,
+      "message": "Should we also test the TEXT_LIST format?",
+      "revId": "472ad0ffdf452042f47eca298b2ed36a9781a5e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

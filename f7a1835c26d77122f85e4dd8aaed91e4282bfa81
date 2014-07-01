@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a4f93100_3b84174c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-01T21:23:04Z",
+      "side": 1,
+      "message": "Too bad more methods in RawParseUtils don\u0027t take MutableIntegers I guess.",
+      "revId": "f7a1835c26d77122f85e4dd8aaed91e4282bfa81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

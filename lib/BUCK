@@ -25,9 +25,9 @@ define_license(name = 'DO_NOT_DISTRIBUTE')
 
 maven_jar(
   name = 'gwtorm',
-  id = 'gwtorm:gwtorm:1.11',
-  bin_sha1 = '526c98e8a200c5b3b34dcee69ccf6bc95daf84db',
-  src_sha1 = 'fd07a195026be40709feece4483b48349c58cfe3',
+  id = 'com.google.gerrit:gwtorm:1.12',
+  bin_sha1 = '21a8625bc1949c46a91642c86e3b1c7464262383',
+  src_sha1 = '56091cf9987cc624f0c03e444754af4f2e2e2815',
   license = 'Apache2.0',
   deps = [':protobuf'],
   repository = GERRIT,

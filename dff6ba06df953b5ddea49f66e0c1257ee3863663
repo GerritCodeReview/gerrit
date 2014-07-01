@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a4f93100_9b744bab",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/PatchLineComment.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-01T20:49:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c45705b3_64818a3b",
+      "revId": "dff6ba06df953b5ddea49f66e0c1257ee3863663",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c45705b3_44848e4c",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/PatchLineComment.java",
         "patchSetId": 7
@@ -30,6 +48,24 @@
       "writtenOn": "2014-07-01T20:29:36Z",
       "side": 1,
       "message": "Objects.toString(parentUuid, \"\")\n\nOr just String.valueOf(parentUuid) if \"null\" is ok for nulls.",
+      "revId": "dff6ba06df953b5ddea49f66e0c1257ee3863663",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8408adda_1a403d47",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/PatchLineComment.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-01T20:49:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c45705b3_44848e4c",
       "revId": "dff6ba06df953b5ddea49f66e0c1257ee3863663",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "a4f93100_fb790fa1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 578,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-01T20:49:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2469c174_e75d8221",
+      "revId": "dff6ba06df953b5ddea49f66e0c1257ee3863663",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c45705b3_048e966a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
         "patchSetId": 7
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "8408adda_7a3df9d6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 653,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-01T20:49:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c45705b3_048e966a",
+      "revId": "dff6ba06df953b5ddea49f66e0c1257ee3863663",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2469c174_87528610",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
         "patchSetId": 7
@@ -81,6 +153,24 @@
       "writtenOn": "2014-07-01T20:29:36Z",
       "side": 1,
       "message": "new ArrayList\u003c\u003e(...) makes a copy. You should just sort the returned collection in-place.\n\n(The comment about downcasting was misleading, sorry. The thing I was thinking of was asMap(), which as you can read in the ListMultimap javadoc may require downcasting of entry values.)",
+      "revId": "dff6ba06df953b5ddea49f66e0c1257ee3863663",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8408adda_5a3ab5e0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-01T20:49:35Z",
+      "side": 1,
+      "message": "I think I need a copy because I am going to need to make modifications to the list to add the new comments and sort that new list, right?",
+      "parentUuid": "2469c174_87528610",
       "revId": "dff6ba06df953b5ddea49f66e0c1257ee3863663",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

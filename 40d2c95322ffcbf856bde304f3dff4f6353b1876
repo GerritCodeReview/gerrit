@@ -34,6 +34,24 @@
       "revId": "40d2c95322ffcbf856bde304f3dff4f6353b1876",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a44db111_3b0ab7ae",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/UniversalServerPluginProvider.java",
+        "patchSetId": 44
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-07-01T06:53:27Z",
+      "side": 1,
+      "message": "Thanks DavidO ... was busy last night :-)",
+      "parentUuid": "2442a1dc_3f5067e3",
+      "revId": "40d2c95322ffcbf856bde304f3dff4f6353b1876",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

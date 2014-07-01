@@ -358,6 +358,24 @@
     },
     {
       "key": {
+        "uuid": "c45705b3_248b925b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-01T20:53:45Z",
+      "side": 1,
+      "message": "I think it\u0027s reasonable to pass the MutableInteger into all the parse* methods. You already have one (ptr), you can just reuse it.\n\nThe advantage is you would be able to get rid of the half dozen or so \"curr \u003d RawParseUtils.nextLF(note, curr)\" statements in this method.",
+      "parentUuid": "8408adda_fa48e973",
+      "revId": "e98c613452995acaeaff0ff768b8871e88744767",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a44db111_1b233b11",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
         "patchSetId": 6

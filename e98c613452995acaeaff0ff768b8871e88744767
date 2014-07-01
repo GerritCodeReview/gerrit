@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2469c174_278b9a5b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-01T16:11:12Z",
+      "side": 1,
+      "message": "I realized I mistyped what I was trying to say. I meant, I prefer getFooBar over getBarForFoo. So that would be getBaseComments here. Looks like you made the sensible choice of getPatchSetComments below.",
+      "revId": "e98c613452995acaeaff0ff768b8871e88744767",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2442a1dc_9f109322",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-01T16:11:12Z",
+      "side": 1,
+      "message": "CommentsInNotesUtil is a pain to type. If you give this method a more descriptive name, say, commentPsId, you could get away with statically importing it.",
+      "revId": "e98c613452995acaeaff0ff768b8871e88744767",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2442a1dc_bf155711",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-01T16:11:12Z",
+      "side": 1,
+      "message": "Move this declaration down to the assignment, or just inline it entirely.",
+      "revId": "e98c613452995acaeaff0ff768b8871e88744767",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2442a1dc_5f0bebf4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-01T16:11:12Z",
+      "side": 1,
+      "message": "This seems like unnecessary copying.\n\nMake the comments maps ArrayListMultimaps and then you can call Collections.sort on the list returned from get(). (You will have to downcast it unofrtunately.)\n\nYou almost never need a LinkedList in Java. The extra object overhead and indirection tend to make space and performance not worth it, unless your lists are really really long and you really need O(1) insertion or head deletion.",
+      "revId": "e98c613452995acaeaff0ff768b8871e88744767",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04475ded_deedc5e0",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 906,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-01T16:11:12Z",
+      "side": 1,
+      "message": "This just seems horribly verbose, how about \"Bytes:\"",
+      "revId": "e98c613452995acaeaff0ff768b8871e88744767",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2442a1dc_7f082ff7",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1019,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-01T16:11:12Z",
+      "side": 1,
+      "message": "Completely optional: I tend to use base interface types (i.e. Multimap) for things like this because the type declaration is already long enough.\n\n(Be more thoughtful when it\u0027s returned from a public interface, however, since declaring that the return value is immutable is often of value.)",
+      "revId": "e98c613452995acaeaff0ff768b8871e88744767",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -188,6 +188,30 @@
       "revId": "d6380fab6675b243b53cb5c620a834f17acf8d16",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44b7954c_b0d3186f",
+        "filename": "lib/gwt/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-01T19:49:31Z",
+      "side": 1,
+      "message": "Yes, the only license available for [1] is:\n\n* \"The software shall be used for good, not evil.\"\n\n\n[1] https://github.com/douglascrockford/JSON-java",
+      "parentUuid": "8408adda_3a11c173",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 43,
+        "endChar": 1
+      },
+      "revId": "d6380fab6675b243b53cb5c620a834f17acf8d16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

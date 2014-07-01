@@ -682,7 +682,9 @@ public class ReceiveCommits {
     StringBuilder m = new StringBuilder()
         .append("  ")
         .append(url)
-        .append(change.getChangeId());
+        .append(change.getChangeId())
+        .append(" ")
+        .append(change.getSubject());
     if (change.getStatus() == Change.Status.DRAFT) {
       m.append(" [DRAFT]");
     }

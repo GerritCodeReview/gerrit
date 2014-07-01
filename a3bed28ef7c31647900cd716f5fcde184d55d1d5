@@ -16,6 +16,24 @@
       "revId": "a3bed28ef7c31647900cd716f5fcde184d55d1d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24bc6131_4fefad21",
+        "filename": "lib/maven.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-01T20:33:36Z",
+      "side": 1,
+      "message": "Isn\u0027t the commit message detailed enough?\n\nIt was originally working, then it was broken, and after it the broken change was reverted. This change make it work for both worlds: Maven repositories, that strip snapshot from directory and Maven repository that preserve snapshot in directory name.\n\nSo the actual change is only extending the \"if\"-stmt from:\n\n  if \u0027SNAPSHOT\u0027 in version\n\nto\n\n  if \u0027SNAPSHOT\u0027 in version and repository.startswith(GERRIT):",
+      "parentUuid": "c45705b3_847926a2",
+      "revId": "a3bed28ef7c31647900cd716f5fcde184d55d1d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

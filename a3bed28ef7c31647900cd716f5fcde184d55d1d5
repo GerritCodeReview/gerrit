@@ -52,6 +52,24 @@
       "revId": "a3bed28ef7c31647900cd716f5fcde184d55d1d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24bc6131_8f01952a",
+        "filename": "lib/maven.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-01T21:27:55Z",
+      "side": 1,
+      "message": "Done on master in [1], to not clear LC+1 flag in this series, and not risk to not be able to merge it tomorrow and make release 2.8.6.\n\n [1] https://gerrit-review.googlesource.com/58210",
+      "parentUuid": "c45705b3_a45782ff",
+      "revId": "a3bed28ef7c31647900cd716f5fcde184d55d1d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

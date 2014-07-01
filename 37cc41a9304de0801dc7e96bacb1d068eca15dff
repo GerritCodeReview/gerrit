@@ -70,6 +70,30 @@
       "revId": "37cc41a9304de0801dc7e96bacb1d068eca15dff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e4716954_6d6415a0",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 15
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-01T13:00:07Z",
+      "side": 1,
+      "message": "\u003e So what is then the real use case when an administrator\n \u003e would need to flush web_sessions cache?\n\nDon\u0027t know, maybe it could be inconsistent due to a bug and then you really want to flush it?\n\n \u003e If it doesn\u0027t exist, what i assume from you description, \n \u003e then we may want to consider to remove it altogether, to \n \u003e make the code simpler.\n\nCould be done in an own change. But I\u0027m not worrying too much about this special case. Removing one if-case wouldn\u0027t make the code much simpler.",
+      "parentUuid": "e4716954_ad719d61",
+      "range": {
+        "startLine": 318,
+        "startChar": 0,
+        "endLine": 321,
+        "endChar": 19
+      },
+      "revId": "37cc41a9304de0801dc7e96bacb1d068eca15dff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

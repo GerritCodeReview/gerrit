@@ -22,6 +22,30 @@
       "revId": "37cc41a9304de0801dc7e96bacb1d068eca15dff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e4716954_cd72e967",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 15
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-01T12:47:22Z",
+      "side": 1,
+      "message": "This is how it was implemented in the flush-caches SSH command. This change is just making the existing SSH functionality available via REST and doesn\u0027t want to change the exiting behaviour.\n\nEver since the \u0027Flush Caches\u0027 capability exists it never allowed flushing the web_sessions cache, see [1,2]. I believe this was intentional although the commit message doesn\u0027t explain the reasons. If I should guess I would say, flushing the other caches is relatively harmless, they just get populated again and nobody will be affected by this. Flushing the web_sessions cache effects every user. All web sessions are terminated and users must relogin into the web UI. I believe this is why flushing the web_sessions cache is extra protected and requires the \u0027Administrate Server\u0027 capability.\n\n[1] https://gerrit-review.googlesource.com/23841\n\n[2] https://gerrit-review.googlesource.com/#/c/23841/2/gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/FlushCaches.java",
+      "parentUuid": "2469c174_a74d4a82",
+      "range": {
+        "startLine": 318,
+        "startChar": 0,
+        "endLine": 321,
+        "endChar": 19
+      },
+      "revId": "37cc41a9304de0801dc7e96bacb1d068eca15dff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

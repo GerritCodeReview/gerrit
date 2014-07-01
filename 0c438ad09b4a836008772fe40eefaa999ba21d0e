@@ -22,6 +22,30 @@
       "revId": "0c438ad09b4a836008772fe40eefaa999ba21d0e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e4716954_8d9aa15f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/GitwebLink.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-07-01T08:54:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a44db111_db287312",
+      "range": {
+        "startLine": 54,
+        "startChar": 16,
+        "endLine": 54,
+        "endChar": 27
+      },
+      "revId": "0c438ad09b4a836008772fe40eefaa999ba21d0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

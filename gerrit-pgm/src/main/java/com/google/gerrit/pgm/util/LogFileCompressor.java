@@ -57,7 +57,7 @@ public class LogFileCompressor implements Runnable {
 
     @Override
     public void start() {
-      queue.getDefaultQueue().scheduleWithFixedDelay(compresser, 1, 24, HOURS);
+      queue.getDefaultQueue().scheduleAtFixedRate(compresser, 1, 24, HOURS);
     }
 
     @Override

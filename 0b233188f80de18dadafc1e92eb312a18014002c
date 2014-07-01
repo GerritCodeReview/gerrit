@@ -238,6 +238,30 @@
     },
     {
       "key": {
+        "uuid": "2469c174_273abae0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/AbstractPreloadedPluginScanner.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-01T14:40:29Z",
+      "side": 1,
+      "message": "If there are multiple ssh/http modules you arbitrarily pick the first one depending on the set iteration order, and ignore the others.\n\nI would prefer failing fast in this case. It\u0027s as simple as:\n\n checkState(sshModule \u003d\u003d null, \"Multiple %s implementations: %s, %s\",\n     sshModuleBaseClass, sshModule, scriptClass);",
+      "parentUuid": "04475ded_dec1456a",
+      "range": {
+        "startLine": 78,
+        "startChar": 8,
+        "endLine": 84,
+        "endChar": 9
+      },
+      "revId": "0b233188f80de18dadafc1e92eb312a18014002c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e4716954_0dec71dc",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/AbstractPreloadedPluginScanner.java",
         "patchSetId": 25

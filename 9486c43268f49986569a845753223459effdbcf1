@@ -481,6 +481,24 @@
     },
     {
       "key": {
+        "uuid": "2442a1dc_ff1bdf43",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-01T16:10:59Z",
+      "side": 1,
+      "message": "checkArgument(psId !\u003d null, \"setPatchSetId must be called before putComment\");\n checkArgument(...,\n     \"Comment on %s does not match previous patch set %s\",\n     psId(comment), psId);",
+      "parentUuid": "0402fd8c_a69a065f",
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "440875ab_a8f77bac",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
         "patchSetId": 3
@@ -1997,6 +2015,24 @@
       "side": 1,
       "message": "Would I need to implement all of those or can I just implement equals()?",
       "parentUuid": "0402fd8c_06e9dacc",
+      "revId": "9486c43268f49986569a845753223459effdbcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2469c174_c7d39e6e",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1110,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-01T16:10:59Z",
+      "side": 1,
+      "message": "Eh, you can probably skip hashCode(), since it\u0027s a mutable object nobody should be using it as a key in a hashMap anyway.\n\ntoString() is useful for testing purposes because the failure message for assertEquals() prints the two arguments so you can see exactly how they differ.\n\nLet me just give you an equals() implementation to save nitpicking later:\n\n @Override\n public boolean equals(Object o) {\n   if (o instanceof PatchLineComment) {\n     PatchLineComment c \u003d (PatchLineComment) o;\n     return Objects.equal(key, o.key)\n         \u0026\u0026 Objects.equal(lineNbr, o.lineNbr)\n         // etc. for each @Column field\n   }\n   return false;\n }\n\nMake sure to use java.util.Objects rather than com.google.common.base.Objects, since the latter won\u0027t exist in our GWT build.\n\nFor toString(), Guava has the nice ToStringHelper, but you can\u0027t use that. Just use a StringBuilder to mimic the output of that, e.g. \"PatchLineComment{key\u003dX, lineNbr\u003dY}\". The format is not too important since it\u0027s just for debugging, again, you just want to be able to see at a glance what the differences are if assertEquals fails.",
+      "parentUuid": "04475ded_fe49a147",
       "revId": "9486c43268f49986569a845753223459effdbcf1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

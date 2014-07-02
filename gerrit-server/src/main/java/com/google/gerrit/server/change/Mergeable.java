@@ -25,6 +25,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.BranchOrderSection;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
@@ -41,6 +42,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Objects;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -66,6 +68,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
   private final Provider<ReviewDb> db;
   private final ChangeIndexer indexer;
   private final MergeabilityCache cache;
+  private final Config gerritServerConfig;
 
   @Inject
   Mergeable(
@@ -75,7 +78,8 @@ public class Mergeable implements RestReadView<RevisionResource> {
       ChangeData.Factory changeDataFactory,
       Provider<ReviewDb> db,
       ChangeIndexer indexer,
-      MergeabilityCache cache) {
+      MergeabilityCache cache,
+      @GerritServerConfig Config gerritServerConfig) {
     this.gitManager = gitManager;
     this.projectCache = projectCache;
     this.mergeUtilFactory = mergeUtilFactory;
@@ -83,6 +87,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
     this.db = db;
     this.indexer = indexer;
     this.cache = cache;
+    this.gerritServerConfig = gerritServerConfig;
   }
 
   public void setOtherBranches(boolean otherBranches) {
@@ -138,7 +143,8 @@ public class Mergeable implements RestReadView<RevisionResource> {
   }
 
   private SubmitType getSubmitType(ChangeData cd, PatchSet patchSet) throws OrmException {
-    SubmitTypeRecord rec = new SubmitRuleEvaluator(cd).setPatchSet(patchSet).getSubmitType();
+    SubmitTypeRecord rec =
+        new SubmitRuleEvaluator(cd, gerritServerConfig).setPatchSet(patchSet).getSubmitType();
     if (rec.status != SubmitTypeRecord.Status.OK) {
       throw new OrmException("Submit type rule failed: " + rec);
     }

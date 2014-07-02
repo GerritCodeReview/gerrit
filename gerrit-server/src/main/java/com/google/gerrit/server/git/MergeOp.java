@@ -22,10 +22,12 @@ import static java.util.stream.Collectors.toSet;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Joiner;
+import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSetMultimap;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.SetMultimap;
@@ -260,13 +262,20 @@ public class MergeOp implements AutoCloseable {
     orm.close();
   }
 
+  private static Optional<SubmitRecord> findOkRecord(Collection<SubmitRecord> in) {
+    if (in == null) {
+      return Optional.absent();
+    }
+    return Iterables.tryFind(in, r -> r.status == SubmitRecord.Status.OK);
+  }
+
   public static void checkSubmitRule(ChangeData cd) throws ResourceConflictException, OrmException {
     PatchSet patchSet = cd.currentPatchSet();
     if (patchSet == null) {
       throw new ResourceConflictException("missing current patch set for change " + cd.getId());
     }
     List<SubmitRecord> results = getSubmitRecords(cd);
-    if (SubmitRecord.findOkRecord(results).isPresent()) {
+    if (findOkRecord(results).isPresent()) {
       // Rules supplied a valid solution.
       return;
     } else if (results.isEmpty()) {

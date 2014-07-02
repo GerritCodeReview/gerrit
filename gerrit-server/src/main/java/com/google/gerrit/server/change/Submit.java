@@ -141,6 +141,7 @@ public class Submit
   private final boolean submitWholeTopic;
   private final Provider<InternalChangeQuery> queryProvider;
   private final PatchSetUtil psUtil;
+  private final Config gerritServerConfig;
 
   @Inject
   Submit(
@@ -165,6 +166,7 @@ public class Submit
     this.mergeOpProvider = mergeOpProvider;
     this.mergeSuperSet = mergeSuperSet;
     this.accounts = accounts;
+    this.gerritServerConfig = cfg;
     this.label =
         MoreObjects.firstNonNull(
             Strings.emptyToNull(cfg.getString("change", null, "submitLabel")), "Submit");
@@ -293,6 +295,25 @@ public class Submit
       throw new OrmRuntimeException("Could not determine problems for the change", e);
     }
     return null;
+  }
+
+  /**
+   * Check if there are any problems with the given change. It doesn't take any problems of related
+   * changes into account.
+   *
+   * <p>
+   *
+   * @param cd the change to check for submittability
+   * @param gerritServerConfig
+   * @return if the change has any problems for submission
+   */
+  public static boolean submittable(ChangeData cd, Config gerritServerConfig) {
+    try {
+      MergeOp.checkSubmitRule(cd);
+      return true;
+    } catch (ResourceConflictException | OrmException e) {
+      return false;
+    }
   }
 
   @Override

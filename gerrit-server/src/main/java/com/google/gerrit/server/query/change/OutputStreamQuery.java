@@ -23,6 +23,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.data.ChangeAttribute;
 import com.google.gerrit.server.data.PatchSetAttribute;
@@ -48,6 +49,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.io.DisabledOutputStream;
@@ -74,6 +76,7 @@ public class OutputStreamQuery {
   private final EventFactory eventFactory;
   private final TrackingFooters trackingFooters;
   private final CurrentUser user;
+  private final Config gerritServerConfig;
 
   private OutputFormat outputFormat = OutputFormat.TEXT;
   private boolean includePatchSets;
@@ -97,7 +100,8 @@ public class OutputStreamQuery {
       ChangeQueryProcessor queryProcessor,
       EventFactory eventFactory,
       TrackingFooters trackingFooters,
-      CurrentUser user) {
+      CurrentUser user,
+      @GerritServerConfig Config gerritServerConfig) {
     this.db = db;
     this.repoManager = repoManager;
     this.queryBuilder = queryBuilder;
@@ -105,6 +109,7 @@ public class OutputStreamQuery {
     this.eventFactory = eventFactory;
     this.trackingFooters = trackingFooters;
     this.user = user;
+    this.gerritServerConfig = gerritServerConfig;
   }
 
   void setLimit(int n) {
@@ -244,7 +249,11 @@ public class OutputStreamQuery {
 
     if (includeSubmitRecords) {
       eventFactory.addSubmitRecords(
-          c, new SubmitRuleEvaluator(d).setAllowClosed(true).setAllowDraft(true).evaluate());
+          c,
+          new SubmitRuleEvaluator(d, gerritServerConfig)
+              .setAllowClosed(true)
+              .setAllowDraft(true)
+              .evaluate());
     }
 
     if (includeCommitMessage) {

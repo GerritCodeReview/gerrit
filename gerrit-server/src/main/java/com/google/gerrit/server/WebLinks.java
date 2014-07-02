@@ -27,7 +27,6 @@ public class WebLinks {
   private final DynamicSet<PatchSetWebLink> patchSetLinks;
   private final DynamicSet<ProjectWebLink> projectLinks;
 
-  @Inject
   public WebLinks(DynamicSet<PatchSetWebLink> patchSetLinks,
       DynamicSet<ProjectWebLink> projectLinks) {
     this.patchSetLinks = patchSetLinks;

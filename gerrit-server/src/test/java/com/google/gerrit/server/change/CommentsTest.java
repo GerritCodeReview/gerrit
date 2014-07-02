@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.change;
 
+import static com.google.inject.Scopes.SINGLETON;
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.expectLastCall;
@@ -36,37 +37,86 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.CommentRange;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.PatchLineCommentAccess;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.PatchLineCommentsUtil;
+import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountInfo;
+import com.google.gerrit.server.account.CapabilityControl;
+import com.google.gerrit.server.account.GroupBackend;
+import com.google.gerrit.server.config.AnonymousCowardName;
+import com.google.gerrit.server.config.AnonymousCowardNameProvider;
+import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.git.GitModule;
+import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.group.SystemGroupBackend;
+import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.notedb.NotesMigration;
+import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.util.TimeUtil;
+import com.google.gerrit.testutil.TestChanges;
+import com.google.gerrit.testutil.ConfigSuite;
+import com.google.gerrit.testutil.FakeAccountCache;
+import com.google.gerrit.testutil.InMemoryRepositoryManager;
 import com.google.gwtorm.server.ListResultSet;
+import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.TypeLiteral;
+import com.google.inject.util.Providers;
 
 import org.easymock.IAnswer;
+import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
+import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.PersonIdent;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 
-public class CommentsTest {
+@RunWith(ConfigSuite.class)
+public class CommentsTest  {
+  private static final TimeZone TZ =
+      TimeZone.getTimeZone("America/Los_Angeles");
+
+  @ConfigSuite.Parameter
+  public Config config;
+
+  @ConfigSuite.Config
+  public static @GerritServerConfig Config noteDbEnabled() {
+    @GerritServerConfig Config cfg = new Config();
+    cfg.setBoolean("notedb", null, "write", true);
+    cfg.setBoolean("notedb", "publishedComments", "read", true);
+    return cfg;
+  }
 
   private Injector injector;
+  private Project.NameKey project;
+  private InMemoryRepositoryManager repoManager;
+  private PatchLineCommentsUtil plcUtil;
   private RevisionResource revRes1;
   private RevisionResource revRes2;
   private PatchLineComment plc1;
   private PatchLineComment plc2;
   private PatchLineComment plc3;
+  private IdentifiedUser changeOwner;
 
   @Before
   public void setUp() throws Exception {
@@ -78,59 +128,137 @@ public class CommentsTest {
     final AccountInfo.Loader.Factory alf =
         createMock(AccountInfo.Loader.Factory.class);
     final ReviewDb db = createMock(ReviewDb.class);
+    final FakeAccountCache accountCache = new FakeAccountCache();
+    final PersonIdent serverIdent = new PersonIdent(
+        "Gerrit Server", "noreply@gerrit.com", TimeUtil.nowTs(), TZ);
+    project = new Project.NameKey("test-project");
+    repoManager = new InMemoryRepositoryManager();
+
+    @SuppressWarnings("unused")
+    InMemoryRepository repo = repoManager.createRepository(project);
 
     AbstractModule mod = new AbstractModule() {
       @Override
       protected void configure() {
         bind(viewsType).toInstance(views);
         bind(AccountInfo.Loader.Factory.class).toInstance(alf);
-        bind(ReviewDb.class).toInstance(db);
-      }};
+        bind(ReviewDb.class).toProvider(Providers.<ReviewDb>of(db));
+        bind(Config.class).annotatedWith(GerritServerConfig.class).toInstance(config);
+        bind(ProjectCache.class).toProvider(Providers.<ProjectCache> of(null));
+        install(new GitModule());
+        bind(GitRepositoryManager.class).toInstance(repoManager);
+        bind(CapabilityControl.Factory.class)
+            .toProvider(Providers.<CapabilityControl.Factory> of(null));
+        bind(String.class).annotatedWith(AnonymousCowardName.class)
+            .toProvider(AnonymousCowardNameProvider.class);
+        bind(String.class).annotatedWith(CanonicalWebUrl.class)
+            .toInstance("http://localhost:8080/");
+        bind(GroupBackend.class).to(SystemGroupBackend.class).in(SINGLETON);
+        bind(AccountCache.class).toInstance(accountCache);
+        bind(GitReferenceUpdated.class)
+            .toInstance(GitReferenceUpdated.DISABLED);
+        bind(PersonIdent.class).annotatedWith(GerritPersonIdent.class)
+          .toInstance(serverIdent);
+      }
+    };
 
-    Account.Id account1 = new Account.Id(1);
-    Account.Id account2 = new Account.Id(2);
+    injector = Guice.createInjector(mod);
+
+    NotesMigration migration = injector.getInstance(NotesMigration.class);
+    plcUtil = new PatchLineCommentsUtil(migration);
+
+    Account co = new Account(new Account.Id(1), TimeUtil.nowTs());
+    co.setFullName("Change Owner");
+    co.setPreferredEmail("change@owner.com");
+    accountCache.put(co);
+    Account.Id ownerId = co.getId();
+
+    Account ou = new Account(new Account.Id(2), TimeUtil.nowTs());
+    ou.setFullName("Other Account");
+    ou.setPreferredEmail("other@account.com");
+    accountCache.put(ou);
+    Account.Id otherUserId = ou.getId();
+
+    IdentifiedUser.GenericFactory userFactory =
+        injector.getInstance(IdentifiedUser.GenericFactory.class);
+    changeOwner = userFactory.create(ownerId);
+    IdentifiedUser otherUser = userFactory.create(otherUserId);
+
     AccountInfo.Loader accountLoader = createMock(AccountInfo.Loader.class);
     accountLoader.fill();
     expectLastCall().anyTimes();
-    expect(accountLoader.get(account1))
-        .andReturn(new AccountInfo(account1)).anyTimes();
-    expect(accountLoader.get(account2))
-        .andReturn(new AccountInfo(account2)).anyTimes();
+    expect(accountLoader.get(ownerId))
+        .andReturn(new AccountInfo(ownerId)).anyTimes();
+    expect(accountLoader.get(otherUserId))
+        .andReturn(new AccountInfo(otherUserId)).anyTimes();
     expect(alf.create(true)).andReturn(accountLoader).anyTimes();
     replay(accountLoader, alf);
-
-    revRes1 = createMock(RevisionResource.class);
-    revRes2 = createMock(RevisionResource.class);
 
     PatchLineCommentAccess plca = createMock(PatchLineCommentAccess.class);
     expect(db.patchComments()).andReturn(plca).anyTimes();
 
-    Change.Id changeId = new Change.Id(123);
-    PatchSet.Id psId1 = new PatchSet.Id(changeId, 1);
+    Change change = newChange();
+    PatchSet.Id psId1 = new PatchSet.Id(change.getId(), 1);
     PatchSet ps1 = new PatchSet(psId1);
-    expect(revRes1.getPatchSet()).andReturn(ps1).anyTimes();
-    PatchSet.Id psId2 = new PatchSet.Id(changeId, 2);
+    PatchSet.Id psId2 = new PatchSet.Id(change.getId(), 2);
     PatchSet ps2 = new PatchSet(psId2);
-    expect(revRes2.getPatchSet()).andReturn(ps2);
 
     long timeBase = TimeUtil.nowMs();
     plc1 = newPatchLineComment(psId1, "Comment1", null,
-        "FileOne.txt", Side.REVISION, 1, account1, timeBase,
+        "FileOne.txt", Side.REVISION, 3, ownerId, timeBase,
         "First Comment", new CommentRange(1, 2, 3, 4));
+    plc1.setRevId(new RevId("ABCDABCDABCDABCDABCDABCDABCDABCDABCDABCD"));
     plc2 = newPatchLineComment(psId1, "Comment2", "Comment1",
-        "FileOne.txt", Side.REVISION, 1, account2, timeBase + 1000,
+        "FileOne.txt", Side.REVISION, 3, otherUserId, timeBase + 1000,
         "Reply to First Comment",  new CommentRange(1, 2, 3, 4));
+    plc2.setRevId(new RevId("ABCDABCDABCDABCDABCDABCDABCDABCDABCDABCD"));
     plc3 = newPatchLineComment(psId1, "Comment3", "Comment1",
-        "FileOne.txt", Side.PARENT, 1, account1, timeBase + 2000,
+        "FileOne.txt", Side.PARENT, 3, ownerId, timeBase + 2000,
         "First Parent Comment",  new CommentRange(1, 2, 3, 4));
+    plc3.setRevId(new RevId("CDEFCDEFCDEFCDEFCDEFCDEFCDEFCDEFCDEFCDEF"));
+
+    List<PatchLineComment> commentsByOwner = Lists.newArrayList();
+    commentsByOwner.add(plc1);
+    commentsByOwner.add(plc3);
+    List<PatchLineComment> commentsByReviewer = Lists.newArrayList();
+    commentsByReviewer.add(plc2);
+
+    plca.upsert(commentsByOwner);
+    expectLastCall().anyTimes();
+    plca.upsert(commentsByReviewer);
+    expectLastCall().anyTimes();
 
     expect(plca.publishedByPatchSet(psId1))
         .andAnswer(results(plc1, plc2, plc3)).anyTimes();
     expect(plca.publishedByPatchSet(psId2))
         .andAnswer(results()).anyTimes();
+    replay(db, plca);
 
-    replay(db, revRes1, revRes2, plca);
-    injector = Guice.createInjector(mod);
+    ChangeUpdate update = newUpdate(change, changeOwner);
+    update.setPatchSetId(psId1);
+    plcUtil.addPublishedComments(db, update, commentsByOwner);
+    update.commit();
+
+    update = newUpdate(change, otherUser);
+    update.setPatchSetId(psId1);
+    plcUtil.addPublishedComments(db, update, commentsByReviewer);
+    update.commit();
+
+    ChangeControl ctl = stubChangeControl(change);
+    revRes1 = new RevisionResource(new ChangeResource(ctl), ps1);
+    revRes2 = new RevisionResource(new ChangeResource(ctl), ps2);
+  }
+
+  private ChangeControl stubChangeControl(Change c) throws OrmException {
+    return TestChanges.stubChangeControl(repoManager, c, changeOwner);
+  }
+
+  private Change newChange() {
+    return TestChanges.newChange(project, changeOwner);
+  }
+
+  private ChangeUpdate newUpdate(Change c, final IdentifiedUser user) throws Exception {
+    return TestChanges.newUpdate(injector, repoManager, c, user);
   }
 
   @Test
@@ -211,7 +339,8 @@ public class CommentsTest {
     assertEquals(plc.getLine(), (int) ci.line);
     assertEquals(plc.getSide() == 0 ? Side.PARENT : Side.REVISION,
         Objects.firstNonNull(ci.side, Side.REVISION));
-    assertEquals(plc.getWrittenOn(), ci.updated);
+    assertEquals(TimeUtil.roundTimestampToSecond(plc.getWrittenOn()),
+        TimeUtil.roundTimestampToSecond(ci.updated));
     assertEquals(plc.getRange(), ci.range);
   }
 

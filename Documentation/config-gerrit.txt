@@ -3509,6 +3509,19 @@ larger rule files.
 +
 Default is 256.
 
+[[rules.evaluationTimeout]]rules.evaluationTimeout::
++
+Set time constraint for Prolog rules and submit typee valuation. When
+the time elapses, evaluation is cancelled.
++
+To disable time constraints set this value to 0.
++
+Values can be specified using standard time unit abbreviations
+('ms', 'sec', 'min', etc.).
+If no unit is specified, milliseconds is assumed.
++
+Default is 0, to disable execution time constraint.
+
 [[execution]]
 === Section execution
 

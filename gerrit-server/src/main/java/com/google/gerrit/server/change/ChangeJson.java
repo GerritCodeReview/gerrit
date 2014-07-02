@@ -103,6 +103,7 @@ import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.api.accounts.AccountInfoComparator;
 import com.google.gerrit.server.api.accounts.GpgApiAdapter;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LabelNormalizer;
 import com.google.gerrit.server.git.MergeUtil;
@@ -136,6 +137,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -209,6 +211,7 @@ public class ChangeJson {
   private final ChangeKindCache changeKindCache;
   private final ChangeIndexCollection indexes;
   private final ApprovalsUtil approvalsUtil;
+  private final Config gerritServerConfig;
 
   private boolean lazyLoad = true;
   private AccountLoader accountLoader;
@@ -239,7 +242,8 @@ public class ChangeJson {
       ChangeKindCache changeKindCache,
       ChangeIndexCollection indexes,
       ApprovalsUtil approvalsUtil,
-      @Assisted Iterable<ListChangesOption> options) {
+      @Assisted Iterable<ListChangesOption> options,
+      @GerritServerConfig Config gerritServerConfig) {
     this.db = db;
     this.labelNormalizer = ln;
     this.userProvider = user;
@@ -264,6 +268,7 @@ public class ChangeJson {
     this.indexes = indexes;
     this.approvalsUtil = approvalsUtil;
     this.options = Sets.immutableEnumSet(options);
+    this.gerritServerConfig = gerritServerConfig;
   }
 
   public ChangeJson lazyLoad(boolean load) {
@@ -487,6 +492,7 @@ public class ChangeJson {
         out.submittable = submittable(cd);
       }
     }
+    out.submittable = Submit.submittable(cd, gerritServerConfig);
     Optional<ChangedLines> changedLines = cd.changedLines();
     if (changedLines.isPresent()) {
       out.insertions = changedLines.get().insertions;

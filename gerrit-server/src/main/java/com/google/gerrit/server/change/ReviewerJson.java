@@ -30,6 +30,7 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.account.AccountLoader;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -40,6 +41,7 @@ import com.google.inject.Singleton;
 import java.util.Collection;
 import java.util.List;
 import java.util.TreeMap;
+import org.eclipse.jgit.lib.Config;
 
 @Singleton
 public class ReviewerJson {
@@ -47,17 +49,20 @@ public class ReviewerJson {
   private final ChangeData.Factory changeDataFactory;
   private final ApprovalsUtil approvalsUtil;
   private final AccountLoader.Factory accountLoaderFactory;
+  private final Config gerritServerConfig;
 
   @Inject
   ReviewerJson(
       Provider<ReviewDb> db,
       ChangeData.Factory changeDataFactory,
       ApprovalsUtil approvalsUtil,
-      AccountLoader.Factory accountLoaderFactory) {
+      AccountLoader.Factory accountLoaderFactory,
+      @GerritServerConfig Config gerritServerConfig) {
     this.db = db;
     this.changeDataFactory = changeDataFactory;
     this.approvalsUtil = approvalsUtil;
     this.accountLoaderFactory = accountLoaderFactory;
+    this.gerritServerConfig = gerritServerConfig;
   }
 
   public List<ReviewerInfo> format(Collection<ReviewerResource> rsrcs) throws OrmException {
@@ -111,7 +116,10 @@ public class ReviewerJson {
     PatchSet ps = cd.currentPatchSet();
     if (ps != null) {
       for (SubmitRecord rec :
-          new SubmitRuleEvaluator(cd).setFastEvalLabels(true).setAllowDraft(true).evaluate()) {
+          new SubmitRuleEvaluator(cd, gerritServerConfig)
+              .setFastEvalLabels(true)
+              .setAllowDraft(true)
+              .evaluate()) {
         if (rec.labels == null) {
           continue;
         }

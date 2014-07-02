@@ -32,7 +32,9 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.rules.RulesCache;
 import com.google.gerrit.server.account.AccountInfo;
 import com.google.gerrit.server.change.TestSubmitRule.Input;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.project.RuleEvalException;
+import com.google.gerrit.server.project.RuleEvalTimeoutException;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
@@ -41,6 +43,7 @@ import com.google.inject.Provider;
 
 import com.googlecode.prolog_cafe.lang.Term;
 
+import org.eclipse.jgit.lib.Config;
 import org.kohsuke.args4j.Option;
 
 import java.io.ByteArrayInputStream;
@@ -59,6 +62,7 @@ public class TestSubmitRule implements RestModifyView<RevisionResource, Input> {
   }
 
   private final Provider<ReviewDb> db;
+  private final Config gerritServerConfig;
   private final ChangeData.Factory changeDataFactory;
   private final RulesCache rules;
   private final AccountInfo.Loader.Factory accountInfoFactory;
@@ -68,10 +72,12 @@ public class TestSubmitRule implements RestModifyView<RevisionResource, Input> {
 
   @Inject
   TestSubmitRule(Provider<ReviewDb> db,
+      @GerritServerConfig Config gerritServerConfig,
       ChangeData.Factory changeDataFactory,
       RulesCache rules,
       AccountInfo.Loader.Factory infoFactory) {
     this.db = db;
+    this.gerritServerConfig = gerritServerConfig;
     this.changeDataFactory = changeDataFactory;
     this.rules = rules;
     this.accountInfoFactory = infoFactory;
@@ -90,6 +96,7 @@ public class TestSubmitRule implements RestModifyView<RevisionResource, Input> {
 
     SubmitRuleEvaluator evaluator = new SubmitRuleEvaluator(
         db.get(),
+        gerritServerConfig,
         rsrc.getPatchSet(),
         rsrc.getControl().getProjectControl(),
         rsrc.getControl(),
@@ -106,7 +113,7 @@ public class TestSubmitRule implements RestModifyView<RevisionResource, Input> {
     List<Term> results;
     try {
       results = eval(evaluator);
-    } catch (RuleEvalException e) {
+    } catch (RuleEvalException | RuleEvalTimeoutException e) {
       String msg = Joiner.on(": ").skipNulls().join(Iterables.transform(
           Throwables.getCausalChain(e),
           new Function<Throwable, String>() {
@@ -136,7 +143,7 @@ public class TestSubmitRule implements RestModifyView<RevisionResource, Input> {
   }
 
   private static List<Term> eval(SubmitRuleEvaluator evaluator)
-      throws RuleEvalException {
+      throws RuleEvalException, RuleEvalTimeoutException {
     return evaluator.evaluate();
   }
 

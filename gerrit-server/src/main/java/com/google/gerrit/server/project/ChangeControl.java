@@ -31,6 +31,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
@@ -46,6 +47,7 @@ import com.googlecode.prolog_cafe.lang.StructureTerm;
 import com.googlecode.prolog_cafe.lang.SymbolTerm;
 import com.googlecode.prolog_cafe.lang.Term;
 
+import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -191,22 +193,26 @@ public class ChangeControl {
   private final ChangeData.Factory changeDataFactory;
   private final RefControl refControl;
   private final ChangeNotes notes;
+  private final Config gerritServerConfig;
 
   @AssistedInject
   ChangeControl(
+      @GerritServerConfig Config gerritServerConfig,
       ChangeData.Factory changeDataFactory,
       ChangeNotes.Factory notesFactory,
       @Assisted RefControl refControl,
       @Assisted Change change) {
-    this(changeDataFactory, refControl,
+    this(gerritServerConfig, changeDataFactory, refControl,
         notesFactory.create(change));
   }
 
   @AssistedInject
   ChangeControl(
+      @GerritServerConfig Config gerritServerConfig,
       ChangeData.Factory changeDataFactory,
       @Assisted RefControl refControl,
       @Assisted ChangeNotes notes) {
+    this.gerritServerConfig = gerritServerConfig;
     this.changeDataFactory = changeDataFactory;
     this.refControl = refControl;
     this.notes = notes;
@@ -216,7 +222,7 @@ public class ChangeControl {
     if (getCurrentUser().equals(who)) {
       return this;
     }
-    return new ChangeControl(changeDataFactory,
+    return new ChangeControl(gerritServerConfig, changeDataFactory,
         getRefControl().forUser(who), notes);
   }
 
@@ -451,13 +457,17 @@ public class ChangeControl {
     List<Term> results;
     SubmitRuleEvaluator evaluator;
     try {
-      evaluator = new SubmitRuleEvaluator(db, patchSet,
+      evaluator = new SubmitRuleEvaluator(db,
+          gerritServerConfig,
+          patchSet,
           getProjectControl(),
           this, getChange(), cd,
           fastEvalLabels,
           "locate_submit_rule", "can_submit",
           "locate_submit_filter", "filter_submit_results");
       results = evaluator.evaluate();
+    } catch (RuleEvalTimeoutException e) {
+      return logRuleTimeout(e.getMessage(), e);
     } catch (RuleEvalException e) {
       return logRuleError(e.getMessage(), e);
     }
@@ -607,12 +617,14 @@ public class ChangeControl {
     List<Term> results;
     SubmitRuleEvaluator evaluator;
     try {
-      evaluator = new SubmitRuleEvaluator(db, patchSet,
+      evaluator = new SubmitRuleEvaluator(db, gerritServerConfig, patchSet,
           getProjectControl(), this, getChange(), cd,
           false,
           "locate_submit_type", "get_submit_type",
           "locate_submit_type_filter", "filter_submit_type_results");
       results = evaluator.evaluate();
+    } catch (RuleEvalTimeoutException e) {
+      return logTypeRuleTimeout(e.getMessage(), e);
     } catch (RuleEvalException e) {
       return logTypeRuleError(e.getMessage(), e);
     }
@@ -652,6 +664,11 @@ public class ChangeControl {
     return logInvalidResult(rule, record, null);
   }
 
+  private List<SubmitRecord> logRuleTimeout(String err, RuleEvalTimeoutException e) {
+    log.warn(err);
+    return ruleError("Rule failed to evaluate in given time");
+  }
+
   private List<SubmitRecord> logRuleError(String err, Exception e) {
     log.error(err, e);
     return ruleError("Error evaluating project rules, check server log");
@@ -673,6 +690,11 @@ public class ChangeControl {
     return logTypeRuleError("Submit type rule " + rule + " for change "
         + getChange().getId() + " of " + getProject().getName()
         + " output invalid result: " + record);
+  }
+
+  private SubmitTypeRecord logTypeRuleTimeout(String err, Exception e) {
+    log.warn(err);
+    return typeRuleError("Rule failed to evaluate in given time");
   }
 
   private SubmitTypeRecord logTypeRuleError(String err, Exception e) {

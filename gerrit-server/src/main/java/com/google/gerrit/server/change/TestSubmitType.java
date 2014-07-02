@@ -26,7 +26,9 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.rules.RulesCache;
 import com.google.gerrit.server.change.TestSubmitRule.Filters;
 import com.google.gerrit.server.change.TestSubmitRule.Input;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.project.RuleEvalException;
+import com.google.gerrit.server.project.RuleEvalTimeoutException;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
@@ -35,6 +37,7 @@ import com.google.inject.Provider;
 import com.googlecode.prolog_cafe.lang.SymbolTerm;
 import com.googlecode.prolog_cafe.lang.Term;
 
+import org.eclipse.jgit.lib.Config;
 import org.kohsuke.args4j.Option;
 
 import java.io.ByteArrayInputStream;
@@ -42,6 +45,7 @@ import java.util.List;
 
 public class TestSubmitType implements RestModifyView<RevisionResource, Input> {
   private final Provider<ReviewDb> db;
+  private final Config gerritConfig;
   private final ChangeData.Factory changeDataFactory;
   private final RulesCache rules;
 
@@ -50,9 +54,11 @@ public class TestSubmitType implements RestModifyView<RevisionResource, Input> {
 
   @Inject
   TestSubmitType(Provider<ReviewDb> db,
+      @GerritServerConfig Config gerritConfig,
       ChangeData.Factory changeDataFactory,
       RulesCache rules) {
     this.db = db;
+    this.gerritConfig = gerritConfig;
     this.changeDataFactory = changeDataFactory;
     this.rules = rules;
   }
@@ -70,6 +76,7 @@ public class TestSubmitType implements RestModifyView<RevisionResource, Input> {
 
     SubmitRuleEvaluator evaluator = new SubmitRuleEvaluator(
         db.get(),
+        gerritConfig,
         rsrc.getPatchSet(),
         rsrc.getControl().getProjectControl(),
         rsrc.getControl(),
@@ -86,6 +93,10 @@ public class TestSubmitType implements RestModifyView<RevisionResource, Input> {
     List<Term> results;
     try {
       results = evaluator.evaluate();
+    } catch (RuleEvalTimeoutException e) {
+      throw new BadRequestException(
+          String.format("rule %s failed to evaluate in given time",
+              evaluator.getSubmitRule()));
     } catch (RuleEvalException e) {
       throw new BadRequestException(String.format(
           "rule failed with exception: %s",

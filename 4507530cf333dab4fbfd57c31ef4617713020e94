@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2469c174_87a4c6db",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 687,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-02T03:03:45Z",
+      "side": 1,
+      "message": "It might be better to truncate this.  If the commit message doesn\u0027t have a blank line after the subject, the output could be messy.\n\nFor example:\n\n $ git log\n commit 98b2785b7ce3b11b05e62b1b7cc8c64969c66c8d\n Author: David Pursehouse \u003cdavid.pursehouse@sonymobile.com\u003e\n Date:   Wed Jul 2 11:54:55 2014 +0900\n \n    This is a really long commit message with no new line\n    after the first line. Lorem ipsum dolor sit amet, consectetur adipiscing\n    elit. Nunc porta sapien nec ipsum feugiat, in accumsan libero ullamcorper.\n    Nunc ac commodo risus. Quisque vel luctus lacus, eget venenatis arcu.\n    Nunc tempus dictum consectetur. Suspendisse placerat arcu at sagittis\n    auctor. Sed tempor lacinia orci at tincidunt. Nulla hendrerit mauris at\n    accumsan dictum. Phasellus sed massa nisl. Mauris accumsan, dui nec\n    consequat vehicula, turpis sapien scelerisque sem, nec fermentum purus\n    neque eu est. Aenean semper, lorem et tempor laoreet, justo dolor\n    vestibulum magna, eget ornare tellus sem sit amet purus.\n    \n    Nullam vestibulum tortor in risus feugiat, in pulvinar velit elementum.\n    Nullam sed felis turpis.\n    \n    Change-Id: Ied590fde379a9dac8f5b953e10fc416270c612a8\n \n $ git push origin HEAD:refs/for/master\n Counting objects: 5, done.\n Delta compression using up to 8 threads.\n Compressing objects: 100% (4/4), done.\n Writing objects: 100% (4/4), 942 bytes, done.\n Total 4 (delta 2), reused 0 (delta 0)\n remote: Resolving deltas: 100% (2/2)\n remote: Processing changes: new: 1, refs: 1, done    \n remote: \n remote: New Changes:\n remote:   http://localhost:8080/124 This is a really long commit message with no new line after the first line. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc porta sapien nec ipsum feugiat, in accumsan libero ullamcorper. Nunc ac commodo risus. Quisque vel luctus lacus, eget\nremote: \n To ssh://david.pursehouse@localhost:29418/test-project\n * [new branch]      HEAD -\u003e refs/for/master",
+      "range": {
+        "startLine": 687,
+        "startChar": 16,
+        "endLine": 687,
+        "endChar": 35
+      },
+      "revId": "4507530cf333dab4fbfd57c31ef4617713020e94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

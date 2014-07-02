@@ -141,6 +141,30 @@
       "revId": "1cc9c92864fac846cc3a2f953f5f4d35a572a35d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "847b4d5f_02e38a43",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/AbstractPreloadedPluginScanner.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-02T22:46:33Z",
+      "side": 1,
+      "message": "Not worth the bikeshedding IMHO :)\n\nFWIW there are dozens of abstract classes in Guava with names starting with \"Abstract\":\n@w:~/dl$ git clone -q https://code.google.com/p/guava-libraries/ \u0026\u0026 cd guava-libraries\n@w:~/dl/guava-libraries (master)$ ag \u0027abstract .*class\\s+Abstract\u0027 | wc -l\n84",
+      "parentUuid": "44b7954c_508bcc59",
+      "range": {
+        "startLine": 46,
+        "startChar": 22,
+        "endLine": 46,
+        "endChar": 30
+      },
+      "revId": "1cc9c92864fac846cc3a2f953f5f4d35a572a35d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

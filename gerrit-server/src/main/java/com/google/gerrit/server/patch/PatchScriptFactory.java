@@ -29,9 +29,11 @@ import com.google.gerrit.reviewdb.client.Patch.ChangeType;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.PatchLineCommentsUtil;
 import com.google.gerrit.server.account.AccountInfoCacheFactory;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LargeObjectException;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
@@ -71,6 +73,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
   private final PatchListCache patchListCache;
   private final ReviewDb db;
   private final AccountInfoCacheFactory.Factory aicFactory;
+  private final PatchLineCommentsUtil plcUtil;
 
   private final String fileName;
   @Nullable
@@ -95,6 +98,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
       Provider<PatchScriptBuilder> builderFactory,
       final PatchListCache patchListCache, final ReviewDb db,
       final AccountInfoCacheFactory.Factory aicFactory,
+      PatchLineCommentsUtil plcUtil,
       @Assisted ChangeControl control,
       @Assisted final String fileName,
       @Assisted("patchSetA") @Nullable final PatchSet.Id patchSetA,
@@ -106,6 +110,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     this.db = db;
     this.control = control;
     this.aicFactory = aicFactory;
+    this.plcUtil = plcUtil;
 
     this.fileName = fileName;
     this.psa = patchSetA;
@@ -316,7 +321,8 @@ public class PatchScriptFactory implements Callable<PatchScript> {
 
   private void loadPublished(final Map<Patch.Key, Patch> byKey,
       final AccountInfoCacheFactory aic, final String file) throws OrmException {
-    for (PatchLineComment c : db.patchComments().publishedByChangeFile(changeId, file)) {
+    ChangeNotes notes = control.getNotes();
+    for (PatchLineComment c : plcUtil.publishedByChangeFile(db, notes, changeId, file)) {
       if (comments.include(c)) {
         aic.want(c.getAuthor());
       }

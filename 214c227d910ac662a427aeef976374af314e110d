@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8408adda_5a8bd559",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1830,
+      "author": {
+        "id": 1016317
+      },
+      "writtenOn": "2014-07-02T13:36:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a44db111_5b6f833c",
+      "range": {
+        "startLine": 1830,
+        "startChar": 7,
+        "endLine": 1830,
+        "endChar": 8
+      },
+      "revId": "214c227d910ac662a427aeef976374af314e110d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e4716954_0d88f10c",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2014-07-01T09:48:25Z",
       "side": 1,
       "message": "Missing blank.",
+      "range": {
+        "startLine": 1831,
+        "startChar": 8,
+        "endLine": 1831,
+        "endChar": 9
+      },
+      "revId": "214c227d910ac662a427aeef976374af314e110d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4f93100_fb52af10",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1831,
+      "author": {
+        "id": 1016317
+      },
+      "writtenOn": "2014-07-02T13:36:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e4716954_0d88f10c",
       "range": {
         "startLine": 1831,
         "startChar": 8,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "a4f93100_db57f3fe",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1836,
+      "author": {
+        "id": 1016317
+      },
+      "writtenOn": "2014-07-02T13:36:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a44db111_7b6cbf46",
+      "range": {
+        "startLine": 1836,
+        "startChar": 7,
+        "endLine": 1836,
+        "endChar": 8
+      },
+      "revId": "214c227d910ac662a427aeef976374af314e110d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a44db111_1b69fb35",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 2
@@ -82,6 +154,30 @@
       "writtenOn": "2014-07-01T09:48:25Z",
       "side": 1,
       "message": "Missing blank.",
+      "range": {
+        "startLine": 1837,
+        "startChar": 8,
+        "endLine": 1837,
+        "endChar": 9
+      },
+      "revId": "214c227d910ac662a427aeef976374af314e110d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8408adda_ba583133",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1837,
+      "author": {
+        "id": 1016317
+      },
+      "writtenOn": "2014-07-02T13:36:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a44db111_1b69fb35",
       "range": {
         "startLine": 1837,
         "startChar": 8,
@@ -141,6 +237,30 @@
     },
     {
       "key": {
+        "uuid": "a4f93100_1b6afbbb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/CustomIcons.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1016317
+      },
+      "writtenOn": "2014-07-02T13:36:01Z",
+      "side": 1,
+      "message": "That\u0027s true, removed.",
+      "parentUuid": "a44db111_bb0487ae",
+      "range": {
+        "startLine": 30,
+        "startChar": 2,
+        "endLine": 30,
+        "endChar": 9
+      },
+      "revId": "214c227d910ac662a427aeef976374af314e110d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a44db111_fbfa0f55",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/CustomIcons.java",
         "patchSetId": 2
@@ -152,6 +272,30 @@
       "writtenOn": "2014-07-01T09:48:25Z",
       "side": 1,
       "message": "Nit: missing blank.",
+      "range": {
+        "startLine": 38,
+        "startChar": 9,
+        "endLine": 38,
+        "endChar": 10
+      },
+      "revId": "214c227d910ac662a427aeef976374af314e110d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4f93100_3b6d37d4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/CustomIcons.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1016317
+      },
+      "writtenOn": "2014-07-02T13:36:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a44db111_fbfa0f55",
       "range": {
         "startLine": 38,
         "startChar": 9,
@@ -192,6 +336,30 @@
       "writtenOn": "2014-07-01T09:48:25Z",
       "side": 1,
       "message": "This temp var is unneeded. Return direct.",
+      "range": {
+        "startLine": 32,
+        "startChar": 4,
+        "endLine": 32,
+        "endChar": 27
+      },
+      "revId": "214c227d910ac662a427aeef976374af314e110d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4f93100_7b67bff3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/CustomIconsProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1016317
+      },
+      "writtenOn": "2014-07-02T13:36:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a44db111_5bea2386",
       "range": {
         "startLine": 32,
         "startChar": 4,

@@ -18,7 +18,6 @@ import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.webui.PatchSetWebLink;
 import com.google.gerrit.extensions.webui.ProjectWebLink;
-import com.google.inject.Inject;
 
 import java.util.List;
 

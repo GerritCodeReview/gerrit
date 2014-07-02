@@ -34,10 +34,12 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.PatchLineCommentsUtil;
 import com.google.gerrit.server.change.ChangesCollection;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.Revisions;
 import com.google.gerrit.server.extensions.webui.UiActions;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListKey;
@@ -78,6 +80,7 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
   private final ChangeControl.Factory changeControlFactory;
   private final ChangesCollection changes;
   private final Revisions revisions;
+  private final PatchLineCommentsUtil plcUtil;
 
   private Project.NameKey projectKey;
   private final PatchSet.Id psIdBase;
@@ -96,6 +99,7 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
       final ChangeControl.Factory changeControlFactory,
       final ChangesCollection changes,
       final Revisions revisions,
+      final PatchLineCommentsUtil plcUtil,
       @Assisted("psIdBase") @Nullable final PatchSet.Id psIdBase,
       @Assisted("psIdNew") final PatchSet.Id psIdNew,
       @Assisted @Nullable final AccountDiffPreference diffPrefs) {
@@ -105,6 +109,7 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
     this.changeControlFactory = changeControlFactory;
     this.changes = changes;
     this.revisions = revisions;
+    this.plcUtil = plcUtil;
 
     this.psIdBase = psIdBase;
     this.psIdNew = psIdNew;
@@ -143,7 +148,8 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
       byKey.put(p.getKey(), p);
     }
 
-    for (final PatchLineComment c : db.patchComments().publishedByPatchSet(psIdNew)) {
+    ChangeNotes notes = control.getNotes();
+    for (final PatchLineComment c : plcUtil.publishedByPatchSet(db, notes, psIdNew)) {
       final Patch p = byKey.get(c.getKey().getParentKey());
       if (p != null) {
         p.setCommentCount(p.getCommentCount() + 1);

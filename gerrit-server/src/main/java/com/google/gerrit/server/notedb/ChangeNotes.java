@@ -42,7 +42,6 @@ import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
-import com.google.gerrit.reviewdb.client.CommentRange;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSet.Id;
@@ -521,7 +520,7 @@ public class ChangeNotes extends VersionedMetaData {
   NoteMap noteMap;
 
   @VisibleForTesting
-  ChangeNotes(GitRepositoryManager repoManager, Change change) {
+  public ChangeNotes(GitRepositoryManager repoManager, Change change) {
     this.repoManager = repoManager;
     this.change = new Change(change);
   }

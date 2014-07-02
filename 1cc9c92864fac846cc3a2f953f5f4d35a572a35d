@@ -93,6 +93,30 @@
       "revId": "1cc9c92864fac846cc3a2f953f5f4d35a572a35d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c45705b3_245072e3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/AbstractPreloadedPluginScanner.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-02T12:56:46Z",
+      "side": 1,
+      "message": "It\u0027s declared as \u0027public abstract\u0027 so the prefix seemed a bit redundant to me.\n\nI don\u0027t know if there\u0027s a convention in Gerrit.  With `git ls-files | grep Abstract` I see there are several classes prefixed with \u0027Abstract\u0027, but there could well be more that are not prefixed.\n\nI don\u0027t have any objection to leaving it like this.",
+      "parentUuid": "24bc6131_ef482174",
+      "range": {
+        "startLine": 46,
+        "startChar": 22,
+        "endLine": 46,
+        "endChar": 30
+      },
+      "revId": "1cc9c92864fac846cc3a2f953f5f4d35a572a35d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

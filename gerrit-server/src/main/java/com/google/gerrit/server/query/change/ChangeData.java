@@ -58,6 +58,7 @@ import com.google.gerrit.server.ReviewerStatusUpdate;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.StarredChangesUtil.StarRef;
 import com.google.gerrit.server.change.MergeabilityCache;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -90,6 +91,7 @@ import java.util.stream.Stream;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
@@ -300,8 +302,24 @@ public class ChangeData {
       Project.NameKey project, Change.Id id, int currentPatchSetId) {
     ChangeData cd =
         new ChangeData(
-            null, null, null, null, null, null, null, null, null, null, null, null, null, null,
-            null, project, id);
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            new Config(),
+            null,
+            project,
+            id);
     cd.currentPatchSet = new PatchSet(new PatchSet.Id(id, currentPatchSetId));
     return cd;
   }
@@ -327,6 +345,7 @@ public class ChangeData {
       Maps.newLinkedHashMapWithExpectedSize(1);
 
   private Project.NameKey project;
+  private final Config gerritServerConfig;
   private Change change;
   private ChangeNotes notes;
   private String commitMessage;
@@ -378,9 +397,11 @@ public class ChangeData {
       NotesMigration notesMigration,
       MergeabilityCache mergeabilityCache,
       @Nullable StarredChangesUtil starredChangesUtil,
+      @GerritServerConfig Config gerritServerConfig,
       @Assisted ReviewDb db,
       @Assisted Project.NameKey project,
       @Assisted Change.Id id) {
+    this.gerritServerConfig = gerritServerConfig;
     this.db = db;
     this.repoManager = repoManager;
     this.changeControlFactory = changeControlFactory;
@@ -416,6 +437,7 @@ public class ChangeData {
       NotesMigration notesMigration,
       MergeabilityCache mergeabilityCache,
       @Nullable StarredChangesUtil starredChangesUtil,
+      @GerritServerConfig Config gerritServerConfig,
       @Assisted ReviewDb db,
       @Assisted Change c) {
     this.db = db;
@@ -430,6 +452,7 @@ public class ChangeData {
     this.commentsUtil = commentsUtil;
     this.psUtil = psUtil;
     this.patchListCache = patchListCache;
+    this.gerritServerConfig = gerritServerConfig;
     this.notesMigration = notesMigration;
     this.mergeabilityCache = mergeabilityCache;
     this.starredChangesUtil = starredChangesUtil;
@@ -454,6 +477,7 @@ public class ChangeData {
       NotesMigration notesMigration,
       MergeabilityCache mergeabilityCache,
       @Nullable StarredChangesUtil starredChangesUtil,
+      @GerritServerConfig Config gerritServerConfig,
       @Assisted ReviewDb db,
       @Assisted ChangeNotes cn) {
     this.db = db;
@@ -471,6 +495,7 @@ public class ChangeData {
     this.notesMigration = notesMigration;
     this.mergeabilityCache = mergeabilityCache;
     this.starredChangesUtil = starredChangesUtil;
+    this.gerritServerConfig = gerritServerConfig;
     legacyId = cn.getChangeId();
     change = cn.getChange();
     project = cn.getProjectName();
@@ -493,6 +518,7 @@ public class ChangeData {
       NotesMigration notesMigration,
       MergeabilityCache mergeabilityCache,
       @Nullable StarredChangesUtil starredChangesUtil,
+      @GerritServerConfig Config gerritServerConfig,
       @Assisted ReviewDb db,
       @Assisted ChangeControl c) {
     this.db = db;
@@ -507,6 +533,7 @@ public class ChangeData {
     this.commentsUtil = commentsUtil;
     this.psUtil = psUtil;
     this.patchListCache = patchListCache;
+    this.gerritServerConfig = gerritServerConfig;
     this.notesMigration = notesMigration;
     this.mergeabilityCache = mergeabilityCache;
     this.starredChangesUtil = starredChangesUtil;
@@ -533,6 +560,7 @@ public class ChangeData {
       NotesMigration notesMigration,
       MergeabilityCache mergeabilityCache,
       @Nullable StarredChangesUtil starredChangesUtil,
+      @GerritServerConfig Config gerritServerConfig,
       @Assisted ReviewDb db,
       @Assisted Change.Id id) {
     checkState(
@@ -553,6 +581,7 @@ public class ChangeData {
     this.notesMigration = notesMigration;
     this.mergeabilityCache = mergeabilityCache;
     this.starredChangesUtil = starredChangesUtil;
+    this.gerritServerConfig = gerritServerConfig;
     this.legacyId = id;
     this.project = null;
   }
@@ -1049,7 +1078,7 @@ public class ChangeData {
       if (!lazyLoad) {
         return Collections.emptyList();
       }
-      records = new SubmitRuleEvaluator(this).setOptions(options).evaluate();
+      records = new SubmitRuleEvaluator(this, gerritServerConfig).setOptions(options).evaluate();
       submitRecords.put(options, records);
     }
     return records;
@@ -1066,7 +1095,7 @@ public class ChangeData {
 
   public SubmitTypeRecord submitTypeRecord() throws OrmException {
     if (submitTypeRecord == null) {
-      submitTypeRecord = new SubmitRuleEvaluator(this).getSubmitType();
+      submitTypeRecord = new SubmitRuleEvaluator(this, gerritServerConfig).getSubmitType();
     }
     return submitTypeRecord;
   }

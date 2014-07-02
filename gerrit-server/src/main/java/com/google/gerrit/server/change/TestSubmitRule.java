@@ -25,6 +25,7 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.rules.RulesCache;
 import com.google.gerrit.server.account.AccountLoader;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
@@ -33,10 +34,12 @@ import com.google.inject.Provider;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import org.eclipse.jgit.lib.Config;
 import org.kohsuke.args4j.Option;
 
 public class TestSubmitRule implements RestModifyView<RevisionResource, TestSubmitRuleInput> {
   private final Provider<ReviewDb> db;
+  private final Config gerritServerConfig;
   private final ChangeData.Factory changeDataFactory;
   private final RulesCache rules;
   private final AccountLoader.Factory accountInfoFactory;
@@ -47,10 +50,12 @@ public class TestSubmitRule implements RestModifyView<RevisionResource, TestSubm
   @Inject
   TestSubmitRule(
       Provider<ReviewDb> db,
+      @GerritServerConfig Config gerritServerConfig,
       ChangeData.Factory changeDataFactory,
       RulesCache rules,
       AccountLoader.Factory infoFactory) {
     this.db = db;
+    this.gerritServerConfig = gerritServerConfig;
     this.changeDataFactory = changeDataFactory;
     this.rules = rules;
     this.accountInfoFactory = infoFactory;
@@ -67,7 +72,8 @@ public class TestSubmitRule implements RestModifyView<RevisionResource, TestSubm
     }
     input.filters = MoreObjects.firstNonNull(input.filters, filters);
     SubmitRuleEvaluator evaluator =
-        new SubmitRuleEvaluator(changeDataFactory.create(db.get(), rsrc.getControl()));
+        new SubmitRuleEvaluator(
+            changeDataFactory.create(db.get(), rsrc.getControl()), gerritServerConfig);
 
     List<SubmitRecord> records =
         evaluator

@@ -161,7 +161,7 @@ public class MergeSuperSet {
     SubmitTypeRecord str =
         ps == cd.currentPatchSet()
             ? cd.submitTypeRecord()
-            : new SubmitRuleEvaluator(cd).setPatchSet(ps).getSubmitType();
+            : new SubmitRuleEvaluator(cd, cfg).setPatchSet(ps).getSubmitType();
     if (!str.isOk()) {
       logErrorAndThrow("Failed to get submit type for " + cd.getId() + ": " + str.errorMessage);
     }

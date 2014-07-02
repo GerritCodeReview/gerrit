@@ -202,6 +202,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     final ProjectCache projectCache;
     final Provider<InternalChangeQuery> queryProvider;
     final Provider<ListChildProjects> listChildProjects;
+    final Config gerritServerConfig;
     final Provider<ListMembers> listMembers;
     final Provider<ReviewDb> db;
     final StarredChangesUtil starredChangesUtil;
@@ -275,6 +276,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
           listMembers,
           starredChangesUtil,
           accountCache,
+          cfg,
           cfg == null ? true : cfg.getBoolean("change", "allowDrafts", true),
           notesMigration);
     }
@@ -309,6 +311,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         Provider<ListMembers> listMembers,
         StarredChangesUtil starredChangesUtil,
         AccountCache accountCache,
+        Config gerritServerConfig,
         boolean allowsDrafts,
         NotesMigration notesMigration) {
       this.db = db;
@@ -335,6 +338,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       this.conflictsCache = conflictsCache;
       this.trackingFooters = trackingFooters;
       this.index = index;
+      this.gerritServerConfig = gerritServerConfig;
       this.indexConfig = indexConfig;
       this.listMembers = listMembers;
       this.starredChangesUtil = starredChangesUtil;
@@ -375,6 +379,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
           listMembers,
           starredChangesUtil,
           accountCache,
+          gerritServerConfig,
           allowsDrafts,
           notesMigration);
     }

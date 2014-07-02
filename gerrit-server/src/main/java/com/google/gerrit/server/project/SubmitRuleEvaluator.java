@@ -27,6 +27,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.rules.PrologEnvironment;
 import com.google.gerrit.rules.StoredValues;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.googlecode.prolog_cafe.exceptions.CompileException;
@@ -42,6 +43,14 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
+import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -49,8 +58,9 @@ import org.slf4j.LoggerFactory;
  * Evaluates a submit-like Prolog rule found in the rules.pl file of the current project and filters
  * the results through rules found in the parent projects, all the way up to All-Projects.
  */
-public class SubmitRuleEvaluator {
+public class SubmitRuleEvaluator implements Callable<List<SubmitRecord>> {
   private static final Logger log = LoggerFactory.getLogger(SubmitRuleEvaluator.class);
+  private static final TimeUnit TIMEOUT_UNIT = TimeUnit.MILLISECONDS;
 
   private static final String DEFAULT_MSG = "Error evaluating project rules, check server log";
 
@@ -83,6 +93,7 @@ public class SubmitRuleEvaluator {
 
   private final ChangeData cd;
   private final ChangeControl control;
+  private final long evaluationTimeout;
 
   private SubmitRuleOptions.Builder optsBuilder = SubmitRuleOptions.defaults();
   private SubmitRuleOptions opts;
@@ -92,9 +103,12 @@ public class SubmitRuleEvaluator {
 
   private Term submitRule;
 
-  public SubmitRuleEvaluator(ChangeData cd) throws OrmException {
+  public SubmitRuleEvaluator(ChangeData cd, Config gerritServerConfig) throws OrmException {
     this.cd = cd;
     this.control = cd.changeControl();
+    this.evaluationTimeout =
+        ConfigUtil.getTimeUnit(
+            gerritServerConfig, "rules", null, "evaluationTimeout", 0, TIMEOUT_UNIT);
   }
 
   /**
@@ -208,6 +222,27 @@ public class SubmitRuleEvaluator {
    */
   public List<SubmitRecord> evaluate() {
     initOptions();
+    if (evaluationTimeout < 1) {
+      return evaluateImpl();
+    }
+    ExecutorService executor = Executors.newSingleThreadExecutor();
+    Future<List<SubmitRecord>> future = executor.submit(this);
+    try {
+      return future.get(evaluationTimeout, TIMEOUT_UNIT);
+    } catch (ExecutionException e) {
+      Throwable cause = e.getCause();
+      if (cause instanceof RuleEvalException) {
+        return ruleError(cause.getMessage(), (RuleEvalException) cause);
+      }
+      return ruleError(e.getMessage(), e);
+    } catch (InterruptedException | TimeoutException e) {
+      return ruleError(e.getMessage(), e);
+    } finally {
+      executor.shutdownNow();
+    }
+  }
+
+  private List<SubmitRecord> evaluateImpl() {
     Change c = control.getChange();
     if (!opts.allowClosed() && c.getStatus().isClosed()) {
       SubmitRecord rec = new SubmitRecord();
@@ -487,6 +522,11 @@ public class SubmitRuleEvaluator {
       return defaultTypeError();
     }
     return SubmitTypeRecord.error(err);
+  }
+
+  @Override
+  public List<SubmitRecord> call() throws Exception {
+    return evaluateImpl();
   }
 
   private List<Term> evaluateImpl(

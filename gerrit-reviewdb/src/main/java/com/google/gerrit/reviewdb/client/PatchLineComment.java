@@ -54,6 +54,21 @@ public final class PatchLineComment {
     protected void set(String newValue) {
       uuid = newValue;
     }
+
+    @Override
+    public String toString() {
+      StringBuilder builder = new StringBuilder();
+      builder.append("PatchLineComment.Key{");
+      builder.append("Change.Id=")
+        .append(getParentKey().getParentKey().getParentKey().get()).append(',');
+      builder.append("PatchSet.Id=")
+        .append(getParentKey().getParentKey().get()).append(',');
+      builder.append("filename=")
+        .append(getParentKey().getFileName()).append(',');
+      builder.append("uuid=").append(get());
+      builder.append("}");
+      return builder.toString();
+    }
   }
 
   public static final char STATUS_DRAFT = 'd';

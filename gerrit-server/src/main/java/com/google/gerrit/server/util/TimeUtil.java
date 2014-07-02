@@ -28,6 +28,11 @@ public class TimeUtil {
     return new Timestamp(nowMs());
   }
 
+  public static Timestamp roundTimestampToSecond(Timestamp t) {
+    long milliseconds = (t.getTime()/1000) * 1000;
+    return new Timestamp(milliseconds);
+  }
+
   private TimeUtil() {
   }
 }

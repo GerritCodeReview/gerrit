@@ -22,6 +22,8 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.rules.PrologEnvironment;
 import com.google.gerrit.rules.StoredValues;
+import com.google.gerrit.server.config.ConfigUtil;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.query.change.ChangeData;
 
 import com.googlecode.prolog_cafe.compiler.CompileException;
@@ -31,17 +33,28 @@ import com.googlecode.prolog_cafe.lang.PrologException;
 import com.googlecode.prolog_cafe.lang.Term;
 import com.googlecode.prolog_cafe.lang.VariableTerm;
 
+import org.eclipse.jgit.lib.Config;
+
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 /**
  * Evaluates a submit-like Prolog rule found in the rules.pl file of the current
  * project and filters the results through rules found in the parent projects,
  * all the way up to All-Projects.
  */
-public class SubmitRuleEvaluator {
+public class SubmitRuleEvaluator implements Callable<List<Term>> {
+  private static final TimeUnit TIMEOUT_UNIT = TimeUnit.MILLISECONDS;
+
   private final ReviewDb db;
   private final PatchSet patchSet;
   private final ProjectControl projectControl;
@@ -55,6 +68,7 @@ public class SubmitRuleEvaluator {
   private final String filterRuleWrapperName;
   private final boolean skipFilters;
   private final InputStream rulesInputStream;
+  private final long evaluationTimeout;
 
   private Term submitRule;
   private String projectName;
@@ -69,13 +83,14 @@ public class SubmitRuleEvaluator {
    * @param filterRuleWrapperName The name of the rule used to evaluate the
    *        filter rule.
    */
-  public SubmitRuleEvaluator(ReviewDb db, PatchSet patchSet,
-      ProjectControl projectControl,
+  public SubmitRuleEvaluator(ReviewDb db,
+      @GerritServerConfig Config gerritServerConfig,
+      PatchSet patchSet, ProjectControl projectControl,
       ChangeControl changeControl, Change change, ChangeData cd,
       boolean fastEvalLabels,
       String userRuleLocatorName, String userRuleWrapperName,
       String filterRuleLocatorName, String filterRuleWrapperName) {
-    this(db, patchSet, projectControl, changeControl, change, cd,
+    this(db, gerritServerConfig, patchSet, projectControl, changeControl, change, cd,
         fastEvalLabels, userRuleLocatorName, userRuleWrapperName,
         filterRuleLocatorName, filterRuleWrapperName, false, null);
   }
@@ -94,8 +109,9 @@ public class SubmitRuleEvaluator {
    * @param rules when non-null the rules will be read from this input stream
    *        instead of refs/meta/config:rules.pl file
    */
-  public SubmitRuleEvaluator(ReviewDb db, PatchSet patchSet,
-      ProjectControl projectControl,
+  public SubmitRuleEvaluator(ReviewDb db,
+      @GerritServerConfig Config gerritServerConfig,
+      PatchSet patchSet, ProjectControl projectControl,
       ChangeControl changeControl, Change change, ChangeData cd,
       boolean fastEvalLabels,
       String userRuleLocatorName, String userRuleWrapperName,
@@ -114,6 +130,9 @@ public class SubmitRuleEvaluator {
     this.filterRuleWrapperName = filterRuleWrapperName;
     this.skipFilters = skipSubmitFilters;
     this.rulesInputStream = rules;
+    this.evaluationTimeout =
+        ConfigUtil.getTimeUnit(gerritServerConfig, "rules", null,
+            "evaluationTimeout", 0, TIMEOUT_UNIT);
   }
 
   /**
@@ -125,8 +144,40 @@ public class SubmitRuleEvaluator {
    *
    * @return List of {@link Term} objects returned from the evaluated rules.
    * @throws RuleEvalException
+   * @throws RuleEvalTimeoutException
    */
-  public List<Term> evaluate() throws RuleEvalException {
+  public List<Term> evaluate() throws RuleEvalException, RuleEvalTimeoutException {
+    if (evaluationTimeout < 1) {
+      return evaluateImpl();
+    }
+    ExecutorService executor = Executors.newSingleThreadExecutor();
+    Future<List<Term>> future = executor.submit(this);
+    try {
+      return future.get(evaluationTimeout, TIMEOUT_UNIT);
+    } catch (ExecutionException e) {
+      Throwable cause = e.getCause();
+      if (cause instanceof RuleEvalException) {
+        throw (RuleEvalException) cause;
+      }
+      throw new RuleEvalException(
+          "Unexpected error during rule evaluation occurs", e);
+    } catch (InterruptedException e) {
+      throw new RuleEvalException("Rule evaluation interrupted", e);
+    } catch (TimeoutException e) {
+      throw new RuleEvalTimeoutException(String.format(
+          "Rule evaluation killed after timeout of %s %s", evaluationTimeout,
+          TIMEOUT_UNIT.toString().toLowerCase()));
+    } finally {
+      executor.shutdownNow();
+    }
+  }
+
+  @Override
+  public List<Term> call() throws Exception {
+    return evaluateImpl();
+  }
+
+  private List<Term> evaluateImpl() throws RuleEvalException {
     PrologEnvironment env = getPrologEnvironment();
     try {
       submitRule = env.once("gerrit", userRuleLocatorName, new VariableTerm());

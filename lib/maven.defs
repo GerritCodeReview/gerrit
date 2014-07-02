@@ -12,6 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+ATLASSIAN = 'ATLASSIAN:'
 GERRIT = 'GERRIT:'
 GERRIT_API = 'GERRIT_API:'
 ECLIPSE = 'ECLIPSE:'
@@ -48,11 +49,17 @@ def maven_jar(
     raise NameError('expected id="groupId:artifactId:version"')
   group, artifact, version = parts
 
-  jar = path.join(name, artifact.lower() + '-' + version)
+  if 'SNAPSHOT' in version and repository.startswith(GERRIT):
+    file_version = version.replace('-SNAPSHOT', '')
+    version = version.split('-SNAPSHOT')[0] + '-SNAPSHOT'
+  else:
+    file_version = version
+
+  jar = path.join(name, artifact.lower() + '-' + file_version)
   url = '/'.join([
     repository,
     group.replace('.', '/'), artifact, version,
-    artifact + '-' + version])
+    artifact + '-' + file_version])
 
   binjar = jar + '.jar'
   binurl = url + '.jar'

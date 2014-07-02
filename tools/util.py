@@ -22,6 +22,7 @@ except ImportError:
     return Popen(*cmd, stdout=PIPE).communicate()[0]
 
 REPO_ROOTS = {
+  'ATLASSIAN': 'https://maven.atlassian.com/content/repositories/atlassian-3rdparty',
   'GERRIT': 'http://gerrit-maven.storage.googleapis.com',
   'GERRIT_API': 'https://gerrit-api.commondatastorage.googleapis.com/release',
   'ECLIPSE': 'https://repo.eclipse.org/content/groups/releases',

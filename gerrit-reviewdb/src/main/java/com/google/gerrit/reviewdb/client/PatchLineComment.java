@@ -237,7 +237,7 @@ public final class PatchLineComment {
   public String toString() {
     StringBuilder builder = new StringBuilder();
     builder.append("PatchLineComment{");
-    builder.append("key=").append(key).append(',');
+    builder.append("key=").append(key.get()).append(',');
     builder.append("lineNbr=").append(lineNbr).append(',');
     builder.append("author=").append(author.get()).append(',');
     builder.append("writtenOn=").append(writtenOn.toString()).append(',');

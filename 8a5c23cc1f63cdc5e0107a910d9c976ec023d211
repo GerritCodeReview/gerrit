@@ -1,0 +1,257 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c45705b3_84f7e6ac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-02T13:22:56Z",
+      "side": 1,
+      "message": "defend against",
+      "range": {
+        "startLine": 10,
+        "startChar": 27,
+        "endLine": 10,
+        "endChar": 39
+      },
+      "revId": "8a5c23cc1f63cdc5e0107a910d9c976ec023d211",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2469c174_675672e4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-02T13:22:56Z",
+      "side": 1,
+      "message": "eat",
+      "range": {
+        "startLine": 10,
+        "startChar": 61,
+        "endLine": 10,
+        "endChar": 65
+      },
+      "revId": "8a5c23cc1f63cdc5e0107a910d9c976ec023d211",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c45705b3_a4fc628f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-02T13:22:56Z",
+      "side": 1,
+      "message": "\u0027server\u0027 is repeated",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 13
+      },
+      "revId": "8a5c23cc1f63cdc5e0107a910d9c976ec023d211",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2469c174_e7f262be",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2588,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-02T13:22:56Z",
+      "side": 1,
+      "message": "constraint",
+      "range": {
+        "startLine": 2588,
+        "startChar": 9,
+        "endLine": 2588,
+        "endChar": 18
+      },
+      "revId": "8a5c23cc1f63cdc5e0107a910d9c976ec023d211",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c45705b3_24e952cd",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2588,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-02T13:22:56Z",
+      "side": 1,
+      "message": "missing space.",
+      "range": {
+        "startLine": 2588,
+        "startChar": 47,
+        "endLine": 2588,
+        "endChar": 61
+      },
+      "revId": "8a5c23cc1f63cdc5e0107a910d9c976ec023d211",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c45705b3_44e24eef",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2589,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-02T13:22:56Z",
+      "side": 1,
+      "message": "\u0027elapses\u0027\n\nAlso, add a comma after.",
+      "range": {
+        "startLine": 2589,
+        "startChar": 5,
+        "endLine": 2589,
+        "endChar": 10
+      },
+      "revId": "8a5c23cc1f63cdc5e0107a910d9c976ec023d211",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c45705b3_64df4a1e",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2589,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-02T13:22:56Z",
+      "side": 1,
+      "message": "the time",
+      "range": {
+        "startLine": 2589,
+        "startChar": 0,
+        "endLine": 2589,
+        "endChar": 4
+      },
+      "revId": "8a5c23cc1f63cdc5e0107a910d9c976ec023d211",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c45705b3_04ec56dc",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2593,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-02T13:22:56Z",
+      "side": 1,
+      "message": "It would be better to separate these into paragraphs, i.e. put a line beginning with `+` before each one, like at line 2594.",
+      "range": {
+        "startLine": 2590,
+        "startChar": 0,
+        "endLine": 2593,
+        "endChar": 49
+      },
+      "revId": "8a5c23cc1f63cdc5e0107a910d9c976ec023d211",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2469c174_c7eddee0",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2595,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-02T13:22:56Z",
+      "side": 1,
+      "message": "\"constraint\"\n\nAlso, add a period on the end.",
+      "range": {
+        "startLine": 2595,
+        "startChar": 44,
+        "endLine": 2595,
+        "endChar": 52
+      },
+      "revId": "8a5c23cc1f63cdc5e0107a910d9c976ec023d211",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2469c174_27507ae3",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2595,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-02T13:22:56Z",
+      "side": 1,
+      "message": "is",
+      "range": {
+        "startLine": 2595,
+        "startChar": 8,
+        "endLine": 2595,
+        "endChar": 14
+      },
+      "revId": "8a5c23cc1f63cdc5e0107a910d9c976ec023d211",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2469c174_87f7e6ac",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RuleEvalTimeoutException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-02T13:22:56Z",
+      "side": 1,
+      "message": "In other exceptions we add a dummy serialisation constant instead of suppressing the warning.",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 27
+      },
+      "revId": "8a5c23cc1f63cdc5e0107a910d9c976ec023d211",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

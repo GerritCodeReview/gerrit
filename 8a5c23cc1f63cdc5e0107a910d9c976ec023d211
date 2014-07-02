@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "44b7954c_b0c1586b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-07-02T13:28:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2469c174_675672e4",
+      "range": {
+        "startLine": 10,
+        "startChar": 61,
+        "endLine": 10,
+        "endChar": 65
+      },
+      "revId": "8a5c23cc1f63cdc5e0107a910d9c976ec023d211",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24bc6131_2f84e94b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-07-02T13:28:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c45705b3_84f7e6ac",
+      "range": {
+        "startLine": 10,
+        "startChar": 27,
+        "endLine": 10,
+        "endChar": 39
+      },
+      "revId": "8a5c23cc1f63cdc5e0107a910d9c976ec023d211",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c45705b3_a4fc628f",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -59,6 +107,30 @@
       "writtenOn": "2014-07-02T13:22:56Z",
       "side": 1,
       "message": "\u0027server\u0027 is repeated",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 13
+      },
+      "revId": "8a5c23cc1f63cdc5e0107a910d9c976ec023d211",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24bc6131_0f81253c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-07-02T13:28:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c45705b3_a4fc628f",
       "range": {
         "startLine": 11,
         "startChar": 0,
@@ -117,6 +189,54 @@
     },
     {
       "key": {
+        "uuid": "44b7954c_7067f0f3",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2588,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-07-02T13:28:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2469c174_e7f262be",
+      "range": {
+        "startLine": 2588,
+        "startChar": 9,
+        "endLine": 2588,
+        "endChar": 18
+      },
+      "revId": "8a5c23cc1f63cdc5e0107a910d9c976ec023d211",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24bc6131_4f3a0de1",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2588,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-07-02T13:28:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c45705b3_24e952cd",
+      "range": {
+        "startLine": 2588,
+        "startChar": 47,
+        "endLine": 2588,
+        "endChar": 61
+      },
+      "revId": "8a5c23cc1f63cdc5e0107a910d9c976ec023d211",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c45705b3_44e24eef",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 1
@@ -163,6 +283,54 @@
     },
     {
       "key": {
+        "uuid": "24bc6131_af6f39d7",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2589,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-07-02T13:28:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c45705b3_44e24eef",
+      "range": {
+        "startLine": 2589,
+        "startChar": 5,
+        "endLine": 2589,
+        "endChar": 10
+      },
+      "revId": "8a5c23cc1f63cdc5e0107a910d9c976ec023d211",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24bc6131_8f74f5aa",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2589,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-07-02T13:28:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c45705b3_64df4a1e",
+      "range": {
+        "startLine": 2589,
+        "startChar": 0,
+        "endLine": 2589,
+        "endChar": 4
+      },
+      "revId": "8a5c23cc1f63cdc5e0107a910d9c976ec023d211",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c45705b3_04ec56dc",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 1
@@ -174,6 +342,30 @@
       "writtenOn": "2014-07-02T13:22:56Z",
       "side": 1,
       "message": "It would be better to separate these into paragraphs, i.e. put a line beginning with `+` before each one, like at line 2594.",
+      "range": {
+        "startLine": 2590,
+        "startChar": 0,
+        "endLine": 2593,
+        "endChar": 49
+      },
+      "revId": "8a5c23cc1f63cdc5e0107a910d9c976ec023d211",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24bc6131_ef7941a1",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2593,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-07-02T13:28:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c45705b3_04ec56dc",
       "range": {
         "startLine": 2590,
         "startChar": 0,
@@ -232,6 +424,54 @@
     },
     {
       "key": {
+        "uuid": "24bc6131_cf7efd86",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2595,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-07-02T13:28:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2469c174_27507ae3",
+      "range": {
+        "startLine": 2595,
+        "startChar": 8,
+        "endLine": 2595,
+        "endChar": 14
+      },
+      "revId": "8a5c23cc1f63cdc5e0107a910d9c976ec023d211",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44b7954c_50646ced",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2595,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-07-02T13:28:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2469c174_c7eddee0",
+      "range": {
+        "startLine": 2595,
+        "startChar": 44,
+        "endLine": 2595,
+        "endChar": 52
+      },
+      "revId": "8a5c23cc1f63cdc5e0107a910d9c976ec023d211",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2469c174_87f7e6ac",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RuleEvalTimeoutException.java",
         "patchSetId": 1
@@ -243,6 +483,30 @@
       "writtenOn": "2014-07-02T13:22:56Z",
       "side": 1,
       "message": "In other exceptions we add a dummy serialisation constant instead of suppressing the warning.",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 27
+      },
+      "revId": "8a5c23cc1f63cdc5e0107a910d9c976ec023d211",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44b7954c_106ae4bb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RuleEvalTimeoutException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-07-02T13:28:19Z",
+      "side": 1,
+      "message": "this is copied from RuleEvalException. Should I generate dummy constant or leave it as it is to be consistent with RuleEvalException?",
+      "parentUuid": "2469c174_87f7e6ac",
       "range": {
         "startLine": 17,
         "startChar": 0,

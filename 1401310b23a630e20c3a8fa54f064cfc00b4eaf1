@@ -68,6 +68,30 @@
       "revId": "1401310b23a630e20c3a8fa54f064cfc00b4eaf1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "048f5dae_de2505a0",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-03T12:14:04Z",
+      "side": 1,
+      "message": "Not really needed, but submitType and contentMerge are related and should appear next to each other. It is important that submitType.setEnabled(isOwner) is invoked before setEnabledForUseContentMerge() since setEnabledForUseContentMerge() may use the enabled state of submitType to decide if contentMerge should be enabled or not. This is why I swapped those lines.",
+      "parentUuid": "248aa19d_bfaf57b6",
+      "range": {
+        "startLine": 157,
+        "startChar": 4,
+        "endLine": 158,
+        "endChar": 35
+      },
+      "revId": "1401310b23a630e20c3a8fa54f064cfc00b4eaf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

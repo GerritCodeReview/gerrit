@@ -61,7 +61,7 @@ public class AccountLinkPanel extends FlowPanel {
     };
     l.setTitle(FormatUtil.nameEmail(info));
 
-    add(new AvatarImage(info, 16));
+    add(new AvatarImage(info));
     add(l);
   }
 

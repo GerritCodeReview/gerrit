@@ -37,6 +37,7 @@ import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.AccountsCollection;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.GroupControl;
+import com.google.gerrit.server.account.GroupIncludeCache;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.group.AddMembers.Input;
 import com.google.gerrit.server.util.TimeUtil;
@@ -80,6 +81,7 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
   private final AccountsCollection accounts;
   private final AccountResolver accountResolver;
   private final AccountCache accountCache;
+  private final GroupIncludeCache groupIncludeCache;
   private final AccountInfo.Loader.Factory infoFactory;
   private final Provider<ReviewDb> db;
 
@@ -89,6 +91,7 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
       AccountsCollection accounts,
       AccountResolver accountResolver,
       AccountCache accountCache,
+      GroupIncludeCache groupIncludeCache,
       AccountInfo.Loader.Factory infoFactory,
       Provider<ReviewDb> db) {
     this.accountManager = accountManager;
@@ -96,6 +99,7 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
     this.accounts = accounts;
     this.accountResolver = accountResolver;
     this.accountCache = accountCache;
+    this.groupIncludeCache = groupIncludeCache;
     this.infoFactory = infoFactory;
     this.db = db;
   }
@@ -147,6 +151,7 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
     for (AccountGroupMember m : newAccountGroupMembers.values()) {
       accountCache.evict(m.getAccountId());
     }
+    groupIncludeCache.evictAccountsOf(internalGroup.getGroupUUID());
 
     loader.fill();
     return result;

@@ -2,6 +2,46 @@
   "comments": [
     {
       "key": {
+        "uuid": "248aa19d_dff6dbf8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-03T06:36:04Z",
+      "side": 1,
+      "message": "Can you add some description how to make it work? Applying this change on master and changing index type to elasticsearch obviously failing. At very least, something like:\n\n* Download and install ES from: https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.2.1.tar.gz\n* Adjust the configuration: cluster.name: gerrit and node.name: \"gerrit\" in config/elasticsearch.yml\n* Start it with:\n\n  ./bin/elasticsearch\n\nVerify that default port is 9300:\n  \n  [Ms. Marvel] bound_address {inet[/0.0.0.0:9300]}\n\nRun reindex.",
+      "revId": "aedfe7d9dfdd1fc82991cb2ff34beacece1b22d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "048f5dae_fefba1dd",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticsearchChangeIndex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-03T06:36:04Z",
+      "side": 1,
+      "message": "This throws an exception missing node or something like that on first time reindex run. Catch the exception and log/swallow it to not fail the reindex?",
+      "range": {
+        "startLine": 281,
+        "startChar": 4,
+        "endLine": 284,
+        "endChar": 21
+      },
+      "revId": "aedfe7d9dfdd1fc82991cb2ff34beacece1b22d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0402fd8c_26f2960a",
         "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticsearchChangeIndex.java",
         "patchSetId": 3
@@ -18,6 +58,52 @@
         "startChar": 4,
         "endLine": 336,
         "endChar": 5
+      },
+      "revId": "aedfe7d9dfdd1fc82991cb2ff34beacece1b22d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "048f5dae_be01192a",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-03T06:36:04Z",
+      "side": 1,
+      "message": "This didn\u0027t work for me the very first time. It failed with not found. After uncommenting it first time, it created the index, and after it it worked with deleteAll() too. Probably we should catch and swallow the exception for ES.",
+      "range": {
+        "startLine": 155,
+        "startChar": 6,
+        "endLine": 155,
+        "endChar": 24
+      },
+      "revId": "aedfe7d9dfdd1fc82991cb2ff34beacece1b22d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "248aa19d_1f112373",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitIndex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-03T06:36:04Z",
+      "side": 1,
+      "message": "http://localhost:9300\n\nOtherwiese we are getting:\n\n  1) Error in custom provider, java.lang.IllegalStateException: index.url is malformed: localhost:9300\n  at com.google.gerrit.elasticsearch.ElasticsearchIndexModule.getChangeIndex(ElasticsearchIndexModule.java:59)\n  at com.google.gerrit.elasticsearch.ElasticsearchIndexModule.getChangeIndex(ElasticsearchIndexModule.java:59)\n  while locating com.google.gerrit.elasticsearch.ElasticsearchChangeIndex",
+      "range": {
+        "startLine": 53,
+        "startChar": 53,
+        "endLine": 53,
+        "endChar": 69
       },
       "revId": "aedfe7d9dfdd1fc82991cb2ff34beacece1b22d2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

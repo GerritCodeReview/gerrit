@@ -38,6 +38,7 @@ import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.ChangeUserName;
 import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.account.GroupIncludeCache;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.contact.ContactStore;
 import com.google.gerrit.server.mail.EmailTokenVerifier;
@@ -62,6 +63,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
   private final EmailTokenVerifier emailTokenVerifier;
   private final AccountByEmailCache byEmailCache;
   private final AccountCache accountCache;
+  private final GroupIncludeCache groupIncludeCache;
   private final AccountManager accountManager;
   private final boolean useContactInfo;
 
@@ -78,6 +80,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
       final Realm r, final Provider<IdentifiedUser> u,
       final EmailTokenVerifier etv, final ProjectCache pc,
       final AccountByEmailCache abec, final AccountCache uac,
+      final GroupIncludeCache gIncludeCache,
       final AccountManager am,
       final ChangeUserName.CurrentUser changeUserNameFactory,
       final DeleteExternalIds.Factory deleteExternalIdsFactory,
@@ -91,6 +94,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
     projectCache = pc;
     byEmailCache = abec;
     accountCache = uac;
+    groupIncludeCache = gIncludeCache;
     accountManager = am;
 
     useContactInfo = contactStore != null && contactStore.isEnabled();
@@ -203,6 +207,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
                   m, account.getId(), TimeUtil.nowTs())));
           db.accountGroupMembers().insert(Collections.singleton(m));
           accountCache.evict(m.getAccountId());
+          groupIncludeCache.evictAccountsOf(group.getGroupUUID());
         }
 
         return VoidResult.INSTANCE;

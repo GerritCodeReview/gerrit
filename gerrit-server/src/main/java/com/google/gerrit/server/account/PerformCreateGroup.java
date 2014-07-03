@@ -113,6 +113,7 @@ public class PerformCreateGroup {
     db.accountGroups().insert(Collections.singleton(group));
 
     addMembers(groupId, createGroupArgs.initialMembers);
+    groupIncludeCache.evictAccountsOf(uuid);
 
     if (createGroupArgs.initialGroups != null) {
       addGroups(groupId, createGroupArgs.initialGroups);

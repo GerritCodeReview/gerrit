@@ -30,6 +30,8 @@ import org.eclipse.jgit.internal.storage.file.FileSnapshot;
 import java.io.File;
 
 class JsPlugin extends Plugin {
+  static final String INIT_NAME = "init.js";
+  static final String INIT_PATH = String.format("static/%s", INIT_NAME);
   private Injector httpInjector;
 
   JsPlugin(String name, File srcFile, PluginUser pluginUser,

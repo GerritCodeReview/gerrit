@@ -1,4 +1,4 @@
-// Copyright (C) 2012 The Android Open Source Project
+// Copyright (C) 2014 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,18 +14,15 @@
 
 package com.google.gerrit.server.plugins;
 
-import com.google.gerrit.extensions.annotations.Export;
-import com.google.inject.Module;
-import com.google.inject.TypeLiteral;
+import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.inject.Binder;
 
-public interface ModuleGenerator {
-  void setPluginName(String name);
-
-  void export(Export export, Class<?> type) throws InvalidPluginException;
-
-  void listen(TypeLiteral<?> tl, Class<?> clazz);
-
-  <T> void dynamicSetBind(Class<T> setOf, T instance);
-
-  Module create() throws InvalidPluginException;
+/**
+ * Allows dynamically bind something in Guice module.
+ *
+ * Currently it is used for auto registering {@link DynamicSet} elements during
+ * jar plugin scan
+ */
+public interface BindCallback {
+  void bind(Binder binder);
 }

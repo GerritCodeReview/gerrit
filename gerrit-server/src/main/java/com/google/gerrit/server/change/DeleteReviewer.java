@@ -89,7 +89,7 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
           if (a.getPatchSetId().equals(control.getChange().currentPatchSetId())
               && a.getValue() != 0) {
             if (msg.length() == 0) {
-              msg.append("Removed the following approvals:\n\n");
+              msg.append("Removed the following votes:\n\n");
             }
             msg.append("* ")
                 .append(a.getLabel()).append(formatLabelValue(a.getValue()))

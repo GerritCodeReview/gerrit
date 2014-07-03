@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "248aa19d_bfaf57b6",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-03T12:09:15Z",
+      "side": 1,
+      "message": "Order swap of these statements is really needed?",
+      "range": {
+        "startLine": 157,
+        "startChar": 4,
+        "endLine": 158,
+        "endChar": 35
+      },
+      "revId": "1401310b23a630e20c3a8fa54f064cfc00b4eaf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

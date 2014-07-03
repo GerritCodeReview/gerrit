@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "048f5dae_3e17c95f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ListTasks.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-03T09:21:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "24bc6131_4f8b2d5a",
+      "range": {
+        "startLine": 60,
+        "startChar": 4,
+        "endLine": 64,
+        "endChar": 5
+      },
+      "revId": "89c68b73d823b175a26bb129b49238371e60312a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "44b7954c_70c0905f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ListTasks.java",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2014-07-02T15:15:21Z",
       "side": 1,
       "message": "Optimize this with a cache (Map\u003cString, Project.NameKey\u003e)? If one project has 1 million tasks you create 1 millions  Project.NameKey instances where you should create only one.",
+      "range": {
+        "startLine": 73,
+        "startChar": 10,
+        "endLine": 73,
+        "endChar": 83
+      },
+      "revId": "89c68b73d823b175a26bb129b49238371e60312a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "248aa19d_5f3d6bd6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ListTasks.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-03T09:21:46Z",
+      "side": 1,
+      "message": "Good idea. I\u0027m now caching whether a project is visible or not.\n\nDone",
+      "parentUuid": "44b7954c_70c0905f",
       "range": {
         "startLine": 73,
         "startChar": 10,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "048f5dae_5e3d75d6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ListTasks.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-03T09:21:46Z",
+      "side": 1,
+      "message": "See above.\n\nDone",
+      "parentUuid": "44b7954c_50bd8ced",
+      "range": {
+        "startLine": 74,
+        "startChar": 27,
+        "endLine": 74,
+        "endChar": 45
+      },
+      "revId": "89c68b73d823b175a26bb129b49238371e60312a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "24bc6131_2f6d09d4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ListTasks.java",
         "patchSetId": 3
@@ -82,6 +154,30 @@
       "writtenOn": "2014-07-02T15:15:21Z",
       "side": 1,
       "message": "I see, this code is copied from SSH command, but we always want to improve code, right?",
+      "range": {
+        "startLine": 91,
+        "startChar": 32,
+        "endLine": 91,
+        "endChar": 58
+      },
+      "revId": "89c68b73d823b175a26bb129b49238371e60312a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "048f5dae_7e3a31e1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ListTasks.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-03T09:21:46Z",
+      "side": 1,
+      "message": "Sure :)",
+      "parentUuid": "24bc6131_2f6d09d4",
       "range": {
         "startLine": 91,
         "startChar": 32,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "048f5dae_de7985a1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ListTasks.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-03T09:21:46Z",
+      "side": 1,
+      "message": "Followed your other suggestion below.",
+      "parentUuid": "44b7954c_b0aaf8a6",
+      "range": {
+        "startLine": 95,
+        "startChar": 17,
+        "endLine": 95,
+        "endChar": 54
+      },
+      "revId": "89c68b73d823b175a26bb129b49238371e60312a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "24bc6131_af58d932",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ListTasks.java",
         "patchSetId": 3
@@ -128,6 +248,30 @@
       "writtenOn": "2014-07-02T15:15:21Z",
       "side": 1,
       "message": "Since Java7 you can say:\n\n int cmp \u003d Long.compare(a.delay, b.delay);",
+      "range": {
+        "startLine": 98,
+        "startChar": 8,
+        "endLine": 98,
+        "endChar": 49
+      },
+      "revId": "89c68b73d823b175a26bb129b49238371e60312a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "248aa19d_9f6ff3d7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ListTasks.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-03T09:21:46Z",
+      "side": 1,
+      "message": "Followed your other suggestion below.",
+      "parentUuid": "24bc6131_af58d932",
       "range": {
         "startLine": 98,
         "startChar": 8,
@@ -163,6 +307,30 @@
     },
     {
       "key": {
+        "uuid": "248aa19d_7f3a2fe1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ListTasks.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-03T09:21:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "24bc6131_cf571dff",
+      "range": {
+        "startLine": 103,
+        "startChar": 8,
+        "endLine": 103,
+        "endChar": 46
+      },
+      "revId": "89c68b73d823b175a26bb129b49238371e60312a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "44b7954c_90aff4b6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/TasksCollection.java",
         "patchSetId": 3
@@ -186,6 +354,30 @@
     },
     {
       "key": {
+        "uuid": "248aa19d_bf74b7aa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/TasksCollection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-03T09:21:46Z",
+      "side": 1,
+      "message": "All REST collections are public. This allows plugins to make use of them.",
+      "parentUuid": "44b7954c_90aff4b6",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 6
+      },
+      "revId": "89c68b73d823b175a26bb129b49238371e60312a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "24bc6131_0f6ac5bb",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ShowQueue.java",
         "patchSetId": 3
@@ -197,6 +389,30 @@
       "writtenOn": "2014-07-02T15:15:21Z",
       "side": 1,
       "message": "No provider on singleton.",
+      "range": {
+        "startLine": 51,
+        "startChar": 10,
+        "endLine": 51,
+        "endChar": 18
+      },
+      "revId": "89c68b73d823b175a26bb129b49238371e60312a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "248aa19d_3f81873c",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ShowQueue.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-03T09:21:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "24bc6131_0f6ac5bb",
       "range": {
         "startLine": 51,
         "startChar": 10,

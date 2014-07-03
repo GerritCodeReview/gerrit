@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "048f5dae_9efc5ddb",
+        "filename": "plugins/cookbook-plugin",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-07-03T06:15:42Z",
+      "side": 0,
+      "message": "Yes, I made corresponding changes to the cookbook plugin!",
+      "parentUuid": "44b7954c_d0a97cb2",
+      "revId": "46e241adf9214cacac5025018c2a11df9cc626aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "24bc6131_cfd0bd32",
         "filename": "plugins/replication",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2014-07-02T15:51:28Z",
       "side": 0,
       "message": "Was this intended?",
+      "revId": "46e241adf9214cacac5025018c2a11df9cc626aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "248aa19d_7f086f45",
+        "filename": "plugins/replication",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-07-03T06:15:42Z",
+      "side": 0,
+      "message": "No, this one is just my clumsiness displayed with embarrassing clarity!",
+      "parentUuid": "24bc6131_cfd0bd32",
       "revId": "46e241adf9214cacac5025018c2a11df9cc626aa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

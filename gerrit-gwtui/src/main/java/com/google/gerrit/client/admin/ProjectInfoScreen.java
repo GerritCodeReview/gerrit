@@ -154,9 +154,9 @@ public class ProjectInfoScreen extends ProjectScreen {
   }
 
   private void enableForm(boolean isOwner) {
-    submitType.setEnabled(isOwner);
     state.setEnabled(isOwner);
-    contentMerge.setEnabled(isOwner);
+    submitType.setEnabled(isOwner);
+    setEnabledForUseContentMerge();
     descTxt.setEnabled(isOwner);
     contributorAgreements.setEnabled(isOwner);
     signedOffBy.setEnabled(isOwner);

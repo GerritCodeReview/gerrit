@@ -31,6 +31,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountsCollection;
 import com.google.gerrit.server.account.GroupControl;
+import com.google.gerrit.server.account.GroupIncludeCache;
 import com.google.gerrit.server.group.AddMembers.Input;
 import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.OrmException;
@@ -45,15 +46,18 @@ import java.util.Map;
 public class DeleteMembers implements RestModifyView<GroupResource, Input> {
   private final AccountsCollection accounts;
   private final AccountCache accountCache;
+  private final GroupIncludeCache groupIncludeCache;
   private final Provider<ReviewDb> db;
   private final Provider<CurrentUser> self;
 
   @Inject
   DeleteMembers(AccountsCollection accounts,
+      GroupIncludeCache groupIncludeCache,
       AccountCache accountCache, Provider<ReviewDb> db,
       Provider<CurrentUser> self) {
     this.accounts = accounts;
     this.accountCache = accountCache;
+    this.groupIncludeCache = groupIncludeCache;
     this.db = db;
     this.self = self;
   }
@@ -90,6 +94,7 @@ public class DeleteMembers implements RestModifyView<GroupResource, Input> {
     for (final AccountGroupMember m : toRemove) {
       accountCache.evict(m.getAccountId());
     }
+    groupIncludeCache.evictAccountsOf(internalGroup.getGroupUUID());
 
     return Response.none();
   }

@@ -22,6 +22,30 @@
       "revId": "067dd8461f509adcfdf42a124d45fe02f4fae20f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "048f5dae_5e3ad5b9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchSetInfoFactory.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-07-03T12:23:43Z",
+      "side": 1,
+      "message": "Also adding the condition that parent commit is merged in some branch other than the target branch.\n\nRef targetRef \u003d refDb.getRef(targetBranch);\n\n      RevCommit target \u003d\n \nrw.parseCommit(targetRef.getObjectId());\n\n      try {\n\n          for (RevCommit parent :\n\n pushedCommit.getParents()) {\n\n          int flag1 \u003d 0;\n\n          int flag2 \u003d 0;\n\n          rw.markStart(target);\n\n          for (RevCommit n; (n \u003d rw.next()) !\u003d null;) {\n\n            if (n.equals(parent)) {\n\n              flag1 \u003d 1;\n\n            }\n\n          }\n\n          Collection\u003cRef\u003e branches \u003d \n\nrefDb.getRefs(Constants.R_HEADS).values();\n\n          for (Ref branch : branches) {\n\n            RevCommit target_branch \u003d \n\nrw.parseCommit(branch.getObjectId());\n\n            if (!target_branch.equals(target)) {\n\n              rw.markStart(target_branch);\n\n              for (RevCommit n; (n \u003d rw.next()) !\u003d null;) {\n\n                if (n.equals(parent)) {\n\n                  flag2 \u003d 1;\n\n                }\n\n              }\n\n            }\n\n          }\n\n          if (flag1 \u003d\u003d 0 \u0026\u0026 flag2 \u003d\u003d 1) {\n\n            otherBranchCommit \u003d true;\n\n          }\n        }",
+      "parentUuid": "248aa19d_3f6a67bc",
+      "range": {
+        "startLine": 155,
+        "startChar": 6,
+        "endLine": 189,
+        "endChar": 9
+      },
+      "revId": "067dd8461f509adcfdf42a124d45fe02f4fae20f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

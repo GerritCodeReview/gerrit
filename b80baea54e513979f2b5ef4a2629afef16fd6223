@@ -129,6 +129,30 @@
       "revId": "b80baea54e513979f2b5ef4a2629afef16fd6223",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "048f5dae_3e0ee953",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-03T06:38:56Z",
+      "side": 1,
+      "message": "Well, if you would have written \"URL\" there would be even more reasons to be proud, what? ;)",
+      "parentUuid": "248aa19d_5f0bab42",
+      "range": {
+        "startLine": 9,
+        "startChar": 31,
+        "endLine": 9,
+        "endChar": 32
+      },
+      "revId": "b80baea54e513979f2b5ef4a2629afef16fd6223",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

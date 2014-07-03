@@ -112,7 +112,8 @@ public class PerformCreateGroup {
     }
     db.accountGroups().insert(Collections.singleton(group));
 
-    addMembers(groupId, createGroupArgs.initialMembers);
+    addMembers(group, createGroupArgs.initialMembers);
+    groupIncludeCache.evictAccountsOf(uuid);
 
     if (createGroupArgs.initialGroups != null) {
       addGroups(groupId, createGroupArgs.initialGroups);
@@ -124,12 +125,13 @@ public class PerformCreateGroup {
     return group;
   }
 
-  private void addMembers(final AccountGroup.Id groupId,
+  private void addMembers(final AccountGroup group,
       final Collection<? extends Account.Id> members) throws OrmException {
     List<AccountGroupMember> memberships = new ArrayList<>();
     for (Account.Id accountId : members) {
       final AccountGroupMember membership =
-          new AccountGroupMember(new AccountGroupMember.Key(accountId, groupId));
+          new AccountGroupMember(new AccountGroupMember.Key(accountId,
+              group.getId()));
       memberships.add(membership);
     }
     db.accountGroupMembers().insert(memberships);

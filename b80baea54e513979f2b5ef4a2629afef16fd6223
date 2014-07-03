@@ -39,6 +39,30 @@
       "revId": "b80baea54e513979f2b5ef4a2629afef16fd6223",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "847b4d5f_620b7643",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-03T00:57:20Z",
+      "side": 1,
+      "message": "No.  \"a\" is correct.",
+      "parentUuid": "24bc6131_afc1f96a",
+      "range": {
+        "startLine": 9,
+        "startChar": 31,
+        "endLine": 9,
+        "endChar": 32
+      },
+      "revId": "b80baea54e513979f2b5ef4a2629afef16fd6223",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

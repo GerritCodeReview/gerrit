@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "644e5958_b1d8608a",
+        "filename": "plugins/cookbook-plugin",
+        "patchSetId": 9
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-07-03T17:57:48Z",
+      "side": 0,
+      "message": "Maybe it would be better to wait to update the cookbook-plugin until this change and the corresponding one in cookbook-plugin are merged because you do not know the cookbook commit hash yet?\n\n268ee... is the PS1 of your change in the cookbook-plugin.\n\nEven if you update this to the PS2 of your change in the cookbook-plugin, it\u0027s still possible that the other change will be rebased again before it\u0027s merged.",
+      "revId": "9ec9820ee0c32d4237cba33cfb0d88febd1be2e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

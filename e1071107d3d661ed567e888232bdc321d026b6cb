@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "048f5dae_7e8b115a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 700,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-03T09:28:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "248aa19d_7f214fbd",
+      "range": {
+        "startLine": 700,
+        "startChar": 6,
+        "endLine": 700,
+        "endChar": 11
+      },
+      "revId": "e1071107d3d661ed567e888232bdc321d026b6cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "048f5dae_1e1a0d87",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2014-07-03T07:57:32Z",
       "side": 1,
       "message": "I am seeing you have copy/pasted ist from:\n\n  gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/Util.java\n\nMay be extract this method in Server side util class? For example it can be used from plugins.",
+      "range": {
+        "startLine": 698,
+        "startChar": 2,
+        "endLine": 709,
+        "endChar": 3
+      },
+      "revId": "e1071107d3d661ed567e888232bdc321d026b6cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "048f5dae_5e8e556b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 709,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-03T09:28:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "048f5dae_1e1a0d87",
       "range": {
         "startLine": 698,
         "startChar": 2,

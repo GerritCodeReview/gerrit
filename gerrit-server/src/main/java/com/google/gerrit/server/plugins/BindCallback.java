@@ -1,4 +1,4 @@
-// Copyright (C) 2012 The Android Open Source Project
+// Copyright (C) 2014 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,18 +14,8 @@
 
 package com.google.gerrit.server.plugins;
 
-import com.google.gerrit.extensions.annotations.Export;
-import com.google.inject.Module;
-import com.google.inject.TypeLiteral;
+import com.google.inject.Binder;
 
-public interface ModuleGenerator {
-  void setPluginName(String name);
-
-  void export(Export export, Class<?> type) throws InvalidPluginException;
-
-  void listen(TypeLiteral<?> tl, Class<?> clazz);
-
-  <T> void dynamicSet(Class<T> setOf, T instance);
-
-  Module create() throws InvalidPluginException;
+public interface BindCallback {
+  void bind(Binder binder);
 }

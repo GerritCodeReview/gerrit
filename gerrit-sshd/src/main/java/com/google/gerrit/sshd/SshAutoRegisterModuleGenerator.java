@@ -18,23 +18,29 @@ import static com.google.gerrit.server.plugins.AutoRegisterUtil.calculateBindAnn
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.LinkedListMultimap;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.gerrit.extensions.annotations.Export;
+import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.server.plugins.BindCallback;
 import com.google.gerrit.server.plugins.InvalidPluginException;
 import com.google.gerrit.server.plugins.ModuleGenerator;
 import com.google.inject.AbstractModule;
+import com.google.inject.Binder;
 import com.google.inject.Module;
 import com.google.inject.TypeLiteral;
 
 import org.apache.sshd.server.Command;
 
 import java.lang.annotation.Annotation;
+import java.util.List;
 import java.util.Map;
 
 class SshAutoRegisterModuleGenerator
     extends AbstractModule
     implements ModuleGenerator {
+  private final List<BindCallback> bindCallbacks = Lists.newArrayList();
   private final Map<String, Class<Command>> commands = Maps.newHashMap();
   private final Multimap<TypeLiteral<?>, Class<?>> listeners = LinkedListMultimap.create();
   private CommandName command;
@@ -55,6 +61,9 @@ class SshAutoRegisterModuleGenerator
 
       Annotation n = calculateBindAnnotation(impl);
       bind(type).annotatedWith(n).to(impl);
+    }
+    for (BindCallback callback : bindCallbacks) {
+      callback.bind(binder());
     }
   }
 
@@ -87,6 +96,16 @@ class SshAutoRegisterModuleGenerator
   @Override
   public void listen(TypeLiteral<?> tl, Class<?> clazz) {
     listeners.put(tl, clazz);
+  }
+
+  @Override
+  public <T> void dynamicSet(final Class<T> setOf, final T instance) {
+    bindCallbacks.add(new BindCallback() {
+      @Override
+      public void bind(Binder binder) {
+        DynamicSet.bind(binder, setOf).toInstance(instance);
+      }
+    });
   }
 
   @Override

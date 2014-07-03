@@ -28,6 +28,8 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
+import com.google.gerrit.extensions.annotations.Export;
+import com.google.gerrit.extensions.webui.JavaScriptPlugin;
 
 import org.eclipse.jgit.util.IO;
 import org.objectweb.asm.AnnotationVisitor;
@@ -43,6 +45,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.annotation.Annotation;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Enumeration;
@@ -90,9 +93,14 @@ public class JarScanner implements PluginContentScanner {
       classObjToClassDescr.put(annotation, descriptor);
     }
 
+    boolean hasInitJs = false;
     Enumeration<JarEntry> e = jarFile.entries();
     while (e.hasMoreElements()) {
       JarEntry entry = e.nextElement();
+      if (JsPlugin.INIT_PATH.equals(entry.getName())) {
+        hasInitJs = true;
+        continue;
+      }
       if (skip(entry)) {
         continue;
       }
@@ -129,8 +137,14 @@ public class JarScanner implements PluginContentScanner {
       Collection<ClassData> values =
           firstNonNull(discoverdData, Collections.<ClassData> emptySet());
 
-      result.put(annotoation,
-          transform(values, CLASS_DATA_TO_EXTENSION_META_DATA));
+      Iterable<ExtensionMetaData> value =
+          transform(values, CLASS_DATA_TO_EXTENSION_META_DATA);
+      if (hasInitJs && annotoation == Export.class) {
+        value =
+            Iterables.concat(value, Arrays.asList(new ExtensionMetaData(
+                JavaScriptPlugin.class.getName(), JsPlugin.INIT_NAME)));
+      }
+      result.put(annotoation, value);
     }
 
     return result.build();

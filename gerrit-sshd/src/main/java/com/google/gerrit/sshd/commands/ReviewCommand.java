@@ -27,12 +27,17 @@ import com.google.gerrit.extensions.api.changes.ReviewInput.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.DefaultInput;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.OutputFormat;
+import com.google.gerrit.server.change.PostReview;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -42,6 +47,8 @@ import com.google.gerrit.server.util.LabelVote;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.gerrit.util.cli.CmdLineParser;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonToken;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
@@ -52,7 +59,16 @@ import org.kohsuke.args4j.Option;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.BufferedReader;
+import java.io.EOFException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -112,6 +128,9 @@ public class ReviewCommand extends SshCommand {
 
   @Option(name = "--delete", usage = "delete the specified draft patch set(s)")
   private boolean deleteDraftPatchSet;
+
+  @Option(name = "--json", aliases = "-j", usage = "use json as argument")
+  private boolean json;
 
   @Option(name = "--label", aliases = "-l", usage = "custom label(s) to assign", metaVar = "LABEL=VALUE")
   void addLabel(final String token) {
@@ -195,6 +214,16 @@ public class ReviewCommand extends SshCommand {
         .review(review);
   }
 
+  private Object populateReviewInput(Object inputRequestBody, InputStream in)
+      throws BadRequestException, SecurityException, IllegalArgumentException,
+      NoSuchMethodException, IllegalAccessException, InstantiationException,
+      InvocationTargetException, MethodNotAllowedException, IOException {
+    Class cl = PostReview.class;
+    Type type = extractInputType(cl);
+    inputRequestBody = parseRequest(in, type);
+    return inputRequestBody;
+  }
+
   private void approveOne(final PatchSet patchSet) throws Exception {
 
     if (changeComment == null) {
@@ -233,6 +262,12 @@ public class ReviewCommand extends SshCommand {
         input.message = changeComment;
         changeApi(patchSet).restore(input);
         applyReview(patchSet, review);
+      } else if (json) {
+        Object inputRequestBody = null;
+        inputRequestBody = populateReviewInput(inputRequestBody, in);
+        ReviewInput reviewInput = new ReviewInput();
+        reviewInput = (ReviewInput) inputRequestBody;
+        applyReview(patchSet, reviewInput);
       } else {
         applyReview(patchSet, review);
       }
@@ -371,6 +406,92 @@ public class ReviewCommand extends SshCommand {
     }
 
     super.parseCommandLine();
+  }
+
+  @SuppressWarnings("rawtypes")
+  private static Type extractInputType(Class clazz) {
+    for (Type t : clazz.getGenericInterfaces()) {
+      if (t instanceof ParameterizedType
+          && ((ParameterizedType) t).getRawType() == RestModifyView.class) {
+        return ((ParameterizedType) t).getActualTypeArguments()[1];
+      }
+    }
+
+    if (clazz.getSuperclass() != null) {
+      Type i = extractInputType(clazz.getSuperclass());
+      if (i != null) {
+        return i;
+      }
+    }
+
+    for (Class t : clazz.getInterfaces()) {
+      Type i = extractInputType(t);
+      if (i != null) {
+        return i;
+      }
+    }
+
+    return null;
+  }
+
+  private Object parseString(String value, Type type)
+      throws BadRequestException, SecurityException, NoSuchMethodException,
+      IllegalArgumentException, IllegalAccessException, InstantiationException,
+      InvocationTargetException {
+    if (type == String.class) {
+      return value;
+    }
+
+    Object obj = createInstance(type);
+    Field[] fields = obj.getClass().getDeclaredFields();
+    if (fields.length == 0 && Strings.isNullOrEmpty(value)) {
+      return obj;
+    }
+    for (Field f : fields) {
+      if (f.getAnnotation(DefaultInput.class) != null
+          && f.getType() == String.class) {
+        f.setAccessible(true);
+        f.set(obj, value);
+        return obj;
+      }
+    }
+    throw new BadRequestException("Expected JSON object");
+  }
+
+  private static Object createInstance(Type type) throws NoSuchMethodException,
+      InstantiationException, IllegalAccessException, InvocationTargetException {
+    if (type instanceof Class) {
+      @SuppressWarnings("unchecked")
+      Class<Object> clazz = (Class<Object>) type;
+      Constructor<Object> c = clazz.getDeclaredConstructor();
+      c.setAccessible(true);
+      return c.newInstance();
+    }
+    throw new InstantiationException("Cannot make " + type);
+  }
+
+  private Object parseRequest(InputStream in, Type type) throws IOException,
+      BadRequestException, SecurityException, IllegalArgumentException,
+      NoSuchMethodException, IllegalAccessException, InstantiationException,
+      InvocationTargetException, MethodNotAllowedException {
+    BufferedReader br = new BufferedReader(new InputStreamReader(in, "UTF-8"));
+    try {
+      JsonReader json = new JsonReader(br);
+      json.setLenient(true);
+
+      JsonToken first;
+      try {
+        first = json.peek();
+      } catch (EOFException e) {
+        throw new BadRequestException("Expected JSON object");
+      }
+      if (first == JsonToken.STRING) {
+        return parseString(json.nextString(), type);
+      }
+      return OutputFormat.JSON.newGson().fromJson(json, type);
+    } finally {
+      br.close();
+    }
   }
 
   private void writeError(final String msg) {

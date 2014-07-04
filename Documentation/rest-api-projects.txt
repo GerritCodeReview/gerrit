@@ -761,6 +761,77 @@ The content is returned as base64 encoded string.
   Ly8gQ29weXJpZ2h0IChDKSAyMDEwIFRoZSBBbmRyb2lkIE9wZW4gU291cmNlIFByb2plY...
 ----
 
+[[get-reflog]]
+=== Get Reflog
+--
+'GET /projects/link:#project-name[\{project-name\}]/branches/link:#branch-id[\{branch-id\}]/reflog'
+--
+
+Gets the reflog of a certain branch.
+
+The caller must be project owner.
+
+.Request
+----
+  GET /projects/gerrit/branches/master/reflog HTTP/1.0
+----
+
+As response a list of link:#reflog-entry-info[ReflogEntryInfo] entities
+is returned that describe the reflog entries. The reflog entries are
+returned in reverse order.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  [
+    {
+      "old_id": "976ced8f4fc0909d7e1584d18455299545881d60",
+      "new_id": "2eaa94bac536654eb592c941e33b91f925698d16",
+      "who": {
+        "name": "Jane Roe",
+        "email": "jane.roe@example.com",
+        "date": "2014-06-30 11:53:43.000000000",
+        "tz": 120
+      },
+      "comment": "merged: fast forward"
+    },
+    {
+      "old_id": "c271c6a7161b74f85560c5899c8c73ee89ca5e29",
+      "new_id": "976ced8f4fc0909d7e1584d18455299545881d60",
+      "who": {
+        "name": "John Doe",
+        "email": "john.doe@example.com",
+        "date": "2013-10-02 10:45:26.000000000",
+        "tz": 120
+      },
+      "comment": "merged: fast forward"
+    },
+    {
+      "old_id": "0000000000000000000000000000000000000000",
+      "new_id": "c271c6a7161b74f85560c5899c8c73ee89ca5e29",
+      "who": {
+        "name": "John Doe",
+        "email": "john.doe@example.com",
+        "date": "2013-09-30 19:08:44.000000000",
+        "tz": 120
+      },
+      "comment": ""
+    }
+  ]
+----
+
+The get reflog endpoint also accepts a limit integer in the `n`
+parameter. This limits the results to show the last `n` reflog entries.
+
+Query the last 25 reflog entries.
+----
+  GET /projects/gerrit/branches/master/reflog?n=25 HTTP/1.0
+----
+
 [[child-project-endpoints]]
 == Child Project Endpoints
 
@@ -1553,6 +1624,21 @@ project parent.
 Message that should be used to commit the change of the project parent
 in the `project.config` file to the `refs/meta/config` branch.
 |=============================
+
+[[reflog-entry-info]]
+=== ReflogEntryInfo
+The `ReflogEntryInfo` entity describes an entry in a reflog.
+
+[options="header",width="50%",cols="1,6"]
+|============================
+|Field Name      |Description
+|`old_id`        |The old commit ID.
+|`new_id`        |The new commit ID.
+|`who`           |
+The user performing the change as a
+link:rest-api-changes.html#git-person-info[GitPersonInfo] entity.
+|`comment`       |Comment of the reflog entry.
+|============================
 
 [[repository-statistics-info]]
 === RepositoryStatisticsInfo

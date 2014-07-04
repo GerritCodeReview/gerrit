@@ -95,6 +95,54 @@
     },
     {
       "key": {
+        "uuid": "248aa19d_1f6763a6",
+        "filename": "tools/eclipse/project.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1006276
+      },
+      "writtenOn": "2014-07-04T13:38:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "847b4d5f_22596e12",
+      "range": {
+        "startLine": 40,
+        "startChar": 43,
+        "endLine": 40,
+        "endChar": 44
+      },
+      "revId": "66780adbb28803c58e33743148f98fd40da58857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "248aa19d_3f64279f",
+        "filename": "tools/eclipse/project.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1006276
+      },
+      "writtenOn": "2014-07-04T13:38:15Z",
+      "side": 1,
+      "message": "Changed to only \u0027plugins\u0027",
+      "parentUuid": "e48b29a1_ddcb4b85",
+      "range": {
+        "startLine": 40,
+        "startChar": 19,
+        "endLine": 40,
+        "endChar": 41
+      },
+      "revId": "66780adbb28803c58e33743148f98fd40da58857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e48b29a1_fdd00732",
         "filename": "tools/eclipse/project.py",
         "patchSetId": 1
@@ -106,6 +154,30 @@
       "writtenOn": "2014-07-04T13:19:58Z",
       "side": 1,
       "message": "I see it\u0027s the same in the existing code, but this seems a bit strange.  Wouldn\u0027t it be more pythonic to do:\n\n  fd.write(\"\"\" ... \"\"\")\n\n?",
+      "range": {
+        "startLine": 64,
+        "startChar": 4,
+        "endLine": 64,
+        "endChar": 9
+      },
+      "revId": "66780adbb28803c58e33743148f98fd40da58857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "048f5dae_fe0481af",
+        "filename": "tools/eclipse/project.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1006276
+      },
+      "writtenOn": "2014-07-04T13:38:15Z",
+      "side": 1,
+      "message": "I have to admit that I am no python expert, I just do monkey see monkey do...",
+      "parentUuid": "e48b29a1_fdd00732",
       "range": {
         "startLine": 64,
         "startChar": 4,
@@ -282,6 +354,30 @@
     },
     {
       "key": {
+        "uuid": "248aa19d_5f61eb8d",
+        "filename": "tools/eclipse/project.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1006276
+      },
+      "writtenOn": "2014-07-04T13:38:15Z",
+      "side": 1,
+      "message": "sure!\nwas a left over from my experiments",
+      "parentUuid": "847b4d5f_625376f2",
+      "range": {
+        "startLine": 183,
+        "startChar": 8,
+        "endLine": 183,
+        "endChar": 9
+      },
+      "revId": "66780adbb28803c58e33743148f98fd40da58857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "847b4d5f_425672e3",
         "filename": "tools/eclipse/project.py",
         "patchSetId": 1
@@ -305,6 +401,30 @@
     },
     {
       "key": {
+        "uuid": "048f5dae_1eea0d85",
+        "filename": "tools/eclipse/project.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1006276
+      },
+      "writtenOn": "2014-07-04T13:38:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "847b4d5f_425672e3",
+      "range": {
+        "startLine": 184,
+        "startChar": 32,
+        "endLine": 184,
+        "endChar": 33
+      },
+      "revId": "66780adbb28803c58e33743148f98fd40da58857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e48b29a1_1db69317",
         "filename": "tools/eclipse/project.py",
         "patchSetId": 1
@@ -316,6 +436,30 @@
       "writtenOn": "2014-07-04T13:19:58Z",
       "side": 1,
       "message": "This should be inside a try..except block.  The file operations inside the method can raise exceptions.\n\nThe existing code also does not have exception handling.",
+      "range": {
+        "startLine": 185,
+        "startChar": 6,
+        "endLine": 185,
+        "endChar": 55
+      },
+      "revId": "66780adbb28803c58e33743148f98fd40da58857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "048f5dae_5ef49564",
+        "filename": "tools/eclipse/project.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1006276
+      },
+      "writtenOn": "2014-07-04T13:38:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e48b29a1_1db69317",
       "range": {
         "startLine": 185,
         "startChar": 6,

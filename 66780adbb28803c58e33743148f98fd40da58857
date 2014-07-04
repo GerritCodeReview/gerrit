@@ -49,6 +49,75 @@
     },
     {
       "key": {
+        "uuid": "e48b29a1_ddcb4b85",
+        "filename": "tools/eclipse/project.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-04T13:19:58Z",
+      "side": 1,
+      "message": "Option names should be separated-with-hypen, not_with_underscore.",
+      "range": {
+        "startLine": 40,
+        "startChar": 19,
+        "endLine": 40,
+        "endChar": 41
+      },
+      "revId": "66780adbb28803c58e33743148f98fd40da58857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "847b4d5f_22596e12",
+        "filename": "tools/eclipse/project.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-04T13:19:58Z",
+      "side": 1,
+      "message": "Add:\n\n action\u003d\u0027store_true\u0027",
+      "range": {
+        "startLine": 40,
+        "startChar": 43,
+        "endLine": 40,
+        "endChar": 44
+      },
+      "revId": "66780adbb28803c58e33743148f98fd40da58857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e48b29a1_fdd00732",
+        "filename": "tools/eclipse/project.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-04T13:19:58Z",
+      "side": 1,
+      "message": "I see it\u0027s the same in the existing code, but this seems a bit strange.  Wouldn\u0027t it be more pythonic to do:\n\n  fd.write(\"\"\" ... \"\"\")\n\n?",
+      "range": {
+        "startLine": 64,
+        "startChar": 4,
+        "endLine": 64,
+        "endChar": 9
+      },
+      "revId": "66780adbb28803c58e33743148f98fd40da58857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "248aa19d_7facef8c",
         "filename": "tools/eclipse/project.py",
         "patchSetId": 1
@@ -183,6 +252,75 @@
         "startChar": 4,
         "endLine": 182,
         "endChar": 5
+      },
+      "revId": "66780adbb28803c58e33743148f98fd40da58857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "847b4d5f_625376f2",
+        "filename": "tools/eclipse/project.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-04T13:19:58Z",
+      "side": 1,
+      "message": "plugin",
+      "range": {
+        "startLine": 183,
+        "startChar": 8,
+        "endLine": 183,
+        "endChar": 9
+      },
+      "revId": "66780adbb28803c58e33743148f98fd40da58857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "847b4d5f_425672e3",
+        "filename": "tools/eclipse/project.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-04T13:19:58Z",
+      "side": 1,
+      "message": "nit: missing space after the comma",
+      "range": {
+        "startLine": 184,
+        "startChar": 32,
+        "endLine": 184,
+        "endChar": 33
+      },
+      "revId": "66780adbb28803c58e33743148f98fd40da58857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e48b29a1_1db69317",
+        "filename": "tools/eclipse/project.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-04T13:19:58Z",
+      "side": 1,
+      "message": "This should be inside a try..except block.  The file operations inside the method can raise exceptions.\n\nThe existing code also does not have exception handling.",
+      "range": {
+        "startLine": 185,
+        "startChar": 6,
+        "endLine": 185,
+        "endChar": 55
       },
       "revId": "66780adbb28803c58e33743148f98fd40da58857",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

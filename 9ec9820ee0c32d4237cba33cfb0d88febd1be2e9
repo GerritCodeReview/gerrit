@@ -34,6 +34,24 @@
       "revId": "9ec9820ee0c32d4237cba33cfb0d88febd1be2e9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "248aa19d_3f56e7e2",
+        "filename": "plugins/cookbook-plugin",
+        "patchSetId": 9
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-07-04T07:11:57Z",
+      "side": 0,
+      "message": "My intentions were to  make it easy to look at the feature through the cookbook-plugin. By updating this its just a matter of checking out this change update the submodules, build and run and you can check the feature out.\nIf you think that, appart from this, it is ready to be merged I will gladly revert it.",
+      "parentUuid": "048f5dae_1e592d12",
+      "revId": "9ec9820ee0c32d4237cba33cfb0d88febd1be2e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

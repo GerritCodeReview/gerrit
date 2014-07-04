@@ -14,11 +14,13 @@
 
 package com.google.gerrit.acceptance.rest.config;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import com.google.common.collect.Ordering;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.server.config.ListCaches.CacheInfo;
@@ -26,9 +28,12 @@ import com.google.gerrit.server.config.ListCaches.CacheType;
 import com.google.gson.reflect.TypeToken;
 
 import org.apache.http.HttpStatus;
+import org.eclipse.jgit.util.Base64;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 public class ListCachesIT extends AbstractDaemonTest {
@@ -65,5 +70,34 @@ public class ListCachesIT extends AbstractDaemonTest {
   public void listCaches_Forbidden() throws IOException {
     RestResponse r = userSession.get("/config/server/caches/");
     assertEquals(HttpStatus.SC_FORBIDDEN, r.getStatusCode());
+  }
+
+  @Test
+  public void listCacheNames() throws IOException {
+    RestResponse r = adminSession.get("/config/server/caches/?format=LIST");
+    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    List<String> result =
+        newGson().fromJson(r.getReader(),
+            new TypeToken<List<String>>() {}.getType());
+    assertTrue(result.contains("accounts"));
+    assertTrue(result.contains("projects"));
+    assertTrue(Ordering.natural().isOrdered(result));
+  }
+
+  @Test
+  public void listCacheNamesTextList() throws IOException {
+    RestResponse r = adminSession.get("/config/server/caches/?format=TEXT_LIST");
+    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    String result = new String(Base64.decode(r.getEntityContent()), UTF_8.name());
+    List<String> list = Arrays.asList(result.split("\n"));
+    assertTrue(list.contains("accounts"));
+    assertTrue(list.contains("projects"));
+    assertTrue(Ordering.natural().isOrdered(list));
+  }
+
+  @Test
+  public void listCaches_BadRequest() throws IOException {
+    RestResponse r = adminSession.get("/config/server/caches/?format=NONSENSE");
+    assertEquals(HttpStatus.SC_BAD_REQUEST, r.getStatusCode());
   }
 }

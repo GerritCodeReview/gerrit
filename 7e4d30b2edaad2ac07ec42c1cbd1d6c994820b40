@@ -2,6 +2,75 @@
   "comments": [
     {
       "key": {
+        "uuid": "048f5dae_de10a523",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshLog.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-07-04T07:42:27Z",
+      "side": 1,
+      "message": "if (ctx !\u003d null) {\n  session \u003d ctx.getSession();\n  sessionId \u003d extractSessionId(session);\n  currentUser \u003d extractCurrentUser(session);\n}\n\nMore compact, more fucused, more readable IMHO",
+      "range": {
+        "startLine": 359,
+        "startChar": 4,
+        "endLine": 359,
+        "endChar": 69
+      },
+      "revId": "7e4d30b2edaad2ac07ec42c1cbd1d6c994820b40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "248aa19d_dff7bbab",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshLog.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-07-04T07:42:27Z",
+      "side": 1,
+      "message": "extract to a variable",
+      "range": {
+        "startLine": 360,
+        "startChar": 71,
+        "endLine": 360,
+        "endChar": 98
+      },
+      "revId": "7e4d30b2edaad2ac07ec42c1cbd1d6c994820b40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "248aa19d_bff2f7bc",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshLog.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-07-04T07:42:27Z",
+      "side": 1,
+      "message": "extract to a variable",
+      "range": {
+        "startLine": 360,
+        "startChar": 44,
+        "endLine": 360,
+        "endChar": 69
+      },
+      "revId": "7e4d30b2edaad2ac07ec42c1cbd1d6c994820b40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "03210a95_f51a7887",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshLog.java",
         "patchSetId": 2
@@ -49,6 +118,47 @@
       "side": 1,
       "message": "OK, I see.",
       "parentUuid": "e31dd65d_b4fbe0ed",
+      "revId": "7e4d30b2edaad2ac07ec42c1cbd1d6c994820b40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "048f5dae_9e161d1e",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshLog.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-07-04T07:42:27Z",
+      "side": 1,
+      "message": "as those are all private methods and now we are the ones responsible to pass the session object over ... why instead of keeping the ternary operator we just make sure that when we call the session is not null?",
+      "parentUuid": "03210a95_f5483877",
+      "revId": "7e4d30b2edaad2ac07ec42c1cbd1d6c994820b40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "048f5dae_be1bd944",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshLog.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-07-04T07:42:27Z",
+      "side": 1,
+      "message": "just return IdGenerator.format(session.getSessionId())",
+      "range": {
+        "startLine": 382,
+        "startChar": 4,
+        "endLine": 382,
+        "endChar": 79
+      },
       "revId": "7e4d30b2edaad2ac07ec42c1cbd1d6c994820b40",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

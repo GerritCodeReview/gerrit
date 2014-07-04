@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "847b4d5f_82507ae5",
+        "filename": "tools/eclipse/project.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-04T13:21:29Z",
+      "side": 1,
+      "message": "add an action parameter.",
+      "range": {
+        "startLine": 40,
+        "startChar": 28,
+        "endLine": 40,
+        "endChar": 29
+      },
+      "revId": "13461a7f61af4495936672d10b19e4098e3474e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "847b4d5f_a2ed7ee1",
+        "filename": "tools/eclipse/project.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-04T13:21:29Z",
+      "side": 1,
+      "message": "missing space",
+      "range": {
+        "startLine": 184,
+        "startChar": 32,
+        "endLine": 184,
+        "endChar": 33
+      },
+      "revId": "13461a7f61af4495936672d10b19e4098e3474e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

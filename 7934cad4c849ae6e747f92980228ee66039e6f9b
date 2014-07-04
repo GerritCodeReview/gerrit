@@ -108,6 +108,24 @@
       "revId": "7934cad4c849ae6e747f92980228ee66039e6f9b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04783d6e_b601482a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.ui.xml",
+        "patchSetId": 12
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-07-04T14:34:23Z",
+      "side": 1,
+      "message": "I forgot the \u0027.\u0027 in the code I gave you:\n\n  .webLinkPanel\u003ea {\n    margin-left:2px;\n  }",
+      "parentUuid": "04783d6e_96fc4cdb",
+      "revId": "7934cad4c849ae6e747f92980228ee66039e6f9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -832,6 +832,14 @@ Query the last 25 reflog entries.
   GET /projects/gerrit/branches/master/reflog?n=25 HTTP/1.0
 ----
 
+The reflog can also be filtered by timestamp by specifying the `from`
+and `to` parameters. The timestamp for `from` and `to` must be given as
+UTC in the following format: `yyyyMMdd_HHmm`.
+
+----
+  GET /projects/gerrit/branches/master/reflog?from=20130101_0000&to=20140101_0000=25 HTTP/1.0
+----
+
 [[child-project-endpoints]]
 == Child Project Endpoints
 

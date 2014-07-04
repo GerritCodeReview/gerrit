@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "248aa19d_df9a5b60",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 835,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-04T12:49:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "248aa19d_7fd30f09",
+      "range": {
+        "startLine": 835,
+        "startChar": 35,
+        "endLine": 835,
+        "endChar": 39
+      },
+      "revId": "912a98c65e8bd6825365d9743d33a9023a95453e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "248aa19d_bfa597a9",
         "filename": "Documentation/rest-api-projects.txt",
         "patchSetId": 1
@@ -71,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "248aa19d_ff9f1f4d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/args4j/TimestampHandler.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-04T12:49:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "048f5dae_9ea37d8d",
+      "range": {
+        "startLine": 33,
+        "startChar": 13,
+        "endLine": 33,
+        "endChar": 29
+      },
+      "revId": "912a98c65e8bd6825365d9743d33a9023a95453e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "048f5dae_7e5eb1c8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/args4j/TimestampHandler.java",
         "patchSetId": 1
@@ -82,6 +130,30 @@
       "writtenOn": "2014-07-04T12:40:33Z",
       "side": 1,
       "message": "TIMESTAMP_FORMAT",
+      "range": {
+        "startLine": 34,
+        "startChar": 29,
+        "endLine": 34,
+        "endChar": 40
+      },
+      "revId": "912a98c65e8bd6825365d9743d33a9023a95453e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "248aa19d_1fb5a3d2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/args4j/TimestampHandler.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-04T12:49:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "048f5dae_7e5eb1c8",
       "range": {
         "startLine": 34,
         "startChar": 29,
@@ -117,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "048f5dae_dead0577",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/args4j/TimestampHandler.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-04T12:49:00Z",
+      "side": 1,
+      "message": "Copy \u0026 paste... :(\n\nDone",
+      "parentUuid": "048f5dae_5e61f58d",
+      "range": {
+        "startLine": 38,
+        "startChar": 16,
+        "endLine": 38,
+        "endChar": 21
+      },
+      "revId": "912a98c65e8bd6825365d9743d33a9023a95453e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "248aa19d_9fa0d39a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/args4j/TimestampHandler.java",
         "patchSetId": 1
@@ -128,6 +224,30 @@
       "writtenOn": "2014-07-04T12:40:33Z",
       "side": 1,
       "message": "Here you call it timestamp, in the rest-api date.",
+      "range": {
+        "startLine": 53,
+        "startChar": 33,
+        "endLine": 53,
+        "endChar": 42
+      },
+      "revId": "912a98c65e8bd6825365d9743d33a9023a95453e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "048f5dae_feb2c1d3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/args4j/TimestampHandler.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-04T12:49:00Z",
+      "side": 1,
+      "message": "I hope now it\u0027s \u0027timestamp\u0027 everywhere :)",
+      "parentUuid": "248aa19d_9fa0d39a",
       "range": {
         "startLine": 53,
         "startChar": 33,
@@ -163,6 +283,30 @@
     },
     {
       "key": {
+        "uuid": "048f5dae_1eb84db1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetReflog.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-04T12:49:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "248aa19d_5fd64bfa",
+      "range": {
+        "startLine": 88,
+        "startChar": 31,
+        "endLine": 88,
+        "endChar": 32
+      },
+      "revId": "912a98c65e8bd6825365d9743d33a9023a95453e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "048f5dae_fe71e160",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetReflog.java",
         "patchSetId": 1
@@ -186,6 +330,30 @@
     },
     {
       "key": {
+        "uuid": "248aa19d_3fb267eb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetReflog.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-04T12:49:00Z",
+      "side": 1,
+      "message": "Doesn\u0027t work here with the ? ... : operator :(",
+      "parentUuid": "048f5dae_fe71e160",
+      "range": {
+        "startLine": 93,
+        "startChar": 28,
+        "endLine": 93,
+        "endChar": 39
+      },
+      "revId": "912a98c65e8bd6825365d9743d33a9023a95453e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "048f5dae_1e676da6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetReflog.java",
         "patchSetId": 1
@@ -197,6 +365,30 @@
       "writtenOn": "2014-07-04T12:40:33Z",
       "side": 1,
       "message": "Java7",
+      "range": {
+        "startLine": 94,
+        "startChar": 28,
+        "endLine": 94,
+        "endChar": 39
+      },
+      "revId": "912a98c65e8bd6825365d9743d33a9023a95453e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "248aa19d_5faf2b82",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetReflog.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-04T12:49:00Z",
+      "side": 1,
+      "message": "Doesn\u0027t work here with the ? ... : operator :(",
+      "parentUuid": "048f5dae_1e676da6",
       "range": {
         "startLine": 94,
         "startChar": 28,

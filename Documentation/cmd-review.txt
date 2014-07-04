@@ -14,6 +14,7 @@ gerrit review - Apply reviews to one or more patch sets
   [--submit | -s]
   [--abandon | --restore]
   [--publish]
+  [--json | -j]
   [--delete]
   [--verified <N>] [--code-review <N>]
   [--label Label-Name=<N>]
@@ -55,6 +56,12 @@ branch.
 -m::
 	Optional cover letter to include as part of the message
 	sent to reviewers when the approval states are updated.
+
+--json::
+-j::
+	Read review input from JSON file. See
+	link:rest-api-changes.html#review-input[ReviewInput] entity for the
+	format.
 
 --notify::
 -n::

@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "847b4d5f_82379acf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-04T13:12:06Z",
+      "side": 1,
+      "message": "Wrong name?",
+      "range": {
+        "startLine": 2,
+        "startChar": 12,
+        "endLine": 2,
+        "endChar": 27
+      },
+      "revId": "b5b35bbad8a12ab705a6a5482f85e4f3f141ee42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e48b29a1_9dc1c36b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-04T13:12:06Z",
+      "side": 1,
+      "message": "nit: remove this blank line",
+      "revId": "b5b35bbad8a12ab705a6a5482f85e4f3f141ee42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "847b4d5f_422d9281",
+        "filename": "Documentation/cmd-review.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-04T13:12:06Z",
+      "side": 1,
+      "message": "missing tabs",
+      "range": {
+        "startLine": 66,
+        "startChar": 0,
+        "endLine": 70,
+        "endChar": 11
+      },
+      "revId": "b5b35bbad8a12ab705a6a5482f85e4f3f141ee42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "847b4d5f_623a96ba",
+        "filename": "Documentation/cmd-review.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-04T13:12:06Z",
+      "side": 1,
+      "message": "Is this the same format as expected by the REST API?  If so, it would be better to link to the relevant documentation rather than repeating it here.",
+      "range": {
+        "startLine": 63,
+        "startChar": 35,
+        "endLine": 83,
+        "endChar": 4
+      },
+      "revId": "b5b35bbad8a12ab705a6a5482f85e4f3f141ee42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "847b4d5f_e23ea6a7",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-04T13:12:06Z",
+      "side": 1,
+      "message": "Not very descriptive of what it actually does.",
+      "range": {
+        "startLine": 132,
+        "startChar": 52,
+        "endLine": 132,
+        "endChar": 72
+      },
+      "revId": "b5b35bbad8a12ab705a6a5482f85e4f3f141ee42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "847b4d5f_a2449e31",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-04T13:12:06Z",
+      "side": 1,
+      "message": "This can be simplified to:\n\n  return parseRequest(in, extractInputType(PostReview.class));",
+      "range": {
+        "startLine": 221,
+        "startChar": 0,
+        "endLine": 224,
+        "endChar": 28
+      },
+      "revId": "b5b35bbad8a12ab705a6a5482f85e4f3f141ee42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "847b4d5f_c249a248",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-04T13:12:06Z",
+      "side": 1,
+      "message": "This looks like it was copy pasted from RestApiServlet?",
+      "range": {
+        "startLine": 411,
+        "startChar": 2,
+        "endLine": 495,
+        "endChar": 3
+      },
+      "revId": "b5b35bbad8a12ab705a6a5482f85e4f3f141ee42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

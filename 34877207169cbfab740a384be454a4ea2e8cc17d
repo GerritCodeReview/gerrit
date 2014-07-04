@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "847b4d5f_02fd4a8a",
+        "filename": "tools/eclipse/project.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-04T14:48:15Z",
+      "side": 1,
+      "message": "nit: indentation should be 2 spaces, not 4.",
+      "range": {
+        "startLine": 169,
+        "startChar": 6,
+        "endLine": 171,
+        "endChar": 37
+      },
+      "revId": "34877207169cbfab740a384be454a4ea2e8cc17d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "847b4d5f_22e24eee",
+        "filename": "tools/eclipse/project.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-04T14:48:15Z",
+      "side": 1,
+      "message": "I\u0027m not 100% sure but I seem to remember OSError can also be raised from file operations.",
+      "range": {
+        "startLine": 189,
+        "startChar": 13,
+        "endLine": 189,
+        "endChar": 20
+      },
+      "revId": "34877207169cbfab740a384be454a4ea2e8cc17d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

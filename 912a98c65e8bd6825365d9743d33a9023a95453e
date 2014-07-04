@@ -354,6 +354,30 @@
     },
     {
       "key": {
+        "uuid": "048f5dae_5ec2d518",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetReflog.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-04T12:55:55Z",
+      "side": 1,
+      "message": "and with:\n\n  new ArrayList\u003c\u003e(limit)\n\n?",
+      "parentUuid": "248aa19d_3fb267eb",
+      "range": {
+        "startLine": 93,
+        "startChar": 28,
+        "endLine": 93,
+        "endChar": 39
+      },
+      "revId": "912a98c65e8bd6825365d9743d33a9023a95453e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "048f5dae_1e676da6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetReflog.java",
         "patchSetId": 1

@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "248aa19d_bf8e771d",
+        "filename": "tools/eclipse/project.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-04T13:05:01Z",
+      "side": 1,
+      "message": "This parameter is too long for me. May be just \"--plugins\" ?",
+      "range": {
+        "startLine": 40,
+        "startChar": 19,
+        "endLine": 40,
+        "endChar": 41
+      },
+      "revId": "66780adbb28803c58e33743148f98fd40da58857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "248aa19d_7facef8c",
+        "filename": "tools/eclipse/project.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-04T13:05:01Z",
+      "side": 1,
+      "message": "Nit: missing blank",
+      "range": {
+        "startLine": 138,
+        "startChar": 8,
+        "endLine": 138,
+        "endChar": 9
+      },
+      "revId": "66780adbb28803c58e33743148f98fd40da58857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "048f5dae_1ee12db1",
+        "filename": "tools/eclipse/project.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-04T13:05:01Z",
+      "side": 1,
+      "message": "Nit: missing blank",
+      "range": {
+        "startLine": 167,
+        "startChar": 8,
+        "endLine": 167,
+        "endChar": 9
+      },
+      "revId": "66780adbb28803c58e33743148f98fd40da58857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "248aa19d_9f89b31a",
+        "filename": "tools/eclipse/project.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-04T13:05:01Z",
+      "side": 1,
+      "message": "Nit: missing blank",
+      "range": {
+        "startLine": 182,
+        "startChar": 4,
+        "endLine": 182,
+        "endChar": 5
+      },
+      "revId": "66780adbb28803c58e33743148f98fd40da58857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

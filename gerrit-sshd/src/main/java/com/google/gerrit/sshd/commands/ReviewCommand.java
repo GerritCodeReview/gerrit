@@ -16,6 +16,7 @@ package com.google.gerrit.sshd.commands;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
+import com.google.common.io.CharStreams;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.extensions.api.GerritApi;
@@ -33,6 +34,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -42,6 +44,7 @@ import com.google.gerrit.server.util.LabelVote;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.gerrit.util.cli.CmdLineParser;
+import com.google.gson.JsonParseException;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
@@ -53,6 +56,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -113,6 +118,10 @@ public class ReviewCommand extends SshCommand {
   @Option(name = "--delete", usage = "delete the specified draft patch set(s)")
   private boolean deleteDraftPatchSet;
 
+  @Option(name = "--json", aliases = "-j",
+      usage = "read review input json from stdin")
+  private boolean json;
+
   @Option(name = "--label", aliases = "-l", usage = "custom label(s) to assign", metaVar = "LABEL=VALUE")
   void addLabel(final String token) {
     LabelVote v = LabelVote.parseWithEquals(token);
@@ -162,12 +171,41 @@ public class ReviewCommand extends SshCommand {
         throw error("publish and delete actions are mutually exclusive");
       }
     }
+    if (json) {
+      if (restoreChange) {
+        throw error("json and restore actions are mutually exclusive");
+      }
+      if (submitChange) {
+        throw error("json and submit actions are mutually exclusive");
+      }
+      if (deleteDraftPatchSet) {
+        throw error("json and delete actions are mutually exclusive");
+      }
+      if (publishPatchSet) {
+        throw error("json and publish actions are mutually exclusive");
+      }
+      if (abandonChange) {
+        throw error("json and abandon actions are mutually exclusive");
+      }
+      if (changeComment != null) {
+        throw error("json and message are mutually exclusive");
+      }
+      if (projectControl != null) {
+        throw error("json and project are mutually exclusive");
+      }
+    }
 
     boolean ok = true;
     for (final PatchSet patchSet : patchSets) {
       try {
-        approveOne(patchSet);
-      } catch (UnloggedFailure e) {
+        if (json) {
+          applyReview(patchSet, reviewFromJson());
+        } else {
+          approveOne(patchSet);
+        }
+      } catch (JsonParseException e) {
+        writeError("error: Invalid contents in request\n");
+      } catch (AuthException | UnloggedFailure e) {
         ok = false;
         writeError("error: " + e.getMessage() + "\n");
       } catch (NoSuchChangeException e) {
@@ -195,8 +233,15 @@ public class ReviewCommand extends SshCommand {
         .review(review);
   }
 
-  private void approveOne(final PatchSet patchSet) throws Exception {
+  private ReviewInput reviewFromJson() throws IOException {
+    try (InputStreamReader r =
+        new InputStreamReader(in, StandardCharsets.UTF_8)) {
+      return OutputFormat.JSON.newGson()
+          .fromJson(CharStreams.toString(r), ReviewInput.class);
+    }
+  }
 
+  private void approveOne(final PatchSet patchSet) throws Exception {
     if (changeComment == null) {
       changeComment = "";
     }

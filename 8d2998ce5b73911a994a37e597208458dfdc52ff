@@ -1,0 +1,141 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "847b4d5f_429cb288",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-04T07:23:23Z",
+      "side": 1,
+      "message": "Nit: remove the blank line; Bug should be in the footer.",
+      "revId": "8d2998ce5b73911a994a37e597208458dfdc52ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e48b29a1_3d818f3c",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/VerifyInput.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-04T07:23:23Z",
+      "side": 1,
+      "message": "Nit: unnecessary blank line",
+      "revId": "8d2998ce5b73911a994a37e597208458dfdc52ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "847b4d5f_e2a4e6dc",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/LabelId.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-04T07:23:23Z",
+      "side": 1,
+      "message": "Missing license/copyright header.",
+      "revId": "8d2998ce5b73911a994a37e597208458dfdc52ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e48b29a1_7d8b175a",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/VerifyCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-04T07:23:23Z",
+      "side": 1,
+      "message": "Much of this is common with the review command.",
+      "revId": "8d2998ce5b73911a994a37e597208458dfdc52ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "847b4d5f_02aaaaa5",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/VerifyCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-04T07:23:23Z",
+      "side": 1,
+      "message": "\"verify\"?",
+      "range": {
+        "startLine": 48,
+        "startChar": 25,
+        "endLine": 48,
+        "endChar": 31
+      },
+      "revId": "8d2998ce5b73911a994a37e597208458dfdc52ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "847b4d5f_229fae7f",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/VerifyCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-04T07:23:23Z",
+      "side": 1,
+      "message": "verify",
+      "range": {
+        "startLine": 66,
+        "startChar": 48,
+        "endLine": 66,
+        "endChar": 54
+      },
+      "revId": "8d2998ce5b73911a994a37e597208458dfdc52ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e48b29a1_5d8e5b6b",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/VerifyCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-04T07:23:23Z",
+      "side": 1,
+      "message": "remove this?",
+      "range": {
+        "startLine": 233,
+        "startChar": 0,
+        "endLine": 239,
+        "endChar": 5
+      },
+      "revId": "8d2998ce5b73911a994a37e597208458dfdc52ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

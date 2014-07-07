@@ -27,7 +27,8 @@ import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.group.GroupJson;
 import com.google.gerrit.server.group.GroupJson.GroupInfo;
 import com.google.gerrit.server.group.ListGroups;
-import com.google.gerrit.server.ioutil.ColumnFormatter;
+import com.google.gerrit.server.ioutil.FlipTable;
+import com.google.gerrit.server.ioutil.FlipTable.Borders;
 import com.google.gerrit.sshd.BaseCommand;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gwtorm.server.OrmException;
@@ -38,6 +39,7 @@ import org.apache.sshd.server.Environment;
 import org.kohsuke.args4j.Option;
 
 import java.io.PrintWriter;
+import java.util.List;
 
 @CommandMetaData(name = "ls-groups", description = "List groups visible to the caller",
   runsAt = MASTER_OR_SLAVE)
@@ -83,25 +85,37 @@ public class ListGroupsCommand extends BaseCommand {
           identifiedUser, userFactory, accountGetGroups, json);
     }
 
-    void display(final PrintWriter out) throws OrmException {
-      final ColumnFormatter formatter = new ColumnFormatter(out, '\t');
-      for (final GroupInfo info : get()) {
-        formatter.addColumn(Objects.firstNonNull(info.name, "n/a"));
+    void display(PrintWriter writer) throws OrmException {
+      List<GroupInfo> list = get();
+      int size = list.size();
+      Object[][] data = new Object[size][];
+      for (int i = 0; i < size; i++) {
+        GroupInfo info = list.get(i);
         if (verboseOutput) {
           AccountGroup o = info.ownerId != null
               ? groupCache.get(new AccountGroup.UUID(Url.decode(info.ownerId)))
               : null;
 
-          formatter.addColumn(Url.decode(info.id));
-          formatter.addColumn(Strings.nullToEmpty(info.description));
-          formatter.addColumn(o != null ? o.getName() : "n/a");
-          formatter.addColumn(o != null ? o.getGroupUUID().get() : "");
-          formatter.addColumn(Boolean.toString(Objects.firstNonNull(
-              info.options.visibleToAll, Boolean.FALSE)));
+          data[i] = new Object[] {
+              Objects.firstNonNull(info.name, "n/a"),
+              Url.decode(info.id),
+              Strings.nullToEmpty(info.description),
+              o != null ? o.getName() : "n/a",
+              o != null ? o.getGroupUUID().get() : "",
+              Boolean.toString(Objects.firstNonNull(
+                  info.options.visibleToAll, Boolean.FALSE))
+          };
+        } else {
+          data[i] = new Object[] {
+              Objects.firstNonNull(info.name, "n/a")
+          };
         }
-        formatter.nextLine();
       }
-      formatter.finish();
+      String[] headersVerbose = { "name", "id", "description", "owner",
+          "owner group", "all" };
+      String[] headers = new String [] {"name"};
+      writer.println(FlipTable.of(verboseOutput ? headersVerbose : headers,
+          data, Borders.BODY_HCOLS));
     }
   }
 }

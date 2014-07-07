@@ -25,7 +25,8 @@ import com.google.gerrit.server.account.AccountInfo;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupDetailFactory.Factory;
 import com.google.gerrit.server.group.ListMembers;
-import com.google.gerrit.server.ioutil.ColumnFormatter;
+import com.google.gerrit.server.ioutil.FlipTable;
+import com.google.gerrit.server.ioutil.FlipTable.Borders;
 import com.google.gerrit.sshd.BaseCommand;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gwtorm.server.OrmException;
@@ -90,30 +91,30 @@ public class ListMembersCommand extends BaseCommand {
 
       try {
         List<AccountInfo> members = apply(group.getGroupUUID());
-        ColumnFormatter formatter = new ColumnFormatter(writer, '\t');
-        formatter.addColumn("id");
-        formatter.addColumn("username");
-        formatter.addColumn("full name");
-        formatter.addColumn("email");
-        formatter.nextLine();
-        for (AccountInfo member : members) {
-          if (member == null) {
-            continue;
-          }
-
-          formatter.addColumn(member._id.toString());
-          formatter.addColumn(Objects.firstNonNull(member.username, "n/a"));
-          formatter.addColumn(Objects.firstNonNull(
-              Strings.emptyToNull(member.name), "n/a"));
-          formatter.addColumn(Objects.firstNonNull(member.email, "n/a"));
-          formatter.nextLine();
-        }
-
-        formatter.finish();
+        asTable(writer, members);
       } catch (MethodNotAllowedException e) {
         writer.write(errorText);
         writer.flush();
       }
+    }
+
+    private void asTable(PrintWriter writer, List<AccountInfo> members) {
+      String[] headers = { "id", "username", "full name", "email" };
+      int size = members.size();
+      Object[][] data = new Object[size][];
+      for (int i = 0; i < size; i++) {
+        AccountInfo m = members.get(i);
+        if (m == null) {
+          continue;
+        }
+        data[i] = new Object[] {
+            m._id.toString(),
+            Objects.firstNonNull(m.username, "n/a"),
+            Objects.firstNonNull(Strings.emptyToNull(m.name), "n/a"),
+            Objects.firstNonNull(m.email, "n/a"),
+        };
+      }
+      writer.println(FlipTable.of(headers, data, Borders.BODY_HCOLS));
     }
   }
 }

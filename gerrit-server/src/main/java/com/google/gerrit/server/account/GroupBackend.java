@@ -17,15 +17,19 @@ package com.google.gerrit.server.account;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupReference;
+import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.project.ProjectControl;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
- * Implementations of GroupBackend provide lookup and membership accessors
+ * Implementations of GroupBackend provide lookup and members/membership accessors
  * to a group system.
  */
 @ExtensionPoint
@@ -50,4 +54,14 @@ public interface GroupBackend {
 
   /** @return the group membership checker for the backend. */
   GroupMembership membershipsOf(IdentifiedUser user);
+
+  /**
+   * @return the direct included registered members of the UUID for the backend
+   * @throws NoSuchGroupException
+   */
+  List<Account.Id> loadMembers(AccountGroup.UUID uuid);
+
+  /** @return the groups directly included in the UUID for the backend */
+  List<AccountGroup.UUID> loadIncludes(AccountGroup.UUID uuid,
+      @Nullable Project.NameKey project);
 }

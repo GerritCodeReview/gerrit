@@ -48,10 +48,6 @@ public class BaseServiceImplementation {
     return null;
   }
 
-  protected CurrentUser getCurrentUser() {
-    return currentUser.get();
-  }
-
   /**
    * Executes {@code action.run} with an active ReviewDb connection.
    * <p>

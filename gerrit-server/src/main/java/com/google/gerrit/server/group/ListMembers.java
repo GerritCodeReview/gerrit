@@ -18,17 +18,13 @@ import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
-import com.google.gerrit.common.data.GroupDetail;
-import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountGroupById;
-import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.server.account.AccountInfo;
 import com.google.gerrit.server.account.GroupCache;
-import com.google.gerrit.server.account.GroupDetailFactory;
+import com.google.gerrit.server.account.GroupDetail;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
@@ -42,7 +38,7 @@ import java.util.Map;
 
 public class ListMembers implements RestReadView<GroupResource> {
   private final GroupCache groupCache;
-  private final GroupDetailFactory.Factory groupDetailFactory;
+  private final GroupDetail.Factory groupDetailFactory;
   private final AccountInfo.Loader accountLoader;
 
   @Option(name = "--recursive", usage = "to resolve included groups recursively")
@@ -50,7 +46,7 @@ public class ListMembers implements RestReadView<GroupResource> {
 
   @Inject
   protected ListMembers(GroupCache groupCache,
-      GroupDetailFactory.Factory groupDetailFactory,
+      GroupDetail.Factory groupDetailFactory,
       AccountInfo.Loader.Factory accountLoaderFactory) {
     this.groupCache = groupCache;
     this.groupDetailFactory = groupDetailFactory;
@@ -105,27 +101,23 @@ public class ListMembers implements RestReadView<GroupResource> {
       return Collections.emptyMap();
     }
 
-    final GroupDetail groupDetail;
-    try {
-      groupDetail = groupDetailFactory.create(group.getId()).call();
-    } catch (NoSuchGroupException e) {
-      // the included group is not visible
-      return Collections.emptyMap();
-    }
+    final GroupDetail groupDetail = groupDetailFactory.create(groupUUID);
 
-    if (groupDetail.members != null) {
-      for (final AccountGroupMember m : groupDetail.members) {
-        if (!members.containsKey(m.getAccountId())) {
-          members.put(m.getAccountId(), accountLoader.get(m.getAccountId()));
+    List<Account.Id> ms = groupDetail.getDirctMembers();
+    if (ms != null && !ms.isEmpty()) {
+      for (final Account.Id m : ms) {
+        if (!members.containsKey(m)) {
+          members.put(m, accountLoader.get(m));
         }
       }
     }
 
+    List<AccountGroup.UUID> gs = groupDetail.getDirectIncludes();
     if (recursive) {
-      if (groupDetail.includes != null) {
-        for (final AccountGroupById includedGroup : groupDetail.includes) {
-          if (!seenGroups.contains(includedGroup.getIncludeUUID())) {
-            members.putAll(getMembers(includedGroup.getIncludeUUID(), seenGroups));
+      if (gs != null && !gs.isEmpty()) {
+        for (final AccountGroup.UUID includedGroupUUID : gs) {
+          if (!seenGroups.contains(includedGroupUUID)) {
+            members.putAll(getMembers(includedGroupUUID, seenGroups));
           }
         }
       }

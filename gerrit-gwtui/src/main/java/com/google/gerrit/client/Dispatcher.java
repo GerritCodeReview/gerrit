@@ -535,9 +535,9 @@ public class Dispatcher {
     }
 
     if (rest.isEmpty()) {
-      Gerrit.display(token, panel== null
+      Gerrit.display(token, panel == null || panel.equals("sd")
           ? (isChangeScreen2()
-              ? new ChangeScreen2(id, null, null, false)
+              ? new ChangeScreen2(id, null, null, false, panel)
               : new ChangeScreen(id))
           : new NotFoundScreen());
       return;
@@ -581,13 +581,13 @@ public class Dispatcher {
       patch(token, base, p, side, line, 0,
           null, null, null, panel);
     } else {
-      if (panel == null) {
+      if (panel == null || "sd".equals(panel)) {
         Gerrit.display(token, isChangeScreen2()
             ? new ChangeScreen2(id,
                 base != null
                     ? String.valueOf(base.get())
                     : null,
-                String.valueOf(ps.get()), false)
+                String.valueOf(ps.get()), false, panel)
             : new ChangeScreen(id));
       } else if ("publish".equals(panel)) {
         publish(ps);

@@ -81,6 +81,9 @@ public interface ChangeConstants extends Constants {
   String patchTableBinary();
   String commitMessage();
   String fileCommentHeader();
+  String PreselectDiffAgainstBase();
+  String PreselectDiffAgainstPreviousRevision();
+  String PreselectDiffAgainstPriorRevisionILastCommented();
 
   String patchTablePrev();
   String patchTableNext();

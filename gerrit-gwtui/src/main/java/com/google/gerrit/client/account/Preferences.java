@@ -22,6 +22,7 @@ import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DateFormat;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DiffView;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadCommand;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadScheme;
+import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.PreselectDiffAgainst;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.TimeFormat;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
@@ -50,6 +51,7 @@ public class Preferences extends JavaScriptObject {
     p.commentVisibilityStrategy(in.getCommentVisibilityStrategy());
     p.diffView(in.getDiffView());
     p.changeScreen(in.getChangeScreen());
+    p.preselectRevision(in.getPreselectRevision());
     p.setMyMenus(myMenus);
     return p;
   }
@@ -204,6 +206,19 @@ public class Preferences extends JavaScriptObject {
   }
   private final native void changeScreenRaw(String s)
   /*-{ this.change_screen = s }-*/;
+
+  public final PreselectDiffAgainst preselectRevision() {
+    String s = preselectRevisionRaw();
+    return s != null ? PreselectDiffAgainst.valueOf(s) : null;
+  }
+  private final native String preselectRevisionRaw()
+  /*-{ return this.preselect_revision }-*/;
+
+  public final void preselectRevision(PreselectDiffAgainst p) {
+    preselectRevisionRaw(p != null ? p.toString() : null);
+  }
+  private final native void preselectRevisionRaw(String p)
+  /*-{ this.preselect_revision = p }-*/;
 
   final void setMyMenus(List<TopMenuItem> myMenus) {
     initMy();

@@ -172,6 +172,30 @@
     },
     {
       "key": {
+        "uuid": "248aa19d_bf7f57ec",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JarScanner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-07-08T15:31:26Z",
+      "side": 1,
+      "message": "Yes, I want to have client and server plugin packed in one \"artifact\".\n\nLets start from simple things (so that end users can start using them), then iterate and improve them ;)",
+      "parentUuid": "a443f132_cb529511",
+      "range": {
+        "startLine": 143,
+        "startChar": 8,
+        "endLine": 145,
+        "endChar": 71
+      },
+      "revId": "475eb52aa88e3bef27b65ec7c28646a0699e5b3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "248aa19d_fffc7f90",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JarScanner.java",
         "patchSetId": 1

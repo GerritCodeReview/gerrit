@@ -87,6 +87,12 @@ public final class AccountGeneralPreferences {
     UNIFIED_DIFF
   }
 
+  public static enum EmailingOptionsStrategy {
+    NONE,
+    CC_ME_ON_COMMENTS_I_WRITE,
+    DISABLE_EMAIL_NOTIFICATIONS
+  }
+
   public static enum ChangeScreen {
     OLD_UI,
     CHANGE_SCREEN2
@@ -136,43 +142,42 @@ public final class AccountGeneralPreferences {
   @Column(id = 6, length = 20, notNull = false)
   protected String downloadCommand;
 
-  /** If true we CC the user on their own changes. */
-  @Column(id = 7)
-  protected boolean copySelfOnEmail;
-
-  @Column(id = 8, length = 10, notNull = false)
+  @Column(id = 7, length = 10, notNull = false)
   protected String dateFormat;
 
-  @Column(id = 9, length = 10, notNull = false)
+  @Column(id = 8, length = 10, notNull = false)
   protected String timeFormat;
 
   /**
    * If true display the patch sets in the ChangeScreen in reverse order
    * (show latest patch set on top).
    */
-  @Column(id = 10)
+  @Column(id = 9)
   protected boolean reversePatchSetOrder;
 
-  @Column(id = 12)
+  @Column(id = 10)
   protected boolean relativeDateInChangeTable;
 
-  @Column(id = 13, length = 20, notNull = false)
+  @Column(id = 11, length = 20, notNull = false)
   protected String commentVisibilityStrategy;
 
-  @Column(id = 14, length = 20, notNull = false)
+  @Column(id = 12, length = 20, notNull = false)
   protected String diffView;
 
-  @Column(id = 15, length = 20, notNull = false)
+  @Column(id = 13, length = 20, notNull = false)
   protected String changeScreen;
 
-  @Column(id = 16)
+  @Column(id = 14)
   protected boolean sizeBarInChangeTable;
 
-  @Column(id = 17)
+  @Column(id = 15)
   protected boolean legacycidInChangeTable;
 
-  @Column(id = 18, length = 20, notNull = false)
+  @Column(id = 16, length = 20, notNull = false)
   protected String reviewCategoryStrategy;
+
+  @Column(id = 17, length = 30, notNull = false)
+  protected String emailingOptionsStrategy;
 
   public AccountGeneralPreferences() {
   }
@@ -229,14 +234,6 @@ public final class AccountGeneralPreferences {
     } else {
       downloadCommand = null;
     }
-  }
-
-  public boolean isCopySelfOnEmails() {
-    return copySelfOnEmail;
-  }
-
-  public void setCopySelfOnEmails(boolean includeSelfOnEmail) {
-    copySelfOnEmail = includeSelfOnEmail;
   }
 
   public boolean isReversePatchSetOrder() {
@@ -316,6 +313,17 @@ public final class AccountGeneralPreferences {
     this.diffView = diffView.name();
   }
 
+  public EmailingOptionsStrategy getEmailingOptionsStrategy() {
+    if (emailingOptionsStrategy == null) {
+      return EmailingOptionsStrategy.NONE;
+    }
+    return EmailingOptionsStrategy.valueOf(emailingOptionsStrategy);
+  }
+
+  public void setEmailingOptionsStrategy(EmailingOptionsStrategy strategy) {
+    this.emailingOptionsStrategy = strategy.name();
+  }
+
   public ChangeScreen getChangeScreen() {
     return changeScreen != null ? ChangeScreen.valueOf(changeScreen) : null;
   }
@@ -344,7 +352,6 @@ public final class AccountGeneralPreferences {
     maximumPageSize = DEFAULT_PAGESIZE;
     showSiteHeader = true;
     useFlashClipboard = true;
-    copySelfOnEmail = false;
     reversePatchSetOrder = false;
     reviewCategoryStrategy = null;
     downloadUrl = null;
@@ -357,5 +364,6 @@ public final class AccountGeneralPreferences {
     changeScreen = null;
     sizeBarInChangeTable = true;
     legacycidInChangeTable = false;
+    emailingOptionsStrategy = null;
   }
 }

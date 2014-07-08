@@ -214,4 +214,9 @@ public interface ChangeConstants extends Constants {
   String oneYearAgo();
 
   String votable();
+
+  String messageDefaultNone();
+  String messageCCMeOnMyComments();
+  String messageDisableEmailNotifications();
+
 }

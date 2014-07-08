@@ -33,7 +33,7 @@ public interface AccountConstants extends Constants {
   String contextWholeFile();
   String showSiteHeader();
   String useFlashClipboard();
-  String copySelfOnEmails();
+  String emailingOptionsFieldLabel();
   String reversePatchSetOrder();
   String reviewCategoryLabel();
   String messageShowInReviewCategoryNone();

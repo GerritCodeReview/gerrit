@@ -52,22 +52,48 @@ by project name.
   }
 ----
 
-.Get all projects with their description
-****
-get::/projects/?d
-****
+[[project-options]]
+==== Project Options
+
+Branch(b)::
+Get projects with the sha of specified branch.
++
+Get projects that have a master branch with the associated sha:
++
+----
+GET /projects/?b=master HTTP/1.0
+----
+
+Description(d)::
+Get projects with their description.
++
+Get all the projects with their description:
++
+----
+GET /projects/?d HTTP/1.0
+----
+
+Limit(n)::
+Maximum number of projects to list.
++
+Query the first 25 projects in project list:
++
+----
+  GET /projects/?n=25 HTTP/1.0
+----
 
 [[suggest-projects]]
-The `/projects/` URL also accepts a prefix string in the `p` parameter.
-This limits the results to those projects that start with the specified
+Prefix(p)::
+Limits the results to those projects that start with the specified
 prefix.
++
 List all projects that start with `platform/`:
-
++
 .Request
 ----
   GET /projects/?p=platform%2F HTTP/1.0
 ----
-
++
 .Response
 ----
   HTTP/1.1 200 OK
@@ -84,22 +110,83 @@ List all projects that start with `platform/`:
     }
   }
 ----
++
 E.g. this feature can be used by suggestion client UI's to limit results.
 
-The `/projects/` URL also accepts a limit integer in the `n` parameter.
-This limits the results to show `n` projects.
-
-Query the first 25 projects in project list.
-----
-  GET /projects/?n=25 HTTP/1.0
-----
-
-The `/projects/` URL also accepts a start integer in the `S` parameter.
+Skip(S)::
 The results will skip `S` projects from project list.
-
-Query 25 projects starting from index 50.
++
+Query 25 projects starting from index 50:
 ----
   GET /projects/?n=25&S=50 HTTP/1.0
+----
+
+Substring(m)::
+Limits the results to those projects that match the specified substring.
++
+List all projects that match substring `test/`:
++
+.Request
+----
+  GET /projects/?m=test%2F HTTP/1.0
+----
++
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "test/some-project": {
+      "id": "test%2Fsome-project",
+    },
+    "some-path/test/some-other-project": {
+      "id": "some-path%2Ftest%2Fsome-other-project",
+    }
+  }
+----
+
+Tree(t)::
+Get projects inheritance in a tree-like format. This option does
+not work together with the branch option.
++
+Get all the project with tree option:
++
+.Request
+----
+GET /projects/?t HTTP/1.0
+----
++
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "All-Projects" {
+      "id": "All-Projects"
+    },
+    "child-project": {
+      "id": "child-project",
+      "parent":"parent-project"
+    },
+    "parent-project": {
+      "id": "parent-project",
+      "parent":"All-Projects"
+    }
+  }
+----
+
+Type(type)::
+Get projects with specified type: ALL, CODE, PERMISSIONS.
++
+Get all the projects of type 'CODE':
+----
+GET /projects/?type=CODE HTTP/1.0
 ----
 
 [[get-project]]

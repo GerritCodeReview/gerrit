@@ -23,6 +23,7 @@ import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.common.WebLinkInfo;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
@@ -41,6 +42,9 @@ import com.google.gerrit.server.util.TreeFormatter;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+
+import dk.brics.automaton.RegExp;
+import dk.brics.automaton.RunAutomaton;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Constants;
@@ -163,6 +167,11 @@ public class ListProjects implements RestReadView<TopLevelResource> {
     this.matchSubstring = matchSubstring;
   }
 
+  @Option(name = "-r", metaVar = "REGEX", usage = "match project regex")
+  public void setMatchRegex(String matchRegex) {
+    this.matchRegex = matchRegex;
+  }
+
   @Option(name = "--has-acl-for", metaVar = "GROUP", usage =
       "displays only projects on which access rights for this group are directly assigned")
   public void setGroupUuid(AccountGroup.UUID groupUuid) {
@@ -178,6 +187,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
   private int start;
   private String matchPrefix;
   private String matchSubstring;
+  private String matchRegex;
   private AccountGroup.UUID groupUuid;
 
   @Inject
@@ -216,7 +226,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
   }
 
   @Override
-  public Object apply(TopLevelResource resource) {
+  public Object apply(TopLevelResource resource) throws BadRequestException {
     if (format == OutputFormat.TEXT) {
       ByteArrayOutputStream buf = new ByteArrayOutputStream();
       display(buf);
@@ -227,12 +237,12 @@ public class ListProjects implements RestReadView<TopLevelResource> {
     return apply();
   }
 
-  public Map<String, ProjectInfo> apply() {
+  public Map<String, ProjectInfo> apply() throws BadRequestException {
     format = OutputFormat.JSON;
     return display(null);
   }
 
-  public Map<String, ProjectInfo> display(OutputStream displayOutputStream) {
+  public Map<String, ProjectInfo> display(OutputStream displayOutputStream) throws BadRequestException {
     PrintWriter stdout = null;
     if (displayOutputStream != null) {
       try {
@@ -436,7 +446,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
     }
   }
 
-  private Iterable<Project.NameKey> scan() {
+  private Iterable<Project.NameKey> scan() throws BadRequestException {
     if (matchPrefix != null) {
       return projectCache.byName(matchPrefix);
     } else if (matchSubstring != null) {
@@ -447,6 +457,25 @@ public class ListProjects implements RestReadView<TopLevelResource> {
                   .contains(matchSubstring.toLowerCase(Locale.US));
             }
           });
+    } else if (matchRegex != null) {
+      if (matchRegex.startsWith("^")) {
+        matchRegex = matchRegex.substring(1);
+        if (matchRegex.endsWith("$") && !matchRegex.endsWith("\\$")) {
+          matchRegex = matchRegex.substring(0, matchRegex.length() - 1);
+        }
+      }
+      try {
+        final RunAutomaton a =
+            new RunAutomaton(new RegExp(matchRegex).toAutomaton());
+        return Iterables.filter(projectCache.all(),
+            new Predicate<Project.NameKey>() {
+              public boolean apply(Project.NameKey in) {
+                return a.run(in.get());
+              }
+            });
+      } catch (IllegalArgumentException e) {
+        throw new BadRequestException(e.getMessage());
+      }
     } else {
       return projectCache.all();
     }

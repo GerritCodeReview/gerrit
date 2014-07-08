@@ -28,6 +28,7 @@ import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.OnEditEnabler;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.CommentVisibilityStrategy;
+import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.EmailingOptionsStrategy;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.ReviewCategoryStrategy;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -48,7 +49,6 @@ import java.util.List;
 public class MyPreferencesScreen extends SettingsScreen {
   private CheckBox showSiteHeader;
   private CheckBox useFlashClipboard;
-  private CheckBox copySelfOnEmails;
   private CheckBox reversePatchSetOrder;
   private CheckBox relativeDateInChangeTable;
   private CheckBox sizeBarInChangeTable;
@@ -60,6 +60,7 @@ public class MyPreferencesScreen extends SettingsScreen {
   private ListBox commentVisibilityStrategy;
   private ListBox changeScreen;
   private ListBox diffView;
+  private ListBox emailingOptionsStrategy;
   private StringListPanel myMenus;
   private Button save;
 
@@ -69,7 +70,6 @@ public class MyPreferencesScreen extends SettingsScreen {
 
     showSiteHeader = new CheckBox(Util.C.showSiteHeader());
     useFlashClipboard = new CheckBox(Util.C.useFlashClipboard());
-    copySelfOnEmails = new CheckBox(Util.C.copySelfOnEmails());
     reversePatchSetOrder = new CheckBox(Util.C.reversePatchSetOrder());
     maximumPageSize = new ListBox();
     for (final short v : PAGESIZE_CHOICES) {
@@ -106,6 +106,20 @@ public class MyPreferencesScreen extends SettingsScreen {
     commentVisibilityStrategy.addItem(
         com.google.gerrit.client.changes.Util.C.messageExpandAll(),
         AccountGeneralPreferences.CommentVisibilityStrategy.EXPAND_ALL.name());
+
+    emailingOptionsStrategy = new ListBox();
+    emailingOptionsStrategy.addItem(Util.C.messageEnableEmailNotifications(),
+        AccountGeneralPreferences.EmailingOptionsStrategy.ENABLE_EMAIL_NOTIFICATIONS.name());
+    emailingOptionsStrategy
+        .addItem(
+            Util.C.messageCCMeOnMyComments(),
+            AccountGeneralPreferences.EmailingOptionsStrategy.CC_ME_ON_COMMENTS_I_WRITE
+                .name());
+    emailingOptionsStrategy
+        .addItem(
+            Util.C.messageDisableEmailNotifications(),
+            AccountGeneralPreferences.EmailingOptionsStrategy.DISABLE_EMAIL_NOTIFICATIONS
+                .name());
 
     changeScreen = new ListBox();
     changeScreen.addItem(
@@ -177,10 +191,6 @@ public class MyPreferencesScreen extends SettingsScreen {
     row++;
 
     formGrid.setText(row, labelIdx, "");
-    formGrid.setWidget(row, fieldIdx, copySelfOnEmails);
-    row++;
-
-    formGrid.setText(row, labelIdx, "");
     formGrid.setWidget(row, fieldIdx, reversePatchSetOrder);
     row++;
 
@@ -214,6 +224,10 @@ public class MyPreferencesScreen extends SettingsScreen {
     formGrid.setWidget(row, fieldIdx, commentVisibilityStrategy);
     row++;
 
+    formGrid.setText(row, labelIdx, Util.C.emailingOptionsFieldLabel());
+    formGrid.setWidget(row, fieldIdx, emailingOptionsStrategy);
+    row++;
+
     if (Gerrit.getConfig().getNewFeatures()) {
       formGrid.setText(row, labelIdx, Util.C.changeScreenLabel());
       formGrid.setWidget(row, fieldIdx, changeScreen);
@@ -241,7 +255,6 @@ public class MyPreferencesScreen extends SettingsScreen {
     final OnEditEnabler e = new OnEditEnabler(save);
     e.listenTo(showSiteHeader);
     e.listenTo(useFlashClipboard);
-    e.listenTo(copySelfOnEmails);
     e.listenTo(reversePatchSetOrder);
     e.listenTo(maximumPageSize);
     e.listenTo(dateFormat);
@@ -253,6 +266,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     e.listenTo(commentVisibilityStrategy);
     e.listenTo(changeScreen);
     e.listenTo(diffView);
+    e.listenTo(emailingOptionsStrategy);
   }
 
   @Override
@@ -270,7 +284,6 @@ public class MyPreferencesScreen extends SettingsScreen {
   private void enable(final boolean on) {
     showSiteHeader.setEnabled(on);
     useFlashClipboard.setEnabled(on);
-    copySelfOnEmails.setEnabled(on);
     reversePatchSetOrder.setEnabled(on);
     maximumPageSize.setEnabled(on);
     dateFormat.setEnabled(on);
@@ -282,12 +295,12 @@ public class MyPreferencesScreen extends SettingsScreen {
     commentVisibilityStrategy.setEnabled(on);
     changeScreen.setEnabled(on);
     diffView.setEnabled(on);
+    emailingOptionsStrategy.setEnabled(on);
   }
 
   private void display(Preferences p) {
     showSiteHeader.setValue(p.showSiteHeader());
     useFlashClipboard.setValue(p.useFlashClipboard());
-    copySelfOnEmails.setValue(p.copySelfOnEmail());
     reversePatchSetOrder.setValue(p.reversePatchSetOrder());
     setListBox(maximumPageSize, DEFAULT_PAGESIZE, p.changesPerPage());
     setListBox(dateFormat, AccountGeneralPreferences.DateFormat.STD, //
@@ -309,6 +322,9 @@ public class MyPreferencesScreen extends SettingsScreen {
     setListBox(diffView,
         AccountGeneralPreferences.DiffView.SIDE_BY_SIDE,
         p.diffView());
+    setListBox(emailingOptionsStrategy,
+        AccountGeneralPreferences.EmailingOptionsStrategy.ENABLE_EMAIL_NOTIFICATIONS,
+        p.emailingOptionsStrategy());
     display(p.my());
   }
 
@@ -375,7 +391,6 @@ public class MyPreferencesScreen extends SettingsScreen {
     final AccountGeneralPreferences p = new AccountGeneralPreferences();
     p.setShowSiteHeader(showSiteHeader.getValue());
     p.setUseFlashClipboard(useFlashClipboard.getValue());
-    p.setCopySelfOnEmails(copySelfOnEmails.getValue());
     p.setReversePatchSetOrder(reversePatchSetOrder.getValue());
     p.setMaximumPageSize(getListBox(maximumPageSize, DEFAULT_PAGESIZE));
     p.setDateFormat(getListBox(dateFormat,
@@ -396,6 +411,8 @@ public class MyPreferencesScreen extends SettingsScreen {
     p.setDiffView(getListBox(diffView,
         AccountGeneralPreferences.DiffView.SIDE_BY_SIDE,
         AccountGeneralPreferences.DiffView.values()));
+    p.setEmailingOptionsStrategy(getListBox(emailingOptionsStrategy,
+        EmailingOptionsStrategy.ENABLE_EMAIL_NOTIFICATIONS, EmailingOptionsStrategy.values()));
     p.setChangeScreen(getListBox(changeScreen,
         null,
         AccountGeneralPreferences.ChangeScreen.values()));

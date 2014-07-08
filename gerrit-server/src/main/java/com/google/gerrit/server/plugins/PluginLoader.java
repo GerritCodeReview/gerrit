@@ -245,7 +245,7 @@ public class PluginLoader implements LifecycleListener {
         unloadPlugin(active);
         try {
           FileSnapshot snapshot = FileSnapshot.save(off);
-          Plugin offPlugin = loadPlugin(name, off, snapshot);
+          Plugin offPlugin = loadPlugin(off, snapshot);
           disabled.put(name, offPlugin);
         } catch (Throwable e) {
           // This shouldn't happen, as the plugin was loaded earlier.
@@ -440,7 +440,7 @@ public class PluginLoader implements LifecycleListener {
       throws PluginInstallException {
     FileSnapshot snapshot = FileSnapshot.save(plugin);
     try {
-      Plugin newPlugin = loadPlugin(name, plugin, snapshot);
+      Plugin newPlugin = loadPlugin(plugin, snapshot);
       if (newPlugin.getCleanupHandle() != null) {
         cleanupHandles.put(newPlugin, newPlugin.getCleanupHandle());
       }
@@ -544,13 +544,13 @@ public class PluginLoader implements LifecycleListener {
     return 0 < ext ? name.substring(ext) : "";
   }
 
-  private Plugin loadPlugin(String name, File srcPlugin, FileSnapshot snapshot)
+  private Plugin loadPlugin(File srcPlugin, FileSnapshot snapshot)
       throws IOException, ClassNotFoundException, InvalidPluginException {
-    String pluginName = srcPlugin.getName();
-    if (isJsPlugin(pluginName)) {
-      return loadJsPlugin(name, srcPlugin, snapshot);
-    } else if (serverPluginFactory.handles(srcPlugin)) {
-      return loadPlugin(srcPlugin, snapshot);
+    if (serverPluginFactory.handles(srcPlugin)) {
+      String name = serverPluginFactory.getPluginName(srcPlugin);
+      return serverPluginFactory.get(srcPlugin, snapshot,
+          new PluginDescription(pluginUserFactory.create(name),
+              getPluginCanonicalWebUrl(name), getPluginDataDir(name)));
     } else {
       throw new InvalidPluginException(String.format(
           "Unsupported plugin type: %s", srcPlugin.getName()));
@@ -566,18 +566,6 @@ public class PluginLoader implements LifecycleListener {
         CharMatcher.is('/').trimTrailingFrom(urlProvider.get()),
         name);
     return url;
-  }
-
-  private Plugin loadJsPlugin(String name, File srcJar, FileSnapshot snapshot) {
-    return new JsPlugin(name, srcJar, pluginUserFactory.create(name), snapshot);
-  }
-
-  private Plugin loadPlugin(File scriptFile,
-      FileSnapshot snapshot) throws InvalidPluginException {
-    String name = serverPluginFactory.getPluginName(scriptFile);
-    return serverPluginFactory.get(scriptFile, snapshot, new PluginDescription(
-        pluginUserFactory.create(name), getPluginCanonicalWebUrl(name),
-        getPluginDataDir(name)));
   }
 
   static ClassLoader parentFor(Plugin.ApiType type)

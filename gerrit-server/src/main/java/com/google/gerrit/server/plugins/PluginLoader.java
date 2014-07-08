@@ -415,7 +415,11 @@ public class PluginLoader implements LifecycleListener {
             }
           }
         });
-    sortedPlugins.addAll(activePlugins.entrySet());
+
+    Iterator<Entry<String, File>> it = activePlugins.entrySet().iterator();
+    while (it.hasNext()) {
+      sortedPlugins.add(it.next());
+    }
     return sortedPlugins;
   }
 

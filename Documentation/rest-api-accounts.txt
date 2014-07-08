@@ -1332,8 +1332,6 @@ Whether to use the flash clipboard widget.
 The type of download URL the user prefers to use.
 |`download_command`     ||
 The type of download command the user prefers to use.
-|`copy_self_on_email`       |not set if `false`|
-Whether to CC me on comments I write.
 |`date_format`         ||
 The format to display the date in.
 Allowed values are `STD`, `US`, `ISO`, `EURO`, `UK`.
@@ -1354,6 +1352,9 @@ Allowed values are `NONE`, `NAME`, `EMAIL`, `USERNAME`, `ABBREV`.
 |`comment_visibility_strategy`         ||
 The strategy used to display the comments.
 Allowed values are `COLLAPSE_ALL`, `EXPAND_MOST_RECENT`, `EXPAND_RECENT`, `EXPAND_ALL`.
+|`email_notifications`     ||
+The type of email strategy to use.
+Allowed values are `ENABLED`, `CC_ON_OWN_COMMENTS`, `DISABLED`
 |`diff_view`     ||
 The type of diff view to show.
 Allowed values are `SIDE_BY_SIDE`, `UNIFIED_DIFF`.
@@ -1381,8 +1382,6 @@ Whether to use the flash clipboard widget.
 The type of download URL the user prefers to use.
 |`download_command`     |optional|
 The type of download command the user prefers to use.
-|`copy_self_on_email`       |optional|
-Whether to CC me on comments I write.
 |`date_format`         |optional|
 The format to display the date in.
 Allowed values are `STD`, `US`, `ISO`, `EURO`, `UK`.
@@ -1403,6 +1402,9 @@ Allowed values are `NONE`, `NAME`, `EMAIL`, `USERNAME`, `ABBREV`.
 |`comment_visibility_strategy`         |optional|
 The strategy used to display the comments.
 Allowed values are `COLLAPSE_ALL`, `EXPAND_MOST_RECENT`, `EXPAND_RECENT`, `EXPAND_ALL`.
+|`email_notifications`     |optional|
+The type of email strategy to use.
+Allowed values are `ENABLED`, `CC_ON_OWN_COMMENTS`, `DISABLED`.
 |`diff_view`     |optional|
 The type of diff view to show.
 Allowed values are `SIDE_BY_SIDE`, `UNIFIED_DIFF`.

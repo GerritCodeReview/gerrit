@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "847b4d5f_825ebac5",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 907,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-07-08T16:25:44Z",
+      "side": 1,
+      "message": "This is very restrictive. Why can\u0027t we follow Gitiles lead here and verify the caller can see the commit before we return it?\n\nThen anyone can use this REST API to query for commit information remotely.\n\nOr, can we just tell them to install the Gitiles plugin?",
+      "revId": "20ea4eacb00e9b7f0db69bf7b73aa352a47786b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

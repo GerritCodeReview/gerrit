@@ -22,6 +22,30 @@
       "revId": "7e28381f0ef27b4036a7ae6aa397d74da4c34618",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "248aa19d_bf9677f4",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/KillCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-08T13:35:14Z",
+      "side": 1,
+      "message": "At the moment I\u0027m not planning to do this, but we might add this later.",
+      "parentUuid": "e48b29a1_1dccd36a",
+      "range": {
+        "startLine": 47,
+        "startChar": 4,
+        "endLine": 54,
+        "endChar": 5
+      },
+      "revId": "7e28381f0ef27b4036a7ae6aa397d74da4c34618",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

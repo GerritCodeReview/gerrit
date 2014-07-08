@@ -31,6 +31,7 @@ public class Module extends RestApiModule {
     DynamicMap.mapOf(binder(), TOP_MENU_KIND);
     child(CONFIG_KIND, "capabilities").to(CapabilitiesCollection.class);
     child(CONFIG_KIND, "tasks").to(TasksCollection.class);
+    get(TASK_KIND).to(GetTask.class);
     child(CONFIG_KIND, "top-menus").to(TopMenuCollection.class);
     get(CONFIG_KIND, "version").to(GetVersion.class);
     get(CONFIG_KIND, "preferences").to(GetPreferences.class);

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a443f132_cb79b5a1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/AutoRegisterModules.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-07-08T15:18:01Z",
+      "side": 1,
+      "message": "because this is not a class file, it is a text file with javascript code, so you\u0027ll get ClassNotFoundException.",
+      "parentUuid": "e48b29a1_7dd31709",
+      "revId": "475eb52aa88e3bef27b65ec7c28646a0699e5b3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "847b4d5f_e26ce68b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/BindCallback.java",
         "patchSetId": 1
@@ -82,6 +100,30 @@
     },
     {
       "key": {
+        "uuid": "a443f132_0b849d4b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JarScanner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-07-08T15:18:01Z",
+      "side": 1,
+      "message": "Yes, I\u0027m \"fooling\" plugin scanner/loader here. There was no simple clean solution for this. I don\u0027t want to rescan whole jar file looking for stati/init.js file. IMO it should be part of scan that we already have there, but since it retuns Map\u003cAnnotation, Iterable\u003cExtensioMetaData\u003e\u003e, I need to come up with another, don\u0027t want to change return type and make it more complex.",
+      "parentUuid": "048f5dae_5e0575dd",
+      "range": {
+        "startLine": 143,
+        "startChar": 8,
+        "endLine": 145,
+        "endChar": 71
+      },
+      "revId": "475eb52aa88e3bef27b65ec7c28646a0699e5b3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "248aa19d_fffc7f90",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JarScanner.java",
         "patchSetId": 1
@@ -133,6 +175,48 @@
       "writtenOn": "2014-07-08T15:04:34Z",
       "side": 1,
       "message": "Are you using iNIT_NAME separately elsewhere?",
+      "range": {
+        "startLine": 33,
+        "startChar": 22,
+        "endLine": 33,
+        "endChar": 31
+      },
+      "revId": "475eb52aa88e3bef27b65ec7c28646a0699e5b3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "248aa19d_df9b3b1b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JsPlugin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-07-08T15:18:01Z",
+      "side": 1,
+      "message": "I don\u0027t see any other usage of \u0027init.js\u0027 in gerrit code. AFAIK standalone JS project/plugin use any arbitrary *.js file that is put into $gerrit_site/plugins/ directory. Or I\u0027m missing something?",
+      "parentUuid": "644e5958_71efd821",
+      "revId": "475eb52aa88e3bef27b65ec7c28646a0699e5b3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a443f132_2b81593c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JsPlugin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-07-08T15:18:01Z",
+      "side": 1,
+      "message": "\u003e Are you using iNIT_NAME separately elsewhere?\n\nyes, it is used also in JarScanner.scan() method",
+      "parentUuid": "048f5dae_7e0231d8",
       "range": {
         "startLine": 33,
         "startChar": 22,

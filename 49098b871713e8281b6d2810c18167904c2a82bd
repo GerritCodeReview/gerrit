@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "644e5958_d1f6c4f8",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AccountGeneralPreferences.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-07-08T16:58:21Z",
+      "side": 0,
+      "message": "I think just want to remove this, don\u0027t reassign column IDs",
+      "revId": "49098b871713e8281b6d2810c18167904c2a82bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "a443f132_4b24e5ce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-08T11:44:03Z",
+      "side": 1,
+      "message": "I\u0027ve now extracted this into an own change.",
+      "parentUuid": "a443f132_2b17995f",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 21
+      },
+      "revId": "2b4cd90d8d0861cb2ecf855d11f21ed7a538d08c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a443f132_eb34b101",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/KillCommand.java",
         "patchSetId": 1
@@ -60,6 +84,30 @@
       "writtenOn": "2014-07-08T11:00:32Z",
       "side": 1,
       "message": "Wrong indentation",
+      "range": {
+        "startLine": 53,
+        "startChar": 6,
+        "endLine": 54,
+        "endChar": 39
+      },
+      "revId": "2b4cd90d8d0861cb2ecf855d11f21ed7a538d08c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "248aa19d_3f518792",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/KillCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-08T11:44:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a443f132_eb34b101",
       "range": {
         "startLine": 53,
         "startChar": 6,

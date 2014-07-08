@@ -148,6 +148,30 @@
     },
     {
       "key": {
+        "uuid": "a443f132_cb529511",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JarScanner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-07-08T15:28:31Z",
+      "side": 1,
+      "message": "Yes, understood. Why don\u0027t we try the cleaner approach to define a PluginProvider? In this case you\u0027re trying to provide a Client+Server plugin type that provides both layers in the same packaging.\n\nThe fact that you\u0027ve chosen a JAR packaging is just an option, it could be a ZIP or a Directory (like the directory one you talked about months ago) but the concept is the same: a combined Client+Server plugin bundle, correct?\n\nLike it a lot :-)",
+      "parentUuid": "a443f132_0b849d4b",
+      "range": {
+        "startLine": 143,
+        "startChar": 8,
+        "endLine": 145,
+        "endChar": 71
+      },
+      "revId": "475eb52aa88e3bef27b65ec7c28646a0699e5b3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "248aa19d_fffc7f90",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JarScanner.java",
         "patchSetId": 1
@@ -265,6 +289,30 @@
       "side": 1,
       "message": "\u003e Are you using iNIT_NAME separately elsewhere?\n\nyes, it is used also in JarScanner.scan() method",
       "parentUuid": "048f5dae_7e0231d8",
+      "range": {
+        "startLine": 33,
+        "startChar": 22,
+        "endLine": 33,
+        "endChar": 31
+      },
+      "revId": "475eb52aa88e3bef27b65ec7c28646a0699e5b3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a443f132_eb5751fe",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JsPlugin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-07-08T15:28:31Z",
+      "side": 1,
+      "message": "ah yes, remember :-)",
+      "parentUuid": "a443f132_2b81593c",
       "range": {
         "startLine": 33,
         "startChar": 22,

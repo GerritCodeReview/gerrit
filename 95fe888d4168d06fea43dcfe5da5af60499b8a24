@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a443f132_4b8ea56b",
+        "filename": "lib/BUCK",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-08T15:14:47Z",
+      "side": 1,
+      "message": "I guess we want to change this to the final gwtorm 1.13 version before merging this change?",
+      "range": {
+        "startLine": 28,
+        "startChar": 38,
+        "endLine": 28,
+        "endChar": 47
+      },
+      "revId": "95fe888d4168d06fea43dcfe5da5af60499b8a24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

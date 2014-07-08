@@ -91,7 +91,7 @@ public interface ServerPluginProvider {
    * @throws InvalidPluginException if plugin is supposed to be handled
    *         but cannot be loaded for any other reason
    */
-  ServerPlugin get(File srcFile, FileSnapshot snapshot,
+  Plugin get(File srcFile, FileSnapshot snapshot,
       PluginDescription pluginDescriptor) throws InvalidPluginException;
 
   /**

@@ -21,6 +21,7 @@ import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DateFormat;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DiffView;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadCommand;
+import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.EmailingStrategy;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.ReviewCategoryStrategy;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.TimeFormat;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -44,7 +45,6 @@ public class AccountPreferencesInfo extends JavaScriptObject {
     p.useFlashClipboard(defaultPrefs.isUseFlashClipboard());
     p.downloadScheme(defaultPrefs.getDownloadUrl());
     p.downloadCommand(defaultPrefs.getDownloadCommand());
-    p.copySelfOnEmail(defaultPrefs.isCopySelfOnEmails());
     p.dateFormat(defaultPrefs.getDateFormat());
     p.timeFormat(defaultPrefs.getTimeFormat());
     p.relativeDateInChangeTable(defaultPrefs.isRelativeDateInChangeTable());
@@ -53,6 +53,7 @@ public class AccountPreferencesInfo extends JavaScriptObject {
     p.muteCommonPathPrefixes(defaultPrefs.isMuteCommonPathPrefixes());
     p.reviewCategoryStrategy(defaultPrefs.getReviewCategoryStrategy());
     p.diffView(defaultPrefs.getDiffView());
+    p.emailStrategy(defaultPrefs.getEmailStrategy());
     return p;
   }
 
@@ -81,9 +82,6 @@ public class AccountPreferencesInfo extends JavaScriptObject {
   }
   private final native String downloadCommandRaw()
   /*-{ return this.download_command }-*/;
-
-  public final native boolean copySelfOnEmail()
-  /*-{ return this.copy_self_on_email || false }-*/;
 
   public final DateFormat dateFormat() {
     String s = dateFormatRaw();
@@ -125,6 +123,14 @@ public class AccountPreferencesInfo extends JavaScriptObject {
   private final native String diffViewRaw()
   /*-{ return this.diff_view }-*/;
 
+  public final EmailingStrategy emailStrategy() {
+    String s = emailStrategyRaw();
+    return s != null ? EmailingStrategy.valueOf(s) : null;
+  }
+
+  private final native String emailStrategyRaw()
+  /*-{ return this.email_strategy }-*/;
+
   public final native JsArray<TopMenuItem> my()
   /*-{ return this.my; }-*/;
 
@@ -145,9 +151,6 @@ public class AccountPreferencesInfo extends JavaScriptObject {
   }
   public final native void downloadCommandRaw(String d)
   /*-{ this.download_command = d }-*/;
-
-  public final native void copySelfOnEmail(boolean c)
-  /*-{ this.copy_self_on_email = c }-*/;
 
   public final void dateFormat(DateFormat f) {
     dateFormatRaw(f != null ? f.toString() : null);
@@ -184,6 +187,12 @@ public class AccountPreferencesInfo extends JavaScriptObject {
   }
   private final native void diffViewRaw(String d)
   /*-{ this.diff_view = d }-*/;
+
+  public final void emailStrategy(EmailingStrategy s) {
+    emailStrategyRaw(s != null ? s.toString() : null);
+  }
+  private final native void emailStrategyRaw(String s)
+  /*-{ this.email_strategy = s }-*/;
 
   public final void setMyMenus(List<TopMenuItem> myMenus) {
     initMy();

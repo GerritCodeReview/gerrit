@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "248aa19d_bf23d743",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-07-08T07:59:04Z",
+      "side": 1,
+      "message": "Actually this does not solve the problem at all :-(\nThe problem was in Java 6 where the iterators of Map.EntrySet was reusing the same object: should you then put explicitly a new entry in sortedPlugins ?\n\nExample:\n  Entry\u003cString,File\u003e entry \u003d it.next();\n  sortedPlugins.put(entry.getKey(), entry.getValue());",
+      "range": {
+        "startLine": 421,
+        "startChar": 24,
+        "endLine": 421,
+        "endChar": 33
+      },
+      "revId": "e98b05e9b7b1cfc64f783e86977186e739f072f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

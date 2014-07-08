@@ -95,9 +95,9 @@ If pushing to Gerrit fails with the error message "invalid committer"
 and somebody else committed the change for which the
 push fails, then you have no permissions to forge the committer
 identity. In this case you may contact the project owner to request
-the access right '+2 Forge Committer or Tagger Identity' in the
-'Forge Identity' category or ask the maintainer to commit this change
-on the author's behalf.
+the link:access-control.html#category_forge_committer['Forge Committer']
+access right or ask the maintainer to commit this change on the author's
+behalf.
 
 
 GERRIT

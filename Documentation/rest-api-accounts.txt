@@ -1947,6 +1947,9 @@ link:rest-api-config.html#top-menu-item-info[TopMenuItemInfo] entities.
 |`url_aliases`                  |optional|
 A map of URL path pairs, where the first URL path is an alias for the
 second URL path.
+|`email_notifications`          ||
+The type of email strategy to use.
+Allowed values are `ENABLED`, `CC_ON_OWN_COMMENTS`, `DISABLED`.
 |============================================
 
 [[preferences-input]]

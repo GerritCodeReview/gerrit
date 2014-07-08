@@ -16,11 +16,11 @@ package com.google.gerrit.server.notedb;
 
 import static com.google.gerrit.server.notedb.ReviewerState.CC;
 import static com.google.gerrit.server.notedb.ReviewerState.REVIEWER;
+import static com.google.gerrit.testutil.TestChanges.incrementPatchSet;
 import static com.google.inject.Scopes.SINGLETON;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
-import static org.easymock.EasyMock.expect;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -31,10 +31,8 @@ import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
-import com.google.common.collect.Ordering;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.CommentRange;
@@ -42,7 +40,6 @@ import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
-import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -62,9 +59,9 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.VersionedMetaData.BatchMetaDataUpdate;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.notedb.CommentsInNotesUtil;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.util.TimeUtil;
+import com.google.gerrit.testutil.TestChanges;
 import com.google.gerrit.testutil.FakeAccountCache;
 import com.google.gerrit.testutil.FakeRealm;
 import com.google.gerrit.testutil.InMemoryRepositoryManager;
@@ -75,7 +72,6 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.util.Providers;
 
-import org.easymock.EasyMock;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
@@ -1169,15 +1165,7 @@ public class ChangeNotesTest {
   }
 
   private Change newChange() {
-    Change.Id changeId = new Change.Id(1);
-    Change c = new Change(
-        new Change.Key("Iabcd1234abcd1234abcd1234abcd1234abcd1234"),
-        changeId,
-        changeOwner.getAccount().getId(),
-        new Branch.NameKey(project, "master"),
-        TimeUtil.nowTs());
-    incrementPatchSet(c);
-    return c;
+    return TestChanges.newChange(project, changeOwner);
   }
 
   private PatchLineComment newPatchLineComment(PatchSet.Id psId,
@@ -1195,29 +1183,13 @@ public class ChangeNotesTest {
     return comment;
   }
 
-  private ChangeUpdate newUpdate(Change c, final IdentifiedUser user)
+  private ChangeUpdate newUpdate(Change c, IdentifiedUser user)
       throws Exception {
-    return injector.createChildInjector(new FactoryModule() {
-      @Override
-      public void configure() {
-        factory(ChangeUpdate.Factory.class);
-        bind(IdentifiedUser.class).toInstance(user);
-      }
-    }).getInstance(ChangeUpdate.Factory.class).create(
-        stubChangeControl(c, user), TimeUtil.nowTs(),
-        Ordering.<String> natural());
+    return TestChanges.newUpdate(injector, repoManager, c, user);
   }
 
   private ChangeNotes newNotes(Change c) throws OrmException {
     return new ChangeNotes(repoManager, c).load();
-  }
-
-  private static void incrementPatchSet(Change change) {
-    PatchSet.Id curr = change.currentPatchSetId();
-    PatchSetInfo ps = new PatchSetInfo(new PatchSet.Id(
-        change.getId(), curr != null ? curr.get() + 1 : 1));
-    ps.setSubject("Change subject");
-    change.setCurrentPatchSet(ps);
   }
 
   private static Timestamp truncate(Timestamp ts) {
@@ -1226,17 +1198,6 @@ public class ChangeNotesTest {
 
   private static Timestamp after(Change c, long millis) {
     return new Timestamp(c.getCreatedOn().getTime() + millis);
-  }
-
-  private ChangeControl stubChangeControl(Change c, IdentifiedUser user) throws OrmException {
-    ChangeControl ctl = EasyMock.createNiceMock(ChangeControl.class);
-    expect(ctl.getChange()).andStubReturn(c);
-    expect(ctl.getCurrentUser()).andStubReturn(user);
-    ChangeNotes notes = new ChangeNotes(repoManager, c);
-    notes = notes.load();
-    expect(ctl.getNotes()).andStubReturn(notes);
-    EasyMock.replay(ctl);
-    return ctl;
   }
 
   private static SubmitRecord submitRecord(String status,

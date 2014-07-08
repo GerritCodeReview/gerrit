@@ -1,0 +1,192 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "847b4d5f_620536de",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetDetailFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-08T00:03:14Z",
+      "side": 1,
+      "message": "This class is not covered by the acceptance tests. You should manually test this in a local server where you have selected the old change screen.",
+      "revId": "086023efdb21aa938e546c9809202bf38a86c6bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "847b4d5f_420832f7",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetDetailFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-08T00:03:14Z",
+      "side": 1,
+      "message": "This line is now \u003e80 chars but this final is unnecessary.",
+      "range": {
+        "startLine": 152,
+        "startChar": 9,
+        "endLine": 152,
+        "endChar": 14
+      },
+      "revId": "086023efdb21aa938e546c9809202bf38a86c6bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e48b29a1_bd203f91",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/PatchLineComment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-08T00:03:14Z",
+      "side": 1,
+      "message": "Unrelated to this change.\n\nAlso it seems like having the full key (which includes the PSID and filename) would be more useful anyway.",
+      "revId": "086023efdb21aa938e546c9809202bf38a86c6bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "847b4d5f_82023ad5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-08T00:03:14Z",
+      "side": 1,
+      "message": "Can be static, and order it down below the public methods",
+      "revId": "086023efdb21aa938e546c9809202bf38a86c6bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e48b29a1_fd2ac76c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-08T00:03:14Z",
+      "side": 1,
+      "message": "ITYM getPatchSetComments.",
+      "range": {
+        "startLine": 73,
+        "startChar": 44,
+        "endLine": 73,
+        "endChar": 61
+      },
+      "revId": "086023efdb21aa938e546c9809202bf38a86c6bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e48b29a1_dd250ba0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchScriptFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-08T00:03:14Z",
+      "side": 1,
+      "message": "Ugh. The implementation of CommentDetail.include() illustrates exactly why I\u0027m trying to kill side.",
+      "revId": "086023efdb21aa938e546c9809202bf38a86c6bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e48b29a1_1d3053da",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/change/CommentsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-08T00:03:14Z",
+      "side": 1,
+      "message": "This just feels wrong. The test setup code should not be writing to the notedb separately; there should be a method in PatchLineCommentsUtil that writes to the appropriate storage(s) based on the config.",
+      "revId": "086023efdb21aa938e546c9809202bf38a86c6bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e48b29a1_3d2d0f83",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/change/CommentsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-08T00:03:14Z",
+      "side": 1,
+      "message": "This is a good candidate to put in TimeUtil",
+      "revId": "086023efdb21aa938e546c9809202bf38a86c6bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "847b4d5f_a2b73ee6",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/ChangesForTestUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-08T00:03:14Z",
+      "side": 1,
+      "message": "This is large enough that it bears extracting in its own change (along with migrating the existing callers in ChangeNotesTest).\n\nI think this package is a fine place for it. I don\u0027t like the name either but nothing nicer is jumping to mind. Maybe I\u0027ll think of something by the time you send the refactoring for review.",
+      "revId": "086023efdb21aa938e546c9809202bf38a86c6bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "847b4d5f_c2bc42cb",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/ChangesForTestUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-08T00:03:14Z",
+      "side": 1,
+      "message": "Don\u0027t think this is necessary",
+      "range": {
+        "startLine": 55,
+        "startChar": 6,
+        "endLine": 55,
+        "endChar": 22
+      },
+      "revId": "086023efdb21aa938e546c9809202bf38a86c6bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -608,7 +608,7 @@ class HttpPluginServlet extends HttpServlet
   private void sendJsPlugin(Plugin plugin, ResourceKey key,
       HttpServletRequest req, HttpServletResponse res) throws IOException {
     File pluginFile = plugin.getSrcFile();
-    if (req.getPathInfo().equals(getJsPluginPath(plugin)) && pluginFile.exists()) {
+    if (req.getRequestURI().equals(getJsPluginPath(plugin)) && pluginFile.exists()) {
       res.setHeader("Content-Length", Long.toString(pluginFile.length()));
       res.setContentType("application/javascript");
       writeToResponse(res, new FileInputStream(pluginFile));
@@ -619,7 +619,7 @@ class HttpPluginServlet extends HttpServlet
   }
 
   private static String getJsPluginPath(Plugin plugin) {
-    return String.format("%s/static/%s", plugin.getName(), plugin.getSrcFile()
+    return String.format("/plugins/%s/static/%s", plugin.getName(), plugin.getSrcFile()
         .getName());
   }
 

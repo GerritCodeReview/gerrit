@@ -81,6 +81,12 @@ public final class AccountGeneralPreferences {
     UNIFIED_DIFF
   }
 
+  public static enum EmailingOptionsStrategy {
+    ENABLED,
+    CC_ON_OWN_COMMENTS,
+    DISABLED
+  }
+
   public static enum TimeFormat {
     /** 12-hour clock: 1:15 am, 2:13 pm */
     HHMM_12("h:mm a"),
@@ -125,9 +131,7 @@ public final class AccountGeneralPreferences {
   @Column(id = 6, length = 20, notNull = false)
   protected String downloadCommand;
 
-  /** If true we CC the user on their own changes. */
-  @Column(id = 7)
-  protected boolean copySelfOnEmail;
+  // DELETED: id = 7 (copySelfOnEmail)
 
   @Column(id = 8, length = 10, notNull = false)
   protected String dateFormat;
@@ -159,6 +163,9 @@ public final class AccountGeneralPreferences {
 
   @Column(id = 19)
   protected boolean muteCommonPathPrefixes;
+
+  @Column(id = 20, length = 30, notNull = false)
+  protected String emailingOptionsStrategy;
 
   public AccountGeneralPreferences() {
   }
@@ -215,14 +222,6 @@ public final class AccountGeneralPreferences {
     } else {
       downloadCommand = null;
     }
-  }
-
-  public boolean isCopySelfOnEmails() {
-    return copySelfOnEmail;
-  }
-
-  public void setCopySelfOnEmails(boolean includeSelfOnEmail) {
-    copySelfOnEmail = includeSelfOnEmail;
   }
 
   public boolean isShowInfoInReviewCategory() {
@@ -282,6 +281,17 @@ public final class AccountGeneralPreferences {
     this.diffView = diffView.name();
   }
 
+  public EmailingOptionsStrategy getEmailingOptionsStrategy() {
+    if (emailingOptionsStrategy == null) {
+      return EmailingOptionsStrategy.ENABLED;
+    }
+    return EmailingOptionsStrategy.valueOf(emailingOptionsStrategy);
+  }
+
+  public void setEmailingOptionsStrategy(EmailingOptionsStrategy strategy) {
+    this.emailingOptionsStrategy = strategy.name();
+  }
+
   public boolean isSizeBarInChangeTable() {
     return sizeBarInChangeTable;
   }
@@ -311,7 +321,6 @@ public final class AccountGeneralPreferences {
     maximumPageSize = DEFAULT_PAGESIZE;
     showSiteHeader = true;
     useFlashClipboard = true;
-    copySelfOnEmail = false;
     reviewCategoryStrategy = null;
     downloadUrl = null;
     downloadCommand = null;
@@ -322,5 +331,6 @@ public final class AccountGeneralPreferences {
     sizeBarInChangeTable = true;
     legacycidInChangeTable = false;
     muteCommonPathPrefixes = true;
+    emailingOptionsStrategy = null;
   }
 }

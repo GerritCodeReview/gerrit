@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a443f132_2b17995f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-08T11:04:52Z",
+      "side": 1,
+      "message": "But this change is making use of this code. What do you suggest then?",
+      "parentUuid": "a443f132_0b1add86",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 21
+      },
+      "revId": "2b4cd90d8d0861cb2ecf855d11f21ed7a538d08c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a443f132_eb34b101",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/KillCommand.java",
         "patchSetId": 1

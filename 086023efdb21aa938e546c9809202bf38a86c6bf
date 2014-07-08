@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "847b4d5f_62c29619",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetDetailFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-08T23:44:47Z",
+      "side": 1,
+      "message": "I manually tested this. I was able to write comments on a change, publish them, and then see them listed both on the change summary page as well as in the side-by-side diff. I think that is sufficient, right?",
+      "parentUuid": "847b4d5f_620536de",
+      "revId": "086023efdb21aa938e546c9809202bf38a86c6bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "847b4d5f_420832f7",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetDetailFactory.java",
         "patchSetId": 1
@@ -113,6 +131,24 @@
       "side": 1,
       "message": "Yes, that would be clearer.",
       "parentUuid": "e48b29a1_dd9a6b60",
+      "revId": "086023efdb21aa938e546c9809202bf38a86c6bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "847b4d5f_42b592b8",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/PatchLineComment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-08T23:44:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "04783d6e_96252cd3",
       "revId": "086023efdb21aa938e546c9809202bf38a86c6bf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -323,6 +359,24 @@
     },
     {
       "key": {
+        "uuid": "e48b29a1_3db26feb",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/ChangesForTestUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-08T23:44:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "847b4d5f_a2b73ee6",
+      "revId": "086023efdb21aa938e546c9809202bf38a86c6bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "847b4d5f_c2bc42cb",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/ChangesForTestUtil.java",
         "patchSetId": 1
@@ -334,6 +388,30 @@
       "writtenOn": "2014-07-08T00:03:14Z",
       "side": 1,
       "message": "Don\u0027t think this is necessary",
+      "range": {
+        "startLine": 55,
+        "startChar": 6,
+        "endLine": 55,
+        "endChar": 22
+      },
+      "revId": "086023efdb21aa938e546c9809202bf38a86c6bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "847b4d5f_82bf9a96",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/ChangesForTestUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-08T23:44:47Z",
+      "side": 1,
+      "message": "I fixed this to be an OrmException in the new other change because stubChangeControl can throw that.",
+      "parentUuid": "847b4d5f_c2bc42cb",
       "range": {
         "startLine": 55,
         "startChar": 6,

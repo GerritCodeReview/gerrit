@@ -29,7 +29,7 @@ import org.eclipse.jgit.internal.storage.file.FileSnapshot;
 
 import java.io.File;
 
-class JsPlugin extends Plugin {
+public class JsPlugin extends Plugin {
   private Injector httpInjector;
 
   JsPlugin(String name, File srcFile, PluginUser pluginUser,

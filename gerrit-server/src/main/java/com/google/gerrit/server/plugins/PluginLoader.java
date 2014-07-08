@@ -50,6 +50,7 @@ import java.io.FileFilter;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -415,7 +416,14 @@ public class PluginLoader implements LifecycleListener {
             }
           }
         });
-    sortedPlugins.addAll(activePlugins.entrySet());
+
+    Iterator<Entry<String, File>> it = activePlugins.entrySet().iterator();
+    while (it.hasNext()) {
+      Entry<String,File> entry = it.next();
+      sortedPlugins.add(
+          new AbstractMap.SimpleImmutableEntry<String, File>(
+              entry.getKey(), entry.getValue()));
+    }
     return sortedPlugins;
   }
 

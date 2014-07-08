@@ -175,6 +175,34 @@ List all projects that start with `platform/`:
 +
 E.g. this feature can be used by suggestion client UI's to limit results.
 
+Regex(r)::
+Limit the results to those projects that match the specified regex.
++
+List all projects that match regex `test.*project`:
++
+.Request
+----
+  GET /projects/?r=test.*project HTTP/1.0
+----
++
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "test/some-project": {
+      "id": "test%2Fsome-project",
+    },
+    "test/some-other-project": {
+      "id": "test%2Fsome-other-project",
+    }
+  }
+
+----
+
 Skip(S)::
 Skip the given number of projects from the beginning of the list.
 +

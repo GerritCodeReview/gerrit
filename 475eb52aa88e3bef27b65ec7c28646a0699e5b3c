@@ -196,6 +196,30 @@
     },
     {
       "key": {
+        "uuid": "248aa19d_1f6f633d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JarScanner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-07-08T16:19:01Z",
+      "side": 1,
+      "message": "Yes, the \"provide a JS_PLUGIN\" externally would be the simplest and smallest one :-)\nOnce that is available, you can just \"extend\" the JarScanner to include the additional behaviour. It is like splitting this change into two steps really.\n\nWith regards to the PluginProvider that can provide both Client + Server behaviour, it could be then managed with his separate lifecycle.",
+      "parentUuid": "248aa19d_bf7f57ec",
+      "range": {
+        "startLine": 143,
+        "startChar": 8,
+        "endLine": 145,
+        "endChar": 71
+      },
+      "revId": "475eb52aa88e3bef27b65ec7c28646a0699e5b3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "248aa19d_fffc7f90",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JarScanner.java",
         "patchSetId": 1

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e48b29a1_1dccd36a",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/KillCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-08T13:26:30Z",
+      "side": 1,
+      "message": "Will the REST API be extended to allow killing more than one task?",
+      "range": {
+        "startLine": 47,
+        "startChar": 4,
+        "endLine": 54,
+        "endChar": 5
+      },
+      "revId": "7e28381f0ef27b4036a7ae6aa397d74da4c34618",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -101,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "04783d6e_96252cd3",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/PatchLineComment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-08T21:46:15Z",
+      "side": 1,
+      "message": "Yes, that would be clearer.",
+      "parentUuid": "e48b29a1_dd9a6b60",
+      "revId": "086023efdb21aa938e546c9809202bf38a86c6bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "847b4d5f_82023ad5",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
         "patchSetId": 1
@@ -229,6 +247,24 @@
       "side": 1,
       "message": "Agreed. However, it seems like the ApprovalsUtil and ChangeMessagesUtil write to the notedb regardless of whether or not write is set to true in the NotesMigration. Should I mimic the behavior of those or do the \"right\" thing and only write if \"write\" is set()?",
       "parentUuid": "e48b29a1_1d3053da",
+      "revId": "086023efdb21aa938e546c9809202bf38a86c6bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "644e5958_310e3054",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/change/CommentsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-08T21:46:15Z",
+      "side": 1,
+      "message": "They don\u0027t write to notedb, they just call mutation methods on ChangeUpdate. ChangeUpdate.openUpdate() returns a no-op impl if the migration state is not configured to write.",
+      "parentUuid": "847b4d5f_e2adc676",
       "revId": "086023efdb21aa938e546c9809202bf38a86c6bf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

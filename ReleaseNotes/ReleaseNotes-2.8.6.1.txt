@@ -1,0 +1,23 @@
+Release notes for Gerrit 2.8.6.1
+================================
+
+There are no schema changes from link:ReleaseNotes-2.8.6.html[2.8.6].
+
+Download:
+link:https://gerrit-releases.storage.googleapis.com/gerrit-2.8.6.1.war[
+https://gerrit-releases.storage.googleapis.com/gerrit-2.8.6.1.war]
+
+Bug Fixes
+---------
+
+* The fix in 2.8.6 for the merge queue race condition caused a regression
+in database transaction handling.
+
+* The fix in 2.8.6 for the LIMIT clause caused a regression in Oracle
+database support.
+
+
+Updates
+-------
+
+* gwtorm is updated to 1.7.3

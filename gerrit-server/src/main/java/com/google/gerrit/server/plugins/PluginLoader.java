@@ -50,6 +50,7 @@ import java.io.FileFilter;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -398,6 +399,16 @@ public class PluginLoader implements LifecycleListener {
     cleanInBackground();
   }
 
+  private void addAllEntries(Map<String, File> from,
+      TreeSet<Entry<String, File>> to) {
+    Iterator<Entry<String, File>> it = from.entrySet().iterator();
+    while (it.hasNext()) {
+      Entry<String,File> entry = it.next();
+      to.add(new AbstractMap.SimpleImmutableEntry<String, File>(
+          entry.getKey(), entry.getValue()));
+    }
+  }
+
   private TreeSet<Entry<String, File>> jarsFirstSortedPluginsSet(
       Map<String, File> activePlugins) {
     TreeSet<Entry<String, File>> sortedPlugins =
@@ -415,7 +426,8 @@ public class PluginLoader implements LifecycleListener {
             }
           }
         });
-    sortedPlugins.addAll(activePlugins.entrySet());
+
+    addAllEntries(activePlugins, sortedPlugins);
     return sortedPlugins;
   }
 

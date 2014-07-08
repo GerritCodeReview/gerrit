@@ -16,44 +16,44 @@ package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
-import com.google.gerrit.server.git.WorkQueue;
-import com.google.gerrit.server.git.WorkQueue.Task;
-import com.google.gerrit.server.util.IdGenerator;
+import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.IdString;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.server.config.ConfigResource;
+import com.google.gerrit.server.config.DeleteTask;
+import com.google.gerrit.server.config.TaskResource;
+import com.google.gerrit.server.config.TasksCollection;
 import com.google.gerrit.sshd.AdminHighPriorityCommand;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
 
 import org.kohsuke.args4j.Argument;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 /** Kill a task in the work queue. */
 @AdminHighPriorityCommand
 @RequiresCapability(GlobalCapability.KILL_TASK)
 final class KillCommand extends SshCommand {
   @Inject
-  private WorkQueue workQueue;
+  private TasksCollection tasksCollection;
 
-  private final Set<Integer> taskIds = new HashSet<>();
+  @Inject
+  private DeleteTask deleteTask;
 
   @Argument(index = 0, multiValued = true, required = true, metaVar = "ID")
-  void addTaskId(final String taskId) {
-    int p = 0;
-    while (p < taskId.length() - 1 && taskId.charAt(p) == '0') {
-      p++;
-    }
-    taskIds.add((int) Long.parseLong(taskId.substring(p), 16));
-  }
+  private final List<String> taskIds = new ArrayList<>();
 
   @Override
   protected void run() {
-    for (final Integer id : taskIds) {
-      final Task<?> task = workQueue.getTask(id);
-      if (task != null) {
-        task.cancel(true);
-      } else {
-        stderr.print("kill: " + IdGenerator.format(id) + ": No such task\n");
+    ConfigResource cfgRsrc = new ConfigResource();
+    for (String id : taskIds) {
+      try {
+      TaskResource taskRsrc = tasksCollection.parse(cfgRsrc, IdString.fromDecoded(id));
+      deleteTask.apply(taskRsrc, null);
+      } catch (AuthException | ResourceNotFoundException e) {
+        stderr.print("kill: " + id + ": No such task\n");
       }
     }
   }

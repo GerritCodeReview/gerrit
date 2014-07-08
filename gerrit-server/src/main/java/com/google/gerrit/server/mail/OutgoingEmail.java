@@ -19,6 +19,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.EmailStrategy;
 import com.google.gerrit.reviewdb.client.UserIdentity;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.mail.EmailHeader.AddressList;
@@ -95,28 +96,25 @@ public abstract class OutgoingEmail {
     if (shouldSendMessage()) {
       if (fromId != null) {
         final Account fromUser = args.accountCache.get(fromId).getAccount();
+        EmailStrategy strategy =
+            fromUser.getGeneralPreferences().getEmailStrategy();
 
-        if (fromUser.getGeneralPreferences().isCopySelfOnEmails()) {
+        if (strategy == EmailStrategy.CC_ON_OWN_COMMENTS) {
           // If we are impersonating a user, make sure they receive a CC of
           // this message so they can always review and audit what we sent
           // on their behalf to others.
           //
           add(RecipientType.CC, fromId);
 
-        } else if (rcptTo.remove(fromId)) {
-          // If they don't want a copy, but we queued one up anyway,
-          // drop them from the recipient lists.
-          //
-          final String fromEmail = fromUser.getPreferredEmail();
-          for (Iterator<Address> i = smtpRcptTo.iterator(); i.hasNext();) {
-            if (i.next().email.equals(fromEmail)) {
-              i.remove();
-            }
-          }
-          for (EmailHeader hdr : headers.values()) {
-            if (hdr instanceof AddressList) {
-              ((AddressList) hdr).remove(fromEmail);
-            }
+        }
+
+        // Check the preferences of all recipients. If any user has disabled
+        // his email notifications then drop him from recipients list
+        for (Account.Id id : rcptTo) {
+          Account thisUser = args.accountCache.get(id).getAccount();
+          if (thisUser.getGeneralPreferences().getEmailStrategy()
+                  == EmailStrategy.DISABLED) {
+            removeUser(thisUser);
           }
 
           if (smtpRcptTo.isEmpty()) {
@@ -140,6 +138,20 @@ public abstract class OutgoingEmail {
       }
 
       args.emailSender.send(va.smtpFromAddress, va.smtpRcptTo, va.headers, va.body);
+    }
+  }
+
+  public void removeUser(Account user) {
+    String fromEmail = user.getPreferredEmail();
+    for (Iterator<Address> j = smtpRcptTo.iterator(); j.hasNext();) {
+      if (j.next().email.equals(fromEmail)) {
+        j.remove();
+      }
+    }
+    for (EmailHeader hdr : headers.values()) {
+      if (hdr instanceof AddressList) {
+        ((AddressList) hdr).remove(fromEmail);
+      }
     }
   }
 

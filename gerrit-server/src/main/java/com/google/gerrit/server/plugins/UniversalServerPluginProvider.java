@@ -38,7 +38,7 @@ class UniversalServerPluginProvider implements ServerPluginProvider {
   }
 
   @Override
-  public ServerPlugin get(File srcFile, FileSnapshot snapshot,
+  public Plugin get(File srcFile, FileSnapshot snapshot,
       PluginDescription pluginDescription) throws InvalidPluginException {
     return providerOf(srcFile).get(srcFile, snapshot, pluginDescription);
   }

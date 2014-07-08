@@ -550,7 +550,7 @@ public class PluginLoader implements LifecycleListener {
     if (isJsPlugin(pluginName)) {
       return loadJsPlugin(name, srcPlugin, snapshot);
     } else if (serverPluginFactory.handles(srcPlugin)) {
-      return loadServerPlugin(srcPlugin, snapshot);
+      return loadPlugin(srcPlugin, snapshot);
     } else {
       throw new InvalidPluginException(String.format(
           "Unsupported plugin type: %s", srcPlugin.getName()));
@@ -572,7 +572,7 @@ public class PluginLoader implements LifecycleListener {
     return new JsPlugin(name, srcJar, pluginUserFactory.create(name), snapshot);
   }
 
-  private ServerPlugin loadServerPlugin(File scriptFile,
+  private Plugin loadPlugin(File scriptFile,
       FileSnapshot snapshot) throws InvalidPluginException {
     String name = serverPluginFactory.getPluginName(scriptFile);
     return serverPluginFactory.get(scriptFile, snapshot, new PluginDescription(

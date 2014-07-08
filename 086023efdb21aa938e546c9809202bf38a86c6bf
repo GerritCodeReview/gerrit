@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "e48b29a1_bda59fa9",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetDetailFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-08T21:41:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "847b4d5f_420832f7",
+      "range": {
+        "startLine": 152,
+        "startChar": 9,
+        "endLine": 152,
+        "endChar": 14
+      },
+      "revId": "086023efdb21aa938e546c9809202bf38a86c6bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e48b29a1_bd203f91",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/PatchLineComment.java",
         "patchSetId": 1
@@ -53,6 +77,24 @@
       "writtenOn": "2014-07-08T00:03:14Z",
       "side": 1,
       "message": "Unrelated to this change.\n\nAlso it seems like having the full key (which includes the PSID and filename) would be more useful anyway.",
+      "revId": "086023efdb21aa938e546c9809202bf38a86c6bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e48b29a1_dd9a6b60",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/PatchLineComment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-08T21:41:33Z",
+      "side": 1,
+      "message": "I am getting an NPE when I try to use the standard toString() method because although the PatchLineComment$Key is a StringKey once you take the parent key of the parent key of the parent key, you end up with the Change$Id which doesn\u0027t have a parent key. Thus, the NPE. I could overwrite the toString() for the PLC$Key if you think that would be more clear",
+      "parentUuid": "e48b29a1_bd203f91",
       "revId": "086023efdb21aa938e546c9809202bf38a86c6bf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -76,6 +118,24 @@
     },
     {
       "key": {
+        "uuid": "e48b29a1_fd9f274d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-08T21:41:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "847b4d5f_82023ad5",
+      "revId": "086023efdb21aa938e546c9809202bf38a86c6bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e48b29a1_fd2ac76c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
         "patchSetId": 1
@@ -87,6 +147,30 @@
       "writtenOn": "2014-07-08T00:03:14Z",
       "side": 1,
       "message": "ITYM getPatchSetComments.",
+      "range": {
+        "startLine": 73,
+        "startChar": 44,
+        "endLine": 73,
+        "endChar": 61
+      },
+      "revId": "086023efdb21aa938e546c9809202bf38a86c6bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "847b4d5f_c2a8c269",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-08T21:41:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e48b29a1_fd2ac76c",
       "range": {
         "startLine": 73,
         "startChar": 44,
@@ -133,6 +217,24 @@
     },
     {
       "key": {
+        "uuid": "847b4d5f_e2adc676",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/change/CommentsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-08T21:41:33Z",
+      "side": 1,
+      "message": "Agreed. However, it seems like the ApprovalsUtil and ChangeMessagesUtil write to the notedb regardless of whether or not write is set to true in the NotesMigration. Should I mimic the behavior of those or do the \"right\" thing and only write if \"write\" is set()?",
+      "parentUuid": "e48b29a1_1d3053da",
+      "revId": "086023efdb21aa938e546c9809202bf38a86c6bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e48b29a1_3d2d0f83",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/change/CommentsTest.java",
         "patchSetId": 1
@@ -144,6 +246,24 @@
       "writtenOn": "2014-07-08T00:03:14Z",
       "side": 1,
       "message": "This is a good candidate to put in TimeUtil",
+      "revId": "086023efdb21aa938e546c9809202bf38a86c6bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "847b4d5f_02b38ad9",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/change/CommentsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-08T21:41:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e48b29a1_3d2d0f83",
       "revId": "086023efdb21aa938e546c9809202bf38a86c6bf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

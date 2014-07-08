@@ -16,10 +16,13 @@ package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
+import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.IdString;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.server.config.ConfigResource;
 import com.google.gerrit.server.config.DeleteTask;
 import com.google.gerrit.server.config.TaskResource;
-import com.google.gerrit.server.git.WorkQueue;
-import com.google.gerrit.server.git.WorkQueue.Task;
+import com.google.gerrit.server.config.TasksCollection;
 import com.google.gerrit.sshd.AdminHighPriorityCommand;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
@@ -34,7 +37,7 @@ import java.util.List;
 @RequiresCapability(GlobalCapability.KILL_TASK)
 final class KillCommand extends SshCommand {
   @Inject
-  private WorkQueue workQueue;
+  private TasksCollection tasksCollection;
 
   @Inject
   private DeleteTask deleteTask;
@@ -44,11 +47,12 @@ final class KillCommand extends SshCommand {
 
   @Override
   protected void run() {
+    ConfigResource cfgRsrc = new ConfigResource();
     for (String id : taskIds) {
       try {
-        Task<?> task = workQueue.getTask((int) Long.parseLong(id, 16));
-        deleteTask.apply(new TaskResource(task), null);
-      } catch (NumberFormatException e) {
+        TaskResource taskRsrc = tasksCollection.parse(cfgRsrc, IdString.fromDecoded(id));
+        deleteTask.apply(taskRsrc, null);
+      } catch (AuthException | ResourceNotFoundException e) {
         stderr.print("kill: " + id + ": No such task\n");
       }
     }

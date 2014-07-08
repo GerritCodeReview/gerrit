@@ -220,6 +220,30 @@
     },
     {
       "key": {
+        "uuid": "248aa19d_7f66af67",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JarScanner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-07-08T22:05:09Z",
+      "side": 1,
+      "message": "I\u0027ve uploaded I6cd967bc which could help out: allows a ServerPluginProvider to return any type of plugin from its content scanner, including JsPlugin.",
+      "parentUuid": "248aa19d_1f6f633d",
+      "range": {
+        "startLine": 143,
+        "startChar": 8,
+        "endLine": 145,
+        "endChar": 71
+      },
+      "revId": "475eb52aa88e3bef27b65ec7c28646a0699e5b3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "248aa19d_fffc7f90",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JarScanner.java",
         "patchSetId": 1

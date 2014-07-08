@@ -1351,6 +1351,12 @@ link:access-control.html#capability_viewPlugins[View Plugins] capability.
 link:access-control.html#capability_viewQueue[View Queue] capability.
 |=================================
 
+|`email_notifications`     ||
+The type of email strategy to use.
+Allowed values are `ENABLED`, `CC_ON_OWN_COMMENTS`, `DISABLED`
+|`email_notifications`     |optional|
+The type of email strategy to use.
+Allowed values are `ENABLED`, `CC_ON_OWN_COMMENTS`, `DISABLED`.
 [[diff-preferences-info]]
 === DiffPreferencesInfo
 The `DiffPreferencesInfo` entity contains information about the diff

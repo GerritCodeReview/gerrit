@@ -26,6 +26,7 @@ import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.OnEditEnabler;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
+import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.EmailingOptionsStrategy;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.ReviewCategoryStrategy;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -46,7 +47,6 @@ import java.util.List;
 public class MyPreferencesScreen extends SettingsScreen {
   private CheckBox showSiteHeader;
   private CheckBox useFlashClipboard;
-  private CheckBox copySelfOnEmails;
   private CheckBox relativeDateInChangeTable;
   private CheckBox sizeBarInChangeTable;
   private CheckBox legacycidInChangeTable;
@@ -56,6 +56,7 @@ public class MyPreferencesScreen extends SettingsScreen {
   private ListBox timeFormat;
   private ListBox reviewCategoryStrategy;
   private ListBox diffView;
+  private ListBox emailingOptionsStrategy;
   private StringListPanel myMenus;
   private Button save;
 
@@ -65,7 +66,6 @@ public class MyPreferencesScreen extends SettingsScreen {
 
     showSiteHeader = new CheckBox(Util.C.showSiteHeader());
     useFlashClipboard = new CheckBox(Util.C.useFlashClipboard());
-    copySelfOnEmails = new CheckBox(Util.C.copySelfOnEmails());
     maximumPageSize = new ListBox();
     for (final short v : PAGESIZE_CHOICES) {
       maximumPageSize.addItem(Util.M.rowsPerPage(v), String.valueOf(v));
@@ -87,6 +87,20 @@ public class MyPreferencesScreen extends SettingsScreen {
     reviewCategoryStrategy.addItem(
         Util.C.messageShowInReviewCategoryAbbrev(),
         AccountGeneralPreferences.ReviewCategoryStrategy.ABBREV.name());
+
+    emailingOptionsStrategy = new ListBox();
+    emailingOptionsStrategy.addItem(Util.C.messageEnabled(),
+        AccountGeneralPreferences.EmailingOptionsStrategy.ENABLED.name());
+    emailingOptionsStrategy
+        .addItem(
+            Util.C.messageCCMeOnMyComments(),
+            AccountGeneralPreferences.EmailingOptionsStrategy.CC_ON_OWN_COMMENTS
+                .name());
+    emailingOptionsStrategy
+        .addItem(
+            Util.C.messageDisabled(),
+            AccountGeneralPreferences.EmailingOptionsStrategy.DISABLED
+                .name());
 
     diffView = new ListBox();
     diffView.addItem(
@@ -147,9 +161,6 @@ public class MyPreferencesScreen extends SettingsScreen {
     row++;
 
     formGrid.setText(row, labelIdx, "");
-    formGrid.setWidget(row, fieldIdx, copySelfOnEmails);
-    row++;
-
     formGrid.setText(row, labelIdx, Util.C.reviewCategoryLabel());
     formGrid.setWidget(row, fieldIdx, reviewCategoryStrategy);
     row++;
@@ -178,6 +189,12 @@ public class MyPreferencesScreen extends SettingsScreen {
     formGrid.setWidget(row, fieldIdx, muteCommonPathPrefixes);
     row++;
 
+    formGrid.setText(row, labelIdx, Util.C.emailFieldLabel());
+    formGrid.setWidget(row, fieldIdx, emailingOptionsStrategy);
+    row++;
+
+    row++;
+
     formGrid.setText(row, labelIdx, Util.C.diffViewLabel());
     formGrid.setWidget(row, fieldIdx, diffView);
 
@@ -200,7 +217,6 @@ public class MyPreferencesScreen extends SettingsScreen {
     final OnEditEnabler e = new OnEditEnabler(save);
     e.listenTo(showSiteHeader);
     e.listenTo(useFlashClipboard);
-    e.listenTo(copySelfOnEmails);
     e.listenTo(maximumPageSize);
     e.listenTo(dateFormat);
     e.listenTo(timeFormat);
@@ -209,6 +225,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     e.listenTo(legacycidInChangeTable);
     e.listenTo(muteCommonPathPrefixes);
     e.listenTo(diffView);
+    e.listenTo(emailingOptionsStrategy);
   }
 
   @Override
@@ -226,7 +243,6 @@ public class MyPreferencesScreen extends SettingsScreen {
   private void enable(final boolean on) {
     showSiteHeader.setEnabled(on);
     useFlashClipboard.setEnabled(on);
-    copySelfOnEmails.setEnabled(on);
     maximumPageSize.setEnabled(on);
     dateFormat.setEnabled(on);
     timeFormat.setEnabled(on);
@@ -236,12 +252,12 @@ public class MyPreferencesScreen extends SettingsScreen {
     muteCommonPathPrefixes.setEnabled(on);
     reviewCategoryStrategy.setEnabled(on);
     diffView.setEnabled(on);
+    emailingOptionsStrategy.setEnabled(on);
   }
 
   private void display(Preferences p) {
     showSiteHeader.setValue(p.showSiteHeader());
     useFlashClipboard.setValue(p.useFlashClipboard());
-    copySelfOnEmails.setValue(p.copySelfOnEmail());
     setListBox(maximumPageSize, DEFAULT_PAGESIZE, p.changesPerPage());
     setListBox(dateFormat, AccountGeneralPreferences.DateFormat.STD, //
         p.dateFormat());
@@ -257,6 +273,9 @@ public class MyPreferencesScreen extends SettingsScreen {
     setListBox(diffView,
         AccountGeneralPreferences.DiffView.SIDE_BY_SIDE,
         p.diffView());
+    setListBox(emailingOptionsStrategy,
+        AccountGeneralPreferences.EmailingOptionsStrategy.ENABLED,
+        p.emailingOptionsStrategy());
     display(p.my());
   }
 
@@ -323,7 +342,6 @@ public class MyPreferencesScreen extends SettingsScreen {
     final AccountGeneralPreferences p = new AccountGeneralPreferences();
     p.setShowSiteHeader(showSiteHeader.getValue());
     p.setUseFlashClipboard(useFlashClipboard.getValue());
-    p.setCopySelfOnEmails(copySelfOnEmails.getValue());
     p.setMaximumPageSize(getListBox(maximumPageSize, DEFAULT_PAGESIZE));
     p.setDateFormat(getListBox(dateFormat,
         AccountGeneralPreferences.DateFormat.STD,
@@ -341,6 +359,8 @@ public class MyPreferencesScreen extends SettingsScreen {
     p.setDiffView(getListBox(diffView,
         AccountGeneralPreferences.DiffView.SIDE_BY_SIDE,
         AccountGeneralPreferences.DiffView.values()));
+    p.setEmailingOptionsStrategy(getListBox(emailingOptionsStrategy,
+        EmailingOptionsStrategy.ENABLED, EmailingOptionsStrategy.values()));
 
     enable(false);
     save.setEnabled(false);

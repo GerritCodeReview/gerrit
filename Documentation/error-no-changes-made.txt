@@ -9,7 +9,8 @@ set if
 
 - the files in the commit,
 - the commit message,
-- the author of the commit and
+- the author of the commit,
+- the committer of the commit and
 - the parents of the commit
 
 are all identical.

@@ -1947,6 +1947,12 @@ link:rest-api-config.html#top-menu-item-info[TopMenuItemInfo] entities.
 |`url_aliases`                  |optional|
 A map of URL path pairs, where the first URL path is an alias for the
 second URL path.
+|`email_notifications`          ||
+The type of email strategy to use. On `ENABLED`, the user will receive emails
+from Gerrit. On `CC_ON_OWN_COMMENTS` the user will also receive emails for
+their own comments. On `DISABLED` the user will not receive any email
+notifications from Gerrit.
+Allowed values are `ENABLED`, `CC_ON_OWN_COMMENTS`, `DISABLED`. 
 |============================================
 
 [[preferences-input]]

@@ -24,6 +24,7 @@ import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DateFormat;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DiffView;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadCommand;
+import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.EmailStrategy;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.ReviewCategoryStrategy;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.TimeFormat;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -104,7 +105,6 @@ public class GetPreferences implements RestReadView<AccountResource> {
     Boolean useFlashClipboard;
     String downloadScheme;
     DownloadCommand downloadCommand;
-    Boolean copySelfOnEmail;
     DateFormat dateFormat;
     TimeFormat timeFormat;
     Boolean relativeDateInChangeTable;
@@ -113,6 +113,7 @@ public class GetPreferences implements RestReadView<AccountResource> {
     Boolean muteCommonPathPrefixes;
     ReviewCategoryStrategy reviewCategoryStrategy;
     DiffView diffView;
+    EmailStrategy emailStrategy;
     List<TopMenu.MenuItem> my;
     Map<String, String> urlAliases;
 
@@ -124,7 +125,6 @@ public class GetPreferences implements RestReadView<AccountResource> {
         useFlashClipboard = p.isUseFlashClipboard() ? true : null;
         downloadScheme = p.getDownloadUrl();
         downloadCommand = p.getDownloadCommand();
-        copySelfOnEmail = p.isCopySelfOnEmails() ? true : null;
         dateFormat = p.getDateFormat();
         timeFormat = p.getTimeFormat();
         relativeDateInChangeTable = p.isRelativeDateInChangeTable() ? true : null;
@@ -133,6 +133,7 @@ public class GetPreferences implements RestReadView<AccountResource> {
         muteCommonPathPrefixes = p.isMuteCommonPathPrefixes() ? true : null;
         reviewCategoryStrategy = p.getReviewCategoryStrategy();
         diffView = p.getDiffView();
+        emailStrategy = p.getEmailStrategy();
       }
       loadFromAllUsers(v, allUsers);
     }

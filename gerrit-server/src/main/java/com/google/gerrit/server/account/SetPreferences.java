@@ -30,6 +30,7 @@ import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DateFormat;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DiffView;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadCommand;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadScheme;
+import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.EmailingOptionsStrategy;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.ReviewCategoryStrategy;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.TimeFormat;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -57,7 +58,6 @@ public class SetPreferences implements RestModifyView<AccountResource, Input> {
     public Boolean useFlashClipboard;
     public DownloadScheme downloadScheme;
     public DownloadCommand downloadCommand;
-    public Boolean copySelfOnEmail;
     public DateFormat dateFormat;
     public TimeFormat timeFormat;
     public Boolean relativeDateInChangeTable;
@@ -66,6 +66,7 @@ public class SetPreferences implements RestModifyView<AccountResource, Input> {
     public Boolean muteCommonPathPrefixes;
     public ReviewCategoryStrategy reviewCategoryStrategy;
     public DiffView diffView;
+    public EmailingOptionsStrategy emailingOptionsStrategy;
     public List<TopMenu.MenuItem> my;
   }
 
@@ -133,9 +134,6 @@ public class SetPreferences implements RestModifyView<AccountResource, Input> {
       if (i.downloadCommand != null) {
         p.setDownloadCommand(i.downloadCommand);
       }
-      if (i.copySelfOnEmail != null) {
-        p.setCopySelfOnEmails(i.copySelfOnEmail);
-      }
       if (i.dateFormat != null) {
         p.setDateFormat(i.dateFormat);
       }
@@ -159,6 +157,9 @@ public class SetPreferences implements RestModifyView<AccountResource, Input> {
       }
       if (i.diffView != null) {
         p.setDiffView(i.diffView);
+      }
+      if (i.emailingOptionsStrategy != null) {
+        p.setEmailingOptionsStrategy(i.emailingOptionsStrategy);
       }
 
       db.get().accounts().update(Collections.singleton(a));

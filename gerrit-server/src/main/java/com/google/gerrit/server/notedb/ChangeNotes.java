@@ -520,7 +520,7 @@ public class ChangeNotes extends VersionedMetaData {
   NoteMap noteMap;
 
   @VisibleForTesting
-  ChangeNotes(GitRepositoryManager repoManager, Change change) {
+  public ChangeNotes(GitRepositoryManager repoManager, Change change) {
     this.repoManager = repoManager;
     this.change = new Change(change);
   }

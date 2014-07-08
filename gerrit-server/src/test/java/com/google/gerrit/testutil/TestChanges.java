@@ -1,0 +1,88 @@
+// Copyright (C) 2014 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+package com.google.gerrit.testutil;
+
+import static org.easymock.EasyMock.expect;
+
+import com.google.common.collect.Ordering;
+import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.PatchSetInfo;
+import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.config.FactoryModule;
+import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.util.TimeUtil;
+import com.google.gwtorm.server.OrmException;
+import com.google.inject.Injector;
+
+import org.easymock.EasyMock;
+
+/**
+ * Utility functions to create and manipulate Change, ChangeUpdate, and
+ * ChangeControl objects for testing.
+ */
+public class TestChanges {
+  public static Change newChange(Project.NameKey project, IdentifiedUser user) {
+    Change.Id changeId = new Change.Id(1);
+    Change c = new Change(
+        new Change.Key("Iabcd1234abcd1234abcd1234abcd1234abcd1234"),
+        changeId,
+        user.getAccount().getId(),
+        new Branch.NameKey(project, "master"),
+        TimeUtil.nowTs());
+    incrementPatchSet(c);
+    return c;
+  }
+
+  public static ChangeUpdate newUpdate(Injector injector,
+      GitRepositoryManager repoManager, Change c, final IdentifiedUser user)
+      throws OrmException {
+    return injector.createChildInjector(new FactoryModule() {
+      @Override
+      public void configure() {
+        factory(ChangeUpdate.Factory.class);
+        bind(IdentifiedUser.class).toInstance(user);
+      }
+    }).getInstance(ChangeUpdate.Factory.class).create(
+        stubChangeControl(repoManager, c, user), TimeUtil.nowTs(),
+        Ordering.<String> natural());
+  }
+
+  public static ChangeControl stubChangeControl(
+      GitRepositoryManager repoManager, Change c, IdentifiedUser user)
+      throws OrmException {
+    ChangeControl ctl = EasyMock.createNiceMock(ChangeControl.class);
+    expect(ctl.getChange()).andStubReturn(c);
+    expect(ctl.getCurrentUser()).andStubReturn(user);
+    ChangeNotes notes = new ChangeNotes(repoManager, c);
+    notes = notes.load();
+    expect(ctl.getNotes()).andStubReturn(notes);
+    EasyMock.replay(ctl);
+    return ctl;
+  }
+
+  public static void incrementPatchSet(Change change) {
+    PatchSet.Id curr = change.currentPatchSetId();
+    PatchSetInfo ps = new PatchSetInfo(new PatchSet.Id(
+        change.getId(), curr != null ? curr.get() + 1 : 1));
+    ps.setSubject("Change subject");
+    change.setCurrentPatchSet(ps);
+  }
+}

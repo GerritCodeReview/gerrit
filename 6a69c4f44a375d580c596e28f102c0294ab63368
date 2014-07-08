@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a443f132_4b6785f3",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-08T15:32:13Z",
+      "side": 1,
+      "message": "Is this needed here? By using the \u0027r\u0027 parameter it is already clear that this is a regular expression, isn\u0027t it?",
+      "range": {
+        "startLine": 123,
+        "startChar": 19,
+        "endLine": 123,
+        "endChar": 20
+      },
+      "revId": "6a69c4f44a375d580c596e28f102c0294ab63368",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

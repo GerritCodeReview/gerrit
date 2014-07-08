@@ -36,6 +36,75 @@
     },
     {
       "key": {
+        "uuid": "048f5dae_3e08a9f6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/BindCallback.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-07-08T15:04:34Z",
+      "side": 1,
+      "message": "JavaDoc?",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 29
+      },
+      "revId": "475eb52aa88e3bef27b65ec7c28646a0699e5b3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "048f5dae_5e0575dd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JarScanner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-07-08T15:04:34Z",
+      "side": 1,
+      "message": "How does it work? Are you actually \"fooling\" the plugin loader by telling him that you\u0027ve defined a JavaScriptPlugin.class in the code? (whilst is not)\nSeems quite a [clever] hack ... but do you see a cleaner way to do this?",
+      "range": {
+        "startLine": 143,
+        "startChar": 8,
+        "endLine": 145,
+        "endChar": 71
+      },
+      "revId": "475eb52aa88e3bef27b65ec7c28646a0699e5b3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "248aa19d_fffc7f90",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JarScanner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-07-08T15:04:34Z",
+      "side": 1,
+      "message": "annotation",
+      "range": {
+        "startLine": 147,
+        "startChar": 17,
+        "endLine": 147,
+        "endChar": 28
+      },
+      "revId": "475eb52aa88e3bef27b65ec7c28646a0699e5b3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "644e5958_71efd821",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JsPlugin.java",
         "patchSetId": 1
@@ -47,6 +116,52 @@
       "writtenOn": "2014-07-08T14:55:54Z",
       "side": 1,
       "message": "I don\u0027t want to spend much time bikeshedding but \"init.js\" is already the name of a standalone JS project. Have you thought of other alternatives? plugin.js perhaps?",
+      "revId": "475eb52aa88e3bef27b65ec7c28646a0699e5b3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "048f5dae_7e0231d8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JsPlugin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-07-08T15:04:34Z",
+      "side": 1,
+      "message": "Are you using iNIT_NAME separately elsewhere?",
+      "range": {
+        "startLine": 33,
+        "startChar": 22,
+        "endLine": 33,
+        "endChar": 31
+      },
+      "revId": "475eb52aa88e3bef27b65ec7c28646a0699e5b3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "048f5dae_9eb7fde6",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshAutoRegisterModuleGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-07-08T15:04:34Z",
+      "side": 1,
+      "message": "This method name does not tell the whole story of what it does.\nRename to dynamicSetBind?",
+      "range": {
+        "startLine": 102,
+        "startChar": 18,
+        "endLine": 102,
+        "endChar": 28
+      },
       "revId": "475eb52aa88e3bef27b65ec7c28646a0699e5b3c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

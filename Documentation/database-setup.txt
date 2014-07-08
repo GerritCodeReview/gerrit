@@ -56,14 +56,6 @@ rights on it:
   FLUSH PRIVILEGES;
 ----
 
-If you are using the MyISAM engine, you need to set latin1 as charset:
-
-----
-  mysql
-
-  ALTER DATABASE reviewdb charset=latin1;
-----
-
 Visit MySQL's link:http://dev.mysql.com/doc/[documentation] for further
 information regarding using MySQL.
 

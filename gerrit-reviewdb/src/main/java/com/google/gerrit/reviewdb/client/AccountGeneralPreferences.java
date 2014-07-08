@@ -88,6 +88,12 @@ public final class AccountGeneralPreferences {
     UNIFIED_DIFF
   }
 
+  public static enum EmailingOptionsStrategy {
+    NONE,
+    CC_ME_ON_COMMENTS_I_WRITE,
+    DISABLE_EMAIL_NOTIFICATIONS
+  }
+
   public static enum ChangeScreen {
     OLD_UI,
     CHANGE_SCREEN2
@@ -137,10 +143,6 @@ public final class AccountGeneralPreferences {
   @Column(id = 6, length = 20, notNull = false)
   protected String downloadCommand;
 
-  /** If true we CC the user on their own changes. */
-  @Column(id = 7)
-  protected boolean copySelfOnEmail;
-
   @Column(id = 8, length = 10, notNull = false)
   protected String dateFormat;
 
@@ -174,6 +176,9 @@ public final class AccountGeneralPreferences {
 
   @Column(id = 18, length = 20, notNull = false)
   protected String reviewCategoryStrategy;
+
+  @Column(id = 19, length = 30, notNull = false)
+  protected String emailingOptionsStrategy;
 
   public AccountGeneralPreferences() {
   }
@@ -230,14 +235,6 @@ public final class AccountGeneralPreferences {
     } else {
       downloadCommand = null;
     }
-  }
-
-  public boolean isCopySelfOnEmails() {
-    return copySelfOnEmail;
-  }
-
-  public void setCopySelfOnEmails(boolean includeSelfOnEmail) {
-    copySelfOnEmail = includeSelfOnEmail;
   }
 
   public boolean isReversePatchSetOrder() {
@@ -317,6 +314,17 @@ public final class AccountGeneralPreferences {
     this.diffView = diffView.name();
   }
 
+  public EmailingOptionsStrategy getEmailingOptionsStrategy() {
+    if (emailingOptionsStrategy == null) {
+      return EmailingOptionsStrategy.NONE;
+    }
+    return EmailingOptionsStrategy.valueOf(emailingOptionsStrategy);
+  }
+
+  public void setEmailingOptionsStrategy(EmailingOptionsStrategy strategy) {
+    this.emailingOptionsStrategy = strategy.name();
+  }
+
   public ChangeScreen getChangeScreen() {
     return changeScreen != null ? ChangeScreen.valueOf(changeScreen) : null;
   }
@@ -345,7 +353,6 @@ public final class AccountGeneralPreferences {
     maximumPageSize = DEFAULT_PAGESIZE;
     showSiteHeader = true;
     useFlashClipboard = true;
-    copySelfOnEmail = false;
     reversePatchSetOrder = false;
     reviewCategoryStrategy = null;
     downloadUrl = null;
@@ -358,5 +365,6 @@ public final class AccountGeneralPreferences {
     changeScreen = null;
     sizeBarInChangeTable = true;
     legacycidInChangeTable = false;
+    emailingOptionsStrategy = null;
   }
 }

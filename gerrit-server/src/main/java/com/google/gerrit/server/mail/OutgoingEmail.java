@@ -17,6 +17,7 @@ package com.google.gerrit.server.mail;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.EmailingOptionsStrategy;
 import com.google.gerrit.reviewdb.client.UserIdentity;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.mail.EmailHeader.AddressList;
@@ -91,15 +92,18 @@ public abstract class OutgoingEmail {
     if (shouldSendMessage()) {
       if (fromId != null) {
         final Account fromUser = args.accountCache.get(fromId).getAccount();
+        EmailingOptionsStrategy selectedEmailOption =
+            fromUser.getGeneralPreferences().getEmailingOptionsStrategy();
 
-        if (fromUser.getGeneralPreferences().isCopySelfOnEmails()) {
+        if (selectedEmailOption == EmailingOptionsStrategy.CC_ME_ON_COMMENTS_I_WRITE) {
           // If we are impersonating a user, make sure they receive a CC of
           // this message so they can always review and audit what we sent
           // on their behalf to others.
           //
           add(RecipientType.CC, fromId);
 
-        } else if (rcptTo.remove(fromId)) {
+        } else if (selectedEmailOption == EmailingOptionsStrategy.DISABLE_EMAIL_NOTIFICATIONS
+            || rcptTo.remove(fromId)) {
           // If they don't want a copy, but we queued one up anyway,
           // drop them from the recipient lists.
           //
@@ -112,6 +116,21 @@ public abstract class OutgoingEmail {
           for (EmailHeader hdr : headers.values()) {
             if (hdr instanceof AddressList) {
               ((AddressList) hdr).remove(fromEmail);
+            }
+          }
+        }
+        // Check the preferences of all recipients. If any user has disabled
+        // his email notifications then drop him from recipients' list
+        for (Iterator<Account.Id> i = rcptTo.iterator(); i.hasNext();) {
+          Account.Id id = i.next();
+          Account thisUser = args.accountCache.get(id).getAccount();
+          if (thisUser.getGeneralPreferences().getEmailingOptionsStrategy() == EmailingOptionsStrategy.DISABLE_EMAIL_NOTIFICATIONS) {
+            String fromEmail = thisUser.getPreferredEmail();
+            for (Iterator<Address> j = smtpRcptTo.iterator(); j.hasNext();) {
+              if (j.next().email.equals(fromEmail)) {
+                j.remove();
+                break;
+              }
             }
           }
 

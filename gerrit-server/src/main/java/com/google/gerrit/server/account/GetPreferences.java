@@ -23,11 +23,12 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.ChangeScreen;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.CommentVisibilityStrategy;
-import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.ReviewCategoryStrategy;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DateFormat;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DiffView;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadCommand;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadScheme;
+import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.EmailingOptionsStrategy;
+import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.ReviewCategoryStrategy;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.TimeFormat;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
@@ -105,7 +106,6 @@ public class GetPreferences implements RestReadView<AccountResource> {
     Boolean useFlashClipboard;
     DownloadScheme downloadScheme;
     DownloadCommand downloadCommand;
-    Boolean copySelfOnEmail;
     DateFormat dateFormat;
     TimeFormat timeFormat;
     Boolean reversePatchSetOrder;
@@ -115,6 +115,7 @@ public class GetPreferences implements RestReadView<AccountResource> {
     ReviewCategoryStrategy reviewCategoryStrategy;
     CommentVisibilityStrategy commentVisibilityStrategy;
     DiffView diffView;
+    EmailingOptionsStrategy emailingOptionsStrategy;
     ChangeScreen changeScreen;
     List<TopMenu.MenuItem> my;
 
@@ -126,7 +127,6 @@ public class GetPreferences implements RestReadView<AccountResource> {
         useFlashClipboard = p.isUseFlashClipboard() ? true : null;
         downloadScheme = p.getDownloadUrl();
         downloadCommand = p.getDownloadCommand();
-        copySelfOnEmail = p.isCopySelfOnEmails() ? true : null;
         dateFormat = p.getDateFormat();
         timeFormat = p.getTimeFormat();
         reversePatchSetOrder = p.isReversePatchSetOrder() ? true : null;
@@ -136,6 +136,7 @@ public class GetPreferences implements RestReadView<AccountResource> {
         reviewCategoryStrategy = p.getReviewCategoryStrategy();
         commentVisibilityStrategy = p.getCommentVisibilityStrategy();
         diffView = p.getDiffView();
+        emailingOptionsStrategy = p.getEmailingOptionsStrategy();
         changeScreen = p.getChangeScreen();
       }
       my = my(v, allUsers);

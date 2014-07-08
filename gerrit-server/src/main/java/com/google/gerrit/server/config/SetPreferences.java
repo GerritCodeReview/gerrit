@@ -47,13 +47,14 @@ public class SetPreferences implements RestModifyView<ConfigResource, Input> {
       IOException, ConfigInvalidException {
     if (i.changesPerPage != null || i.showSiteHeader != null
         || i.useFlashClipboard != null || i.downloadScheme != null
-        || i.downloadCommand != null || i.copySelfOnEmail != null
+        || i.downloadCommand != null
         || i.dateFormat != null || i.timeFormat != null
         || i.relativeDateInChangeTable != null
         || i.sizeBarInChangeTable != null
         || i.legacycidInChangeTable != null
         || i.muteCommonPathPrefixes != null
-        || i.reviewCategoryStrategy != null) {
+        || i.reviewCategoryStrategy != null
+        || i.emailStrategy != null) {
       throw new BadRequestException("unsupported option");
     }
 

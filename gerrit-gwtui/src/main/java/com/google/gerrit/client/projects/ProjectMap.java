@@ -56,7 +56,11 @@ public class ProjectMap extends NativeMap<ProjectInfo> {
   public static void match(String match, int limit, int start, AsyncCallback<ProjectMap> cb) {
     RestApi call = new RestApi("/projects/");
     if (match != null) {
-      call.addParameter("m", match);
+      if (match.startsWith("^")) {
+        call.addParameter("r", match);
+      } else {
+        call.addParameter("m", match);
+      }
     }
     if (limit > 0) {
       call.addParameter("n", limit);

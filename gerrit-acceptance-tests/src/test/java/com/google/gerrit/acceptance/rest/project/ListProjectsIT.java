@@ -129,6 +129,31 @@ public class ListProjectsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void listProjectsWithRegex() throws IOException, JSchException {
+    Project.NameKey someProject = new Project.NameKey("some-project");
+    createProject(sshSession, someProject.get());
+    Project.NameKey someOtherProject =
+        new Project.NameKey("some-other-project");
+    createProject(sshSession, someOtherProject.get());
+    Project.NameKey projectAwesome = new Project.NameKey("project-awesome");
+    createProject(sshSession, projectAwesome.get());
+
+    RestResponse r = GET("/projects/?r=.*some");
+    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    Map<String, ProjectInfo> result = toProjectInfoMap(r);
+    assertProjects(Arrays.asList(projectAwesome), result.values());
+
+    r = GET("/projects/?r=[.*some");
+    assertEquals(HttpStatus.SC_BAD_REQUEST, r.getStatusCode());
+
+    r = GET("/projects/?r=.*");
+    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    result = toProjectInfoMap(r);
+    assertProjects(Arrays.asList(someProject, someOtherProject, projectAwesome,
+        project, allUsers), result.values());
+  }
+
+  @Test
   public void listProjectsWithSkip() throws IOException, JSchException {
     for (int i = 0; i < 5; i++) {
       createProject(sshSession, new Project.NameKey("someProject" + i).get());

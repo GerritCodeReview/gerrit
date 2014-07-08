@@ -1352,6 +1352,7 @@ link:access-control.html#capability_viewQueue[View Queue] capability.
 |=================================
 
 [[diff-preferences-info]]
+
 === DiffPreferencesInfo
 The `DiffPreferencesInfo` entity contains information about the diff
 preferences of a user.
@@ -1558,6 +1559,9 @@ Allowed values are `NONE`, `NAME`, `EMAIL`, `USERNAME`, `ABBREV`.
 |`diff_view`     ||
 The type of diff view to show.
 Allowed values are `SIDE_BY_SIDE`, `UNIFIED_DIFF`.
+|`email_notifications`     ||
+The type of email strategy to use.
+Allowed values are `ENABLED`, `CC_ON_OWN_COMMENTS`, `DISABLED`.
 |=====================================
 
 [[preferences-input]]

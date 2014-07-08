@@ -31,7 +31,7 @@ public interface AccountConstants extends Constants {
   String contextWholeFile();
   String showSiteHeader();
   String useFlashClipboard();
-  String copySelfOnEmails();
+  String emailFieldLabel();
   String reviewCategoryLabel();
   String messageShowInReviewCategoryNone();
   String messageShowInReviewCategoryName();
@@ -157,4 +157,8 @@ public interface AccountConstants extends Constants {
   String welcomeAgreementText();
   String welcomeAgreementLater();
   String welcomeContinue();
+
+  String messageEnabled();
+  String messageCCMeOnMyComments();
+  String messageDisabled();
 }

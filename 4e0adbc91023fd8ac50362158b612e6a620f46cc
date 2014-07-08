@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a443f132_0b43bd56",
+        "filename": "tools/plugin_archetype_deploy.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-08T12:10:39Z",
+      "side": 1,
+      "message": "Wrong indentation: line 68: 1 space, lines: 70-74 2 spaces. Rest of this file: 2 spaces.",
+      "range": {
+        "startLine": 68,
+        "startChar": 1,
+        "endLine": 75,
+        "endChar": 3
+      },
+      "revId": "4e0adbc91023fd8ac50362158b612e6a620f46cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

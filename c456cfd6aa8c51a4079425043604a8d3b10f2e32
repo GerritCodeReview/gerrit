@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a443f132_6bd36109",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritGlobalModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-09T13:19:11Z",
+      "side": 1,
+      "message": "Why this factory is needed? I have impression that Assisted Inject pattern usage was not always justified. Can\u0027t you try to eliminate it altogether and create BanCommit Singleton and inject it into REST endpoint?",
+      "range": {
+        "startLine": 207,
+        "startChar": 12,
+        "endLine": 207,
+        "endChar": 29
+      },
+      "revId": "c456cfd6aa8c51a4079425043604a8d3b10f2e32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

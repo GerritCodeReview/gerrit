@@ -34,6 +34,24 @@
       "revId": "20ea4eacb00e9b7f0db69bf7b73aa352a47786b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a443f132_8b1b2d5e",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 907,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-09T07:40:32Z",
+      "side": 1,
+      "message": "\u003e \u003e verify the caller can see the commit before we return it\n \u003e \n \u003e Yes, I think that would be better.\n\nDone\n\n \u003e \u003e can we just tell them to install the Gitiles plugin?\n \u003e \n \u003e The required information is indeed available via gitiles, \n \u003e but would make it a bit complicated for client apps that \n \u003e are using the Gerrit REST API.\n\nI also think that this should be part of the Gerrit REST API.",
+      "parentUuid": "e48b29a1_fdb2c7d3",
+      "revId": "20ea4eacb00e9b7f0db69bf7b73aa352a47786b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

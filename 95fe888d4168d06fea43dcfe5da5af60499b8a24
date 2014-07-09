@@ -22,6 +22,30 @@
       "revId": "95fe888d4168d06fea43dcfe5da5af60499b8a24",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "847b4d5f_c2d1a2df",
+        "filename": "lib/BUCK",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-09T01:20:16Z",
+      "side": 1,
+      "message": "Yes.  I haven\u0027t had time to do the 1.13 release yet.",
+      "parentUuid": "a443f132_4b8ea56b",
+      "range": {
+        "startLine": 28,
+        "startChar": 38,
+        "endLine": 28,
+        "endChar": 47
+      },
+      "revId": "95fe888d4168d06fea43dcfe5da5af60499b8a24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

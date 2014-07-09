@@ -18,7 +18,6 @@ import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.RequestCleanup;
-import com.google.gerrit.server.git.BanCommit;
 import com.google.gerrit.server.git.MergeOp;
 import com.google.gerrit.server.git.SubmoduleOp;
 import com.google.gerrit.server.project.ChangeControl;
@@ -46,6 +45,5 @@ public class GerritRequestModule extends FactoryModule {
     // easily park this stuff.
     //
     factory(SuggestParentCandidates.Factory.class);
-    factory(BanCommit.Factory.class);
   }
 }

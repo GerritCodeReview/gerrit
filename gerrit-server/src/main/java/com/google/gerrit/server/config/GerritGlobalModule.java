@@ -74,6 +74,7 @@ import com.google.gerrit.server.change.ChangeKindCacheImpl;
 import com.google.gerrit.server.change.MergeabilityChecker;
 import com.google.gerrit.server.events.EventFactory;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.git.BanCommit;
 import com.google.gerrit.server.git.ChangeCache;
 import com.google.gerrit.server.git.ChangeMergeQueue;
 import com.google.gerrit.server.git.GarbageCollection;
@@ -203,6 +204,7 @@ public class GerritGlobalModule extends FactoryModule {
     factory(ReplacePatchSetSender.Factory.class);
     factory(PerformCreateProject.Factory.class);
     factory(GarbageCollection.Factory.class);
+    factory(BanCommit.Factory.class);
     bind(PermissionCollection.Factory.class);
     bind(AccountVisibility.class)
         .toProvider(AccountVisibilityProvider.class)

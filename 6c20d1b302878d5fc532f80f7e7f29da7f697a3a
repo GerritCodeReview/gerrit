@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "04783d6e_d6488474",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-07-09T13:40:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e48b29a1_bdd11fe0",
+      "range": {
+        "startLine": 117,
+        "startChar": 0,
+        "endLine": 117,
+        "endChar": 6
+      },
+      "revId": "6c20d1b302878d5fc532f80f7e7f29da7f697a3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a443f132_4b05c5dd",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2014-07-09T12:48:52Z",
       "side": 1,
       "message": "We should add unit test for this REST endpoint in general and for this new option in particular.",
+      "range": {
+        "startLine": 171,
+        "startChar": 14,
+        "endLine": 171,
+        "endChar": 27
+      },
+      "revId": "6c20d1b302878d5fc532f80f7e7f29da7f697a3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39f64c4a_9fed9326",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-07-09T13:40:56Z",
+      "side": 1,
+      "message": "A unit test or an integration test?",
+      "parentUuid": "a443f132_4b05c5dd",
       "range": {
         "startLine": 171,
         "startChar": 14,

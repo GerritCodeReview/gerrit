@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7915242e_79d30775",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1186,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-09T15:29:26Z",
+      "side": 1,
+      "message": "final is no longer necessary.",
+      "range": {
+        "startLine": 1186,
+        "startChar": 43,
+        "endLine": 1186,
+        "endChar": 49
+      },
+      "revId": "006d42999ff3b7dfdccca9700222bd0b7041b2e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "590a2015_78d30175",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/ChangesForTestUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-09T15:29:26Z",
+      "side": 1,
+      "message": "Blank line",
+      "revId": "006d42999ff3b7dfdccca9700222bd0b7041b2e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

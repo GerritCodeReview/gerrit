@@ -605,6 +605,57 @@ The response is the streamed output of the garbage collection.
   done.
 ----
 
+[[ban-commit]]
+=== Ban Commit
+--
+'PUT /projects/link:#project-name[\{project-name\}]/ban'
+--
+
+Marks commits as banned for the project. If a commit is banned Gerrit
+rejects every push that includes this commit with
+link:error-contains-banned-commit.html[contains banned commit ...].
+
+[NOTE]
+This REST endpoint only marks the commits as banned, but it does not
+remove the commits from the history of any central branch. This needs
+to be done manually.
+
+The commits to be banned must be specified in the request body as a
+link:#ban-input[BanInput] entity.
+
+The caller must be project owner.
+
+.Request
+----
+  PUT /projects/plugins%2Freplication/ban HTTP/1.0
+  Content-Type: application/json;charset=UTF-8
+
+  {
+    "commits": [
+      "a8a477efffbbf3b44169bb9a1d3a334cbbd9aa96",
+      "cf5b56541f84b8b57e16810b18daca9c3adc377b"
+    ],
+    "reason": "Violates IP"
+  }
+----
+
+As response a link:#ban-result-info[BanResultInfo] entity is returned.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "newly_banned": [
+      "a8a477efffbbf3b44169bb9a1d3a334cbbd9aa96",
+      "cf5b56541f84b8b57e16810b18daca9c3adc377b"
+    ]
+  }
+----
+
 [[branch-endpoints]]
 == Branch Endpoints
 
@@ -1147,6 +1198,30 @@ The `BranchInfo` entity contains information about a branch.
 |`can_delete`|`false` if not set|
 Whether the calling user can delete this branch.
 |=========================
+
+[[ban-input]]
+=== BanInput
+The `BanInput` entity contains information for banning commits in a
+project.
+
+[options="header",width="50%",cols="1,^2,4"]
+|=======================
+|Field Name||Description
+|`commits` ||List of commits to be banned.
+|`reason`  |optional|Reason for banning the commits.
+|=======================
+
+[[ban-result-info]]
+=== BanResultInfo
+The `BanResultInfo` entity describes the result of banning commits.
+
+[options="header",width="50%",cols="1,^2,4"]
+|=============================
+|Field Name      ||Description
+|`newly_banned`  |optional|List of newly banned commits.
+|`already_banned`|optional|List of commits that were already banned.
+|`ignored`       |optional|List of object IDs that were ignored.
+|=============================
 
 [[branch-input]]
 === BranchInput

@@ -16,6 +16,24 @@
       "revId": "20ea4eacb00e9b7f0db69bf7b73aa352a47786b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e48b29a1_fdb2c7d3",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 907,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-09T06:21:03Z",
+      "side": 1,
+      "message": "\u003e verify the caller can see the commit before we return it\n\nYes, I think that would be better.\n\n\u003e can we just tell them to install the Gitiles plugin?\n\nThe required information is indeed available via gitiles, but would make it a bit complicated for client apps that are using the Gerrit REST API.\n\nFor example, I can use this URL to get information about a commit from gitiles:\n\nhttps://gerrit.googlesource.com/gerrit/+/ba1b5f1833ce88d5250e0959616c45d18baea82c\n\nBut if I\u0027m using the REST client it is assumed that the URLs begin with https://gerrit-review.googlesource.com/a/ and I only need to add endpoints to get the needed info.",
+      "parentUuid": "847b4d5f_825ebac5",
+      "revId": "20ea4eacb00e9b7f0db69bf7b73aa352a47786b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

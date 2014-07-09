@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e48b29a1_5d881b0e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-07-09T03:33:17Z",
+      "side": 1,
+      "message": "I believe 1 means enable email notifications.  It should probably say \"Enable Email Notifications\" here and in projects preferences page.",
+      "parentUuid": "e48b29a1_7dacf78c",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 30
+      },
+      "revId": "507bbd7765a2f5383b8b479942d068af452ee476",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "04783d6e_f6fbc0dd",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeConstants.java",
         "patchSetId": 1

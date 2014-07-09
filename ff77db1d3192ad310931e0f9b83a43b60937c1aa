@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "248aa19d_7f078f7e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-09T05:58:24Z",
+      "side": 1,
+      "message": "- Only bind LIMIT variable in SQL when dialect supports it",
+      "revId": "ff77db1d3192ad310931e0f9b83a43b60937c1aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -849,7 +849,9 @@ public class MergeOp {
       // TODO(yyonas): we need to be able to change the author of the message
       // is not the person for whom the change was made. addMergedMessage
       // did this in the past.
-      cmUtil.addChangeMessage(db, update, msg);
+      if (msg != null) {
+        cmUtil.addChangeMessage(db, update, msg);
+      }
       db.commit();
 
       sendMergedEmail(c, submitter);
@@ -1022,7 +1024,9 @@ public class MergeOp {
 
         //TODO(yyonas): atomic change is not propagated.
         update = updateFactory.create(control, c.getLastUpdatedOn());
-        cmUtil.addChangeMessage(db, update, msg);
+        if (msg != null) {
+          cmUtil.addChangeMessage(db, update, msg);
+        }
         db.commit();
       } finally {
         db.rollback();

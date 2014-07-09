@@ -68,9 +68,7 @@ public class ChangeMessagesUtil {
 
   public void addChangeMessage(ReviewDb db, ChangeUpdate update,
       ChangeMessage changeMessage) throws OrmException {
-    if (changeMessage != null) {
-      update.setChangeMessage(changeMessage.getMessage());
-      db.changeMessages().insert(Collections.singleton(changeMessage));
-    }
+    update.setChangeMessage(changeMessage.getMessage());
+    db.changeMessages().insert(Collections.singleton(changeMessage));
   }
 }

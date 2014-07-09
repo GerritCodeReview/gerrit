@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "7915242e_39dd8f7f",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetDetailFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-09T17:23:52Z",
+      "side": 1,
+      "message": "Yes.",
+      "parentUuid": "847b4d5f_62c29619",
+      "revId": "086023efdb21aa938e546c9809202bf38a86c6bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "847b4d5f_420832f7",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetDetailFactory.java",
         "patchSetId": 1

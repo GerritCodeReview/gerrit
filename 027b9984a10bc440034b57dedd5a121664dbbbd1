@@ -1,0 +1,129 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7915242e_19e2cb37",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-09T17:23:56Z",
+      "side": 1,
+      "message": "Tiny nit: space before colon",
+      "range": {
+        "startLine": 95,
+        "startChar": 27,
+        "endLine": 95,
+        "endChar": 28
+      },
+      "revId": "027b9984a10bc440034b57dedd5a121664dbbbd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7915242e_f9e6f749",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-09T17:23:56Z",
+      "side": 1,
+      "message": "I would think it\u0027s fine to throw IllegalArgumentException (or maybe even NPE) if the caller is passing in a null comment. Is that happening somewhere, is that why you have this check?",
+      "revId": "027b9984a10bc440034b57dedd5a121664dbbbd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7915242e_d9e33338",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-09T17:23:56Z",
+      "side": 1,
+      "message": "It is highly unlikely the first would succeed and the second would fail. After the PatchList is loaded the first time, it stays in the in-memory cache and subsequent lookups do not incur a load, unless it\u0027s evicted. Which is not likely (though technically not impossible) to happen between those two statements.\n\nIn any case I would factor out a variable a) to save typing and b) so there\u0027s only one method call that might fail. Then you can also simplify the error message.",
+      "revId": "027b9984a10bc440034b57dedd5a121664dbbbd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7915242e_59ff23cd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-09T17:23:56Z",
+      "side": 1,
+      "message": "You already have an update in the caller, use that one so the PatchLineComments and ChangeMessages show up in the same update.",
+      "revId": "027b9984a10bc440034b57dedd5a121664dbbbd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "590a2015_b8f079fe",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/change/CommentsTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-09T17:23:56Z",
+      "side": 1,
+      "message": "Instead of making constructors public and manually injecting, just use injector.getInstance(NotesMigration.class).\n\n(This wouldn\u0027t be reason enough to create an injector if one didn\u0027t already exist, but it does.)",
+      "revId": "027b9984a10bc440034b57dedd5a121664dbbbd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7915242e_39f46fed",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/change/CommentsTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-09T17:23:56Z",
+      "side": 1,
+      "message": "Rather than making this a nice mock, just expect the upsert calls that happen via addPublishedComments. (I wouldn\u0027t have written this test using mocks at all, but let\u0027s stick with it since that\u0027s the way it is.)",
+      "revId": "027b9984a10bc440034b57dedd5a121664dbbbd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7915242e_19f9abe5",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/change/CommentsTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-09T17:23:56Z",
+      "side": 1,
+      "message": "Unnecessary blank line.",
+      "revId": "027b9984a10bc440034b57dedd5a121664dbbbd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

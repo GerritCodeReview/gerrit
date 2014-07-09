@@ -22,6 +22,10 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheStats;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
+import com.google.gerrit.extensions.common.CacheInfo;
+import com.google.gerrit.extensions.common.CacheInfo.CacheType;
+import com.google.gerrit.extensions.common.CacheInfo.EntriesInfo;
+import com.google.gerrit.extensions.common.CacheInfo.HitRatioInfo;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.RestReadView;
@@ -62,8 +66,8 @@ public class ListCaches implements RestReadView<ConfigResource> {
     if (format == null) {
       Map<String, CacheInfo> cacheInfos = new TreeMap<>();
       for (DynamicMap.Entry<Cache<?, ?>> e : cacheMap) {
-        cacheInfos.put(cacheNameOf(e.getPluginName(), e.getExportName()),
-            new CacheInfo(e.getProvider().get()));
+        String name = cacheNameOf(e.getPluginName(), e.getExportName());
+        cacheInfos.put(name, newCacheInfo(name, e.getProvider().get()));
       }
       return cacheInfos;
     } else {
@@ -84,117 +88,50 @@ public class ListCaches implements RestReadView<ConfigResource> {
     }
   }
 
-  public enum CacheType {
-    MEM, DISK;
+  static CacheInfo newCacheInfo(String name, Cache<?,?> cache) {
+    CacheInfo i = new CacheInfo();
+    i.name = name;
+
+    CacheStats stat = cache.stats();
+
+    i.entries = new EntriesInfo();
+    i.entries.setMem(cache.size());
+
+    i.averageGet = duration(stat.averageLoadPenalty());
+
+    i.hitRatio = new HitRatioInfo();
+    i.hitRatio.setMem(stat.hitCount(), stat.requestCount());
+
+    if (cache instanceof PersistentCache) {
+      i.type = CacheType.DISK;
+      PersistentCache.DiskStats diskStats =
+          ((PersistentCache) cache).diskStats();
+      i.entries.setDisk(diskStats.size());
+      i.entries.setSpace(diskStats.space());
+      i.hitRatio.setDisk(diskStats.hitCount(), diskStats.requestCount());
+    } else {
+      i. type = CacheType.MEM;
+    }
+    return i;
   }
 
-  public static class CacheInfo {
-    public String name;
-    public CacheType type;
-    public EntriesInfo entries;
-    public String averageGet;
-    public HitRatioInfo hitRatio;
-
-    public CacheInfo(Cache<?,?> cache) {
-      this(null, cache);
+  static String duration(double ns) {
+    if (ns < 0.5) {
+      return null;
     }
-
-    public CacheInfo(String name, Cache<?,?> cache) {
-      this.name = name;
-
-      CacheStats stat = cache.stats();
-
-      entries = new EntriesInfo();
-      entries.setMem(cache.size());
-
-      averageGet = duration(stat.averageLoadPenalty());
-
-      hitRatio = new HitRatioInfo();
-      hitRatio.setMem(stat.hitCount(), stat.requestCount());
-
-      if (cache instanceof PersistentCache) {
-        type = CacheType.DISK;
-        PersistentCache.DiskStats diskStats =
-            ((PersistentCache) cache).diskStats();
-        entries.setDisk(diskStats.size());
-        entries.setSpace(diskStats.space());
-        hitRatio.setDisk(diskStats.hitCount(), diskStats.requestCount());
-      } else {
-        type = CacheType.MEM;
-      }
+    String suffix = "ns";
+    if (ns >= 1000.0) {
+      ns /= 1000.0;
+      suffix = "us";
     }
-
-    private static String duration(double ns) {
-      if (ns < 0.5) {
-        return null;
-      }
-      String suffix = "ns";
-      if (ns >= 1000.0) {
-        ns /= 1000.0;
-        suffix = "us";
-      }
-      if (ns >= 1000.0) {
-        ns /= 1000.0;
-        suffix = "ms";
-      }
-      if (ns >= 1000.0) {
-        ns /= 1000.0;
-        suffix = "s";
-      }
-      return String.format("%4.1f%s", ns, suffix).trim();
+    if (ns >= 1000.0) {
+      ns /= 1000.0;
+      suffix = "ms";
     }
-  }
-
-  public static class EntriesInfo {
-    public Long mem;
-    public Long disk;
-    public String space;
-
-    public void setMem(long mem) {
-      this.mem = mem != 0 ? mem : null;
+    if (ns >= 1000.0) {
+      ns /= 1000.0;
+      suffix = "s";
     }
-
-    public void setDisk(long disk) {
-      this.disk = disk != 0 ? disk : null;
-    }
-
-    public void setSpace(double value) {
-      space = bytes(value);
-    }
-
-    private static String bytes(double value) {
-      value /= 1024;
-      String suffix = "k";
-
-      if (value > 1024) {
-        value /= 1024;
-        suffix = "m";
-      }
-      if (value > 1024) {
-        value /= 1024;
-        suffix = "g";
-      }
-      return String.format("%1$6.2f%2$s", value, suffix).trim();
-    }
-  }
-
-  public static class HitRatioInfo {
-    public Integer mem;
-    public Integer disk;
-
-    public void setMem(long value, long total) {
-      mem = percent(value, total);
-    }
-
-    public void setDisk(long value, long total) {
-      disk = percent(value, total);
-    }
-
-    private static Integer percent(long value, long total) {
-      if (total <= 0) {
-        return null;
-      }
-      return (int) ((100 * value) / total);
-    }
+    return String.format("%4.1f%s", ns, suffix).trim();
   }
 }

@@ -20,6 +20,7 @@ import com.google.gerrit.extensions.common.GitPerson;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.server.args4j.TimestampHandler;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
 
@@ -32,6 +33,7 @@ import org.kohsuke.args4j.Option;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 public class GetReflog implements RestReadView<BranchResource> {
@@ -44,7 +46,25 @@ public class GetReflog implements RestReadView<BranchResource> {
     return this;
   }
 
+  @Option(name = "--from", metaVar = "TIMESTAMP",
+      usage = "timestamp from which the reflog entries should be listed (UTC, format: "
+          + TimestampHandler.TIMESTAMP_FORMAT + ")")
+  public GetReflog setFrom(Timestamp from) {
+    this.from = from;
+    return this;
+  }
+
+  @Option(name = "--to", metaVar = "TIMESTAMP",
+      usage = "timestamp until which the reflog entries should be listed (UTC, format: "
+          + TimestampHandler.TIMESTAMP_FORMAT + ")")
+  public GetReflog setTo(Timestamp to) {
+    this.to = to;
+    return this;
+  }
+
   private int limit;
+  private Timestamp from;
+  private Timestamp to;
 
   @Inject
   public GetReflog(GitRepositoryManager repoManager) {
@@ -64,8 +84,25 @@ public class GetReflog implements RestReadView<BranchResource> {
       if (r == null) {
         throw new ResourceNotFoundException(rsrc.getRef());
       }
-      List<ReflogEntry> entries =
-          limit > 0 ? r.getReverseEntries(limit) : r.getReverseEntries();
+      List<ReflogEntry> entries;
+      if (from == null && to == null) {
+        entries =
+            limit > 0 ? r.getReverseEntries(limit) : r.getReverseEntries();
+      } else {
+        entries = limit > 0
+            ? new ArrayList<ReflogEntry>(limit)
+            : new ArrayList<ReflogEntry>();
+        for (ReflogEntry e : r.getReverseEntries()) {
+          Timestamp timestamp = new Timestamp(e.getWho().getWhen().getTime());
+          if ((from == null || from.before(timestamp)) &&
+              (to == null || to.after(timestamp))) {
+            entries.add(e);
+          }
+          if (limit > 0 && entries.size() >= limit) {
+            break;
+          }
+        }
+      }
       return Lists.transform(entries, new Function<ReflogEntry, ReflogEntryInfo>() {
         @Override
         public ReflogEntryInfo apply(ReflogEntry e) {

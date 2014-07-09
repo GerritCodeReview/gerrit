@@ -26,6 +26,7 @@ import com.google.gerrit.server.args4j.ObjectIdHandler;
 import com.google.gerrit.server.args4j.PatchSetIdHandler;
 import com.google.gerrit.server.args4j.ProjectControlHandler;
 import com.google.gerrit.server.args4j.SocketAddressHandler;
+import com.google.gerrit.server.args4j.TimestampHandler;
 import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.util.cli.CmdLineParser;
@@ -35,6 +36,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.kohsuke.args4j.spi.OptionHandler;
 
 import java.net.SocketAddress;
+import java.sql.Timestamp;
 
 public class CmdLineParserModule extends FactoryModule {
   public CmdLineParserModule() {
@@ -53,6 +55,7 @@ public class CmdLineParserModule extends FactoryModule {
     registerOptionHandler(PatchSet.Id.class, PatchSetIdHandler.class);
     registerOptionHandler(ProjectControl.class, ProjectControlHandler.class);
     registerOptionHandler(SocketAddress.class, SocketAddressHandler.class);
+    registerOptionHandler(Timestamp.class, TimestampHandler.class);
   }
 
   private <T> void registerOptionHandler(Class<T> type,

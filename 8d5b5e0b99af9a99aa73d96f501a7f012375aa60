@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a443f132_ab1b8944",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/HttpAutoRegisterModuleGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-07-09T09:41:58Z",
+      "side": 1,
+      "message": "IMO you should only autoregister only one JS client plugin.",
+      "range": {
+        "startLine": 62,
+        "startChar": 4,
+        "endLine": 62,
+        "endChar": 43
+      },
+      "revId": "8d5b5e0b99af9a99aa73d96f501a7f012375aa60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -17,25 +17,31 @@ package com.google.gerrit.httpd.plugins;
 import static com.google.gerrit.server.plugins.AutoRegisterUtil.calculateBindAnnotation;
 
 import com.google.common.collect.LinkedListMultimap;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.gerrit.extensions.annotations.Export;
+import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.extensions.webui.JavaScriptPlugin;
+import com.google.gerrit.extensions.webui.WebUiPlugin;
+import com.google.gerrit.server.plugins.HttpModuleGenerator;
 import com.google.gerrit.server.plugins.InvalidPluginException;
-import com.google.gerrit.server.plugins.ModuleGenerator;
 import com.google.inject.Module;
 import com.google.inject.Scopes;
 import com.google.inject.TypeLiteral;
 import com.google.inject.servlet.ServletModule;
 
 import java.lang.annotation.Annotation;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServlet;
 
 class HttpAutoRegisterModuleGenerator extends ServletModule
-    implements ModuleGenerator {
+    implements HttpModuleGenerator {
   private final Map<String, Class<HttpServlet>> serve = Maps.newHashMap();
   private final Multimap<TypeLiteral<?>, Class<?>> listeners = LinkedListMultimap.create();
+  private final List<String> javaScripts = Lists.newArrayList();
 
   @Override
   protected void configureServlets() {
@@ -52,6 +58,10 @@ class HttpAutoRegisterModuleGenerator extends ServletModule
 
       Annotation n = calculateBindAnnotation(impl);
       bind(type).annotatedWith(n).to(impl);
+    }
+    for (String javaScript : javaScripts) {
+      DynamicSet.bind(binder(), WebUiPlugin.class).toInstance(
+          new JavaScriptPlugin(javaScript));
     }
   }
 
@@ -77,6 +87,10 @@ class HttpAutoRegisterModuleGenerator extends ServletModule
           type.getName(), export.value(),
           HttpServlet.class.getName()));
     }
+  }
+
+  public void export(String javaScript) {
+    javaScripts.add(javaScript);
   }
 
   @Override

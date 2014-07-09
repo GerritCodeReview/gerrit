@@ -29,6 +29,10 @@ import com.google.inject.Module;
 import com.google.inject.Scopes;
 import com.google.inject.TypeLiteral;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.ParameterizedType;
 import java.util.Arrays;
@@ -36,12 +40,15 @@ import java.util.Map;
 import java.util.Set;
 
 class AutoRegisterModules {
+  private static final String INIT_JS = "init.js";
+  private static final String STATIC_INIT_JS = "static/" + INIT_JS;
+  private static Logger log = LoggerFactory.getLogger(AutoRegisterModules.class);
   private final String pluginName;
   private final PluginGuiceEnvironment env;
   private final PluginContentScanner scanner;
   private final ClassLoader classLoader;
   private final ModuleGenerator sshGen;
-  private final ModuleGenerator httpGen;
+  private final HttpModuleGenerator httpGen;
 
   private Set<Class<?>> sysSingletons;
   private Multimap<TypeLiteral<?>, Class<?>> sysListen;
@@ -116,6 +123,21 @@ class AutoRegisterModules {
     }
     for (ExtensionMetaData listener : extensions.get(Listen.class)) {
       listen(listener);
+    }
+    exportInitJs();
+  }
+
+  private void exportInitJs() {
+    try {
+      if (scanner.getEntry(STATIC_INIT_JS).isPresent()) {
+        httpGen.export(INIT_JS);
+      }
+    } catch (IOException e) {
+      log.warn(
+          String
+              .format(
+                  "Cannot access %s from plugin %s: JavaScript auto-discovered plugin will not be registered",
+                  STATIC_INIT_JS, pluginName), e);
     }
   }
 

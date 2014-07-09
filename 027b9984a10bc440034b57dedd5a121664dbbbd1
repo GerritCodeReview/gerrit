@@ -84,6 +84,24 @@
     },
     {
       "key": {
+        "uuid": "04783d6e_768b305a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-09T22:32:46Z",
+      "side": 1,
+      "message": "I think that was to deal with a specific caller in ChangeInserter or something? Probably worth revisiting.",
+      "parentUuid": "590a2015_58ff1dcd",
+      "revId": "027b9984a10bc440034b57dedd5a121664dbbbd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7915242e_d9e33338",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
         "patchSetId": 5

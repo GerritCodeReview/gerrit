@@ -1025,6 +1025,30 @@ is returned that describes the commit.
   }
 ----
 
+[[get-content]]
+=== Get Content
+--
+'GET /projects/link:#project-name[\{project-name\}]/commits/link:#commit-id[\{commit-id\}]/files/link:rest-api-changes.html#file-id[\{file-id\}]/content'
+--
+
+Gets the content of a file from a certain commit.
+
+.Request
+----
+  GET /projects/work%2Fmy-project/commits/a8a477efffbbf3b44169bb9a1d3a334cbbd9aa96/files/gerrit-server%2Fsrc%2Fmain%2Fjava%2Fcom%2Fgoogle%2Fgerrit%2Fserver%2Fproject%2FRefControl.java/content HTTP/1.0
+----
+
+The content is returned as base64 encoded string.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: text/plain;charset=UTF-8
+
+  Ly8gQ29weXJpZ2h0IChDKSAyMDEwIFRoZSBBbmRyb2lkIE9wZW4gU291cmNlIFByb2plY...
+----
+
 [[dashboard-endpoints]]
 == Dashboard Endpoints
 

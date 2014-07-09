@@ -67,6 +67,7 @@ public class Module extends RestApiModule {
 
     child(PROJECT_KIND, "commits").to(CommitsCollection.class);
     get(COMMIT_KIND).to(GetCommit.class);
+    child(COMMIT_KIND, "files").to(FilesInCommitCollection.class);
 
     child(PROJECT_KIND, "dashboards").to(DashboardsCollection.class);
     get(DASHBOARD_KIND).to(GetDashboard.class);

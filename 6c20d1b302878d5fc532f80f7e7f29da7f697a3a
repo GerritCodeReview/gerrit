@@ -93,6 +93,30 @@
       "revId": "6c20d1b302878d5fc532f80f7e7f29da7f697a3a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "248aa19d_ff41df6e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-09T13:47:06Z",
+      "side": 1,
+      "message": "Acceptance-test, where you call this REST endpoint with old and new query parameters. Per default we only create one project: \"p\", but may be you want to create couple of new projects to verify your regex engine invocations.",
+      "parentUuid": "39f64c4a_9fed9326",
+      "range": {
+        "startLine": 171,
+        "startChar": 14,
+        "endLine": 171,
+        "endChar": 27
+      },
+      "revId": "6c20d1b302878d5fc532f80f7e7f29da7f697a3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -23,7 +23,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountInfo;
 import com.google.gerrit.server.account.GroupCache;
-import com.google.gerrit.server.account.GroupDetailFactory.Factory;
+import com.google.gerrit.server.account.GroupDetail;
 import com.google.gerrit.server.group.ListMembers;
 import com.google.gerrit.server.ioutil.ColumnFormatter;
 import com.google.gerrit.sshd.BaseCommand;
@@ -71,7 +71,7 @@ public class ListMembersCommand extends BaseCommand {
 
     @Inject
     protected ListMembersCommandImpl(GroupCache groupCache,
-        Factory groupDetailFactory,
+        GroupDetail.Factory groupDetailFactory,
         AccountInfo.Loader.Factory accountLoaderFactory,
         AccountCache accountCache) {
       super(groupCache, groupDetailFactory, accountLoaderFactory);

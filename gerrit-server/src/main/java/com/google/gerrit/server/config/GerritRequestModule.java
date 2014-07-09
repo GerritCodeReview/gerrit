@@ -18,13 +18,11 @@ import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.RequestCleanup;
-import com.google.gerrit.server.git.BanCommit;
 import com.google.gerrit.server.git.MergeOp;
 import com.google.gerrit.server.git.SubmoduleOp;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.PerRequestProjectControlCache;
 import com.google.gerrit.server.project.ProjectControl;
-import com.google.gerrit.server.project.SuggestParentCandidates;
 import com.google.inject.servlet.RequestScoped;
 
 /** Bindings for {@link RequestScoped} entities. */
@@ -41,11 +39,5 @@ public class GerritRequestModule extends FactoryModule {
 
     factory(SubmoduleOp.Factory.class);
     factory(MergeOp.Factory.class);
-
-    // Not really per-request, but dammit, I don't know where else to
-    // easily park this stuff.
-    //
-    factory(SuggestParentCandidates.Factory.class);
-    factory(BanCommit.Factory.class);
   }
 }

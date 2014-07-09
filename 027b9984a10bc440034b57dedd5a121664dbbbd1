@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "590a2015_78fae1de",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-09T18:53:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7915242e_19e2cb37",
+      "range": {
+        "startLine": 95,
+        "startChar": 27,
+        "endLine": 95,
+        "endChar": 28
+      },
+      "revId": "027b9984a10bc440034b57dedd5a121664dbbbd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7915242e_f9e6f749",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
         "patchSetId": 5
@@ -36,6 +60,24 @@
       "writtenOn": "2014-07-09T17:23:56Z",
       "side": 1,
       "message": "I would think it\u0027s fine to throw IllegalArgumentException (or maybe even NPE) if the caller is passing in a null comment. Is that happening somewhere, is that why you have this check?",
+      "revId": "027b9984a10bc440034b57dedd5a121664dbbbd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "590a2015_58ff1dcd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-09T18:53:09Z",
+      "side": 1,
+      "message": "I just did that in ChangeMessagesUtil, so I did it for parallel structure :P. I think it is legitimate to have a null ChangeMessage, but I probably should\u0027ve done that check on the caller side in that case. I will get rid of this check which will should throw an NPE in update.putComment() if applicable.",
+      "parentUuid": "7915242e_f9e6f749",
       "revId": "027b9984a10bc440034b57dedd5a121664dbbbd1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "590a2015_38f469ed",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-09T18:53:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7915242e_d9e33338",
+      "revId": "027b9984a10bc440034b57dedd5a121664dbbbd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7915242e_59ff23cd",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
         "patchSetId": 5
@@ -70,6 +130,24 @@
       "writtenOn": "2014-07-09T17:23:56Z",
       "side": 1,
       "message": "You already have an update in the caller, use that one so the PatchLineComments and ChangeMessages show up in the same update.",
+      "revId": "027b9984a10bc440034b57dedd5a121664dbbbd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7915242e_592603d7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-09T18:53:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7915242e_59ff23cd",
       "revId": "027b9984a10bc440034b57dedd5a121664dbbbd1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -93,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "7915242e_392b4f9f",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/change/CommentsTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-09T18:53:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "590a2015_b8f079fe",
+      "revId": "027b9984a10bc440034b57dedd5a121664dbbbd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7915242e_39f46fed",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/change/CommentsTest.java",
         "patchSetId": 5
@@ -110,6 +206,24 @@
     },
     {
       "key": {
+        "uuid": "590a2015_f80dd15b",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/change/CommentsTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-09T18:53:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7915242e_39f46fed",
+      "revId": "027b9984a10bc440034b57dedd5a121664dbbbd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7915242e_19f9abe5",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/change/CommentsTest.java",
         "patchSetId": 5
@@ -121,6 +235,24 @@
       "writtenOn": "2014-07-09T17:23:56Z",
       "side": 1,
       "message": "Unnecessary blank line.",
+      "revId": "027b9984a10bc440034b57dedd5a121664dbbbd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "590a2015_18f9a5e5",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/change/CommentsTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-09T18:53:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7915242e_19f9abe5",
       "revId": "027b9984a10bc440034b57dedd5a121664dbbbd1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

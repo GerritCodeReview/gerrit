@@ -24,6 +24,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
 import org.eclipse.jgit.api.errors.ConcurrentRefUpdateException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
@@ -45,38 +46,36 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
+@Singleton
 public class BanCommit {
-  public interface Factory {
-    BanCommit create();
-  }
 
   /**
-  * Loads a list of commits to reject from {@code refs/meta/reject-commits}.
-  *
-  * @param repo repository from which the rejected commits should be loaded
-  * @return NoteMap of commits to be rejected, null if there are none.
-  * @throws IOException the map cannot be loaded.
-  */
+   * Loads a list of commits to reject from {@code refs/meta/reject-commits}.
+   *
+   * @param repo repository from which the rejected commits should be loaded
+   * @return NoteMap of commits to be rejected, null if there are none.
+   * @throws IOException the map cannot be loaded.
+   */
   public static NoteMap loadRejectCommitsMap(Repository repo)
       throws IOException {
-   try {
-     Ref ref = repo.getRef(RefNames.REFS_REJECT_COMMITS);
-     if (ref == null) {
-       return NoteMap.newEmptyMap();
-     }
+    try {
+      Ref ref = repo.getRef(RefNames.REFS_REJECT_COMMITS);
+      if (ref == null) {
+        return NoteMap.newEmptyMap();
+      }
 
-     RevWalk rw = new RevWalk(repo);
-     try {
-       RevCommit map = rw.parseCommit(ref.getObjectId());
-       return NoteMap.read(rw.getObjectReader(), map);
-     } finally {
-       rw.release();
-     }
-   } catch (IOException badMap) {
-     throw new IOException("Cannot load "
-         + RefNames.REFS_REJECT_COMMITS, badMap);
-   }
- }
+      RevWalk rw = new RevWalk(repo);
+      try {
+        RevCommit map = rw.parseCommit(ref.getObjectId());
+        return NoteMap.read(rw.getObjectReader(), map);
+      } finally {
+        rw.release();
+      }
+    } catch (IOException badMap) {
+      throw new IOException("Cannot load " + RefNames.REFS_REJECT_COMMITS,
+          badMap);
+    }
+  }
 
   private final Provider<IdentifiedUser> currentUser;
   private final GitRepositoryManager repoManager;
@@ -96,8 +95,8 @@ public class BanCommit {
 
   public BanCommitResult ban(final ProjectControl projectControl,
       final List<ObjectId> commitsToBan, final String reason)
-      throws PermissionDeniedException, IOException,
-      InterruptedException, MergeException, ConcurrentRefUpdateException {
+      throws PermissionDeniedException, IOException, InterruptedException,
+      MergeException, ConcurrentRefUpdateException {
     if (!projectControl.isOwner()) {
       throw new PermissionDeniedException(
           "No project owner: not permitted to ban commits");
@@ -124,8 +123,8 @@ public class BanCommit {
           banCommitNotes.set(commitToBan, createNoteContent(reason, inserter));
         }
         inserter.flush();
-        NotesBranchUtil notesBranchUtil = notesBranchUtilFactory.create(project,
-            repo, inserter);
+        NotesBranchUtil notesBranchUtil =
+            notesBranchUtilFactory.create(project, repo, inserter);
         NoteMap newlyCreated =
             notesBranchUtil.commitNewNotes(banCommitNotes, REFS_REJECT_COMMITS,
                 createPersonIdent(), buildCommitMessage(commitsToBan, reason));

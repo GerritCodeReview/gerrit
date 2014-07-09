@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "248aa19d_df917bce",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/HttpAutoRegisterModuleGenerator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-07-09T08:25:54Z",
+      "side": 1,
+      "message": "Actually THIS is the only needed :-) as we need to auto-register the JavaScript plugin as HTTP auto registered Guice module.",
+      "parentUuid": "248aa19d_3fafc71c",
+      "revId": "50348cc68710135a8fcff0f0365e331a23d6f253",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a443f132_ab20e990",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/AutoRegisterModules.java",
         "patchSetId": 2

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a443f132_cb10d523",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetCommit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-09T10:02:27Z",
+      "side": 1,
+      "message": "I hoped we could reuse parts from mapping in [1]? But it seems, that the source is completely different there.\n\n [1] https://gerrit.googlesource.com/gerrit/+/master/gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java#841",
+      "range": {
+        "startLine": 38,
+        "startChar": 2,
+        "endLine": 63,
+        "endChar": 3
+      },
+      "revId": "b3d64e96c2d5868c16d1de06fcfd8429f58d96cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

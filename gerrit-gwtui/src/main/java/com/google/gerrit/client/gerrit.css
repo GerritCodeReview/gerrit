@@ -96,6 +96,8 @@ a:hover {
   margin-right: 0.2em;
   position: relative;
   top: 2px;
+  height: 16px !important;
+  width: 16px;
 }
 
 .accountLinkPanel a {

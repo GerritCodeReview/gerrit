@@ -7,6 +7,8 @@ Download:
 link:https://gerrit-releases.storage.googleapis.com/gerrit-2.8.6.war[
 https://gerrit-releases.storage.googleapis.com/gerrit-2.8.6.war]
 
+*Warning*: Support for MySQL's MyISAM storage engine is discontinued.
+Only transactional storage engines are supported.
 
 Bug Fixes
 ---------
@@ -14,10 +16,32 @@ Bug Fixes
 * link:https://code.google.com/p/gerrit/issues/detail?id=2034[Issue 2034],
 link:https://code.google.com/p/gerrit/issues/detail?id=2383[Issue 2383],
 link:https://code.google.com/p/gerrit/issues/detail?id=2702[Issue 2702]:
-Fix race condition in change merge queue.
+Fix race condition in change merge queue when using Cherry-Pick submit
+strategy.
 +
 There was a race in the merge queue between changes submitted via
 the UI, and merges scheduled by the background merge queue reload.
 +
 This resulted in multiple submit actions being scheduled, leading
 to corrupt changes.
++
+Execute cherry-pick submit DML operations in a database transaction
+boundaries. In combination with implemented transaction management
+for Jdbc dialects it solves the problem recovering from collisions
+between interactive actions and background jobs.
+
+* In gwtorm the LIMIT clause was only honored when followed by a
+constant integer.
++
+When followed by a placeholder "?" it wasn't included in the generated database
+query. This caused poor performance when moving to the next change page for very
+big projects.
+
+* Fix sporadic SSHD handshake failures
+(link:https://issues.apache.org/jira/browse/SSHD-330[SSHD-330]).
+
+Updates
+-------
+
+* gwtorm is updated to 1.7.1
+* sshd is updated to 0.11.1-atlassian-1

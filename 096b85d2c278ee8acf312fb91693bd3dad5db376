@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "a443f132_0b59fd11",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-07-09T07:52:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a443f132_eb2af16c",
+      "range": {
+        "startLine": 9,
+        "startChar": 22,
+        "endLine": 9,
+        "endChar": 30
+      },
+      "revId": "096b85d2c278ee8acf312fb91693bd3dad5db376",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a443f132_eb43d124",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-07-09T07:52:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "248aa19d_9fbd3358",
+      "range": {
+        "startLine": 9,
+        "startChar": 45,
+        "endLine": 9,
+        "endChar": 46
+      },
+      "revId": "096b85d2c278ee8acf312fb91693bd3dad5db376",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a443f132_6b96016a",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -59,6 +107,30 @@
       "writtenOn": "2014-07-09T07:43:10Z",
       "side": 1,
       "message": "Nit: Trailing space",
+      "range": {
+        "startLine": 18,
+        "startChar": 48,
+        "endLine": 18,
+        "endChar": 50
+      },
+      "revId": "096b85d2c278ee8acf312fb91693bd3dad5db376",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a443f132_2b56b9e2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-07-09T07:52:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a443f132_6b96016a",
       "range": {
         "startLine": 18,
         "startChar": 48,
@@ -105,6 +177,24 @@
       "writtenOn": "2014-07-09T07:43:10Z",
       "side": 1,
       "message": "I don\u0027t think this section above is needed.",
+      "revId": "096b85d2c278ee8acf312fb91693bd3dad5db376",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "248aa19d_7fb94f62",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-07-09T07:52:09Z",
+      "side": 1,
+      "message": "True :-) will remove it.",
+      "parentUuid": "a443f132_2b2dd982",
       "revId": "096b85d2c278ee8acf312fb91693bd3dad5db376",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

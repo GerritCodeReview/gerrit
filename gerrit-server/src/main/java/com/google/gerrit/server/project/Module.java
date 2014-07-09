@@ -53,6 +53,8 @@ public class Module extends RestApiModule {
     get(PROJECT_KIND, "HEAD").to(GetHead.class);
     put(PROJECT_KIND, "HEAD").to(SetHead.class);
 
+    put(PROJECT_KIND, "ban").to(BanCommit.class);
+
     get(PROJECT_KIND, "statistics.git").to(GetStatistics.class);
     post(PROJECT_KIND, "gc").to(GarbageCollect.class);
 

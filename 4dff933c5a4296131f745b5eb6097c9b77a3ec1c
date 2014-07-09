@@ -45,6 +45,30 @@
       "revId": "4dff933c5a4296131f745b5eb6097c9b77a3ec1c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "248aa19d_9f59b370",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 546,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-09T12:58:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e48b29a1_7dbf9797",
+      "range": {
+        "startLine": 546,
+        "startChar": 72,
+        "endLine": 546,
+        "endChar": 74
+      },
+      "revId": "4dff933c5a4296131f745b5eb6097c9b77a3ec1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

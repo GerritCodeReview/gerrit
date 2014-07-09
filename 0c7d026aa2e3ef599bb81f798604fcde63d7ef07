@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "39f64c4a_ff149f61",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-07-09T20:26:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39448c56_0fe28537",
+      "range": {
+        "startLine": 245,
+        "startChar": 76,
+        "endLine": 245,
+        "endChar": 104
+      },
+      "revId": "0c7d026aa2e3ef599bb81f798604fcde63d7ef07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "39448c56_cfe35d38",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
         "patchSetId": 7
@@ -36,6 +60,30 @@
       "writtenOn": "2014-07-09T20:15:46Z",
       "side": 1,
       "message": "I think in other places we handle one special case, if regex \u003d \"*\". Then we can skip it all and just return all projects, right? Add a unit test for that?",
+      "range": {
+        "startLine": 467,
+        "startChar": 6,
+        "endLine": 478,
+        "endChar": 7
+      },
+      "revId": "0c7d026aa2e3ef599bb81f798604fcde63d7ef07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04783d6e_568e346b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-07-09T20:26:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39448c56_cfe35d38",
       "range": {
         "startLine": 467,
         "startChar": 6,

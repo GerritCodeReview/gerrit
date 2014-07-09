@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a443f132_4b05c5dd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-09T12:48:52Z",
+      "side": 1,
+      "message": "We should add unit test for this REST endpoint in general and for this new option in particular.",
+      "range": {
+        "startLine": 171,
+        "startChar": 14,
+        "endLine": 171,
+        "endChar": 27
+      },
+      "revId": "6c20d1b302878d5fc532f80f7e7f29da7f697a3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

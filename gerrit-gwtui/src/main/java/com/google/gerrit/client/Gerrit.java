@@ -461,8 +461,6 @@ public class Gerrit implements EntryPoint {
       vs = "dev";
     }
 
-    btmmenu.add(new InlineLabel(C.keyHelp()));
-    btmmenu.add(new InlineLabel(" | "));
     btmmenu.add(new InlineHTML(M.poweredBy(vs)));
 
     final String reportBugText = getConfig().getReportBugText();
@@ -473,6 +471,8 @@ public class Gerrit implements EntryPoint {
     a.setStyleName("");
     btmmenu.add(new InlineLabel(" | "));
     btmmenu.add(a);
+    btmmenu.add(new InlineLabel(" | "));
+    btmmenu.add(new InlineLabel(C.keyHelp()));
   }
 
   private void onModuleLoad2(HostPageData hpd) {

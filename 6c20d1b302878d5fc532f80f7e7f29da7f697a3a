@@ -117,6 +117,30 @@
       "revId": "6c20d1b302878d5fc532f80f7e7f29da7f697a3a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04783d6e_1643dc56",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-07-09T13:58:26Z",
+      "side": 1,
+      "message": "Thanks for the info, I will create the test. I am not familiar with Gerrit acceptance test suite but I want to learn so, which acceptance I should be looking at for a good example?",
+      "parentUuid": "248aa19d_ff41df6e",
+      "range": {
+        "startLine": 171,
+        "startChar": 14,
+        "endLine": 171,
+        "endChar": 27
+      },
+      "revId": "6c20d1b302878d5fc532f80f7e7f29da7f697a3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

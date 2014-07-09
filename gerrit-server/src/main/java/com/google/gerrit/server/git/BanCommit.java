@@ -23,6 +23,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
 import org.eclipse.jgit.api.errors.ConcurrentRefUpdateException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
@@ -42,11 +43,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
+@Singleton
 public class BanCommit {
-  public interface Factory {
-    BanCommit create();
-  }
-
   private final Provider<IdentifiedUser> currentUser;
   private final GitRepositoryManager repoManager;
   private final PersonIdent gerritIdent;

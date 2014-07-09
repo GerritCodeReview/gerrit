@@ -135,7 +135,7 @@ final class CreateProjectCommand extends SshCommand {
   private GerritApi gApi;
 
   @Inject
-  private SuggestParentCandidates.Factory suggestParentCandidatesFactory;
+  private SuggestParentCandidates suggestParentCandidates;
 
   @Override
   protected void run() throws UnloggedFailure {
@@ -176,7 +176,7 @@ final class CreateProjectCommand extends SshCommand {
         gApi.projects().name(projectName).create(input);
       } else {
         List<Project.NameKey> parentCandidates =
-            suggestParentCandidatesFactory.create().getNameKeys();
+            suggestParentCandidates.getNameKeys();
 
         for (Project.NameKey parent : parentCandidates) {
           stdout.print(parent + "\n");

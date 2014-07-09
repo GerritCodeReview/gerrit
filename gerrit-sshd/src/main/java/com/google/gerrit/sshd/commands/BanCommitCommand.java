@@ -50,13 +50,13 @@ public class BanCommitCommand extends SshCommand {
   private List<ObjectId> commitsToBan = new ArrayList<>();
 
   @Inject
-  private BanCommit.Factory banCommitFactory;
+  private BanCommit banCommit;
 
   @Override
   protected void run() throws Failure {
     try {
       final BanCommitResult result =
-          banCommitFactory.create().ban(projectControl, commitsToBan, reason);
+          banCommit.ban(projectControl, commitsToBan, reason);
 
       final List<ObjectId> newlyBannedCommits =
           result.getNewlyBannedCommits();

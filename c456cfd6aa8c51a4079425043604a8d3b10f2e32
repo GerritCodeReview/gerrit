@@ -46,6 +46,30 @@
       "revId": "c456cfd6aa8c51a4079425043604a8d3b10f2e32",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a443f132_aba549a9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritGlobalModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-09T13:32:32Z",
+      "side": 1,
+      "message": "I know, that it was moved. I can read code. My point is: You are already on it. All what i suggest, upload a prerequisite code that this change depends on and eliminate three line, delete binding, and inject it directly. Sure i can do that too, but the difference is: if i do it, that change is going to be pending unreviewed for the next 2 years. If you do that, it will be merged today evening.",
+      "parentUuid": "248aa19d_9f429374",
+      "range": {
+        "startLine": 207,
+        "startChar": 12,
+        "endLine": 207,
+        "endChar": 29
+      },
+      "revId": "c456cfd6aa8c51a4079425043604a8d3b10f2e32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

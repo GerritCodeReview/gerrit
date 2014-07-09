@@ -49,6 +49,54 @@
     },
     {
       "key": {
+        "uuid": "248aa19d_df0edb95",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-07-09T07:15:14Z",
+      "side": 1,
+      "message": "Yes we can change 1. to \"Enable Email notification\"  but I have a question here. If user selects 2 then in that case also email notification is enabled and user will also be CC on the comments he/she writes. So should 2nd options be kept as it is \nor it should be changed?",
+      "parentUuid": "e48b29a1_5d881b0e",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 30
+      },
+      "revId": "507bbd7765a2f5383b8b479942d068af452ee476",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a443f132_eba911b2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-07-09T07:15:14Z",
+      "side": 1,
+      "message": "Option 1 means email notification is enabled which is also the default.",
+      "parentUuid": "e48b29a1_7dacf78c",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 30
+      },
+      "revId": "507bbd7765a2f5383b8b479942d068af452ee476",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "04783d6e_f6fbc0dd",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeConstants.java",
         "patchSetId": 1

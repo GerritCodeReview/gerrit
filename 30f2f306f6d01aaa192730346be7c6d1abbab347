@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7915242e_f90dd75b",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1186,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-09T17:26:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "590a2015_f8e6f149",
+      "range": {
+        "startLine": 1186,
+        "startChar": 63,
+        "endLine": 1186,
+        "endChar": 64
+      },
+      "revId": "30f2f306f6d01aaa192730346be7c6d1abbab347",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "590a2015_18e2c537",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/ChangesForTestUtil.java",
         "patchSetId": 2
@@ -36,6 +60,24 @@
       "writtenOn": "2014-07-09T17:17:04Z",
       "side": 1,
       "message": "Maybe TestChanges? \n\n*I prefer FooBar over BarForFoo\n*\"Util\" is redundant with the package name\n*TestFoo says \"implementation (e.g. fake) of Foo for tests\" while TestFoos says \"static methods for dealing with Foos\"\n\nIt\u0027s not super compelling, but hey, at least it\u0027s shorter.",
+      "revId": "30f2f306f6d01aaa192730346be7c6d1abbab347",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7915242e_d90a1342",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/ChangesForTestUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-09T17:26:33Z",
+      "side": 1,
+      "message": "Yeah, good idea.",
+      "parentUuid": "590a2015_18e2c537",
       "revId": "30f2f306f6d01aaa192730346be7c6d1abbab347",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

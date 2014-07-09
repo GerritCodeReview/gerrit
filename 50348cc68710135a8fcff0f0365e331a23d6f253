@@ -1,0 +1,135 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "248aa19d_3fafc71c",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/HttpAutoRegisterModuleGenerator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-07-09T07:47:10Z",
+      "side": 1,
+      "message": "Not needed.",
+      "revId": "50348cc68710135a8fcff0f0365e331a23d6f253",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a443f132_ab20e990",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/AutoRegisterModules.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-07-09T07:47:10Z",
+      "side": 1,
+      "message": "Instead of using this \"hack\" of having the JarScanner to return the init.js as fake export annotation, why don\u0027t you simply check if scanner.getEntry(\"static/init.js\") is present and register a JavaScriptPlugin for it?\n\nThis would have two benefits:\na) Avoid the hack and make the code more explicit\nb) Allow any content scanner to benefit from it (not only the Jar)",
+      "range": {
+        "startLine": 126,
+        "startChar": 4,
+        "endLine": 130,
+        "endChar": 5
+      },
+      "revId": "50348cc68710135a8fcff0f0365e331a23d6f253",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a443f132_ab49c948",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/BindCallback.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-07-09T07:47:10Z",
+      "side": 1,
+      "message": "Not needed.",
+      "revId": "50348cc68710135a8fcff0f0365e331a23d6f253",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a443f132_6b37e1d0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JarScanner.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-07-09T07:47:10Z",
+      "side": 1,
+      "message": "You don\u0027t need to make changes to JarScanner: work at AutoRegisterModules level by checking scanner.getEntry(\"static/init.js\") and it will then work with ANY content scanner exist today or will exist in the future.",
+      "revId": "50348cc68710135a8fcff0f0365e331a23d6f253",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a443f132_cb2535a0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JsPlugin.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-07-09T07:47:10Z",
+      "side": 1,
+      "message": "Those constants are misleading here: your change has nothing to do with the JsPlugin but more with the auto-discovery content scanner. The JsPlugin refer to the management of .js files on the $GERRIT_SITE/plugins whilst you want to add the auto-discovery and Guice registration of JavaScriptPlugin (not JsPlugin) from other types of plugins archives.",
+      "range": {
+        "startLine": 33,
+        "startChar": 2,
+        "endLine": 34,
+        "endChar": 72
+      },
+      "revId": "50348cc68710135a8fcff0f0365e331a23d6f253",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "248aa19d_1fb20384",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ModuleGenerator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-07-09T07:47:10Z",
+      "side": 1,
+      "message": "Not needed: you can explicit bind your JavaScriptPlugin in AutoRegisterModules",
+      "revId": "50348cc68710135a8fcff0f0365e331a23d6f253",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a443f132_8b440d32",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshAutoRegisterModuleGenerator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-07-09T07:47:10Z",
+      "side": 1,
+      "message": "SSH? How a static/init.js can impact the SSH auto-registration?",
+      "revId": "50348cc68710135a8fcff0f0365e331a23d6f253",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

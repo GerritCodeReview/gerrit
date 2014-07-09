@@ -46,6 +46,30 @@
       "revId": "470854668ed53ffbbc6c0dab693b0274fdea41b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e48b29a1_5dc2db18",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitIndex.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-09T12:10:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "847b4d5f_024f0af2",
+      "range": {
+        "startLine": 53,
+        "startChar": 6,
+        "endLine": 53,
+        "endChar": 71
+      },
+      "revId": "470854668ed53ffbbc6c0dab693b0274fdea41b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

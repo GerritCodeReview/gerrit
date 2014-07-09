@@ -22,6 +22,53 @@
       "revId": "05f064626bdac4f174f340d0cabef068f9471d56",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e48b29a1_9d72a366",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-09T04:29:13Z",
+      "side": 1,
+      "message": "I would prefer not to merge this without a real name.\n\nIt\u0027s not my decision though; if Shawn is happy with it, then it\u0027s OK.",
+      "parentUuid": "248aa19d_5f69eb34",
+      "range": {
+        "startLine": 2,
+        "startChar": 18,
+        "endLine": 2,
+        "endChar": 24
+      },
+      "revId": "05f064626bdac4f174f340d0cabef068f9471d56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e48b29a1_bd775f55",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-09T04:29:13Z",
+      "side": 1,
+      "message": "won\u0027t",
+      "range": {
+        "startLine": 11,
+        "startChar": 7,
+        "endLine": 11,
+        "endChar": 11
+      },
+      "revId": "05f064626bdac4f174f340d0cabef068f9471d56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

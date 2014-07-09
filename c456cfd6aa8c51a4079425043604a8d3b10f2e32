@@ -22,6 +22,30 @@
       "revId": "c456cfd6aa8c51a4079425043604a8d3b10f2e32",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "248aa19d_9f429374",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritGlobalModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-09T13:27:01Z",
+      "side": 1,
+      "message": "This binding was only moved from GerritRequestModule into GerritGlobalModule, it\u0027s not a new binding. It needs to be bound in GerritGlobalModule so that it can be used from the REST implementation class.\n\nThe factory is old code and follows some old pattern, likely this code could be improved. I would prefer to keep this change small, any additional refactoring could be done in a seperate change.",
+      "parentUuid": "a443f132_6bd36109",
+      "range": {
+        "startLine": 207,
+        "startChar": 12,
+        "endLine": 207,
+        "endChar": 29
+      },
+      "revId": "c456cfd6aa8c51a4079425043604a8d3b10f2e32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "847b4d5f_c24442da",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-09T08:18:31Z",
+      "side": 1,
+      "message": "The json option is probably not compatible with a number of the other options.  Add checks for that and report error, like here.",
+      "range": {
+        "startLine": 148,
+        "startChar": 4,
+        "endLine": 172,
+        "endChar": 5
+      },
+      "revId": "a1ae392f103df00f5d4c979cccef6a402600c6ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

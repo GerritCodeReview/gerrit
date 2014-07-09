@@ -16,6 +16,9 @@ package com.google.gerrit.extensions.webui;
 
 /** Configures a web UI plugin written using JavaScript. */
 public class JavaScriptPlugin extends WebUiPlugin {
+  public static final String INIT_JS = "init.js";
+  public static final String STATIC_INIT_JS = "static/" + INIT_JS;
+
   private final String fileName;
 
   /**

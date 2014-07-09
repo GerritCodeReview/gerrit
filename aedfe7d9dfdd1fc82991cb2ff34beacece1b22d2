@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "847b4d5f_a23f3e4d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-09T07:46:15Z",
+      "side": 1,
+      "message": "I added some config information in the config documentation.\n\nI don\u0027t think we need to explain how to download, install, and start the server.  We don\u0027t do that for Solr.",
+      "parentUuid": "248aa19d_dff6dbf8",
+      "revId": "aedfe7d9dfdd1fc82991cb2ff34beacece1b22d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "048f5dae_fefba1dd",
         "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticsearchChangeIndex.java",
         "patchSetId": 3
@@ -30,6 +48,30 @@
       "writtenOn": "2014-07-03T06:36:04Z",
       "side": 1,
       "message": "This throws an exception missing node or something like that on first time reindex run. Catch the exception and log/swallow it to not fail the reindex?",
+      "range": {
+        "startLine": 281,
+        "startChar": 4,
+        "endLine": 284,
+        "endChar": 21
+      },
+      "revId": "aedfe7d9dfdd1fc82991cb2ff34beacece1b22d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "847b4d5f_421032de",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticsearchChangeIndex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-09T07:46:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "048f5dae_fefba1dd",
       "range": {
         "startLine": 281,
         "startChar": 4,
@@ -88,6 +130,30 @@
     },
     {
       "key": {
+        "uuid": "847b4d5f_620d36c5",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-09T07:46:15Z",
+      "side": 1,
+      "message": "Done in the deleteAll method.",
+      "parentUuid": "048f5dae_be01192a",
+      "range": {
+        "startLine": 155,
+        "startChar": 6,
+        "endLine": 155,
+        "endChar": 24
+      },
+      "revId": "aedfe7d9dfdd1fc82991cb2ff34beacece1b22d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "248aa19d_1f112373",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitIndex.java",
         "patchSetId": 3
@@ -99,6 +165,30 @@
       "writtenOn": "2014-07-03T06:36:04Z",
       "side": 1,
       "message": "http://localhost:9300\n\nOtherwiese we are getting:\n\n  1) Error in custom provider, java.lang.IllegalStateException: index.url is malformed: localhost:9300\n  at com.google.gerrit.elasticsearch.ElasticsearchIndexModule.getChangeIndex(ElasticsearchIndexModule.java:59)\n  at com.google.gerrit.elasticsearch.ElasticsearchIndexModule.getChangeIndex(ElasticsearchIndexModule.java:59)\n  while locating com.google.gerrit.elasticsearch.ElasticsearchChangeIndex",
+      "range": {
+        "startLine": 53,
+        "startChar": 53,
+        "endLine": 53,
+        "endChar": 69
+      },
+      "revId": "aedfe7d9dfdd1fc82991cb2ff34beacece1b22d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "847b4d5f_820a3aac",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitIndex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-09T07:46:15Z",
+      "side": 1,
+      "message": "I\u0027ve reworked this.  Now instead of specifying a URL, the hostname and port are specified in separate entries.  The port defaults to 9300.",
+      "parentUuid": "248aa19d_1f112373",
       "range": {
         "startLine": 53,
         "startChar": 53,

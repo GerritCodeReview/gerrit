@@ -27,18 +27,20 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.project.ProjectState;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Set;
 
 public class ProjectAssert {
 
   public static void assertProjects(Iterable<Project.NameKey> expected,
-      List<ProjectInfo> actual) {
+      Collection<ProjectInfo> actual) {
     for (final Project.NameKey p : expected) {
       ProjectInfo info = Iterables.find(actual, new Predicate<ProjectInfo>() {
         @Override
         public boolean apply(ProjectInfo info) {
-          return new Project.NameKey(info.name).equals(p);
+          // 'name' is not set if returned in a map, use the id instead.
+          return new Project.NameKey(info.name != null ? info.name : Url
+              .decode(info.id)).equals(p);
         }}, null);
       assertNotNull("missing project: " + p, info);
       actual.remove(info);

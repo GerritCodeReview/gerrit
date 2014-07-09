@@ -70,6 +70,30 @@
       "revId": "c456cfd6aa8c51a4079425043604a8d3b10f2e32",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a443f132_eb9f514d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritGlobalModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-09T13:34:08Z",
+      "side": 1,
+      "message": "Ok, I\u0027ll have a look at it tomorrow.",
+      "parentUuid": "a443f132_aba549a9",
+      "range": {
+        "startLine": 207,
+        "startChar": 12,
+        "endLine": 207,
+        "endChar": 29
+      },
+      "revId": "c456cfd6aa8c51a4079425043604a8d3b10f2e32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

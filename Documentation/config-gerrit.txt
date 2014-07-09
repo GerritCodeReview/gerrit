@@ -1984,9 +1984,6 @@ Note that after enabling the secondary index, the index must be built
 using the link:pgm-reindex.html[reindex program] before restarting the
 Gerrit server.
 
-Open and closed changes are indexed in separate indexes named
-'changes_open' and 'changes_closed' respectively.
-
 [[index.type]]index.type::
 +
 Type of secondary indexing employed by Gerrit.  The supported
@@ -2010,15 +2007,14 @@ Determines the number of threads to use for indexing.
 +
 Defaults to 1 if not set, or set to a negative value.
 
-[[index.url]]index.url::
-+
-Only used when the type is `SOLR`.
-+
-URL of the index server.
+==== Lucene configuration
+
+Open and closed changes are indexed in separate indexes named
+'open' and 'closed' respectively.
+
+The following settings are only used when the index type is `LUCENE`.
 
 [[index.name.ramBufferSize]]index.name.ramBufferSize::
-+
-Only used when the type is `LUCENE`.
 +
 Determines the amount of RAM that may be used for buffering added documents
 and deletions before they are flushed to the index.  See the
@@ -2028,8 +2024,6 @@ Lucene documentation] for further details.
 Defaults to 16M.
 
 [[index.name.maxBufferedDocs]]index.name.maxBufferedDocs::
-+
-Only used when the type is `LUCENE`.
 +
 Determines the minimal number of documents required before the buffered
 in-memory documents are flushed to the index. Large values generally
@@ -2041,8 +2035,6 @@ Defaults to -1, meaning no maximum is set and the writer will flush
 according to RAM usage.
 
 [[index.name.commitWithin]]index.name.commitWithin::
-+
-Only used when the type is `LUCENE`.
 +
 Determines the period at which changes are automatically committed to
 stable store on disk. This is a costly operation and may block
@@ -2058,10 +2050,10 @@ Values can be specified using standard time unit abbreviations (`ms`, `sec`,
 If negative, `commitWithin` is disabled. Changes are flushed to disk when
 the in-memory buffer fills, but only committed and guaranteed to be synced
 to disk when the process finishes.
-
++
 Defaults to 300000 ms (5 minutes).
 
-Sample index configuration:
+Sample Lucene index configuration:
 ----
 [index]
   type = LUCENE
@@ -2074,6 +2066,17 @@ Sample index configuration:
   ramBufferSize = 20 m
   maxBufferedDocs = 500
 ----
+
+==== Solr configuration
+
+Open and closed changes are indexed in separate indexes named
+'changes_open' and 'changes_closed' respectively.
+
+The following settings are only used when the index type is `SOLR`.
+
+[[index.url]]index.url::
++
+URL of the index server.
 
 [[ldap]]
 === Section ldap

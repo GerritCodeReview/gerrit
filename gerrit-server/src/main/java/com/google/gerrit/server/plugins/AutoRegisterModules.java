@@ -23,12 +23,17 @@ import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.annotations.Export;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import com.google.gerrit.extensions.annotations.Listen;
+import com.google.gerrit.extensions.webui.JavaScriptPlugin;
 import com.google.gerrit.server.plugins.PluginContentScanner.ExtensionMetaData;
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import com.google.inject.Scopes;
 import com.google.inject.TypeLiteral;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.ParameterizedType;
 import java.util.Arrays;
@@ -36,12 +41,14 @@ import java.util.Map;
 import java.util.Set;
 
 class AutoRegisterModules {
+  private static final Logger log = LoggerFactory.getLogger(AutoRegisterModules.class);
+
   private final String pluginName;
   private final PluginGuiceEnvironment env;
   private final PluginContentScanner scanner;
   private final ClassLoader classLoader;
   private final ModuleGenerator sshGen;
-  private final ModuleGenerator httpGen;
+  private final HttpModuleGenerator httpGen;
 
   private Set<Class<?>> sysSingletons;
   private Multimap<TypeLiteral<?>, Class<?>> sysListen;
@@ -116,6 +123,19 @@ class AutoRegisterModules {
     }
     for (ExtensionMetaData listener : extensions.get(Listen.class)) {
       listen(listener);
+    }
+    exportInitJs();
+  }
+
+  private void exportInitJs() {
+    try {
+      if (scanner.getEntry(JavaScriptPlugin.STATIC_INIT_JS).isPresent()) {
+        httpGen.export(JavaScriptPlugin.INIT_JS);
+      }
+    } catch (IOException e) {
+      log.warn(String.format("Cannot access %s from plugin %s: "
+          + "JavaScript auto-discovered plugin will not be registered",
+          JavaScriptPlugin.STATIC_INIT_JS, pluginName), e);
     }
   }
 

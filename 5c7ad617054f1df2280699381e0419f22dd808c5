@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "793a84c6_f1e6084a",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-09T20:09:42Z",
+      "side": 1,
+      "message": "Is this bracket needed?",
+      "range": {
+        "startLine": 199,
+        "startChar": 4,
+        "endLine": 199,
+        "endChar": 5
+      },
+      "revId": "5c7ad617054f1df2280699381e0419f22dd808c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -18,6 +18,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -25,11 +26,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+@Singleton
 public class SuggestParentCandidates {
-  public interface Factory {
-    SuggestParentCandidates create();
-  }
-
   private final ProjectControl.Factory projectControlFactory;
   private final ProjectCache projectCache;
   private final AllProjectsName allProject;

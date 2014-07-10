@@ -154,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "7915242e_f98a775a",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/AccountInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-07-10T03:36:21Z",
+      "side": 1,
+      "message": "Done.  method is not needed.",
+      "parentUuid": "a4f77198_6b00219b",
+      "range": {
+        "startLine": 100,
+        "startChar": 5,
+        "endLine": 100,
+        "endChar": 32
+      },
+      "revId": "059a4556f99abc202fd0dc5f63a255e63b8f992a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c4faa581_ecda6bf3",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/AccountInfo.java",
         "patchSetId": 2
@@ -165,6 +189,30 @@
       "writtenOn": "2014-06-24T01:14:25Z",
       "side": 1,
       "message": "Use `@return` here.",
+      "range": {
+        "startLine": 102,
+        "startChar": 5,
+        "endLine": 103,
+        "endChar": 59
+      },
+      "revId": "059a4556f99abc202fd0dc5f63a255e63b8f992a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "590a2015_f83b91e3",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/AccountInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-07-10T03:36:21Z",
+      "side": 1,
+      "message": "Done. Method is not needed.",
+      "parentUuid": "c4faa581_ecda6bf3",
       "range": {
         "startLine": 102,
         "startChar": 5,
@@ -223,6 +271,30 @@
       "writtenOn": "2014-06-24T01:14:25Z",
       "side": 1,
       "message": "This is probably a personal style preference, but I\u0027d prefer to avoid multiple calls to the method.\n\n String username \u003d getPreferredUserName();\n if (username \u003d\u003d null) {\n   username \u003d getPreferredEmail();\n   if (username \u003d\u003d null) {\n     username \u003d getPreferredEmail();\n     if (username \u003d\u003d null) {\n       username \u003d getNameEmail(anonymousCowardName);\n   }\n }\n return username;",
+      "range": {
+        "startLine": 106,
+        "startChar": 4,
+        "endLine": 108,
+        "endChar": 5
+      },
+      "revId": "059a4556f99abc202fd0dc5f63a255e63b8f992a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "590a2015_d838cde9",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/AccountInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-07-10T03:36:21Z",
+      "side": 1,
+      "message": "Done. Method is not needed.",
+      "parentUuid": "c4faa581_ccd7afcb",
       "range": {
         "startLine": 106,
         "startChar": 4,

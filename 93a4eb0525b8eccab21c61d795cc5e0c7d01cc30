@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "793a84c6_d16e64ca",
+        "filename": "lib/commons/BUCK",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-10T09:51:38Z",
+      "side": 1,
+      "message": "This line is not needed. \u0027PUBLIC\u0027 should be the default value. Sorry, missed it.",
+      "range": {
+        "startLine": 18,
+        "startChar": 2,
+        "endLine": 18,
+        "endChar": 26
+      },
+      "revId": "93a4eb0525b8eccab21c61d795cc5e0c7d01cc30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

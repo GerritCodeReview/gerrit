@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "39448c56_0fd4c527",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-10T11:52:45Z",
+      "side": 1,
+      "message": "On Java 7 you can catch multiple exceptions: [1].\n\n  [...]\n  } catch (AuthException | UnloggedFailure e) {\n    ok \u003d false;\n    writeError(\"error: \" + e.getMessage() + \"\\n\");\n  }\n\n[1] http://docs.oracle.com/javase/7/docs/technotes/guides/language/catch-multiple.html",
+      "range": {
+        "startLine": 208,
+        "startChar": 6,
+        "endLine": 212,
+        "endChar": 54
+      },
+      "revId": "990e5445a8f9a98ea4b52a3c180555adabc14622",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -22,6 +22,30 @@
       "revId": "8c70bfa23528d1b4889e33c2831935b9f5f88999",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39448c56_2f58a935",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/BanCommitCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-10T09:31:12Z",
+      "side": 0,
+      "message": "It is needed. Thanks for noticing.\n\nDone.",
+      "parentUuid": "793a84c6_11862c58",
+      "range": {
+        "startLine": 104,
+        "startChar": 4,
+        "endLine": 104,
+        "endChar": 25
+      },
+      "revId": "8c70bfa23528d1b4889e33c2831935b9f5f88999",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

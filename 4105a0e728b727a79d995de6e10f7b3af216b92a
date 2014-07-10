@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "590a2015_986815bd",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/PatchSetVerification.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-07-10T06:03:57Z",
+      "side": 1,
+      "message": "would it make sense to add a column to store the user (or bot) that reported the verification?",
+      "revId": "4105a0e728b727a79d995de6e10f7b3af216b92a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7915242e_19308b07",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostVerification.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-07-10T06:03:57Z",
+      "side": 1,
+      "message": "This won\u0027t update the entry if value is the same?  What if on subsequent patchset the score is the same, but the URL has changed?  Shouldn\u0027t the URL get updated?\n\nAlso it doesn\u0027t look like these values tie into the Gerrit ACL system at this point.  What are your thoughts on that?   Right now there\u0027s no range checking to make sure votes are reported in the appropriate range.",
+      "revId": "4105a0e728b727a79d995de6e10f7b3af216b92a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "590a2015_d80a0d42",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostVerification.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-07-10T06:03:57Z",
+      "side": 1,
+      "message": "Should the URL be optional?  When I don\u0027t specify a URL i get internal server error.\n\n~/temp$ ssh -p 29418 zaro@localhost gerrit verify --verification \u0027gate-moon-pep8\u003d+1\u0027 d60313e6ec\n\n2048 ba:38:d0:ab:1c:cc:c2:0e:88:47:b6:27:06:37:25:09 /Users/zaro/.ssh/id_rsa (RSA)\n\nfatal: internal server error",
+      "revId": "4105a0e728b727a79d995de6e10f7b3af216b92a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

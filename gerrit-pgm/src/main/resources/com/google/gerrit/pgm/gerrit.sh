@@ -254,7 +254,7 @@ fi
 if test -z "$JAVA" ; then
   echo >&2 "Cannot find a JRE or JDK. Please set JAVA_HOME or"
   echo >&2 "container.javaHome in $GERRIT_SITE/etc/gerrit.config"
-  echo >&2 "to a >=1.6 JRE"
+  echo >&2 "to a >=1.7 JRE"
   exit 1
 fi
 

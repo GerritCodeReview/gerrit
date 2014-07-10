@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "590a2015_78e9c1cd",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/AccountConstants.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-07-10T18:30:59Z",
+      "side": 1,
+      "message": "should this change to \u0027messageDefault\u0027 or \u0027messageEnableEmailNotifications\u0027?",
+      "revId": "8060a90b446127ae305427a85910bd5f26ac8d67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "590a2015_58eefdd7",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/AccountConstants.properties",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-07-10T18:30:59Z",
+      "side": 1,
+      "message": "might make sense to group this with the email options below?",
+      "revId": "8060a90b446127ae305427a85910bd5f26ac8d67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7915242e_b94f5f49",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/AccountConstants.properties",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-07-10T18:30:59Z",
+      "side": 1,
+      "message": "should this change to \u0027messageDefault\u0027 or \u0027messageEnableEmailNotifications\u0027?",
+      "revId": "8060a90b446127ae305427a85910bd5f26ac8d67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

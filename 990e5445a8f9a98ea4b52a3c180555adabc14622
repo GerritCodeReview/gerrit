@@ -2,6 +2,75 @@
   "comments": [
     {
       "key": {
+        "uuid": "590a2015_7842e127",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-10T13:08:17Z",
+      "side": 1,
+      "message": "message is not an action",
+      "range": {
+        "startLine": 191,
+        "startChar": 30,
+        "endLine": 191,
+        "endChar": 45
+      },
+      "revId": "990e5445a8f9a98ea4b52a3c180555adabc14622",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7915242e_7942e727",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-10T13:08:17Z",
+      "side": 1,
+      "message": "project is not an action",
+      "range": {
+        "startLine": 194,
+        "startChar": 30,
+        "endLine": 194,
+        "endChar": 45
+      },
+      "revId": "990e5445a8f9a98ea4b52a3c180555adabc14622",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7915242e_59472336",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-10T13:08:17Z",
+      "side": 1,
+      "message": "might be better to just say \"content\".\n\nOr, replace the whole message with the message from the exception, like in the ones below.  Then you can do java 7 style catch, as David O. suggested.",
+      "range": {
+        "startLine": 207,
+        "startChar": 35,
+        "endLine": 207,
+        "endChar": 51
+      },
+      "revId": "990e5445a8f9a98ea4b52a3c180555adabc14622",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "39448c56_0fd4c527",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
         "patchSetId": 4

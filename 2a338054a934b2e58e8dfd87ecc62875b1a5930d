@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7915242e_795e6727",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 545,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-10T04:13:11Z",
+      "side": 1,
+      "message": "I deliberately omitted it because the sentence continues after the example.",
+      "parentUuid": "590a2015_98325504",
+      "revId": "2a338054a934b2e58e8dfd87ecc62875b1a5930d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7915242e_99913b8f",
         "filename": "Documentation/dev-buck.txt",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2014-07-10T03:56:58Z",
       "side": 1,
       "message": "it\u0027s not clear, can you also run \u0027buck test -f\u0027  to disable the cache and run all of the tests?",
+      "revId": "2a338054a934b2e58e8dfd87ecc62875b1a5930d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7915242e_5963a3e5",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 548,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-10T04:13:11Z",
+      "side": 1,
+      "message": "No.  The -f option requires a parameter.\n\nTo explicitly force all tests to run, use the --no-cache option.",
+      "parentUuid": "7915242e_99913b8f",
       "revId": "2a338054a934b2e58e8dfd87ecc62875b1a5930d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

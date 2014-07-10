@@ -18,6 +18,7 @@ import static com.google.gerrit.reviewdb.client.RefNames.REFS_REJECT_COMMITS;
 
 import com.google.gerrit.common.errors.PermissionDeniedException;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.project.ProjectControl;
@@ -31,9 +32,11 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.notes.Note;
 import org.eclipse.jgit.notes.NoteMap;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 import java.io.IOException;
@@ -46,6 +49,34 @@ public class BanCommit {
   public interface Factory {
     BanCommit create();
   }
+
+  /**
+  * Loads a list of commits to reject from {@code refs/meta/reject-commits}.
+  *
+  * @param repo repository from which the rejected commits should be loaded
+  * @return NoteMap of commits to be rejected, null if there are none.
+  * @throws IOException the map cannot be loaded.
+  */
+  public static NoteMap loadRejectCommitsMap(Repository repo)
+      throws IOException {
+   try {
+     Ref ref = repo.getRef(RefNames.REFS_REJECT_COMMITS);
+     if (ref == null) {
+       return NoteMap.newEmptyMap();
+     }
+
+     RevWalk rw = new RevWalk(repo);
+     try {
+       RevCommit map = rw.parseCommit(ref.getObjectId());
+       return NoteMap.read(rw.getObjectReader(), map);
+     } finally {
+       rw.release();
+     }
+   } catch (IOException badMap) {
+     throw new IOException("Cannot load "
+         + RefNames.REFS_REJECT_COMMITS, badMap);
+   }
+ }
 
   private final Provider<IdentifiedUser> currentUser;
   private final GitRepositoryManager repoManager;

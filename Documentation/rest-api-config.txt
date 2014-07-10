@@ -731,6 +731,39 @@ As result a link:#task-info[TaskInfo] entity is returned.
   }
 ----
 
+[[delete-task]]
+=== Delete Task
+--
+'DELETE /config/server/tasks/link:#task-id[\{task-id\}]'
+--
+
+Kills a task from the background work queue that the Gerrit daemon
+is currently performing, or will perform in the near future.
+
+The caller must be a member of a group that is granted the
+link:access-control.html#capability_kill[Kill Task] capability
+or the link:access-control.html#capability_administrateServer[
+Administrate Server] capability.
+
+End-users may see a task only if they can also see the project the task
+is associated with. Tasks operating on other projects, or that do not
+have a specific project, are hidden.
+
+Members of a group that is granted the
+link:access-control.html#capability_viewQueue[View Queue] capability or
+the link:access-control.html#capability_administrateServer[Administrate
+Server] capability can see all tasks.
+
+.Request
+----
+  DELETE /config/server/tasks/1e688bea HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
 [[get-top-menus]]
 === Get Top Menus
 --

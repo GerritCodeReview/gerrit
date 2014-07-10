@@ -16,9 +16,10 @@ package com.google.gerrit.server.project;
 
 import static com.google.gerrit.server.project.BranchResource.BRANCH_KIND;
 import static com.google.gerrit.server.project.ChildProjectResource.CHILD_PROJECT_KIND;
+import static com.google.gerrit.server.project.CommitResource.COMMIT_KIND;
 import static com.google.gerrit.server.project.DashboardResource.DASHBOARD_KIND;
-import static com.google.gerrit.server.project.ProjectResource.PROJECT_KIND;
 import static com.google.gerrit.server.project.FileResource.FILE_KIND;
+import static com.google.gerrit.server.project.ProjectResource.PROJECT_KIND;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
@@ -35,6 +36,7 @@ public class Module extends RestApiModule {
     DynamicMap.mapOf(binder(), BRANCH_KIND);
     DynamicMap.mapOf(binder(), DASHBOARD_KIND);
     DynamicMap.mapOf(binder(), FILE_KIND);
+    DynamicMap.mapOf(binder(), COMMIT_KIND);
 
     put(PROJECT_KIND).to(PutProject.class);
     get(PROJECT_KIND).to(GetProject.class);
@@ -62,6 +64,10 @@ public class Module extends RestApiModule {
     get(BRANCH_KIND, "reflog").to(GetReflog.class);
     child(BRANCH_KIND, "files").to(FilesCollection.class);
     get(FILE_KIND, "content").to(GetContent.class);
+
+    child(PROJECT_KIND, "commits").to(CommitsCollection.class);
+    get(COMMIT_KIND).to(GetCommit.class);
+    child(COMMIT_KIND, "files").to(FilesInCommitCollection.class);
 
     child(PROJECT_KIND, "dashboards").to(DashboardsCollection.class);
     get(DASHBOARD_KIND).to(GetDashboard.class);

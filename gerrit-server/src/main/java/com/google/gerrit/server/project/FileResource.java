@@ -14,19 +14,31 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestView;
-import com.google.gerrit.server.project.BranchResource;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.inject.TypeLiteral;
 
-public class FileResource extends BranchResource {
+public class FileResource implements RestResource {
   public static final TypeLiteral<RestView<FileResource>> FILE_KIND =
       new TypeLiteral<RestView<FileResource>>() {};
 
+  private final Project.NameKey project;
+  private final String rev;
   private final String path;
 
-  public FileResource(BranchResource rsrc, String path) {
-    super(rsrc.getControl(), rsrc.getBranchInfo());
+  public FileResource(Project.NameKey project, String rev, String path) {
+    this.project = project;
+    this.rev = rev;
     this.path = path;
+  }
+
+  public Project.NameKey getProject() {
+    return project;
+  }
+
+  public String getRev() {
+    return rev;
   }
 
   public String getPath() {

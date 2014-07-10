@@ -1,4 +1,4 @@
-// Copyright (C) 2013 The Android Open Source Project
+// Copyright (C) 2014 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,28 +19,29 @@ import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestView;
-import com.google.gerrit.server.project.BranchResource;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
-public class FilesCollection implements
-    ChildCollection<BranchResource, FileResource> {
+public class FilesInCommitCollection implements
+    ChildCollection<CommitResource, FileResource> {
   private final DynamicMap<RestView<FileResource>> views;
 
   @Inject
-  FilesCollection(DynamicMap<RestView<FileResource>> views) {
+  FilesInCommitCollection(DynamicMap<RestView<FileResource>> views) {
     this.views = views;
   }
 
   @Override
-  public RestView<BranchResource> list() throws ResourceNotFoundException {
+  public RestView<CommitResource> list() throws ResourceNotFoundException {
     throw new ResourceNotFoundException();
   }
 
   @Override
-  public FileResource parse(BranchResource parent, IdString id) {
-    return new FileResource(parent.getNameKey(), parent.getRef(), id.get());
+  public FileResource parse(CommitResource parent, IdString id)
+      throws ResourceNotFoundException {
+    return new FileResource(parent.getNameKey(), parent.getCommit().getName(),
+        id.get());
   }
 
   @Override

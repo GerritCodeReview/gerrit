@@ -1156,6 +1156,83 @@ describes the child project.
   }
 ----
 
+[[commit-endpoints]]
+== Commit Endpoints
+
+[[get-commit]]
+=== Get Commit
+--
+'GET /projects/link:#project-name[\{project-name\}]/commits/link:#commit-id[\{commit-id\}]'
+--
+
+Retrieves a commit of a project.
+
+The commit must be visible to the caller.
+
+.Request
+----
+  GET /projects/work%2Fmy-project/commits/a8a477efffbbf3b44169bb9a1d3a334cbbd9aa96 HTTP/1.0
+----
+
+As response a link:rest-api-changes.html#commit-info[CommitInfo] entity
+is returned that describes the commit.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "commit": "184ebe53805e102605d11f6b143486d15c23a09c",
+    "parents": [
+      {
+        "commit": "1eee2c9d8f352483781e772f35dc586a69ff5646",
+        "subject": "Migrate contributor agreements to All-Projects."
+      }
+    ],
+    "author": {
+      "name": "Shawn O. Pearce",
+      "email": "sop@google.com",
+      "date": "2012-04-24 18:08:08.000000000",
+      "tz": -420
+    },
+    "committer": {
+      "name": "Shawn O. Pearce",
+      "email": "sop@google.com",
+      "date": "2012-04-24 18:08:08.000000000",
+      "tz": -420
+    },
+    "subject": "Use an EventBus to manage star icons",
+    "message": "Use an EventBus to manage star icons\n\nImage widgets that need to ..."
+  }
+----
+
+[[get-content]]
+=== Get Content
+--
+'GET /projects/link:#project-name[\{project-name\}]/commits/link:#commit-id[\{commit-id\}]/files/link:rest-api-changes.html#file-id[\{file-id\}]/content'
+--
+
+Gets the content of a file from a certain commit.
+
+.Request
+----
+  GET /projects/work%2Fmy-project/commits/a8a477efffbbf3b44169bb9a1d3a334cbbd9aa96/files/gerrit-server%2Fsrc%2Fmain%2Fjava%2Fcom%2Fgoogle%2Fgerrit%2Fserver%2Fproject%2FRefControl.java/content HTTP/1.0
+----
+
+The content is returned as base64 encoded string.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: text/plain;charset=UTF-8
+
+  Ly8gQ29weXJpZ2h0IChDKSAyMDEwIFRoZSBBbmRyb2lkIE9wZW4gU291cmNlIFByb2plY...
+----
+
 [[dashboard-endpoints]]
 == Dashboard Endpoints
 
@@ -1382,6 +1459,10 @@ requests.
 === \{branch-id\}
 The name of a branch or `HEAD`. The prefix `refs/heads/` can be
 omitted.
+
+[[commit-id]]
+=== \{commit-id\}
+Commit ID.
 
 [[dashboard-id]]
 === \{dashboard-id\}

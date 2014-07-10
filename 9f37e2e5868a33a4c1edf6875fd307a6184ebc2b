@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "39448c56_efb86102",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-10T12:12:32Z",
+      "side": 1,
+      "message": "If you add username to GitPerson on client side, shouldn\u0027t you add it to GitPerson on server side too? At least I don\u0027t see any change in com.google.gerrit.extensions.common.GitPerson.\n\nOr is this change unneeded?",
+      "range": {
+        "startLine": 263,
+        "startChar": 4,
+        "endLine": 263,
+        "endChar": 74
+      },
+      "revId": "9f37e2e5868a33a4c1edf6875fd307a6184ebc2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

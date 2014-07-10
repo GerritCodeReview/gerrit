@@ -18,6 +18,7 @@ java_library(
     '//lib:gwtorm',
     '//lib:jsch',
     '//lib/commons:codec',
+    '//lib/commons:collections',
     '//lib/guice:guice',
     '//lib/guice:guice-assistedinject',
     '//lib/guice:guice-servlet',  # SSH should not depend on servlet

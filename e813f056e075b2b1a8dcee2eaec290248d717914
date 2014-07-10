@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7915242e_39810f40",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BanCommit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-10T03:02:54Z",
+      "side": 1,
+      "message": "Indentation was wrong here, and I didn\u0027t notice it before merging the change on stable-2.9.\n\nFixed it with CTRL-Shift-F which also caused the couple of other minor changes below.",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 78,
+        "endChar": 3
+      },
+      "revId": "e813f056e075b2b1a8dcee2eaec290248d717914",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

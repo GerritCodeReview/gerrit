@@ -22,6 +22,30 @@
       "revId": "9f37e2e5868a33a4c1edf6875fd307a6184ebc2b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39448c56_6fac71bf",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-10T12:51:13Z",
+      "side": 1,
+      "message": "Unneeded. The correct username attribute was introduced in AccontInfo class:\n\n  https://gerrit-review.googlesource.com/#/c/57991/4/gerrit-gwtui/src/main/java/com/google/gerrit/client/account/AccountInfo.java",
+      "parentUuid": "39448c56_efb86102",
+      "range": {
+        "startLine": 263,
+        "startChar": 4,
+        "endLine": 263,
+        "endChar": 74
+      },
+      "revId": "9f37e2e5868a33a4c1edf6875fd307a6184ebc2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

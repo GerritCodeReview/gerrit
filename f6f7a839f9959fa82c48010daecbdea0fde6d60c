@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "39448c56_af94997e",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/BanCommitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-10T09:00:29Z",
+      "side": 1,
+      "message": "This idiom is repeated three times here and below and is ugly. Guava doesn\u0027t provide a shortcut for this, but Apache commons-collection does:\n\n  if (CollectionUtils.isNotEmpty(r.newlyBanned))\n\nSee [1] for more details:\n\n [1] http://commons.apache.org/proper/commons-collections/javadocs/api-3.2.1/org/apache/commons/collections/CollectionUtils.html#isNotEmpty(java.util.Collection)",
+      "range": {
+        "startLine": 71,
+        "startChar": 10,
+        "endLine": 71,
+        "endChar": 59
+      },
+      "revId": "f6f7a839f9959fa82c48010daecbdea0fde6d60c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "793a84c6_f13ba8e3",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/BanCommitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-10T09:00:29Z",
+      "side": 1,
+      "message": "AKA:\n\n  stdout.print(Joiner.on(\",\\n\").join(commits));",
+      "range": {
+        "startLine": 92,
+        "startChar": 4,
+        "endLine": 99,
+        "endChar": 5
+      },
+      "revId": "f6f7a839f9959fa82c48010daecbdea0fde6d60c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -37,6 +37,8 @@ import com.google.inject.Inject;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -58,6 +60,7 @@ import java.io.PrintWriter;
 import java.nio.charset.Charset;
 import java.sql.Timestamp;
 import java.text.ParseException;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -515,5 +518,16 @@ public class CommentsInNotesUtil {
     }
     writer.close();
     return buf.toByteArray();
+  }
+
+  public void writeCommentsToNoteMap(NoteMap noteMap,
+      List<PatchLineComment> allComments, ObjectInserter inserter)
+        throws OrmException, IOException {
+    ObjectId commitOID =
+        ObjectId.fromString(allComments.get(0).getRevId().get());
+    Collections.sort(allComments, ChangeNotes.PatchLineCommentComparator);
+    byte[] note = buildNote(allComments);
+    ObjectId noteId = inserter.insert(Constants.OBJ_BLOB, note, 0, note.length);
+    noteMap.set(commitOID, noteId);
   }
 }

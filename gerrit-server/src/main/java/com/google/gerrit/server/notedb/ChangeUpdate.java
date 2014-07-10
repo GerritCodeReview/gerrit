@@ -19,7 +19,6 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_LABEL;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_STATUS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMITTED_WITH;
-import static com.google.gerrit.server.notedb.ChangeNoteUtil.GERRIT_PLACEHOLDER_HOST;
 import static com.google.gerrit.server.notedb.CommentsInNotesUtil.getCommentPsId;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -39,7 +38,6 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
-import com.google.gerrit.server.git.VersionedMetaData;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.util.LabelVote;
@@ -47,19 +45,15 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
-import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.FooterKey;
 import org.eclipse.jgit.revwalk.RevCommit;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
@@ -75,7 +69,7 @@ import java.util.Map;
  * <p>
  * This class is not thread-safe.
  */
-public class ChangeUpdate extends VersionedMetaData {
+public class ChangeUpdate extends Update {
   public interface Factory {
     ChangeUpdate create(ChangeControl ctl);
     ChangeUpdate create(ChangeControl ctl, Date when);
@@ -84,18 +78,11 @@ public class ChangeUpdate extends VersionedMetaData {
         Comparator<String> labelNameComparator);
   }
 
-  private final NotesMigration migration;
-  private final GitRepositoryManager repoManager;
   private final AccountCache accountCache;
-  private final MetaDataUpdate.User updateFactory;
-  private final ChangeControl ctl;
-  private final PersonIdent serverIdent;
-  private final Date when;
   private final Map<String, Optional<Short>> approvals;
   private final Map<Account.Id, ReviewerState> reviewers;
   private Change.Status status;
   private String subject;
-  private PatchSet.Id psId;
   private List<SubmitRecord> submitRecords;
   private final CommentsInNotesUtil commentsUtil;
   private List<PatchLineComment> commentsForBase;
@@ -163,18 +150,6 @@ public class ChangeUpdate extends VersionedMetaData {
     this.commentsForBase = Lists.newArrayList();
   }
 
-  public Change getChange() {
-    return ctl.getChange();
-  }
-
-  public IdentifiedUser getUser() {
-    return (IdentifiedUser) ctl.getCurrentUser();
-  }
-
-  public Date getWhen() {
-    return when;
-  }
-
   public void setStatus(Change.Status status) {
     checkArgument(status != Change.Status.SUBMITTED,
         "use submit(Iterable<PatchSetApproval>)");
@@ -233,19 +208,6 @@ public class ChangeUpdate extends VersionedMetaData {
     reviewers.put(reviewer, ReviewerState.REMOVED);
   }
 
-  private void load() throws IOException {
-    if (migration.write() && getRevision() == null) {
-      Repository repo = repoManager.openRepository(getChange().getProject());
-      try {
-        load(repo);
-      } catch (ConfigInvalidException e) {
-        throw new IOException(e);
-      } finally {
-        repo.close();
-      }
-    }
-  }
-
   /** @return the tree id for the updated tree */
   private ObjectId storeCommentsInNotes() throws OrmException, IOException {
     ChangeNotes notes = ctl.getNotes();
@@ -264,29 +226,21 @@ public class ChangeUpdate extends VersionedMetaData {
 
     // This writes all comments for the base of this PS to the note map.
     if (!commentsForBase.isEmpty()) {
-      writeCommentsToNoteMap(noteMap, allCommentsOnBases, commentsForBase);
+      List<PatchLineComment> baseCommentsForThisPs =
+          new ArrayList<PatchLineComment>(allCommentsOnBases.get(psId));
+      baseCommentsForThisPs.addAll(commentsForBase);
+      commentsUtil.writeCommentsToNoteMap(noteMap, baseCommentsForThisPs,
+          inserter);
     }
 
     // This write all comments for this PS to the note map.
     if (!commentsForPs.isEmpty()) {
-      writeCommentsToNoteMap(noteMap, allCommentsOnPs, commentsForPs);
+      List<PatchLineComment> commentsForThisPs =
+          new ArrayList<PatchLineComment>(allCommentsOnPs.get(psId));
+      commentsForThisPs.addAll(commentsForPs);
+      commentsUtil.writeCommentsToNoteMap(noteMap, commentsForThisPs, inserter);
     }
     return noteMap.writeTree(inserter);
-  }
-
-  private void writeCommentsToNoteMap(NoteMap noteMap,
-      Multimap<PatchSet.Id, PatchLineComment> allComments,
-      List<PatchLineComment> commentsToAdd)
-      throws OrmException, IOException {
-    ObjectId commitOID =
-        ObjectId.fromString(commentsToAdd.get(0).getRevId().get());
-    List<PatchLineComment> commentsForThisPS =
-        new ArrayList<PatchLineComment>(allComments.get(psId));
-    commentsForThisPS.addAll(commentsToAdd);
-    Collections.sort(commentsForThisPS, ChangeNotes.PatchLineCommentComparator);
-    byte[] note = commentsUtil.buildNote(commentsForThisPS);
-    ObjectId noteId = inserter.insert(Constants.OBJ_BLOB, note, 0, note.length);
-    noteMap.set(commitOID, noteId);
   }
 
   @Override
@@ -312,59 +266,6 @@ public class ChangeUpdate extends VersionedMetaData {
     } finally {
       batch.close();
     }
-  }
-
-  private PersonIdent newIdent(Account author, Date when) {
-    return new PersonIdent(
-        author.getFullName(),
-        author.getId().get() + "@" + GERRIT_PLACEHOLDER_HOST,
-        when, serverIdent.getTimeZone());
-  }
-
-  @Override
-  public BatchMetaDataUpdate openUpdate(MetaDataUpdate update) throws IOException {
-    throw new UnsupportedOperationException("use openUpdate()");
-  }
-
-  public BatchMetaDataUpdate openUpdate() throws IOException {
-    if (migration.write()) {
-      load();
-      MetaDataUpdate md =
-          updateFactory.create(getChange().getProject(), getUser());
-      md.setAllowEmpty(true);
-      return super.openUpdate(md);
-    }
-    return new BatchMetaDataUpdate() {
-      @Override
-      public void write(CommitBuilder commit) {
-        // Do nothing.
-      }
-
-      @Override
-      public void write(VersionedMetaData config, CommitBuilder commit) {
-        // Do nothing.
-      }
-
-      @Override
-      public RevCommit createRef(String refName) {
-        return null;
-      }
-
-      @Override
-      public RevCommit commit() {
-        return null;
-      }
-
-      @Override
-      public RevCommit commitAt(ObjectId revision) {
-        return null;
-      }
-
-      @Override
-      public void close() {
-        // Do nothing.
-      }
-    };
   }
 
   @Override
@@ -446,7 +347,7 @@ public class ChangeUpdate extends VersionedMetaData {
     return true;
   }
 
-  private boolean isEmpty() {
+  protected boolean isEmpty() {
     return approvals.isEmpty()
         && reviewers.isEmpty()
         && commentsForBase.isEmpty()
@@ -454,6 +355,10 @@ public class ChangeUpdate extends VersionedMetaData {
         && status == null
         && submitRecords == null
         && changeMessage == null;
+  }
+
+  protected Project.NameKey getProjectName() {
+    return getProjectName(ctl);
   }
 
   private static StringBuilder addFooter(StringBuilder sb, FooterKey footer) {
@@ -471,10 +376,5 @@ public class ChangeUpdate extends VersionedMetaData {
 
   private static String sanitizeFooter(String value) {
     return value.replace('\n', ' ').replace('\0', ' ');
-  }
-
-  @Override
-  protected void onLoad() throws IOException, ConfigInvalidException {
-    // Do nothing; just reads current revision.
   }
 }

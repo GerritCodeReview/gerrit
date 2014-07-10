@@ -415,7 +415,7 @@ public class ReceiveCommits {
     this.project = projectControl.getProject();
     this.repo = repo;
     this.rp = new ReceivePack(repo);
-    this.rejectCommits = loadRejectCommitsMap();
+    this.rejectCommits = BanCommit.loadRejectCommitsMap(repo);
 
     this.subOpFactory = subOpFactory;
     this.submitProvider = submitProvider;
@@ -1340,28 +1340,6 @@ public class ReceiveCommits {
     } catch (IOException e) {
       log.error("Cannot read HEAD symref", e);
       return null;
-    }
-  }
-
-  /**
-   * Loads a list of commits to reject from {@code refs/meta/reject-commits}.
-   *
-   * @return NoteMap of commits to be rejected, null if there are none.
-   * @throws IOException the map cannot be loaded.
-   */
-  private NoteMap loadRejectCommitsMap() throws IOException {
-    try {
-      Ref ref = repo.getRef(RefNames.REFS_REJECT_COMMITS);
-      if (ref == null) {
-        return NoteMap.newEmptyMap();
-      }
-
-      RevWalk rw = rp.getRevWalk();
-      RevCommit map = rw.parseCommit(ref.getObjectId());
-      return NoteMap.read(rw.getObjectReader(), map);
-    } catch (IOException badMap) {
-      throw new IOException("Cannot load "
-          + RefNames.REFS_REJECT_COMMITS, badMap);
     }
   }
 

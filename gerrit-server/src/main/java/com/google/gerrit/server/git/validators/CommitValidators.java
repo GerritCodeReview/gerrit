@@ -24,6 +24,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.events.CommitReceivedEvent;
+import com.google.gerrit.server.git.BanCommit;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.git.ReceiveCommits;
 import com.google.gerrit.server.git.ValidationError;
@@ -40,6 +41,7 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.FooterKey;
 import org.eclipse.jgit.revwalk.FooterLine;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -47,6 +49,7 @@ import org.eclipse.jgit.util.SystemReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Collections;
@@ -107,6 +110,7 @@ public class CommitValidators {
           installCommitMsgHookCommand, sshInfo));
     }
     validators.add(new ConfigValidator(refControl, repo));
+    validators.add(new BannedCommitsValidator(repo));
     validators.add(new PluginCommitValidationListener(commitValidationListeners));
 
     List<CommitValidationMessage> messages = new LinkedList<>();
@@ -512,6 +516,31 @@ public class CommitValidators {
         throw new CommitValidationException("do not amend merges not made by you");
       }
       return Collections.emptyList();
+    }
+  }
+
+  /** Reject banned commits. */
+  public static class BannedCommitsValidator implements
+      CommitValidationListener {
+    private final Repository repo;
+
+    public BannedCommitsValidator(Repository repo) {
+      this.repo = repo;
+    }
+
+    @Override
+    public List<CommitValidationMessage> onCommitReceived(
+        CommitReceivedEvent receiveEvent) throws CommitValidationException {
+      try {
+        NoteMap rejectCommits = BanCommit.loadRejectCommitsMap(repo);
+        if (rejectCommits.contains(receiveEvent.commit)) {
+          throw new CommitValidationException("contains banned commit "
+              + receiveEvent.commit.getName());
+        }
+        return Collections.emptyList();
+      } catch (IOException e) {
+        throw new CommitValidationException(e.getMessage(), e);
+      }
     }
   }
 

@@ -121,6 +121,30 @@
     },
     {
       "key": {
+        "uuid": "39448c56_cf6ebdca",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/BanCommitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-10T09:33:58Z",
+      "side": 1,
+      "message": "OK. Will upload another patch set.",
+      "parentUuid": "793a84c6_516394e5",
+      "range": {
+        "startLine": 71,
+        "startChar": 10,
+        "endLine": 71,
+        "endChar": 59
+      },
+      "revId": "f6f7a839f9959fa82c48010daecbdea0fde6d60c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "793a84c6_f13ba8e3",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/BanCommitCommand.java",
         "patchSetId": 1

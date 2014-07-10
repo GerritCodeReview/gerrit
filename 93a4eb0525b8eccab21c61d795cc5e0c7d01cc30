@@ -22,6 +22,30 @@
       "revId": "93a4eb0525b8eccab21c61d795cc5e0c7d01cc30",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39448c56_4fcacd87",
+        "filename": "lib/commons/BUCK",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-10T11:22:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "793a84c6_d16e64ca",
+      "range": {
+        "startLine": 18,
+        "startChar": 2,
+        "endLine": 18,
+        "endChar": 26
+      },
+      "revId": "93a4eb0525b8eccab21c61d795cc5e0c7d01cc30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

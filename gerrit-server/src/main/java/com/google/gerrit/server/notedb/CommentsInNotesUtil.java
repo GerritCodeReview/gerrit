@@ -21,6 +21,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Multimap;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -35,7 +36,14 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.notes.Note;
+import org.eclipse.jgit.notes.NoteMap;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.GitDateFormatter;
 import org.eclipse.jgit.util.GitDateParser;
 import org.eclipse.jgit.util.MutableInteger;
@@ -51,6 +59,7 @@ import java.nio.charset.Charset;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -67,6 +76,41 @@ public class CommentsInNotesUtil {
   private static final String PATCH_SET = "Patch-set";
   private static final String REVISION = "Revision";
   private static final String UUID = "UUID";
+
+  public static NoteMap parseCommentsFromNotes(Repository repo, String refName,
+      RevWalk walk, Change.Id changeId,
+      Multimap<PatchSet.Id, PatchLineComment> commentsForBase,
+      Multimap<PatchSet.Id, PatchLineComment> commentsForPs)
+      throws IOException, ConfigInvalidException {
+    Ref ref = repo.getRef(refName);
+    NoteMap noteMap = null;
+    Iterator<Note> notes = null;
+    if (ref != null) {
+      RevCommit commit = walk.parseCommit(ref.getObjectId());
+      noteMap = NoteMap.read(walk.getObjectReader(), commit);
+      notes = noteMap.iterator();
+    } else {
+      return null;
+    }
+
+    while (notes.hasNext()) {
+      Note next = notes.next();
+      byte[] bytes = walk.getObjectReader().open(
+          next.getData(), Constants.OBJ_BLOB).getBytes();
+      List<PatchLineComment> result = parseNote(bytes, changeId);
+      if ((result == null) || (result.isEmpty())) {
+        continue;
+      }
+      PatchSet.Id psId = result.get(0).getKey().getParentKey().getParentKey();
+      short side = result.get(0).getSide();
+      if (side == 0) {
+        commentsForBase.putAll(psId, result);
+      } else {
+        commentsForPs.putAll(psId, result);
+      }
+    }
+    return noteMap;
+  }
 
   public static List<PatchLineComment> parseNote(byte[] note,
       Change.Id changeId) throws ConfigInvalidException {

@@ -65,6 +65,11 @@ file (on Windows, `_netrc`):
 
 In both cases, the password should be the user's link:user-upload.html#http[HTTP password].
 
+Example to set a Gerrit project's description:
+
+----
+ curl -X PUT --digest --user username:password --data-binary @project-desc.txt --header "Content-Type: application/json;charset=UTF-8" http://localhost:8080/a/projects/myproject/description
+----
 
 === Verifying Header Content
 

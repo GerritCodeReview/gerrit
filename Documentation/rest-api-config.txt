@@ -339,7 +339,7 @@ E.g. this could be used to flush all caches:
   done
 ----
 
-[cache-operations]]
+[[cache-operations]]
 === Cache Operations
 --
 'POST /config/server/caches/'

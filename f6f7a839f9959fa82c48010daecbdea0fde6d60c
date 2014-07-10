@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "793a84c6_91321c04",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/BanCommitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-10T09:24:54Z",
+      "side": 1,
+      "message": "You are right, this can be done better. I refactored this so that this idioms now appears only once. For this one occurance I\u0027m now not using Apache commons-collection, since adding a new dependency for just this seems to be too much (especially since then it requires the LC voting).\n\nDone",
+      "parentUuid": "39448c56_af94997e",
+      "range": {
+        "startLine": 71,
+        "startChar": 10,
+        "endLine": 71,
+        "endChar": 59
+      },
+      "revId": "f6f7a839f9959fa82c48010daecbdea0fde6d60c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "793a84c6_f13ba8e3",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/BanCommitCommand.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2014-07-10T09:00:29Z",
       "side": 1,
       "message": "AKA:\n\n  stdout.print(Joiner.on(\",\\n\").join(commits));",
+      "range": {
+        "startLine": 92,
+        "startChar": 4,
+        "endLine": 99,
+        "endChar": 5
+      },
+      "revId": "f6f7a839f9959fa82c48010daecbdea0fde6d60c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "793a84c6_d138a4e9",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/BanCommitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-10T09:24:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "793a84c6_f13ba8e3",
       "range": {
         "startLine": 92,
         "startChar": 4,

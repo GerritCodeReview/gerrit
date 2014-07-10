@@ -47,22 +47,18 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSet.Id;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetApproval.LabelId;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.git.VersionedMetaData;
 import com.google.gerrit.server.util.LabelVote;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.CommitBuilder;
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
-import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.notes.Note;
 import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.FooterKey;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -81,7 +77,7 @@ import java.util.List;
 import java.util.Map;
 
 /** View of a single {@link Change} based on the log of its notes branch. */
-public class ChangeNotes extends VersionedMetaData {
+public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   private static final Ordering<PatchSetApproval> PSA_BY_TIME =
       Ordering.natural().onResultOf(
         new Function<PatchSetApproval, Timestamp>() {
@@ -170,7 +166,7 @@ public class ChangeNotes extends VersionedMetaData {
       this.changeId = change.getId();
       this.tip = tip;
       this.walk = walk;
-      this.repo = repoManager.openRepository(change.getProject());
+      this.repo = repoManager.openRepository(getProjectName(change));
       approvals = Maps.newHashMap();
       reviewers = Maps.newLinkedHashMap();
       submitRecords = Lists.newArrayListWithExpectedSize(1);
@@ -184,7 +180,7 @@ public class ChangeNotes extends VersionedMetaData {
       for (RevCommit commit : walk) {
         parse(commit);
       }
-      parseComments(walk.parseCommit(tip));
+      parseComments();
       pruneReviewers();
     }
 
@@ -323,32 +319,11 @@ public class ChangeNotes extends VersionedMetaData {
       changeMessages.put(psId, changeMessage);
     }
 
-    private void parseComments(RevCommit commit)
+    private void parseComments()
         throws IOException, ConfigInvalidException, ParseException {
-      Ref sharedMeta = repo.getRef(ChangeNoteUtil.changeRefName(changeId));
-      if (sharedMeta != null) {
-        RevCommit sharedBaseCommit = walk.parseCommit(sharedMeta.getObjectId());
-        commentNoteMap =
-            NoteMap.read(walk.getObjectReader(), sharedBaseCommit);
-      }
-      Iterator<Note> notes = commentNoteMap.iterator();
-      while (notes.hasNext()) {
-        Note next = notes.next();
-        byte[] bytes = walk.getObjectReader().open(
-            next.getData(), Constants.OBJ_BLOB).getBytes();
-        List<PatchLineComment> result =
-            CommentsInNotesUtil.parseNote(bytes, changeId);
-        if ((result == null) || (result.isEmpty())) {
-          continue;
-        }
-        PatchSet.Id psId = result.get(0).getKey().getParentKey().getParentKey();
-        short side = result.get(0).getSide();
-        if (side == 0) {
-          commentsForBase.putAll(psId, result);
-        } else {
-          commentsForPs.putAll(psId, result);
-        }
-      }
+      commentNoteMap = CommentsInNotesUtil.parseCommentsFromNotes(repo,
+          ChangeNoteUtil.changeRefName(changeId), walk, changeId,
+          commentsForBase, commentsForPs);
     }
 
     private void parseApproval(PatchSet.Id psId, Account.Id accountId,
@@ -508,9 +483,6 @@ public class ChangeNotes extends VersionedMetaData {
     }
   }
 
-  private final GitRepositoryManager repoManager;
-  private final Change change;
-  private boolean loaded;
   private ImmutableListMultimap<PatchSet.Id, PatchSetApproval> approvals;
   private ImmutableSetMultimap<ReviewerState, Account.Id> reviewers;
   private ImmutableList<SubmitRecord> submitRecords;
@@ -521,37 +493,7 @@ public class ChangeNotes extends VersionedMetaData {
 
   @VisibleForTesting
   public ChangeNotes(GitRepositoryManager repoManager, Change change) {
-    this.repoManager = repoManager;
-    this.change = new Change(change);
-  }
-
-  // TODO(dborowitz): Wrap fewer exceptions if/when we kill gwtorm.
-  public ChangeNotes load() throws OrmException {
-    if (!loaded) {
-      Repository repo;
-      try {
-        repo = repoManager.openRepository(change.getProject());
-      } catch (IOException e) {
-        throw new OrmException(e);
-      }
-      try {
-        load(repo);
-        loaded = true;
-      } catch (ConfigInvalidException | IOException e) {
-        throw new OrmException(e);
-      } finally {
-        repo.close();
-      }
-    }
-    return this;
-  }
-
-  public Change.Id getChangeId() {
-    return change.getId();
-  }
-
-  public Change getChange() {
-    return change;
+    super(repoManager, new Change(change));
   }
 
   public ImmutableListMultimap<PatchSet.Id, PatchSetApproval> getApprovals() {
@@ -594,7 +536,7 @@ public class ChangeNotes extends VersionedMetaData {
 
   @Override
   protected String getRefName() {
-    return ChangeNoteUtil.changeRefName(change.getId());
+    return ChangeNoteUtil.changeRefName(getChangeId());
   }
 
   @Override
@@ -606,6 +548,7 @@ public class ChangeNotes extends VersionedMetaData {
     }
     RevWalk walk = new RevWalk(reader);
     try {
+      Change change = getChange();
       Parser parser = new Parser(change, rev, walk, repoManager);
       parser.parseAll();
 
@@ -648,5 +591,14 @@ public class ChangeNotes extends VersionedMetaData {
   protected boolean onSave(CommitBuilder commit) {
     throw new UnsupportedOperationException(
         getClass().getSimpleName() + " is read-only");
+  }
+
+  private static Project.NameKey getProjectName(Change change) {
+    return change.getProject();
+  }
+
+  @Override
+  protected Project.NameKey getProjectName() {
+    return getProjectName(getChange());
   }
 }

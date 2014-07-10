@@ -1,0 +1,188 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "793a84c6_51b15415",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/SetPreferences.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-10T13:09:13Z",
+      "side": 1,
+      "message": "Nit: missing blank",
+      "range": {
+        "startLine": 58,
+        "startChar": 39,
+        "endLine": 58,
+        "endChar": 43
+      },
+      "revId": "33cf2de04842926aeb9108f054ed3a0b1c55a031",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39448c56_0faba5a5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-10T13:09:13Z",
+      "side": 1,
+      "message": "not equals, but identity. JVM spec guarantees, that there is one and only one instance of this enum:\n\n  selectedEmailOption \u003d\u003d EmailingOptionsStrategy.CC_ME_ON_COMMENTS_I_WRITE",
+      "range": {
+        "startLine": 99,
+        "startChar": 13,
+        "endLine": 99,
+        "endChar": 19
+      },
+      "revId": "33cf2de04842926aeb9108f054ed3a0b1c55a031",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "793a84c6_31a6d0dd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-10T13:09:13Z",
+      "side": 1,
+      "message": "Wrong indentation.",
+      "range": {
+        "startLine": 98,
+        "startChar": 8,
+        "endLine": 99,
+        "endChar": 73
+      },
+      "revId": "33cf2de04842926aeb9108f054ed3a0b1c55a031",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39448c56_ef9f4184",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-10T13:09:13Z",
+      "side": 1,
+      "message": "not equals, identity.",
+      "range": {
+        "startLine": 107,
+        "startChar": 13,
+        "endLine": 107,
+        "endChar": 19
+      },
+      "revId": "33cf2de04842926aeb9108f054ed3a0b1c55a031",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "793a84c6_f19f2884",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-10T13:09:13Z",
+      "side": 1,
+      "message": "not equals. identity.",
+      "range": {
+        "startLine": 130,
+        "startChar": 15,
+        "endLine": 130,
+        "endChar": 21
+      },
+      "revId": "33cf2de04842926aeb9108f054ed3a0b1c55a031",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "793a84c6_b199a0a0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-10T13:09:13Z",
+      "side": 1,
+      "message": "no final.",
+      "range": {
+        "startLine": 131,
+        "startChar": 12,
+        "endLine": 131,
+        "endChar": 17
+      },
+      "revId": "33cf2de04842926aeb9108f054ed3a0b1c55a031",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "793a84c6_91969c6c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-10T13:09:13Z",
+      "side": 1,
+      "message": "Break after found?",
+      "range": {
+        "startLine": 134,
+        "startChar": 16,
+        "endLine": 134,
+        "endChar": 27
+      },
+      "revId": "33cf2de04842926aeb9108f054ed3a0b1c55a031",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "793a84c6_71ac58bf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_99.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-10T13:09:13Z",
+      "side": 1,
+      "message": "Copy/pasted from Schema_98? Your definition of the enum is:\n\n  enum EmailingOptionsStrategy {\n    NONE,\n    CC_ME_ON_COMMENTS_I_WRITE,\n    DISABLE_EMAIL_NOTIFICATIONS\n  }\n\nSo you probably want:\n\n  UPDATE ACCOUNTS SET EMAILING_OPTIONS_STRATEGY\u003d\u0027CC_ME_ON_COMMENTS_I_WRITE\u0027 ...",
+      "range": {
+        "startLine": 38,
+        "startChar": 40,
+        "endLine": 38,
+        "endChar": 44
+      },
+      "revId": "33cf2de04842926aeb9108f054ed3a0b1c55a031",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

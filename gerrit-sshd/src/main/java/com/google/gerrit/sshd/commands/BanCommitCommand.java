@@ -16,22 +16,24 @@ package com.google.gerrit.sshd.commands;
 
 import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 
-import com.google.gerrit.common.errors.PermissionDeniedException;
-import com.google.gerrit.server.git.BanCommit;
-import com.google.gerrit.server.git.BanCommitResult;
-import com.google.gerrit.server.git.MergeException;
+import com.google.common.base.Function;
+import com.google.common.base.Joiner;
+import com.google.common.collect.Lists;
+import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.project.BanCommit;
+import com.google.gerrit.server.project.BanCommit.BanResultInfo;
 import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
 
-import org.eclipse.jgit.api.errors.ConcurrentRefUpdateException;
+import org.apache.commons.collections.CollectionUtils;
 import org.eclipse.jgit.lib.ObjectId;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,52 +57,30 @@ public class BanCommitCommand extends SshCommand {
   @Override
   protected void run() throws Failure {
     try {
-      final BanCommitResult result =
-          banCommit.ban(projectControl, commitsToBan, reason);
+      BanCommit.Input input =
+          BanCommit.Input.fromCommits(Lists.transform(commitsToBan,
+              new Function<ObjectId, String>() {
+                @Override
+                public String apply(ObjectId oid) {
+                  return oid.getName();
+                }
+              }));
+      input.reason = reason;
 
-      final List<ObjectId> newlyBannedCommits =
-          result.getNewlyBannedCommits();
-      if (!newlyBannedCommits.isEmpty()) {
-        stdout.print("The following commits were banned:\n");
-        printCommits(stdout, newlyBannedCommits);
-      }
-
-      final List<ObjectId> alreadyBannedCommits =
-          result.getAlreadyBannedCommits();
-      if (!alreadyBannedCommits.isEmpty()) {
-        stdout.print("The following commits were already banned:\n");
-        printCommits(stdout, alreadyBannedCommits);
-      }
-
-      final List<ObjectId> ignoredIds = result.getIgnoredObjectIds();
-      if (!ignoredIds.isEmpty()) {
-        stdout.print("The following ids do not represent commits"
-            + " and were ignored:\n");
-        printCommits(stdout, ignoredIds);
-      }
-    } catch (PermissionDeniedException e) {
-      throw die(e);
-    } catch (IOException e) {
-      throw die(e);
-    } catch (MergeException e) {
-      throw die(e);
-    } catch (InterruptedException e) {
-      throw die(e);
-    } catch (ConcurrentRefUpdateException e) {
+      BanResultInfo r = banCommit.apply(new ProjectResource(projectControl), input);
+      printCommits(r.newlyBanned, "The following commits were banned");
+      printCommits(r.alreadyBanned, "The following commits were already banned");
+      printCommits(r.ignored, "The following ids do not represent commits and were ignored");
+    } catch (RestApiException | IOException | InterruptedException e) {
       throw die(e);
     }
   }
 
-  private static void printCommits(final PrintWriter stdout,
-      final List<ObjectId> commits) {
-    boolean first = true;
-    for (final ObjectId c : commits) {
-      if (!first) {
-        stdout.print(",\n");
-      }
-      stdout.print(c.getName());
-      first = false;
+  private void printCommits(List<String> commits, String message) {
+    if (CollectionUtils.isNotEmpty(commits)) {
+      stdout.print(message + ":\n");
+      stdout.print(Joiner.on(",\n").join(commits));
+      stdout.print("\n\n");
     }
-    stdout.print("\n\n");
   }
 }

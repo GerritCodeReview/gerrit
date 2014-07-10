@@ -15,10 +15,6 @@ maven_jar(
   license = 'Apache2.0',
   exclude = ['META-INF/LICENSE.txt', 'META-INF/NOTICE.txt'],
   attach_source = False,
-  visibility = [
-    '//lib:velocity',
-    '//lib/solr:zookeeper',
-  ],
 )
 
 maven_jar(

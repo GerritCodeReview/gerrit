@@ -691,6 +691,46 @@ command.
   ]
 ----
 
+[[get-task]]
+=== Get Task
+--
+'GET /config/server/tasks/link:#task-id[\{task-id\}]'
+--
+
+Retrieves a task from the background work queue that the Gerrit daemon
+is currently performing, or will perform in the near future.
+
+End-users may see a task only if they can also see the project the task
+is associated with. Tasks operating on other projects, or that do not
+have a specific project, are hidden.
+
+Members of a group that is granted the
+link:access-control.html#capability_viewQueue[View Queue] capability or
+the link:access-control.html#capability_administrateServer[Administrate
+Server] capability can see all tasks.
+
+As result a link:#task-info[TaskInfo] entity is returned.
+
+.Request
+----
+  GET /config/server/tasks/1e688bea HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "id": "1e688bea",
+    "state": "SLEEPING",
+    "start_time": "2014-06-11 12:58:51.991000000",
+    "delay": 3453,
+    "command": "Reload Submit Queue"
+  }
+----
+
 [[get-top-menus]]
 === Get Top Menus
 --
@@ -740,6 +780,10 @@ plugin name: "<plugin-name>-<cache-name>".
 
 Gerrit core caches can optionally be prefixed with "gerrit":
 "gerrit-<cache-name>".
+
+[[task-id]]
+=== \{task-id\}
+The ID of the task (hex string).
 
 
 [[json-entities]]

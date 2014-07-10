@@ -71,6 +71,7 @@ public class GerritServer {
       cfg.setBoolean("httpd", null, "requestLog", false);
       cfg.setBoolean("sshd", null, "requestLog", false);
       cfg.setBoolean("index", "lucene", "testInmemory", true);
+      cfg.setString("gitweb", null, "cgi", "");
       daemon.setEnableHttpd(enableHttpd);
       daemon.setLuceneModule(new LuceneIndexModule(
           ChangeSchemas.getLatest().getVersion(),

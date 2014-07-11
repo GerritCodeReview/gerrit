@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "39448c56_0f9cc558",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchSetInfoFactory.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-07-11T12:31:01Z",
+      "side": 1,
+      "message": "boolean otherBranchcommit \u003d false;\n\nIt should be initialized false, as it is checked in line 181 and then set to true conditionally.",
+      "range": {
+        "startLine": 149,
+        "startChar": 4,
+        "endLine": 149,
+        "endChar": 37
+      },
+      "revId": "a94aabcc6dd16af9d76b2654d1bfeeee0f9165a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

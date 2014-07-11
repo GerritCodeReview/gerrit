@@ -70,6 +70,30 @@
       "revId": "9f37e2e5868a33a4c1edf6875fd307a6184ebc2b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "590a2015_18ce4569",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-11T07:32:41Z",
+      "side": 1,
+      "message": "Sorry, I thought the \"unneeded\" comment referred to \"shouldn\u0027t you add it to GitPerson...\".",
+      "parentUuid": "793a84c6_110f4c06",
+      "range": {
+        "startLine": 263,
+        "startChar": 4,
+        "endLine": 263,
+        "endChar": 74
+      },
+      "revId": "9f37e2e5868a33a4c1edf6875fd307a6184ebc2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

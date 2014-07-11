@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "9983b8c4_c2324205",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-11T18:12:21Z",
+      "side": 1,
+      "message": "Correct name",
+      "range": {
+        "startLine": 12,
+        "startChar": 61,
+        "endLine": 12,
+        "endChar": 66
+      },
+      "revId": "0f34fa8935a16951cfa830923d41793ee9d7f54d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9983b8c4_02390aeb",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/AbstractChangeNotes.java",
         "patchSetId": 10

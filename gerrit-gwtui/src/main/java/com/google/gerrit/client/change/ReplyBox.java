@@ -475,7 +475,7 @@ class ReplyBox extends Composite {
 
     void select(LabelRadioButton b) {
       selected = b;
-      labelsTable.setText(row, labelHelpColumn, b.value != 0 ? b.text : "");
+      labelsTable.setText(row, labelHelpColumn, b.text);
     }
 
     void selectMax() {
@@ -532,7 +532,7 @@ class ReplyBox extends Composite {
     @Override
     public void onMouseOut(MouseOutEvent event) {
       LabelRadioButton b = group.selected;
-      String s = b != null && b.value != 0 ? b.text : "";
+      String s = b != null ? b.text : "";
       labelsTable.setText(group.row, labelHelpColumn, s);
     }
   }

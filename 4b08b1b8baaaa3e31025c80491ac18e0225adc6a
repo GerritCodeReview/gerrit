@@ -22,6 +22,30 @@
       "revId": "4b08b1b8baaaa3e31025c80491ac18e0225adc6a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9487c79_63fa42df",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-07-11T09:57:08Z",
+      "side": 1,
+      "message": "sorry I meant above this line.",
+      "parentUuid": "39448c56_cfb6bddb",
+      "range": {
+        "startLine": 239,
+        "startChar": 51,
+        "endLine": 240,
+        "endChar": 63
+      },
+      "revId": "4b08b1b8baaaa3e31025c80491ac18e0225adc6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

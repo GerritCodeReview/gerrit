@@ -16,6 +16,24 @@
       "revId": "97115f97772432f63a21d3e85be5a5defa13fa33",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9cb1c3c_cbe6d54a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/Notes.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-11T16:56:36Z",
+      "side": 1,
+      "message": "For the draft ones, it is going to be AllUsersName but for the pre-existing ones it is going to be change.getProject(). I put that abstraction in because I didn\u0027t want to for AbstractChangeNotes to have AllUsersName since it doesn\u0027t really make sense for the current ChangeNotes to need one. Is there a better way to do this?",
+      "parentUuid": "b9487c79_432626d7",
+      "revId": "97115f97772432f63a21d3e85be5a5defa13fa33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,164 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b9487c79_232b2a9f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-11T16:38:15Z",
+      "side": 1,
+      "message": "Not in the commit message, bring up questions in the review thread.",
+      "range": {
+        "startLine": 17,
+        "startChar": 37,
+        "endLine": 21,
+        "endChar": 31
+      },
+      "revId": "1b6c4cdee236b16c250ca9b82b4a96f2176d9a13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9487c79_03302e07",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-11T16:38:15Z",
+      "side": 1,
+      "message": "\u003c\u003e",
+      "range": {
+        "startLine": 230,
+        "startChar": 23,
+        "endLine": 230,
+        "endChar": 41
+      },
+      "revId": "1b6c4cdee236b16c250ca9b82b4a96f2176d9a13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9983b8c4_e2142662",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-11T16:38:15Z",
+      "side": 1,
+      "message": "\u003c\u003e",
+      "range": {
+        "startLine": 239,
+        "startChar": 23,
+        "endLine": 239,
+        "endChar": 41
+      },
+      "revId": "1b6c4cdee236b16c250ca9b82b4a96f2176d9a13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9983b8c4_02126a73",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/Update.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-11T16:38:15Z",
+      "side": 1,
+      "message": "Can be one line.",
+      "revId": "1b6c4cdee236b16c250ca9b82b4a96f2176d9a13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9983b8c4_62481677",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/Update.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-11T16:38:15Z",
+      "side": 1,
+      "message": "AbstractChangeUpdate would be fine.",
+      "range": {
+        "startLine": 42,
+        "startChar": 22,
+        "endLine": 42,
+        "endChar": 28
+      },
+      "revId": "1b6c4cdee236b16c250ca9b82b4a96f2176d9a13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9983b8c4_a21e1e7e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/Update.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-11T16:38:15Z",
+      "side": 1,
+      "message": "All these should be final.",
+      "revId": "1b6c4cdee236b16c250ca9b82b4a96f2176d9a13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9487c79_e314f261",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/Update.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-11T16:38:15Z",
+      "side": 1,
+      "message": "Implement in the base class.",
+      "revId": "1b6c4cdee236b16c250ca9b82b4a96f2176d9a13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9983b8c4_c21b228d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/Update.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-11T16:38:15Z",
+      "side": 1,
+      "message": "Not used in the base class, leave it out.",
+      "revId": "1b6c4cdee236b16c250ca9b82b4a96f2176d9a13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

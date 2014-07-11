@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b9cb1c3c_2bf999e5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-11T18:15:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9983b8c4_c2324205",
+      "range": {
+        "startLine": 12,
+        "startChar": 61,
+        "endLine": 12,
+        "endChar": 66
+      },
+      "revId": "0f34fa8935a16951cfa830923d41793ee9d7f54d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9983b8c4_02390aeb",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/AbstractChangeNotes.java",
         "patchSetId": 10
@@ -36,6 +60,24 @@
       "writtenOn": "2014-07-11T18:10:15Z",
       "side": 1,
       "message": "Defensive copy here instead?",
+      "revId": "0f34fa8935a16951cfa830923d41793ee9d7f54d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9cb1c3c_0bf4ddec",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/AbstractChangeNotes.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-11T18:15:25Z",
+      "side": 1,
+      "message": "Good idea. Done.",
+      "parentUuid": "9983b8c4_02390aeb",
       "revId": "0f34fa8935a16951cfa830923d41793ee9d7f54d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

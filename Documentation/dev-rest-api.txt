@@ -44,6 +44,11 @@ option instead:
   curl -X PUT --data-binary @testdata.txt --header "Content-Type: text/plain" http://localhost:8080/path/to/api/
 ----
 
+Example to set a Gerrit project's link:rest-api-projects.html#set-project-description[description]:
+
+----
+ curl -X PUT --digest --user john:2LlAB3K9B0PF --data-binary @project-desc.txt --header "Content-Type: application/json;charset=UTF-8" http://localhost:8080/a/projects/myproject/description
+----
 
 === Authentication
 
@@ -64,7 +69,6 @@ file (on Windows, `_netrc`):
 ----
 
 In both cases, the password should be the user's link:user-upload.html#http[HTTP password].
-
 
 === Verifying Header Content
 

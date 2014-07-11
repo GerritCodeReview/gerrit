@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "793a84c6_d1b664db",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-07-11T08:24:31Z",
+      "side": 1,
+      "message": "Should we replace IOException with IOException | JsonParseException?\nAs now for invalid json format we are getting fatal: internal server error.",
+      "range": {
+        "startLine": 240,
+        "startChar": 13,
+        "endLine": 240,
+        "endChar": 24
+      },
+      "revId": "93c7f4ce120fc1f33e678e96f2c0e9aa7b68c76f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "793a84c6_91d9fc2f",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
         "patchSetId": 9

@@ -56,7 +56,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-@CommandMetaData(name = "review", description = "Verify, approve and/or submit one or more patch sets")
+@CommandMetaData(name = "review", description = "Apply reviews to one or more patch sets")
 public class ReviewCommand extends SshCommand {
   private static final Logger log =
       LoggerFactory.getLogger(ReviewCommand.class);
@@ -163,7 +163,7 @@ public class ReviewCommand extends SshCommand {
     boolean ok = true;
     for (final PatchSet patchSet : patchSets) {
       try {
-        approveOne(patchSet);
+        reviewPatchSet(patchSet);
       } catch (UnloggedFailure e) {
         ok = false;
         writeError("error: " + e.getMessage() + "\n");
@@ -172,14 +172,14 @@ public class ReviewCommand extends SshCommand {
         writeError("no such change " + patchSet.getId().getParentKey().get());
       } catch (Exception e) {
         ok = false;
-        writeError("fatal: internal server error while approving "
+        writeError("fatal: internal server error while reviewing "
             + patchSet.getId() + "\n");
-        log.error("internal error while approving " + patchSet.getId(), e);
+        log.error("internal error while reviewing " + patchSet.getId(), e);
       }
     }
 
     if (!ok) {
-      throw new UnloggedFailure(1, "one or more approvals failed;"
+      throw new UnloggedFailure(1, "one or more reviews failed;"
           + " review output above");
     }
   }
@@ -192,7 +192,7 @@ public class ReviewCommand extends SshCommand {
         .review(review);
   }
 
-  private void approveOne(final PatchSet patchSet) throws Exception {
+  private void reviewPatchSet(final PatchSet patchSet) throws Exception {
 
     if (changeComment == null) {
       changeComment = "";

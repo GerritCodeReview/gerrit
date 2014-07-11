@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7915242e_d9b693db",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-11T09:24:54Z",
+      "side": 1,
+      "message": "Added RestApiException.",
+      "parentUuid": "793a84c6_91b0dcdd",
+      "range": {
+        "startLine": 207,
+        "startChar": 15,
+        "endLine": 207,
+        "endChar": 30
+      },
+      "revId": "93c7f4ce120fc1f33e678e96f2c0e9aa7b68c76f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "793a84c6_d1b664db",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
         "patchSetId": 9
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "7915242e_b9b3dfe9",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-11T09:24:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "793a84c6_d1b664db",
+      "range": {
+        "startLine": 240,
+        "startChar": 13,
+        "endLine": 240,
+        "endChar": 24
+      },
+      "revId": "93c7f4ce120fc1f33e678e96f2c0e9aa7b68c76f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "793a84c6_91d9fc2f",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
         "patchSetId": 9
@@ -59,6 +107,30 @@
       "writtenOn": "2014-07-11T08:17:32Z",
       "side": 1,
       "message": "You\u0027ve removed try-with-resources construct and now you are missing r.close(). Note: A try-with-resources statement can have catch and finally blocks just like an ordinary try statement. In a try-with-resources statement, any catch or finally block is run after the resources declared have been closed [1]:\n\n  try (InputStreamReader r \u003d\n        new InputStreamReader(in, StandardCharsets.UTF_8)) {\n      return OutputFormat.JSON.newGson()\n          .fromJson(CharStreams.toString(r), ReviewInput.class);\n  } catch (IOException e) {\n      throw error(\"internal error while reading review input\");\n  }\n\n[1] http://docs.oracle.com/javase/tutorial/essential/exceptions/tryResourceClose.html",
+      "range": {
+        "startLine": 235,
+        "startChar": 4,
+        "endLine": 242,
+        "endChar": 5
+      },
+      "revId": "93c7f4ce120fc1f33e678e96f2c0e9aa7b68c76f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "590a2015_f8d2710b",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-11T09:24:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "793a84c6_91d9fc2f",
       "range": {
         "startLine": 235,
         "startChar": 4,

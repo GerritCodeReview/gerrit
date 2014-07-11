@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "39448c56_cfb6bddb",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-07-11T09:47:52Z",
+      "side": 1,
+      "message": "writeError (e.getMessage() + \u0027\\n\u0027);\nadding this below this line will it easier for\nuser to understand the error?",
+      "range": {
+        "startLine": 239,
+        "startChar": 51,
+        "endLine": 240,
+        "endChar": 63
+      },
+      "revId": "4b08b1b8baaaa3e31025c80491ac18e0225adc6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

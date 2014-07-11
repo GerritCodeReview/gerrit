@@ -34,6 +34,24 @@
       "revId": "97115f97772432f63a21d3e85be5a5defa13fa33",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9983b8c4_22420e55",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/Notes.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-11T16:57:50Z",
+      "side": 1,
+      "message": "No, that\u0027s fine.\n\nTo avoid confusion, add a javadoc saying that this is the project where the notes should be stored, which is not necessarily the same as the change\u0027s project.",
+      "parentUuid": "b9cb1c3c_cbe6d54a",
+      "revId": "97115f97772432f63a21d3e85be5a5defa13fa33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

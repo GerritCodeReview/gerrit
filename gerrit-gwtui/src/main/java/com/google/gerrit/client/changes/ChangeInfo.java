@@ -260,7 +260,6 @@ public class ChangeInfo extends JavaScriptObject {
   public static class GitPerson extends JavaScriptObject {
     public final native String name() /*-{ return this.name; }-*/;
     public final native String email() /*-{ return this.email; }-*/;
-    public final native String username() /*-{ return this.username; }-*/;
     private final native String dateRaw() /*-{ return this.date; }-*/;
 
     public final Timestamp date() {

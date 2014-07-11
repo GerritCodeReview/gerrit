@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "99bad89a_4ad3b374",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-11T16:53:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9983b8c4_22f44eed",
+      "range": {
+        "startLine": 24,
+        "startChar": 4,
+        "endLine": 24,
+        "endChar": 15
+      },
+      "revId": "32085e01f3bde3eed2efbed7866c0d8ae4720ede",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9983b8c4_42f952e4",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6
@@ -36,6 +60,24 @@
       "writtenOn": "2014-07-11T16:23:51Z",
       "side": 1,
       "message": "Missing blank line before Change-Id.",
+      "revId": "32085e01f3bde3eed2efbed7866c0d8ae4720ede",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9cb1c3c_4bd3c574",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-11T16:53:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9983b8c4_42f952e4",
       "revId": "32085e01f3bde3eed2efbed7866c0d8ae4720ede",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "99bad89a_6ad8f78f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-11T16:53:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9487c79_632122bd",
+      "revId": "32085e01f3bde3eed2efbed7866c0d8ae4720ede",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9983b8c4_82267ad4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
         "patchSetId": 6
@@ -70,6 +130,24 @@
       "writtenOn": "2014-07-11T16:23:51Z",
       "side": 1,
       "message": "NoteMap is already an Iterable\u003cNote\u003e so this can just be \"for (Note note : noteMap)\".\n\n(Generally the only reasons to use an Iterator are if you need to probe hasNext() other than in the loop statement, or if you need to call remove().)",
+      "revId": "32085e01f3bde3eed2efbed7866c0d8ae4720ede",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99bad89a_0addbb7e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-11T16:53:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9983b8c4_82267ad4",
       "revId": "32085e01f3bde3eed2efbed7866c0d8ae4720ede",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -122,6 +200,30 @@
     },
     {
       "key": {
+        "uuid": "99bad89a_8af0cbfe",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/Notes.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-11T16:53:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9487c79_83041e34",
+      "range": {
+        "startLine": 28,
+        "startChar": 22,
+        "endLine": 28,
+        "endChar": 27
+      },
+      "revId": "32085e01f3bde3eed2efbed7866c0d8ae4720ede",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9983b8c4_6221f6bc",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/Notes.java",
         "patchSetId": 6
@@ -133,6 +235,24 @@
       "writtenOn": "2014-07-11T16:23:51Z",
       "side": 1,
       "message": "I think this can be private.",
+      "revId": "32085e01f3bde3eed2efbed7866c0d8ae4720ede",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99bad89a_eae38737",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/Notes.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-11T16:53:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9983b8c4_6221f6bc",
       "revId": "32085e01f3bde3eed2efbed7866c0d8ae4720ede",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -156,6 +276,24 @@
     },
     {
       "key": {
+        "uuid": "99bad89a_cae6c34a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/Notes.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-11T16:53:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9983b8c4_a207fe37",
+      "revId": "32085e01f3bde3eed2efbed7866c0d8ae4720ede",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9983b8c4_c2048235",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/Notes.java",
         "patchSetId": 6
@@ -167,6 +305,24 @@
       "writtenOn": "2014-07-11T16:23:51Z",
       "side": 1,
       "message": "Should probably also be final. Could be private too since it\u0027s exposed through getChange().",
+      "revId": "32085e01f3bde3eed2efbed7866c0d8ae4720ede",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9cb1c3c_6bd80190",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/Notes.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-11T16:53:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9983b8c4_c2048235",
       "revId": "32085e01f3bde3eed2efbed7866c0d8ae4720ede",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -190,6 +346,24 @@
     },
     {
       "key": {
+        "uuid": "b9cb1c3c_0bddbd7e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/Notes.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-11T16:53:23Z",
+      "side": 1,
+      "message": "Yeah, makes sense. Done",
+      "parentUuid": "9983b8c4_020b4a47",
+      "revId": "32085e01f3bde3eed2efbed7866c0d8ae4720ede",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9983b8c4_e20d065c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/Notes.java",
         "patchSetId": 6
@@ -201,6 +375,30 @@
       "writtenOn": "2014-07-11T16:23:51Z",
       "side": 1,
       "message": "I would prefer \"self()\", which is used a few places in JGit for this kind of thing (e.g. BaseRepositoryBuilder).\n\nAlso if you look at those examples, it shows how you can do this without making this method abstract:\n\n @SuppressWarnings(\"unchecked\")\n protected final T self() {\n   return (T) this;\n }\n\nI would leave the class as abstract, however.",
+      "range": {
+        "startLine": 61,
+        "startChar": 12,
+        "endLine": 61,
+        "endChar": 20
+      },
+      "revId": "32085e01f3bde3eed2efbed7866c0d8ae4720ede",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99bad89a_2ae2ff37",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/Notes.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-11T16:53:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9983b8c4_e20d065c",
       "range": {
         "startLine": 61,
         "startChar": 12,

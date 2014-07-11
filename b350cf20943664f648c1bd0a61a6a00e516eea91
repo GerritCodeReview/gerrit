@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "590a2015_180f6506",
+        "filename": "Documentation/dev-rest-api.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-11T00:42:05Z",
+      "side": 1,
+      "message": "It would be better to put this around line 46 so it\u0027s under the \"Sending data in the Request\" section.\n\nNow it appears under \"Authentication\".",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 72,
+        "endChar": 4
+      },
+      "revId": "b350cf20943664f648c1bd0a61a6a00e516eea91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

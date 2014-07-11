@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "793a84c6_91b0dcdd",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-07-11T08:29:50Z",
+      "side": 1,
+      "message": "Should we replace UnloggedFailure with UnloggedFailure | AuthException ?\nSince without it we are getting on giving +2 we get error fatal: internal server error while reviewing 1,2\none or more reviews failed; review output above\nand by putting AuthExcpetion we get error \nerror: Applying label \"Code-Review\": 2 is restricted\none or more reviews failed; review output above.",
+      "range": {
+        "startLine": 207,
+        "startChar": 15,
+        "endLine": 207,
+        "endChar": 30
+      },
+      "revId": "93c7f4ce120fc1f33e678e96f2c0e9aa7b68c76f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "793a84c6_d1b664db",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
         "patchSetId": 9

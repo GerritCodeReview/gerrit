@@ -833,6 +833,172 @@ Retrieves the URL where the user can change the avatar image.
   https://profiles/pictures/john.doe
 ----
 
+[[get-user-preferences]]
+=== Get User Preferences
+--
+'GET /accounts/link:#account-id[\{account-id\}]/preferences'
+--
+
+Retrieves the user's preferences.
+
+.Request
+----
+  GET /a/accounts/self/preferences HTTP/1.0
+----
+
+As result the account preferences of the user are returned as a
+link:#preferences-info[PreferencesInfo] entity.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "changes_per_page": 25,
+    "show_site_header": true,
+    "use_flash_clipboard": true,
+    "date_format": "STD",
+    "time_format": "HHMM_12",
+    "size_bar_in_change_table": true,
+    "review_category_strategy": "ABBREV",
+    "comment_visibility_strategy": "EXPAND_RECENT",
+    "diff_view": "SIDE_BY_SIDE",
+    "my": [
+      {
+        "url": "#/dashboard/self",
+        "name": "Changes"
+      },
+      {
+        "url": "#/q/is:draft",
+        "name": "Drafts"
+      },
+      {
+        "url": "#/q/has:draft",
+        "name": "Draft Comments"
+      },
+      {
+        "url": "#/q/is:watched+is:open",
+        "name": "Watched Changes"
+      },
+      {
+        "url": "#/q/is:starred",
+        "name": "Starred Changes"
+      },
+      {
+        "url": "#/groups/self",
+        "name": "Groups"
+      }
+    ]
+  }
+----
+
+[[set-user-preferences]]
+=== Set User Preferences
+--
+'PUT /accounts/link:#account-id[\{account-id\}]/preferences'
+--
+
+Sets the user's preferences.
+
+The new preferences must be provided in the request body as a
+link:#preferences-input[PreferencesInput] entity.
+
+.Request
+----
+  GET /a/accounts/self/preferences HTTP/1.0
+  Content-Type: application/json;charset=UTF-8
+
+  {
+    "changes_per_page": 50,
+    "show_site_header": true,
+    "use_flash_clipboard": true,
+    "date_format": "STD",
+    "time_format": "HHMM_12",
+    "size_bar_in_change_table": true,
+    "review_category_strategy": "NAME",
+    "comment_visibility_strategy": "EXPAND_RECENT",
+    "diff_view": "SIDE_BY_SIDE",
+    "my": [
+      {
+        "url": "#/dashboard/self",
+        "name": "Changes"
+      },
+      {
+        "url": "#/q/is:draft",
+        "name": "Drafts"
+      },
+      {
+        "url": "#/q/has:draft",
+        "name": "Draft Comments"
+      },
+      {
+        "url": "#/q/is:watched+is:open",
+        "name": "Watched Changes"
+      },
+      {
+        "url": "#/q/is:starred",
+        "name": "Starred Changes"
+      },
+      {
+        "url": "#/groups/self",
+        "name": "Groups"
+      }
+    ]
+  }
+----
+
+As result the new preferences of the user are returned as a
+link:#preferences-info[PreferencesInfo] entity.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "changes_per_page": 50,
+    "show_site_header": true,
+    "use_flash_clipboard": true,
+    "date_format": "STD",
+    "time_format": "HHMM_12",
+    "size_bar_in_change_table": true,
+    "review_category_strategy": "NAME",
+    "comment_visibility_strategy": "EXPAND_RECENT",
+    "diff_view": "SIDE_BY_SIDE",
+    "my": [
+      {
+        "url": "#/dashboard/self",
+        "name": "Changes"
+      },
+      {
+        "url": "#/q/is:draft",
+        "name": "Drafts"
+      },
+      {
+        "url": "#/q/has:draft",
+        "name": "Draft Comments"
+      },
+      {
+        "url": "#/q/is:watched+is:open",
+        "name": "Watched Changes"
+      },
+      {
+        "url": "#/q/is:starred",
+        "name": "Starred Changes"
+      },
+      {
+        "url": "#/groups/self",
+        "name": "Groups"
+      }
+    ]
+  }
+----
+
 [[get-diff-preferences]]
 === Get Diff Preferences
 --
@@ -1147,6 +1313,103 @@ link:access-control.html#capability_viewPlugins[View Plugins] capability.
 |`viewQueue`         |not set if `false`|Whether the user has the
 link:access-control.html#capability_viewQueue[View Queue] capability.
 |=================================
+
+[[preferences-info]]
+=== PreferencesInfo
+The `PreferencesInfo` entity contains information about a user's preferences.
+
+[options="header",width="50%",cols="1,^1,5"]
+|=====================================
+|Field Name              ||Description
+|`changes_per_page`               ||
+The number of changes to show on each page.
+Allowed values are `10`, `25`, `50`, `100`.
+|`show_site_header`   |not set if `false`|
+Whether the site header should be shown.
+|`use_flash_clipboard`     |not set if `false`|
+Whether to use the flash clipboard widget.
+|`download_scheme`      ||
+The type of download URL the user prefers to use.
+|`download_command`     ||
+The type of download command the user prefers to use.
+|`copy_self_on_email`       |not set if `false`|
+Whether to CC me on comments I write.
+|`date_format`         ||
+The format to display the date in.
+Allowed values are `STD`, `US`, `ISO`, `EURO`, `UK`.
+|`time_format`     ||
+The format to display the time in.
+Allowed values are `HHMM_12`, `HHMM_24`.
+|`reverse_patch_set_order`     |not set if `false`|
+Whether to display the patch sets in reverse order.
+|`relative_date_in_change_table`  |not set if `false`|
+Whether to show relative dates in the changes table.
+|`size_bar_in_change_table`      |not set if `false`|
+Whether to show the change sizes as colored bars in the change table.
+|`legacycid_in_change_table`      |not set if `false`|
+Whether to show change number in the change table.
+|`review_category_strategy`   ||
+The strategy used to displayed info in the review category column.
+Allowed values are `NONE`, `NAME`, `EMAIL`, `ABBREV`.
+|`comment_visibility_strategy`         ||
+The strategy used to display the comments.
+Allowed values are `COLLAPSE_ALL`, `EXPAND_MOST_RECENT`, `EXPAND_RECENT`, `EXPAND_ALL`.
+|`diff_view`     ||
+The type of diff view to show.
+Allowed values are `SIDE_BY_SIDE`, `UNIFIED_DIFF`.
+|`change_screen`            ||
+The change screen to use.
+Allowed values are `OLD_UI`, `CHANGE_SCREEN2`.
+|=====================================
+
+[[preferences-input]]
+=== PreferencesInput
+The `PreferencesInput` entity contains information for setting the
+user preferences. Fields which are not set will not be updated.
+
+[options="header",width="50%",cols="1,^1,5"]
+|=====================================
+|Field Name              ||Description
+|`changes_per_page`               |optional|
+The number of changes to show on each page.
+Allowed values are `10`, `25`, `50`, `100`.
+|`show_site_header`   |optional|
+Whether the site header should be shown.
+|`use_flash_clipboard`     |optional|
+Whether to use the flash clipboard widget.
+|`download_scheme`      |optional|
+The type of download URL the user prefers to use.
+|`download_command`     |optional|
+The type of download command the user prefers to use.
+|`copy_self_on_email`       |optional|
+Whether to CC me on comments I write.
+|`date_format`         |optional|
+The format to display the date in.
+Allowed values are `STD`, `US`, `ISO`, `EURO`, `UK`.
+|`time_format`     |optional|
+The format to display the time in.
+Allowed values are `HHMM_12`, `HHMM_24`.
+|`reverse_patch_set_order`     |optional|
+Whether to display the patch sets in reverse order.
+|`relative_date_in_change_table`  |optional|
+Whether to show relative dates in the changes table.
+|`size_bar_in_change_table`      |optional|
+Whether to show the change sizes as colored bars in the change table.
+|`legacycid_in_change_table`      |optional|
+Whether to show change number in the change table.
+|`review_category_strategy`   |optional|
+The strategy used to displayed info in the review category column.
+Allowed values are `NONE`, `NAME`, `EMAIL`, `ABBREV`.
+|`comment_visibility_strategy`         |optional|
+The strategy used to display the comments.
+Allowed values are `COLLAPSE_ALL`, `EXPAND_MOST_RECENT`, `EXPAND_RECENT`, `EXPAND_ALL`.
+|`diff_view`     |optional|
+The type of diff view to show.
+Allowed values are `SIDE_BY_SIDE`, `UNIFIED_DIFF`.
+|`change_screen`            |optional|
+The change screen to use.
+Allowed values are `OLD_UI`, `CHANGE_SCREEN2`.
+|=====================================
 
 [[diff-preferences-info]]
 === DiffPreferencesInfo

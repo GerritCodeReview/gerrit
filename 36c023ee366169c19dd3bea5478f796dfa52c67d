@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7915242e_19a52b9f",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-11T07:42:47Z",
+      "side": 1,
+      "message": "OK.  Will do that later.",
+      "parentUuid": "793a84c6_b1fd2081",
+      "range": {
+        "startLine": 194,
+        "startChar": 6,
+        "endLine": 196,
+        "endChar": 31
+      },
+      "revId": "36c023ee366169c19dd3bea5478f796dfa52c67d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "793a84c6_d100a4d2",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
         "patchSetId": 8
@@ -36,6 +60,30 @@
       "writtenOn": "2014-07-11T07:40:35Z",
       "side": 1,
       "message": "Why don\u0027t you just do\n\n  throw error(\"internal error while reading review input\");\n\n?",
+      "range": {
+        "startLine": 197,
+        "startChar": 8,
+        "endLine": 198,
+        "endChar": 71
+      },
+      "revId": "36c023ee366169c19dd3bea5478f796dfa52c67d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7915242e_39a0ef8e",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-11T07:42:47Z",
+      "side": 1,
+      "message": "Because then the output would be different to the errors below, which first log an error and then later throw error with the message.",
+      "parentUuid": "793a84c6_d100a4d2",
       "range": {
         "startLine": 197,
         "startChar": 8,

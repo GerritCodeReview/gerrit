@@ -1350,7 +1350,7 @@ Whether to show the change sizes as colored bars in the change table.
 Whether to show change number in the change table.
 |`review_category_strategy`   ||
 The strategy used to displayed info in the review category column.
-Allowed values are `NONE`, `NAME`, `EMAIL`, `ABBREV`.
+Allowed values are `NONE`, `NAME`, `EMAIL`, `USERNAME`, `ABBREV`.
 |`comment_visibility_strategy`         ||
 The strategy used to display the comments.
 Allowed values are `COLLAPSE_ALL`, `EXPAND_MOST_RECENT`, `EXPAND_RECENT`, `EXPAND_ALL`.
@@ -1399,7 +1399,7 @@ Whether to show the change sizes as colored bars in the change table.
 Whether to show change number in the change table.
 |`review_category_strategy`   |optional|
 The strategy used to displayed info in the review category column.
-Allowed values are `NONE`, `NAME`, `EMAIL`, `ABBREV`.
+Allowed values are `NONE`, `NAME`, `EMAIL`, `USERNAME`, `ABBREV`.
 |`comment_visibility_strategy`         |optional|
 The strategy used to display the comments.
 Allowed values are `COLLAPSE_ALL`, `EXPAND_MOST_RECENT`, `EXPAND_RECENT`, `EXPAND_ALL`.

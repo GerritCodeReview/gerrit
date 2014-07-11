@@ -93,6 +93,30 @@
       "revId": "36c023ee366169c19dd3bea5478f796dfa52c67d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "793a84c6_71bfb8be",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-11T07:54:29Z",
+      "side": 1,
+      "message": "Why is it important that the error output is the same as below?\n\nBelow we do it this way because there can be multiple errors printed out before we fail. Here it is only a single error, so this second message seems unneeded.",
+      "parentUuid": "7915242e_39a0ef8e",
+      "range": {
+        "startLine": 197,
+        "startChar": 8,
+        "endLine": 198,
+        "endChar": 71
+      },
+      "revId": "36c023ee366169c19dd3bea5478f796dfa52c67d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

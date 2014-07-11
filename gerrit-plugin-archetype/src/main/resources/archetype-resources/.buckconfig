@@ -1,0 +1,14 @@
+[alias]
+  ${pluginName} = //:${pluginName}
+  plugin = //:${pluginName}
+
+[java]
+  src_roots = java, resources
+
+[project]
+  ignore = .git
+
+[cache]
+  mode = dir
+  dir = buck-out/cache
+

@@ -1,0 +1,9 @@
+include_defs('//bucklets/maven_jar.bucklet')
+
+maven_jar(
+  name = 'lang',
+  id = 'commons-lang:commons-lang:2.5',
+  sha1 = 'b0236b252e86419eef20c31a44579d2aee2f0a69',
+  exclude = ['META-INF/LICENSE.txt', 'META-INF/NOTICE.txt'],
+  license = 'Apache2.0',
+)

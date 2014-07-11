@@ -352,6 +352,8 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
         return accountInfo.name();
       case EMAIL:
         return accountInfo.email();
+      case USERNAME:
+        return accountInfo.username();
       case ABBREV:
         return getAbbreviation(accountInfo.name(), " ");
       default:

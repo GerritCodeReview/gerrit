@@ -87,6 +87,9 @@ public class MyPreferencesScreen extends SettingsScreen {
         Util.C.messageShowInReviewCategoryEmail(),
         AccountGeneralPreferences.ReviewCategoryStrategy.EMAIL.name());
     reviewCategoryStrategy.addItem(
+        Util.C.messageShowInReviewCategoryUsername(),
+        AccountGeneralPreferences.ReviewCategoryStrategy.USERNAME.name());
+    reviewCategoryStrategy.addItem(
         Util.C.messageShowInReviewCategoryAbbrev(),
         AccountGeneralPreferences.ReviewCategoryStrategy.ABBREV.name());
 

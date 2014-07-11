@@ -277,47 +277,52 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
       }
 
       String user;
+      String info;
       ReviewCategoryStrategy reviewCategoryStrategy = Gerrit.isSignedIn()
           ? Gerrit.getUserAccount().getGeneralPreferences()
                 .getReviewCategoryStrategy()
           : ReviewCategoryStrategy.NONE;
       if (label.rejected() != null) {
-        user = getReviewCategoryDisplayInfo(reviewCategoryStrategy,
+        user = label.rejected().name();
+        info = getReviewCategoryDisplayInfo(reviewCategoryStrategy,
             label.rejected());
-        if (displayInfo && user != null) {
+        if (displayInfo && info != null) {
           FlowPanel panel = new FlowPanel();
           panel.add(new Image(Gerrit.RESOURCES.redNot()));
-          panel.add(new InlineLabel(user));
+          panel.add(new InlineLabel(info));
           table.setWidget(row, col, panel);
         } else {
           table.setWidget(row, col, new Image(Gerrit.RESOURCES.redNot()));
         }
       } else if (label.approved() != null) {
-        user = getReviewCategoryDisplayInfo(reviewCategoryStrategy,
+        user = label.approved().name();
+        info = getReviewCategoryDisplayInfo(reviewCategoryStrategy,
             label.approved());
-        if (displayInfo && user != null) {
+        if (displayInfo && info != null) {
           FlowPanel panel = new FlowPanel();
           panel.add(new Image(Gerrit.RESOURCES.greenCheck()));
-          panel.add(new InlineLabel(user));
+          panel.add(new InlineLabel(info));
           table.setWidget(row, col, panel);
         } else {
           table.setWidget(row, col, new Image(Gerrit.RESOURCES.greenCheck()));
         }
       } else if (label.disliked() != null) {
-        user = getReviewCategoryDisplayInfo(reviewCategoryStrategy,
+        user = label.disliked().name();
+        info = getReviewCategoryDisplayInfo(reviewCategoryStrategy,
             label.disliked());
         String vstr = String.valueOf(label._value());
-        if (displayInfo && user != null) {
-          vstr = vstr + " " + user;
+        if (displayInfo && info != null) {
+          vstr = vstr + " " + info;
         }
         fmt.addStyleName(row, col, Gerrit.RESOURCES.css().negscore());
         table.setText(row, col, vstr);
       } else if (label.recommended() != null) {
-        user = getReviewCategoryDisplayInfo(reviewCategoryStrategy,
+        user = label.recommended().name();
+        info = getReviewCategoryDisplayInfo(reviewCategoryStrategy,
             label.recommended());
         String vstr = "+" + label._value();
-        if (displayInfo && user != null) {
-          vstr = vstr + " " + user;
+        if (displayInfo && info != null) {
+          vstr = vstr + " " + info;
         }
         fmt.addStyleName(row, col, Gerrit.RESOURCES.css().posscore());
         table.setText(row, col, vstr);
@@ -327,7 +332,8 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
       }
       fmt.addStyleName(row, col, Gerrit.RESOURCES.css().singleLine());
 
-      if (!displayInfo && user != null) {
+      if ((!displayInfo || reviewCategoryStrategy == ReviewCategoryStrategy.ABBREV)
+          && user != null) {
         // Some web browsers ignore the embedded newline; some like it;
         // so we include a space before the newline to accommodate both.
         fmt.getElement(row, col).setTitle(name + " \nby " + user);

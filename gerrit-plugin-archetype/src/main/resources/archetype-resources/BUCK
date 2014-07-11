@@ -1,0 +1,22 @@
+include_defs('//bucklets/gerrit_plugin.bucklet')
+
+gerrit_plugin(
+  name = '${pluginName}',
+  srcs = glob(['src/main/java/**/*.java']),
+  resources = glob(['src/main/resources/**/*']),
+  manifest_entries = [
+    'Gerrit-PluginName: ${pluginName}',
+    'Gerrit-ApiType: ${gerritApiType}',
+    'Gerrit-ApiVersion: ${gerritApiVersion}',
+    'Gerrit-Module: ${package}.Module',
+    'Gerrit-SshModule: ${package}.SshModule',
+    'Gerrit-HttpModule: ${package}.HttpModule',
+  ],
+)
+
+# this is required for bucklets/tools/eclipse/project.py to work
+java_library(
+  name = 'classpath',
+  deps = [':${pluginName}__plugin'],
+)
+

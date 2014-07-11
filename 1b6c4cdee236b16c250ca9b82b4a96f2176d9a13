@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b9cb1c3c_8bf0cdfe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-11T17:26:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9487c79_232b2a9f",
+      "range": {
+        "startLine": 17,
+        "startChar": 37,
+        "endLine": 21,
+        "endChar": 31
+      },
+      "revId": "1b6c4cdee236b16c250ca9b82b4a96f2176d9a13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b9487c79_03302e07",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2014-07-11T16:38:15Z",
       "side": 1,
       "message": "\u003c\u003e",
+      "range": {
+        "startLine": 230,
+        "startChar": 23,
+        "endLine": 230,
+        "endChar": 41
+      },
+      "revId": "1b6c4cdee236b16c250ca9b82b4a96f2176d9a13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99bad89a_aaed8f25",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-11T17:26:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9487c79_03302e07",
       "range": {
         "startLine": 230,
         "startChar": 23,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "99bad89a_4afad3de",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-11T17:26:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9983b8c4_e2142662",
+      "range": {
+        "startLine": 239,
+        "startChar": 23,
+        "endLine": 239,
+        "endChar": 41
+      },
+      "revId": "1b6c4cdee236b16c250ca9b82b4a96f2176d9a13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9983b8c4_02126a73",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/Update.java",
         "patchSetId": 3
@@ -82,6 +154,24 @@
       "writtenOn": "2014-07-11T16:38:15Z",
       "side": 1,
       "message": "Can be one line.",
+      "revId": "1b6c4cdee236b16c250ca9b82b4a96f2176d9a13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99bad89a_0af4dbec",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/Update.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-11T17:26:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9983b8c4_02126a73",
       "revId": "1b6c4cdee236b16c250ca9b82b4a96f2176d9a13",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "99bad89a_6aff97cd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/Update.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-11T17:26:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9983b8c4_62481677",
+      "range": {
+        "startLine": 42,
+        "startChar": 22,
+        "endLine": 42,
+        "endChar": 28
+      },
+      "revId": "1b6c4cdee236b16c250ca9b82b4a96f2176d9a13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9983b8c4_a21e1e7e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/Update.java",
         "patchSetId": 3
@@ -122,6 +236,24 @@
       "writtenOn": "2014-07-11T16:38:15Z",
       "side": 1,
       "message": "All these should be final.",
+      "revId": "1b6c4cdee236b16c250ca9b82b4a96f2176d9a13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9cb1c3c_abed8925",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/Update.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-11T17:26:28Z",
+      "side": 1,
+      "message": "I made them all final except for the psId because since the addition of comments to updates has meant that updates with comments must be attached to a single psId, and that psId can\u0027t be set with anything we are being given in the constructor.",
+      "parentUuid": "9983b8c4_a21e1e7e",
       "revId": "1b6c4cdee236b16c250ca9b82b4a96f2176d9a13",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -145,6 +277,24 @@
     },
     {
       "key": {
+        "uuid": "99bad89a_ca0d635c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/Update.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-11T17:26:28Z",
+      "side": 1,
+      "message": "This is the same situation as the Notes. I added a javadoc for the method to clarify what this method should return.",
+      "parentUuid": "b9487c79_e314f261",
+      "revId": "1b6c4cdee236b16c250ca9b82b4a96f2176d9a13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9983b8c4_c21b228d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/Update.java",
         "patchSetId": 3
@@ -156,6 +306,24 @@
       "writtenOn": "2014-07-11T16:38:15Z",
       "side": 1,
       "message": "Not used in the base class, leave it out.",
+      "revId": "1b6c4cdee236b16c250ca9b82b4a96f2176d9a13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99bad89a_2af99fe5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/Update.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-11T17:26:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9983b8c4_c21b228d",
       "revId": "1b6c4cdee236b16c250ca9b82b4a96f2176d9a13",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

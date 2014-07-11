@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "793a84c6_718d7826",
+        "filename": "gerrit-plugin-archetype/src/main/resources/archetype-resources/lib/gerrit/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-11T09:21:02Z",
+      "side": 1,
+      "message": "I don\u0027t know how the archetype could guess the right sha1 here? Is it possible to disable the sha1 check?",
+      "revId": "84220770357237cd18b8be70c7c0e1fdf65c4af5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

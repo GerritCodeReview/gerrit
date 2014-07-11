@@ -46,6 +46,30 @@
       "revId": "4b08b1b8baaaa3e31025c80491ac18e0225adc6a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7915242e_798d4726",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-11T09:59:41Z",
+      "side": 1,
+      "message": "Yes, that might be useful.  I\u0027m not going to have time to do it today, though.\n\nFeel free to upload a new patch set.",
+      "parentUuid": "b9487c79_63fa42df",
+      "range": {
+        "startLine": 239,
+        "startChar": 51,
+        "endLine": 240,
+        "endChar": 63
+      },
+      "revId": "4b08b1b8baaaa3e31025c80491ac18e0225adc6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

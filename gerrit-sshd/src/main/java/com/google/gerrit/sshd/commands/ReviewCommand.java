@@ -25,9 +25,6 @@ import com.google.gerrit.extensions.api.changes.RestoreInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
-import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.extensions.restapi.BadRequestException;
-import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -246,17 +243,8 @@ public class ReviewCommand extends SshCommand {
       } else if (deleteDraftPatchSet) {
         revisionApi(patchSet).delete();
       }
-    } catch (InvalidChangeOperationException e) {
-      throw error(e.getMessage());
-    } catch (IllegalStateException e) {
-      throw error(e.getMessage());
-    } catch (AuthException e) {
-      throw error(e.getMessage());
-    } catch (BadRequestException e) {
-      throw error(e.getMessage());
-    } catch (ResourceConflictException e) {
-      throw error(e.getMessage());
-    } catch (RestApiException e) {
+    } catch (IllegalStateException | InvalidChangeOperationException
+        | RestApiException e) {
       throw error(e.getMessage());
     }
   }

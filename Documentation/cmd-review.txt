@@ -2,7 +2,7 @@ gerrit review
 ==============
 
 == NAME
-gerrit review - Verify, approve and/or submit one or more patch sets
+gerrit review - Apply reviews to one or more patch sets
 
 == SYNOPSIS
 --

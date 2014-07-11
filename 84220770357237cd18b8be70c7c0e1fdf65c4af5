@@ -34,6 +34,24 @@
       "revId": "84220770357237cd18b8be70c7c0e1fdf65c4af5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39448c56_4f92cd48",
+        "filename": "gerrit-plugin-archetype/src/main/resources/archetype-resources/lib/gerrit/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-11T10:16:35Z",
+      "side": 1,
+      "message": "Cool, this works :)",
+      "parentUuid": "39448c56_0fa5e59e",
+      "revId": "84220770357237cd18b8be70c7c0e1fdf65c4af5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

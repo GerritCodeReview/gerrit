@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b9487c79_432626d7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/Notes.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-11T16:25:33Z",
+      "side": 1,
+      "message": "Why abstract instead of just implementing it here? change is a field in the base class.\n\nAlso I\u0027m a little skeptical of the utility thus far, considering it saves little typing and I haven\u0027t seen it be used all over the place.",
+      "revId": "97115f97772432f63a21d3e85be5a5defa13fa33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

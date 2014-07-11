@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "7915242e_7910a727",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-11T02:09:14Z",
+      "side": 1,
+      "message": "Does this work properly if there are multiple patch sets?\n\nI.e. can the input stream be read more than once?",
+      "range": {
+        "startLine": 202,
+        "startChar": 32,
+        "endLine": 202,
+        "endChar": 47
+      },
+      "revId": "49af9e34903bc5fc504f5afc155b30d35378b313",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7915242e_1941ab1e",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
         "patchSetId": 5

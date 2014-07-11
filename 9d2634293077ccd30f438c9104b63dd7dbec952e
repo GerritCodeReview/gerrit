@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b9cb1c3c_cb0d755c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-11T23:33:41Z",
+      "side": 1,
+      "message": "Leave private.",
+      "revId": "9d2634293077ccd30f438c9104b63dd7dbec952e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99bad89a_0a2b7b9e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-11T23:33:41Z",
+      "side": 1,
+      "message": "Missing @Override. Order above private methods.",
+      "revId": "9d2634293077ccd30f438c9104b63dd7dbec952e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

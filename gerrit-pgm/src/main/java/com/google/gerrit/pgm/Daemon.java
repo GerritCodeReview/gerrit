@@ -70,7 +70,6 @@ import com.google.gerrit.server.schema.SchemaVersionCheck;
 import com.google.gerrit.server.ssh.NoSshKeyCache;
 import com.google.gerrit.server.ssh.NoSshModule;
 import com.google.gerrit.server.ssh.SshAddressesModule;
-import com.google.gerrit.solr.SolrIndexModule;
 import com.google.gerrit.sshd.SshHostKeyModule;
 import com.google.gerrit.sshd.SshKeyCacheImpl;
 import com.google.gerrit.sshd.SshModule;
@@ -366,8 +365,6 @@ public class Daemon extends SiteProgram {
     switch (indexType) {
       case LUCENE:
         return luceneModule != null ? luceneModule : new LuceneIndexModule();
-      case SOLR:
-        return new SolrIndexModule();
       case ELASTICSEARCH:
         return new ElasticsearchIndexModule();
       default:

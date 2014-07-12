@@ -77,7 +77,6 @@ import com.google.gerrit.server.project.SectionSortCache;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.schema.DataSourceProvider;
 import com.google.gerrit.server.schema.DataSourceType;
-import com.google.gerrit.solr.SolrIndexModule;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.AbstractModule;
@@ -184,9 +183,6 @@ public class Reindex extends SiteProgram {
     switch (IndexModule.getIndexType(dbInjector)) {
       case LUCENE:
         changeIndexModule = new LuceneIndexModule(version, threads, outputBase);
-        break;
-      case SOLR:
-        changeIndexModule = new SolrIndexModule(false, threads, outputBase);
         break;
       case ELASTICSEARCH:
         changeIndexModule = new ElasticsearchIndexModule(threads);

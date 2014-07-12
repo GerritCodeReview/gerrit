@@ -17,7 +17,6 @@ java_library(
     '//gerrit-reviewdb:server',
     '//gerrit-server:server',
     '//gerrit-server/src/main/prolog:common',
-    '//gerrit-solr:solr',
     '//gerrit-sshd:sshd',
     '//lib:guava',
     '//lib:gwtorm',

@@ -35,7 +35,6 @@ import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.IndexModule.IndexType;
 import com.google.gerrit.server.index.SiteIndexer;
-import com.google.gerrit.solr.SolrIndexModule;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Module;
@@ -121,9 +120,6 @@ public class Reindex extends SiteProgram {
     switch (IndexModule.getIndexType(dbInjector)) {
       case LUCENE:
         changeIndexModule = new LuceneIndexModule(version, threads, outputBase);
-        break;
-      case SOLR:
-        changeIndexModule = new SolrIndexModule(false, threads, outputBase);
         break;
       default:
         throw new IllegalStateException("unsupported index.type");

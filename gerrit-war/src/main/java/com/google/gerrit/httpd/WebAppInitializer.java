@@ -60,7 +60,6 @@ import com.google.gerrit.server.schema.SchemaVersionCheck;
 import com.google.gerrit.server.securestore.SecureStoreClassName;
 import com.google.gerrit.server.ssh.NoSshModule;
 import com.google.gerrit.server.ssh.SshAddressesModule;
-import com.google.gerrit.solr.SolrIndexModule;
 import com.google.gerrit.sshd.SshHostKeyModule;
 import com.google.gerrit.sshd.SshKeyCacheImpl;
 import com.google.gerrit.sshd.SshModule;
@@ -300,9 +299,6 @@ public class WebAppInitializer extends GuiceServletContextListener
     switch (IndexModule.getIndexType(cfgInjector)) {
       case LUCENE:
         changeIndexModule = new LuceneIndexModule();
-        break;
-      case SOLR:
-        changeIndexModule = new SolrIndexModule();
         break;
       default:
         throw new IllegalStateException("unsupported index.type");

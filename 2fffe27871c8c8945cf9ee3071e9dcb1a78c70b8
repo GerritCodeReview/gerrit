@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "19aee865_c6e6c24a",
+        "filename": "gerrit-plugin-archetype/src/main/resources/archetype-resources/VERSION",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-12T06:56:58Z",
+      "side": 1,
+      "message": "This must be valie python file, that can be included from BUCK build file, like it is the case in Gerrit core. Suggestion: put here description and the PLUGIN_VERSION variable, e. g.:\n\n# Maven style API version (e.g. \u00272.x-SNAPSHOT\u0027).\n# Used by BUCK to include \"Implementation-Version\"\n# in plugin Manifest. When this file doesn\u0027t exist\n# `git describe` command is executed instead.\nPLUGIN_VERSION\u003d${version}",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 10
+      },
+      "revId": "2fffe27871c8c8945cf9ee3071e9dcb1a78c70b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

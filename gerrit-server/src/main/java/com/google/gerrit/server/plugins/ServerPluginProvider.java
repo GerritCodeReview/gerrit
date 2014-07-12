@@ -45,9 +45,9 @@ public interface ServerPluginProvider {
     /**
      * Creates a new PluginDescription for ServerPluginProvider.
      *
-     * @param pluginUser Gerrit user for interacting with plugins
-     * @param pluginCanonicalWebUrl plugin root Web URL
-     * @param pluginDataDir directory for plugin data
+     * @param user Gerrit user for interacting with plugins
+     * @param canonicalUrl plugin root Web URL
+     * @param dataDir directory for plugin data
      */
     public PluginDescription(PluginUser user, String canonicalUrl, File dataDir) {
       this.user = user;
@@ -87,7 +87,7 @@ public interface ServerPluginProvider {
    *
    * @param srcFile external file or directory
    * @param snapshot snapshot of the external file
-   * @param pluginDescription descriptor of the ServerPlugin to load
+   * @param pluginDescriptor descriptor of the ServerPlugin to load
    * @throws InvalidPluginException if plugin is supposed to be handled
    *         but cannot be loaded for any other reason
    */

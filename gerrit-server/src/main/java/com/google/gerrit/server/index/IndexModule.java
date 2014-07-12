@@ -39,7 +39,7 @@ import org.eclipse.jgit.lib.Config;
  */
 public class IndexModule extends LifecycleModule {
   public enum IndexType {
-    LUCENE, SOLR, ELASTICSEARCH
+    LUCENE, ELASTICSEARCH
   }
 
   /** Type of secondary index. */

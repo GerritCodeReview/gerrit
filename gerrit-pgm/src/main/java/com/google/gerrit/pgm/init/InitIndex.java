@@ -51,9 +51,7 @@ class InitIndex implements InitStep {
     ui.header("Index");
 
     IndexType type = index.select("Type", "type", IndexType.LUCENE);
-    if (type == IndexType.SOLR) {
-      index.string("Solr Index URL", "url", "localhost:9983");
-    } else if (type == IndexType.ELASTICSEARCH) {
+    if (type == IndexType.ELASTICSEARCH) {
       index.string("Elasticsearch Index URL", "url", "http://localhost:9200");
       index.string("Elasticsearch Index Name", "name", "gerrit");
     }

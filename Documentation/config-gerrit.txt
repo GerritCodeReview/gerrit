@@ -2122,11 +2122,6 @@ values are:
 +
 A link:http://lucene.apache.org/[Lucene] index is used.
 +
-* `SOLR`
-+
-A link:https://cwiki.apache.org/confluence/display/solr/SolrCloud[
-SolrCloud] index is used.
-+
 * `ELASTICSEARCH`
 +
 An link:http://www.elasticsearch.org/[Elasticsearch] index is used.
@@ -2219,17 +2214,6 @@ Sample Lucene index configuration:
   ramBufferSize = 20 m
   maxBufferedDocs = 500
 ----
-
-==== Solr configuration
-
-Open and closed changes are indexed in separate indexes named
-'changes_open' and 'changes_closed' respectively.
-
-The following settings are only used when the index type is `SOLR`.
-
-[[index.url]]index.url::
-+
-URL of the index server.
 
 ==== Elasticsearch configuration
 

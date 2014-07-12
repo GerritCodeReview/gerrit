@@ -2116,16 +2116,11 @@ Gerrit server.
 [[index.type]]index.type::
 +
 Type of secondary indexing employed by Gerrit.  The supported
-values are:
+values is:
 +
 * `LUCENE`
 +
 A link:http://lucene.apache.org/[Lucene] index is used.
-+
-* `SOLR`
-+
-A link:https://cwiki.apache.org/confluence/display/solr/SolrCloud[
-SolrCloud] index is used.
 +
 * `ELASTICSEARCH`
 +
@@ -2219,17 +2214,6 @@ Sample Lucene index configuration:
   ramBufferSize = 20 m
   maxBufferedDocs = 500
 ----
-
-==== Solr configuration
-
-Open and closed changes are indexed in separate indexes named
-'changes_open' and 'changes_closed' respectively.
-
-The following settings are only used when the index type is `SOLR`.
-
-[[index.url]]index.url::
-+
-URL of the index server.
 
 ==== Elasticsearch configuration
 

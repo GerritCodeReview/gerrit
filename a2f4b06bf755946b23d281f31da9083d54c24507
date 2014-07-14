@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "99bad89a_6a6317e6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-14T17:52:32Z",
+      "side": 1,
+      "message": "This description is fine but rather verbose. A shorter description like \"ChangeUpdate assumes the NoteMap in ChangeNotes is already loaded.\"",
+      "revId": "a2f4b06bf755946b23d281f31da9083d54c24507",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9cb1c3c_0b813d3f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-14T17:52:32Z",
+      "side": 1,
+      "message": "Just add .load() to the previous line.",
+      "revId": "a2f4b06bf755946b23d281f31da9083d54c24507",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

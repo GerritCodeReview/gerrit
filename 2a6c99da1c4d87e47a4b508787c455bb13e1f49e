@@ -16,6 +16,24 @@
       "revId": "2a6c99da1c4d87e47a4b508787c455bb13e1f49e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f916748e_25d3ee75",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 526,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-14T23:21:52Z",
+      "side": 1,
+      "message": "I just thought it would help enforce that we shouldn\u0027t be writing notes with empty lists by forcing a check before buildNote so that the caller knows that it should be doing the remove instead of using the inserter to insert null. What do you think?",
+      "parentUuid": "b9cb1c3c_eb6e31ca",
+      "revId": "2a6c99da1c4d87e47a4b508787c455bb13e1f49e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

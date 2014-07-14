@@ -425,14 +425,12 @@ public class CommentsInNotesUtil {
    *            byte array.
    *            All of the comments in this list must have the same side and
    *            must share the same PatchSet.Id.
+   *            This list must not be empty because we cannot build a note
+   *            for no comments.
    * @return the note. Null if there are no comments in the list.
    */
   public byte[] buildNote(List<PatchLineComment> comments)
       throws OrmException, IOException {
-    if (comments.isEmpty()) {
-      return null;
-    }
-
     ByteArrayOutputStream buf = new ByteArrayOutputStream();
     OutputStreamWriter streamWriter = new OutputStreamWriter(buf, UTF_8);
     PrintWriter writer = new PrintWriter(streamWriter);
@@ -517,11 +515,18 @@ public class CommentsInNotesUtil {
   public void writeCommentsToNoteMap(NoteMap noteMap,
       List<PatchLineComment> allComments, ObjectInserter inserter)
         throws OrmException, IOException {
+    checkArgument(!allComments.isEmpty(),
+        "No comments to write; to delete, use removeNoteFromNoteMap().");
     ObjectId commitOID =
         ObjectId.fromString(allComments.get(0).getRevId().get());
     Collections.sort(allComments, ChangeNotes.PatchLineCommentComparator);
     byte[] note = buildNote(allComments);
     ObjectId noteId = inserter.insert(Constants.OBJ_BLOB, note, 0, note.length);
     noteMap.set(commitOID, noteId);
+  }
+
+  public void removeNote(NoteMap noteMap, RevId commitId)
+      throws IOException {
+    noteMap.remove(ObjectId.fromString(commitId.get()));
   }
 }

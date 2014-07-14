@@ -206,6 +206,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   /** @return the tree id for the updated tree */
   private ObjectId storeCommentsInNotes() throws OrmException, IOException {
     ChangeNotes notes = ctl.getNotes();
+    notes.load();
     NoteMap noteMap = notes.getNoteMap();
     if (noteMap == null) {
       noteMap = NoteMap.newEmptyMap();

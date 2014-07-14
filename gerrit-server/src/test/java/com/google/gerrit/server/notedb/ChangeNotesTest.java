@@ -38,6 +38,7 @@ import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.CommentRange;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
+import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
@@ -853,8 +854,8 @@ public class ChangeNotesTest {
     Timestamp time3 = TimeUtil.nowTs();
     PatchSet.Id psId = c.currentPatchSetId();
 
-    PatchLineComment comment1 = newPatchLineComment(psId, "file1", uuid,
-        range1, range1.getEndLine(), otherUser, null, time1, message1,
+    PatchLineComment comment1 = newPublishedPatchLineComment(psId, "file1",
+        uuid, range1, range1.getEndLine(), otherUser, null, time1, message1,
         (short) 1, "abcd1234abcd1234abcd1234abcd1234abcd1234");
     update.setPatchSetId(psId);
     update.putComment(comment1);
@@ -862,8 +863,8 @@ public class ChangeNotesTest {
 
     update = newUpdate(c, otherUser);
     CommentRange range2 = new CommentRange(2, 1, 3, 1);
-    PatchLineComment comment2 = newPatchLineComment(psId, "file1", uuid,
-        range2, range2.getEndLine(), otherUser, null, time2, message2,
+    PatchLineComment comment2 = newPublishedPatchLineComment(psId, "file1",
+        uuid, range2, range2.getEndLine(), otherUser, null, time2, message2,
         (short) 1, "abcd1234abcd1234abcd1234abcd1234abcd1234");
     update.setPatchSetId(psId);
     update.putComment(comment2);
@@ -871,8 +872,8 @@ public class ChangeNotesTest {
 
     update = newUpdate(c, otherUser);
     CommentRange range3 = new CommentRange(3, 1, 4, 1);
-    PatchLineComment comment3 = newPatchLineComment(psId, "file2", uuid,
-        range3, range3.getEndLine(), otherUser, null, time3, message3,
+    PatchLineComment comment3 = newPublishedPatchLineComment(psId, "file2",
+        uuid, range3, range3.getEndLine(), otherUser, null, time3, message3,
         (short) 1, "abcd1234abcd1234abcd1234abcd1234abcd1234");
     update.setPatchSetId(psId);
     update.putComment(comment3);
@@ -931,8 +932,8 @@ public class ChangeNotesTest {
     Timestamp time2 = TimeUtil.nowTs();
     PatchSet.Id psId = c.currentPatchSetId();
 
-    PatchLineComment comment1 = newPatchLineComment(psId, "file1", uuid,
-        range1, range1.getEndLine(), otherUser, null, time1, message1,
+    PatchLineComment comment1 = newPublishedPatchLineComment(psId, "file1",
+        uuid, range1, range1.getEndLine(), otherUser, null, time1, message1,
         (short) 0, "abcd1234abcd1234abcd1234abcd1234abcd1234");
     update.setPatchSetId(psId);
     update.putComment(comment1);
@@ -940,8 +941,8 @@ public class ChangeNotesTest {
 
     update = newUpdate(c, otherUser);
     CommentRange range2 = new CommentRange(2, 1, 3, 1);
-    PatchLineComment comment2 = newPatchLineComment(psId, "file1", uuid,
-        range2, range2.getEndLine(), otherUser, null, time2, message2,
+    PatchLineComment comment2 = newPublishedPatchLineComment(psId, "file1",
+        uuid, range2, range2.getEndLine(), otherUser, null, time2, message2,
         (short) 0, "abcd1234abcd1234abcd1234abcd1234abcd1234");
     update.setPatchSetId(psId);
     update.putComment(comment2);
@@ -993,7 +994,7 @@ public class ChangeNotesTest {
     PatchSet.Id psId = c.currentPatchSetId();
 
     PatchLineComment commentForBase =
-        newPatchLineComment(psId, "filename", uuid,
+        newPublishedPatchLineComment(psId, "filename", uuid,
         range, range.getEndLine(), otherUser, null, now, messageForBase,
         (short) 0, "abcd1234abcd1234abcd1234abcd1234abcd1234");
     update.setPatchSetId(psId);
@@ -1002,7 +1003,7 @@ public class ChangeNotesTest {
 
     update = newUpdate(c, otherUser);
     PatchLineComment commentForPS =
-        newPatchLineComment(psId, "filename", uuid,
+        newPublishedPatchLineComment(psId, "filename", uuid,
         range, range.getEndLine(), otherUser, null, now, messageForPS,
         (short) 1, "abcd4567abcd4567abcd4567abcd4567abcd4567");
     update.setPatchSetId(psId);
@@ -1035,17 +1036,17 @@ public class ChangeNotesTest {
     ChangeUpdate update = newUpdate(c, otherUser);
     Timestamp timeForComment1 = TimeUtil.nowTs();
     Timestamp timeForComment2 = TimeUtil.nowTs();
-    PatchLineComment comment1 = newPatchLineComment(psId, filename, uuid, range,
-        range.getEndLine(), otherUser, null, timeForComment1, "comment 1", side,
-        "abcd1234abcd1234abcd1234abcd1234abcd1234");
+    PatchLineComment comment1 = newPublishedPatchLineComment(psId, filename,
+        uuid, range, range.getEndLine(), otherUser, null, timeForComment1,
+        "comment 1", side, "abcd1234abcd1234abcd1234abcd1234abcd1234");
     update.setPatchSetId(psId);
     update.putComment(comment1);
     update.commit();
 
     update = newUpdate(c, otherUser);
-    PatchLineComment comment2 = newPatchLineComment(psId, filename, uuid, range,
-        range.getEndLine(), otherUser, null, timeForComment2, "comment 2", side,
-        "abcd1234abcd1234abcd1234abcd1234abcd1234");
+    PatchLineComment comment2 = newPublishedPatchLineComment(psId, filename,
+        uuid, range, range.getEndLine(), otherUser, null, timeForComment2,
+        "comment 2", side, "abcd1234abcd1234abcd1234abcd1234abcd1234");
     update.setPatchSetId(psId);
     update.putComment(comment2);
     update.commit();
@@ -1081,17 +1082,17 @@ public class ChangeNotesTest {
 
     ChangeUpdate update = newUpdate(c, otherUser);
     Timestamp now = TimeUtil.nowTs();
-    PatchLineComment comment1 = newPatchLineComment(psId, filename1, uuid,
-        range, range.getEndLine(), otherUser, null, now, "comment 1", side,
-        "abcd1234abcd1234abcd1234abcd1234abcd1234");
+    PatchLineComment comment1 = newPublishedPatchLineComment(psId, filename1,
+        uuid, range, range.getEndLine(), otherUser, null, now, "comment 1",
+        side, "abcd1234abcd1234abcd1234abcd1234abcd1234");
     update.setPatchSetId(psId);
     update.putComment(comment1);
     update.commit();
 
     update = newUpdate(c, otherUser);
-    PatchLineComment comment2 = newPatchLineComment(psId, filename2, uuid,
-        range, range.getEndLine(), otherUser, null, now, "comment 2", side,
-        "abcd1234abcd1234abcd1234abcd1234abcd1234");
+    PatchLineComment comment2 = newPublishedPatchLineComment(psId, filename2,
+        uuid, range, range.getEndLine(), otherUser, null, now, "comment 2",
+        side, "abcd1234abcd1234abcd1234abcd1234abcd1234");
     update.setPatchSetId(psId);
     update.putComment(comment2);
     update.commit();
@@ -1125,9 +1126,9 @@ public class ChangeNotesTest {
 
     ChangeUpdate update = newUpdate(c, otherUser);
     Timestamp now = TimeUtil.nowTs();
-    PatchLineComment comment1 = newPatchLineComment(ps1, filename, uuid,
-        range, range.getEndLine(), otherUser, null, now, "comment on ps1", side,
-        "abcd1234abcd1234abcd1234abcd1234abcd1234");
+    PatchLineComment comment1 = newPublishedPatchLineComment(ps1, filename,
+        uuid, range, range.getEndLine(), otherUser, null, now, "comment on ps1",
+        side, "abcd1234abcd1234abcd1234abcd1234abcd1234");
     update.setPatchSetId(ps1);
     update.putComment(comment1);
     update.commit();
@@ -1137,9 +1138,9 @@ public class ChangeNotesTest {
 
     update = newUpdate(c, otherUser);
     now = TimeUtil.nowTs();
-    PatchLineComment comment2 = newPatchLineComment(ps2, filename, uuid,
-        range, range.getEndLine(), otherUser, null, now, "comment on ps2", side,
-        "abcd4567abcd4567abcd4567abcd4567abcd4567");
+    PatchLineComment comment2 = newPublishedPatchLineComment(ps2, filename,
+        uuid, range, range.getEndLine(), otherUser, null, now, "comment on ps2",
+        side, "abcd4567abcd4567abcd4567abcd4567abcd4567");
     update.setPatchSetId(ps2);
     update.putComment(comment2);
     update.commit();
@@ -1168,10 +1169,18 @@ public class ChangeNotesTest {
     return TestChanges.newChange(project, changeOwner);
   }
 
-  private PatchLineComment newPatchLineComment(PatchSet.Id psId,
+  private PatchLineComment newPublishedPatchLineComment(PatchSet.Id psId,
       String filename, String UUID, CommentRange range, int line,
       IdentifiedUser commenter, String parentUUID, Timestamp t,
       String message, short side, String commitSHA1) {
+    return newPatchLineComment(psId, filename, UUID, range, line, commenter,
+        parentUUID, t, message, side, commitSHA1, Status.PUBLISHED);
+  }
+
+  private PatchLineComment newPatchLineComment(PatchSet.Id psId,
+      String filename, String UUID, CommentRange range, int line,
+      IdentifiedUser commenter, String parentUUID, Timestamp t,
+      String message, short side, String commitSHA1, Status status) {
     PatchLineComment comment = new PatchLineComment(
         new PatchLineComment.Key(
             new Patch.Key(psId, filename), UUID),
@@ -1180,6 +1189,7 @@ public class ChangeNotesTest {
     comment.setMessage(message);
     comment.setRange(range);
     comment.setRevId(new RevId(commitSHA1));
+    comment.setStatus(status);
     return comment;
   }
 

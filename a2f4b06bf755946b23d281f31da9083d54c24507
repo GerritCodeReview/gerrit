@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b9a4fc87_c3e6b64a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-14T17:56:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "99bad89a_6a6317e6",
+      "revId": "a2f4b06bf755946b23d281f31da9083d54c24507",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b9cb1c3c_0b813d3f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2014-07-14T17:52:32Z",
       "side": 1,
       "message": "Just add .load() to the previous line.",
+      "revId": "a2f4b06bf755946b23d281f31da9083d54c24507",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "992f38b5_22d8ee8e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-14T17:56:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9cb1c3c_0b813d3f",
       "revId": "a2f4b06bf755946b23d281f31da9083d54c24507",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

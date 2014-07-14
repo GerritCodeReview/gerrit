@@ -27,7 +27,6 @@ interface Resources extends ClientBundle {
   @Source("go-prev.png") ImageResource go_prev();
   @Source("go-next.png") ImageResource go_next();
   @Source("go-up.png") ImageResource go_up();
-  @Source("gear.png") ImageResource gear();
 
   interface Style extends CssResource {
     String commentWidgets();

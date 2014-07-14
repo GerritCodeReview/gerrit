@@ -219,7 +219,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
           new ArrayList<>(allCommentsOnBases.get(psId));
       baseCommentsForThisPs.addAll(commentsForBase);
       commentsUtil.writeCommentsToNoteMap(noteMap, baseCommentsForThisPs,
-          inserter);
+          inserter, baseCommentsForThisPs.get(0).getRevId());
     }
 
     // This write all comments for this PS to the note map.
@@ -227,7 +227,8 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       List<PatchLineComment> commentsForThisPs =
           new ArrayList<>(allCommentsOnPs.get(psId));
       commentsForThisPs.addAll(commentsForPs);
-      commentsUtil.writeCommentsToNoteMap(noteMap, commentsForThisPs, inserter);
+      commentsUtil.writeCommentsToNoteMap(noteMap, commentsForThisPs, inserter,
+          commentsForThisPs.get(0).getRevId());
     }
     return noteMap.writeTree(inserter);
   }

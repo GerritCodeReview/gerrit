@@ -70,6 +70,24 @@
       "revId": "2a6c99da1c4d87e47a4b508787c455bb13e1f49e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f916748e_45e26a38",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 526,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-14T23:48:48Z",
+      "side": 1,
+      "message": "I changed the delete method name to be removeNoteFromNoteMap() but otherwise, I agree with this.",
+      "parentUuid": "b9cb1c3c_8b6bedb8",
+      "revId": "2a6c99da1c4d87e47a4b508787c455bb13e1f49e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

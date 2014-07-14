@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b9cb1c3c_eb6e31ca",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 526,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-14T23:15:06Z",
+      "side": 1,
+      "message": "I understand why you had to pass in revId to handle the empty list, but what was wrong with returning null from buildNote? Not that I object necessarily.",
+      "revId": "2a6c99da1c4d87e47a4b508787c455bb13e1f49e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

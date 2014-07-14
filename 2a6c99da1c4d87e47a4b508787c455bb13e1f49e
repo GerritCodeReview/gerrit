@@ -34,6 +34,24 @@
       "revId": "2a6c99da1c4d87e47a4b508787c455bb13e1f49e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9cb1c3c_8b6bedb8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 526,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-14T23:25:41Z",
+      "side": 1,
+      "message": "The idea of enforcing that we shouldn\u0027t be writing an empty list of notes is a good one, and adding the checkArgument to buildNote makes sense.\n\nBut if that\u0027s your goal you\u0027re not quite there yet, because it\u0027s still valid to pass an empty list into this method.\n\nWhy not split this method into two:\n\n writeCommentsToNoteMap(NoteMap, List\u003cPatchLineComment, Inserter)\n deleteCommentsFromNoteMap(NoteMap, RevId)",
+      "parentUuid": "f916748e_25d3ee75",
+      "revId": "2a6c99da1c4d87e47a4b508787c455bb13e1f49e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

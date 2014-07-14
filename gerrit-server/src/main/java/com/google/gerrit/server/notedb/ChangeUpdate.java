@@ -170,12 +170,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     this.subject = subject;
   }
 
-  public void setPatchSetId(PatchSet.Id psId) {
-    checkArgument(psId == null
-        || psId.getParentKey().equals(getChange().getId()));
-    this.psId = psId;
-  }
-
   public void setChangeMessage(String changeMessage) {
     this.changeMessage = changeMessage;
   }

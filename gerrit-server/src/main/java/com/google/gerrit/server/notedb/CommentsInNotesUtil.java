@@ -28,6 +28,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.CommentRange;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
+import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -82,7 +83,8 @@ public class CommentsInNotesUtil {
   public static NoteMap parseCommentsFromNotes(Repository repo, String refName,
       RevWalk walk, Change.Id changeId,
       Multimap<PatchSet.Id, PatchLineComment> commentsForBase,
-      Multimap<PatchSet.Id, PatchLineComment> commentsForPs)
+      Multimap<PatchSet.Id, PatchLineComment> commentsForPs,
+      Status status)
       throws IOException, ConfigInvalidException {
     Ref ref = repo.getRef(refName);
     if (ref == null) {
@@ -94,7 +96,7 @@ public class CommentsInNotesUtil {
     for (Note note: noteMap) {
       byte[] bytes = walk.getObjectReader().open(
           note.getData(), Constants.OBJ_BLOB).getBytes();
-      List<PatchLineComment> result = parseNote(bytes, changeId);
+      List<PatchLineComment> result = parseNote(bytes, changeId, status);
       if ((result == null) || (result.isEmpty())) {
         continue;
       }
@@ -110,7 +112,7 @@ public class CommentsInNotesUtil {
   }
 
   public static List<PatchLineComment> parseNote(byte[] note,
-      Change.Id changeId) throws ConfigInvalidException {
+      Change.Id changeId, Status status) throws ConfigInvalidException {
     List<PatchLineComment> result = Lists.newArrayList();
     int sizeOfNote = note.length;
     Charset enc = RawParseUtils.parseEncoding(note);
@@ -131,7 +133,7 @@ public class CommentsInNotesUtil {
       String previousFileName = c == null ?
           null : c.getKey().getParentKey().getFileName();
       c = parseComment(note, curr, previousFileName, psId, revId,
-          isForBase, enc);
+          isForBase, enc, status);
       result.add(c);
     }
     return result;
@@ -150,7 +152,7 @@ public class CommentsInNotesUtil {
 
   private static PatchLineComment parseComment(byte[] note, MutableInteger curr,
       String currentFileName, PatchSet.Id psId, RevId revId, boolean isForBase,
-      Charset enc)
+      Charset enc, Status status)
           throws ConfigInvalidException {
     Change.Id changeId = psId.getParentKey();
 
@@ -195,6 +197,7 @@ public class CommentsInNotesUtil {
       plc.setRange(range);
     }
     plc.setRevId(revId);
+    plc.setStatus(status);
 
     curr.value = RawParseUtils.nextLF(note, curr.value + commentLength);
     curr.value = RawParseUtils.nextLF(note, curr.value);

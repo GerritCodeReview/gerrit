@@ -44,6 +44,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
 import com.google.gerrit.reviewdb.client.PatchSet.Id;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetApproval.LabelId;
@@ -323,7 +324,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
         throws IOException, ConfigInvalidException, ParseException {
       commentNoteMap = CommentsInNotesUtil.parseCommentsFromNotes(repo,
           ChangeNoteUtil.changeRefName(changeId), walk, changeId,
-          commentsForBase, commentsForPs);
+          commentsForBase, commentsForPs, Status.PUBLISHED);
     }
 
     private void parseApproval(PatchSet.Id psId, Account.Id accountId,

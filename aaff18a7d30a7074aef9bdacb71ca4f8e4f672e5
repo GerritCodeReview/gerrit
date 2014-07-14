@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "39b9ecaa_072b769e",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 1357,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-07-14T11:36:28Z",
+      "side": 1,
+      "message": "`None` should be `ENABLE_EMAIL_NOTIFICATIONS`",
+      "revId": "aaff18a7d30a7074aef9bdacb71ca4f8e4f672e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39b9ecaa_6726f2d7",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AccountGeneralPreferences.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-07-14T11:36:28Z",
+      "side": 1,
+      "message": "sorry i didn\u0027t noticed this in the last review but shouldn\u0027t this be \"ENABLE_EMAIL_NOTIFICATIONS\" ?",
+      "revId": "aaff18a7d30a7074aef9bdacb71ca4f8e4f672e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19aee865_e6117e6f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_99.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-07-14T11:36:28Z",
+      "side": 1,
+      "message": "We probably now need another statement to migrate `NONE` to `ENABLE_EMAIL_NOTIFICATIONS`",
+      "revId": "aaff18a7d30a7074aef9bdacb71ca4f8e4f672e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -24,10 +24,9 @@ interface Resources extends ClientBundle {
   static final Resources I = GWT.create(Resources.class);
 
   @Source("CommentBoxUi.css") Style style();
-  @Source("go-prev.png") ImageResource go_prev();
-  @Source("go-next.png") ImageResource go_next();
-  @Source("go-up.png") ImageResource go_up();
-  @Source("gear.png") ImageResource gear();
+  @Source("goPrev.png") ImageResource goPrev();
+  @Source("goNext.png") ImageResource goNext();
+  @Source("goUp.png") ImageResource goUp();
 
   interface Style extends CssResource {
     String commentWidgets();
@@ -38,8 +37,8 @@ interface Resources extends ClientBundle {
     String summary();
     String date();
 
-    String go_prev();
-    String go_next();
-    String go_up();
+    String goPrev();
+    String goNext();
+    String goUp();
   }
 }

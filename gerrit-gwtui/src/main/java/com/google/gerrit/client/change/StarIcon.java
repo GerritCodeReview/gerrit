@@ -14,13 +14,14 @@
 
 package com.google.gerrit.client.change;
 
+import com.google.gerrit.client.Gerrit;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.ToggleButton;
 
 class StarIcon extends ToggleButton {
   StarIcon() {
     super(
-      new Image(Resources.I.star_open()),
-      new Image(Resources.I.star_filled()));
+      new Image(Gerrit.RESOURCES.starOpen()),
+      new Image(Gerrit.RESOURCES.starFilled()));
   }
 }

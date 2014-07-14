@@ -18,6 +18,7 @@ limitations under the License.
     xmlns:ui='urn:ui:com.google.gwt.uibinder'
     xmlns:g='urn:import:com.google.gwt.user.client.ui'
     xmlns:x='urn:import:com.google.gerrit.client.ui'>
+  <ui:with field='ico' type='com.google.gerrit.client.GerritResources'/>
   <ui:with field='res' type='com.google.gerrit.client.diff.Resources'/>
   <ui:style>
   .header {
@@ -60,16 +61,16 @@ limitations under the License.
     <span class='{style.path}'><span ui:field='project'/> / <span ui:field='filePath'/></span>
     <div class='{style.navigation}'>
       <span ui:field='noDiff' class='{style.nodiff}'><ui:msg>No Differences</ui:msg></span>
-      <x:InlineHyperlink ui:field='prev' styleName='{res.style.go_prev}'/>
+      <x:InlineHyperlink ui:field='prev' styleName='{res.style.goPrev}'/>
       <x:InlineHyperlink ui:field='up'
-          styleName='{res.style.go_up}'
+          styleName='{res.style.goUp}'
           title='Up to change (Shortcut: u)'>
         <ui:attribute name='title'/>
       </x:InlineHyperlink>
-      <x:InlineHyperlink ui:field='next' styleName='{res.style.go_next}'/>
+      <x:InlineHyperlink ui:field='next' styleName='{res.style.goNext}'/>
       <g:Image ui:field='preferences'
            styleName='{style.preferences}'
-           resource='{res.gear}'
+           resource='{ico.gear}'
            title='Diff preferences (Shortcut: ,)'>
          <ui:attribute name='title'/>
       </g:Image>

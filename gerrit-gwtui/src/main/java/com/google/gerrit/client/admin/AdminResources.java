@@ -24,9 +24,6 @@ public interface AdminResources extends ClientBundle {
   @Source("admin.css")
   AdminCss css();
 
-  @Source("editText.png")
-  public ImageResource editText();
-
   @Source("deleteNormal.png")
   public ImageResource deleteNormal();
 

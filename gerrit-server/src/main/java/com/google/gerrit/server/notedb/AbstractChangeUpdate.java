@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.notedb;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.GERRIT_PLACEHOLDER_HOST;
 
 import com.google.gerrit.reviewdb.client.Account;
@@ -68,6 +69,12 @@ public abstract class AbstractChangeUpdate extends VersionedMetaData {
 
   public IdentifiedUser getUser() {
     return (IdentifiedUser) ctl.getCurrentUser();
+  }
+
+  public void setPatchSetId(PatchSet.Id psId) {
+    checkArgument(psId == null
+        || psId.getParentKey().equals(getChange().getId()));
+    this.psId = psId;
   }
 
   private void load() throws IOException {

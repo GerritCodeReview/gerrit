@@ -22,6 +22,30 @@
       "revId": "2fffe27871c8c8945cf9ee3071e9dcb1a78c70b8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39b9ecaa_07f4d6ec",
+        "filename": "gerrit-plugin-archetype/src/main/resources/archetype-resources/VERSION",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-14T08:05:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19aee865_c6e6c24a",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 10
+      },
+      "revId": "2fffe27871c8c8945cf9ee3071e9dcb1a78c70b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

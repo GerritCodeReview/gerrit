@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b9cb1c3c_eb11516f",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticsearchChangeIndex.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-14T04:36:48Z",
+      "side": 1,
+      "message": "This is unnecessary.  Can just call builder.field directly; ES will determine the type.\n\nAlso need to figure out how to add arrays.  builder.array does not seem to work as expected.",
+      "range": {
+        "startLine": 182,
+        "startChar": 2,
+        "endLine": 221,
+        "endChar": 3
+      },
+      "revId": "76cf29fc8c52272667856a6aed2983780cc8effc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9cb1c3c_cb149562",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticsearchChangeIndex.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-14T04:36:48Z",
+      "side": 1,
+      "message": "Should be outside the try-catch block, otherwise it does not get called if the index does not already exist.",
+      "range": {
+        "startLine": 287,
+        "startChar": 6,
+        "endLine": 291,
+        "endChar": 23
+      },
+      "revId": "76cf29fc8c52272667856a6aed2983780cc8effc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

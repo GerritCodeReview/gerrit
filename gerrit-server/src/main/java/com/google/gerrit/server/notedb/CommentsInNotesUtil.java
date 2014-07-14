@@ -521,6 +521,10 @@ public class CommentsInNotesUtil {
         ObjectId.fromString(allComments.get(0).getRevId().get());
     Collections.sort(allComments, ChangeNotes.PatchLineCommentComparator);
     byte[] note = buildNote(allComments);
+    if (note == null) {
+      noteMap.remove(commitOID);
+      return;
+    }
     ObjectId noteId = inserter.insert(Constants.OBJ_BLOB, note, 0, note.length);
     noteMap.set(commitOID, noteId);
   }

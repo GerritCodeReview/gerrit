@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b9cb1c3c_8b944d7f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-14T18:51:55Z",
+      "side": 1,
+      "message": "Again, this is unnecessarily verbose. \"I missed this when factoring out AbstractChangeUpdate from ChangeUpdate\" conveys all the same information.",
+      "revId": "a494702d9f83e09ab3c62c245f046adc03497e75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

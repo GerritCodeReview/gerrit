@@ -45,6 +45,30 @@
       "revId": "6f7410aa6a9515fffd439cd79fd3536d5d9652ea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "59aea094_38ff69ce",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1038,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-15T11:52:19Z",
+      "side": 1,
+      "message": "\u003e Why it\u0027s file and not path?\n\n\u0027files\u0027 was chosen to be consistent with the REST endpoint that returns the file content of files in a revision [1]. \n\n \u003e E. g. what if it is not a file but a directory? \n\nI would expect that this results in \u0027404 Not Found\u0027 but haven\u0027t checked that.\n\n \u003e I would expect that the same endpoint returning list of\n \u003e the encoded directory content instead of encoded file. \n\nMakes sense, but it is not implemented yet :)\n\n[1] https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#get-content",
+      "parentUuid": "79b9a4d7_79f9e7e4",
+      "range": {
+        "startLine": 1038,
+        "startChar": 83,
+        "endLine": 1038,
+        "endChar": 88
+      },
+      "revId": "6f7410aa6a9515fffd439cd79fd3536d5d9652ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

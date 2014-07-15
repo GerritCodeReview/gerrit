@@ -20,6 +20,8 @@ java_binary(
 java_library(
   name = 'lib',
   exported_deps = PLUGIN_API + [
+    '//gerrit-antlr:query_exception',
+    '//gerrit-antlr:query_parser',
     '//gerrit-common:annotations',
     '//gerrit-common:server',
     '//gerrit-extension-api:api',

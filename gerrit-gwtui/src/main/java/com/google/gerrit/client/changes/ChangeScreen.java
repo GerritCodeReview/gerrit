@@ -566,9 +566,8 @@ public class ChangeScreen extends Screen
     patchesList.clear();
     if (detail.getCurrentPatchSetDetail().getInfo().getParents().size() > 1) {
       patchesList.addItem(Util.C.autoMerge());
-    } else {
-      patchesList.addItem(Util.C.baseDiffItem());
     }
+    patchesList.addItem(Util.C.baseDiffItem());
     for (PatchSet pId : detail.getPatchSets()) {
       patchesList.addItem(Util.M.patchSetHeader(pId.getPatchSetId()), pId
           .getId().toString());

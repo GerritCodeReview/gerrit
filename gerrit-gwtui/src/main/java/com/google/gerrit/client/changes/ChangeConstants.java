@@ -170,6 +170,7 @@ public interface ChangeConstants extends Constants {
   String abandonChangeTitle();
   String referenceVersion();
   String baseDiffItem();
+  String parentDiffItem();
   String autoMerge();
 
   String buttonReview();

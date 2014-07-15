@@ -232,11 +232,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     return noteMap.writeTree(inserter);
   }
 
-  @Override
-  public RevCommit commit(MetaDataUpdate md) throws IOException {
-    throw new UnsupportedOperationException("use commit()");
-  }
-
   public RevCommit commit() throws IOException {
     BatchMetaDataUpdate batch = openUpdate();
     try {

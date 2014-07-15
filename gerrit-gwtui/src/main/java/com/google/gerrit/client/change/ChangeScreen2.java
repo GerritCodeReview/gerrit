@@ -895,9 +895,16 @@ public class ChangeScreen2 extends Screen {
 
     RevisionInfo rev = info.revisions().get(revision);
     JsArray<CommitInfo> parents = rev.commit().parents();
-    diffBase.addItem(
-      parents.length() > 1 ? Util.C.autoMerge() : Util.C.baseDiffItem(),
-      "");
+    if (parents.length() > 1) {
+      diffBase.addItem(Util.C.autoMerge(), "");
+      for (int i = 0; i < parents.length(); i++) {
+        final CommitInfo parent = parents.get(i);
+        final String commit = parent.commit();
+        diffBase.addItem(Util.C.parentDiffItem() + ' ' + (i + 1) + ": " + commit.substring(0, 6), commit);
+      }
+    } else {
+      diffBase.addItem(Util.C.baseDiffItem(), "");
+    }
 
     diffBase.setSelectedIndex(selectedIdx);
   }

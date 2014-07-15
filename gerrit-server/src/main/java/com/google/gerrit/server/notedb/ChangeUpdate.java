@@ -33,9 +33,12 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.config.AllUsersName;
+import com.google.inject.Provider;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.project.ChangeControl;
@@ -60,12 +63,14 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * A single delta to apply atomically to a change.
+ * A delta to apply to a change.
  * <p>
- * This delta becomes a single commit on the notes branch, so there are
- * limitations on the set of modifications that can be handled in a single
- * update. In particular, there is a single author and timestamp for each
- * update.
+ * This delta will become two unique commits: one in the AllUsers repo that will
+ * contain the draft comments on this change and one in the notes branch that
+ * will contain approvals, reviewers, change status, subject, submit records,
+ * the change message, and published comments. There are limitations on the set
+ * of modifications that can be handled in a single update. In particular, there
+ * is a single author and timestamp for each update.
  * <p>
  * This class is not thread-safe.
  */
@@ -88,6 +93,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private List<PatchLineComment> commentsForBase;
   private List<PatchLineComment> commentsForPs;
   private String changeMessage;
+  private ChangeNotes notes;
+
+  private final ChangeDraftUpdate.Factory draftUpdateFactory;
+  private ChangeDraftUpdate draftUpdate;
 
   @AssistedInject
   private ChangeUpdate(
@@ -96,12 +105,16 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       NotesMigration migration,
       AccountCache accountCache,
       MetaDataUpdate.User updateFactory,
+      DraftCommentNotes.Factory draftNotesFactory,
+      Provider<AllUsersName> allUsers,
+      ChangeDraftUpdate.Factory draftUpdateFactory,
       ProjectCache projectCache,
       IdentifiedUser user,
       @Assisted ChangeControl ctl,
       CommentsInNotesUtil commentsUtil) {
     this(serverIdent, repoManager, migration, accountCache, updateFactory,
-        projectCache, ctl, serverIdent.getWhen(), commentsUtil);
+        draftNotesFactory, allUsers, draftUpdateFactory, projectCache, ctl,
+        serverIdent.getWhen(), commentsUtil);
   }
 
   @AssistedInject
@@ -111,12 +124,15 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       NotesMigration migration,
       AccountCache accountCache,
       MetaDataUpdate.User updateFactory,
+      DraftCommentNotes.Factory draftNotesFactory,
+      Provider<AllUsersName> allUsers,
+      ChangeDraftUpdate.Factory draftUpdateFactory,
       ProjectCache projectCache,
       @Assisted ChangeControl ctl,
       @Assisted Date when,
       CommentsInNotesUtil commentsUtil) {
-    this(serverIdent, repoManager, migration, accountCache, updateFactory, ctl,
-        when,
+    this(serverIdent, repoManager, migration, accountCache, updateFactory,
+        draftNotesFactory, allUsers, draftUpdateFactory, ctl, when,
         projectCache.get(getProjectName(ctl)).getLabelTypes().nameComparator(),
         commentsUtil);
   }
@@ -132,11 +148,15 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       NotesMigration migration,
       AccountCache accountCache,
       MetaDataUpdate.User updateFactory,
+      DraftCommentNotes.Factory draftNotesFactory,
+      Provider<AllUsersName> allUsers,
+      ChangeDraftUpdate.Factory draftUpdateFactory,
       @Assisted ChangeControl ctl,
       @Assisted Date when,
       @Assisted Comparator<String> labelNameComparator,
       CommentsInNotesUtil commentsUtil) {
     super(migration, repoManager, updateFactory, ctl, serverIdent, when);
+    this.draftUpdateFactory = draftUpdateFactory;
     this.accountCache = accountCache;
     this.commentsUtil = commentsUtil;
     this.approvals = Maps.newTreeMap(labelNameComparator);
@@ -174,18 +194,130 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     this.changeMessage = changeMessage;
   }
 
-  public void putComment(PatchLineComment comment) {
-    checkArgument(psId != null,
-        "setPatchSetId must be called before putComment");
-    checkArgument(getCommentPsId(comment).equals(psId),
-        "Comment on %s doesn't match previous patch set %s",
-        getCommentPsId(comment), psId);
-    checkArgument(comment.getRevId() != null);
-    if (comment.getSide() == 0) {
-      commentsForBase.add(comment);
+  public void insertComment(PatchLineComment comment) throws OrmException {
+    if (comment.getStatus() == Status.DRAFT) {
+      insertDraftComment(comment);
     } else {
-      commentsForPs.add(comment);
+      insertPublishedComment(comment);
     }
+  }
+
+  public void upsertComment(PatchLineComment comment) throws OrmException {
+    if (comment.getStatus() == Status.DRAFT) {
+      upsertDraftComment(comment);
+    } else {
+      deleteDraftCommentIfPresent(comment);
+      upsertPublishedComment(comment);
+    }
+  }
+
+  public void updateComment(PatchLineComment comment) throws OrmException {
+    if (comment.getStatus() == Status.DRAFT) {
+      updateDraftComment(comment);
+    } else {
+      deleteDraftCommentIfPresent(comment);
+      updatePublishedComment(comment);
+    }
+  }
+
+  public void deleteComment(PatchLineComment comment) throws OrmException {
+    if (comment.getStatus() == Status.DRAFT) {
+      deleteDraftComment(comment);
+    } else {
+      throw new IllegalArgumentException("Cannot delete a published comment.");
+    }
+  }
+
+  private void insertPublishedComment(PatchLineComment c) throws OrmException {
+    verifyComment(c);
+    if (notes == null) {
+      notes = getChangeNotes().load();
+    }
+    checkArgument(!notes.containsComment(c),
+        "A comment already exists with the same key as the following comment,"
+        + " so we cannot insert this comment: %s", c);
+    if (c.getSide() == 0) {
+      commentsForBase.add(c);
+    } else {
+      commentsForPs.add(c);
+    }
+  }
+
+  private void insertDraftComment(PatchLineComment c) throws OrmException {
+    createDraftUpdateIfNull(c);
+    draftUpdate.insertComment(c);
+  }
+
+  private void upsertPublishedComment(PatchLineComment c) {
+    verifyComment(c);
+    if (c.getSide() == 0) {
+      commentsForBase.add(c);
+    } else {
+      commentsForPs.add(c);
+    }
+  }
+
+  private void upsertDraftComment(PatchLineComment c) throws OrmException {
+    createDraftUpdateIfNull(c);
+    draftUpdate.upsertComment(c);
+  }
+
+  private void updatePublishedComment(PatchLineComment c) throws OrmException {
+    verifyComment(c);
+    if (notes == null) {
+      notes = getChangeNotes().load();
+    }
+    checkArgument(!notes.containsCommentPublished(c),
+        "Cannot update a comment that has already been published and saved");
+    if (c.getSide() == 0) {
+      commentsForBase.add(c);
+    } else {
+      commentsForPs.add(c);
+    }
+  }
+
+  private void updateDraftComment(PatchLineComment c) throws OrmException {
+    createDraftUpdateIfNull(c);
+    draftUpdate.updateComment(c);
+  }
+
+  private void deleteDraftComment(PatchLineComment c) throws OrmException {
+    createDraftUpdateIfNull(c);
+    draftUpdate.deleteComment(c);
+  }
+
+  private void deleteDraftCommentIfPresent(PatchLineComment c)
+      throws OrmException {
+    createDraftUpdateIfNull(c);
+    draftUpdate.deleteCommentIfPresent(c);
+  }
+
+
+  private void createDraftUpdateIfNull(PatchLineComment c) throws OrmException {
+    if (draftUpdate == null) {
+      draftUpdate = draftUpdateFactory.create(ctl, when);
+      if (psId != null) {
+        draftUpdate.setPatchSetId(psId);
+      } else {
+        draftUpdate.setPatchSetId(getCommentPsId(c));
+      }
+    }
+  }
+
+  private void verifyComment(PatchLineComment c) {
+    checkArgument(psId != null,
+        "setPatchSetId must be called first");
+    checkArgument(getCommentPsId(c).equals(psId),
+        "Comment on %s doesn't match previous patch set %s",
+        getCommentPsId(c), psId);
+    checkArgument(c.getRevId() != null);
+    checkArgument(c.getStatus() == Status.PUBLISHED,
+        "Cannot add a draft comment to a ChangeUpdate. Use a ChangeDraftUpdate"
+        + " for draft comments");
+    checkArgument(c.getAuthor().equals(getUser().getAccountId()),
+        "The author for the following comment does not match the author of"
+        + " this ChangeDraftUpdate (%s): %s", getUser().getAccountId(), c);
+
   }
 
   public void putReviewer(Account.Id reviewer, ReviewerState type) {
@@ -243,6 +375,9 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         }
       }
       batch.write(builder);
+      if (draftUpdate != null) {
+        draftUpdate.commit();
+      }
       RevCommit c = batch.commit();
       return c;
     } catch (OrmException e) {

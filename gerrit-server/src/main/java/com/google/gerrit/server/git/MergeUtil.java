@@ -86,7 +86,7 @@ public class MergeUtil {
       Constants.R_HEADS + Constants.MASTER;
 
   public static boolean useRecursiveMerge(Config cfg) {
-    return cfg.getBoolean("core", null, "useRecursiveMerge", false);
+    return cfg.getBoolean("core", null, "useRecursiveMerge", true);
   }
 
   public static interface Factory {

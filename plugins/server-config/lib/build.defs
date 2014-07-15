@@ -1,0 +1,76 @@
+include_defs('//lib/maven.defs')
+
+def java_library2(
+    name,
+    srcs = [],
+    resources = [],
+    deps = [],
+    compile_deps = [],
+    visibility = []):
+  c = name + '__compile'
+  t = name + '__link'
+  j = 'lib__%s__output/%s.jar' % (c, c)
+  o = 'lib__%s__output/%s.jar' % (name, name)
+  java_library(
+    name = c,
+    srcs = srcs,
+    resources = resources,
+    deps = deps + compile_deps,
+    visibility = visibility,
+  )
+  genrule(
+    name = t,
+    cmd = 'mkdir -p $(dirname $OUT);ln -s $SRCS $OUT',
+    srcs = [genfile(j)],
+    deps = [':' + c],
+    out = o,
+  )
+  prebuilt_jar(
+    name = name,
+    binary_jar = genfile(o),
+    deps = deps + [':' + t],
+    visibility = visibility,
+  )
+
+def gerrit_plugin(
+    name,
+    deps = [],
+    srcs = [],
+    resources = [],
+    manifest_file = None,
+    manifest_entries = [],
+    type = 'plugin',
+    visibility = ['PUBLIC']):
+  mf_cmd = 'v=$(cat VERSION);'
+  if manifest_file:
+    mf_src = [manifest_file]
+    mf_cmd += 'sed "s:@VERSION@:$v:g" $SRCS >$OUT'
+  else:
+    mf_src = []
+    mf_cmd += 'echo "Manifest-Version: 1.0" >$OUT;'
+    mf_cmd += 'echo "Gerrit-ApiType: %s" >>$OUT;' % type
+    mf_cmd += 'echo "Implementation-Version: $v" >>$OUT'
+    for line in manifest_entries:
+      mf_cmd += ';echo "%s" >> $OUT' % line
+  genrule(
+    name = name + '__manifest',
+    cmd = mf_cmd,
+    srcs = mf_src,
+    out = 'MANIFEST.MF',
+  )
+  java_library2(
+    name = name + '__plugin',
+    srcs = srcs,
+    resources = resources,
+    deps = deps,
+    compile_deps = ['//:%s-lib' % type],
+  )
+  java_binary(
+    name = name,
+    manifest_file = genfile('MANIFEST.MF'),
+    deps = [
+      ':%s__plugin' % name,
+      ':%s__manifest' % name,
+    ],
+    visibility = visibility,
+  )

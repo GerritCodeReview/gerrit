@@ -1,4 +1,4 @@
-// Copyright (C) 2012 The Android Open Source Project
+// Copyright (C) 2013 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,18 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.audit;
+package com.googlesource.gerrit.plugins.serverconfig;
 
-import com.google.gerrit.extensions.registration.DynamicSet;
-import com.google.inject.AbstractModule;
+import com.google.inject.servlet.ServletModule;
 
-public class AuditModule extends AbstractModule {
-
+class HttpModule extends ServletModule {
   @Override
-  protected void configure() {
-    DynamicSet.setOf(binder(), AuditListener.class);
-    DynamicSet.setOf(binder(), GroupMemberAuditListener.class);
-    bind(AuditService.class);
+  protected void configureServlets() {
+    filter("/*").through(HideFromNonAdmins.class);
+    serve("/*").with(ServerConfigServlet.class);
   }
-
 }

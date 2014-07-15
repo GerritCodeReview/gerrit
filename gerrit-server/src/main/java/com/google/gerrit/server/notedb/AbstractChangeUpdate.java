@@ -137,6 +137,11 @@ public abstract class AbstractChangeUpdate extends VersionedMetaData {
   }
 
   @Override
+  public RevCommit commit(MetaDataUpdate md) throws IOException {
+    throw new UnsupportedOperationException("use commit()");
+  }
+
+  @Override
   protected void onLoad() throws IOException, ConfigInvalidException {
     //Do nothing; just reads the current revision.
   }

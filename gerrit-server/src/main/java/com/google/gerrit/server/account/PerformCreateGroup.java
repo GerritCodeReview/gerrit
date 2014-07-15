@@ -14,19 +14,17 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.gerrit.audit.AuditService;
 import com.google.gerrit.common.errors.NameAlreadyUsedException;
 import com.google.gerrit.common.errors.PermissionDeniedException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupById;
-import com.google.gerrit.reviewdb.client.AccountGroupByIdAud;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
-import com.google.gerrit.reviewdb.client.AccountGroupMemberAudit;
 import com.google.gerrit.reviewdb.client.AccountGroupName;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -52,12 +50,13 @@ public class PerformCreateGroup {
   private final PersonIdent serverIdent;
   private final GroupCache groupCache;
   private final CreateGroupArgs createGroupArgs;
+  private final AuditService auditService;
 
   @Inject
   PerformCreateGroup(ReviewDb db, AccountCache accountCache,
       GroupIncludeCache groupIncludeCache, IdentifiedUser currentUser,
       @GerritPersonIdent PersonIdent serverIdent, GroupCache groupCache,
-      @Assisted CreateGroupArgs createGroupArgs) {
+      @Assisted CreateGroupArgs createGroupArgs, AuditService auditService) {
     this.db = db;
     this.accountCache = accountCache;
     this.groupIncludeCache = groupIncludeCache;
@@ -65,6 +64,7 @@ public class PerformCreateGroup {
     this.serverIdent = serverIdent;
     this.groupCache = groupCache;
     this.createGroupArgs = createGroupArgs;
+    this.auditService = auditService;
   }
 
   /**
@@ -127,18 +127,13 @@ public class PerformCreateGroup {
   private void addMembers(final AccountGroup.Id groupId,
       final Collection<? extends Account.Id> members) throws OrmException {
     List<AccountGroupMember> memberships = new ArrayList<>();
-    List<AccountGroupMemberAudit> membershipsAudit = new ArrayList<>();
     for (Account.Id accountId : members) {
       final AccountGroupMember membership =
           new AccountGroupMember(new AccountGroupMember.Key(accountId, groupId));
       memberships.add(membership);
-
-      final AccountGroupMemberAudit audit = new AccountGroupMemberAudit(
-          membership, currentUser.getAccountId(), TimeUtil.nowTs());
-      membershipsAudit.add(audit);
     }
     db.accountGroupMembers().insert(memberships);
-    db.accountGroupMembersAudit().insert(membershipsAudit);
+    auditService.dispatchAddAccountsToGroup(currentUser.getAccountId(), memberships);
 
     for (Account.Id accountId : members) {
       accountCache.evict(accountId);
@@ -148,18 +143,13 @@ public class PerformCreateGroup {
   private void addGroups(final AccountGroup.Id groupId,
       final Collection<? extends AccountGroup.UUID> groups) throws OrmException {
     List<AccountGroupById> includeList = new ArrayList<>();
-    List<AccountGroupByIdAud> includesAudit = new ArrayList<>();
     for (AccountGroup.UUID includeUUID : groups) {
       final AccountGroupById groupInclude =
         new AccountGroupById(new AccountGroupById.Key(groupId, includeUUID));
       includeList.add(groupInclude);
-
-      final AccountGroupByIdAud audit = new AccountGroupByIdAud(
-          groupInclude, currentUser.getAccountId(), TimeUtil.nowTs());
-      includesAudit.add(audit);
     }
     db.accountGroupById().insert(includeList);
-    db.accountGroupByIdAud().insert(includesAudit);
+    auditService.dispatchAddGroupsToGroup(currentUser.getAccountId(), includeList);
 
     for (AccountGroup.UUID uuid : groups) {
       groupIncludeCache.evictMemberIn(uuid);

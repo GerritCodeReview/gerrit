@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.gerrit.audit.AuditService;
+import com.google.gerrit.common.auth.openid.OpenIdUrls;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.Permission;
@@ -23,7 +25,6 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
-import com.google.gerrit.reviewdb.client.AccountGroupMemberAudit;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.project.ProjectCache;
@@ -53,6 +54,7 @@ public class AccountManager {
   private final ChangeUserName.Factory changeUserNameFactory;
   private final ProjectCache projectCache;
   private final AtomicBoolean awaitsFirstAccountCheck;
+  private final AuditService auditService;
 
   @Inject
   AccountManager(final SchemaFactory<ReviewDb> schema,
@@ -60,7 +62,8 @@ public class AccountManager {
       final Realm accountMapper,
       final IdentifiedUser.GenericFactory userFactory,
       final ChangeUserName.Factory changeUserNameFactory,
-      final ProjectCache projectCache) throws OrmException {
+      final ProjectCache projectCache,
+      final AuditService auditService) throws OrmException {
     this.schema = schema;
     this.byIdCache = byIdCache;
     this.byEmailCache = byEmailCache;
@@ -69,6 +72,7 @@ public class AccountManager {
     this.changeUserNameFactory = changeUserNameFactory;
     this.projectCache = projectCache;
     this.awaitsFirstAccountCheck = new AtomicBoolean(true);
+    this.auditService = auditService;
   }
 
   /**
@@ -227,8 +231,7 @@ public class AccountManager {
       final AccountGroup.Id adminId = g.getId();
       final AccountGroupMember m =
           new AccountGroupMember(new AccountGroupMember.Key(newId, adminId));
-      db.accountGroupMembersAudit().insert(Collections.singleton(
-          new AccountGroupMemberAudit(m, newId, TimeUtil.nowTs())));
+      auditService.dispatchAddGroupMembers(newId, Collections.singleton(m));
       db.accountGroupMembers().insert(Collections.singleton(m));
     }
 

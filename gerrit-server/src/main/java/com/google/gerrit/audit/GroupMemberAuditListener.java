@@ -1,4 +1,4 @@
-// Copyright (C) 2012 The Android Open Source Project
+// Copyright (C) 2014 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,16 +14,16 @@
 
 package com.google.gerrit.audit;
 
-import com.google.gerrit.extensions.registration.DynamicSet;
-import com.google.inject.AbstractModule;
+import com.google.gerrit.extensions.annotations.ExtensionPoint;
+import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.AccountGroupMember;
 
-public class AuditModule extends AbstractModule {
+import java.util.Collection;
 
-  @Override
-  protected void configure() {
-    DynamicSet.setOf(binder(), AuditListener.class);
-    DynamicSet.setOf(binder(), GroupMemberAuditListener.class);
-    bind(AuditService.class);
-  }
+@ExtensionPoint
+public interface GroupMemberAuditListener {
 
+  void onAddMembers(Account.Id actor, Collection<AccountGroupMember> added) throws Exception;
+
+  void onDeleteMembers(Account.Id actor, Collection<AccountGroupMember> removed) throws Exception;
 }

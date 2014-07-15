@@ -25,6 +25,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.notedb.ChangeDraftUpdate;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.project.ChangeControl;
@@ -63,6 +64,19 @@ public class TestChanges {
     }).getInstance(ChangeUpdate.Factory.class).create(
         stubChangeControl(repoManager, c, user), TimeUtil.nowTs(),
         Ordering.<String> natural());
+  }
+
+  public static ChangeDraftUpdate newDraftUpdate(Injector injector,
+      GitRepositoryManager repoManager, Change c, final IdentifiedUser user)
+      throws OrmException {
+    return injector.createChildInjector(new FactoryModule() {
+      @Override
+      public void configure() {
+        factory(ChangeDraftUpdate.Factory.class);
+        bind(IdentifiedUser.class).toInstance(user);
+      }
+    }).getInstance(ChangeDraftUpdate.Factory.class).create(
+        stubChangeControl(repoManager, c, user), TimeUtil.nowTs());
   }
 
   public static ChangeControl stubChangeControl(

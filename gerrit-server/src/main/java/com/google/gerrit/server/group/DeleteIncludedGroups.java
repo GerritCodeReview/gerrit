@@ -17,6 +17,7 @@ package com.google.gerrit.server.group;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.gerrit.audit.AuditService;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
@@ -26,14 +27,12 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupById;
-import com.google.gerrit.reviewdb.client.AccountGroupByIdAud;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.account.GroupIncludeCache;
 import com.google.gerrit.server.group.AddIncludedGroups.Input;
-import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -48,16 +47,17 @@ public class DeleteIncludedGroups implements RestModifyView<GroupResource, Input
   private final GroupIncludeCache groupIncludeCache;
   private final Provider<ReviewDb> db;
   private final Provider<CurrentUser> self;
+  private final AuditService auditService;
 
   @Inject
   DeleteIncludedGroups(GroupsCollection groupsCollection,
-      GroupIncludeCache groupIncludeCache,
-      Provider<ReviewDb> db,
-      Provider<CurrentUser> self) {
+      GroupIncludeCache groupIncludeCache, Provider<ReviewDb> db,
+      Provider<CurrentUser> self, AuditService auditService) {
     this.groupsCollection = groupsCollection;
     this.groupIncludeCache = groupIncludeCache;
     this.db = db;
     this.self = self;
+    this.auditService = auditService;
   }
 
   @Override
@@ -109,27 +109,10 @@ public class DeleteIncludedGroups implements RestModifyView<GroupResource, Input
     return groups;
   }
 
-  private void writeAudits(final List<AccountGroupById> toBeRemoved)
+  private void writeAudits(final List<AccountGroupById> toRemoved)
       throws OrmException {
     final Account.Id me = ((IdentifiedUser) self.get()).getAccountId();
-    final List<AccountGroupByIdAud> auditUpdates = Lists.newLinkedList();
-    for (final AccountGroupById g : toBeRemoved) {
-      AccountGroupByIdAud audit = null;
-      for (AccountGroupByIdAud a : db.get()
-          .accountGroupByIdAud().byGroupInclude(g.getGroupId(),
-              g.getIncludeUUID())) {
-        if (a.isActive()) {
-          audit = a;
-          break;
-        }
-      }
-
-      if (audit != null) {
-        audit.removed(me, TimeUtil.nowTs());
-        auditUpdates.add(audit);
-      }
-    }
-    db.get().accountGroupByIdAud().update(auditUpdates);
+    auditService.dispatchDeleteGroupsFromGroup(me, toRemoved);
   }
 
   @Singleton

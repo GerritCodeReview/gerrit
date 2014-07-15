@@ -117,6 +117,30 @@
       "revId": "7d8613cc20475113821eb0ce6b4e7921adbe3c36",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f916748e_25212ebe",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/LoginUrlToken.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1016317
+      },
+      "writtenOn": "2014-07-15T19:22:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "59aea094_785d6125",
+      "range": {
+        "startLine": 24,
+        "startChar": 4,
+        "endLine": 30,
+        "endChar": 17
+      },
+      "revId": "7d8613cc20475113821eb0ce6b4e7921adbe3c36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "59aea094_185e2526",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/LoginUrlToken.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-15T18:35:20Z",
+      "side": 1,
+      "message": "No final. I see, you copied this code, but still.",
+      "range": {
+        "startLine": 23,
+        "startChar": 32,
+        "endLine": 23,
+        "endChar": 37
+      },
+      "revId": "7d8613cc20475113821eb0ce6b4e7921adbe3c36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "79b9a4d7_59cfc395",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/LoginUrlToken.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-15T18:35:20Z",
+      "side": 1,
+      "message": "Can be done shorter, as one statement:\n\n  return Strings.isNullOrEmpty(req.getPathInfo())\n      ? PageLinks.MINE\n      : \"/\" + CharMatcher.is(\u0027/\u0027).trimLeadingFrom(req.getPathInfo());",
+      "range": {
+        "startLine": 24,
+        "startChar": 4,
+        "endLine": 30,
+        "endChar": 17
+      },
+      "revId": "7d8613cc20475113821eb0ce6b4e7921adbe3c36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

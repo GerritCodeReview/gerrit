@@ -51,7 +51,7 @@ public class Section {
   }
 
   String get(String name) {
-    return flags.cfg.getString(section, null, name);
+    return flags.cfg.getString(section, subsection, name);
   }
 
   public void set(final String name, final String value) {

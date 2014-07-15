@@ -18,7 +18,9 @@ import static com.google.gerrit.server.group.GroupResource.GROUP_KIND;
 import static com.google.gerrit.server.group.IncludedGroupResource.INCLUDED_GROUP_KIND;
 import static com.google.gerrit.server.group.MemberResource.MEMBER_KIND;
 
+import com.google.gerrit.audit.GroupMemberAuditListener;
 import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.RestApiModule;
 import com.google.gerrit.server.group.AddIncludedGroups.UpdateIncludedGroup;
 import com.google.gerrit.server.group.AddMembers.UpdateMember;
@@ -65,5 +67,9 @@ public class Module extends RestApiModule {
     delete(INCLUDED_GROUP_KIND).to(DeleteIncludedGroup.class);
 
     install(new FactoryModuleBuilder().build(CreateGroup.Factory.class));
+
+    DynamicSet.bind(binder(), GroupMemberAuditListener.class).to(
+        DbGroupMemberAuditListener.class);
+
   }
 }

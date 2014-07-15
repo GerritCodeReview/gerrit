@@ -57,6 +57,16 @@ public class RefNames {
     return r.toString();
   }
 
+  public static String refsDraftComments(Account.Id accountId,
+      Change.Id changeId) {
+    StringBuilder r = new StringBuilder();
+    r.append(refsUsers(accountId));
+    r.append('/');
+    r.append("comments-");
+    r.append(changeId);
+    return r.toString();
+  }
+
   private RefNames() {
   }
 }

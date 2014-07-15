@@ -120,6 +120,11 @@ public abstract class AbstractChangeUpdate extends VersionedMetaData {
       }
 
       @Override
+      public void removeRef(String refName) {
+        // Do nothing.
+      }
+
+      @Override
       public RevCommit commit() {
         return null;
       }

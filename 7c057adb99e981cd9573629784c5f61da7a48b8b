@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "59aea094_78f9e1e4",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-15T12:17:47Z",
+      "side": 1,
+      "message": "I think the documentation should be more clear about how matching of the regular expression is done. There are several possibilities to implement this:\n\n1. the regular expression matches a part of the project name\n   (e.g. \u0027dev/.*/tools\u0027 would match \u0027global/dev/cloud/tools/deployapp\u0027)\n\n2. the regular expression matches the complete project name\n   (e.g. to match \u0027global/dev/cloud/tools/deployapp\u0027 one \n    would need to use \u0027.*/dev/.*/tools/.*\u0027)\n   \n\n3. the regular expression matches the start of the prject name\n   (e.g. \u0027global/dev/.*/tools\u0027 would match\n    \u0027global/dev/cloud/tools/deployapp\u0027, a trailing \u0027.*\u0027 is \n    implicitely added)\n\nI see that at the moment 2. is implemented. Have you considered 1. and 3.? E.g. 1. would be more consistent with the current filter behaviour where \u0027test\u0027 finds all projects that have \u0027test\u0027 somewhere in the name. 3. would be similar to have you can search for classes in Eclipse.",
+      "range": {
+        "startLine": 179,
+        "startChar": 0,
+        "endLine": 179,
+        "endChar": 67
+      },
+      "revId": "7c057adb99e981cd9573629784c5f61da7a48b8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "59aea094_980dd55d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/ListProjectsIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-15T12:17:47Z",
+      "side": 1,
+      "message": "This is not a valid regular expression.",
+      "range": {
+        "startLine": 149,
+        "startChar": 26,
+        "endLine": 149,
+        "endChar": 27
+      },
+      "revId": "7c057adb99e981cd9573629784c5f61da7a48b8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "79b9a4d7_1921cbbd",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ProjectMap.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-15T12:17:47Z",
+      "side": 1,
+      "message": "Do we need two different parameters for this?\n\nWhy not to use just \"m\" and say that it is a regular expression if the value starts with \u0027^\u0027?",
+      "range": {
+        "startLine": 59,
+        "startChar": 6,
+        "endLine": 63,
+        "endChar": 7
+      },
+      "revId": "7c057adb99e981cd9573629784c5f61da7a48b8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "59aea094_b80a9940",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 470,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-15T12:17:47Z",
+      "side": 1,
+      "message": "Is this case useful for anything? If you want all projects just don\u0027t specify a filter at all.",
+      "range": {
+        "startLine": 468,
+        "startChar": 6,
+        "endLine": 470,
+        "endChar": 7
+      },
+      "revId": "7c057adb99e981cd9573629784c5f61da7a48b8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

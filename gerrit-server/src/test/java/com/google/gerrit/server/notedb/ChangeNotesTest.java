@@ -49,6 +49,7 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.Realm;
+import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.AnonymousCowardNameProvider;
 import com.google.gerrit.server.config.CanonicalWebUrl;
@@ -88,6 +89,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
@@ -104,6 +106,7 @@ public class ChangeNotesTest {
   private InMemoryRepositoryManager repoManager;
   private InMemoryRepository repo;
   private FakeAccountCache accountCache;
+  private AllUsersNameProvider allUsers;
   private IdentifiedUser changeOwner;
   private IdentifiedUser otherUser;
   private Injector injector;
@@ -157,6 +160,8 @@ public class ChangeNotesTest {
 
     IdentifiedUser.GenericFactory userFactory =
         injector.getInstance(IdentifiedUser.GenericFactory.class);
+    allUsers = injector.getInstance(AllUsersNameProvider.class);
+    repoManager.createRepository(allUsers.get());
     changeOwner = userFactory.create(co.getId());
     otherUser = userFactory.create(ou.getId());
   }
@@ -1165,6 +1170,177 @@ public class ChangeNotesTest {
     assertEquals(comment2, commentFromPs2);
   }
 
+  @Test
+  public void patchLineCommentSingleDraftToPublished() throws Exception {
+    Change c = newChange();
+    String uuid = "uuid";
+    CommentRange range = new CommentRange(1, 1, 2, 1);
+    PatchSet.Id ps1 = c.currentPatchSetId();
+    String filename = "filename1";
+    short side = (short) 1;
+
+    ChangeDraftUpdate draftUpdate = newDraftUpdate(c, otherUser);
+    Timestamp now = TimeUtil.nowTs();
+    PatchLineComment comment1 = newPatchLineComment(ps1, filename, uuid,
+        range, range.getEndLine(), otherUser, null, now, "comment on ps1", side,
+        "abcd4567abcd4567abcd4567abcd4567abcd4567", Status.DRAFT);
+    draftUpdate.setPatchSetId(ps1);
+    draftUpdate.upsertComment(comment1);
+    draftUpdate.commit();
+
+    DraftCommentNotes draftNotes = newDraftNotes(c, otherUser);
+    assertEquals(1, draftNotes.getDraftPsComments().values().size());
+    assertEquals(0, draftNotes.getDraftBaseComments().values().size());
+
+    comment1.setStatus(Status.PUBLISHED);
+    draftUpdate = newDraftUpdate(c, otherUser);
+    draftUpdate.setPatchSetId(ps1);
+    ChangeUpdate update = newUpdate(c, otherUser);
+    update.setPatchSetId(ps1);
+
+    draftUpdate.deleteComment(comment1);
+    update.putComment(comment1);
+    draftUpdate.commit();
+    update.commit();
+
+    ChangeNotes notes = newNotes(c);
+    draftNotes = newDraftNotes(c, otherUser);
+
+    assertTrue(draftNotes.getDraftPsComments().values().isEmpty());
+    assertTrue(draftNotes.getDraftBaseComments().values().isEmpty());
+
+    assertTrue(notes.getBaseComments().values().isEmpty());
+    PatchLineComment commentFromNotes =
+        Iterables.getOnlyElement(notes.getPatchSetComments().values());
+    assertEquals(comment1, commentFromNotes);
+  }
+
+  @Test
+  public void patchLineCommentMultipleDraftsSameSidePublishOne()
+      throws OrmException, IOException {
+    Change c = newChange();
+    String uuid1 = "uuid1";
+    String uuid2 = "uuid2";
+    CommentRange range1 = new CommentRange(1, 1, 2, 2);
+    CommentRange range2 = new CommentRange(2, 2, 3, 3);
+    String filename = "filename1";
+    short side = (short) 1;
+    Timestamp now = TimeUtil.nowTs();
+    String commitSHA1 = "abcd4567abcd4567abcd4567abcd4567abcd4567";
+    PatchSet.Id psId = c.currentPatchSetId();
+
+    // Write two drafts on the same side of one patch set.
+    ChangeDraftUpdate draftUpdate = newDraftUpdate(c, otherUser);
+    draftUpdate.setPatchSetId(psId);
+    PatchLineComment comment1 = newPatchLineComment(psId, filename, uuid1,
+        range1, range1.getEndLine(), otherUser, null, now, "comment on ps1",
+        side, commitSHA1, Status.DRAFT);
+    PatchLineComment comment2 = newPatchLineComment(psId, filename, uuid2,
+        range2, range2.getEndLine(), otherUser, null, now, "other on ps1",
+        side, commitSHA1, Status.DRAFT);
+    draftUpdate.upsertComment(comment1);
+    draftUpdate.upsertComment(comment2);
+    draftUpdate.commit();
+
+    DraftCommentNotes draftNotes = newDraftNotes(c, otherUser);
+    assertTrue(draftNotes.getDraftBaseComments().values().isEmpty());
+    assertEquals(2, draftNotes.getDraftPsComments().values().size());
+
+    assertTrue(draftNotes.getDraftPsComments().containsValue(comment1));
+    assertTrue(draftNotes.getDraftPsComments().containsValue(comment2));
+
+    // Publish first draft.
+    ChangeUpdate update = newUpdate(c, otherUser);
+    update.setPatchSetId(psId);
+    comment1.setStatus(Status.PUBLISHED);
+    update.putComment(comment1);
+    update.commit();
+
+    draftUpdate = newDraftUpdate(c, otherUser);
+    draftUpdate.setPatchSetId(psId);
+    draftUpdate.deleteComment(comment1);
+    draftUpdate.commit();
+
+    ChangeNotes notes = newNotes(c);
+    draftNotes = newDraftNotes(c, otherUser);
+
+    assertEquals(comment1,
+        Iterables.getOnlyElement(notes.getPatchSetComments().get(psId)));
+    assertEquals(comment2,
+        Iterables.getOnlyElement(draftNotes.getDraftPsComments().values()));
+
+    assertTrue(notes.getBaseComments().values().isEmpty());
+    assertTrue(draftNotes.getDraftBaseComments().values().isEmpty());
+  }
+
+  @Test
+  public void patchLineCommentsMultipleDraftsBothSidesPublishAll()
+      throws OrmException, IOException {
+    Change c = newChange();
+    String uuid1 = "uuid1";
+    String uuid2 = "uuid2";
+    CommentRange range1 = new CommentRange(1, 1, 2, 2);
+    CommentRange range2 = new CommentRange(2, 2, 3, 3);
+    String filename = "filename1";
+    Timestamp now = TimeUtil.nowTs();
+    String commitSHA1 = "abcd4567abcd4567abcd4567abcd4567abcd4567";
+    String baseSHA1 = "abcd1234abcd1234abcd1234abcd1234abcd1234";
+    PatchSet.Id psId = c.currentPatchSetId();
+
+    // Write two drafts, one on each side of the patchset.
+    ChangeDraftUpdate draftUpdate = newDraftUpdate(c, otherUser);
+    draftUpdate.setPatchSetId(psId);
+    PatchLineComment baseComment = newPatchLineComment(psId, filename, uuid1,
+        range1, range1.getEndLine(), otherUser, null, now, "comment on base",
+        (short) 0, baseSHA1, Status.DRAFT);
+    PatchLineComment psComment = newPatchLineComment(psId, filename, uuid2,
+        range2, range2.getEndLine(), otherUser, null, now, "comment on ps",
+        (short) 1, commitSHA1, Status.DRAFT);
+
+    draftUpdate.upsertComment(baseComment);
+    draftUpdate.upsertComment(psComment);
+    draftUpdate.commit();
+
+    DraftCommentNotes draftNotes = newDraftNotes(c, otherUser);
+    PatchLineComment baseDraftCommentFromNotes =
+        Iterables.getOnlyElement(draftNotes.getDraftBaseComments().values());
+    PatchLineComment psDraftCommentFromNotes =
+        Iterables.getOnlyElement(draftNotes.getDraftPsComments().values());
+
+    assertEquals(baseComment, baseDraftCommentFromNotes);
+    assertEquals(psComment, psDraftCommentFromNotes);
+
+    // Publish both comments.
+    ChangeUpdate update = newUpdate(c, otherUser);
+    update.setPatchSetId(psId);
+    draftUpdate = newDraftUpdate(c, otherUser);
+    draftUpdate.setPatchSetId(psId);
+
+    baseComment.setStatus(Status.PUBLISHED);
+    psComment.setStatus(Status.PUBLISHED);
+
+    update.putComment(baseComment);
+    update.putComment(psComment);
+    update.commit();
+    draftUpdate.deleteComment(baseComment);
+    draftUpdate.deleteComment(psComment);
+    draftUpdate.commit();
+
+    ChangeNotes notes = newNotes(c);
+    draftNotes = newDraftNotes(c, otherUser);
+
+    PatchLineComment baseCommentFromNotes =
+        Iterables.getOnlyElement(notes.getBaseComments().values());
+    PatchLineComment psCommentFromNotes =
+        Iterables.getOnlyElement(notes.getPatchSetComments().values());
+
+    assertEquals(baseComment, baseCommentFromNotes);
+    assertEquals(psComment, psCommentFromNotes);
+
+    assertTrue(draftNotes.getDraftBaseComments().values().isEmpty());
+    assertTrue(draftNotes.getDraftPsComments().values().isEmpty());
+  }
+
   private Change newChange() {
     return TestChanges.newChange(project, changeOwner);
   }
@@ -1194,12 +1370,23 @@ public class ChangeNotesTest {
   }
 
   private ChangeUpdate newUpdate(Change c, IdentifiedUser user)
-      throws Exception {
+      throws OrmException {
     return TestChanges.newUpdate(injector, repoManager, c, user);
+  }
+
+  private ChangeDraftUpdate newDraftUpdate(Change c, IdentifiedUser user)
+      throws OrmException {
+    return TestChanges.newDraftUpdate(injector, repoManager, c, user);
   }
 
   private ChangeNotes newNotes(Change c) throws OrmException {
     return new ChangeNotes(repoManager, c).load();
+  }
+
+  private DraftCommentNotes newDraftNotes(Change c, IdentifiedUser user)
+      throws OrmException {
+    return new DraftCommentNotes(repoManager, allUsers.get(), c,
+        user.getAccountId()).load();
   }
 
   private static Timestamp truncate(Timestamp ts) {

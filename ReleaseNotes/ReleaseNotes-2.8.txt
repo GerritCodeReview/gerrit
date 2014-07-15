@@ -499,7 +499,10 @@ The replication plugin can now be configured to listen to project deletion event
 and to replicate the project deletions. By default project deletions are *not*
 replicated.
 
-* The `{$name}` placeholder is optional when replicating a single project,
+* link:http://code.google.com/p/gerrit/issues/detail?id=1880[Issue 1880]:
+Make `{name}` placeholder optional when replicating a single project.
++
+The `{$name}` placeholder is optional when replicating a single project,
 allowing a single project to be replicated under a different name.
 
 * Project names can be matched with wildcard or regex patterns in `replication.config`.

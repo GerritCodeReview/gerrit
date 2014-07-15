@@ -60,6 +60,38 @@ public class SafeHtml_LinkifyTest {
     assertEquals("A &lt;<a href=\"http://go.here/\" target=\"_blank\">http://go.here/</a>&gt; B", n.asString());
   }
 
+  @Test
+  public void testLinkify_TrailingPlainLetter() {
+    final SafeHtml o = html("A http://go.here/foo B");
+    final SafeHtml n = o.linkify();
+    assertNotSame(o, n);
+    assertEquals("A <a href=\"http://go.here/foo\" target=\"_blank\">http://go.here/foo</a> B", n.asString());
+  }
+
+  @Test
+  public void testLinkify_TrailingDot() {
+    final SafeHtml o = html("A http://go.here/. B");
+    final SafeHtml n = o.linkify();
+    assertNotSame(o, n);
+    assertEquals("A <a href=\"http://go.here/\" target=\"_blank\">http://go.here/</a>. B", n.asString());
+  }
+
+  @Test
+  public void testLinkify_TrailingComma() {
+    final SafeHtml o = html("A http://go.here/, B");
+    final SafeHtml n = o.linkify();
+    assertNotSame(o, n);
+    assertEquals("A <a href=\"http://go.here/\" target=\"_blank\">http://go.here/</a>, B", n.asString());
+  }
+
+  @Test
+  public void testLinkify_TrailingDotDot() {
+    final SafeHtml o = html("A http://go.here/.. B");
+    final SafeHtml n = o.linkify();
+    assertNotSame(o, n);
+    assertEquals("A <a href=\"http://go.here/.\" target=\"_blank\">http://go.here/.</a>. B", n.asString());
+  }
+
   private static SafeHtml html(String text) {
     return new SafeHtmlBuilder().append(text).toSafeHtml();
   }

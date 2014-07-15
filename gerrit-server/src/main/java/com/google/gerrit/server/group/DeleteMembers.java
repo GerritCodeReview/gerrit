@@ -16,6 +16,7 @@ package com.google.gerrit.server.group;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.gerrit.audit.AuditService;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -38,6 +39,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -47,15 +49,18 @@ public class DeleteMembers implements RestModifyView<GroupResource, Input> {
   private final AccountCache accountCache;
   private final Provider<ReviewDb> db;
   private final Provider<CurrentUser> self;
+  private final AuditService auditService;
 
   @Inject
   DeleteMembers(AccountsCollection accounts,
       AccountCache accountCache, Provider<ReviewDb> db,
-      Provider<CurrentUser> self) {
+      Provider<CurrentUser> self,
+      AuditService auditService) {
     this.accounts = accounts;
     this.accountCache = accountCache;
     this.db = db;
     this.self = self;
+    this.auditService = auditService;
   }
 
   @Override
@@ -85,41 +90,13 @@ public class DeleteMembers implements RestModifyView<GroupResource, Input> {
       }
     }
 
-    writeAudits(toRemove);
-    db.get().accountGroupMembers().delete(toRemove);
+    final Account.Id me = ((IdentifiedUser) self.get()).getAccountId();
+    auditService.dispatchDeleteGroupMembers(me, toRemove);    db.get().accountGroupMembers().delete(toRemove);
     for (final AccountGroupMember m : toRemove) {
       accountCache.evict(m.getAccountId());
     }
 
     return Response.none();
-  }
-
-  private void writeAudits(final List<AccountGroupMember> toBeRemoved)
-      throws OrmException {
-    final Account.Id me = ((IdentifiedUser) self.get()).getAccountId();
-    final List<AccountGroupMemberAudit> auditUpdates = Lists.newLinkedList();
-    final List<AccountGroupMemberAudit> auditInserts = Lists.newLinkedList();
-    for (final AccountGroupMember m : toBeRemoved) {
-      AccountGroupMemberAudit audit = null;
-      for (AccountGroupMemberAudit a : db.get().accountGroupMembersAudit()
-          .byGroupAccount(m.getAccountGroupId(), m.getAccountId())) {
-        if (a.isActive()) {
-          audit = a;
-          break;
-        }
-      }
-
-      if (audit != null) {
-        audit.removed(me, TimeUtil.nowTs());
-        auditUpdates.add(audit);
-      } else {
-        audit = new AccountGroupMemberAudit(m, me, TimeUtil.nowTs());
-        audit.removedLegacy();
-        auditInserts.add(audit);
-      }
-    }
-    db.get().accountGroupMembersAudit().update(auditUpdates);
-    db.get().accountGroupMembersAudit().insert(auditInserts);
   }
 
   private Map<Account.Id, AccountGroupMember> getMembers(

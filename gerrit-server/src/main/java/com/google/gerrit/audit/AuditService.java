@@ -15,21 +15,54 @@
 package com.google.gerrit.audit;
 
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.reviewdb.client.Account.Id;
+import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Collection;
+
 @Singleton
 public class AuditService {
+
+  private static final Logger log = LoggerFactory.getLogger(AuditService.class);
   private final DynamicSet<AuditListener> auditListeners;
+  private final DynamicSet<GroupMemberAuditListener> groupMemberAuditListeners;
 
   @Inject
-  public AuditService(DynamicSet<AuditListener> auditListeners) {
+  public AuditService(DynamicSet<AuditListener> auditListeners,
+      DynamicSet<GroupMemberAuditListener> groupMemberAuditListeners) {
     this.auditListeners = auditListeners;
+    this.groupMemberAuditListeners = groupMemberAuditListeners;
   }
 
   public void dispatch(AuditEvent action) {
     for (AuditListener auditListener : auditListeners) {
       auditListener.onAuditableAction(action);
+    }
+  }
+
+  public void dispatchAddGroupMembers(Id me, Collection<AccountGroupMember> toBeAdded) {
+    for (GroupMemberAuditListener auditListener : groupMemberAuditListeners) {
+      try {
+        auditListener.onAddMembers(me, toBeAdded);
+      } catch (Exception e) {
+        log.error("failed to log add group member event", e);
+      }
+    }
+  }
+
+  public void dispatchDeleteGroupMembers(Id me,
+      Collection<AccountGroupMember> toBeRemoved) {
+    for (GroupMemberAuditListener auditListener : groupMemberAuditListeners) {
+      try {
+        auditListener.onDeleteMembers(me, toBeRemoved);
+      } catch (Exception e) {
+        log.error("failed to log delete group member event", e);
+      }
     }
   }
 }

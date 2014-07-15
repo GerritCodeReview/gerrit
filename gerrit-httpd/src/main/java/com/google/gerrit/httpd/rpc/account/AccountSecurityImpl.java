@@ -15,6 +15,7 @@
 package com.google.gerrit.httpd.rpc.account;
 
 import com.google.common.base.Strings;
+import com.google.gerrit.audit.AuditService;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.data.AccountSecurity;
 import com.google.gerrit.common.data.ContributorAgreement;
@@ -27,7 +28,6 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
-import com.google.gerrit.reviewdb.client.AccountGroupMemberAudit;
 import com.google.gerrit.reviewdb.client.ContactInformation;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
@@ -71,6 +71,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
 
   private final ChangeHooks hooks;
   private final GroupCache groupCache;
+  private final AuditService auditService;
 
   @Inject
   AccountSecurityImpl(final Provider<ReviewDb> schema,
@@ -82,7 +83,8 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
       final ChangeUserName.CurrentUser changeUserNameFactory,
       final DeleteExternalIds.Factory deleteExternalIdsFactory,
       final ExternalIdDetailFactory.Factory externalIdDetailFactory,
-      final ChangeHooks hooks, final GroupCache groupCache) {
+      final ChangeHooks hooks, final GroupCache groupCache,
+      final AuditService auditService) {
     super(schema, currentUser);
     contactStore = cs;
     realm = r;
@@ -92,6 +94,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
     byEmailCache = abec;
     accountCache = uac;
     accountManager = am;
+    this.auditService = auditService;
 
     useContactInfo = contactStore != null && contactStore.isEnabled();
 
@@ -198,9 +201,8 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
         AccountGroupMember m = db.accountGroupMembers().get(key);
         if (m == null) {
           m = new AccountGroupMember(key);
-          db.accountGroupMembersAudit().insert(
-              Collections.singleton(new AccountGroupMemberAudit(
-                  m, account.getId(), TimeUtil.nowTs())));
+          auditService.dispatchAddGroupMembers(account.getId(), Collections
+              .singleton(m));
           db.accountGroupMembers().insert(Collections.singleton(m));
           accountCache.evict(m.getAccountId());
         }

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f916748e_85e3c238",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-07-15T13:08:10Z",
+      "side": 1,
+      "message": "You, are right, I will update the doc to be more clear. I will wait for your reply on my comment in ProjectMap and will update the documentation accordingly.",
+      "parentUuid": "59aea094_78f9e1e4",
+      "range": {
+        "startLine": 179,
+        "startChar": 0,
+        "endLine": 179,
+        "endChar": 67
+      },
+      "revId": "7c057adb99e981cd9573629784c5f61da7a48b8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "59aea094_980dd55d",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/ListProjectsIT.java",
         "patchSetId": 9
@@ -36,6 +60,30 @@
       "writtenOn": "2014-07-15T12:17:47Z",
       "side": 1,
       "message": "This is not a valid regular expression.",
+      "range": {
+        "startLine": 149,
+        "startChar": 26,
+        "endLine": 149,
+        "endChar": 27
+      },
+      "revId": "7c057adb99e981cd9573629784c5f61da7a48b8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d913709f_44e26e38",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/ListProjectsIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-07-15T13:08:10Z",
+      "side": 1,
+      "message": "Thanks, it should be .*",
+      "parentUuid": "59aea094_980dd55d",
       "range": {
         "startLine": 149,
         "startChar": 26,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "f916748e_a5e6be48",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ProjectMap.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-07-15T13:08:10Z",
+      "side": 1,
+      "message": "I thought about this but since the prefix(p) and match substring(m) were already defined as separate option, I defined regex as a separate one also.\n\nActually, we could merge those 3 into the same option because the first two(p and m) are subset of what a regex can do.\n\nWhat do you think?",
+      "parentUuid": "79b9a4d7_1921cbbd",
+      "range": {
+        "startLine": 59,
+        "startChar": 6,
+        "endLine": 63,
+        "endChar": 7
+      },
+      "revId": "7c057adb99e981cd9573629784c5f61da7a48b8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "59aea094_b80a9940",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
         "patchSetId": 9
@@ -82,6 +154,30 @@
       "writtenOn": "2014-07-15T12:17:47Z",
       "side": 1,
       "message": "Is this case useful for anything? If you want all projects just don\u0027t specify a filter at all.",
+      "range": {
+        "startLine": 468,
+        "startChar": 6,
+        "endLine": 470,
+        "endChar": 7
+      },
+      "revId": "7c057adb99e981cd9573629784c5f61da7a48b8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d913709f_64ddea7e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 470,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-07-15T13:08:10Z",
+      "side": 1,
+      "message": "First, as you commented in my test, it should be matchRegex.equals(\".*\") and not matchRegex.equals(\"*\").\n\nI agree with you that you do use the option to filter to specify a filter that return everything but it is still possible that the user do it. This was a comment I received to add this to prevent doing filtering it the user input \u0027.*\u0027 as filter.",
+      "parentUuid": "59aea094_b80a9940",
       "range": {
         "startLine": 468,
         "startChar": 6,

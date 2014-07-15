@@ -103,8 +103,8 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       String filename1 = c1.getKey().getParentKey().get();
       String filename2 = c2.getKey().getParentKey().get();
       return ComparisonChain.start()
-          .compare(c1.getLine(), c2.getLine())
           .compare(filename1, filename2)
+          .compare(c1.getLine(), c2.getLine())
           .compare(c1.getWrittenOn(), c2.getWrittenOn())
           .result();
     }

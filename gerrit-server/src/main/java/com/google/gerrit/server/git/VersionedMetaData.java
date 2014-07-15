@@ -175,6 +175,7 @@ public abstract class VersionedMetaData {
     void write(CommitBuilder commit) throws IOException;
     void write(VersionedMetaData config, CommitBuilder commit) throws IOException;
     RevCommit createRef(String refName) throws IOException;
+    void removeRef(String refName) throws IOException;
     RevCommit commit() throws IOException;
     RevCommit commitAt(ObjectId revision) throws IOException;
     void close();
@@ -263,6 +264,24 @@ public abstract class VersionedMetaData {
             return revision;
           default:
             throw new IOException("Cannot update " + ru.getName() + " in "
+                + db.getDirectory() + ": " + ru.getResult());
+        }
+      }
+
+      @Override
+      public void removeRef(String refName) throws IOException {
+        RefUpdate ru = db.updateRef(refName);
+        ru.setForceUpdate(true);
+        if (revision != null) {
+          ru.setExpectedOldObjectId(revision);
+        }
+        RefUpdate.Result result = ru.delete();
+        switch (result) {
+          case FORCED:
+            update.fireGitRefUpdatedEvent(ru);
+            return;
+          default:
+            throw new IOException("Cannot delete " + ru.getName() + " in "
                 + db.getDirectory() + ": " + ru.getResult());
         }
       }

@@ -22,6 +22,30 @@
       "revId": "d38e71ef4e78467fb8a46e12ce19f59b236e3d8d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d913709f_24fad2dd",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshLog.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-07-15T14:18:35Z",
+      "side": 1,
+      "message": "I should not be null and there is many places is the code where it is used without null check.",
+      "parentUuid": "59aea094_b8e37938",
+      "range": {
+        "startLine": 261,
+        "startChar": 6,
+        "endLine": 262,
+        "endChar": 61
+      },
+      "revId": "d38e71ef4e78467fb8a46e12ce19f59b236e3d8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

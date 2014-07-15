@@ -15,21 +15,79 @@
 package com.google.gerrit.audit;
 
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.AccountGroupById;
+import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.util.Collection;
+
 @Singleton
 public class AuditService {
+  private static final Logger log = LoggerFactory.getLogger(AuditService.class);
+
   private final DynamicSet<AuditListener> auditListeners;
+  private final DynamicSet<GroupMemberAuditListener> groupMemberAuditListeners;
 
   @Inject
-  public AuditService(DynamicSet<AuditListener> auditListeners) {
+  public AuditService(DynamicSet<AuditListener> auditListeners,
+      DynamicSet<GroupMemberAuditListener> groupMemberAuditListeners) {
     this.auditListeners = auditListeners;
+    this.groupMemberAuditListeners = groupMemberAuditListeners;
   }
 
   public void dispatch(AuditEvent action) {
     for (AuditListener auditListener : auditListeners) {
       auditListener.onAuditableAction(action);
+    }
+  }
+
+  public void dispatchAddAccountsToGroup(Account.Id actor,
+      Collection<AccountGroupMember> added) {
+    for (GroupMemberAuditListener auditListener : groupMemberAuditListeners) {
+      try {
+        auditListener.onAddAccountsToGroup(actor, added);
+      } catch (IOException e) {
+        log.error("failed to log add acounts to group event", e);
+      }
+    }
+  }
+
+  public void dispatchDeleteAccountsFromGroup(Account.Id actor,
+      Collection<AccountGroupMember> removed) {
+    for (GroupMemberAuditListener auditListener : groupMemberAuditListeners) {
+      try {
+        auditListener.onDeleteAccountsFromGroup(actor, removed);
+      } catch (IOException e) {
+        log.error("failed to log delete acounts from group event", e);
+      }
+    }
+  }
+
+  public void dispatchAddGroupsToGroup(Account.Id actor,
+      Collection<AccountGroupById> added) {
+    for (GroupMemberAuditListener auditListener : groupMemberAuditListeners) {
+      try {
+        auditListener.onAddGroupsToGroup(actor, added);
+      } catch (IOException e) {
+        log.error("failed to log add groups to group event", e);
+      }
+    }
+  }
+
+  public void dispatchDeleteGroupsFromGroup(Account.Id actor,
+      Collection<AccountGroupById> removed) {
+    for (GroupMemberAuditListener auditListener : groupMemberAuditListeners) {
+      try {
+        auditListener.onDeleteGroupsFromGroup(actor, removed);
+      } catch (IOException e) {
+        log.error("failed to log delete groups from group event", e);
+      }
     }
   }
 }

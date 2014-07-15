@@ -18,6 +18,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.gerrit.audit.AuditService;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
@@ -27,14 +28,12 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupById;
-import com.google.gerrit.reviewdb.client.AccountGroupByIdAud;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.account.GroupIncludeCache;
 import com.google.gerrit.server.group.AddIncludedGroups.Input;
 import com.google.gerrit.server.group.GroupJson.GroupInfo;
-import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -75,15 +74,17 @@ public class AddIncludedGroups implements RestModifyView<GroupResource, Input> {
   private final GroupIncludeCache groupIncludeCache;
   private final Provider<ReviewDb> db;
   private final GroupJson json;
+  private final AuditService auditService;
 
   @Inject
   public AddIncludedGroups(GroupsCollection groupsCollection,
-      GroupIncludeCache groupIncludeCache,
-      Provider<ReviewDb> db, GroupJson json) {
+      GroupIncludeCache groupIncludeCache, Provider<ReviewDb> db,
+      GroupJson json, AuditService auditService) {
     this.groupsCollection = groupsCollection;
     this.groupIncludeCache = groupIncludeCache;
     this.db = db;
     this.json = json;
+    this.auditService = auditService;
   }
 
   @Override
@@ -98,7 +99,6 @@ public class AddIncludedGroups implements RestModifyView<GroupResource, Input> {
 
     GroupControl control = resource.getControl();
     Map<AccountGroup.UUID, AccountGroupById> newIncludedGroups = Maps.newHashMap();
-    List<AccountGroupByIdAud> newIncludedGroupsAudits = Lists.newLinkedList();
     List<GroupInfo> result = Lists.newLinkedList();
     Account.Id me = ((IdentifiedUser) control.getCurrentUser()).getAccountId();
 
@@ -117,16 +117,14 @@ public class AddIncludedGroups implements RestModifyView<GroupResource, Input> {
         if (agi == null) {
           agi = new AccountGroupById(agiKey);
           newIncludedGroups.put(d.getGroupUUID(), agi);
-          newIncludedGroupsAudits.add(
-              new AccountGroupByIdAud(agi, me, TimeUtil.nowTs()));
         }
       }
       result.add(json.format(d));
     }
 
     if (!newIncludedGroups.isEmpty()) {
-      db.get().accountGroupByIdAud().insert(newIncludedGroupsAudits);
       db.get().accountGroupById().insert(newIncludedGroups.values());
+      auditService.dispatchAddGroupsToGroup(me, newIncludedGroups.values());
       for (AccountGroupById agi : newIncludedGroups.values()) {
         groupIncludeCache.evictMemberIn(agi.getIncludeUUID());
       }

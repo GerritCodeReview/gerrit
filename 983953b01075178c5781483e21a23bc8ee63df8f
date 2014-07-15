@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b9e5dcf4_9b0dcb5d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 519,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-15T15:31:45Z",
+      "side": 1,
+      "message": "Unnecessarily verbose. Maybe:\n\n \"No comments to write; to delete, use removeNoteFromNoteMap()\"",
+      "revId": "983953b01075178c5781483e21a23bc8ee63df8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9e5dcf4_bb0a8740",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 529,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-15T15:31:45Z",
+      "side": 1,
+      "message": "commitId?",
+      "range": {
+        "startLine": 529,
+        "startChar": 59,
+        "endLine": 529,
+        "endChar": 64
+      },
+      "revId": "983953b01075178c5781483e21a23bc8ee63df8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99b498df_da074537",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 529,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-15T15:31:45Z",
+      "side": 1,
+      "message": "I think \"FromNoteMap\" is a bit redundant. If you look at the rest of the signature it should be clear what you\u0027re removing the note from: the NoteMap",
+      "range": {
+        "startLine": 529,
+        "startChar": 24,
+        "endLine": 529,
+        "endChar": 35
+      },
+      "revId": "983953b01075178c5781483e21a23bc8ee63df8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99b498df_ba0a9140",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 531,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-15T15:31:45Z",
+      "side": 1,
+      "message": "Inline.",
+      "revId": "983953b01075178c5781483e21a23bc8ee63df8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

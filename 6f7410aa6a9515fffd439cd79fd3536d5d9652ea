@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "59aea094_f8edf124",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1034,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-15T11:23:41Z",
+      "side": 1,
+      "message": "Path?",
+      "range": {
+        "startLine": 1034,
+        "startChar": 22,
+        "endLine": 1034,
+        "endChar": 26
+      },
+      "revId": "6f7410aa6a9515fffd439cd79fd3536d5d9652ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "79b9a4d7_79f9e7e4",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1038,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-15T11:23:41Z",
+      "side": 1,
+      "message": "Why it\u0027s file and not path? E. g. what if it is not a file but a directory?\nI would expect that the same endpoint returning list of the encoded directory content instead of encoded file. See also how GitHub does it: [1].\n\n [1] https://developer.github.com/v3/repos/contents/",
+      "range": {
+        "startLine": 1038,
+        "startChar": 83,
+        "endLine": 1038,
+        "endChar": 88
+      },
+      "revId": "6f7410aa6a9515fffd439cd79fd3536d5d9652ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

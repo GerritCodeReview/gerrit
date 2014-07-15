@@ -1098,7 +1098,7 @@ Default is 64 entries.
 Use JGit's recursive merger for three-way merges. This only affects
 projects configured to automatically resolve conflicts.
 +
-Default is false, but in a future release may default to true.
+Default is true.
 
 [[database]]
 === Section database

@@ -140,6 +140,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
     assertEquals(in.parent, project.getParentName());
   }
 
+  @Test
   public void testCreateChildProjectUnderNonExistingParent_UnprocessableEntity()
       throws IOException {
     ProjectInput in = new ProjectInput();
@@ -166,6 +167,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
     assertProjectOwners(expectedOwnerIds, projectState);
   }
 
+  @Test
   public void testCreateProjectWithNonExistingOwner_UnprocessableEntity()
       throws IOException {
     ProjectInput in = new ProjectInput();

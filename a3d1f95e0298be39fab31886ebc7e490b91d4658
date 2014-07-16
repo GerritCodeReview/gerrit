@@ -46,6 +46,29 @@
       "revId": "a3d1f95e0298be39fab31886ebc7e490b91d4658",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1976e812_26159617",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/container/HttpLoginServlet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1016317
+      },
+      "writtenOn": "2014-07-16T19:01:20Z",
+      "side": 1,
+      "message": "I think this conditional is no longer needed. From what I can tell, this conditional was there because of the hard-coded behavior of always appending a \"#\" when building the redirect url (see line 134). Without the conditional, the method might have caused a redirection to something like \n\u003cbase-url\u003e/#/logout or \u003cbase-url\u003e/#/signout, both of which don\u0027t exist. Since we no longer hard-code the \"#\", it should be safe to drop the conditional.",
+      "range": {
+        "startLine": 83,
+        "startChar": 0,
+        "endLine": 86,
+        "endChar": 5
+      },
+      "revId": "a3d1f95e0298be39fab31886ebc7e490b91d4658",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9997385e_429a1295",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/TempFileUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-16T16:16:35Z",
+      "side": 1,
+      "message": "Left over diagnostic output?",
+      "range": {
+        "startLine": 35,
+        "startChar": 4,
+        "endLine": 35,
+        "endChar": 40
+      },
+      "revId": "1f882373a741ed5e87c60be5be2ec0ece7db25b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1976e812_a62b4669",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/TempFileUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-16T16:16:35Z",
+      "side": 1,
+      "message": "Nit: missing blank?",
+      "range": {
+        "startLine": 36,
+        "startChar": 7,
+        "endLine": 36,
+        "endChar": 8
+      },
+      "revId": "1f882373a741ed5e87c60be5be2ec0ece7db25b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9997385e_22970e6b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/TempFileUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-16T16:16:35Z",
+      "side": 1,
+      "message": "Left over diagnostic output?",
+      "range": {
+        "startLine": 37,
+        "startChar": 6,
+        "endLine": 37,
+        "endChar": 66
+      },
+      "revId": "1f882373a741ed5e87c60be5be2ec0ece7db25b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

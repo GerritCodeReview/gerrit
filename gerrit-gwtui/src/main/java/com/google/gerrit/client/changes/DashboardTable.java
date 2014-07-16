@@ -70,7 +70,7 @@ public class DashboardTable extends ChangeTable2 {
     int i = 0;
     for (String title : titles) {
       Section s = new Section();
-      String query = removeLimit(queries.get(i++));
+      String query = removeLimitAndAge(queries.get(i++));
       s.setTitleWidget(new InlineHyperlink(title, PageLinks.toChangeQuery(query)));
       addSection(s);
       sections.add(s);
@@ -84,11 +84,12 @@ public class DashboardTable extends ChangeTable2 {
     });
   }
 
-  private String removeLimit(String query) {
+  private String removeLimitAndAge(String query) {
     StringBuilder unlimitedQuery = new StringBuilder();
     String[] operators = query.split(" ");
     for (String o : operators) {
-      if (!o.startsWith("limit:")) {
+      if (!o.startsWith("limit:")
+          && !o.startsWith("age:") && !o.startsWith("-age:")) {
         unlimitedQuery.append(o).append(" ");
       }
     }

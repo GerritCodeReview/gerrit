@@ -160,7 +160,6 @@ public class GerritServer {
     return InetAddress.getLoopbackAddress();
   }
 
-  private File sitePath;
   private Daemon daemon;
   private ExecutorService daemonService;
   private Injector testInjector;
@@ -170,7 +169,6 @@ public class GerritServer {
 
   private GerritServer(File sitePath, Injector testInjector, Daemon daemon,
       ExecutorService daemonService) throws IOException, ConfigInvalidException {
-    this.sitePath = sitePath;
     this.testInjector = testInjector;
     this.daemon = daemon;
     this.daemonService = daemonService;
@@ -208,9 +206,6 @@ public class GerritServer {
       System.out.println("Gerrit Server Shutdown");
       daemonService.shutdownNow();
       daemonService.awaitTermination(Long.MAX_VALUE, TimeUnit.SECONDS);
-    }
-    if (sitePath != null) {
-      TempFileUtil.recursivelyDelete(sitePath);
     }
     RepositoryCache.clear();
   }

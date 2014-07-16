@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9997385e_e26246e1",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 815,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-16T11:48:32Z",
+      "side": 1,
+      "message": "Do we really need this check box? We have already hundreds of configuration options. Instead of adding another obscure option, why not to drop this check box?",
+      "range": {
+        "startLine": 812,
+        "startChar": 16,
+        "endLine": 815,
+        "endChar": 56
+      },
+      "revId": "1abafe04569cd4395f91a8eafc640f1ec3b784cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

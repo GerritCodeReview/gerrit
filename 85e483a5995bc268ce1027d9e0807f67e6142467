@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9997385e_820eda55",
+        "filename": "Documentation/intro-project-owner.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-16T06:50:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f989143b_2dff2dce",
+      "range": {
+        "startLine": 403,
+        "startChar": 33,
+        "endLine": 403,
+        "endChar": 35
+      },
+      "revId": "85e483a5995bc268ce1027d9e0807f67e6142467",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9999f885_920d9c5d",
         "filename": "Documentation/intro-project-owner.txt",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2014-07-16T06:37:10Z",
       "side": 1,
       "message": "\"cause the push to fail\"",
+      "range": {
+        "startLine": 406,
+        "startChar": 47,
+        "endLine": 406,
+        "endChar": 64
+      },
+      "revId": "85e483a5995bc268ce1027d9e0807f67e6142467",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1976e812_66306e09",
+        "filename": "Documentation/intro-project-owner.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-16T06:50:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9999f885_920d9c5d",
       "range": {
         "startLine": 406,
         "startChar": 47,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "1976e812_86148a61",
+        "filename": "Documentation/intro-project-owner.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 415,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-16T06:50:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9999f885_b20aa040",
+      "range": {
+        "startLine": 415,
+        "startChar": 0,
+        "endLine": 415,
+        "endChar": 69
+      },
+      "revId": "85e483a5995bc268ce1027d9e0807f67e6142467",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9999f885_d2072437",
         "filename": "Documentation/intro-project-owner.txt",
         "patchSetId": 1
@@ -82,6 +154,24 @@
       "writtenOn": "2014-07-16T06:37:10Z",
       "side": 1,
       "message": "Mention that this is a core plugin?",
+      "revId": "85e483a5995bc268ce1027d9e0807f67e6142467",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9997385e_4208d248",
+        "filename": "Documentation/intro-project-owner.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-16T06:50:00Z",
+      "side": 1,
+      "message": "I\u0027ve changed \u0027plugin\u0027 to \u0027core plugin\u0027. I wouldn\u0027t emphasize it more because this documentation is for project owners and they don\u0027t care much whether the plugin is core or not. In both cases they need to ask the administrator to install it.\n\nDone",
+      "parentUuid": "9999f885_d2072437",
       "revId": "85e483a5995bc268ce1027d9e0807f67e6142467",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1976e812_a6b50609",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/LoginUrlToken.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-16T13:32:39Z",
+      "side": 1,
+      "message": "Sorry, I must ask about this again.\n\nYou are here removing the leading \u0027/\u0027, but in com.google.gerrit.httpd.auth.container.HttpLoginServlet in line 83 it is checked if the token returned by this method is equal to \"/logout\" or \"/signout\". Can this ever be the case now after the leading \u0027/\u0027 is removed from the token? Does the check in HttpLoginServlet need to be adapted?",
+      "range": {
+        "startLine": 33,
+        "startChar": 6,
+        "endLine": 33,
+        "endChar": 76
+      },
+      "revId": "a3d1f95e0298be39fab31886ebc7e490b91d4658",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1976e812_262676d6",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/LoginUrlToken.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-16T06:27:43Z",
+      "side": 1,
+      "message": "Should this rather be done after decoding the token?",
+      "range": {
+        "startLine": 32,
+        "startChar": 6,
+        "endLine": 34,
+        "endChar": 7
+      },
+      "revId": "4a805ab3032358a05ff7763cd57f41fb5b19c4ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

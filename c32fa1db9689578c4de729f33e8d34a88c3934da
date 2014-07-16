@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1976e812_46253297",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-16T14:52:05Z",
+      "side": 1,
+      "message": "Well that\u0027s clear from the name convention. Old Unified screen implementation is based on prettify framework. New CS2 was migrated to CM3. What this change is doing is to migrate Unified screen from prettify to CM3:\n\n* ChangeScreen: prettify\n* ChangeScreen2: CM3\n* Unified: prettify\n* Unified2: CM3",
+      "parentUuid": "1976e812_061b3a66",
+      "revId": "c32fa1db9689578c4de729f33e8d34a88c3934da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "df9d10d5_4dba195a",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Dispatcher.java",
         "patchSetId": 4

@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "9997385e_02488a75",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/audit/AuditService.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-16T07:10:32Z",
+      "side": 1,
+      "message": "IOException is checked exception.",
+      "parentUuid": "1976e812_46429255",
+      "range": {
+        "startLine": 52,
+        "startChar": 15,
+        "endLine": 52,
+        "endChar": 24
+      },
+      "revId": "2464e6165ced59af075b254733729aa620617a4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "59aea094_b887f950",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/audit/AuditService.java",
         "patchSetId": 2

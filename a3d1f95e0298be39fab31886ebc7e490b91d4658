@@ -22,6 +22,30 @@
       "revId": "a3d1f95e0298be39fab31886ebc7e490b91d4658",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1976e812_e6bffee4",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/LoginUrlToken.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1016317
+      },
+      "writtenOn": "2014-07-16T13:40:44Z",
+      "side": 1,
+      "message": "Good catch! I\u0027ll need to adapt HttpLoginServlet. Originally the get token method didn\u0027t include the pound sign nor did it remove the leading slash. The conditionals should now be something like \"#/logout\" or \"#/signout\". I\u0027ll look into this.",
+      "parentUuid": "1976e812_a6b50609",
+      "range": {
+        "startLine": 33,
+        "startChar": 6,
+        "endLine": 33,
+        "endChar": 76
+      },
+      "revId": "a3d1f95e0298be39fab31886ebc7e490b91d4658",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

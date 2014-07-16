@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9997385e_e21fe64e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/DbGroupMemberAuditListener.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2014-07-16T16:19:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9997385e_a2855e4c",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 6
+      },
+      "revId": "ec48a83b9a38fd6e9a2bbec2be800af6f39a7197",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9997385e_c280623e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/DbGroupMemberAuditListener.java",
         "patchSetId": 3
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "1976e812_e6353ec6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/DbGroupMemberAuditListener.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2014-07-16T16:19:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9997385e_c280623e",
+      "range": {
+        "startLine": 64,
+        "startChar": 11,
+        "endLine": 64,
+        "endChar": 16
+      },
+      "revId": "ec48a83b9a38fd6e9a2bbec2be800af6f39a7197",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1976e812_6686ae59",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/DbGroupMemberAuditListener.java",
         "patchSetId": 3
@@ -59,6 +107,30 @@
       "writtenOn": "2014-07-16T09:40:17Z",
       "side": 1,
       "message": "Is this differentiation really needed? Can\u0027t the same be done in one upsert operation?\n\n  reviewDB.accountGroupMembersAudit().upsert(auditUpdatesAndAuditInserts);",
+      "range": {
+        "startLine": 83,
+        "startChar": 6,
+        "endLine": 84,
+        "endChar": 63
+      },
+      "revId": "ec48a83b9a38fd6e9a2bbec2be800af6f39a7197",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1976e812_c6c20268",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/DbGroupMemberAuditListener.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2014-07-16T16:19:01Z",
+      "side": 1,
+      "message": "It\u0027s moved code so I don\u0027t really want to change it. Also I think it makes sense do do the distinction: the database typically has no native UPSERT statement. Hence GWTORM needs to figure out which records are to be inserted and which to be upserted. This doesn\u0027t come for free. We can avoid this as we no it beforehand.",
+      "parentUuid": "1976e812_6686ae59",
       "range": {
         "startLine": 83,
         "startChar": 6,

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9997385e_a2d31e41",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1484,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-16T13:17:20Z",
+      "side": 1,
+      "message": "maybe just \u0027icons\u0027?",
+      "range": {
+        "startLine": 1484,
+        "startChar": 2,
+        "endLine": 1484,
+        "endChar": 14
+      },
+      "revId": "60fc4193b0fb3f90f3dc2abbf2840286ebb9a4db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9997385e_22c02e5e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/CustomIcons.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-16T13:17:20Z",
+      "side": 1,
+      "message": "Why not to return CustomIconInfo here?\n\nIt seems unneeded to convert CustomIconInfo here into Icon and then to convert Icon in ListProjects and ProjectJson back into CustomIconInfo.",
+      "range": {
+        "startLine": 33,
+        "startChar": 18,
+        "endLine": 33,
+        "endChar": 22
+      },
+      "revId": "60fc4193b0fb3f90f3dc2abbf2840286ebb9a4db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

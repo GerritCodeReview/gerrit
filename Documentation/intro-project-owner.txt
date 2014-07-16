@@ -395,6 +395,30 @@ events]. For this the service user must have the
 link:access-control.html#capability_streamEvents[Stream Events] global
 capability assigned.
 
+[[commit-validation]]
+== Commit Validation
+
+Gerrit provides an
+link:https://gerrit-review.googlesource.com/Documentation/config-validation.html#new-commit-validation[
+extension point to do validation of new commits]. A Gerrit plugin
+implementing this extension point can perform validation checks when
+new commits are pushed to Gerrit. The plugin can either provide a
+message to the client or reject the commit and cause the push to fail.
+
+There are some plugins available that provide commit validation:
+
+- link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/uploadvalidator[
+  uploadvalidator]:
++
+The `uploadvalidator` plugin allows project owners to configure blocked
+file extensions, required footers and a maximum allowed path length.
+
+- link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/commit-message-length-validator[
+  commit-message-length-validator]
++
+The `commit-message-length-validator` core plugin validates that commit
+messages conform to line length limits.
+
 [[branch-administration]]
 == Branch Administration
 

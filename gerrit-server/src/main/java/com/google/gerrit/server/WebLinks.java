@@ -15,6 +15,7 @@
 package com.google.gerrit.server;
 
 import com.google.common.collect.Lists;
+import com.google.gerrit.extensions.common.WebLinkInfo;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.webui.PatchSetWebLink;
 import com.google.gerrit.extensions.webui.ProjectWebLink;
@@ -32,31 +33,21 @@ public class WebLinks {
     this.projectLinks = projectLinks;
   }
 
-  public Iterable<Link> getPatchSetLinks(String project, String commit) {
-    List<Link> links = Lists.newArrayList();
+  public Iterable<WebLinkInfo> getPatchSetLinks(String project, String commit) {
+    List<WebLinkInfo> links = Lists.newArrayList();
     for (PatchSetWebLink webLink : patchSetLinks) {
-      links.add(new Link(webLink.getLinkName(),
+      links.add(new WebLinkInfo(webLink.getLinkName(),
           webLink.getPatchSetUrl(project, commit)));
     }
     return links;
   }
 
-  public Iterable<Link> getProjectLinks(String project) {
-    List<Link> links = Lists.newArrayList();
+  public Iterable<WebLinkInfo> getProjectLinks(String project) {
+    List<WebLinkInfo> links = Lists.newArrayList();
     for (ProjectWebLink webLink : projectLinks) {
-      links.add(new Link(webLink.getLinkName(),
+      links.add(new WebLinkInfo(webLink.getLinkName(),
           webLink.getProjectUrl(project)));
     }
     return links;
-  }
-
-  public class Link {
-    public String name;
-    public String url;
-
-    public Link(String name, String url) {
-      this.name = name;
-      this.url = url;
-    }
   }
 }

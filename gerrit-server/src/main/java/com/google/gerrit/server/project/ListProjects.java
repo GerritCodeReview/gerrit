@@ -386,9 +386,9 @@ public class ListProjects implements RestReadView<TopLevelResource> {
           }
 
           info.webLinks = Lists.newArrayList();
-          for (WebLinks.Link link : webLinks.get().getProjectLinks(projectName.get())) {
+          for (WebLinkInfo link : webLinks.get().getProjectLinks(projectName.get())) {
             if (!Strings.isNullOrEmpty(link.name) && !Strings.isNullOrEmpty(link.url)) {
-              info.webLinks.add(new WebLinkInfo(link.name, link.url));
+              info.webLinks.add(link);
             }
           }
         }

@@ -830,9 +830,9 @@ public class ChangeJson {
 
     if (has(WEB_LINKS)) {
       out.webLinks = Lists.newArrayList();
-      for (WebLinks.Link link : webLinks.get().getPatchSetLinks(
+      for (WebLinkInfo link : webLinks.get().getPatchSetLinks(
           project, in.getRevision().get())) {
-        out.webLinks.add(new WebLinkInfo(link.name, link.url));
+        out.webLinks.add(link);
       }
     }
     return out;

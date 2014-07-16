@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "1976e812_061b3a66",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-07-16T14:46:38Z",
+      "side": 1,
+      "message": "This is a big change, could you please expand on this description?",
+      "revId": "c32fa1db9689578c4de729f33e8d34a88c3934da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "df9d10d5_4dba195a",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Dispatcher.java",
         "patchSetId": 4

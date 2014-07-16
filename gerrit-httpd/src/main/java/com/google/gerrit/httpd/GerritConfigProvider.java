@@ -145,6 +145,7 @@ class GerritConfigProvider implements Provider<GerritConfig> {
           }
         })));
 
+    config.setShowSendEmail(cfg.getBoolean("change", "showSendEmail", true));
     config.setNewFeatures(cfg.getBoolean("gerrit", "enableNewFeatures", true));
 
     final String reportBugUrl = cfg.getString("gerrit", null, "reportBugUrl");

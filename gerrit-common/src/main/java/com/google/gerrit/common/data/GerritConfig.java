@@ -56,6 +56,7 @@ public class GerritConfig implements Cloneable {
   protected AccountGeneralPreferences.ChangeScreen changeScreen;
   protected List<String> archiveFormats;
   protected int largeChangeSize;
+  protected boolean showSendEmail;
   protected boolean newFeatures;
 
   public String getLoginUrl() {
@@ -299,6 +300,14 @@ public class GerritConfig implements Cloneable {
 
   public void setArchiveFormats(List<String> formats) {
     archiveFormats = formats;
+  }
+
+  public boolean isShowSendEmail() {
+    return showSendEmail;
+  }
+
+  public void setShowSendEmail(boolean e) {
+    showSendEmail = e;
   }
 
   public boolean getNewFeatures() {

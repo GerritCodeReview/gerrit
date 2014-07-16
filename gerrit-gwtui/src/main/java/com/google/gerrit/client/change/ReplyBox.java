@@ -99,6 +99,7 @@ class ReplyBox extends Composite {
   @UiField Element labelsParent;
   @UiField Grid labelsTable;
   @UiField Button post;
+  @UiField Element emailParent;
   @UiField CheckBox email;
   @UiField Button cancel;
   @UiField ScrollPanel commentsPanel;
@@ -122,6 +123,8 @@ class ReplyBox extends Composite {
       Collections.sort(names);
       renderLabels(names, all, permitted);
     }
+
+    UIObject.setVisible(emailParent, Gerrit.getConfig().isShowSendEmail());
 
     addDomHandler(
       new KeyPressHandler() {

@@ -805,6 +805,17 @@ abbreviated commit SHA-1 (`c9c0edb`).
 +
 Default is "Submit patch set ${patchSet} into ${branch}".
 
+[[change.showSendEmail]]change.showSendEmail::
++
+Whether the 'send email' checkbox should be shown when replying to a
+change. If false the 'send email' checkbox is not shown and emails will
+always be sent. This setting makes sense if the users should be in
+control over the own email notifications. E.g. a user who is watching
+a project may not be able to rely on email notifications if the
+replying users randomly select / deselect this checkbox.
++
+Default is true.
+
 [[changeMerge]]
 === Section changeMerge
 

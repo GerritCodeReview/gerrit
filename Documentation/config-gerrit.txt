@@ -1103,7 +1103,7 @@ link:http://codicesoftware.blogspot.com/2011/09/merge-recursive-strategy.html[
 blog], the recursive merge produces better results if the two commits
 that are merged have more than one common predecessor.
 +
-Default is false, but in a future release may default to true.
+Default is true.
 
 [[database]]
 === Section database

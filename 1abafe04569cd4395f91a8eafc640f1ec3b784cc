@@ -22,6 +22,30 @@
       "revId": "1abafe04569cd4395f91a8eafc640f1ec3b784cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9997385e_a25c3e2a",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 815,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-16T12:03:07Z",
+      "side": 1,
+      "message": "\u003e Do we really need this check box?\n\nI can only speak for myself, I don\u0027t need it and even dislike it for the reason explained in the description.\n\n \u003e We have already hundreds of configuration options. Instead \n \u003e of adding another obscure option, why not to drop this \n \u003e check box?\n\n+1 I\u0027m in favour of dropping it completely. I didn\u0027t propose it because I thought that others use and like this feature. I\u0027ve now uploaded a change that removes it [1]. Let\u0027s see if anyone objects :)\n\n[1] https://gerrit-review.googlesource.com/58624",
+      "parentUuid": "9997385e_e26246e1",
+      "range": {
+        "startLine": 812,
+        "startChar": 16,
+        "endLine": 815,
+        "endChar": 56
+      },
+      "revId": "1abafe04569cd4395f91a8eafc640f1ec3b784cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -16,17 +16,29 @@ package com.google.gerrit.acceptance;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TempFileUtil {
-  public static File createTempDirectory() throws IOException {
+  private static List<File> allDirsCreated = new ArrayList<>();
+
+  public synchronized static File createTempDirectory() throws IOException {
     File tmp = File.createTempFile("gerrit_test_", "");
     if (!tmp.delete() || !tmp.mkdir()) {
       throw new IOException("Cannot create " + tmp.getPath());
     }
+    allDirsCreated.add(tmp);
     return tmp;
   }
 
-  public static void recursivelyDelete(File dir) throws IOException {
+  public static synchronized void cleanup() throws IOException {
+    for (File dir : allDirsCreated) {
+      recursivelyDelete(dir);
+    }
+    allDirsCreated.clear();
+  }
+
+  private static void recursivelyDelete(File dir) throws IOException {
     if (!dir.getPath().equals(dir.getCanonicalPath())) {
       // Directory symlink reaching outside of temporary space.
       return;

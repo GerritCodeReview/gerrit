@@ -36,7 +36,7 @@ public class ReindexIT {
   @After
   public void destroySite() throws Exception {
     if (sitePath != null) {
-      TempFileUtil.recursivelyDelete(sitePath);
+      TempFileUtil.cleanup();
     }
   }
 

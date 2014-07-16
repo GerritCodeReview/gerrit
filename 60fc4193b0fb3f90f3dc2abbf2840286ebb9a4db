@@ -69,6 +69,30 @@
       "revId": "60fc4193b0fb3f90f3dc2abbf2840286ebb9a4db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1976e812_66ab0ea5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/CustomIcons.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1016317
+      },
+      "writtenOn": "2014-07-16T13:54:05Z",
+      "side": 1,
+      "message": "Well this change is based almost entirely on a change worked on by Sven Selberg and David Pursehouse; this one: \nhttps://gerrit-review.googlesource.com/#/c/54860/\n\nI too think that the Icon class may be unnecessary, I want to get their thoughts on this.",
+      "parentUuid": "9997385e_a2aafe9e",
+      "range": {
+        "startLine": 33,
+        "startChar": 18,
+        "endLine": 33,
+        "endChar": 22
+      },
+      "revId": "60fc4193b0fb3f90f3dc2abbf2840286ebb9a4db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

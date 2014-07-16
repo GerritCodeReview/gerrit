@@ -721,6 +721,8 @@ public class ReceiveCommits {
         }
       } else if (replace.inputCommand.getResult() == NOT_ATTEMPTED) {
         reject(replace.inputCommand, "internal server error");
+        log.error(String.format("Replacement for project %s was not attempted",
+            project.getName()));
       }
     }
 
@@ -1719,14 +1721,18 @@ public class ReceiveCommits {
         }
       }
     } catch (OrmException err) {
-      log.error("Cannot read database before replacement", err);
+      log.error(String.format(
+          "Cannot read database before replacement for project %s",
+          project.getName()), err);
       for (ReplaceRequest req : replaceByChange.values()) {
         if (req.inputCommand.getResult() == NOT_ATTEMPTED) {
           req.inputCommand.setResult(REJECTED_OTHER_REASON, "internal server error");
         }
       }
     } catch (IOException err) {
-      log.error("Cannot read repository before replacement", err);
+      log.error(String.format(
+          "Cannot read repository before replacement for project %s",
+          project.getName()), err);
       for (ReplaceRequest req : replaceByChange.values()) {
         if (req.inputCommand.getResult() == NOT_ATTEMPTED) {
           req.inputCommand.setResult(REJECTED_OTHER_REASON, "internal server error");

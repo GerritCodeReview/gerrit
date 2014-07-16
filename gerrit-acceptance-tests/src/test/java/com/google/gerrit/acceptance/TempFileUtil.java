@@ -24,6 +24,7 @@ public class TempFileUtil {
 
   public synchronized static File createTempDirectory() throws IOException {
     File tmp = File.createTempFile("gerrit_test_", "");
+    tmp = tmp.getCanonicalFile();
     if (!tmp.delete() || !tmp.mkdir()) {
       throw new IOException("Cannot create " + tmp.getPath());
     }

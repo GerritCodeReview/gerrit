@@ -1,0 +1,274 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9997385e_82725aaf",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 1357,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-16T12:51:46Z",
+      "side": 1,
+      "message": "\u0027emailing_options_strategy\u0027 is really a bad name, can we just name it \u0027email\u0027 or \u0027email_notifications\u0027?\n\nAlso the values should be simplyfied: \u0027ENABLED\u0027, \u0027DISABLED\u0027 and \u0027CC_ON_OWN_COMMENTS\u0027.",
+      "range": {
+        "startLine": 1355,
+        "startChar": 0,
+        "endLine": 1357,
+        "endChar": 107
+      },
+      "revId": "3c4453ac4c29914f44719c66c4fac8b433684616",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1976e812_e668debd",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 1407,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-16T12:51:46Z",
+      "side": 1,
+      "message": "same as above",
+      "range": {
+        "startLine": 1405,
+        "startChar": 0,
+        "endLine": 1407,
+        "endChar": 108
+      },
+      "revId": "3c4453ac4c29914f44719c66c4fac8b433684616",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1976e812_8671eaad",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/AccountConstants.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-16T12:51:46Z",
+      "side": 1,
+      "message": "Maybe just \u0027emailFieldLabel\u0027?",
+      "range": {
+        "startLine": 36,
+        "startChar": 9,
+        "endLine": 36,
+        "endChar": 34
+      },
+      "revId": "3c4453ac4c29914f44719c66c4fac8b433684616",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9997385e_626f56c7",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/AccountConstants.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-16T12:51:46Z",
+      "side": 1,
+      "message": "Maybe just \u0027messageEnabled\u0027?",
+      "range": {
+        "startLine": 166,
+        "startChar": 9,
+        "endLine": 166,
+        "endChar": 40
+      },
+      "revId": "3c4453ac4c29914f44719c66c4fac8b433684616",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9997385e_426c52d0",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/AccountConstants.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-16T12:51:46Z",
+      "side": 1,
+      "message": "Maybe just \u0027messageDisabled\u0027?",
+      "range": {
+        "startLine": 168,
+        "startChar": 9,
+        "endLine": 168,
+        "endChar": 41
+      },
+      "revId": "3c4453ac4c29914f44719c66c4fac8b433684616",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1976e812_a66ee6c8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/AccountConstants.properties",
+        "patchSetId": 7
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-16T12:51:46Z",
+      "side": 1,
+      "message": "I would prefer \u0027Email\u0027 or \u0027Email Notifications\u0027.",
+      "range": {
+        "startLine": 19,
+        "startChar": 28,
+        "endLine": 19,
+        "endChar": 44
+      },
+      "revId": "3c4453ac4c29914f44719c66c4fac8b433684616",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1976e812_c66be2b7",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/AccountConstants.properties",
+        "patchSetId": 7
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-16T12:51:46Z",
+      "side": 1,
+      "message": "Enabled",
+      "range": {
+        "startLine": 20,
+        "startChar": 34,
+        "endLine": 20,
+        "endChar": 60
+      },
+      "revId": "3c4453ac4c29914f44719c66c4fac8b433684616",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9997385e_22694ec0",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/AccountConstants.properties",
+        "patchSetId": 7
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-16T12:51:46Z",
+      "side": 1,
+      "message": "Disabled",
+      "range": {
+        "startLine": 22,
+        "startChar": 35,
+        "endLine": 22,
+        "endChar": 62
+      },
+      "revId": "3c4453ac4c29914f44719c66c4fac8b433684616",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9997385e_c2ce2299",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-16T12:51:46Z",
+      "side": 1,
+      "message": "You don\u0027t do this below, is it not needed if a user disabled the email notifications completely?",
+      "range": {
+        "startLine": 116,
+        "startChar": 10,
+        "endLine": 120,
+        "endChar": 11
+      },
+      "revId": "3c4453ac4c29914f44719c66c4fac8b433684616",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9997385e_02c52a75",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-16T12:51:46Z",
+      "side": 1,
+      "message": "Just do:\n  for (Account.Id id : rcptTo) {",
+      "range": {
+        "startLine": 124,
+        "startChar": 8,
+        "endLine": 125,
+        "endChar": 35
+      },
+      "revId": "3c4453ac4c29914f44719c66c4fac8b433684616",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1976e812_06c5fa75",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-16T12:51:46Z",
+      "side": 1,
+      "message": "wrap this line",
+      "revId": "3c4453ac4c29914f44719c66c4fac8b433684616",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1976e812_26caf686",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-16T12:51:46Z",
+      "side": 1,
+      "message": "This code is the same as above from line 110 to 115. Factor it out into a method.",
+      "range": {
+        "startLine": 128,
+        "startChar": 12,
+        "endLine": 134,
+        "endChar": 13
+      },
+      "revId": "3c4453ac4c29914f44719c66c4fac8b433684616",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

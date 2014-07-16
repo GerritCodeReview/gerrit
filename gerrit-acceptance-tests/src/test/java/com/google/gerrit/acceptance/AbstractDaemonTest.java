@@ -146,6 +146,7 @@ public abstract class AbstractDaemonTest {
     db.close();
     sshSession.close();
     server.stop();
+    TempFileUtil.cleanup();
   }
 
   protected PushOneCommit.Result createChange() throws GitAPIException,

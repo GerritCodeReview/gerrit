@@ -209,9 +209,6 @@ public class GerritServer {
       daemonService.shutdownNow();
       daemonService.awaitTermination(Long.MAX_VALUE, TimeUnit.SECONDS);
     }
-    if (sitePath != null) {
-      TempFileUtil.recursivelyDelete(sitePath);
-    }
     RepositoryCache.clear();
   }
 }

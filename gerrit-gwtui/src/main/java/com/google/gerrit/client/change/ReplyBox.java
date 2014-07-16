@@ -99,7 +99,6 @@ class ReplyBox extends Composite {
   @UiField Element labelsParent;
   @UiField Grid labelsTable;
   @UiField Button post;
-  @UiField CheckBox email;
   @UiField Button cancel;
   @UiField ScrollPanel commentsPanel;
   @UiField FlowPanel comments;
@@ -185,15 +184,6 @@ class ReplyBox extends Composite {
           lgtm.run();
         }
       });
-    }
-  }
-
-  @UiHandler("email")
-  void onEmail(ValueChangeEvent<Boolean> e) {
-    if (e.getValue()) {
-      in.notify(ReviewInput.NotifyHandling.ALL);
-    } else {
-      in.notify(ReviewInput.NotifyHandling.NONE);
     }
   }
 

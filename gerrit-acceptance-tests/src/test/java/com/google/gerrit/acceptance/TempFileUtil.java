@@ -23,7 +23,7 @@ public class TempFileUtil {
   private static List<File> allDirsCreated = new ArrayList<>();
 
   public synchronized static File createTempDirectory() throws IOException {
-    File tmp = File.createTempFile("gerrit_test_", "");
+    File tmp = File.createTempFile("gerrit_test_", "").getCanonicalFile();
     if (!tmp.delete() || !tmp.mkdir()) {
       throw new IOException("Cannot create " + tmp.getPath());
     }

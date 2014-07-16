@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f989143b_2dff2dce",
+        "filename": "Documentation/intro-project-owner.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-16T06:37:10Z",
+      "side": 1,
+      "message": "of",
+      "range": {
+        "startLine": 403,
+        "startChar": 33,
+        "endLine": 403,
+        "endChar": 35
+      },
+      "revId": "85e483a5995bc268ce1027d9e0807f67e6142467",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9999f885_920d9c5d",
+        "filename": "Documentation/intro-project-owner.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-16T06:37:10Z",
+      "side": 1,
+      "message": "\"cause the push to fail\"",
+      "range": {
+        "startLine": 406,
+        "startChar": 47,
+        "endLine": 406,
+        "endChar": 64
+      },
+      "revId": "85e483a5995bc268ce1027d9e0807f67e6142467",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9999f885_b20aa040",
+        "filename": "Documentation/intro-project-owner.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 415,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-16T06:37:10Z",
+      "side": 1,
+      "message": "Redundant?",
+      "range": {
+        "startLine": 415,
+        "startChar": 0,
+        "endLine": 415,
+        "endChar": 69
+      },
+      "revId": "85e483a5995bc268ce1027d9e0807f67e6142467",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9999f885_d2072437",
+        "filename": "Documentation/intro-project-owner.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-16T06:37:10Z",
+      "side": 1,
+      "message": "Mention that this is a core plugin?",
+      "revId": "85e483a5995bc268ce1027d9e0807f67e6142467",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

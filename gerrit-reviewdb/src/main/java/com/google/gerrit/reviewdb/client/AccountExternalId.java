@@ -36,6 +36,9 @@ public final class AccountExternalId {
   /** Scheme for the username used to authenticate an account, e.g. over SSH. */
   public static final String SCHEME_USERNAME = "username:";
 
+  /** Scheme for external identity token used during authentication, e.g. GitHub OAuth 2.0 Token */
+  public static final String SCHEME_EXTERNAL = "external:";
+
   public static class Key extends StringKey<com.google.gwtorm.client.Key<?>> {
     private static final long serialVersionUID = 1L;
 

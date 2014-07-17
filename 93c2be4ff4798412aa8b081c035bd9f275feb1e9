@@ -46,6 +46,53 @@
       "revId": "93c2be4ff4798412aa8b081c035bd9f275feb1e9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9933b87e_c22f22a7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-17T08:41:38Z",
+      "side": 1,
+      "message": "It already does that.  See my other inline comment.",
+      "parentUuid": "991c98fc_fa2529c9",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 36
+      },
+      "revId": "93c2be4ff4798412aa8b081c035bd9f275feb1e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9933b87e_a22a1e98",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-17T08:41:38Z",
+      "side": 1,
+      "message": "Here",
+      "range": {
+        "startLine": 147,
+        "startChar": 6,
+        "endLine": 147,
+        "endChar": 25
+      },
+      "revId": "93c2be4ff4798412aa8b081c035bd9f275feb1e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

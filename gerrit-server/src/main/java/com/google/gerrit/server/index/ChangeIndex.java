@@ -39,23 +39,12 @@ public interface ChangeIndex {
   public void close();
 
   /**
-   * Insert a change document into the index.
-   * <p>
-   * Results may not be immediately visible to searchers, but should be visible
-   * within a reasonable amount of time.
-   *
-   * @param cd change document
-   *
-   * @throws IOException if the change could not be inserted.
-   */
-  public void insert(ChangeData cd) throws IOException;
-
-  /**
    * Update a change document in the index.
    * <p>
    * Semantically equivalent to deleting the document and reinserting it with
-   * new field values. Results may not be immediately visible to searchers, but
-   * should be visible within a reasonable amount of time.
+   * new field values. A document that does not already exist is created. Results
+   * may not be immediately visible to searchers, but should be visible within a
+   * reasonable amount of time.
    *
    * @param cd change document
    *

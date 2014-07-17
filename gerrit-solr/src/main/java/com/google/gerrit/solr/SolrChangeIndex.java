@@ -147,25 +147,6 @@ class SolrChangeIndex implements ChangeIndex, LifecycleListener {
   }
 
   @Override
-  public void insert(ChangeData cd) throws IOException {
-    String id = cd.getId().toString();
-    SolrInputDocument doc = toDocument(cd);
-    try {
-      if (cd.change().getStatus().isOpen()) {
-        closedIndex.deleteById(id);
-        openIndex.add(doc);
-      } else {
-        openIndex.deleteById(id);
-        closedIndex.add(doc);
-      }
-    } catch (OrmException | SolrServerException e) {
-      throw new IOException(e);
-    }
-    commit(openIndex);
-    commit(closedIndex);
-  }
-
-  @Override
   public void replace(ChangeData cd) throws IOException {
     String id = cd.getId().toString();
     SolrInputDocument doc = toDocument(cd);

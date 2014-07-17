@@ -281,26 +281,6 @@ public class LuceneChangeIndex implements ChangeIndex {
 
   @SuppressWarnings("unchecked")
   @Override
-  public void insert(ChangeData cd) throws IOException {
-    Term id = QueryBuilder.idTerm(cd);
-    Document doc = toDocument(cd);
-    try {
-      if (cd.change().getStatus().isOpen()) {
-        Futures.allAsList(
-            closedIndex.delete(id),
-            openIndex.insert(doc)).get();
-      } else {
-        Futures.allAsList(
-            openIndex.delete(id),
-            closedIndex.insert(doc)).get();
-      }
-    } catch (OrmException | ExecutionException | InterruptedException e) {
-      throw new IOException(e);
-    }
-  }
-
-  @SuppressWarnings("unchecked")
-  @Override
   public void replace(ChangeData cd) throws IOException {
     Term id = QueryBuilder.idTerm(cd);
     Document doc = toDocument(cd);

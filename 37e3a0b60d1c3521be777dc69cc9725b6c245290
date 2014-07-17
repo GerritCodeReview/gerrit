@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9933b87e_4205522d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/TempFileUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-17T07:59:54Z",
+      "side": 1,
+      "message": "nit: can be added to the previous line:\n\n File tmp \u003d File.createTempFile(\"gerrit_test_\", \"\")\n     .getCanonicalFile();",
+      "range": {
+        "startLine": 27,
+        "startChar": 4,
+        "endLine": 27,
+        "endChar": 33
+      },
+      "revId": "37e3a0b60d1c3521be777dc69cc9725b6c245290",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

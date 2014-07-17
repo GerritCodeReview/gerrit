@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.common.collect.Lists;
 import com.google.gerrit.audit.AuditService;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.AccessSection;
@@ -29,6 +30,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.ResultSet;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -37,6 +39,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /** Tracks authentication related details for user accounts. */
@@ -357,6 +360,50 @@ public class AccountManager {
     } finally {
       db.close();
     }
+  }
+
+  /**
+   * Update the link to another unique authentication identity to an existing account.
+   *
+   * Existing external identities with the same scheme will be removed and replaced
+   * with the new one.
+   *
+   * @param to account to link the identity onto.
+   * @param who the additional identity.
+   * @return the result of linking the identity to the user.
+   * @throws OrmException
+   * @throws AccountException the identity belongs to a different account, or it
+   *         cannot be linked at this time.
+   */
+  public AuthResult updateLink(Account.Id to, AuthRequest who) throws OrmException,
+      AccountException {
+    ReviewDb db = schema.open();
+    try {
+      AccountExternalId.Key key = id(who);
+      List<AccountExternalId.Key> filteredKeysByScheme =
+          filterKeysByScheme(key.getScheme(), db.accountExternalIds()
+              .byAccount(to));
+      if (!filteredKeysByScheme.isEmpty()
+          && (filteredKeysByScheme.size() > 1 || !filteredKeysByScheme
+              .contains(key))) {
+        db.accountExternalIds().deleteKeys(filteredKeysByScheme);
+      }
+      byIdCache.evict(to);
+      return link(to, who);
+    } finally {
+      db.close();
+    }
+  }
+
+  private List<AccountExternalId.Key> filterKeysByScheme(
+      String keyScheme, ResultSet<AccountExternalId> externalIds) {
+    List<AccountExternalId.Key> filteredExternalIds = Lists.newArrayList();
+    for (AccountExternalId accountExternalId : externalIds) {
+      if (accountExternalId.isScheme(keyScheme)) {
+        filteredExternalIds.add(accountExternalId.getKey());
+      }
+    }
+    return filteredExternalIds;
   }
 
   /**

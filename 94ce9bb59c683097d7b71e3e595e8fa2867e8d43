@@ -1,0 +1,199 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f9fe74bb_6515265b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-07-17T17:39:39Z",
+      "side": 1,
+      "message": "I don\u0027t think users will have drafts on enough changes to make it worthwhile sharding the change id portion of this.\n\n  refs/users/34/1234/comments-5678\n\nshould be sufficient. Shard on the user, and within the user allow them to have a handful of changes with drafts on them outstanding at once. IIRC most users have drafts on only 5-10 changes. On the local filesystem we can safely store about 1000 refs per directory before sharding becomes worthwhile. 5-10 \u003c 1000 by a couple orders of magnitude.\n\nI also think we can safely put the draft information into a branch within the user\u0027s directory, without making a new subdirectory for the draft data. Again on a local filesystem this will work out better for the admin, we don\u0027t waste a directory.",
+      "range": {
+        "startLine": 11,
+        "startChar": 1,
+        "endLine": 11,
+        "endChar": 34
+      },
+      "revId": "94ce9bb59c683097d7b71e3e595e8fa2867e8d43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f9fe74bb_45122a75",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeDraftNotes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-07-17T17:39:39Z",
+      "side": 1,
+      "message": "DraftCommentNotes?\n\nI don\u0027t want to confuse the comment drafts with the existing draft patch set system, which probably has to die anyway to make notedb work. But lets not confuse them right now while they both exist.",
+      "range": {
+        "startLine": 50,
+        "startChar": 13,
+        "endLine": 50,
+        "endChar": 29
+      },
+      "revId": "94ce9bb59c683097d7b71e3e595e8fa2867e8d43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9933b87e_221fee7c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeDraftNotesUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-07-17T17:39:39Z",
+      "side": 1,
+      "message": "This method belongs in RefNames.",
+      "revId": "94ce9bb59c683097d7b71e3e595e8fa2867e8d43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f9fe74bb_251f2e7d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeDraftNotesUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-07-17T17:39:39Z",
+      "side": 1,
+      "message": "Use RefNames.refsUsers for the account sharding.",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 39
+      },
+      "revId": "94ce9bb59c683097d7b71e3e595e8fa2867e8d43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39900c99_cfd2dd70",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-07-17T17:39:39Z",
+      "side": 1,
+      "message": "space between of and this in the string.",
+      "range": {
+        "startLine": 143,
+        "startChar": 72,
+        "endLine": 144,
+        "endChar": 15
+      },
+      "revId": "94ce9bb59c683097d7b71e3e595e8fa2867e8d43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39900c99_efd7a15d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-07-17T17:39:39Z",
+      "side": 1,
+      "message": "space",
+      "range": {
+        "startLine": 213,
+        "startChar": 70,
+        "endLine": 214,
+        "endChar": 15
+      },
+      "revId": "94ce9bb59c683097d7b71e3e595e8fa2867e8d43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39900c99_8fdcd583",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-07-17T17:39:39Z",
+      "side": 1,
+      "message": "If the tree is empty (all comments were deleted), the ref should be deleted too.",
+      "revId": "94ce9bb59c683097d7b71e3e595e8fa2867e8d43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9933b87e_024d0a85",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-07-17T17:39:39Z",
+      "side": 1,
+      "message": "\"Comment on patch set N\"",
+      "range": {
+        "startLine": 269,
+        "startChar": 16,
+        "endLine": 269,
+        "endChar": 32
+      },
+      "revId": "94ce9bb59c683097d7b71e3e595e8fa2867e8d43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9933b87e_e247c664",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-07-17T17:39:39Z",
+      "side": 1,
+      "message": "Overkill. The comments of the user we edited for is implied by the branch its on.",
+      "range": {
+        "startLine": 272,
+        "startChar": 4,
+        "endLine": 273,
+        "endChar": 32
+      },
+      "revId": "94ce9bb59c683097d7b71e3e595e8fa2867e8d43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

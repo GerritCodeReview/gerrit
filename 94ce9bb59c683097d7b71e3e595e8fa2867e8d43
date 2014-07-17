@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b97b1c36_cbd2d570",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-17T21:08:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f9fe74bb_6515265b",
+      "range": {
+        "startLine": 11,
+        "startChar": 1,
+        "endLine": 11,
+        "endChar": 34
+      },
+      "revId": "94ce9bb59c683097d7b71e3e595e8fa2867e8d43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f9fe74bb_45122a75",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeDraftNotes.java",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2014-07-17T17:39:39Z",
       "side": 1,
       "message": "DraftCommentNotes?\n\nI don\u0027t want to confuse the comment drafts with the existing draft patch set system, which probably has to die anyway to make notedb work. But lets not confuse them right now while they both exist.",
+      "range": {
+        "startLine": 50,
+        "startChar": 13,
+        "endLine": 50,
+        "endChar": 29
+      },
+      "revId": "94ce9bb59c683097d7b71e3e595e8fa2867e8d43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9981f84e_92dcfc83",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeDraftNotes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-17T21:08:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f9fe74bb_45122a75",
       "range": {
         "startLine": 50,
         "startChar": 13,
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "b926bc4d_f3feb0cf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeDraftNotesUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-17T21:08:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9933b87e_221fee7c",
+      "revId": "94ce9bb59c683097d7b71e3e595e8fa2867e8d43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f9fe74bb_251f2e7d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeDraftNotesUtil.java",
         "patchSetId": 2
@@ -76,6 +142,30 @@
       "writtenOn": "2014-07-17T17:39:39Z",
       "side": 1,
       "message": "Use RefNames.refsUsers for the account sharding.",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 39
+      },
+      "revId": "94ce9bb59c683097d7b71e3e595e8fa2867e8d43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9981f84e_b2e10035",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeDraftNotesUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-17T21:08:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f9fe74bb_251f2e7d",
       "range": {
         "startLine": 38,
         "startChar": 0,
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "9981f84e_52e77446",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-17T21:08:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39900c99_cfd2dd70",
+      "range": {
+        "startLine": 143,
+        "startChar": 72,
+        "endLine": 144,
+        "endChar": 15
+      },
+      "revId": "94ce9bb59c683097d7b71e3e595e8fa2867e8d43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "39900c99_efd7a15d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
         "patchSetId": 2
@@ -122,6 +236,30 @@
       "writtenOn": "2014-07-17T17:39:39Z",
       "side": 1,
       "message": "space",
+      "range": {
+        "startLine": 213,
+        "startChar": 70,
+        "endLine": 214,
+        "endChar": 15
+      },
+      "revId": "94ce9bb59c683097d7b71e3e595e8fa2867e8d43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b926bc4d_93f3bc06",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-17T21:08:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39900c99_efd7a15d",
       "range": {
         "startLine": 213,
         "startChar": 70,
@@ -151,6 +289,24 @@
     },
     {
       "key": {
+        "uuid": "b97b1c36_8bdccd83",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-17T21:08:16Z",
+      "side": 1,
+      "message": "Done. Couldn\u0027t find a way to pass the ObjectId as the variable and set that in storeCommentsInNotes. Is there a better way to accomplish this? Maybe a global boolean that represents the same thing as removedAllComments does in this context?",
+      "parentUuid": "39900c99_8fdcd583",
+      "revId": "94ce9bb59c683097d7b71e3e595e8fa2867e8d43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9933b87e_024d0a85",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
         "patchSetId": 2
@@ -174,6 +330,30 @@
     },
     {
       "key": {
+        "uuid": "9981f84e_72e4f840",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-17T21:08:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9933b87e_024d0a85",
+      "range": {
+        "startLine": 269,
+        "startChar": 16,
+        "endLine": 269,
+        "endChar": 32
+      },
+      "revId": "94ce9bb59c683097d7b71e3e595e8fa2867e8d43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9933b87e_e247c664",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
         "patchSetId": 2
@@ -185,6 +365,30 @@
       "writtenOn": "2014-07-17T17:39:39Z",
       "side": 1,
       "message": "Overkill. The comments of the user we edited for is implied by the branch its on.",
+      "range": {
+        "startLine": 272,
+        "startChar": 4,
+        "endLine": 273,
+        "endChar": 32
+      },
+      "revId": "94ce9bb59c683097d7b71e3e595e8fa2867e8d43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b926bc4d_b3f838e3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-17T21:08:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9933b87e_e247c664",
       "range": {
         "startLine": 272,
         "startChar": 4,

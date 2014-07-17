@@ -68,11 +68,6 @@ class FakeIndex implements ChangeIndex {
   }
 
   @Override
-  public void insert(ChangeData cd) {
-    throw new UnsupportedOperationException();
-  }
-
-  @Override
   public void replace(ChangeData cd) {
     throw new UnsupportedOperationException();
   }

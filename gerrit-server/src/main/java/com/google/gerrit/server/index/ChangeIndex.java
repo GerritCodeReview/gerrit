@@ -48,7 +48,7 @@ public interface ChangeIndex {
    *
    * @throws IOException if the change could not be inserted.
    */
-  public void insert(ChangeData cd) throws IOException;
+  //public void insert(ChangeData cd) throws IOException;
 
   /**
    * Update a change document in the index.

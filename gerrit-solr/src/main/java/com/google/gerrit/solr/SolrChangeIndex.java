@@ -146,7 +146,7 @@ class SolrChangeIndex implements ChangeIndex, LifecycleListener {
     stop();
   }
 
-  @Override
+  /*@Override
   public void insert(ChangeData cd) throws IOException {
     String id = cd.getId().toString();
     SolrInputDocument doc = toDocument(cd);
@@ -163,7 +163,7 @@ class SolrChangeIndex implements ChangeIndex, LifecycleListener {
     }
     commit(openIndex);
     commit(closedIndex);
-  }
+  }*/
 
   @Override
   public void replace(ChangeData cd) throws IOException {

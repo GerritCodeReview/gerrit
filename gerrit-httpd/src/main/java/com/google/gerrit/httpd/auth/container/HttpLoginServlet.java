@@ -14,18 +14,22 @@
 
 package com.google.gerrit.httpd.auth.container;
 
+import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_EXTERNAL;
+
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.httpd.CanonicalWebUrl;
 import com.google.gerrit.httpd.HtmlDomUtil;
 import com.google.gerrit.httpd.LoginUrlToken;
 import com.google.gerrit.httpd.WebSession;
+import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gwtexpui.server.CacheHeaders;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -54,8 +58,8 @@ import javax.servlet.http.HttpServletResponse;
 @Singleton
 class HttpLoginServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
-  private static final Logger log =
-      LoggerFactory.getLogger(HttpLoginServlet.class);
+  private static final Logger log = LoggerFactory
+      .getLogger(HttpLoginServlet.class);
 
   private final DynamicItem<WebSession> webSession;
   private final CanonicalWebUrl urlProvider;
@@ -65,10 +69,8 @@ class HttpLoginServlet extends HttpServlet {
 
   @Inject
   HttpLoginServlet(final DynamicItem<WebSession> webSession,
-      final CanonicalWebUrl urlProvider,
-      final AccountManager accountManager,
-      final HttpAuthFilter authFilter,
-      final AuthConfig authConfig) {
+      final CanonicalWebUrl urlProvider, final AccountManager accountManager,
+      final HttpAuthFilter authFilter, final AuthConfig authConfig) {
     this.webSession = webSession;
     this.urlProvider = urlProvider;
     this.accountManager = accountManager;
@@ -122,6 +124,19 @@ class HttpLoginServlet extends HttpServlet {
       return;
     }
 
+    String remoteExternalId = authFilter.getRemoteExternalIdToken(req);
+    log.debug("Assocating external identity \"{}\" to user \"{}\"", user, remoteExternalId);
+    if (remoteExternalId != null) {
+      try {
+        updateRemoteExternalId(arsp, remoteExternalId);
+      } catch (AccountException | OrmException e) {
+        log.error("Unable to associated external identity \"" + remoteExternalId
+            + "\" to user \"" + user + "\"", e);
+        rsp.sendError(HttpServletResponse.SC_FORBIDDEN);
+        return;
+      }
+    }
+
     final StringBuilder rdr = new StringBuilder();
     if (arsp.isNew() && authConfig.getRegisterPageUrl() != null) {
       rdr.append(authConfig.getRegisterPageUrl());
@@ -135,6 +150,15 @@ class HttpLoginServlet extends HttpServlet {
 
     webSession.get().login(arsp, true /* persistent cookie */);
     rsp.sendRedirect(rdr.toString());
+  }
+
+  private void updateRemoteExternalId(AuthResult arsp, String remoteAuthToken)
+      throws AccountException, OrmException {
+    AccountExternalId remoteAuthExtId =
+        new AccountExternalId(arsp.getAccountId(), new AccountExternalId.Key(
+            SCHEME_EXTERNAL, remoteAuthToken));
+    accountManager.updateLink(arsp.getAccountId(),
+        new AuthRequest(remoteAuthExtId.getExternalId()));
   }
 
   private void replace(Document doc, String name, String value) {

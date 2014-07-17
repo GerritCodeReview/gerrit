@@ -63,6 +63,7 @@ class HttpAuthFilter implements Filter {
   private final String loginHeader;
   private final String displaynameHeader;
   private final String emailHeader;
+  private final String externalIdHeader;
 
   @Inject
   HttpAuthFilter(final DynamicItem<WebSession> webSession,
@@ -82,6 +83,7 @@ class HttpAuthFilter implements Filter {
         AUTHORIZATION);
     displaynameHeader = emptyToNull(authConfig.getHttpDisplaynameHeader());
     emailHeader = emptyToNull(authConfig.getHttpEmailHeader());
+    externalIdHeader = emptyToNull(authConfig.getHttpExternalIdHeader());
   }
 
   @Override
@@ -189,6 +191,14 @@ class HttpAuthFilter implements Filter {
   String getRemoteEmail(HttpServletRequest req) {
     if (emailHeader != null) {
       return emptyToNull(req.getHeader(emailHeader));
+    } else {
+      return null;
+    }
+  }
+
+  String getRemoteExternalIdToken(HttpServletRequest req) {
+    if(externalIdHeader != null) {
+      return emptyToNull(req.getHeader(externalIdHeader));
     } else {
       return null;
     }

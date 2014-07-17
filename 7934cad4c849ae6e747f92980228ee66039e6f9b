@@ -263,6 +263,24 @@
       "revId": "7934cad4c849ae6e747f92980228ee66039e6f9b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b926bc4d_d3d29470",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.ui.xml",
+        "patchSetId": 12
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-07-17T12:25:14Z",
+      "side": 1,
+      "message": "A separate block because we want to have a different margin-left:\n\n.webLinkPanel a:first-child {\n  margin-left:16px;\n}\n.webLinkPanel\u003ea {\n  margin-left:2px;\n}\n\nThe first child will have a 16px margin and all the others will have a 2px margin.",
+      "parentUuid": "f9fe74bb_25f16e02",
+      "revId": "7934cad4c849ae6e747f92980228ee66039e6f9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

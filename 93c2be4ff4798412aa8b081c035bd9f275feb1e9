@@ -22,6 +22,30 @@
       "revId": "93c2be4ff4798412aa8b081c035bd9f275feb1e9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "991c98fc_fa2529c9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-17T08:35:24Z",
+      "side": 1,
+      "message": "Make the text a tooltip in this case?",
+      "parentUuid": "991c98fc_7a0b5947",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 36
+      },
+      "revId": "93c2be4ff4798412aa8b081c035bd9f275feb1e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5916a0dd_18958579",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-07-17T13:07:35Z",
+      "side": 1,
+      "message": "Yes, this is not optimal and also not intuitive.\n\nMaybe an idea behind this checkbox was to avoid sending emails for trivial changes. Still, it should be your decision if you want to receive an email even for trivial changes... and not a decision of the author of the change... the author could only classify a change as trivial.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 28
+      },
+      "revId": "00aa3bfb977faf6e70f58a99bbba5ba4d77ab8c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "5916a0dd_f86211e1",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-17T16:06:46Z",
+      "side": 1,
+      "message": "Ok, I see.",
+      "parentUuid": "b926bc4d_53e76446",
+      "range": {
+        "startLine": 374,
+        "startChar": 4,
+        "endLine": 376,
+        "endChar": 40
+      },
+      "revId": "d5c228a531c1b21cc2f1ef9845a262af5102c90f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5916a0dd_b8e1f934",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/LoginUrlToken.java",
         "patchSetId": 6

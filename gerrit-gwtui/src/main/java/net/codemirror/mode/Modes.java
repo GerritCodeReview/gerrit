@@ -49,11 +49,13 @@ public interface Modes extends ClientBundle {
   @Source("properties/properties.js") @DoNotEmbed DataResource properties();
   @Source("python/python.js") @DoNotEmbed DataResource python();
   @Source("r/r.js") @DoNotEmbed DataResource r();
+  @Source("rst/rst.js") @DoNotEmbed DataResource rst();
   @Source("ruby/ruby.js") @DoNotEmbed DataResource ruby();
   @Source("scheme/scheme.js") @DoNotEmbed DataResource scheme();
   @Source("shell/shell.js") @DoNotEmbed DataResource shell();
   @Source("smalltalk/smalltalk.js") @DoNotEmbed DataResource smalltalk();
   @Source("sql/sql.js") @DoNotEmbed DataResource sql();
+  @Source("stex/stex.js") @DoNotEmbed DataResource stex();
   @Source("tcl/tcl.js") @DoNotEmbed DataResource tcl();
   @Source("velocity/velocity.js") @DoNotEmbed DataResource velocity();
   @Source("verilog/verilog.js") @DoNotEmbed DataResource verilog();

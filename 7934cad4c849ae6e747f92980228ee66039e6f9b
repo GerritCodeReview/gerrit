@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9933b87e_e2f906ea",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-17T05:04:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "04783d6e_36e53844",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 46
+      },
+      "revId": "7934cad4c849ae6e747f92980228ee66039e6f9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "04783d6e_56f2b40a",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.java",
         "patchSetId": 12
@@ -36,6 +60,30 @@
       "writtenOn": "2014-07-04T14:31:26Z",
       "side": 1,
       "message": "unused import",
+      "range": {
+        "startLine": 36,
+        "startChar": 1,
+        "endLine": 36,
+        "endChar": 50
+      },
+      "revId": "7934cad4c849ae6e747f92980228ee66039e6f9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9933b87e_02ff4acd",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-17T05:04:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "04783d6e_56f2b40a",
       "range": {
         "startLine": 36,
         "startChar": 1,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "f9fe74bb_65e76647",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-17T05:04:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "644e5958_f1e2e83d",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 38
+      },
+      "revId": "7934cad4c849ae6e747f92980228ee66039e6f9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "04783d6e_76efb021",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.java",
         "patchSetId": 12
@@ -82,6 +154,30 @@
       "writtenOn": "2014-07-04T14:31:26Z",
       "side": 1,
       "message": "unused import",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 44
+      },
+      "revId": "7934cad4c849ae6e747f92980228ee66039e6f9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f9fe74bb_45e46a40",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-17T05:04:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "04783d6e_76efb021",
       "range": {
         "startLine": 51,
         "startChar": 0,
@@ -146,6 +242,24 @@
       "side": 1,
       "message": "I forgot the \u0027.\u0027 in the code I gave you:\n\n  .webLinkPanel\u003ea {\n    margin-left:2px;\n  }",
       "parentUuid": "04783d6e_96fc4cdb",
+      "revId": "7934cad4c849ae6e747f92980228ee66039e6f9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f9fe74bb_25f16e02",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.ui.xml",
+        "patchSetId": 12
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-17T05:04:34Z",
+      "side": 1,
+      "message": "Did you mean to add this as a separate block, or modify the existing one?",
+      "parentUuid": "04783d6e_b601482a",
       "revId": "7934cad4c849ae6e747f92980228ee66039e6f9b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -21,7 +21,6 @@ def genantlr(
     name,
     srcs,
     out):
-  tmp = name + '.src.zip'
   genrule(
     name = name,
     srcs = srcs,

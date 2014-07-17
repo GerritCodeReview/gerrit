@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "991c98fc_5ae77546",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/CustomIcons.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-17T07:42:29Z",
+      "side": 1,
+      "message": "[optional]\n  Iterables.addAll(icons, customIcon.getIcons(project));",
+      "range": {
+        "startLine": 36,
+        "startChar": 6,
+        "endLine": 38,
+        "endChar": 7
+      },
+      "revId": "685600d4c1a64b14731bff098e4fb79199297d8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

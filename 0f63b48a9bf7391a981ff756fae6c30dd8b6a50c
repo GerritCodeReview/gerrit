@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "991c98fc_1a36ddfa",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1016317
+      },
+      "writtenOn": "2014-07-17T19:20:02Z",
+      "side": 1,
+      "message": "Method is called elsewhere other than loginRedirect, cannot assume input is already encoded.",
+      "revId": "0f63b48a9bf7391a981ff756fae6c30dd8b6a50c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

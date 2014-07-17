@@ -22,6 +22,30 @@
       "revId": "5cb0903941e6673c56879f9c71ac9dea8e347444",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5916a0dd_9880b53d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1015538
+      },
+      "writtenOn": "2014-07-17T10:43:06Z",
+      "side": 1,
+      "message": "The original design was for a visual advisory on the old change screen; as part of the updates for the new change screen I\u0027ll look into blocking submits - IIRC, the current change only affects the JSON output of what is considered a dependecy.",
+      "parentUuid": "5916a0dd_d8762db0",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 26
+      },
+      "revId": "5cb0903941e6673c56879f9c71ac9dea8e347444",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

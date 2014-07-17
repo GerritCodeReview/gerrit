@@ -46,6 +46,23 @@
       "revId": "5cb0903941e6673c56879f9c71ac9dea8e347444",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5916a0dd_3892c992",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-07-17T13:53:46Z",
+      "side": 1,
+      "message": "Not only the project but also the branch and change.\n\nIf the \"cross-project dependencies\" means that the submit is blocked if any of the \"Depends-On\" changes are not merged then, IMHO, the submit should also be blocked if a \"Depends-On\" change doesn\u0027t exist. It may be that the project or branch is deleted but it also may happen that I made a typo in the Depends-On line and referenced a non-existing branch. I don\u0027t want that, in such cases, this Depends-On line be ignored... so I have to either fix it or remove it.",
+      "revId": "5cb0903941e6673c56879f9c71ac9dea8e347444",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

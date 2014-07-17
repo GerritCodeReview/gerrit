@@ -36,6 +36,9 @@ public final class AccountExternalId {
   /** Scheme for the username used to authenticate an account, e.g. over SSH. */
   public static final String SCHEME_USERNAME = "username:";
 
+  /** Scheme for external identity token used during authentication, e.g. OAuth Token */
+  public static final String SCHEME_EXTERNAL = "external:";
+
   public static class Key extends StringKey<com.google.gwtorm.client.Key<?>> {
     private static final long serialVersionUID = 1L;
 
@@ -64,6 +67,11 @@ public final class AccountExternalId {
     @Override
     protected void set(String newValue) {
       externalId = newValue;
+    }
+
+    public String getScheme() {
+      int c = externalId.indexOf(':');
+      return 0 < c ? externalId.substring(0, c) : null;
     }
   }
 
@@ -126,9 +134,9 @@ public final class AccountExternalId {
   }
 
   public String getSchemeRest() {
-    String id = getExternalId();
-    int c = id.indexOf(':');
-    return 0 < c ? id.substring(c + 1) : null;
+    String scheme = key.getScheme();
+    return null != scheme ? getExternalId().substring(scheme.length() + 1)
+        : null;
   }
 
   public String getPassword() {

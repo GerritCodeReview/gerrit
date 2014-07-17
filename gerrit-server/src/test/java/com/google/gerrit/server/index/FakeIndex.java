@@ -67,10 +67,10 @@ class FakeIndex implements ChangeIndex {
     this.schema = schema;
   }
 
-  @Override
+  /*@Override
   public void insert(ChangeData cd) {
     throw new UnsupportedOperationException();
-  }
+  }*/
 
   @Override
   public void replace(ChangeData cd) {

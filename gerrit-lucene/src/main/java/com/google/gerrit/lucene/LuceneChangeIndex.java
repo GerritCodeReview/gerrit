@@ -279,7 +279,7 @@ public class LuceneChangeIndex implements ChangeIndex {
     return schema;
   }
 
-  @SuppressWarnings("unchecked")
+  /*@SuppressWarnings("unchecked")
   @Override
   public void insert(ChangeData cd) throws IOException {
     Term id = QueryBuilder.idTerm(cd);
@@ -297,7 +297,7 @@ public class LuceneChangeIndex implements ChangeIndex {
     } catch (OrmException | ExecutionException | InterruptedException e) {
       throw new IOException(e);
     }
-  }
+  }*/
 
   @SuppressWarnings("unchecked")
   @Override

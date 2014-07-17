@@ -273,6 +273,18 @@ If set, Gerrit trusts and enforces the user's e-mail using the HTTP header
 and disables the ability to manually modify or register other e-mails
 from the contact information page.
 
+[[auth.httpExternalIdHeader]]auth.httpExternalIdHeader::
++
+HTTP header to retrieve the user's external identification token.
+Only used if `auth.type` is set to `HTTP`.
++
+If set, Gerrit adds the value contained in the HTTP header to the
+user's identities. Typical use is with federated identities with
+an external system (e.g. GitHub OAuth 2.0 authentication) where
+the user's auth token exchanged during authentication handshake
+needs to be used for authenticated communication to the external
+system later on.
+
 [[auth.loginUrl]]auth.loginUrl::
 +
 URL to redirect a browser to after the end-user has clicked on the

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5916a0dd_d8762db0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-17T10:33:56Z",
+      "side": 1,
+      "message": "Can you elaborate on the desired behaviour when a cross-project repository was specified? What effect should it have?\n\nE.g. I would expect that my change is not submittable if it depends on a change in another project that is not merged yet. Is this the case?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 26
+      },
+      "revId": "5cb0903941e6673c56879f9c71ac9dea8e347444",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

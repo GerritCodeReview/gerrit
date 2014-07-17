@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5916a0dd_f84c518b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ServerPluginProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-17T09:59:34Z",
+      "side": 1,
+      "message": "Rename this class to PluginProvider?",
+      "range": {
+        "startLine": 35,
+        "startChar": 17,
+        "endLine": 35,
+        "endChar": 37
+      },
+      "revId": "56425cf64651e19652b1c576281d68ddf8fbcdb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5916a0dd_d8470d65",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ServerPluginProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-17T09:59:34Z",
+      "side": 1,
+      "message": "Server or Client plugin, or just Plugin.",
+      "range": {
+        "startLine": 81,
+        "startChar": 48,
+        "endLine": 81,
+        "endChar": 54
+      },
+      "revId": "56425cf64651e19652b1c576281d68ddf8fbcdb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5916a0dd_98419552",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/UniversalServerPluginProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-17T09:59:34Z",
+      "side": 1,
+      "message": "Rename this class to UniversalPluginProvider?",
+      "range": {
+        "startLine": 30,
+        "startChar": 6,
+        "endLine": 30,
+        "endChar": 35
+      },
+      "revId": "56425cf64651e19652b1c576281d68ddf8fbcdb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

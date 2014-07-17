@@ -38,6 +38,7 @@ public class AuthConfig {
   private final String httpHeader;
   private final String httpDisplaynameHeader;
   private final String httpEmailHeader;
+  private final String httpExternalIdHeader;
   private final String registerPageUrl;
   private final boolean trustContainerAuth;
   private final boolean enableRunAs;
@@ -61,6 +62,7 @@ public class AuthConfig {
     httpHeader = cfg.getString("auth", null, "httpheader");
     httpDisplaynameHeader = cfg.getString("auth", null, "httpdisplaynameheader");
     httpEmailHeader = cfg.getString("auth", null, "httpemailheader");
+    httpExternalIdHeader = cfg.getString("auth", null, "httpexternalidheader");
     loginUrl = cfg.getString("auth", null, "loginurl");
     logoutUrl = cfg.getString("auth", null, "logouturl");
     registerPageUrl = cfg.getString("auth", null, "registerPageUrl");
@@ -129,6 +131,10 @@ public class AuthConfig {
 
   public String getHttpEmailHeader() {
     return httpEmailHeader;
+  }
+
+  public String getHttpExternalIdHeader() {
+    return httpExternalIdHeader;
   }
 
   public String getLoginUrl() {

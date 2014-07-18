@@ -24,6 +24,7 @@ import com.google.common.collect.Table;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
+import com.google.gerrit.reviewdb.client.PatchSet.Id;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -144,6 +145,13 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
   public Table<PatchSet.Id, String, PatchLineComment>
       getDraftPsComments() {
     return HashBasedTable.create(draftPsComments);
+  }
+
+  public boolean containsComment(PatchLineComment c) {
+    Table<PatchSet.Id, String, PatchLineComment> t =
+        (c.getSide() == (short) 0) ?
+            getDraftBaseComments() : getDraftPsComments();
+    return t.contains(getCommentPsId(c), c.getKey().get());
   }
 
   @Override

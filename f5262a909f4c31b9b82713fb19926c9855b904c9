@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "39900c99_cff97dea",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1595,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-18T03:54:57Z",
+      "side": 1,
+      "message": "This example is taken from a real change on gerrit-review, rather than trying to make a fake one.\n\nHowever I can change this if you don\u0027t want your name and email in the documentation.",
+      "range": {
+        "startLine": 1591,
+        "startChar": 10,
+        "endLine": 1595,
+        "endChar": 21
+      },
+      "revId": "f5262a909f4c31b9b82713fb19926c9855b904c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

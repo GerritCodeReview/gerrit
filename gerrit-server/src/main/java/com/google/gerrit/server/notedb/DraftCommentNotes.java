@@ -122,6 +122,10 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
     return noteMap;
   }
 
+  public Account.Id getAuthor() {
+    return author;
+  }
+
   /**
    * @return a defensive copy of the table containing all draft comments
    *    on this change with side == 0. The row key is the comment's PatchSet.Id,

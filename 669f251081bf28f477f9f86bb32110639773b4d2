@@ -22,6 +22,30 @@
       "revId": "669f251081bf28f477f9f86bb32110639773b4d2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39900c99_6f889162",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 2965,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-18T14:35:11Z",
+      "side": 1,
+      "message": "I don\u0027t know the answer either.  I think it should be OK to merge this as is, and add further detail later if necessary.",
+      "parentUuid": "990818db_bae831cc",
+      "range": {
+        "startLine": 2960,
+        "startChar": 0,
+        "endLine": 2965,
+        "endChar": 65
+      },
+      "revId": "669f251081bf28f477f9f86bb32110639773b4d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

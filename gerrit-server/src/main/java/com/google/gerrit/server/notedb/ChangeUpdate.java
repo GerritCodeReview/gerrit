@@ -36,6 +36,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.project.ChangeControl;
@@ -60,12 +61,14 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * A single delta to apply atomically to a change.
+ * A delta to apply to a change.
  * <p>
- * This delta becomes a single commit on the notes branch, so there are
- * limitations on the set of modifications that can be handled in a single
- * update. In particular, there is a single author and timestamp for each
- * update.
+ * This delta will become two unique commits: one in the AllUsers repo that will
+ * contain the draft comments on this change and one in the notes branch that
+ * will contain approvals, reviewers, change status, subject, submit records,
+ * the change message, and published comments. There are limitations on the set
+ * of modifications that can be handled in a single update. In particular, there
+ * is a single author and timestamp for each update.
  * <p>
  * This class is not thread-safe.
  */
@@ -89,6 +92,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private List<PatchLineComment> commentsForPs;
   private String changeMessage;
 
+  private final DraftCommentNotes.Factory draftNotesFactory;
+  private final AllUsersNameProvider allUsers;
+  private ChangeDraftUpdate draftUpdate;
+
   @AssistedInject
   private ChangeUpdate(
       @GerritPersonIdent PersonIdent serverIdent,
@@ -96,12 +103,15 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       NotesMigration migration,
       AccountCache accountCache,
       MetaDataUpdate.User updateFactory,
+      DraftCommentNotes.Factory draftNotesFactory,
+      AllUsersNameProvider allUsers,
       ProjectCache projectCache,
       IdentifiedUser user,
       @Assisted ChangeControl ctl,
       CommentsInNotesUtil commentsUtil) {
     this(serverIdent, repoManager, migration, accountCache, updateFactory,
-        projectCache, ctl, serverIdent.getWhen(), commentsUtil);
+        draftNotesFactory, allUsers, projectCache, ctl, serverIdent.getWhen(),
+        commentsUtil);
   }
 
   @AssistedInject
@@ -111,12 +121,14 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       NotesMigration migration,
       AccountCache accountCache,
       MetaDataUpdate.User updateFactory,
+      DraftCommentNotes.Factory draftNotesFactory,
+      AllUsersNameProvider allUsers,
       ProjectCache projectCache,
       @Assisted ChangeControl ctl,
       @Assisted Date when,
       CommentsInNotesUtil commentsUtil) {
-    this(serverIdent, repoManager, migration, accountCache, updateFactory, ctl,
-        when,
+    this(serverIdent, repoManager, migration, accountCache, updateFactory,
+        draftNotesFactory, allUsers, ctl, when,
         projectCache.get(getProjectName(ctl)).getLabelTypes().nameComparator(),
         commentsUtil);
   }
@@ -132,11 +144,15 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       NotesMigration migration,
       AccountCache accountCache,
       MetaDataUpdate.User updateFactory,
+      DraftCommentNotes.Factory draftNotesFactory,
+      AllUsersNameProvider allUsers,
       @Assisted ChangeControl ctl,
       @Assisted Date when,
       @Assisted Comparator<String> labelNameComparator,
       CommentsInNotesUtil commentsUtil) {
     super(migration, repoManager, updateFactory, ctl, serverIdent, when);
+    this.draftNotesFactory = draftNotesFactory;
+    this.allUsers = allUsers;
     this.accountCache = accountCache;
     this.commentsUtil = commentsUtil;
     this.approvals = Maps.newTreeMap(labelNameComparator);
@@ -185,6 +201,33 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       commentsForBase.add(comment);
     } else {
       commentsForPs.add(comment);
+    }
+  }
+
+  public void upsertDraftComment(PatchLineComment c) throws OrmException {
+    createDraftUpdateIfNull();
+    if (draftUpdate.psId == null) {
+      draftUpdate.setPatchSetId(getCommentPsId(c));
+    }
+    draftUpdate.upsertComment(c);
+  }
+
+  public void deleteDraftComment(PatchLineComment c) throws OrmException {
+    createDraftUpdateIfNull();
+    if (draftUpdate.psId == null) {
+      draftUpdate.setPatchSetId(getCommentPsId(c));
+    }
+    draftUpdate.deleteComment(c);
+  }
+
+  private void createDraftUpdateIfNull() throws OrmException {
+    if (draftUpdate == null) {
+      draftUpdate = new ChangeDraftUpdate(serverIdent, repoManager, migration,
+          updateFactory, getUser(), ctl, when, draftNotesFactory,
+          allUsers.get(), commentsUtil);
+      if (psId != null) {
+        draftUpdate.setPatchSetId(psId);
+      }
     }
   }
 
@@ -243,6 +286,9 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         }
       }
       batch.write(builder);
+      if (draftUpdate != null) {
+        draftUpdate.commit();
+      }
       RevCommit c = batch.commit();
       return c;
     } catch (OrmException e) {

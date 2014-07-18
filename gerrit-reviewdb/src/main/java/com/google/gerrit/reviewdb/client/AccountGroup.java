@@ -77,6 +77,23 @@ public final class AccountGroup {
       r.fromString(str);
       return r;
     }
+
+    @Override
+    public int hashCode() {
+      return uuid != null ? uuid.hashCode():0;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+      if (this == obj) return true;
+      if (!super.equals(obj)) return false;
+      if (getClass() != obj.getClass()) return false;
+      UUID other = (UUID) obj;
+      if (uuid == null) {
+        if (other.uuid != null) return false;
+      } else if (!uuid.equals(other.uuid)) return false;
+      return true;
+    }
   }
 
   /** @return true if the UUID is for a group managed within Gerrit. */

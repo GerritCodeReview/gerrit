@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "19f3481c_5e1c7585",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-18T08:32:34Z",
+      "side": 1,
+      "message": "Why?",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 48
+      },
+      "revId": "d57974f9abf3dcccff8be84cd6ea3fddd223f9e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "39900c99_cf209dbc",
         "filename": "ReleaseNotes/ReleaseNotes-2.9.txt",
         "patchSetId": 1

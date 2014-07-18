@@ -30,8 +30,56 @@ Schema Change
   java -jar gerrit.war reindex --recheck-mergeable -d site_path
 ----
 
-*WARNING* Support for query via the SQL index is removed. The usage of
+*WARNING:* Support for query via the SQL index is removed. The usage of
 a secondary index is now mandatory.
+
+*WARNING:* The new change screen only displays download commands if the
+`download-commands` core plugin or any other plugin providing download
+commands is installed. The `download-commands` plugin provides the
+standard download schemes and commands. It is packaged together with
+Gerrit and can be installed during the
+link:https://gerrit-review.googlesource.com/Documentation/pgm-init.html[
+site initialization]:
+
+- Batch init:
++
+By default the batch init does *not* install any core plugin. To
+install the `download-commands` plugin during batch init, specify the
+'--install-plugin download-commands' option:
++
+----
+  $ java -jar gerrit-2.9.war init -d site --batch --install-plugin download-commands
+----
+
+- Interactive init:
++
+There is a question whether the `download-commands` plugin should be
+installed. To install the plugin the question must be answered with `y`:
++
+----
+  Install plugin download-commands version v2.9 [y/N]? y
+----
+
+Pay attention that the 2.8 version of the `download-commands` plugin is
+*not* compatible with Gerrit 2.9 and must be upgraded:
+
+- Batch init:
++
+With the batch init it is *not* possible to upgrade core plugins.
+
+- Interactive init:
++
+The interactive init asks whether the plugin should be upgraded:
++
+----
+  Install plugin download-commands version v2.9 [y/N]? y
+  version v2.8.6.1 is already installed, overwrite it [y/N]? y
+----
+
+- Manual upgrade:
++
+The plugin can be upgraded manually by copying the new plugin jar into
+the site's `plugins` folder.
 
 *WARNING:* Upgrading to 2.9.x requires the server be first upgraded to 2.1.7 (or
 a later 2.1.x version), and then to 2.9.x.  If you are upgrading from 2.2.x.x or

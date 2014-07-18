@@ -49,8 +49,11 @@ import com.google.gerrit.reviewdb.client.PatchSet.Id;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetApproval.LabelId;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.util.LabelVote;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -134,15 +137,17 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   @Singleton
   public static class Factory {
     private final GitRepositoryManager repoManager;
+    private final AllUsersNameProvider allUsersProvider;
 
     @VisibleForTesting
     @Inject
-    public Factory(GitRepositoryManager repoManager) {
+    public Factory(GitRepositoryManager repoManager, AllUsersNameProvider allUsersProvider) {
       this.repoManager = repoManager;
+      this.allUsersProvider = allUsersProvider;
     }
 
     public ChangeNotes create(Change change) {
-      return new ChangeNotes(repoManager, change);
+      return new ChangeNotes(repoManager, allUsersProvider, change);
     }
   }
 
@@ -492,9 +497,15 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   private ImmutableListMultimap<PatchSet.Id, PatchLineComment> commentsForPS;
   NoteMap noteMap;
 
+  private final AllUsersName allUsersRepo;
+  private DraftCommentNotes draftCommentNotes;
+
+  @Inject
   @VisibleForTesting
-  public ChangeNotes(GitRepositoryManager repoManager, Change change) {
+  public ChangeNotes(GitRepositoryManager repoManager,
+      AllUsersNameProvider allUsersProvider, Change change) {
     super(repoManager, change);
+    this.allUsersRepo = allUsersProvider.get();
   }
 
   public ImmutableListMultimap<PatchSet.Id, PatchSetApproval> getApprovals() {
@@ -528,6 +539,25 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   public ImmutableListMultimap<PatchSet.Id, PatchLineComment>
       getPatchSetComments() {
     return commentsForPS;
+  }
+
+  /**
+   * Get the DraftCommentNotes for the given author.
+   * <p>
+   * If draft comments have already been loaded for this author, then they will
+   * not be reloaded. However, this method will load the comments if no draft
+   * comments have been loaded or if the caller would like the drafts for
+   * another author.
+   */
+  public DraftCommentNotes getDraftComments(Account.Id author)
+      throws OrmException {
+    if (draftCommentNotes == null ||
+        !author.equals(draftCommentNotes.getAuthor())) {
+      draftCommentNotes = new DraftCommentNotes(repoManager, allUsersRepo,
+          getChange(), author);
+      draftCommentNotes.load();
+    }
+    return draftCommentNotes;
   }
 
   /** @return the NoteMap */

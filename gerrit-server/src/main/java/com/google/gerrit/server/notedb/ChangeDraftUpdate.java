@@ -92,8 +92,8 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
     IdentifiedUser user = (IdentifiedUser) ctl.getCurrentUser();
     this.accountId = user.getAccountId();
     this.changeNotes = getChangeNotes().load();
-    this.draftNotes = draftNotesFactory.create(ctl.getChange(),
-        accountId).load();
+    this.draftNotes = draftNotesFactory.create(ctl.getChange().getId(),
+        user.getAccountId()).load();
 
     this.upsertComments = Lists.newArrayList();
     this.deleteComments = Lists.newArrayList();

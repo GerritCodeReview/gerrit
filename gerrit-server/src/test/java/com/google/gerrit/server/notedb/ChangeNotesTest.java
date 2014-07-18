@@ -1371,16 +1371,16 @@ public class ChangeNotesTest {
 
   private ChangeUpdate newUpdate(Change c, IdentifiedUser user)
       throws OrmException {
-    return TestChanges.newUpdate(injector, repoManager, c, user);
+    return TestChanges.newUpdate(injector, repoManager, c, allUsers, user);
   }
 
   private ChangeDraftUpdate newDraftUpdate(Change c, IdentifiedUser user)
       throws OrmException {
-    return TestChanges.newDraftUpdate(injector, repoManager, c, user);
+    return TestChanges.newDraftUpdate(injector, repoManager, c, allUsers, user);
   }
 
   private ChangeNotes newNotes(Change c) throws OrmException {
-    return new ChangeNotes(repoManager, c).load();
+    return new ChangeNotes(repoManager, allUsers, c).load();
   }
 
   private DraftCommentNotes newDraftNotes(Change c, IdentifiedUser user)

@@ -1385,7 +1385,7 @@ public class ChangeNotesTest {
 
   private DraftCommentNotes newDraftNotes(Change c, IdentifiedUser user)
       throws OrmException {
-    return new DraftCommentNotes(repoManager, allUsers.get(), c,
+    return new DraftCommentNotes(repoManager, allUsers.get(), c.getId(),
         user.getAccountId()).load();
   }
 

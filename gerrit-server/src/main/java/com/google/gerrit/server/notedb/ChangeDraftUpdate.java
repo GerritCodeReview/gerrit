@@ -117,19 +117,20 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
     upsertComments.add(c);
   }
 
-  /**
-   * This method deletes a PatchLineComment from the list of drafts. However,
-   * if the comment passed in did not previously exist as a comment, then this
-   * method is a no-op.
-   */
   public void deleteComment(PatchLineComment c) {
     verifyComment(c);
-    Table<PatchSet.Id, String, PatchLineComment> draftsForSide =
-        (c.getSide() == (short) 0)
-        ? draftNotes.getDraftBaseComments() :
-        draftNotes.getDraftPsComments();
-    boolean draftExisted = draftsForSide.containsColumn(c.getKey().get());
-    if (draftExisted) {
+    checkArgument(draftNotes.containsComment(c), "Cannot delete this comment "
+        + "because it didn't previously exist as a draft");
+    deleteComments.add(c);
+  }
+
+  /**
+   * Deletes a PatchLineComment from the list of drafts only if it existed
+   * previously as a draft. If it wasn't a draft previously, this is a no-op.
+   */
+  public void deleteCommentIfPresent(PatchLineComment c) {
+    if (draftNotes.containsComment(c)) {
+      verifyComment(c);
       deleteComments.add(c);
     }
   }

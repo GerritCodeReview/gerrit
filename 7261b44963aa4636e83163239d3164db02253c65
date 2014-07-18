@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "19f3481c_beabf9a6",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/Section.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-18T12:16:08Z",
+      "side": 1,
+      "message": "Do you really want \u0027descr\u0027 be inserted it this sentence? Shouldn\u0027t it be\n\n  !ui.yesno(false, descr)\n\n?",
+      "range": {
+        "startLine": 179,
+        "startChar": 43,
+        "endLine": 179,
+        "endChar": 72
+      },
+      "revId": "7261b44963aa4636e83163239d3164db02253c65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

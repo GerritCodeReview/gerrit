@@ -643,6 +643,14 @@ cache `"ldap_groups_byinclude"`::
 +
 Caches the hierarchical structure of LDAP groups.
 
+cache `"ldap_groups_byincluded"`::
++
+Caches a LDAP group's direct subgroups.
+
+cache `"ldap_users_byincluded"`::
++
+Caches a LDAP group's direct user members.
+
 cache `"ldap_usernames"`::
 +
 Caches a mapping of LDAP username to Gerrit account identity.  The
@@ -2204,6 +2212,16 @@ Default is `(uid=${username})` for RFC 2307 servers,
 and `(&(objectClass=user)(sAMAccountName=${username}))`
 for Active Directory.
 
+[[ldap.accountLoginName]]ldap.accountLoginName::
++
+_(Optional)_ Name of an attribute on the user account object which
+contains the value composing the user's external_id field in Gerrit
+after adding "gerrit:" ahead of it.
+
++
+Default is `uid` for RFC 2307 servers,
+and `sAMAccountName` for Active Directory.
+
 [[ldap.accountFullName]]ldap.accountFullName::
 +
 _(Optional)_ Name of an attribute on the user account object which
@@ -2328,6 +2346,54 @@ attribute values.  For example to create a Gerrit group name consisting of
 LDAP group name and group ID, use the pattern `${cn} (${gidNumber})`.
 +
 Default is `cn`.
+
+[[ldap.memberField]]ldap.memberField::
++
+_(Optional)_ Name of the attribute on the group object which contains
+the value of identify of its subgroup or account.
++
+Default is `memberUid` for RFC 2307, and `member` for Active Directory.
+
+[[ldap.<name>]]ldap.<name>::
++
+The <name> is 'userFilter' or'groupFilter'.
++
+_(Optional)_ key-value pairs of attribute name and value, with
+'userFilter' and 'groupFilter' Gerrit can identify a group's member
+as user or subgroup.
++
+Its support for LDAP filter is limited, the equivalet LDAP fiter of this
+config is:
+`(&(|(type1=val1)(type1=val2)...)(!(type1=val3))(!(type1=val4))...)(type2...))`.
++
+Sample:
+----
+[ldap "userFilter"]
+	objectClass = user
+    objectClass = person
+	objectClass = !computer
+----
+It equals to
+`(&(|(objectClass = user)(objectClass = person))(!(objectClass = computer)))`
++
+Note it is only for Active Directory which supports nested group.
+`objectCategory` is encouraged to use, but its value depents on
+concrete Active Directory server. RFC 2307 does not allow nested group
+and does not need this, therefor there is no Default 'userFilter' and
+'groupFilter' for RFC 2307. Default 'userFilter' for Active Directory is
+
+----
+[ldap "userFilter"]
+	objectClass = user
+	objectClass = !computer
+----
+It equals to `(&(objectClass=user)(!(objectClass=computer)))`
++
+Default 'groupFilter' for Active Directory is
+----
+[ldap "groupFilter"]
+	objectClass = group
+----
 
 [[ldap.localUsernameToLowerCase]]ldap.localUsernameToLowerCase::
 +

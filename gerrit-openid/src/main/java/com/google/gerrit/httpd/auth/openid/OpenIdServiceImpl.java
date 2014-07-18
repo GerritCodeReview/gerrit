@@ -19,6 +19,7 @@ import com.google.gerrit.common.auth.openid.OpenIdUrls;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.httpd.CanonicalWebUrl;
+import com.google.gerrit.httpd.ProxyProperties;
 import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.IdentifiedUser;
@@ -55,7 +56,6 @@ import org.openid4java.message.sreg.SRegMessage;
 import org.openid4java.message.sreg.SRegRequest;
 import org.openid4java.message.sreg.SRegResponse;
 import org.openid4java.util.HttpClientFactory;
-import org.openid4java.util.ProxyProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -108,29 +108,18 @@ class OpenIdServiceImpl {
       final Provider<IdentifiedUser> iu,
       CanonicalWebUrl up,
       @GerritServerConfig final Config config, final AuthConfig ac,
-      final AccountManager am) throws ConsumerException, MalformedURLException {
+      final AccountManager am,
+      ProxyProperties proxyProperties)
+          throws ConsumerException, MalformedURLException {
 
-    if (config.getString("http", null, "proxy") != null) {
-      final URL proxyUrl = new URL(config.getString("http", null, "proxy"));
-      String username = config.getString("http", null, "proxyUsername");
-      String password = config.getString("http", null, "proxyPassword");
-
-      final String userInfo = proxyUrl.getUserInfo();
-      if (userInfo != null) {
-        int c = userInfo.indexOf(':');
-        if (0 < c) {
-          username = userInfo.substring(0, c);
-          password = userInfo.substring(c + 1);
-        } else {
-          username = userInfo;
-        }
-      }
-
-      final ProxyProperties proxy = new ProxyProperties();
-      proxy.setProxyHostName(proxyUrl.getHost());
-      proxy.setProxyPort(proxyUrl.getPort());
-      proxy.setUserName(username);
-      proxy.setPassword(password);
+    if (proxyProperties.getProxyUrl() != null) {
+      final org.openid4java.util.ProxyProperties proxy =
+          new org.openid4java.util.ProxyProperties();
+      URL url = proxyProperties.getProxyUrl();
+      proxy.setProxyHostName(url.getHost());
+      proxy.setProxyPort(url.getPort());
+      proxy.setUserName(proxyProperties.getUsername());
+      proxy.setPassword(proxyProperties.getPassword());
       HttpClientFactory.setProxyProperties(proxy);
     }
 

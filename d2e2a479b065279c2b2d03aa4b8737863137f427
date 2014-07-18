@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "19f3481c_fe80e13d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.9.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-18T08:59:02Z",
+      "side": 1,
+      "message": "No, then it would be all in a single list.\n\nAs it is now there is one list for installion of the plugin and one list upgrade of the plugin.",
+      "parentUuid": "b97b1c36_2b05992e",
+      "revId": "d2e2a479b065279c2b2d03aa4b8737863137f427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b97b1c36_cb2095bc",
         "filename": "ReleaseNotes/ReleaseNotes-2.9.txt",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2014-07-18T08:54:25Z",
       "side": 1,
       "message": "`+` needed here",
+      "revId": "d2e2a479b065279c2b2d03aa4b8737863137f427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "990818db_ba7671ae",
+        "filename": "ReleaseNotes/ReleaseNotes-2.9.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-18T08:59:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b97b1c36_cb2095bc",
       "revId": "d2e2a479b065279c2b2d03aa4b8737863137f427",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

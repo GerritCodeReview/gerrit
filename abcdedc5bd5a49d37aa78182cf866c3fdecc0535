@@ -22,6 +22,30 @@
       "revId": "abcdedc5bd5a49d37aa78182cf866c3fdecc0535",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "990818db_7a9a1995",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-18T12:51:44Z",
+      "side": 1,
+      "message": "\u003e On second thought: we would never send something like this\n\nWhy not? I just *did* send this:\n  https://groups.google.com/d/msg/repo-discuss/B8x91Oe7Ezo/422Mnn3KBTQJ\n\nIt\u0027s just an example. Of course it must be adapted for every release. The old example was just bad, because all the links were outdated and it wasn\u0027t sufficient to simply update the versions numbers etc.",
+      "parentUuid": "990818db_1a9ddd8b",
+      "range": {
+        "startLine": 374,
+        "startChar": 0,
+        "endLine": 394,
+        "endChar": 5
+      },
+      "revId": "abcdedc5bd5a49d37aa78182cf866c3fdecc0535",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

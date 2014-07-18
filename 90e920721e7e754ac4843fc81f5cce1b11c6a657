@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "248aa19d_3fb507ba",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/GitHubLogin.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-18T06:49:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "84cb4d65_02bdcaee",
+      "range": {
+        "startLine": 87,
+        "startChar": 0,
+        "endLine": 91,
+        "endChar": 3
+      },
+      "revId": "90e920721e7e754ac4843fc81f5cce1b11c6a657",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "84cb4d65_22abaead",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/GitHubOAuthConfig.java",
         "patchSetId": 16
@@ -59,6 +83,30 @@
       "writtenOn": "2014-06-23T08:34:46Z",
       "side": 1,
       "message": "Are you then setting the defaults during the init phase?",
+      "range": {
+        "startLine": 58,
+        "startChar": 38,
+        "endLine": 59,
+        "endChar": 55
+      },
+      "revId": "90e920721e7e754ac4843fc81f5cce1b11c6a657",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "248aa19d_5fc2cb18",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/GitHubOAuthConfig.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-18T06:49:47Z",
+      "side": 1,
+      "message": "Yup.",
+      "parentUuid": "84cb4d65_22abaead",
       "range": {
         "startLine": 58,
         "startChar": 38,
@@ -140,6 +188,30 @@
     },
     {
       "key": {
+        "uuid": "19f3481c_bef939eb",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/PooledHttpClientProvider.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-18T06:49:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "64d01910_411c323d",
+      "range": {
+        "startLine": 32,
+        "startChar": 2,
+        "endLine": 34,
+        "endChar": 52
+      },
+      "revId": "90e920721e7e754ac4843fc81f5cce1b11c6a657",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "64d01910_61113624",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/PooledHttpClientProvider.java",
         "patchSetId": 16
@@ -163,6 +235,30 @@
     },
     {
       "key": {
+        "uuid": "19f3481c_9efefdce",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/PooledHttpClientProvider.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-18T06:49:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "64d01910_61113624",
+      "range": {
+        "startLine": 54,
+        "startChar": 15,
+        "endLine": 54,
+        "endChar": 32
+      },
+      "revId": "90e920721e7e754ac4843fc81f5cce1b11c6a657",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "84cb4d65_62a5b6d6",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitAuth.java",
         "patchSetId": 16
@@ -174,6 +270,30 @@
       "writtenOn": "2014-06-23T08:34:46Z",
       "side": 1,
       "message": "This must be in secure.config.",
+      "range": {
+        "startLine": 106,
+        "startChar": 8,
+        "endLine": 106,
+        "endChar": 60
+      },
+      "revId": "90e920721e7e754ac4843fc81f5cce1b11c6a657",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19f3481c_5eee3521",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitAuth.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-18T06:49:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "84cb4d65_62a5b6d6",
       "range": {
         "startLine": 106,
         "startChar": 8,

@@ -94,6 +94,30 @@
       "revId": "7261b44963aa4636e83163239d3164db02253c65",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19f3481c_de29a575",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/Section.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-18T13:09:22Z",
+      "side": 1,
+      "message": "Maybe \u0027key\u0027 is a good name as it fits to the method name.\n\nDone",
+      "parentUuid": "990818db_1a2cbd80",
+      "range": {
+        "startLine": 179,
+        "startChar": 43,
+        "endLine": 179,
+        "endChar": 72
+      },
+      "revId": "7261b44963aa4636e83163239d3164db02253c65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

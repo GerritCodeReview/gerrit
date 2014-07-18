@@ -37,10 +37,11 @@ a secondary index is now mandatory.
 `download-commands` core plugin or any other plugin providing download
 commands is installed. The `download-commands` plugin provides the
 standard download schemes and commands. It is packaged together with
-Gerrit and can be installed during the
+Gerrit and can be installed, or upgraded, during the
 link:https://gerrit-review.googlesource.com/Documentation/pgm-init.html[
 site initialization]:
 
+.Installing the plugin for the first time
 - Batch init:
 +
 By default the batch init does *not* install any core plugin. To
@@ -60,7 +61,8 @@ installed. To install the plugin the question must be answered with `y`:
   Install plugin download-commands version v2.9 [y/N]? y
 ----
 
-Pay attention that the 2.8 version of the `download-commands` plugin is
+.Upgrading the plugin
+Pay attention that the `download-commands` plugin from Gerrit 2.8 is
 *not* compatible with Gerrit 2.9 and must be upgraded:
 
 - Batch init:

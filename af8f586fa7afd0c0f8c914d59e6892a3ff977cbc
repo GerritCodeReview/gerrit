@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "19f3481c_7ef17101",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/PooledHttpClientProvider.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-18T06:27:39Z",
+      "side": 1,
+      "message": "Wrong indentation.",
+      "range": {
+        "startLine": 73,
+        "startChar": 6,
+        "endLine": 93,
+        "endChar": 29
+      },
+      "revId": "af8f586fa7afd0c0f8c914d59e6892a3ff977cbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

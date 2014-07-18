@@ -166,6 +166,30 @@
       "revId": "abcdedc5bd5a49d37aa78182cf866c3fdecc0535",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39900c99_8f80553d",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-18T14:02:50Z",
+      "side": 1,
+      "message": "OK, let\u0027s remove it.",
+      "parentUuid": "19f3481c_1e530df9",
+      "range": {
+        "startLine": 374,
+        "startChar": 0,
+        "endLine": 394,
+        "endChar": 5
+      },
+      "revId": "abcdedc5bd5a49d37aa78182cf866c3fdecc0535",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

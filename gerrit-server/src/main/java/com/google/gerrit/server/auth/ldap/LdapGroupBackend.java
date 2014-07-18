@@ -15,23 +15,33 @@
 package com.google.gerrit.server.auth.ldap;
 
 import static com.google.gerrit.server.account.GroupBackends.GROUP_REF_NAME_COMPARATOR;
+import static com.google.gerrit.server.account.GroupBackends.getComparator;
 import static com.google.gerrit.server.auth.ldap.Helper.LDAP_UUID;
 import static com.google.gerrit.server.auth.ldap.LdapModule.GROUP_CACHE;
 import static com.google.gerrit.server.auth.ldap.LdapModule.GROUP_EXIST_CACHE;
+import static com.google.gerrit.server.auth.ldap.LdapModule.USERNAME_CACHE;
 
+import com.google.common.base.Function;
+import com.google.common.base.Optional;
 import com.google.common.cache.LoadingCache;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.ParameterizedString;
+import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.AccountInfoCacheFactory;
 import com.google.gerrit.server.account.GroupBackend;
+import com.google.gerrit.server.account.GroupControl;
+import com.google.gerrit.server.account.GroupInfoCacheFactory;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.account.ListGroupMembership;
 import com.google.gerrit.server.auth.ldap.Helper.LdapSchema;
@@ -39,6 +49,7 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 
 import org.slf4j.Logger;
@@ -60,29 +71,42 @@ import javax.security.auth.login.LoginException;
 /**
  * Implementation of GroupBackend for the LDAP group system.
  */
+@Singleton
 public class LdapGroupBackend implements GroupBackend {
   private static final Logger log = LoggerFactory.getLogger(LdapGroupBackend.class);
 
-  private static final String LDAP_NAME = "ldap/";
+  public static final String LDAP_NAME = "ldap/";
 
   private final Helper helper;
   private final LoadingCache<String, Set<AccountGroup.UUID>> membershipCache;
+  private final LoadingCache<String, Optional<Account.Id>> usernameCache;
   private final LoadingCache<String, Boolean> existsCache;
   private final ProjectCache projectCache;
   private final Provider<CurrentUser> userProvider;
+  private final AccountInfoCacheFactory aic;
+  private final GroupInfoCacheFactory gic;
+  private final GroupControl.Factory groupControlFactory;
 
   @Inject
   LdapGroupBackend(
       Helper helper,
+      AccountInfoCacheFactory.Factory accountInfoCacheFactory,
+      GroupInfoCacheFactory.Factory groupInfoCacheFactory,
+      GroupControl.Factory groupControlFactory,
       @Named(GROUP_CACHE) LoadingCache<String, Set<AccountGroup.UUID>> membershipCache,
       @Named(GROUP_EXIST_CACHE) LoadingCache<String, Boolean> existsCache,
+      @Named(USERNAME_CACHE) final LoadingCache<String, Optional<Account.Id>> usernameCache,
       ProjectCache projectCache,
       Provider<CurrentUser> userProvider) {
     this.helper = helper;
     this.membershipCache = membershipCache;
+    this.usernameCache = usernameCache;
     this.projectCache = projectCache;
     this.existsCache = existsCache;
     this.userProvider = userProvider;
+    this.aic = accountInfoCacheFactory.create();
+    this.gic = groupInfoCacheFactory.create(this);
+    this.groupControlFactory = groupControlFactory;
   }
 
   private boolean isLdapUUID(AccountGroup.UUID uuid) {
@@ -124,7 +148,7 @@ public class LdapGroupBackend implements GroupBackend {
       return null;
     }
 
-    String groupDn = uuid.get().substring(LDAP_UUID.length());
+    String groupDn = getDn(uuid);
     CurrentUser user = userProvider.get();
     if (!(user.isIdentifiedUser())
         || !membershipsOf((IdentifiedUser) user).contains(uuid)) {
@@ -202,6 +226,109 @@ public class LdapGroupBackend implements GroupBackend {
     }
   }
 
+  @Override
+  public List<Account.Id> loadMembers(AccountGroup.UUID uuid, final boolean sort) {
+    try {
+      DirContext ctx = helper.open();
+      LdapSchema schema = helper.getSchema(ctx);
+      try {
+        groupControlFactory.validateFor(uuid);
+        Set<String> usernames = helper.usersOf(getDn(uuid), schema, ctx);
+        if (usernames == null || usernames.isEmpty()) {
+          return null;
+        }
+        Set<Account.Id> ids =
+            Sets.newHashSet(Iterables.transform(usernameCache.getAll(usernames)
+                .values(), new Function<Optional<Account.Id>, Account.Id>() {
+              @Override
+              public Account.Id apply(Optional<Account.Id> input) {
+                if (input != null) {
+                  Account.Id id = input.orNull();
+                  if (sort) {
+                    aic.want(id);
+                  }
+                  return id;
+                }
+                return null;
+              }
+            }));
+        ids.remove(null);
+        if (ids.isEmpty()) {
+          return null;
+        }
+        List<Account.Id> r = Lists.newArrayList(ids);
+        if (sort) {
+          Collections.sort(r, getComparator(aic));
+        }
+        return r;
+      } catch (NoSuchGroupException e) {
+        log.warn(String.format("Cannot lookup members of %s", uuid), e);
+        return null;
+      } catch (ExecutionException e) {
+        log.warn("Cannot lookup account in LDAP", e);
+        return null;
+      } finally {
+        try {
+          ctx.close();
+        } catch (NamingException e) {
+          log.warn("Cannot close LDAP query handle", e);
+        }
+      }
+    } catch (LoginException | NamingException e) {
+      log.warn("Cannot open LDAP query handle", e);
+      return null;
+    }
+  }
+
+  @Override
+  public List<AccountGroup.UUID> loadIncludes(AccountGroup.UUID uuid,
+      NameKey project, final boolean sort) {
+    try {
+      DirContext ctx = helper.open();
+      LdapSchema schema = helper.getSchema(ctx);
+      try {
+        groupControlFactory.validateFor(uuid);
+        Set<String> subgDNs = helper.subgroupOf(getDn(uuid), schema, ctx);
+        if (subgDNs == null || subgDNs.isEmpty()) {
+          return null;
+        }
+        List<AccountGroup.UUID> r =
+            Lists.transform(Lists.newArrayList(subgDNs),
+                new Function<String, AccountGroup.UUID>() {
+                  @Override
+                  public AccountGroup.UUID apply(String input) {
+                    AccountGroup.UUID id =
+                        new AccountGroup.UUID(LDAP_UUID + input);
+                    if (sort) {
+                      gic.want(id);
+                    }
+                    return id;
+                  }
+                });
+        r.remove(null);
+        if (r.isEmpty()) {
+          return null;
+        }
+        if (sort) {
+          Collections.sort(r, getComparator(gic));
+        }
+        return r;
+      } catch (NoSuchGroupException e) {
+        log.warn(String.format("Cannot lookup members of %s", uuid), e);
+        return null;
+      } finally {
+        try {
+          ctx.close();
+        } catch (NamingException e) {
+          log.warn("Cannot close LDAP query handle", e);
+        }
+      }
+    } catch (LoginException | NamingException e) {
+      log.warn("Cannot open LDAP query handle", e);
+      return null;
+    }
+  }
+
   private static String findId(final Collection<AccountExternalId> ids) {
     for (final AccountExternalId i : ids) {
       if (i.isScheme(AccountExternalId.SCHEME_GERRIT)) {
@@ -210,7 +337,6 @@ public class LdapGroupBackend implements GroupBackend {
     }
     return null;
   }
-
 
   private Set<GroupReference> suggestLdap(String groupName) {
     if (groupName.isEmpty()) {
@@ -241,16 +367,7 @@ public class LdapGroupBackend implements GroupBackend {
     return out;
   }
 
-  @Override
-  public List<Account.Id> loadMembers(AccountGroup.UUID uuid, boolean sort) {
-    // TODO (Bruce) in next changes of this topic.
-    return null;
-  }
-
-  @Override
-  public List<AccountGroup.UUID> loadIncludes(AccountGroup.UUID uuid,
-      NameKey project, boolean sort) {
-    // TODO (Bruce) in next changes of this topic.
-    return null;
+  private String getDn(AccountGroup.UUID uuid) {
+    return uuid.get().substring(LDAP_UUID.length());
   }
 }

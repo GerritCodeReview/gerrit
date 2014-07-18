@@ -34,7 +34,8 @@ public class LdapModule extends CacheModule {
   static final String GROUP_CACHE = "ldap_groups";
   static final String GROUP_EXIST_CACHE = "ldap_group_existence";
   static final String GROUPS_BYINCLUDE_CACHE = "ldap_groups_byinclude";
-
+  static final String GROUPS_BYINCLUDED_CACHE = "ldap_groups_byincluded";
+  static final String USERS_BYINCLUDED_CACHE = "ldap_users_byincluded";
 
   @Override
   protected void configure() {
@@ -56,6 +57,16 @@ public class LdapModule extends CacheModule {
       .loader(LdapRealm.ExistenceLoader.class);
 
     cache(GROUPS_BYINCLUDE_CACHE,
+        String.class,
+        new TypeLiteral<ImmutableSet<String>>() {})
+      .expireAfterWrite(1, HOURS);
+
+    cache(USERS_BYINCLUDED_CACHE,
+        String.class,
+        new TypeLiteral<ImmutableSet<String>>() {})
+      .expireAfterWrite(1, HOURS);
+
+    cache(GROUPS_BYINCLUDED_CACHE,
         String.class,
         new TypeLiteral<ImmutableSet<String>>() {})
       .expireAfterWrite(1, HOURS);

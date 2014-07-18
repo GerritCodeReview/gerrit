@@ -336,7 +336,15 @@ public class Gerrit implements EntryPoint {
     } else if (token.startsWith("/")) {
       token = token.substring(1);
     }
-    return selfRedirect("/login/" + token);
+
+    UrlBuilder builder = new UrlBuilder();
+    builder.setProtocol(Location.getProtocol());
+    builder.setHost(Location.getHost());
+    String port = Location.getPort();
+    if (port != null && !port.isEmpty()) {
+      builder.setPort(Integer.parseInt(port));
+    }
+    return builder.buildString() + ("/login/" + URL.encodePathSegment("#/" + token));
   }
 
   public static String selfRedirect(String suffix) {

@@ -73,10 +73,7 @@ class LdapLoginServlet extends HttpServlet {
       @Nullable String errorMessage) throws IOException {
     String self = req.getRequestURI();
     String cancel = Objects.firstNonNull(urlProvider.get(req), "/");
-    String token = LoginUrlToken.getToken(req);
-    if (!token.equals("/")) {
-      cancel += "#" + token;
-    }
+    cancel += LoginUrlToken.getToken(req);
 
     Document doc = headers.parse(LdapLoginServlet.class, "LoginForm.html");
     HtmlDomUtil.find(doc, "hostName").setTextContent(req.getServerName());
@@ -144,7 +141,6 @@ class LdapLoginServlet extends HttpServlet {
 
     StringBuilder dest = new StringBuilder();
     dest.append(urlProvider.get(req));
-    dest.append('#');
     dest.append(LoginUrlToken.getToken(req));
 
     CacheHeaders.setNotCacheable(res);

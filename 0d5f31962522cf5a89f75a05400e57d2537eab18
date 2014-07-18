@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "b97b1c36_cb5df529",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbNotes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-18T17:18:02Z",
+      "side": 1,
+      "message": "I went with the second alternative. I think that exposing the union of the helper methods from both classes would be a little annoying. The second alternative gets rid of that need and now we can just expose a draftCommentNotes for a given author from within a ChangeNotes.",
+      "parentUuid": "39900c99_cf5dfd29",
+      "revId": "0d5f31962522cf5a89f75a05400e57d2537eab18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "39900c99_2f928992",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbNotes.java",
         "patchSetId": 1
@@ -53,6 +71,24 @@
       "writtenOn": "2014-07-18T16:15:34Z",
       "side": 1,
       "message": "Almost all operations do not need draft comments. I think having the ability to load these independently is valuable. (Though it\u0027s possible right now just by calling get*().load().)",
+      "revId": "0d5f31962522cf5a89f75a05400e57d2537eab18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39900c99_8f57f505",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbNotes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-18T17:18:02Z",
+      "side": 1,
+      "message": "Done. With the way I did it, the draftComments won\u0027t be loaded unless the caller explicitly asks for them.",
+      "parentUuid": "39900c99_2f928992",
       "revId": "0d5f31962522cf5a89f75a05400e57d2537eab18",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

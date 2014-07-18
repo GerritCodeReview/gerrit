@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "19f3481c_7e3691fb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-18T08:52:10Z",
+      "side": 1,
+      "message": "I think this section hurts more than it helps.\n\nThe section is not applicable when download-commands plugin was correctly deployed on Gerrit 2.8 and site administrator upgrade from 2.8 to 2.9.\n\nIf administrator upgrades from Gerrit 2.7 to Gerrit 2.9 then this cache warning section is also not applicable.\n\nOnly one use case is relevant: Even though 2.8 release notes contains warning about installation of download-commands plugin, it was ignored. And users used (unusable?) CS2 without download-plugins installed and opened all changes (that now cached). Then and only then the section would apply, clearly \u003c 0.01% of all installations. That why i think it is not needed.\n\nBut in any event, if you decide to preserve it, please add this clarification\nto the the release notes, to browser cache warning section.",
+      "parentUuid": "990818db_ba479165",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 48
+      },
+      "revId": "d57974f9abf3dcccff8be84cd6ea3fddd223f9e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "39900c99_cf209dbc",
         "filename": "ReleaseNotes/ReleaseNotes-2.9.txt",
         "patchSetId": 1

@@ -371,27 +371,27 @@ including some or all of the following in the email:
 
 ----
 To: Repo and Gerrit Discussion <repo-discuss@googlegroups.com>
-Subject: Announce: Gerrit 2.2.2.1  (Stable bug fix update)
+Subject: [ANNOUNCE] Gerrit 2.9
 
-I am pleased to announce Gerrit Code Review 2.2.2.1.
+The final release for Gerrit version 2.9 is now available.
 
 Download:
+  https://gerrit-releases.storage.googleapis.com/gerrit-2.9.war
 
-  http://code.google.com/p/gerrit/downloads/list
+Release Highlights:
+  * New Change Screen:
+    https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/user-review-ui.html
 
+Release notes:
+  http://gerrit-documentation.storage.googleapis.com/ReleaseNotes/ReleaseNotes-2.9.html
 
-This release is a stable bug fix release with some
-documentation updates including a new "Contributing to
-Gerrit" doc:
+Documentation:
+  http://gerrit-documentation.storage.googleapis.com/Documentation/2.9/index.html
 
-  http://gerrit-documentation.googlecode.com/svn/Documentation/2.2.2/dev-contributing.html
+The 2.9 plugin artifacts are available on Maven Central:
+  http://central.maven.org/maven2/com/google/gerrit/
 
-
-To read more about the bug fixes:
-
-  http://gerrit-documentation.googlecode.com/svn/ReleaseNotes/ReleaseNotes-2.2.2.1.html
-
--Martin
+Edwin
 ----
 
 * Add an entry to the `NEWS` section of the main Gerrit project web page

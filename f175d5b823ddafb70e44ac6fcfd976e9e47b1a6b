@@ -16,6 +16,24 @@
       "revId": "f175d5b823ddafb70e44ac6fcfd976e9e47b1a6b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b97b1c36_6b12c175",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1563,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-18T09:08:53Z",
+      "side": 1,
+      "message": "Just realised I missed this.  I will add a description, but I don\u0027t think it\u0027s necessary to link to the UI doc.",
+      "parentUuid": "19f3481c_7e95f178",
+      "revId": "f175d5b823ddafb70e44ac6fcfd976e9e47b1a6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

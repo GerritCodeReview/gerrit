@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "39900c99_ef7b2197",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2960,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-18T13:59:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19f3481c_deaa45a0",
+      "range": {
+        "startLine": 2960,
+        "startChar": 2,
+        "endLine": 2960,
+        "endChar": 11
+      },
+      "revId": "cb861d9260242c3aa99c00b6c3678a642b980862",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "990818db_baab11a7",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2014-07-18T12:31:24Z",
       "side": 1,
       "message": "link:#commit-info[CommitInfo]",
+      "range": {
+        "startLine": 2962,
+        "startChar": 0,
+        "endLine": 2962,
+        "endChar": 44
+      },
+      "revId": "cb861d9260242c3aa99c00b6c3678a642b980862",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b97b1c36_2b33590b",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2962,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-18T13:59:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "990818db_baab11a7",
       "range": {
         "startLine": 2962,
         "startChar": 0,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "b97b1c36_cb7655b0",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2965,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-18T13:59:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "990818db_9ab0cd14",
+      "range": {
+        "startLine": 2963,
+        "startChar": 0,
+        "endLine": 2965,
+        "endChar": 56
+      },
+      "revId": "cb861d9260242c3aa99c00b6c3678a642b980862",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "990818db_faa589d0",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 4
@@ -82,6 +154,30 @@
       "writtenOn": "2014-07-18T12:31:24Z",
       "side": 1,
       "message": "Not needed, CommitInfo and GitPersonInfo already describe these entities.",
+      "range": {
+        "startLine": 2968,
+        "startChar": 0,
+        "endLine": 3007,
+        "endChar": 28
+      },
+      "revId": "cb861d9260242c3aa99c00b6c3678a642b980862",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b97b1c36_eb7b1197",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 3007,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-18T13:59:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "990818db_faa589d0",
       "range": {
         "startLine": 2968,
         "startChar": 0,

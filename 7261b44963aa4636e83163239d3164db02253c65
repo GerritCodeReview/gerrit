@@ -22,6 +22,30 @@
       "revId": "7261b44963aa4636e83163239d3164db02253c65",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "990818db_3aa0a1bd",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/Section.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-18T12:44:26Z",
+      "side": 1,
+      "message": "We can do both. It is used from follow-up change, where descr \u003d \"GitHub ClientId\". With current code it would ask:\n\n  Change GitHub ClientId\u0027s password y/N?\n\nWhat you are suggesting is to pass in this method instead: \"GitHub ClientId secret\". But then we shouldn\u0027t change anything and add anything on this line and on line 184 below:\n\n  ui.password(descr);\n\nI am OK with both approaches.",
+      "parentUuid": "19f3481c_beabf9a6",
+      "range": {
+        "startLine": 179,
+        "startChar": 43,
+        "endLine": 179,
+        "endChar": 72
+      },
+      "revId": "7261b44963aa4636e83163239d3164db02253c65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

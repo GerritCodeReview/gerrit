@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "990818db_bae831cc",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 2965,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-18T14:06:06Z",
+      "side": 1,
+      "message": "[optional] It would be nice to explain under which conditions it\u0027s only a commit and no change.\n\nAs optional comment, since I don\u0027t know the answer myself... Maybe we can add this information later.",
+      "range": {
+        "startLine": 2960,
+        "startChar": 0,
+        "endLine": 2965,
+        "endChar": 65
+      },
+      "revId": "669f251081bf28f477f9f86bb32110639773b4d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

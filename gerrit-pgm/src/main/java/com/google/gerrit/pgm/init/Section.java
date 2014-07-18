@@ -170,6 +170,24 @@ public class Section {
     return nv;
   }
 
+  public String passwordForKey(String key, String password) {
+    String ov = getSecure(password);
+    if (ov != null) {
+      // If the password is already stored, try to reuse it
+      // rather than prompting for a whole new one.
+      //
+      if (ui.isBatch() || !ui.yesno(false, "Change %s", key)) {
+        return ov;
+      }
+    }
+
+    final String nv = ui.password("%s", key);
+    if (!eq(ov, nv)) {
+      setSecure(password, nv);
+    }
+    return nv;
+  }
+
   public String getSecure(String name) {
     return flags.sec.getString(section, subsection, name);
   }

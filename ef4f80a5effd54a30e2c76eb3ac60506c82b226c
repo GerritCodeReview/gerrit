@@ -22,6 +22,30 @@
       "revId": "ef4f80a5effd54a30e2c76eb3ac60506c82b226c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19f3481c_de85254c",
+        "filename": "ReleaseNotes/ReleaseNotes-2.9.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-18T09:00:15Z",
+      "side": 1,
+      "message": "But it is above the bullet list that explains the upgrade methods. Do you mean there should be a sible bullet list that explains both installation and upgrade?",
+      "parentUuid": "39900c99_cf473d65",
+      "range": {
+        "startLine": 63,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 33
+      },
+      "revId": "ef4f80a5effd54a30e2c76eb3ac60506c82b226c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

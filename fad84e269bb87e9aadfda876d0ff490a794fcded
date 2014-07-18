@@ -22,6 +22,30 @@
       "revId": "fad84e269bb87e9aadfda876d0ff490a794fcded",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "990818db_bac4b17a",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-07-18T09:33:49Z",
+      "side": 1,
+      "message": "Actually this is a generic HTTP authentication feature. It can be applied to any HTTP-based authentication, including OAuth 2.0 / GitHub.\n\nIf you have an external authentication provider (e.g. SiteMinder, SAML, others) you may have another ID on the remote system. By setting this header you have the ability to store it into the Gerrit external ids table associated to your account.\n\nThe note on HTTP is valid as at the moment the GitHub (OAUTH_GITHUB) authentication is not merged. Once the OAUTH_GITHUB will be merged then it can be referenced here :-)",
+      "parentUuid": "19f3481c_1e6f8dc7",
+      "range": {
+        "startLine": 278,
+        "startChar": 0,
+        "endLine": 279,
+        "endChar": 42
+      },
+      "revId": "fad84e269bb87e9aadfda876d0ff490a794fcded",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

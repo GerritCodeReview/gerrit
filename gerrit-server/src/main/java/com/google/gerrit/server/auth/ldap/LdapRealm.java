@@ -20,6 +20,7 @@ import com.google.common.base.Optional;
 import com.google.common.base.Strings;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.ParameterizedString;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
@@ -113,6 +114,27 @@ public class LdapRealm implements Realm {
       throw new IllegalArgumentException("No ldap." + name + " configured");
     }
     return v;
+  }
+
+  static Filter optionalGroupFiler(final Config config) {
+    return optionalFilter(config, "groupFilter");
+  }
+
+  static Filter optionalUserFiler(final Config config) {
+    return optionalFilter(config, "userFilter");
+  }
+
+  private static Filter optionalFilter(final Config config, String name) {
+    Set<String> types = config.getNames("ldap", name, true);
+    if (types == null || types.isEmpty()) {
+      return null;
+    } else {
+      Map<String, String[]> f = Maps.newHashMap();
+      for (String type : types) {
+        f.put(type, config.getStringList("ldap", name, type));
+      }
+      return new Filter(f);
+    }
   }
 
   static List<String> optionalList(final Config config,

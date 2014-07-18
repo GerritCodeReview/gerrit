@@ -46,6 +46,30 @@
       "revId": "7261b44963aa4636e83163239d3164db02253c65",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "990818db_ba1af15f",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/Section.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-18T12:55:24Z",
+      "side": 1,
+      "message": "You can leave it as is, but then the name of \u0027descr\u0027 is confusing to me. \u0027description\u0027 suggests that it is a full description and it\u0027s surprising if it\u0027s embedded into such a sentence. Maybe just call it \u0027user\u0027 as it is named in the other method?",
+      "parentUuid": "990818db_3aa0a1bd",
+      "range": {
+        "startLine": 179,
+        "startChar": 43,
+        "endLine": 179,
+        "endChar": 72
+      },
+      "revId": "7261b44963aa4636e83163239d3164db02253c65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "39900c99_4f158d5a",
+        "filename": "ReleaseNotes/ReleaseNotes-2.9.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-18T08:41:29Z",
+      "side": 1,
+      "message": "I would move this before the \"Only the interactive init ...\" sentence, and make it a new paragraph separate from \"Pay attention that the 2.8 version ...\".",
+      "range": {
+        "startLine": 72,
+        "startChar": 0,
+        "endLine": 72,
+        "endChar": 65
+      },
+      "revId": "aff5bac681c20b81a6ac7984a40eea8bbc40f462",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39900c99_6f12d175",
+        "filename": "ReleaseNotes/ReleaseNotes-2.9.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-18T08:41:29Z",
+      "side": 1,
+      "message": "Make this a new bullet \"- Manual upgrade\"?",
+      "revId": "aff5bac681c20b81a6ac7984a40eea8bbc40f462",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

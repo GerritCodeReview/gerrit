@@ -46,6 +46,30 @@
       "revId": "ef4f80a5effd54a30e2c76eb3ac60506c82b226c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39900c99_8f413552",
+        "filename": "ReleaseNotes/ReleaseNotes-2.9.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-18T09:05:54Z",
+      "side": 1,
+      "message": "OK, now I see what you meant to do.  Please see my comment on the latest PS, which I think will make this clearer.",
+      "parentUuid": "19f3481c_de85254c",
+      "range": {
+        "startLine": 63,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 33
+      },
+      "revId": "ef4f80a5effd54a30e2c76eb3ac60506c82b226c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

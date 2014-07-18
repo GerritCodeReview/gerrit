@@ -103,7 +103,7 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
     this.draftsProject = allUsers.get();
     this.commentsUtil = commentsUtil;
     this.accountId = user.getAccountId();
-    this.draftNotes = draftNotesFactory.create(ctl.getChange(),
+    this.draftNotes = draftNotesFactory.create(ctl.getChange().getId(),
         user.getAccountId()).load();
 
     this.upsertComments = Lists.newArrayList();

@@ -489,6 +489,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     }
   }
 
+  private final Change change;
   private ImmutableListMultimap<PatchSet.Id, PatchSetApproval> approvals;
   private ImmutableSetMultimap<ReviewerState, Account.Id> reviewers;
   private ImmutableList<SubmitRecord> submitRecords;
@@ -504,8 +505,13 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   @VisibleForTesting
   public ChangeNotes(GitRepositoryManager repoManager,
       AllUsersNameProvider allUsersProvider, Change change) {
-    super(repoManager, change);
+    super(repoManager, change.getId());
+    this.change = new Change(change);
     this.allUsersRepo = allUsersProvider.get();
+  }
+
+  public Change getChange() {
+    return change;
   }
 
   public ImmutableListMultimap<PatchSet.Id, PatchSetApproval> getApprovals() {
@@ -554,7 +560,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     if (draftCommentNotes == null ||
         !author.equals(draftCommentNotes.getAuthor())) {
       draftCommentNotes = new DraftCommentNotes(repoManager, allUsersRepo,
-          getChange(), author);
+          getChangeId(), author);
       draftCommentNotes.load();
     }
     return draftCommentNotes;

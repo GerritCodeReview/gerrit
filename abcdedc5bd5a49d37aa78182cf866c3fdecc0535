@@ -118,6 +118,30 @@
       "revId": "abcdedc5bd5a49d37aa78182cf866c3fdecc0535",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b97b1c36_0b369dfa",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-18T13:55:34Z",
+      "side": 1,
+      "message": "I missed that this even existed and didn\u0027t use it for the 2.8.x release announcements.\n\nIf this really needs to be in the documentation, can we make it a bit more generic?  I.e. replace \"2.9\" with a placeholder, etc?",
+      "parentUuid": "19f3481c_5e3635d2",
+      "range": {
+        "startLine": 374,
+        "startChar": 0,
+        "endLine": 394,
+        "endChar": 5
+      },
+      "revId": "abcdedc5bd5a49d37aa78182cf866c3fdecc0535",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

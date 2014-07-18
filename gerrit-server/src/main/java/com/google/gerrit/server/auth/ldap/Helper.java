@@ -17,6 +17,8 @@ package com.google.gerrit.server.auth.ldap;
 import com.google.common.base.Throwables;
 import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.ParameterizedString;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -50,6 +52,7 @@ import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
 import javax.naming.PartialResultException;
 import javax.naming.directory.Attribute;
+import javax.naming.directory.Attributes;
 import javax.naming.directory.DirContext;
 import javax.naming.directory.InitialDirContext;
 import javax.net.ssl.SSLSocketFactory;
@@ -60,7 +63,33 @@ import javax.security.auth.login.LoginException;
 @Singleton class Helper {
   static final String LDAP_UUID = "ldap:";
 
+  public static String get(final String attName, final Attributes entry)
+      throws NamingException {
+    final Attribute att = entry.get(attName);
+    return att != null && 0 < att.size() ? String.valueOf(att.get(0)) : null;
+  }
+
+  public static List<String> valuesOf(Attribute a) {
+    if (a == null) {
+      return null;
+    }
+    List<String> vs = Lists.newArrayList();
+    try {
+      NamingEnumeration<?> values = a.getAll();
+      while (values.hasMore()) {
+        vs.add(String.valueOf(values.next()));
+      }
+    } catch (NamingException e) {
+      LdapRealm.log.warn(
+          String.format("Could not find values of %s", a.getID()), e);
+      return null;
+    }
+    return vs;
+  }
+
   private final Cache<String, ImmutableSet<String>> groupsByInclude;
+  private final Cache<String, ImmutableSet<String>> groupsByIncluded;
+  private final Cache<String, ImmutableSet<String>> usersByIncluded;
   private final Config config;
   private final String server;
   private final String username;
@@ -73,6 +102,10 @@ import javax.security.auth.login.LoginException;
 
   @Inject
   Helper(@GerritServerConfig final Config config,
+      @Named(LdapModule.GROUPS_BYINCLUDED_CACHE)
+      Cache<String, ImmutableSet<String>> groupsByIncluded,
+      @Named(LdapModule.USERS_BYINCLUDED_CACHE)
+      Cache<String, ImmutableSet<String>> usersByIncluded,
       @Named(LdapModule.GROUPS_BYINCLUDE_CACHE)
       Cache<String, ImmutableSet<String>> groupsByInclude) {
     this.config = config;
@@ -91,6 +124,8 @@ import javax.security.auth.login.LoginException;
       readTimeOutMillis = null;
     }
     this.groupsByInclude = groupsByInclude;
+    this.groupsByIncluded = groupsByIncluded;
+    this.usersByIncluded = usersByIncluded;
   }
 
   private Properties createContextProperties() {
@@ -292,6 +327,19 @@ import javax.security.auth.login.LoginException;
     }
   }
 
+  Set<String> usersOf(final String groupDN, final Helper.LdapSchema schema,
+      final DirContext ctx) {
+    return of(groupDN, usersByIncluded, schema, ctx);
+  }
+
+  Set<String> subgroupOf(final String groupDN, final Helper.LdapSchema schema,
+      final DirContext ctx) {
+    if (!allowNestedGroup(schema)) {
+      return Collections.emptySet();
+    }
+    return of(groupDN, groupsByIncluded, schema, ctx);
+  }
+
   private void recursivelyExpandGroups(final Set<String> groupDNs,
       final LdapSchema schema, final DirContext ctx, final String groupDN) {
     if (groupDNs.add(groupDN) && schema.accountMemberField != null) {
@@ -324,6 +372,95 @@ import javax.security.auth.login.LoginException;
     }
   }
 
+  private Set<String> of(final String groupDN,
+      final Cache<String, ImmutableSet<String>> cache,
+      final Helper.LdapSchema schema, final DirContext ctx) {
+    Set<String> r = cache.getIfPresent(groupDN);
+    if (r == null || r.isEmpty()) {
+      cacheMembersOf(groupDN, schema, ctx);
+    }
+    return cache.getIfPresent(groupDN);
+  }
+
+  private void cacheMembersOf(final String groupDN,
+      final Helper.LdapSchema schema, final DirContext ctx) {
+    Attribute member = null;
+    try {
+      member =
+          ctx.getAttributes(groupDN, new String[] {schema.memberField}).get(
+              schema.memberField);
+    } catch (NamingException e) {
+      LdapRealm.log
+          .warn(String.format("Could not find %s of %s", schema.memberField,
+              groupDN), e);
+    }
+    List<String> v = valuesOf(member);
+    if (v == null || v.isEmpty()) {
+      return;
+    }
+
+    if (!allowNestedGroup(schema)) {
+      usersByIncluded.put(groupDN, ImmutableSet.copyOf(v));
+      return;
+    }
+
+    Set<String> users = Sets.newHashSet();
+    Set<String> subgrups = Sets.newHashSet();
+    for (String dn : v) {
+      Attributes entry;
+      try {
+        entry = ctx.getAttributes(dn, getReturnAttrIds(schema));
+      } catch (NamingException e) {
+        LdapRealm.log.warn(
+            String.format("Could not find required attributes for %s", dn), e);
+        return;
+      }
+      if (schema.userFilter.accept(entry)) {
+        String username = null;
+        try {
+          username = get(schema.accountLoginName, entry);
+
+        } catch (NamingException e) {
+          LdapRealm.log.warn(String.format(
+              "Could not find the value of attribute %s from %s",
+              schema.accountLoginName, dn), e);
+        }
+        if (username != null) {
+          users.add(username);
+        }
+        continue;
+      }
+      if (schema.subgroupFilter.accept(entry)) {
+        subgrups.add(dn);
+      }
+    }
+
+    if (!users.isEmpty()) {
+      usersByIncluded.put(groupDN, ImmutableSet.copyOf(users));
+    }
+    if (!subgrups.isEmpty()) {
+      groupsByIncluded.put(groupDN, ImmutableSet.copyOf(subgrups));
+    }
+  }
+
+  private String[] getReturnAttrIds(final Helper.LdapSchema schema) {
+    String[] returnAttrIds =
+        new String[schema.userFilter.attrIds().size()
+            + schema.subgroupFilter.attrIds().size() + 2];
+    Set<String> ids = Sets.newHashSet();
+    ids.addAll(schema.userFilter.attrIds());
+    ids.addAll(schema.subgroupFilter.attrIds());
+    ids.add(schema.accountLoginName);
+    ids.toArray(returnAttrIds);
+    return returnAttrIds;
+  }
+
+  private boolean allowNestedGroup(final Helper.LdapSchema schema) {
+    // RFC 2307 does not allow nested group.
+    // Active Directory allow nested group.
+    return schema.subgroupFilter != null;
+  }
+
   class LdapSchema {
     final LdapType type;
 
@@ -337,11 +474,25 @@ import javax.security.auth.login.LoginException;
     final List<LdapQuery> groupMemberQueryList;
     final List<LdapQuery> groupQueryList;
 
+    final Filter userFilter;
+    final Filter subgroupFilter;
+    final String accountLoginName ;
+    final String memberField;
+
     LdapSchema(final DirContext ctx) {
       type = discoverLdapType(ctx);
       groupMemberQueryList = new ArrayList<>();
       groupQueryList = new ArrayList<>();
       accountQueryList = new ArrayList<>();
+
+      Filter f = LdapRealm.optionalUserFiler(config);
+      userFilter = (f != null) ? f : type.userFilter();
+      f = LdapRealm.optionalGroupFiler(config);
+      subgroupFilter = (f != null) ? f : type.groupFilter();
+
+      accountLoginName =
+          LdapRealm.optdef(config, "accountLoginName", type.accountLoginName());
+      memberField=LdapRealm.optdef(config, "memberField", type.memberField());
 
       final Set<String> accountAtts = new HashSet<>();
 

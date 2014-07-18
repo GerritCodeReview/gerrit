@@ -29,19 +29,15 @@ import java.io.IOException;
 public abstract class AbstractChangeNotes<T> extends VersionedMetaData {
   private boolean loaded;
   protected final GitRepositoryManager repoManager;
-  private final Change change;
+  private final Change.Id changeId;
 
-  AbstractChangeNotes(GitRepositoryManager repoManager, Change change) {
+  AbstractChangeNotes(GitRepositoryManager repoManager, Change.Id changeId) {
     this.repoManager = repoManager;
-    this.change = new Change(change);
+    this.changeId = changeId;
   }
 
   public Change.Id getChangeId() {
-    return change.getId();
-  }
-
-  public Change getChange() {
-    return change;
+    return changeId;
   }
 
   public T load() throws OrmException {

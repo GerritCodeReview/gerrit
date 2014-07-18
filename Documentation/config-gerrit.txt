@@ -627,6 +627,11 @@ Cache group's members from `account_group_members` table. If direct
 updates are made to the `account_group_members` table, this cache
 should be flushed.
 
+cache `"all_accounts_members"`::
++
+Cache group's all accouts including those in nested groups
+if there are nested groups.
+
 cache `"ldap_groups"`::
 +
 Caches the LDAP groups that a user belongs to, if LDAP has been

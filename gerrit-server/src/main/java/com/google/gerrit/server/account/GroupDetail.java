@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.common.cache.Cache;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.reviewdb.client.Account;
@@ -22,6 +24,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
+import com.google.inject.name.Named;
 
 import java.io.IOException;
 import java.util.HashSet;
@@ -39,21 +42,30 @@ public class GroupDetail {
   private final AccountGroup.UUID groupUUID;
   private final Project.NameKey project;
   private final AccountCache accountCache;
+  private final Cache<AccountGroup.UUID, ImmutableSet<Account>> allAcconunts;
 
   @AssistedInject
   GroupDetail(final GroupControl.Factory groupControl,
-      final GroupBackend groupBackend, final AccountCache accountCache,
+      final GroupBackend groupBackend,
+      final AccountCache accountCache,
+      @Named(GroupIncludeCacheImpl.ALL_ACCOUNTS_NAME)
+      Cache<AccountGroup.UUID, ImmutableSet<Account>> allAcconunts,
       @Assisted final AccountGroup.UUID groupUUID) {
-    this(groupControl, groupBackend, accountCache, groupUUID, null);
+    this(groupControl, groupBackend, accountCache, allAcconunts, groupUUID,
+        null);
   }
 
   @AssistedInject
   GroupDetail(final GroupControl.Factory groupControl,
-      final GroupBackend groupBackend, final AccountCache accountCache,
+      final GroupBackend groupBackend,
+      final AccountCache accountCache,
+      @Named(GroupIncludeCacheImpl.ALL_ACCOUNTS_NAME)
+      Cache<AccountGroup.UUID, ImmutableSet<Account>> allAcconunts,
       @Assisted final AccountGroup.UUID groupUUID,
       @Nullable @Assisted final Project.NameKey project) {
     this.groupBackend = groupBackend;
     this.accountCache = accountCache;
+    this.allAcconunts = allAcconunts;
     this.groupUUID = groupUUID;
     this.project = project;
   }
@@ -71,7 +83,12 @@ public class GroupDetail {
   }
 
   public Set<Account> listAccounts() throws OrmException, IOException {
-    return getGroupMembers(groupUUID, new HashSet<AccountGroup.UUID>());
+    Set<Account> r = allAcconunts.getIfPresent(groupUUID);
+    if (r == null || r.isEmpty()) {
+      r = getGroupMembers(groupUUID, new HashSet<AccountGroup.UUID>());
+      allAcconunts.put(groupUUID, ImmutableSet.copyOf(r));
+    }
+    return r;
   }
 
   private Set<Account> getGroupMembers(final AccountGroup.UUID groupUUID,

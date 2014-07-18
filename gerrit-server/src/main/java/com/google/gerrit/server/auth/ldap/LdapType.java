@@ -14,6 +14,13 @@
 
 package com.google.gerrit.server.auth.ldap;
 
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Maps;
+
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
 import javax.naming.NamingException;
 import javax.naming.directory.Attribute;
 import javax.naming.directory.Attributes;
@@ -47,6 +54,14 @@ abstract class LdapType {
 
   abstract String accountMemberField();
 
+  abstract String memberField();
+
+  abstract String accountLoginName();
+
+  abstract Filter groupFilter();
+
+  abstract Filter userFilter();
+
   abstract String accountPattern();
 
   private static class Rfc2307 extends LdapType {
@@ -57,7 +72,12 @@ abstract class LdapType {
 
     @Override
     String groupMemberPattern() {
-      return "(|(memberUid=${username})(gidNumber=${gidNumber}))";
+      return "(|(" + memberField() + "=${username})(gidNumber=${gidNumber}))";
+    }
+
+    @Override
+    String memberField() {
+      return "memberUid";
     }
 
     @Override
@@ -87,11 +107,29 @@ abstract class LdapType {
 
     @Override
     String accountPattern() {
-      return "(uid=${username})";
+      return "(" + accountLoginName() + "=${username})";
+    }
+
+    @Override
+    String accountLoginName() {
+      return "uid";
+    }
+
+    @Override
+    Filter groupFilter() {
+      return null;// RFC 2307 does not allow nested groups.
+    }
+
+    @Override
+    Filter userFilter() {
+      return null;
     }
   }
 
   private static class ActiveDirectory extends LdapType {
+    private static Filter gf;
+    private static Filter uf;
+
     @Override
     String groupPattern() {
       return "(&(objectClass=group)(cn=${groupname}))";
@@ -105,6 +143,11 @@ abstract class LdapType {
     @Override
     String groupMemberPattern() {
       return null; // Active Directory uses memberOf in the account
+    }
+
+    @Override
+    String memberField() {
+      return "member";
     }
 
     @Override
@@ -129,7 +172,104 @@ abstract class LdapType {
 
     @Override
     String accountPattern() {
-      return "(&(objectClass=user)(sAMAccountName=${username}))";
+      return "(&(objectClass=user)(" + accountLoginName() + "=${username}))";
     }
+
+    @Override
+    String accountLoginName() {
+      return "sAMAccountName";
+    }
+
+    @Override
+    Filter groupFilter() {
+      if (gf == null) {
+        Map<String, String[]> r = Maps.newHashMap();
+        r.put("objectClass", new String[] {"group"});
+        gf = new Filter(r);
+      }
+      return gf;
+    }
+
+    @Override
+    Filter userFilter() {
+      if (uf == null) {
+        Map<String, String[]> r = Maps.newHashMap();
+        r.put("objectClass", new String[] {"user"});
+        r.put("objectClass", new String[] {"!computer"});
+        uf = new Filter(r);
+      }
+      return uf;
+    }
+  }
+}
+
+class Filter {
+  private final Map<String, Set<String>> equalitys;
+  private final Map<String, Set<String>> nots ;
+  private final Map<String, String[]> origin;
+  private final Set<String> attrIds;
+
+  Filter(Map<String, String[]> filter) {
+    origin = filter;
+    equalitys = Maps.newHashMap();
+    nots = Maps.newHashMap();
+    for (Map.Entry<String, String[]> e : filter.entrySet()) {
+      ImmutableSet.Builder<String> not = ImmutableSet.builder();
+      ImmutableSet.Builder<String> equal = ImmutableSet.builder();
+      for (String v : e.getValue()) {
+        if (v.startsWith("!")) {
+          not.add(v.substring("!".length()));
+        }else{
+          equal.add(v);
+        }
+      }
+      Set<String> s = not.build();
+      if (s.size() > 0) {
+        nots.put(e.getKey(), s);
+      }
+      s = equal.build();
+      if (s.size() > 0) {
+        equalitys.put(e.getKey(), s);
+      }
+    }
+    attrIds = origin.keySet();
+  }
+
+  Set<String> attrIds() {
+    return attrIds;
+  }
+
+  boolean accept(Attributes entry) {
+    // limited support:
+    // "(&(|(type1=val1)(type1=val2)...)(!(type1=val3))(!(type1=val4))...)(type2...))".
+    return matchEquals(entry) && matchNots(entry);
+  }
+
+  private boolean matchEquals(Attributes entry) {
+    for (Entry<String, Set<String>> e : equalitys.entrySet()) {
+      if (containsAny(e.getValue(), entry.get(e.getKey()))) {
+        continue;
+      }
+      return false;
+    }
+    return true;
+  }
+
+  private boolean matchNots(Attributes entry) {
+    for (Entry<String, Set<String>> e : nots.entrySet()) {
+      if (containsAny(e.getValue(), entry.get(e.getKey()))) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  private boolean containsAny(Set<String> values, Attribute attribute) {
+    for (String v : values) {
+      if (attribute.contains(v)) {
+        return true;
+      }
+    }
+    return false;
   }
 }

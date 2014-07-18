@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b97b1c36_2b927992",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbNotes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-18T16:15:34Z",
+      "side": 1,
+      "message": "If this is what this class does, this name is too generic. There are other entities in reviewdb that are not changes (e.g. accounts), so the same will be true of notedb.\n\nChangeNotes was about as generic as I could get it.",
+      "range": {
+        "startLine": 28,
+        "startChar": 27,
+        "endLine": 28,
+        "endChar": 33
+      },
+      "revId": "0d5f31962522cf5a89f75a05400e57d2537eab18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39900c99_cf5dfd29",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbNotes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-18T16:15:34Z",
+      "side": 1,
+      "message": "I\u0027m not sure we actually want to expose these separately. The fact that they live in different instances is an artifact of the implementation, because of the 1-to-1 requirement of VersionedMetaData to refs. (See also Law of Demeter.)\n\nWould it make more sense for this class to just expose the union of all ChangeNotes + DraftCommentNotes methods?\n\nOr, alternatively, maybe we should have a method on ChangeNotes to load drafts for a particular user, and that is responsible for creating \u0026 loading the DraftCommentNotes internally?\n\nThe goal here is to have a consistent interface to display to callers, without them worrying about where data is stored. The end result of each of the two alternatives above would be the same: one class to pass around that lets you get all information you could possibly need about a change.",
+      "revId": "0d5f31962522cf5a89f75a05400e57d2537eab18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39900c99_2f928992",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbNotes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-18T16:15:34Z",
+      "side": 1,
+      "message": "Almost all operations do not need draft comments. I think having the ability to load these independently is valuable. (Though it\u0027s possible right now just by calling get*().load().)",
+      "revId": "0d5f31962522cf5a89f75a05400e57d2537eab18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

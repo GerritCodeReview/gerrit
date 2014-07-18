@@ -41,6 +41,7 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountInfo;
 import com.google.gerrit.server.account.AccountsCollection;
 import com.google.gerrit.server.account.GroupDetail;
+import com.google.gerrit.server.auth.ldap.LdapGroupBackend;
 import com.google.gerrit.server.change.ReviewerJson.PostResult;
 import com.google.gerrit.server.change.ReviewerJson.ReviewerInfo;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -160,12 +161,19 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
   private PostResult putGroup(ChangeResource rsrc, AddReviewerInput input)
       throws BadRequestException,
       UnprocessableEntityException, OrmException, EmailException, IOException {
-    GroupDescription.Basic group = groupsCollection.parseInternal(input.reviewer);
+    GroupDescription.Basic group;
     PostResult result = new PostResult();
-    if (!isLegalReviewerGroup(group.getGroupUUID())) {
-      result.error = MessageFormat.format(
-          ChangeMessages.get().groupIsNotAllowed, group.getName());
-      return result;
+
+    if (input.reviewer.startsWith(LdapGroupBackend.LDAP_NAME)) {
+      group = groupsCollection.parse(input.reviewer);
+    } else {
+      group = groupsCollection.parseInternal(input.reviewer);
+      if (!isLegalReviewerGroup(group.getGroupUUID())) {
+        result.error =
+            MessageFormat.format(ChangeMessages.get().groupIsNotAllowed,
+                group.getName());
+        return result;
+      }
     }
 
     Map<Account.Id, ChangeControl> reviewers = Maps.newHashMap();

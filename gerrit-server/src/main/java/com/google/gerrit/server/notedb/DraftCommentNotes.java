@@ -24,7 +24,6 @@ import com.google.common.collect.Table;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
-import com.google.gerrit.reviewdb.client.PatchSet.Id;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -63,8 +62,8 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
       this.draftsProject = allUsers.get();
     }
 
-    public DraftCommentNotes create(Change change, Account.Id accountId) {
-      return new DraftCommentNotes(repoManager, draftsProject, change,
+    public DraftCommentNotes create(Change.Id changeId, Account.Id accountId) {
+      return new DraftCommentNotes(repoManager, draftsProject, changeId,
           accountId);
     }
   }
@@ -80,10 +79,10 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
     private final Multimap<PatchSet.Id, PatchLineComment> draftPsComments;
     private NoteMap noteMap;
 
-    private Parser(Change change, RevWalk walk, ObjectId tip,
+    private Parser(Change.Id changeId, RevWalk walk, ObjectId tip,
         GitRepositoryManager repoManager, AllUsersName draftsProject,
         Account.Id author) throws RepositoryNotFoundException, IOException {
-      this.changeId = change.getId();
+      this.changeId = changeId;
       this.walk = walk;
       this.tip = tip;
       this.repo = repoManager.openRepository(draftsProject);
@@ -110,8 +109,8 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
   private NoteMap noteMap;
 
   DraftCommentNotes(GitRepositoryManager repoManager,
-      AllUsersName draftsProject, Change change, Account.Id author) {
-    super(repoManager, change);
+      AllUsersName draftsProject, Change.Id changeId, Account.Id author) {
+    super(repoManager, changeId);
     this.draftsProject = draftsProject;
     this.author = author;
 
@@ -167,7 +166,7 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
     }
 
     RevWalk walk = new RevWalk(reader);
-    Parser parser = new Parser(getChange(), walk, rev, repoManager,
+    Parser parser = new Parser(getChangeId(), walk, rev, repoManager,
         draftsProject, author);
     parser.parseDraftComments();
 

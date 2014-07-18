@@ -16,6 +16,24 @@
       "revId": "f344f85a4bab6f44c9ebb3ffe4d3ae4e79e57a76",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19f3481c_7e1fb17b",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1571,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-07-18T08:36:03Z",
+      "side": 1,
+      "message": "yes, I think that would be a good idea.",
+      "parentUuid": "39900c99_0f08e547",
+      "revId": "f344f85a4bab6f44c9ebb3ffe4d3ae4e79e57a76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

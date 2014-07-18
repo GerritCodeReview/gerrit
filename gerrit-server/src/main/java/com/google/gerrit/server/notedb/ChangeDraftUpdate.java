@@ -30,14 +30,10 @@ import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AllUsersName;
-import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.assistedinject.Assisted;
-import com.google.inject.assistedinject.AssistedInject;
-
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.ObjectId;
@@ -59,12 +55,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * <p>
  * This class is not thread safe.
  */
-public class ChangeDraftUpdate extends AbstractChangeUpdate {
-  public interface Factory {
-    ChangeDraftUpdate create(ChangeControl ctl);
-    ChangeDraftUpdate create(ChangeControl ctl, Date when);
-  }
-
+class ChangeDraftUpdate extends AbstractChangeUpdate {
   private final AllUsersName draftsProject;
   private final Account.Id accountId;
   private final CommentsInNotesUtil commentsUtil;
@@ -73,33 +64,18 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
   private List<PatchLineComment> upsertComments;
   private List<PatchLineComment> deleteComments;
 
-  @AssistedInject
-  private ChangeDraftUpdate(
+  ChangeDraftUpdate(
       @GerritPersonIdent PersonIdent serverIdent,
       GitRepositoryManager repoManager,
       NotesMigration migration,
       MetaDataUpdate.User updateFactory,
+      ChangeControl ctl,
+      Date when,
       DraftCommentNotes.Factory draftNotesFactory,
-      AllUsersNameProvider allUsers,
-      CommentsInNotesUtil commentsUtil,
-      @Assisted ChangeControl ctl) throws OrmException {
-    this(serverIdent, repoManager, migration, updateFactory, draftNotesFactory,
-        allUsers, commentsUtil, ctl, serverIdent.getWhen());
-  }
-
-  @AssistedInject
-  private ChangeDraftUpdate(
-      @GerritPersonIdent PersonIdent serverIdent,
-      GitRepositoryManager repoManager,
-      NotesMigration migration,
-      MetaDataUpdate.User updateFactory,
-      DraftCommentNotes.Factory draftNotesFactory,
-      AllUsersNameProvider allUsers,
-      CommentsInNotesUtil commentsUtil,
-      @Assisted ChangeControl ctl,
-      @Assisted Date when) throws OrmException {
+      AllUsersName allUsers,
+      CommentsInNotesUtil commentsUtil) throws OrmException {
     super(migration, repoManager, updateFactory, ctl, serverIdent, when);
-    this.draftsProject = allUsers.get();
+    this.draftsProject = allUsers;
     this.commentsUtil = commentsUtil;
     checkState(ctl.getCurrentUser().isIdentifiedUser(),
         "Current user must be identified");

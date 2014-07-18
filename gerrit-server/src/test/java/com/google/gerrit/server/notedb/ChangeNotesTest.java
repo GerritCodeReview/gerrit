@@ -109,6 +109,7 @@ public class ChangeNotesTest {
   private AllUsersNameProvider allUsers;
   private IdentifiedUser changeOwner;
   private IdentifiedUser otherUser;
+  private Account.Id otherUserId;
   private Injector injector;
   private String systemTimeZone;
   private volatile long clockStepMs;
@@ -164,6 +165,7 @@ public class ChangeNotesTest {
     repoManager.createRepository(allUsers.get());
     changeOwner = userFactory.create(co.getId());
     otherUser = userFactory.create(ou.getId());
+    otherUserId = otherUser.getAccountId();
   }
 
   private void setTimeForTesting() {
@@ -1179,35 +1181,30 @@ public class ChangeNotesTest {
     String filename = "filename1";
     short side = (short) 1;
 
-    ChangeDraftUpdate draftUpdate = newDraftUpdate(c, otherUser);
+    ChangeUpdate update = newUpdate(c, otherUser);
     Timestamp now = TimeUtil.nowTs();
     PatchLineComment comment1 = newPatchLineComment(ps1, filename, uuid,
         range, range.getEndLine(), otherUser, null, now, "comment on ps1", side,
         "abcd4567abcd4567abcd4567abcd4567abcd4567", Status.DRAFT);
-    draftUpdate.setPatchSetId(ps1);
-    draftUpdate.upsertComment(comment1);
-    draftUpdate.commit();
-
-    DraftCommentNotes draftNotes = newDraftNotes(c, otherUser);
-    assertEquals(1, draftNotes.getDraftPsComments().values().size());
-    assertEquals(0, draftNotes.getDraftBaseComments().values().size());
-
-    comment1.setStatus(Status.PUBLISHED);
-    draftUpdate = newDraftUpdate(c, otherUser);
-    draftUpdate.setPatchSetId(ps1);
-    ChangeUpdate update = newUpdate(c, otherUser);
     update.setPatchSetId(ps1);
-
-    draftUpdate.deleteComment(comment1);
-    update.putComment(comment1);
-    draftUpdate.commit();
+    update.upsertDraftComment(comment1);
     update.commit();
 
     ChangeNotes notes = newNotes(c);
-    draftNotes = newDraftNotes(c, otherUser);
+    assertEquals(1, notes.getDraftPsComments(otherUserId).values().size());
+    assertEquals(0, notes.getDraftBaseComments(otherUserId).values().size());
 
-    assertTrue(draftNotes.getDraftPsComments().values().isEmpty());
-    assertTrue(draftNotes.getDraftBaseComments().values().isEmpty());
+    comment1.setStatus(Status.PUBLISHED);
+    update = newUpdate(c, otherUser);
+    update.setPatchSetId(ps1);
+    update.deleteDraftComment(comment1);
+    update.putComment(comment1);
+    update.commit();
+
+    notes = newNotes(c);
+
+    assertTrue(notes.getDraftPsComments(otherUserId).values().isEmpty());
+    assertTrue(notes.getDraftBaseComments(otherUserId).values().isEmpty());
 
     assertTrue(notes.getBaseComments().values().isEmpty());
     PatchLineComment commentFromNotes =
@@ -1230,47 +1227,42 @@ public class ChangeNotesTest {
     PatchSet.Id psId = c.currentPatchSetId();
 
     // Write two drafts on the same side of one patch set.
-    ChangeDraftUpdate draftUpdate = newDraftUpdate(c, otherUser);
-    draftUpdate.setPatchSetId(psId);
+    ChangeUpdate update = newUpdate(c, otherUser);
+    update.setPatchSetId(psId);
     PatchLineComment comment1 = newPatchLineComment(psId, filename, uuid1,
         range1, range1.getEndLine(), otherUser, null, now, "comment on ps1",
         side, commitSHA1, Status.DRAFT);
     PatchLineComment comment2 = newPatchLineComment(psId, filename, uuid2,
         range2, range2.getEndLine(), otherUser, null, now, "other on ps1",
         side, commitSHA1, Status.DRAFT);
-    draftUpdate.upsertComment(comment1);
-    draftUpdate.upsertComment(comment2);
-    draftUpdate.commit();
+    update.upsertDraftComment(comment1);
+    update.upsertDraftComment(comment2);
+    update.commit();
 
-    DraftCommentNotes draftNotes = newDraftNotes(c, otherUser);
-    assertTrue(draftNotes.getDraftBaseComments().values().isEmpty());
-    assertEquals(2, draftNotes.getDraftPsComments().values().size());
+    ChangeNotes notes = newNotes(c);
+    assertTrue(notes.getDraftBaseComments(otherUserId).values().isEmpty());
+    assertEquals(2, notes.getDraftPsComments(otherUserId).values().size());
 
-    assertTrue(draftNotes.getDraftPsComments().containsValue(comment1));
-    assertTrue(draftNotes.getDraftPsComments().containsValue(comment2));
+    assertTrue(notes.getDraftPsComments(otherUserId).containsValue(comment1));
+    assertTrue(notes.getDraftPsComments(otherUserId).containsValue(comment2));
 
     // Publish first draft.
-    ChangeUpdate update = newUpdate(c, otherUser);
+    update = newUpdate(c, otherUser);
     update.setPatchSetId(psId);
     comment1.setStatus(Status.PUBLISHED);
     update.putComment(comment1);
+    update.deleteDraftComment(comment1);
     update.commit();
 
-    draftUpdate = newDraftUpdate(c, otherUser);
-    draftUpdate.setPatchSetId(psId);
-    draftUpdate.deleteComment(comment1);
-    draftUpdate.commit();
-
-    ChangeNotes notes = newNotes(c);
-    draftNotes = newDraftNotes(c, otherUser);
-
+    notes = newNotes(c);
     assertEquals(comment1,
         Iterables.getOnlyElement(notes.getPatchSetComments().get(psId)));
     assertEquals(comment2,
-        Iterables.getOnlyElement(draftNotes.getDraftPsComments().values()));
+        Iterables.getOnlyElement(
+            notes.getDraftPsComments(otherUserId).values()));
 
     assertTrue(notes.getBaseComments().values().isEmpty());
-    assertTrue(draftNotes.getDraftBaseComments().values().isEmpty());
+    assertTrue(notes.getDraftBaseComments(otherUserId).values().isEmpty());
   }
 
   @Test
@@ -1288,8 +1280,8 @@ public class ChangeNotesTest {
     PatchSet.Id psId = c.currentPatchSetId();
 
     // Write two drafts, one on each side of the patchset.
-    ChangeDraftUpdate draftUpdate = newDraftUpdate(c, otherUser);
-    draftUpdate.setPatchSetId(psId);
+    ChangeUpdate update = newUpdate(c, otherUser);
+    update.setPatchSetId(psId);
     PatchLineComment baseComment = newPatchLineComment(psId, filename, uuid1,
         range1, range1.getEndLine(), otherUser, null, now, "comment on base",
         (short) 0, baseSHA1, Status.DRAFT);
@@ -1297,37 +1289,34 @@ public class ChangeNotesTest {
         range2, range2.getEndLine(), otherUser, null, now, "comment on ps",
         (short) 1, commitSHA1, Status.DRAFT);
 
-    draftUpdate.upsertComment(baseComment);
-    draftUpdate.upsertComment(psComment);
-    draftUpdate.commit();
+    update.upsertDraftComment(baseComment);
+    update.upsertDraftComment(psComment);
+    update.commit();
 
-    DraftCommentNotes draftNotes = newDraftNotes(c, otherUser);
+    ChangeNotes notes = newNotes(c);
     PatchLineComment baseDraftCommentFromNotes =
-        Iterables.getOnlyElement(draftNotes.getDraftBaseComments().values());
+        Iterables.getOnlyElement(
+            notes.getDraftBaseComments(otherUserId).values());
     PatchLineComment psDraftCommentFromNotes =
-        Iterables.getOnlyElement(draftNotes.getDraftPsComments().values());
+        Iterables.getOnlyElement(
+            notes.getDraftPsComments(otherUserId).values());
 
     assertEquals(baseComment, baseDraftCommentFromNotes);
     assertEquals(psComment, psDraftCommentFromNotes);
 
     // Publish both comments.
-    ChangeUpdate update = newUpdate(c, otherUser);
+    update = newUpdate(c, otherUser);
     update.setPatchSetId(psId);
-    draftUpdate = newDraftUpdate(c, otherUser);
-    draftUpdate.setPatchSetId(psId);
 
     baseComment.setStatus(Status.PUBLISHED);
     psComment.setStatus(Status.PUBLISHED);
-
     update.putComment(baseComment);
     update.putComment(psComment);
+    update.deleteDraftComment(baseComment);
+    update.deleteDraftComment(psComment);
     update.commit();
-    draftUpdate.deleteComment(baseComment);
-    draftUpdate.deleteComment(psComment);
-    draftUpdate.commit();
 
-    ChangeNotes notes = newNotes(c);
-    draftNotes = newDraftNotes(c, otherUser);
+    notes = newNotes(c);
 
     PatchLineComment baseCommentFromNotes =
         Iterables.getOnlyElement(notes.getBaseComments().values());
@@ -1337,8 +1326,8 @@ public class ChangeNotesTest {
     assertEquals(baseComment, baseCommentFromNotes);
     assertEquals(psComment, psCommentFromNotes);
 
-    assertTrue(draftNotes.getDraftBaseComments().values().isEmpty());
-    assertTrue(draftNotes.getDraftPsComments().values().isEmpty());
+    assertTrue(notes.getDraftBaseComments(otherUserId).values().isEmpty());
+    assertTrue(notes.getDraftPsComments(otherUserId).values().isEmpty());
   }
 
   private Change newChange() {
@@ -1371,22 +1360,11 @@ public class ChangeNotesTest {
 
   private ChangeUpdate newUpdate(Change c, IdentifiedUser user)
       throws OrmException {
-    return TestChanges.newUpdate(injector, repoManager, c, user);
-  }
-
-  private ChangeDraftUpdate newDraftUpdate(Change c, IdentifiedUser user)
-      throws OrmException {
-    return TestChanges.newDraftUpdate(injector, repoManager, c, user);
+    return TestChanges.newUpdate(injector, repoManager, c, allUsers, user);
   }
 
   private ChangeNotes newNotes(Change c) throws OrmException {
-    return new ChangeNotes(repoManager, c).load();
-  }
-
-  private DraftCommentNotes newDraftNotes(Change c, IdentifiedUser user)
-      throws OrmException {
-    return new DraftCommentNotes(repoManager, allUsers.get(), c.getId(),
-        user.getAccountId()).load();
+    return new ChangeNotes(repoManager, allUsers, c).load();
   }
 
   private static Timestamp truncate(Timestamp ts) {

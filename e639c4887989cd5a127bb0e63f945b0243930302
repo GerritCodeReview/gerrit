@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "19f3481c_fe574104",
+        "filename": "ReleaseNotes/ReleaseNotes-2.9.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-18T09:14:53Z",
+      "side": 1,
+      "message": "I find it still confusing. On line 44 you say: It cannot be done with batch-init when additional option is provided. Here you tell me i can\u0027t do that.\n\nAfter reading these sections 7 times, i see now that line 44 deals with new site installations, while line 66 deals with upgrade. Can we make this difference more prominent?",
+      "range": {
+        "startLine": 66,
+        "startChar": 0,
+        "endLine": 68,
+        "endChar": 65
+      },
+      "revId": "e639c4887989cd5a127bb0e63f945b0243930302",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1554,6 +1554,78 @@ for the current patch set.
   }
 ----
 
+[[get-related-changes]]
+=== Get Related Changes
+--
+'GET /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/related'
+--
+
+Retrieves related changes of a revision.
+
+.Request
+----
+  GET /changes/gerrit~master~I5e4fc08ce34d33c090c9e0bf320de1b17309f774/revisions/b1cb4caa6be46d12b94c25aa68aebabcbb3f53fe/related HTTP/1.0
+----
+
+As result a link:#related-changes-info[RelatedChangesInfo] entity is returned
+describing the related changes.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "changes": [
+      {
+        "change_id": "Ic62ae3103fca2214904dbf2faf4c861b5f0ae9b5",
+        "commit": {
+          "commit": "78847477532e386f5a2185a4e8c90b2509e354e3",
+          "parents": [
+            {
+              "commit": "bb499510bbcdbc9164d96b0dbabb4aa45f59a87e"
+            }
+          ],
+          "author": {
+            "name": "David Ostrovsky",
+            "email": "david@ostrovsky.org",
+            "date": "2014-07-12 15:04:24.000000000",
+            "tz": 120
+          },
+          "subject": "Remove Solr"
+        },
+        "_change_number": 58478,
+        "_revision_number": 2,
+        "_current_revision_number": 2
+      },
+      {
+        "change_id": "I5e4fc08ce34d33c090c9e0bf320de1b17309f774",
+        "commit": {
+          "commit": "b1cb4caa6be46d12b94c25aa68aebabcbb3f53fe",
+          "parents": [
+            {
+              "commit": "d898f12a9b7a92eb37e7a80636195a1b06417aad"
+            }
+          ],
+          "author": {
+            "name": "David Pursehouse",
+            "email": "david.pursehouse@sonymobile.com",
+            "date": "2014-06-24 02:01:28.000000000",
+            "tz": 540
+          },
+          "subject": "Add support for secondary index with Elasticsearch"
+        },
+        "_change_number": 58081,
+        "_revision_number": 10,
+        "_current_revision_number": 10
+      }
+    ]
+  }
+----
+
+
 [[set-review]]
 === Set Review
 --
@@ -2860,6 +2932,77 @@ if link:#all-revisions[all revisions] are requested.
 Whether the query would deliver more results if not limited. +
 Only set on either the last or the first change that is returned.
 |==================================
+
+[[related-changes-info]]
+=== RelatedChangesInfo
+The `RelatedChangesInfo` entity contains information about related
+changes.
+
+[options="header",width="50%",cols="1,6"]
+|===========================
+|Field Name                |Description
+|`changes`                 |A list of
+link:#related-change-and-commit-info[RelatedChangeAndCommitInfo] entities
+describing the related changes.
+|===========================
+
+[[related-change-and-commit-info]]
+=== RelatedChangeAndCommitInfo
+
+The `RelatedChangeAndCommitInfo` entity contains information about
+a related change and commit.
+
+[options="header",width="50%",cols="1,6"]
+|===========================
+|Field Name                |Description
+|`change_id`               |The Change-Id of the change.
+|`commit`                  |The commit as a
+link:#related-commit-info[RelatedCommitInfo] entity.
+|`_change_number`          |The change number.
+|`_revision_number`        |The revision number.
+|`_current_revision_number`|The current revision number.
+|===========================
+
+[[related-commit-info]]
+=== RelatedCommitInfo
+The `RelatedChangeInfo` entity contains information about a related
+commit.
+
+[options="header",width="50%",cols="1,6"]
+|===========================
+|Field Name                |Description
+|`commit`                  |The commit sha1.
+|`parents`                 |The parent commit(s) as a list of
+link:#related-commit-parent-info[RelatedCommitParentInfo] entities.
+|`author`                  |The commit author as a
+link:#related-commit-author-info[RelatedCommitAuthorInfo] entity.
+|`subject`                 |The commit message subject.
+|===========================
+
+[[related-commit-parent-info]]
+=== RelatedCommitParentInfo
+The `RelatedCommitParentInfo` entity contains information about a related
+commit's parent commit.
+
+[options="header",width="50%",cols="1,6"]
+|===========================
+|Field Name                |Description
+|`commit`                  |The sha1 of the parent commit.
+|===========================
+
+[[related-commit-author-info]]
+=== RelatedCommitAuthorInfo
+The `RelatedCommitAuthorInfo` entity contains information about a related
+commit's author.
+
+[options="header",width="50%",cols="1,6"]
+|===========================
+|Field Name                |Description
+|`name`                    |The author name.
+|`email`                   |The author email.
+|`date`                    |The author timestamp.
+|`tz`                      |The timezone in minutes from UTC.
+|===========================
 
 [[change-message-info]]
 === ChangeMessageInfo

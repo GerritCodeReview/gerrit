@@ -105,7 +105,7 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
         "Current user must be identified");
     IdentifiedUser user = (IdentifiedUser) ctl.getCurrentUser();
     this.accountId = user.getAccountId();
-    this.draftNotes = draftNotesFactory.create(ctl.getChange(),
+    this.draftNotes = draftNotesFactory.create(ctl.getChange().getId(),
         user.getAccountId()).load();
 
     this.upsertComments = Lists.newArrayList();

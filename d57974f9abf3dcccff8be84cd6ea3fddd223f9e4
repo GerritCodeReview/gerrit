@@ -120,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "990818db_5a33d509",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-07-18T08:54:58Z",
+      "side": 1,
+      "message": "Ok, I\u0027ve removed it. I agree that there is a risk that it creates confusion.\n\nDone",
+      "parentUuid": "19f3481c_7e3691fb",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 48
+      },
+      "revId": "d57974f9abf3dcccff8be84cd6ea3fddd223f9e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "39900c99_cf209dbc",
         "filename": "ReleaseNotes/ReleaseNotes-2.9.txt",
         "patchSetId": 1

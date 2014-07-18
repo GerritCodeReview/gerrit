@@ -315,7 +315,7 @@ default. Optional fields are:
   )]}'
   [
     {
-      "id": "demo~master~I7ea46d2e2ee5c64c0d807677859cfb7d90b8966a",
+      "id": "gerrit~master~I7ea46d2e2ee5c64c0d807677859cfb7d90b8966a",
       "project": "gerrit",
       "branch": "master",
       "change_id": "I7ea46d2e2ee5c64c0d807677859cfb7d90b8966a",

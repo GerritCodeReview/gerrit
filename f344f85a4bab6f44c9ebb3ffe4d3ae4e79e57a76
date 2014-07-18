@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "39900c99_0f08e547",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1571,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-18T08:20:05Z",
+      "side": 1,
+      "message": "Should this explain a bit more about what a related change is?  I.e. it includes changes that either depend on, or are dependencies of the queried revision.\n\nAlso should the order be mentioned?  As far as I can tell it\u0027s in git commit order with the newest first.",
+      "revId": "f344f85a4bab6f44c9ebb3ffe4d3ae4e79e57a76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

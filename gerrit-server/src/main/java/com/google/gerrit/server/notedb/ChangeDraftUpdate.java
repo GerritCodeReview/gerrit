@@ -30,14 +30,10 @@ import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AllUsersName;
-import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.assistedinject.Assisted;
-import com.google.inject.assistedinject.AssistedInject;
-
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.ObjectId;
@@ -59,57 +55,49 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * <p>
  * This class is not thread safe.
  */
-public class ChangeDraftUpdate extends AbstractChangeUpdate {
-  public interface Factory {
-    ChangeDraftUpdate create(ChangeControl ctl);
-    ChangeDraftUpdate create(ChangeControl ctl, Date when);
-  }
-
+class ChangeDraftUpdate extends AbstractChangeUpdate {
   private final AllUsersName draftsProject;
   private final Account.Id accountId;
   private final CommentsInNotesUtil commentsUtil;
+  private final ChangeNotes changeNotes;
   private final DraftCommentNotes draftNotes;
 
   private List<PatchLineComment> upsertComments;
   private List<PatchLineComment> deleteComments;
 
-  @AssistedInject
-  private ChangeDraftUpdate(
+  ChangeDraftUpdate(
       @GerritPersonIdent PersonIdent serverIdent,
       GitRepositoryManager repoManager,
       NotesMigration migration,
       MetaDataUpdate.User updateFactory,
+      ChangeControl ctl,
+      Date when,
       DraftCommentNotes.Factory draftNotesFactory,
-      AllUsersNameProvider allUsers,
-      CommentsInNotesUtil commentsUtil,
-      @Assisted ChangeControl ctl) throws OrmException {
-    this(serverIdent, repoManager, migration, updateFactory, draftNotesFactory,
-        allUsers, commentsUtil, ctl, serverIdent.getWhen());
-  }
-
-  @AssistedInject
-  private ChangeDraftUpdate(
-      @GerritPersonIdent PersonIdent serverIdent,
-      GitRepositoryManager repoManager,
-      NotesMigration migration,
-      MetaDataUpdate.User updateFactory,
-      DraftCommentNotes.Factory draftNotesFactory,
-      AllUsersNameProvider allUsers,
-      CommentsInNotesUtil commentsUtil,
-      @Assisted ChangeControl ctl,
-      @Assisted Date when) throws OrmException {
+      AllUsersName allUsers,
+      CommentsInNotesUtil commentsUtil) throws OrmException {
     super(migration, repoManager, updateFactory, ctl, serverIdent, when);
-    this.draftsProject = allUsers.get();
+    this.draftsProject = allUsers;
     this.commentsUtil = commentsUtil;
     checkState(ctl.getCurrentUser().isIdentifiedUser(),
         "Current user must be identified");
     IdentifiedUser user = (IdentifiedUser) ctl.getCurrentUser();
     this.accountId = user.getAccountId();
-    this.draftNotes = draftNotesFactory.create(ctl.getChange(),
-        user.getAccountId()).load();
+    this.changeNotes = getChangeNotes().load();
+    this.draftNotes = draftNotesFactory.create(ctl.getChange().getId(),
+        accountId).load();
 
     this.upsertComments = Lists.newArrayList();
     this.deleteComments = Lists.newArrayList();
+  }
+
+  public void insertComment(PatchLineComment c) throws OrmException {
+    verifyComment(c);
+    checkArgument(c.getStatus() == Status.DRAFT,
+        "Cannot insert a published comment into a ChangeDraftUpdate");
+    checkArgument(!changeNotes.containsComment(c),
+        "A comment already exists with the same key, "
+        + "so the following comment cannot be inserted: %s", c);
+    upsertComments.add(c);
   }
 
   public void upsertComment(PatchLineComment c) {
@@ -119,19 +107,29 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
     upsertComments.add(c);
   }
 
-  /**
-   * This method deletes a PatchLineComment from the list of drafts. However,
-   * if the comment passed in did not previously exist as a comment, then this
-   * method is a no-op.
-   */
+  public void updateComment(PatchLineComment c) throws OrmException {
+    verifyComment(c);
+    checkArgument(c.getStatus() == Status.DRAFT,
+        "Cannot update a published comment into a ChangeDraftUpdate");
+    checkArgument(draftNotes.containsComment(c),
+        "Cannot update this comment because it didn't exist previously");
+    upsertComments.add(c);
+  }
+
   public void deleteComment(PatchLineComment c) {
     verifyComment(c);
-    Table<PatchSet.Id, String, PatchLineComment> draftsForSide =
-        c.getSide() == (short) 0
-        ? draftNotes.getDraftBaseComments()
-        : draftNotes.getDraftPsComments();
-    boolean draftExisted = draftsForSide.containsColumn(c.getKey().get());
-    if (draftExisted) {
+    checkArgument(draftNotes.containsComment(c), "Cannot delete this comment "
+        + "because it didn't previously exist as a draft");
+    deleteComments.add(c);
+  }
+
+  /**
+   * Deletes a PatchLineComment from the list of drafts only if it existed
+   * previously as a draft. If it wasn't a draft previously, this is a no-op.
+   */
+  public void deleteCommentIfPresent(PatchLineComment c) {
+    if (draftNotes.containsComment(c)) {
+      verifyComment(c);
       deleteComments.add(c);
     }
   }

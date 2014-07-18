@@ -131,6 +131,8 @@ public class WebModule extends LifecycleModule {
     bind(SocketAddress.class).annotatedWith(RemotePeer.class).toProvider(
         HttpRemotePeerProvider.class).in(RequestScoped.class);
 
+    bind(ProxyProperties.class).toProvider(ProxyPropertiesProvider.class);
+
     listener().toInstance(registerInParentInjectors());
   }
 }

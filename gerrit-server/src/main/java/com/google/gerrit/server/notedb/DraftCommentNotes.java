@@ -24,7 +24,6 @@ import com.google.common.collect.Table;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
-import com.google.gerrit.reviewdb.client.PatchSet.Id;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -49,7 +48,7 @@ import java.io.IOException;
  * View of the draft comments for a single {@link Change} based on the log of
  * its drafts branch.
  */
-public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
+class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
   @Singleton
   public static class Factory {
     private final GitRepositoryManager repoManager;
@@ -121,6 +120,10 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
 
   public NoteMap getNoteMap() {
     return noteMap;
+  }
+
+  public Account.Id getAuthor() {
+    return author;
   }
 
   /**

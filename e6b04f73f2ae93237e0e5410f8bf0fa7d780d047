@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "39900c99_effec1cf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-18T06:53:03Z",
+      "side": 1,
+      "message": "convenience",
+      "range": {
+        "startLine": 7,
+        "startChar": 35,
+        "endLine": 7,
+        "endChar": 45
+      },
+      "revId": "e6b04f73f2ae93237e0e5410f8bf0fa7d780d047",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b97b1c36_2beef920",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-18T06:53:03Z",
+      "side": 1,
+      "message": "convenience",
+      "range": {
+        "startLine": 14,
+        "startChar": 38,
+        "endLine": 14,
+        "endChar": 48
+      },
+      "revId": "e6b04f73f2ae93237e0e5410f8bf0fa7d780d047",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b97b1c36_cbf975ea",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/Section.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-18T06:53:03Z",
+      "side": 1,
+      "message": "For",
+      "range": {
+        "startLine": 173,
+        "startChar": 24,
+        "endLine": 173,
+        "endChar": 25
+      },
+      "revId": "e6b04f73f2ae93237e0e5410f8bf0fa7d780d047",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39900c99_8ff37506",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/Section.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-18T06:53:03Z",
+      "side": 1,
+      "message": "is already",
+      "range": {
+        "startLine": 176,
+        "startChar": 25,
+        "endLine": 176,
+        "endChar": 32
+      },
+      "revId": "e6b04f73f2ae93237e0e5410f8bf0fa7d780d047",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

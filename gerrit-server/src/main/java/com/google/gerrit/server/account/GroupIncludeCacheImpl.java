@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.account;
 
+import static java.util.concurrent.TimeUnit.HOURS;
+
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableSet;
@@ -49,6 +51,7 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
   private static final String MEMBERS_NAME = "groups_members";
   private static final String ACCOUNTS_NAME = "accounts_members";
   private static final String EXTERNAL_NAME = "groups_external";
+  static final String ALL_ACCOUNTS_NAME = "all_accounts_members";
 
   public static Module module() {
     return new CacheModule() {
@@ -72,6 +75,11 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
             String.class,
             new TypeLiteral<Set<AccountGroup.UUID>>() {})
           .loader(AllExternalLoader.class);
+
+        cache(ALL_ACCOUNTS_NAME,
+            AccountGroup.UUID.class,
+            new TypeLiteral<ImmutableSet<Account>>() {})
+            .expireAfterWrite(1, HOURS);
 
         bind(GroupIncludeCacheImpl.class);
         bind(GroupIncludeCache.class).to(GroupIncludeCacheImpl.class);

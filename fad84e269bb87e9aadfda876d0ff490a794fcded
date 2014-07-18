@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "19f3481c_1e6f8dc7",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-18T09:25:38Z",
+      "side": 1,
+      "message": "I am confused. Here you say, it is only used with auth.type is set to HTTP. But on line 283 you say, that it\u0027s typically used with GitHub OAuth 2.0 authentication. Beside that with GitHub OAuth, auth.type is set to OAUTH_GITHUB and not HTTP.",
+      "range": {
+        "startLine": 278,
+        "startChar": 0,
+        "endLine": 279,
+        "endChar": 42
+      },
+      "revId": "fad84e269bb87e9aadfda876d0ff490a794fcded",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

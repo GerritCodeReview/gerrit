@@ -12,6 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+include_defs('//lib/local.defs')
+
 ATLASSIAN = 'ATLASSIAN:'
 GERRIT = 'GERRIT:'
 GERRIT_API = 'GERRIT_API:'
@@ -135,35 +137,3 @@ def maven_jar(
       visibility = visibility,
     )
 
-def local_jar(
-    name,
-    jar,
-    src = None,
-    deps = [],
-    visibility = ['PUBLIC']):
-  binjar = name + '.jar'
-  srcjar = name + '-src.jar'
-  genrule(
-    name = '%s__local_bin' % name,
-    cmd = 'ln -s %s $OUT' % jar,
-    out = binjar)
-  if src:
-    genrule(
-      name = '%s__local_src' % name,
-      cmd = 'ln -s %s $OUT' % src,
-      out = srcjar)
-    prebuilt_jar(
-      name = '%s_src' % name,
-      binary_jar = ':%s__local_src' % name,
-      visibility = visibility,
-    )
-  else:
-    srcjar = None
-
-  prebuilt_jar(
-    name = name,
-    deps = deps,
-    binary_jar = ':%s__local_bin' % name,
-    source_jar = ':%s__local_src' % name if srcjar else None,
-    visibility = visibility,
-  )

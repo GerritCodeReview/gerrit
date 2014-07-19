@@ -173,7 +173,8 @@ public class MergeUtil {
   public RevCommit createCherryPickFromCommit(Repository repo,
       ObjectInserter inserter, RevCommit mergeTip, RevCommit originalCommit,
       PersonIdent cherryPickCommitterIdent, String commitMsg, RevWalk rw)
-      throws MissingObjectException, IncorrectObjectTypeException, IOException {
+      throws MissingObjectException, IncorrectObjectTypeException, IOException,
+      MergeIdenticalTreeException, MergeConflictException {
 
     final ThreeWayMerger m = newThreeWayMerger(repo, inserter);
 
@@ -181,7 +182,7 @@ public class MergeUtil {
     if (m.merge(mergeTip, originalCommit)) {
       ObjectId tree = m.getResultTreeId();
       if (tree.equals(mergeTip.getTree())) {
-        return null;
+        throw new MergeIdenticalTreeException("identical tree");
       }
 
       CommitBuilder mergeCommit = new CommitBuilder();
@@ -192,7 +193,7 @@ public class MergeUtil {
       mergeCommit.setMessage(commitMsg);
       return rw.parseCommit(commit(inserter, mergeCommit));
     } else {
-      return null;
+      throw new MergeConflictException("merge conflict");
     }
   }
 

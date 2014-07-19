@@ -27,7 +27,8 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.git.MergeException;
+import com.google.gerrit.server.git.MergeConflictException;
+import com.google.gerrit.server.git.MergeIdenticalTreeException;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidators;
@@ -100,7 +101,8 @@ public class CherryPickChange {
       final RefControl refControl) throws NoSuchChangeException,
       EmailException, OrmException, MissingObjectException,
       IncorrectObjectTypeException, IOException,
-      InvalidChangeOperationException, MergeException {
+      InvalidChangeOperationException, MergeIdenticalTreeException,
+      MergeConflictException {
 
     final Change.Id changeId = patchSetId.getParentKey();
     final PatchSet patch = db.get().patchSets().get(patchSetId);
@@ -155,10 +157,6 @@ public class CherryPickChange {
                   commitToCherryPick, committerIdent, commitMessage, revWalk);
         } finally {
           oi.release();
-        }
-
-        if (cherryPickCommit == null) {
-          throw new MergeException("Cherry pick failed");
         }
 
         Change.Key changeKey;

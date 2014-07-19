@@ -16,6 +16,7 @@ def maven_package(
     version,
     repository = None,
     url = None,
+    group = None,
     jar = {},
     src = {},
     doc = {},

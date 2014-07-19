@@ -26,7 +26,8 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.change.ChangeJson.ChangeInfo;
-import com.google.gerrit.server.git.MergeException;
+import com.google.gerrit.server.git.MergeConflictException;
+import com.google.gerrit.server.git.MergeIdenticalTreeException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -91,7 +92,7 @@ public class CherryPick implements RestModifyView<RevisionResource, CherryPickIn
       return json.format(cherryPickedChangeId);
     } catch (InvalidChangeOperationException e) {
       throw new BadRequestException(e.getMessage());
-    } catch (MergeException  e) {
+    } catch (MergeConflictException | MergeIdenticalTreeException e) {
       throw new ResourceConflictException(e.getMessage());
     } catch (NoSuchChangeException e) {
       throw new ResourceNotFoundException(e.getMessage());

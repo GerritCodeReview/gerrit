@@ -26,7 +26,9 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CommitMergeStatus;
+import com.google.gerrit.server.git.MergeConflictException;
 import com.google.gerrit.server.git.MergeException;
+import com.google.gerrit.server.git.MergeIdenticalTreeException;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.util.TimeUtil;
@@ -84,15 +86,16 @@ public class CherryPick extends SubmitStrategy {
           // taking the delta relative to that one parent and redoing
           // that on the current merge tip.
           //
-
-          mergeTip = writeCherryPickCommit(mergeTip, n);
-
-          if (mergeTip != null) {
+          try {
+            mergeTip = writeCherryPickCommit(mergeTip, n);
             newCommits.put(mergeTip.getPatchsetId().getParentKey(), mergeTip);
-          } else {
+          } catch (MergeConflictException mce) {
             n.setStatusCode(CommitMergeStatus.PATH_CONFLICT);
+            mergeTip = null;
+          } catch (MergeIdenticalTreeException mie) {
+            n.setStatusCode(CommitMergeStatus.ALREADY_MERGED);
+            mergeTip = null;
           }
-
         } else {
           // There are multiple parents, so this is a merge commit. We
           // don't want to cherry-pick the merge as clients can't easily
@@ -131,7 +134,8 @@ public class CherryPick extends SubmitStrategy {
 
   private CodeReviewCommit writeCherryPickCommit(CodeReviewCommit mergeTip,
       CodeReviewCommit n) throws IOException, OrmException,
-      NoSuchChangeException {
+      NoSuchChangeException, MergeConflictException,
+      MergeIdenticalTreeException {
 
     args.rw.parseBody(n);
 
@@ -155,10 +159,6 @@ public class CherryPick extends SubmitStrategy {
         (CodeReviewCommit) args.mergeUtil.createCherryPickFromCommit(args.repo,
             args.inserter, mergeTip, n, cherryPickCommitterIdent,
             cherryPickCmtMsg, args.rw);
-
-    if (newCommit == null) {
-        return null;
-    }
 
     PatchSet.Id id =
         ChangeUtil.nextPatchSetId(args.repo, n.change().currentPatchSetId());

@@ -145,10 +145,69 @@ public class RevisionIT extends AbstractDaemonTest {
     assertEquals(2, orig.get().messages.size());
 
     assertTrue(cherry.get().subject.contains(in.message));
+    cherry.current().review(ReviewInput.approve());
+    cherry.current().submit();
+  }
+
+  @Test
+  public void cherryPickIdenticalTree() throws GitAPIException,
+      IOException, RestApiException {
+    PushOneCommit.Result r = createChange();
+    CherryPickInput in = new CherryPickInput();
+    in.destination = "foo";
+    in.message = "it goes to stable branch";
+    gApi.projects()
+        .name(project.get())
+        .branch(in.destination)
+        .create(new BranchInput());
+    ChangeApi orig = gApi.changes()
+        .id("p~master~" + r.getChangeId());
+
+    assertEquals(1, orig.get().messages.size());
+    ChangeApi cherry = orig.revision(r.getCommit().name())
+        .cherryPick(in);
+    assertEquals(2, orig.get().messages.size());
+
+    assertTrue(cherry.get().subject.contains(in.message));
     cherry.current()
         .review(ReviewInput.approve());
     cherry.current()
         .submit();
+
+    try {
+      orig.revision(r.getCommit().name()).cherryPick(in);
+    } catch (RestApiException e) {
+      assertEquals("Identical tree", e.getMessage());
+    }
+  }
+
+  @Test
+  public void cherryPickConflict() throws GitAPIException,
+      IOException, RestApiException {
+    PushOneCommit.Result r = createChange();
+    CherryPickInput in = new CherryPickInput();
+    in.destination = "foo";
+    in.message = "it goes to stable branch";
+    gApi.projects()
+        .name(project.get())
+        .branch(in.destination)
+        .create(new BranchInput());
+
+    PushOneCommit push =
+        pushFactory.create(db, admin.getIdent(), PushOneCommit.SUBJECT,
+            PushOneCommit.FILE_NAME, "another content");
+    push.to(git, "refs/heads/foo");
+
+    ChangeApi orig = gApi.changes()
+        .id("p~master~" + r.getChangeId());
+
+    assertEquals(1, orig.get().messages.size());
+
+    try {
+      orig.revision(r.getCommit().name()).cherryPick(in);
+    } catch (RestApiException e) {
+      assertEquals("Merge conflicts", e.getMessage());
+    }
   }
 
   @Test

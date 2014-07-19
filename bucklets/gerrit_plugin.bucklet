@@ -13,3 +13,6 @@
 #
 # When compiling from standalone cookbook-plugin, bucklets directory points
 # to cloned bucklets library that includes real gerrit_plugin.bucklet code.
+
+GERRIT_PLUGIN_API = ['//gerrit-plugin-api:lib']
+GERRIT_GWT_API = ['//gerrit-plugin-gwtui/gerrit:gwtui-api']

@@ -16,3 +16,8 @@
 
 GERRIT_PLUGIN_API = ['//gerrit-plugin-api:lib']
 GERRIT_GWT_API = ['//gerrit-plugin-gwtui/gerrit:gwtui-api']
+
+def align_path(
+    plugin,
+    path):
+  return '//plugins/%s%s' % (plugin, path[1:])

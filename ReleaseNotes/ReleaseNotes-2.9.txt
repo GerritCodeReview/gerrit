@@ -20,8 +20,8 @@ link:ReleaseNotes-2.8.6.html[Gerrit 2.8.6] and
 link:ReleaseNotes-2.8.6.1.html[Gerrit 2.8.6.1].
 These bug fixes are *not* listed in these release notes.
 
-Schema Change
--------------
+Important Notes
+---------------
 
 
 *WARNING:* This release contains schema changes.  To upgrade:
@@ -117,7 +117,7 @@ Web UI
 Global
 ^^^^^^
 
-* Project links by default link to the project dashboard
+* Project links by default link to the project dashboard.
 
 
 New Change Screen
@@ -164,7 +164,7 @@ Related Changes] tabs:
 currently viewed patch set and the total number of patch sets, in the
 form: "current patch set/number of patch sets".
 
-* The currently viewed patch set is displayed in the `Patch Sets` title
+* The currently viewed patch set is displayed in the `Patch Sets` title.
 
 * Keyboard shortcuts to navigate to next/previous patch set.
 
@@ -224,7 +224,7 @@ large change can be
 link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/config-gerrit.html#change.largeChange[
 configured].
 
-* Support to drill down into dashboard section
+* Support to drill down into dashboard section.
 +
 Clicking on the section title executes the query of this section
 without the `limit` operator.
@@ -263,6 +263,8 @@ the UI.
 Secondary Index
 ~~~~~~~~~~~~~~~
 
+* Support for query via the SQL index is removed. The usage of
+a secondary index is now mandatory.
 
 * New `--recheck-mergeable` option on the
 link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/pgm-reindex.html[
@@ -349,28 +351,25 @@ the Gerrit database.
 Search
 ~~~~~~
 
-* Support for query via the SQL index is removed. The usage of
-a secondary index is now mandatory.
-
 * New link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/user-search.html#mergeable[
-is:mergeable] search operator
+is:mergeable] search operator.
 +
 Finds changes that have no merge conflicts and can be merged into the
 destination branch.
 
 * link:http://code.google.com/p/gerrit/issues/detail?id=2163[Issue 2163]:
 New link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/user-search.html#parentproject[
-parentproject] search operator
+parentproject] search operator.
 +
 Finds changes in the specified project or in one of its child projects.
 
 * link:http://code.google.com/p/gerrit/issues/detail?id=2162[Issue 2162]:
 New link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/user-search.html#conflicts[
-conflicts] search operator
+conflicts] search operator.
 +
 Finds changes that conflict with the specified change.
 
-* New operators for absolute last-updated-on search
+* New operators for absolute last-updated-on search.
 ** link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/user-search.html#before_until[
 before / until]
 ** link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/user-search.html#after_since[
@@ -378,7 +377,7 @@ after / since]
 
 * Support exact match on file parts in
 link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/user-search.html#file[
-file] operator
+file] operator.
 
 * Query shortcuts
 ** `o` = `owner`
@@ -408,13 +407,13 @@ On each documentation page there is search box in the right top corner
 that allows to search in the documentation.
 
 * link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/user-review-ui.html[
-Documentation of the new review UI]
+Documentation of the new review UI].
 
 * link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/intro-project-owner.html[
-New Project Owner Guide]
+New Project Owner Guide].
 
 * link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/index.html[
-Newly structured documentation index]
+Newly structured documentation index].
 
 
 Configuration
@@ -478,32 +477,32 @@ Extension Points
 ^^^^^^^^^^^^^^^^
 
 
-* Extension point to provide a "Message Of The Day"
+* Extension point to provide a "Message Of The Day".
 
 * Validation for
 ** link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/config-validation.html#new-project-validation[
-project creation]
+project creation].
 ** link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/config-validation.html#new-group-validation[
-group creation]
+group creation].
 
 * link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/dev-plugins.html#init_step[
-Init steps can do initialization after the site is created]
+Init steps can do initialization after the site is created].
 ** The `All-Projects` `project.config` can be read and edited
 
 * link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/dev-plugins.html#receive-pack[
-Initialization of ReceivePack]
+Initialization of ReceivePack].
 
 * link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/dev-plugins.html#post-receive-hook[
-Registration of PostReceiveHooks]
+Registration of PostReceiveHooks].
 
 * link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/dev-plugins.html#root-level-commands[
-Registration of root level commands]
+Registration of root level commands].
 
 * link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/dev-plugins.html#multiple-commands[
-Multiple SSH commands can be bound to the same class]
+Multiple SSH commands can be bound to the same class].
 
 * link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/config-gerrit.html#database.dataSourceInterceptorClass[
-DataSource Interception]
+DataSource Interception].
 
 
 JavaScript Plugins
@@ -517,7 +516,7 @@ JavaScript Callbacks]
 ** Gerrit.on(\'showchange\', f)
 
 * `change_plugins` element on the new change screen that allows to
-insert arbitrary HTML fragments from plugins
+insert arbitrary HTML fragments from plugins.
 
 
 Bug Fixes
@@ -600,9 +599,9 @@ Fix copying from copyable label in Safari.
 Secondary Index
 ~~~~~~~~~~~~~~~
 
-* Fix Online Reindexing
+* Fix Online Reindexing.
 
-* Fix for full-text search with Lucene
+* Fix for full-text search with Lucene.
 +
 The full-text search was using a fuzzy query which used the edit
 distance to find terms in the index close to the provided search term.
@@ -631,7 +630,7 @@ SSH
 Fix parsing of label name on `review` command.
 
 * link:http://code.google.com/p/gerrit/issues/detail?id=2440[Issue 2440]:
-Clarify for review command when `--verified` can be used
+Clarify for review command when `--verified` can be used.
 
 
 Plugins
@@ -650,7 +649,7 @@ Other
 
 
 * link:http://code.google.com/p/gerrit/issues/detail?id=2382[Issue 2382]:
-Clean left over data migration after removal of TrackingIds table
+Clean left over data migration after removal of TrackingIds table.
 
 
 Upgrades
@@ -685,7 +684,7 @@ Plugins
 Replication
 ~~~~~~~~~~~
 
-* Default push refSpec is changed to `refs/*:refs/*` (non-forced push)
+* Default push refSpec is changed to `refs/*:refs/*` (non-forced push).
 +
 The default push refSpec for the replication plugin has changed from `forced`
 to `non-forced` push (was `+refs/*:refs/*` and now is `refs/*:refs/*`). This change
@@ -694,14 +693,14 @@ and can be pushed by their masters only. If you wanted explicitly to overwrite
 all changes on the slaves, you need to add a `push=+refs/*:refs/*` configuration
 entry for each replication target.
 
-* Support replication of HEAD updates
+* Support replication of HEAD updates.
 
-* Stream events for ref replication
+* Stream events for ref replication.
 
-* Replications failed due to "failed to lock" errors are retried
+* Replications failed due to "failed to lock" errors are retried.
 
 * Configuration changes can be detected and replication is
-automatically restarted
+automatically restarted.
 
 Issue Tracker System plugins
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~

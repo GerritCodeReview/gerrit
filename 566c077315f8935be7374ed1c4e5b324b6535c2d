@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b97b1c36_2bc0395e",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ProxyPropertiesProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-20T05:17:57Z",
+      "side": 1,
+      "message": "Assign this before line 37 and then change 37 to `if proxyUrl !\u003d null`?",
+      "range": {
+        "startLine": 38,
+        "startChar": 6,
+        "endLine": 38,
+        "endChar": 66
+      },
+      "revId": "566c077315f8935be7374ed1c4e5b324b6535c2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

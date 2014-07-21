@@ -218,6 +218,24 @@
     },
     {
       "key": {
+        "uuid": "796fe476_e9feb5cf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-21T21:26:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b97b1c36_eb1f914e",
+      "revId": "cfe47eb6a22bc4acb1cd4682635e766a6ac414a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b97b1c36_8b24cd9c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
         "patchSetId": 6
@@ -235,6 +253,24 @@
     },
     {
       "key": {
+        "uuid": "796fe476_89f37906",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-21T21:26:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b97b1c36_8b24cd9c",
+      "revId": "cfe47eb6a22bc4acb1cd4682635e766a6ac414a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b97b1c36_ab298975",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
         "patchSetId": 6
@@ -246,6 +282,30 @@
       "writtenOn": "2014-07-21T20:59:27Z",
       "side": 1,
       "message": "Check this before making an empty pointless NoteMap that you will just discard if isEmpty() is true.",
+      "range": {
+        "startLine": 156,
+        "startChar": 4,
+        "endLine": 158,
+        "endChar": 5
+      },
+      "revId": "cfe47eb6a22bc4acb1cd4682635e766a6ac414a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39072ccd_17e4943f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-21T21:26:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b97b1c36_ab298975",
       "range": {
         "startLine": 156,
         "startChar": 4,
@@ -281,6 +341,30 @@
     },
     {
       "key": {
+        "uuid": "39072ccd_77f19001",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-21T21:26:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b97b1c36_4b2fc577",
+      "range": {
+        "startLine": 192,
+        "startChar": 31,
+        "endLine": 192,
+        "endChar": 52
+      },
+      "revId": "cfe47eb6a22bc4acb1cd4682635e766a6ac414a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "39900c99_0f9a2594",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
         "patchSetId": 6
@@ -292,6 +376,30 @@
       "writtenOn": "2014-07-21T20:59:27Z",
       "side": 1,
       "message": "I don\u0027t think this needs to be a failure case. We want it gone, and it doesn\u0027t exist. That should be good enough.",
+      "range": {
+        "startLine": 219,
+        "startChar": 0,
+        "endLine": 220,
+        "endChar": 64
+      },
+      "revId": "cfe47eb6a22bc4acb1cd4682635e766a6ac414a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39072ccd_57ee0c21",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-21T21:26:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39900c99_0f9a2594",
       "range": {
         "startLine": 219,
         "startChar": 0,
@@ -327,6 +435,30 @@
     },
     {
       "key": {
+        "uuid": "796fe476_a9f8bde2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-21T21:26:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b97b1c36_6b2c0182",
+      "range": {
+        "startLine": 243,
+        "startChar": 10,
+        "endLine": 244,
+        "endChar": 42
+      },
+      "revId": "cfe47eb6a22bc4acb1cd4682635e766a6ac414a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "39900c99_2f97e96a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
         "patchSetId": 6
@@ -350,6 +482,30 @@
     },
     {
       "key": {
+        "uuid": "796fe476_490ee158",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-21T21:26:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39900c99_2f97e96a",
+      "range": {
+        "startLine": 251,
+        "startChar": 0,
+        "endLine": 252,
+        "endChar": 15
+      },
+      "revId": "cfe47eb6a22bc4acb1cd4682635e766a6ac414a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "39900c99_cf1add61",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
         "patchSetId": 6
@@ -361,6 +517,30 @@
       "writtenOn": "2014-07-21T20:59:27Z",
       "side": 1,
       "message": "commit.setMessage(String.format(\"Comment on patch set %d\", psId.get());",
+      "range": {
+        "startLine": 279,
+        "startChar": 4,
+        "endLine": 281,
+        "endChar": 38
+      },
+      "revId": "cfe47eb6a22bc4acb1cd4682635e766a6ac414a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39072ccd_97fee4ce",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-21T21:26:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39900c99_cf1add61",
       "range": {
         "startLine": 279,
         "startChar": 4,

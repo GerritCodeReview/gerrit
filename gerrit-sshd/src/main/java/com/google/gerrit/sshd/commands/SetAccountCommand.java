@@ -14,7 +14,9 @@
 
 package com.google.gerrit.sshd.commands;
 
+import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.errors.EmailException;
+import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.restapi.RawInput;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -55,6 +57,7 @@ import java.util.List;
 
 /** Set a user's account settings. **/
 @CommandMetaData(name = "set-account", description = "Change an account's settings")
+@RequiresCapability(GlobalCapability.MODIFY_ACCOUNT)
 final class SetAccountCommand extends BaseCommand {
 
   @Argument(index = 0, required = true, metaVar = "USER", usage = "full name, email-address, ssh username or account id")
@@ -83,9 +86,6 @@ final class SetAccountCommand extends BaseCommand {
 
   @Option(name = "--http-password", metaVar = "PASSWORD", usage = "password for HTTP authentication for the account")
   private String httpPassword;
-
-  @Inject
-  private IdentifiedUser currentUser;
 
   @Inject
   private IdentifiedUser.GenericFactory genericUserFactory;
@@ -128,13 +128,6 @@ final class SetAccountCommand extends BaseCommand {
     startThread(new CommandRunnable() {
       @Override
       public void run() throws Exception {
-        if (!currentUser.getCapabilities().canAdministrateServer()) {
-          String msg =
-              String.format(
-                  "fatal: %s does not have \"Administrator\" capability.",
-                  currentUser.getUserName());
-          throw new UnloggedFailure(1, msg);
-        }
         parseCommandLine();
         validate();
         setAccount();

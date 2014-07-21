@@ -29,7 +29,7 @@ import com.google.inject.Singleton;
 
 import java.util.Collections;
 
-@RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
+@RequiresCapability(GlobalCapability.MODIFY_ACCOUNT)
 @Singleton
 public class DeleteActive implements RestModifyView<AccountResource, Input> {
   public static class Input {

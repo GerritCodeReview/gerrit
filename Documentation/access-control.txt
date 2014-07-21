@@ -1208,6 +1208,12 @@ kill command ends tasks that currently occupy the Gerrit server, usually
 a replication task or a user initiated task such as an upload-pack or
 receive-pack.
 
+[[capability_modifyAccount]]
+=== Modify Account
+
+Allow to link:cmd-set-account.html[modify accounts over the ssh prompt].
+This capability allows the granted group members to modify any user account
+setting.
 
 [[capability_priority]]
 === Priority

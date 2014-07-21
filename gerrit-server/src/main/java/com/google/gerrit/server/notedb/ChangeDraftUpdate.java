@@ -59,6 +59,7 @@ class ChangeDraftUpdate extends AbstractChangeUpdate {
   private final AllUsersName draftsProject;
   private final Account.Id accountId;
   private final CommentsInNotesUtil commentsUtil;
+  private final ChangeNotes changeNotes;
   private final DraftCommentNotes draftNotes;
 
   private List<PatchLineComment> upsertComments;
@@ -79,11 +80,22 @@ class ChangeDraftUpdate extends AbstractChangeUpdate {
     this.draftsProject = allUsers;
     this.commentsUtil = commentsUtil;
     this.accountId = user.getAccountId();
+    this.changeNotes = getChangeNotes().load();
     this.draftNotes = draftNotesFactory.create(ctl.getChange().getId(),
-        user.getAccountId()).load();
+        accountId).load();
 
     this.upsertComments = Lists.newArrayList();
     this.deleteComments = Lists.newArrayList();
+  }
+
+  public void insertComment(PatchLineComment c) throws OrmException {
+    verifyComment(c);
+    checkArgument(c.getStatus() == Status.DRAFT,
+        "Cannot insert a published comment into a ChangeDraftUpdate");
+    checkArgument(!changeNotes.containsComment(c),
+        "A comment already exists with the same key, "
+        + "so the following comment cannot be inserted: %s", c);
+    upsertComments.add(c);
   }
 
   public void upsertComment(PatchLineComment c) {
@@ -93,26 +105,36 @@ class ChangeDraftUpdate extends AbstractChangeUpdate {
     upsertComments.add(c);
   }
 
-  /**
-   * This method deletes a PatchLineComment from the list of drafts. However,
-   * if the comment passed in did not previously exist as a comment, then this
-   * method is a no-op.
-   */
+  public void updateComment(PatchLineComment c) throws OrmException {
+    verifyComment(c);
+    checkArgument(c.getStatus() == Status.DRAFT,
+        "Cannot update a published comment into a ChangeDraftUpdate");
+    checkArgument(draftNotes.containsComment(c),
+        "Cannot update this comment because it didn't exist previously");
+    upsertComments.add(c);
+  }
+
   public void deleteComment(PatchLineComment c) {
     verifyComment(c);
-    Table<PatchSet.Id, String, PatchLineComment> draftsForSide =
-        (c.getSide() == (short) 0)
-        ? draftNotes.getDraftBaseComments() :
-        draftNotes.getDraftPsComments();
-    boolean draftExisted = draftsForSide.containsColumn(c.getKey().get());
-    if (draftExisted) {
+    checkArgument(draftNotes.containsComment(c), "Cannot delete this comment "
+        + "because it didn't previously exist as a draft");
+    deleteComments.add(c);
+  }
+
+  /**
+   * Deletes a PatchLineComment from the list of drafts only if it existed
+   * previously as a draft. If it wasn't a draft previously, this is a no-op.
+   */
+  public void deleteCommentIfPresent(PatchLineComment c) {
+    if (draftNotes.containsComment(c)) {
+      verifyComment(c);
       deleteComments.add(c);
     }
   }
 
   private void verifyComment(PatchLineComment comment) {
     checkState(psId != null,
-        "setPatchSetId must be called before putComment");
+        "setPatchSetId must be called before updating a comment");
     checkArgument(getCommentPsId(comment).equals(psId),
         "Comment on %s does not match configured patch set %s",
         getCommentPsId(comment), psId);

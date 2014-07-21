@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "39900c99_afaaf99e",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/RefNames.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-07-21T20:03:16Z",
+      "side": 1,
+      "message": "changeId.get()",
+      "revId": "cfe47eb6a22bc4acb1cd4682635e766a6ac414a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39900c99_6f9df18a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VersionedMetaData.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-07-21T20:03:16Z",
+      "side": 1,
+      "message": "I think you can also add:\n\n  if (expected !\u003d null) {\n    ru.setExpectedOldObjectId(expected);\n  }",
+      "revId": "cfe47eb6a22bc4acb1cd4682635e766a6ac414a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39900c99_4fa02dbe",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VersionedMetaData.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-07-21T20:03:16Z",
+      "side": 1,
+      "message": "Dead code, should be safe to delete.",
+      "revId": "cfe47eb6a22bc4acb1cd4682635e766a6ac414a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b97b1c36_4ba025be",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VersionedMetaData.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-07-21T20:03:16Z",
+      "side": 1,
+      "message": "delete",
+      "range": {
+        "startLine": 282,
+        "startChar": 42,
+        "endLine": 282,
+        "endChar": 48
+      },
+      "revId": "cfe47eb6a22bc4acb1cd4682635e766a6ac414a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b97b1c36_2b97d96a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-07-21T20:03:16Z",
+      "side": 1,
+      "message": "style nit: we line break with ? : at start of line not end",
+      "range": {
+        "startLine": 128,
+        "startChar": 8,
+        "endLine": 130,
+        "endChar": 40
+      },
+      "revId": "cfe47eb6a22bc4acb1cd4682635e766a6ac414a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

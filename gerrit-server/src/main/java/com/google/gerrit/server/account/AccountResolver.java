@@ -86,9 +86,8 @@ public class AccountResolver {
    * @return the accounts that match, empty collection if none.  Never null.
    */
   public Set<Account.Id> findAll(String nameOrEmail) throws OrmException {
-    Matcher m = Pattern.compile("^.* \\(([1-9][0-9]*)\\)$").matcher(nameOrEmail);
-    if (m.matches()) {
-      Account.Id id = Account.Id.parse(m.group(1));
+    if (nameOrEmail.matches("^[1-9][0-9]*$")) {
+      Account.Id id = Account.Id.parse(nameOrEmail);
       if (exists(id)) {
         return Collections.singleton(id);
       } else {
@@ -96,8 +95,9 @@ public class AccountResolver {
       }
     }
 
-    if (nameOrEmail.matches("^[1-9][0-9]*$")) {
-      Account.Id id = Account.Id.parse(nameOrEmail);
+    Matcher m = Pattern.compile("^.* \\(([1-9][0-9]*)\\)$").matcher(nameOrEmail);
+    if (m.matches()) {
+      Account.Id id = Account.Id.parse(m.group(1));
       if (exists(id)) {
         return Collections.singleton(id);
       } else {

@@ -14,6 +14,9 @@
 
 package com.google.gerrit.server.change;
 
+import static com.google.gerrit.server.auth.ldap.LdapGroupBackend.LDAP_NAME;
+import static com.google.gerrit.server.auth.ldap.LdapGroupBackend.LDAP_UUID;
+
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
@@ -41,7 +44,6 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountInfo;
 import com.google.gerrit.server.account.AccountsCollection;
 import com.google.gerrit.server.account.GroupDetail;
-import com.google.gerrit.server.auth.ldap.LdapGroupBackend;
 import com.google.gerrit.server.change.ReviewerJson.PostResult;
 import com.google.gerrit.server.change.ReviewerJson.ReviewerInfo;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -135,6 +137,12 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
     }
 
     try {
+      // support adding Internal or LDAP group as reviewers.
+      if (input.reviewer.matches("^[0-9a-f]{40}$")
+          || input.reviewer.startsWith(LDAP_NAME)
+          || input.reviewer.startsWith(LDAP_UUID)) {
+        return putGroup(rsrc, input);
+      }
       Account.Id accountId = accounts.parse(input.reviewer).getAccountId();
       return putAccount(reviewerFactory.create(rsrc, accountId));
     } catch (UnprocessableEntityException e) {
@@ -164,7 +172,8 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
     GroupDescription.Basic group;
     PostResult result = new PostResult();
 
-    if (input.reviewer.startsWith(LdapGroupBackend.LDAP_NAME)) {
+    if (input.reviewer.startsWith(LDAP_NAME)
+        || input.reviewer.startsWith(LDAP_UUID)) {
       group = groupsCollection.parse(input.reviewer);
     } else {
       group = groupsCollection.parseInternal(input.reviewer);

@@ -142,6 +142,12 @@ public class Reviewers extends Composite {
   void onAdd(ClickEvent e) {
     String reviewer = suggestBox.getText();
     if (!reviewer.isEmpty()) {
+      nameTxtBox.setEnabled(false);
+      String reviwerId = reviewerSuggestOracle.getSelectedReviewerId();
+      if (reviwerId != null) {
+        addReviewer(reviwerId, false);
+        return;
+      }
       addReviewer(reviewer, false);
     }
   }

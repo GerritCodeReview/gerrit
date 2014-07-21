@@ -129,6 +129,15 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
     upsertComments.add(c);
   }
 
+  public void updateComment(PatchLineComment c) throws OrmException {
+    verifyComment(c);
+    checkArgument(c.getStatus() == Status.DRAFT,
+        "Cannot update a published comment into a ChangeDraftUpdate");
+    checkArgument(draftNotes.containsComment(c),
+        "Cannot update this comment because it didn't exist previously");
+    upsertComments.add(c);
+  }
+
   public void deleteComment(PatchLineComment c) {
     verifyComment(c);
     checkArgument(draftNotes.containsComment(c), "Cannot delete this comment "

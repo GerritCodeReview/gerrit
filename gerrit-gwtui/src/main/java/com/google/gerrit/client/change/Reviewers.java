@@ -142,6 +142,11 @@ public class Reviewers extends Composite {
   void onAdd(ClickEvent e) {
     String reviewer = suggestBox.getText();
     if (!reviewer.isEmpty()) {
+      String gUUID = reviewerSuggestOracle.getUUID(reviewer);
+      if (reviewer.startsWith("ldap/") && gUUID != null) {
+        addReviewer(gUUID, false);
+        return;
+      }
       addReviewer(reviewer, false);
     }
   }

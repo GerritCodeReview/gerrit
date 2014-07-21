@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.auth.ldap;
 
+import static com.google.gerrit.server.auth.ldap.LdapGroupBackend.LDAP_UUID;
+
 import com.google.common.base.Throwables;
 import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableSet;
@@ -59,8 +61,6 @@ import javax.security.auth.login.LoginContext;
 import javax.security.auth.login.LoginException;
 
 @Singleton class Helper {
-  static final String LDAP_UUID = "ldap:";
-
   public static String get(final String attName, final Attributes entry)
       throws NamingException {
     final Attribute att = entry.get(attName);

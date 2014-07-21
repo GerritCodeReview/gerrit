@@ -19,6 +19,7 @@ import com.google.gerrit.client.RpcStatus;
 import com.google.gerrit.client.admin.Util;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.common.data.AccountInfo;
+import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.ReviewerInfo;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwt.user.client.ui.SuggestOracle;
@@ -30,6 +31,7 @@ import java.util.List;
 public class ReviewerSuggestOracle extends SuggestAfterTypingNCharsOracle {
 
   private Change.Id changeId;
+  private List<ReviewerSuggestion> r;
 
   @Override
   protected void _onRequestSuggestions(final Request req, final Callback callback) {
@@ -38,8 +40,7 @@ public class ReviewerSuggestOracle extends SuggestAfterTypingNCharsOracle {
         SuggestUtil.SVC.suggestChangeReviewer(changeId, req.getQuery(),
             req.getLimit(), new GerritCallback<List<ReviewerInfo>>() {
               public void onSuccess(final List<ReviewerInfo> result) {
-                final List<ReviewerSuggestion> r =
-                    new ArrayList<>(result.size());
+                r = new ArrayList<>(result.size());
                 for (final ReviewerInfo reviewer : result) {
                   r.add(new ReviewerSuggestion(reviewer));
                 }
@@ -54,6 +55,18 @@ public class ReviewerSuggestOracle extends SuggestAfterTypingNCharsOracle {
     this.changeId = changeId;
   }
 
+  public String getUUID(String reviewer) {
+    if (r != null) {
+      for (ReviewerSuggestion rs : r) {
+        String uuid = rs.getUUID(reviewer);
+        if (uuid != null) {
+          return uuid;
+        }
+      }
+    }
+    return null;
+  }
+
   private static class ReviewerSuggestion implements SuggestOracle.Suggestion {
     private final ReviewerInfo reviewerInfo;
 
@@ -61,6 +74,7 @@ public class ReviewerSuggestOracle extends SuggestAfterTypingNCharsOracle {
       this.reviewerInfo = reviewerInfo;
     }
 
+    @Override
     public String getDisplayString() {
       final AccountInfo accountInfo = reviewerInfo.getAccountInfo();
       if (accountInfo != null) {
@@ -70,12 +84,21 @@ public class ReviewerSuggestOracle extends SuggestAfterTypingNCharsOracle {
           + Util.C.suggestedGroupLabel() + ")";
     }
 
+    @Override
     public String getReplacementString() {
       final AccountInfo accountInfo = reviewerInfo.getAccountInfo();
       if (accountInfo != null) {
         return FormatUtil.nameEmail(FormatUtil.asInfo(accountInfo));
       }
       return reviewerInfo.getGroup().getName();
+    }
+
+    public String getUUID(String name) {
+      GroupReference g = reviewerInfo.getGroup();
+      if (g != null && g.getName().equals(name)) {
+        return g.getUUID().get();
+      }
+      return null;
     }
   }
 }

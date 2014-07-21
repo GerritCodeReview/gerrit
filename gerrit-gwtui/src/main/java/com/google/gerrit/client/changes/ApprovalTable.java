@@ -246,6 +246,12 @@ public class ApprovalTable extends Composite {
     String reviewer = addMemberBox.getText();
     if (!reviewer.isEmpty()) {
       addMemberBox.setEnabled(false);
+      String gUUID = reviewerSuggestOracle.getUUID(reviewer);
+      if (reviewer.startsWith("ldap/") && gUUID != null) {
+        System.out.println("gUUID" +gUUID+ "----ZU");
+        addReviewer(gUUID, false);
+        return;
+      }
       addReviewer(reviewer, false);
     }
   }

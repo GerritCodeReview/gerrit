@@ -34,6 +34,7 @@ import java.util.List;
 public class RestReviewerSuggestOracle extends SuggestAfterTypingNCharsOracle {
 
   private Change.Id changeId;
+  private List<RestReviewerSuggestion> r;
 
   @Override
   protected void _onRequestSuggestions(final Request req, final Callback callback) {
@@ -41,8 +42,7 @@ public class RestReviewerSuggestOracle extends SuggestAfterTypingNCharsOracle {
         req.getLimit()).get(new GerritCallback<JsArray<SuggestReviewerInfo>>() {
           @Override
           public void onSuccess(JsArray<SuggestReviewerInfo> result) {
-            final List<RestReviewerSuggestion> r =
-                new ArrayList<>(result.length());
+            r = new ArrayList<>(result.length());
             for (final SuggestReviewerInfo reviewer : Natives.asList(result)) {
               r.add(new RestReviewerSuggestion(reviewer));
             }
@@ -55,6 +55,18 @@ public class RestReviewerSuggestOracle extends SuggestAfterTypingNCharsOracle {
     this.changeId = changeId;
   }
 
+  public String getUUID(String reviewer) {
+    if (r != null) {
+      for (RestReviewerSuggestion rs : r) {
+        String uuid = rs.getUUID(reviewer);
+        if (uuid != null) {
+          return uuid;
+        }
+      }
+    }
+    return null;
+  }
+
   private static class RestReviewerSuggestion implements SuggestOracle.Suggestion {
     private final SuggestReviewerInfo reviewer;
 
@@ -62,6 +74,7 @@ public class RestReviewerSuggestOracle extends SuggestAfterTypingNCharsOracle {
       this.reviewer = reviewer;
     }
 
+    @Override
     public String getDisplayString() {
       if (reviewer.account() != null) {
         return FormatUtil.nameEmail(reviewer.account());
@@ -72,11 +85,20 @@ public class RestReviewerSuggestOracle extends SuggestAfterTypingNCharsOracle {
           + ")";
     }
 
+    @Override
     public String getReplacementString() {
       if (reviewer.account() != null) {
         return FormatUtil.nameEmail(reviewer.account());
       }
       return reviewer.group().name();
+    }
+
+    public String getUUID(String name) {
+      GroupBaseInfo g = reviewer.group();
+      if (g != null && g.name().equals(name)) {
+        return g.getGroupUUID().get();
+      }
+      return null;
     }
   }
 

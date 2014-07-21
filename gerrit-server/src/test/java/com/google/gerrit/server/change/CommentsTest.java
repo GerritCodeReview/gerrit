@@ -168,6 +168,8 @@ public class CommentsTest  {
 
     NotesMigration migration = injector.getInstance(NotesMigration.class);
     allUsers = injector.getInstance(AllUsersNameProvider.class);
+    repoManager.createRepository(allUsers.get());
+
     plcUtil = new PatchLineCommentsUtil(migration);
 
     Account co = new Account(new Account.Id(1), TimeUtil.nowTs());

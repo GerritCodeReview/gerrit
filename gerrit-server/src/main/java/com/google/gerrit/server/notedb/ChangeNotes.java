@@ -568,6 +568,14 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   }
 
   public boolean containsComment(PatchLineComment c) throws OrmException {
+    if (containsCommentPublished(c)) {
+      return true;
+    }
+    DraftCommentNotes draftNotes = getDraftComments(c.getAuthor());
+    return draftNotes.containsComment(c);
+  }
+
+  public boolean containsCommentPublished(PatchLineComment c) {
     PatchSet.Id psId = getCommentPsId(c);
     List<PatchLineComment> list = (c.getSide() == (short) 0) ?
         getBaseComments().get(psId) : getPatchSetComments().get(psId);
@@ -576,8 +584,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
         return true;
       }
     }
-    DraftCommentNotes draftNotes = getDraftComments(c.getAuthor());
-    return draftNotes.containsComment(c);
+    return false;
   }
 
   /** @return the NoteMap */

@@ -89,6 +89,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private List<PatchLineComment> commentsForBase;
   private List<PatchLineComment> commentsForPs;
   private String changeMessage;
+  private ChangeNotes notes;
 
   @AssistedInject
   private ChangeUpdate(
@@ -177,10 +178,26 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   public void insertComment(PatchLineComment comment) throws OrmException {
     verifyComment(comment);
-    ChangeNotes notes = getChangeNotes().load();
+    if (notes == null) {
+      notes = getChangeNotes().load();
+    }
     checkArgument(notes.containsComment(comment),
         "A comment already exists with the same key as the following comment, "
         + "so we cannot insert this comment: %s", comment);
+    if (comment.getSide() == 0) {
+      commentsForBase.add(comment);
+    } else {
+      commentsForPs.add(comment);
+    }
+  }
+
+  public void updateComment(PatchLineComment comment) throws OrmException {
+    verifyComment(comment);
+    if (notes == null) {
+      notes = getChangeNotes().load();
+    }
+    checkArgument(!notes.containsCommentPublished(comment),
+        "Cannot update a comment that has already been published and saved");
     if (comment.getSide() == 0) {
       commentsForBase.add(comment);
     } else {

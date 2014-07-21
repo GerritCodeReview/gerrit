@@ -95,8 +95,8 @@ public class SetPreferences implements RestModifyView<AccountResource, Input> {
       throws AuthException, ResourceNotFoundException, OrmException,
       IOException, ConfigInvalidException {
     if (self.get() != rsrc.getUser()
-        && !self.get().getCapabilities().canAdministrateServer()) {
-      throw new AuthException("restricted to administrator");
+        && !self.get().getCapabilities().canModifyAccount()) {
+      throw new AuthException("restricted to members of Modify Accounts");
     }
     if (i == null) {
       i = new Input();

@@ -40,7 +40,7 @@ public class GetEmails implements RestReadView<AccountResource> {
   public List<EmailInfo> apply(AccountResource rsrc) throws AuthException,
       OrmException {
     if (self.get() != rsrc.getUser()
-        && !self.get().getCapabilities().canAdministrateServer()) {
+        && !self.get().getCapabilities().canModifyAccount()) {
       throw new AuthException("not allowed to list email addresses");
     }
 

@@ -68,8 +68,8 @@ public class SetDiffPreferences implements RestModifyView<AccountResource, Input
   public DiffPreferencesInfo apply(AccountResource rsrc, Input input)
       throws AuthException, OrmException {
     if (self.get() != rsrc.getUser()
-        && !self.get().getCapabilities().canAdministrateServer()) {
-      throw new AuthException("restricted to administrator");
+        && !self.get().getCapabilities().canModifyAccount()) {
+      throw new AuthException("restricted to members of Modify Accounts");
     }
     if (input == null) {
       input = new Input();

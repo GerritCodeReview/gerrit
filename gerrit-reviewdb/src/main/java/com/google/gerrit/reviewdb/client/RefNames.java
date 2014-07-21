@@ -43,6 +43,8 @@ public class RefNames {
    */
   public static final String REFS_CACHE_AUTOMERGE = "refs/cache-automerge/";
 
+  public static final String REFS_DRAFT_PREFIX = "comments-";
+
   public static String refsUsers(Account.Id accountId) {
     StringBuilder r = new StringBuilder();
     r.append(REFS_USER);
@@ -62,7 +64,7 @@ public class RefNames {
     StringBuilder r = new StringBuilder();
     r.append(refsUsers(accountId));
     r.append('/');
-    r.append("comments-");
+    r.append(REFS_DRAFT_PREFIX);
     r.append(changeId.get());
     return r.toString();
   }

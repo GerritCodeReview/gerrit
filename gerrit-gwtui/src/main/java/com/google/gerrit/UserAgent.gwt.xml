@@ -36,6 +36,7 @@
       <when-property-is name="user.agent" value="ie8"/>
       <when-property-is name="user.agent" value="ie9"/>
       <when-property-is name="user.agent" value="ie10"/>
+      <when-property-is name="user.agent" value="ie11"/>
     </any>
   </replace-with>
 </module>

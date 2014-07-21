@@ -865,7 +865,7 @@ public class ChangeNotesTest {
         uuid, range1, range1.getEndLine(), otherUser, null, time1, message1,
         (short) 1, "abcd1234abcd1234abcd1234abcd1234abcd1234");
     update.setPatchSetId(psId);
-    update.putComment(comment1);
+    update.upsertComment(comment1);
     update.commit();
 
     update = newUpdate(c, otherUser);
@@ -874,7 +874,7 @@ public class ChangeNotesTest {
         uuid, range2, range2.getEndLine(), otherUser, null, time2, message2,
         (short) 1, "abcd1234abcd1234abcd1234abcd1234abcd1234");
     update.setPatchSetId(psId);
-    update.putComment(comment2);
+    update.upsertComment(comment2);
     update.commit();
 
     update = newUpdate(c, otherUser);
@@ -883,7 +883,7 @@ public class ChangeNotesTest {
         uuid, range3, range3.getEndLine(), otherUser, null, time3, message3,
         (short) 1, "abcd1234abcd1234abcd1234abcd1234abcd1234");
     update.setPatchSetId(psId);
-    update.putComment(comment3);
+    update.upsertComment(comment3);
     update.commit();
 
     ChangeNotes notes = newNotes(c);
@@ -943,7 +943,7 @@ public class ChangeNotesTest {
         uuid, range1, range1.getEndLine(), otherUser, null, time1, message1,
         (short) 0, "abcd1234abcd1234abcd1234abcd1234abcd1234");
     update.setPatchSetId(psId);
-    update.putComment(comment1);
+    update.upsertComment(comment1);
     update.commit();
 
     update = newUpdate(c, otherUser);
@@ -952,7 +952,7 @@ public class ChangeNotesTest {
         uuid, range2, range2.getEndLine(), otherUser, null, time2, message2,
         (short) 0, "abcd1234abcd1234abcd1234abcd1234abcd1234");
     update.setPatchSetId(psId);
-    update.putComment(comment2);
+    update.upsertComment(comment2);
     update.commit();
 
     ChangeNotes notes = newNotes(c);
@@ -1005,7 +1005,7 @@ public class ChangeNotesTest {
         range, range.getEndLine(), otherUser, null, now, messageForBase,
         (short) 0, "abcd1234abcd1234abcd1234abcd1234abcd1234");
     update.setPatchSetId(psId);
-    update.putComment(commentForBase);
+    update.upsertComment(commentForBase);
     update.commit();
 
     update = newUpdate(c, otherUser);
@@ -1014,7 +1014,7 @@ public class ChangeNotesTest {
         range, range.getEndLine(), otherUser, null, now, messageForPS,
         (short) 1, "abcd4567abcd4567abcd4567abcd4567abcd4567");
     update.setPatchSetId(psId);
-    update.putComment(commentForPS);
+    update.upsertComment(commentForPS);
     update.commit();
 
     ChangeNotes notes = newNotes(c);
@@ -1047,7 +1047,7 @@ public class ChangeNotesTest {
         uuid, range, range.getEndLine(), otherUser, null, timeForComment1,
         "comment 1", side, "abcd1234abcd1234abcd1234abcd1234abcd1234");
     update.setPatchSetId(psId);
-    update.putComment(comment1);
+    update.upsertComment(comment1);
     update.commit();
 
     update = newUpdate(c, otherUser);
@@ -1055,7 +1055,7 @@ public class ChangeNotesTest {
         uuid, range, range.getEndLine(), otherUser, null, timeForComment2,
         "comment 2", side, "abcd1234abcd1234abcd1234abcd1234abcd1234");
     update.setPatchSetId(psId);
-    update.putComment(comment2);
+    update.upsertComment(comment2);
     update.commit();
 
     ChangeNotes notes = newNotes(c);
@@ -1093,7 +1093,7 @@ public class ChangeNotesTest {
         uuid, range, range.getEndLine(), otherUser, null, now, "comment 1",
         side, "abcd1234abcd1234abcd1234abcd1234abcd1234");
     update.setPatchSetId(psId);
-    update.putComment(comment1);
+    update.upsertComment(comment1);
     update.commit();
 
     update = newUpdate(c, otherUser);
@@ -1101,7 +1101,7 @@ public class ChangeNotesTest {
         uuid, range, range.getEndLine(), otherUser, null, now, "comment 2",
         side, "abcd1234abcd1234abcd1234abcd1234abcd1234");
     update.setPatchSetId(psId);
-    update.putComment(comment2);
+    update.upsertComment(comment2);
     update.commit();
 
     ChangeNotes notes = newNotes(c);
@@ -1137,7 +1137,7 @@ public class ChangeNotesTest {
         uuid, range, range.getEndLine(), otherUser, null, now, "comment on ps1",
         side, "abcd1234abcd1234abcd1234abcd1234abcd1234");
     update.setPatchSetId(ps1);
-    update.putComment(comment1);
+    update.upsertComment(comment1);
     update.commit();
 
     incrementPatchSet(c);
@@ -1149,7 +1149,7 @@ public class ChangeNotesTest {
         uuid, range, range.getEndLine(), otherUser, null, now, "comment on ps2",
         side, "abcd4567abcd4567abcd4567abcd4567abcd4567");
     update.setPatchSetId(ps2);
-    update.putComment(comment2);
+    update.upsertComment(comment2);
     update.commit();
 
     ChangeNotes notes = newNotes(c);
@@ -1187,7 +1187,7 @@ public class ChangeNotesTest {
         range, range.getEndLine(), otherUser, null, now, "comment on ps1", side,
         "abcd4567abcd4567abcd4567abcd4567abcd4567", Status.DRAFT);
     update.setPatchSetId(ps1);
-    update.upsertDraftComment(comment1);
+    update.insertComment(comment1);
     update.commit();
 
     ChangeNotes notes = newNotes(c);
@@ -1197,8 +1197,7 @@ public class ChangeNotesTest {
     comment1.setStatus(Status.PUBLISHED);
     update = newUpdate(c, otherUser);
     update.setPatchSetId(ps1);
-    update.deleteDraftComment(comment1);
-    update.putComment(comment1);
+    update.updateComment(comment1);
     update.commit();
 
     notes = newNotes(c);
@@ -1235,8 +1234,8 @@ public class ChangeNotesTest {
     PatchLineComment comment2 = newPatchLineComment(psId, filename, uuid2,
         range2, range2.getEndLine(), otherUser, null, now, "other on ps1",
         side, commitSHA1, Status.DRAFT);
-    update.upsertDraftComment(comment1);
-    update.upsertDraftComment(comment2);
+    update.insertComment(comment1);
+    update.insertComment(comment2);
     update.commit();
 
     ChangeNotes notes = newNotes(c);
@@ -1250,8 +1249,7 @@ public class ChangeNotesTest {
     update = newUpdate(c, otherUser);
     update.setPatchSetId(psId);
     comment1.setStatus(Status.PUBLISHED);
-    update.putComment(comment1);
-    update.deleteDraftComment(comment1);
+    update.updateComment(comment1);
     update.commit();
 
     notes = newNotes(c);
@@ -1289,8 +1287,8 @@ public class ChangeNotesTest {
         range2, range2.getEndLine(), otherUser, null, now, "comment on ps",
         (short) 1, commitSHA1, Status.DRAFT);
 
-    update.upsertDraftComment(baseComment);
-    update.upsertDraftComment(psComment);
+    update.insertComment(baseComment);
+    update.insertComment(psComment);
     update.commit();
 
     ChangeNotes notes = newNotes(c);
@@ -1310,10 +1308,8 @@ public class ChangeNotesTest {
 
     baseComment.setStatus(Status.PUBLISHED);
     psComment.setStatus(Status.PUBLISHED);
-    update.putComment(baseComment);
-    update.putComment(psComment);
-    update.deleteDraftComment(baseComment);
-    update.deleteDraftComment(psComment);
+    update.updateComment(baseComment);
+    update.updateComment(psComment);
     update.commit();
 
     notes = newNotes(c);

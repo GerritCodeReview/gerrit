@@ -77,6 +77,15 @@ public class PatchLineCommentsUtil {
     return commentsOnPs;
   }
 
+  // TODO(yyonas): Delete drafts if they already existed.
+  public void addPublishedComments(ReviewDb db, ChangeUpdate update,
+      Iterable<PatchLineComment> comments) throws OrmException {
+    for (PatchLineComment c : comments) {
+      update.upsertComment(c);
+    }
+    db.patchComments().upsert(comments);
+  }
+
   private static Collection<PatchLineComment> addCommentsInFile(
       Collection<PatchLineComment> commentsOnFile,
       Collection<PatchLineComment> allComments,
@@ -88,13 +97,5 @@ public class PatchLineCommentsUtil {
       }
     }
     return commentsOnFile;
-  }
-
-  public void addPublishedComments(ReviewDb db, ChangeUpdate update,
-      Iterable<PatchLineComment> comments) throws OrmException {
-    for (PatchLineComment c : comments) {
-      update.putComment(c);
-    }
-    db.patchComments().upsert(comments);
   }
 }

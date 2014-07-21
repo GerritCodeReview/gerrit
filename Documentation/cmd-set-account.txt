@@ -21,7 +21,15 @@ It also allows managing email addresses, which bypasses the
 verification step we force within the UI.
 
 == ACCESS
-Caller must be a member of the privileged 'Administrators' group.
+Caller must be a member of the privileged 'Administrators' group,
+or have been granted
+link:access-control.html#capability_modifyAccount[the 'Modify Account' global capability].
+
+To set the HTTP password for the user account (option --http-password) the
+caller must be a member of the privileged 'Administrators' group,
+or have been granted
+link:access-control.html#capability_generateHttpPassword[the 'Generate HTTP Password' global capability]
+in addition to 'Modify Account' global capability.
 
 == SCRIPTING
 This command is intended to be used in scripts.

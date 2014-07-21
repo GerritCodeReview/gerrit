@@ -110,6 +110,12 @@ public class CapabilityControl {
       || canAdministrateServer();
   }
 
+  /** @return true if the user can modify an account for another user. */
+  public boolean canModifyAccount() {
+    return canPerform(GlobalCapability.MODIFY_ACCOUNT)
+      || canAdministrateServer();
+  }
+
   /** @return true if the user can view all accounts. */
   public boolean canViewAllAccounts() {
     return canPerform(GlobalCapability.VIEW_ALL_ACCOUNTS)

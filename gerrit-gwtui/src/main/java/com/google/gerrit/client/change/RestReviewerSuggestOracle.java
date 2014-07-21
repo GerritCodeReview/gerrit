@@ -34,6 +34,7 @@ import java.util.List;
 public class RestReviewerSuggestOracle extends SuggestAfterTypingNCharsOracle {
 
   private Change.Id changeId;
+  private String selectedReviewerId;
 
   @Override
   protected void _onRequestSuggestions(final Request req, final Callback callback) {
@@ -55,13 +56,18 @@ public class RestReviewerSuggestOracle extends SuggestAfterTypingNCharsOracle {
     this.changeId = changeId;
   }
 
-  private static class RestReviewerSuggestion implements SuggestOracle.Suggestion {
+  public String getSelectedReviewerId() {
+    return selectedReviewerId;
+  }
+
+  private class RestReviewerSuggestion implements SuggestOracle.Suggestion {
     private final SuggestReviewerInfo reviewer;
 
     RestReviewerSuggestion(final SuggestReviewerInfo reviewer) {
       this.reviewer = reviewer;
     }
 
+    @Override
     public String getDisplayString() {
       if (reviewer.account() != null) {
         return FormatUtil.nameEmail(reviewer.account());
@@ -72,10 +78,13 @@ public class RestReviewerSuggestOracle extends SuggestAfterTypingNCharsOracle {
           + ")";
     }
 
+    @Override
     public String getReplacementString() {
       if (reviewer.account() != null) {
+        selectedReviewerId = String.valueOf(reviewer.account()._account_id());
         return FormatUtil.nameEmail(reviewer.account());
       }
+      selectedReviewerId = reviewer.group().getGroupUUID().get();
       return reviewer.group().name();
     }
   }

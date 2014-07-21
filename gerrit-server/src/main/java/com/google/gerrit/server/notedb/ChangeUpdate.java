@@ -33,6 +33,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
@@ -91,6 +92,8 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private List<PatchLineComment> commentsForBase;
   private List<PatchLineComment> commentsForPs;
   private String changeMessage;
+  private ChangeNotes notes;
+
 
   private final DraftCommentNotes.Factory draftNotesFactory;
   private final AllUsersNameProvider allUsers;
@@ -190,45 +193,129 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     this.changeMessage = changeMessage;
   }
 
-  public void putComment(PatchLineComment comment) {
-    checkArgument(psId != null,
-        "setPatchSetId must be called before putComment");
-    checkArgument(getCommentPsId(comment).equals(psId),
-        "Comment on %s doesn't match previous patch set %s",
-        getCommentPsId(comment), psId);
-    checkArgument(comment.getRevId() != null);
-    if (comment.getSide() == 0) {
-      commentsForBase.add(comment);
+  public void insertComment(PatchLineComment comment) throws OrmException {
+    if (comment.getStatus() == Status.DRAFT) {
+      insertDraftComment(comment);
     } else {
-      commentsForPs.add(comment);
+      insertPublishedComment(comment);
     }
   }
 
-  public void upsertDraftComment(PatchLineComment c) throws OrmException {
-    createDraftUpdateIfNull();
-    if (draftUpdate.psId == null) {
-      draftUpdate.setPatchSetId(getCommentPsId(c));
+  public void upsertComment(PatchLineComment comment) throws OrmException {
+    if (comment.getStatus() == Status.DRAFT) {
+      upsertDraftComment(comment);
+    } else {
+      deleteDraftCommentIfPresent(comment);
+      upsertPublishedComment(comment);
     }
+  }
+
+  public void updateComment(PatchLineComment comment) throws OrmException {
+    if (comment.getStatus() == Status.DRAFT) {
+      updateDraftComment(comment);
+    } else {
+      deleteDraftCommentIfPresent(comment);
+      updatePublishedComment(comment);
+    }
+  }
+
+  public void deleteComment(PatchLineComment comment) throws OrmException {
+    if (comment.getStatus() == Status.DRAFT) {
+      deleteDraftComment(comment);
+    } else {
+      throw new IllegalArgumentException("Cannot delete a published comment.");
+    }
+  }
+
+  private void insertPublishedComment(PatchLineComment c) throws OrmException {
+    verifyComment(c);
+    checkArgument(!notes.containsComment(c),
+        "A comment already exists with the same key as the following comment, "
+        + "so we cannot insert this comment: %s", c);
+    if (c.getSide() == 0) {
+      commentsForBase.add(c);
+    } else {
+      commentsForPs.add(c);
+    }
+  }
+
+  private void insertDraftComment(PatchLineComment c) throws OrmException {
+    createDraftUpdateIfNull(c);
+    draftUpdate.insertComment(c);
+  }
+
+  private void upsertPublishedComment(PatchLineComment c) {
+    verifyComment(c);
+    if (c.getSide() == 0) {
+      commentsForBase.add(c);
+    } else {
+      commentsForPs.add(c);
+    }
+  }
+
+  private void upsertDraftComment(PatchLineComment c) throws OrmException {
+    createDraftUpdateIfNull(c);
     draftUpdate.upsertComment(c);
   }
 
-  public void deleteDraftComment(PatchLineComment c) throws OrmException {
-    createDraftUpdateIfNull();
-    if (draftUpdate.psId == null) {
-      draftUpdate.setPatchSetId(getCommentPsId(c));
+  private void updatePublishedComment(PatchLineComment c) throws OrmException {
+    verifyComment(c);
+    if (notes == null) {
+      notes = getChangeNotes().load();
     }
+    checkArgument(!notes.containsCommentPublished(c),
+        "Cannot update a comment that has already been published and saved");
+    if (c.getSide() == 0) {
+      commentsForBase.add(c);
+    } else {
+      commentsForPs.add(c);
+    }
+  }
+
+  private void updateDraftComment(PatchLineComment c) throws OrmException {
+    createDraftUpdateIfNull(c);
+    draftUpdate.updateComment(c);
+  }
+
+  private void deleteDraftComment(PatchLineComment c) throws OrmException {
+    createDraftUpdateIfNull(c);
     draftUpdate.deleteComment(c);
   }
 
-  private void createDraftUpdateIfNull() throws OrmException {
+  private void deleteDraftCommentIfPresent(PatchLineComment c)
+      throws OrmException {
+    createDraftUpdateIfNull(c);
+    draftUpdate.deleteCommentIfPresent(c);
+  }
+
+
+  private void createDraftUpdateIfNull(PatchLineComment c) throws OrmException {
     if (draftUpdate == null) {
       draftUpdate = new ChangeDraftUpdate(serverIdent, repoManager, migration,
           updateFactory, getUser(), ctl, when, draftNotesFactory,
           allUsers.get(), commentsUtil);
       if (psId != null) {
         draftUpdate.setPatchSetId(psId);
+      } else {
+        draftUpdate.setPatchSetId(getCommentPsId(c));
       }
     }
+  }
+
+  private void verifyComment(PatchLineComment c) {
+    checkArgument(psId != null,
+        "setPatchSetId must be called before putComment");
+    checkArgument(getCommentPsId(c).equals(psId),
+        "Comment on %s doesn't match previous patch set %s",
+        getCommentPsId(c), psId);
+    checkArgument(c.getRevId() != null);
+    checkArgument(c.getStatus() == Status.PUBLISHED,
+        "Cannot add a draft comment to a ChangeUpdate. Use a ChangeDraftUpdate "
+        + "for draft comments");
+    checkArgument(c.getAuthor().equals(getUser().getAccountId()),
+        "The author for the following comment does not match the author of "
+        + "this ChangeDraftUpdate (%s): %s", getUser().getAccountId(), c);
+
   }
 
   public void putReviewer(Account.Id reviewer, ReviewerState type) {

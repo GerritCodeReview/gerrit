@@ -198,6 +198,178 @@
       "revId": "cfe47eb6a22bc4acb1cd4682635e766a6ac414a5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b97b1c36_eb1f914e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-07-21T20:59:27Z",
+      "side": 1,
+      "message": "checkState is better for this test.",
+      "revId": "cfe47eb6a22bc4acb1cd4682635e766a6ac414a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b97b1c36_8b24cd9c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-07-21T20:59:27Z",
+      "side": 1,
+      "message": "\"previous patch set\" is awkward concept here. it implies there is an ordering with another call.\n\nMaybe \"Comment on %s does not match configured patch set %s\".",
+      "revId": "cfe47eb6a22bc4acb1cd4682635e766a6ac414a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b97b1c36_ab298975",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-07-21T20:59:27Z",
+      "side": 1,
+      "message": "Check this before making an empty pointless NoteMap that you will just discard if isEmpty() is true.",
+      "range": {
+        "startLine": 156,
+        "startChar": 4,
+        "endLine": 158,
+        "endChar": 5
+      },
+      "revId": "cfe47eb6a22bc4acb1cd4682635e766a6ac414a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b97b1c36_4b2fc577",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-07-21T20:59:27Z",
+      "side": 1,
+      "message": "The names draftBaseCommentTable and updatedDraftBaseComments below are very long drawn out ways to name the variable.\n\nConsider shorter names, e.g. \"baseDrafts\", \"newBaseDrafts\".",
+      "range": {
+        "startLine": 192,
+        "startChar": 31,
+        "endLine": 192,
+        "endChar": 52
+      },
+      "revId": "cfe47eb6a22bc4acb1cd4682635e766a6ac414a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39900c99_0f9a2594",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-07-21T20:59:27Z",
+      "side": 1,
+      "message": "I don\u0027t think this needs to be a failure case. We want it gone, and it doesn\u0027t exist. That should be good enough.",
+      "range": {
+        "startLine": 219,
+        "startChar": 0,
+        "endLine": 220,
+        "endChar": 64
+      },
+      "revId": "cfe47eb6a22bc4acb1cd4682635e766a6ac414a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b97b1c36_6b2c0182",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-07-21T20:59:27Z",
+      "side": 1,
+      "message": "This isn\u0027t entirely true. You could have draft comments on a different patch set in the same change that would still need the ref.",
+      "range": {
+        "startLine": 243,
+        "startChar": 10,
+        "endLine": 244,
+        "endChar": 42
+      },
+      "revId": "cfe47eb6a22bc4acb1cd4682635e766a6ac414a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39900c99_2f97e96a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-07-21T20:59:27Z",
+      "side": 1,
+      "message": "return batch.commit();",
+      "range": {
+        "startLine": 251,
+        "startChar": 0,
+        "endLine": 252,
+        "endChar": 15
+      },
+      "revId": "cfe47eb6a22bc4acb1cd4682635e766a6ac414a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39900c99_cf1add61",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-07-21T20:59:27Z",
+      "side": 1,
+      "message": "commit.setMessage(String.format(\"Comment on patch set %d\", psId.get());",
+      "range": {
+        "startLine": 279,
+        "startChar": 4,
+        "endLine": 281,
+        "endChar": 38
+      },
+      "revId": "cfe47eb6a22bc4acb1cd4682635e766a6ac414a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

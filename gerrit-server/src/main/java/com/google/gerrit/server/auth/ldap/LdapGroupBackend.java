@@ -16,7 +16,6 @@ package com.google.gerrit.server.auth.ldap;
 
 import static com.google.gerrit.server.account.GroupBackends.GROUP_REF_NAME_COMPARATOR;
 import static com.google.gerrit.server.account.GroupBackends.getComparator;
-import static com.google.gerrit.server.auth.ldap.Helper.LDAP_UUID;
 import static com.google.gerrit.server.auth.ldap.LdapModule.GROUP_CACHE;
 import static com.google.gerrit.server.auth.ldap.LdapModule.GROUP_EXIST_CACHE;
 import static com.google.gerrit.server.auth.ldap.LdapModule.USERNAME_CACHE;
@@ -76,6 +75,7 @@ public class LdapGroupBackend implements GroupBackend {
   private static final Logger log = LoggerFactory.getLogger(LdapGroupBackend.class);
 
   public static final String LDAP_NAME = "ldap/";
+  public static final String LDAP_UUID = "ldap:";
 
   private final Helper helper;
   private final LoadingCache<String, Set<AccountGroup.UUID>> membershipCache;

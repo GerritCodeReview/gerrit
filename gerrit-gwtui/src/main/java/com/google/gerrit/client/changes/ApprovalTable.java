@@ -246,6 +246,11 @@ public class ApprovalTable extends Composite {
     String reviewer = addMemberBox.getText();
     if (!reviewer.isEmpty()) {
       addMemberBox.setEnabled(false);
+      String reviwerId = reviewerSuggestOracle.getSelectedReviewerId();
+      if (reviwerId != null) {
+        addReviewer(reviwerId, false);
+        return;
+      }
       addReviewer(reviewer, false);
     }
   }

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.auth.ldap;
 
+import static com.google.gerrit.server.auth.ldap.LdapGroupBackend.LDAP_UUID;
+
 import com.google.common.base.Throwables;
 import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableSet;
@@ -63,8 +65,6 @@ import javax.security.auth.login.LoginContext;
 import javax.security.auth.login.LoginException;
 
 @Singleton class Helper {
-  static final String LDAP_UUID = "ldap:";
-
   static private Map<String, String> getPoolProperties(Config config) {
     if (LdapRealm.optional(config, "useConnectionPooling", false)) {
       Map<String, String> r = Maps.newHashMap();

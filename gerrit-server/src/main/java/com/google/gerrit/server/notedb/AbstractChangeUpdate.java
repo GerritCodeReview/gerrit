@@ -59,6 +59,10 @@ public abstract class AbstractChangeUpdate extends VersionedMetaData {
     this.when = when;
   }
 
+  public ChangeNotes getChangeNotes() {
+    return ctl.getNotes();
+  }
+
   public Change getChange() {
     return ctl.getChange();
   }

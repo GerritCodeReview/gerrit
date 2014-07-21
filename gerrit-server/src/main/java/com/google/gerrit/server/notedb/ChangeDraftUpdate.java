@@ -67,6 +67,7 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
   private final AllUsersName draftsProject;
   private final Account.Id accountId;
   private final CommentsInNotesUtil commentsUtil;
+  private final ChangeNotes changeNotes;
   private final DraftCommentNotes draftNotes;
 
   private List<PatchLineComment> upsertComments;
@@ -80,11 +81,11 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
       MetaDataUpdate.User updateFactory,
       IdentifiedUser user,
       @Assisted ChangeControl ctl,
-      DraftCommentNotes.Factory draftNotesFactory,
+      ChangeNotes.Factory changeNotesFactory,
       AllUsersNameProvider allUsers,
       CommentsInNotesUtil commentsUtil) throws OrmException {
     this(serverIdent, repoManager, migration, updateFactory, user, ctl,
-        serverIdent.getWhen(), draftNotesFactory, allUsers, commentsUtil);
+        serverIdent.getWhen(), changeNotesFactory, allUsers, commentsUtil);
   }
 
   @AssistedInject
@@ -96,18 +97,28 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
       IdentifiedUser user,
       @Assisted ChangeControl ctl,
       @Assisted Date when,
-      DraftCommentNotes.Factory draftNotesFactory,
+      ChangeNotes.Factory changeNotesFactory,
       AllUsersNameProvider allUsers,
       CommentsInNotesUtil commentsUtil) throws OrmException {
     super(migration, repoManager, updateFactory, ctl, serverIdent, when);
     this.draftsProject = allUsers.get();
     this.commentsUtil = commentsUtil;
     this.accountId = user.getAccountId();
-    this.draftNotes = draftNotesFactory.create(ctl.getChange().getId(),
-        user.getAccountId()).load();
+    this.changeNotes = changeNotesFactory.create(ctl.getChange()).load();
+    this.draftNotes = changeNotes.getDraftComments(accountId);
 
     this.upsertComments = Lists.newArrayList();
     this.deleteComments = Lists.newArrayList();
+  }
+
+  public void insertComment(PatchLineComment c) throws OrmException {
+    verifyComment(c);
+    checkArgument(c.getStatus() == Status.DRAFT,
+        "Cannot insert a published comment into a ChangeDraftUpdate");
+    checkArgument(changeNotes.containsComment(c),
+        "A comment already exists with the same key, "
+        + "so the following comment cannot be inserted: %s", c);
+    upsertComments.add(c);
   }
 
   public void upsertComment(PatchLineComment c) {

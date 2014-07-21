@@ -19,6 +19,7 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_STATUS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMITTED_WITH;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.GERRIT_PLACEHOLDER_HOST;
+import static com.google.gerrit.server.notedb.CommentsInNotesUtil.getCommentPsId;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Enums;
@@ -564,6 +565,19 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       draftCommentNotes.load();
     }
     return draftCommentNotes;
+  }
+
+  public boolean containsComment(PatchLineComment c) throws OrmException {
+    PatchSet.Id psId = getCommentPsId(c);
+    List<PatchLineComment> list = (c.getSide() == (short) 0) ?
+        getBaseComments().get(psId) : getPatchSetComments().get(psId);
+    for (PatchLineComment l : list) {
+      if (c.getKey().equals(l.getKey())) {
+        return true;
+      }
+    }
+    DraftCommentNotes draftNotes = getDraftComments(c.getAuthor());
+    return draftNotes.containsComment(c);
   }
 
   /** @return the NoteMap */

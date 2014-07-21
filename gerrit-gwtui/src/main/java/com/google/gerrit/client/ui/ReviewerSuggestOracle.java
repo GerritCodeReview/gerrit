@@ -30,6 +30,7 @@ import java.util.List;
 public class ReviewerSuggestOracle extends SuggestAfterTypingNCharsOracle {
 
   private Change.Id changeId;
+  private String selectedReviewerId;
 
   @Override
   protected void _onRequestSuggestions(final Request req, final Callback callback) {
@@ -54,13 +55,18 @@ public class ReviewerSuggestOracle extends SuggestAfterTypingNCharsOracle {
     this.changeId = changeId;
   }
 
-  private static class ReviewerSuggestion implements SuggestOracle.Suggestion {
+  public String getSelectedReviewerId() {
+    return selectedReviewerId;
+  }
+
+  private class ReviewerSuggestion implements SuggestOracle.Suggestion {
     private final ReviewerInfo reviewerInfo;
 
     ReviewerSuggestion(final ReviewerInfo reviewerInfo) {
       this.reviewerInfo = reviewerInfo;
     }
 
+    @Override
     public String getDisplayString() {
       final AccountInfo accountInfo = reviewerInfo.getAccountInfo();
       if (accountInfo != null) {
@@ -70,11 +76,14 @@ public class ReviewerSuggestOracle extends SuggestAfterTypingNCharsOracle {
           + Util.C.suggestedGroupLabel() + ")";
     }
 
+    @Override
     public String getReplacementString() {
       final AccountInfo accountInfo = reviewerInfo.getAccountInfo();
       if (accountInfo != null) {
+        selectedReviewerId = String.valueOf(accountInfo.getId().get());
         return FormatUtil.nameEmail(FormatUtil.asInfo(accountInfo));
       }
+      selectedReviewerId = reviewerInfo.getGroup().getUUID().get();
       return reviewerInfo.getGroup().getName();
     }
   }

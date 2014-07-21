@@ -28,7 +28,7 @@ import com.google.inject.Provider;
 
 import java.util.Collections;
 
-@RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
+@RequiresCapability(GlobalCapability.MODIFY_ACCOUNT)
 public class PutActive implements RestModifyView<AccountResource, Input> {
   public static class Input {
   }

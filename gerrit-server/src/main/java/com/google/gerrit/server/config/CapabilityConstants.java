@@ -30,6 +30,7 @@ public class CapabilityConstants extends TranslationBundle {
   public String emailReviewers;
   public String flushCaches;
   public String killTask;
+  public String modifyAccount;
   public String priority;
   public String queryLimit;
   public String runAs;

@@ -49,7 +49,7 @@ public class PutPreferred implements
   public Response<String> apply(AccountResource.Email rsrc, Input input)
       throws AuthException, ResourceNotFoundException, OrmException {
     if (self.get() != rsrc.getUser()
-        && !self.get().getCapabilities().canAdministrateServer()) {
+        && !self.get().getCapabilities().canModifyAccount()) {
       throw new AuthException("not allowed to set preferred email address");
     }
 

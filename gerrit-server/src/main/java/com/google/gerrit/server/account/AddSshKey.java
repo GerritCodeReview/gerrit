@@ -60,7 +60,7 @@ public class AddSshKey implements RestModifyView<AccountResource, Input> {
       throws AuthException, MethodNotAllowedException, BadRequestException,
       ResourceConflictException, OrmException, IOException {
     if (self.get() != rsrc.getUser()
-        && !self.get().getCapabilities().canAdministrateServer()) {
+        && !self.get().getCapabilities().canModifyAccount()) {
       throw new AuthException("not allowed to add SSH keys");
     }
     if (input == null) {

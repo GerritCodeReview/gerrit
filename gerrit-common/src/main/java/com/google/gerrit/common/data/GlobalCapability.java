@@ -38,6 +38,9 @@ public class GlobalCapability {
   /** Can create any account on the server. */
   public static final String CREATE_ACCOUNT = "createAccount";
 
+  /** Can modify any account on the server. */
+  public static final String MODIFY_ACCOUNT = "modifyAccount";
+
   /** Can create any group on the server. */
   public static final String CREATE_GROUP = "createGroup";
 
@@ -101,6 +104,7 @@ public class GlobalCapability {
     NAMES_ALL.add(EMAIL_REVIEWERS);
     NAMES_ALL.add(FLUSH_CACHES);
     NAMES_ALL.add(KILL_TASK);
+    NAMES_ALL.add(MODIFY_ACCOUNT);
     NAMES_ALL.add(PRIORITY);
     NAMES_ALL.add(QUERY_LIMIT);
     NAMES_ALL.add(RUN_AS);

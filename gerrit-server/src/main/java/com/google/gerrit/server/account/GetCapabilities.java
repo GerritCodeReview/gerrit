@@ -21,6 +21,7 @@ import static com.google.gerrit.common.data.GlobalCapability.CREATE_PROJECT;
 import static com.google.gerrit.common.data.GlobalCapability.EMAIL_REVIEWERS;
 import static com.google.gerrit.common.data.GlobalCapability.FLUSH_CACHES;
 import static com.google.gerrit.common.data.GlobalCapability.KILL_TASK;
+import static com.google.gerrit.common.data.GlobalCapability.MODIFY_ACCOUNT;
 import static com.google.gerrit.common.data.GlobalCapability.PRIORITY;
 import static com.google.gerrit.common.data.GlobalCapability.RUN_GC;
 import static com.google.gerrit.common.data.GlobalCapability.STREAM_EVENTS;
@@ -111,6 +112,8 @@ class GetCapabilities implements RestReadView<AccountResource> {
     have.put(CREATE_PROJECT, cc.canCreateProject());
     have.put(EMAIL_REVIEWERS, cc.canEmailReviewers());
     have.put(KILL_TASK, cc.canKillTask());
+    have.put(MODIFY_ACCOUNT, cc.canModifyAccount());
+    have.put(RUN_GC, cc.canRunGC());
     have.put(VIEW_CACHES, cc.canViewCaches());
     have.put(FLUSH_CACHES, cc.canFlushCaches());
     have.put(VIEW_CONNECTIONS, cc.canViewConnections());

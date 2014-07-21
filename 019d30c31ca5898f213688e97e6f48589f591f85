@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "19f3481c_1ed02d02",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_99.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-21T19:37:19Z",
+      "side": 1,
+      "message": "s/ACCOUNTS/accounts/. See also [1].\n\n[1] https://code.google.com/p/gerrit/issues/detail?id\u003d2788",
+      "range": {
+        "startLine": 37,
+        "startChar": 33,
+        "endLine": 37,
+        "endChar": 41
+      },
+      "revId": "019d30c31ca5898f213688e97e6f48589f591f85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -85,7 +85,7 @@ public class CreateEmail implements RestModifyView<AccountResource, Input> {
       ResourceNotFoundException, OrmException, EmailException,
       MethodNotAllowedException {
     if (self.get() != rsrc.getUser()
-        && !self.get().getCapabilities().canAdministrateServer()) {
+        && !self.get().getCapabilities().canModifyAccount()) {
       throw new AuthException("not allowed to add email address");
     }
 
@@ -98,8 +98,9 @@ public class CreateEmail implements RestModifyView<AccountResource, Input> {
     }
 
     if (input.noConfirmation
-        && !self.get().getCapabilities().canAdministrateServer()) {
-      throw new AuthException("must be administrator to use no_confirmation");
+        && !self.get().getCapabilities().canModifyAccount()) {
+      throw new AuthException("must be a member of Modify Account group " +
+        "to use no_confirmation");
     }
 
     return apply(rsrc.getUser(), input);

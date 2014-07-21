@@ -331,7 +331,11 @@ Build the release notes:
   make -C ReleaseNotes
 ----
 
-* Upload html files to the storage bucket via `https://cloud.google.com/console` (manual via web browser)
+* Upload the html files manually via web browser to the
+link:https://console.developers.google.com/project/164060093628/storage/gerrit-documentation/[
+gerrit-documentation] storage bucket. The `gerrit-documentation`
+storage bucket is accessible via the
+link:https://cloud.google.com/console[Google Developers Console].
 ** Documentation html files must be extracted from `buck-out/gen/Documentation/html.zip`
 * Update Google Code project links
 ** Go to http://code.google.com/p/gerrit/admin

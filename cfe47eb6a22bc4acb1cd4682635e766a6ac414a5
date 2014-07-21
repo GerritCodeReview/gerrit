@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "39072ccd_f7dc8084",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/RefNames.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-21T20:16:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39900c99_afaaf99e",
+      "revId": "cfe47eb6a22bc4acb1cd4682635e766a6ac414a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "39900c99_6f9df18a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VersionedMetaData.java",
         "patchSetId": 6
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "796fe476_09f1c901",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VersionedMetaData.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-21T20:16:23Z",
+      "side": 1,
+      "message": "Didn\u0027t have an expected. Is this fix along the right lines?",
+      "parentUuid": "39900c99_6f9df18a",
+      "revId": "cfe47eb6a22bc4acb1cd4682635e766a6ac414a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "39900c99_4fa02dbe",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VersionedMetaData.java",
         "patchSetId": 6
@@ -47,6 +83,24 @@
       "writtenOn": "2014-07-21T20:03:16Z",
       "side": 1,
       "message": "Dead code, should be safe to delete.",
+      "revId": "cfe47eb6a22bc4acb1cd4682635e766a6ac414a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39072ccd_d7e17c34",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VersionedMetaData.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-21T20:16:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39900c99_4fa02dbe",
       "revId": "cfe47eb6a22bc4acb1cd4682635e766a6ac414a5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -76,6 +130,30 @@
     },
     {
       "key": {
+        "uuid": "39072ccd_37e71848",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VersionedMetaData.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-21T20:16:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b97b1c36_4ba025be",
+      "range": {
+        "startLine": 282,
+        "startChar": 42,
+        "endLine": 282,
+        "endChar": 48
+      },
+      "revId": "cfe47eb6a22bc4acb1cd4682635e766a6ac414a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b97b1c36_2b97d96a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
         "patchSetId": 6
@@ -87,6 +165,30 @@
       "writtenOn": "2014-07-21T20:03:16Z",
       "side": 1,
       "message": "style nit: we line break with ? : at start of line not end",
+      "range": {
+        "startLine": 128,
+        "startChar": 8,
+        "endLine": 130,
+        "endChar": 40
+      },
+      "revId": "cfe47eb6a22bc4acb1cd4682635e766a6ac414a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "796fe476_29ee0d21",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-21T20:16:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b97b1c36_2b97d96a",
       "range": {
         "startLine": 128,
         "startChar": 8,

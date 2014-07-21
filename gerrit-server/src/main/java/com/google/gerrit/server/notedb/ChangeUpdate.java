@@ -33,6 +33,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
@@ -174,18 +175,38 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     this.changeMessage = changeMessage;
   }
 
-  public void putComment(PatchLineComment comment) {
-    checkArgument(psId != null,
-        "setPatchSetId must be called before putComment");
-    checkArgument(getCommentPsId(comment).equals(psId),
-        "Comment on %s doesn't match previous patch set %s",
-        getCommentPsId(comment), psId);
-    checkArgument(comment.getRevId() != null);
+  public void insertComment(PatchLineComment comment) throws OrmException {
+    verifyComment(comment);
+    ChangeNotes notes = getChangeNotes().load();
+    checkArgument(notes.containsComment(comment),
+        "A comment already exists with the same key as the following comment, "
+        + "so we cannot insert this comment: %s", comment);
     if (comment.getSide() == 0) {
       commentsForBase.add(comment);
     } else {
       commentsForPs.add(comment);
     }
+  }
+
+  public void upsertComment(PatchLineComment comment) {
+    verifyComment(comment);
+    if (comment.getSide() == 0) {
+      commentsForBase.add(comment);
+    } else {
+      commentsForPs.add(comment);
+    }
+  }
+
+  private void verifyComment(PatchLineComment c) {
+    checkArgument(psId != null,
+        "setPatchSetId must be called before putComment");
+    checkArgument(getCommentPsId(c).equals(psId),
+        "Comment on %s doesn't match previous patch set %s",
+        getCommentPsId(c), psId);
+    checkArgument(c.getRevId() != null);
+    checkArgument(c.getStatus() == Status.PUBLISHED,
+        "Cannot add a draft comment to a ChangeUpdate. Use a ChangeDraftUpdate "
+        + "for draft comments");
   }
 
   public void putReviewer(Account.Id reviewer, ReviewerState type) {

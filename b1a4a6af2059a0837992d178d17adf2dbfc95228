@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "39072ccd_57056c2d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-07-22T20:49:47Z",
+      "side": 1,
+      "message": "for consistency and readability you can probably just do:\n\nfor (Address recipient : smtpRcptTo) {\n..\n}",
+      "revId": "b1a4a6af2059a0837992d178d17adf2dbfc95228",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

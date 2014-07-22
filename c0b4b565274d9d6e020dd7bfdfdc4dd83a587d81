@@ -81,6 +81,24 @@
       "revId": "c0b4b565274d9d6e020dd7bfdfdc4dd83a587d81",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19f3481c_3e4249c3",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-22T22:48:25Z",
+      "side": 1,
+      "message": "[1] https://gerrit-review.googlesource.com/58775",
+      "parentUuid": "990818db_5a62b564",
+      "revId": "c0b4b565274d9d6e020dd7bfdfdc4dd83a587d81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

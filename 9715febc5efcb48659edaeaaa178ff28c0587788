@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "796fe476_2905ad2e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 500,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-22T17:10:32Z",
+      "side": 1,
+      "message": "Based on other usages of e.g. AllProjectsName this would be called allUsersName or allUsers (I prefer the shorter one).",
+      "revId": "9715febc5efcb48659edaeaaa178ff28c0587788",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39072ccd_f7f3e004",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 552,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-22T17:10:32Z",
+      "side": 1,
+      "message": "As a caller I don\u0027t even want to know that DraftCommentNotes exists. Make that class package private and just duplicate its two public methods in this class.",
+      "revId": "9715febc5efcb48659edaeaaa178ff28c0587788",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "796fe476_c92091bc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbUpdate.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-22T17:10:32Z",
+      "side": 1,
+      "message": "Again, callers shouldn\u0027t need to care about this implementation detail.\n\nWhy did you change the read side to have ChangeNotes embed the draft notes object but not the write side?",
+      "range": {
+        "startLine": 29,
+        "startChar": 40,
+        "endLine": 30,
+        "endChar": 20
+      },
+      "revId": "9715febc5efcb48659edaeaaa178ff28c0587788",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "796fe476_e92555c9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbUpdate.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-22T17:10:32Z",
+      "side": 1,
+      "message": "This is too easy to do wrong, and is an argument for why you shouldn\u0027t expose the two separate classes.",
+      "revId": "9715febc5efcb48659edaeaaa178ff28c0587788",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39072ccd_d7f85ce4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbUpdate.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-22T17:10:32Z",
+      "side": 1,
+      "message": "Same comment as NoteDbNotes on this name being too generic.",
+      "range": {
+        "startLine": 34,
+        "startChar": 13,
+        "endLine": 34,
+        "endChar": 25
+      },
+      "revId": "9715febc5efcb48659edaeaaa178ff28c0587788",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

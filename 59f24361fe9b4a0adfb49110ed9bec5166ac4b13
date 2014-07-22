@@ -16,6 +16,41 @@
       "revId": "59f24361fe9b4a0adfb49110ed9bec5166ac4b13",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "990818db_1a65dd94",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2014-07-22T06:40:34Z",
+      "side": 1,
+      "message": "Most of the screenshots in this page contain the commit box. Should they be updated as well, or only this one?\n\nCan you do it? I don\u0027t know your screenshots policy :)",
+      "parentUuid": "39900c99_af40b91b",
+      "revId": "59f24361fe9b4a0adfb49110ed9bec5166ac4b13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "990818db_da724561",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2014-07-22T06:40:34Z",
+      "side": 1,
+      "message": "Update (changed to \"Parent(s)\")",
+      "revId": "59f24361fe9b4a0adfb49110ed9bec5166ac4b13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

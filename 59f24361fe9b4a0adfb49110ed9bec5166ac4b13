@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "39900c99_af40b91b",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-22T05:59:38Z",
+      "side": 1,
+      "message": "This screenshot probably needs to be updated.",
+      "revId": "59f24361fe9b4a0adfb49110ed9bec5166ac4b13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

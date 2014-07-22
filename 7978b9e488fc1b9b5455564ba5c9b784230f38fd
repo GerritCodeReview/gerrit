@@ -1,0 +1,188 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "990818db_9af56d65",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/audit/AuditService.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2014-07-22T14:16:32Z",
+      "side": 1,
+      "message": "typo",
+      "range": {
+        "startLine": 56,
+        "startChar": 37,
+        "endLine": 56,
+        "endChar": 44
+      },
+      "revId": "7978b9e488fc1b9b5455564ba5c9b784230f38fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "990818db_fafaa952",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/audit/AuditService.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2014-07-22T14:16:32Z",
+      "side": 1,
+      "message": "typo",
+      "range": {
+        "startLine": 67,
+        "startChar": 40,
+        "endLine": 67,
+        "endChar": 47
+      },
+      "revId": "7978b9e488fc1b9b5455564ba5c9b784230f38fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "990818db_daffe540",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/DbGroupMemberAuditListener.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2014-07-22T14:16:32Z",
+      "side": 1,
+      "message": "added",
+      "range": {
+        "startLine": 45,
+        "startChar": 73,
+        "endLine": 45,
+        "endChar": 82
+      },
+      "revId": "7978b9e488fc1b9b5455564ba5c9b784230f38fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "990818db_1ae2fda5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/DbGroupMemberAuditListener.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2014-07-22T14:16:32Z",
+      "side": 1,
+      "message": "fix message",
+      "range": {
+        "startLine": 56,
+        "startChar": 29,
+        "endLine": 56,
+        "endChar": 62
+      },
+      "revId": "7978b9e488fc1b9b5455564ba5c9b784230f38fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "990818db_3ae541ae",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/DbGroupMemberAuditListener.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2014-07-22T14:16:32Z",
+      "side": 1,
+      "message": "removed",
+      "range": {
+        "startLine": 61,
+        "startChar": 78,
+        "endLine": 61,
+        "endChar": 89
+      },
+      "revId": "7978b9e488fc1b9b5455564ba5c9b784230f38fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "990818db_7aefb98d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/DbGroupMemberAuditListener.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2014-07-22T14:16:32Z",
+      "side": 1,
+      "message": "fix message",
+      "range": {
+        "startLine": 89,
+        "startChar": 29,
+        "endLine": 89,
+        "endChar": 65
+      },
+      "revId": "7978b9e488fc1b9b5455564ba5c9b784230f38fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19f3481c_7eefb18d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/DbGroupMemberAuditListener.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2014-07-22T14:16:32Z",
+      "side": 1,
+      "message": "fix message",
+      "range": {
+        "startLine": 105,
+        "startChar": 29,
+        "endLine": 105,
+        "endChar": 64
+      },
+      "revId": "7978b9e488fc1b9b5455564ba5c9b784230f38fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19f3481c_5eec7597",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/DbGroupMemberAuditListener.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2014-07-22T14:16:32Z",
+      "side": 1,
+      "message": "fix message",
+      "range": {
+        "startLine": 132,
+        "startChar": 29,
+        "endLine": 132,
+        "endChar": 65
+      },
+      "revId": "7978b9e488fc1b9b5455564ba5c9b784230f38fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

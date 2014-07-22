@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "990818db_da552586",
+        "filename": "Documentation/cmd-set-account.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-22T20:54:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "796fe476_091f897c",
+      "revId": "3c2fd40bbd21b1c4e8ee9ff4169e5bb078f9b8e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "796fe476_a92f5da7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/DeleteEmail.java",
         "patchSetId": 2

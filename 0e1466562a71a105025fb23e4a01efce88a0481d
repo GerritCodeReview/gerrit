@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "990818db_9a78cd45",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetPreferences.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-22T06:36:51Z",
+      "side": 1,
+      "message": "This is dead and should be removed.",
+      "range": {
+        "startLine": 63,
+        "startChar": 19,
+        "endLine": 63,
+        "endChar": 39
+      },
+      "revId": "0e1466562a71a105025fb23e4a01efce88a0481d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19f3481c_9e78bd45",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/SetPreferences.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-22T06:36:51Z",
+      "side": 1,
+      "message": "Dead.",
+      "range": {
+        "startLine": 52,
+        "startChar": 8,
+        "endLine": 52,
+        "endChar": 41
+      },
+      "revId": "0e1466562a71a105025fb23e4a01efce88a0481d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

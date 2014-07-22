@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "19f3481c_5e62b564",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-22T20:53:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b97b1c36_6b0161d4",
+      "range": {
+        "startLine": 7,
+        "startChar": 18,
+        "endLine": 7,
+        "endChar": 30
+      },
+      "revId": "466a3eb50f816fe65464c8b895ba9deabcb33836",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b97b1c36_0bfe9d7b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2014-07-22T07:08:02Z",
       "side": 1,
       "message": "impractical",
+      "range": {
+        "startLine": 10,
+        "startChar": 3,
+        "endLine": 10,
+        "endChar": 14
+      },
+      "revId": "466a3eb50f816fe65464c8b895ba9deabcb33836",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19f3481c_be2db91c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-22T20:53:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b97b1c36_0bfe9d7b",
       "range": {
         "startLine": 10,
         "startChar": 3,
@@ -94,6 +142,54 @@
     },
     {
       "key": {
+        "uuid": "990818db_fa50e997",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1214,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-22T20:53:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b97b1c36_2be4b9ed",
+      "range": {
+        "startLine": 1214,
+        "startChar": 39,
+        "endLine": 1214,
+        "endChar": 46
+      },
+      "revId": "466a3eb50f816fe65464c8b895ba9deabcb33836",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "990818db_9a4badea",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1214,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-22T20:53:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b97b1c36_0be77df5",
+      "range": {
+        "startLine": 1214,
+        "startChar": 0,
+        "endLine": 1214,
+        "endChar": 5
+      },
+      "revId": "466a3eb50f816fe65464c8b895ba9deabcb33836",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "39900c99_8f3b75b7",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 1
@@ -111,6 +207,24 @@
     },
     {
       "key": {
+        "uuid": "990818db_ba4671e0",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1215,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-22T20:53:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39900c99_8f3b75b7",
+      "revId": "466a3eb50f816fe65464c8b895ba9deabcb33836",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b97b1c36_cb0f3506",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 1
@@ -122,6 +236,30 @@
       "writtenOn": "2014-07-22T06:29:48Z",
       "side": 1,
       "message": "This is inconsistent with the description of the capability in the comment in GlobalCapability.java:\n\n\"Can modify any account on the server.\"",
+      "range": {
+        "startLine": 1215,
+        "startChar": 16,
+        "endLine": 1216,
+        "endChar": 16
+      },
+      "revId": "466a3eb50f816fe65464c8b895ba9deabcb33836",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19f3481c_9e327d7a",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1216,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-22T20:53:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b97b1c36_cb0f3506",
       "range": {
         "startLine": 1215,
         "startChar": 16,
@@ -180,6 +318,30 @@
       "writtenOn": "2014-07-22T06:29:48Z",
       "side": 1,
       "message": "Change this to simply \"not allowed to use no_confirmation\"?",
+      "range": {
+        "startLine": 102,
+        "startChar": 31,
+        "endLine": 103,
+        "endChar": 31
+      },
+      "revId": "466a3eb50f816fe65464c8b895ba9deabcb33836",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19f3481c_fe274136",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/CreateEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-22T20:53:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39900c99_8ff295b9",
       "range": {
         "startLine": 102,
         "startChar": 31,

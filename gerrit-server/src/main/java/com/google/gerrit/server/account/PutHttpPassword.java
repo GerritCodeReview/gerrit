@@ -86,14 +86,14 @@ public class PutHttpPassword implements RestModifyView<AccountResource, Input> {
 
     } else if (input.httpPassword == null) {
       if (self.get() != rsrc.getUser()
-          && !self.get().getCapabilities().canAdministrateServer()) {
+          && !self.get().getCapabilities().canGenerateHttpPassword()) {
         throw new AuthException("not allowed to clear HTTP password");
       }
       newPassword = null;
     } else {
-      if (!self.get().getCapabilities().canAdministrateServer()) {
+      if (!self.get().getCapabilities().canGenerateHttpPassword()) {
         throw new AuthException("not allowed to set HTTP password directly, "
-            + "need to be Gerrit administrator");
+            + "requires the generate http password permision.");
       }
       newPassword = input.httpPassword;
     }

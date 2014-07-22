@@ -27,7 +27,9 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.MergeConflictException;
 import com.google.gerrit.server.git.MergeException;
+import com.google.gerrit.server.git.MergeIdenticalTreeException;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidators;
@@ -153,12 +155,10 @@ public class CherryPickChange {
           cherryPickCommit =
               mergeUtilFactory.create(projectState).createCherryPickFromCommit(git, oi, mergeTip,
                   commitToCherryPick, committerIdent, commitMessage, revWalk);
+        } catch (MergeIdenticalTreeException | MergeConflictException e) {
+          throw new MergeException("Cherry pick failed: " + e.getMessage());
         } finally {
           oi.release();
-        }
-
-        if (cherryPickCommit == null) {
-          throw new MergeException("Cherry pick failed");
         }
 
         Change.Key changeKey;

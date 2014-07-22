@@ -373,31 +373,6 @@ including some or all of the following in the email:
 ** A link to the docs
 ** Describe the type of release (stable, bug fix, RC)
 
-----
-To: Repo and Gerrit Discussion <repo-discuss@googlegroups.com>
-Subject: Announce: Gerrit 2.2.2.1  (Stable bug fix update)
-
-I am pleased to announce Gerrit Code Review 2.2.2.1.
-
-Download:
-
-  http://code.google.com/p/gerrit/downloads/list
-
-
-This release is a stable bug fix release with some
-documentation updates including a new "Contributing to
-Gerrit" doc:
-
-  http://gerrit-documentation.googlecode.com/svn/Documentation/2.2.2/dev-contributing.html
-
-
-To read more about the bug fixes:
-
-  http://gerrit-documentation.googlecode.com/svn/ReleaseNotes/ReleaseNotes-2.2.2.1.html
-
--Martin
-----
-
 * Add an entry to the `NEWS` section of the main Gerrit project web page
 ** Go to: http://code.google.com/p/gerrit/admin
 ** Add entry like:

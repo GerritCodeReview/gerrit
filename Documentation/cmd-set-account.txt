@@ -31,7 +31,7 @@ This command is intended to be used in scripts.
     Required; Full name, email-address, SSH username or account id.
 
 --full-name::
-    Display name of the user account.
+    Set the display name for the user account.
 +
 Names containing spaces should be quoted in single quotes (').
 This most likely requires double quoting the value, for example

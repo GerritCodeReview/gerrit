@@ -38,7 +38,6 @@ import com.google.gerrit.sshd.BaseCommand;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 
 import org.apache.sshd.server.Environment;
 import org.kohsuke.args4j.Argument;
@@ -95,31 +94,31 @@ final class SetAccountCommand extends BaseCommand {
   private CreateEmail.Factory createEmailFactory;
 
   @Inject
-  private Provider<GetEmails> getEmailsProvider;
+  private GetEmails getEmails;
 
   @Inject
-  private Provider<DeleteEmail> deleteEmailProvider;
+  private DeleteEmail deleteEmail;
 
   @Inject
-  private Provider<PutName> putNameProvider;
+  private PutName putName;
 
   @Inject
-  private Provider<PutHttpPassword> putHttpPasswordProvider;
+  private PutHttpPassword putHttpPassword;
 
   @Inject
-  private Provider<PutActive> putActiveProvider;
+  private PutActive putActive;
 
   @Inject
-  private Provider<DeleteActive> deleteActiveProvider;
+  private DeleteActive deleteActive;
 
   @Inject
-  private Provider<AddSshKey> addSshKeyProvider;
+  private AddSshKey addSshKey;
 
   @Inject
-  private Provider<GetSshKeys> getSshKeysProvider;
+  private GetSshKeys getSshKeys;
 
   @Inject
-  private Provider<DeleteSshKey> deleteSshKeyProvider;
+  private DeleteSshKey deleteSshKey;
 
   private IdentifiedUser user;
   private AccountResource rsrc;
@@ -174,20 +173,20 @@ final class SetAccountCommand extends BaseCommand {
       if (fullName != null) {
         PutName.Input in = new PutName.Input();
         in.name = fullName;
-        putNameProvider.get().apply(rsrc, in);
+        putName.apply(rsrc, in);
       }
 
       if (httpPassword != null) {
         PutHttpPassword.Input in = new PutHttpPassword.Input();
         in.httpPassword = httpPassword;
-        putHttpPasswordProvider.get().apply(rsrc, in);
+        putHttpPassword.apply(rsrc, in);
       }
 
       if (active) {
-        putActiveProvider.get().apply(rsrc, null);
+        putActive.apply(rsrc, null);
       } else if (inactive) {
         try {
-          deleteActiveProvider.get().apply(rsrc, null);
+          deleteActive.apply(rsrc, null);
         } catch (ResourceNotFoundException e) {
           // user is already inactive
         }
@@ -227,13 +226,13 @@ final class SetAccountCommand extends BaseCommand {
           return sshKey.length();
         }
       };
-      addSshKeyProvider.get().apply(rsrc, in);
+      addSshKey.apply(rsrc, in);
     }
   }
 
   private void deleteSshKeys(List<String> sshKeys) throws RestApiException,
       OrmException {
-    List<SshKeyInfo> infos = getSshKeysProvider.get().apply(rsrc);
+    List<SshKeyInfo> infos = getSshKeys.apply(rsrc);
     if (sshKeys.contains("ALL")) {
       for (SshKeyInfo i : infos) {
         deleteSshKey(i);
@@ -253,7 +252,7 @@ final class SetAccountCommand extends BaseCommand {
   private void deleteSshKey(SshKeyInfo i) throws OrmException {
     AccountSshKey sshKey = new AccountSshKey(
         new AccountSshKey.Id(user.getAccountId(), i.seq), i.sshPublicKey);
-    deleteSshKeyProvider.get().apply(
+    deleteSshKey.apply(
         new AccountResource.SshKey(user, sshKey), null);
   }
 
@@ -272,14 +271,13 @@ final class SetAccountCommand extends BaseCommand {
   private void deleteEmail(String email) throws UnloggedFailure,
       RestApiException, OrmException {
     if (email.equals("ALL")) {
-      List<EmailInfo> emails = getEmailsProvider.get().apply(rsrc);
-      DeleteEmail deleteEmail = deleteEmailProvider.get();
+      List<EmailInfo> emails = getEmails.apply(rsrc);;
       for (EmailInfo e : emails) {
         deleteEmail.apply(new AccountResource.Email(user, e.email),
             new DeleteEmail.Input());
       }
     } else {
-      deleteEmailProvider.get().apply(new AccountResource.Email(user, email),
+      deleteEmail.apply(new AccountResource.Email(user, email),
           new DeleteEmail.Input());
     }
   }

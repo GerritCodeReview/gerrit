@@ -120,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "9997385e_a2467e65",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/audit/AuditService.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2014-07-22T14:16:38Z",
+      "side": 1,
+      "message": "OK, let\u0027s go for IOException",
+      "parentUuid": "9997385e_02488a75",
+      "range": {
+        "startLine": 52,
+        "startChar": 15,
+        "endLine": 52,
+        "endChar": 24
+      },
+      "revId": "2464e6165ced59af075b254733729aa620617a4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "59aea094_b887f950",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/audit/AuditService.java",
         "patchSetId": 2
@@ -249,6 +273,30 @@
     },
     {
       "key": {
+        "uuid": "9997385e_823c9add",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/audit/GroupMemberAuditListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2014-07-22T14:16:38Z",
+      "side": 1,
+      "message": "OK, let\u0027s go for IOException here.",
+      "parentUuid": "9997385e_6212b675",
+      "range": {
+        "startLine": 26,
+        "startChar": 83,
+        "endLine": 26,
+        "endChar": 92
+      },
+      "revId": "2464e6165ced59af075b254733729aa620617a4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "79b9a4d7_b96e1fc9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/audit/GroupMemberAuditListener.java",
         "patchSetId": 2
@@ -331,6 +379,30 @@
       "side": 1,
       "message": "I had double exception handling. I prefer to allow the listener to throw checked exceptions and handle them in the audit service.",
       "parentUuid": "79b9a4d7_795d6725",
+      "range": {
+        "startLine": 43,
+        "startChar": 13,
+        "endLine": 43,
+        "endChar": 22
+      },
+      "revId": "2464e6165ced59af075b254733729aa620617a4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9997385e_623996eb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/DbGroupMemberAuditListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2014-07-22T14:16:38Z",
+      "side": 1,
+      "message": "Let\u0027s go for IOException.",
+      "parentUuid": "9997385e_a22f9ea7",
       "range": {
         "startLine": 43,
         "startChar": 13,

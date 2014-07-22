@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "19f3481c_feac6176",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 38
+      },
+      "lineNbr": 1354,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-22T06:41:09Z",
+      "side": 1,
+      "message": "This is dead and should be removed.",
+      "range": {
+        "startLine": 1352,
+        "startChar": 0,
+        "endLine": 1354,
+        "endChar": 46
+      },
+      "revId": "0e1466562a71a105025fb23e4a01efce88a0481d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "990818db_5a5f55ca",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 38
+      },
+      "lineNbr": 1398,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-22T06:41:09Z",
+      "side": 1,
+      "message": "The same as above.",
+      "range": {
+        "startLine": 1396,
+        "startChar": 0,
+        "endLine": 1398,
+        "endChar": 46
+      },
+      "revId": "0e1466562a71a105025fb23e4a01efce88a0481d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "990818db_9a78cd45",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetPreferences.java",
         "patchSetId": 38

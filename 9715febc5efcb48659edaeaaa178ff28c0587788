@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "19a1880c_aed2976e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 500,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-22T23:17:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "796fe476_2905ad2e",
+      "revId": "9715febc5efcb48659edaeaaa178ff28c0587788",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "39072ccd_f7f3e004",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
         "patchSetId": 8
@@ -30,6 +48,24 @@
       "writtenOn": "2014-07-22T17:10:32Z",
       "side": 1,
       "message": "As a caller I don\u0027t even want to know that DraftCommentNotes exists. Make that class package private and just duplicate its two public methods in this class.",
+      "revId": "9715febc5efcb48659edaeaaa178ff28c0587788",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9aa90eb_acd2a36e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 552,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-22T23:17:58Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "39072ccd_f7f3e004",
       "revId": "9715febc5efcb48659edaeaaa178ff28c0587788",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -59,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "7980c479_c1d7e25d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbUpdate.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-22T23:17:58Z",
+      "side": 1,
+      "message": "Deleted this class.",
+      "parentUuid": "796fe476_c92091bc",
+      "range": {
+        "startLine": 29,
+        "startChar": 40,
+        "endLine": 30,
+        "endChar": 20
+      },
+      "revId": "9715febc5efcb48659edaeaaa178ff28c0587788",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "796fe476_e92555c9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbUpdate.java",
         "patchSetId": 8
@@ -76,6 +136,24 @@
     },
     {
       "key": {
+        "uuid": "d9c370c9_c4e1be34",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbUpdate.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-22T23:17:58Z",
+      "side": 1,
+      "message": "Deleted this class.",
+      "parentUuid": "796fe476_e92555c9",
+      "revId": "9715febc5efcb48659edaeaaa178ff28c0587788",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "39072ccd_d7f85ce4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbUpdate.java",
         "patchSetId": 8
@@ -87,6 +165,30 @@
       "writtenOn": "2014-07-22T17:10:32Z",
       "side": 1,
       "message": "Same comment as NoteDbNotes on this name being too generic.",
+      "range": {
+        "startLine": 34,
+        "startChar": 13,
+        "endLine": 34,
+        "endChar": 25
+      },
+      "revId": "9715febc5efcb48659edaeaaa178ff28c0587788",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9c370c9_e4dcba84",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbUpdate.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-22T23:17:58Z",
+      "side": 1,
+      "message": "Deleted this class.",
+      "parentUuid": "39072ccd_d7f85ce4",
       "range": {
         "startLine": 34,
         "startChar": 13,

@@ -22,6 +22,30 @@
       "revId": "4e0adbc91023fd8ac50362158b612e6a620f46cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b97b1c36_ebc31140",
+        "filename": "tools/plugin_archetype_deploy.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-22T08:05:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a443f132_0b43bd56",
+      "range": {
+        "startLine": 68,
+        "startChar": 1,
+        "endLine": 75,
+        "endChar": 3
+      },
+      "revId": "4e0adbc91023fd8ac50362158b612e6a620f46cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

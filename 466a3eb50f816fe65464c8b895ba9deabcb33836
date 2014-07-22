@@ -94,6 +94,23 @@
     },
     {
       "key": {
+        "uuid": "39900c99_8f3b75b7",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1215,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-07-22T07:14:19Z",
+      "side": 1,
+      "message": "This capability is not restricted to modifying only non-interactive accounts so should we replace \u0027non-interactive service accounts\u0027 with just \u0027any user account settings\u0027 ?",
+      "revId": "466a3eb50f816fe65464c8b895ba9deabcb33836",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b97b1c36_cb0f3506",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 1
@@ -111,6 +128,23 @@
         "endLine": 1216,
         "endChar": 16
       },
+      "revId": "466a3eb50f816fe65464c8b895ba9deabcb33836",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b97b1c36_2b4d994f",
+        "filename": "Documentation/cmd-set-account.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-07-22T07:14:19Z",
+      "side": 1,
+      "message": "Should be \"Set display name of the user account.\"",
       "revId": "466a3eb50f816fe65464c8b895ba9deabcb33836",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

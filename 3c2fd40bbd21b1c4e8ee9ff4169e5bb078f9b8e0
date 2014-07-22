@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "19f3481c_3e5b69bb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/DeleteEmail.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-22T20:37:37Z",
+      "side": 1,
+      "message": "OK, I see. But the problem you are describing is unrelated to this change, as it is about SSH command and not REST endpoint. You should be able to delete email with set account SSH command with this change with user that was granted Modify Account global capability only.\n\nREST endpoint switch from Administrate_server to Modify_account should be done in own change.",
+      "parentUuid": "796fe476_a92f5da7",
+      "revId": "3c2fd40bbd21b1c4e8ee9ff4169e5bb078f9b8e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "39072ccd_170bf447",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetDiffPreferences.java",
         "patchSetId": 2
@@ -47,6 +65,24 @@
       "writtenOn": "2014-07-22T18:17:00Z",
       "side": 1,
       "message": "Should GetDiffPreferences.java be updated with canModifyAccount as well?",
+      "revId": "3c2fd40bbd21b1c4e8ee9ff4169e5bb078f9b8e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19f3481c_1e582dbb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetDiffPreferences.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-22T20:37:37Z",
+      "side": 1,
+      "message": "Why? In any event not in this change. Set account command doesn\u0027t use this REST endpoint.",
+      "parentUuid": "39072ccd_170bf447",
       "revId": "3c2fd40bbd21b1c4e8ee9ff4169e5bb078f9b8e0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -70,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "19f3481c_7e65f16a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetPreferences.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-22T20:37:37Z",
+      "side": 1,
+      "message": "Why? In any event not in this change. Set account command doesn\u0027t use this REST endpoint.",
+      "parentUuid": "796fe476_4915815a",
+      "revId": "3c2fd40bbd21b1c4e8ee9ff4169e5bb078f9b8e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "796fe476_291ccd84",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
         "patchSetId": 2
@@ -81,6 +135,24 @@
       "writtenOn": "2014-07-22T18:17:00Z",
       "side": 1,
       "message": "Probably need this as well? \n\n@RequiresCapability(GlobalCapability.GENERATE_HTTP_PASSWORD)",
+      "revId": "3c2fd40bbd21b1c4e8ee9ff4169e5bb078f9b8e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "990818db_7a0699ad",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-22T20:37:37Z",
+      "side": 1,
+      "message": "You cannot annotate multiple capability annotation. This sould be done in code (or not check it here at all, because it\u0027s already checked in HTTP password nedpoints).",
+      "parentUuid": "796fe476_291ccd84",
       "revId": "3c2fd40bbd21b1c4e8ee9ff4169e5bb078f9b8e0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

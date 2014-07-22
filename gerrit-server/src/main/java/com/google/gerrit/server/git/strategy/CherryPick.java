@@ -164,7 +164,7 @@ public class CherryPick extends SubmitStrategy {
         ChangeUtil.nextPatchSetId(args.repo, n.change().currentPatchSetId());
     final PatchSet ps = new PatchSet(id);
     ps.setCreatedOn(TimeUtil.nowTs());
-    ps.setUploader(submitAudit.getAccountId());
+    ps.setUploader(cherryPickUser.getAccountId());
     ps.setRevision(new RevId(newCommit.getId().getName()));
 
     final RefUpdate ru;

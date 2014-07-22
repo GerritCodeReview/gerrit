@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "796fe476_89413952",
+        "filename": "Documentation/cmd-set-account.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-07-22T22:03:06Z",
+      "side": 1,
+      "message": "this example to set an ssh key doesn\u0027t work for me.  It works if I pass the ssh key string in quotes but doesn\u0027t work when i use the dash to read from stdin.  The command just hangs.",
+      "range": {
+        "startLine": 92,
+        "startChar": 6,
+        "endLine": 92,
+        "endChar": 137
+      },
+      "revId": "c0b4b565274d9d6e020dd7bfdfdc4dd83a587d81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "796fe476_e94c758b",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-07-22T22:03:06Z",
+      "side": 1,
+      "message": "sorry I just realized that it would be good to have a \u0027--clear--http-password\u0027",
+      "revId": "c0b4b565274d9d6e020dd7bfdfdc4dd83a587d81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

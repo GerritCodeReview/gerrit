@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "796fe476_091f897c",
+        "filename": "Documentation/cmd-set-account.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-07-22T18:17:00Z",
+      "side": 1,
+      "message": "The --http-password option will also require the canGenerateHttpPassword permission.  Could you please mention that?",
+      "revId": "3c2fd40bbd21b1c4e8ee9ff4169e5bb078f9b8e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "796fe476_a92f5da7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/DeleteEmail.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-07-22T18:17:00Z",
+      "side": 1,
+      "message": "I\u0027ve double checked the (REST) command i used to delete emails.  It wasn\u0027t a typo because I used the exact same command with an admin user and it worked just fine.  It was only when I used the user with canModifyAccount permission that it didn\u0027t work.   Could the \u0027not found\u0027 message be from the Email.parse() in Email.java requiring Administrator permission?",
+      "revId": "3c2fd40bbd21b1c4e8ee9ff4169e5bb078f9b8e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39072ccd_170bf447",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetDiffPreferences.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-07-22T18:17:00Z",
+      "side": 1,
+      "message": "Should GetDiffPreferences.java be updated with canModifyAccount as well?",
+      "revId": "3c2fd40bbd21b1c4e8ee9ff4169e5bb078f9b8e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "796fe476_4915815a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetPreferences.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-07-22T18:17:00Z",
+      "side": 1,
+      "message": "Should GetPreferences.java be updated with canModifyAccount as well?",
+      "revId": "3c2fd40bbd21b1c4e8ee9ff4169e5bb078f9b8e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "796fe476_291ccd84",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-07-22T18:17:00Z",
+      "side": 1,
+      "message": "Probably need this as well? \n\n@RequiresCapability(GlobalCapability.GENERATE_HTTP_PASSWORD)",
+      "revId": "3c2fd40bbd21b1c4e8ee9ff4169e5bb078f9b8e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

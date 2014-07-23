@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "19a1880c_8efebbce",
+        "filename": "Documentation/cmd-set-account.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-07-23T05:24:40Z",
+      "side": 1,
+      "message": "I have no idea why it doesn\u0027t work for me.  Would like to know if it works for anyone else.  In any case I\u0027m satisfied, can always just pass in directly.",
+      "parentUuid": "19f3481c_de2c051e",
+      "range": {
+        "startLine": 92,
+        "startChar": 6,
+        "endLine": 92,
+        "endChar": 137
+      },
+      "revId": "c0b4b565274d9d6e020dd7bfdfdc4dd83a587d81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "796fe476_e94c758b",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
         "patchSetId": 3
@@ -96,6 +120,24 @@
       "side": 1,
       "message": "[1] https://gerrit-review.googlesource.com/58775",
       "parentUuid": "990818db_5a62b564",
+      "revId": "c0b4b565274d9d6e020dd7bfdfdc4dd83a587d81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19a1880c_eef3ff04",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-07-23T05:24:40Z",
+      "side": 1,
+      "message": "thanks!",
+      "parentUuid": "19f3481c_3e4249c3",
       "revId": "c0b4b565274d9d6e020dd7bfdfdc4dd83a587d81",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

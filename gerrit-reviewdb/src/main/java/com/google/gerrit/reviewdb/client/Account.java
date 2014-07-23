@@ -104,6 +104,20 @@ public final class Account {
       r.fromString(str);
       return r;
     }
+
+    public static Id fromRef(String name) {
+      final String[] parts = name.split("/");
+      final int n = parts.length;
+      if (n < 2) {
+        throw new IllegalArgumentException("Not an Account.Id: " + name);
+      }
+      final int shard = Integer.parseInt(parts[0]);
+      final int id = Integer.parseInt(parts[1]);
+      if (id % 100 != shard) {
+        throw new IllegalArgumentException("Not an Account.Id: " + name);
+      }
+      return new Account.Id(id);
+    }
   }
 
   @Column(id = 1)

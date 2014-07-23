@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d9aa90eb_ac20e3ba",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PutHttpPassword.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-23T07:03:38Z",
+      "side": 1,
+      "message": "permission",
+      "range": {
+        "startLine": 96,
+        "startChar": 51,
+        "endLine": 96,
+        "endChar": 60
+      },
+      "revId": "b39c53fd1cbe216580dee98e714f537734449a3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

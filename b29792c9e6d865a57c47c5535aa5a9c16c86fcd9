@@ -22,6 +22,30 @@
       "revId": "b29792c9e6d865a57c47c5535aa5a9c16c86fcd9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7969a4a1_f9f817e4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-07-23T09:09:24Z",
+      "side": 1,
+      "message": "Ok David, So then should we revert this change to what it was in PS9?",
+      "parentUuid": "595ea0fe_78eec121",
+      "range": {
+        "startLine": 135,
+        "startChar": 4,
+        "endLine": 139,
+        "endChar": 5
+      },
+      "revId": "b29792c9e6d865a57c47c5535aa5a9c16c86fcd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

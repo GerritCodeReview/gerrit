@@ -14,6 +14,7 @@
 
 package com.google.gerrit.sshd.commands;
 
+import com.google.common.base.Strings;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
@@ -87,6 +88,9 @@ final class SetAccountCommand extends BaseCommand {
   @Option(name = "--http-password", metaVar = "PASSWORD", usage = "password for HTTP authentication for the account")
   private String httpPassword;
 
+  @Option(name = "--clear-http-password", usage = "clear HTTP password for the account")
+  private boolean clearHttpPassword;
+
   @Inject
   private IdentifiedUser.GenericFactory genericUserFactory;
 
@@ -140,6 +144,11 @@ final class SetAccountCommand extends BaseCommand {
       throw new UnloggedFailure(1,
           "--active and --inactive options are mutually exclusive.");
     }
+    if (clearHttpPassword && !Strings.isNullOrEmpty(httpPassword)) {
+      throw new UnloggedFailure(1,
+          "--http-password and --clear-http-password options are mutually " +
+          "exclusive.");
+    }
     if (addSshKeys.contains("-") && deleteSshKeys.contains("-")) {
       throw new UnloggedFailure(1, "Only one option may use the stdin");
     }
@@ -169,7 +178,7 @@ final class SetAccountCommand extends BaseCommand {
         putName.apply(rsrc, in);
       }
 
-      if (httpPassword != null) {
+      if (httpPassword != null || clearHttpPassword) {
         PutHttpPassword.Input in = new PutHttpPassword.Input();
         in.httpPassword = httpPassword;
         putHttpPassword.apply(rsrc, in);

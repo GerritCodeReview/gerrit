@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d9aa90eb_cc2f2fa7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PutHttpPassword.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-07-23T14:15:54Z",
+      "side": 1,
+      "message": "should this be inside of the check for null?",
+      "revId": "c6acd6746f4b1a740c8cf346000475b48027e47d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -94,6 +94,30 @@
     },
     {
       "key": {
+        "uuid": "d9aa90eb_6cf1db01",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetHttpPassword.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-07-23T05:00:10Z",
+      "side": 1,
+      "message": "What do you suggest?  Originally only the admin can get the http password.  This change makes it so that any group that is assigned the generateHttpPassword permission AND admins can get the password.  That seems correct to me.  If that\u0027s not what you expect I\u0027m open to suggestions.",
+      "parentUuid": "19a1880c_0ee48b3f",
+      "range": {
+        "startLine": 39,
+        "startChar": 41,
+        "endLine": 39,
+        "endChar": 64
+      },
+      "revId": "c88d0b0674e4133af7663a33666cfdc51c1b8889",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "19a1880c_cee1e334",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PutHttpPassword.java",
         "patchSetId": 2

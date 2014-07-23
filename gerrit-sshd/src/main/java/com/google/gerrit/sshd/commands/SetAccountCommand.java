@@ -36,6 +36,7 @@ import com.google.gerrit.server.account.GetSshKeys;
 import com.google.gerrit.server.account.GetSshKeys.SshKeyInfo;
 import com.google.gerrit.server.account.PutActive;
 import com.google.gerrit.server.account.PutHttpPassword;
+import com.google.gerrit.server.account.PutPreferred;
 import com.google.gerrit.server.account.PutName;
 import com.google.gerrit.sshd.BaseCommand;
 import com.google.gerrit.sshd.CommandMetaData;
@@ -79,6 +80,9 @@ final class SetAccountCommand extends BaseCommand {
   @Option(name = "--delete-email", metaVar = "EMAIL", usage = "email addresses to delete from the account")
   private List<String> deleteEmails = new ArrayList<>();
 
+  @Option(name = "--preferred-email", metaVar = "EMAIL", usage = "a registered email address from the account")
+  private String preferredEmail;
+
   @Option(name = "--add-ssh-key", metaVar = "-|KEY", usage = "public keys to add to the account")
   private List<String> addSshKeys = new ArrayList<>();
 
@@ -102,6 +106,9 @@ final class SetAccountCommand extends BaseCommand {
 
   @Inject
   private DeleteEmail deleteEmail;
+
+  @Inject
+  private PutPreferred putPreferred;
 
   @Inject
   private PutName putName;
@@ -170,6 +177,10 @@ final class SetAccountCommand extends BaseCommand {
 
       for (String email : deleteEmails) {
         deleteEmail(email);
+      }
+
+      if (preferredEmail != null && !preferredEmail.isEmpty()) {
+        putPreferred(preferredEmail);
       }
 
       if (fullName != null) {
@@ -281,6 +292,16 @@ final class SetAccountCommand extends BaseCommand {
     } else {
       deleteEmail.apply(new AccountResource.Email(user, email),
           new DeleteEmail.Input());
+    }
+  }
+
+  private void putPreferred(String email) throws RestApiException,
+      OrmException {
+    List<EmailInfo> emails = getEmails.apply(rsrc);
+    for (EmailInfo e : emails) {
+      if (e.email.equals(email)) {
+        putPreferred.apply(new AccountResource.Email(user, email), null);
+      }
     }
   }
 

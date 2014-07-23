@@ -273,7 +273,7 @@ final class SetAccountCommand extends BaseCommand {
   private void deleteEmail(String email) throws UnloggedFailure,
       RestApiException, OrmException {
     if (email.equals("ALL")) {
-      List<EmailInfo> emails = getEmails.apply(rsrc);;
+      List<EmailInfo> emails = getEmails.apply(rsrc);
       for (EmailInfo e : emails) {
         deleteEmail.apply(new AccountResource.Email(user, e.email),
             new DeleteEmail.Input());

@@ -1,0 +1,193 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "19a1880c_ce85634c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-07-23T23:40:32Z",
+      "side": 1,
+      "message": "Why is this not inferred from the ChangeControl?",
+      "revId": "26bf933110df6dfe223ba13824ac3aec17f3f9c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9aa90eb_ac474365",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-07-23T23:40:32Z",
+      "side": 1,
+      "message": "nit: Place @Assisted arg last.",
+      "range": {
+        "startLine": 83,
+        "startChar": 6,
+        "endLine": 86,
+        "endChar": 38
+      },
+      "revId": "26bf933110df6dfe223ba13824ac3aec17f3f9c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19a1880c_ee801f3e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-07-23T23:40:32Z",
+      "side": 1,
+      "message": "Why is this not inferred from the ChangeControl?",
+      "revId": "26bf933110df6dfe223ba13824ac3aec17f3f9c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9aa90eb_4c1cdf85",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-07-23T23:40:32Z",
+      "side": 1,
+      "message": "nit: I like to put the @Assisted arguments last in the constructor ordering.",
+      "range": {
+        "startLine": 98,
+        "startChar": 6,
+        "endLine": 102,
+        "endChar": 38
+      },
+      "revId": "26bf933110df6dfe223ba13824ac3aec17f3f9c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9aa90eb_6c1f1b7c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-07-23T23:40:32Z",
+      "side": 1,
+      "message": "I think the name upsert and delete should be sufficient. Saying \"comment\" doesn\u0027t add a lot of detail, and the method signature clearly only accepts a PatchLineComment.",
+      "range": {
+        "startLine": 114,
+        "startChar": 14,
+        "endLine": 114,
+        "endChar": 27
+      },
+      "revId": "26bf933110df6dfe223ba13824ac3aec17f3f9c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19a1880c_4e33330a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-07-23T23:40:32Z",
+      "side": 1,
+      "message": "This is still formatted funny. We prefer:\n\n  c.getSide() \u003d\u003d (short) 0\n  ? draftNotes.getDraftBaseComments()\n  : draftNotes.getDraftPsComments();\n\nto line wrap the ?: operator.",
+      "range": {
+        "startLine": 129,
+        "startChar": 7,
+        "endLine": 131,
+        "endChar": 40
+      },
+      "revId": "26bf933110df6dfe223ba13824ac3aec17f3f9c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19a1880c_8e7b5b98",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-07-23T23:40:32Z",
+      "side": 1,
+      "message": "There is no putComment method. Shorten this and just put it on one line:\n\n  checkState(psId !\u003d null, \"setPatchSetId must be called first\");\n\nDevelopers debugging a failure can look at the Java stack trace to see how they got into this situation. What matters to them more is the call site where the object was misused, not which entry point into the object the error was discovered by.",
+      "range": {
+        "startLine": 140,
+        "startChar": 45,
+        "endLine": 140,
+        "endChar": 55
+      },
+      "revId": "26bf933110df6dfe223ba13824ac3aec17f3f9c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19a1880c_ae7617ae",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-07-23T23:40:32Z",
+      "side": 1,
+      "message": "nit: put the space at the start of the next line:\n\n  author of\"\n  + \" this",
+      "range": {
+        "startLine": 146,
+        "startChar": 71,
+        "endLine": 147,
+        "endChar": 15
+      },
+      "revId": "26bf933110df6dfe223ba13824ac3aec17f3f9c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9aa90eb_8c4c078b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-07-23T23:40:32Z",
+      "side": 1,
+      "message": "nit: drop this blank line",
+      "revId": "26bf933110df6dfe223ba13824ac3aec17f3f9c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

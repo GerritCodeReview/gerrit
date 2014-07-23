@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d9aa90eb_0c12d773",
+        "filename": "Documentation/cmd-set-account.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-07-23T21:55:00Z",
+      "side": 1,
+      "message": "should remove \u0027before\u0027",
+      "revId": "6d3c1afb45b61a6e933393d1671c22277be6c92c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

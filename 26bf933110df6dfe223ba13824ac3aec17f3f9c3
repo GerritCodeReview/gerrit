@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "19a1880c_8ed7db5e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/DraftCommentNotes.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2014-07-23T00:17:31Z",
+      "side": 0,
+      "message": "Test comment. Please pay it no mind.",
+      "revId": "26bf933110df6dfe223ba13824ac3aec17f3f9c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

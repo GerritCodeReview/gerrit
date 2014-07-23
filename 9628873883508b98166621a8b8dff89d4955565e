@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7969a4a1_79924793",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/audit/GroupMemberAuditListener.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-07-23T15:56:42Z",
+      "side": 1,
+      "message": "Why do we assume that throwing an IOException is something that every implementation will ever need?\nWhat if a listener wants to write into an SQL database? Will it have to convert an SQLException into an IOException?\n\nI would rather not mention any checked exception here... and in the follow up methods.",
+      "range": {
+        "startLine": 30,
+        "startChar": 13,
+        "endLine": 30,
+        "endChar": 24
+      },
+      "revId": "9628873883508b98166621a8b8dff89d4955565e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7969a4a1_59958378",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/audit/GroupMemberAuditListener.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-07-23T15:56:42Z",
+      "side": 1,
+      "message": "nit: lines too long, especially the last one",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 98
+      },
+      "revId": "9628873883508b98166621a8b8dff89d4955565e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

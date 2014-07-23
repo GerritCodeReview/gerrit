@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "595ea0fe_78eec121",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-23T09:05:08Z",
+      "side": 1,
+      "message": "Removing from collection during iterating over it is not supported: you will get ConcurrentModificationException. The reason you get  the exception is because an entry is removed via Set.remove() as opposed to Iterator.remove() as it was in previous patch set. If an entry is removed via remove() while an iteration is being done, you will get a ConcurrentModificationException. On the other hand, removal of entries via Iterator.remove() while iteration is supported in this case.",
+      "range": {
+        "startLine": 135,
+        "startChar": 4,
+        "endLine": 139,
+        "endChar": 5
+      },
+      "revId": "b29792c9e6d865a57c47c5535aa5a9c16c86fcd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

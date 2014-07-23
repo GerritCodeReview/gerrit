@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7969a4a1_7905e72d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-23T09:43:21Z",
+      "side": 1,
+      "message": "I think that two changes that are done in context of this change should be mentioned in the commit message:\n\n* all libraries in gerrit project are exported now\n* project dependency is established: plugin project depends on /gerrit project",
+      "revId": "e3a091ec0c63c4b08e53c22eebad3a114c304272",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

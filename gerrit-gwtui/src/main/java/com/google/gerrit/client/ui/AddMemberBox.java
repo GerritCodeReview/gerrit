@@ -27,7 +27,6 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.SuggestBox;
-import com.google.gwt.user.client.ui.SuggestBox.DefaultSuggestionDisplay;
 import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 
@@ -36,7 +35,7 @@ public class AddMemberBox extends Composite {
   private final Button addMember;
   private final HintTextBox nameTxtBox;
   private final SuggestBox nameTxt;
-  private boolean submitOnSelection;
+  private final SuggestOracle oracle;
 
   public AddMemberBox() {
     this(Util.C.buttonAddGroupMember(), Util.C.defaultAccountName(),
@@ -48,8 +47,8 @@ public class AddMemberBox extends Composite {
     addPanel = new FlowPanel();
     addMember = new Button(buttonLabel);
     nameTxtBox = new HintTextBox();
-    nameTxt = new SuggestBox(new RPCSuggestOracle(
-        suggestOracle), nameTxtBox);
+    oracle = suggestOracle;
+    nameTxt = new SuggestBox(new RPCSuggestOracle(oracle), nameTxtBox);
     nameTxt.setStyleName(Gerrit.RESOURCES.css().addMemberTextBox());
 
     nameTxtBox.setVisibleLength(50);
@@ -57,14 +56,13 @@ public class AddMemberBox extends Composite {
     nameTxtBox.addKeyPressHandler(new KeyPressHandler() {
       @Override
       public void onKeyPress(KeyPressEvent event) {
-        submitOnSelection = false;
-
         if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
-          if (((DefaultSuggestionDisplay) nameTxt.getSuggestionDisplay())
-              .isSuggestionListShowing()) {
-            submitOnSelection = true;
-          } else {
-            doAdd();
+          if (oracle instanceof ReviewerSuggestOracle) {
+            String selectedReviewerId =
+                ((ReviewerSuggestOracle) oracle).getSelectedReviewerId();
+            if (selectedReviewerId == null || selectedReviewerId.isEmpty()) {
+              doAdd();
+            }
           }
         }
       }
@@ -73,10 +71,7 @@ public class AddMemberBox extends Composite {
       @Override
       public void onSelection(SelectionEvent<Suggestion> event) {
         nameTxtBox.setFocus(true);
-        if (submitOnSelection) {
-          submitOnSelection = false;
-          doAdd();
-        }
+        doAdd();
       }
     });
 

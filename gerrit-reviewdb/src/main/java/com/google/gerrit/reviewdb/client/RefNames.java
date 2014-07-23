@@ -31,6 +31,8 @@ public class RefNames {
   /** Configurations of project-specific dashboards (canned search queries). */
   public static final String REFS_DASHBOARDS = "refs/meta/dashboards/";
 
+  private static final int LENGTH_OF_ID_SHARD = 2;
+
   /**
    * Prefix applied to merge commit base nodes.
    * <p>
@@ -57,6 +59,37 @@ public class RefNames {
     r.append('/');
     r.append(account);
     return r.toString();
+  }
+
+  /**
+   * This method finds the AccountId in a ref that begins with the sharded
+   * Account.Id.
+   * <p>
+   * @return the AccountId from the refName. Null if the format was wrong.
+   */
+  public static Account.Id getAccountIdFromRefName(String refName) {
+    Integer shard = null;
+    try {
+      shard = Integer.valueOf(
+          refName.substring(0, LENGTH_OF_ID_SHARD));
+    } catch (NumberFormatException e) {
+      return null;
+    }
+    if (refName.charAt(LENGTH_OF_ID_SHARD) != '/') {
+      return null;
+    }
+    int indexOfSecondSlash = refName.indexOf('/', LENGTH_OF_ID_SHARD + 1);
+    Integer fullId;
+    try {
+      fullId = Integer.valueOf(
+          refName.substring(LENGTH_OF_ID_SHARD, indexOfSecondSlash));
+    } catch (NumberFormatException e) {
+      return null;
+    }
+    if (fullId % 100 != shard) {
+      return null;
+    }
+    return new Account.Id(fullId.intValue());
   }
 
   public static String refsDraftComments(Account.Id accountId,

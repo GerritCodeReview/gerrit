@@ -74,6 +74,9 @@ public class PutHttpPassword implements RestModifyView<AccountResource, Input> {
     if (input == null) {
       input = new Input();
     }
+    if (input.httpPassword != null) {
+      input.httpPassword = input.httpPassword.trim();
+    }
     input.httpPassword = Strings.emptyToNull(input.httpPassword);
 
     String newPassword;

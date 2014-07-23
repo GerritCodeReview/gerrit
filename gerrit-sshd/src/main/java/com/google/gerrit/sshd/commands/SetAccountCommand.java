@@ -36,6 +36,7 @@ import com.google.gerrit.server.account.GetSshKeys;
 import com.google.gerrit.server.account.GetSshKeys.SshKeyInfo;
 import com.google.gerrit.server.account.PutActive;
 import com.google.gerrit.server.account.PutHttpPassword;
+import com.google.gerrit.server.account.PutPreferred;
 import com.google.gerrit.server.account.PutName;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
@@ -78,6 +79,9 @@ final class SetAccountCommand extends SshCommand {
   @Option(name = "--delete-email", metaVar = "EMAIL", usage = "email addresses to delete from the account")
   private List<String> deleteEmails = new ArrayList<>();
 
+  @Option(name = "--preferred-email", metaVar = "EMAIL", usage = "a registered email address from the account")
+  private String preferredEmail;
+
   @Option(name = "--add-ssh-key", metaVar = "-|KEY", usage = "public keys to add to the account")
   private List<String> addSshKeys = new ArrayList<>();
 
@@ -101,6 +105,9 @@ final class SetAccountCommand extends SshCommand {
 
   @Inject
   private DeleteEmail deleteEmail;
+
+  @Inject
+  private PutPreferred putPreferred;
 
   @Inject
   private PutName putName;
@@ -152,6 +159,11 @@ final class SetAccountCommand extends SshCommand {
     if (deleteEmails.contains("ALL")) {
       deleteEmails = Collections.singletonList("ALL");
     }
+    if (deleteEmails.contains(preferredEmail)) {
+      throw new UnloggedFailure(1,
+          "--preferred-email and --delete-email options are mutually " +
+          "exclusive for the same email address.");
+    }
   }
 
   private void setAccount() throws OrmException, IOException, UnloggedFailure {
@@ -164,6 +176,10 @@ final class SetAccountCommand extends SshCommand {
 
       for (String email : deleteEmails) {
         deleteEmail(email);
+      }
+
+      if (preferredEmail != null) {
+        putPreferred(preferredEmail);
       }
 
       if (fullName != null) {
@@ -275,6 +291,24 @@ final class SetAccountCommand extends SshCommand {
     } else {
       deleteEmail.apply(new AccountResource.Email(user, email),
           new DeleteEmail.Input());
+    }
+  }
+
+  private void putPreferred(String email) throws RestApiException,
+      OrmException {
+    boolean isEmailRegistered = false;
+    List<EmailInfo> emails = getEmails.apply(rsrc);
+    for (EmailInfo e : emails) {
+      if (e.email.equals(email)) {
+        isEmailRegistered = true;
+        break;
+      }
+    }
+    if (isEmailRegistered) {
+      putPreferred.apply(new AccountResource.Email(user, email), null);
+    } else {
+      stderr.write("WARNING: preferred email not set, " + email
+          + " not registered\n");
     }
   }
 

@@ -160,6 +160,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     private final Map<PatchSet.Id,
         Table<Account.Id, String, Optional<PatchSetApproval>>> approvals;
     private final Map<Account.Id, ReviewerState> reviewers;
+    private final List<Account.Id> allPastReviewers;
     private final List<SubmitRecord> submitRecords;
     private final Multimap<PatchSet.Id, ChangeMessage> changeMessages;
     private final Multimap<Id, PatchLineComment> commentsForPs;
@@ -176,6 +177,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       this.repo = repoManager.openRepository(getProjectName(change));
       approvals = Maps.newHashMap();
       reviewers = Maps.newLinkedHashMap();
+      allPastReviewers = Lists.newArrayList();
       submitRecords = Lists.newArrayListWithExpectedSize(1);
       changeMessages = LinkedListMultimap.create();
       commentsForPs = ArrayListMultimap.create();
@@ -188,6 +190,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
         parse(commit);
       }
       parseComments();
+      allPastReviewers.addAll(reviewers.keySet());
       pruneReviewers();
     }
 
@@ -493,6 +496,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   private final Change change;
   private ImmutableListMultimap<PatchSet.Id, PatchSetApproval> approvals;
   private ImmutableSetMultimap<ReviewerState, Account.Id> reviewers;
+  private ImmutableList<Account.Id> allPastReviewers;
   private ImmutableList<SubmitRecord> submitRecords;
   private ImmutableListMultimap<PatchSet.Id, ChangeMessage> changeMessages;
   private ImmutableListMultimap<PatchSet.Id, PatchLineComment> commentsForBase;
@@ -521,6 +525,13 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
   public ImmutableSetMultimap<ReviewerState, Account.Id> getReviewers() {
     return reviewers;
+  }
+
+  /**
+   * @return a list of all users who have ever been a reviewer on this change.
+   */
+  public ImmutableList<Account.Id> getAllPastReviewers() {
+    return allPastReviewers;
   }
 
   /**
@@ -636,6 +647,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
         reviewers.put(e.getValue(), e.getKey());
       }
       this.reviewers = reviewers.build();
+      this.allPastReviewers = ImmutableList.copyOf(parser.allPastReviewers);
 
       submitRecords = ImmutableList.copyOf(parser.submitRecords);
     } catch (ParseException e1) {

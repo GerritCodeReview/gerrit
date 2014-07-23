@@ -16,6 +16,24 @@
       "revId": "44da566612d6655b0bf91ed27a051752c9d8b4ff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9aa90eb_ecdcab84",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-07-23T00:28:12Z",
+      "side": 1,
+      "message": "This was initially just a quick hack.  I just commented it all out to see if it would still compile and run.\n\nThen uploaded it as RFC without spending any more time tidying up.",
+      "parentUuid": "990818db_7ad85903",
+      "revId": "44da566612d6655b0bf91ed27a051752c9d8b4ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

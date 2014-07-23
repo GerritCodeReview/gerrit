@@ -36,6 +36,7 @@ import com.google.gerrit.server.account.GetSshKeys;
 import com.google.gerrit.server.account.GetSshKeys.SshKeyInfo;
 import com.google.gerrit.server.account.PutActive;
 import com.google.gerrit.server.account.PutHttpPassword;
+import com.google.gerrit.server.account.PutPreferred;
 import com.google.gerrit.server.account.PutName;
 import com.google.gerrit.sshd.BaseCommand;
 import com.google.gerrit.sshd.CommandMetaData;
@@ -79,6 +80,9 @@ final class SetAccountCommand extends BaseCommand {
   @Option(name = "--delete-email", metaVar = "EMAIL", usage = "email addresses to delete from the account")
   private List<String> deleteEmails = new ArrayList<>();
 
+  @Option(name = "--preferred-email", metaVar = "EMAIL", usage = "a registered email address from the account")
+  private String preferredEmail;
+
   @Option(name = "--add-ssh-key", metaVar = "-|KEY", usage = "public keys to add to the account")
   private List<String> addSshKeys = new ArrayList<>();
 
@@ -102,6 +106,9 @@ final class SetAccountCommand extends BaseCommand {
 
   @Inject
   private DeleteEmail deleteEmail;
+
+  @Inject
+  private PutPreferred putPreferred;
 
   @Inject
   private PutName putName;
@@ -158,6 +165,11 @@ final class SetAccountCommand extends BaseCommand {
     if (deleteEmails.contains("ALL")) {
       deleteEmails = Collections.singletonList("ALL");
     }
+    if (deleteEmails.contains(preferredEmail)) {
+      throw new UnloggedFailure(1,
+          "--preferred-email and --delete-email options are mutually " +
+          "exclusive for the same email address.");
+    }
   }
 
   private void setAccount() throws OrmException, IOException, UnloggedFailure {
@@ -170,6 +182,14 @@ final class SetAccountCommand extends BaseCommand {
 
       for (String email : deleteEmails) {
         deleteEmail(email);
+      }
+
+      if (preferredEmail != null) {
+        if (isRegistered(preferredEmail)) {
+          putPreferred(preferredEmail);
+        } else {
+          System.err.println("WARNING: preferred email not set, " + preferredEmail + " not registered");
+        }
       }
 
       if (fullName != null) {
@@ -206,6 +226,17 @@ final class SetAccountCommand extends BaseCommand {
     } catch (RestApiException e) {
       throw die(e.getMessage());
     }
+  }
+
+  private boolean isRegistered(String email) throws RestApiException,
+      OrmException {
+    List<EmailInfo> emails = getEmails.apply(rsrc);
+    for (EmailInfo e : emails) {
+      if (e.email.equals(email)) {
+        return true;
+      }
+    }
+    return false;
   }
 
   private void addSshKeys(List<String> sshKeys) throws RestApiException,
@@ -282,6 +313,11 @@ final class SetAccountCommand extends BaseCommand {
       deleteEmail.apply(new AccountResource.Email(user, email),
           new DeleteEmail.Input());
     }
+  }
+
+  private void putPreferred(String email) throws RestApiException,
+      OrmException {
+    putPreferred.apply(new AccountResource.Email(user, email), null);
   }
 
   private List<String> readSshKey(final List<String> sshKeys)

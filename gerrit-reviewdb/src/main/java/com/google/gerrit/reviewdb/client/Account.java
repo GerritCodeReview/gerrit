@@ -104,6 +104,26 @@ public final class Account {
       r.fromString(str);
       return r;
     }
+
+    /**
+     * Parse an Account.Id out of a part of a ref-name.
+     *
+     * @param name  a ref name with the following syntax: {@code "34/1234/..."}.
+     *              We assume that the caller has trimmed any prefix.
+     */
+    public static Id fromRefPart(String name) {
+      String[] parts = name.split("/");
+      int n = parts.length;
+      if (n < 2) {
+        throw new IllegalArgumentException("Not an Account.Id: " + name);
+      }
+      int shard = Integer.parseInt(parts[0]);
+      int id = Integer.parseInt(parts[1]);
+      if (id % 100 != shard) {
+        throw new IllegalArgumentException("Not an Account.Id: " + name);
+      }
+      return new Account.Id(id);
+    }
   }
 
   @Column(id = 1)

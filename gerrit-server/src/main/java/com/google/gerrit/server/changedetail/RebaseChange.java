@@ -185,7 +185,7 @@ public class RebaseChange {
 
       if (patchSetAncestors.size() > 1) {
         throw new IOException(
-            "Cannot rebase a change with multiple parents. Parents commits: "
+            "Cannot rebase a change with multiple parents. Parent commits: "
                 + patchSetAncestors.toString());
       }
       if (patchSetAncestors.size() == 0) {

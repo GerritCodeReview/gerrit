@@ -247,7 +247,7 @@ public class ApprovalTable extends Composite {
     if (!reviewer.isEmpty()) {
       addMemberBox.setEnabled(false);
       String reviwerId = reviewerSuggestOracle.getSelectedReviewerId();
-      if (reviwerId != null) {
+      if (reviwerId != null && !reviwerId.isEmpty()) {
         addReviewer(reviwerId, false);
         return;
       }

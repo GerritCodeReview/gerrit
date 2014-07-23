@@ -47,7 +47,6 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.SuggestBox;
-import com.google.gwt.user.client.ui.SuggestBox.DefaultSuggestionDisplay;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
@@ -76,7 +75,6 @@ public class Reviewers extends Composite {
   private RestReviewerSuggestOracle reviewerSuggestOracle;
   private HintTextBox nameTxtBox;
   private Change.Id changeId;
-  private boolean submitOnSelection;
 
   Reviewers() {
     reviewerSuggestOracle = new RestReviewerSuggestOracle();
@@ -89,15 +87,12 @@ public class Reviewers extends Composite {
     nameTxtBox.addKeyDownHandler(new KeyDownHandler() {
       @Override
       public void onKeyDown(KeyDownEvent e) {
-        submitOnSelection = false;
-
         if (e.getNativeEvent().getKeyCode() == KeyCodes.KEY_ESCAPE) {
           onCancel(null);
         } else if (e.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
-          if (((DefaultSuggestionDisplay) suggestBox.getSuggestionDisplay())
-              .isSuggestionListShowing()) {
-            submitOnSelection = true;
-          } else {
+          String selectedReviewerId =
+              reviewerSuggestOracle.getSelectedReviewerId();
+          if (selectedReviewerId == null || selectedReviewerId.isEmpty()) {
             onAdd(null);
           }
         }
@@ -107,9 +102,7 @@ public class Reviewers extends Composite {
       @Override
       public void onSelection(SelectionEvent<Suggestion> event) {
         nameTxtBox.setFocus(true);
-        if (submitOnSelection) {
-          onAdd(null);
-        }
+        onAdd(null);
       }
     });
   }
@@ -144,7 +137,7 @@ public class Reviewers extends Composite {
     if (!reviewer.isEmpty()) {
       nameTxtBox.setEnabled(false);
       String reviwerId = reviewerSuggestOracle.getSelectedReviewerId();
-      if (reviwerId != null) {
+      if (reviwerId != null && !reviwerId.isEmpty()) {
         addReviewer(reviwerId, false);
         return;
       }

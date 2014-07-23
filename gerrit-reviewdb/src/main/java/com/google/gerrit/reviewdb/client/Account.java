@@ -104,6 +104,26 @@ public final class Account {
       r.fromString(str);
       return r;
     }
+
+    /**
+     * Parse an Account.Id out of a ref-name.
+     *
+     * @param name  a ref name that begins with the shard of the Account.Id
+     *              (i.e. '34/1234/comments-2345').
+     */
+    public static Id fromRef(String name) {
+      String[] parts = name.split("/");
+      int n = parts.length;
+      if (n < 2) {
+        throw new IllegalArgumentException("Not an Account.Id: " + name);
+      }
+      int shard = Integer.parseInt(parts[0]);
+      int id = Integer.parseInt(parts[1]);
+      if (id % 100 != shard) {
+        throw new IllegalArgumentException("Not an Account.Id: " + name);
+      }
+      return new Account.Id(id);
+    }
   }
 
   @Column(id = 1)

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d9c370c9_2415325c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-24T19:21:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19a1880c_ced3a340",
+      "revId": "232477098ce9a8c88344c8e0154f2275d22f6a46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "19a1880c_2eb98705",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
         "patchSetId": 20
@@ -30,6 +48,24 @@
       "writtenOn": "2014-07-24T19:16:45Z",
       "side": 1,
       "message": "If you call .get() right away, just use T in the parameter list instead of Provider\u003cT\u003e.",
+      "revId": "232477098ce9a8c88344c8e0154f2275d22f6a46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9c370c9_0412b673",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-24T19:21:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19a1880c_2eb98705",
       "revId": "232477098ce9a8c88344c8e0154f2275d22f6a46",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

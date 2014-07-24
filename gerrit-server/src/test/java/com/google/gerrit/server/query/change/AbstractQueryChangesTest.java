@@ -18,12 +18,14 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.junit.Assume.assumeTrue;
 
 import com.google.common.base.MoreObjects;
+import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -86,6 +88,8 @@ import java.util.concurrent.atomic.AtomicLong;
 @Ignore
 @RunWith(ConfigSuite.class)
 public abstract class AbstractQueryChangesTest {
+  private static final int TIMEOUT_MS = 1000;
+
   private static final TopLevelResource TLR = TopLevelResource.INSTANCE;
 
   @ConfigSuite.Config
@@ -188,9 +192,9 @@ public abstract class AbstractQueryChangesTest {
     Change change1 = newChange(repo, null, null, null, null).insert();
     Change change2 = newChange(repo, null, null, null, null).insert();
 
-    assertTrue(query("12345").isEmpty());
-    assertResultEquals(change1, queryOne(change1.getId().get()));
-    assertResultEquals(change2, queryOne(change2.getId().get()));
+    assertQueryResult("12345");
+    assertQueryResult(String.valueOf(change1.getId().get()), change1);
+    assertQueryResult(String.valueOf(change2.getId().get()), change2);
   }
 
   @Test
@@ -199,10 +203,10 @@ public abstract class AbstractQueryChangesTest {
     Change change = newChange(repo, null, null, null, null).insert();
     String key = change.getKey().get();
 
-    assertTrue(query("I0000000000000000000000000000000000000000").isEmpty());
+    assertQueryResult("I0000000000000000000000000000000000000000");
     for (int i = 0; i <= 36; i++) {
       String q = key.substring(0, 41 - i);
-      assertResultEquals("result for " + q, change, queryOne(q));
+      assertQueryResult(q, change);
     }
   }
 
@@ -218,11 +222,11 @@ public abstract class AbstractQueryChangesTest {
     change2.setStatus(Change.Status.MERGED);
     ins2.insert();
 
-    assertResultEquals(change1, queryOne("status:new"));
-    assertResultEquals(change1, queryOne("status:NEW"));
-    assertResultEquals(change1, queryOne("is:new"));
-    assertResultEquals(change2, queryOne("status:merged"));
-    assertResultEquals(change2, queryOne("is:merged"));
+    assertQueryResult("status:new", change1);
+    assertQueryResult("status:NEW", change1);
+    assertQueryResult("is:new", change1);
+    assertQueryResult("status:merged", change2);
+    assertQueryResult("is:merged", change2);
   }
 
   @Test
@@ -241,11 +245,7 @@ public abstract class AbstractQueryChangesTest {
     change3.setStatus(Change.Status.MERGED);
     ins3.insert();
 
-    List<ChangeInfo> results;
-    results = query("status:open");
-    assertEquals(2, results.size());
-    assertResultEquals(change2, results.get(0));
-    assertResultEquals(change1, results.get(1));
+    assertQueryResult("status:open", change2, change1);
 
     assertEquals(2, query("status:OPEN").size());
     assertEquals(2, query("status:o").size());
@@ -257,10 +257,11 @@ public abstract class AbstractQueryChangesTest {
     assertEquals(2, query("status:pe").size());
     assertEquals(2, query("status:pen").size());
 
-    results = query("is:open");
-    assertEquals(2, results.size());
-    assertResultEquals(change2, results.get(0));
-    assertResultEquals(change1, results.get(1));
+    assertQueryResult("is:open", change2, change1);
+  }
+
+  private List<ChangeInfo> query(String query) throws Exception {
+    return query(newQuery(query));
   }
 
   @Test
@@ -279,11 +280,7 @@ public abstract class AbstractQueryChangesTest {
     change3.setStatus(Change.Status.NEW);
     ins3.insert();
 
-    List<ChangeInfo> results;
-    results = query("status:closed");
-    assertEquals(2, results.size());
-    assertResultEquals(change2, results.get(0));
-    assertResultEquals(change1, results.get(1));
+    assertQueryResult("status:closed", change2, change1);
 
     assertEquals(2, query("status:CLOSED").size());
     assertEquals(2, query("status:c").size());
@@ -293,10 +290,7 @@ public abstract class AbstractQueryChangesTest {
     assertEquals(2, query("status:close").size());
     assertEquals(2, query("status:closed").size());
 
-    results = query("is:closed");
-    assertEquals(2, results.size());
-    assertResultEquals(change2, results.get(0));
-    assertResultEquals(change1, results.get(1));
+    assertQueryResult("is:closed", change2, change1);
   }
 
   @Test
@@ -311,12 +305,12 @@ public abstract class AbstractQueryChangesTest {
     change2.setStatus(Change.Status.MERGED);
     ins2.insert();
 
-    assertResultEquals(change1, queryOne("status:n"));
-    assertResultEquals(change1, queryOne("status:ne"));
-    assertResultEquals(change1, queryOne("status:new"));
-    assertResultEquals(change1, queryOne("status:N"));
-    assertResultEquals(change1, queryOne("status:nE"));
-    assertResultEquals(change1, queryOne("status:neW"));
+    assertQueryResult("status:n", change1);
+    assertQueryResult("status:ne", change1);
+    assertQueryResult("status:new", change1);
+    assertQueryResult("status:N", change1);
+    assertQueryResult("status:nE", change1);
+    assertQueryResult("status:neW", change1);
     assertBadQuery("status:nx");
     assertBadQuery("status:newx");
   }
@@ -328,10 +322,10 @@ public abstract class AbstractQueryChangesTest {
     ins.insert();
     String sha = ins.getPatchSet().getRevision().get();
 
-    assertTrue(query("0000000000000000000000000000000000000000").isEmpty());
+    assertQueryResult("0000000000000000000000000000000000000000");
     for (int i = 0; i <= 36; i++) {
       String q = sha.substring(0, 40 - i);
-      assertResultEquals("result for " + q, ins.getChange(), queryOne(q));
+      assertQueryResult(q, ins.getChange());
     }
   }
 
@@ -343,8 +337,8 @@ public abstract class AbstractQueryChangesTest {
         .getAccountId().get();
     Change change2 = newChange(repo, null, null, user2, null).insert();
 
-    assertResultEquals(change1, queryOne("owner:" + userId.get()));
-    assertResultEquals(change2, queryOne("owner:" + user2));
+    assertQueryResult("owner:" + userId.get(), change1);
+    assertQueryResult("owner:" + user2, change2);
   }
 
   @Test
@@ -355,11 +349,8 @@ public abstract class AbstractQueryChangesTest {
         .getAccountId().get();
     Change change2 = newChange(repo, null, null, user2, null).insert();
 
-    assertResultEquals(change1, queryOne("ownerin:Administrators"));
-    List<ChangeInfo> results = query("ownerin:\"Registered Users\"");
-    assertEquals(results.toString(), 2, results.size());
-    assertResultEquals(change2, results.get(0));
-    assertResultEquals(change1, results.get(1));
+    assertQueryResult("ownerin:Administrators", change1);
+    assertQueryResult("ownerin:\"Registered Users\"", change2, change1);
   }
 
   @Test
@@ -369,10 +360,10 @@ public abstract class AbstractQueryChangesTest {
     Change change1 = newChange(repo1, null, null, null, null).insert();
     Change change2 = newChange(repo2, null, null, null, null).insert();
 
-    assertTrue(query("project:foo").isEmpty());
-    assertTrue(query("project:repo").isEmpty());
-    assertResultEquals(change1, queryOne("project:repo1"));
-    assertResultEquals(change2, queryOne("project:repo2"));
+    assertQueryResult("project:foo");
+    assertQueryResult("project:repo");
+    assertQueryResult("project:repo1", change1);
+    assertQueryResult("project:repo2", change2);
   }
 
   @Test
@@ -383,8 +374,8 @@ public abstract class AbstractQueryChangesTest {
     Change change2 = newChange(repo2, null, null, null, null).insert();
 
     assertTrue(query("projects:foo").isEmpty());
-    assertResultEquals(change1, queryOne("projects:repo1"));
-    assertResultEquals(change2, queryOne("projects:repo2"));
+    assertQueryResult("projects:repo1", change1);
+    assertQueryResult("projects:repo2", change2);
 
     List<ChangeInfo> results;
     results = query("projects:repo");
@@ -399,16 +390,16 @@ public abstract class AbstractQueryChangesTest {
     Change change1 = newChange(repo, null, null, null, "master").insert();
     Change change2 = newChange(repo, null, null, null, "branch").insert();
 
-    assertTrue(query("branch:foo").isEmpty());
-    assertResultEquals(change1, queryOne("branch:master"));
-    assertResultEquals(change1, queryOne("branch:refs/heads/master"));
-    assertTrue(query("ref:master").isEmpty());
-    assertResultEquals(change1, queryOne("ref:refs/heads/master"));
-    assertResultEquals(change1, queryOne("branch:refs/heads/master"));
-    assertResultEquals(change2, queryOne("branch:branch"));
-    assertResultEquals(change2, queryOne("branch:refs/heads/branch"));
-    assertTrue(query("ref:branch").isEmpty());
-    assertResultEquals(change2, queryOne("ref:refs/heads/branch"));
+    assertQueryResult("branch:foo");
+    assertQueryResult("branch:master", change1);
+    assertQueryResult("branch:refs/heads/master", change1);
+    assertQueryResult("ref:master");
+    assertQueryResult("ref:refs/heads/master", change1);
+    assertQueryResult("branch:refs/heads/master", change1);
+    assertQueryResult("branch:branch", change2);
+    assertQueryResult("branch:refs/heads/branch", change2);
+    assertQueryResult("ref:branch");
+    assertQueryResult("ref:refs/heads/branch", change2);
   }
 
   @Test
@@ -426,10 +417,10 @@ public abstract class AbstractQueryChangesTest {
 
     Change change3 = newChange(repo, null, null, null, null).insert();
 
-    assertTrue(query("topic:foo").isEmpty());
-    assertResultEquals(change1, queryOne("topic:feature1"));
-    assertResultEquals(change2, queryOne("topic:feature2"));
-    assertResultEquals(change3, queryOne("topic:\"\""));
+    assertQueryResult("topic:foo");
+    assertQueryResult("topic:feature1", change1);
+    assertQueryResult("topic:feature2", change2);
+    assertQueryResult("topic:\"\"", change3);
   }
 
   @Test
@@ -440,9 +431,9 @@ public abstract class AbstractQueryChangesTest {
     RevCommit commit2 = repo.parseBody(repo.commit().message("two").create());
     Change change2 = newChange(repo, commit2, null, null, null).insert();
 
-    assertTrue(query("message:foo").isEmpty());
-    assertResultEquals(change1, queryOne("message:one"));
-    assertResultEquals(change2, queryOne("message:two"));
+    assertQueryResult("message:foo");
+    assertQueryResult("message:one", change1);
+    assertQueryResult("message:two", change2);
   }
 
   @Test
@@ -455,9 +446,9 @@ public abstract class AbstractQueryChangesTest {
         repo.parseBody(repo.commit().message("12346 67891").create());
     Change change2 = newChange(repo, commit2, null, null, null).insert();
 
-    assertTrue(query("message:1234").isEmpty());
-    assertResultEquals(change1, queryOne("message:12345"));
-    assertResultEquals(change2, queryOne("message:12346"));
+    assertQueryResult("message:1234");
+    assertQueryResult("message:12345", change1);
+    assertQueryResult("message:12346", change2);
   }
 
   @Test
@@ -473,51 +464,56 @@ public abstract class AbstractQueryChangesTest {
     postReview.apply(new RevisionResource(
         changes.parse(change.getId()), ins.getPatchSet()), input);
 
-    assertTrue(query("label:Code-Review=-2").isEmpty());
-    assertTrue(query("label:Code-Review-2").isEmpty());
-    assertTrue(query("label:Code-Review=-1").isEmpty());
-    assertTrue(query("label:Code-Review-1").isEmpty());
-    assertTrue(query("label:Code-Review=0").isEmpty());
-    assertResultEquals(change, queryOne("label:Code-Review=+1"));
-    assertResultEquals(change, queryOne("label:Code-Review=1"));
-    assertResultEquals(change, queryOne("label:Code-Review+1"));
-    assertTrue(query("label:Code-Review=+2").isEmpty());
-    assertTrue(query("label:Code-Review=2").isEmpty());
-    assertTrue(query("label:Code-Review+2").isEmpty());
+    assertQueryResult("label:Code-Review=-2");
+    assertQueryResult("label:Code-Review-2");
+    assertQueryResult("label:Code-Review=-1");
+    assertQueryResult("label:Code-Review-1");
+    assertQueryResult("label:Code-Review=0");
+    assertQueryResult("label:Code-Review=+1", change);
+    assertQueryResult("label:Code-Review=1", change);
+    assertQueryResult("label:Code-Review+1", change);
+    assertQueryResult("label:Code-Review=+2");
+    assertQueryResult("label:Code-Review=2");
+    assertQueryResult("label:Code-Review+2");
 
-    assertResultEquals(change, queryOne("label:Code-Review>=0"));
-    assertResultEquals(change, queryOne("label:Code-Review>0"));
-    assertResultEquals(change, queryOne("label:Code-Review>=1"));
-    assertTrue(query("label:Code-Review>1").isEmpty());
-    assertTrue(query("label:Code-Review>=2").isEmpty());
+    assertQueryResult("label:Code-Review>=0", change);
+    assertQueryResult("label:Code-Review>0", change);
+    assertQueryResult("label:Code-Review>=1", change);
+    assertQueryResult("label:Code-Review>1");
+    assertQueryResult("label:Code-Review>=2");
 
-    assertResultEquals(change, queryOne("label: Code-Review<=2"));
-    assertResultEquals(change, queryOne("label: Code-Review<2"));
-    assertResultEquals(change, queryOne("label: Code-Review<=1"));
-    assertTrue(query("label:Code-Review<1").isEmpty());
-    assertTrue(query("label:Code-Review<=0").isEmpty());
+    assertQueryResult("label: Code-Review<=2", change);
+    assertQueryResult("label: Code-Review<2", change);
+    assertQueryResult("label: Code-Review<=1", change);
+    assertQueryResult("label:Code-Review<1");
+    assertQueryResult("label:Code-Review<=0");
 
-    assertTrue(query("label:Code-Review=+1,anotheruser").isEmpty());
-    assertResultEquals(change, queryOne("label:Code-Review=+1,user"));
-    assertResultEquals(change, queryOne("label:Code-Review=+1,user=user"));
-    assertResultEquals(change, queryOne("label:Code-Review=+1,Administrators"));
-    assertResultEquals(change, queryOne("label:Code-Review=+1,group=Administrators"));
+    assertQueryResult("label:Code-Review=+1,anotheruser");
+    assertQueryResult("label:Code-Review=+1,user", change);
+    assertQueryResult("label:Code-Review=+1,user=user", change);
+    assertQueryResult("label:Code-Review=+1,Administrators", change);
+    assertQueryResult("label:Code-Review=+1,group=Administrators", change);
   }
 
   @Test
   public void limit() throws Exception {
     TestRepository<InMemoryRepository> repo = createProject("repo");
-    Change last = null;
-    int n = 5;
+    Change c = null;
+    final int n = 5;
     for (int i = 0; i < n; i++) {
-      last = newChange(repo, null, null, null, null).insert();
+      c = newChange(repo, null, null, null, null).insert();
     }
+    final Change last = c;
 
-    List<ChangeInfo> results;
     for (int i = 1; i <= n + 2; i++) {
-      results = query("status:new limit:" + i);
-      assertEquals(Math.min(i, n), results.size());
-      assertResultEquals(last, results.get(0));
+      final int expectedSize = Math.min(i, n);
+
+      Predicate<List<ChangeInfo>> expectation = new Predicate<List<ChangeInfo>>() {
+        @Override
+        public boolean apply(List<ChangeInfo> results) {
+          return expectedSize ==  results.size() && last.getId().get() == results.get(0)._number;
+        }};
+      assertQueryResult("status:new limit:" + i, expectation);
     }
   }
 
@@ -530,28 +526,21 @@ public abstract class AbstractQueryChangesTest {
     }
 
     QueryChanges q;
-    List<ChangeInfo> results;
-    results = query("status:new");
-    assertEquals(2, results.size());
-    assertResultEquals(changes.get(1), results.get(0));
-    assertResultEquals(changes.get(0), results.get(1));
+    assertQueryResult("status:new", changes.get(1), changes.get(0));
 
     q = newQuery("status:new");
     q.setStart(1);
-    results = query(q);
-    assertEquals(1, results.size());
-    assertResultEquals(changes.get(0), results.get(0));
+    assertQueryResult(q, changes.get(0));
 
     q = newQuery("status:new");
     q.setStart(2);
-    results = query(q);
-    assertEquals(0, results.size());
+    assertQueryResult(q);
 
     q = newQuery("status:new");
     q.setStart(3);
-    results = query(q);
-    assertEquals(0, results.size());
+    assertQueryResult(q);
   }
+
 
   @Test
   public void startWithLimit() throws Exception {
@@ -561,30 +550,19 @@ public abstract class AbstractQueryChangesTest {
       changes.add(newChange(repo, null, null, null, null).insert());
     }
 
-    QueryChanges q;
-    List<ChangeInfo> results;
-    results = query("status:new limit:2");
-    assertEquals(2, results.size());
-    assertResultEquals(changes.get(2), results.get(0));
-    assertResultEquals(changes.get(1), results.get(1));
+    assertQueryResult("status:new limit:2", changes.get(2), changes.get(1));
 
-    q = newQuery("status:new limit:2");
+    QueryChanges q = newQuery("status:new limit:2");
     q.setStart(1);
-    results = query(q);
-    assertEquals(2, results.size());
-    assertResultEquals(changes.get(1), results.get(0));
-    assertResultEquals(changes.get(0), results.get(1));
+    assertQueryResult(q, changes.get(1), changes.get(0));
 
     q = newQuery("status:new limit:2");
     q.setStart(2);
-    results = query(q);
-    assertEquals(1, results.size());
-    assertResultEquals(changes.get(0), results.get(0));
+    assertQueryResult(q, changes.get(0));
 
     q = newQuery("status:new limit:2");
     q.setStart(3);
-    results = query(q);
-    assertEquals(0, results.size());
+    assertQueryResult(q);
   }
 
   @Test
@@ -609,13 +587,10 @@ public abstract class AbstractQueryChangesTest {
       changes.set(i, db.changes().get(changes.get(i).getId()));
     }
 
-    List<ChangeInfo> results = query("status:new");
-    assertEquals(5, results.size());
-    assertResultEquals(changes.get(3), results.get(0));
-    assertResultEquals(changes.get(4), results.get(1));
-    assertResultEquals(changes.get(1), results.get(2));
-    assertResultEquals(changes.get(0), results.get(3));
-    assertResultEquals(changes.get(2), results.get(4));
+    assertQueryResult(
+        "status:new",
+        changes.get(3), changes.get(4), changes.get(1),
+            changes.get(0), changes.get(2));
   }
 
   @Test
@@ -628,11 +603,7 @@ public abstract class AbstractQueryChangesTest {
 
     assertTrue(lastUpdatedMs(change1) < lastUpdatedMs(change2));
 
-    List<ChangeInfo> results;
-    results = query("status:new");
-    assertEquals(2, results.size());
-    assertResultEquals(change2, results.get(0));
-    assertResultEquals(change1, results.get(1));
+    assertQueryResult("status:new", change2, change1);
 
     ReviewInput input = new ReviewInput();
     input.message = "toplevel";
@@ -641,14 +612,10 @@ public abstract class AbstractQueryChangesTest {
     change1 = db.changes().get(change1.getId());
 
     assertTrue(lastUpdatedMs(change1) > lastUpdatedMs(change2));
-    assertTrue(lastUpdatedMs(change1) - lastUpdatedMs(change2)
-        > MILLISECONDS.convert(1, MINUTES));
+    assertTrue(lastUpdatedMs(change1) - lastUpdatedMs(change2) > MILLISECONDS
+        .convert(1, MINUTES));
 
-    results = query("status:new");
-    assertEquals(2, results.size());
-    // change1 moved to the top.
-    assertResultEquals(change1, results.get(0));
-    assertResultEquals(change2, results.get(1));
+    assertQueryResult("status:new", change1, change2);
   }
 
   @Test
@@ -660,11 +627,7 @@ public abstract class AbstractQueryChangesTest {
 
     assertTrue(lastUpdatedMs(change1) < lastUpdatedMs(change2));
 
-    List<ChangeInfo> results;
-    results = query("status:new");
-    assertEquals(2, results.size());
-    assertResultEquals(change2, results.get(0));
-    assertResultEquals(change1, results.get(1));
+    assertQueryResult("status:new", change2, change1);
 
     ReviewInput input = new ReviewInput();
     input.message = "toplevel";
@@ -676,11 +639,8 @@ public abstract class AbstractQueryChangesTest {
     assertTrue(lastUpdatedMs(change1) - lastUpdatedMs(change2)
         < MILLISECONDS.convert(1, MINUTES));
 
-    results = query("status:new");
-    assertEquals(2, results.size());
     // change1 moved to the top.
-    assertResultEquals(change1, results.get(0));
-    assertResultEquals(change2, results.get(1));
+    assertQueryResult("status:new", change1, change2);
   }
 
   @Test
@@ -693,9 +653,9 @@ public abstract class AbstractQueryChangesTest {
       newChange(repo, null, null, user2, null).insert();
     }
 
-    //assertResultEquals(change, queryOne("status:new ownerin:Administrators"));
-    assertResultEquals(change,
-        queryOne("status:new ownerin:Administrators limit:2"));
+    // assertResultEquals(change,
+    // queryOne("status:new ownerin:Administrators"));
+    assertQueryResult("status:new ownerin:Administrators limit:2", change);
   }
 
   @Test
@@ -707,8 +667,8 @@ public abstract class AbstractQueryChangesTest {
       newChange(repo, null, null, user2, null).insert();
     }
 
-    assertTrue(query("status:new ownerin:Administrators").isEmpty());
-    assertTrue(query("status:new ownerin:Administrators limit:2").isEmpty());
+    assertQueryResult("status:new ownerin:Administrators");
+    assertQueryResult("status:new ownerin:Administrators limit:2");
   }
 
   @Test
@@ -720,12 +680,12 @@ public abstract class AbstractQueryChangesTest {
         .create());
     Change change = newChange(repo, commit, null, null, null).insert();
 
-    assertTrue(query("file:file").isEmpty());
-    assertResultEquals(change, queryOne("file:dir"));
-    assertResultEquals(change, queryOne("file:file1"));
-    assertResultEquals(change, queryOne("file:file2"));
-    assertResultEquals(change, queryOne("file:dir/file1"));
-    assertResultEquals(change, queryOne("file:dir/file2"));
+    assertQueryResult("file:file");
+    assertQueryResult("file:dir", change);
+    assertQueryResult("file:file1", change);
+    assertQueryResult("file:file2", change);
+    assertQueryResult("file:dir/file1", change);
+    assertQueryResult("file:dir/file2", change);
   }
 
   @Test
@@ -737,9 +697,9 @@ public abstract class AbstractQueryChangesTest {
         .create());
     Change change = newChange(repo, commit, null, null, null).insert();
 
-    assertTrue(query("file:.*file.*").isEmpty());
-    assertTrue(query("file:^file.*").isEmpty()); // Whole path only.
-    assertResultEquals(change, queryOne("file:^dir.file.*"));
+    assertQueryResult("file:.*file.*");
+    assertQueryResult("file:^file.*"); // Whole path only.
+    assertQueryResult("file:^dir.file.*", change);
   }
 
   @Test
@@ -751,12 +711,12 @@ public abstract class AbstractQueryChangesTest {
         .create());
     Change change = newChange(repo, commit, null, null, null).insert();
 
-    assertTrue(query("path:file").isEmpty());
-    assertTrue(query("path:dir").isEmpty());
-    assertTrue(query("path:file1").isEmpty());
-    assertTrue(query("path:file2").isEmpty());
-    assertResultEquals(change, queryOne("path:dir/file1"));
-    assertResultEquals(change, queryOne("path:dir/file2"));
+    assertQueryResult("path:file");
+    assertQueryResult("path:dir");
+    assertQueryResult("path:file1");
+    assertQueryResult("path:file2");
+    assertQueryResult("path:dir/file1", change);
+    assertQueryResult("path:dir/file2", change);
   }
 
   @Test
@@ -768,8 +728,8 @@ public abstract class AbstractQueryChangesTest {
         .create());
     Change change = newChange(repo, commit, null, null, null).insert();
 
-    assertTrue(query("path:.*file.*").isEmpty());
-    assertResultEquals(change, queryOne("path:^dir.file.*"));
+    assertQueryResult("path:.*file.*");
+    assertQueryResult("path:^dir.file.*", change);
   }
 
   @Test
@@ -788,9 +748,9 @@ public abstract class AbstractQueryChangesTest {
     postReview.apply(new RevisionResource(
         changes.parse(change.getId()), ins.getPatchSet()), input);
 
-    assertTrue(query("comment:foo").isEmpty());
-    assertResultEquals(change, queryOne("comment:toplevel"));
-    assertResultEquals(change, queryOne("comment:inline"));
+    assertQueryResult("comment:foo");
+    assertQueryResult("comment:toplevel", change);
+    assertQueryResult("comment:inline", change);
   }
 
   @Test
@@ -806,23 +766,16 @@ public abstract class AbstractQueryChangesTest {
     assertEquals(thirtyHours, now - lastUpdatedMs(change2));
     assertEquals(now, TimeUtil.nowMs());
 
-    assertTrue(query("-age:1d").isEmpty());
-    assertTrue(query("-age:" + (30*60-1) + "m").isEmpty());
-    assertResultEquals(change2, queryOne("-age:2d"));
+    assertQueryResult("-age:1d");
+    assertQueryResult("-age:" + (30 * 60 - 1) + "m");
+    assertQueryResult("-age:2d", change2);
 
-    List<ChangeInfo> results;
-    results = query("-age:3d");
-    assertEquals(2, results.size());
-    assertResultEquals(change2, results.get(0));
-    assertResultEquals(change1, results.get(1));
+    assertQueryResult("-age:3d", change2, change1);
 
-    assertTrue(query("age:3d").isEmpty());
-    assertResultEquals(change1, queryOne("age:2d"));
+    assertQueryResult("age:3d");
+    assertQueryResult("age:2d", change1);
 
-    results = query("age:1d");
-    assertEquals(2, results.size());
-    assertResultEquals(change2, results.get(0));
-    assertResultEquals(change1, results.get(1));
+    assertQueryResult("age:1d", change2, change1);
   }
 
   @Test
@@ -833,24 +786,17 @@ public abstract class AbstractQueryChangesTest {
     Change change2 = newChange(repo, null, null, null, null).insert();
     clockStepMs = 0;
 
-    assertTrue(query("before:2009-09-29").isEmpty());
-    assertTrue(query("before:2009-09-30").isEmpty());
-    assertTrue(query("before:\"2009-09-30 16:59:00 -0400\"").isEmpty());
-    assertTrue(query("before:\"2009-09-30 20:59:00 -0000\"").isEmpty());
-    assertTrue(query("before:\"2009-09-30 20:59:00\"").isEmpty());
-    assertResultEquals(change1,
-        queryOne("before:\"2009-09-30 17:02:00 -0400\""));
-    assertResultEquals(change1,
-        queryOne("before:\"2009-10-01 21:02:00 -0000\""));
-    assertResultEquals(change1,
-        queryOne("before:\"2009-10-01 21:02:00\""));
-    assertResultEquals(change1, queryOne("before:2009-10-01"));
+    assertQueryResult("before:2009-09-29");
+    assertQueryResult("before:2009-09-30");
+    assertQueryResult("before:\"2009-09-30 16:59:00 -0400\"");
+    assertQueryResult("before:\"2009-09-30 20:59:00 -0000\"");
+    assertQueryResult("before:\"2009-09-30 20:59:00\"");
+    assertQueryResult("before:\"2009-09-30 17:02:00 -0400\"", change1);
+    assertQueryResult("before:\"2009-10-01 21:02:00 -0000\"", change1);
+    assertQueryResult("before:\"2009-10-01 21:02:00\"", change1);
+    assertQueryResult("before:2009-10-01", change1);
 
-    List<ChangeInfo> results;
-    results = query("before:2009-10-03");
-    assertEquals(2, results.size());
-    assertResultEquals(change2, results.get(0));
-    assertResultEquals(change1, results.get(1));
+    assertQueryResult("before:2009-10-03", change2, change1);
   }
 
   @Test
@@ -861,18 +807,12 @@ public abstract class AbstractQueryChangesTest {
     Change change2 = newChange(repo, null, null, null, null).insert();
     clockStepMs = 0;
 
-    assertTrue(query("after:2009-10-03").isEmpty());
-    assertResultEquals(change2,
-        queryOne("after:\"2009-10-01 20:59:59 -0400\""));
-    assertResultEquals(change2,
-        queryOne("after:\"2009-10-01 20:59:59 -0000\""));
-    assertResultEquals(change2, queryOne("after:2009-10-01"));
+    assertQueryResult("after:2009-10-03");
+    assertQueryResult("after:\"2009-10-01 20:59:59 -0400\"", change2);
+    assertQueryResult("after:\"2009-10-01 20:59:59 -0000\"", change2);
+    assertQueryResult("after:2009-10-01", change2);
 
-    List<ChangeInfo> results;
-    results = query("after:2009-09-30");
-    assertEquals(2, results.size());
-    assertResultEquals(change2, results.get(0));
-    assertResultEquals(change1, results.get(1));
+    assertQueryResult("after:2009-09-30", change2, change1);
   }
 
   @Test
@@ -890,26 +830,26 @@ public abstract class AbstractQueryChangesTest {
     Change change2 = newChange(repo, commit2, null, null, null).insert();
 
     assertTrue(query("added:>4").isEmpty());
-    assertResultEquals(change1, queryOne("added:3"));
-    assertResultEquals(change1, queryOne("added:>2"));
-    assertResultEquals(change1, queryOne("added:>=3"));
-    assertResultEquals(change2, queryOne("added:<1"));
-    assertResultEquals(change2, queryOne("added:<=0"));
+    assertQueryResult("added:3", change1);
+    assertQueryResult("added:>2", change1);
+    assertQueryResult("added:>=3", change1);
+    assertQueryResult("added:<1", change2);
+    assertQueryResult("added:<=0", change2);
 
     assertTrue(query("deleted:>3").isEmpty());
-    assertResultEquals(change2, queryOne("deleted:2"));
-    assertResultEquals(change2, queryOne("deleted:>1"));
-    assertResultEquals(change2, queryOne("deleted:>=2"));
-    assertResultEquals(change1, queryOne("deleted:<1"));
-    assertResultEquals(change1, queryOne("deleted:<=0"));
+    assertQueryResult("deleted:2", change2);
+    assertQueryResult("deleted:>1", change2);
+    assertQueryResult("deleted:>=2", change2);
+    assertQueryResult("deleted:<1", change1);
+    assertQueryResult("deleted:<=0", change1);
 
     for (String str : Lists.newArrayList("delta", "size")) {
       assertTrue(query(str + ":<2").isEmpty());
-      assertResultEquals(change1, queryOne(str + ":3"));
-      assertResultEquals(change1, queryOne(str + ":>2"));
-      assertResultEquals(change1, queryOne(str + ":>=3"));
-      assertResultEquals(change2, queryOne(str + ":<3"));
-      assertResultEquals(change2, queryOne(str + ":<=2"));
+      assertQueryResult(str + ":3", change1);
+      assertQueryResult(str + ":>2", change1);
+      assertQueryResult(str + ":>=3", change1);
+      assertQueryResult(str + ":<3", change2);
+      assertQueryResult(str + ":<=2", change2);
     }
   }
 
@@ -936,12 +876,12 @@ public abstract class AbstractQueryChangesTest {
     assertEquals(2, results.size());
     assertResultEquals(changes.get(1), results.get(0));
     assertResultEquals(changes.get(0), results.get(1));
-    assertResultEquals(changes.get(1), queryOne("hashtag:bar"));
-    assertResultEquals(changes.get(1), queryOne("hashtag:\"a tag\""));
-    assertResultEquals(changes.get(1), queryOne("hashtag:\"a tag \""));
-    assertResultEquals(changes.get(1), queryOne("hashtag:\" a tag \""));
-    assertResultEquals(changes.get(1), queryOne("hashtag:\"#a tag\""));
-    assertResultEquals(changes.get(1), queryOne("hashtag:\"# #a tag\""));
+    assertQueryResult("hashtag:bar", changes.get(1));
+    assertQueryResult("hashtag:\"a tag\"", changes.get(1));
+    assertQueryResult("hashtag:\"a tag \"", changes.get(1));
+    assertQueryResult("hashtag:\" a tag \"", changes.get(1));
+    assertQueryResult("hashtag:\"#a tag\"", changes.get(1));
+    assertQueryResult("hashtag:\"# #a tag\"", changes.get(1));
   }
 
   @Test
@@ -988,15 +928,14 @@ public abstract class AbstractQueryChangesTest {
 
     Change change6 = newChange(repo, null, null, null, "branch6").insert();
 
-    assertResultEquals(change1,
-        queryOne(Integer.toString(change1.getId().get())));
-    assertResultEquals(change2, queryOne("foosubject"));
-    assertResultEquals(change3, queryOne("Foo.java"));
-    assertResultEquals(change4, queryOne("Code-Review+1"));
-    assertResultEquals(change4, queryOne("toplevel"));
-    assertResultEquals(change5, queryOne("feature5"));
-    assertResultEquals(change6, queryOne("branch6"));
-    assertResultEquals(change6, queryOne("refs/heads/branch6"));
+    assertQueryResult(Integer.toString(change1.getId().get()), change1);
+    assertQueryResult("foosubject", change2);
+    assertQueryResult("Foo.java", change3);
+    assertQueryResult("Code-Review+1", change4);
+    assertQueryResult("toplevel", change4);
+    assertQueryResult("feature5", change5);
+    assertQueryResult("branch6", change6);
+    assertQueryResult("refs/heads/branch6", change6);
 
     assertEquals(6, query("user@example.com").size());
     assertEquals(6, query("repo").size());
@@ -1047,9 +986,9 @@ public abstract class AbstractQueryChangesTest {
     assertEquals(message, expected.getId().get(), actual._number);
   }
 
-  protected void assertBadQuery(Object query) throws Exception {
+  protected void assertBadQuery(String query) throws Exception {
     try {
-      query(query);
+      query(newQuery(query));
       fail("expected BadRequestException for query: " + query);
     } catch (BadRequestException e) {
       // Expected.
@@ -1064,43 +1003,77 @@ public abstract class AbstractQueryChangesTest {
         repoManager.openRepository(new Project.NameKey(name)));
   }
 
-  protected QueryChanges newQuery(Object query) {
+  protected QueryChanges newQuery(String query) {
     QueryChanges q = queryProvider.get();
-    q.addQuery(query.toString());
+    q.addQuery(query);
     return q;
   }
 
-  @SuppressWarnings({"rawtypes", "unchecked"})
   protected List<ChangeInfo> query(QueryChanges q) throws Exception {
     Object result = q.apply(TLR);
     assertTrue(
         String.format("expected List<ChangeInfo>, found %s for [%s]",
           result, q.getQuery(0)),
         result instanceof List);
-    List results = (List) result;
+    @SuppressWarnings("unchecked")
+    List<ChangeInfo> results = (List<ChangeInfo>) result;
     if (!results.isEmpty()) {
       assertTrue(
           String.format("expected ChangeInfo, found %s for [%s]",
             result, q.getQuery(0)),
           results.get(0) instanceof ChangeInfo);
     }
-    return (List<ChangeInfo>) result;
+    return results;
   }
 
-  protected List<ChangeInfo> query(Object query) throws Exception {
-    return query(newQuery(query));
+  protected void assertQueryResult(QueryChanges q,
+      Predicate<List<ChangeInfo>> expectation) throws Exception {
+    long end = TimeUtil.nowMs() + TIMEOUT_MS;
+    List<ChangeInfo> results = query(q);
+    while (!expectation.apply(results)) {
+      String message = String.format("Expected result not found withing %d milliseconds. "
+          + "Expected List<ChangeInfo>, found %s for [%s]", TIMEOUT_MS, results,
+          q.getQuery(0));
+      assertTrue(message, TimeUtil.nowMs() < end);
+      Thread.sleep(100);
+      results = query(q);
+    }
   }
 
-  protected ChangeInfo queryOne(Object query) throws Exception {
-    List<ChangeInfo> results = query(query);
-    assertTrue(
-        String.format("expected singleton List<ChangeInfo>, found %s for [%s]",
-          results, query),
-        results.size() == 1);
-    return results.get(0);
+  protected void assertQueryResult(String query,
+      Predicate<List<ChangeInfo>> expectation) throws Exception {
+    assertQueryResult(newQuery(query), expectation);
+  }
+
+  protected void assertQueryResult(String query, Change ... changes) throws Exception {
+    assertQueryResult(newQuery(query), expectedChanges(changes));
+  }
+
+  protected void assertQueryResult(QueryChanges query, Change ... changes) throws Exception {
+    assertQueryResult(query, expectedChanges(changes));
   }
 
   protected static long lastUpdatedMs(Change c) {
     return c.getLastUpdatedOn().getTime();
+  }
+
+  protected static Predicate<List<ChangeInfo>> expectedChanges(
+      final Change... changes) {
+    return new Predicate<List<ChangeInfo>>() {
+      @Override
+      public boolean apply(List<ChangeInfo> results) {
+        if (results.size() != changes.length) {
+          return false;
+        }
+
+        for (int i = 0; i < changes.length; i++) {
+          if (changes[i].getId().get() != results.get(i)._number) {
+            return false;
+          }
+        }
+
+        return true;
+      }
+    };
   }
 }

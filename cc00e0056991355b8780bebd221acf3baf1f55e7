@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "595ea0fe_d880ad3e",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/project/RefControlTest.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-07-24T12:39:36Z",
+      "side": 1,
+      "message": "I am way too late to comment on this change but this refactoring made this test less readable and harder to develop further.\n\nWhat will util.getParentConfig() return? How does it know which parent project to return? Parent of what? It turns out it returns always the same project which, by chance, is the parent of the local.\n\nHowever, what if I want to write a test with 3 projects: local, parent and grandParent? It is just unintuitive... where should the definition(s) of parent and grandParent reside? In the Util class? Why?",
+      "revId": "cc00e0056991355b8780bebd221acf3baf1f55e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

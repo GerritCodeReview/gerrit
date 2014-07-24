@@ -1,0 +1,251 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "19a1880c_0e6f6bc7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-07-24T18:22:25Z",
+      "side": 1,
+      "message": "Space at start of next line, not end of prior.",
+      "range": {
+        "startLine": 98,
+        "startChar": 51,
+        "endLine": 99,
+        "endChar": 13
+      },
+      "revId": "677201aec6de93637ff11b06edaa18801659f81f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9aa90eb_cc856f4c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-07-24T18:22:25Z",
+      "side": 1,
+      "message": "space at start of next line",
+      "range": {
+        "startLine": 121,
+        "startChar": 69,
+        "endLine": 122,
+        "endChar": 18
+      },
+      "revId": "677201aec6de93637ff11b06edaa18801659f81f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19a1880c_6e6c2fd1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-07-24T18:22:25Z",
+      "side": 1,
+      "message": "unnecessary blank line. looks like this snuck back in during a squash.",
+      "revId": "677201aec6de93637ff11b06edaa18801659f81f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19a1880c_2e7227b1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 584,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-07-24T18:22:25Z",
+      "side": 1,
+      "message": "format this by breaking ? and : onto the start of their own lines.",
+      "range": {
+        "startLine": 583,
+        "startChar": 4,
+        "endLine": 584,
+        "endChar": 70
+      },
+      "revId": "677201aec6de93637ff11b06edaa18801659f81f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9aa90eb_2c8b5361",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-07-24T18:22:25Z",
+      "side": 1,
+      "message": "Provider\u003cAllUsersName\u003e",
+      "range": {
+        "startLine": 99,
+        "startChar": 16,
+        "endLine": 99,
+        "endChar": 36
+      },
+      "revId": "677201aec6de93637ff11b06edaa18801659f81f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19a1880c_aec4577a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-07-24T18:22:25Z",
+      "side": 1,
+      "message": "Provider\u003cAllUsersName\u003e",
+      "range": {
+        "startLine": 110,
+        "startChar": 6,
+        "endLine": 110,
+        "endChar": 26
+      },
+      "revId": "677201aec6de93637ff11b06edaa18801659f81f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19a1880c_4e6973bf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-07-24T18:22:25Z",
+      "side": 1,
+      "message": "Provider\u003cAllUsersName\u003e",
+      "range": {
+        "startLine": 128,
+        "startChar": 6,
+        "endLine": 128,
+        "endChar": 26
+      },
+      "revId": "677201aec6de93637ff11b06edaa18801659f81f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19a1880c_8ec99b94",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-07-24T18:22:25Z",
+      "side": 1,
+      "message": "Provider\u003cAllUsersName\u003e",
+      "range": {
+        "startLine": 151,
+        "startChar": 6,
+        "endLine": 151,
+        "endChar": 26
+      },
+      "revId": "677201aec6de93637ff11b06edaa18801659f81f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19a1880c_eece5f98",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-07-24T18:22:25Z",
+      "side": 1,
+      "message": "space at start of second line",
+      "range": {
+        "startLine": 236,
+        "startChar": 76,
+        "endLine": 237,
+        "endChar": 13
+      },
+      "revId": "677201aec6de93637ff11b06edaa18801659f81f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9aa90eb_6c955b79",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-07-24T18:22:25Z",
+      "side": 1,
+      "message": "An assisted injection factory would work better here. Most of the things you are passing are passable through Guice. A handful of objects need to be passed by assisted injection, like the ChangeControl \"ctl\" and \"when\".",
+      "range": {
+        "startLine": 297,
+        "startChar": 20,
+        "endLine": 299,
+        "endChar": 23
+      },
+      "revId": "677201aec6de93637ff11b06edaa18801659f81f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9aa90eb_4c921f93",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-07-24T18:22:25Z",
+      "side": 1,
+      "message": "space at start of second line",
+      "range": {
+        "startLine": 316,
+        "startChar": 61,
+        "endLine": 317,
+        "endChar": 14
+      },
+      "revId": "677201aec6de93637ff11b06edaa18801659f81f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

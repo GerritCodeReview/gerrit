@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7969a4a1_19722bb1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/RevisionEdit.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-24T08:06:18Z",
+      "side": 1,
+      "message": "one and should be enough.",
+      "range": {
+        "startLine": 84,
+        "startChar": 66,
+        "endLine": 84,
+        "endChar": 69
+      },
+      "revId": "01f514480618a0d24e8683eff75c6e45faf90c5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "595ea0fe_58365dfb",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/edit/RevisionEditTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-24T08:06:18Z",
+      "side": 1,
+      "message": "It doesn\u0027t hurt to add the header.",
+      "revId": "01f514480618a0d24e8683eff75c6e45faf90c5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

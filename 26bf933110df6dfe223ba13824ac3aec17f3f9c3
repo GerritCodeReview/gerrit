@@ -213,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "d9aa90eb_ec414b51",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-07-24T00:09:34Z",
+      "side": 1,
+      "message": "I\u0027d prefer to do it in this change, and squash the renames into the later commits in the same series.\n\nI can walk you through that on your desktop.",
+      "parentUuid": "d9c370c9_e4f31a05",
+      "range": {
+        "startLine": 114,
+        "startChar": 14,
+        "endLine": 114,
+        "endChar": 27
+      },
+      "revId": "26bf933110df6dfe223ba13824ac3aec17f3f9c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "19a1880c_4e33330a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
         "patchSetId": 11

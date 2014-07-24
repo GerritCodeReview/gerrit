@@ -55,6 +55,8 @@ public class RefControlTest {
   private final AccountGroup.UUID fixers = new AccountGroup.UUID("test.fixers");
   private Project.NameKey localKey = new Project.NameKey("local");
   private ProjectConfig local;
+  private Project.NameKey parentKey = new Project.NameKey("parent");
+  private ProjectConfig parent;
   private final Util util;
 
   public RefControlTest() {
@@ -63,9 +65,14 @@ public class RefControlTest {
 
   @Before
   public void setUp() throws Exception {
+    parent = new ProjectConfig(parentKey);
+    parent.load(newRepository(parentKey));
+    util.add(parent);
+
     local = new ProjectConfig(localKey);
     local.load(newRepository(localKey));
     util.add(local);
+    local.getProject().setParentName(parentKey);
   }
 
   @Test
@@ -139,8 +146,8 @@ public class RefControlTest {
 
   @Test
   public void testInheritRead_SingleBranchDeniesUpload() {
-    allow(util.getParentConfig(), READ, REGISTERED_USERS, "refs/*");
-    allow(util.getParentConfig(), PUSH, REGISTERED_USERS, "refs/for/refs/*");
+    allow(parent, READ, REGISTERED_USERS, "refs/*");
+    allow(parent, PUSH, REGISTERED_USERS, "refs/for/refs/*");
     allow(local, READ, REGISTERED_USERS, "refs/heads/foobar");
     doNotInherit(local, READ, "refs/heads/foobar");
     doNotInherit(local, PUSH, "refs/for/refs/heads/foobar");
@@ -157,8 +164,8 @@ public class RefControlTest {
 
   @Test
   public void testBlockPushDrafts() {
-    allow(util.getParentConfig(), PUSH, REGISTERED_USERS, "refs/for/refs/*");
-    block(util.getParentConfig(), PUSH, ANONYMOUS_USERS, "refs/drafts/*");
+    allow(parent, PUSH, REGISTERED_USERS, "refs/for/refs/*");
+    block(parent, PUSH, ANONYMOUS_USERS, "refs/drafts/*");
 
     ProjectControl u = util.user(local);
     assertTrue("can upload refs/heads/master",
@@ -169,8 +176,8 @@ public class RefControlTest {
 
   @Test
   public void testBlockPushDraftsUnblockAdmin() {
-    block(util.getParentConfig(), PUSH, ANONYMOUS_USERS, "refs/drafts/*");
-    allow(util.getParentConfig(), PUSH, ADMIN, "refs/drafts/*");
+    block(parent, PUSH, ANONYMOUS_USERS, "refs/drafts/*");
+    allow(parent, PUSH, ADMIN, "refs/drafts/*");
 
     assertTrue("push is blocked for anonymous to refs/drafts/master",
         util.user(local).controlForRef("refs/drafts/refs/heads/master")
@@ -182,8 +189,8 @@ public class RefControlTest {
 
   @Test
   public void testInheritRead_SingleBranchDoesNotOverrideInherited() {
-    allow(util.getParentConfig(), READ, REGISTERED_USERS, "refs/*");
-    allow(util.getParentConfig(), PUSH, REGISTERED_USERS, "refs/for/refs/*");
+    allow(parent, READ, REGISTERED_USERS, "refs/*");
+    allow(parent, PUSH, REGISTERED_USERS, "refs/for/refs/*");
     allow(local, READ, REGISTERED_USERS, "refs/heads/foobar");
 
     ProjectControl u = util.user(local);
@@ -198,20 +205,20 @@ public class RefControlTest {
 
   @Test
   public void testInheritDuplicateSections() throws Exception {
-    allow(util.getParentConfig(), READ, ADMIN, "refs/*");
+    allow(parent, READ, ADMIN, "refs/*");
     allow(local, READ, DEVS, "refs/heads/*");
-    local.getProject().setParentName(util.getParentConfig().getProject().getName());
     assertTrue("a can read", util.user(local, "a", ADMIN).isVisible());
 
-    local = new ProjectConfig(new Project.NameKey("local"));
+    local = new ProjectConfig(localKey);
     local.load(newRepository(localKey));
+    local.getProject().setParentName(parentKey);
     allow(local, READ, DEVS, "refs/*");
     assertTrue("d can read", util.user(local, "d", DEVS).isVisible());
   }
 
   @Test
   public void testInheritRead_OverrideWithDeny() {
-    allow(util.getParentConfig(), READ, REGISTERED_USERS, "refs/*");
+    allow(parent, READ, REGISTERED_USERS, "refs/*");
     deny(local, READ, REGISTERED_USERS, "refs/*");
 
     ProjectControl u = util.user(local);
@@ -220,7 +227,7 @@ public class RefControlTest {
 
   @Test
   public void testInheritRead_AppendWithDenyOfRef() {
-    allow(util.getParentConfig(), READ, REGISTERED_USERS, "refs/*");
+    allow(parent, READ, REGISTERED_USERS, "refs/*");
     deny(local, READ, REGISTERED_USERS, "refs/heads/*");
 
     ProjectControl u = util.user(local);
@@ -232,7 +239,7 @@ public class RefControlTest {
 
   @Test
   public void testInheritRead_OverridesAndDeniesOfRef() {
-    allow(util.getParentConfig(), READ, REGISTERED_USERS, "refs/*");
+    allow(parent, READ, REGISTERED_USERS, "refs/*");
     deny(local, READ, REGISTERED_USERS, "refs/*");
     allow(local, READ, REGISTERED_USERS, "refs/heads/*");
 
@@ -245,7 +252,7 @@ public class RefControlTest {
 
   @Test
   public void testInheritSubmit_OverridesAndDeniesOfRef() {
-    allow(util.getParentConfig(), SUBMIT, REGISTERED_USERS, "refs/*");
+    allow(parent, SUBMIT, REGISTERED_USERS, "refs/*");
     deny(local, SUBMIT, REGISTERED_USERS, "refs/*");
     allow(local, SUBMIT, REGISTERED_USERS, "refs/heads/*");
 
@@ -257,7 +264,7 @@ public class RefControlTest {
 
   @Test
   public void testCannotUploadToAnyRef() {
-    allow(util.getParentConfig(), READ, REGISTERED_USERS, "refs/*");
+    allow(parent, READ, REGISTERED_USERS, "refs/*");
     allow(local, READ, DEVS, "refs/heads/*");
     allow(local, PUSH, DEVS, "refs/for/refs/heads/*");
 
@@ -307,7 +314,7 @@ public class RefControlTest {
   @Test
   public void testSortWithRegex() {
     allow(local, READ, DEVS, "^refs/heads/.*");
-    allow(util.getParentConfig(), READ, ANONYMOUS_USERS, "^refs/heads/.*-QA-.*");
+    allow(parent, READ, ANONYMOUS_USERS, "^refs/heads/.*-QA-.*");
 
     ProjectControl u = util.user(local, DEVS), d = util.user(local, DEVS);
     assertTrue("u can read", u.controlForRef("refs/heads/foo-QA-bar").isVisible());
@@ -317,7 +324,7 @@ public class RefControlTest {
   @Test
   public void testBlockRule_ParentBlocksChild() {
     allow(local, PUSH, DEVS, "refs/tags/*");
-    block(util.getParentConfig(), PUSH, ANONYMOUS_USERS, "refs/tags/*");
+    block(parent, PUSH, ANONYMOUS_USERS, "refs/tags/*");
     ProjectControl u = util.user(local, DEVS);
     assertFalse("u can't update tag", u.controlForRef("refs/tags/V10").canUpdate());
   }
@@ -326,7 +333,7 @@ public class RefControlTest {
   public void testBlockRule_ParentBlocksChildEvenIfAlreadyBlockedInChild() {
     allow(local, PUSH, DEVS, "refs/tags/*");
     block(local, PUSH, ANONYMOUS_USERS, "refs/tags/*");
-    block(util.getParentConfig(), PUSH, ANONYMOUS_USERS, "refs/tags/*");
+    block(parent, PUSH, ANONYMOUS_USERS, "refs/tags/*");
 
     ProjectControl u = util.user(local, DEVS);
     assertFalse("u can't update tag", u.controlForRef("refs/tags/V10").canUpdate());
@@ -335,7 +342,7 @@ public class RefControlTest {
   @Test
   public void testBlockLabelRange_ParentBlocksChild() {
     allow(local, LABEL + "Code-Review", -2, +2, DEVS, "refs/heads/*");
-    block(util.getParentConfig(), LABEL + "Code-Review", -2, +2, DEVS, "refs/heads/*");
+    block(parent, LABEL + "Code-Review", -2, +2, DEVS, "refs/heads/*");
 
     ProjectControl u = util.user(local, DEVS);
 
@@ -350,7 +357,7 @@ public class RefControlTest {
   public void testBlockLabelRange_ParentBlocksChildEvenIfAlreadyBlockedInChild() {
     allow(local, LABEL + "Code-Review", -2, +2, DEVS, "refs/heads/*");
     block(local, LABEL + "Code-Review", -2, +2, DEVS, "refs/heads/*");
-    block(util.getParentConfig(), LABEL + "Code-Review", -2, +2, DEVS,
+    block(parent, LABEL + "Code-Review", -2, +2, DEVS,
         "refs/heads/*");
 
     ProjectControl u = util.user(local, DEVS);
@@ -412,7 +419,7 @@ public class RefControlTest {
 
   @Test
   public void testUnblockInLocal_Fails() {
-    block(util.getParentConfig(), PUSH, ANONYMOUS_USERS, "refs/heads/*");
+    block(parent, PUSH, ANONYMOUS_USERS, "refs/heads/*");
     allow(local, PUSH, fixers, "refs/heads/*");
 
     ProjectControl f = util.user(local, fixers);
@@ -421,8 +428,8 @@ public class RefControlTest {
 
   @Test
   public void testUnblockInParentBlockInLocal() {
-    block(util.getParentConfig(), PUSH, ANONYMOUS_USERS, "refs/heads/*");
-    allow(util.getParentConfig(), PUSH, DEVS, "refs/heads/*");
+    block(parent, PUSH, ANONYMOUS_USERS, "refs/heads/*");
+    allow(parent, PUSH, DEVS, "refs/heads/*");
     block(local, PUSH, DEVS, "refs/heads/*");
 
     ProjectControl d = util.user(local, DEVS);
@@ -440,7 +447,7 @@ public class RefControlTest {
 
   @Test
   public void testUnblockInLocalVisibilityByRegisteredUsers_Fails() {
-    block(util.getParentConfig(), READ, ANONYMOUS_USERS, "refs/heads/*");
+    block(parent, READ, ANONYMOUS_USERS, "refs/heads/*");
     allow(local, READ, REGISTERED_USERS, "refs/heads/*");
 
     ProjectControl u = util.user(local, REGISTERED_USERS);
@@ -459,7 +466,7 @@ public class RefControlTest {
 
   @Test
   public void testUnblockInLocalForceEditTopicName_Fails() {
-    block(util.getParentConfig(), EDIT_TOPIC_NAME, ANONYMOUS_USERS, "refs/heads/*");
+    block(parent, EDIT_TOPIC_NAME, ANONYMOUS_USERS, "refs/heads/*");
     allow(local, EDIT_TOPIC_NAME, DEVS, "refs/heads/*").setForce(true);
 
     ProjectControl u = util.user(local, REGISTERED_USERS);
@@ -502,7 +509,7 @@ public class RefControlTest {
 
   @Test
   public void testUnblockInLocalRange_Fails() {
-    block(util.getParentConfig(), LABEL + "Code-Review", -1, 1, ANONYMOUS_USERS,
+    block(parent, LABEL + "Code-Review", -1, 1, ANONYMOUS_USERS,
         "refs/heads/*");
     allow(local, LABEL + "Code-Review", -2, +2, DEVS, "refs/heads/*");
 

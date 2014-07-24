@@ -44,12 +44,12 @@ public class LuceneQueryChangesTest extends AbstractQueryChangesTest {
         repo.parseBody(repo.commit().message("one.two.three").create());
     Change change2 = newChange(repo, commit2, null, null, null).insert();
 
-    assertTrue(query("message:foo_ba").isEmpty());
-    assertResultEquals(change1, queryOne("message:bar"));
-    assertResultEquals(change1, queryOne("message:foo_bar"));
-    assertResultEquals(change1, queryOne("message:foo bar"));
-    assertResultEquals(change2, queryOne("message:two"));
-    assertResultEquals(change2, queryOne("message:one.two"));
-    assertResultEquals(change2, queryOne("message:one two"));
+    assertTrue(query(newQuery("message:foo_ba")).isEmpty());
+    assertQueryResult("message:bar", change1);
+    assertQueryResult("message:foo_bar", change1);
+    assertQueryResult("message:foo bar", change1);
+    assertQueryResult("message:two", change2);
+    assertQueryResult("message:one.two", change2);
+    assertQueryResult("message:one two", change2);
   }
 }

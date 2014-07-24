@@ -418,7 +418,7 @@ public class RefControlTest {
   }
 
   @Test
-  public void testUnblockVisibilityByREGISTEREDUsers() {
+  public void testUnblockVisibilityByRegisteredUsers() {
     block(local, READ, ANONYMOUS_USERS, "refs/heads/*");
     allow(local, READ, REGISTERED_USERS, "refs/heads/*");
 

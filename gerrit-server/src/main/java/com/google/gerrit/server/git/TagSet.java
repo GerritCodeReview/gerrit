@@ -350,6 +350,9 @@ class TagSet {
     }
 
     boolean has(BitSet mask) {
+      if (refFlags.isEmpty() && mask.isEmpty()) {
+        return true;
+      }
       return refFlags.intersects(mask);
     }
   }

@@ -180,17 +180,19 @@ public class Util {
   private final PermissionCollection.Factory sectionSorter;
   private final GitRepositoryManager repoManager;
 
-  private final AllProjectsName allProjectsName = new AllProjectsName("parent");
-  private final ProjectConfig parent = new ProjectConfig(allProjectsName);
+  private final AllProjectsName allProjectsName =
+      new AllProjectsName("All-Projects");
+  private final ProjectConfig allProjects;
 
   public Util() {
     all = new HashMap<>();
     repoManager = new InMemoryRepositoryManager();
     try {
       Repository repo = repoManager.createRepository(allProjectsName);
-      parent.load(repo);
-      parent.getLabelSections().put(CR.getName(), CR);
-      add(parent);
+      allProjects = new ProjectConfig(new Project.NameKey(allProjectsName.get()));
+      allProjects.load(repo);
+      allProjects.getLabelSections().put(CR.getName(), CR);
+      add(allProjects);
     } catch (IOException | ConfigInvalidException e) {
       throw new RuntimeException(e);
     }
@@ -279,10 +281,6 @@ public class Util {
         injector.getInstance(CapabilityControl.Factory.class);
     changeControlFactory =
       injector.getInstance(ChangeControl.AssistedFactory.class);
-  }
-
-  public ProjectConfig getParentConfig() {
-    return this.parent;
   }
 
   public void add(ProjectConfig pc) {

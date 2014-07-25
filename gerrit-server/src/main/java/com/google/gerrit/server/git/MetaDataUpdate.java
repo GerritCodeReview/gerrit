@@ -23,6 +23,7 @@ import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -103,6 +104,7 @@ public class MetaDataUpdate {
   private final Repository db;
   private final CommitBuilder commit;
   private boolean allowEmpty;
+  private BatchRefUpdate batch;
 
   @Inject
   public MetaDataUpdate(GitReferenceUpdated gitRefUpdated,
@@ -126,6 +128,23 @@ public class MetaDataUpdate {
 
   public void setAllowEmpty(boolean allowEmpty) {
     this.allowEmpty = allowEmpty;
+  }
+
+  /**
+   * Set the batch ref update to which this single update should be added.
+   * <p>
+   * This allows batching together updates to multiple metadata refs. For making
+   * multiple commits to a single metadata ref, see
+   * {@link VersionedMetaData#openUpdate(MetaDataUpdate)}.
+   *
+   * @param batch batch for updates.
+   */
+  public void setBatch(BatchRefUpdate batch) {
+    this.batch = batch;
+  }
+
+  BatchRefUpdate getBatch() {
+    return batch;
   }
 
   /** Close the cached Repository handle. */

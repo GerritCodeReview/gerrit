@@ -26,6 +26,7 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
@@ -40,6 +41,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.util.RawParseUtils;
 
@@ -181,6 +183,21 @@ public abstract class VersionedMetaData {
     void close();
   }
 
+  /**
+   * Open a batch of updates to the same metadata ref.
+   * <p>
+   * This allows making multiple commits to a single metadata ref, at the end of
+   * which is a single ref update. For batching together updates to multiple
+   * refs (each consisting of one or more commits against their respective
+   * refs), see {@link MetaDataUpdate#setBatch(BatchRefUpdate)}.
+   * <p>
+   * A ref update produced by this {@link BatchMetaDataUpdate} is only committed
+   * if there is no associated {@link BatchRefUpdate}. As a result, the
+   * configured ref updated event is not fired if there is an associated batch.
+   *
+   * @param update helper info about the update.
+   * @throws IOException if the update failed.
+   */
   public BatchMetaDataUpdate openUpdate(final MetaDataUpdate update) throws IOException {
     final Repository db = update.getRepository();
 
@@ -302,6 +319,15 @@ public abstract class VersionedMetaData {
 
       private RevCommit updateRef(AnyObjectId oldId, AnyObjectId newId,
           String refName) throws IOException {
+        BatchRefUpdate bru = update.getBatch();
+        if (bru != null) {
+          bru.addCommand(new ReceiveCommand(
+              oldId.toObjectId(), newId.toObjectId(), refName));
+          inserter.flush();
+          revision = rw.parseCommit(newId);
+          return revision;
+        }
+
         RefUpdate ru = db.updateRef(refName);
         ru.setExpectedOldObjectId(oldId);
         ru.setNewObjectId(src);

@@ -189,6 +189,24 @@
     },
     {
       "key": {
+        "uuid": "d9c370c9_441cae85",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ListDrafts.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-25T22:54:42Z",
+      "side": 1,
+      "message": "This is a public REST API, you should change the test method. Author info is intentionally omitted from drafts because it\u0027s implied by context (the user being authenticated). For published comments, ListComments inherits from ListDrafts and overrides this method to return true. That is a bit obtuse, but matches the intended/documented behavior of the REST API.\n\nWhy we thought having ListComments inherit from ListDrafts was a good idea is beyond me.",
+      "parentUuid": "19a1880c_0e53ebf8",
+      "revId": "a3a39b9392cabb94bbcd7d92df179cb651c0c785",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d9aa90eb_4cc05f5f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
         "patchSetId": 3
@@ -253,6 +271,24 @@
       "side": 1,
       "message": "I made another method called draftByChangeAuthor that I think would be even more efficient because we wouldn\u0027t have to scan refs.",
       "parentUuid": "19a1880c_ee3bffb5",
+      "revId": "a3a39b9392cabb94bbcd7d92df179cb651c0c785",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9c370c9_a4476265",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/HasDraftByPredicate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-25T22:54:42Z",
+      "side": 1,
+      "message": "Good plan.",
+      "parentUuid": "d9aa90eb_ac1aa35f",
       "revId": "a3a39b9392cabb94bbcd7d92df179cb651c0c785",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

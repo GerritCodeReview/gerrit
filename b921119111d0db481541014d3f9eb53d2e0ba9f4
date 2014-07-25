@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "19a1880c_4ec0535f",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/RefNames.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-07-25T14:45:55Z",
+      "side": 1,
+      "message": "This method is clear from context. Drop that part of the doc.",
+      "range": {
+        "startLine": 65,
+        "startChar": 5,
+        "endLine": 65,
+        "endChar": 16
+      },
+      "revId": "b921119111d0db481541014d3f9eb53d2e0ba9f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9aa90eb_2c7233b1",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/RefNames.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-07-25T14:45:55Z",
+      "side": 1,
+      "message": "See PatchSet.Id\u0027s fromRef method (PatchSet.java line 107).\n\nhttps://gerrit.googlesource.com/gerrit/+/HEAD/gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/PatchSet.java#107",
+      "range": {
+        "startLine": 71,
+        "startChar": 4,
+        "endLine": 92,
+        "endChar": 45
+      },
+      "revId": "b921119111d0db481541014d3f9eb53d2e0ba9f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -14,7 +14,8 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.common.collect.Lists;
+import static com.google.gerrit.server.PatchLineCommentsUtil.PLC_ORDER;
+
 import com.google.gerrit.extensions.api.changes.ReviewInput.NotifyHandling;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -39,8 +40,6 @@ import com.google.inject.assistedinject.Assisted;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 
@@ -94,7 +93,7 @@ public class EmailReviewComments implements Runnable, RequestContext {
     this.patchSet = patchSet;
     this.authorId = authorId;
     this.message = message;
-    this.comments = comments;
+    this.comments = PLC_ORDER.sortedCopy(comments);
   }
 
   void sendAsync() {
@@ -105,29 +104,6 @@ public class EmailReviewComments implements Runnable, RequestContext {
   public void run() {
     RequestContext old = requestContext.setContext(this);
     try {
-
-      comments = Lists.newArrayList(comments);
-      Collections.sort(comments, new Comparator<PatchLineComment>() {
-        @Override
-        public int compare(PatchLineComment a, PatchLineComment b) {
-          int cmp = path(a).compareTo(path(b));
-          if (cmp != 0) {
-            return cmp;
-          }
-
-          // 0 is ancestor, 1 is revision. Sort ancestor first.
-          cmp = a.getSide() - b.getSide();
-          if (cmp != 0) {
-            return cmp;
-          }
-
-          return a.getLine() - b.getLine();
-        }
-
-        private String path(PatchLineComment c) {
-          return c.getKey().getParentKey().getFileName();
-        }
-      });
 
       CommentSender cm = commentSenderFactory.create(notify, change.getId());
       cm.setFrom(authorId);

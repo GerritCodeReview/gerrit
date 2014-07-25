@@ -345,7 +345,11 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
 
     Map<String, PatchLineComment> drafts = Collections.emptyMap();
     if (!in.isEmpty() || draftsHandling != DraftHandling.KEEP) {
-      drafts = scanDraftComments(rsrc);
+      if (draftsHandling == DraftHandling.PUBLISH_ALL_REVISIONS) {
+        drafts = changeDrafts(rsrc);
+      } else {
+        drafts = patchSetDrafts(rsrc);
+      }
     }
 
     List<PatchLineComment> del = Lists.newArrayList();
@@ -392,6 +396,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         del.addAll(drafts.values());
         break;
       case PUBLISH:
+      case PUBLISH_ALL_REVISIONS:
         for (PatchLineComment e : drafts.values()) {
           e.setStatus(PatchLineComment.Status.PUBLISHED);
           e.setWrittenOn(timestamp);
@@ -406,8 +411,18 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     return !del.isEmpty() || !ups.isEmpty();
   }
 
-  private Map<String, PatchLineComment> scanDraftComments(
-      RevisionResource rsrc) throws OrmException {
+  private Map<String, PatchLineComment> changeDrafts(RevisionResource rsrc)
+      throws OrmException {
+    Map<String, PatchLineComment> drafts = Maps.newHashMap();
+    for (PatchLineComment c
+        : plcUtil.draftByChange(db.get(), rsrc.getNotes())) {
+      drafts.put(c.getKey().get(), c);
+    }
+    return drafts;
+  }
+
+  private Map<String, PatchLineComment> patchSetDrafts(RevisionResource rsrc)
+      throws OrmException {
     Map<String, PatchLineComment> drafts = Maps.newHashMap();
     for (PatchLineComment c : plcUtil.draftByPatchSetAuthor(db.get(),
         rsrc.getPatchSet().getId(), rsrc.getAccountId(), rsrc.getNotes())) {

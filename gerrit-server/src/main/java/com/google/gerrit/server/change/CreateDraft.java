@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.change;
 
+import static com.google.gerrit.server.PatchLineCommentsUtil.setCommentRevId;
+
 import com.google.common.base.Strings;
 import com.google.gerrit.common.changes.Side;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -24,27 +26,41 @@ import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.PatchLineCommentsUtil;
 import com.google.gerrit.server.change.PutDraft.Input;
+import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.Collections;
 
 @Singleton
 class CreateDraft implements RestModifyView<RevisionResource, Input> {
   private final Provider<ReviewDb> db;
+  private final ChangeUpdate.Factory updateFactory;
+  private final PatchLineCommentsUtil plcUtil;
+  private final PatchListCache patchListCache;
 
   @Inject
-  CreateDraft(Provider<ReviewDb> db) {
+  CreateDraft(Provider<ReviewDb> db,
+      ChangeUpdate.Factory updateFactory,
+      PatchLineCommentsUtil plcUtil,
+      PatchListCache patchListCache) {
     this.db = db;
+    this.updateFactory = updateFactory;
+    this.plcUtil = plcUtil;
+    this.patchListCache = patchListCache;
   }
 
   @Override
   public Response<CommentInfo> apply(RevisionResource rsrc, Input in)
-      throws BadRequestException, OrmException {
+      throws BadRequestException, OrmException, IOException {
     if (Strings.isNullOrEmpty(in.path)) {
       throw new BadRequestException("path must be non-empty");
     } else if (in.message == null || in.message.trim().isEmpty()) {
@@ -59,15 +75,20 @@ class CreateDraft implements RestModifyView<RevisionResource, Input> {
         ? in.line
         : in.range != null ? in.range.getEndLine() : 0;
 
+    Timestamp now = TimeUtil.nowTs();
+    ChangeUpdate update = updateFactory.create(rsrc.getControl(), now);
+
     PatchLineComment c = new PatchLineComment(
         new PatchLineComment.Key(
             new Patch.Key(rsrc.getPatchSet().getId(), in.path),
             ChangeUtil.messageUUID(db.get())),
-        line, rsrc.getAccountId(), Url.decode(in.inReplyTo), TimeUtil.nowTs());
+        line, rsrc.getAccountId(), Url.decode(in.inReplyTo), now);
     c.setSide(in.side == Side.PARENT ? (short) 0 : (short) 1);
     c.setMessage(in.message.trim());
     c.setRange(in.range);
-    db.get().patchComments().insert(Collections.singleton(c));
+    setCommentRevId(c, patchListCache, rsrc.getChange(), rsrc.getPatchSet());
+    plcUtil.insertComments(db.get(), update, Collections.singleton(c));
+    update.commit();
     return Response.created(new CommentInfo(c, null));
   }
 }

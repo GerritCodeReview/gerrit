@@ -473,12 +473,13 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   private boolean isEmpty() {
     return approvals.isEmpty()
-        && reviewers.isEmpty()
+        && changeMessage == null
         && commentsForBase.isEmpty()
         && commentsForPs.isEmpty()
+        && reviewers.isEmpty()
         && status == null
-        && submitRecords == null
-        && changeMessage == null;
+        && subject == null
+        && submitRecords == null;
   }
 
   private static StringBuilder addFooter(StringBuilder sb, FooterKey footer) {

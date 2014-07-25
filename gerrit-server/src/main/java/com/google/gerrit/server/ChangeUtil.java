@@ -508,8 +508,8 @@ public class ChangeUtil {
     ReviewDb db = this.db.get();
     db.accountPatchReviews().delete(db.accountPatchReviews().byPatchSet(patchSetId));
     db.changeMessages().delete(db.changeMessages().byPatchSet(patchSetId));
-    db.patchComments().delete(db.patchComments().byPatchSet(patchSetId));
     // No need to delete from notedb; draft patch sets will be filtered out.
+    db.patchComments().delete(db.patchComments().byPatchSet(patchSetId));
     db.patchSetApprovals().delete(db.patchSetApprovals().byPatchSet(patchSetId));
     db.patchSetAncestors().delete(db.patchSetAncestors().byPatchSet(patchSetId));
 

@@ -43,6 +43,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.PatchLineCommentAccess;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchLineCommentsUtil;
@@ -60,7 +61,6 @@ import com.google.gerrit.server.git.GitModule;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.notedb.ChangeUpdate;
-import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.util.TimeUtil;
@@ -74,6 +74,8 @@ import com.google.gwtorm.server.ResultSet;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.google.inject.Provides;
+import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.util.Providers;
 
@@ -105,6 +107,7 @@ public class CommentsTest  {
     @GerritServerConfig Config cfg = new Config();
     cfg.setBoolean("notedb", null, "write", true);
     cfg.setBoolean("notedb", "publishedComments", "read", true);
+    cfg.setBoolean("notedb", "draftComments", "read", true);
     return cfg;
   }
 
@@ -118,15 +121,23 @@ public class CommentsTest  {
   private PatchLineComment plc1;
   private PatchLineComment plc2;
   private PatchLineComment plc3;
+  private PatchLineComment plc4;
+  private PatchLineComment plc5;
   private IdentifiedUser changeOwner;
 
   @Before
   public void setUp() throws Exception {
     @SuppressWarnings("unchecked")
-    final DynamicMap<RestView<CommentResource>> views =
+    final DynamicMap<RestView<CommentResource>> commentViews =
         createMock(DynamicMap.class);
-    final TypeLiteral<DynamicMap<RestView<CommentResource>>> viewsType =
+    final TypeLiteral<DynamicMap<RestView<CommentResource>>> commentViewsType =
         new TypeLiteral<DynamicMap<RestView<CommentResource>>>() {};
+    @SuppressWarnings("unchecked")
+    final DynamicMap<RestView<DraftResource>> draftViews =
+        createMock(DynamicMap.class);
+    final TypeLiteral<DynamicMap<RestView<DraftResource>>> draftViewsType =
+        new TypeLiteral<DynamicMap<RestView<DraftResource>>>() {};
+
     final AccountInfo.Loader.Factory alf =
         createMock(AccountInfo.Loader.Factory.class);
     final ReviewDb db = createMock(ReviewDb.class);
@@ -139,10 +150,23 @@ public class CommentsTest  {
     @SuppressWarnings("unused")
     InMemoryRepository repo = repoManager.createRepository(project);
 
+    Account co = new Account(new Account.Id(1), TimeUtil.nowTs());
+    co.setFullName("Change Owner");
+    co.setPreferredEmail("change@owner.com");
+    accountCache.put(co);
+    final Account.Id ownerId = co.getId();
+
+    Account ou = new Account(new Account.Id(2), TimeUtil.nowTs());
+    ou.setFullName("Other Account");
+    ou.setPreferredEmail("other@account.com");
+    accountCache.put(ou);
+    Account.Id otherUserId = ou.getId();
+
     AbstractModule mod = new AbstractModule() {
       @Override
       protected void configure() {
-        bind(viewsType).toInstance(views);
+        bind(commentViewsType).toInstance(commentViews);
+        bind(draftViewsType).toInstance(draftViews);
         bind(AccountInfo.Loader.Factory.class).toInstance(alf);
         bind(ReviewDb.class).toProvider(Providers.<ReviewDb>of(db));
         bind(Config.class).annotatedWith(GerritServerConfig.class).toInstance(config);
@@ -162,27 +186,15 @@ public class CommentsTest  {
         bind(PersonIdent.class).annotatedWith(GerritPersonIdent.class)
           .toInstance(serverIdent);
       }
+
+      @Provides
+      @Singleton
+      CurrentUser getCurrentUser(IdentifiedUser.GenericFactory userFactory) {
+        return userFactory.create(ownerId);
+      }
     };
 
     injector = Guice.createInjector(mod);
-
-    NotesMigration migration = injector.getInstance(NotesMigration.class);
-    allUsers = injector.getInstance(AllUsersNameProvider.class);
-    repoManager.createRepository(allUsers.get());
-
-    plcUtil = new PatchLineCommentsUtil(migration);
-
-    Account co = new Account(new Account.Id(1), TimeUtil.nowTs());
-    co.setFullName("Change Owner");
-    co.setPreferredEmail("change@owner.com");
-    accountCache.put(co);
-    Account.Id ownerId = co.getId();
-
-    Account ou = new Account(new Account.Id(2), TimeUtil.nowTs());
-    ou.setFullName("Other Account");
-    ou.setPreferredEmail("other@account.com");
-    accountCache.put(ou);
-    Account.Id otherUserId = ou.getId();
 
     IdentifiedUser.GenericFactory userFactory =
         injector.getInstance(IdentifiedUser.GenericFactory.class);
@@ -198,6 +210,10 @@ public class CommentsTest  {
         .andReturn(new AccountInfo(otherUserId)).anyTimes();
     expect(alf.create(true)).andReturn(accountLoader).anyTimes();
     replay(accountLoader, alf);
+
+    allUsers = injector.getInstance(AllUsersNameProvider.class);
+    repoManager.createRepository(allUsers.get());
+    plcUtil = injector.getInstance(PatchLineCommentsUtil.class);
 
     PatchLineCommentAccess plca = createMock(PatchLineCommentAccess.class);
     expect(db.patchComments()).andReturn(plca).anyTimes();
@@ -221,32 +237,54 @@ public class CommentsTest  {
         "FileOne.txt", Side.PARENT, 3, ownerId, timeBase + 2000,
         "First Parent Comment",  new CommentRange(1, 2, 3, 4));
     plc3.setRevId(new RevId("CDEFCDEFCDEFCDEFCDEFCDEFCDEFCDEFCDEFCDEF"));
+    plc4 = newPatchLineComment(psId2, "Comment4", null, "FileOne.txt",
+        Side.REVISION, 3, ownerId, timeBase + 3000, "Second Comment",
+        new CommentRange(1, 2, 3, 4), Status.DRAFT);
+    plc4.setRevId(new RevId("BCDEBCDEBCDEBCDEBCDEBCDEBCDEBCDEBCDEBCDE"));
+    plc5 = newPatchLineComment(psId2, "Comment5", null, "FileOne.txt",
+        Side.REVISION, 5, ownerId, timeBase + 4000, "Third Comment",
+        new CommentRange(3, 4, 5, 6), Status.DRAFT);
+    plc5.setRevId(new RevId("BCDEBCDEBCDEBCDEBCDEBCDEBCDEBCDEBCDEBCDE"));
 
     List<PatchLineComment> commentsByOwner = Lists.newArrayList();
     commentsByOwner.add(plc1);
     commentsByOwner.add(plc3);
     List<PatchLineComment> commentsByReviewer = Lists.newArrayList();
     commentsByReviewer.add(plc2);
+    List<PatchLineComment> drafts = Lists.newArrayList();
+    drafts.add(plc4);
+    drafts.add(plc5);
 
     plca.upsert(commentsByOwner);
     expectLastCall().anyTimes();
     plca.upsert(commentsByReviewer);
+    expectLastCall().anyTimes();
+    plca.upsert(drafts);
     expectLastCall().anyTimes();
 
     expect(plca.publishedByPatchSet(psId1))
         .andAnswer(results(plc1, plc2, plc3)).anyTimes();
     expect(plca.publishedByPatchSet(psId2))
         .andAnswer(results()).anyTimes();
+    expect(plca.draftByPatchSetAuthor(psId1, ownerId))
+        .andAnswer(results()).anyTimes();
+    expect(plca.draftByPatchSetAuthor(psId2, ownerId))
+        .andAnswer(results(plc4, plc5)).anyTimes();
     replay(db, plca);
 
     ChangeUpdate update = newUpdate(change, changeOwner);
     update.setPatchSetId(psId1);
-    plcUtil.addPublishedComments(db, update, commentsByOwner);
+    plcUtil.upsertComments(db, update, commentsByOwner);
     update.commit();
 
     update = newUpdate(change, otherUser);
     update.setPatchSetId(psId1);
-    plcUtil.addPublishedComments(db, update, commentsByReviewer);
+    plcUtil.upsertComments(db, update, commentsByReviewer);
+    update.commit();
+
+    update = newUpdate(change, changeOwner);
+    update.setPatchSetId(psId2);
+    plcUtil.upsertComments(db, update, drafts);
     update.commit();
 
     ChangeControl ctl = stubChangeControl(change);
@@ -284,6 +322,17 @@ public class CommentsTest  {
 
     // test GetComment for non-existent comment
     assertGetComment(injector, revRes1, null, "BadComment");
+  }
+
+  @Test
+  public void testListDrafts() throws Exception {
+    // test ListDrafts for patch set 1
+    assertListDrafts(injector, revRes1,
+        Collections.<String, ArrayList<PatchLineComment>> emptyMap());
+
+    // test ListDrafts for patch set 2
+    assertListDrafts(injector, revRes2, ImmutableMap.of(
+        "FileOne.txt", Lists.newArrayList(plc4, plc5)));
   }
 
   private static IAnswer<ResultSet<PatchLineComment>> results(
@@ -335,6 +384,28 @@ public class CommentsTest  {
     }
   }
 
+  private static void assertListDrafts(Injector inj, RevisionResource res,
+      Map<String, ArrayList<PatchLineComment>> expected) throws Exception {
+    Drafts drafts = inj.getInstance(Drafts.class);
+    RestReadView<RevisionResource> listView =
+        (RestReadView<RevisionResource>) drafts.list();
+    @SuppressWarnings("unchecked")
+    Map<String, List<CommentInfo>> actual =
+        (Map<String, List<CommentInfo>>) listView.apply(res);
+    assertNotNull(actual);
+    assertEquals(expected.size(), actual.size());
+    assertEquals(expected.keySet(), actual.keySet());
+    for (Map.Entry<String, ArrayList<PatchLineComment>> entry : expected.entrySet()) {
+      List<PatchLineComment> expectedComments = entry.getValue();
+      List<CommentInfo> actualComments = actual.get(entry.getKey());
+      assertNotNull(actualComments);
+      assertEquals(expectedComments.size(), actualComments.size());
+      for (int i = 0; i < expectedComments.size(); i++) {
+        assertComment(expectedComments.get(i), actualComments.get(i));
+      }
+    }
+  }
+
   private static void assertComment(PatchLineComment plc, CommentInfo ci) {
     assertEquals(plc.getKey().get(), ci.id);
     assertEquals(plc.getParentUuid(), ci.inReplyTo);
@@ -351,7 +422,8 @@ public class CommentsTest  {
 
   private static PatchLineComment newPatchLineComment(PatchSet.Id psId,
       String uuid, String inReplyToUuid, String filename, Side side, int line,
-      Account.Id authorId, long millis, String message, CommentRange range) {
+      Account.Id authorId, long millis, String message, CommentRange range,
+      PatchLineComment.Status status) {
     Patch.Key p = new Patch.Key(psId, filename);
     PatchLineComment.Key id = new PatchLineComment.Key(p, uuid);
     PatchLineComment plc =
@@ -359,8 +431,15 @@ public class CommentsTest  {
     plc.setMessage(message);
     plc.setRange(range);
     plc.setSide(side == Side.PARENT ? (short) 0 : (short) 1);
-    plc.setStatus(Status.PUBLISHED);
+    plc.setStatus(status);
     plc.setWrittenOn(new Timestamp(millis));
     return plc;
+  }
+
+  private static PatchLineComment newPatchLineComment(PatchSet.Id psId,
+      String uuid, String inReplyToUuid, String filename, Side side, int line,
+      Account.Id authorId, long millis, String message, CommentRange range) {
+    return newPatchLineComment(psId, uuid, inReplyToUuid, filename, side, line,
+        authorId, millis, message, range, Status.PUBLISHED);
   }
 }

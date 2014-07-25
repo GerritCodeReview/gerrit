@@ -50,6 +50,7 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountInfo;
 import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.GroupBackend;
+import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.AnonymousCowardNameProvider;
 import com.google.gerrit.server.config.CanonicalWebUrl;
@@ -110,6 +111,7 @@ public class CommentsTest  {
   private Injector injector;
   private Project.NameKey project;
   private InMemoryRepositoryManager repoManager;
+  private AllUsersNameProvider allUsers;
   private PatchLineCommentsUtil plcUtil;
   private RevisionResource revRes1;
   private RevisionResource revRes2;
@@ -165,6 +167,9 @@ public class CommentsTest  {
     injector = Guice.createInjector(mod);
 
     NotesMigration migration = injector.getInstance(NotesMigration.class);
+    allUsers = injector.getInstance(AllUsersNameProvider.class);
+    repoManager.createRepository(allUsers.get());
+
     plcUtil = new PatchLineCommentsUtil(migration);
 
     Account co = new Account(new Account.Id(1), TimeUtil.nowTs());
@@ -250,7 +255,7 @@ public class CommentsTest  {
   }
 
   private ChangeControl stubChangeControl(Change c) throws OrmException {
-    return TestChanges.stubChangeControl(repoManager, c, changeOwner);
+    return TestChanges.stubChangeControl(repoManager, c, allUsers, changeOwner);
   }
 
   private Change newChange() {
@@ -258,7 +263,7 @@ public class CommentsTest  {
   }
 
   private ChangeUpdate newUpdate(Change c, final IdentifiedUser user) throws Exception {
-    return TestChanges.newUpdate(injector, repoManager, c, user);
+    return TestChanges.newUpdate(injector, repoManager, c, allUsers, user);
   }
 
   @Test

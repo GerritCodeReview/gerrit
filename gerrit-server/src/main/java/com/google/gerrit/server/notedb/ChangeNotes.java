@@ -19,6 +19,7 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_STATUS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMITTED_WITH;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.GERRIT_PLACEHOLDER_HOST;
+import static com.google.gerrit.server.notedb.CommentsInNotesUtil.getCommentPsId;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Enums;
@@ -49,8 +50,11 @@ import com.google.gerrit.reviewdb.client.PatchSet.Id;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetApproval.LabelId;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.util.LabelVote;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -134,15 +138,17 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   @Singleton
   public static class Factory {
     private final GitRepositoryManager repoManager;
+    private final AllUsersNameProvider allUsersProvider;
 
     @VisibleForTesting
     @Inject
-    public Factory(GitRepositoryManager repoManager) {
+    public Factory(GitRepositoryManager repoManager, AllUsersNameProvider allUsersProvider) {
       this.repoManager = repoManager;
+      this.allUsersProvider = allUsersProvider;
     }
 
     public ChangeNotes create(Change change) {
-      return new ChangeNotes(repoManager, change);
+      return new ChangeNotes(repoManager, allUsersProvider, change);
     }
   }
 
@@ -154,6 +160,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     private final Map<PatchSet.Id,
         Table<Account.Id, String, Optional<PatchSetApproval>>> approvals;
     private final Map<Account.Id, ReviewerState> reviewers;
+    private final List<Account.Id> allPastReviewers;
     private final List<SubmitRecord> submitRecords;
     private final Multimap<PatchSet.Id, ChangeMessage> changeMessages;
     private final Multimap<Id, PatchLineComment> commentsForPs;
@@ -170,6 +177,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       this.repo = repoManager.openRepository(getProjectName(change));
       approvals = Maps.newHashMap();
       reviewers = Maps.newLinkedHashMap();
+      allPastReviewers = Lists.newArrayList();
       submitRecords = Lists.newArrayListWithExpectedSize(1);
       changeMessages = LinkedListMultimap.create();
       commentsForPs = ArrayListMultimap.create();
@@ -182,6 +190,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
         parse(commit);
       }
       parseComments();
+      allPastReviewers.addAll(reviewers.keySet());
       pruneReviewers();
     }
 
@@ -484,17 +493,30 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     }
   }
 
+  private final Change change;
   private ImmutableListMultimap<PatchSet.Id, PatchSetApproval> approvals;
   private ImmutableSetMultimap<ReviewerState, Account.Id> reviewers;
+  private ImmutableList<Account.Id> allPastReviewers;
   private ImmutableList<SubmitRecord> submitRecords;
   private ImmutableListMultimap<PatchSet.Id, ChangeMessage> changeMessages;
   private ImmutableListMultimap<PatchSet.Id, PatchLineComment> commentsForBase;
   private ImmutableListMultimap<PatchSet.Id, PatchLineComment> commentsForPS;
   NoteMap noteMap;
 
+  private final AllUsersName allUsers;
+  private DraftCommentNotes draftCommentNotes;
+
+  @Inject
   @VisibleForTesting
-  public ChangeNotes(GitRepositoryManager repoManager, Change change) {
-    super(repoManager, change);
+  public ChangeNotes(GitRepositoryManager repoManager,
+      AllUsersNameProvider allUsersProvider, Change change) {
+    super(repoManager, change.getId());
+    this.allUsers = allUsersProvider.get();
+    this.change = new Change(change);
+  }
+
+  public Change getChange() {
+    return change;
   }
 
   public ImmutableListMultimap<PatchSet.Id, PatchSetApproval> getApprovals() {
@@ -503,6 +525,13 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
   public ImmutableSetMultimap<ReviewerState, Account.Id> getReviewers() {
     return reviewers;
+  }
+
+  /**
+   * @return a list of all users who have ever been a reviewer on this change.
+   */
+  public ImmutableList<Account.Id> getAllPastReviewers() {
+    return allPastReviewers;
   }
 
   /**
@@ -528,6 +557,55 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   public ImmutableListMultimap<PatchSet.Id, PatchLineComment>
       getPatchSetComments() {
     return commentsForPS;
+  }
+
+  public Table<PatchSet.Id, String, PatchLineComment> getDraftBaseComments(
+      Account.Id author) throws OrmException {
+    loadDraftComments(author);
+    return draftCommentNotes.getDraftBaseComments();
+  }
+
+  public Table<PatchSet.Id, String, PatchLineComment> getDraftPsComments(
+      Account.Id author) throws OrmException {
+    loadDraftComments(author);
+    return draftCommentNotes.getDraftPsComments();
+  }
+
+  /**
+   * If draft comments have already been loaded for this author, then they will
+   * not be reloaded. However, this method will load the comments if no draft
+   * comments have been loaded or if the caller would like the drafts for
+   * another author.
+   */
+  private void loadDraftComments(Account.Id author)
+      throws OrmException {
+    if (draftCommentNotes == null ||
+        !author.equals(draftCommentNotes.getAuthor())) {
+      draftCommentNotes = new DraftCommentNotes(repoManager, allUsers,
+          getChangeId(), author);
+      draftCommentNotes.load();
+    }
+  }
+
+  public boolean containsComment(PatchLineComment c) throws OrmException {
+    if (containsCommentPublished(c)) {
+      return true;
+    }
+    loadDraftComments(c.getAuthor());
+    return draftCommentNotes.containsComment(c);
+  }
+
+  public boolean containsCommentPublished(PatchLineComment c) {
+    PatchSet.Id psId = getCommentPsId(c);
+    List<PatchLineComment> list = (c.getSide() == (short) 0)
+        ? getBaseComments().get(psId)
+        : getPatchSetComments().get(psId);
+    for (PatchLineComment l : list) {
+      if (c.getKey().equals(l.getKey())) {
+        return true;
+      }
+    }
+    return false;
   }
 
   /** @return the NoteMap */
@@ -569,6 +647,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
         reviewers.put(e.getValue(), e.getKey());
       }
       this.reviewers = reviewers.build();
+      this.allPastReviewers = ImmutableList.copyOf(parser.allPastReviewers);
 
       submitRecords = ImmutableList.copyOf(parser.submitRecords);
     } catch (ParseException e1) {

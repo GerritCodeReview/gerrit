@@ -16,6 +16,24 @@
       "revId": "16aaf5b4cd55715fd5b6d76ef21b670c591641e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7969a4a1_399d2f8c",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/project/RefControlTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-07-25T07:35:13Z",
+      "side": 1,
+      "message": "198 is not needed\n\nSetting All-Projects as parent\u0027s parent is not necessary as this is the default case (when no other parent is set)",
+      "parentUuid": "7969a4a1_19a06bbd",
+      "revId": "16aaf5b4cd55715fd5b6d76ef21b670c591641e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

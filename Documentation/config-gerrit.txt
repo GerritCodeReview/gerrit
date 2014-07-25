@@ -2382,6 +2382,91 @@ On Windows servers the registry key `HKEY_LOCAL_MACHINE\System\CurrentControlSet
 must have the DWORD value `allowtgtsessionkey` set to 1 and the account must not
 have local administrator privileges.
 
+[[ldap.useConnectionPooling]]ldap.useConnectionPooling::
++
+_(Optional)_ Enable the LDAP connection pooling or not.
++
+If it is true, the LDAP service provider maintains a pool of (possibly)
+previously used connections and assigns them to a Context instance as
+needed. When a Context instance is done with a connection (closed or
+garbage collected), the connection is returned to the pool for future use.
++
+For details, see link:http://docs.oracle.com/javase/tutorial/jndi/ldap/pool.html[
+LDAP connection management (Pool)] and link:http://docs.oracle.com/javase/tutorial/jndi/ldap/config.html[
+LDAP connection management (Configuration)]
++
+By default, false.
+
+[[ldap.connectTimeout]]ldap.connectTimeout::
++
+_(Optional)_ Specify how long to wait for a pooled connection.
+This is also used to specify a timeout period for establishment
+of the LDAP connection.
++
+The value is in the usual time-unit format like "1 s", "100 ms",
+etc...
++
+By default there is no timeout and Gerrit will wait indefinitely.
+
+[[ldap.poolAuthentication]]ldap.poolAuthentication::
++
+_(Optional)_  A list of space-separated authentication types of
+connections that may be pooled. Valid types are "none", "simple",
+and "DIGEST-MD5".
++
+Default is "none simple".
+
+[[ldap.poolDebug]]ldap.poolDebug::
++
+_(Optional)_  A string that indicates the level of debug output
+to produce. Valid values are "fine" (trace connection creation
+and removal) and "all" (all debugging information).
+
+[[ldap.poolInitsize]]ldap.poolInitsize::
++
+_(Optional)_ The string representation of an integer that
+represents the number of connections per connection identity
+to create when initially creating a connection for the identity.
++
+Default is 1.
+
+[[ldap.poolMaxsize]]ldap.poolMaxsize::
++
+_(Optional)_ The string representation of an integer that
+represents the maximum number of connections per connection
+identity that can be maintained concurrently.
++
+Default is 0, means that there is no maximum size: A request for
+a pooled connection will use an existing pooled idle connection
+or a newly created pooled connection.
+
+[[ldap.poolPrefsize]]ldap.poolPrefsize::
++
+_(Optional)_ The string representation of an integer that
+represents the preferred number of connections per connection
+identity that should be maintained concurrently.
++
+Default is 0, means that there is no preferred size: A request
+for a pooled connection will result in a newly created connection
+only if no idle ones are available.
+
+[[ldap.poolProtocol]]ldap.poolProtocol::
++
+_(Optional)_  A list of space-separated protocol types of
+connections that may be pooled. Valid types are "plain" and "ssl".
++
+Default is "plain".
+
+[[ldap.poolTimeout]]ldap.poolTimeout::
++
+_(Optional)_ Specify how long an idle connection may remain
+in the pool without being closed and removed from the pool.
++
+The value is in the usual time-unit format like "1 s", "100 ms",
+etc...
++
+By default there is no timeout.
+
 [[mimetype]]
 === Section mimetype
 

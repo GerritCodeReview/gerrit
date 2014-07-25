@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d9aa90eb_0c9db78b",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetDetailFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-25T22:32:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19a1880c_4e3693d2",
+      "revId": "a3a39b9392cabb94bbcd7d92df179cb651c0c785",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d9aa90eb_2cb99305",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
         "patchSetId": 3
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "d9aa90eb_ec24ab9d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-25T22:32:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d9aa90eb_2cb99305",
+      "revId": "a3a39b9392cabb94bbcd7d92df179cb651c0c785",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d9aa90eb_0cb65713",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
         "patchSetId": 3
@@ -47,6 +83,24 @@
       "writtenOn": "2014-07-25T21:48:11Z",
       "side": 1,
       "message": "No need to create an extra list, just\n\n for (PatchLineComment c : byChange(db, notes))",
+      "revId": "a3a39b9392cabb94bbcd7d92df179cb651c0c785",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9aa90eb_6c9a7b95",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-25T22:32:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d9aa90eb_0cb65713",
       "revId": "a3a39b9392cabb94bbcd7d92df179cb651c0c785",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -76,6 +130,30 @@
     },
     {
       "key": {
+        "uuid": "19a1880c_2e56a7e8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-25T22:32:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d9aa90eb_6cc39b6d",
+      "range": {
+        "startLine": 265,
+        "startChar": 10,
+        "endLine": 265,
+        "endChar": 13
+      },
+      "revId": "a3a39b9392cabb94bbcd7d92df179cb651c0c785",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "19a1880c_8e46bb37",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ListDrafts.java",
         "patchSetId": 3
@@ -87,6 +165,24 @@
       "writtenOn": "2014-07-25T21:48:11Z",
       "side": 1,
       "message": "Is this behavior change necessary?",
+      "revId": "a3a39b9392cabb94bbcd7d92df179cb651c0c785",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19a1880c_0e53ebf8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ListDrafts.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-25T22:32:40Z",
+      "side": 1,
+      "message": "Hm, kind of. In CommentsTest, there is a method that asserts that a PatchLineComment is the same as a CommentInfo and it asserts that the author info is included. I could change the test assert method or I could change this. I wasn\u0027t sure which was preferred/why that test method was asserting that the author info be included...",
+      "parentUuid": "19a1880c_8e46bb37",
       "revId": "a3a39b9392cabb94bbcd7d92df179cb651c0c785",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -110,6 +206,24 @@
     },
     {
       "key": {
+        "uuid": "d9aa90eb_4c97bf69",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 533,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-25T22:32:40Z",
+      "side": 1,
+      "message": "Acknowledged. I will make the change after this one..",
+      "parentUuid": "d9aa90eb_4cc05f5f",
+      "revId": "a3a39b9392cabb94bbcd7d92df179cb651c0c785",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "19a1880c_ee3bffb5",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/HasDraftByPredicate.java",
         "patchSetId": 3
@@ -121,6 +235,24 @@
       "writtenOn": "2014-07-25T21:48:11Z",
       "side": 1,
       "message": "This basically works (though see my other comments on this method), but more efficient would be to use draftByAuthor here as well.",
+      "revId": "a3a39b9392cabb94bbcd7d92df179cb651c0c785",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9aa90eb_ac1aa35f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/HasDraftByPredicate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-25T22:32:40Z",
+      "side": 1,
+      "message": "I made another method called draftByChangeAuthor that I think would be even more efficient because we wouldn\u0027t have to scan refs.",
+      "parentUuid": "19a1880c_ee3bffb5",
       "revId": "a3a39b9392cabb94bbcd7d92df179cb651c0c785",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -144,6 +276,24 @@
     },
     {
       "key": {
+        "uuid": "19a1880c_6e50afea",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/change/CommentsTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-25T22:32:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d9aa90eb_8cb08714",
+      "revId": "a3a39b9392cabb94bbcd7d92df179cb651c0c785",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d9aa90eb_acabc3a6",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/change/CommentsTest.java",
         "patchSetId": 3
@@ -155,6 +305,24 @@
       "writtenOn": "2014-07-25T21:48:11Z",
       "side": 1,
       "message": "No need to do to this in a separate module. Add a @Provides method to the module above:\n\n @Provides\n @Singleton\n CurrentUser getCurrentUser(IdentifiedUser.GenericFactory userFactory) {\n   return userFactory.create(ownerId);\n }",
+      "revId": "a3a39b9392cabb94bbcd7d92df179cb651c0c785",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9aa90eb_8c1fe74f",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/change/CommentsTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-25T22:32:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d9aa90eb_acabc3a6",
       "revId": "a3a39b9392cabb94bbcd7d92df179cb651c0c785",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -472,7 +472,8 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   }
 
   private boolean isEmpty() {
-    return approvals.isEmpty()
+    return subject == null
+        && approvals.isEmpty()
         && reviewers.isEmpty()
         && commentsForBase.isEmpty()
         && commentsForPs.isEmpty()

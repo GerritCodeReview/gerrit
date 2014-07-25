@@ -22,6 +22,7 @@ import com.google.gerrit.common.changes.Side;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.PatchLineCommentsUtil;
 import com.google.gerrit.server.account.AccountInfo;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -36,20 +37,21 @@ import java.util.Map;
 @Singleton
 class ListDrafts implements RestReadView<RevisionResource> {
   protected final Provider<ReviewDb> db;
+  protected final PatchLineCommentsUtil plcUtil;
   private final AccountInfo.Loader.Factory accountLoaderFactory;
 
   @Inject
-  ListDrafts(Provider<ReviewDb> db, AccountInfo.Loader.Factory alf) {
+  ListDrafts(Provider<ReviewDb> db, AccountInfo.Loader.Factory alf,
+      PatchLineCommentsUtil plcUtil) {
     this.db = db;
     this.accountLoaderFactory = alf;
+    this.plcUtil = plcUtil;
   }
 
   protected Iterable<PatchLineComment> listComments(RevisionResource rsrc)
       throws OrmException {
-    return db.get().patchComments()
-        .draftByPatchSetAuthor(
-            rsrc.getPatchSet().getId(),
-            rsrc.getAccountId());
+    return plcUtil.draftByPatchSetAuthor(db.get(), rsrc.getPatchSet().getId(),
+        rsrc.getAccountId(), rsrc.getNotes());
   }
 
   protected boolean includeAuthorInfo() {

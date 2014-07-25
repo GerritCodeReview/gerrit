@@ -119,16 +119,24 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
     verifyComment(c);
     checkArgument(c.getStatus() == Status.DRAFT,
         "Cannot update a published comment into a ChangeDraftUpdate");
-    checkArgument(draftNotes.containsComment(c),
-        "Cannot update this comment because it didn't exist previously");
+    if (migration.readDraftComments()) {
+      checkArgument(draftNotes.containsComment(c),
+          "Cannot update this comment because it didn't exist previously");
+    }
     upsertComments.add(c);
   }
 
   public void deleteComment(PatchLineComment c) {
     verifyComment(c);
-    checkArgument(draftNotes.containsComment(c), "Cannot delete this comment"
-        + " because it didn't previously exist as a draft");
-    deleteComments.add(c);
+    if (migration.readDraftComments()) {
+      checkArgument(draftNotes.containsComment(c), "Cannot delete this comment"
+          + " because it didn't previously exist as a draft");
+    }
+    if (migration.write()) {
+      if (draftNotes.containsComment(c)) {
+        deleteComments.add(c);
+      }
+    }
   }
 
   /**
@@ -148,7 +156,9 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
     checkArgument(getCommentPsId(comment).equals(psId),
         "Comment on %s does not match configured patch set %s",
         getCommentPsId(comment), psId);
-    checkArgument(comment.getRevId() != null);
+    if (migration.write()) {
+      checkArgument(comment.getRevId() != null);
+    }
     checkArgument(comment.getAuthor().equals(accountId),
         "The author for the following comment does not match the author of"
         + " this ChangeDraftUpdate (%s): %s", accountId, comment);
@@ -170,6 +180,8 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
         draftNotes.getDraftBaseComments();
     Table<PatchSet.Id, String, PatchLineComment> psDrafts =
         draftNotes.getDraftPsComments();
+
+    boolean draftsEmpty = baseDrafts.isEmpty() && psDrafts.isEmpty();
 
     // There is no need to rewrite the note for one of the sides of the patch
     // set if all of the modifications were made to the comments of one side,
@@ -216,7 +228,8 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
     updateNoteMap(revisionSideChanged, noteMap, newPsDrafts,
         psRevId);
 
-    removedAllComments.set(baseDrafts.isEmpty() && psDrafts.isEmpty());
+    removedAllComments.set(
+        baseDrafts.isEmpty() && psDrafts.isEmpty() && !draftsEmpty);
 
     return noteMap.writeTree(inserter);
   }

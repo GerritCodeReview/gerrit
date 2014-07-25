@@ -36,14 +36,14 @@ public class NotesMigration {
     cfg.setBoolean("notedb", null, "write", true);
     cfg.setBoolean("notedb", "patchSetApprovals", "read", true);
     cfg.setBoolean("notedb", "changeMessages", "read", true);
-    cfg.setBoolean("notedb", "publishedComments", "read", true);
+    cfg.setBoolean("notedb", "comments", "read", true);
     return new NotesMigration(cfg);
   }
 
   private final boolean write;
   private final boolean readPatchSetApprovals;
   private final boolean readChangeMessages;
-  private final boolean readPublishedComments;
+  private final boolean readComments;
 
   @Inject
   NotesMigration(@GerritServerConfig Config cfg) {
@@ -52,8 +52,8 @@ public class NotesMigration {
         cfg.getBoolean("notedb", "patchSetApprovals", "read", false);
     readChangeMessages =
         cfg.getBoolean("notedb", "changeMessages", "read", false);
-    readPublishedComments =
-        cfg.getBoolean("notedb", "publishedComments", "read", false);
+    readComments =
+        cfg.getBoolean("notedb", "comments", "read", false);
   }
 
   public boolean write() {
@@ -68,7 +68,7 @@ public class NotesMigration {
     return readChangeMessages;
   }
 
-  public boolean readPublishedComments() {
-    return readPublishedComments;
+  public boolean readComments() {
+    return readComments;
   }
 }

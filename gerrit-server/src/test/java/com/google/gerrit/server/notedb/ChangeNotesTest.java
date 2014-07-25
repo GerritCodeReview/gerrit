@@ -62,13 +62,12 @@ import com.google.gerrit.server.git.GitModule;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.VersionedMetaData.BatchMetaDataUpdate;
 import com.google.gerrit.server.group.SystemGroupBackend;
-import com.google.gerrit.server.notedb.CommentsInNotesUtil;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.util.TimeUtil;
-import com.google.gerrit.testutil.TestChanges;
 import com.google.gerrit.testutil.FakeAccountCache;
 import com.google.gerrit.testutil.FakeRealm;
 import com.google.gerrit.testutil.InMemoryRepositoryManager;
+import com.google.gerrit.testutil.TestChanges;
 import com.google.gwtorm.client.KeyUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.StandardKeyEncoder;
@@ -77,13 +76,16 @@ import com.google.inject.Injector;
 import com.google.inject.util.Providers;
 
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
+import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.notes.Note;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.transport.ReceiveCommand;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeUtils;
 import org.joda.time.DateTimeUtils.MillisProvider;
@@ -664,6 +666,58 @@ public class ChangeNotesTest {
     assertEquals(otherUser.getAccount().getId(), psas.get(1).getAccountId());
     assertEquals("Code-Review", psas.get(1).getLabel());
     assertEquals((short) 2, psas.get(1).getValue());
+  }
+
+  @Test
+  public void multipleUpdatesAcrossRefs() throws Exception {
+    Change c1 = newChange();
+    ChangeUpdate update1 = newUpdate(c1, changeOwner);
+    update1.putApproval("Verified", (short) 1);
+
+    Change c2 = newChange();
+    ChangeUpdate update2 = newUpdate(c2, otherUser);
+    update2.putApproval("Code-Review", (short) 2);
+
+    BatchMetaDataUpdate batch1 = null;
+    BatchMetaDataUpdate batch2 = null;
+
+    BatchRefUpdate bru = repo.getRefDatabase().newBatchUpdate();
+    try {
+      batch1 = update1.openUpdateInBatch(bru);
+      batch1.write(update1, new CommitBuilder());
+      batch1.commit();
+      assertNull(repo.getRef(update1.getRefName()));
+
+      batch2 = update2.openUpdateInBatch(bru);
+      batch2.write(update2, new CommitBuilder());
+      batch2.commit();
+      assertNull(repo.getRef(update2.getRefName()));
+    } finally {
+      if (batch1 != null) {
+        batch1.close();
+      }
+      if (batch2 != null) {
+        batch2.close();
+      }
+    }
+
+    List<ReceiveCommand> cmds = bru.getCommands();
+    assertEquals(2, cmds.size());
+    assertEquals(update1.getRefName(), cmds.get(0).getRefName());
+    assertEquals(update2.getRefName(), cmds.get(1).getRefName());
+
+    RevWalk rw = new RevWalk(repo);
+    try {
+      bru.execute(rw, NullProgressMonitor.INSTANCE);
+    } finally {
+      rw.release();
+    }
+
+    assertEquals(ReceiveCommand.Result.OK, cmds.get(0).getResult());
+    assertEquals(ReceiveCommand.Result.OK, cmds.get(1).getResult());
+
+    assertNotNull(repo.getRef(update1.getRefName()));
+    assertNotNull(repo.getRef(update2.getRefName()));
   }
 
   @Test

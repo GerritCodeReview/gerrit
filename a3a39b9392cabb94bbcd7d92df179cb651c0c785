@@ -1,0 +1,163 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "19a1880c_4e3693d2",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetDetailFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-25T21:48:11Z",
+      "side": 1,
+      "message": "Optional nit: we tend to put the : on the following line.\n\nAlso this final is unnecessary so you might be able to fit it on one line anyway.",
+      "revId": "a3a39b9392cabb94bbcd7d92df179cb651c0c785",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9aa90eb_2cb99305",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-25T21:48:11Z",
+      "side": 1,
+      "message": "See my note below. I\u0027m not sure they actually have to be removed removed, we should just filter out all comments (like approvals) for deleted patch sets.",
+      "revId": "a3a39b9392cabb94bbcd7d92df179cb651c0c785",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9aa90eb_0cb65713",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-25T21:48:11Z",
+      "side": 1,
+      "message": "No need to create an extra list, just\n\n for (PatchLineComment c : byChange(db, notes))",
+      "revId": "a3a39b9392cabb94bbcd7d92df179cb651c0c785",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9aa90eb_6cc39b6d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-25T21:48:11Z",
+      "side": 1,
+      "message": "I don\u0027t think you ever use the values, you could return .keySet() from this method.",
+      "range": {
+        "startLine": 265,
+        "startChar": 10,
+        "endLine": 265,
+        "endChar": 13
+      },
+      "revId": "a3a39b9392cabb94bbcd7d92df179cb651c0c785",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19a1880c_8e46bb37",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ListDrafts.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-25T21:48:11Z",
+      "side": 1,
+      "message": "Is this behavior change necessary?",
+      "revId": "a3a39b9392cabb94bbcd7d92df179cb651c0c785",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9aa90eb_4cc05f5f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 533,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-25T21:48:11Z",
+      "side": 1,
+      "message": "byChange is the ugliest method in PLCUtil. Looking at the callers of this method, I think most of them just want published comments, not drafts. For example, ChangeField.COMMENTS really shouldn\u0027t be indexing drafts.\n\nThe exception is HasDraftByPredicate, which is _only_ interested in drafts.\n\nSo it would probably make sense to split this into publishedComments() and draftComments(), which would both have simpler implementations in PLCUtil.\n\nThat particular fix should probably be in a separate change, either before or after this one.",
+      "revId": "a3a39b9392cabb94bbcd7d92df179cb651c0c785",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19a1880c_ee3bffb5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/HasDraftByPredicate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-25T21:48:11Z",
+      "side": 1,
+      "message": "This basically works (though see my other comments on this method), but more efficient would be to use draftByAuthor here as well.",
+      "revId": "a3a39b9392cabb94bbcd7d92df179cb651c0c785",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9aa90eb_8cb08714",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/change/CommentsTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-25T21:48:11Z",
+      "side": 1,
+      "message": "You need to set draft comments true as well or you\u0027re not testing those code paths",
+      "revId": "a3a39b9392cabb94bbcd7d92df179cb651c0c785",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9aa90eb_acabc3a6",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/change/CommentsTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-25T21:48:11Z",
+      "side": 1,
+      "message": "No need to do to this in a separate module. Add a @Provides method to the module above:\n\n @Provides\n @Singleton\n CurrentUser getCurrentUser(IdentifiedUser.GenericFactory userFactory) {\n   return userFactory.create(ownerId);\n }",
+      "revId": "a3a39b9392cabb94bbcd7d92df179cb651c0c785",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

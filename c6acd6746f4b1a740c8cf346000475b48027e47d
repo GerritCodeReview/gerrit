@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "19a1880c_8eed1bdc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-07-25T23:03:45Z",
+      "side": 1,
+      "message": "Why?\n\nWhat is wrong with including space in a password?\nIf you really don\u0027t want it there we should fail-fast and tell the user its not valid rather than transparently trim. If we trim, they could try to send us \" foobar\" and find the login does not work.",
+      "revId": "c6acd6746f4b1a740c8cf346000475b48027e47d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d9aa90eb_cc2f2fa7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PutHttpPassword.java",
         "patchSetId": 1

@@ -54,6 +54,13 @@ public interface PatchLineCommentAccess extends
       (PatchSet.Id patchset, Account.Id author)
       throws OrmException;
 
+  @Query("WHERE key.patchKey.patchSetId.changeId = ? AND status = '"
+      + PatchLineComment.STATUS_DRAFT
+      + "' AND author = ? ORDER BY key.patchKey,lineNbr,writtenOn")
+  ResultSet<PatchLineComment> draftByChangeAuthor
+      (Change.Id id, Account.Id author)
+      throws OrmException;
+
   @Query("WHERE key.patchKey.patchSetId.changeId = ?"
       + " AND key.patchKey.fileName = ? AND author = ? AND status = '"
       + PatchLineComment.STATUS_DRAFT + "' ORDER BY lineNbr,writtenOn")

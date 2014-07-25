@@ -323,9 +323,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private void verifyComment(PatchLineComment c) {
     checkArgument(psId != null,
         "setPatchSetId must be called first");
-    checkArgument(getCommentPsId(c).equals(psId),
-        "Comment on %s doesn't match previous patch set %s",
-        getCommentPsId(c), psId);
+//    TODO(davido): FixMe: make it works across patch set boundaries
+//    checkArgument(getCommentPsId(c).equals(psId),
+//        "Comment on %s doesn't match previous patch set %s",
+//        getCommentPsId(c), psId);
     checkArgument(c.getRevId() != null);
     checkArgument(c.getStatus() == Status.PUBLISHED,
         "Cannot add a draft comment to a ChangeUpdate. Use a ChangeDraftUpdate"

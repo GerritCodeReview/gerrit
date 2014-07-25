@@ -63,12 +63,12 @@ limitations under the License.
       <g:FlowPanel ui:field='comments'/>
     </g:ScrollPanel>
     <div class='{res.style.section}' style='position: relative'>
-      <g:Button ui:field='post'
+      <ui:msg><g:Button ui:field='post'
           title='Post reply (Shortcut: Ctrl-Enter)'
           styleName='{res.style.button}'>
         <ui:attribute name='title'/>
-        <div><ui:msg>Post</ui:msg></div>
-      </g:Button>
+      </g:Button> and <g:CheckBox ui:field='publishDraftsForAllRevisions'
+          value='true'>publish drafts for all revisions</g:CheckBox></ui:msg>
 
       <g:Button ui:field='cancel'
           title='Close reply form (Shortcut: Esc)'

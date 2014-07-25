@@ -99,6 +99,7 @@ class ReplyBox extends Composite {
   @UiField Element labelsParent;
   @UiField Grid labelsTable;
   @UiField Button post;
+  @UiField CheckBox publishDraftsForAllRevisions;
   @UiField Button cancel;
   @UiField ScrollPanel commentsPanel;
   @UiField FlowPanel comments;
@@ -184,6 +185,15 @@ class ReplyBox extends Composite {
           lgtm.run();
         }
       });
+    }
+  }
+
+  @UiHandler("publishDraftsForAllRevisions")
+  void onEmail(ValueChangeEvent<Boolean> e) {
+    if (e.getValue()) {
+      in.drafts(ReviewInput.DraftHandling.PUBLISH_FOR_ALL_REVISIONS);
+    } else {
+      in.drafts(ReviewInput.DraftHandling.PUBLISH);
     }
   }
 
@@ -408,7 +418,6 @@ class ReplyBox extends Composite {
   }
 
   private void attachComments(NativeMap<JsArray<CommentInfo>> result) {
-    in.drafts(ReviewInput.DraftHandling.KEEP);
     in.comments(result);
   }
 

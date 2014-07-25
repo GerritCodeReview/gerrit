@@ -61,7 +61,7 @@ public class ReviewInput {
   public String onBehalfOf;
 
   public static enum DraftHandling {
-    DELETE, PUBLISH, KEEP
+    DELETE, PUBLISH, PUBLISH_FOR_ALL_REVISIONS, KEEP
   }
 
   public static enum NotifyHandling {

@@ -3841,7 +3841,8 @@ will be modified to be the "best" value allowed by the access controls.
 Draft handling that defines how draft comments are handled that are
 already in the database but that were not also described in this
 input. +
-Allowed values are `DELETE`, `PUBLISH` and `KEEP`. +
+Allowed values are `DELETE`, `PUBLISH`, `PUBLISH_FOR_ALL_REVISIONS' and
+`KEEP`. +
 If not set, the default is `DELETE`.
 |`notify`      |optional|
 Notify handling that defines to whom email notifications should be sent

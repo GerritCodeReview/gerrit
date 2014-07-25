@@ -22,6 +22,8 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import com.google.common.collect.ImmutableList;
@@ -616,6 +618,20 @@ public class ChangeNotesTest {
     assertEquals(submitRecord("OK", null,
           submitLabel("Code-Review", "OK", changeOwner.getAccountId())),
         Iterables.getOnlyElement(notes.getSubmitRecords()));
+  }
+
+  @Test
+  public void emptyChangeUpdate() throws Exception {
+    ChangeUpdate update = newUpdate(newChange(), changeOwner);
+    update.commit();
+    assertNull(update.getRevision());
+  }
+
+  public void emptyExceptSubject() throws Exception {
+    ChangeUpdate update = newUpdate(newChange(), changeOwner);
+    update.setSubject("Create change");
+    update.commit();
+    assertNotNull(update.getRevision());
   }
 
   @Test

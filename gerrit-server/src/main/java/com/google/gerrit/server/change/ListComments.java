@@ -26,13 +26,10 @@ import com.google.inject.Singleton;
 
 @Singleton
 class ListComments extends ListDrafts {
-  private final PatchLineCommentsUtil plcUtil;
-
   @Inject
   ListComments(Provider<ReviewDb> db, AccountInfo.Loader.Factory alf,
       PatchLineCommentsUtil plcUtil) {
-    super(db, alf);
-    this.plcUtil = plcUtil;
+    super(db, alf, plcUtil);
   }
 
   @Override

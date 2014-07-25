@@ -22,29 +22,48 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
+import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.PatchLineCommentsUtil;
 import com.google.gerrit.server.change.PutDraft.Input;
+import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.patch.PatchList;
+import com.google.gerrit.server.patch.PatchListCache;
+import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import org.eclipse.jgit.lib.ObjectId;
+
+import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.Collections;
 
 @Singleton
 class CreateDraft implements RestModifyView<RevisionResource, Input> {
   private final Provider<ReviewDb> db;
+  private final ChangeUpdate.Factory updateFactory;
+  private final PatchLineCommentsUtil plcUtil;
+  private final PatchListCache patchListCache;
 
   @Inject
-  CreateDraft(Provider<ReviewDb> db) {
+  CreateDraft(Provider<ReviewDb> db,
+      ChangeUpdate.Factory updateFactory,
+      PatchLineCommentsUtil plcUtil,
+      PatchListCache patchListCache) {
     this.db = db;
+    this.updateFactory = updateFactory;
+    this.plcUtil = plcUtil;
+    this.patchListCache = patchListCache;
   }
 
   @Override
   public Response<CommentInfo> apply(RevisionResource rsrc, Input in)
-      throws BadRequestException, OrmException {
+      throws BadRequestException, OrmException, IOException {
     if (Strings.isNullOrEmpty(in.path)) {
       throw new BadRequestException("path must be non-empty");
     } else if (in.message == null || in.message.trim().isEmpty()) {
@@ -59,15 +78,29 @@ class CreateDraft implements RestModifyView<RevisionResource, Input> {
         ? in.line
         : in.range != null ? in.range.getEndLine() : 0;
 
+    Timestamp now = TimeUtil.nowTs();
+    ChangeUpdate update = updateFactory.create(rsrc.getControl(), now);
+
+    PatchList patchList = null;
+    try {
+      patchList = patchListCache.get(rsrc.getChange(), rsrc.getPatchSet());
+    } catch (PatchListNotAvailableException e) {
+      throw new OrmException("could not load PatchList for this patchset", e);
+    }
+    RevId patchSetCommit = new RevId(ObjectId.toString(patchList.getNewId()));
+    RevId baseCommit = new RevId(ObjectId.toString(patchList.getOldId()));
+
     PatchLineComment c = new PatchLineComment(
         new PatchLineComment.Key(
             new Patch.Key(rsrc.getPatchSet().getId(), in.path),
             ChangeUtil.messageUUID(db.get())),
-        line, rsrc.getAccountId(), Url.decode(in.inReplyTo), TimeUtil.nowTs());
+        line, rsrc.getAccountId(), Url.decode(in.inReplyTo), now);
     c.setSide(in.side == Side.PARENT ? (short) 0 : (short) 1);
     c.setMessage(in.message.trim());
     c.setRange(in.range);
-    db.get().patchComments().insert(Collections.singleton(c));
+    c.setRevId((c.getSide() == (short) 0) ? baseCommit : patchSetCommit);
+    plcUtil.insertComments(db.get(), update, Collections.singleton(c));
+    update.commit();
     return Response.created(new CommentInfo(c, null));
   }
 }

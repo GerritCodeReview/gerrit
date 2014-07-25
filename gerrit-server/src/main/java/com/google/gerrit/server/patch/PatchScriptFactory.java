@@ -338,7 +338,8 @@ public class PatchScriptFactory implements Callable<PatchScript> {
   private void loadDrafts(final Map<Patch.Key, Patch> byKey,
       final AccountInfoCacheFactory aic, final Account.Id me, final String file)
       throws OrmException {
-    for (PatchLineComment c : db.patchComments().draftByChangeFileAuthor(changeId, file, me)) {
+    for (PatchLineComment c :
+        plcUtil.draftByChangeFileAuthor(db, control.getNotes(), file, me)) {
       if (comments.include(c)) {
         aic.want(me);
       }

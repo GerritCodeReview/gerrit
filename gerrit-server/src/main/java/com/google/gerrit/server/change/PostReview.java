@@ -403,8 +403,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         }
         break;
     }
-    db.get().patchComments().delete(del);
-    plcUtil.addPublishedComments(db.get(), update, ups);
+    plcUtil.deleteComments(db.get(), update, del);
+    plcUtil.upsertComments(db.get(), update, ups);
     comments.addAll(ups);
     return !del.isEmpty() || !ups.isEmpty();
   }
@@ -412,9 +412,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   private Map<String, PatchLineComment> scanDraftComments(
       RevisionResource rsrc) throws OrmException {
     Map<String, PatchLineComment> drafts = Maps.newHashMap();
-    for (PatchLineComment c : db.get().patchComments().draftByPatchSetAuthor(
-          rsrc.getPatchSet().getId(),
-          rsrc.getAccountId())) {
+    for (PatchLineComment c : plcUtil.draftByPatchSetAuthor(db.get(),
+        rsrc.getPatchSet().getId(), rsrc.getAccountId(), rsrc.getNotes())) {
       drafts.put(c.getKey().get(), c);
     }
     return drafts;

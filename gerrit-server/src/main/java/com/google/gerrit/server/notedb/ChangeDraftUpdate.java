@@ -102,9 +102,11 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
     verifyComment(c);
     checkArgument(c.getStatus() == Status.DRAFT,
         "Cannot insert a published comment into a ChangeDraftUpdate");
-    checkArgument(!changeNotes.containsComment(c),
-        "A comment already exists with the same key,"
-        + " so the following comment cannot be inserted: %s", c);
+    if (migration.readComments()) {
+      checkArgument(!changeNotes.containsComment(c),
+          "A comment already exists with the same key,"
+          + " so the following comment cannot be inserted: %s", c);
+    }
     upsertComments.add(c);
   }
 
@@ -119,16 +121,32 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
     verifyComment(c);
     checkArgument(c.getStatus() == Status.DRAFT,
         "Cannot update a published comment into a ChangeDraftUpdate");
-    checkArgument(draftNotes.containsComment(c),
-        "Cannot update this comment because it didn't exist previously");
+    // Here, we check to see if this comment existed previously as a draft.
+    // However, this could cause a race condition if there is a delete and an
+    // update operation happening concurrently (or two deletes) and they both
+    // believe that the comment exists. If a delete happens first, then
+    // the update will fail. However, this is an acceptable risk since the
+    // caller wanted the comment deleted anyways, so the end result will be the
+    // same either way.
+    if (migration.readComments()) {
+      checkArgument(draftNotes.containsComment(c),
+          "Cannot update this comment because it didn't exist previously");
+    }
     upsertComments.add(c);
   }
 
   public void deleteComment(PatchLineComment c) {
     verifyComment(c);
-    checkArgument(draftNotes.containsComment(c), "Cannot delete this comment"
-        + " because it didn't previously exist as a draft");
-    deleteComments.add(c);
+    // See the comment above about potential race condition.
+    if (migration.readComments()) {
+      checkArgument(draftNotes.containsComment(c), "Cannot delete this comment"
+          + " because it didn't previously exist as a draft");
+    }
+    if (migration.write()) {
+      if (draftNotes.containsComment(c)) {
+        deleteComments.add(c);
+      }
+    }
   }
 
   /**
@@ -148,7 +166,9 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
     checkArgument(getCommentPsId(comment).equals(psId),
         "Comment on %s does not match configured patch set %s",
         getCommentPsId(comment), psId);
-    checkArgument(comment.getRevId() != null);
+    if (migration.write()) {
+      checkArgument(comment.getRevId() != null);
+    }
     checkArgument(comment.getAuthor().equals(accountId),
         "The author for the following comment does not match the author of"
         + " this ChangeDraftUpdate (%s): %s", accountId, comment);
@@ -170,6 +190,8 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
         draftNotes.getDraftBaseComments();
     Table<PatchSet.Id, String, PatchLineComment> psDrafts =
         draftNotes.getDraftPsComments();
+
+    boolean draftsEmpty = baseDrafts.isEmpty() && psDrafts.isEmpty();
 
     // There is no need to rewrite the note for one of the sides of the patch
     // set if all of the modifications were made to the comments of one side,
@@ -216,7 +238,8 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
     updateNoteMap(revisionSideChanged, noteMap, newPsDrafts,
         psRevId);
 
-    removedAllComments.set(baseDrafts.isEmpty() && psDrafts.isEmpty());
+    removedAllComments.set(
+        baseDrafts.isEmpty() && psDrafts.isEmpty() && !draftsEmpty);
 
     return noteMap.writeTree(inserter);
   }

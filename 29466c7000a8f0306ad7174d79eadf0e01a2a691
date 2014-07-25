@@ -22,6 +22,30 @@
       "revId": "29466c7000a8f0306ad7174d79eadf0e01a2a691",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19a1880c_ae1a975f",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Account.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-25T16:59:06Z",
+      "side": 1,
+      "message": "Yeah, that\u0027s what I wanted because my code that will be calling this method will have called getRefs which chops off the common prefix, so I thought it would be more convenient to just pass the suffix instead of appending the \u0027ref/users\u0027 back on the beginning of the string. I can take that approach though if you think it\u0027ll be cleaner.",
+      "parentUuid": "d9aa90eb_0c6f77c7",
+      "range": {
+        "startLine": 114,
+        "startChar": 0,
+        "endLine": 115,
+        "endChar": 42
+      },
+      "revId": "29466c7000a8f0306ad7174d79eadf0e01a2a691",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

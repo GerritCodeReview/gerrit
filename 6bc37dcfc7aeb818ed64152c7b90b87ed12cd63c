@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d9c370c9_844ce68a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/HasDraftByPredicate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-25T22:54:32Z",
+      "side": 1,
+      "message": "return foo;\n\ninstead of\n\n if (foo) {\n   return true;\n }\n return false;",
+      "revId": "6bc37dcfc7aeb818ed64152c7b90b87ed12cd63c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

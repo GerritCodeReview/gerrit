@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d9aa90eb_0c6f77c7",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Account.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-07-25T16:45:08Z",
+      "side": 1,
+      "message": "This method must be passed \"34/1234\" and not \"refs/users/34/1234\"?\n\nThe original code checked for the prefix refs/changes/ and removed that before splitting.\n\nI just want to make sure we get the intent of the method correct, and try to document it since the method differs from PatchSet.Id.fromRef().",
+      "range": {
+        "startLine": 114,
+        "startChar": 0,
+        "endLine": 115,
+        "endChar": 42
+      },
+      "revId": "29466c7000a8f0306ad7174d79eadf0e01a2a691",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

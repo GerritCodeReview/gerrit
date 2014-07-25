@@ -77,6 +77,7 @@ import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.PatchLineCommentsUtil;
 import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.account.AccountInfo;
 import com.google.gerrit.server.extensions.webui.UiActions;
@@ -127,6 +128,7 @@ public class ChangeJson {
   private final Provider<WebLinks> webLinks;
   private final EnumSet<ListChangesOption> options;
   private final ChangeMessagesUtil cmUtil;
+  private final PatchLineCommentsUtil plcUtil;
 
   private AccountInfo.Loader accountLoader;
 
@@ -147,7 +149,8 @@ public class ChangeJson {
       DynamicMap<RestView<ChangeResource>> changeViews,
       Revisions revisions,
       Provider<WebLinks> webLinks,
-      ChangeMessagesUtil cmUtil) {
+      ChangeMessagesUtil cmUtil,
+      PatchLineCommentsUtil plcUtil) {
     this.db = db;
     this.labelNormalizer = ln;
     this.userProvider = user;
@@ -163,6 +166,7 @@ public class ChangeJson {
     this.revisions = revisions;
     this.webLinks = webLinks;
     this.cmUtil = cmUtil;
+    this.plcUtil = plcUtil;
     options = EnumSet.noneOf(ListChangesOption.class);
   }
 
@@ -821,9 +825,8 @@ public class ChangeJson {
         && userProvider.get().isIdentifiedUser()) {
       IdentifiedUser user = (IdentifiedUser)userProvider.get();
       out.hasDraftComments =
-          db.get().patchComments()
-              .draftByPatchSetAuthor(in.getId(), user.getAccountId())
-              .iterator().hasNext()
+          plcUtil.draftByPatchSetAuthor(db.get(), in.getId(),
+              user.getAccountId(), ctl.getNotes()).iterator().hasNext()
           ? true
           : null;
     }

@@ -33,7 +33,8 @@ class HasDraftByPredicate extends OperatorPredicate<ChangeData> implements
   private final Arguments args;
   private final Account.Id accountId;
 
-  HasDraftByPredicate(Arguments args, Account.Id accountId) {
+  HasDraftByPredicate(Arguments args,
+      Account.Id accountId) {
     super(ChangeQueryBuilder.FIELD_DRAFTBY, accountId.toString());
     this.args = args;
     this.accountId = accountId;
@@ -41,20 +42,16 @@ class HasDraftByPredicate extends OperatorPredicate<ChangeData> implements
 
   @Override
   public boolean match(final ChangeData object) throws OrmException {
-    for (PatchLineComment c : object.comments()) {
-      if (c.getStatus() == PatchLineComment.Status.DRAFT
-          && c.getAuthor().equals(accountId)) {
-        return true;
-      }
-    }
-    return false;
+    return !args.plcUtil
+        .draftByChangeAuthor(args.db.get(), object.notes(), accountId)
+        .isEmpty();
   }
 
   @Override
   public ResultSet<ChangeData> read() throws OrmException {
     Set<Change.Id> ids = new HashSet<>();
-    for (PatchLineComment sc : args.db.get().patchComments()
-        .draftByAuthor(accountId)) {
+    for (PatchLineComment sc :
+        args.plcUtil.draftByAuthor(args.db.get(), accountId)) {
       ids.add(sc.getKey().getParentKey().getParentKey().getParentKey());
     }
 

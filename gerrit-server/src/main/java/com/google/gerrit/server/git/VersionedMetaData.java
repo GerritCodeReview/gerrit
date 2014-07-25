@@ -250,22 +250,7 @@ public abstract class VersionedMetaData {
         if (Objects.equal(src, revision)) {
           return revision;
         }
-
-        RefUpdate ru = db.updateRef(refName);
-        ru.setExpectedOldObjectId(ObjectId.zeroId());
-        ru.setNewObjectId(src);
-        ru.disableRefLog();
-        inserter.flush();
-        RefUpdate.Result result = ru.update();
-        switch (result) {
-          case NEW:
-            revision = rw.parseCommit(ru.getNewObjectId());
-            update.fireGitRefUpdatedEvent(ru);
-            return revision;
-          default:
-            throw new IOException("Cannot update " + ru.getName() + " in "
-                + db.getDirectory() + ": " + ru.getResult());
-        }
+        return updateRef(ObjectId.zeroId(), src, refName);
       }
 
       @Override
@@ -296,28 +281,8 @@ public abstract class VersionedMetaData {
         if (Objects.equal(src, expected)) {
           return revision;
         }
-
-        RefUpdate ru = db.updateRef(getRefName());
-        if (expected != null) {
-          ru.setExpectedOldObjectId(expected);
-        } else {
-          ru.setExpectedOldObjectId(ObjectId.zeroId());
-        }
-        ru.setNewObjectId(src);
-        ru.disableRefLog();
-        inserter.flush();
-
-        switch (ru.update(rw)) {
-          case NEW:
-          case FAST_FORWARD:
-            revision = rw.parseCommit(ru.getNewObjectId());
-            update.fireGitRefUpdatedEvent(ru);
-            return revision;
-
-          default:
-            throw new IOException("Cannot update " + ru.getName() + " in "
-                + db.getDirectory() + ": " + ru.getResult());
-        }
+        return updateRef(Objects.firstNonNull(expected, ObjectId.zeroId()), src,
+            getRefName());
       }
 
       @Override
@@ -332,6 +297,26 @@ public abstract class VersionedMetaData {
         if (reader != null) {
           reader.release();
           reader = null;
+        }
+      }
+
+      private RevCommit updateRef(AnyObjectId oldId, AnyObjectId newId,
+          String refName) throws IOException {
+        RefUpdate ru = db.updateRef(refName);
+        ru.setExpectedOldObjectId(oldId);
+        ru.setNewObjectId(src);
+        ru.disableRefLog();
+        inserter.flush();
+        RefUpdate.Result result = ru.update();
+        switch (result) {
+          case NEW:
+          case FAST_FORWARD:
+            revision = rw.parseCommit(ru.getNewObjectId());
+            update.fireGitRefUpdatedEvent(ru);
+            return revision;
+          default:
+            throw new IOException("Cannot update " + ru.getName() + " in "
+                + db.getDirectory() + ": " + ru.getResult());
         }
       }
     };

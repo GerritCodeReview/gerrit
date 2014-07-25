@@ -23,14 +23,23 @@ import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.CommentRange;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
+import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.PatchLineCommentsUtil;
 import com.google.gerrit.server.change.PutDraft.Input;
+import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.patch.PatchList;
+import com.google.gerrit.server.patch.PatchListCache;
+import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import org.eclipse.jgit.lib.ObjectId;
+
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Collections;
 
@@ -51,17 +60,28 @@ class PutDraft implements RestModifyView<DraftResource, Input> {
 
   private final Provider<ReviewDb> db;
   private final DeleteDraft delete;
+  private final PatchLineCommentsUtil plcUtil;
+  private final ChangeUpdate.Factory updateFactory;
+  private final PatchListCache patchListCache;
 
   @Inject
-  PutDraft(Provider<ReviewDb> db, DeleteDraft delete) {
+  PutDraft(Provider<ReviewDb> db,
+      DeleteDraft delete,
+      PatchLineCommentsUtil plcUtil,
+      ChangeUpdate.Factory updateFactory,
+      PatchListCache patchListCache) {
     this.db = db;
     this.delete = delete;
+    this.plcUtil = plcUtil;
+    this.updateFactory = updateFactory;
+    this.patchListCache = patchListCache;
   }
 
   @Override
   public Response<CommentInfo> apply(DraftResource rsrc, Input in) throws
-      BadRequestException, OrmException {
+      BadRequestException, OrmException, IOException {
     PatchLineComment c = rsrc.getComment();
+    ChangeUpdate update = updateFactory.create(rsrc.getControl());
     if (in == null || in.message == null || in.message.trim().isEmpty()) {
       return delete.apply(rsrc, null);
     } else if (in.id != null && !rsrc.getId().equals(in.id)) {
@@ -72,11 +92,21 @@ class PutDraft implements RestModifyView<DraftResource, Input> {
       throw new BadRequestException("range endLine must be on the same line as the comment");
     }
 
+    PatchList patchList = null;
+    try {
+      patchList = patchListCache.get(rsrc.getChange(), rsrc.getPatchSet());
+    } catch (PatchListNotAvailableException e) {
+      throw new OrmException("could not load PatchList for this patchset", e);
+    }
+    RevId patchSetCommit = new RevId(ObjectId.toString(patchList.getNewId()));
+    RevId baseCommit = new RevId(ObjectId.toString(patchList.getOldId()));
+
     if (in.path != null
         && !in.path.equals(c.getKey().getParentKey().getFileName())) {
       // Updating the path alters the primary key, which isn't possible.
       // Delete then recreate the comment instead of an update.
-      db.get().patchComments().delete(Collections.singleton(c));
+
+      plcUtil.deleteComments(db.get(), update, Collections.singleton(c));
       c = new PatchLineComment(
           new PatchLineComment.Key(
               new Patch.Key(rsrc.getPatchSet().getId(), in.path),
@@ -84,10 +114,17 @@ class PutDraft implements RestModifyView<DraftResource, Input> {
           c.getLine(),
           rsrc.getAuthorId(),
           c.getParentUuid(), TimeUtil.nowTs());
-      db.get().patchComments().insert(Collections.singleton(update(c, in)));
+      c.setRevId((c.getSide() == (short) 0) ? baseCommit : patchSetCommit);
+      plcUtil.insertComments(db.get(), update,
+          Collections.singleton(update(c, in)));
     } else {
-      db.get().patchComments().update(Collections.singleton(update(c, in)));
+      if (c.getRevId() == null) {
+        c.setRevId((c.getSide() == (short) 0) ? baseCommit : patchSetCommit);
+      }
+      plcUtil.updateComments(db.get(), update,
+          Collections.singleton(update(c, in)));
     }
+    update.commit();
     return Response.ok(new CommentInfo(c, null));
   }
 

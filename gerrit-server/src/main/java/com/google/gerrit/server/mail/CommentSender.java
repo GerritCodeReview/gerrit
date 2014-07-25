@@ -24,6 +24,7 @@ import com.google.gerrit.reviewdb.client.CommentRange;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.server.PatchLineCommentsUtil;
 import com.google.gerrit.server.patch.PatchFile;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
@@ -53,13 +54,16 @@ public class CommentSender extends ReplyToChangeSender {
 
   private final NotifyHandling notify;
   private List<PatchLineComment> inlineComments = Collections.emptyList();
+  private final PatchLineCommentsUtil plcUtil;
 
   @Inject
   public CommentSender(EmailArguments ea,
       @Assisted NotifyHandling notify,
-      @Assisted Change c) {
+      @Assisted Change c,
+      PatchLineCommentsUtil plcUtil) {
     super(ea, c, "comment");
     this.notify = notify;
+    this.plcUtil = plcUtil;
   }
 
   public void setPatchLineComments(final List<PatchLineComment> plc)
@@ -233,11 +237,11 @@ public class CommentSender extends ReplyToChangeSender {
   private void appendQuotedParent(StringBuilder out, PatchLineComment child) {
     if (child.getParentUuid() != null) {
       PatchLineComment parent;
+      PatchLineComment.Key key = new PatchLineComment.Key(
+          child.getKey().getParentKey(),
+          child.getParentUuid());
       try {
-        parent = args.db.get().patchComments().get(
-            new PatchLineComment.Key(
-                child.getKey().getParentKey(),
-                child.getParentUuid()));
+        parent = plcUtil.get(args.db.get(), changeData.notes(), key).orNull();
       } catch (OrmException e) {
         parent = null;
       }

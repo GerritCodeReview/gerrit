@@ -24,6 +24,7 @@ class CapabilityInfo {
   public boolean flushCaches;
   public boolean generateHttpPassword;
   public boolean killTask;
+  public boolean modifyAccount;
   public boolean priority;
   public QueryLimit queryLimit;
   public boolean runAs;

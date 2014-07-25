@@ -53,8 +53,8 @@ class HasDraftByPredicate extends OperatorPredicate<ChangeData> implements
   @Override
   public ResultSet<ChangeData> read() throws OrmException {
     Set<Change.Id> ids = new HashSet<>();
-    for (PatchLineComment sc : args.db.get().patchComments()
-        .draftByAuthor(accountId)) {
+    for (PatchLineComment sc :
+        args.plcUtil.draftByAuthor(args.db.get(), accountId)) {
       ids.add(sc.getKey().getParentKey().getParentKey().getParentKey());
     }
 

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "595ea0fe_386fe9c7",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/project/Util.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-07-25T03:00:41Z",
+      "side": 0,
+      "message": "how about change it to getAllProjectsName() to let it return the allProjectsName.",
+      "revId": "8c946d72e3106c9e88f48b809b785e678c2c872e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

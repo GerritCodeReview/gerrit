@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7969a4a1_19a06bbd",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/project/RefControlTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-07-25T03:00:41Z",
+      "side": 1,
+      "message": "so should we delete  line 198.\n\nand \n\nshould we set parent \u0027s parent as All-Project here.",
+      "revId": "16aaf5b4cd55715fd5b6d76ef21b670c591641e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

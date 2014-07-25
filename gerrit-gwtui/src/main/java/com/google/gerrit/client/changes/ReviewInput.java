@@ -24,13 +24,13 @@ public class ReviewInput extends JavaScriptObject {
   }
 
   public static enum DraftHandling {
-    DELETE, PUBLISH, KEEP
+    DELETE, PUBLISH, PUBLISH_FOR_ALL_REVISIONS, KEEP
   }
 
   public static ReviewInput create() {
     ReviewInput r = createObject().cast();
     r.init();
-    r.drafts(DraftHandling.PUBLISH);
+    r.drafts(DraftHandling.PUBLISH_FOR_ALL_REVISIONS);
     return r;
   }
 

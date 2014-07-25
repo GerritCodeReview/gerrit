@@ -46,6 +46,30 @@
       "revId": "29466c7000a8f0306ad7174d79eadf0e01a2a691",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19a1880c_8e1fdb4f",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Account.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-07-25T17:02:27Z",
+      "side": 1,
+      "message": "OK, I agree this is cleaner.\n\nLets just rename the named fromRefPart and add a bit of documentation saying we accept {@code \"34/1234/...\"} syntax under the assumption the caller has trimmed any prefix.",
+      "parentUuid": "19a1880c_ae1a975f",
+      "range": {
+        "startLine": 114,
+        "startChar": 0,
+        "endLine": 115,
+        "endChar": 42
+      },
+      "revId": "29466c7000a8f0306ad7174d79eadf0e01a2a691",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

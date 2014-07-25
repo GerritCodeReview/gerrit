@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.git;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
@@ -21,8 +22,10 @@ import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -59,7 +62,24 @@ public class MetaDataUpdate {
 
     public MetaDataUpdate create(Project.NameKey name, IdentifiedUser user)
         throws RepositoryNotFoundException, IOException {
-      MetaDataUpdate md = factory.create(name, mgr.openRepository(name));
+      return create(name, user, null);
+    }
+
+  /**
+   * Create an update using an existing batch ref update.
+   * <p>
+   * This allows batching together updates to multiple metadata refs. For making
+   * multiple commits to a single metadata ref, see
+   * {@link VersionedMetaData#openUpdate(MetaDataUpdate)}.
+   *
+   * @param name project name.
+   * @param user user for the update.
+   * @param batch batch update to use; the caller is responsible for committing
+   *     the update.
+   */
+    public MetaDataUpdate create(Project.NameKey name, IdentifiedUser user,
+        BatchRefUpdate batch) throws RepositoryNotFoundException, IOException {
+      MetaDataUpdate md = factory.create(name, mgr.openRepository(name), batch);
       md.getCommitBuilder().setAuthor(createPersonIdent(user));
       md.getCommitBuilder().setCommitter(serverIdent);
       return md;
@@ -86,7 +106,13 @@ public class MetaDataUpdate {
 
     public MetaDataUpdate create(Project.NameKey name)
         throws RepositoryNotFoundException, IOException {
-      MetaDataUpdate md = factory.create(name, mgr.openRepository(name));
+      return create(name, null);
+    }
+
+    /** @see User#create(Project.NameKey, IdentifiedUser, BatchRefUpdate) */
+    public MetaDataUpdate create(Project.NameKey name, BatchRefUpdate batch)
+        throws RepositoryNotFoundException, IOException {
+      MetaDataUpdate md = factory.create(name, mgr.openRepository(name), batch);
       md.getCommitBuilder().setAuthor(serverIdent);
       md.getCommitBuilder().setCommitter(serverIdent);
       return md;
@@ -95,22 +121,30 @@ public class MetaDataUpdate {
 
   interface InternalFactory {
     MetaDataUpdate create(@Assisted Project.NameKey projectName,
-        @Assisted Repository db);
+        @Assisted Repository db, @Assisted @Nullable BatchRefUpdate batch);
   }
 
   private final GitReferenceUpdated gitRefUpdated;
   private final Project.NameKey projectName;
   private final Repository db;
+  private final BatchRefUpdate batch;
   private final CommitBuilder commit;
   private boolean allowEmpty;
 
-  @Inject
+  @AssistedInject
   public MetaDataUpdate(GitReferenceUpdated gitRefUpdated,
-      @Assisted Project.NameKey projectName, @Assisted Repository db) {
+      @Assisted Project.NameKey projectName, @Assisted Repository db,
+      @Assisted @Nullable BatchRefUpdate batch) {
     this.gitRefUpdated = gitRefUpdated;
     this.projectName = projectName;
     this.db = db;
+    this.batch = batch;
     this.commit = new CommitBuilder();
+  }
+
+  public MetaDataUpdate(GitReferenceUpdated gitRefUpdated,
+      Project.NameKey projectName, Repository db) {
+    this(gitRefUpdated, projectName, db, null);
   }
 
   /** Set the commit message used when committing the update. */
@@ -126,6 +160,11 @@ public class MetaDataUpdate {
 
   public void setAllowEmpty(boolean allowEmpty) {
     this.allowEmpty = allowEmpty;
+  }
+
+  /** @return batch in which to run the update, or {@code null} for no batch. */
+  BatchRefUpdate getBatch() {
+    return batch;
   }
 
   /** Close the cached Repository handle. */

@@ -19,7 +19,6 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_LABEL;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_STATUS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMITTED_WITH;
-import static com.google.gerrit.server.notedb.CommentsInNotesUtil.getCommentPsId;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Optional;
@@ -177,9 +176,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   public void putComment(PatchLineComment comment) {
     checkArgument(psId != null,
         "setPatchSetId must be called before putComment");
-    checkArgument(getCommentPsId(comment).equals(psId),
-        "Comment on %s doesn't match previous patch set %s",
-        getCommentPsId(comment), psId);
+//    TODO(davido): FixMe: make it works across patch set boundaries
+//    checkArgument(getCommentPsId(comment).equals(psId),
+//        "Comment on %s doesn't match previous patch set %s",
+//        getCommentPsId(comment), psId);
     checkArgument(comment.getRevId() != null);
     if (comment.getSide() == 0) {
       commentsForBase.add(comment);

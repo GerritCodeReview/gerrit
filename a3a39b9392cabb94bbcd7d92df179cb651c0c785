@@ -207,6 +207,24 @@
     },
     {
       "key": {
+        "uuid": "d9aa90eb_6c39dbc2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ListDrafts.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-25T23:05:59Z",
+      "side": 1,
+      "message": "Gotcha. I was confused about why that constant was what it was, but that makes sense. Done",
+      "parentUuid": "d9c370c9_441cae85",
+      "revId": "a3a39b9392cabb94bbcd7d92df179cb651c0c785",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d9aa90eb_4cc05f5f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
         "patchSetId": 3

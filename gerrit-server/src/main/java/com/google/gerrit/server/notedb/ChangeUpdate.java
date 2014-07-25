@@ -110,11 +110,11 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       ChangeDraftUpdate.Factory draftUpdateFactory,
       ProjectCache projectCache,
       IdentifiedUser user,
-      @Assisted ChangeControl ctl,
-      CommentsInNotesUtil commentsUtil) {
+      CommentsInNotesUtil commentsUtil,
+      @Assisted ChangeControl ctl) {
     this(serverIdent, repoManager, migration, accountCache, updateFactory,
-        draftNotesFactory, allUsers, draftUpdateFactory, projectCache, ctl,
-        serverIdent.getWhen(), commentsUtil);
+        draftNotesFactory, allUsers, draftUpdateFactory, projectCache,
+        commentsUtil, ctl, serverIdent.getWhen());
   }
 
   @AssistedInject
@@ -128,13 +128,13 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       Provider<AllUsersName> allUsers,
       ChangeDraftUpdate.Factory draftUpdateFactory,
       ProjectCache projectCache,
+      CommentsInNotesUtil commentsUtil,
       @Assisted ChangeControl ctl,
-      @Assisted Date when,
-      CommentsInNotesUtil commentsUtil) {
+      @Assisted Date when) {
     this(serverIdent, repoManager, migration, accountCache, updateFactory,
-        draftNotesFactory, allUsers, draftUpdateFactory, ctl, when,
-        projectCache.get(getProjectName(ctl)).getLabelTypes().nameComparator(),
-        commentsUtil);
+        draftNotesFactory, allUsers, draftUpdateFactory, commentsUtil, ctl,
+        when,
+        projectCache.get(getProjectName(ctl)).getLabelTypes().nameComparator());
   }
 
   private static Project.NameKey getProjectName(ChangeControl ctl) {
@@ -151,10 +151,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       DraftCommentNotes.Factory draftNotesFactory,
       Provider<AllUsersName> allUsers,
       ChangeDraftUpdate.Factory draftUpdateFactory,
+      CommentsInNotesUtil commentsUtil,
       @Assisted ChangeControl ctl,
       @Assisted Date when,
-      @Assisted Comparator<String> labelNameComparator,
-      CommentsInNotesUtil commentsUtil) {
+      @Assisted Comparator<String> labelNameComparator) {
     super(migration, repoManager, updateFactory, ctl, serverIdent, when);
     this.draftUpdateFactory = draftUpdateFactory;
     this.accountCache = accountCache;
@@ -233,9 +233,11 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     if (notes == null) {
       notes = getChangeNotes().load();
     }
-    checkArgument(!notes.containsComment(c),
-        "A comment already exists with the same key as the following comment,"
-        + " so we cannot insert this comment: %s", c);
+    if (migration.readComments()) {
+      checkArgument(!notes.containsComment(c),
+          "A comment already exists with the same key as the following comment,"
+          + " so we cannot insert this comment: %s", c);
+    }
     if (c.getSide() == 0) {
       commentsForBase.add(c);
     } else {
@@ -248,8 +250,19 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     draftUpdate.insertComment(c);
   }
 
-  private void upsertPublishedComment(PatchLineComment c) {
+  private void upsertPublishedComment(PatchLineComment c) throws OrmException {
     verifyComment(c);
+    if (notes == null) {
+      notes = getChangeNotes().load();
+    }
+    // This could allow callers to update a published comment if migration.write
+    // is on and migration.readComments is off because we will not be able to
+    // verify that the comment didn't already exist as a published comment
+    // since we don't have a ReviewDb.
+    if (migration.readComments()) {
+      checkArgument(!notes.containsCommentPublished(c),
+          "Cannot update a comment that has already been published and saved");
+    }
     if (c.getSide() == 0) {
       commentsForBase.add(c);
     } else {
@@ -267,8 +280,12 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     if (notes == null) {
       notes = getChangeNotes().load();
     }
-    checkArgument(!notes.containsCommentPublished(c),
-        "Cannot update a comment that has already been published and saved");
+    // See comment above in upsertPublishedComment() about potential risk with
+    // this check.
+    if (migration.readComments()) {
+      checkArgument(!notes.containsCommentPublished(c),
+          "Cannot update a comment that has already been published and saved");
+    }
     if (c.getSide() == 0) {
       commentsForBase.add(c);
     } else {
@@ -291,7 +308,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     createDraftUpdateIfNull(c);
     draftUpdate.deleteCommentIfPresent(c);
   }
-
 
   private void createDraftUpdateIfNull(PatchLineComment c) throws OrmException {
     if (draftUpdate == null) {

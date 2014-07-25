@@ -16,6 +16,24 @@
       "revId": "6bc37dcfc7aeb818ed64152c7b90b87ed12cd63c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19a1880c_4e4df34e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/HasDraftByPredicate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-25T23:06:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d9c370c9_844ce68a",
+      "revId": "6bc37dcfc7aeb818ed64152c7b90b87ed12cd63c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7969a4a1_794de74e",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Account.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-25T16:20:33Z",
+      "side": 1,
+      "message": "We are using finals in the new code only where it is really needed. So when copying from old code, like here from PatchSet.fromRef(String name) always remove finals. Here and in all places below.",
+      "range": {
+        "startLine": 109,
+        "startChar": 6,
+        "endLine": 109,
+        "endChar": 11
+      },
+      "revId": "37040ce56bee8413e089f075b424af0d684a2f49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

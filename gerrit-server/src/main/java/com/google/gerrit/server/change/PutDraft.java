@@ -24,13 +24,16 @@ import com.google.gerrit.reviewdb.client.CommentRange;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.PatchLineCommentsUtil;
 import com.google.gerrit.server.change.PutDraft.Input;
+import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Collections;
 
@@ -51,17 +54,25 @@ class PutDraft implements RestModifyView<DraftResource, Input> {
 
   private final Provider<ReviewDb> db;
   private final DeleteDraft delete;
+  private final PatchLineCommentsUtil plcUtil;
+  private final ChangeUpdate.Factory updateFactory;
 
   @Inject
-  PutDraft(Provider<ReviewDb> db, DeleteDraft delete) {
+  PutDraft(Provider<ReviewDb> db,
+      DeleteDraft delete,
+      PatchLineCommentsUtil plcUtil,
+      ChangeUpdate.Factory updateFactory) {
     this.db = db;
     this.delete = delete;
+    this.plcUtil = plcUtil;
+    this.updateFactory = updateFactory;
   }
 
   @Override
   public Response<CommentInfo> apply(DraftResource rsrc, Input in) throws
-      BadRequestException, OrmException {
+      BadRequestException, OrmException, IOException {
     PatchLineComment c = rsrc.getComment();
+    ChangeUpdate update = updateFactory.create(rsrc.getControl());
     if (in == null || in.message == null || in.message.trim().isEmpty()) {
       return delete.apply(rsrc, null);
     } else if (in.id != null && !rsrc.getId().equals(in.id)) {
@@ -76,7 +87,7 @@ class PutDraft implements RestModifyView<DraftResource, Input> {
         && !in.path.equals(c.getKey().getParentKey().getFileName())) {
       // Updating the path alters the primary key, which isn't possible.
       // Delete then recreate the comment instead of an update.
-      db.get().patchComments().delete(Collections.singleton(c));
+      plcUtil.deleteComments(db.get(), update, Collections.singleton(c));
       c = new PatchLineComment(
           new PatchLineComment.Key(
               new Patch.Key(rsrc.getPatchSet().getId(), in.path),
@@ -84,10 +95,13 @@ class PutDraft implements RestModifyView<DraftResource, Input> {
           c.getLine(),
           rsrc.getAuthorId(),
           c.getParentUuid(), TimeUtil.nowTs());
-      db.get().patchComments().insert(Collections.singleton(update(c, in)));
+      plcUtil.insertComments(db.get(), update,
+          Collections.singleton(update(c, in)));
     } else {
-      db.get().patchComments().update(Collections.singleton(update(c, in)));
+      plcUtil.updateComments(db.get(), update,
+          Collections.singleton(update(c, in)));
     }
+    update.commit();
     return Response.ok(new CommentInfo(c, null));
   }
 

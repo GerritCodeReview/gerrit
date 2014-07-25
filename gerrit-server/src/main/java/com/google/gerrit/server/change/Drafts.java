@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.PatchLineCommentsUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -34,16 +35,19 @@ class Drafts implements ChildCollection<RevisionResource, DraftResource> {
   private final Provider<CurrentUser> user;
   private final ListDrafts list;
   private final Provider<ReviewDb> dbProvider;
+  private final PatchLineCommentsUtil plcUtil;
 
   @Inject
   Drafts(DynamicMap<RestView<DraftResource>> views,
       Provider<CurrentUser> user,
       ListDrafts list,
-      Provider<ReviewDb> dbProvider) {
+      Provider<ReviewDb> dbProvider,
+      PatchLineCommentsUtil plcUtil) {
     this.views = views;
     this.user = user;
     this.list = list;
     this.dbProvider = dbProvider;
+    this.plcUtil = plcUtil;
   }
 
   @Override
@@ -62,10 +66,8 @@ class Drafts implements ChildCollection<RevisionResource, DraftResource> {
       throws ResourceNotFoundException, OrmException, AuthException {
     checkIdentifiedUser();
     String uuid = id.get();
-    for (PatchLineComment c : dbProvider.get().patchComments()
-        .draftByPatchSetAuthor(
-            rev.getPatchSet().getId(),
-            rev.getAccountId())) {
+    for (PatchLineComment c : plcUtil.draftByPatchSetAuthor(dbProvider.get(),
+        rev.getPatchSet().getId(), rev.getAccountId(), rev.getNotes())) {
       if (uuid.equals(c.getKey().get())) {
         return new DraftResource(rev, c);
       }

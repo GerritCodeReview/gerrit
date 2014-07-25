@@ -25,6 +25,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.PatchLineCommentsUtil;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.GroupBackend;
@@ -146,6 +147,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     final CapabilityControl.Factory capabilityControlFactory;
     final ChangeControl.GenericFactory changeControlGenericFactory;
     final ChangeData.Factory changeDataFactory;
+    final PatchLineCommentsUtil plcUtil;
     final AccountResolver accountResolver;
     final GroupBackend groupBackend;
     final AllProjectsName allProjectsName;
@@ -168,6 +170,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         CapabilityControl.Factory capabilityControlFactory,
         ChangeControl.GenericFactory changeControlGenericFactory,
         ChangeData.Factory changeDataFactory,
+        PatchLineCommentsUtil plcUtil,
         AccountResolver accountResolver,
         GroupBackend groupBackend,
         AllProjectsName allProjectsName,
@@ -187,6 +190,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       this.capabilityControlFactory = capabilityControlFactory;
       this.changeControlGenericFactory = changeControlGenericFactory;
       this.changeDataFactory = changeDataFactory;
+      this.plcUtil = plcUtil;
       this.accountResolver = accountResolver;
       this.groupBackend = groupBackend;
       this.allProjectsName = allProjectsName;

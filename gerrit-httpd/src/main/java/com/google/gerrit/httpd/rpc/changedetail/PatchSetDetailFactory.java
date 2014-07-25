@@ -170,7 +170,8 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
       // quickly locate where they have pending drafts, and review them.
       //
       final Account.Id me = ((IdentifiedUser) user).getAccountId();
-      for (final PatchLineComment c : db.patchComments().draftByPatchSetAuthor(psIdNew, me)) {
+      for (PatchLineComment c
+          : plcUtil.draftByPatchSetAuthor(db, psIdNew, me, notes)) {
         final Patch p = byKey.get(c.getKey().getParentKey());
         if (p != null) {
           p.setDraftCount(p.getDraftCount() + 1);

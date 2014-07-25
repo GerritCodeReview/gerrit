@@ -15,6 +15,7 @@
 package com.google.gerrit.server.change;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.gerrit.server.PatchLineCommentsUtil.setCommentRevId;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
@@ -44,7 +45,6 @@ import com.google.gerrit.reviewdb.client.CommentRange;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
-import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
@@ -54,9 +54,7 @@ import com.google.gerrit.server.PatchLineCommentsUtil;
 import com.google.gerrit.server.account.AccountsCollection;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeUpdate;
-import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
-import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.util.LabelVote;
@@ -65,7 +63,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-import org.eclipse.jgit.lib.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -346,15 +343,6 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     List<PatchLineComment> del = Lists.newArrayList();
     List<PatchLineComment> ups = Lists.newArrayList();
 
-    PatchList patchList = null;
-    try {
-      patchList = patchListCache.get(rsrc.getChange(), rsrc.getPatchSet());
-    } catch (PatchListNotAvailableException e) {
-      throw new OrmException("could not load PatchList for this patchset", e);
-    }
-    RevId patchSetCommit = new RevId(ObjectId.toString(patchList.getNewId()));
-    RevId baseCommit = new RevId(ObjectId.toString(patchList.getOldId()));
-
     for (Map.Entry<String, List<CommentInput>> ent : in.entrySet()) {
       String path = ent.getKey();
       for (CommentInput c : ent.getValue()) {
@@ -374,7 +362,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         e.setStatus(PatchLineComment.Status.PUBLISHED);
         e.setWrittenOn(timestamp);
         e.setSide(c.side == Side.PARENT ? (short) 0 : (short) 1);
-        e.setRevId(c.side == Side.PARENT ? baseCommit : patchSetCommit);
+        setCommentRevId(e, patchListCache, rsrc.getChange(),
+            rsrc.getPatchSet());
         e.setMessage(c.message);
         if (c.range != null) {
           e.setRange(new CommentRange(
@@ -398,13 +387,16 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         for (PatchLineComment e : drafts.values()) {
           e.setStatus(PatchLineComment.Status.PUBLISHED);
           e.setWrittenOn(timestamp);
-          e.setRevId(e.getSide() == (short) 0 ? baseCommit : patchSetCommit);
+          if (e.getRevId() == null) {
+            setCommentRevId(e, patchListCache, rsrc.getChange(),
+                rsrc.getPatchSet());
+          }
           ups.add(e);
         }
         break;
     }
-    db.get().patchComments().delete(del);
-    plcUtil.addPublishedComments(db.get(), update, ups);
+    plcUtil.deleteComments(db.get(), update, del);
+    plcUtil.upsertComments(db.get(), update, ups);
     comments.addAll(ups);
     return !del.isEmpty() || !ups.isEmpty();
   }
@@ -412,9 +404,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   private Map<String, PatchLineComment> scanDraftComments(
       RevisionResource rsrc) throws OrmException {
     Map<String, PatchLineComment> drafts = Maps.newHashMap();
-    for (PatchLineComment c : db.get().patchComments().draftByPatchSetAuthor(
-          rsrc.getPatchSet().getId(),
-          rsrc.getAccountId())) {
+    for (PatchLineComment c : plcUtil.draftByPatchSetAuthor(db.get(),
+        rsrc.getPatchSet().getId(), rsrc.getAccountId(), rsrc.getNotes())) {
       drafts.put(c.getKey().get(), c);
     }
     return drafts;

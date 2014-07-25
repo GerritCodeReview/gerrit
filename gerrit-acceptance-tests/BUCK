@@ -10,6 +10,7 @@ java_library(
     '//gerrit-httpd:httpd',
     '//gerrit-pgm:init',
     '//gerrit-pgm:pgm',
+    '//gerrit-pgm:util',
     '//gerrit-reviewdb:server',
     '//gerrit-server:server',
     '//gerrit-server:testutil',

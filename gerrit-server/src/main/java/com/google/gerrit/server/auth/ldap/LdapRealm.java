@@ -106,6 +106,22 @@ public class LdapRealm implements Realm {
     return config.getString("ldap", null, name);
   }
 
+  static int optional(Config config, String name, int defaultValue) {
+    return config.getInt("ldap", name, defaultValue);
+  }
+
+  static String optional(Config config, String name, String defaultValue) {
+    final String v = optional(config, name);
+    if (Strings.isNullOrEmpty(v)) {
+      return defaultValue;
+    }
+    return v;
+  }
+
+  static boolean optional(Config config, String name, boolean defaultValue) {
+    return config.getBoolean("ldap", name, defaultValue);
+  }
+
   static String required(final Config config, final String name) {
     final String v = optional(config, name);
     if (v == null || "".equals(v)) {

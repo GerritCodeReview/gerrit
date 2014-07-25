@@ -61,7 +61,17 @@ public class ReviewInput {
   public String onBehalfOf;
 
   public static enum DraftHandling {
-    DELETE, PUBLISH, KEEP
+    /** Delete pending drafts on this revision only. */
+    DELETE,
+
+    /** Publish pending drafts on this revision only. */
+    PUBLISH,
+
+    /** Leave pending drafts alone. */
+    KEEP,
+
+    /** Publish pending drafts on all revisions. */
+    PUBLISH_ALL_REVISIONS;
   }
 
   public static enum NotifyHandling {

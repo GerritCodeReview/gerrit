@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.api.revision;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.PushOneCommit.FILE_CONTENT;
 import static com.google.gerrit.acceptance.PushOneCommit.FILE_NAME;
+import static com.google.gerrit.acceptance.PushOneCommit.SUBJECT;
 import static org.eclipse.jgit.lib.Constants.HEAD;
 import static org.junit.Assert.fail;
 
@@ -32,6 +33,7 @@ import com.google.gerrit.extensions.api.changes.DraftApi;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
+import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.api.projects.BranchInput;
@@ -515,6 +517,55 @@ public class RevisionIT extends AbstractDaemonTest {
       .isEqualTo(in.message);
   }
 
+  @Test
+  public void publishCommentsAllRevisions() throws Exception {
+    PushOneCommit.Result r1 = createChange();
+
+    PushOneCommit.Result r2 = pushFactory.create(
+          db, admin.getIdent(), testRepo, SUBJECT, FILE_NAME, "new cntent",
+          r1.getChangeId())
+        .to("refs/for/master");
+
+    createDraftComment(r1, "nit: trailing whitespace");
+    createDraftComment(r2, "typo: content");
+
+    ReviewInput reviewInput = new ReviewInput();
+    reviewInput.drafts = DraftHandling.PUBLISH_ALL_REVISIONS;
+    reviewInput.message = "comments";
+    gApi.changes()
+       .id(r2.getChangeId())
+       .current()
+       .review(reviewInput);
+
+    assertThat(gApi.changes()
+          .id(r1.getChangeId())
+          .revision(r1.getCommit().name())
+          .drafts())
+        .isEmpty();
+    Map<String, List<CommentInfo>> ps1Map = gApi.changes()
+        .id(r1.getChangeId())
+        .revision(r1.getCommit().name())
+        .comments();
+    assertThat(ps1Map.keySet()).containsExactly(FILE_NAME);
+    List<CommentInfo> ps1List = ps1Map.get(FILE_NAME);
+    assertThat(ps1List).hasSize(1);
+    assertThat(ps1List.get(0).message).isEqualTo("nit: trailing whitespace");
+
+    assertThat(gApi.changes()
+          .id(r2.getChangeId())
+          .revision(r2.getCommit().name())
+          .drafts())
+        .isEmpty();
+    Map<String, List<CommentInfo>> ps2Map = gApi.changes()
+        .id(r2.getChangeId())
+        .revision(r2.getCommit().name())
+        .comments();
+    assertThat(ps2Map.keySet()).containsExactly(FILE_NAME);
+    List<CommentInfo> ps2List = ps2Map.get(FILE_NAME);
+    assertThat(ps2List).hasSize(1);
+    assertThat(ps2List.get(0).message).isEqualTo("typo: content");
+  }
+
   private void merge(PushOneCommit.Result r) throws Exception {
     revision(r).review(ReviewInput.approve());
     revision(r).submit();
@@ -530,5 +581,18 @@ public class RevisionIT extends AbstractDaemonTest {
   private PushOneCommit.Result createDraft() throws Exception {
     PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
     return push.to("refs/drafts/master");
+  }
+
+  private void createDraftComment(PushOneCommit.Result r, String message)
+      throws Exception {
+    DraftInput in = new DraftInput();
+    in.line = 1;
+    in.message = message;
+    in.path = FILE_NAME;
+
+    gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommitId().name())
+        .createDraft(in);
   }
 }

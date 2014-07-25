@@ -17,6 +17,7 @@ package com.google.gerrit.server.change;
 import static com.google.common.base.MoreObjects.firstNonNull;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.Ordering;
 import com.google.gerrit.extensions.client.Comment.Range;
 import com.google.gerrit.extensions.client.Side;
@@ -25,7 +26,6 @@ import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.CommentRange;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.server.account.AccountLoader;
-import com.google.gwt.thirdparty.guava.common.collect.ComparisonChain;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 

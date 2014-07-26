@@ -366,7 +366,7 @@ public class QueryProcessor {
             eventFactory.addComments(c, d.messages());
             if (includePatchSets) {
               for (PatchSetAttribute attribute : c.patchSets) {
-                eventFactory.addPatchSetComments(attribute,  d.comments());
+                eventFactory.addPatchSetComments(attribute,  d.publishedComments());
               }
             }
           }

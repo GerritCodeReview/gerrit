@@ -530,7 +530,7 @@ public class ChangeData {
   public Collection<PatchLineComment> comments()
       throws OrmException {
     if (comments == null) {
-      comments = plcUtil.byChange(db, notes());
+      comments = Lists.newArrayList(plcUtil.publishedByChange(db, notes()));
     }
     return comments;
   }

@@ -21,6 +21,7 @@ import static org.easymock.EasyMock.expectLastCall;
 import static org.easymock.EasyMock.replay;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import com.google.common.base.Objects;
@@ -223,7 +224,7 @@ public class CommentsTest  {
     PatchSet.Id psId2 = new PatchSet.Id(change.getId(), 2);
     PatchSet ps2 = new PatchSet(psId2);
 
-    long timeBase = TimeUtil.nowMs();
+    long timeBase = TimeUtil.roundToSecond(TimeUtil.nowTs()).getTime();
     plc1 = newPatchLineComment(psId1, "Comment1", null,
         "FileOne.txt", Side.REVISION, 3, ownerId, timeBase,
         "First Comment", new CommentRange(1, 2, 3, 4));
@@ -269,6 +270,8 @@ public class CommentsTest  {
         .andAnswer(results()).anyTimes();
     expect(plca.draftByPatchSetAuthor(psId2, ownerId))
         .andAnswer(results(plc4, plc5)).anyTimes();
+    expect(plca.byChange(change.getId()))
+        .andAnswer(results(plc1, plc2, plc3, plc4, plc5)).anyTimes();
     replay(db, plca);
 
     ChangeUpdate update = newUpdate(change, changeOwner);
@@ -332,6 +335,26 @@ public class CommentsTest  {
     // test ListDrafts for patch set 2
     assertListDrafts(injector, revRes2, ImmutableMap.of(
         "FileOne.txt", Lists.newArrayList(plc4, plc5)));
+  }
+
+  @Test
+  public void testPatchLineCommentsUtilByCommentStatus() throws OrmException {
+    List<PatchLineComment> publishedActual = plcUtil.publishedByChange(
+        injector.getInstance(ReviewDb.class), revRes2.getNotes());
+    List<PatchLineComment> draftActual = plcUtil.draftByChange(
+        injector.getInstance(ReviewDb.class), revRes2.getNotes());
+    List<PatchLineComment> publishedExpected =
+        Lists.newArrayList(plc1, plc2, plc3);
+    List<PatchLineComment> draftExpected =
+        Lists.newArrayList(plc4, plc5);
+    assertEquals(publishedExpected.size(), publishedActual.size());
+    assertEquals(draftExpected.size(), draftActual.size());
+    for (PatchLineComment c : draftExpected) {
+      assertTrue(draftActual.contains(c));
+    }
+    for (PatchLineComment c : publishedExpected) {
+      assertTrue(publishedActual.contains(c));
+    }
   }
 
   private static IAnswer<ResultSet<PatchLineComment>> results(

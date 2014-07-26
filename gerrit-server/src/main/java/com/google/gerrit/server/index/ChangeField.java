@@ -408,7 +408,7 @@ public class ChangeField {
         public Iterable<String> get(ChangeData input, FillArgs args)
             throws OrmException {
           Set<String> r = Sets.newHashSet();
-          for (PatchLineComment c : input.comments()) {
+          for (PatchLineComment c : input.publishedComments()) {
             r.add(c.getMessage());
           }
           for (ChangeMessage m : input.messages()) {

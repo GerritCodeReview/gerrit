@@ -181,7 +181,7 @@ public class ChangeData {
   private ListMultimap<PatchSet.Id, PatchSetApproval> allApprovals;
   private List<PatchSetApproval> currentApprovals;
   private Map<Integer, List<String>> files = new HashMap<>();
-  private Collection<PatchLineComment> comments;
+  private Collection<PatchLineComment> publishedComments;
   private CurrentUser visibleTo;
   private ChangeControl changeControl;
   private List<ChangeMessage> messages;
@@ -527,12 +527,12 @@ public class ChangeData {
     return approvalsUtil.getReviewers(notes(), approvals().values());
   }
 
-  public Collection<PatchLineComment> comments()
+  public Collection<PatchLineComment> publishedComments()
       throws OrmException {
-    if (comments == null) {
-      comments = plcUtil.byChange(db, notes());
+    if (publishedComments == null) {
+      publishedComments = plcUtil.publishedByChange(db, notes());
     }
-    return comments;
+    return publishedComments;
   }
 
   public List<ChangeMessage> messages()

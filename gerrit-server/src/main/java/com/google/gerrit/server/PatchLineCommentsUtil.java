@@ -15,10 +15,13 @@
 package com.google.gerrit.server;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
+import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -74,7 +77,7 @@ public class PatchLineCommentsUtil {
     if (!migration.readComments()) {
       return db.patchComments().get(key);
     }
-    for (PatchLineComment c : byChange(db, notes)) {
+    for (PatchLineComment c : publishedByChange(db, notes)) {
       if (key.equals(c.getKey())) {
         return c;
       }
@@ -82,17 +85,55 @@ public class PatchLineCommentsUtil {
     return null;
   }
 
-  public List<PatchLineComment> byChange(ReviewDb db,
-      ChangeNotes notes) throws OrmException {
+  public List<PatchLineComment> byChange(ReviewDb db, ChangeNotes notes)
+      throws OrmException {
     if (!migration.readComments()) {
       return db.patchComments().byChange(notes.getChangeId()).toList();
     }
-    notes.load();
+    List<PatchLineComment> comments = Lists.newArrayList();
+    comments.addAll(publishedByChange(db, notes));
+    comments.addAll(draftByChange(db, notes));
+    return comments;
+  }
 
+  public List<PatchLineComment> publishedByChange(ReviewDb db,
+      ChangeNotes notes) throws OrmException {
+    if (!migration.readPublishedComments()) {
+      Iterable<PatchLineComment> comments =
+          Iterables.filter(db.patchComments().byChange(notes.getChangeId()),
+            new Predicate<PatchLineComment>() {
+              @Override
+              public boolean apply(PatchLineComment input) {
+                return (input.getStatus() == Status.PUBLISHED);
+              }
+            }
+          );
+      return Lists.newArrayList(comments);
+    }
+
+    notes.load();
     List<PatchLineComment> comments = Lists.newArrayList();
     comments.addAll(notes.getBaseComments().values());
     comments.addAll(notes.getPatchSetComments().values());
+    return comments;
+  }
 
+  public List<PatchLineComment> draftByChange(ReviewDb db,
+      ChangeNotes notes) throws OrmException {
+    if (!migration.readDraftComments()) {
+      Iterable<PatchLineComment> comments =
+          Iterables.filter(db.patchComments().byChange(notes.getChangeId()),
+            new Predicate<PatchLineComment>() {
+              @Override
+              public boolean apply(PatchLineComment input) {
+                return (input.getStatus() == Status.DRAFT);
+              }
+            }
+          );
+      return Lists.newArrayList(comments);
+    }
+
+    List<PatchLineComment> comments = Lists.newArrayList();
     Set<String> refNames = getRefNamesAllUsers(RefNames.REFS_USER);
     for (String refName : refNames) {
       String suffix = RefNames.REFS_DRAFT_PREFIX +

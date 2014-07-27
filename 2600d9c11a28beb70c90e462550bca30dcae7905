@@ -1,0 +1,211 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7969a4a1_f9f737a7",
+        "filename": "gerrit-pgm/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-27T08:36:12Z",
+      "side": 1,
+      "message": "Can\u0027t we re-package this class by moving it from util to init package? We normally don\u0027t care about backward compatibility in this regard, do we? Plugins can be easily adjusted to reflect this package change.",
+      "range": {
+        "startLine": 13,
+        "startChar": 2,
+        "endLine": 14,
+        "endChar": 24
+      },
+      "revId": "2600d9c11a28beb70c90e462550bca30dcae7905",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7969a4a1_19ddcb2c",
+        "filename": "gerrit-pgm/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-27T08:36:12Z",
+      "side": 1,
+      "message": "This wouldn\u0027t be needed when ConsoleUI.java is moved.",
+      "range": {
+        "startLine": 44,
+        "startChar": 4,
+        "endLine": 44,
+        "endChar": 29
+      },
+      "revId": "2600d9c11a28beb70c90e462550bca30dcae7905",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7969a4a1_39da8f35",
+        "filename": "gerrit-pgm/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-27T08:36:12Z",
+      "side": 1,
+      "message": "Not used. You moved Browser.java in API scope. This is the only place in gerrit-pgm with compile time dependency to H2. Yet we exclude API from util, so remove that.",
+      "range": {
+        "startLine": 55,
+        "startChar": 4,
+        "endLine": 55,
+        "endChar": 15
+      },
+      "revId": "2600d9c11a28beb70c90e462550bca30dcae7905",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "595ea0fe_981ab560",
+        "filename": "gerrit-pgm/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-27T08:36:12Z",
+      "side": 1,
+      "message": "Unnessesary wide visibility. It is only used in gerrit-war, that why\n\n  visibility \u003d [\u0027//gerrit-war:\u0027]\n\nThis is also consequent with the rest of this file, see line 98.",
+      "range": {
+        "startLine": 62,
+        "startChar": 2,
+        "endLine": 62,
+        "endChar": 26
+      },
+      "revId": "2600d9c11a28beb70c90e462550bca30dcae7905",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7969a4a1_79e407ef",
+        "filename": "gerrit-pgm/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-27T08:36:12Z",
+      "side": 1,
+      "message": "Not used. You extracted util package where it was used. And included it on line 56, but forgot to remove it here.",
+      "range": {
+        "startLine": 89,
+        "startChar": 4,
+        "endLine": 89,
+        "endChar": 25
+      },
+      "revId": "2600d9c11a28beb70c90e462550bca30dcae7905",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7969a4a1_59e743f4",
+        "filename": "gerrit-pgm/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-27T08:36:12Z",
+      "side": 1,
+      "message": "I don\u0027t care about combining real modifications with unrelated alpabetical sorting order modification in the same change. But, i had no luck with review, as i did this last time in this change [1] ;-)\n\n [1] https://gerrit-review.googlesource.com/57588",
+      "range": {
+        "startLine": 89,
+        "startChar": 0,
+        "endLine": 94,
+        "endChar": 22
+      },
+      "revId": "2600d9c11a28beb70c90e462550bca30dcae7905",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7969a4a1_990f1b07",
+        "filename": "gerrit-pgm/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-27T08:36:12Z",
+      "side": 1,
+      "message": "You have extracted util package in its own binary artifact: WEB-INF/lib/gerrit-pgm-util.jar. Here you are building another binray artifact WEB-INF/pgm-lib/gerrit-pgm-pgm.jar from the same project. But you don\u0027t exclude here the sources from util package. As the consequence you are building and shipping the same classes twice in the final binary artifact gerrit.war in JARs above (except Browser.java that was moved to API scope in this chnage and thus excluded now). Shipping classes twice in the final binary artifact, this is something you never ever supposed to do.\n\nWhat you want is to exclude util sources in this rule and add dependency to new introduced \u0027:util\u0027 artifact instead, like it\u0027s already the case for :init-api and :init-base:\n\n  srcs \u003d glob([\u0027src/main/java/**/*.java\u0027],\n    excludes \u003d INIT_API_SRCS\n      + INIT_BASE_SRCS\n      + glob([SRCS + \u0027util/**/*.java\u0027])),\n  [...]\n  deps \u003d [\n    \u0027:init-api\u0027,\n    \u0027:init-base\u0027,\n    \u0027:util\u0027,\n  [...]\n\nOr expose INIT_UTIL_SRCS variable and use it in all places.",
+      "range": {
+        "startLine": 106,
+        "startChar": 4,
+        "endLine": 107,
+        "endChar": 45
+      },
+      "revId": "2600d9c11a28beb70c90e462550bca30dcae7905",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "595ea0fe_b81f794f",
+        "filename": "gerrit-pgm/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-27T08:36:12Z",
+      "side": 1,
+      "message": "Same as above: unrelated formatting change, to align with introduced new code on lines 42-45.",
+      "range": {
+        "startLine": 109,
+        "startChar": 2,
+        "endLine": 112,
+        "endChar": 4
+      },
+      "revId": "2600d9c11a28beb70c90e462550bca30dcae7905",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7969a4a1_b914df1b",
+        "filename": "gerrit-pgm/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-27T08:36:12Z",
+      "side": 1,
+      "message": "Adding this dependency here should be an indication that you are on the wong path: this is only needed for util/SiteProgram.java, but you have already handled this in util rule above and added dbcp-library there. Remove it here after the double compilation/shipping was fixed.",
+      "range": {
+        "startLine": 135,
+        "startChar": 4,
+        "endLine": 135,
+        "endChar": 25
+      },
+      "revId": "2600d9c11a28beb70c90e462550bca30dcae7905",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

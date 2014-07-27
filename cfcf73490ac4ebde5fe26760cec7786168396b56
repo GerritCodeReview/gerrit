@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "595ea0fe_f829f174",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/RevisionEdit.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-27T20:26:55Z",
+      "side": 1,
+      "message": "Yes, we can do that. Will remove the patch set representation of edit for now.",
+      "parentUuid": "d9aa90eb_ec3b0bb6",
+      "range": {
+        "startLine": 78,
+        "startChar": 0,
+        "endLine": 86,
+        "endChar": 35
+      },
+      "revId": "cfcf73490ac4ebde5fe26760cec7786168396b56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d9aa90eb_8c46c737",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/RevisionEdit.java",
         "patchSetId": 9
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "595ea0fe_182f8578",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/RevisionEdit.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-27T20:26:55Z",
+      "side": 1,
+      "message": "The idea was not to create RevisionEdit without actually Ref object. But the idea wasn\u0027t really implemented: there were twco constructors with and without Ref object. In new approach i am trying to only represent an existing edit with mandatory Ref attribute in this container. And the static method was moved to RevisionEditUtil class and get called from here. Done.",
+      "parentUuid": "d9aa90eb_8c46c737",
+      "range": {
+        "startLine": 103,
+        "startChar": 2,
+        "endLine": 104,
+        "endChar": 46
+      },
+      "revId": "cfcf73490ac4ebde5fe26760cec7786168396b56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "19a1880c_cef723a8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/RevisionEdit.java",
         "patchSetId": 9
@@ -59,6 +107,30 @@
       "writtenOn": "2014-07-25T23:11:46Z",
       "side": 1,
       "message": "return String, not StringBuilder",
+      "range": {
+        "startLine": 109,
+        "startChar": 17,
+        "endLine": 109,
+        "endChar": 30
+      },
+      "revId": "cfcf73490ac4ebde5fe26760cec7786168396b56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "595ea0fe_382c4981",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/RevisionEdit.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-27T20:26:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19a1880c_cef723a8",
       "range": {
         "startLine": 109,
         "startChar": 17,

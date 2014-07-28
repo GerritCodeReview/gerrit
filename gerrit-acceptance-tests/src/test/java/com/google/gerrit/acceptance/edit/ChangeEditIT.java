@@ -25,10 +25,11 @@ import com.google.common.base.Optional;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope;
-import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.RestSession;
 import com.google.gerrit.acceptance.SshSession;
+import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
@@ -38,10 +39,12 @@ import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditModifier;
 import com.google.gerrit.server.edit.ChangeEditUtil;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
+import com.google.gson.reflect.TypeToken;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.util.Providers;
 
+import org.apache.http.HttpStatus;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -50,7 +53,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-@NoHttpd
+import java.io.IOException;
+import java.util.Map;
+
 public class ChangeEditIT extends AbstractDaemonTest {
 
   private final static String FILE_NAME = "foo";
@@ -127,6 +132,35 @@ public class ChangeEditIT extends AbstractDaemonTest {
     editUtil.delete(edit.get());
     edit = editUtil.byChange(change);
     assertFalse(edit.isPresent());
+  }
+
+  @Test
+  public void retrieveEdit() throws Exception {
+    assertEquals(RefUpdate.Result.NEW,
+        modifier.createEdit(
+            change,
+            ps));
+    Optional<ChangeEdit> edit = editUtil.byChange(change);
+    assertTrue(edit.isPresent());
+    assertEquals(RefUpdate.Result.FORCED,
+        modifier.modifyFile(
+            edit.get(),
+            FILE_NAME,
+            Constants.encode(CONTENT_NEW)));
+
+    RestResponse r = session.get(url());
+    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    Map<String, EditInfo> result = toEditInfoMap(r);
+    assertEquals(1, result.size());
+    EditInfo info = Iterables.getOnlyElement(result.values());
+    assertEquals(0, info._number);
+
+    edit = editUtil.byChange(change);
+    editUtil.delete(edit.get());
+
+    r = session.get(url());
+    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    assertEquals(0, toEditInfoMap(r).size());
   }
 
   @Test
@@ -303,5 +337,19 @@ public class ChangeEditIT extends AbstractDaemonTest {
   private PatchSet getCurrentPatchSet(String changeId) throws Exception {
     return db.patchSets()
         .get(getChange(changeId).currentPatchSetId());
+  }
+
+  private String url() {
+    return "/changes/"
+        + change.getChangeId()
+        + "/edits";
+  }
+
+  private static Map<String, EditInfo> toEditInfoMap(RestResponse r)
+      throws IOException {
+    Map<String, EditInfo> result =
+        newGson().fromJson(r.getReader(),
+            new TypeToken<Map<String, EditInfo>>() {}.getType());
+    return result;
   }
 }

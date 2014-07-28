@@ -17,6 +17,7 @@ package com.google.gerrit.server.group;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.gerrit.audit.AuditService;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
@@ -25,7 +26,6 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
-import com.google.gerrit.reviewdb.client.AccountGroupMemberAudit;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
@@ -39,7 +39,6 @@ import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.group.AddMembers.Input;
-import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -82,6 +81,7 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
   private final AccountCache accountCache;
   private final AccountInfo.Loader.Factory infoFactory;
   private final Provider<ReviewDb> db;
+  private final AuditService auditService;
 
   @Inject
   AddMembers(AccountManager accountManager,
@@ -90,8 +90,10 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
       AccountResolver accountResolver,
       AccountCache accountCache,
       AccountInfo.Loader.Factory infoFactory,
-      Provider<ReviewDb> db) {
+      Provider<ReviewDb> db,
+      AuditService auditService) {
     this.accountManager = accountManager;
+    this.auditService = auditService;
     this.authType = authConfig.getAuthType();
     this.accounts = accounts;
     this.accountResolver = accountResolver;
@@ -112,7 +114,6 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
 
     GroupControl control = resource.getControl();
     Map<Account.Id, AccountGroupMember> newAccountGroupMembers = Maps.newHashMap();
-    List<AccountGroupMemberAudit> newAccountGroupMemberAudits = Lists.newLinkedList();
     List<AccountInfo> result = Lists.newLinkedList();
     Account.Id me = ((IdentifiedUser) control.getCurrentUser()).getAccountId();
     AccountInfo.Loader loader = infoFactory.create(true);
@@ -135,14 +136,12 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
         if (m == null) {
           m = new AccountGroupMember(key);
           newAccountGroupMembers.put(m.getAccountId(), m);
-          newAccountGroupMemberAudits.add(
-              new AccountGroupMemberAudit(m, me, TimeUtil.nowTs()));
         }
       }
       result.add(loader.get(a.getId()));
     }
 
-    db.get().accountGroupMembersAudit().insert(newAccountGroupMemberAudits);
+    auditService.dispatchAddAccountsToGroup(me, newAccountGroupMembers.values());
     db.get().accountGroupMembers().insert(newAccountGroupMembers.values());
     for (AccountGroupMember m : newAccountGroupMembers.values()) {
       accountCache.evict(m.getAccountId());

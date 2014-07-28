@@ -15,6 +15,7 @@
 package com.google.gerrit.server.account;
 
 import com.google.common.collect.Sets;
+import com.google.gerrit.audit.AuditService;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.GroupDescriptions;
 import com.google.gerrit.common.errors.InvalidSshKeyException;
@@ -30,7 +31,6 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
-import com.google.gerrit.reviewdb.client.AccountGroupMemberAudit;
 import com.google.gerrit.reviewdb.client.AccountSshKey;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
@@ -74,13 +74,14 @@ public class CreateAccount implements RestModifyView<TopLevelResource, Input> {
   private final AccountByEmailCache byEmailCache;
   private final AccountInfo.Loader.Factory infoLoader;
   private final String username;
+  private final AuditService auditService;
 
   @Inject
   CreateAccount(ReviewDb db, Provider<IdentifiedUser> currentUser,
       GroupsCollection groupsCollection, SshKeyCache sshKeyCache,
       AccountCache accountCache, AccountByEmailCache byEmailCache,
       AccountInfo.Loader.Factory infoLoader,
-      @Assisted String username) {
+      @Assisted String username, AuditService auditService) {
     this.db = db;
     this.currentUser = currentUser;
     this.groupsCollection = groupsCollection;
@@ -89,6 +90,7 @@ public class CreateAccount implements RestModifyView<TopLevelResource, Input> {
     this.byEmailCache = byEmailCache;
     this.infoLoader = infoLoader;
     this.username = username;
+    this.auditService = auditService;
   }
 
   @Override
@@ -169,9 +171,8 @@ public class CreateAccount implements RestModifyView<TopLevelResource, Input> {
     for (AccountGroup.Id groupId : groups) {
       AccountGroupMember m =
           new AccountGroupMember(new AccountGroupMember.Key(id, groupId));
-      db.accountGroupMembersAudit().insert(Collections.singleton(
-          new AccountGroupMemberAudit(
-              m, currentUser.get().getAccountId(), TimeUtil.nowTs())));
+      auditService.dispatchAddAccountsToGroup(currentUser.get().getAccountId(),
+          Collections.singleton(m));
       db.accountGroupMembers().insert(Collections.singleton(m));
     }
 

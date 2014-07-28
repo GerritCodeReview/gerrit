@@ -204,6 +204,26 @@ public class ChangeInfo extends JavaScriptObject {
     }
   }
 
+  // TODO(davido): Some duplication compared to RevisionInfo
+  public static class EditInfo extends JavaScriptObject {
+    public final native int _number() /*-{ return this._number; }-*/;
+    public final native String name() /*-{ return this.name; }-*/;
+    public final native CommitInfo commit() /*-{ return this.commit; }-*/;
+    public final native void set_commit(CommitInfo c) /*-{ this.commit = c; }-*/;
+
+    public final native boolean has_files() /*-{ return this.hasOwnProperty('files') }-*/;
+    public final native NativeMap<FileInfo> files() /*-{ return this.files; }-*/;
+
+    public final native boolean has_actions() /*-{ return this.hasOwnProperty('actions') }-*/;
+    public final native NativeMap<ActionInfo> actions() /*-{ return this.actions; }-*/;
+
+    public final native boolean has_fetch() /*-{ return this.hasOwnProperty('fetch') }-*/;
+    public final native NativeMap<FetchInfo> fetch() /*-{ return this.fetch; }-*/;
+
+    protected EditInfo() {
+    }
+  }
+
   public static class RevisionInfo extends JavaScriptObject {
     public final native int _number() /*-{ return this._number; }-*/;
     public final native String name() /*-{ return this.name; }-*/;

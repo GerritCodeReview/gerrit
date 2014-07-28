@@ -18,6 +18,9 @@ import static com.google.gerrit.common.FileUtil.chmod;
 import static com.google.gerrit.pgm.init.InitUtil.die;
 import static com.google.gerrit.pgm.init.InitUtil.hostname;
 
+import com.google.gerrit.pgm.init.api.ConsoleUI;
+import com.google.gerrit.pgm.init.api.InitStep;
+import com.google.gerrit.pgm.init.api.Section;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.util.SocketUtil;
 import com.google.inject.Inject;

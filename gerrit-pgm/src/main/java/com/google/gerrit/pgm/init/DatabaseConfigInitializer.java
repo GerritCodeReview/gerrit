@@ -14,6 +14,8 @@
 
 package com.google.gerrit.pgm.init;
 
+import com.google.gerrit.pgm.init.api.Section;
+
 /** Abstraction of initializer for the database section */
 interface DatabaseConfigInitializer {
 

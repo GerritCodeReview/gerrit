@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.pgm.init;
+package com.google.gerrit.pgm.init.api;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;

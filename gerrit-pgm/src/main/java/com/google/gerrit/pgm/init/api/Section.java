@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.pgm.init;
+package com.google.gerrit.pgm.init.api;
 
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.server.config.ConfigUtil;
@@ -49,7 +49,7 @@ public class Section {
     this.subsection = subsection;
   }
 
-  String get(String name) {
+  public String get(String name) {
     return flags.cfg.getString(section, subsection, name);
   }
 

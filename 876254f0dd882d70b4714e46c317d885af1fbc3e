@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7969a4a1_f99bb760",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/DbGroupMemberAuditListener.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-28T15:39:21Z",
+      "side": 1,
+      "message": "private static. Here and for other log methods above. We generally mark private methods that don\u0027t use any instance variable as static. Sorry, missed this in my previous review.",
+      "range": {
+        "startLine": 190,
+        "startChar": 2,
+        "endLine": 190,
+        "endChar": 9
+      },
+      "revId": "876254f0dd882d70b4714e46c317d885af1fbc3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

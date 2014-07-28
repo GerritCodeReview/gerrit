@@ -16,6 +16,8 @@ package com.google.gerrit.pgm.init;
 
 import static com.google.gerrit.pgm.init.InitUtil.die;
 
+import com.google.gerrit.pgm.init.api.InitStep;
+import com.google.gerrit.pgm.init.api.Section;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;

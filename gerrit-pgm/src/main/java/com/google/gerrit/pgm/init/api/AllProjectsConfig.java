@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.pgm.init;
+package com.google.gerrit.pgm.init.api;
 
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.SitePaths;
@@ -93,7 +93,7 @@ public class AllProjectsConfig extends VersionedMetaData {
     throw new UnsupportedOperationException();
   }
 
-  void save(String message) throws IOException {
+  public void save(String message) throws IOException {
     save(new PersonIdent("Gerrit Initialization", "init@gerrit"), message);
   }
 

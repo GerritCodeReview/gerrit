@@ -14,6 +14,9 @@
 
 package com.google.gerrit.pgm.init;
 
+import com.google.gerrit.pgm.init.api.InitFlags;
+import com.google.gerrit.pgm.init.api.InitStep;
+import com.google.gerrit.pgm.init.api.Section;
 import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.binder.LinkedBindingBuilder;

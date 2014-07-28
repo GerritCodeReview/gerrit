@@ -1,15 +1,6 @@
 SRCS = 'src/main/java/com/google/gerrit/pgm/'
 
-INIT_API_SRCS = [SRCS + n for n in [
-  'init/AllProjectsConfig.java',
-  'init/AllProjectsNameOnInitProvider.java',
-  'init/ConsoleUI.java',
-  'init/InitFlags.java',
-  'init/InitStep.java',
-  'init/InitStep.java',
-  'init/InstallPlugins.java',
-  'init/Section.java',
-]]
+INIT_API_SRCS = glob([SRCS + 'init/api/*.java'])
 
 java_library(
   name = 'init-api',
@@ -35,17 +26,16 @@ java_sources(
 
 INIT_BASE_SRCS = [SRCS + 'BaseInit.java'] + glob(
     [SRCS + n for n in [
-      'init/**/*.java',
+      'init/*.java',
       'util/**/*.java',
     ]],
-    excludes = INIT_API_SRCS +
-      [SRCS + n for n in [
-        'init/Browser.java',
-        'util/ErrorLogFile.java',
-        'util/GarbageCollectionLogFile.java',
-        'util/LogFileCompressor.java',
-        'util/RuntimeShutdown.java',
-      ]]
+    excludes = [SRCS + n for n in [
+      'init/Browser.java',
+      'util/ErrorLogFile.java',
+      'util/GarbageCollectionLogFile.java',
+      'util/LogFileCompressor.java',
+      'util/RuntimeShutdown.java',
+    ]]
   )
 
 INIT_BASE_RSRCS = ['src/main/resources/com/google/gerrit/pgm/libraries.config']

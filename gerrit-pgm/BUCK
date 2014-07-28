@@ -24,8 +24,11 @@ java_sources(
   visibility = ['PUBLIC'],
 )
 
-INIT_SRCS = [SRCS + 'BaseInit.java'] + glob([SRCS + 'init/*.java'])
-INIT_RSRCS = ['src/main/resources/com/google/gerrit/pgm/libraries.config']
+INIT_SRCS = glob([SRCS + 'init/*.java'])
+INIT_RSRCS = [
+  'src/main/resources/com/google/gerrit/pgm/libraries.config',
+  'src/main/resources/com/google/gerrit/pgm/init/gerrit.sh',
+]
 
 java_library(
   name = 'init',

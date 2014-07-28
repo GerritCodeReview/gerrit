@@ -19,6 +19,7 @@ import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.PluginData;
+import com.google.gerrit.pgm.init.BaseInit;
 import com.google.gerrit.pgm.init.Browser;
 import com.google.gerrit.pgm.init.InitPlugins;
 import com.google.gerrit.pgm.init.util.ConsoleUI;

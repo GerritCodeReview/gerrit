@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.pgm;
+package com.google.gerrit.pgm.init;
 
 import static com.google.gerrit.server.schema.DataSourceProvider.Context.SINGLE_USER;
 import static com.google.inject.Stage.PRODUCTION;
@@ -20,9 +20,6 @@ import static com.google.inject.Stage.PRODUCTION;
 import com.google.common.base.Objects;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.Die;
-import com.google.gerrit.pgm.init.InitModule;
-import com.google.gerrit.pgm.init.PluginsDistribution;
-import com.google.gerrit.pgm.init.SitePathInitializer;
 import com.google.gerrit.pgm.init.util.ConsoleUI;
 import com.google.gerrit.pgm.init.util.InitFlags;
 import com.google.gerrit.pgm.init.util.InstallPlugins;
@@ -166,8 +163,8 @@ public class BaseInit extends SiteProgram {
     return false;
   }
 
-  static class SiteInit {
-    final SitePaths site;
+  public static class SiteInit {
+    public final SitePaths site;
     final InitFlags flags;
     final ConsoleUI ui;
     final SitePathInitializer initializer;
@@ -228,10 +225,10 @@ public class BaseInit extends SiteProgram {
     return ConsoleUI.getInstance(false);
   }
 
-  static class SiteRun {
-    final ConsoleUI ui;
-    final SitePaths site;
-    final InitFlags flags;
+  public static class SiteRun {
+    public final ConsoleUI ui;
+    public final SitePaths site;
+    public final InitFlags flags;
     final SchemaUpdater schemaUpdater;
     final SchemaFactory<ReviewDb> schema;
     final GitRepositoryManager repositoryManager;

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "595ea0fe_1856a5e8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/RevisionEdit.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-28T08:25:54Z",
+      "side": 1,
+      "message": "Import static.",
+      "range": {
+        "startLine": 39,
+        "startChar": 4,
+        "endLine": 39,
+        "endChar": 30
+      },
+      "revId": "a1304ba7dbc1eab0f6a9827a68b1d30c4f2f6eac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "595ea0fe_385369f9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/RevisionEdit.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-28T08:25:54Z",
+      "side": 1,
+      "message": "Unnecessary, already done in constructor and these attributes are immutable.",
+      "range": {
+        "startLine": 64,
+        "startChar": 4,
+        "endLine": 65,
+        "endChar": 39
+      },
+      "revId": "a1304ba7dbc1eab0f6a9827a68b1d30c4f2f6eac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

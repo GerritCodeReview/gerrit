@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "595ea0fe_58b49dd1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/DbGroupMemberAuditListener.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-28T14:22:54Z",
+      "side": 1,
+      "message": "Unnecessary, inline the string in method invocation directly, as you did below.",
+      "range": {
+        "startLine": 62,
+        "startChar": 6,
+        "endLine": 63,
+        "endChar": 70
+      },
+      "revId": "d41ca0d180426146185a41cb314eda97dafde10a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7969a4a1_79b167e0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/DbGroupMemberAuditListener.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-28T14:22:54Z",
+      "side": 1,
+      "message": "Private methods go at the bottom of the class.",
+      "range": {
+        "startLine": 68,
+        "startChar": 2,
+        "endLine": 68,
+        "endChar": 63
+      },
+      "revId": "d41ca0d180426146185a41cb314eda97dafde10a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "595ea0fe_38b7e9d8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/DbGroupMemberAuditListener.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-28T14:22:54Z",
+      "side": 1,
+      "message": "You have defined three log methods with different argument order. Can we be consequent?",
+      "range": {
+        "startLine": 68,
+        "startChar": 22,
+        "endLine": 68,
+        "endChar": 48
+      },
+      "revId": "d41ca0d180426146185a41cb314eda97dafde10a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "595ea0fe_18ba25c2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/DbGroupMemberAuditListener.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-28T14:22:54Z",
+      "side": 1,
+      "message": "inline",
+      "range": {
+        "startLine": 109,
+        "startChar": 6,
+        "endLine": 110,
+        "endChar": 75
+      },
+      "revId": "d41ca0d180426146185a41cb314eda97dafde10a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -22,7 +22,6 @@ import static com.google.gerrit.pgm.init.InitUtil.savePublic;
 import static com.google.gerrit.pgm.init.InitUtil.saveSecure;
 import static com.google.gerrit.pgm.init.InitUtil.version;
 
-import com.google.gerrit.pgm.BaseInit;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.pgm.init.api.InitStep;
@@ -87,7 +86,7 @@ public class SitePathInitializer {
     savePublic(flags.cfg);
     saveSecure(flags.sec);
 
-    extract(site.gerrit_sh, BaseInit.class, "gerrit.sh");
+    extract(site.gerrit_sh, getClass(), "gerrit.sh");
     chmod(0755, site.gerrit_sh);
     chmod(0700, site.tmp_dir);
 

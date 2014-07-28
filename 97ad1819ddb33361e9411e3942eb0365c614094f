@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "595ea0fe_f80e5107",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-28T12:33:38Z",
+      "side": 1,
+      "message": "Aka: Java7 Multi-catch or exception chaining concepts. Never saw or heard it called like this.",
+      "range": {
+        "startLine": 7,
+        "startChar": 20,
+        "endLine": 7,
+        "endChar": 38
+      },
+      "revId": "97ad1819ddb33361e9411e3942eb0365c614094f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

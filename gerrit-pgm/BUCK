@@ -24,7 +24,7 @@ java_sources(
   visibility = ['PUBLIC'],
 )
 
-INIT_BASE_SRCS = [SRCS + 'BaseInit.java'] + glob(
+INIT_SRCS = [SRCS + 'BaseInit.java'] + glob(
     [SRCS + n for n in [
       'init/*.java',
       'util/**/*.java',
@@ -39,12 +39,12 @@ INIT_BASE_SRCS = [SRCS + 'BaseInit.java'] + glob(
       ]]
   )
 
-INIT_BASE_RSRCS = ['src/main/resources/com/google/gerrit/pgm/libraries.config']
+INIT_RSRCS = ['src/main/resources/com/google/gerrit/pgm/libraries.config']
 
 java_library(
-  name = 'init-base',
-  srcs = INIT_BASE_SRCS,
-  resources = INIT_BASE_RSRCS,
+  name = 'init',
+  srcs = INIT_SRCS,
+  resources = INIT_RSRCS,
   deps = [
     ':init-util',
     '//gerrit-common:server',
@@ -75,14 +75,14 @@ java_library(
   name = 'pgm',
   srcs = glob(
     ['src/main/java/**/*.java'],
-    excludes = INIT_UTIL_SRCS + INIT_BASE_SRCS
+    excludes = INIT_UTIL_SRCS + INIT_SRCS
   ),
   resources = glob(
     ['src/main/resources/**/*'],
-    excludes = INIT_BASE_RSRCS),
+    excludes = INIT_RSRCS),
   deps = [
+    ':init',
     ':init-util',
-    ':init-base',
     '//gerrit-cache-h2:cache-h2',
     '//gerrit-common:server',
     '//gerrit-extension-api:api',
@@ -127,7 +127,7 @@ java_test(
   name = 'pgm_tests',
   srcs = glob(['src/test/java/**/*.java']),
   deps = [
-    ':init-base',
+    ':init',
     ':init-util',
     ':pgm',
     '//gerrit-server:server',

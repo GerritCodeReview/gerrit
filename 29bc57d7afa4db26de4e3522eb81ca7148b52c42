@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "19a1880c_4efb338b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/RevisionEdit.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-28T22:05:48Z",
+      "side": 1,
+      "message": "Can you explain what the ref is for that the ref name doesn\u0027t satisfy?",
+      "revId": "29bc57d7afa4db26de4e3522eb81ca7148b52c42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19a1880c_eec81f5f",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/edit/RevisionEditTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-28T22:05:48Z",
+      "side": 1,
+      "message": "This is an awful lot of setup work for this one test. I would have been happy with a small test of the static method you add in the next change.",
+      "revId": "29bc57d7afa4db26de4e3522eb81ca7148b52c42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

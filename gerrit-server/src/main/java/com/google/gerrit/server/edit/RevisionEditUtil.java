@@ -205,6 +205,61 @@ public class RevisionEditUtil {
   }
 
   /**
+   * Retrieve git commit for revision edit.
+   * @param edit to retrieve commit for
+   * @return RevCommit
+   * @throws NoSuchChangeException
+   * @throws IOException
+   */
+  public RevCommit getCommit(RevisionEdit edit) throws NoSuchChangeException,
+      IOException {
+    Change change = edit.getChange();
+    Repository repo = gitManager.openRepository(change.getProject());
+    try {
+      RevWalk rw = new RevWalk(repo);
+      try {
+        RevCommit editCommit = rw.parseCommit(edit.getRef().getObjectId());
+        if (editCommit == null) {
+          throw new NoSuchChangeException(change.getId());
+        }
+        return editCommit;
+      } finally {
+        rw.release();
+      }
+    } finally {
+      repo.close();
+    }
+  }
+
+  /**
+   * Retrieve git commit for revision edit.
+   * @param edit to retrieve commit for
+   * @return RevCommit
+   * @throws NoSuchChangeException
+   * @throws IOException
+   */
+  public RevCommit getParentCommit(RevisionEdit edit)
+      throws NoSuchChangeException, IOException {
+    Change change = edit.getChange();
+    Repository repo = gitManager.openRepository(change.getProject());
+    try {
+      RevWalk rw = new RevWalk(repo);
+      try {
+        RevCommit editCommit = rw.parseCommit(edit.getRef().getObjectId());
+        if (editCommit == null) {
+          throw new NoSuchChangeException(change.getId());
+        }
+        checkState(editCommit.getParentCount() == 1);
+        return rw.parseCommit(editCommit.getParent(0));
+      } finally {
+        rw.release();
+      }
+    } finally {
+      repo.close();
+    }
+  }
+
+  /**
    * Returns reference for this revision edit with sharded user and change number:
    * refs/users/UU/UUUU/edit-CCCC.
    * <p>

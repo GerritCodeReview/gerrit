@@ -33,7 +33,7 @@ import java.lang.reflect.Modifier;
 @Singleton
 class Libraries {
   private static final String RESOURCE_FILE =
-      "com/google/gerrit/pgm/libraries.config";
+      "com/google/gerrit/pgm/init/libraries.config";
 
   private final Provider<LibraryDownloader> downloadProvider;
 

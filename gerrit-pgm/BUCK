@@ -1,4 +1,5 @@
 SRCS = 'src/main/java/com/google/gerrit/pgm/'
+RSRCS = 'src/main/resources/com/google/gerrit/pgm/'
 
 INIT_UTIL_SRCS = glob([SRCS + 'init/util/*.java'])
 
@@ -24,15 +25,10 @@ java_sources(
   visibility = ['PUBLIC'],
 )
 
-INIT_RSRCS = [
-  'src/main/resources/com/google/gerrit/pgm/libraries.config',
-  'src/main/resources/com/google/gerrit/pgm/init/gerrit.sh',
-]
-
 java_library(
   name = 'init',
   srcs = glob([SRCS + 'init/*.java']),
-  resources = INIT_RSRCS,
+  resources = glob([RSRCS + 'init/*']),
   deps = [
     ':init-util',
     ':util',
@@ -95,9 +91,7 @@ java_library(
       'shell/**/*.java',
     ]],
   ),
-  resources = glob(
-    ['src/main/resources/**/*'],
-    excludes = INIT_RSRCS),
+  resources = glob([RSRCS + '*']),
   deps = [
     ':init',
     ':init-util',

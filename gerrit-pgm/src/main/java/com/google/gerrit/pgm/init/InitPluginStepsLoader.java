@@ -16,6 +16,8 @@ package com.google.gerrit.pgm.init;
 
 import com.google.common.base.Objects;
 import com.google.gerrit.extensions.annotations.PluginName;
+import com.google.gerrit.pgm.init.util.ConsoleUI;
+import com.google.gerrit.pgm.init.util.InitStep;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.plugins.JarPluginProvider;
 import com.google.gerrit.server.plugins.PluginLoader;

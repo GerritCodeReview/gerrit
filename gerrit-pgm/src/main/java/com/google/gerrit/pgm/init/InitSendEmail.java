@@ -17,6 +17,9 @@ package com.google.gerrit.pgm.init;
 import static com.google.gerrit.pgm.init.InitUtil.isLocal;
 import static com.google.gerrit.pgm.init.InitUtil.username;
 
+import com.google.gerrit.pgm.init.util.ConsoleUI;
+import com.google.gerrit.pgm.init.util.InitStep;
+import com.google.gerrit.pgm.init.util.Section;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.mail.SmtpEmailSender.Encryption;
 import com.google.inject.Inject;

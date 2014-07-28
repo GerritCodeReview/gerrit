@@ -23,6 +23,9 @@ import static com.google.gerrit.pgm.init.InitUtil.saveSecure;
 import static com.google.gerrit.pgm.init.InitUtil.version;
 
 import com.google.gerrit.pgm.BaseInit;
+import com.google.gerrit.pgm.init.util.ConsoleUI;
+import com.google.gerrit.pgm.init.util.InitFlags;
+import com.google.gerrit.pgm.init.util.InitStep;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.mail.OutgoingEmail;
 import com.google.inject.Binding;

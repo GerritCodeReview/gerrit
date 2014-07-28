@@ -1,19 +1,10 @@
 SRCS = 'src/main/java/com/google/gerrit/pgm/'
 
-INIT_API_SRCS = [SRCS + n for n in [
-  'init/AllProjectsConfig.java',
-  'init/AllProjectsNameOnInitProvider.java',
-  'init/ConsoleUI.java',
-  'init/InitFlags.java',
-  'init/InitStep.java',
-  'init/InitStep.java',
-  'init/InstallPlugins.java',
-  'init/Section.java',
-]]
+INIT_UTIL_SRCS = glob([SRCS + 'init/util/*.java'])
 
 java_library(
-  name = 'init-api',
-  srcs = INIT_API_SRCS,
+  name = 'init-util',
+  srcs = INIT_UTIL_SRCS,
   deps = [
     '//gerrit-common:annotations',
     '//gerrit-common:server',
@@ -28,17 +19,17 @@ java_library(
 )
 
 java_sources(
-  name = 'init-api-src',
-  srcs = INIT_API_SRCS,
+  name = 'init-util-src',
+  srcs = INIT_UTIL_SRCS,
   visibility = ['PUBLIC'],
 )
 
 INIT_BASE_SRCS = [SRCS + 'BaseInit.java'] + glob(
     [SRCS + n for n in [
-      'init/**/*.java',
+      'init/*.java',
       'util/**/*.java',
     ]],
-    excludes = INIT_API_SRCS +
+    excludes = INIT_UTIL_SRCS +
       [SRCS + n for n in [
         'init/Browser.java',
         'util/ErrorLogFile.java',
@@ -55,7 +46,7 @@ java_library(
   srcs = INIT_BASE_SRCS,
   resources = INIT_BASE_RSRCS,
   deps = [
-    ':init-api',
+    ':init-util',
     '//gerrit-common:server',
     '//gerrit-extension-api:api',
     '//gerrit-lucene:lucene',
@@ -84,13 +75,13 @@ java_library(
   name = 'pgm',
   srcs = glob(
     ['src/main/java/**/*.java'],
-    excludes = INIT_API_SRCS + INIT_BASE_SRCS
+    excludes = INIT_UTIL_SRCS + INIT_BASE_SRCS
   ),
   resources = glob(
     ['src/main/resources/**/*'],
     excludes = INIT_BASE_RSRCS),
   deps = [
-    ':init-api',
+    ':init-util',
     ':init-base',
     '//gerrit-cache-h2:cache-h2',
     '//gerrit-common:server',
@@ -136,8 +127,8 @@ java_test(
   name = 'pgm_tests',
   srcs = glob(['src/test/java/**/*.java']),
   deps = [
-    ':init-api',
     ':init-base',
+    ':init-util',
     ':pgm',
     '//gerrit-server:server',
     '//lib:junit',

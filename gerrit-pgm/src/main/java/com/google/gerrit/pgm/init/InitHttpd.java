@@ -20,6 +20,10 @@ import static com.google.gerrit.pgm.init.InitUtil.domainOf;
 import static com.google.gerrit.pgm.init.InitUtil.isAnyAddress;
 import static com.google.gerrit.pgm.init.InitUtil.toURI;
 
+import com.google.gerrit.pgm.init.util.ConsoleUI;
+import com.google.gerrit.pgm.init.util.InitFlags;
+import com.google.gerrit.pgm.init.util.InitStep;
+import com.google.gerrit.pgm.init.util.Section;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gwtjsonrpc.server.SignedToken;
 import com.google.inject.Inject;

@@ -17,6 +17,7 @@ package com.google.gerrit.pgm.init;
 import static com.google.gerrit.pgm.init.InitUtil.username;
 
 import com.google.common.base.Strings;
+import com.google.gerrit.pgm.init.util.Section;
 
 class JDBCInitializer implements DatabaseConfigInitializer {
   @Override

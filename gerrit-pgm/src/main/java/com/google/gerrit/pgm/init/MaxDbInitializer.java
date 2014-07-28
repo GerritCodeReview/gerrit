@@ -16,6 +16,8 @@ package com.google.gerrit.pgm.init;
 
 import static com.google.gerrit.pgm.init.InitUtil.username;
 
+import com.google.gerrit.pgm.init.util.Section;
+
 public class MaxDbInitializer implements DatabaseConfigInitializer {
 
   @Override

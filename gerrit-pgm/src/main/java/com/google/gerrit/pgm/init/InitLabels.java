@@ -14,6 +14,9 @@
 
 package com.google.gerrit.pgm.init;
 
+import com.google.gerrit.pgm.init.util.AllProjectsConfig;
+import com.google.gerrit.pgm.init.util.ConsoleUI;
+import com.google.gerrit.pgm.init.util.InitStep;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 

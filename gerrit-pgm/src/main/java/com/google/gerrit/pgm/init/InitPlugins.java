@@ -16,6 +16,9 @@ package com.google.gerrit.pgm.init;
 
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.PluginData;
+import com.google.gerrit.pgm.init.util.ConsoleUI;
+import com.google.gerrit.pgm.init.util.InitFlags;
+import com.google.gerrit.pgm.init.util.InitStep;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.plugins.JarPluginProvider;
 import com.google.inject.Inject;

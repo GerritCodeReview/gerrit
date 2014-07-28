@@ -1139,6 +1139,61 @@ Administrate Server] capability.
   HTTP/1.1 204 No Content
 ----
 
+[[edit-endpoints]]
+== Change Edit Endpoints
+
+These endpoints are considered to be unstable and can be changed in
+backwards incompatible way any time without notice.
+
+[[get-edit-detail]]
+=== Get Change Edit Details
+--
+'GET /changes/link:#change-id[\{change-id\}]/edit
+--
+
+Retrieves a change edit details.
+
+.Request
+----
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/edit HTTP/1.0
+----
+
+As response an link:#edit-info[EditInfo] entity is returned that
+describes the change edit, or "`204 No Content`" when change edit doesn't
+exist for this change. Change edits are stored on special branches and there
+can be max one edit per user per change. Edits aren't tracked in the database.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "commit":{
+      "parents":[
+        {
+          "commit":"1eee2c9d8f352483781e772f35dc586a69ff5646",
+        }
+      ],
+      "author":{
+        "name":"Shawn O. Pearce",
+        "email":"sop@google.com",
+        "date":"2012-04-24 18:08:08.000000000",
+        "tz":-420
+       },
+       "committer":{
+         "name":"Shawn O. Pearce",
+         "email":"sop@google.com",
+         "date":"2012-04-24 18:08:08.000000000",
+         "tz":-420
+       },
+       "subject":"Use an EventBus to manage star icons",
+       "message":"Use an EventBus to manage star icons\n\nImage widgets that need to ..."
+    },
+  }
+----
 
 [[reviewer-endpoints]]
 == Reviewer Endpoints
@@ -3588,6 +3643,17 @@ The `WebLinkInfo` entity describes a link to an external site.
 |`name`    |The link name.
 |`url`     |The link URL.
 |======================
+
+[[edit-info]]
+=== EditInfo
+The `EditInfo` entity contains information about a change edit.
+
+[options="header",width="50%",cols="1,^1,5"]
+|===========================
+|Field Name    ||Description
+|`commit`      ||The commit of change edit as
+link:#commit-info[CommitInfo] entity.
+|===========================
 
 GERRIT
 ------

@@ -3,7 +3,7 @@ SRCS = 'src/main/java/com/google/gerrit/pgm/'
 INIT_API_SRCS = [SRCS + n for n in [
   'init/AllProjectsConfig.java',
   'init/AllProjectsNameOnInitProvider.java',
-  'util/ConsoleUI.java',
+  'init/ConsoleUI.java',
   'init/InitFlags.java',
   'init/InitStep.java',
   'init/InitStep.java',

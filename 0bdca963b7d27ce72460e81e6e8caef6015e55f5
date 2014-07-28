@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "19a1880c_6edd4f1a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/RevisionEditUtil.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-28T22:28:08Z",
+      "side": 1,
+      "message": "Nit: unnecessary \u003cp\u003e, there is no second paragraph",
+      "revId": "0bdca963b7d27ce72460e81e6e8caef6015e55f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19a1880c_4eda1324",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/RevisionEditUtil.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-28T22:28:08Z",
+      "side": 1,
+      "message": "It would be really nice if these could happen in the same BatchRefUpdate. Can be a later change though.",
+      "revId": "0bdca963b7d27ce72460e81e6e8caef6015e55f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9610e73f_dae20536",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/RevisionEditUtil.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-28T22:28:08Z",
+      "side": 1,
+      "message": "Unnecessary \u003cp\u003e",
+      "revId": "0bdca963b7d27ce72460e81e6e8caef6015e55f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19a1880c_aea577a3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/RevisionEditUtil.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-28T22:28:08Z",
+      "side": 1,
+      "message": "Useful error message when this fails?",
+      "revId": "0bdca963b7d27ce72460e81e6e8caef6015e55f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19a1880c_8eaa3b71",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/RevisionEditUtil.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-28T22:28:08Z",
+      "side": 1,
+      "message": "This throws NoSuchElementException if there are no elements; I think we should throw a friendlier error or return null or Optional.absent() or something.\n\nSimilarly, we get IAE if there are multiple elements. Each SHA-1 _should_ be mapped to at most one patch set, but I wouldn\u0027t bet my life on it. Another case where a nicer error message would be nice.\n\nAnd while we\u0027re at it, maybe sanity check that the change ID of the patch set matches?",
+      "revId": "0bdca963b7d27ce72460e81e6e8caef6015e55f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9610e73f_baef511c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/RevisionEditUtil.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-28T22:28:08Z",
+      "side": 1,
+      "message": "You shouldn\u0027t need to do a 3-way merge. The tree SHA-1 of the edit is by definition the final SHA-1 of the squashed tree.",
+      "revId": "0bdca963b7d27ce72460e81e6e8caef6015e55f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19a1880c_ee9f7f55",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/RevisionEditUtil.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-28T22:28:08Z",
+      "side": 1,
+      "message": "ChangeUtil.nextPatchSetId should do this. It tries to handle the race condition where a new patch set is added behind your back while in the middle of processing this handler. (It probably doesn\u0027t always work.)\n\nIt might also make sense to make the +1 version of that method public and use that. I think that would make PatchSetInserter fail with an OrmDuplicateKeyException if a new patch set was inserted behind your back. This might even be good, to avoid stepping on someone else\u0027s new patch set. Possibly even worth handling explicitly.",
+      "revId": "0bdca963b7d27ce72460e81e6e8caef6015e55f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19a1880c_cea443a5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/RevisionEditUtil.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-28T22:28:08Z",
+      "side": 1,
+      "message": "This may be confusing given the existing message on rebases:\n\n Uploaded patch set 2: Patch Set 1 was rebased.\n\nThe rebase message has the new patch set first and the base patch set second. So perhaps for this:\n\n Created patch set 2: Published edits on patch set 1.",
+      "revId": "0bdca963b7d27ce72460e81e6e8caef6015e55f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9610e73f_9aec8d28",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/RevisionEditUtil.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-28T22:28:08Z",
+      "side": 1,
+      "message": "This means e.g. if we support push and the same user races a push on the command line with a publish through the web UI. I can see where this race condition is rare, though. But since you already have the old SHA-1 available, might as well use it?",
+      "revId": "0bdca963b7d27ce72460e81e6e8caef6015e55f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

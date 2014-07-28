@@ -22,6 +22,30 @@
       "revId": "1ff0226f634803b4e3004bce45db1bacad4b6031",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7969a4a1_99be3bc0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/audit/GroupMemberAuditListener.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2014-07-28T09:11:56Z",
+      "side": 1,
+      "message": "Before this change, issues during writes to the audit log tables would have caused an OrmException eventually resulting in an internal server error. \n\nThis raises the question wether the DbGroupMemberAuditListener now should handle OrmException (and e.g. log the issue). Or if it should rather wrap the OrmException into a RuntimeException. The first options would be change the behaviour. The second option would be compatible with the previous behaviour.\n\nAlso, one would have to discuss if the audit service shouldn\u0027t be made more robust with respect to exceptions thrown in listeners. If an exception thrown in a listener should not block the regular execution the audit listener should catch and handle java.lang.Exception, I think.",
+      "parentUuid": "595ea0fe_d83b4db6",
+      "range": {
+        "startLine": 30,
+        "startChar": 51,
+        "endLine": 30,
+        "endChar": 62
+      },
+      "revId": "1ff0226f634803b4e3004bce45db1bacad4b6031",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

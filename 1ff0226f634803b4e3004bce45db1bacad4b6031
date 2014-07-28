@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "595ea0fe_d83b4db6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/audit/GroupMemberAuditListener.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-07-28T08:11:01Z",
+      "side": 1,
+      "message": "Looking at all *Listener.java files in our source tree I see the following two cases:\n\n* a listener is just notified that an event happened but cannot do anything to prevent/block that event. In that case the listener doesn\u0027t throw any checked exception(s). Examples: GitReferenceUpdatedListener, HeadUpdatedListener, AuditListener, ...\n\n* a listener can block the event. In this case the listener throws a checked exception which is on the same level of abstraction as the listener interface. Examples: CommitValidationListener throws CommitValidationException, MergeValidationListener throws MergeValidationException, ...\n\nSince this listener is not intended to validate/block a group membership change(s) it belongs to the first category and shouldn\u0027t throw any exception.",
+      "range": {
+        "startLine": 30,
+        "startChar": 51,
+        "endLine": 30,
+        "endChar": 62
+      },
+      "revId": "1ff0226f634803b4e3004bce45db1bacad4b6031",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

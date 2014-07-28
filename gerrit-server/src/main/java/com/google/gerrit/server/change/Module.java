@@ -101,6 +101,7 @@ public class Module extends RestApiModule {
     get(FILE_KIND, "content").to(GetContent.class);
     get(FILE_KIND, "diff").to(GetDiff.class);
 
+    child(CHANGE_KIND, "edits").to(ChangeEdits.class);
     install(new FactoryModule() {
       @Override
       protected void configure() {
@@ -109,6 +110,7 @@ public class Module extends RestApiModule {
         factory(EmailReviewComments.Factory.class);
         factory(ChangeInserter.Factory.class);
         factory(PatchSetInserter.Factory.class);
+        factory(ListChangeEdits.Factory.class);
       }
     });
   }

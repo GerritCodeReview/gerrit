@@ -15,7 +15,6 @@
 package com.google.gerrit.pgm.init;
 
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.pgm.util.ConsoleUI;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;

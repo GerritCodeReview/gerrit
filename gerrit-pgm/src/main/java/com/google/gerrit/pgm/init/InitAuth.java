@@ -16,7 +16,6 @@ package com.google.gerrit.pgm.init;
 
 import static com.google.gerrit.pgm.init.InitUtil.dnOf;
 
-import com.google.gerrit.pgm.util.ConsoleUI;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gwtjsonrpc.server.SignedToken;
 import com.google.inject.Inject;

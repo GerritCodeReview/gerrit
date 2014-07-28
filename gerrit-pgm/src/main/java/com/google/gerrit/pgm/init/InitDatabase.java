@@ -18,7 +18,6 @@ import static com.google.inject.Stage.PRODUCTION;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
-import com.google.gerrit.pgm.util.ConsoleUI;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Binding;
 import com.google.inject.Guice;

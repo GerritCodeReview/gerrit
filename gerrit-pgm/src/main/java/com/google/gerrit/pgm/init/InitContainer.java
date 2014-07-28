@@ -18,7 +18,6 @@ import static com.google.gerrit.pgm.init.InitUtil.die;
 import static com.google.gerrit.pgm.init.InitUtil.username;
 
 import com.google.gerrit.launcher.GerritLauncher;
-import com.google.gerrit.pgm.util.ConsoleUI;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;

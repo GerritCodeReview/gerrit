@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7969a4a1_b9c3ff40",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/RevisionEditUtil.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-28T09:06:02Z",
+      "side": 1,
+      "message": "Why to do it with BatchRefUpdate and ReceiveCommand? Why not something like:\n\n  private void deleteRef(RevisionEdit edit) throws IOException {\n    Repository repo \u003d\n        repoManager.openRepository(edit.getChange().getProject());\n    try {\n      String refName \u003d edit.getRefName();\n      RefUpdate ru \u003d repo.updateRef(refName, true);\n      ru.setForceUpdate(true);\n      RefUpdate.Result result \u003d ru.delete();\n      switch (result) {\n        case FORCED:\n        case NEW:\n        case NO_CHANGE:\n          break;\n        default:\n          throw new IOException(String.format(\"Failed to delete ref %s: %s\",\n                refName, result));\n      }\n    } finally {\n      repo.close();\n    }\n  }",
+      "range": {
+        "startLine": 223,
+        "startChar": 8,
+        "endLine": 225,
+        "endChar": 53
+      },
+      "revId": "e91558e79fcf71243da2b178b4573104e267b9f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

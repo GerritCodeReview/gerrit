@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.edit;
 
+import static com.google.common.base.Preconditions.checkState;
+
 import com.google.common.base.Optional;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -191,6 +193,61 @@ public class RevisionEditUtil {
           .byRevision(parentRev).toList());
     } catch (OrmException e) {
       throw new IOException(e);
+    }
+  }
+
+  /**
+   * Retrieve git commit for revision edit.
+   * @param edit to retrieve commit for
+   * @return RevCommit
+   * @throws NoSuchChangeException
+   * @throws IOException
+   */
+  public RevCommit getCommit(RevisionEdit edit) throws NoSuchChangeException,
+      IOException {
+    Change change = edit.getChange();
+    Repository repo = gitManager.openRepository(change.getProject());
+    try {
+      RevWalk rw = new RevWalk(repo);
+      try {
+        RevCommit editCommit = rw.parseCommit(edit.getRef().getObjectId());
+        if (editCommit == null) {
+          throw new NoSuchChangeException(change.getId());
+        }
+        return editCommit;
+      } finally {
+        rw.release();
+      }
+    } finally {
+      repo.close();
+    }
+  }
+
+  /**
+   * Retrieve parent git commit for revision edit.
+   * @param edit to retrieve parent commit for
+   * @return RevCommit
+   * @throws NoSuchChangeException
+   * @throws IOException
+   */
+  public RevCommit getParentCommit(RevisionEdit edit)
+      throws NoSuchChangeException, IOException {
+    Change change = edit.getChange();
+    Repository repo = gitManager.openRepository(change.getProject());
+    try {
+      RevWalk rw = new RevWalk(repo);
+      try {
+        RevCommit editCommit = rw.parseCommit(edit.getRef().getObjectId());
+        if (editCommit == null) {
+          throw new NoSuchChangeException(change.getId());
+        }
+        checkState(editCommit.getParentCount() == 1);
+        return rw.parseCommit(editCommit.getParent(0));
+      } finally {
+        rw.release();
+      }
+    } finally {
+      repo.close();
     }
   }
 

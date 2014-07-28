@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7969a4a1_3901afd5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/RevisionEditUtil.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-28T08:39:39Z",
+      "side": 1,
+      "message": "This method is way to big.  Split it in three parts: squashing edit into its parent, handle new patch set creation, removing edit ref.",
+      "range": {
+        "startLine": 134,
+        "startChar": 2,
+        "endLine": 199,
+        "endChar": 3
+      },
+      "revId": "c4ced2aec361f0131463fef5ba5da8d8e15fbaa1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "595ea0fe_b8edb9db",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/RevisionEditUtil.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-28T08:39:39Z",
+      "side": 1,
+      "message": "Import static.",
+      "range": {
+        "startLine": 228,
+        "startChar": 4,
+        "endLine": 228,
+        "endChar": 28
+      },
+      "revId": "c4ced2aec361f0131463fef5ba5da8d8e15fbaa1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7969a4a1_59fe637c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/RevisionEditUtil.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-28T08:39:39Z",
+      "side": 1,
+      "message": "editCommit.getAuthorIdent()",
+      "range": {
+        "startLine": 247,
+        "startChar": 29,
+        "endLine": 247,
+        "endChar": 36
+      },
+      "revId": "c4ced2aec361f0131463fef5ba5da8d8e15fbaa1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7969a4a1_79fb278b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/RevisionEditUtil.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-28T08:39:39Z",
+      "side": 1,
+      "message": "Use edit\u0027s commit message? In case we add support to modify commit message in revision edit?",
+      "range": {
+        "startLine": 248,
+        "startChar": 27,
+        "endLine": 248,
+        "endChar": 52
+      },
+      "revId": "c4ced2aec361f0131463fef5ba5da8d8e15fbaa1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -204,6 +204,15 @@ public class ChangeInfo extends JavaScriptObject {
     }
   }
 
+  public static class EditInfo extends JavaScriptObject {
+    public final native String name() /*-{ return this.name; }-*/;
+    public final native CommitInfo commit() /*-{ return this.commit; }-*/;
+    public final native void set_commit(CommitInfo c) /*-{ this.commit = c; }-*/;
+
+    protected EditInfo() {
+    }
+  }
+
   public static class RevisionInfo extends JavaScriptObject {
     public final native int _number() /*-{ return this._number; }-*/;
     public final native String name() /*-{ return this.name; }-*/;

@@ -27,9 +27,10 @@ import com.google.common.base.Optional;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope;
-import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.RestSession;
+import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.Change;
@@ -45,6 +46,7 @@ import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.util.Providers;
 
+import org.apache.http.HttpStatus;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -56,10 +58,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.Date;
 import java.util.concurrent.atomic.AtomicLong;
 
-@NoHttpd
 public class ChangeEditIT extends AbstractDaemonTest {
 
   private final static String FILE_NAME = "foo";
@@ -208,6 +210,34 @@ public class ChangeEditIT extends AbstractDaemonTest {
     editUtil.delete(edit.get());
     edit = editUtil.byChange(change);
     assertFalse(edit.isPresent());
+  }
+
+  @Test
+  public void retrieveEdit() throws Exception {
+    RestResponse r = session.get(url());
+    assertEquals(HttpStatus.SC_NOT_FOUND, r.getStatusCode());
+    assertEquals(RefUpdate.Result.NEW,
+        modifier.createEdit(
+            change,
+            ps));
+    Optional<ChangeEdit> edit = editUtil.byChange(change);
+    assertEquals(RefUpdate.Result.FORCED,
+        modifier.modifyFile(
+            edit.get(),
+            FILE_NAME,
+            CONTENT_NEW));
+    edit = editUtil.byChange(change);
+    r = session.get(url());
+    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    EditInfo info = toEditInfo(r);
+    assertEquals(edit.get().getRevision().get(), info.commit.commit);
+    assertEquals(1, info.commit.parents.size());
+
+    edit = editUtil.byChange(change);
+    editUtil.delete(edit.get());
+
+    r = session.get(url());
+    assertEquals(HttpStatus.SC_NOT_FOUND, r.getStatusCode());
   }
 
   @Test
@@ -408,5 +438,16 @@ public class ChangeEditIT extends AbstractDaemonTest {
     ByteArrayOutputStream os = new ByteArrayOutputStream();
     content.writeTo(os);
     return os.toByteArray();
+  }
+
+  private String url() {
+    return "/changes/"
+        + change.getChangeId()
+        + "/edit";
+  }
+
+  private static EditInfo toEditInfo(RestResponse r)
+      throws IOException {
+    return newGson().fromJson(r.getReader(), EditInfo.class);
   }
 }

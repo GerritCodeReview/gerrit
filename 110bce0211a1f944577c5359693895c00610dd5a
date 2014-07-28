@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "595ea0fe_f8a491a4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/DbGroupMemberAuditListener.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2014-07-28T13:59:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7969a4a1_d99fd355",
+      "range": {
+        "startLine": 20,
+        "startChar": 41,
+        "endLine": 20,
+        "endChar": 51
+      },
+      "revId": "110bce0211a1f944577c5359693895c00610dd5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "595ea0fe_b8aa1971",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/DbGroupMemberAuditListener.java",
         "patchSetId": 12
@@ -36,6 +60,30 @@
       "writtenOn": "2014-07-28T13:26:51Z",
       "side": 1,
       "message": "Too much code duplication. This block is copy/pasted 3 times in this file with different wording. Even \"group event performed by user \" suffix in the message is always the same. This should be extracted and reused.",
+      "range": {
+        "startLine": 98,
+        "startChar": 6,
+        "endLine": 104,
+        "endChar": 39
+      },
+      "revId": "110bce0211a1f944577c5359693895c00610dd5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7969a4a1_19ba2bc2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/DbGroupMemberAuditListener.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2014-07-28T13:59:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "595ea0fe_b8aa1971",
       "range": {
         "startLine": 98,
         "startChar": 6,

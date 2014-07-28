@@ -101,6 +101,8 @@ public class Module extends RestApiModule {
     get(FILE_KIND, "content").to(GetContent.class);
     get(FILE_KIND, "diff").to(GetDiff.class);
 
+    child(CHANGE_KIND, "edit").to(ChangeEdits.class);
+
     install(new FactoryModule() {
       @Override
       protected void configure() {

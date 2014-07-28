@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "595ea0fe_58dd7d19",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-28T13:01:22Z",
+      "side": 1,
+      "message": "Wrap this line. Max 72 char.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 91
+      },
+      "revId": "985c6ec04a3705c76ac856e3ee5b160289ca44d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7969a4a1_79da4724",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/TagSet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-28T13:01:22Z",
+      "side": 1,
+      "message": "Nit: missing space.",
+      "range": {
+        "startLine": 353,
+        "startChar": 6,
+        "endLine": 353,
+        "endChar": 9
+      },
+      "revId": "985c6ec04a3705c76ac856e3ee5b160289ca44d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "595ea0fe_38d0c902",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/TagSet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-28T13:01:22Z",
+      "side": 1,
+      "message": "We always use curly brackets, even for if statements with single statement.",
+      "range": {
+        "startLine": 354,
+        "startChar": 8,
+        "endLine": 354,
+        "endChar": 20
+      },
+      "revId": "985c6ec04a3705c76ac856e3ee5b160289ca44d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

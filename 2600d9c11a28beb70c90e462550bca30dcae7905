@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "19a1880c_4ee4d3ee",
+        "filename": "gerrit-pgm/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-28T17:17:20Z",
+      "side": 1,
+      "message": "Yeah, I was trying to make this a build-only change, but it would certainly make the exclude situation simpler, so probably worth doing before this change.",
+      "parentUuid": "7969a4a1_f9f737a7",
+      "range": {
+        "startLine": 13,
+        "startChar": 2,
+        "endLine": 14,
+        "endChar": 24
+      },
+      "revId": "2600d9c11a28beb70c90e462550bca30dcae7905",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7969a4a1_19ddcb2c",
         "filename": "gerrit-pgm/BUCK",
         "patchSetId": 1
@@ -140,6 +164,30 @@
     },
     {
       "key": {
+        "uuid": "19a1880c_6ee70ff5",
+        "filename": "gerrit-pgm/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-28T17:17:20Z",
+      "side": 1,
+      "message": "The rule of thumb I was using in that review was: does the volume of no-op changes make it harder for the reviewer to see/understand the behavior changes? I don\u0027t think it\u0027s happened here, but you\u0027re the reviewer in this case, so let me know.\n\n(FWIW within Google we\u0027ve moved to a policy of auto-formatting all BUILD files to avoid wasting reviewer time on it.)",
+      "parentUuid": "7969a4a1_59e743f4",
+      "range": {
+        "startLine": 89,
+        "startChar": 0,
+        "endLine": 94,
+        "endChar": 22
+      },
+      "revId": "2600d9c11a28beb70c90e462550bca30dcae7905",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7969a4a1_990f1b07",
         "filename": "gerrit-pgm/BUCK",
         "patchSetId": 1
@@ -174,6 +222,30 @@
       "writtenOn": "2014-07-28T12:20:02Z",
       "side": 1,
       "message": "[...] \"except Browser.java that was moved to API scope in this chnage and thus excluded now\" [...]\n\nThis is nonsense. What i meant is: \"except util/ConsoleUI.java that is contained in INIT_API_SRCS and thus was excluded here\".",
+      "parentUuid": "7969a4a1_990f1b07",
+      "range": {
+        "startLine": 106,
+        "startChar": 4,
+        "endLine": 107,
+        "endChar": 45
+      },
+      "revId": "2600d9c11a28beb70c90e462550bca30dcae7905",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19a1880c_ae0f3706",
+        "filename": "gerrit-pgm/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-28T17:17:20Z",
+      "side": 1,
+      "message": "What this is actually telling us is that the stuff in pgm shouldn\u0027t be in the top level gerrit.pgm package. Currently GerritLauncher actually depends on these classes living in that location, but that\u0027s easy enough to change.",
       "parentUuid": "7969a4a1_990f1b07",
       "range": {
         "startLine": 106,

@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "9610e73f_5a003525",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/RevisionEditUtil.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-28T23:29:24Z",
+      "side": 1,
+      "message": "I think those are all the same as \"manipulate.\" Anybody reading the javadoc probably also has access to the list of methods so they know what is the set of possible manipulations.\n\nFrankly I\u0027m not a huge fan of one-line content-free javadocs on public classes, but then again the Google Java Style Guide advocates them, so I don\u0027t generally object.",
+      "parentUuid": "7969a4a1_99a2bb81",
+      "revId": "d3010d3769e4347bcd073088212ca5e37da2fd74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "19a1880c_2ed34712",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/RevisionEditUtil.java",
         "patchSetId": 13

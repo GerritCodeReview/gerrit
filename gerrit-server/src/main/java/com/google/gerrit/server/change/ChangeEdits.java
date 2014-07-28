@@ -25,10 +25,13 @@ import com.google.inject.Singleton;
 class ChangeEdits implements
     ChildCollection<ChangeResource, ChangeEditResource> {
   private final DynamicMap<RestView<ChangeEditResource>> views;
+  private final ListChangeEdits.Factory listFactory;
 
   @Inject
-  ChangeEdits(DynamicMap<RestView<ChangeEditResource>> views) {
+  ChangeEdits(DynamicMap<RestView<ChangeEditResource>> views,
+      ListChangeEdits.Factory listFactory) {
     this.views = views;
+    this.listFactory = listFactory;
   }
 
   @Override
@@ -38,7 +41,7 @@ class ChangeEdits implements
 
   @Override
   public RestView<ChangeResource> list() {
-    throw new IllegalStateException("not yet implemented");
+    return listFactory.create();
   }
 
   @Override

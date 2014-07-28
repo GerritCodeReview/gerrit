@@ -14,7 +14,7 @@
 
 package com.google.gerrit.httpd;
 
-import com.google.gerrit.pgm.BaseInit;
+import com.google.gerrit.pgm.init.BaseInit;
 import com.google.gerrit.pgm.init.PluginsDistribution;
 
 import org.slf4j.Logger;

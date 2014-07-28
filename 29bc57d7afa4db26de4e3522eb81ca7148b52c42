@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "19a1880c_2eba27c2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/RevisionEdit.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-28T23:10:18Z",
+      "side": 1,
+      "message": "Sure, but either way you have to look up the ref at some point, whether here or in the caller.",
+      "parentUuid": "595ea0fe_98739568",
+      "revId": "29bc57d7afa4db26de4e3522eb81ca7148b52c42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "19a1880c_eec81f5f",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/edit/RevisionEditTest.java",
         "patchSetId": 12

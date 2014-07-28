@@ -46,6 +46,30 @@
       "revId": "876254f0dd882d70b4714e46c317d885af1fbc3e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7969a4a1_397e0f35",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/DbGroupMemberAuditListener.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-07-28T15:42:15Z",
+      "side": 1,
+      "message": "all 3 log methods now do make use of the instance variables: accountCache, groupCache, groupBackend",
+      "parentUuid": "7969a4a1_f99bb760",
+      "range": {
+        "startLine": 190,
+        "startChar": 2,
+        "endLine": 190,
+        "endChar": 9
+      },
+      "revId": "876254f0dd882d70b4714e46c317d885af1fbc3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

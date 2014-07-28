@@ -8,7 +8,7 @@ java_library(
     '//gerrit-launcher:launcher',
     '//gerrit-lucene:lucene',
     '//gerrit-httpd:httpd',
-    '//gerrit-pgm:init-base',
+    '//gerrit-pgm:init',
     '//gerrit-pgm:pgm',
     '//gerrit-reviewdb:server',
     '//gerrit-server:server',

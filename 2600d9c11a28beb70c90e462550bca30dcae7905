@@ -163,6 +163,30 @@
     },
     {
       "key": {
+        "uuid": "7969a4a1_59dd8319",
+        "filename": "gerrit-pgm/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-28T12:20:02Z",
+      "side": 1,
+      "message": "[...] \"except Browser.java that was moved to API scope in this chnage and thus excluded now\" [...]\n\nThis is nonsense. What i meant is: \"except util/ConsoleUI.java that is contained in INIT_API_SRCS and thus was excluded here\".",
+      "parentUuid": "7969a4a1_990f1b07",
+      "range": {
+        "startLine": 106,
+        "startChar": 4,
+        "endLine": 107,
+        "endChar": 45
+      },
+      "revId": "2600d9c11a28beb70c90e462550bca30dcae7905",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "595ea0fe_b81f794f",
         "filename": "gerrit-pgm/BUCK",
         "patchSetId": 1

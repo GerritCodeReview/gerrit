@@ -353,7 +353,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       throw new OrmException("could not load PatchList for this patchset", e);
     }
     RevId patchSetCommit = new RevId(ObjectId.toString(patchList.getNewId()));
-    RevId baseCommit = new RevId(ObjectId.toString(patchList.getOldId()));;
+    RevId baseCommit = new RevId(ObjectId.toString(patchList.getOldId()));
 
     for (Map.Entry<String, List<CommentInput>> ent : in.entrySet()) {
       String path = ent.getKey();

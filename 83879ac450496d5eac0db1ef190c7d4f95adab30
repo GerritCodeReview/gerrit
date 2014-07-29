@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "19a1880c_2eb7c7c1",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/BatchProgramModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-29T21:36:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "595ea0fe_f8cd716c",
+      "range": {
+        "startLine": 63,
+        "startChar": 12,
+        "endLine": 63,
+        "endChar": 26
+      },
+      "revId": "83879ac450496d5eac0db1ef190c7d4f95adab30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "595ea0fe_b8c3f940",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/BatchProgramModule.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2014-07-28T12:49:51Z",
       "side": 1,
       "message": "Nit: Non consistent spaces: here and on line 68.",
+      "range": {
+        "startLine": 76,
+        "startChar": 18,
+        "endLine": 76,
+        "endChar": 53
+      },
+      "revId": "83879ac450496d5eac0db1ef190c7d4f95adab30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19a1880c_0eb48bb9",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/BatchProgramModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-29T21:36:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "595ea0fe_b8c3f940",
       "range": {
         "startLine": 76,
         "startChar": 18,

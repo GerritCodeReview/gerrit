@@ -19,8 +19,15 @@
 
 unset GREP_OPTIONS
 
+COMMENT_CHAR="`git config --get core.commentchar`"
 CHANGE_ID_AFTER="Bug|Issue"
 MSG="$1"
+
+# Check for, and set default comment char
+if test -z "$COMMENT_CHAR"
+then
+	COMMENT_CHAR="#"
+fi
 
 # Check for, and add if missing, a unique Change-Id
 #
@@ -31,7 +38,7 @@ add_ChangeId() {
 			q
 		}
 		/^Signed-off-by:/d
-		/^#/d
+		/^\\'"$COMMENT_CHAR"'/d
 	' "$MSG" | git stripspace`
 	if test -z "$clean_message"
 	then
@@ -75,8 +82,9 @@ add_ChangeId() {
 		blankLines = 0
 	}
 
-	# Skip lines starting with "#" without any spaces before it.
-	/^#/ { next }
+	# Skip comments aka lines starting with core.commentchar without any
+	# spaces before it.
+	/^\\'"$COMMENT_CHAR"'/ { next }
 
 	# Skip the line starting with the diff command and everything after it,
 	# up to the end of the file, assuming it is only patch data.

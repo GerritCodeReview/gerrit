@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7969a4a1_19deabf1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 482,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-29T07:22:35Z",
+      "side": 1,
+      "message": "Wondering about the order of tests in this condition. Alphabetical? First pointer not nul lcheck and the all collections?",
+      "range": {
+        "startLine": 475,
+        "startChar": 11,
+        "endLine": 482,
+        "endChar": 33
+      },
+      "revId": "309fbb4d1e32b0e7760aa2cf7008bbe0bed5a5f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "595ea0fe_58d81d03",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 633,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-29T07:22:35Z",
+      "side": 1,
+      "message": "Splitting this unit test in two better explains the intent here and is easier to follow:\n\n  @Test\n  public void emptyChangeUpdate() throws Exception {\n    Change c \u003d newChange();\n    ChangeUpdate update \u003d newUpdate(c, changeOwner);\n    update.commit();\n    assertNull(update.getRevision());\n  }\n\n  @Test\n  public void emptyExceptSubject() throws Exception {\n    Change c \u003d newChange();\n    ChangeUpdate update \u003d newUpdate(c, changeOwner);\n    update.setSubject(\"Create change\");\n    update.commit();\n    assertNotNull(update.getRevision());\n  }",
+      "range": {
+        "startLine": 625,
+        "startChar": 4,
+        "endLine": 633,
+        "endChar": 40
+      },
+      "revId": "309fbb4d1e32b0e7760aa2cf7008bbe0bed5a5f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

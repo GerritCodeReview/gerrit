@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7969a4a1_b91cdf04",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/RevisionEditIT.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-29T10:22:56Z",
+      "side": 1,
+      "message": "private",
+      "revId": "bd7635183a163212462ef9e83eaf7e69a867b9f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "595ea0fe_180ce5cd",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/RevisionEditIT.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-29T10:22:56Z",
+      "side": 1,
+      "message": "Adapt this and all methods below to changed RevisionEditUtil.byChange() method returning Optional:\n\n  Optional\u003cRevisionEdit\u003e edit \u003d editUtil.byChange(change);\n  assertTrue(edit.isPresent());\n  assertEquals(RefUpdate.Result.FORCED,\n        modifier.modifyFile(\n            edit.get(),\n            FILE_NAME,\n            Constants.encode(CONTENT_NEW)));\n  edit \u003d editUtil.byChange(change);\n  editUtil.delete(edit.get());",
+      "range": {
+        "startLine": 118,
+        "startChar": 4,
+        "endLine": 125,
+        "endChar": 53
+      },
+      "revId": "bd7635183a163212462ef9e83eaf7e69a867b9f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

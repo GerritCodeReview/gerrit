@@ -107,6 +107,29 @@
     },
     {
       "key": {
+        "uuid": "595ea0fe_58065dad",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-29T11:38:59Z",
+      "side": 1,
+      "message": "We normally don\u0027t mess around with null values. Either we have an error case here, in which case we should fail earlier and loud and probably log and throw not found exception, or the value may be really absent then we should use Optional\u003cT\u003e to make it transparent to the caller that the return value may be absent. See also this link [1] for more information why returning null is a bad idea [1]. Also note that ReviewDb implementation never returns null for get(key) method for all entities.\n\n [1] https://code.google.com/p/guava-libraries/wiki/UsingAndAvoidingNullExplained",
+      "range": {
+        "startLine": 82,
+        "startChar": 11,
+        "endLine": 82,
+        "endChar": 15
+      },
+      "revId": "a3a39b9392cabb94bbcd7d92df179cb651c0c785",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d9aa90eb_6cc39b6d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
         "patchSetId": 3

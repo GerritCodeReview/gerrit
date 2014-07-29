@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "595ea0fe_d850ad98",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/RevisionEditUtil.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-29T18:32:27Z",
+      "side": 1,
+      "message": "Letting this as is then.",
+      "parentUuid": "9610e73f_5a003525",
+      "revId": "d3010d3769e4347bcd073088212ca5e37da2fd74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "19a1880c_2ed34712",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/RevisionEditUtil.java",
         "patchSetId": 13
@@ -101,6 +119,30 @@
       "writtenOn": "2014-07-28T22:09:13Z",
       "side": 1,
       "message": "This is what Optional is for.",
+      "range": {
+        "startLine": 55,
+        "startChar": 26,
+        "endLine": 56,
+        "endChar": 17
+      },
+      "revId": "d3010d3769e4347bcd073088212ca5e37da2fd74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "595ea0fe_b84bf9e9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/RevisionEditUtil.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-29T18:32:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19a1880c_aebe17bf",
       "range": {
         "startLine": 55,
         "startChar": 26,

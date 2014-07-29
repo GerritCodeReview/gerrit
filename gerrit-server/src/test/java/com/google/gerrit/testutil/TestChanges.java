@@ -37,13 +37,22 @@ import com.google.inject.Injector;
 
 import org.easymock.EasyMock;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 /**
  * Utility functions to create and manipulate Change, ChangeUpdate, and
  * ChangeControl objects for testing.
  */
 public class TestChanges {
+  private static final AtomicInteger nextChangeId = new AtomicInteger(1);
+
   public static Change newChange(Project.NameKey project, IdentifiedUser user) {
-    Change.Id changeId = new Change.Id(1);
+    return newChange(project, user, nextChangeId.getAndIncrement());
+  }
+
+  public static Change newChange(Project.NameKey project, IdentifiedUser user,
+      int id) {
+    Change.Id changeId = new Change.Id(id);
     Change c = new Change(
         new Change.Key("Iabcd1234abcd1234abcd1234abcd1234abcd1234"),
         changeId,

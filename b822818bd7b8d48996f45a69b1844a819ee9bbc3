@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "19a1880c_0e65ab94",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-29T21:33:02Z",
+      "side": 1,
+      "message": "Yes, either of these is acceptable:\n\n This is my friend, David Ostrovsky.\n This is my friend David Ostrovsky.",
+      "parentUuid": "595ea0fe_18e5c5ad",
+      "range": {
+        "startLine": 7,
+        "startChar": 39,
+        "endLine": 7,
+        "endChar": 40
+      },
+      "revId": "b822818bd7b8d48996f45a69b1844a819ee9bbc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "595ea0fe_38e289a6",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "19a1880c_6e626f8e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-29T21:33:02Z",
+      "side": 1,
+      "message": "I suppose we do have a bunch of packages already named api. Done.",
+      "parentUuid": "595ea0fe_38e289a6",
+      "range": {
+        "startLine": 10,
+        "startChar": 50,
+        "endLine": 12,
+        "endChar": 14
+      },
+      "revId": "b822818bd7b8d48996f45a69b1844a819ee9bbc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7969a4a1_79bec79b",
         "filename": "gerrit-pgm/BUCK",
         "patchSetId": 1
@@ -59,6 +107,30 @@
       "writtenOn": "2014-07-29T06:48:26Z",
       "side": 1,
       "message": "You\u0027ve reduced wildcard pattern to only one init package on line 29. INIT_UTIL_SRCS var is defined as glob(SRCS + \u0027/init/util/*.java\u0027). So now the intersection of theses file sets is empty and there is nothing here to exclude. Note that this can be easily verified with Buck\u0027s neat targets command:\n\n  buck targets --json gerrit-pgm:init-base\n\nExecute it, note the \"srcs\" list, remove no-op \"excludes \u003d INIT_UTIL_SRCS\" from line 32 above and repeat the command above to verify that the source list is still the same.",
+      "range": {
+        "startLine": 32,
+        "startChar": 15,
+        "endLine": 32,
+        "endChar": 29
+      },
+      "revId": "b822818bd7b8d48996f45a69b1844a819ee9bbc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9610e73f_1a487d71",
+        "filename": "gerrit-pgm/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-29T21:33:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7969a4a1_79bec79b",
       "range": {
         "startLine": 32,
         "startChar": 15,

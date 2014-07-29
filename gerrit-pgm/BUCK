@@ -38,22 +38,22 @@ java_library(
     '//gerrit-reviewdb:server',
     '//gerrit-server:server',
     '//gerrit-util-cli:cli',
-    '//lib/commons:dbcp',
-    '//lib/guice:guice',
-    '//lib/guice:guice-assistedinject',
-    '//lib/jgit:jgit',
-    '//lib/mina:sshd',
     '//lib:args4j',
     '//lib:guava',
     '//lib:gwtjsonrpc',
     '//lib:gwtorm',
     '//lib:h2',
+    '//lib/commons:dbcp',
+    '//lib/guice:guice',
+    '//lib/guice:guice-assistedinject',
+    '//lib/jgit:jgit',
+    '//lib/mina:sshd',
     '//lib/log:api',
   ],
   provided_deps = ['//gerrit-launcher:launcher'],
   visibility = [
-    '//gerrit-war:',
     '//gerrit-acceptance-tests/...',
+    '//gerrit-war:',
   ],
 )
 
@@ -75,8 +75,8 @@ java_library(
     '//lib/log:log4j',
   ],
   visibility = [
-    '//gerrit-war:',
     '//gerrit-acceptance-tests/...',
+    '//gerrit-war:',
   ],
 )
 

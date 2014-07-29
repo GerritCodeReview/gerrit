@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "19a1880c_6ed8af03",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MetaDataUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-29T23:32:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7969a4a1_99f0fb75",
+      "range": {
+        "startLine": 107,
+        "startChar": 2,
+        "endLine": 107,
+        "endChar": 31
+      },
+      "revId": "d3d4a7666e08b8d6cb8482007868d3265c35f43f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "595ea0fe_b8f5b964",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MetaDataUpdate.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2014-07-29T09:34:25Z",
       "side": 1,
       "message": "Either we have MetaDataUpdate that is batch-oriented or we don\u0027t. It doesn\u0027t make any sense to change the batch behavior for the same instance after it was created. Ever. So, drop that setter and add second assisted inject constructor that accepts BatchRefUpdate parameter instead (and make the batch field final as pointed out above).",
+      "range": {
+        "startLine": 133,
+        "startChar": 2,
+        "endLine": 144,
+        "endChar": 3
+      },
+      "revId": "d3d4a7666e08b8d6cb8482007868d3265c35f43f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9610e73f_7a5f7921",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MetaDataUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-29T23:32:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "595ea0fe_b8f5b964",
       "range": {
         "startLine": 133,
         "startChar": 2,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "9610e73f_5a64b5ed",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/AbstractChangeUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-29T23:32:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "595ea0fe_98f0f575",
+      "range": {
+        "startLine": 111,
+        "startChar": 6,
+        "endLine": 112,
+        "endChar": 60
+      },
+      "revId": "d3d4a7666e08b8d6cb8482007868d3265c35f43f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7969a4a1_d9fa7353",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/AbstractChangeUpdate.java",
         "patchSetId": 1
@@ -82,6 +154,24 @@
       "writtenOn": "2014-07-29T09:34:25Z",
       "side": 1,
       "message": "No behavioral change after instance creation. Remove it.",
+      "revId": "d3d4a7666e08b8d6cb8482007868d3265c35f43f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9610e73f_3a59013a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/AbstractChangeUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-29T23:32:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7969a4a1_d9fa7353",
       "revId": "d3d4a7666e08b8d6cb8482007868d3265c35f43f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

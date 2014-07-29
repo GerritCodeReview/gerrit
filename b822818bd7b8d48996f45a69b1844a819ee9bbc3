@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "595ea0fe_18e5c5ad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-29T09:52:07Z",
+      "side": 1,
+      "message": "Was this comma intentional?",
+      "range": {
+        "startLine": 7,
+        "startChar": 39,
+        "endLine": 7,
+        "endChar": 40
+      },
+      "revId": "b822818bd7b8d48996f45a69b1844a819ee9bbc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "595ea0fe_38e289a6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-29T09:52:07Z",
+      "side": 1,
+      "message": "That would be the case, if you would name the package init.api.",
+      "range": {
+        "startLine": 10,
+        "startChar": 50,
+        "endLine": 12,
+        "endChar": 14
+      },
+      "revId": "b822818bd7b8d48996f45a69b1844a819ee9bbc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7969a4a1_79bec79b",
         "filename": "gerrit-pgm/BUCK",
         "patchSetId": 1

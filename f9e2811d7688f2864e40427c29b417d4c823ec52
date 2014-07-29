@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7969a4a1_190cebcd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ListRevisionEdits.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-29T11:17:47Z",
+      "side": 1,
+      "message": "Should be adjusted to Optional\u003cRevisionEdit\u003e return value.",
+      "range": {
+        "startLine": 78,
+        "startChar": 4,
+        "endLine": 81,
+        "endChar": 5
+      },
+      "revId": "f9e2811d7688f2864e40427c29b417d4c823ec52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

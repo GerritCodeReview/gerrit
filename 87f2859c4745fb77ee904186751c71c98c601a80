@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "595ea0fe_f8b1f1cd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-29T06:49:56Z",
+      "side": 1,
+      "message": "Moving this change higher in the series, direct after \"pgm: Move BaseInit to init subpackage\" change feels more appropriate and is easier to follow.",
+      "revId": "87f2859c4745fb77ee904186751c71c98c601a80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

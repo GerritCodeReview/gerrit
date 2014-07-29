@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "595ea0fe_984635e1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-29T12:26:34Z",
+      "side": 1,
+      "message": "You are returning unfiltered list that you\u0027ve converted from unfiltered result set that is passed in as input parameter to this method. I don\u0027t think this is what you want. What you probably want is convert the Iterables\u003cPatchLineComment\u003e value that is returned from filter method to list and return it [1], e. g.:\n\n  return Lists.newArrayList(Iterables.filter([...]));\n\nWhat we are learning from this is that we should always require unit test with high code coverage rate (ideally 100%) for every line of new code.\n\n [1] http://docs.guava-libraries.googlecode.com/git/javadoc/com/google/common/collect/Iterables.html#filter(java.lang.Iterable,%20com.google.common.base.Predicate)",
+      "range": {
+        "startLine": 99,
+        "startChar": 4,
+        "endLine": 99,
+        "endChar": 29
+      },
+      "revId": "4e827080279f9f449591469cf1a5c43f18b3880d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

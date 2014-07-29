@@ -16,6 +16,24 @@
       "revId": "4a9502b71d2e94fe1dfd47fd3e43a42e35b66c0b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9610e73f_ba3631fa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-29T21:33:13Z",
+      "side": 1,
+      "message": "Sure, I figured mentioning it on the next line was enough, but there\u0027s room so why not.",
+      "parentUuid": "595ea0fe_d8ac2d77",
+      "revId": "4a9502b71d2e94fe1dfd47fd3e43a42e35b66c0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

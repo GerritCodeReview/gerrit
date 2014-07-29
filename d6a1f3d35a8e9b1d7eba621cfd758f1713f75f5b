@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7969a4a1_b9ce9f40",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-29T06:49:47Z",
+      "side": 1,
+      "message": "Wrong change order. This change should come after \"libraries.config move to init sub-package\" change.",
+      "revId": "d6a1f3d35a8e9b1d7eba621cfd758f1713f75f5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "595ea0fe_18b785c1",
+        "filename": "gerrit-pgm/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-29T06:49:47Z",
+      "side": 1,
+      "message": "[Optional]: Extract jetty utility and python shell interpreter classes in its own jetty and python-shell rules/artifacts. Then this series would reach really nice target: leave only root level classes in pgm-lib artifact. After doing that this pattern can be then rewritten as:\n\n  srcs \u003d glob(SRCS + \u0027*.java\u0027)\n\nThis can be done later.",
+      "range": {
+        "startLine": 92,
+        "startChar": 4,
+        "endLine": 96,
+        "endChar": 7
+      },
+      "revId": "d6a1f3d35a8e9b1d7eba621cfd758f1713f75f5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

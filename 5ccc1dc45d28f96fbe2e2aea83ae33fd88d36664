@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7969a4a1_79ec0798",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/RevisionEditModifier.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-29T10:15:49Z",
+      "side": 1,
+      "message": "Nit: Add space between \")\" and c.",
+      "range": {
+        "startLine": 107,
+        "startChar": 39,
+        "endLine": 107,
+        "endChar": 40
+      },
+      "revId": "5ccc1dc45d28f96fbe2e2aea83ae33fd88d36664",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "595ea0fe_d8118deb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/RevisionEditModifier.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-29T10:15:49Z",
+      "side": 1,
+      "message": "This seems to be a left over from previous version, where ps can be optional. Remove it.",
+      "range": {
+        "startLine": 110,
+        "startChar": 8,
+        "endLine": 110,
+        "endChar": 18
+      },
+      "revId": "5ccc1dc45d28f96fbe2e2aea83ae33fd88d36664",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "595ea0fe_f81651e0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/RevisionEditModifier.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-29T10:15:49Z",
+      "side": 1,
+      "message": "Nit: Add space between \")\" and c.",
+      "range": {
+        "startLine": 183,
+        "startChar": 39,
+        "endLine": 183,
+        "endChar": 40
+      },
+      "revId": "5ccc1dc45d28f96fbe2e2aea83ae33fd88d36664",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

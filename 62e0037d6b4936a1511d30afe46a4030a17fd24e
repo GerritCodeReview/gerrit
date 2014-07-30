@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "19a1880c_2e4227c3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-30T14:06:57Z",
+      "side": 1,
+      "message": "Per discussion on  I39e97d this will conflict with refs/users/UU/UUUU in All-Users, so perhaps refs/users/UU/UUUU-edit/CCCC\n\n(Yes, they\u0027re in different repos so there\u0027s technically no conflict right now, except a) we might want to support reviews in All-Users eventually like we do for All-Projects, and b) consistency)",
+      "revId": "62e0037d6b4936a1511d30afe46a4030a17fd24e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "19a1880c_aec9f73c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/RevisionEdit.java",
         "patchSetId": 13

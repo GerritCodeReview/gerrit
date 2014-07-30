@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "595ea0fe_5893bd06",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ListRevisionEdits.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-30T07:27:41Z",
+      "side": 1,
+      "message": "ListChangeEdits",
+      "range": {
+        "startLine": 50,
+        "startChar": 6,
+        "endLine": 50,
+        "endChar": 23
+      },
+      "revId": "b84fe0cda38f0bb38e82c566e4f2ba3c478d0c46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "595ea0fe_789081f9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ListRevisionEdits.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-30T07:27:41Z",
+      "side": 1,
+      "message": "That why this is change edits and not revision edits.",
+      "range": {
+        "startLine": 50,
+        "startChar": 48,
+        "endLine": 50,
+        "endChar": 62
+      },
+      "revId": "b84fe0cda38f0bb38e82c566e4f2ba3c478d0c46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -46,6 +46,30 @@
       "revId": "566c077315f8935be7374ed1c4e5b324b6535c2d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "595ea0fe_184225c3",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ProxyPropertiesProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-30T06:10:27Z",
+      "side": 1,
+      "message": "Well, now it is broken ;-( That\u0027s because URL(null) is not valid, and it was failing for folks, see comments to this change [1].\n\n [1] https://gerrit-review.googlesource.com/57570",
+      "parentUuid": "19f3481c_3e0409e5",
+      "range": {
+        "startLine": 38,
+        "startChar": 6,
+        "endLine": 38,
+        "endChar": 66
+      },
+      "revId": "566c077315f8935be7374ed1c4e5b324b6535c2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

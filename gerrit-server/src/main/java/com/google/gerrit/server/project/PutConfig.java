@@ -114,15 +114,25 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
   public ConfigInfo apply(ProjectResource rsrc, Input input)
       throws ResourceNotFoundException, BadRequestException,
       ResourceConflictException {
-    Project.NameKey projectName = rsrc.getNameKey();
     if (!rsrc.getControl().isOwner()) {
-      throw new ResourceNotFoundException(projectName.get());
+      throw new ResourceNotFoundException(rsrc.getName());
     }
 
     if (input == null) {
       throw new BadRequestException("config is required");
     }
 
+    ProjectConfig projectConfig = updateProjectConfig(rsrc, input);
+    ProjectState state = projectStateFactory.create(projectConfig);
+
+    return new ConfigInfo(state.controlFor(currentUser.get()), config,
+        pluginConfigEntries, cfgFactory, allProjects, views);
+  }
+
+  private ProjectConfig updateProjectConfig(ProjectResource rsrc, Input input)
+      throws ResourceNotFoundException, BadRequestException,
+      ResourceConflictException {
+    Project.NameKey projectName = rsrc.getNameKey();
     final MetaDataUpdate md;
     try {
       md = metaDataUpdateFactory.create(projectName);
@@ -189,9 +199,8 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
         }
       }
 
-      ProjectState state = projectStateFactory.create(projectConfig);
-      return new ConfigInfo(state.controlFor(currentUser.get()), config,
-          pluginConfigEntries, cfgFactory, allProjects, views);
+      return projectConfig;
+
     } catch (ConfigInvalidException err) {
       throw new ResourceConflictException("Cannot read project " + projectName, err);
     } catch (IOException err) {

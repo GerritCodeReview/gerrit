@@ -46,6 +46,30 @@
       "revId": "538e0592acd69a41fff706efbbc7f0e80fd81aca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "595ea0fe_982d551d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/ThreadLimiter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-30T14:36:40Z",
+      "side": 1,
+      "message": "Actually not, as Reindex will survive and would still need it in one or another form. Obviously this woudn\u0027t be based on \"database.poollimit\" configuration option.",
+      "parentUuid": "19a1880c_ceb1e3ce",
+      "range": {
+        "startLine": 44,
+        "startChar": 4,
+        "endLine": 48,
+        "endChar": 5
+      },
+      "revId": "538e0592acd69a41fff706efbbc7f0e80fd81aca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

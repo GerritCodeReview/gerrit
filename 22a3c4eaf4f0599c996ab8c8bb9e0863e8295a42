@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "19a1880c_ce2c431e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-30T14:04:50Z",
+      "side": 1,
+      "message": "This is stuttery. Why not just 1234-drafts/5678?\n\nIMHO preferences should be moved anyway. I\u0027m sensing a later migration step once we have a better idea of the full set of data we might store about a user.",
+      "range": {
+        "startLine": 14,
+        "startChar": 31,
+        "endLine": 14,
+        "endChar": 46
+      },
+      "revId": "22a3c4eaf4f0599c996ab8c8bb9e0863e8295a42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

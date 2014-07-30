@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "7969a4a1_393fef41",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/RevisionEditUtil.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-30T07:22:26Z",
+      "side": 1,
+      "message": "ChangeEditUtil",
+      "range": {
+        "startLine": 39,
+        "startChar": 13,
+        "endLine": 39,
+        "endChar": 29
+      },
+      "revId": "306de25c0a7c7425dbd293486402cdddf68bc50f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9610e73f_5a7b9597",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/RevisionEditUtil.java",
         "patchSetId": 16
@@ -13,6 +36,24 @@
       "writtenOn": "2014-07-29T21:06:56Z",
       "side": 1,
       "message": "Test for this method? I see you removed the larger test from the parent.",
+      "revId": "306de25c0a7c7425dbd293486402cdddf68bc50f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7969a4a1_19422bc3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/RevisionEditUtil.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-30T07:22:26Z",
+      "side": 1,
+      "message": "Sorry, I missed to restore needed bits from removed larger test class.",
+      "parentUuid": "9610e73f_5a7b9597",
       "revId": "306de25c0a7c7425dbd293486402cdddf68bc50f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

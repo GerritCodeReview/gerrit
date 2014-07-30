@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7969a4a1_19ff8b12",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-07-30T13:21:51Z",
+      "side": 1,
+      "message": "Modified the commit message in PS2.",
+      "parentUuid": "595ea0fe_7867a15b",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 29
+      },
+      "revId": "3357f6a9419ee8f0caeace1053a6b344d2abda92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7969a4a1_19706b17",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/SubmitAction.java",
         "patchSetId": 1
@@ -99,6 +123,24 @@
       "writtenOn": "2014-07-30T09:29:06Z",
       "side": 1,
       "message": "Untested, alternative approach to only add one if and let the whole code as is:\n\n  static void call(ChangeInfo changeInfo, RevisionInfo revisionInfo) {\n    if (ChangeGlue.onSubmitChange(changeInfo, revisionInfo)) {\n      final Change.Id changeId \u003d changeInfo.legacy_id();\n    boolean submit \u003d true;\n    if (revisionInfo.commit().otherBranchCommit()) {\n      submit \u003d Window.confirm(\"Really?\");\n    }\n    if (submit) {\n      ChangeApi.submit(\n      [...]\n  }",
+      "revId": "3357f6a9419ee8f0caeace1053a6b344d2abda92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7969a4a1_f9f9f72e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/SubmitAction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-07-30T13:21:51Z",
+      "side": 1,
+      "message": "Tested this code. It works fine. So included it in PS2.",
+      "parentUuid": "7969a4a1_99eabb52",
       "revId": "3357f6a9419ee8f0caeace1053a6b344d2abda92",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

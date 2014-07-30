@@ -1431,6 +1431,8 @@ public class ReceiveCommits {
 
       List<ChangeLookup> pending = Lists.newArrayList();
       final Set<Change.Key> newChangeIds = new HashSet<>();
+      final int maxPendingNumber =
+          receiveConfig.maxBatchChangesNumberLimitOnMagicBranch;
       for (;;) {
         final RevCommit c = walk.next();
         if (c == null) {
@@ -1464,6 +1466,11 @@ public class ReceiveCommits {
 
         changeKey = new Change.Key(idStr);
         pending.add(new ChangeLookup(c, changeKey));
+        if (maxPendingNumber != 0 && pending.size() > maxPendingNumber) {
+          reject(magicBranch.cmd,
+              "the pushed new/update changes number over the limit "
+                  + maxPendingNumber);
+        }
       }
 
       for (ChangeLookup p : pending) {

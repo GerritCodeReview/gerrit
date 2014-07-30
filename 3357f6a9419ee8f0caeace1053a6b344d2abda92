@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "595ea0fe_7867a15b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-30T09:29:06Z",
+      "side": 1,
+      "message": "Something is wrong with this statement.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 29
+      },
+      "revId": "3357f6a9419ee8f0caeace1053a6b344d2abda92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7969a4a1_19706b17",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/SubmitAction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-30T09:29:06Z",
+      "side": 1,
+      "message": "Just:\n\n if (revisionInfo.commit().otherBranchCommit()) {",
+      "range": {
+        "startLine": 33,
+        "startChar": 6,
+        "endLine": 33,
+        "endChar": 60
+      },
+      "revId": "3357f6a9419ee8f0caeace1053a6b344d2abda92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7969a4a1_396d2f3e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/SubmitAction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-30T09:29:06Z",
+      "side": 1,
+      "message": "Just:\n\n  if (reply) {",
+      "range": {
+        "startLine": 38,
+        "startChar": 8,
+        "endLine": 38,
+        "endChar": 28
+      },
+      "revId": "3357f6a9419ee8f0caeace1053a6b344d2abda92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7969a4a1_7967a75b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/SubmitAction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-30T09:29:06Z",
+      "side": 1,
+      "message": "Why to reload the page? Nothing is changed.",
+      "revId": "3357f6a9419ee8f0caeace1053a6b344d2abda92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7969a4a1_99eabb52",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/SubmitAction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-30T09:29:06Z",
+      "side": 1,
+      "message": "Untested, alternative approach to only add one if and let the whole code as is:\n\n  static void call(ChangeInfo changeInfo, RevisionInfo revisionInfo) {\n    if (ChangeGlue.onSubmitChange(changeInfo, revisionInfo)) {\n      final Change.Id changeId \u003d changeInfo.legacy_id();\n    boolean submit \u003d true;\n    if (revisionInfo.commit().otherBranchCommit()) {\n      submit \u003d Window.confirm(\"Really?\");\n    }\n    if (submit) {\n      ChangeApi.submit(\n      [...]\n  }",
+      "revId": "3357f6a9419ee8f0caeace1053a6b344d2abda92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

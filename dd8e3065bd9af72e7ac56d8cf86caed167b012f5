@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7969a4a1_b9993f2e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/RevisionEditModifier.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-30T07:24:24Z",
+      "side": 1,
+      "message": "ChangeEditModifier",
+      "range": {
+        "startLine": 66,
+        "startChar": 13,
+        "endLine": 66,
+        "endChar": 33
+      },
+      "revId": "dd8e3065bd9af72e7ac56d8cf86caed167b012f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

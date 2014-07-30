@@ -31,6 +31,8 @@ public class RefNames {
   /** Configurations of project-specific dashboards (canned search queries). */
   public static final String REFS_DASHBOARDS = "refs/meta/dashboards/";
 
+  public static final String REFS_DRAFT_COMMENTS = "refs/draft-comments/";
+
   /**
    * Prefix applied to merge commit base nodes.
    * <p>
@@ -42,8 +44,6 @@ public class RefNames {
    * result of the merge commit's parents.
    */
   public static final String REFS_CACHE_AUTOMERGE = "refs/cache-automerge/";
-
-  public static final String REFS_DRAFT_PREFIX = "comments-";
 
   public static String refsUsers(Account.Id accountId) {
     StringBuilder r = new StringBuilder();
@@ -62,9 +62,15 @@ public class RefNames {
   public static String refsDraftComments(Account.Id accountId,
       Change.Id changeId) {
     StringBuilder r = new StringBuilder();
-    r.append(refsUsers(accountId));
+    r.append(REFS_DRAFT_COMMENTS);
+    int n = accountId.get() % 100;
+    if (n < 10) {
+      r.append('0');
+    }
+    r.append(n);
     r.append('/');
-    r.append(REFS_DRAFT_PREFIX);
+    r.append(accountId.get());
+    r.append('-');
     r.append(changeId.get());
     return r.toString();
   }

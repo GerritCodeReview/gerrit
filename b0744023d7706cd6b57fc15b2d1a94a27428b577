@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "595ea0fe_78396159",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ProxyPropertiesProvider.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-30T06:31:51Z",
+      "side": 1,
+      "message": "WTF? Wrong rebase?",
+      "revId": "b0744023d7706cd6b57fc15b2d1a94a27428b577",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

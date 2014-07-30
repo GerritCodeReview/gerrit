@@ -130,6 +130,30 @@
     },
     {
       "key": {
+        "uuid": "9610e73f_da9d658c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-30T16:26:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "595ea0fe_58065dad",
+      "range": {
+        "startLine": 82,
+        "startChar": 11,
+        "endLine": 82,
+        "endChar": 15
+      },
+      "revId": "a3a39b9392cabb94bbcd7d92df179cb651c0c785",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d9aa90eb_6cc39b6d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
         "patchSetId": 3

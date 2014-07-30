@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "595ea0fe_18ff8512",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/SubmitAction.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-30T13:40:48Z",
+      "side": 1,
+      "message": "We don\u0027t (always) rely on Eclipse for indentation. May be something like this:\n\n  submit \u003d Window.confirm(\n      \"You are about to merge change(s) from different branch.\\n \" +\n      \"Do you want to continue?\");",
+      "range": {
+        "startLine": 35,
+        "startChar": 8,
+        "endLine": 38,
+        "endChar": 50
+      },
+      "revId": "1e89f76e3cd40b69eecdc5ab73eb9a0c3fe5a43a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

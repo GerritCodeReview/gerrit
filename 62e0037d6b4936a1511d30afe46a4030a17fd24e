@@ -70,6 +70,30 @@
       "revId": "62e0037d6b4936a1511d30afe46a4030a17fd24e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19a1880c_8e323b7a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/RevisionEdit.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-30T13:59:40Z",
+      "side": 1,
+      "message": "If it\u0027s too much trouble just rename the class at the end of the series.",
+      "parentUuid": "595ea0fe_989475f5",
+      "range": {
+        "startLine": 34,
+        "startChar": 13,
+        "endLine": 34,
+        "endChar": 25
+      },
+      "revId": "62e0037d6b4936a1511d30afe46a4030a17fd24e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

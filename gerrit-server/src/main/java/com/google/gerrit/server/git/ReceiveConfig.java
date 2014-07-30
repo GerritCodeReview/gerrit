@@ -25,6 +25,7 @@ class ReceiveConfig {
   final boolean checkMagicRefs;
   final boolean checkReferencedObjectsAreReachable;
   final boolean allowDrafts;
+  final int maxBatchChanges;
 
   @Inject
   ReceiveConfig(@GerritServerConfig Config config) {
@@ -37,5 +38,6 @@ class ReceiveConfig {
     allowDrafts = config.getBoolean(
         "change", null, "allowDrafts",
         true);
+    maxBatchChanges = config.getInt("receive", "maxBatchChanges", 0);
   }
 }

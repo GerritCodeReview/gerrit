@@ -239,6 +239,7 @@ public class CommentsInNotesUtil {
 
     if (note[ptr.value] == '\n') {
       range.setEndLine(startLine);
+      ptr.value += 1;
       return range;
     } else if (note[ptr.value] == ':') {
       range.setStartLine(startLine);

@@ -2602,6 +2602,17 @@ Default is zero.
 +
 Common unit suffixes of 'k', 'm', or 'g' are supported.
 
+[[receive.maxBatchChanges]]receive.maxBatchChanges::
++
+The maximum number of changes that Gerrit allows to be pushed
+in a batch for review. When this number is exceeded Gerrit rejects
+the push with an error message.
+
+This setting can be used to prevent users from uploading large
+number of changes for review by mistake.
+
+Default is zero, no limit.
+
 [[receive.threadPoolSize]]receive.threadPoolSize::
 +
 Maximum size of the thread pool in which the change data in received packs is

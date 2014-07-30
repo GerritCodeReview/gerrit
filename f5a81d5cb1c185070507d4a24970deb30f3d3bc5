@@ -1,0 +1,231 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9610e73f_ba3751cf",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-30T21:05:50Z",
+      "side": 1,
+      "message": "assertEquals",
+      "revId": "f5a81d5cb1c185070507d4a24970deb30f3d3bc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19a1880c_2e706717",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-30T21:05:50Z",
+      "side": 1,
+      "message": "Test for DeleteDraft?",
+      "revId": "f5a81d5cb1c185070507d4a24970deb30f3d3bc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9610e73f_9a97ed6a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-30T21:05:50Z",
+      "side": 1,
+      "message": "No need to use a regex here, just use indexOf.\n\nIf you want to be more confident about the input at this point, you can change the previous check to:\n\n suffix \u003d RefNames.DRAFTS + Integer.toString(...)",
+      "revId": "f5a81d5cb1c185070507d4a24970deb30f3d3bc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19a1880c_ae7bb700",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-30T21:05:50Z",
+      "side": 1,
+      "message": "This is practically identical to above, factor something out. Perhaps a Predicate\u003cString\u003e that you can then Iterables.filter over refNames",
+      "revId": "f5a81d5cb1c185070507d4a24970deb30f3d3bc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9610e73f_5a1f1550",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-30T21:05:50Z",
+      "side": 1,
+      "message": "PatchLineCommentAccess has a deleteKeys method; why do your callers need to construct a full PatchLineComment? Is it needed by update.deleteComment?",
+      "revId": "f5a81d5cb1c185070507d4a24970deb30f3d3bc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9610e73f_7a1ad961",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateDraft.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-30T21:05:50Z",
+      "side": 1,
+      "message": "This message provides no useful information, new OrmException(e) would be fine.",
+      "range": {
+        "startLine": 88,
+        "startChar": 29,
+        "endLine": 88,
+        "endChar": 73
+      },
+      "revId": "f5a81d5cb1c185070507d4a24970deb30f3d3bc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9610e73f_3a24619c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteDraft.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-30T21:05:50Z",
+      "side": 1,
+      "message": "new OrmException(e)",
+      "revId": "f5a81d5cb1c185070507d4a24970deb30f3d3bc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19a1880c_8e807ba6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteDraft.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-30T21:05:50Z",
+      "side": 1,
+      "message": "Duplicate if?",
+      "revId": "f5a81d5cb1c185070507d4a24970deb30f3d3bc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9610e73f_1a299d72",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutDraft.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-30T21:05:50Z",
+      "side": 1,
+      "message": "new OrmException(e)\n\nThis is the third place you have this logic of:\n\n* wrapping exceptions from patchListCache.get\n* extracting RevIds from the PatchList\n* setting the RevId in a PatchLineComment\n\nSurely this could be factored out into a static helper method in PatchLineCommentsUtil or something?",
+      "revId": "f5a81d5cb1c185070507d4a24970deb30f3d3bc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19a1880c_ee75bf0a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-30T21:05:50Z",
+      "side": 1,
+      "message": "Just as easy to make parent Optional\u003cPatchLineComment\u003e and check for absent below.",
+      "revId": "f5a81d5cb1c185070507d4a24970deb30f3d3bc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19a1880c_ce7a83fa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-30T21:05:50Z",
+      "side": 1,
+      "message": "I recall our conversation on this topic but it\u0027s not obvious without context why you make these checks. Please leave a comment briefly describing the situation, and why we think the race conditions are an acceptable risk.",
+      "revId": "f5a81d5cb1c185070507d4a24970deb30f3d3bc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9610e73f_fa2dc97e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NotesMigration.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-30T21:05:50Z",
+      "side": 1,
+      "message": "Would it simplify your implementation if you just had a single readComments bit? It\u0027s not like we\u0027re trying to maintain backwards compatibility.",
+      "revId": "f5a81d5cb1c185070507d4a24970deb30f3d3bc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9610e73f_da2a0565",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/change/CommentsTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-07-30T21:05:50Z",
+      "side": 1,
+      "message": "Not going to insist on it since this is a test, but I would find this easier to follow if you transformed either expected or actual so they have the same type and you could use assertEquals.",
+      "revId": "f5a81d5cb1c185070507d4a24970deb30f3d3bc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

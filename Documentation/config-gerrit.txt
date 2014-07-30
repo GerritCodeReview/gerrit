@@ -2517,6 +2517,25 @@ Default is zero.
 +
 Common unit suffixes of 'k', 'm', or 'g' are supported.
 
+[[receive.maxBatchChangesNumberLimitOnMagicBranch]]receive.maxBatchChangesNumberLimitOnMagicBranch::
++
+Maximum allowed batch pushed new/update changes number that Gerrit
+will accept on the magic 'refs/drafts', 'refs/for', or 'refs/publish'
+branch namespaces.
++
+If a batch pushed new/update changes number is larger than the
+given number the Gerrit will reject the push operation with fail
+message.
++
+If set to zero then there is no limit.
++
+Gerrit administrators can use this setting to prevent developers
+from mistaken push with a lot of changes for review most of which
+are of the third-party software and should be pushed by pass review
+firstly.
++
+Default is zero.
+
 [[receive.threadPoolSize]]receive.threadPoolSize::
 +
 Maximum size of the thread pool in which the change data in received packs is

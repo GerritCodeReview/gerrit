@@ -2131,8 +2131,11 @@ public class ReceiveCommits {
           allRefs.size() / estRefsPerChange,
           estRefsPerChange);
       for (Ref ref : allRefs.values()) {
-        if (ref.getObjectId() != null && PatchSet.isRef(ref.getName())) {
-          refsByChange.put(Change.Id.fromRef(ref.getName()), ref);
+        if (ref.getObjectId() != null) {
+          PatchSet.Id psId = PatchSet.Id.fromRef(ref.getName());
+          if (psId != null) {
+            refsByChange.put(psId.getParentKey(), ref);
+          }
         }
       }
     }

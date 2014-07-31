@@ -11,6 +11,7 @@ java_library(
     '//gerrit-main:main_lib',
     '//gerrit-patch-jgit:jgit_patch_tests',
     '//gerrit-plugin-gwtui:gwtui-api-lib',
+    '//gerrit-reviewdb:client_tests',
     '//gerrit-server:server',
     '//gerrit-server:server_tests',
     '//lib/asciidoctor:asciidoc_lib',

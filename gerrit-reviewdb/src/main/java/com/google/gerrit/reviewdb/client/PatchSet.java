@@ -24,28 +24,8 @@ import java.sql.Timestamp;
 /** A single revision of a {@link Change}. */
 public final class PatchSet {
   /** Is the reference name a change reference? */
-  public static boolean isRef(final String name) {
-    if (name == null || !name.startsWith(REFS_CHANGES)) {
-      return false;
-    }
-    boolean accepted = false;
-    int numsFound = 0;
-    for (int i = name.length() - 1; i >= REFS_CHANGES.length() - 1; i--) {
-      char c = name.charAt(i);
-      if (c >= '0' && c <= '9') {
-        accepted = (c != '0');
-      } else if (c == '/') {
-        if (accepted) {
-          if (++numsFound == 2) {
-            return true;
-          }
-          accepted = false;
-        }
-      } else {
-        return false;
-      }
-    }
-    return false;
+  public static boolean isRef(String name) {
+    return Id.fromRef(name) != null;
   }
 
   public static class Id extends IntKey<Change.Id> {
@@ -106,16 +86,71 @@ public final class PatchSet {
 
     /** Parse a PatchSet.Id from a {@link PatchSet#getRefName()} result. */
     public static Id fromRef(String name) {
-      if (!name.startsWith(REFS_CHANGES)) {
-        throw new IllegalArgumentException("Not a PatchSet.Id: " + name);
+      if (name == null || !name.startsWith(REFS_CHANGES)) {
+        return null;
       }
-      final String[] parts = name.substring(REFS_CHANGES.length()).split("/");
-      final int n = parts.length;
-      if (n < 2) {
-        throw new IllegalArgumentException("Not a PatchSet.Id: " + name);
+
+      // Last 2 digits.
+      int ls = REFS_CHANGES.length();
+      int le;
+      for (le = ls; le < name.length() && name.charAt(le) != '/'; le++) {
+        if (name.charAt(le) < '0' || name.charAt(le) > '9') {
+          return null;
+        }
       }
-      final int changeId = Integer.parseInt(parts[n - 2]);
-      final int patchSetId = Integer.parseInt(parts[n - 1]);
+      if (le - ls != 2) {
+        return null;
+      }
+
+      // Change ID.
+      int cs = le + 1;
+      if (cs >= name.length() || name.charAt(cs) == '0') {
+        return null;
+      }
+      int ce;
+      for (ce = cs; ce < name.length() && name.charAt(ce) != '/'; ce++) {
+        if (name.charAt(ce) < '0' || name.charAt(ce) > '9') {
+          return null;
+        }
+      }
+      switch (ce - cs) {
+        case 0:
+          return null;
+        case 1:
+          if (name.charAt(ls) != '0'
+              || name.charAt(ls + 1) != name.charAt(cs)) {
+            return null;
+          }
+          break;
+        default:
+          if (name.charAt(ls) != name.charAt(ce - 2)
+              || name.charAt(ls + 1) != name.charAt(ce - 1)) {
+            return null;
+          }
+          break;
+      }
+      if (ce == cs) {
+        return null;
+      }
+
+      // Patch set ID.
+      int ps = ce + 1;
+      if (ps >= name.length() || name.charAt(ps) == '0') {
+        return null;
+      }
+      for (int i = ps; i < name.length(); i++) {
+        if (name.charAt(i) < '0' || name.charAt(i) > '9') {
+          return null;
+        }
+      }
+
+      int ln = Integer.parseInt(name.substring(ls, le));
+      int changeId = Integer.parseInt(name.substring(cs, ce));
+      if (changeId % 100 != ln) {
+        return null;
+      }
+      int patchSetId = Integer.parseInt(name.substring(ps));
+
       return new PatchSet.Id(new Change.Id(changeId), patchSetId);
     }
   }

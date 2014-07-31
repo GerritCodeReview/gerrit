@@ -80,6 +80,12 @@ public class InMemoryRepositoryManager implements GitRepositoryManager {
   }
 
   @Override
+  public InMemoryRepository openMetadataRepository(Project.NameKey name)
+      throws RepositoryNotFoundException {
+    return openRepository(name);
+  }
+
+  @Override
   public SortedSet<Project.NameKey> list() {
     SortedSet<Project.NameKey> names = Sets.newTreeSet();
     for (DfsRepository repo : repos.values()) {

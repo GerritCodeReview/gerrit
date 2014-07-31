@@ -54,6 +54,13 @@ public class NotesMigration {
         cfg.getBoolean("notedb", "comments", "read", false);
   }
 
+  public boolean enabled() {
+    return readChangeMessages()
+        || readComments()
+        || readPatchSetApprovals()
+        || write();
+  }
+
   public boolean write() {
     return write;
   }

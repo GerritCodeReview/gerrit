@@ -93,7 +93,7 @@ public abstract class AbstractChangeUpdate extends VersionedMetaData {
 
   private void load() throws IOException {
     if (migration.write() && getRevision() == null) {
-      Repository repo = repoManager.openRepository(getProjectName());
+      Repository repo = repoManager.openMetadataRepository(getProjectName());
       try {
         load(repo);
       } catch (ConfigInvalidException e) {

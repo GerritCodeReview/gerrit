@@ -231,6 +231,12 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     }
   }
 
+  @Override
+  public Repository openMetadataRepository(Project.NameKey name)
+      throws RepositoryNotFoundException, IOException {
+    return openRepository(name);
+  }
+
   private void onCreateProject(final Project.NameKey newProjectName) {
     namesUpdateLock.lock();
     try {

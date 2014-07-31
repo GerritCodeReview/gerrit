@@ -1,4 +1,5 @@
 SRC = 'src/main/java/com/google/gerrit/reviewdb/'
+TESTS = 'src/test/java/com/google/gerrit/reviewdb/'
 
 gwt_module(
   name = 'client',
@@ -21,4 +22,16 @@ java_library(
     '//lib:gwtorm',
   ],
   visibility = ['PUBLIC'],
+)
+
+java_test(
+  name = 'client_tests',
+  srcs = glob([TESTS + 'client/**/*.java']),
+  deps = [
+    ':client',
+    '//lib:gwtorm',
+    '//lib:junit',
+  ],
+  source_under_test = [':client'],
+  visibility = ['//tools/eclipse:classpath'],
 )

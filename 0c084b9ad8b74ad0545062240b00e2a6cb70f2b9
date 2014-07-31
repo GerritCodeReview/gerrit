@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7980c479_61953679",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeRebuilder.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-31T22:55:21Z",
+      "side": 1,
+      "message": "This doesn\u0027t compile for me. Should it be.openUpdate() since you made openUpdateInBatch require a parameter. Is there something you haven\u0027t pushed that is necessary for this to work? If not, I might just be missing something",
+      "range": {
+        "startLine": 114,
+        "startChar": 25,
+        "endLine": 114,
+        "endChar": 42
+      },
+      "revId": "0c084b9ad8b74ad0545062240b00e2a6cb70f2b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -81,12 +81,13 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
     final List<Ref> deferredTags = new ArrayList<>();
 
     for (Ref ref : refs.values()) {
+      PatchSet.Id psId;
       if (ref.getName().startsWith(RefNames.REFS_CACHE_AUTOMERGE)) {
         continue;
-      } else if (PatchSet.isRef(ref.getName())) {
+      } else if ((psId = PatchSet.Id.fromRef(ref.getName())) != null) {
         // Reference to a patch set is visible if the change is visible.
         //
-        if (showChanges && visibleChanges.contains(Change.Id.fromRef(ref.getName()))) {
+        if (showChanges && visibleChanges.contains(psId.getParentKey())) {
           result.put(ref.getName(), ref);
         }
 

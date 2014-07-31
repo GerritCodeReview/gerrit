@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9610e73f_5a483544",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-31T00:12:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9610e73f_ba3751cf",
+      "revId": "f5a81d5cb1c185070507d4a24970deb30f3d3bc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "19a1880c_2e706717",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
         "patchSetId": 8
@@ -30,6 +48,24 @@
       "writtenOn": "2014-07-30T21:05:50Z",
       "side": 1,
       "message": "Test for DeleteDraft?",
+      "revId": "f5a81d5cb1c185070507d4a24970deb30f3d3bc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9610e73f_3a3d81aa",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-31T00:12:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19a1880c_2e706717",
       "revId": "f5a81d5cb1c185070507d4a24970deb30f3d3bc5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "19a1880c_0e6dab3d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-31T00:12:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9610e73f_9a97ed6a",
+      "revId": "f5a81d5cb1c185070507d4a24970deb30f3d3bc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "19a1880c_ae7bb700",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
         "patchSetId": 8
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "9610e73f_1a42bd24",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-31T00:12:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19a1880c_ae7bb700",
+      "revId": "f5a81d5cb1c185070507d4a24970deb30f3d3bc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9610e73f_5a1f1550",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
         "patchSetId": 8
@@ -81,6 +153,24 @@
       "writtenOn": "2014-07-30T21:05:50Z",
       "side": 1,
       "message": "PatchLineCommentAccess has a deleteKeys method; why do your callers need to construct a full PatchLineComment? Is it needed by update.deleteComment?",
+      "revId": "f5a81d5cb1c185070507d4a24970deb30f3d3bc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9610e73f_5aedd5d7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-31T00:12:35Z",
+      "side": 1,
+      "message": "Yeah, I want to know the status of the comment so that I can reject callers who want to delete a published comment for now. I can remove that check though if you think that is best.",
+      "parentUuid": "9610e73f_5a1f1550",
       "revId": "f5a81d5cb1c185070507d4a24970deb30f3d3bc5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -110,6 +200,30 @@
     },
     {
       "key": {
+        "uuid": "9610e73f_da5325f7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateDraft.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-31T00:12:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9610e73f_7a1ad961",
+      "range": {
+        "startLine": 88,
+        "startChar": 29,
+        "endLine": 88,
+        "endChar": 73
+      },
+      "revId": "f5a81d5cb1c185070507d4a24970deb30f3d3bc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9610e73f_3a24619c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteDraft.java",
         "patchSetId": 8
@@ -121,6 +235,24 @@
       "writtenOn": "2014-07-30T21:05:50Z",
       "side": 1,
       "message": "new OrmException(e)",
+      "revId": "f5a81d5cb1c185070507d4a24970deb30f3d3bc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9610e73f_ba5071eb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteDraft.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-31T00:12:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9610e73f_3a24619c",
       "revId": "f5a81d5cb1c185070507d4a24970deb30f3d3bc5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -144,6 +276,24 @@
     },
     {
       "key": {
+        "uuid": "19a1880c_6e6a6f27",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteDraft.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-31T00:12:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19a1880c_8e807ba6",
+      "revId": "f5a81d5cb1c185070507d4a24970deb30f3d3bc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9610e73f_1a299d72",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutDraft.java",
         "patchSetId": 8
@@ -155,6 +305,24 @@
       "writtenOn": "2014-07-30T21:05:50Z",
       "side": 1,
       "message": "new OrmException(e)\n\nThis is the third place you have this logic of:\n\n* wrapping exceptions from patchListCache.get\n* extracting RevIds from the PatchList\n* setting the RevId in a PatchLineComment\n\nSurely this could be factored out into a static helper method in PatchLineCommentsUtil or something?",
+      "revId": "f5a81d5cb1c185070507d4a24970deb30f3d3bc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9610e73f_fa56e9e8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutDraft.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-31T00:12:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9610e73f_1a299d72",
       "revId": "f5a81d5cb1c185070507d4a24970deb30f3d3bc5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -178,6 +346,24 @@
     },
     {
       "key": {
+        "uuid": "19a1880c_4e67b35b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-31T00:12:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19a1880c_ee75bf0a",
+      "revId": "f5a81d5cb1c185070507d4a24970deb30f3d3bc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "19a1880c_ce7a83fa",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
         "patchSetId": 8
@@ -195,6 +381,24 @@
     },
     {
       "key": {
+        "uuid": "9610e73f_7ae899c9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-31T00:12:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19a1880c_ce7a83fa",
+      "revId": "f5a81d5cb1c185070507d4a24970deb30f3d3bc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9610e73f_fa2dc97e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NotesMigration.java",
         "patchSetId": 8
@@ -206,6 +410,24 @@
       "writtenOn": "2014-07-30T21:05:50Z",
       "side": 1,
       "message": "Would it simplify your implementation if you just had a single readComments bit? It\u0027s not like we\u0027re trying to maintain backwards compatibility.",
+      "revId": "f5a81d5cb1c185070507d4a24970deb30f3d3bc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19a1880c_aeea9751",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NotesMigration.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-07-31T00:12:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9610e73f_fa2dc97e",
       "revId": "f5a81d5cb1c185070507d4a24970deb30f3d3bc5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

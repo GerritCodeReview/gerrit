@@ -68,7 +68,7 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
     }
   }
 
-  private static class Parser {
+  private static class Parser implements AutoCloseable {
     private final Change.Id changeId;
     private final ObjectId tip;
     private final RevWalk walk;
@@ -90,6 +90,11 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
 
       draftBaseComments = ArrayListMultimap.create();
       draftPsComments = ArrayListMultimap.create();
+    }
+
+    @Override
+    public void close() {
+      repo.close();
     }
 
     private void parseDraftComments() throws IOException, ConfigInvalidException {
@@ -167,13 +172,16 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
     }
 
     RevWalk walk = new RevWalk(reader);
-    Parser parser = new Parser(getChangeId(), walk, rev, repoManager,
-        draftsProject, author);
-    parser.parseDraftComments();
+    try (Parser parser = new Parser(getChangeId(), walk, rev, repoManager,
+        draftsProject, author)) {
+      parser.parseDraftComments();
 
-    buildCommentTable(draftBaseComments, parser.draftBaseComments);
-    buildCommentTable(draftPsComments, parser.draftPsComments);
-    noteMap = parser.noteMap;
+      buildCommentTable(draftBaseComments, parser.draftBaseComments);
+      buildCommentTable(draftPsComments, parser.draftPsComments);
+      noteMap = parser.noteMap;
+    } finally {
+      walk.release();
+    }
   }
 
   @Override

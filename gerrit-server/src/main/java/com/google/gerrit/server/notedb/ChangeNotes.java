@@ -44,8 +44,8 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
-import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSet.Id;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetApproval.LabelId;
@@ -152,7 +152,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     }
   }
 
-  private static class Parser {
+  private static class Parser implements AutoCloseable {
     private final Change.Id changeId;
     private final ObjectId tip;
     private final RevWalk walk;
@@ -182,6 +182,11 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       changeMessages = LinkedListMultimap.create();
       commentsForPs = ArrayListMultimap.create();
       commentsForBase = ArrayListMultimap.create();
+    }
+
+    @Override
+    public void close() {
+      repo.close();
     }
 
     private void parseAll() throws ConfigInvalidException, IOException, ParseException {
@@ -626,9 +631,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       return;
     }
     RevWalk walk = new RevWalk(reader);
-    try {
-      Change change = getChange();
-      Parser parser = new Parser(change, rev, walk, repoManager);
+    try (Parser parser = new Parser(change, rev, walk, repoManager)) {
       parser.parseAll();
 
       if (parser.status != null) {

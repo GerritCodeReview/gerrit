@@ -19,6 +19,7 @@ import static com.google.gerrit.pgm.init.InitUtil.die;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InitStep;
 import com.google.gerrit.pgm.init.api.Section;
+import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -29,11 +30,15 @@ import java.io.File;
 class InitGitManager implements InitStep {
   private final ConsoleUI ui;
   private final Section gerrit;
+  private final SitePaths site;
 
   @Inject
-  InitGitManager(final ConsoleUI ui, final Section.Factory sections) {
+  InitGitManager(ConsoleUI ui,
+      Section.Factory sections,
+      SitePaths site) {
     this.ui = ui;
     this.gerrit = sections.get("gerrit", null);
+    this.site = site;
   }
 
   public void run() {
@@ -43,6 +48,11 @@ class InitGitManager implements InitStep {
     if (d == null) {
       throw die("gerrit.basePath is required");
     }
+    mkdirs(d);
+    mkdirs(site.resolve("notedb"));
+  }
+
+  private void mkdirs(File d) {
     if (!d.exists() && !d.mkdirs()) {
       throw die("Cannot create " + d);
     }

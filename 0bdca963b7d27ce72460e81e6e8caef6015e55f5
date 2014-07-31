@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7980c479_a1765eae",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/RevisionEditUtil.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-31T20:36:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19a1880c_6edd4f1a",
+      "revId": "0bdca963b7d27ce72460e81e6e8caef6015e55f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "19a1880c_4eda1324",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/RevisionEditUtil.java",
         "patchSetId": 13
@@ -30,6 +48,24 @@
       "writtenOn": "2014-07-28T22:28:08Z",
       "side": 1,
       "message": "It would be really nice if these could happen in the same BatchRefUpdate. Can be a later change though.",
+      "revId": "0bdca963b7d27ce72460e81e6e8caef6015e55f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d61dff5d_94058432",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/RevisionEditUtil.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-31T20:36:33Z",
+      "side": 1,
+      "message": "Added a TODO.",
+      "parentUuid": "19a1880c_4eda1324",
       "revId": "0bdca963b7d27ce72460e81e6e8caef6015e55f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "7980c479_c17b6297",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/RevisionEditUtil.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-31T20:36:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9610e73f_dae20536",
+      "revId": "0bdca963b7d27ce72460e81e6e8caef6015e55f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "19a1880c_aea577a3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/RevisionEditUtil.java",
         "patchSetId": 13
@@ -64,6 +118,24 @@
       "writtenOn": "2014-07-28T22:28:08Z",
       "side": 1,
       "message": "Useful error message when this fails?",
+      "revId": "0bdca963b7d27ce72460e81e6e8caef6015e55f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7980c479_e180663e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/RevisionEditUtil.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-31T20:36:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19a1880c_aea577a3",
       "revId": "0bdca963b7d27ce72460e81e6e8caef6015e55f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "d61dff5d_7420a8ba",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/RevisionEditUtil.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-31T20:36:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19a1880c_8eaa3b71",
+      "revId": "0bdca963b7d27ce72460e81e6e8caef6015e55f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9610e73f_baef511c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/RevisionEditUtil.java",
         "patchSetId": 13
@@ -98,6 +188,24 @@
       "writtenOn": "2014-07-28T22:28:08Z",
       "side": 1,
       "message": "You shouldn\u0027t need to do a 3-way merge. The tree SHA-1 of the edit is by definition the final SHA-1 of the squashed tree.",
+      "revId": "0bdca963b7d27ce72460e81e6e8caef6015e55f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d61dff5d_142f34a9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/RevisionEditUtil.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-31T20:36:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9610e73f_baef511c",
       "revId": "0bdca963b7d27ce72460e81e6e8caef6015e55f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "d61dff5d_5425acc8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/RevisionEditUtil.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-31T20:36:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19a1880c_ee9f7f55",
+      "revId": "0bdca963b7d27ce72460e81e6e8caef6015e55f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "19a1880c_cea443a5",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/RevisionEditUtil.java",
         "patchSetId": 13
@@ -138,6 +264,24 @@
     },
     {
       "key": {
+        "uuid": "7980c479_218b2e61",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/RevisionEditUtil.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-31T20:36:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19a1880c_cea443a5",
+      "revId": "0bdca963b7d27ce72460e81e6e8caef6015e55f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9610e73f_9aec8d28",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/RevisionEditUtil.java",
         "patchSetId": 13
@@ -149,6 +293,24 @@
       "writtenOn": "2014-07-28T22:28:08Z",
       "side": 1,
       "message": "This means e.g. if we support push and the same user races a push on the command line with a publish through the web UI. I can see where this race condition is rare, though. But since you already have the old SHA-1 available, might as well use it?",
+      "revId": "0bdca963b7d27ce72460e81e6e8caef6015e55f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7980c479_01862a57",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/RevisionEditUtil.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-07-31T20:36:33Z",
+      "side": 1,
+      "message": "Good idea. Done.\n\nAfter fixing this, one unit test was failing with LOCK_FAILURE. That because i was passing stale edit object:\n\n  @Test\n  public void updateExistingFile() throws Exception {\n    assertEquals(RefUpdate.Result.NEW,\n        modifier.createEdit(\n            change,\n            ps));\n    Optional\u003cChangeEdit\u003e edit \u003d editUtil.byChange(change);\n    assertTrue(edit.isPresent());\n    assertEquals(RefUpdate.Result.FORCED,\n        modifier.modifyFile(\n            edit.get(),\n            FILE_NAME,\n            Constants.encode(CONTENT_NEW)));\n    editUtil.delete(edit.get());\n    edit \u003d editUtil.byChange(change);\n    assertFalse(edit.isPresent());\n  }\n\nAnd the fix is:\n\n  @Test\n  public void updateExistingFile() throws Exception {\n    assertEquals(RefUpdate.Result.NEW,\n        modifier.createEdit(\n            change,\n            ps));\n    Optional\u003cChangeEdit\u003e edit \u003d editUtil.byChange(change);\n    assertTrue(edit.isPresent());\n    assertEquals(RefUpdate.Result.FORCED,\n        modifier.modifyFile(\n            edit.get(),\n            FILE_NAME,\n            Constants.encode(CONTENT_NEW)));\n    edit \u003d editUtil.byChange(change);\n    editUtil.delete(edit.get());\n    edit \u003d editUtil.byChange(change);\n    assertFalse(edit.isPresent());\n  }",
+      "parentUuid": "9610e73f_9aec8d28",
       "revId": "0bdca963b7d27ce72460e81e6e8caef6015e55f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

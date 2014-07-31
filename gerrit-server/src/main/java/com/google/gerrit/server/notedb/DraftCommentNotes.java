@@ -85,7 +85,7 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
       this.changeId = changeId;
       this.walk = walk;
       this.tip = tip;
-      this.repo = repoManager.openRepository(draftsProject);
+      this.repo = repoManager.openMetadataRepository(draftsProject);
       this.author = author;
 
       draftBaseComments = ArrayListMultimap.create();

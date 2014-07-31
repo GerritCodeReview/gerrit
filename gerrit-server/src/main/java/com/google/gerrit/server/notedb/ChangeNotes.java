@@ -174,7 +174,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       this.changeId = change.getId();
       this.tip = tip;
       this.walk = walk;
-      this.repo = repoManager.openRepository(getProjectName(change));
+      this.repo = repoManager.openMetadataRepository(getProjectName(change));
       approvals = Maps.newHashMap();
       reviewers = Maps.newLinkedHashMap();
       allPastReviewers = Lists.newArrayList();

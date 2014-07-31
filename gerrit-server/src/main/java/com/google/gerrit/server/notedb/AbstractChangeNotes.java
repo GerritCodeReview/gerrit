@@ -44,7 +44,7 @@ public abstract class AbstractChangeNotes<T> extends VersionedMetaData {
     if (!loaded) {
       Repository repo;
       try {
-        repo = repoManager.openRepository(getProjectName());
+        repo = repoManager.openMetadataRepository(getProjectName());
       } catch (IOException e) {
         throw new OrmException(e);
       }

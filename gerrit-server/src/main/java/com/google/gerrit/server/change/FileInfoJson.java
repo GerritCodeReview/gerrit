@@ -21,6 +21,7 @@ import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListEntry;
@@ -44,15 +45,15 @@ public class FileInfoJson {
 
   Map<String, FileInfo> toFileInfoMap(Change change, PatchSet patchSet)
       throws PatchListNotAvailableException {
-    return toFileInfoMap(change, patchSet, null);
+    return toFileInfoMap(change, patchSet.getRevision(), null);
   }
 
-  Map<String, FileInfo> toFileInfoMap(Change change, PatchSet patchSet, @Nullable PatchSet base)
+  Map<String, FileInfo> toFileInfoMap(Change change, RevId revision, @Nullable PatchSet base)
       throws PatchListNotAvailableException {
     ObjectId a = (base == null)
         ? null
         : ObjectId.fromString(base.getRevision().get());
-    ObjectId b = ObjectId.fromString(patchSet.getRevision().get());
+    ObjectId b = ObjectId.fromString(revision.get());
     PatchList list = patchListCache.get(
         new PatchListKey(change.getProject(), a, b, Whitespace.IGNORE_NONE));
 

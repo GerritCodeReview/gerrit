@@ -97,7 +97,7 @@ public class CommentsInNotesUtil {
       byte[] bytes = walk.getObjectReader().open(
           note.getData(), Constants.OBJ_BLOB).getBytes();
       List<PatchLineComment> result = parseNote(bytes, changeId, status);
-      if ((result == null) || (result.isEmpty())) {
+      if (result == null || result.isEmpty()) {
         continue;
       }
       PatchSet.Id psId = result.get(0).getKey().getParentKey().getParentKey();

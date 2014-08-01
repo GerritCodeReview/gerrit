@@ -113,18 +113,18 @@ public class Dispatcher {
     return toPatch("", diffBase, id);
   }
 
-  public static String toSideBySide(PatchSet.Id diffBase,
-      PatchSet.Id revision, String fileName) {
+  public static String toSideBySide(PatchSet.Id diffBase, PatchSet.Id revision,
+      String fileName) {
     return toPatch("", diffBase, revision, fileName, null, 0);
   }
 
-  public static String toSideBySide(PatchSet.Id diffBase,
-      PatchSet.Id revision, String fileName, DisplaySide side, int line) {
+  public static String toSideBySide(PatchSet.Id diffBase, PatchSet.Id revision,
+      String fileName, DisplaySide side, int line) {
     return toPatch("", diffBase, revision, fileName, side, line);
   }
 
-  public static String toUnified(PatchSet.Id diffBase,
-      PatchSet.Id revision, String fileName) {
+  public static String toUnified(PatchSet.Id diffBase, PatchSet.Id revision,
+      String fileName) {
     return toPatch("unified", diffBase, revision, fileName, null, 0);
   }
 
@@ -280,8 +280,7 @@ public class Dispatcher {
     } else if (/* LEGACY URL */matchPrefix("admin,", token)) {
       redirectFromLegacyToken(token, legacyAdmin(token));
     } else if (/* LEGACY URL */matchPrefix("settings,", token)
-        || matchPrefix("register,", token)
-        || matchPrefix("q,", token)) {
+        || matchPrefix("register,", token) || matchPrefix("q,", token)) {
       redirectFromLegacyToken(token, legacySettings(token));
 
     } else {
@@ -452,7 +451,8 @@ public class Dispatcher {
 
     if (rest.equals("self")) {
       if (Gerrit.isSignedIn()) {
-        Gerrit.display(token, new AccountDashboardScreen(Gerrit.getUserAccount().getId()));
+        Gerrit.display(token, new AccountDashboardScreen(Gerrit
+            .getUserAccount().getId()));
       } else {
         Screen s = new AccountDashboardScreen(null);
         s.setRequiresSignIn(true);
@@ -482,8 +482,9 @@ public class Dispatcher {
           public void onSuccess(DashboardInfo result) {
             if (matchPrefix("/dashboard/", result.url())) {
               String params = skip(result.url()).substring(1);
-              ProjectDashboardScreen dash = new ProjectDashboardScreen(
-                  new Project.NameKey(project), params);
+              ProjectDashboardScreen dash =
+                  new ProjectDashboardScreen(new Project.NameKey(project),
+                      params);
               Gerrit.display(token, dash);
             }
           }
@@ -491,8 +492,8 @@ public class Dispatcher {
           @Override
           public void onFailure(Throwable caught) {
             if ("default".equals(dashboardId) && RestApi.isNotFound(caught)) {
-              Gerrit.display(toChangeQuery(
-                  PageLinks.projectQuery(new Project.NameKey(project))));
+              Gerrit.display(toChangeQuery(PageLinks
+                  .projectQuery(new Project.NameKey(project))));
             } else {
               super.onFailure(caught);
             }
@@ -505,7 +506,8 @@ public class Dispatcher {
         c = dashboardId.indexOf(":");
         if (0 <= c) {
           final String ref = URL.decodeQueryString(dashboardId.substring(0, c));
-          final String path = URL.decodeQueryString(dashboardId.substring(c + 1));
+          final String path =
+              URL.decodeQueryString(dashboardId.substring(c + 1));
           DashboardList.get(new Project.NameKey(project), ref + ":" + path, cb);
           return;
         }
@@ -535,10 +537,8 @@ public class Dispatcher {
     }
 
     if (rest.isEmpty()) {
-      Gerrit.display(token, panel== null
-          ? (isChangeScreen2()
-              ? new ChangeScreen2(id, null, null, false)
-              : new ChangeScreen(id))
+      Gerrit.display(token, panel == null ? (isChangeScreen2()
+          ? new ChangeScreen2(id, null, null, false) : new ChangeScreen(id))
           : new NotFoundScreen());
       return;
     }
@@ -557,7 +557,8 @@ public class Dispatcher {
     PatchSet.Id ps;
     int dotdot = psIdStr.indexOf("..");
     if (1 <= dotdot) {
-      base = new PatchSet.Id(id, Integer.parseInt(psIdStr.substring(0, dotdot)));
+      base =
+          new PatchSet.Id(id, Integer.parseInt(psIdStr.substring(0, dotdot)));
       ps = new PatchSet.Id(id, Integer.parseInt(psIdStr.substring(dotdot + 2)));
     } else {
       base = null;
@@ -569,7 +570,7 @@ public class Dispatcher {
       int line = 0;
       int at = rest.lastIndexOf('@');
       if (at > 0) {
-        String l = rest.substring(at+1);
+        String l = rest.substring(at + 1);
         if (l.startsWith("a")) {
           side = DisplaySide.A;
           l = l.substring(1);
@@ -578,17 +579,14 @@ public class Dispatcher {
         rest = rest.substring(0, at);
       }
       Patch.Key p = new Patch.Key(ps, KeyUtil.decode(rest));
-      patch(token, base, p, side, line, 0,
-          null, null, null, panel);
+      patch(token, base, p, side, line, 0, null, null, null, panel);
     } else {
       if (panel == null) {
-        Gerrit.display(token, isChangeScreen2()
-            ? new ChangeScreen2(id,
-                base != null
-                    ? String.valueOf(base.get())
-                    : null,
-                String.valueOf(ps.get()), false)
-            : new ChangeScreen(id));
+        Gerrit.display(
+            token,
+            isChangeScreen2() ? new ChangeScreen2(id, base != null ? String
+                .valueOf(base.get()) : null, String.valueOf(ps.get()), false)
+                : new ChangeScreen(id));
       } else if ("publish".equals(panel)) {
         publish(ps);
       } else {
@@ -615,9 +613,7 @@ public class Dispatcher {
 
     AccountGeneralPreferences.ChangeScreen ui = null;
     if (Gerrit.isSignedIn()) {
-      ui = Gerrit.getUserAccount()
-          .getGeneralPreferences()
-          .getChangeScreen();
+      ui = Gerrit.getUserAccount().getGeneralPreferences().getChangeScreen();
     }
     String v = Cookies.getCookie(Dispatcher.COOKIE_CS2);
     if (v != null) {
@@ -644,19 +640,19 @@ public class Dispatcher {
   }
 
   public static void patch(String token, PatchSet.Id base, Patch.Key id,
-      int patchIndex, PatchSetDetail patchSetDetail,
-      PatchTable patchTable, PatchScreen.TopView topView) {
-    patch(token, base, id, null, 0, patchIndex,
-        patchSetDetail, patchTable, topView, null);
+      int patchIndex, PatchSetDetail patchSetDetail, PatchTable patchTable,
+      PatchScreen.TopView topView) {
+    patch(token, base, id, null, 0, patchIndex, patchSetDetail, patchTable,
+        topView, null);
   }
 
-  public static void patch(String token, final PatchSet.Id baseId, final Patch.Key id,
-      final DisplaySide side, final int line,
+  public static void patch(String token, final PatchSet.Id baseId,
+      final Patch.Key id, final DisplaySide side, final int line,
       final int patchIndex, final PatchSetDetail patchSetDetail,
       final PatchTable patchTable, final PatchScreen.TopView topView,
       final String panelType) {
-    final PatchScreen.TopView top =  topView == null ?
-        Gerrit.getPatchScreenTopView() : topView;
+    final PatchScreen.TopView top =
+        topView == null ? Gerrit.getPatchScreenTopView() : topView;
 
     GWT.runAsync(new AsyncSplit(token) {
       public void onSuccess() {
@@ -679,8 +675,8 @@ public class Dispatcher {
                 return new PatchScreen.Unified(id, patchIndex, patchSetDetail,
                     patchTable, top, baseId);
               }
-              return new SideBySide2(baseId, id.getParentKey(), id.get(),
-                  side, line);
+              return new SideBySide2(baseId, id.getParentKey(), id.get(), side,
+                  line);
             }
             return new PatchScreen.SideBySide( //
                 id, //
@@ -712,8 +708,8 @@ public class Dispatcher {
                   baseId //
               );
             }
-            return new SideBySide2(baseId, id.getParentKey(), id.get(),
-                side, line);
+            return new SideBySide2(baseId, id.getParentKey(), id.get(), side,
+                line);
           } else if ("".equals(panel) || "sidebyside".equals(panel)) {
             return new PatchScreen.SideBySide(//
                 id, //
@@ -774,8 +770,7 @@ public class Dispatcher {
           return new MyAgreementsScreen();
         }
 
-        if (matchExact(REGISTER, token)
-            || matchExact("/register/", token)
+        if (matchExact(REGISTER, token) || matchExact("/register/", token)
             || matchExact("register", token)) {
           return new RegisterScreen(MINE);
         } else if (matchPrefix("/register/", token)) {
@@ -823,12 +818,12 @@ public class Dispatcher {
           Gerrit.display(token, new ProjectListScreen());
 
         } else if (matchPrefix(ADMIN_PROJECTS, token)) {
-            String rest = skip(token);
-            if (rest.startsWith("?")) {
-              Gerrit.display(token, new ProjectListScreen(rest.substring(1)));
-            } else {
-              Gerrit.display(token, selectProject());
-            }
+          String rest = skip(token);
+          if (rest.startsWith("?")) {
+            Gerrit.display(token, new ProjectListScreen(rest.substring(1)));
+          } else {
+            Gerrit.display(token, selectProject());
+          }
 
         } else if (matchPrefix("/admin/projects", token)) {
           String rest = skip(token);
@@ -893,16 +888,19 @@ public class Dispatcher {
               // shown in the web UI).
               //
               if (AccountGroup.isInternalGroup(group.getGroupUUID())) {
-                Gerrit.display(toGroup(group.getGroupId(), AccountGroupScreen.MEMBERS),
+                Gerrit.display(
+                    toGroup(group.getGroupId(), AccountGroupScreen.MEMBERS),
                     new AccountGroupMembersScreen(group, token));
               } else {
-                Gerrit.display(toGroup(group.getGroupId(), AccountGroupScreen.INFO),
+                Gerrit.display(
+                    toGroup(group.getGroupId(), AccountGroupScreen.INFO),
                     new AccountGroupInfoScreen(group, token));
               }
             } else if (AccountGroupScreen.INFO.equals(panel)) {
               Gerrit.display(token, new AccountGroupInfoScreen(group, token));
             } else if (AccountGroupScreen.MEMBERS.equals(panel)) {
-              Gerrit.display(token, new AccountGroupMembersScreen(group, token));
+              Gerrit
+                  .display(token, new AccountGroupMembersScreen(group, token));
             } else {
               Gerrit.display(token, new NotFoundScreen());
             }
@@ -914,10 +912,16 @@ public class Dispatcher {
         if (matchPrefix(ADMIN_PROJECTS, token)) {
           String rest = skip(token);
           int c = rest.lastIndexOf(',');
+
           if (c < 0) {
             return new ProjectInfoScreen(Project.NameKey.parse(rest));
           } else if (c == 0) {
             return new NotFoundScreen();
+          }
+
+          int q = rest.lastIndexOf('?');
+          if (q > 0 && rest.lastIndexOf(',', q) > 0) {
+            c = rest.substring(0, q - 1).lastIndexOf(',');
           }
 
           Project.NameKey k = Project.NameKey.parse(rest.substring(0, c));
@@ -927,7 +931,8 @@ public class Dispatcher {
             return new ProjectInfoScreen(k);
           }
 
-          if (ProjectScreen.BRANCH.equals(panel)) {
+          if (ProjectScreen.BRANCH.equals(panel)
+              || panel.startsWith(ProjectScreen.BRANCH)) {
             return new ProjectBranchesScreen(k);
           }
 
@@ -939,6 +944,7 @@ public class Dispatcher {
             return new ProjectDashboardsScreen(k);
           }
         }
+
         return new NotFoundScreen();
       }
     });
@@ -976,7 +982,7 @@ public class Dispatcher {
       if (!isReloadUi
           && "HTTP download failed with status 404".equals(reason.getMessage())) {
         // The server was upgraded since we last download the main script,
-        // so the pointers to the splits aren't valid anymore.  Force the
+        // so the pointers to the splits aren't valid anymore. Force the
         // page to reload itself and pick up the new code.
         //
         Gerrit.upgradeUI(token);

@@ -32,4 +32,7 @@ public class LoginUrlToken {
       return CharMatcher.is('/').trimLeadingFrom(Url.decode(encodedToken));
     }
   }
+
+  private LoginUrlToken() {
+  }
 }

@@ -38,7 +38,7 @@ class Actions extends Composite {
   private static final String[] CORE = {
     "abandon", "restore", "revert", "topic",
     "cherrypick", "submit", "rebase", "message",
-    "publish", "/"};
+    "publish", "create_edit", "/"};
 
   interface Binder extends UiBinder<FlowPanel, Actions> {}
   private static final Binder uiBinder = GWT.create(Binder.class);
@@ -46,6 +46,7 @@ class Actions extends Composite {
   @UiField Button cherrypick;
   @UiField Button deleteChange;
   @UiField Button deleteRevision;
+  @UiField Button createEdit;
   @UiField Button publish;
   @UiField Button rebase;
   @UiField Button revert;
@@ -125,6 +126,7 @@ class Actions extends Composite {
       a2b(actions, "cherrypick", cherrypick);
       a2b(actions, "publish", publish);
       a2b(actions, "rebase", rebase);
+      a2b(actions, "create_edit", createEdit);
       for (String id : filterNonCore(actions)) {
         add(new ActionButton(info, revInfo, actions.get(id)));
       }
@@ -162,6 +164,11 @@ class Actions extends Composite {
   @UiHandler("publish")
   void onPublish(ClickEvent e) {
     DraftActions.publish(changeId, revision);
+  }
+
+  @UiHandler("createEdit")
+  void onCreateEdit(ClickEvent e) {
+    CreateEditAction.create(changeId, revision);
   }
 
   @UiHandler("deleteRevision")

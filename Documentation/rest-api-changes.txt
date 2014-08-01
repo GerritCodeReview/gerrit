@@ -1247,6 +1247,28 @@ response "`204 No Content`" is returned.
   HTTP/1.1 204 No Content
 ----
 
+[[delete-edit-file]]
+=== Delete file in Change Edit
+--
+'DELETE /changes/link:#change-id[\{change-id\}]/edit/path%2fto%2ffile'
+--
+
+Deletes a file from a change edit. This deletes the file from the repository
+completely. This is not the same as reverting or restoring a file to its
+previous contents.
+
+.Request
+----
+  DELETE /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/edit/foo HTTP/1.0
+----
+
+When change edit doesn't exist for this change yet it is created.
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
 [[reviewer-endpoints]]
 == Reviewer Endpoints
 

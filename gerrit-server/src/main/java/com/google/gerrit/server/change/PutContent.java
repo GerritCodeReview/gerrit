@@ -32,6 +32,7 @@ import java.io.IOException;
 public class PutContent implements RestModifyView<EditFileResource, Input> {
   public static class Input {
     public RawInput content;
+    public boolean restore;
   }
 
   private final ChangeEditModifier editModifier;
@@ -49,8 +50,13 @@ public class PutContent implements RestModifyView<EditFileResource, Input> {
     if (input.content != null) {
       content = ByteStreams.toByteArray(input.content.getInputStream());
     }
+    boolean restore = input.restore;
     try {
-      editModifier.modifyFile(rsrc.getChangeEdit(), path, content);
+      if (restore) {
+        editModifier.restoreFile(rsrc.getChangeEdit(), path);
+      } else {
+        editModifier.modifyFile(rsrc.getChangeEdit(), path, content);
+      }
     } catch(InvalidChangeOperationException | IOException e) {
       throw new ResourceConflictException(e.getMessage());
     }

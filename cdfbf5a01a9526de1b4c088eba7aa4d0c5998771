@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d61dff5d_14485471",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-08-01T07:49:12Z",
+      "side": 1,
+      "message": "Looking at your previous change I wonder if this is related\nto the parsing done there (as splitting on \u0027/\u0027 will produce \"1234-drafts\")",
+      "range": {
+        "startLine": 14,
+        "startChar": 23,
+        "endLine": 14,
+        "endChar": 42
+      },
+      "revId": "cdfbf5a01a9526de1b4c088eba7aa4d0c5998771",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

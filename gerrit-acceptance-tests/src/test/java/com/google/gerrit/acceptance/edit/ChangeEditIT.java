@@ -156,6 +156,25 @@ public class ChangeEditIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void deleteEditRest() throws Exception {
+    RestResponse r = session.post(urlCreateEdit());
+    assertEquals(HttpStatus.SC_NO_CONTENT, r.getStatusCode());
+    Optional<ChangeEdit> edit = editUtil.byChange(change);
+    assertTrue(edit.isPresent());
+    assertEquals(RefUpdate.Result.FORCED,
+        modifier.modifyFile(
+            edit.get(),
+            FILE_NAME,
+            Constants.encode(CONTENT_NEW)));
+    edit = editUtil.byChange(change);
+    assertTrue(edit.isPresent());
+    session.delete(urlDeleteEdit());
+    assertEquals(HttpStatus.SC_NO_CONTENT, r.getStatusCode());
+    edit = editUtil.byChange(change);
+    assertFalse(edit.isPresent());
+  }
+
+  @Test
   public void updateExistingFile() throws Exception {
     assertEquals(RefUpdate.Result.NEW,
         modifier.createEdit(
@@ -510,12 +529,12 @@ public class ChangeEditIT extends AbstractDaemonTest {
             + FILE_NAME;
   }
 
+  private String urlDeleteEdit() {
+    return urlGet() + "/0";
+  }
+
   private String urlPublishEdit() {
-    return "/changes/"
-        + change.getChangeId()
-        + "/edits/"
-        + 0
-        + "/publish/";
+    return urlDeleteEdit() + "/publish/";
   }
 
   private String urlPut(Change c) {

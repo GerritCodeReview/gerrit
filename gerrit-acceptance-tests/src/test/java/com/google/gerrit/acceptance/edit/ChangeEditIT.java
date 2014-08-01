@@ -17,8 +17,8 @@ package com.google.gerrit.acceptance.edit;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
-import static org.apache.http.HttpStatus.SC_NO_CONTENT;
 import static org.apache.http.HttpStatus.SC_NOT_FOUND;
+import static org.apache.http.HttpStatus.SC_NO_CONTENT;
 import static org.apache.http.HttpStatus.SC_OK;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -28,12 +28,14 @@ import static org.junit.Assert.fail;
 
 import com.google.common.base.Optional;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.RestSession;
 import com.google.gerrit.extensions.common.EditInfo;
+import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.Change;
@@ -46,6 +48,7 @@ import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditModifier;
 import com.google.gerrit.server.edit.ChangeEditUtil;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
+import com.google.gson.reflect.TypeToken;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.util.Providers;
@@ -66,6 +69,8 @@ import org.junit.Test;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class ChangeEditIT extends AbstractDaemonTest {
@@ -281,6 +286,28 @@ public class ChangeEditIT extends AbstractDaemonTest {
 
     r = session.get(urlEdit());
     assertEquals(SC_NOT_FOUND, r.getStatusCode());
+  }
+
+  @Test
+  public void retrieveFilesInEdit() throws Exception {
+    assertEquals(RefUpdate.Result.NEW,
+        modifier.createEdit(
+            change,
+            ps));
+    Optional<ChangeEdit> edit = editUtil.byChange(change);
+    assertEquals(RefUpdate.Result.FORCED,
+        modifier.modifyFile(
+            edit.get(),
+            FILE_NAME,
+            CONTENT_NEW));
+
+    RestResponse r = session.get(urlGetFiles());
+    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    Map<String, FileInfo> result = toFileInfoMap(r);
+    assertEquals(2, result.size());
+    List<String> l = Lists.newArrayList(result.keySet());
+    assertEquals("/COMMIT_MSG", l.get(0));
+    assertEquals("foo", l.get(1));
   }
 
   @Test
@@ -585,6 +612,11 @@ public class ChangeEditIT extends AbstractDaemonTest {
         + FILE_NAME;
   }
 
+  private String urlGetFiles() {
+    return urlEdit()
+        + "?list";
+  }
+
   private String urlPublish() {
     return "/changes/"
         + change.getChangeId()
@@ -593,5 +625,13 @@ public class ChangeEditIT extends AbstractDaemonTest {
 
   private static EditInfo toEditInfo(RestResponse r) throws IOException {
     return newGson().fromJson(r.getReader(), EditInfo.class);
+  }
+
+  private static Map<String, FileInfo> toFileInfoMap(RestResponse r)
+      throws IOException {
+    Map<String, FileInfo> result =
+        newGson().fromJson(r.getReader(),
+            new TypeToken<Map<String, FileInfo>>() {}.getType());
+    return result;
   }
 }

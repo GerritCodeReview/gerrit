@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AcceptsCreate;
 import com.google.gerrit.extensions.restapi.AcceptsPost;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RawInput;
@@ -34,6 +35,7 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditData;
@@ -246,6 +248,37 @@ public class ChangeEdits implements
         throw new ResourceConflictException(e.getMessage());
       }
       return Response.none();
+    }
+  }
+
+  @Singleton
+  static class Get implements RestReadView<ChangeEditResource> {
+    private final FileContentUtil fileContentUtil;
+    private final ChangeEditUtil editUtil;
+
+    @Inject
+    Get(FileContentUtil fileContentUtil,
+        ChangeEditUtil editUtil) {
+      this.fileContentUtil = fileContentUtil;
+      this.editUtil = editUtil;
+    }
+
+    @Override
+    public BinaryResult apply(ChangeEditResource rsrc)
+        throws ResourceNotFoundException, IOException,
+        InvalidChangeOperationException {
+      try {
+        return fileContentUtil.getContent(
+              rsrc.getChangeEdit().getChange().getProject(),
+              rsrc.getChangeEdit().getRevision().get(),
+              rsrc.getPath());
+      } catch (ResourceNotFoundException rnfe) {
+        PatchSet psBase = editUtil.getBasePatchSet(rsrc.getChangeEdit());
+        return fileContentUtil.getContent(
+            rsrc.getChangeEdit().getChange().getProject(),
+            psBase.getRevision().get(),
+            rsrc.getPath());
+      }
     }
   }
 }

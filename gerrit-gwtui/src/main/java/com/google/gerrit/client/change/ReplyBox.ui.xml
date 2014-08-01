@@ -63,12 +63,12 @@ limitations under the License.
       <g:FlowPanel ui:field='comments'/>
     </g:ScrollPanel>
     <div class='{res.style.section}' style='position: relative'>
-      <ui:msg><g:Button ui:field='post'
+      <g:Button ui:field='post'
           title='Post reply (Shortcut: Ctrl-Enter)'
           styleName='{res.style.button}'>
         <ui:attribute name='title'/>
-        <div>Post</div>
-      </g:Button></ui:msg>
+        <div><ui:msg>Post</ui:msg></div>
+      </g:Button>
 
       <g:Button ui:field='cancel'
           title='Close reply form (Shortcut: Esc)'

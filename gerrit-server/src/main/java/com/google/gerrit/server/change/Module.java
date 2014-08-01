@@ -14,13 +14,14 @@
 
 package com.google.gerrit.server.change;
 
+import static com.google.gerrit.server.change.ChangeEditResource.CHANGE_EDIT_KIND;
 import static com.google.gerrit.server.change.ChangeResource.CHANGE_KIND;
 import static com.google.gerrit.server.change.CommentResource.COMMENT_KIND;
 import static com.google.gerrit.server.change.DraftResource.DRAFT_KIND;
+import static com.google.gerrit.server.change.EditFileResource.EDIT_FILE_KIND;
 import static com.google.gerrit.server.change.FileResource.FILE_KIND;
 import static com.google.gerrit.server.change.ReviewerResource.REVIEWER_KIND;
 import static com.google.gerrit.server.change.RevisionResource.REVISION_KIND;
-import static com.google.gerrit.server.change.ChangeEditResource.CHANGE_EDIT_KIND;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
@@ -42,6 +43,7 @@ public class Module extends RestApiModule {
     DynamicMap.mapOf(binder(), CHANGE_KIND);
     DynamicMap.mapOf(binder(), COMMENT_KIND);
     DynamicMap.mapOf(binder(), DRAFT_KIND);
+    DynamicMap.mapOf(binder(), EDIT_FILE_KIND);
     DynamicMap.mapOf(binder(), FILE_KIND);
     DynamicMap.mapOf(binder(), REVIEWER_KIND);
     DynamicMap.mapOf(binder(), REVISION_KIND);
@@ -102,6 +104,8 @@ public class Module extends RestApiModule {
     get(FILE_KIND, "diff").to(GetDiff.class);
 
     child(CHANGE_KIND, "edits").to(ChangeEdits.class);
+    child(CHANGE_EDIT_KIND, "files").to(EditFiles.class);
+    put(EDIT_FILE_KIND, "content").to(PutContent.class);
 
     install(new FactoryModule() {
       @Override

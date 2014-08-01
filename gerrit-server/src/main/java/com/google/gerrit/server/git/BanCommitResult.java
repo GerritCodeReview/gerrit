@@ -16,17 +16,13 @@ package com.google.gerrit.server.git;
 
 import org.eclipse.jgit.lib.ObjectId;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 public class BanCommitResult {
-
-  private final List<ObjectId> newlyBannedCommits = new LinkedList<>();
-  private final List<ObjectId> alreadyBannedCommits = new LinkedList<>();
-  private final List<ObjectId> ignoredObjectIds = new LinkedList<>();
-
-  public BanCommitResult() {
-  }
+  private final List<ObjectId> newlyBannedCommits = new ArrayList<>(4);
+  private final List<ObjectId> alreadyBannedCommits = new ArrayList<>(4);
+  private final List<ObjectId> ignoredObjectIds = new ArrayList<>(4);
 
   public void commitBanned(final ObjectId commitId) {
     newlyBannedCommits.add(commitId);

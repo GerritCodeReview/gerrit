@@ -925,10 +925,16 @@ public class Dispatcher {
         if (matchPrefix(ADMIN_PROJECTS, token)) {
           String rest = skip(token);
           int c = rest.lastIndexOf(',');
+
           if (c < 0) {
             return new ProjectInfoScreen(Project.NameKey.parse(rest));
           } else if (c == 0) {
             return new NotFoundScreen();
+          }
+
+          int q = rest.lastIndexOf('?');
+          if (q > 0 && rest.lastIndexOf(',', q) > 0) {
+            c = rest.substring(0, q - 1).lastIndexOf(',');
           }
 
           Project.NameKey k = Project.NameKey.parse(rest.substring(0, c));
@@ -938,7 +944,8 @@ public class Dispatcher {
             return new ProjectInfoScreen(k);
           }
 
-          if (ProjectScreen.BRANCH.equals(panel)) {
+          if (ProjectScreen.BRANCH.equals(panel)
+              || matchPrefix(ProjectScreen.BRANCH, panel)) {
             return new ProjectBranchesScreen(k);
           }
 
@@ -950,6 +957,7 @@ public class Dispatcher {
             return new ProjectDashboardsScreen(k);
           }
         }
+
         return new NotFoundScreen();
       }
     });

@@ -59,6 +59,21 @@ public class ProjectApi {
     project(name).view("branches").get(cb);
   }
 
+  public static void getBranches(Project.NameKey name, int limit, int start,
+      String match, AsyncCallback<JsArray<BranchInfo>> cb) {
+    RestApi call = project(name).view("branches");
+    call.addParameter("n", limit);
+    call.addParameter("s", start);
+    if (match != null) {
+      if (match.startsWith("^")) {
+        call.addParameter("r", match);
+      } else {
+        call.addParameter("m", match);
+      }
+    }
+    call.get(cb);
+  }
+
   /**
    * Delete branches. For each branch to be deleted a separate DELETE request is
    * fired to the server. The {@code onSuccess} method of the provided callback

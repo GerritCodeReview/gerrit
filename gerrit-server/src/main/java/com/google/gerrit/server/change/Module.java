@@ -105,9 +105,11 @@ public class Module extends RestApiModule {
     get(FILE_KIND, "diff").to(GetDiff.class);
 
     child(CHANGE_KIND, "edits").to(ChangeEdits.class);
+    post(CHANGE_EDIT_KIND, "publish").to(PublishChangeEdit.class);
     child(CHANGE_EDIT_KIND, "files").to(EditFiles.class);
     put(EDIT_FILE_KIND, "content").to(PutContent.class);
     delete(EDIT_FILE_KIND).to(DeleteContent.class);
+
 
     install(new FactoryModule() {
       @Override

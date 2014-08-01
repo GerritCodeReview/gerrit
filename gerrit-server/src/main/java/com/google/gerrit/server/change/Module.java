@@ -103,6 +103,7 @@ public class Module extends RestApiModule {
 
     child(CHANGE_KIND, "edit").to(ChangeEdits.class);
     put(CHANGE_EDIT_KIND, "/").to(PutContent.class);
+    delete(CHANGE_EDIT_KIND).to(DeleteContent.class);
 
     install(new FactoryModule() {
       @Override

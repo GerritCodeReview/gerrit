@@ -225,6 +225,22 @@ public class ChangeEditIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void deleteExistingFileRest() throws Exception {
+    assertEquals(RefUpdate.Result.NEW,
+        modifier.createEdit(
+            change,
+            ps));
+    assertEquals(204, session.delete(urlPut()).getStatusCode());
+    Optional<ChangeEdit> edit = editUtil.byChange(change);
+    try {
+      fileUtil.getContent(edit.get().getChange().getProject(),
+          edit.get().getRevision().get(), FILE_NAME);
+      fail("ResourceNotFoundException expected");
+    } catch (ResourceNotFoundException rnfe) {
+    }
+  }
+
+  @Test
   public void restoreDeletedFileInEdit() throws Exception {
     assertEquals(RefUpdate.Result.NEW,
         modifier.createEdit(
@@ -427,7 +443,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
         + FILE_NAME;
   }
 
-private static Map<String, EditInfo> toEditInfoMap(RestResponse r)
+  private static Map<String, EditInfo> toEditInfoMap(RestResponse r)
       throws IOException {
     Map<String, EditInfo> result =
         newGson().fromJson(r.getReader(),

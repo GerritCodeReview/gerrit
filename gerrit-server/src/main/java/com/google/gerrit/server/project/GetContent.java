@@ -17,25 +17,25 @@ package com.google.gerrit.server.project;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.server.change.FileContentUtil;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import java.io.IOException;
 
 @Singleton
 public class GetContent implements RestReadView<FileResource> {
-  private final Provider<com.google.gerrit.server.change.GetContent> getContent;
+  private final FileContentUtil fileContentUtil;
 
   @Inject
-  GetContent(Provider<com.google.gerrit.server.change.GetContent> getContent) {
-    this.getContent = getContent;
+  GetContent(FileContentUtil fileContentUtil) {
+    this.fileContentUtil = fileContentUtil;
   }
 
   @Override
   public BinaryResult apply(FileResource rsrc)
       throws ResourceNotFoundException, IOException {
-    return getContent.get().apply(rsrc.getProject(), rsrc.getRev(),
+    return fileContentUtil.getContent(rsrc.getProject(), rsrc.getRev(),
         rsrc.getPath());
   }
 }

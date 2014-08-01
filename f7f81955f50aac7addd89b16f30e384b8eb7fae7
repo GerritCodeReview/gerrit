@@ -1,0 +1,209 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "366bbbde_971d6484",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-01T22:00:30Z",
+      "side": 1,
+      "message": "Update this to reflect your change of config options here.\n\nAlternatively just switch to NotesMigration.allEnabledd()?",
+      "revId": "f7f81955f50aac7addd89b16f30e384b8eb7fae7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b69deb27_7b251fc9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-01T22:00:30Z",
+      "side": 1,
+      "message": "I think my suggestion wasn\u0027t aggressive enough. This whole block is still identical; it could be a single method getDraftRefs(Change.Id)",
+      "range": {
+        "startLine": 122,
+        "startChar": 4,
+        "endLine": 124,
+        "endChar": 54
+      },
+      "revId": "f7f81955f50aac7addd89b16f30e384b8eb7fae7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b69deb27_db131378",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-01T22:00:30Z",
+      "side": 1,
+      "message": "No need to set to null, the compiler can figure out that it was initialized before access.",
+      "range": {
+        "startLine": 271,
+        "startChar": 23,
+        "endLine": 271,
+        "endChar": 30
+      },
+      "revId": "f7f81955f50aac7addd89b16f30e384b8eb7fae7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b69deb27_fb104f6d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-01T22:00:30Z",
+      "side": 1,
+      "message": "Only construct the one you need.",
+      "revId": "f7f81955f50aac7addd89b16f30e384b8eb7fae7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b69deb27_1b2adb98",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-01T22:00:30Z",
+      "side": 1,
+      "message": "final\n\nActually the whole suffix should be final, no need to rebuild the string on every call to apply()",
+      "revId": "f7f81955f50aac7addd89b16f30e384b8eb7fae7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "366bbbde_372fb8a9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteDraft.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-01T22:00:30Z",
+      "side": 1,
+      "message": "Seems like this RevId would always be null, why this check? Would it make more sense to push the null check into setCommentRevId?",
+      "revId": "f7f81955f50aac7addd89b16f30e384b8eb7fae7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b69deb27_9b1d8b84",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-01T22:00:30Z",
+      "side": 1,
+      "message": "null check here?",
+      "revId": "f7f81955f50aac7addd89b16f30e384b8eb7fae7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "366bbbde_d713dc77",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-01T22:00:30Z",
+      "side": 1,
+      "message": "Same comment as before, putting this check into the helper method would cut down on code here.",
+      "revId": "f7f81955f50aac7addd89b16f30e384b8eb7fae7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "366bbbde_f710606d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-01T22:00:30Z",
+      "side": 1,
+      "message": "I hate swallowing exceptions like this, leave a warning in the logs. (Not your fault, this happens all over the place. It just makes debugging things in production more difficult than they should be.)",
+      "revId": "f7f81955f50aac7addd89b16f30e384b8eb7fae7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b69deb27_5b494378",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-01T22:00:30Z",
+      "side": 1,
+      "message": "This sentence is rather run-on.",
+      "revId": "f7f81955f50aac7addd89b16f30e384b8eb7fae7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b69deb27_bb1ac787",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-01T22:00:30Z",
+      "side": 1,
+      "message": "Why?",
+      "range": {
+        "startLine": 128,
+        "startChar": 51,
+        "endLine": 129,
+        "endChar": 14
+      },
+      "revId": "f7f81955f50aac7addd89b16f30e384b8eb7fae7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

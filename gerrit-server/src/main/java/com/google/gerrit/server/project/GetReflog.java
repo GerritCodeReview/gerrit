@@ -75,7 +75,7 @@ public class GetReflog implements RestReadView<BranchResource> {
   public List<ReflogEntryInfo> apply(BranchResource rsrc) throws AuthException,
       ResourceNotFoundException, RepositoryNotFoundException, IOException {
     if (!rsrc.getControl().isOwner()) {
-      throw new AuthException("no project owner");
+      throw new AuthException("not project owner");
     }
 
     Repository repo = repoManager.openRepository(rsrc.getNameKey());

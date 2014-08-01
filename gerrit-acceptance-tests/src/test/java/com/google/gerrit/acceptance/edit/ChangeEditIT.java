@@ -39,8 +39,8 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.change.ChangeEdits.Put;
 import com.google.gerrit.server.change.ChangeEdits.Post;
+import com.google.gerrit.server.change.ChangeEdits.Put;
 import com.google.gerrit.server.change.FileContentUtil;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditModifier;
@@ -50,6 +50,8 @@ import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.util.Providers;
 
+import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.codec.binary.StringUtils;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -427,6 +429,44 @@ public class ChangeEditIT extends AbstractDaemonTest {
     assertArrayEquals(CONTENT_OLD,
         toBytes(fileUtil.getContent(edit.get().getChange().getProject(),
             edit.get().getRevision().get(), FILE_NAME)));
+  }
+
+  @Test
+  public void getFileContentRest() throws Exception {
+    Put.Input in = new Put.Input();
+    in.content = RestSession.newRawInput(CONTENT_NEW);
+    assertEquals(SC_NO_CONTENT, session.putRaw(urlEditFile(),
+        in.content).getStatusCode());
+    Optional<ChangeEdit> edit = editUtil.byChange(change);
+    assertEquals(RefUpdate.Result.FORCED,
+        modifier.modifyFile(
+            edit.get(),
+            FILE_NAME,
+            CONTENT_NEW2));
+    edit = editUtil.byChange(change);
+    RestResponse r = session.get(urlEditFile());
+    assertEquals(SC_OK, r.getStatusCode());
+    String content = r.getEntityContent();
+    assertEquals(StringUtils.newStringUtf8(CONTENT_NEW2),
+        StringUtils.newStringUtf8(Base64.decodeBase64(content)));
+  }
+
+  @Test
+  public void getFileNotFoudRest() throws Exception {
+    assertEquals(RefUpdate.Result.NEW,
+        modifier.createEdit(
+            change,
+            ps));
+    assertEquals(SC_NO_CONTENT, session.delete(urlEditFile()).getStatusCode());
+    Optional<ChangeEdit> edit = editUtil.byChange(change);
+    try {
+      fileUtil.getContent(edit.get().getChange().getProject(),
+          edit.get().getRevision().get(), FILE_NAME);
+      fail("ResourceNotFoundException expected");
+    } catch (ResourceNotFoundException rnfe) {
+    }
+    RestResponse r = session.get(urlEditFile());
+    assertEquals(SC_NO_CONTENT, r.getStatusCode());
   }
 
   @Test

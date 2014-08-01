@@ -1295,6 +1295,26 @@ specified file was deleted in the change edit "`204 No Content`" is returned.
   RnJvbSA3ZGFkY2MxNTNmZGVhMTdhYTg0ZmYzMmE2ZTI0NWRiYjY...
 ----
 
+[[publish-edit]]
+=== Publish Change Edit
+--
+'POST /changes/link:#change-id[\{change-id\}]/publish_edit
+--
+
+Promotes change edit to a regular patch set.
+
+.Request
+----
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/publish_edit HTTP/1.0
+----
+
+As response "`204 No Content`" is returned.
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
 [[reviewer-endpoints]]
 == Reviewer Endpoints
 

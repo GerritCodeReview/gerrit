@@ -74,7 +74,7 @@ public class BanCommit {
 
   private final Provider<IdentifiedUser> currentUser;
   private final GitRepositoryManager repoManager;
-  private final PersonIdent gerritIdent;
+  private final TimeZone tz;
   private NotesBranchUtil.Factory notesBranchUtilFactory;
 
   @Inject
@@ -84,8 +84,8 @@ public class BanCommit {
       final NotesBranchUtil.Factory notesBranchUtilFactory) {
     this.currentUser = currentUser;
     this.repoManager = repoManager;
-    this.gerritIdent = gerritIdent;
     this.notesBranchUtilFactory = notesBranchUtilFactory;
+    this.tz = gerritIdent.getTimeZone();
   }
 
   public BanCommitResult ban(final ProjectControl projectControl,
@@ -152,7 +152,6 @@ public class BanCommit {
 
   private PersonIdent createPersonIdent() {
     Date now = new Date();
-    TimeZone tz = gerritIdent.getTimeZone();
     return currentUser.get().newCommitterIdent(now, tz);
   }
 

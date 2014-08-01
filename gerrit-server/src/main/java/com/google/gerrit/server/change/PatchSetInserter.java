@@ -34,6 +34,7 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.git.BanCommit;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
@@ -54,6 +55,7 @@ import com.google.inject.assistedinject.Assisted;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
@@ -358,7 +360,7 @@ public class PatchSetInserter {
     }
   }
 
-  private void validate() throws InvalidChangeOperationException {
+  private void validate() throws InvalidChangeOperationException, IOException {
     CommitValidators cv =
         commitValidatorsFactory.create(ctl.getRefControl(), sshInfo, git);
 
@@ -374,7 +376,8 @@ public class PatchSetInserter {
     try {
       switch (validatePolicy) {
       case RECEIVE_COMMITS:
-        cv.validateForReceiveCommits(event);
+        NoteMap rejectCommits = BanCommit.loadRejectCommitsMap(git, revWalk);
+        cv.validateForReceiveCommits(event, rejectCommits);
         break;
       case GERRIT:
         cv.validateForGerritCommits(event);

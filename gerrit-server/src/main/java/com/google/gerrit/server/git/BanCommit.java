@@ -48,15 +48,15 @@ import java.util.TimeZone;
 
 @Singleton
 public class BanCommit {
-
   /**
    * Loads a list of commits to reject from {@code refs/meta/reject-commits}.
    *
    * @param repo repository from which the rejected commits should be loaded
+   * @param walk open revwalk on repo.
    * @return NoteMap of commits to be rejected, null if there are none.
    * @throws IOException the map cannot be loaded.
    */
-  public static NoteMap loadRejectCommitsMap(Repository repo)
+  public static NoteMap loadRejectCommitsMap(Repository repo, RevWalk walk)
       throws IOException {
     try {
       Ref ref = repo.getRef(RefNames.REFS_REJECT_COMMITS);
@@ -64,13 +64,8 @@ public class BanCommit {
         return NoteMap.newEmptyMap();
       }
 
-      RevWalk rw = new RevWalk(repo);
-      try {
-        RevCommit map = rw.parseCommit(ref.getObjectId());
-        return NoteMap.read(rw.getObjectReader(), map);
-      } finally {
-        rw.release();
-      }
+      RevCommit map = walk.parseCommit(ref.getObjectId());
+      return NoteMap.read(walk.getObjectReader(), map);
     } catch (IOException badMap) {
       throw new IOException("Cannot load " + RefNames.REFS_REJECT_COMMITS,
           badMap);

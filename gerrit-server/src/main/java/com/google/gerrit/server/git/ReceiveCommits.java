@@ -415,7 +415,7 @@ public class ReceiveCommits {
     this.project = projectControl.getProject();
     this.repo = repo;
     this.rp = new ReceivePack(repo);
-    this.rejectCommits = BanCommit.loadRejectCommitsMap(repo);
+    this.rejectCommits = BanCommit.loadRejectCommitsMap(repo, rp.getRevWalk());
 
     this.subOpFactory = subOpFactory;
     this.submitProvider = submitProvider;
@@ -2267,7 +2267,8 @@ public class ReceiveCommits {
         commitValidatorsFactory.create(ctl, sshInfo, repo);
 
     try {
-      messages.addAll(commitValidators.validateForReceiveCommits(receiveEvent));
+      messages.addAll(commitValidators.validateForReceiveCommits(
+          receiveEvent, rejectCommits));
     } catch (CommitValidationException e) {
       messages.addAll(e.getMessages());
       reject(cmd, e.getMessage());

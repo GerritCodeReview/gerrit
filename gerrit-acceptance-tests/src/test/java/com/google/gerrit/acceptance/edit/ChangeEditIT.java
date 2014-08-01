@@ -47,6 +47,8 @@ import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.util.Providers;
 
+import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.codec.binary.StringUtils;
 import org.apache.http.HttpStatus;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.Constants;
@@ -131,6 +133,28 @@ public class ChangeEditIT extends AbstractDaemonTest {
             FILE_NAME,
             Constants.encode(CONTENT_NEW)));
     edit = editUtil.byChange(change);
+    editUtil.delete(edit.get());
+    edit = editUtil.byChange(change);
+    assertFalse(edit.isPresent());
+  }
+
+  @Test
+  public void getFileContentRest() throws Exception {
+    RestResponse r = session.post(urlCreateEdit());
+    assertEquals(HttpStatus.SC_NO_CONTENT, r.getStatusCode());
+    Optional<ChangeEdit> edit = editUtil.byChange(change);
+    assertTrue(edit.isPresent());
+    assertEquals(RefUpdate.Result.FORCED,
+        modifier.modifyFile(
+            edit.get(),
+            FILE_NAME,
+            Constants.encode(CONTENT_NEW)));
+    edit = editUtil.byChange(change);
+    r = session.get(urlFileContent(change));
+    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    String content = r.getEntityContent();
+    assertEquals(CONTENT_NEW, StringUtils.newStringUtf8(
+        Base64.decodeBase64(content)));
     editUtil.delete(edit.get());
     edit = editUtil.byChange(change);
     assertFalse(edit.isPresent());
@@ -278,7 +302,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
             ps));
     Optional<ChangeEdit> edit = editUtil.byChange(change);
     assertTrue(edit.isPresent());
-    assertEquals(204, session.delete(urlDelete(change)).getStatusCode());
+    assertEquals(204, session.delete(urlFile(change)).getStatusCode());
     edit = editUtil.byChange(change);
     editUtil.publish(edit.get());
     edit = editUtil.byChange(change);
@@ -339,7 +363,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     assertTrue(edit.isPresent());
     PutContent.Input in = new PutContent.Input();
     in.restore = true;
-    assertEquals(204, session.put(urlPut(change2), in).getStatusCode());
+    assertEquals(204, session.put(urlFileContent(change2), in).getStatusCode());
     edit = editUtil.byChange(change2);
     assertTrue(edit.isPresent());
     editUtil.publish(edit.get());
@@ -355,7 +379,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
             ps));
     PutContent.Input in = new PutContent.Input();
     in.content = RestSession.newRawInput(CONTENT_NEW);
-    assertEquals(204, session.putRaw(urlPut(change),
+    assertEquals(204, session.putRaw(urlFileContent(change),
         in.content).getStatusCode());
     Optional<ChangeEdit> edit = editUtil.byChange(change);
     assertTrue(edit.isPresent());
@@ -399,12 +423,12 @@ public class ChangeEditIT extends AbstractDaemonTest {
             ps));
     PutContent.Input in = new PutContent.Input();
     in.content = RestSession.newRawInput(CONTENT_NEW);
-    assertEquals(204, session.putRaw(urlPut(change),
+    assertEquals(204, session.putRaw(urlFileContent(change),
         in.content).getStatusCode());
     Optional<ChangeEdit> edit = editUtil.byChange(change);
     assertTrue(edit.isPresent());
     in.content = RestSession.newRawInput(CONTENT_NEW + 42);
-    assertEquals(204, session.putRaw(urlPut(change),
+    assertEquals(204, session.putRaw(urlFileContent(change),
         in.content).getStatusCode());
     edit = editUtil.byChange(change);
     editUtil.publish(edit.get());
@@ -520,7 +544,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
         + "/files/";
   }
 
-  private String urlDelete(Change c) {
+  private String urlFile(Change c) {
     return "/changes/"
             + c.getChangeId()
             + "/edits/"
@@ -537,8 +561,8 @@ public class ChangeEditIT extends AbstractDaemonTest {
     return urlDeleteEdit() + "/publish/";
   }
 
-  private String urlPut(Change c) {
-    return urlDelete(c) + "/content";
+  private String urlFileContent(Change c) {
+    return urlFile(c) + "/content";
   }
 
 private static Map<String, EditInfo> toEditInfoMap(RestResponse r)

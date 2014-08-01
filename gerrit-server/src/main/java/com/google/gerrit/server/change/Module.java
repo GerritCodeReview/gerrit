@@ -106,6 +106,7 @@ public class Module extends RestApiModule {
 
     child(CHANGE_KIND, "edits").to(ChangeEdits.class);
     post(CHANGE_EDIT_KIND, "publish").to(PublishChangeEdit.class);
+    delete(CHANGE_EDIT_KIND).to(DeleteChangeEdit.class);
     child(CHANGE_EDIT_KIND, "files").to(EditFiles.class);
     put(EDIT_FILE_KIND, "content").to(PutContent.class);
     delete(EDIT_FILE_KIND).to(DeleteContent.class);

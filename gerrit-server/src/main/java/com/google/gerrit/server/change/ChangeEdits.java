@@ -18,7 +18,6 @@ import com.google.common.base.Optional;
 import com.google.common.base.Strings;
 import com.google.common.io.ByteStreams;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AcceptsCreate;
 import com.google.gerrit.extensions.restapi.AcceptsDelete;
@@ -36,11 +35,13 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditJson;
 import com.google.gerrit.server.edit.ChangeEditModifier;
 import com.google.gerrit.server.edit.ChangeEditUtil;
+import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
@@ -48,6 +49,8 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.assistedinject.Assisted;
+
+import org.kohsuke.args4j.Option;
 
 import java.io.IOException;
 
@@ -226,21 +229,50 @@ public class ChangeEdits implements
   static class Detail implements RestReadView<ChangeResource> {
     private final ChangeEditUtil editUtil;
     private final ChangeEditJson editJson;
+    private final FileInfoJson fileInfoJson;
+    private final Revisions revisions;
+
+    @Option(name = "--base", metaVar = "revision-id")
+    String base;
+
+    @Option(name = "--list", metaVar = "LIST")
+    boolean list;
 
     @Inject
-    Detail(ChangeEditJson editJson,
-        ChangeEditUtil editUtil) {
+    Detail(ChangeEditUtil editUtil,
+        ChangeEditJson editJson,
+        FileInfoJson fileInfoJson,
+        Revisions revisions) {
       this.editJson = editJson;
       this.editUtil = editUtil;
+      this.fileInfoJson = fileInfoJson;
+      this.revisions = revisions;
     }
 
     @Override
-    public Response<EditInfo> apply(ChangeResource rsrc) throws AuthException,
+    public Response<?> apply(ChangeResource rsrc) throws AuthException,
         IOException, NoSuchChangeException, InvalidChangeOperationException,
-        ResourceNotFoundException {
+        ResourceNotFoundException, OrmException {
       Optional<ChangeEdit> edit = editUtil.byChange(rsrc.getChange());
       if (edit.isPresent()) {
-        return Response.ok(editJson.toEditInfo(edit.get()));
+        if (list) {
+          PatchSet basePatchSet = null;
+          if (base != null) {
+            RevisionResource baseResource = revisions.parse(
+                rsrc, IdString.fromDecoded(base));
+            basePatchSet = baseResource.getPatchSet();
+          }
+          try {
+            return Response.ok(fileInfoJson.toFileInfoMap(
+                rsrc.getChange(),
+                edit.get().getRevision(),
+                basePatchSet));
+          } catch (PatchListNotAvailableException e) {
+            throw new ResourceNotFoundException(e.getMessage());
+          }
+        } else {
+          return Response.ok(editJson.toEditInfo(edit.get()));
+        }
       }
       return Response.none();
     }

@@ -23,16 +23,25 @@ import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.inject.TypeLiteral;
 
+/**
+ * Represents change edit resource, that is actualy two kinds of resources:
+ * <li>the change edit itself</li>
+ * <li>a path within the edit</li>
+ * distinguished by whether path is null or not.
+ */
 public class ChangeEditResource implements RestResource {
   public static final TypeLiteral<RestView<ChangeEditResource>> CHANGE_EDIT_KIND =
       new TypeLiteral<RestView<ChangeEditResource>>() {};
 
   private final ChangeResource change;
   private final ChangeEdit edit;
+  private final String path;
 
-  public ChangeEditResource(ChangeResource change, ChangeEdit edit) {
+  public ChangeEditResource(ChangeResource change, ChangeEdit edit,
+      String path) {
     this.change = change;
     this.edit = edit;
+    this.path = path;
   }
 
   // TODO(davido): Make this cacheable.
@@ -55,6 +64,10 @@ public class ChangeEditResource implements RestResource {
 
   public ChangeEdit getChangeEdit() {
     return edit;
+  }
+
+  public String getPath() {
+    return path;
   }
 
   Account.Id getAccountId() {

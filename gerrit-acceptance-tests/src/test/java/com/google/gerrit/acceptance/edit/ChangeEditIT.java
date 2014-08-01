@@ -17,6 +17,9 @@ package com.google.gerrit.acceptance.edit;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.apache.http.HttpStatus.SC_NO_CONTENT;
+import static org.apache.http.HttpStatus.SC_NOT_FOUND;
+import static org.apache.http.HttpStatus.SC_OK;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -38,6 +41,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.FileContentUtil;
+import com.google.gerrit.server.change.ChangeEdits.Put;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditModifier;
 import com.google.gerrit.server.edit.ChangeEditUtil;
@@ -46,7 +50,6 @@ import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.util.Providers;
 
-import org.apache.http.HttpStatus;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -215,8 +218,8 @@ public class ChangeEditIT extends AbstractDaemonTest {
 
   @Test
   public void retrieveEdit() throws Exception {
-    RestResponse r = session.get(url());
-    assertEquals(HttpStatus.SC_NOT_FOUND, r.getStatusCode());
+    RestResponse r = session.get(urlEdit());
+    assertEquals(SC_NOT_FOUND, r.getStatusCode());
     assertEquals(RefUpdate.Result.NEW,
         modifier.createEdit(
             change,
@@ -228,8 +231,8 @@ public class ChangeEditIT extends AbstractDaemonTest {
             FILE_NAME,
             CONTENT_NEW));
     edit = editUtil.byChange(change);
-    r = session.get(url());
-    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    r = session.get(urlEdit());
+    assertEquals(SC_OK, r.getStatusCode());
     EditInfo info = toEditInfo(r);
     assertEquals(edit.get().getRevision().get(), info.commit.commit);
     assertEquals(1, info.commit.parents.size());
@@ -237,8 +240,8 @@ public class ChangeEditIT extends AbstractDaemonTest {
     edit = editUtil.byChange(change);
     editUtil.delete(edit.get());
 
-    r = session.get(url());
-    assertEquals(HttpStatus.SC_NOT_FOUND, r.getStatusCode());
+    r = session.get(urlEdit());
+    assertEquals(SC_NOT_FOUND, r.getStatusCode());
   }
 
   @Test
@@ -316,6 +319,18 @@ public class ChangeEditIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void restoreDeletedFileInPatchSetRest() throws Exception {
+    Put.Input in = new Put.Input();
+    in.restore = true;
+    assertEquals(SC_NO_CONTENT, session.post(urlEditFile2(),
+        in).getStatusCode());
+    Optional<ChangeEdit> edit = editUtil.byChange(change2);
+    assertArrayEquals(CONTENT_OLD,
+        toBytes(fileUtil.getContent(edit.get().getChange().getProject(),
+            edit.get().getRevision().get(), FILE_NAME)));
+  }
+
+  @Test
   public void amendExistingFile() throws Exception {
     assertEquals(RefUpdate.Result.NEW,
         modifier.createEdit(
@@ -336,6 +351,42 @@ public class ChangeEditIT extends AbstractDaemonTest {
             edit.get(),
             FILE_NAME,
             CONTENT_NEW2));
+    edit = editUtil.byChange(change);
+    assertArrayEquals(CONTENT_NEW2,
+        toBytes(fileUtil.getContent(edit.get().getChange().getProject(),
+            edit.get().getRevision().get(), FILE_NAME)));
+  }
+
+  @Test
+  public void createAndChangeEditInOneRequestRest() throws Exception {
+    Put.Input in = new Put.Input();
+    in.content = RestSession.newRawInput(CONTENT_NEW);
+    assertEquals(SC_NO_CONTENT, session.putRaw(urlEditFile(),
+        in.content).getStatusCode());
+    Optional<ChangeEdit> edit = editUtil.byChange(change);
+    assertArrayEquals(CONTENT_NEW,
+        toBytes(fileUtil.getContent(edit.get().getChange().getProject(),
+            edit.get().getRevision().get(), FILE_NAME)));
+    in.content = RestSession.newRawInput(CONTENT_NEW2);
+    assertEquals(SC_NO_CONTENT, session.putRaw(urlEditFile(),
+        in.content).getStatusCode());
+    edit = editUtil.byChange(change);
+    assertArrayEquals(CONTENT_NEW2,
+        toBytes(fileUtil.getContent(edit.get().getChange().getProject(),
+            edit.get().getRevision().get(), FILE_NAME)));
+  }
+
+  @Test
+  public void createEmptyEditRest() throws Exception {
+    Put.Input in = new Put.Input();
+    assertEquals(SC_NO_CONTENT, session.post(urlEdit()).getStatusCode());
+    Optional<ChangeEdit> edit = editUtil.byChange(change);
+    assertArrayEquals(CONTENT_OLD,
+        toBytes(fileUtil.getContent(edit.get().getChange().getProject(),
+            edit.get().getRevision().get(), FILE_NAME)));
+    in.content = RestSession.newRawInput(CONTENT_NEW2);
+    assertEquals(SC_NO_CONTENT, session.putRaw(urlEditFile(),
+        in.content).getStatusCode());
     edit = editUtil.byChange(change);
     assertArrayEquals(CONTENT_NEW2,
         toBytes(fileUtil.getContent(edit.get().getChange().getProject(),
@@ -441,14 +492,26 @@ public class ChangeEditIT extends AbstractDaemonTest {
     return os.toByteArray();
   }
 
-  private String url() {
+  private String urlEdit() {
     return "/changes/"
         + change.getChangeId()
         + "/edit";
   }
 
-  private static EditInfo toEditInfo(RestResponse r)
-      throws IOException {
+  private String urlEditFile() {
+    return urlEdit()
+        + "/"
+        + FILE_NAME;
+  }
+
+  private String urlEditFile2() {
+    return "/changes/"
+        + change2.getChangeId()
+        + "/edit/"
+        + FILE_NAME;
+  }
+
+  private static EditInfo toEditInfo(RestResponse r) throws IOException {
     return newGson().fromJson(r.getReader(), EditInfo.class);
   }
 }

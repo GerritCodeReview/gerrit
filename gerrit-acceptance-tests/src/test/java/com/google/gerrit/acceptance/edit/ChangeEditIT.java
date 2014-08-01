@@ -39,8 +39,8 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.change.FileContentUtil;
 import com.google.gerrit.server.change.CreateOrModifyChangeEdit.Input;
+import com.google.gerrit.server.change.FileContentUtil;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditModifier;
 import com.google.gerrit.server.edit.ChangeEditUtil;
@@ -50,6 +50,8 @@ import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.util.Providers;
 
+import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.codec.binary.StringUtils;
 import org.apache.http.HttpStatus;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -225,22 +227,6 @@ public class ChangeEditIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void deleteExistingFileRest() throws Exception {
-    assertEquals(RefUpdate.Result.NEW,
-        modifier.createEdit(
-            change,
-            ps));
-    assertEquals(204, session.delete(urlPut()).getStatusCode());
-    Optional<ChangeEdit> edit = editUtil.byChange(change);
-    try {
-      fileUtil.getContent(edit.get().getChange().getProject(),
-          edit.get().getRevision().get(), FILE_NAME);
-      fail("ResourceNotFoundException expected");
-    } catch (ResourceNotFoundException rnfe) {
-    }
-  }
-
-  @Test
   public void restoreDeletedFileInEdit() throws Exception {
     assertEquals(RefUpdate.Result.NEW,
         modifier.createEdit(
@@ -336,6 +322,25 @@ public class ChangeEditIT extends AbstractDaemonTest {
     assertArrayEquals(CONTENT_NEW2,
         toBytes(fileUtil.getContent(edit.get().getChange().getProject(),
             edit.get().getRevision().get(), FILE_NAME)));
+  }
+
+  @Test
+  public void getFileContentRest() throws Exception {
+    Input in = new Input();
+    in.content = RestSession.newRawInput(CONTENT_NEW);
+    assertEquals(204, session.putRaw(urlPut(), in.content).getStatusCode());
+    Optional<ChangeEdit> edit = editUtil.byChange(change);
+    assertEquals(RefUpdate.Result.FORCED,
+        modifier.modifyFile(
+            edit.get(),
+            FILE_NAME,
+            CONTENT_NEW2));
+    edit = editUtil.byChange(change);
+    RestResponse r = session.get(urlPut());
+    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    String content = r.getEntityContent();
+    assertEquals(new String(CONTENT_NEW2, UTF_8), StringUtils.newStringUtf8(
+        Base64.decodeBase64(content)));
   }
 
   @Test

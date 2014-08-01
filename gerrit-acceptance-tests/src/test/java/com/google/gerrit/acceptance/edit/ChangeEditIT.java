@@ -40,6 +40,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.FileContentUtil;
+import com.google.gerrit.server.change.CreateOrModifyChangeEdit.Input;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditModifier;
 import com.google.gerrit.server.edit.ChangeEditUtil;
@@ -188,7 +189,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
             FILE_NAME,
             CONTENT_NEW));
 
-    RestResponse r = session.get(url());
+    RestResponse r = session.get(urlGet());
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
     Map<String, EditInfo> result = toEditInfoMap(r);
     assertEquals(1, result.size());
@@ -198,7 +199,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     edit = editUtil.byChange(change);
     editUtil.delete(edit.get());
 
-    r = session.get(url());
+    r = session.get(urlGet());
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
     assertEquals(0, toEditInfoMap(r).size());
   }
@@ -278,7 +279,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void amendExistingFile() throws Exception {
+  public void ammendExistingFile() throws Exception {
     assertEquals(RefUpdate.Result.NEW,
         modifier.createEdit(
             change,
@@ -298,6 +299,23 @@ public class ChangeEditIT extends AbstractDaemonTest {
             edit.get(),
             FILE_NAME,
             CONTENT_NEW2));
+    edit = editUtil.byChange(change);
+    assertArrayEquals(CONTENT_NEW2,
+        toBytes(fileUtil.getContent(edit.get().getChange().getProject(),
+            edit.get().getRevision().get(), FILE_NAME)));
+  }
+
+  @Test
+  public void createAndChangeEditRest() throws Exception {
+    Input in = new Input();
+    in.content = RestSession.newRawInput(CONTENT_NEW);
+    assertEquals(204, session.putRaw(urlPut(), in.content).getStatusCode());
+    Optional<ChangeEdit> edit = editUtil.byChange(change);
+    assertArrayEquals(CONTENT_NEW,
+        toBytes(fileUtil.getContent(edit.get().getChange().getProject(),
+            edit.get().getRevision().get(), FILE_NAME)));
+    in.content = RestSession.newRawInput(CONTENT_NEW2);
+    assertEquals(204, session.putRaw(urlPut(), in.content).getStatusCode());
     edit = editUtil.byChange(change);
     assertArrayEquals(CONTENT_NEW2,
         toBytes(fileUtil.getContent(edit.get().getChange().getProject(),
@@ -396,13 +414,20 @@ public class ChangeEditIT extends AbstractDaemonTest {
     return os.toByteArray();
   }
 
-  private String url() {
+  private String urlGet() {
     return "/changes/"
         + change.getChangeId()
-        + "/edits";
+        + "/edit";
   }
 
-  private static Map<String, EditInfo> toEditInfoMap(RestResponse r)
+  private String urlPut() {
+    return "/changes/"
+        + change.getChangeId()
+        + "/edit/"
+        + FILE_NAME;
+  }
+
+private static Map<String, EditInfo> toEditInfoMap(RestResponse r)
       throws IOException {
     Map<String, EditInfo> result =
         newGson().fromJson(r.getReader(),

@@ -14,24 +14,40 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.common.base.Optional;
 import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.restapi.AcceptsCreate;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestView;
+import com.google.gerrit.server.edit.ChangeEdit;
+import com.google.gerrit.server.edit.ChangeEditUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import java.io.IOException;
+
 @Singleton
 class ChangeEdits implements
-    ChildCollection<ChangeResource, ChangeEditResource> {
+    ChildCollection<ChangeResource, ChangeEditResource>,
+    AcceptsCreate<ChangeResource> {
   private final DynamicMap<RestView<ChangeEditResource>> views;
   private final ListChangeEdits.Factory listFactory;
+  private final ChangeEditUtil editUtil;
+  private final CreateOrModifyChangeEdit.Factory createOrModifyEditFactory;
 
   @Inject
   ChangeEdits(DynamicMap<RestView<ChangeEditResource>> views,
-      ListChangeEdits.Factory listFactory) {
+      ListChangeEdits.Factory listFactory,
+      ChangeEditUtil editUtil,
+      CreateOrModifyChangeEdit.Factory createOrModifyEditFactory) {
     this.views = views;
     this.listFactory = listFactory;
+    this.editUtil = editUtil;
+    this.createOrModifyEditFactory = createOrModifyEditFactory;
   }
 
   @Override
@@ -45,7 +61,19 @@ class ChangeEdits implements
   }
 
   @Override
-  public ChangeEditResource parse(ChangeResource change, IdString id) {
-    throw new IllegalStateException("not yet implemented");
+  public ChangeEditResource parse(ChangeResource rsrc, IdString id)
+      throws ResourceNotFoundException, AuthException, IOException {
+    Optional<ChangeEdit> edit = editUtil.byChange(rsrc.getChange());
+    if (!edit.isPresent()) {
+      throw new ResourceNotFoundException(id);
+    }
+    return new ChangeEditResource(rsrc, edit.get(), id.get());
+  }
+
+  @SuppressWarnings("unchecked")
+  @Override
+  public CreateOrModifyChangeEdit create(ChangeResource parent, IdString id)
+      throws RestApiException {
+    return createOrModifyEditFactory.create(parent.getChange(), id.get());
   }
 }

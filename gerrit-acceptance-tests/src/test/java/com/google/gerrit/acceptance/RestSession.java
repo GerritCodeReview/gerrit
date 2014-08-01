@@ -91,12 +91,14 @@ public class RestSession extends HttpSession {
   }
 
 
-  public static RawInput newRawInput(final String content) throws IOException {
-    Preconditions.checkNotNull(content);
-    Preconditions.checkArgument(!content.isEmpty());
-    return new RawInput() {
-      byte bytes[] = content.getBytes("UTF-8");
+  public static RawInput newRawInput(String content) throws IOException {
+    return newRawInput(content.getBytes("UTF-8"));
+  }
 
+  public static RawInput newRawInput(final byte[] bytes) throws IOException {
+    Preconditions.checkNotNull(bytes);
+    Preconditions.checkArgument(bytes.length > 0);
+    return new RawInput() {
       @Override
       public InputStream getInputStream() throws IOException {
         return new ByteArrayInputStream(bytes);

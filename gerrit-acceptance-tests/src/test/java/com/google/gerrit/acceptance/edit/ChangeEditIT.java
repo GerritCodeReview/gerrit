@@ -191,7 +191,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
             ps));
     Optional<ChangeEdit> edit = editUtil.byChange(change);
     assertTrue(edit.isPresent());
-    assertEquals(204, session.delete(urlDelete()).getStatusCode());
+    assertEquals(204, session.delete(urlDelete(change)).getStatusCode());
     edit = editUtil.byChange(change);
     editUtil.publish(edit.get());
     edit = editUtil.byChange(change);
@@ -224,7 +224,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void restoreDeletedFileInPatchSet() throws Exception {
+  public void restoreDeletedFile() throws Exception {
     assertEquals(RefUpdate.Result.NEW,
         modifier.createEdit(
             change2,
@@ -243,6 +243,24 @@ public class ChangeEditIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void restoreDeletedFileRest() throws Exception {
+    assertEquals(RefUpdate.Result.NEW,
+        modifier.createEdit(
+            change2,
+            ps2));
+    Optional<ChangeEdit> edit = editUtil.byChange(change2);
+    assertTrue(edit.isPresent());
+    PutContent.Input in = new PutContent.Input();
+    in.restore = true;
+    assertEquals(204, session.put(urlPut(change2), in).getStatusCode());
+    edit = editUtil.byChange(change2);
+    assertTrue(edit.isPresent());
+    editUtil.publish(edit.get());
+    edit = editUtil.byChange(change2);
+    assertFalse(edit.isPresent());
+  }
+
+  @Test
   public void updateExistingFileRest() throws Exception {
     assertEquals(RefUpdate.Result.NEW,
         modifier.createEdit(
@@ -250,7 +268,8 @@ public class ChangeEditIT extends AbstractDaemonTest {
             ps));
     PutContent.Input in = new PutContent.Input();
     in.content = RestSession.newRawInput(CONTENT_NEW);
-    assertEquals(204, session.putRaw(urlPut(), in.content).getStatusCode());
+    assertEquals(204, session.putRaw(urlPut(change),
+        in.content).getStatusCode());
     Optional<ChangeEdit> edit = editUtil.byChange(change);
     assertTrue(edit.isPresent());
     editUtil.publish(edit.get());
@@ -293,11 +312,13 @@ public class ChangeEditIT extends AbstractDaemonTest {
             ps));
     PutContent.Input in = new PutContent.Input();
     in.content = RestSession.newRawInput(CONTENT_NEW);
-    assertEquals(204, session.putRaw(urlPut(), in.content).getStatusCode());
+    assertEquals(204, session.putRaw(urlPut(change),
+        in.content).getStatusCode());
     Optional<ChangeEdit> edit = editUtil.byChange(change);
     assertTrue(edit.isPresent());
     in.content = RestSession.newRawInput(CONTENT_NEW + 42);
-    assertEquals(204, session.putRaw(urlPut(), in.content).getStatusCode());
+    assertEquals(204, session.putRaw(urlPut(change),
+        in.content).getStatusCode());
     edit = editUtil.byChange(change);
     editUtil.publish(edit.get());
     edit = editUtil.byChange(change2);
@@ -396,17 +417,17 @@ public class ChangeEditIT extends AbstractDaemonTest {
         + "/edits";
   }
 
-  private String urlDelete() {
+  private String urlDelete(Change c) {
     return "/changes/"
-            + change.getChangeId()
+            + c.getChangeId()
             + "/edits/"
             + 0
             + "/files/"
             + FILE_NAME;
   }
 
-  private String urlPut() {
-    return urlDelete() + "/content";
+  private String urlPut(Change c) {
+    return urlDelete(c) + "/content";
   }
 
   private static Map<String, RevisionInfo> toRevisionInfoMap(RestResponse r)

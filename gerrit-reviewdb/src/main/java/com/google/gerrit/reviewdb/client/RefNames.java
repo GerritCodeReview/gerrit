@@ -45,6 +45,9 @@ public class RefNames {
 
   public static final String REFS_DRAFT_PREFIX = "comments-";
 
+  /** Suffix of a meta ref in the notedb. */
+  public static final String META_SUFFIX = "/meta";
+
   public static String refsUsers(Account.Id accountId) {
     StringBuilder r = new StringBuilder();
     r.append(REFS_USER);

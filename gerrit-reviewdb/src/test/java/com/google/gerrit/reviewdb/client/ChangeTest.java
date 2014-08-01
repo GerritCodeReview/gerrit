@@ -21,16 +21,18 @@ import org.junit.Test;
 
 public class ChangeTest {
   @Test
-  public void parseRefNames() {
-    assertRef(1, "refs/changes/01/1/1");
-    assertRef(1234, "refs/changes/34/1234/56");
-
-    // Not even close.
+  public void parseInvalidRefNames() {
     assertNotRef(null);
     assertNotRef("");
     assertNotRef("01/1/1");
     assertNotRef("HEAD");
     assertNotRef("refs/tags/v1");
+  }
+
+  @Test
+  public void parsePatchSetRefNames() {
+    assertRef(1, "refs/changes/01/1/1");
+    assertRef(1234, "refs/changes/34/1234/56");
 
     // Invalid characters.
     assertNotRef("refs/changes/0x/1/1");
@@ -52,6 +54,16 @@ public class ChangeTest {
 
     // Mismatched last 2 digits.
     assertNotRef("refs/changes/35/1234/56");
+  }
+
+  @Test
+  public void parseChangeMetaRefNames() {
+    assertRef(1, "refs/changes/01/1/meta");
+    assertRef(1234, "refs/changes/34/1234/meta");
+
+    assertNotRef("refs/changes/01/1/met");
+    assertNotRef("refs/changes/01/1/META");
+    assertNotRef("refs/changes/01/1/1/meta");
   }
 
   private static void assertRef(int changeId, String refName) {

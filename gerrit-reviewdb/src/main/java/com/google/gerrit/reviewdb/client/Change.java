@@ -137,10 +137,10 @@ public final class Change {
       }
       int ce = nextNonDigit(ref, cs);
       int patchSetId = PatchSet.Id.fromRef(ref, ce);
-      if (patchSetId < 0) {
-        return null;
+      if (patchSetId >= 0 || ref.substring(ce).equals(RefNames.META_SUFFIX)) {
+        return new Change.Id(Integer.parseInt(ref.substring(cs, ce)));
       }
-      return new Change.Id(Integer.parseInt(ref.substring(cs, ce)));
+      return null;
     }
 
     static int startIndex(String ref) {

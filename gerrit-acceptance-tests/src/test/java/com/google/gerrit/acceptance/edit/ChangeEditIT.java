@@ -35,6 +35,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.change.PutContent;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditModifier;
 import com.google.gerrit.server.edit.ChangeEditUtil;
@@ -148,7 +149,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
             FILE_NAME,
             Constants.encode(CONTENT_NEW)));
 
-    RestResponse r = session.get(url());
+    RestResponse r = session.get(urlGet());
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
     Map<String, EditInfo> result = toEditInfoMap(r);
     assertEquals(1, result.size());
@@ -158,7 +159,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     edit = editUtil.byChange(change);
     editUtil.delete(edit.get());
 
-    r = session.get(url());
+    r = session.get(urlGet());
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
     assertEquals(0, toEditInfoMap(r).size());
   }
@@ -227,6 +228,22 @@ public class ChangeEditIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void updateExistingFileRest() throws Exception {
+    assertEquals(RefUpdate.Result.NEW,
+        modifier.createEdit(
+            change,
+            ps));
+    PutContent.Input in = new PutContent.Input();
+    in.content = RestSession.newRawInput(CONTENT_NEW);
+    assertEquals(204, session.putRaw(urlPut(), in.content).getStatusCode());
+    Optional<ChangeEdit> edit = editUtil.byChange(change);
+    assertTrue(edit.isPresent());
+    editUtil.publish(edit.get());
+    edit = editUtil.byChange(change);
+    assertFalse(edit.isPresent());
+  }
+
+  @Test
   public void ammendExistingFile() throws Exception {
     assertEquals(RefUpdate.Result.NEW,
         modifier.createEdit(
@@ -250,6 +267,25 @@ public class ChangeEditIT extends AbstractDaemonTest {
     assertTrue(edit.isPresent());
     editUtil.publish(edit.get());
     edit = editUtil.byChange(change);
+    assertFalse(edit.isPresent());
+  }
+
+  @Test
+  public void ammendExistingFileRest() throws Exception {
+    assertEquals(RefUpdate.Result.NEW,
+        modifier.createEdit(
+            change,
+            ps));
+    PutContent.Input in = new PutContent.Input();
+    in.content = RestSession.newRawInput(CONTENT_NEW);
+    assertEquals(204, session.putRaw(urlPut(), in.content).getStatusCode());
+    Optional<ChangeEdit> edit = editUtil.byChange(change);
+    assertTrue(edit.isPresent());
+    in.content = RestSession.newRawInput(CONTENT_NEW + 42);
+    assertEquals(204, session.putRaw(urlPut(), in.content).getStatusCode());
+    edit = editUtil.byChange(change);
+    editUtil.publish(edit.get());
+    edit = editUtil.byChange(change2);
     assertFalse(edit.isPresent());
   }
 
@@ -339,13 +375,23 @@ public class ChangeEditIT extends AbstractDaemonTest {
         .get(getChange(changeId).currentPatchSetId());
   }
 
-  private String url() {
+  private String urlGet() {
     return "/changes/"
         + change.getChangeId()
         + "/edits";
   }
 
-  private static Map<String, EditInfo> toEditInfoMap(RestResponse r)
+  private String urlPut() {
+    return "/changes/"
+        + change.getChangeId()
+        + "/edits/"
+        + 0
+        + "/files/"
+        + FILE_NAME
+        + "/content";
+  }
+
+private static Map<String, EditInfo> toEditInfoMap(RestResponse r)
       throws IOException {
     Map<String, EditInfo> result =
         newGson().fromJson(r.getReader(),

@@ -17,8 +17,10 @@ package com.google.gerrit.server.change;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.server.change.CreateChangeEdit.Input;
 import com.google.gerrit.server.edit.ChangeEditModifier;
+import com.google.gerrit.server.edit.ChangeEditUtil;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -27,15 +29,18 @@ import java.io.IOException;
 
 @Singleton
 public class CreateChangeEdit implements
-    RestModifyView<RevisionResource, Input> {
+    RestModifyView<RevisionResource, Input>, UiAction<RevisionResource> {
   public static class Input {
   }
 
   private final ChangeEditModifier editModifier;
+  private final ChangeEditUtil editUtil;
 
   @Inject
-  CreateChangeEdit(ChangeEditModifier editModifier) {
+  CreateChangeEdit(ChangeEditModifier editModifier,
+      ChangeEditUtil editUtil) {
     this.editModifier = editModifier;
+    this.editUtil = editUtil;
   }
 
   @Override
@@ -45,5 +50,17 @@ public class CreateChangeEdit implements
     // takes place in createEdit method below.
     editModifier.createEdit(rsrc.getChange(), rsrc.getPatchSet());
     return Response.none();
+  }
+
+  @Override
+  public UiAction.Description getDescription(RevisionResource rsrc) {
+    try {
+      return new UiAction.Description()
+        .setTitle(String.format("Create edit for revision %d",
+            rsrc.getPatchSet().getPatchSetId()))
+        .setVisible(!editUtil.byChange(rsrc.getChange()).isPresent());
+    } catch (AuthException | IOException e) {
+      throw new IllegalStateException(e);
+    }
   }
 }

@@ -17,7 +17,6 @@ package com.google.gerrit.server.git;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -81,13 +80,13 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
     final List<Ref> deferredTags = new ArrayList<>();
 
     for (Ref ref : refs.values()) {
-      PatchSet.Id psId;
+      Change.Id changeId;
       if (ref.getName().startsWith(RefNames.REFS_CACHE_AUTOMERGE)) {
         continue;
-      } else if ((psId = PatchSet.Id.fromRef(ref.getName())) != null) {
+      } else if ((changeId = Change.Id.fromRef(ref.getName())) != null) {
         // Reference to a patch set is visible if the change is visible.
         //
-        if (showChanges && visibleChanges.contains(psId.getParentKey())) {
+        if (showChanges && visibleChanges.contains(changeId)) {
           result.put(ref.getName(), ref);
         }
 

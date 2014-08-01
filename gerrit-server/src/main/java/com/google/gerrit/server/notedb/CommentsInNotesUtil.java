@@ -454,11 +454,11 @@ public class CommentsInNotesUtil {
       checkArgument(psId.equals(currentPsId),
           "All comments being added must all have the same PatchSet.Id. The"
           + "comment below does not have the same PatchSet.Id as the others "
-          + "(%d).\n%s", psId.toString(), c.toString());
+          + "(%s).\n%s", psId.toString(), c.toString());
       checkArgument(side == c.getSide(),
           "All comments being added must all have the same side. The"
           + "comment below does not have the same side as the others "
-          + "(%d).\n%s", side, c.toString());
+          + "(%s).\n%s", side, c.toString());
       String commentFilename =
           QuotedString.GIT_PATH.quote(c.getKey().getParentKey().getFileName());
 

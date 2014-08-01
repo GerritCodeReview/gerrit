@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b69deb27_3bfa37da",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/HttpPluginServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 587,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-08-01T18:45:52Z",
+      "side": 1,
+      "message": "Does this work correctly if Gerrit is run at a subpath, like https://git.eclipse.org/r/",
+      "revId": "0a3b513050bae46e0ec2b83d85970c0b50dd752f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

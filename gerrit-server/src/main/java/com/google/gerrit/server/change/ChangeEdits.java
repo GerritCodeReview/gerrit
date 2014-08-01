@@ -43,6 +43,7 @@ import com.google.gerrit.server.edit.ChangeEditData;
 import com.google.gerrit.server.edit.ChangeEditInfoJson;
 import com.google.gerrit.server.edit.ChangeEditModifier;
 import com.google.gerrit.server.edit.ChangeEditUtil;
+import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
@@ -50,6 +51,8 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.assistedinject.Assisted;
+
+import org.kohsuke.args4j.Option;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -177,18 +180,48 @@ public class ChangeEdits implements
     }
   }
 
-  @Singleton
   static class Detail implements RestReadView<ChangeResource> {
     private final ChangeEditUtil editUtil;
+    private final FileInfoJson fileInfoJson;
+    private final Revisions revisions;
+
+    @Option(name = "--base", metaVar = "revision-id")
+    String base;
+
+    @Option(name = "--list", metaVar = "LIST")
+    boolean list;
 
     @Inject
-    Detail(ChangeEditUtil editUtil) {
+    Detail(ChangeEditUtil editUtil,
+        FileInfoJson fileInfoJson,
+        Revisions revisions) {
+      this.fileInfoJson = fileInfoJson;
       this.editUtil = editUtil;
+      this.revisions = revisions;
     }
 
     @Override
     public Response<?> apply(ChangeResource rsrc) throws AuthException,
-        IOException, NoSuchChangeException, InvalidChangeOperationException {
+        IOException, NoSuchChangeException, InvalidChangeOperationException,
+        ResourceNotFoundException, OrmException {
+      if (list) {
+        Optional<ChangeEdit> edit = editUtil.byChange(rsrc.getChange());
+        PatchSet basePatchSet = null;
+        if (base != null) {
+          RevisionResource baseResource = revisions.parse(
+              rsrc, IdString.fromDecoded(base));
+          basePatchSet = baseResource.getPatchSet();
+        }
+        try {
+          return Response.ok(fileInfoJson.toFileInfoMap(
+              rsrc.getChange(),
+              edit.get().getRevision(),
+              basePatchSet));
+        } catch (PatchListNotAvailableException e) {
+          throw new ResourceNotFoundException(e.getMessage());
+        }
+      }
+
       Optional<ChangeEditData> data = editUtil.dataByChange(rsrc.getChange());
       Map<String, EditInfo> result = new HashMap<>();
       if (data.isPresent()) {

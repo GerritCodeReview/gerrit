@@ -51,8 +51,12 @@ public class BanCommit implements RestModifyView<ProjectResource, Input> {
     }
   }
 
+  private final com.google.gerrit.server.git.BanCommit banCommit;
+
   @Inject
-  private com.google.gerrit.server.git.BanCommit banCommit;
+  BanCommit(com.google.gerrit.server.git.BanCommit banCommit) {
+    this.banCommit = banCommit;
+  }
 
   @Override
   public BanResultInfo apply(ProjectResource rsrc, Input input)

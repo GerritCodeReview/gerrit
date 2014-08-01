@@ -24,7 +24,6 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.events.CommitReceivedEvent;
-import com.google.gerrit.server.git.BanCommit;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.git.ReceiveCommits;
 import com.google.gerrit.server.git.ValidationError;
@@ -93,7 +92,8 @@ public class CommitValidators {
   }
 
   public List<CommitValidationMessage> validateForReceiveCommits(
-      CommitReceivedEvent receiveEvent) throws CommitValidationException {
+      CommitReceivedEvent receiveEvent, NoteMap rejectCommits)
+      throws CommitValidationException {
 
     List<CommitValidationListener> validators = new LinkedList<>();
 
@@ -110,7 +110,7 @@ public class CommitValidators {
           installCommitMsgHookCommand, sshInfo));
     }
     validators.add(new ConfigValidator(refControl, repo));
-    validators.add(new BannedCommitsValidator(repo));
+    validators.add(new BannedCommitsValidator(rejectCommits));
     validators.add(new PluginCommitValidationListener(commitValidationListeners));
 
     List<CommitValidationMessage> messages = new LinkedList<>();
@@ -522,17 +522,16 @@ public class CommitValidators {
   /** Reject banned commits. */
   public static class BannedCommitsValidator implements
       CommitValidationListener {
-    private final Repository repo;
+    private final NoteMap rejectCommits;
 
-    public BannedCommitsValidator(Repository repo) {
-      this.repo = repo;
+    public BannedCommitsValidator(NoteMap rejectCommits) {
+      this.rejectCommits = rejectCommits;
     }
 
     @Override
     public List<CommitValidationMessage> onCommitReceived(
         CommitReceivedEvent receiveEvent) throws CommitValidationException {
       try {
-        NoteMap rejectCommits = BanCommit.loadRejectCommitsMap(repo);
         if (rejectCommits.contains(receiveEvent.commit)) {
           throw new CommitValidationException("contains banned commit "
               + receiveEvent.commit.getName());

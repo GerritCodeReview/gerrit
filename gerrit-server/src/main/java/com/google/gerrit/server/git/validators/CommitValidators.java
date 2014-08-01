@@ -538,7 +538,9 @@ public class CommitValidators {
         }
         return Collections.emptyList();
       } catch (IOException e) {
-        throw new CommitValidationException(e.getMessage(), e);
+        String m = "error checking banned commits";
+        log.warn(m, e);
+        throw new CommitValidationException(m, e);
       }
     }
   }

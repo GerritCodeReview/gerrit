@@ -95,7 +95,7 @@ class ListChangeEdits implements RestReadView<ChangeResource> {
     out.actions = Maps.newTreeMap();
     for (UiAction.Description d : UiActions.from(
         changeEdits,
-        new ChangeEditResource(rsrc, edit),
+        new ChangeEditResource(rsrc, edit, null),
         userProvider)) {
       out.actions.put(d.getId(), new ActionInfo(d));
     }

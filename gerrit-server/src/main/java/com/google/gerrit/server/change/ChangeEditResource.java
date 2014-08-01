@@ -29,10 +29,12 @@ public class ChangeEditResource implements RestResource {
 
   private final ChangeResource change;
   private final ChangeEdit edit;
+  private final String path;
 
-  public ChangeEditResource(ChangeResource change, ChangeEdit edit) {
+  public ChangeEditResource(ChangeResource change, ChangeEdit edit, String path) {
     this.change = change;
     this.edit = edit;
+    this.path = path;
   }
 
   // TODO(davido): Make this cacheable.
@@ -55,6 +57,10 @@ public class ChangeEditResource implements RestResource {
 
   public ChangeEdit getChangeEdit() {
     return edit;
+  }
+
+  public String getPath() {
+    return path;
   }
 
   Account.Id getAccountId() {

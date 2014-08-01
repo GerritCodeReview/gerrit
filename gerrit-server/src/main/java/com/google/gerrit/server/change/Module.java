@@ -28,6 +28,7 @@ import com.google.gerrit.server.account.AccountInfo;
 import com.google.gerrit.server.change.Reviewed.DeleteReviewed;
 import com.google.gerrit.server.change.Reviewed.PutReviewed;
 import com.google.gerrit.server.config.FactoryModule;
+import com.google.gerrit.server.project.GetEditFileContent;
 
 public class Module extends RestApiModule {
   @Override
@@ -104,6 +105,7 @@ public class Module extends RestApiModule {
     child(CHANGE_KIND, "edit").to(ChangeEdits.class);
     put(CHANGE_EDIT_KIND, "/").to(PutContent.class);
     delete(CHANGE_EDIT_KIND).to(DeleteContent.class);
+    get(CHANGE_EDIT_KIND, "/").to(GetEditFileContent.class);
 
     install(new FactoryModule() {
       @Override

@@ -344,8 +344,8 @@ public class CommentsTest  {
     assertEquals(plc.getLine(), (int) ci.line);
     assertEquals(plc.getSide() == 0 ? Side.PARENT : Side.REVISION,
         Objects.firstNonNull(ci.side, Side.REVISION));
-    assertEquals(TimeUtil.roundTimestampToSecond(plc.getWrittenOn()),
-        TimeUtil.roundTimestampToSecond(ci.updated));
+    assertEquals(TimeUtil.roundToSecond(plc.getWrittenOn()),
+        TimeUtil.roundToSecond(ci.updated));
     assertEquals(plc.getRange(), ci.range);
   }
 

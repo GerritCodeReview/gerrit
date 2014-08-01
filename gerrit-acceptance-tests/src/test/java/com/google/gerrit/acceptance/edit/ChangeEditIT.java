@@ -25,6 +25,7 @@ import static org.junit.Assert.fail;
 
 import com.google.common.base.Optional;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -34,6 +35,7 @@ import com.google.gerrit.acceptance.SshSession;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
@@ -62,6 +64,7 @@ import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 public class ChangeEditIT extends AbstractDaemonTest {
@@ -241,6 +244,28 @@ public class ChangeEditIT extends AbstractDaemonTest {
     r = session.get(urlGet());
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
     assertEquals(0, toEditInfoMap(r).size());
+  }
+
+  @Test
+  public void retrieveFilesInEdit() throws Exception {
+    assertEquals(RefUpdate.Result.NEW,
+        modifier.createEdit(
+            change,
+            ps));
+    Optional<ChangeEdit> edit = editUtil.byChange(change);
+    assertEquals(RefUpdate.Result.FORCED,
+        modifier.modifyFile(
+            edit.get(),
+            FILE_NAME,
+            CONTENT_NEW));
+
+    RestResponse r = session.get(urlGetFiles());
+    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    Map<String, FileInfo> result = toFileInfoMap(r);
+    assertEquals(2, result.size());
+    List<String> l = Lists.newArrayList(result.keySet());
+    assertEquals("/COMMIT_MSG", l.get(0));
+    assertEquals("foo", l.get(1));
   }
 
   @Test
@@ -475,6 +500,11 @@ public class ChangeEditIT extends AbstractDaemonTest {
         + "/edit";
   }
 
+  private String urlGetFiles() {
+    return urlGet()
+        + "?list";
+  }
+
   private String urlPut() {
     return "/changes/"
         + change.getChangeId()
@@ -487,6 +517,14 @@ public class ChangeEditIT extends AbstractDaemonTest {
     Map<String, EditInfo> result =
         newGson().fromJson(r.getReader(),
             new TypeToken<Map<String, EditInfo>>() {}.getType());
+    return result;
+  }
+
+  private static Map<String, FileInfo> toFileInfoMap(RestResponse r)
+      throws IOException {
+    Map<String, FileInfo> result =
+        newGson().fromJson(r.getReader(),
+            new TypeToken<Map<String, FileInfo>>() {}.getType());
     return result;
   }
 }

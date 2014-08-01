@@ -22,6 +22,30 @@
       "revId": "6c050de0b831fe863a85d233140502ed597a0d76",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b69deb27_3be1d733",
+        "filename": "tools/default.defs",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-08-01T16:25:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7980c479_61c3766d",
+      "range": {
+        "startLine": 41,
+        "startChar": 2,
+        "endLine": 41,
+        "endChar": 46
+      },
+      "revId": "6c050de0b831fe863a85d233140502ed597a0d76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

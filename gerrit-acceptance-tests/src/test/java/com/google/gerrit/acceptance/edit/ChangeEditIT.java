@@ -120,6 +120,23 @@ public class ChangeEditIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void createEditRest() throws Exception {
+    RestResponse r = session.post(urlCreateEdit());
+    assertEquals(HttpStatus.SC_NO_CONTENT, r.getStatusCode());
+    Optional<ChangeEdit> edit = editUtil.byChange(change);
+    assertTrue(edit.isPresent());
+    assertEquals(RefUpdate.Result.FORCED,
+        modifier.modifyFile(
+            edit.get(),
+            FILE_NAME,
+            Constants.encode(CONTENT_NEW)));
+    edit = editUtil.byChange(change);
+    editUtil.delete(edit.get());
+    edit = editUtil.byChange(change);
+    assertFalse(edit.isPresent());
+  }
+
+  @Test
   public void updateExistingFile() throws Exception {
     assertEquals(RefUpdate.Result.NEW,
         modifier.createEdit(
@@ -447,6 +464,14 @@ public class ChangeEditIT extends AbstractDaemonTest {
     return "/changes/"
         + change.getChangeId()
         + "/edits";
+  }
+
+  private String urlCreateEdit() {
+    return "/changes/"
+        + change.getChangeId()
+        + "/revisions/"
+        + ps.getPatchSetId()
+        + "/create_edit";
   }
 
   private String urlGetFiles() {

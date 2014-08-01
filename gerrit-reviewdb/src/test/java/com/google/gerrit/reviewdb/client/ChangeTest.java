@@ -15,17 +15,15 @@
 package com.google.gerrit.reviewdb.client;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-public class PatchSetTest {
+public class ChangeTest {
   @Test
   public void parseRefNames() {
-    assertRef(1, 1, "refs/changes/01/1/1");
-    assertRef(1234, 56, "refs/changes/34/1234/56");
+    assertRef(1, "refs/changes/01/1/1");
+    assertRef(1234, "refs/changes/34/1234/56");
 
     // Not even close.
     assertNotRef(null);
@@ -62,14 +60,11 @@ public class PatchSetTest {
     assertNotRef("refs/changes/34/1234foo");
   }
 
-  private static void assertRef(int changeId, int psId, String refName) {
-    assertTrue(PatchSet.isRef(refName));
-    assertEquals(new PatchSet.Id(new Change.Id(changeId), psId),
-        PatchSet.Id.fromRef(refName));
+  private static void assertRef(int changeId, String refName) {
+    assertEquals(new Change.Id(changeId), Change.Id.fromRef(refName));
   }
 
   private static void assertNotRef(String refName) {
-    assertFalse(PatchSet.isRef(refName));
-    assertNull(PatchSet.Id.fromRef(refName));
+    assertNull(Change.Id.fromRef(refName));
   }
 }

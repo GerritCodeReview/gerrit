@@ -141,7 +141,7 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
       try {
         Response<Map<String, FileInfo>> r = Response.ok(fileInfoJson.toFileInfoMap(
             resource.getChange(),
-            resource.getPatchSet(),
+            resource.getPatchSet().getRevision(),
             basePatchSet));
         if (resource.isCacheable()) {
           r.caching(CacheControl.PRIVATE(7, TimeUnit.DAYS));

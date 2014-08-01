@@ -37,8 +37,8 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.change.FileContentUtil;
 import com.google.gerrit.server.change.ChangeEdits.Put;
+import com.google.gerrit.server.change.FileContentUtil;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditData;
 import com.google.gerrit.server.edit.ChangeEditModifier;
@@ -154,6 +154,24 @@ public class ChangeEditIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void publishEditRest() throws Exception {
+    assertEquals(RefUpdate.Result.NEW,
+        modifier.createEdit(
+            change,
+            getCurrentPatchSet(changeId)));
+    assertEquals(RefUpdate.Result.FORCED,
+        modifier.modifyFile(
+            editUtil.byChange(change).get(),
+            FILE_NAME,
+            CONTENT_NEW));
+    Optional<ChangeEdit> edit = editUtil.byChange(change);
+    RestResponse r = session.post(urlPublish());
+    assertEquals(SC_NO_CONTENT, r.getStatusCode());
+    edit = editUtil.byChange(change);
+    assertFalse(edit.isPresent());
+  }
+
+  @Test
   public void rebaseEdit() throws Exception {
     assertEquals(RefUpdate.Result.NEW,
         modifier.createEdit(
@@ -251,7 +269,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
         modifier.createEdit(
             change,
             ps));
-    assertEquals(204, session.delete(urlEditFile()).getStatusCode());
+    assertEquals(SC_NO_CONTENT, session.delete(urlEditFile()).getStatusCode());
     Optional<ChangeEdit> edit = editUtil.byChange(change);
     try {
       fileUtil.getContent(edit.get().getChange().getProject(),
@@ -394,7 +412,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
   public void getFileContentRest() throws Exception {
     Put.Input in = new Put.Input();
     in.content = RestSession.newRawInput(CONTENT_NEW);
-    assertEquals(204, session.putRaw(urlEditFile(),
+    assertEquals(SC_NO_CONTENT, session.putRaw(urlEditFile(),
         in.content).getStatusCode());
     Optional<ChangeEdit> edit = editUtil.byChange(change);
     assertEquals(RefUpdate.Result.FORCED,
@@ -410,7 +428,6 @@ public class ChangeEditIT extends AbstractDaemonTest {
         StringUtils.newStringUtf8(Base64.decodeBase64(content)));
   }
 
-  @Test
   public void addNewFile() throws Exception {
     assertEquals(RefUpdate.Result.NEW,
         modifier.createEdit(
@@ -519,6 +536,12 @@ public class ChangeEditIT extends AbstractDaemonTest {
         + change2.getChangeId()
         + "/edit/"
         + FILE_NAME;
+  }
+
+  private String urlPublish() {
+    return "/changes/"
+        + change.getChangeId()
+        + "/publish_edit";
   }
 
   private static Map<String, EditInfo> toEditInfoMap(RestResponse r)

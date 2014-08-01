@@ -34,6 +34,7 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
+import org.kohsuke.args4j.Option;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -47,6 +48,12 @@ import java.util.TreeMap;
 public class ListBranches implements RestReadView<ProjectResource> {
   private final GitRepositoryManager repoManager;
   private final DynamicMap<RestView<BranchResource>> branchViews;
+
+  @Option(name = "--limit", aliases = {"-n"}, metaVar = "CNT", usage = "maximum number of branches to list")
+  private int limit;
+
+  @Option(name = "-s", metaVar = "CNT", usage = "number of branches to skip")
+  private int start;
 
   @Inject
   public ListBranches(GitRepositoryManager repoManager,
@@ -144,7 +151,7 @@ public class ListBranches implements RestReadView<ProjectResource> {
     if (headBranch != null) {
       branches.add(0, headBranch);
     }
-    return branches;
+    return branches.subList(start, (start + limit) < branches.size() ? (start + limit) : branches.size()-1);
   }
 
   private BranchInfo createBranchInfo(Ref ref, RefControl refControl,

@@ -927,7 +927,7 @@ public class Dispatcher {
             return new ProjectInfoScreen(k);
           }
 
-          if (ProjectScreen.BRANCH.equals(panel)) {
+          if (ProjectScreen.BRANCH.equals(panel) || panel.startsWith(ProjectScreen.BRANCH)) {
             return new ProjectBranchesScreen(k);
           }
 
@@ -939,6 +939,7 @@ public class Dispatcher {
             return new ProjectDashboardsScreen(k);
           }
         }
+
         return new NotFoundScreen();
       }
     });

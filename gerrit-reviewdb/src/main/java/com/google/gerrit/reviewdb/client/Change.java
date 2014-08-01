@@ -14,6 +14,8 @@
 
 package com.google.gerrit.reviewdb.client;
 
+import static com.google.gerrit.reviewdb.client.RefNames.REFS_CHANGES;
+
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.IntKey;
 import com.google.gwtorm.client.RowVersion;
@@ -128,8 +130,64 @@ public final class Change {
       return r;
     }
 
-    public static Id fromRef(final String ref) {
-      return PatchSet.Id.fromRef(ref).getParentKey();
+    public static Id fromRef(String ref) {
+      int cs = startIndex(ref);
+      if (cs < 0) {
+        return null;
+      }
+      int ce = nextNonDigit(ref, cs);
+      int patchSetId = PatchSet.Id.fromRef(ref, ce);
+      if (patchSetId < 0) {
+        return null;
+      }
+      return new Change.Id(Integer.parseInt(ref.substring(cs, ce)));
+    }
+
+    static int startIndex(String ref) {
+      if (ref == null || !ref.startsWith(REFS_CHANGES)) {
+        return -1;
+      }
+
+      // Last 2 digits.
+      int ls = REFS_CHANGES.length();
+      int le = nextNonDigit(ref, ls);
+      if (le - ls != 2 || le >= ref.length() || ref.charAt(le) != '/') {
+        return -1;
+      }
+
+      // Change ID.
+      int cs = le + 1;
+      if (cs >= ref.length() || ref.charAt(cs) == '0') {
+        return -1;
+      }
+      int ce = nextNonDigit(ref, cs);
+      if (ce >= ref.length() || ref.charAt(le) != '/') {
+        return -1;
+      }
+      switch (ce - cs) {
+        case 0:
+          return -1;
+        case 1:
+          if (ref.charAt(ls) != '0'
+              || ref.charAt(ls + 1) != ref.charAt(cs)) {
+            return -1;
+          }
+          break;
+        default:
+          if (ref.charAt(ls) != ref.charAt(ce - 2)
+              || ref.charAt(ls + 1) != ref.charAt(ce - 1)) {
+            return -1;
+          }
+          break;
+      }
+      return cs;
+    }
+
+    static int nextNonDigit(String s, int i) {
+      while (i < s.length() && s.charAt(i) >= '0' && s.charAt(i) <= '9') {
+        i++;
+      }
+      return i;
     }
   }
 

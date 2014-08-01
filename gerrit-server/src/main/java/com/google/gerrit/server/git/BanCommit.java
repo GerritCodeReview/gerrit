@@ -106,6 +106,7 @@ public class BanCommit {
       final RevWalk revWalk = new RevWalk(repo);
       final ObjectInserter inserter = repo.newObjectInserter();
       try {
+        ObjectId noteId = null;
         for (final ObjectId commitToBan : commitsToBan) {
           try {
             revWalk.parseCommit(commitToBan);
@@ -115,7 +116,10 @@ public class BanCommit {
             result.notACommit(commitToBan, e.getMessage());
             continue;
           }
-          banCommitNotes.set(commitToBan, createNoteContent(reason, inserter));
+          if (noteId == null) {
+            noteId = createNoteContent(reason, inserter);
+          }
+          banCommitNotes.set(commitToBan, noteId);
         }
         inserter.flush();
         NotesBranchUtil notesBranchUtil =

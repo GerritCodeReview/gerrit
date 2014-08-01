@@ -317,4 +317,28 @@ public class ChangeEdits implements
       return Response.none();
     }
   }
+
+  @Singleton
+  static class Get implements RestReadView<ChangeEditResource> {
+    private final FileContentUtil fileContentUtil;
+
+    @Inject
+    Get(FileContentUtil fileContentUtil) {
+      this.fileContentUtil = fileContentUtil;
+    }
+
+    @Override
+    public Response<?> apply(ChangeEditResource rsrc)
+        throws ResourceNotFoundException, IOException,
+        InvalidChangeOperationException {
+      try {
+        return Response.ok(fileContentUtil.getContent(
+              rsrc.getChangeEdit().getChange().getProject(),
+              rsrc.getChangeEdit().getRevision().get(),
+              rsrc.getPath()));
+      } catch (ResourceNotFoundException rnfe) {
+        return Response.none();
+      }
+    }
+  }
 }

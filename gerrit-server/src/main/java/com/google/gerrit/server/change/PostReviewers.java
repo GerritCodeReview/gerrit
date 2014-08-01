@@ -247,20 +247,19 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
     accountLoaderFactory.create(true).fill(result.reviewers);
     postAdd(rsrc.getChange(), added);
     indexFuture.checkedGet();
+    if (!added.isEmpty()) {
+      PatchSet patchSet = dbProvider.get().patchSets().get(rsrc.getChange().currentPatchSetId());
+      for (PatchSetApproval psa : added) {
+        Account account = accountCache.get(psa.getAccountId()).getAccount();
+        hooks.doReviewerAddedHook(rsrc.getChange(), account, patchSet, dbProvider.get());
+      }
+    }
   }
 
   private void postAdd(Change change, List<PatchSetApproval> added)
       throws OrmException, EmailException {
     if (added.isEmpty()) {
       return;
-    }
-
-    // Execute hook for added reviewers
-    //
-    PatchSet patchSet = dbProvider.get().patchSets().get(change.currentPatchSetId());
-    for (PatchSetApproval psa : added) {
-      Account account = accountCache.get(psa.getAccountId()).getAccount();
-      hooks.doReviewerAddedHook(change, account, patchSet, dbProvider.get());
     }
 
     // Email the reviewers

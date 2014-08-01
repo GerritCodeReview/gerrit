@@ -28,6 +28,7 @@ import static org.junit.Assert.fail;
 
 import com.google.common.base.Optional;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -66,6 +67,7 @@ import org.junit.Test;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class ChangeEditIT extends AbstractDaemonTest {
@@ -301,7 +303,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
             FILE_NAME,
             CONTENT_NEW));
     edit = editUtil.byChange(change);
-    EditInfo info = toEditInfo();
+    EditInfo info = toEditInfo(false);
     assertEquals(edit.get().getRevision().get(), info.commit.commit);
     assertEquals(1, info.commit.parents.size());
 
@@ -310,6 +312,26 @@ public class ChangeEditIT extends AbstractDaemonTest {
 
     r = session.get(urlEdit());
     assertEquals(SC_NO_CONTENT, r.getStatusCode());
+  }
+
+  @Test
+  public void retrieveFilesInEdit() throws Exception {
+    assertEquals(RefUpdate.Result.NEW,
+        modifier.createEdit(
+            change,
+            ps));
+    Optional<ChangeEdit> edit = editUtil.byChange(change);
+    assertEquals(RefUpdate.Result.FORCED,
+        modifier.modifyFile(
+            edit.get(),
+            FILE_NAME,
+            CONTENT_NEW));
+
+    EditInfo info = toEditInfo(true);
+    assertEquals(2, info.files.size());
+    List<String> l = Lists.newArrayList(info.files.keySet());
+    assertEquals("/COMMIT_MSG", l.get(0));
+    assertEquals("foo", l.get(1));
   }
 
   @Test
@@ -673,6 +695,11 @@ public class ChangeEditIT extends AbstractDaemonTest {
         + FILE_NAME;
   }
 
+  private String urlGetFiles() {
+    return urlEdit()
+        + "?list";
+  }
+
   private String urlPublish() {
     return "/changes/"
         + change.getChangeId()
@@ -685,8 +712,8 @@ public class ChangeEditIT extends AbstractDaemonTest {
         + "/rebase_edit";
   }
 
-  private EditInfo toEditInfo() throws IOException {
-    RestResponse r = session.get(urlEdit());
+  private EditInfo toEditInfo(boolean files) throws IOException {
+    RestResponse r = session.get(files ? urlGetFiles() : urlEdit());
     assertEquals(SC_OK, r.getStatusCode());
     return newGson().fromJson(r.getReader(), EditInfo.class);
   }

@@ -36,11 +36,13 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditJson;
 import com.google.gerrit.server.edit.ChangeEditModifier;
 import com.google.gerrit.server.edit.ChangeEditUtil;
+import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
@@ -48,6 +50,8 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.assistedinject.Assisted;
+
+import org.kohsuke.args4j.Option;
 
 import java.io.IOException;
 
@@ -60,14 +64,14 @@ public class ChangeEdits implements
   private final DynamicMap<RestView<ChangeEditResource>> views;
   private final Create.Factory createFactory;
   private final DeleteEdit.Factory deleteEditFactory;
-  private final Detail detail;
+  private final Provider<Detail> detail;
   private final ChangeEditUtil editUtil;
   private final Post post;
 
   @Inject
   ChangeEdits(DynamicMap<RestView<ChangeEditResource>> views,
       Create.Factory createFactory,
-      Detail detail,
+      Provider<Detail> detail,
       ChangeEditUtil editUtil,
       Post post,
       DeleteEdit.Factory deleteEditFactory) {
@@ -86,7 +90,7 @@ public class ChangeEdits implements
 
   @Override
   public RestView<ChangeResource> list() {
-    return detail;
+    return detail.get();
   }
 
   @Override
@@ -235,27 +239,57 @@ public class ChangeEdits implements
     }
   }
 
-  @Singleton
   static class Detail implements RestReadView<ChangeResource> {
     private final ChangeEditUtil editUtil;
     private final ChangeEditJson editJson;
+    private final FileInfoJson fileInfoJson;
+    private final Revisions revisions;
+
+    @Option(name = "--base", metaVar = "revision-id")
+    String base;
+
+    @Option(name = "--list", metaVar = "LIST")
+    boolean list;
 
     @Inject
-    Detail(ChangeEditJson editJson,
-        ChangeEditUtil editUtil) {
+    Detail(ChangeEditUtil editUtil,
+        ChangeEditJson editJson,
+        FileInfoJson fileInfoJson,
+        Revisions revisions) {
       this.editJson = editJson;
       this.editUtil = editUtil;
+      this.fileInfoJson = fileInfoJson;
+      this.revisions = revisions;
     }
 
     @Override
     public Response<EditInfo> apply(ChangeResource rsrc) throws AuthException,
         IOException, NoSuchChangeException, InvalidChangeOperationException,
-        ResourceNotFoundException {
+        ResourceNotFoundException, OrmException {
       Optional<ChangeEdit> edit = editUtil.byChange(rsrc.getChange());
-      if (edit.isPresent()) {
-        return Response.ok(editJson.toEditInfo(edit.get()));
+      if (!edit.isPresent()) {
+        return Response.none();
       }
-      return Response.none();
+
+      EditInfo editInfo = editJson.toEditInfo(edit.get());
+      if (list) {
+        PatchSet basePatchSet = null;
+        if (base != null) {
+          RevisionResource baseResource = revisions.parse(
+              rsrc, IdString.fromDecoded(base));
+          basePatchSet = baseResource.getPatchSet();
+        }
+        try {
+          editInfo.files =
+              fileInfoJson.toFileInfoMap(
+                  rsrc.getChange(),
+                  edit.get().getRevision(),
+                  basePatchSet);
+        } catch (PatchListNotAvailableException e) {
+          throw new ResourceNotFoundException(e.getMessage());
+        }
+      }
+      return Response.ok(editInfo);
     }
   }
 

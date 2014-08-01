@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b69deb27_db0eb356",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Change.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-01T19:24:17Z",
+      "side": 1,
+      "message": "I wonder if we\u0027re gaining anything by being this strict.\n\nAlthough technically it\u0027s a behavior change from today, it would probably be ok to allow any refs matching:\n\n ^refs/changes/\\d+/[1-9]\\d*\\b\n\nThat is, ignore the first numeric path component, and treat anything up to a word boundary in the next path component as a change number.\n\nThe only practical consequence would be letting some malformed refs through in VisibleRefFilter.\n\nThat said I think we still want to keep PatchSet.Id.fromRef strict since the patch set ID \u003c-\u003e ref conversion is really 1-to-1 in a way the change ID \u003c-\u003e ref is not.",
+      "revId": "c835737f07c8704868824a0663ab365cb8484cd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

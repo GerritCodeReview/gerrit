@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.GERRIT_PLACEHOLDER_HOST;
 import static com.google.gerrit.server.notedb.ChangeNotes.parseException;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Lists;
@@ -37,9 +38,9 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -48,11 +49,11 @@ import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.GitDateFormatter;
+import org.eclipse.jgit.util.GitDateFormatter.Format;
 import org.eclipse.jgit.util.GitDateParser;
 import org.eclipse.jgit.util.MutableInteger;
 import org.eclipse.jgit.util.QuotedString;
 import org.eclipse.jgit.util.RawParseUtils;
-import org.eclipse.jgit.util.GitDateFormatter.Format;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -79,6 +80,7 @@ public class CommentsInNotesUtil {
   private static final String PATCH_SET = "Patch-set";
   private static final String REVISION = "Revision";
   private static final String UUID = "UUID";
+  private static final int MAX_NOTE_SZ = 25 << 20;
 
   public static NoteMap parseCommentsFromNotes(Repository repo, String refName,
       RevWalk walk, Change.Id changeId,
@@ -90,12 +92,14 @@ public class CommentsInNotesUtil {
     if (ref == null) {
       return null;
     }
+
+    ObjectReader reader = walk.getObjectReader();
     RevCommit commit = walk.parseCommit(ref.getObjectId());
-    NoteMap noteMap = NoteMap.read(walk.getObjectReader(), commit);
+    NoteMap noteMap = NoteMap.read(reader, commit);
 
     for (Note note: noteMap) {
-      byte[] bytes = walk.getObjectReader().open(
-          note.getData(), Constants.OBJ_BLOB).getBytes();
+      byte[] bytes =
+          reader.open(note.getData(), OBJ_BLOB).getCachedBytes(MAX_NOTE_SZ);
       List<PatchLineComment> result = parseNote(bytes, changeId, status);
       if (result == null || result.isEmpty()) {
         continue;
@@ -520,12 +524,10 @@ public class CommentsInNotesUtil {
         throws OrmException, IOException {
     checkArgument(!allComments.isEmpty(),
         "No comments to write; to delete, use removeNoteFromNoteMap().");
-    ObjectId commitOID =
+    ObjectId commit =
         ObjectId.fromString(allComments.get(0).getRevId().get());
     Collections.sort(allComments, ChangeNotes.PatchLineCommentComparator);
-    byte[] note = buildNote(allComments);
-    ObjectId noteId = inserter.insert(Constants.OBJ_BLOB, note, 0, note.length);
-    noteMap.set(commitOID, noteId);
+    noteMap.set(commit, inserter.insert(OBJ_BLOB, buildNote(allComments)));
   }
 
   public void removeNote(NoteMap noteMap, RevId commitId)

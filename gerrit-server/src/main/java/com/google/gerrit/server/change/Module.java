@@ -106,6 +106,8 @@ public class Module extends RestApiModule {
     put(CHANGE_EDIT_KIND, "/").to(PutContent.class);
     delete(CHANGE_EDIT_KIND).to(DeleteContent.class);
     get(CHANGE_EDIT_KIND, "/").to(GetEditFileContent.class);
+    post(CHANGE_EDIT_KIND, "/").to(PostChangeEdit.class);
+
 
     install(new FactoryModule() {
       @Override

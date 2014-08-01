@@ -14,56 +14,38 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.common.base.Optional;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestView;
-import com.google.gerrit.server.edit.ChangeEdit;
-import com.google.gerrit.server.edit.ChangeEditUtil;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import java.io.IOException;
-
 @Singleton
-class ChangeEdits implements
-    ChildCollection<ChangeResource, ChangeEditResource> {
-  private final DynamicMap<RestView<ChangeEditResource>> views;
-  private final ListChangeEdits.Factory listFactory;
-  private final ChangeEditUtil editUtil;
+public class EditFiles implements ChildCollection<ChangeEditResource, EditFileResource> {
+  private final DynamicMap<RestView<EditFileResource>> views;
 
   @Inject
-  ChangeEdits(DynamicMap<RestView<ChangeEditResource>> views,
-      ListChangeEdits.Factory listFactory,
-      ChangeEditUtil editUtil) {
+  EditFiles(DynamicMap<RestView<EditFileResource>> views) {
     this.views = views;
-    this.listFactory = listFactory;
-    this.editUtil = editUtil;
   }
 
   @Override
-  public DynamicMap<RestView<ChangeEditResource>> views() {
+  public DynamicMap<RestView<EditFileResource>> views() {
     return views;
   }
 
   @Override
-  public RestView<ChangeResource> list() {
-    return listFactory.create();
+  public RestView<ChangeEditResource> list() throws ResourceNotFoundException {
+    throw new ResourceNotFoundException();
   }
 
   @Override
-  public ChangeEditResource parse(ChangeResource rsrc, IdString id)
-      throws ResourceNotFoundException, AuthException, IOException {
-    if (!"0".equals(id.get())) {
-      throw new ResourceNotFoundException(id);
-    }
-    Optional<ChangeEdit> edit = editUtil.byChange(rsrc.getChange());
-    if (!edit.isPresent()) {
-      throw new ResourceNotFoundException(id);
-    }
-    return new ChangeEditResource(rsrc, edit.get());
+  public EditFileResource parse(ChangeEditResource rsrc, IdString id)
+      throws ResourceNotFoundException, OrmException, AuthException {
+    return new EditFileResource(rsrc, id.get());
   }
 }

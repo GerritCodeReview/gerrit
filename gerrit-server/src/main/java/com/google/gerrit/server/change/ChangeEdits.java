@@ -23,7 +23,6 @@ import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AcceptsCreate;
 import com.google.gerrit.extensions.restapi.AcceptsPost;
 import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -274,6 +273,37 @@ public class ChangeEdits implements
       try {
           editModifier.modifyFile(rsrc.getChangeEdit(), rsrc.getPath(),
               ByteStreams.toByteArray(input.content.getInputStream()));
+      } catch(InvalidChangeOperationException | IOException e) {
+        throw new ResourceConflictException(e.getMessage());
+      }
+      return Response.none();
+    }
+  }
+
+  /**
+   * Handler to delete a file.
+   * <p>
+   * This deletes the file from the repository completely. This is not the same
+   * as reverting or restoring a file to its previous contents.
+   */
+  @Singleton
+  static class DeleteContent implements
+      RestModifyView<ChangeEditResource, DeleteContent.Input> {
+    public static class Input {
+    }
+
+    private final ChangeEditModifier editModifier;
+
+    @Inject
+    DeleteContent(ChangeEditModifier editModifier) {
+      this.editModifier = editModifier;
+    }
+
+    @Override
+    public Response<?> apply(ChangeEditResource rsrc, DeleteContent.Input input)
+        throws AuthException, ResourceConflictException {
+      try {
+        editModifier.deleteFile(rsrc.getChangeEdit(), rsrc.getPath());
       } catch(InvalidChangeOperationException | IOException e) {
         throw new ResourceConflictException(e.getMessage());
       }

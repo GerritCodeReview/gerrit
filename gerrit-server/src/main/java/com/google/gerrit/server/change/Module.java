@@ -106,6 +106,8 @@ public class Module extends RestApiModule {
     child(CHANGE_KIND, "edits").to(ChangeEdits.class);
     child(CHANGE_EDIT_KIND, "files").to(EditFiles.class);
     put(EDIT_FILE_KIND, "content").to(PutContent.class);
+    delete(EDIT_FILE_KIND).to(DeleteContent.class);
+
     install(new FactoryModule() {
       @Override
       protected void configure() {

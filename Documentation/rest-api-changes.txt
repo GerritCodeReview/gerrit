@@ -1162,6 +1162,9 @@ As response an link:#edit-info[EditInfo] entity is returned that
 describes the change edit, or "`204 No Content`" when change edit doesn't
 exist for this change. Change edits are stored on special branches and there
 can be max one edit per user per change. Edits aren't tracked in the database.
+When request parameter `list` is provided the response also includes the file
+list. When `base` request parameter is provided the file list is computed
+against this base revision.
 
 .Response
 ----
@@ -3816,6 +3819,9 @@ The `EditInfo` entity contains information about a change edit.
 |Field Name    ||Description
 |`commit`      ||The commit of change edit as
 link:#commit-info[CommitInfo] entity.
+|`files`       |optional|
+The files of the change edit as a map that maps the file names to
+link:#file-info[FileInfo] entities.
 |===========================
 
 [[restore-path-input]]

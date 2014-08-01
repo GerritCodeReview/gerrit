@@ -39,7 +39,7 @@ public class ChangeNoteUtil {
     r.append(m);
     r.append('/');
     r.append(n);
-    r.append("/meta");
+    r.append(RefNames.META_SUFFIX);
     return r.toString();
   }
 

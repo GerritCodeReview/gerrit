@@ -184,6 +184,22 @@ public class ChangeEditIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void deleteExistingFileRest() throws Exception {
+    assertEquals(RefUpdate.Result.NEW,
+        modifier.createEdit(
+            change,
+            ps));
+    Optional<ChangeEdit> edit = editUtil.byChange(change);
+    assertTrue(edit.isPresent());
+    //DeleteContent.Input in = new DeleteContent.Input();
+    assertEquals(204, session.delete(urlDelete()).getStatusCode());
+    edit = editUtil.byChange(change);
+    editUtil.publish(edit.get());
+    edit = editUtil.byChange(change);
+    assertFalse(edit.isPresent());
+  }
+
+  @Test
   public void restoreDeletedFileInEdit() throws Exception {
     assertEquals(RefUpdate.Result.NEW,
         modifier.createEdit(
@@ -381,14 +397,17 @@ public class ChangeEditIT extends AbstractDaemonTest {
         + "/edits";
   }
 
-  private String urlPut() {
+  private String urlDelete() {
     return "/changes/"
-        + change.getChangeId()
-        + "/edits/"
-        + 0
-        + "/files/"
-        + FILE_NAME
-        + "/content";
+            + change.getChangeId()
+            + "/edits/"
+            + 0
+            + "/files/"
+            + FILE_NAME;
+  }
+
+  private String urlPut() {
+    return urlDelete() + "/content";
   }
 
   private static Map<String, RevisionInfo> toRevisionInfoMap(RestResponse r)

@@ -94,12 +94,12 @@ public class BanCommit {
       MergeException, ConcurrentRefUpdateException {
     if (!projectControl.isOwner()) {
       throw new PermissionDeniedException(
-          "No project owner: not permitted to ban commits");
+          "Not project owner: not permitted to ban commits");
     }
 
     final BanCommitResult result = new BanCommitResult();
     NoteMap banCommitNotes = NoteMap.newEmptyMap();
-    // add a note for each banned commit to notes
+    // Add a note for each banned commit to notes.
     final Project.NameKey project = projectControl.getProject().getNameKey();
     final Repository repo = repoManager.openRepository(project);
     try {
@@ -110,7 +110,7 @@ public class BanCommit {
           try {
             revWalk.parseCommit(commitToBan);
           } catch (MissingObjectException e) {
-            // ignore exception, also not existing commits can be banned
+            // Ignore exception, non-existing commits can be banned.
           } catch (IncorrectObjectTypeException e) {
             result.notACommit(commitToBan, e.getMessage());
             continue;

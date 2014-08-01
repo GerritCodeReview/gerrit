@@ -85,65 +85,32 @@ public final class PatchSet {
     }
 
     /** Parse a PatchSet.Id from a {@link PatchSet#getRefName()} result. */
-    public static Id fromRef(String name) {
-      if (name == null || !name.startsWith(REFS_CHANGES)) {
+    public static Id fromRef(String ref) {
+      int cs = Change.Id.startIndex(ref);
+      if (cs < 0) {
         return null;
       }
-
-      // Last 2 digits.
-      int ls = REFS_CHANGES.length();
-      int le;
-      for (le = ls; le < name.length() && name.charAt(le) != '/'; le++) {
-        if (name.charAt(le) < '0' || name.charAt(le) > '9') {
-          return null;
-        }
-      }
-      if (le - ls != 2) {
+      int ce = Change.Id.nextNonDigit(ref, cs);
+      int patchSetId = fromRef(ref, ce);
+      if (patchSetId < 0) {
         return null;
       }
-
-      // Change ID.
-      int cs = le + 1;
-      if (cs >= name.length() || name.charAt(cs) == '0') {
-        return null;
-      }
-      int ce;
-      for (ce = cs; ce < name.length() && name.charAt(ce) != '/'; ce++) {
-        if (name.charAt(ce) < '0' || name.charAt(ce) > '9') {
-          return null;
-        }
-      }
-      switch (ce - cs) {
-        case 0:
-          return null;
-        case 1:
-          if (name.charAt(ls) != '0'
-              || name.charAt(ls + 1) != name.charAt(cs)) {
-            return null;
-          }
-          break;
-        default:
-          if (name.charAt(ls) != name.charAt(ce - 2)
-              || name.charAt(ls + 1) != name.charAt(ce - 1)) {
-            return null;
-          }
-          break;
-      }
-
-      // Patch set ID.
-      int ps = ce + 1;
-      if (ps >= name.length() || name.charAt(ps) == '0') {
-        return null;
-      }
-      for (int i = ps; i < name.length(); i++) {
-        if (name.charAt(i) < '0' || name.charAt(i) > '9') {
-          return null;
-        }
-      }
-
-      int changeId = Integer.parseInt(name.substring(cs, ce));
-      int patchSetId = Integer.parseInt(name.substring(ps));
+      int changeId = Integer.parseInt(ref.substring(cs, ce));
       return new PatchSet.Id(new Change.Id(changeId), patchSetId);
+    }
+
+    static int fromRef(String ref, int changeIdEnd) {
+      // Patch set ID.
+      int ps = changeIdEnd + 1;
+      if (ps >= ref.length() || ref.charAt(ps) == '0') {
+        return -1;
+      }
+      for (int i = ps; i < ref.length(); i++) {
+        if (ref.charAt(i) < '0' || ref.charAt(i) > '9') {
+          return -1;
+        }
+      }
+      return Integer.parseInt(ref.substring(ps));
     }
   }
 

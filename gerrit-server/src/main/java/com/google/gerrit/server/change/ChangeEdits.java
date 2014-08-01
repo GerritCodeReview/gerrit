@@ -220,4 +220,33 @@ public class ChangeEdits implements
       return Response.none();
     }
   }
+
+  /*
+   * Delete != restore/revert, and this is delete
+   */
+  @Singleton
+  static class DeleteContent implements
+      RestModifyView<ChangeEditResource, DeleteContent.Input> {
+    public static class Input {
+    }
+
+    private final ChangeEditModifier editModifier;
+
+    @Inject
+    DeleteContent(ChangeEditModifier editModifier) {
+      this.editModifier = editModifier;
+    }
+
+    @Override
+    public Response<?> apply(ChangeEditResource rsrc, DeleteContent.Input input)
+        throws AuthException, ResourceNotFoundException,
+        ResourceConflictException, OrmException {
+      try {
+        editModifier.deleteFile(rsrc.getChangeEdit(), rsrc.getPath());
+      } catch(InvalidChangeOperationException | IOException e) {
+        throw new ResourceConflictException(e.getMessage());
+      }
+      return Response.none();
+    }
+  }
 }

@@ -38,6 +38,7 @@ def gwt_module(gwt_xml=None, **kwargs):
     kw['resources'] += [gwt_xml]
   if 'srcs' in kw:
     kw['resources'] += kw['srcs']
+  kw['resources'] = list(set(kw['resources']))
   java_library(**kw)
 
 def gerrit_extension(

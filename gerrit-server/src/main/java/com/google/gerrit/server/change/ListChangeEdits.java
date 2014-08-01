@@ -21,23 +21,32 @@ import com.google.common.collect.Maps;
 import com.google.gerrit.extensions.common.ActionInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.EditInfo;
+import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.IdString;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.UserIdentity;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountByEmailCache;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditUtil;
 import com.google.gerrit.server.extensions.webui.UiActions;
+import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.kohsuke.args4j.Option;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -60,29 +69,44 @@ class ListChangeEdits implements RestReadView<ChangeResource> {
   private final ChangeEdits changeEdits;
   private final ChangeEditUtil editUtil;
   private final AccountByEmailCache byEmailCache;
+  private final Provider<ListFiles> listFiles;
   private final Provider<CurrentUser> userProvider;
+
+  @Option(name = "--base", metaVar = "revision-id")
+  String base;
+
+  @Option(name = "--list", metaVar = "LIST")
+  boolean list;
 
   @Inject
   ListChangeEdits(ChangeEdits changeEdits,
       ChangeEditUtil editUtil,
       AccountByEmailCache byEmailCache,
+      Provider<ListFiles> listFiles,
       Provider<CurrentUser> userProvider) {
     this.changeEdits = changeEdits;
     this.editUtil = editUtil;
     this.byEmailCache = byEmailCache;
+    this.listFiles = listFiles;
     this.userProvider = userProvider;
   }
 
   @Override
-  public Map<String, EditInfo> apply(ChangeResource rsrc)
-      throws AuthException, IOException {
+  public Response<?> apply(ChangeResource rsrc) throws AuthException,
+      IOException, BadRequestException, ResourceNotFoundException, OrmException {
     Map<String, EditInfo> res = new HashMap<>();
     Optional<ChangeEdit> edit = editUtil.byChange(rsrc.getChange());
     if (edit.isPresent()) {
       ChangeEdit src = edit.get();
-      res.put(src.getRevision().get(), toEditInfo(rsrc, src));
+      if (list) {
+        ChangeEditResource changeEditRsrc = new ChangeEditResource(
+            rsrc, src, null);
+        return listFiles.get().apply(changeEditRsrc);
+      } else {
+        res.put(src.getRevision().get(), toEditInfo(rsrc, src));
+      }
     }
-    return res;
+    return Response.ok(res);
   }
 
   private EditInfo toEditInfo(ChangeResource rsrc, ChangeEdit edit) {
@@ -145,5 +169,43 @@ class ListChangeEdits implements RestReadView<ChangeResource> {
     }
 
     return u;
+  }
+
+  public static final class ListFiles implements RestReadView<ChangeEditResource> {
+
+    private final FileInfoJson fileInfoJson;
+    private final Revisions revisions;
+    String base;
+
+    @Inject
+    ListFiles(FileInfoJson fileInfoJson,
+        Revisions revisions) {
+      this.fileInfoJson = fileInfoJson;
+      this.revisions = revisions;
+    }
+
+    @Override
+    public Response<?> apply(ChangeEditResource resource) throws AuthException,
+        BadRequestException, ResourceNotFoundException, OrmException {
+      PatchSet basePatchSet = null;
+      if (base != null) {
+        RevisionResource baseResource = revisions.parse(
+            resource.getChangeResource(), IdString.fromDecoded(base));
+        basePatchSet = baseResource.getPatchSet();
+      }
+      try {
+        Response<Map<String, FileInfo>> r = Response.ok(fileInfoJson.toFileInfoMap(
+            resource.getChange(),
+            resource.getChangeEdit().getRevision(),
+            basePatchSet));
+        return r;
+      } catch (PatchListNotAvailableException e) {
+        throw new ResourceNotFoundException(e.getMessage());
+      }
+    }
+
+    void setBase(String base) {
+      this.base = base;
+    }
   }
 }

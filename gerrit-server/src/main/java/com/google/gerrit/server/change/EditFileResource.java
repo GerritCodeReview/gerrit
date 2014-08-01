@@ -52,7 +52,7 @@ public class EditFileResource implements RestResource {
     return rev.getAccountId();
   }
 
-  ChangeEdit getChangeEdit() {
+  public ChangeEdit getChangeEdit() {
     return rev.getChangeEdit();
   }
 }

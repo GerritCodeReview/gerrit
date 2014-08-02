@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b69deb27_5b7623b3",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-08-02T00:52:14Z",
+      "side": 1,
+      "message": "Done. I don\u0027t know how to do the latter because I still want CommentsIT to run with both noteDbEnabled and not and I only know how to do that by adding a static method that returns a Config, not a NotesMigration. I could add a cfg var to the NotesMigration, but I don\u0027t know if that is overkill.",
+      "parentUuid": "366bbbde_971d6484",
+      "revId": "f7f81955f50aac7addd89b16f30e384b8eb7fae7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b69deb27_7b251fc9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
         "patchSetId": 10
@@ -30,6 +48,30 @@
       "writtenOn": "2014-08-01T22:00:30Z",
       "side": 1,
       "message": "I think my suggestion wasn\u0027t aggressive enough. This whole block is still identical; it could be a single method getDraftRefs(Change.Id)",
+      "range": {
+        "startLine": 122,
+        "startChar": 4,
+        "endLine": 124,
+        "endChar": 54
+      },
+      "revId": "f7f81955f50aac7addd89b16f30e384b8eb7fae7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "366bbbde_d73c3cde",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-08-02T00:52:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b69deb27_7b251fc9",
       "range": {
         "startLine": 122,
         "startChar": 4,
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "366bbbde_f73940eb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-08-02T00:52:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b69deb27_db131378",
+      "range": {
+        "startLine": 271,
+        "startChar": 23,
+        "endLine": 271,
+        "endChar": 30
+      },
+      "revId": "f7f81955f50aac7addd89b16f30e384b8eb7fae7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b69deb27_fb104f6d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
         "patchSetId": 10
@@ -76,6 +142,24 @@
       "writtenOn": "2014-08-01T22:00:30Z",
       "side": 1,
       "message": "Only construct the one you need.",
+      "revId": "f7f81955f50aac7addd89b16f30e384b8eb7fae7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b69deb27_7b7bdf97",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-08-02T00:52:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b69deb27_fb104f6d",
       "revId": "f7f81955f50aac7addd89b16f30e384b8eb7fae7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -99,6 +183,24 @@
     },
     {
       "key": {
+        "uuid": "b69deb27_1b809b3b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-08-02T00:52:14Z",
+      "side": 1,
+      "message": "Done. I thought it looked more readable outside of the predicate, so I moved it out as well.",
+      "parentUuid": "b69deb27_1b2adb98",
+      "revId": "f7f81955f50aac7addd89b16f30e384b8eb7fae7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "366bbbde_372fb8a9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteDraft.java",
         "patchSetId": 10
@@ -110,6 +212,24 @@
       "writtenOn": "2014-08-01T22:00:30Z",
       "side": 1,
       "message": "Seems like this RevId would always be null, why this check? Would it make more sense to push the null check into setCommentRevId?",
+      "revId": "f7f81955f50aac7addd89b16f30e384b8eb7fae7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "366bbbde_9736c4fa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteDraft.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-08-02T00:52:14Z",
+      "side": 1,
+      "message": "I will move the check to setCommentRevId. However, I was thinking that if we turn on write before we turn on read, then we will have comments that don\u0027t have this field set and my code will complain because I need a RevId to know where to write the comments.",
+      "parentUuid": "366bbbde_372fb8a9",
       "revId": "f7f81955f50aac7addd89b16f30e384b8eb7fae7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -150,6 +270,24 @@
     },
     {
       "key": {
+        "uuid": "b69deb27_3b85574c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-08-02T00:52:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "366bbbde_d713dc77",
+      "revId": "f7f81955f50aac7addd89b16f30e384b8eb7fae7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "366bbbde_f710606d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
         "patchSetId": 10
@@ -161,6 +299,24 @@
       "writtenOn": "2014-08-01T22:00:30Z",
       "side": 1,
       "message": "I hate swallowing exceptions like this, leave a warning in the logs. (Not your fault, this happens all over the place. It just makes debugging things in production more difficult than they should be.)",
+      "revId": "f7f81955f50aac7addd89b16f30e384b8eb7fae7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "366bbbde_b733c809",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-08-02T00:52:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "366bbbde_f710606d",
       "revId": "f7f81955f50aac7addd89b16f30e384b8eb7fae7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -184,6 +340,24 @@
     },
     {
       "key": {
+        "uuid": "366bbbde_5776ecb2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-08-02T00:52:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b69deb27_5b494378",
+      "revId": "f7f81955f50aac7addd89b16f30e384b8eb7fae7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b69deb27_bb1ac787",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
         "patchSetId": 10
@@ -195,6 +369,30 @@
       "writtenOn": "2014-08-01T22:00:30Z",
       "side": 1,
       "message": "Why?",
+      "range": {
+        "startLine": 128,
+        "startChar": 51,
+        "endLine": 129,
+        "endChar": 14
+      },
+      "revId": "f7f81955f50aac7addd89b16f30e384b8eb7fae7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "366bbbde_777bf097",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-08-02T00:52:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b69deb27_bb1ac787",
       "range": {
         "startLine": 128,
         "startChar": 51,

@@ -14,7 +14,6 @@
 
 include_defs('//lib/local.defs')
 
-ATLASSIAN = 'ATLASSIAN:'
 GERRIT = 'GERRIT:'
 GERRIT_API = 'GERRIT_API:'
 MAVEN_CENTRAL = 'MAVEN_CENTRAL:'

@@ -15,19 +15,25 @@
 package com.google.gerrit.server.edit;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.gerrit.extensions.common.ActionInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.EditInfo;
+import com.google.gerrit.extensions.webui.PrivateInternals_UiActionDescription;
+import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.server.CommonConverters;
 
 import org.eclipse.jgit.revwalk.RevCommit;
 
 import java.io.IOException;
+import java.util.Map;
 
 public class ChangeEditInfoJson {
 
   public static EditInfo toEditInfo(ChangeEdit edit) throws IOException {
     EditInfo out = new EditInfo();
     out.commit = fillCommit(edit.getEditCommit());
+    out.actions = fillActions(edit);
     return out;
   }
 
@@ -46,5 +52,17 @@ public class ChangeEditInfoJson {
     commit.parents.add(i);
 
     return commit;
+  }
+
+  private static Map<String, ActionInfo> fillActions(ChangeEdit edit) {
+    Map<String, ActionInfo> actions = Maps.newTreeMap();
+
+    UiAction.Description descr = new UiAction.Description();
+    PrivateInternals_UiActionDescription.setId(descr, "/");
+    PrivateInternals_UiActionDescription.setMethod(descr, "DELETE");
+    descr.setTitle("Delete edit");
+    actions.put(descr.getId(), new ActionInfo(descr));
+
+    return actions;
   }
 }

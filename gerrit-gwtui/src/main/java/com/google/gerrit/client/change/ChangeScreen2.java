@@ -624,7 +624,7 @@ public class ChangeScreen2 extends Screen {
     final List<NativeMap<JsArray<CommentInfo>>> drafts = loadDrafts(rev, group);
     DiffApi.list(changeId.get(),
       base != null ? base.name() : null,
-      rev.name(),
+      rev,
       group.add(new AsyncCallback<NativeMap<FileInfo>>() {
         @Override
         public void onSuccess(NativeMap<FileInfo> m) {
@@ -639,7 +639,7 @@ public class ChangeScreen2 extends Screen {
         }
       }));
 
-    if (Gerrit.isSignedIn()) {
+    if (Gerrit.isSignedIn() && !rev.edit()) {
       ChangeApi.revision(changeId.get(), rev.name())
         .view("files")
         .addParameterTrue("reviewed")
@@ -660,26 +660,30 @@ public class ChangeScreen2 extends Screen {
       RevisionInfo rev, CallbackGroup group) {
     final int id = rev._number();
     final List<NativeMap<JsArray<CommentInfo>>> r = new ArrayList<>(1);
-    ChangeApi.revision(changeId.get(), rev.name())
-      .view("comments")
-      .get(group.add(new AsyncCallback<NativeMap<JsArray<CommentInfo>>>() {
-        @Override
-        public void onSuccess(NativeMap<JsArray<CommentInfo>> result) {
-          r.add(result);
-          history.addComments(id, result);
-        }
+    if (rev.edit()) {
+      r.add(NativeMap.<JsArray<CommentInfo>> create());
+    } else {
+      ChangeApi.revision(changeId.get(), rev.name())
+        .view("comments")
+        .get(group.add(new AsyncCallback<NativeMap<JsArray<CommentInfo>>>() {
+          @Override
+          public void onSuccess(NativeMap<JsArray<CommentInfo>> result) {
+            r.add(result);
+            history.addComments(id, result);
+          }
 
-        @Override
-        public void onFailure(Throwable caught) {
-        }
-      }));
+          @Override
+          public void onFailure(Throwable caught) {
+          }
+        }));
+    }
     return r;
   }
 
   private List<NativeMap<JsArray<CommentInfo>>> loadDrafts(
       RevisionInfo rev, CallbackGroup group) {
     final List<NativeMap<JsArray<CommentInfo>>> r = new ArrayList<>(1);
-    if (Gerrit.isSignedIn()) {
+    if (Gerrit.isSignedIn() && !rev.edit()) {
       ChangeApi.revision(changeId.get(), rev.name())
         .view("drafts")
         .get(group.add(new AsyncCallback<NativeMap<JsArray<CommentInfo>>>() {
@@ -699,6 +703,9 @@ public class ChangeScreen2 extends Screen {
   }
 
   private void loadCommit(final RevisionInfo rev, CallbackGroup group) {
+    if (rev.edit()) {
+      return;
+    }
     ChangeApi.revision(changeId.get(), rev.name())
       .view("commit")
       .get(group.add(new AsyncCallback<CommitInfo>() {
@@ -800,10 +807,14 @@ public class ChangeScreen2 extends Screen {
   private void renderChangeInfo(ChangeInfo info) {
     changeInfo = info;
     lastDisplayedUpdate = info.updated();
+    RevisionInfo revisionInfo = info.revision(revision);
     boolean current = info.status().isOpen()
-        && revision.equals(info.current_revision());
+        && revision.equals(info.current_revision())
+        && !revisionInfo.edit();
 
-    if (!current && info.status() == Change.Status.NEW) {
+    if (revisionInfo.edit()) {
+      statusText.setInnerText(Util.C.changeEdit());
+    } else if (!current && info.status() == Change.Status.NEW) {
       statusText.setInnerText(Util.C.notCurrent());
       labels.setVisible(false);
     } else {

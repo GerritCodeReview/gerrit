@@ -19,8 +19,11 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.ChangeInfo;
 import com.google.gerrit.client.changes.ChangeInfo.CommitInfo;
+import com.google.gerrit.client.changes.ChangeInfo.EditInfo;
 import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
 import com.google.gerrit.client.changes.ChangeList;
+import com.google.gerrit.client.rpc.CallbackGroup;
+import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.rpc.RestApi;
@@ -57,6 +60,7 @@ class PatchSetsBox extends Composite {
 
   private static final String OPEN;
   private static final HyperlinkImpl link = GWT.create(HyperlinkImpl.class);
+  private NativeMap<EditInfo> edits;
 
   static {
     OPEN = DOM.createUniqueId().replace('-', '_');
@@ -116,14 +120,30 @@ class PatchSetsBox extends Composite {
   @Override
   protected void onLoad() {
     if (!loaded) {
+      CallbackGroup group = new CallbackGroup();
+      if (Gerrit.isSignedIn()) {
+        ChangeApi.edit(changeId.get(), group.add(
+            new GerritCallback<NativeMap<EditInfo>>() {
+              @Override
+              public void onSuccess(NativeMap<EditInfo> result) {
+                edits = result;
+              }
+            }));
+      }
       RestApi call = ChangeApi.detail(changeId.get());
       ChangeList.addOptions(call, EnumSet.of(
           ListChangesOption.ALL_COMMITS,
           ListChangesOption.ALL_REVISIONS,
           ListChangesOption.DRAFT_COMMENTS));
-      call.get(new AsyncCallback<ChangeInfo>() {
+      call.get(group.addFinal(new AsyncCallback<ChangeInfo>() {
         @Override
         public void onSuccess(ChangeInfo result) {
+          if (edits != null && edits.size() > 0) {
+            edits.copyKeysIntoChildren("name");
+            for (EditInfo edit : Natives.asList(edits.values())) {
+              result.revisions().put(edit.name(), RevisionInfo.fromEdit(edit));
+            }
+          }
           render(result.revisions());
           loaded = true;
         }
@@ -131,7 +151,7 @@ class PatchSetsBox extends Composite {
         @Override
         public void onFailure(Throwable caught) {
         }
-      });
+      }));
     }
   }
 

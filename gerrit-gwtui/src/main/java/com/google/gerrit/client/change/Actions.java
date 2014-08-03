@@ -48,6 +48,7 @@ class Actions extends Composite {
   @UiField Button deleteChange;
   @UiField Button deleteRevision;
   @UiField Button deleteEdit;
+  @UiField Button publishEdit;
   @UiField Button publish;
   @UiField Button rebase;
   @UiField Button revert;
@@ -118,6 +119,7 @@ class Actions extends Composite {
 
     if (hasUser) {
       a2b(actions, "/", deleteEdit);
+      a2b(actions, "publish", publishEdit);
       for (String id : filterNonCore(actions)) {
         add(new ActionButton(info, editInfo, actions.get(id)));
       }
@@ -188,6 +190,11 @@ class Actions extends Composite {
   @UiHandler("deleteEdit")
   void onDeleteEdit(ClickEvent e) {
     EditActions.deleteEdit(changeId);
+  }
+
+  @UiHandler("publishEdit")
+  void onPublishEdit(ClickEvent e) {
+    EditActions.publishEdit(changeId);
   }
 
   @UiHandler("deleteRevision")

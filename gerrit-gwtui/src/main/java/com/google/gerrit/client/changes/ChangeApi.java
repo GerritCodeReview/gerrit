@@ -152,6 +152,11 @@ public class ChangeApi {
     revision(id, commit).delete(cb);
   }
 
+  /** Create change for specific revision. */
+  public static void createEdit(int id, String commit, AsyncCallback<JavaScriptObject> cb) {
+    call(id, commit, "create_edit").post(JavaScriptObject.createObject(), cb);
+  }
+
   /** Rebase a revision onto the branch tip. */
   public static void rebase(int id, String commit, AsyncCallback<ChangeInfo> cb) {
     JavaScriptObject in = JavaScriptObject.createObject();

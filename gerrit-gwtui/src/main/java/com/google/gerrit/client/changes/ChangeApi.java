@@ -157,6 +157,11 @@ public class ChangeApi {
     call(id, commit, "create_edit").post(JavaScriptObject.createObject(), cb);
   }
 
+  /** Delete change edit. */
+  public static void deleteEdit(int id, AsyncCallback<JavaScriptObject> cb) {
+    edit(id).delete(cb);
+  }
+
   /** Rebase a revision onto the branch tip. */
   public static void rebase(int id, String commit, AsyncCallback<ChangeInfo> cb) {
     JavaScriptObject in = JavaScriptObject.createObject();

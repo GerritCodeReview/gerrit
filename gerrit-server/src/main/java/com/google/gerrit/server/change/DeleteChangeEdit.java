@@ -16,30 +16,45 @@ package com.google.gerrit.server.change;
 
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.extensions.webui.UiAction;
+import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.change.DeleteChangeEdit.Input;
 import com.google.gerrit.server.edit.ChangeEditUtil;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import java.io.IOException;
 
 @Singleton
 public class DeleteChangeEdit implements
-    RestModifyView<ChangeEditResource, Input> {
+    RestModifyView<ChangeEditResource, Input>, UiAction<ChangeEditResource> {
   public static class Input {
   }
 
   private final ChangeEditUtil editUtil;
+  private final Provider<ReviewDb> db;
 
   @Inject
-  DeleteChangeEdit(ChangeEditUtil editUtil) {
+  DeleteChangeEdit(ChangeEditUtil editUtil,
+      Provider<ReviewDb> db) {
     this.editUtil = editUtil;
+    this.db = db;
   }
 
   @Override
   public Response<?> apply(ChangeEditResource rsrc, Input in)
-      throws IOException {
+      throws IOException, OrmException {
     editUtil.delete(rsrc.getChangeEdit());
+    ChangeUtil.bumpRowVersionNotLastUpdatedOn(rsrc.getChange().getId(),
+        db.get());
     return Response.none();
+  }
+
+  @Override
+  public UiAction.Description getDescription(ChangeEditResource rsrc) {
+    return new UiAction.Description().setTitle("Delete edit");
   }
 }

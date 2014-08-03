@@ -162,6 +162,12 @@ public class ChangeApi {
     edit(id).delete(cb);
   }
 
+  /** Publish change edit. */
+  public static void publishEdit(int id, AsyncCallback<JavaScriptObject> cb) {
+    JavaScriptObject in = JavaScriptObject.createObject();
+    edit(id).view("publish").post(in, cb);
+  }
+
   /** Rebase a revision onto the branch tip. */
   public static void rebase(int id, String commit, AsyncCallback<ChangeInfo> cb) {
     JavaScriptObject in = JavaScriptObject.createObject();

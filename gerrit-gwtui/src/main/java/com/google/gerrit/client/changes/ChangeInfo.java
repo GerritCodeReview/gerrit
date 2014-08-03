@@ -215,6 +215,9 @@ public class ChangeInfo extends JavaScriptObject {
     public final native CommitInfo commit() /*-{ return this.commit; }-*/;
     public final native void set_commit(CommitInfo c) /*-{ this.commit = c; }-*/;
 
+    public final native boolean has_actions() /*-{ return this.hasOwnProperty('actions') }-*/;
+    public final native NativeMap<ActionInfo> actions() /*-{ return this.actions; }-*/;
+
     protected EditInfo() {
     }
   }

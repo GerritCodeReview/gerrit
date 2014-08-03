@@ -47,6 +47,7 @@ class Actions extends Composite {
   @UiField Button cherrypick;
   @UiField Button deleteChange;
   @UiField Button deleteRevision;
+  @UiField Button deleteEdit;
   @UiField Button publish;
   @UiField Button rebase;
   @UiField Button revert;
@@ -116,6 +117,7 @@ class Actions extends Composite {
     actions.copyKeysIntoChildren("id");
 
     if (hasUser) {
+      a2b(actions, "/", deleteEdit);
       for (String id : filterNonCore(actions)) {
         add(new ActionButton(info, editInfo, actions.get(id)));
       }
@@ -181,6 +183,11 @@ class Actions extends Composite {
   @UiHandler("publish")
   void onPublish(ClickEvent e) {
     DraftActions.publish(changeId, revision);
+  }
+
+  @UiHandler("deleteEdit")
+  void onDeleteEdit(ClickEvent e) {
+    EditActions.deleteEdit(changeId);
   }
 
   @UiHandler("deleteRevision")

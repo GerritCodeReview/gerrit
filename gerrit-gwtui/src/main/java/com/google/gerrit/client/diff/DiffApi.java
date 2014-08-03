@@ -15,6 +15,7 @@
 package com.google.gerrit.client.diff;
 
 import com.google.gerrit.client.changes.ChangeApi;
+import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
@@ -26,9 +27,25 @@ public class DiffApi {
     NONE, TRAILING, CHANGED, ALL
   }
 
+  public static void list(int id, String base, RevisionInfo info,
+      AsyncCallback<NativeMap<FileInfo>> cb) {
+    RestApi api;
+    if (info.edit()) {
+      api = ChangeApi.edit(id).addParameter("list", true);
+    } else {
+      api = ChangeApi.revision(id, info.name()).view("files");
+    }
+    listCommon(base, cb, api);
+  }
+
   public static void list(int id, String base, String revision,
       AsyncCallback<NativeMap<FileInfo>> cb) {
     RestApi api = ChangeApi.revision(id, revision).view("files");
+    listCommon(base, cb, api);
+  }
+
+  private static void listCommon(String base,
+      AsyncCallback<NativeMap<FileInfo>> cb, RestApi api) {
     if (base != null) {
       api.addParameter("base", base);
     }

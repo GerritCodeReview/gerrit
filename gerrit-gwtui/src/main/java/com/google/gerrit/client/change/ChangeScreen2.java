@@ -353,17 +353,17 @@ public class ChangeScreen2 extends Screen {
   }
 
   private void initRevisionsAction(ChangeInfo info, String revision) {
-    int currentPatchSet;
+    String currentPatchSet;
     if (info.current_revision() != null
         && info.revisions().containsKey(info.current_revision())) {
-      currentPatchSet = info.revision(info.current_revision())._number();
+      currentPatchSet = info.revision(info.current_revision()).id();
     } else {
       JsArray<RevisionInfo> revList = info.revisions().values();
       RevisionInfo.sortRevisionInfoByNumber(revList);
-      currentPatchSet = revList.get(revList.length() - 1)._number();
+      currentPatchSet = revList.get(revList.length() - 1).id();
     }
 
-    int currentlyViewedPatchSet = info.revision(revision)._number();
+    String currentlyViewedPatchSet = info.revision(revision).id();
     patchSetsText.setInnerText(Resources.M.patchSets(
         currentlyViewedPatchSet, currentPatchSet));
     patchSetsAction = new PatchSetsAction(
@@ -571,13 +571,27 @@ public class ChangeScreen2 extends Screen {
         edit.files().copyKeysIntoChildren("path");
       }
       info.revisions().put(edit.name(), RevisionInfo.fromEdit(edit));
+      JsArray<RevisionInfo> list = info.revisions().values();
 
-      if (revision == null || revision.equals("0")) {
-        JsArray<RevisionInfo> revisions = info.revisions().values();
-        RevisionInfo.sortRevisionInfoByNumber(revisions);
-        RevisionInfo rev = revisions.get(revisions.length() - 1);
+      // We have to different strategies to replace current ps with edit:
+      // 1. revision == null: we want only to replace current ps
+      //    then and only then when the edit is based on last ps
+      // 2. edi was selected explicitly from ps drop down:
+      //    replace current ps with edit no matter, if it based
+      //    on the last ps or not
+      if (revision == null) {
+        RevisionInfo.sortRevisionInfoByNumber(list);
+        RevisionInfo rev = list.get(list.length() - 1);
         if (rev.edit()) {
           info.set_current_revision(rev.name());
+        }
+      } else if (revision.equals("edit") || revision.equals("0")) {
+        for (int i = 0; i < list.length(); i++) {
+          RevisionInfo r = list.get(i);
+          if (r.edit()) {
+            info.set_current_revision(r.name());
+            break;
+          }
         }
       }
     }
@@ -585,7 +599,17 @@ public class ChangeScreen2 extends Screen {
     final RevisionInfo b = resolveRevisionOrPatchSetId(info, base, null);
 
     CallbackGroup group = new CallbackGroup();
-    loadDiff(b, rev, myLastReply(info), group);
+    if (rev.edit()) {
+      NativeMap<JsArray<CommentInfo>> emptyComment = NativeMap.create();
+      files.setRevisions(
+          b != null ? new PatchSet.Id(changeId, b._number()) : null,
+          new PatchSet.Id(changeId, rev._number()));
+      files.setValue(info.edit().files(), myLastReply(info),
+          emptyComment,
+          emptyComment);
+    } else {
+      loadDiff(b, rev, myLastReply(info), group);
+    }
     loadCommit(rev, group);
 
     if (loaded) {
@@ -701,6 +725,9 @@ public class ChangeScreen2 extends Screen {
   }
 
   private void loadCommit(final RevisionInfo rev, CallbackGroup group) {
+    if (rev.edit()) {
+      return;
+    }
     ChangeApi.revision(changeId.get(), rev.name())
       .view("commit")
       .get(group.add(new AsyncCallback<CommitInfo>() {
@@ -802,10 +829,14 @@ public class ChangeScreen2 extends Screen {
   private void renderChangeInfo(ChangeInfo info) {
     changeInfo = info;
     lastDisplayedUpdate = info.updated();
+    RevisionInfo revisionInfo = info.revision(revision);
     boolean current = info.status().isOpen()
-        && revision.equals(info.current_revision());
+        && revision.equals(info.current_revision())
+        && !revisionInfo.edit();
 
-    if (!current && info.status() == Change.Status.NEW) {
+    if (revisionInfo.edit()) {
+      statusText.setInnerText(Util.C.changeEdit());
+    } else if (!current && info.status() == Change.Status.NEW) {
       statusText.setInnerText(Util.C.notCurrent());
       labels.setVisible(false);
     } else {
@@ -912,7 +943,7 @@ public class ChangeScreen2 extends Screen {
     for (int i = list.length() - 1; i >= 0; i--) {
       RevisionInfo r = list.get(i);
       diffBase.addItem(
-        r._number() + ": " + r.name().substring(0, 6),
+        r.id() + ": " + r.name().substring(0, 6),
         r.name());
       if (r.name().equals(revision)) {
         SelectElement.as(diffBase.getElement()).getOptions()

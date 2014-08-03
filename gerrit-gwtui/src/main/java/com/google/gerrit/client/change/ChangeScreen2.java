@@ -353,17 +353,20 @@ public class ChangeScreen2 extends Screen {
   }
 
   private void initRevisionsAction(ChangeInfo info, String revision) {
-    int currentPatchSet;
+    String currentPatchSet;
     if (info.current_revision() != null
         && info.revisions().containsKey(info.current_revision())) {
-      currentPatchSet = info.revision(info.current_revision())._number();
+      currentPatchSet = info.revision(info.current_revision()).id();
     } else {
       JsArray<RevisionInfo> revList = info.revisions().values();
       RevisionInfo.sortRevisionInfoByNumber(revList);
-      currentPatchSet = revList.get(revList.length() - 1)._number();
+      currentPatchSet = revList.get(revList.length() - 1).id();
     }
 
-    int currentlyViewedPatchSet = info.revision(revision)._number();
+    String currentlyViewedPatchSet = info.revision(revision).id();
+    if (info.has_edit()) {
+
+    }
     patchSetsText.setInnerText(Resources.M.patchSets(
         currentlyViewedPatchSet, currentPatchSet));
     patchSetsAction = new PatchSetsAction(
@@ -569,13 +572,27 @@ public class ChangeScreen2 extends Screen {
       EditInfo edit = Natives.asList(edits.values()).get(0);
       info.set_edit(edit);
       info.revisions().put(edit.name(), RevisionInfo.fromEdit(edit));
+      JsArray<RevisionInfo> list = info.revisions().values();
 
-      if (revision == null || revision.equals("0")) {
-        JsArray<RevisionInfo> revisions = info.revisions().values();
-        RevisionInfo.sortRevisionInfoByNumber(revisions);
-        RevisionInfo rev = revisions.get(revisions.length() - 1);
+      // We have to different strategies to replace current ps with edit:
+      // 1. revision == null: we want only to replace current ps
+      //    then and only then when the edit is based on last ps
+      // 2. edi was selected explicitly from ps drop down:
+      //    replace current ps with edit no matter, if it based
+      //    on the last ps or not
+      if (revision == null) {
+        RevisionInfo.sortRevisionInfoByNumber(list);
+        RevisionInfo rev = list.get(list.length() - 1);
         if (rev.edit()) {
           info.set_current_revision(rev.name());
+        }
+      } else if (revision.equals("edit") || revision.equals("0")) {
+        for (int i = 0; i < list.length(); i++) {
+          RevisionInfo r = list.get(i);
+          if (r.edit()) {
+            info.set_current_revision(r.name());
+            break;
+          }
         }
       }
     }
@@ -624,7 +641,7 @@ public class ChangeScreen2 extends Screen {
     final List<NativeMap<JsArray<CommentInfo>>> drafts = loadDrafts(rev, group);
     DiffApi.list(changeId.get(),
       base != null ? base.name() : null,
-      rev.name(),
+      rev,
       group.add(new AsyncCallback<NativeMap<FileInfo>>() {
         @Override
         public void onSuccess(NativeMap<FileInfo> m) {
@@ -639,7 +656,7 @@ public class ChangeScreen2 extends Screen {
         }
       }));
 
-    if (Gerrit.isSignedIn()) {
+    if (Gerrit.isSignedIn() && !rev.edit()) {
       ChangeApi.revision(changeId.get(), rev.name())
         .view("files")
         .addParameterTrue("reviewed")
@@ -660,26 +677,30 @@ public class ChangeScreen2 extends Screen {
       RevisionInfo rev, CallbackGroup group) {
     final int id = rev._number();
     final List<NativeMap<JsArray<CommentInfo>>> r = new ArrayList<>(1);
-    ChangeApi.revision(changeId.get(), rev.name())
-      .view("comments")
-      .get(group.add(new AsyncCallback<NativeMap<JsArray<CommentInfo>>>() {
-        @Override
-        public void onSuccess(NativeMap<JsArray<CommentInfo>> result) {
-          r.add(result);
-          history.addComments(id, result);
-        }
+    if (rev.edit()) {
+      r.add(NativeMap.<JsArray<CommentInfo>> create());
+    } else {
+      ChangeApi.revision(changeId.get(), rev.name())
+        .view("comments")
+        .get(group.add(new AsyncCallback<NativeMap<JsArray<CommentInfo>>>() {
+          @Override
+          public void onSuccess(NativeMap<JsArray<CommentInfo>> result) {
+            r.add(result);
+            history.addComments(id, result);
+          }
 
-        @Override
-        public void onFailure(Throwable caught) {
-        }
-      }));
+          @Override
+          public void onFailure(Throwable caught) {
+          }
+        }));
+    }
     return r;
   }
 
   private List<NativeMap<JsArray<CommentInfo>>> loadDrafts(
       RevisionInfo rev, CallbackGroup group) {
     final List<NativeMap<JsArray<CommentInfo>>> r = new ArrayList<>(1);
-    if (Gerrit.isSignedIn()) {
+    if (Gerrit.isSignedIn() && !rev.edit()) {
       ChangeApi.revision(changeId.get(), rev.name())
         .view("drafts")
         .get(group.add(new AsyncCallback<NativeMap<JsArray<CommentInfo>>>() {
@@ -699,6 +720,9 @@ public class ChangeScreen2 extends Screen {
   }
 
   private void loadCommit(final RevisionInfo rev, CallbackGroup group) {
+    if (rev.edit()) {
+      return;
+    }
     ChangeApi.revision(changeId.get(), rev.name())
       .view("commit")
       .get(group.add(new AsyncCallback<CommitInfo>() {
@@ -800,10 +824,14 @@ public class ChangeScreen2 extends Screen {
   private void renderChangeInfo(ChangeInfo info) {
     changeInfo = info;
     lastDisplayedUpdate = info.updated();
+    RevisionInfo revisionInfo = info.revision(revision);
     boolean current = info.status().isOpen()
-        && revision.equals(info.current_revision());
+        && revision.equals(info.current_revision())
+        && !revisionInfo.edit();
 
-    if (!current && info.status() == Change.Status.NEW) {
+    if (revisionInfo.edit()) {
+      statusText.setInnerText(Util.C.changeEdit());
+    } else if (!current && info.status() == Change.Status.NEW) {
       statusText.setInnerText(Util.C.notCurrent());
       labels.setVisible(false);
     } else {
@@ -910,7 +938,7 @@ public class ChangeScreen2 extends Screen {
     for (int i = list.length() - 1; i >= 0; i--) {
       RevisionInfo r = list.get(i);
       diffBase.addItem(
-        r._number() + ": " + r.name().substring(0, 6),
+        r.id() + ": " + r.name().substring(0, 6),
         r.name());
       if (r.name().equals(revision)) {
         SelectElement.as(diffBase.getElement()).getOptions()

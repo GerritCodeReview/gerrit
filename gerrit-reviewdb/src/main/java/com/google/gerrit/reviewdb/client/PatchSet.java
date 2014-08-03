@@ -112,6 +112,16 @@ public final class PatchSet {
       }
       return Integer.parseInt(ref.substring(ps));
     }
+
+    public String getId() {
+      return toId(patchSetId);
+    }
+
+    public static String toId(int number) {
+      return number == 0
+          ? "edit"
+          : String.valueOf(number);
+    }
   }
 
   @Column(id = 1, name = Column.NONE)

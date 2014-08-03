@@ -24,6 +24,7 @@ import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
@@ -105,6 +106,7 @@ public class ChangeInfo extends JavaScriptObject {
   public final native JsArray<MessageInfo> messages() /*-{ return this.messages; }-*/;
   public final native void set_edit(EditInfo edit) /*-{ this.edit = edit; }-*/;
   public final native EditInfo edit() /*-{ return this.edit; }-*/;
+  public final native boolean has_edit() /*-{ return this.hasOwnProperty('edit') }-*/;
 
   public final native boolean has_permitted_labels()
   /*-{ return this.hasOwnProperty('permitted_labels') }-*/;
@@ -253,10 +255,10 @@ public class ChangeInfo extends JavaScriptObject {
           int a_number = a._number();
           int b_number = b._number();
           if (a_number == 0) {
-            a_number = parent_edit_number + 1;
+            a_number = parent_edit_number;
           }
           if (b_number == 0) {
-            b_number = parent_edit_number + 1;
+            b_number = parent_edit_number;
           }
           return a_number - b_number;
         }
@@ -282,6 +284,10 @@ public class ChangeInfo extends JavaScriptObject {
         }
       }
       return -1;
+    }
+
+    public final String id() {
+      return PatchSet.Id.toId(_number());
     }
 
     protected RevisionInfo () {

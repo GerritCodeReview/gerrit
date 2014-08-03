@@ -18,27 +18,35 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.extensions.webui.UiAction;
+import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.change.PublishChangeEdit.Input;
 import com.google.gerrit.server.edit.ChangeEditUtil;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import java.io.IOException;
 
 @Singleton
 public class PublishChangeEdit implements
-    RestModifyView<ChangeEditResource, Input> {
+    RestModifyView<ChangeEditResource, Input>, UiAction<ChangeEditResource> {
   public static class Input {
   }
 
   private final ChangeEditUtil editUtil;
+  private final Provider<ReviewDb> db;
 
   @Inject
-  PublishChangeEdit(ChangeEditUtil editUtil) {
+  PublishChangeEdit(ChangeEditUtil editUtil,
+      Provider<ReviewDb> db) {
     this.editUtil = editUtil;
+    this.db = db;
   }
 
   @Override
@@ -46,6 +54,21 @@ public class PublishChangeEdit implements
       throws AuthException, ResourceConflictException, NoSuchChangeException,
       OrmException, IOException, InvalidChangeOperationException {
     editUtil.publish(rsrc.getChangeEdit());
+    ChangeUtil.bumpRowVersionNotLastUpdatedOn(rsrc.getChange().getId(),
+        db.get());
     return Response.none();
+  }
+
+  @Override
+  public UiAction.Description getDescription(ChangeEditResource rsrc) {
+    try {
+      PatchSet.Id current = rsrc.getChange().currentPatchSetId();
+      PatchSet basePs = editUtil.getBasePatchSet(rsrc.getChangeEdit());
+      return new UiAction.Description()
+        .setTitle("Publish edit")
+        .setVisible(basePs.getId().equals(current));
+    } catch (InvalidChangeOperationException | IOException e) {
+      throw new IllegalStateException(e);
+    }
   }
 }

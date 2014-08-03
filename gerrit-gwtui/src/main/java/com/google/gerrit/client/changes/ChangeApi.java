@@ -74,6 +74,10 @@ public class ChangeApi {
     call(id, "edits").get(cb);
   }
 
+  public static RestApi edit(int id) {
+    return change(id).view("edits").id("0");
+  }
+
   public static void includedIn(int id, AsyncCallback<IncludedInInfo> cb) {
     call(id, "in").get(cb);
   }
@@ -146,6 +150,11 @@ public class ChangeApi {
   /** Delete a specific draft patch set. */
   public static void deleteRevision(int id, String commit, AsyncCallback<JavaScriptObject> cb) {
     revision(id, commit).delete(cb);
+  }
+
+  /** Create change for specific revision. */
+  public static void createEdit(int id, String commit, AsyncCallback<JavaScriptObject> cb) {
+    call(id, commit, "create_edit").post(JavaScriptObject.createObject(), cb);
   }
 
   /** Rebase a revision onto the branch tip. */

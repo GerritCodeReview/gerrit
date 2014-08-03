@@ -19,6 +19,7 @@ import com.google.gerrit.client.actions.ActionButton;
 import com.google.gerrit.client.actions.ActionInfo;
 import com.google.gerrit.client.changes.ChangeInfo;
 import com.google.gerrit.client.changes.ChangeInfo.CommitInfo;
+import com.google.gerrit.client.changes.ChangeInfo.EditInfo;
 import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.reviewdb.client.Change;
@@ -46,6 +47,7 @@ class Actions extends Composite {
   @UiField Button cherrypick;
   @UiField Button deleteChange;
   @UiField Button deleteRevision;
+  @UiField Button deleteEdit;
   @UiField Button publish;
   @UiField Button rebase;
   @UiField Button revert;
@@ -84,6 +86,7 @@ class Actions extends Composite {
 
     initChangeActions(info, hasUser);
     initRevisionActions(info, revInfo, hasUser);
+    initEditActions(info, info.edit(), hasUser);
   }
 
   private void initChangeActions(ChangeInfo info, boolean hasUser) {
@@ -99,6 +102,24 @@ class Actions extends Composite {
       a2b(actions, "revert", revert);
       for (String id : filterNonCore(actions)) {
         add(new ActionButton(info, actions.get(id)));
+      }
+    }
+  }
+
+  private void initEditActions(ChangeInfo info, EditInfo editInfo,
+      boolean hasUser) {
+    if (!info.has_edit() || !info.current_revision().equals(editInfo.name())) {
+      return;
+    }
+    NativeMap<ActionInfo> actions = editInfo.has_actions()
+        ? editInfo.actions()
+        : NativeMap.<ActionInfo> create();
+    actions.copyKeysIntoChildren("id");
+
+    if (hasUser) {
+      a2b(actions, "/", deleteEdit);
+      for (String id : filterNonCore(actions)) {
+        add(new ActionButton(info, editInfo, actions.get(id)));
       }
     }
   }
@@ -162,6 +183,11 @@ class Actions extends Composite {
   @UiHandler("publish")
   void onPublish(ClickEvent e) {
     DraftActions.publish(changeId, revision);
+  }
+
+  @UiHandler("deleteEdit")
+  void onDeleteEdit(ClickEvent e) {
+    EditActions.deleteEdit(changeId);
   }
 
   @UiHandler("deleteRevision")

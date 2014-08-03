@@ -28,6 +28,10 @@ public class EditActions {
     ChangeApi.deleteEdit(id.get(), cs(id));
   }
 
+  static void publishEdit(Change.Id id) {
+    ChangeApi.publishEdit(id.get(), cs(id));
+  }
+
   public static GerritCallback<JavaScriptObject> cs(
       final Change.Id id) {
     return new GerritCallback<JavaScriptObject>() {

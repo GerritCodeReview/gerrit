@@ -18,5 +18,6 @@ import java.util.Map;
 
 public class EditInfo {
   public CommitInfo commit;
+  public Map<String, ActionInfo> actions;
   public Map<String, FileInfo> files;
 }

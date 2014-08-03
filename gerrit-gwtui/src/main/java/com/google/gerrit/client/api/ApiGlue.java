@@ -41,6 +41,7 @@ public class ApiGlue {
       plugins: {},
       screens: {},
       change_actions: {},
+      change_actions: {},
       revision_actions: {},
       project_actions: {},
       branch_actions: {},
@@ -71,6 +72,7 @@ public class ApiGlue {
       _onAction: function (p,t,n,c) {
         var i = p+'~'+n;
         if ('change' == t) this.change_actions[i]=c;
+        else if ('edit' == t) this.edit_actions[i]=c;
         else if ('revision' == t) this.revision_actions[i]=c;
         else if ('project' == t) this.project_actions[i]=c;
         else if ('branch' == t) this.branch_actions[i]=c;

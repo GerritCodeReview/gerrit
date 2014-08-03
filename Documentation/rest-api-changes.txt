@@ -3819,6 +3819,10 @@ The `EditInfo` entity contains information about a change edit.
 |Field Name    ||Description
 |`commit`      ||The commit of change edit as
 link:#commit-info[CommitInfo] entity.
+|`actions`     ||
+Actions the caller might be able to perform on this change edit. The
+information is a map of view name to link:#action-info[ActionInfo]
+entities.
 |`files`       |optional|
 The files of the change edit as a map that maps the file names to
 link:#file-info[FileInfo] entities.

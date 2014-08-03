@@ -15,14 +15,20 @@
 package com.google.gerrit.server.edit;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.gerrit.extensions.common.ActionInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.EditInfo;
+import com.google.gerrit.extensions.webui.PrivateInternals_UiActionDescription;
+import com.google.gerrit.extensions.webui.UiAction;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.CommonConverters;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.revwalk.RevCommit;
 
 import java.io.IOException;
+import java.util.Map;
 
 @Singleton
 public class ChangeEditJson {
@@ -30,6 +36,7 @@ public class ChangeEditJson {
   public EditInfo toEditInfo(ChangeEdit edit) throws IOException {
     EditInfo out = new EditInfo();
     out.commit = fillCommit(edit.getEditCommit());
+    out.actions = fillActions(edit);
     return out;
   }
 
@@ -48,5 +55,28 @@ public class ChangeEditJson {
     commit.parents.add(i);
 
     return commit;
+  }
+
+  private static Map<String, ActionInfo> fillActions(ChangeEdit edit) {
+    Map<String, ActionInfo> actions = Maps.newTreeMap();
+
+    UiAction.Description descr = new UiAction.Description();
+    PrivateInternals_UiActionDescription.setId(descr, "/");
+    PrivateInternals_UiActionDescription.setMethod(descr, "DELETE");
+    descr.setTitle("Delete edit");
+    actions.put(descr.getId(), new ActionInfo(descr));
+
+    // Only expose publish action when the edit is on top of current ps
+    PatchSet.Id current = edit.getChange().currentPatchSetId();
+    PatchSet basePs = edit.getBasePatchSet();
+    if (basePs.getId().equals(current)) {
+      descr = new UiAction.Description();
+      PrivateInternals_UiActionDescription.setId(descr, "publish");
+      PrivateInternals_UiActionDescription.setMethod(descr, "POST");
+      descr.setTitle("Publish edit");
+      actions.put(descr.getId(), new ActionInfo(descr));
+    }
+
+    return actions;
   }
 }

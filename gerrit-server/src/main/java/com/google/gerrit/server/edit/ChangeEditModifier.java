@@ -17,6 +17,7 @@ package com.google.gerrit.server.edit;
 import static com.google.gerrit.server.edit.ChangeEditUtil.editRefName;
 
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -94,11 +95,11 @@ public class ChangeEditModifier {
    * @return result
    * @throws AuthException
    * @throws IOException
-   * @throws InvalidChangeOperationException When change edit already
+   * @throws ResourceConflictException When change edit already
    * exists for the change
    */
   public RefUpdate.Result createEdit(Change change, PatchSet ps)
-      throws AuthException, IOException, InvalidChangeOperationException {
+      throws AuthException, IOException, ResourceConflictException {
     if (!currentUser.get().isIdentifiedUser()) {
       throw new AuthException("Authentication required");
     }
@@ -107,7 +108,7 @@ public class ChangeEditModifier {
     Repository repo = gitManager.openRepository(change.getProject());
     String refName = editRefName(me.getAccountId(), change.getId());
     if (repo.getRefDatabase().getRef(refName) != null) {
-      throw new InvalidChangeOperationException("edit already exists");
+      throw new ResourceConflictException("edit already exists");
     }
 
     try {

@@ -60,6 +60,24 @@
     },
     {
       "key": {
+        "uuid": "36e01baf_0f2aa598",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-04T18:59:25Z",
+      "side": 1,
+      "message": "Why not? In real life we have three endpoints:\n\n* Create edit from patch set\n* Modify edit\n* Delete edit\n\nwhere this would be used. Moreover, if this class would implement Closeable interface, then your use case can be simplified even further:\n\n  try (ChangeEditModifier modifier \u003d modifierFactory.create(...)) {\n    modifier.delete(foo);\n  }",
+      "parentUuid": "366bbbde_77b2101e",
+      "revId": "5cc005e9265ce7c9a5cfa2b49ffbd1f9803122d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b69deb27_bbbe47e8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
         "patchSetId": 23

@@ -24,6 +24,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.google.common.primitives.Ints;
+import com.google.gerrit.common.data.AccountInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.CommentRange;
@@ -34,6 +35,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
@@ -372,7 +374,7 @@ public class CommentsInNotesUtil {
 
   private PersonIdent newIdent(Account author, Date when) {
     return new PersonIdent(
-        author.getFullName(),
+        new AccountInfo(author).getName(anonymousCowardName),
         author.getId().get() + "@" + GERRIT_PLACEHOLDER_HOST,
         when, serverIdent.getTimeZone());
   }
@@ -414,13 +416,16 @@ public class CommentsInNotesUtil {
 
   private final AccountCache accountCache;
   private final PersonIdent serverIdent;
+  private final String anonymousCowardName;
 
   @VisibleForTesting
   @Inject
   public CommentsInNotesUtil(AccountCache accountCache,
-      @GerritPersonIdent PersonIdent serverIdent) {
+      @GerritPersonIdent PersonIdent serverIdent,
+      @AnonymousCowardName String anonymousCowardName) {
     this.accountCache = accountCache;
     this.serverIdent = serverIdent;
+    this.anonymousCowardName = anonymousCowardName;
   }
 
   /**

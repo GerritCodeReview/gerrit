@@ -201,6 +201,24 @@
     },
     {
       "key": {
+        "uuid": "d6cedf4a_2c48d371",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-04T19:43:32Z",
+      "side": 1,
+      "message": "I\u0027ve lost you. I don\u0027t think, that this POST endpoint on revision resource to create an change edit is a Swiss-army-knife:\n\n  POST /changes/42/revisions/7/create_edit\n\nNote current series is up and running and it works. This endpoint above is epoed with UiAction button, click on it and change edit is created.\n\nOnce the edit for revision 7 above was created, obviously nobody needs to specify the revision number again on consequent change edit modifications. Even not on publish this edit.\n\nAll follow up calls happens on change change edit resource only:\n\n* PUT /changes/\u003cid\u003e/edits/0/files/path/content\n* DELETE /changes/\u003cid\u003e/edits/0/files/path\n\nBut then again i am ready to any compromiss as how to proceed here. If you do agree to create an edit with no content fine, if i should restore all modify-methods that accept patch set in addition to change edit, i am fine too.",
+      "parentUuid": "36e01baf_8f1d3584",
+      "revId": "5cc005e9265ce7c9a5cfa2b49ffbd1f9803122d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "366bbbde_d772fcb0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
         "patchSetId": 23

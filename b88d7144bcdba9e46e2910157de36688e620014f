@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b69deb27_3b5eb722",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditUtil.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-04T17:47:10Z",
+      "side": 1,
+      "message": "Unused",
+      "revId": "b88d7144bcdba9e46e2910157de36688e620014f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b69deb27_db7233b1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditUtil.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-04T17:47:10Z",
+      "side": 1,
+      "message": "Blank line",
+      "revId": "b88d7144bcdba9e46e2910157de36688e620014f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "366bbbde_f7862056",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditUtil.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-04T17:47:10Z",
+      "side": 1,
+      "message": "Typo: has",
+      "range": {
+        "startLine": 200,
+        "startChar": 30,
+        "endLine": 200,
+        "endChar": 34
+      },
+      "revId": "b88d7144bcdba9e46e2910157de36688e620014f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "366bbbde_97932497",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditUtil.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-04T17:47:10Z",
+      "side": 1,
+      "message": "Awkward phrasing. Perhaps:\n\n multiple patch sets for change edit parent %s",
+      "revId": "b88d7144bcdba9e46e2910157de36688e620014f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b69deb27_fb6fefc3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditUtil.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-04T17:47:10Z",
+      "side": 1,
+      "message": "Why are you still creating a merger? Squashing doesn\u0027t require merging at all.\n\nJust create a new commit with the same author and message as the parent and the same committer and tree as the child.\n\nYou can still error out for identical trees by just comparing the parent tree and child trees.",
+      "revId": "b88d7144bcdba9e46e2910157de36688e620014f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d6cedf4a_acecc327",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditUtil.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-04T18:10:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b69deb27_1b597b39",
+      "revId": "f18671c9e603bd85485a074ca66605ee08f517af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "366bbbde_3785784c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditUtil.java",
         "patchSetId": 18
@@ -30,6 +48,30 @@
       "writtenOn": "2014-08-04T17:47:06Z",
       "side": 1,
       "message": "This is fine, but could be much more succinct:\n\n edit for this change for this user, if present.\n\nIf you prefer the longer form, the second line needs indentation.",
+      "range": {
+        "startLine": 54,
+        "startChar": 13,
+        "endLine": 55,
+        "endChar": 38
+      },
+      "revId": "f18671c9e603bd85485a074ca66605ee08f517af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6cedf4a_8cef871c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditUtil.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-04T18:10:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "366bbbde_3785784c",
       "range": {
         "startLine": 54,
         "startChar": 13,
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "d6cedf4a_4cfbdfe0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditUtil.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-04T18:10:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "366bbbde_d7899c66",
+      "revId": "f18671c9e603bd85485a074ca66605ee08f517af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "366bbbde_1780743b",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/edit/ChangeEditTest.java",
         "patchSetId": 18
@@ -70,6 +130,24 @@
       "writtenOn": "2014-08-04T17:47:06Z",
       "side": 1,
       "message": "Different change and account IDs so it is clear which one is which in the assertion below.",
+      "revId": "f18671c9e603bd85485a074ca66605ee08f517af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6cedf4a_ece2cb35",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/edit/ChangeEditTest.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-04T18:10:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "366bbbde_1780743b",
       "revId": "f18671c9e603bd85485a074ca66605ee08f517af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

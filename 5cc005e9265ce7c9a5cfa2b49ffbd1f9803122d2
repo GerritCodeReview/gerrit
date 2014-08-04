@@ -291,6 +291,24 @@
     },
     {
       "key": {
+        "uuid": "76bff38c_09dce980",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-04T21:04:56Z",
+      "side": 1,
+      "message": "That conflicts with a file named \"0\".\n\nDoes the REST handler setup really not allow us to put a handler on /edit?",
+      "parentUuid": "d6cedf4a_8c36a7fa",
+      "revId": "5cc005e9265ce7c9a5cfa2b49ffbd1f9803122d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "366bbbde_d772fcb0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
         "patchSetId": 23

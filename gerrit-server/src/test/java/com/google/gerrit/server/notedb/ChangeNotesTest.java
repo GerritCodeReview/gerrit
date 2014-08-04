@@ -108,6 +108,7 @@ public class ChangeNotesTest {
   private InMemoryRepositoryManager repoManager;
   private InMemoryRepository repo;
   private FakeAccountCache accountCache;
+  private IdentifiedUser.GenericFactory userFactory;
   private AllUsersNameProvider allUsers;
   private IdentifiedUser changeOwner;
   private IdentifiedUser otherUser;
@@ -161,8 +162,7 @@ public class ChangeNotesTest {
       }
     });
 
-    IdentifiedUser.GenericFactory userFactory =
-        injector.getInstance(IdentifiedUser.GenericFactory.class);
+    userFactory = injector.getInstance(IdentifiedUser.GenericFactory.class);
     allUsers = injector.getInstance(AllUsersNameProvider.class);
     repoManager.createRepository(allUsers.get());
     changeOwner = userFactory.create(co.getId());
@@ -320,6 +320,34 @@ public class ChangeNotesTest {
       assertEquals("noreply@gerrit.com", committer.getEmailAddress());
       assertEquals(author.getWhen(), committer.getWhen());
       assertEquals(author.getTimeZone(), committer.getTimeZone());
+    } finally {
+      walk.release();
+    }
+  }
+
+  @Test
+  public void anonymousUser() throws Exception {
+    Account anon = new Account(new Account.Id(3), TimeUtil.nowTs());
+    accountCache.put(anon);
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, userFactory.create(anon.getId()));
+    update.setChangeMessage("Comment on the change.");
+    update.commit();
+
+    RevWalk walk = new RevWalk(repo);
+    try {
+      RevCommit commit = walk.parseCommit(update.getRevision());
+      walk.parseBody(commit);
+      assertEquals("Update patch set 1\n"
+          + "\n"
+          + "Comment on the change.\n"
+          + "\n"
+          + "Patch-set: 1\n",
+          commit.getFullMessage());
+
+      PersonIdent author = commit.getAuthorIdent();
+      assertEquals("Anonymous Coward (3)", author.getName());
+      assertEquals("3@gerrit", author.getEmailAddress());
     } finally {
       walk.release();
     }

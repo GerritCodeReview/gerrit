@@ -17,6 +17,7 @@ package com.google.gerrit.server.notedb;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.GERRIT_PLACEHOLDER_HOST;
 
+import com.google.gerrit.common.data.AccountInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -43,6 +44,7 @@ public abstract class AbstractChangeUpdate extends VersionedMetaData {
   protected final GitRepositoryManager repoManager;
   protected final MetaDataUpdate.User updateFactory;
   protected final ChangeControl ctl;
+  protected final String anonymousCowardName;
   protected final PersonIdent serverIdent;
   protected final Date when;
   protected PatchSet.Id psId;
@@ -50,12 +52,15 @@ public abstract class AbstractChangeUpdate extends VersionedMetaData {
   AbstractChangeUpdate(NotesMigration migration,
       GitRepositoryManager repoManager,
       MetaDataUpdate.User updateFactory, ChangeControl ctl,
-      PersonIdent serverIdent, Date when) {
+      PersonIdent serverIdent,
+      String anonymousCowardName,
+      Date when) {
     this.migration = migration;
     this.repoManager = repoManager;
     this.updateFactory = updateFactory;
     this.ctl = ctl;
     this.serverIdent = serverIdent;
+    this.anonymousCowardName = anonymousCowardName;
     this.when = when;
   }
 
@@ -157,7 +162,7 @@ public abstract class AbstractChangeUpdate extends VersionedMetaData {
 
   protected PersonIdent newIdent(Account author, Date when) {
     return new PersonIdent(
-        author.getFullName(),
+        new AccountInfo(author).getName(anonymousCowardName),
         author.getId().get() + "@" + GERRIT_PLACEHOLDER_HOST,
         when, serverIdent.getTimeZone());
   }

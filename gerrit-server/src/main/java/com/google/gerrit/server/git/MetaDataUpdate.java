@@ -133,7 +133,7 @@ public class MetaDataUpdate {
     getRepository().close();
   }
 
-  Project.NameKey getProjectName() {
+  public Project.NameKey getProjectName() {
     return projectName;
   }
 

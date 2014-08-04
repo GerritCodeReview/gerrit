@@ -814,6 +814,9 @@ Project owners can edit the project configuration by fetching the
 `refs/meta/config` branch, editing the `<plugin-name>.config` file and
 pushing the commit back.
 
+Configurations can also be edited in the ProjectInfoScreen through the UI element
+with the header "Modify Config Files"
+
 == React on changes in project configuration
 
 If a plugin wants to react on changes in the project configuration, it

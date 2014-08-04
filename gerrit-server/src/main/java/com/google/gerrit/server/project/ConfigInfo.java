@@ -31,11 +31,16 @@ import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.config.ProjectConfigEntry;
 import com.google.gerrit.server.extensions.webui.UiActions;
 import com.google.gerrit.server.git.TransferConfig;
+import com.google.gerrit.server.plugins.Plugin;
+import com.google.gerrit.server.plugins.PluginLoader;
 import com.google.inject.util.Providers;
+
+import org.eclipse.jgit.lib.Config;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 
 public class ConfigInfo {
@@ -48,6 +53,7 @@ public class ConfigInfo {
   public SubmitType submitType;
   public com.google.gerrit.extensions.api.projects.ProjectState state;
   public Map<String, Map<String, ConfigParameterInfo>> pluginConfig;
+  public Map<String, Map<String, Map<String, Map<String, List<String>>>>> configMap;
   public Map<String, ActionInfo> actions;
 
   public Map<String, CommentLinkInfo> commentlinks;
@@ -56,6 +62,7 @@ public class ConfigInfo {
   public ConfigInfo(ProjectControl control,
       TransferConfig config,
       DynamicMap<ProjectConfigEntry> pluginConfigEntries,
+      PluginLoader pluginLoader,
       PluginConfigFactory cfgFactory,
       AllProjectsNameProvider allProjects,
       DynamicMap<RestView<ProjectResource>> views) {
@@ -116,6 +123,10 @@ public class ConfigInfo {
     pluginConfig =
         getPluginConfig(control.getProjectState(), pluginConfigEntries,
             cfgFactory, allProjects);
+
+    configMap =
+        getConfigMapValues(control.getProjectState(),
+            pluginLoader.getPlugins(true), cfgFactory);
 
     actions = Maps.newTreeMap();
     for (UiAction.Description d : UiActions.from(
@@ -182,6 +193,35 @@ public class ConfigInfo {
               configEntry.getDefaultValue());
     }
     return inheritedValue;
+  }
+
+  private Map<String, Map<String, Map<String, Map<String, List<String>>>>> getConfigMapValues(
+      ProjectState project, Iterable<Plugin> plugins, PluginConfigFactory cfgFactory) {
+    Map<String, Map<String, Map<String, Map<String, List<String>>>>> configMap =
+        new TreeMap<>();
+    for (Plugin p : plugins) {
+      Map<String, Map<String, Map<String, List<String>>>> sectionMap =
+          new TreeMap<>();
+      Config config =
+          cfgFactory.getProjectPluginConfig(project, p.getName());
+      Set<String> sections = config.getSections();
+      for (String section : sections) {
+        Map<String, Map<String, List<String>>> subsectionMap = new TreeMap<>();
+        Set<String> subsections = config.getSubsections(section);
+        for (String subsection : subsections) {
+          Map<String, List<String>> nameMap = new TreeMap<>();
+          Set<String> names = config.getNames(section, subsection);
+          for (String name : names) {
+            String[] values = config.getStringList(section, subsection, name);
+            nameMap.put(name, Arrays.asList(values));
+          }
+          subsectionMap.put(subsection, nameMap);
+        }
+        sectionMap.put(section, subsectionMap);
+      }
+      configMap.put(p.getName(), sectionMap);
+    }
+    return !configMap.isEmpty() ? configMap : null;
   }
 
   public static class InheritedBooleanInfo {

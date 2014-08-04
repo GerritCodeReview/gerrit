@@ -40,4 +40,11 @@ public class ProjectInput {
     public String value;
     public List<String> values;
   }
+
+  public static class ConfigMapValue {
+    public String section;
+    public String subsection;
+    public String name;
+    public List<String> values;
+  }
 }

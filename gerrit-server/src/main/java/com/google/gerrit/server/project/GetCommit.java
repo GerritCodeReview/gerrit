@@ -47,7 +47,7 @@ public class GetCommit implements RestReadView<CommitResource> {
   @Override
   public CommitInfo apply(CommitResource rsrc)
       throws ResourceNotFoundException, IOException {
-    Repository repo = repoManager.openRepository(rsrc.getNameKey());
+    Repository repo = repoManager.openRepository(rsrc.getProject());
     try {
       RevWalk rw = new RevWalk(repo);
       try {

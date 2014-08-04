@@ -15,7 +15,6 @@
 package com.google.gerrit.server.account;
 
 import com.google.gerrit.audit.AuditService;
-import com.google.gerrit.common.auth.openid.OpenIdUrls;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.Permission;

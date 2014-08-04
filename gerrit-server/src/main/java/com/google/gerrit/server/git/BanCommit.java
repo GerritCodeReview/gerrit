@@ -121,7 +121,6 @@ public class BanCommit {
           }
           banCommitNotes.set(commitToBan, noteId);
         }
-        inserter.flush();
         NotesBranchUtil notesBranchUtil =
             notesBranchUtilFactory.create(project, repo, inserter);
         NoteMap newlyCreated =

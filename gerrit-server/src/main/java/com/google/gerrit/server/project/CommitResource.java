@@ -17,20 +17,20 @@ package com.google.gerrit.server.project;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.inject.TypeLiteral;
 
-import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.lib.ObjectId;
 
 public class CommitResource extends ProjectResource {
   public static final TypeLiteral<RestView<CommitResource>> COMMIT_KIND =
       new TypeLiteral<RestView<CommitResource>>() {};
 
-  private final RevCommit commit;
+  private final ObjectId commit;
 
-  public CommitResource(ProjectControl control, RevCommit commit) {
+  public CommitResource(ProjectControl control, ObjectId commit) {
     super(control);
     this.commit = commit;
   }
 
-  public RevCommit getCommit() {
+  public ObjectId getCommitId() {
     return commit;
   }
 }

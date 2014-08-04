@@ -96,6 +96,24 @@
     },
     {
       "key": {
+        "uuid": "d6cedf4a_6c257bc9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-04T19:15:38Z",
+      "side": 1,
+      "message": ";-) I opened issue in JGit issue tracker years ago to discontinue Java 1.0, ... , 1.6 support for JGit and move to 1.7 and add AutoCloseable support for all JGit classes.",
+      "parentUuid": "36e01baf_cf133d78",
+      "revId": "5cc005e9265ce7c9a5cfa2b49ffbd1f9803122d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b69deb27_bbbe47e8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
         "patchSetId": 23

@@ -14,6 +14,7 @@
 package com.google.gerrit.client.projects;
 
 import com.google.gerrit.client.VoidResult;
+import com.google.gerrit.client.projects.ConfigInfo.ConfigMapValue;
 import com.google.gerrit.client.projects.ConfigInfo.ConfigParameterValue;
 import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.NativeMap;
@@ -82,12 +83,18 @@ public class ProjectApi {
     project(name).view("config").get(cb);
   }
 
-  public static void setConfig(Project.NameKey name, String description,
+  public static void setConfig(
+      Project.NameKey name,
+      String description,
       InheritableBoolean useContributorAgreements,
-      InheritableBoolean useContentMerge, InheritableBoolean useSignedOffBy,
-      InheritableBoolean requireChangeId, String maxObjectSizeLimit,
-      SubmitType submitType, ProjectState state,
+      InheritableBoolean useContentMerge,
+      InheritableBoolean useSignedOffBy,
+      InheritableBoolean requireChangeId,
+      String maxObjectSizeLimit,
+      SubmitType submitType,
+      ProjectState state,
       Map<String, Map<String, ConfigParameterValue>> pluginConfigValues,
+      Map<String, ConfigMapValue> configMapValues,
       AsyncCallback<ConfigInfo> cb) {
     ConfigInput in = ConfigInput.create();
     in.setDescription(description);
@@ -99,6 +106,7 @@ public class ProjectApi {
     in.setSubmitType(submitType);
     in.setState(state);
     in.setPluginConfigValues(pluginConfigValues);
+    in.setConfigMapValues(configMapValues);
 
     project(name).view("config").put(in, cb);
   }
@@ -239,6 +247,19 @@ public class ProjectApi {
     }
     private final native void setPluginConfigValuesRaw(NativeMap<ConfigParameterValueMap> v)
     /*-{ this.plugin_config_values=v; }-*/;
+
+
+    final void setConfigMapValues(Map<String, ConfigMapValue> configMapValues) {
+      if (!configMapValues.isEmpty()) {
+        NativeMap<ConfigMapValue> values = NativeMap.create().cast();
+        for (Entry<String, ConfigMapValue> e : configMapValues.entrySet()) {
+          values.put(e.getKey(), e.getValue());
+        }
+        setConfigMapValuesRaw(values);
+      }
+    }
+    private final native void setConfigMapValuesRaw(NativeMap<ConfigMapValue> v)
+    /*-{ this.config_map_values=v; }-*/;
   }
 
   private static class ConfigParameterValueMap extends JavaScriptObject {

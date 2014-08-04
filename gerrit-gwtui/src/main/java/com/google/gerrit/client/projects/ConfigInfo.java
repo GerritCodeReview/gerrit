@@ -57,6 +57,12 @@ public class ConfigInfo extends JavaScriptObject {
   public final native NativeMap<ConfigParameterInfo> pluginConfig(String p)
   /*-{ return this.plugin_config[p]; }-*/;
 
+  public final native NativeMap<NativeMap<NativeMap<NativeMap<JsArrayString>>>> configMap()
+  /*-{ return this.config_map || {}; }-*/;
+
+  public final native NativeMap<NativeMap<NativeMap<JsArrayString>>> configMap(String p)
+  /*-{ return this.plugin_config_map[p]; }-*/;
+
   public final native NativeMap<ActionInfo> actions()
   /*-{ return this.actions; }-*/;
 
@@ -197,6 +203,34 @@ public class ConfigInfo extends JavaScriptObject {
     }
 
     protected ConfigParameterValue() {
+    }
+  }
+
+  public static class ConfigMapValue extends JavaScriptObject {
+    final native void init() /*-{ this.values = []; }-*/;
+    final native void add_value(String v) /*-{ this.values.push(v); }-*/;
+    final native void set_value(String v) /*-{ if(v)this.value = v; }-*/;
+    final native void set_section(String s) /*-{ this.section = s; }-*/;
+    final native void set_subsection(String ss) /*-{ this.subsection = ss; }-*/;
+    final native void set_name(String n) /*-{ this.name = n; }-*/;
+    public static ConfigMapValue create() {
+      ConfigMapValue v = createObject().cast();
+      return v;
+    }
+
+    public final ConfigMapValue mapValues(String section,
+        String subsection, String name, List<String> values) {
+      init();
+      for (String v : values) {
+        add_value(v);
+      }
+      set_section(section);
+      set_subsection(subsection);
+      set_name(name);
+      return this;
+    }
+
+    protected ConfigMapValue() {
     }
   }
 }

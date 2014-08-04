@@ -219,6 +219,24 @@
     },
     {
       "key": {
+        "uuid": "d6cedf4a_cc3cafde",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-04T19:44:48Z",
+      "side": 1,
+      "message": "Ok, I didn\u0027t read far enough in the series to see what the body of create_edit is.\n\nI still think we should not be including revision numbers in URLS at all.",
+      "parentUuid": "d6cedf4a_2c48d371",
+      "revId": "5cc005e9265ce7c9a5cfa2b49ffbd1f9803122d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "366bbbde_d772fcb0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
         "patchSetId": 23

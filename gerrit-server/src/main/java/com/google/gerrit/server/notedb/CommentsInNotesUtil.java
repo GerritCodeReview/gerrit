@@ -20,7 +20,6 @@ import static com.google.gerrit.server.notedb.ChangeNotes.parseException;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
-import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.google.common.primitives.Ints;
@@ -38,6 +37,7 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
@@ -72,6 +72,7 @@ import java.util.List;
  * Utility functions to parse PatchLineComments out of a note byte array and
  * store a list of PatchLineComments in the form of a note (in a byte array).
  **/
+@Singleton
 public class CommentsInNotesUtil {
   private static final String AUTHOR = "Author";
   private static final String BASE_PATCH_SET = "Base-for-patch-set";
@@ -418,7 +419,6 @@ public class CommentsInNotesUtil {
   private final PersonIdent serverIdent;
   private final String anonymousCowardName;
 
-  @VisibleForTesting
   @Inject
   public CommentsInNotesUtil(AccountCache accountCache,
       @GerritPersonIdent PersonIdent serverIdent,

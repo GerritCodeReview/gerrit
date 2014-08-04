@@ -477,6 +477,24 @@
     },
     {
       "key": {
+        "uuid": "96baa79a_6a00f725",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-04T23:08:29Z",
+      "side": 1,
+      "message": "\u003e Whyhy are you calling this id\u003d0 of change edit a patch set number?\n\nIt\u0027s where you had a patch set ID before. Now there is only one so it\u0027s not \"really\" a patch set ID but it\u0027s where a patch set ID used to go.\n\n\u003e I think it\u0027s the first time where we restrict a collection like resourse to cardinaltiy of max(1). So no wonder that the code base cannnot handle that in perfect way out of the box.\n\nUnderstood. But unlike internal Gerrit interfaces, once we release a REST API interface we are committed to supporting it. I do not think we should commit to supporting this just because we have this internal limitation.",
+      "parentUuid": "76bff38c_a9059d31",
+      "revId": "5cc005e9265ce7c9a5cfa2b49ffbd1f9803122d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "366bbbde_d772fcb0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
         "patchSetId": 23

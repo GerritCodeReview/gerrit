@@ -183,6 +183,24 @@
     },
     {
       "key": {
+        "uuid": "36e01baf_8f1d3584",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-04T19:18:43Z",
+      "side": 1,
+      "message": "Creating a Swiss-army-knife POST endpoint is what one does when one has given up on creating a simpler REST API. I don\u0027t think we should give up yet.\n\nIn my design email a couple of weeks ago I suggested:\n\n PUT/DELETE /changes/\u003cid\u003e/edit/path%2fto%2ffile\n\nI think we should also support:\n\n GET /changes/\u003cid\u003e/edit/path%2fto%2ffile\n\nwhere path/to/file may or may not have been edited.\n\nFrom the caller\u0027s perspective, this means when they\u0027re manipulating the /edit/ collection, they don\u0027t have to care about what the base patch set was. This is a feature.\n\nIt does mean we have to specify the base patch set _somewhere_. So I think I\u0027ve answered my own question, of why you would want to create an edit with no content.\n\nWhat if we do:\n\n GET /changes/\u003cid\u003e/edit\n\nreturns some JSON with at least the base patch set ID (possibly also a list of changed files eventually).\n\nThen one of\n\n PUT/POST /changes/\u003cid\u003e/edit\n\ncreates a new edit where one didn\u0027t exist before, pinning it to a specific patch set (or returns 409 if it did).",
+      "parentUuid": "36e01baf_8f08d548",
+      "revId": "5cc005e9265ce7c9a5cfa2b49ffbd1f9803122d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "366bbbde_d772fcb0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
         "patchSetId": 23

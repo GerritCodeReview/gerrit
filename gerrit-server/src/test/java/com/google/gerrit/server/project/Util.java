@@ -61,6 +61,7 @@ import com.google.inject.Injector;
 import com.google.inject.util.Providers;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
 
@@ -178,7 +179,7 @@ public class Util {
   private final CapabilityControl.Factory capabilityControlFactory;
   private final ChangeControl.AssistedFactory changeControlFactory;
   private final PermissionCollection.Factory sectionSorter;
-  private final GitRepositoryManager repoManager;
+  private final InMemoryRepositoryManager repoManager;
 
   private final AllProjectsName allProjectsName =
       new AllProjectsName("All-Projects");
@@ -283,21 +284,26 @@ public class Util {
       injector.getInstance(ChangeControl.AssistedFactory.class);
   }
 
-  public void add(ProjectConfig pc) {
+  public InMemoryRepository add(ProjectConfig pc) {
     PrologEnvironment.Factory envFactory = null;
     ProjectControl.AssistedFactory projectControlFactory = null;
     RulesCache rulesCache = null;
     SitePaths sitePaths = null;
     List<CommentLinkInfo> commentLinks = null;
 
+    InMemoryRepository repo;
     try {
-      repoManager.createRepository(pc.getProject().getNameKey());
-    } catch (IOException e) {
+      repo = repoManager.createRepository(pc.getName());
+      if (pc.getProject() == null) {
+        pc.load(repo);
+      }
+    } catch (IOException | ConfigInvalidException e) {
       throw new RuntimeException(e);
     }
-    all.put(pc.getProject().getNameKey(), new ProjectState(sitePaths,
+    all.put(pc.getName(), new ProjectState(sitePaths,
         projectCache, allProjectsName, projectControlFactory, envFactory,
         repoManager, rulesCache, commentLinks, pc));
+    return repo;
   }
 
   public ProjectControl user(ProjectConfig local, AccountGroup.UUID... memberOf) {

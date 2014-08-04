@@ -19,6 +19,7 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 import com.google.gerrit.common.ChangeHooks;
+import com.google.gerrit.extensions.api.projects.ProjectInput.ConfigMapValue;
 import com.google.gerrit.extensions.api.projects.ProjectInput.ConfigValue;
 import com.google.gerrit.extensions.common.InheritableBoolean;
 import com.google.gerrit.extensions.common.SubmitType;
@@ -33,6 +34,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
+import com.google.gerrit.server.config.ConfigRegistration;
 import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.config.ProjectConfigEntry;
@@ -40,7 +42,9 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.git.ProjectLevelConfig;
 import com.google.gerrit.server.git.TransferConfig;
+import com.google.gerrit.server.git.VersionedMetaData;
 import com.google.gerrit.server.project.PutConfig.Input;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -71,6 +75,7 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
     public SubmitType submitType;
     public com.google.gerrit.extensions.api.projects.ProjectState state;
     public Map<String, Map<String, ConfigValue>> pluginConfigValues;
+    public Map<String, ConfigMapValue> configMapValues;
   }
 
   private final MetaDataUpdate.User metaDataUpdateFactory;
@@ -79,6 +84,7 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
   private final ProjectState.Factory projectStateFactory;
   private final TransferConfig config;
   private final DynamicMap<ProjectConfigEntry> pluginConfigEntries;
+  private final DynamicMap<ConfigRegistration> projectLevelConfigFiles;
   private final PluginConfigFactory cfgFactory;
   private final AllProjectsNameProvider allProjects;
   private final DynamicMap<RestView<ProjectResource>> views;
@@ -92,6 +98,7 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
       ProjectState.Factory projectStateFactory,
       TransferConfig config,
       DynamicMap<ProjectConfigEntry> pluginConfigEntries,
+      DynamicMap<ConfigRegistration> projectLevelConfigFiles,
       PluginConfigFactory cfgFactory,
       AllProjectsNameProvider allProjects,
       DynamicMap<RestView<ProjectResource>> views,
@@ -103,6 +110,7 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
     this.projectStateFactory = projectStateFactory;
     this.config = config;
     this.pluginConfigEntries = pluginConfigEntries;
+    this.projectLevelConfigFiles = projectLevelConfigFiles;
     this.cfgFactory = cfgFactory;
     this.allProjects = allProjects;
     this.views = views;
@@ -123,6 +131,7 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
       throw new BadRequestException("config is required");
     }
 
+    ProjectConfig projectConfig;
     final MetaDataUpdate md;
     try {
       md = metaDataUpdateFactory.create(projectName);
@@ -132,7 +141,7 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
       throw new ResourceNotFoundException(projectName.get(), e);
     }
     try {
-      ProjectConfig projectConfig = ProjectConfig.read(md);
+      projectConfig = ProjectConfig.read(md);
       Project p = projectConfig.getProject();
 
       p.setDescription(Strings.emptyToNull(input.description));
@@ -168,34 +177,77 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
       }
 
       md.setMessage("Modified project settings\n");
-      try {
-        ObjectId baseRev = projectConfig.getRevision();
-        ObjectId commitRev = projectConfig.commit(md);
-        // Only fire hook if project was actually changed.
-        if (!Objects.equal(baseRev, commitRev)) {
-          IdentifiedUser user = (IdentifiedUser) currentUser.get();
-          hooks.doRefUpdatedHook(
-            new Branch.NameKey(projectName, RefNames.REFS_CONFIG),
-            baseRev, commitRev, user.getAccount());
-        };
-        projectCache.evict(projectConfig.getProject());
-        gitMgr.setProjectDescription(projectName, p.getDescription());
-      } catch (IOException e) {
-        if (e.getCause() instanceof ConfigInvalidException) {
-          throw new ResourceConflictException("Cannot update " + projectName
-              + ": " + e.getCause().getMessage());
-        } else {
-          throw new ResourceConflictException("Cannot update " + projectName);
-        }
-      }
-
-      ProjectState state = projectStateFactory.create(projectConfig);
-      return new ConfigInfo(state.controlFor(currentUser.get()), config,
-          pluginConfigEntries, cfgFactory, allProjects, views);
+      fireHookIfChanged(projectConfig, md);
+      projectCache.evict(projectConfig.getProject());
+      gitMgr.setProjectDescription(projectName, p.getDescription());
     } catch (ConfigInvalidException err) {
       throw new ResourceConflictException("Cannot read project " + projectName, err);
     } catch (IOException err) {
       throw new ResourceConflictException("Cannot update project " + projectName, err);
+    } finally {
+      md.close();
+    }
+
+    ProjectState state = projectStateFactory.create(projectConfig);
+
+    if (input.configMapValues != null) {
+      for (Entry<String, ConfigMapValue> entry : input.configMapValues.entrySet()) {
+        ProjectLevelConfig config = state.getConfig(entry.getKey() + ".config");
+        pushChange(config, entry.getValue());
+      }
+    }
+
+    return new ConfigInfo(state.controlFor(currentUser.get()), config,
+        pluginConfigEntries, projectLevelConfigFiles, cfgFactory, allProjects,
+        views);
+  }
+
+  private void fireHookIfChanged(VersionedMetaData config, MetaDataUpdate md)
+      throws ResourceConflictException {
+    Project.NameKey projectName = md.getProjectName();
+    try {
+      ObjectId baseRev = config.getRevision();
+      ObjectId commitRev = config.commit(md);
+      // Only fire hook if project was actually changed.
+      if (!Objects.equal(baseRev, commitRev)) {
+        IdentifiedUser user = (IdentifiedUser) currentUser.get();
+        hooks.doRefUpdatedHook(
+          new Branch.NameKey(projectName, RefNames.REFS_CONFIG),
+          baseRev, commitRev, user.getAccount());
+      };
+    } catch (IOException e) {
+      if (e.getCause() instanceof ConfigInvalidException) {
+        throw new ResourceConflictException("Cannot update " + projectName
+            + ": " + e.getCause().getMessage());
+      } else {
+        throw new ResourceConflictException("Cannot update " + projectName);
+      }
+    }
+  }
+
+  private void pushChange(ProjectLevelConfig config, ConfigMapValue v)
+      throws ResourceNotFoundException, ResourceConflictException {
+    Project.NameKey projectName = config.getProjectName();
+    String filename = config.getFileName();
+    final MetaDataUpdate md;
+    try {
+      md = metaDataUpdateFactory.create(projectName);
+    } catch (RepositoryNotFoundException notFound) {
+      throw new ResourceNotFoundException(projectName.get());
+    } catch (IOException e) {
+      throw new ResourceNotFoundException(projectName.get(), e);
+    }
+    try {
+      config.load(md);
+      config.get().setStringList(v.section, v.subsection, v.name, v.values);
+      md.setMessage("Modified " + filename + " settings\n");
+      fireHookIfChanged(config, md);
+    } catch (ConfigInvalidException err) {
+      throw new ResourceConflictException("Cannot read " + filename
+          + "for project " + projectName, err);
+    } catch (IOException err) {
+      throw new ResourceConflictException("Cannot update " + filename
+          + "for project " + projectName, err);
     } finally {
       md.close();
     }

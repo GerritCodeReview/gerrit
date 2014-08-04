@@ -277,6 +277,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicMap.mapOf(binder(), DownloadScheme.class);
     DynamicMap.mapOf(binder(), DownloadCommand.class);
     DynamicMap.mapOf(binder(), ProjectConfigEntry.class);
+    DynamicMap.mapOf(binder(), ConfigRegistration.class);
     DynamicSet.setOf(binder(), PatchSetWebLink.class);
     DynamicSet.setOf(binder(), ProjectWebLink.class);
 

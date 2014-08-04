@@ -14,12 +14,14 @@
 
 package com.google.gerrit.acceptance.rest.project;
 
+import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -40,7 +42,7 @@ public class GetCommitIT extends AbstractDaemonTest {
   private AllProjectsName allProjects;
 
   @Test
-  public void getCommit() throws IOException {
+  public void getCommit() throws Exception {
     RestResponse r =
         adminSession.get("/projects/" + project.get() + "/branches/"
             + IdString.fromDecoded(RefNames.REFS_CONFIG).encoded());
@@ -48,6 +50,8 @@ public class GetCommitIT extends AbstractDaemonTest {
     BranchInfo branchInfo =
         newGson().fromJson(r.getReader(), BranchInfo.class);
     r.consume();
+
+    allow(Permission.READ, ANONYMOUS_USERS, branchInfo.ref);
 
     r = adminSession.get("/projects/" + project.get() + "/commits/"
         + branchInfo.revision);
@@ -82,7 +86,9 @@ public class GetCommitIT extends AbstractDaemonTest {
     r.consume();
 
     ProjectConfig cfg = projectCache.checkedGet(allProjects).getConfig();
-    cfg.getAccessSection("refs/*", false).removePermission(Permission.READ);
+    for (AccessSection sec : cfg.getAccessSections()) {
+      sec.removePermission(Permission.READ);
+    }
     saveProjectConfig(allProjects, cfg);
 
     r = adminSession.get("/projects/" + project.get() + "/commits/"

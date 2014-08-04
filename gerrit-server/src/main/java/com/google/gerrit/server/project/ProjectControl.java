@@ -30,6 +30,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.InternalUser;
@@ -37,15 +38,16 @@ import com.google.gerrit.server.change.IncludedInResolver;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GitReceivePackGroups;
 import com.google.gerrit.server.config.GitUploadPackGroups;
+import com.google.gerrit.server.git.ChangeCache;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.TagCache;
+import com.google.gerrit.server.git.VisibleRefFilter;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -148,6 +150,8 @@ public class ProjectControl {
   private final ChangeControl.AssistedFactory changeControlFactory;
   private final PermissionCollection.Factory permissionFilter;
   private final Collection<ContributorAgreement> contributorAgreements;
+  private final TagCache tagCache;
+  private final ChangeCache changeCache;
 
   private List<SectionMatcher> allSections;
   private List<SectionMatcher> localSections;
@@ -162,11 +166,15 @@ public class ProjectControl {
       PermissionCollection.Factory permissionFilter,
       GitRepositoryManager repoManager,
       ChangeControl.AssistedFactory changeControlFactory,
+      TagCache tagCache,
+      ChangeCache changeCache,
       @CanonicalWebUrl @Nullable String canonicalWebUrl,
       @Assisted CurrentUser who,
       @Assisted ProjectState ps) {
     this.repoManager = repoManager;
     this.changeControlFactory = changeControlFactory;
+    this.tagCache = tagCache;
+    this.changeCache = changeCache;
     this.uploadGroups = uploadGroups;
     this.receiveGroups = receiveGroups;
     this.permissionFilter = permissionFilter;
@@ -513,38 +521,24 @@ public class ProjectControl {
     return false;
   }
 
-  public boolean canReadCommit(RevWalk rw, RevCommit commit) {
-    if (controlForRef("refs/*").canPerform(Permission.READ)) {
-      return true;
-    }
-
-    Project.NameKey projName = state.getProject().getNameKey();
+  public boolean canReadCommit(ReviewDb db, RevWalk rw, RevCommit commit) {
     try {
-      Repository repo = repoManager.openRepository(projName);
+      Repository repo = repoManager.openRepository(getProject().getNameKey());
       try {
-        RefDatabase refDb = repo.getRefDatabase();
-        List<Ref> allRefs = Lists.newLinkedList();
-        allRefs.addAll(refDb.getRefs(Constants.R_HEADS).values());
-        allRefs.addAll(refDb.getRefs(Constants.R_TAGS).values());
-        List<Ref> canReadRefs = Lists.newLinkedList();
-        for (Ref r : allRefs) {
-          if (controlForRef(r.getName()).canPerform(Permission.READ)) {
-            canReadRefs.add(r);
-          }
-        }
-
-        if (!canReadRefs.isEmpty() && IncludedInResolver.includedInOne(
-            repo, rw, commit, canReadRefs)) {
+        VisibleRefFilter filter =
+            new VisibleRefFilter(tagCache, changeCache, repo, this, db, true);
+        Map<String, Ref> visibleRefs = filter.filter(repo.getAllRefs(), true);
+        if (!visibleRefs.isEmpty() && IncludedInResolver.includedInOne(
+            repo, rw, commit, visibleRefs.values())) {
           return true;
         }
       } finally {
         repo.close();
       }
     } catch (IOException e) {
-      String msg =
-          String.format(
-              "Cannot verify permissions to commit object %s in repository %s",
-              commit.name(), projName.get());
+      String msg = String.format(
+          "Cannot verify permissions to commit object %s in repository %s",
+          commit.name(), getProject().getNameKey());
       log.error(msg, e);
     }
     return false;

@@ -19,8 +19,10 @@ import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestView;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
@@ -37,12 +39,15 @@ public class CommitsCollection implements
     ChildCollection<ProjectResource, CommitResource> {
   private final DynamicMap<RestView<CommitResource>> views;
   private final GitRepositoryManager repoManager;
+  private final Provider<ReviewDb> db;
 
   @Inject
   public CommitsCollection(DynamicMap<RestView<CommitResource>> views,
-      GitRepositoryManager repoManager) {
+      GitRepositoryManager repoManager,
+      Provider<ReviewDb> db) {
     this.views = views;
     this.repoManager = repoManager;
+    this.db = db;
   }
 
   @Override
@@ -65,7 +70,7 @@ public class CommitsCollection implements
       RevWalk rw = new RevWalk(repo);
       try {
         RevCommit commit = rw.parseCommit(objectId);
-        if (!parent.getControl().canReadCommit(rw, commit)) {
+        if (!parent.getControl().canReadCommit(db.get(), rw, commit)) {
           throw new ResourceNotFoundException(id);
         }
         for (int i = 0; i < commit.getParentCount(); i++) {

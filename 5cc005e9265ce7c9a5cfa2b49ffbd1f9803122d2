@@ -1,0 +1,243 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "366bbbde_f76f00c4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-04T18:11:00Z",
+      "side": 1,
+      "message": "This is obvious from the method signatures.",
+      "range": {
+        "startLine": 62,
+        "startChar": 3,
+        "endLine": 63,
+        "endChar": 49
+      },
+      "revId": "5cc005e9265ce7c9a5cfa2b49ffbd1f9803122d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b69deb27_dba0f3c0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-04T18:11:00Z",
+      "side": 1,
+      "message": "This class is hard to read. I think part of the problem is all the methods that get passed around some subset of {repo, revWalk, reader, inserter}, which clutters up method signatures.\n\nWhat if this weren\u0027t a singleton, and were instead created with a Repository (or just a project). Then you can immediately open one revWalk, one reader, and one inserter and store them in instance fields. Add a release() method to release them all at once and close the repo.\n\nI\u0027ll bet there are other objects that could also be moved to fields, like op and edit.",
+      "revId": "5cc005e9265ce7c9a5cfa2b49ffbd1f9803122d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b69deb27_bbbe47e8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-04T18:11:00Z",
+      "side": 1,
+      "message": "static",
+      "revId": "5cc005e9265ce7c9a5cfa2b49ffbd1f9803122d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b69deb27_fbb4cf0d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-04T18:11:00Z",
+      "side": 1,
+      "message": "Blank line.",
+      "revId": "5cc005e9265ce7c9a5cfa2b49ffbd1f9803122d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b69deb27_9bc10b67",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-04T18:11:00Z",
+      "side": 1,
+      "message": "When do you need to create an edit ref with no changes? Why not just create the ref on the first modification?",
+      "revId": "5cc005e9265ce7c9a5cfa2b49ffbd1f9803122d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "366bbbde_d772fcb0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-04T18:11:00Z",
+      "side": 1,
+      "message": "Move this try up immediately after opening the repo.",
+      "revId": "5cc005e9265ce7c9a5cfa2b49ffbd1f9803122d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "366bbbde_976c84d1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-04T18:11:00Z",
+      "side": 1,
+      "message": "Define what \"restore\" means in this context.",
+      "revId": "5cc005e9265ce7c9a5cfa2b49ffbd1f9803122d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "366bbbde_b76988c0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-04T18:11:00Z",
+      "side": 1,
+      "message": "Not obvious what this argument does. It looks like it\u0027s just to copy the identity? Why not just pass a PersonIdent instead?",
+      "range": {
+        "startLine": 220,
+        "startChar": 6,
+        "endLine": 220,
+        "endChar": 24
+      },
+      "revId": "5cc005e9265ce7c9a5cfa2b49ffbd1f9803122d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "366bbbde_57c4ac7a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-04T18:11:00Z",
+      "side": 1,
+      "message": "It\u0027s not clear why the inserter needs to be flushed here. I think the answer is, because creating the commit is the last thing that happens before the ref gets updated.\n\nBut in that case, it would be easier to understand if the sequence in modify() above was:\n\n ObjectId commitId \u003d createCommit(...);\n inserter.flush();\n return update(...);",
+      "revId": "5cc005e9265ce7c9a5cfa2b49ffbd1f9803122d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b69deb27_5badc3b8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-04T18:11:00Z",
+      "side": 1,
+      "message": "I\u0027m confused about this argument, which is unused. Is it supposed to be the same as oldObjectId? Except I guess in some cases prevEdit can be null and oldObjectId can be zeroId?",
+      "range": {
+        "startLine": 233,
+        "startChar": 34,
+        "endLine": 233,
+        "endChar": 52
+      },
+      "revId": "5cc005e9265ce7c9a5cfa2b49ffbd1f9803122d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b69deb27_1ba73bdb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-04T18:11:00Z",
+      "side": 1,
+      "message": "You shouldn\u0027t need a new RevWalk here, this is only ever called via modify()",
+      "revId": "5cc005e9265ce7c9a5cfa2b49ffbd1f9803122d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b69deb27_7bb2ff1d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-04T18:11:00Z",
+      "side": 1,
+      "message": "Why not get it from the base in the first place and avoid this condition entirely? Restore is (I think) by definition \"restore the contents from the base\".",
+      "revId": "5cc005e9265ce7c9a5cfa2b49ffbd1f9803122d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b69deb27_3bac77ba",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-04T18:11:00Z",
+      "side": 1,
+      "message": "Explain why?\n\n cannot restore path %s: missing in base revision %s",
+      "revId": "5cc005e9265ce7c9a5cfa2b49ffbd1f9803122d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

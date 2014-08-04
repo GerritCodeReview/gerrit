@@ -381,6 +381,24 @@
     },
     {
       "key": {
+        "uuid": "76bff38c_09f5c9ea",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-04T22:31:24Z",
+      "side": 1,
+      "message": "Ok.\n\nHaving a patch set ID in URLs still just feels wrong. It\u0027s creating a collection where we\u0027ve decided there isn\u0027t a collection, just the one edit. We shouldn\u0027t have to create a REST API that makes the user go \"huh?\" just because we have a technical limitation around the hierarchical structure of our URLs.",
+      "parentUuid": "96baa79a_0adcdb80",
+      "revId": "5cc005e9265ce7c9a5cfa2b49ffbd1f9803122d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "366bbbde_d772fcb0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
         "patchSetId": 23

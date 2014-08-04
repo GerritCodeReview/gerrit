@@ -273,6 +273,24 @@
     },
     {
       "key": {
+        "uuid": "d6cedf4a_8c36a7fa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-04T20:54:01Z",
+      "side": 1,
+      "message": "OK, i see. But Edits is a collection and the standard way is to create something on collection is to implement:\n\n  AcceptsCreate\n\ninterface to be able to do:\n\n  PUT /changes/\u003cid\u003e/edits/0\n\nBut this still only would work to create an empty edit.",
+      "parentUuid": "96baa79a_4ad2d372",
+      "revId": "5cc005e9265ce7c9a5cfa2b49ffbd1f9803122d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "366bbbde_d772fcb0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
         "patchSetId": 23

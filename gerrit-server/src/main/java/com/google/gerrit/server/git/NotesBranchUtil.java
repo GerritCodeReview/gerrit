@@ -151,6 +151,7 @@ public class NotesBranchUtil {
       } else {
         oursCommit = createCommit(ours, commitAuthor, commitMessage);
       }
+      inserter.flush();
       updateRef(notesBranch);
     } finally {
       revWalk.release();
@@ -212,7 +213,6 @@ public class NotesBranchUtil {
     }
     b.setMessage(message);
     ObjectId commitId = inserter.insert(b);
-    inserter.flush();
     return revWalk.parseCommit(commitId);
   }
 

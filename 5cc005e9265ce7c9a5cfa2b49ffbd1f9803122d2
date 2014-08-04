@@ -495,6 +495,24 @@
     },
     {
       "key": {
+        "uuid": "76bff38c_692565c9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-08-04T23:23:43Z",
+      "side": 1,
+      "message": "Dave Borowitz has the right idea with the URLs in his comment above at xx:18:\n\nUse\n\n \u003e PUT/POST /changes/\u003cid\u003e/edit\n\nto create the edit at a specific base revision;\n\n \u003e GET /changes/\u003cid\u003e/edit\n\nto learn about high level detail of the edit, like its current base revision.\n\n \u003e PUT/DELETE /changes/\u003cid\u003e/edit/path%2fto%2ffile\n\nto modify the edit\n\n \u003e GET /changes/\u003cid\u003e/edit/path%2fto%2ffile\n\nto read back full file contents.",
+      "parentUuid": "96baa79a_6a00f725",
+      "revId": "5cc005e9265ce7c9a5cfa2b49ffbd1f9803122d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "366bbbde_d772fcb0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
         "patchSetId": 23
